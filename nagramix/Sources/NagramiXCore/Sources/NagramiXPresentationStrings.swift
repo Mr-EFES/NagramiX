@@ -29,6 +29,9 @@ public extension PresentationStrings {
         return value == key ? english : value
     }
     var nagramiXSettingsTitle: String { self.nagramiXLocalized("NagramiX.Settings.Title") }
+    var nagramiXSettingsGeneral: String { self.nagramiXLocalized("NagramiX.Settings.Page.General") }
+    var nagramiXSettingsMessenger: String { self.nagramiXLocalized("NagramiX.Settings.Page.Messenger") }
+    var nagramiXSettingsOther: String { self.nagramiXLocalized("NagramiX.Settings.Page.Other") }
     var nagramiXTabsHeader: String { self.nagramiXLocalized("NagramiX.Settings.Tabs.Header") }
     var nagramiXHideContactsTab: String { self.nagramiXLocalized("NagramiX.Settings.Tabs.HideContacts") }
     var nagramiXHideCallsTab: String { self.nagramiXLocalized("NagramiX.Settings.Tabs.HideCalls") }
@@ -82,4 +85,24 @@ public extension PresentationStrings {
     var nagramiXFeatures: String { self.nagramiXLocalized("NagramiX.Info.Features") }
     var nagramiXUpdates: String { self.nagramiXLocalized("NagramiX.Info.Updates") }
     var nagramiXHelp: String { self.nagramiXLocalized("NagramiX.Info.Help") }
+    var nagramiXProfilesHeader: String { self.nagramiXLocalized("NagramiX.Settings.Profiles.Header") }
+    var nagramiXShowProfileIds: String { self.nagramiXLocalized("NagramiX.Settings.Profiles.ShowIds") }
+    var nagramiXShowRegistrationDate: String { self.nagramiXLocalized("NagramiX.Settings.Profiles.ShowRegistrationDate") }
+    var nagramiXShowChatCreationDate: String { self.nagramiXLocalized("NagramiX.Settings.Profiles.ShowChatCreationDate") }
+    var nagramiXCallsHeader: String { self.nagramiXLocalized("NagramiX.Settings.Calls.Header") }
+    var nagramiXConfirmOutgoingCalls: String { self.nagramiXLocalized("NagramiX.Settings.Calls.ConfirmOutgoing") }
+    var nagramiXCallConfirmationTitle: String { self.nagramiXLocalized("NagramiX.CallConfirmation.Title") }
+    var nagramiXCallConfirmationText: String { self.nagramiXLocalized("NagramiX.CallConfirmation.Text") }
+    var nagramiXCallAction: String { self.nagramiXLocalized("NagramiX.CallConfirmation.Action") }
+    var nagramiXForwardWithAuthor: String { self.nagramiXLocalized("NagramiX.Context.ForwardWithAuthor") }
+    var nagramiXForwardWithoutAuthor: String { self.nagramiXLocalized("NagramiX.Context.ForwardWithoutAuthor") }
+    var nagramiXSelectFromAuthor: String { self.nagramiXLocalized("NagramiX.Context.SelectFromAuthor") }
+    var nagramiXDataCenters: String { self.nagramiXLocalized("NagramiX.Network.DataCenters") }
+    var nagramiXProfileId: String { self.nagramiXLocalized("NagramiX.Profile.Id") }
+    var nagramiXRegistrationDate: String { self.nagramiXLocalized("NagramiX.Profile.RegistrationDate") }
+    func nagramiXApproximateRegistration(_ year: Int) -> String {
+        return self.nagramiXLocalized("NagramiX.Profile.RegistrationApproximate").replacingOccurrences(of: "%@", with: "\(year)")
+    }
+    var nagramiXChatCreationDate: String { self.nagramiXLocalized("NagramiX.Profile.ChatCreationDate") }
+    var nagramiXUnknown: String { self.nagramiXLocalized("NagramiX.Common.Unknown") }
 }

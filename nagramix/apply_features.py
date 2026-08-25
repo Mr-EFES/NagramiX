@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Apply the isolated NagramiX 0.2.1 feature overlay."""
+"""Apply the isolated NagramiX next-version feature overlay."""
 
 from __future__ import annotations
 
@@ -964,14 +964,6 @@ private func currentDateTimeFormat()""",
         let possibleControllers: [ViewController?] = [self.contactsController, self.callListController, self.chatListController, self.accountSettingsController]
         let allControllers: [ViewController] = possibleControllers.compactMap { $0 }
 
-        for controller in allControllers {
-            let identifier = ObjectIdentifier(controller)
-            if self.nagramiXOriginalTabTitles[identifier] == nil, let title = controller.tabBarItem.title {
-                self.nagramiXOriginalTabTitles[identifier] = title
-            }
-            controller.tabBarItem.title = settings.hideTitles ? "" : self.nagramiXOriginalTabTitles[identifier]
-        }
-
         var controllers: [ViewController] = []
         if !settings.hideContacts, let contactsController = self.contactsController {
             controllers.append(contactsController)
@@ -1123,79 +1115,6 @@ private func currentDateTimeFormat()""",
         "Tab bar search visibility",
     )
 
-    tab_bar_item_node = source / "submodules" / "TabBarUI" / "Sources" / "TabBarNode.swift"
-    replace_once(
-        tab_bar_item_node,
-        "import TelegramPresentationData\n",
-        "import TelegramPresentationData\nimport NagramiXCore\n",
-        "Tab bar item NagramiXCore import",
-    )
-    replace_once(
-        tab_bar_item_node,
-        """private func tabBarItemImage(_ image: UIImage?, title: String, backgroundColor: UIColor, tintColor: UIColor, horizontal: Bool, imageMode: Bool, centered: Bool = false) -> (UIImage, CGFloat) {
-    let font = horizontal ? Font.regular(13.0) : Font.medium(10.0)
-""",
-        """private func tabBarItemImage(_ image: UIImage?, title: String, backgroundColor: UIColor, tintColor: UIColor, horizontal: Bool, imageMode: Bool, centered: Bool = false) -> (UIImage, CGFloat) {
-    // An icon-only NagramiX tab uses the vertical space that normally belongs
-    // to the title. Keep the original hit area and enlarge only the rendered
-    // glyph so all tabs remain aligned and equally tappable.
-    let nagramiXIconOnly = !horizontal && NagramiXTabSettings.current.hideTitles
-    let effectiveTitle = nagramiXIconOnly ? "" : title
-    let effectiveCentered = centered || nagramiXIconOnly
-    let font = horizontal ? Font.regular(13.0) : Font.medium(10.0)
-""",
-        "Detect NagramiX icon-only tab layout",
-    )
-    replace_once(
-        tab_bar_item_node,
-        "let titleSize = (title as NSString).boundingRect(",
-        "let titleSize = (effectiveTitle as NSString).boundingRect(",
-        "Persistently suppress tab labels in the renderer",
-    )
-    replace_once(
-        tab_bar_item_node,
-        "(title as NSString).draw(at:",
-        "(effectiveTitle as NSString).draw(at:",
-        "Draw only the effective horizontal tab title",
-    )
-    replace_once(
-        tab_bar_item_node,
-        "(title as NSString).draw(at:",
-        "(effectiveTitle as NSString).draw(at:",
-        "Draw only the effective vertical tab title",
-    )
-    replace_once(
-        tab_bar_item_node,
-        """        } else {
-            imageSize = image.size
-        }
-""",
-        """        } else if nagramiXIconOnly {
-            let factor: CGFloat = 1.18
-            imageSize = CGSize(width: floor(image.size.width * factor), height: floor(image.size.height * factor))
-        } else {
-            imageSize = image.size
-        }
-""",
-        "Scale icon-only tab glyphs proportionally",
-    )
-    replace_once(
-        tab_bar_item_node,
-        """        let width =  max(1.0, centered ? imageSize.width : max(ceil(titleSize.width), imageSize.width), 1.0)
-""",
-        """        let width = max(1.0, effectiveCentered ? imageSize.width : max(ceil(titleSize.width), imageSize.width), 1.0)
-""",
-        "Center icon-only tab canvas",
-    )
-    replace_once(
-        tab_bar_item_node,
-        """                imageRect = CGRect(origin: CGPoint(x: floorToScreenPixels((size.width - imageSize.width) / 2.0), y: centered ? floor((size.height - imageSize.height) / 2.0) : 0.0), size: imageSize)
-""",
-        """                imageRect = CGRect(origin: CGPoint(x: floorToScreenPixels((size.width - imageSize.width) / 2.0), y: effectiveCentered ? floor((size.height - imageSize.height) / 2.0) : 0.0), size: imageSize)
-""",
-        "Vertically center icon-only tab glyphs",
-    )
-
     video_message_camera = source / "submodules" / "TelegramUI" / "Components" / "VideoMessageCameraScreen" / "Sources" / "VideoMessageCameraScreen.swift"
     replace_once(
         video_message_camera,
@@ -1250,86 +1169,95 @@ private func currentDateTimeFormat()""",
         }
     }
 """,
-        """    func setZoomLevel(_ zoomLevel: CGFloat, keepMainRearLens: Bool = false) {
+        """    func setZoomLevel(_ zoomLevel: CGFloat) {
         guard let device = self.videoDevice else {
             return
         }
         self.transaction(device) { device in
             let target = device.neutralZoomFactor + zoomLevel
-            device.videoZoomFactor = self.clampedZoomFactor(target, for: device, keepMainRearLens: keepMainRearLens)
+            device.videoZoomFactor = self.clampedZoomFactor(target, for: device)
         }
     }
 
-    func setZoomDelta(_ zoomDelta: CGFloat, keepMainRearLens: Bool = false) {
+    func setZoomDelta(_ zoomDelta: CGFloat) {
         guard let device = self.videoDevice else {
             return
         }
         self.transaction(device) { device in
             let target = device.videoZoomFactor * zoomDelta
-            device.videoZoomFactor = self.clampedZoomFactor(target, for: device, keepMainRearLens: keepMainRearLens)
+            device.videoZoomFactor = self.clampedZoomFactor(target, for: device)
         }
     }
 
-    func rampZoom(_ zoomLevel: CGFloat, rate: CGFloat, keepMainRearLens: Bool = false) {
+    func rampZoom(_ zoomLevel: CGFloat, rate: CGFloat) {
         guard let device = self.videoDevice else {
             return
         }
         self.transaction(device) { device in
-            let target = self.clampedZoomFactor(zoomLevel, for: device, keepMainRearLens: keepMainRearLens)
+            let target = self.clampedZoomFactor(zoomLevel, for: device)
+            device.ramp(toVideoZoomFactor: target, withRate: Float(rate))
+        }
+    }
+
+    func rampZoomToNeutral(rate: CGFloat) {
+        guard let device = self.videoDevice else {
+            return
+        }
+        self.transaction(device) { device in
+            let target = self.clampedZoomFactor(device.neutralZoomFactor, for: device)
             device.ramp(toVideoZoomFactor: target, withRate: Float(rate))
         }
     }
 """,
-        "Keep round-video zoom on the physical main rear lens",
-    )
-    replace_once(
-        camera_device,
-        """    private func clampedZoomFactor(_ value: CGFloat, for device: AVCaptureDevice) -> CGFloat {
-        let minimum = max(1.0, device.minAvailableVideoZoomFactor)
-""",
-        """    private func clampedZoomFactor(_ value: CGFloat, for device: AVCaptureDevice, keepMainRearLens: Bool = false) -> CGFloat {
-        let mainRearMinimum = keepMainRearLens ? device.neutralZoomFactor : 1.0
-        let minimum = max(mainRearMinimum, device.minAvailableVideoZoomFactor)
-""",
-        "Clamp rear round videos to the API-provided neutral wide-camera factor",
+        "Expose a smooth return to the virtual camera's neutral 1x factor",
     )
 
     camera_context = source / "submodules" / "Camera" / "Sources" / "Camera.swift"
     replace_once(
         camera_context,
-        """            } else {
-                self.mainDeviceContext?.device.setZoomLevel(zoomLevel)
-            }
+        """    func takePhoto() -> Signal<PhotoCaptureResult, NoError> {
 """,
-        """            } else {
-                self.mainDeviceContext?.device.setZoomLevel(zoomLevel, keepMainRearLens: true)
+        """    func rampZoomToNeutral(rate: CGFloat) {
+        if self.initialConfiguration.isRoundVideo {
+            if self.positionValue == .front {
+                self.additionalDeviceContext?.device.rampZoomToNeutral(rate: rate)
+            } else {
+                self.mainDeviceContext?.device.rampZoomToNeutral(rate: rate)
             }
+        } else {
+            self.mainDeviceContext?.device.rampZoomToNeutral(rate: rate)
+        }
+    }
+
+    func takePhoto() -> Signal<PhotoCaptureResult, NoError> {
 """,
-        "Preserve main rear lens for round-video absolute zoom",
+        "Route neutral zoom through the active round-video camera",
     )
     replace_once(
         camera_context,
-        """            } else {
-                self.mainDeviceContext?.device.setZoomDelta(zoomDelta)
-            }
+        """    public func setTorchActive(_ active: Bool) {
 """,
-        """            } else {
-                self.mainDeviceContext?.device.setZoomDelta(zoomDelta, keepMainRearLens: true)
+        """    public func rampZoomToNeutral(rate: CGFloat) {
+        self.queue.async {
+            if let context = self.contextRef?.takeUnretainedValue() {
+                context.rampZoomToNeutral(rate: rate)
             }
+        }
+    }
+
+    public func setTorchActive(_ active: Bool) {
 """,
-        "Preserve main rear lens for round-video pinch zoom",
+        "Expose smooth neutral zoom to the video-message UI",
     )
     replace_once(
-        camera_context,
-        """            } else {
-                self.mainDeviceContext?.device.rampZoom(zoomLevel, rate: rate)
-            }
+        video_message_camera,
+        """            case .ended, .cancelled:
+                camera.rampZoom(1.0, rate: 8.0)
 """,
-        """            } else {
-                self.mainDeviceContext?.device.rampZoom(zoomLevel, rate: rate, keepMainRearLens: true)
-            }
+        """            case .ended, .cancelled:
+                camera.rampZoomToNeutral(rate: 4.0)
 """,
-        "Preserve main rear lens for round-video ramp zoom",
+        "Return smoothly to the system virtual camera's neutral 1x",
     )
     replace_once(
         video_message_camera,
@@ -2409,4 +2337,266 @@ filegroup(
         "Expose the NagramiX1 appiconset to rules_apple",
     )
 
-    print("Applied isolated NagramiX 0.2.1 feature overlay")
+    chat_panel_interaction = source / "submodules" / "ChatPresentationInterfaceState" / "Sources" / "ChatPanelInterfaceInteraction.swift"
+    replace_once(
+        chat_panel_interaction,
+        "    public let forwardMessages: ([EngineRawMessage]) -> Void\n",
+        "    public let forwardMessages: ([EngineRawMessage]) -> Void\n    public let forwardMessagesWithOptions: (([EngineRawMessage], ChatInterfaceForwardOptionsState?) -> Void)?\n    public let selectMessagesByAuthor: ((EnginePeer.Id) -> Void)?\n",
+        "Expose attributed and anonymous forwarding plus author selection",
+    )
+    replace_once(
+        chat_panel_interaction,
+        "        forwardMessages: @escaping ([EngineRawMessage]) -> Void,\n        updateForwardOptionsState:",
+        "        forwardMessages: @escaping ([EngineRawMessage]) -> Void,\n        forwardMessagesWithOptions: (([EngineRawMessage], ChatInterfaceForwardOptionsState?) -> Void)? = nil,\n        selectMessagesByAuthor: ((EnginePeer.Id) -> Void)? = nil,\n        updateForwardOptionsState:",
+        "Add optional NagramiX chat interaction callbacks",
+    )
+    replace_once(
+        chat_panel_interaction,
+        "        self.forwardMessages = forwardMessages\n        self.updateForwardOptionsState = updateForwardOptionsState\n",
+        "        self.forwardMessages = forwardMessages\n        self.forwardMessagesWithOptions = forwardMessagesWithOptions\n        self.selectMessagesByAuthor = selectMessagesByAuthor\n        self.updateForwardOptionsState = updateForwardOptionsState\n",
+        "Store optional NagramiX chat interaction callbacks",
+    )
+
+    chat_load_node = source / "submodules" / "TelegramUI" / "Sources" / "Chat" / "ChatControllerLoadDisplayNode.swift"
+    replace_once(
+        chat_load_node,
+        """        }, updateForwardOptionsState: { [weak self] f in
+""",
+        """        }, forwardMessagesWithOptions: { [weak self] messages, options in
+            guard let self, !messages.isEmpty else {
+                return
+            }
+            guard !self.presentAccountFrozenInfoIfNeeded(delay: true) else {
+                return
+            }
+            self.commitPurposefulAction()
+            self.forwardMessages(messageIds: messages.map { $0.id }.sorted(), options: options)
+        }, selectMessagesByAuthor: { [weak self] authorId in
+            guard let self, self.isNodeLoaded else {
+                return
+            }
+            var messageIds: [EngineMessage.Id] = []
+            self.chatDisplayNode.historyNode.forEachItemNode { itemNode in
+                guard let itemNode = itemNode as? ChatMessageItemView, let item = itemNode.item else {
+                    return
+                }
+                for (message, _) in item.content {
+                    if message.author?.id == authorId && !messageIds.contains(message.id) {
+                        messageIds.append(message.id)
+                    }
+                }
+            }
+            guard !messageIds.isEmpty else {
+                return
+            }
+            let _ = self.presentVoiceMessageDiscardAlert(action: {
+                self.updateChatPresentationInterfaceState(animated: true, interactive: true, { state in
+                    state.updatedInterfaceState { $0.withUpdatedSelectedMessages(messageIds) }.updatedShowCommands(false)
+                })
+            }, alertAction: {}, delay: true)
+        }, updateForwardOptionsState: { [weak self] f in
+""",
+        "Wire anonymous forwarding and loaded-author selection into ChatController",
+    )
+
+    context_menus = source / "submodules" / "TelegramUI" / "Sources" / "ChatInterfaceStateContextMenus.swift"
+    replace_once(
+        context_menus,
+        "import AdsReportScreen\n",
+        "import AdsReportScreen\nimport NagramiXCore\n",
+        "NagramiX context menu localization import",
+    )
+    replace_once(
+        context_menus,
+        """        if (loggingSettings.logToFile || loggingSettings.logToConsole) && !downloadableMediaResourceInfos.isEmpty {
+            actions.append(.action(ContextMenuActionItem(text: "Send Logs", icon: { theme in
+                return generateTintedImage(image: UIImage(bundleImageName: "Chat/Context Menu/Message"), color: theme.actionSheet.primaryTextColor)
+            }, action: { _, f in
+                triggerDebugSendLogsUI(context: context, additionalInfo: "User has requested download logs for \\(downloadableMediaResourceInfos)", pushController: { c in
+                    controllerInteraction.navigationController()?.pushViewController(c)
+                })
+                f(.default)
+            })))
+        }
+""",
+        "",
+        "Remove Send Logs from the user message context menu",
+    )
+    replace_once(
+        context_menus,
+        """                actions.append(.action(ContextMenuActionItem(text: chatPresentationInterfaceState.strings.Conversation_ContextMenuForward, icon: { theme in
+                    return generateTintedImage(image: UIImage(bundleImageName: "Chat/Context Menu/Forward"), color: theme.actionSheet.primaryTextColor)
+                }, action: { _, f in
+                    interfaceInteraction.forwardMessages(selectAll || isImage ? messages : [message])
+                    f(.dismissWithoutContent)
+                })))
+""",
+        """                let messagesToForward = selectAll || isImage ? messages : [message]
+                actions.append(.action(ContextMenuActionItem(text: chatPresentationInterfaceState.strings.nagramiXForwardWithAuthor, icon: { theme in
+                    return generateTintedImage(image: UIImage(bundleImageName: "Chat/Context Menu/Forward"), color: theme.actionSheet.primaryTextColor)
+                }, action: { _, f in
+                    if let forwardMessagesWithOptions = interfaceInteraction.forwardMessagesWithOptions {
+                        forwardMessagesWithOptions(messagesToForward, ChatInterfaceForwardOptionsState(hideNames: false, hideCaptions: false, unhideNamesOnCaptionChange: false))
+                    } else {
+                        interfaceInteraction.forwardMessages(messagesToForward)
+                    }
+                    f(.dismissWithoutContent)
+                })))
+                actions.append(.action(ContextMenuActionItem(text: chatPresentationInterfaceState.strings.nagramiXForwardWithoutAuthor, icon: { theme in
+                    return generateTintedImage(image: UIImage(bundleImageName: "Chat/Context Menu/Forward"), color: theme.actionSheet.primaryTextColor)
+                }, action: { _, f in
+                    if let forwardMessagesWithOptions = interfaceInteraction.forwardMessagesWithOptions {
+                        forwardMessagesWithOptions(messagesToForward, ChatInterfaceForwardOptionsState(hideNames: true, hideCaptions: false, unhideNamesOnCaptionChange: false))
+                    } else {
+                        interfaceInteraction.forwardMessages(messagesToForward)
+                    }
+                    f(.dismissWithoutContent)
+                })))
+""",
+        "Add explicit attributed and anonymous forwarding actions",
+    )
+    replace_once(
+        context_menus,
+        """            if messages.count > 1 {
+""",
+        """            if let authorId = message.author?.id, interfaceInteraction.selectMessagesByAuthor != nil {
+                if !actions.isEmpty && !didAddSeparator {
+                    didAddSeparator = true
+                    actions.append(.separator)
+                }
+                actions.append(.action(ContextMenuActionItem(text: chatPresentationInterfaceState.strings.nagramiXSelectFromAuthor, icon: { theme in
+                    return generateTintedImage(image: UIImage(bundleImageName: "Chat/Context Menu/SelectAll"), color: theme.actionSheet.primaryTextColor)
+                }, action: { _, f in
+                    interfaceInteraction.selectMessagesByAuthor?(authorId)
+                    f(.dismissWithoutContent)
+                })))
+            }
+
+            if messages.count > 1 {
+""",
+        "Add Select by Author after the standard Select action",
+    )
+
+    peer_info_profile_items = source / "submodules" / "TelegramUI" / "Components" / "PeerInfo" / "PeerInfoScreen" / "Sources" / "PeerInfoProfileItems.swift"
+    replace_once(
+        peer_info_profile_items,
+        "import BoostLevelIconComponent\n",
+        "import BoostLevelIconComponent\nimport NagramiXCore\n",
+        "NagramiX profile metadata import",
+    )
+    replace_once(
+        peer_info_profile_items,
+        "        let ItemCommunity = 10000\n",
+        """        let ItemCommunity = 10000
+        let ItemNagramiXProfileId = 11000
+        let ItemNagramiXRegistration = 11001
+
+        let nagramiXSettings = NagramiXTabSettings.current
+        if nagramiXSettings.showProfileIds {
+            items[currentPeerInfoSection]!.append(PeerInfoScreenLabeledValueItem(id: ItemNagramiXProfileId, label: presentationData.strings.nagramiXProfileId, text: "\\(user.id.id._internalGetInt64Value())", textColor: .primary, action: nil, requestLayout: { animated in
+                interaction.requestLayout(animated)
+            }))
+        }
+        if nagramiXSettings.showRegistrationDate {
+            let year = NagramiXPeerMetadata.approximateRegistrationYear(peerId: user.id.id._internalGetInt64Value())
+            items[currentPeerInfoSection]!.append(PeerInfoScreenLabeledValueItem(id: ItemNagramiXRegistration, label: presentationData.strings.nagramiXRegistrationDate, text: presentationData.strings.nagramiXApproximateRegistration(year), textColor: .primary, action: nil, requestLayout: { animated in
+                interaction.requestLayout(animated)
+            }))
+        }
+""",
+        "Show optional NagramiX user metadata",
+    )
+    replace_once(
+        peer_info_profile_items,
+        "        let ItemCommunity = 12\n",
+        """        let ItemCommunity = 12
+        let ItemNagramiXProfileId = 13
+        let ItemNagramiXCreationDate = 14
+
+        let nagramiXSettings = NagramiXTabSettings.current
+        if nagramiXSettings.showProfileIds {
+            items[currentPeerInfoSection]!.append(PeerInfoScreenLabeledValueItem(id: ItemNagramiXProfileId, label: presentationData.strings.nagramiXProfileId, text: "\\(channel.id.id._internalGetInt64Value())", textColor: .primary, action: nil, requestLayout: { animated in
+                interaction.requestLayout(animated)
+            }))
+        }
+        if nagramiXSettings.showChatCreationDate {
+            let creationText = NagramiXPeerMetadata.formattedDate(timestamp: channel.creationDate, locale: Locale.current) ?? presentationData.strings.nagramiXUnknown
+            items[currentPeerInfoSection]!.append(PeerInfoScreenLabeledValueItem(id: ItemNagramiXCreationDate, label: presentationData.strings.nagramiXChatCreationDate, text: creationText, textColor: .primary, action: nil, requestLayout: { animated in
+                interaction.requestLayout(animated)
+            }))
+        }
+""",
+        "Show optional NagramiX channel metadata",
+    )
+    replace_once(
+        peer_info_profile_items,
+        """    } else if case let .legacyGroup(group) = data.peer {
+        if let cachedData = data.cachedData as? CachedGroupData {
+""",
+        """    } else if case let .legacyGroup(group) = data.peer {
+        let ItemNagramiXProfileId = 1
+        let ItemNagramiXCreationDate = 2
+
+        let nagramiXSettings = NagramiXTabSettings.current
+        if nagramiXSettings.showProfileIds {
+            items[currentPeerInfoSection]!.append(PeerInfoScreenLabeledValueItem(id: ItemNagramiXProfileId, label: presentationData.strings.nagramiXProfileId, text: "\\(group.id.id._internalGetInt64Value())", textColor: .primary, action: nil, requestLayout: { animated in
+                interaction.requestLayout(animated)
+            }))
+        }
+        if nagramiXSettings.showChatCreationDate {
+            let creationText = NagramiXPeerMetadata.formattedDate(timestamp: group.creationDate, locale: Locale.current) ?? presentationData.strings.nagramiXUnknown
+            items[currentPeerInfoSection]!.append(PeerInfoScreenLabeledValueItem(id: ItemNagramiXCreationDate, label: presentationData.strings.nagramiXChatCreationDate, text: creationText, textColor: .primary, action: nil, requestLayout: { animated in
+                interaction.requestLayout(animated)
+            }))
+        }
+        if let cachedData = data.cachedData as? CachedGroupData {
+""",
+        "Show optional NagramiX legacy-group metadata",
+    )
+
+    account_utils = source / "submodules" / "AccountUtils" / "Sources" / "AccountUtils.swift"
+    replace_once(
+        account_utils,
+        "public let maximumNumberOfAccounts = 3\n",
+        "public let maximumNumberOfAccounts = 5\n",
+        "Allow up to five native Telegram accounts",
+    )
+
+    account_context = source / "submodules" / "TelegramUI" / "Sources" / "AccountContext.swift"
+    replace_once(
+        account_context,
+        "import DirectMediaImageCache\n",
+        "import DirectMediaImageCache\nimport NagramiXCore\n",
+        "Outgoing call confirmation settings import",
+    )
+    replace_once(
+        account_context,
+        """    public func requestCall(peerId: PeerId, isVideo: Bool, completion: @escaping () -> Void) {
+        guard let callResult = self.sharedContext.callManager?.requestCall(context: self, peerId: peerId, isVideo: isVideo, endCurrentIfAny: false) else {
+""",
+        """    public func requestCall(peerId: PeerId, isVideo: Bool, completion: @escaping () -> Void) {
+        self.requestCall(peerId: peerId, isVideo: isVideo, completion: completion, skipNagramiXConfirmation: false)
+    }
+
+    private func requestCall(peerId: PeerId, isVideo: Bool, completion: @escaping () -> Void, skipNagramiXConfirmation: Bool) {
+        if NagramiXTabSettings.current.confirmOutgoingCalls && !skipNagramiXConfirmation {
+            let presentationData = self.sharedContext.currentPresentationData.with { $0 }
+            self.sharedContext.mainWindow?.present(textAlertController(
+                context: self,
+                title: presentationData.strings.nagramiXCallConfirmationTitle,
+                text: presentationData.strings.nagramiXCallConfirmationText,
+                actions: [
+                    TextAlertAction(type: .defaultAction, title: presentationData.strings.Common_Cancel, action: {}),
+                    TextAlertAction(type: .genericAction, title: presentationData.strings.nagramiXCallAction, action: { [weak self] in
+                        self?.requestCall(peerId: peerId, isVideo: isVideo, completion: completion, skipNagramiXConfirmation: true)
+                    }),
+                ]
+            ), on: .root)
+            return
+        }
+        guard let callResult = self.sharedContext.callManager?.requestCall(context: self, peerId: peerId, isVideo: isVideo, endCurrentIfAny: false) else {
+""",
+        "Confirm native outgoing calls before starting them",
+    )
+
+    print("Applied isolated NagramiX next-version feature overlay")
