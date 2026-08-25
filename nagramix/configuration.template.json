@@ -1,0 +1,14 @@
+{
+  "bundle_id": "com.gamesfanteam.nagramix",
+  "api_id": "__TELEGRAM_API_ID__",
+  "api_hash": "__TELEGRAM_API_HASH__",
+  "team_id": "NAGRAMIX0",
+  "app_center_id": "0",
+  "is_internal_build": "true",
+  "is_appstore_build": "false",
+  "appstore_id": "0",
+  "app_specific_url_scheme": "nagramix",
+  "premium_iap_product_id": "",
+  "enable_siri": false,
+  "enable_icloud": false
+}

@@ -1,0 +1,7 @@
+work/
+.DS_Store
+*.ipa
+*.xcarchive
+__pycache__/
+*.pyc
+nagramix/generated-configuration.json
