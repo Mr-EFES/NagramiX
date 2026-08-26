@@ -445,6 +445,62 @@ public final class ItemListControllerTabBarItem: Equatable {
         "Size equal-width NagramiX settings categories to the full panel",
     )
 
+    telegram_voip_build = source / "submodules" / "TelegramVoip" / "BUILD"
+    replace_once(
+        telegram_voip_build,
+        '        "//submodules/TelegramCore:TelegramCore",\n',
+        '        "//submodules/TelegramCore:TelegramCore",\n        "//submodules/NagramiXCore:NagramiXCore",\n',
+        "TelegramVoip NagramiX settings dependency",
+    )
+    ongoing_call_context = source / "submodules" / "TelegramVoip" / "Sources" / "OngoingCallContext.swift"
+    replace_once(
+        ongoing_call_context,
+        "import CoreMedia\n",
+        "import CoreMedia\nimport NagramiXCore\n",
+        "VoIP Force TCP settings import",
+    )
+    replace_once(
+        ongoing_call_context,
+        "                var allowP2P = allowP2P\n",
+        "                var allowP2P = allowP2P\n                let forceTcpCalls = NagramiXTabSettings.current.forceTcpCalls\n",
+        "Snapshot Force TCP for the newly created call",
+    )
+    replace_once(
+        ongoing_call_context,
+        """                #if DEBUG && true
+                var customParameters = customParameters
+""",
+        """                var customParameters = customParameters
+
+                #if DEBUG && true
+""",
+        "Make VoIP custom parameters mutable in release builds",
+    )
+    replace_once(
+        ongoing_call_context,
+        """                #endif
+""" + "                \n" + """                /*#if DEBUG
+""",
+        """                #endif
+""" + "                \n" + """                if forceTcpCalls {
+                    var customParametersValue = (try? JSONSerialization.jsonObject(with: (customParameters ?? "{}").data(using: .utf8)!) as? [String: Any]) ?? [:]
+                    customParametersValue["network_use_tcponly"] = true as NSNumber
+                    customParameters = String(data: try! JSONSerialization.data(withJSONObject: customParametersValue), encoding: .utf8)!
+                    filteredConnections = filteredConnections.filter { $0.hasTcp }
+                    allowP2P = false
+                }
+
+                /*#if DEBUG
+""",
+        "Force one-to-one calls onto Telegram TCP relay endpoints",
+    )
+    replace_once(
+        ongoing_call_context,
+        "                    allowTCP: enableTCP,\n",
+        "                    allowTCP: enableTCP || forceTcpCalls,\n",
+        "Enable Telegram TCP transport when Force TCP is active",
+    )
+
     telegram_core_overlay = overlay / "Sources" / "TelegramCore" / "NagramiXProxyFailoverController.swift"
     telegram_core_target = source / "submodules" / "TelegramCore" / "Sources" / "Network" / telegram_core_overlay.name
     shutil.copy2(telegram_core_overlay, telegram_core_target)

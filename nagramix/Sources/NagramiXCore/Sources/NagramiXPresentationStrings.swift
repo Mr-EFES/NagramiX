@@ -92,6 +92,8 @@ public extension PresentationStrings {
     var nagramiXShowChatCreationDate: String { self.nagramiXLocalized("NagramiX.Settings.Profiles.ShowChatCreationDate") }
     var nagramiXCallsHeader: String { self.nagramiXLocalized("NagramiX.Settings.Calls.Header") }
     var nagramiXConfirmOutgoingCalls: String { self.nagramiXLocalized("NagramiX.Settings.Calls.ConfirmOutgoing") }
+    var nagramiXForceTcpCalls: String { self.nagramiXLocalized("NagramiX.Settings.Calls.ForceTcp") }
+    var nagramiXForceTcpCallsInfo: String { self.nagramiXLocalized("NagramiX.Settings.Calls.ForceTcpInfo") }
     var nagramiXCallConfirmationTitle: String { self.nagramiXLocalized("NagramiX.CallConfirmation.Title") }
     var nagramiXCallConfirmationText: String { self.nagramiXLocalized("NagramiX.CallConfirmation.Text") }
     var nagramiXCallAction: String { self.nagramiXLocalized("NagramiX.CallConfirmation.Action") }

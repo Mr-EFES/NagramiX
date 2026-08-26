@@ -24,6 +24,7 @@ private struct NagramiXSettingsControllerArguments {
     let updateShowRegistrationDate: (Bool) -> Void
     let updateShowChatCreationDate: (Bool) -> Void
     let updateConfirmOutgoingCalls: (Bool) -> Void
+    let updateForceTcpCalls: (Bool) -> Void
 }
 
 private enum NagramiXSettingsCategory: Int, CaseIterable {
@@ -62,6 +63,8 @@ private enum NagramiXSettingsEntry: ItemListNodeEntry {
     case showChatCreationDate(Bool)
     case callsHeader
     case confirmOutgoingCalls(Bool)
+    case forceTcpCalls(Bool)
+    case forceTcpCallsInfo
     case proxySettings
 
     var category: NagramiXSettingsCategory {
@@ -70,7 +73,7 @@ private enum NagramiXSettingsEntry: ItemListNodeEntry {
                 .interfaceStoriesHeader, .hideStories, .profilesHeader, .showProfileIds, .showRegistrationDate, .showChatCreationDate:
             return .interface
         case .videoMessagesHeader, .useRearCameraForVideoMessages, .featureStoriesHeader, .disableStoryCameraSwipe,
-                .confirmStoryViewing, .enableStoryRepost, .callsHeader, .confirmOutgoingCalls:
+                .confirmStoryViewing, .enableStoryRepost, .callsHeader, .confirmOutgoingCalls, .forceTcpCalls, .forceTcpCallsInfo:
             return .features
         case .proxySettings:
             return .other
@@ -87,7 +90,7 @@ private enum NagramiXSettingsEntry: ItemListNodeEntry {
             return NagramiXSettingsSection.stories.rawValue
         case .profilesHeader, .showProfileIds, .showRegistrationDate, .showChatCreationDate:
             return NagramiXSettingsSection.profiles.rawValue
-        case .callsHeader, .confirmOutgoingCalls:
+        case .callsHeader, .confirmOutgoingCalls, .forceTcpCalls, .forceTcpCallsInfo:
             return NagramiXSettingsSection.calls.rawValue
         case .proxySettings:
             return NagramiXSettingsSection.other.rawValue
@@ -116,6 +119,8 @@ private enum NagramiXSettingsEntry: ItemListNodeEntry {
         case .showChatCreationDate: return 33
         case .callsHeader: return 40
         case .confirmOutgoingCalls: return 41
+        case .forceTcpCalls: return 42
+        case .forceTcpCallsInfo: return 43
         case .proxySettings: return 50
         }
     }
@@ -165,6 +170,10 @@ private enum NagramiXSettingsEntry: ItemListNodeEntry {
             return ItemListSectionHeaderItem(presentationData: presentationData, text: presentationData.strings.nagramiXCallsHeader, sectionId: self.section)
         case let .confirmOutgoingCalls(value):
             return ItemListSwitchItem(presentationData: presentationData, systemStyle: .glass, title: presentationData.strings.nagramiXConfirmOutgoingCalls, value: value, sectionId: self.section, style: .blocks, updated: arguments.updateConfirmOutgoingCalls)
+        case let .forceTcpCalls(value):
+            return ItemListSwitchItem(presentationData: presentationData, systemStyle: .glass, title: presentationData.strings.nagramiXForceTcpCalls, value: value, sectionId: self.section, style: .blocks, updated: arguments.updateForceTcpCalls)
+        case .forceTcpCallsInfo:
+            return ItemListTextItem(presentationData: presentationData, text: .plain(presentationData.strings.nagramiXForceTcpCallsInfo), sectionId: self.section)
         case .proxySettings:
             return ItemListDisclosureItem(presentationData: presentationData, systemStyle: .glass, title: presentationData.strings.nagramiXProxySettings, label: "", sectionId: self.section, style: .blocks, action: arguments.openProxySettings)
         }
@@ -184,6 +193,7 @@ private func nagramiXSettingsEntries(settings: NagramiXTabSettings, category: Na
         .showRegistrationDate(settings.showRegistrationDate),
         .showChatCreationDate(settings.showChatCreationDate),
         .callsHeader, .confirmOutgoingCalls(settings.confirmOutgoingCalls),
+        .forceTcpCalls(settings.forceTcpCalls), .forceTcpCallsInfo,
         .proxySettings,
     ]
     return entries.filter { $0.category == category }
@@ -214,7 +224,8 @@ public func nagramiXSettingsController(context: AccountContext) -> ViewControlle
         updateShowProfileIds: { value in update { $0.showProfileIds = value } },
         updateShowRegistrationDate: { value in update { $0.showRegistrationDate = value } },
         updateShowChatCreationDate: { value in update { $0.showChatCreationDate = value } },
-        updateConfirmOutgoingCalls: { value in update { $0.confirmOutgoingCalls = value } }
+        updateConfirmOutgoingCalls: { value in update { $0.confirmOutgoingCalls = value } },
+        updateForceTcpCalls: { value in update { $0.forceTcpCalls = value } }
     )
     let signal = combineLatest(queue: .mainQueue(), context.sharedContext.presentationData, settingsPromise.get(), categoryPromise.get())
     |> map { presentationData, settings, category -> (ItemListControllerState, (ItemListNodeState, Any)) in

@@ -59,6 +59,8 @@
 "NagramiX.Settings.Profiles.ShowChatCreationDate" = "Show Chat Creation Date";
 "NagramiX.Settings.Calls.Header" = "CALLS";
 "NagramiX.Settings.Calls.ConfirmOutgoing" = "Confirm Outgoing Calls";
+"NagramiX.Settings.Calls.ForceTcp" = "Force TCP";
+"NagramiX.Settings.Calls.ForceTcpInfo" = "Please change this setting only if you know what it does.";
 "NagramiX.CallConfirmation.Title" = "Start Call?";
 "NagramiX.CallConfirmation.Text" = "Confirm the outgoing call.";
 "NagramiX.CallConfirmation.Action" = "Call";

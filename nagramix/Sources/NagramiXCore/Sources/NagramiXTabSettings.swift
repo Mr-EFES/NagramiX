@@ -54,6 +54,7 @@ public struct NagramiXTabSettings: Equatable {
         static let showRegistrationDate = "nagramix.profiles.showRegistrationDate"
         static let showChatCreationDate = "nagramix.profiles.showChatCreationDate"
         static let confirmOutgoingCalls = "nagramix.calls.confirmOutgoing"
+        static let forceTcpCalls = "nagramix.calls.forceTcp"
     }
 
     public var hideContacts: Bool
@@ -74,6 +75,7 @@ public struct NagramiXTabSettings: Equatable {
     public var showRegistrationDate: Bool
     public var showChatCreationDate: Bool
     public var confirmOutgoingCalls: Bool
+    public var forceTcpCalls: Bool
 
     public init(
         hideContacts: Bool,
@@ -93,7 +95,8 @@ public struct NagramiXTabSettings: Equatable {
         showProfileIds: Bool,
         showRegistrationDate: Bool,
         showChatCreationDate: Bool,
-        confirmOutgoingCalls: Bool
+        confirmOutgoingCalls: Bool,
+        forceTcpCalls: Bool
     ) {
         self.hideContacts = hideContacts
         self.hideCalls = hideCalls
@@ -113,6 +116,7 @@ public struct NagramiXTabSettings: Equatable {
         self.showRegistrationDate = showRegistrationDate
         self.showChatCreationDate = showChatCreationDate
         self.confirmOutgoingCalls = confirmOutgoingCalls
+        self.forceTcpCalls = forceTcpCalls
     }
 
     public static var current: NagramiXTabSettings {
@@ -145,7 +149,8 @@ public struct NagramiXTabSettings: Equatable {
             showProfileIds: defaults.object(forKey: Key.showProfileIds) as? Bool ?? false,
             showRegistrationDate: defaults.object(forKey: Key.showRegistrationDate) as? Bool ?? false,
             showChatCreationDate: defaults.object(forKey: Key.showChatCreationDate) as? Bool ?? true,
-            confirmOutgoingCalls: defaults.object(forKey: Key.confirmOutgoingCalls) as? Bool ?? true
+            confirmOutgoingCalls: defaults.object(forKey: Key.confirmOutgoingCalls) as? Bool ?? true,
+            forceTcpCalls: defaults.object(forKey: Key.forceTcpCalls) as? Bool ?? false
         )
     }
 
@@ -174,6 +179,7 @@ public struct NagramiXTabSettings: Equatable {
         defaults.set(value.showRegistrationDate, forKey: Key.showRegistrationDate)
         defaults.set(value.showChatCreationDate, forKey: Key.showChatCreationDate)
         defaults.set(value.confirmOutgoingCalls, forKey: Key.confirmOutgoingCalls)
+        defaults.set(value.forceTcpCalls, forKey: Key.forceTcpCalls)
         defaults.removeObject(forKey: Key.legacyShowProxySponsorChannel)
 
         NotificationCenter.default.post(name: self.changedNotification, object: nil)

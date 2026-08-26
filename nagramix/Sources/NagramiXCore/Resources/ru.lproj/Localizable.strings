@@ -133,6 +133,8 @@
 "NagramiX.Settings.Profiles.ShowChatCreationDate" = "Показывать дату создания чата";
 "NagramiX.Settings.Calls.Header" = "ЗВОНКИ";
 "NagramiX.Settings.Calls.ConfirmOutgoing" = "Подтверждение вызова";
+"NagramiX.Settings.Calls.ForceTcp" = "Force TCP";
+"NagramiX.Settings.Calls.ForceTcpInfo" = "Пожалуйста, меняйте эту настройку только если вы знаете, что она делает.";
 "NagramiX.CallConfirmation.Title" = "Начать вызов?";
 "NagramiX.CallConfirmation.Text" = "Подтвердите исходящий вызов.";
 "NagramiX.CallConfirmation.Action" = "Позвонить";
