@@ -1,7 +1,8 @@
 "NagramiX.Settings.Title" = "Настройки NagramiX";
-"NagramiX.Settings.Page.General" = "Основные";
-"NagramiX.Settings.Page.Messenger" = "Мессенджер";
+"NagramiX.Settings.Page.Interface" = "Интерфейс";
+"NagramiX.Settings.Page.Features" = "Функции";
 "NagramiX.Settings.Page.Other" = "Прочее";
+"NagramiX.Settings.Proxy" = "Настройки прокси";
 "NagramiX.Settings.Tabs.Header" = "ПАНЕЛЬ ВКЛАДОК";
 "NagramiX.Settings.Tabs.HideContacts" = "Скрыть вкладку «Контакты»";
 "NagramiX.Settings.Tabs.HideCalls" = "Скрыть вкладку «Звонки»";

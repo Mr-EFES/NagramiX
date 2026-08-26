@@ -1,7 +1,8 @@
 "NagramiX.Settings.Title" = "NagramiX Settings";
-"NagramiX.Settings.Page.General" = "General";
-"NagramiX.Settings.Page.Messenger" = "Messenger";
+"NagramiX.Settings.Page.Interface" = "Interface";
+"NagramiX.Settings.Page.Features" = "Features";
 "NagramiX.Settings.Page.Other" = "Other";
+"NagramiX.Settings.Proxy" = "Proxy Settings";
 "NagramiX.Settings.Tabs.Header" = "TAB BAR";
 "NagramiX.Settings.Tabs.HideContacts" = "Hide Contacts Tab";
 "NagramiX.Settings.Tabs.HideCalls" = "Hide Calls Tab";

@@ -301,6 +301,150 @@ private func currentDateTimeFormat()""",
     shutil.copy2(settings_controller_source, settings_controller_target)
     shutil.copy2(overlay / "Sources" / "SettingsUI" / "NagramiXCustomDohController.swift", settings_controller_target.parent / "NagramiXCustomDohController.swift")
 
+    item_list_controller = source / "submodules" / "ItemListUI" / "Sources" / "ItemListController.swift"
+    replace_once(
+        item_list_controller,
+        "    case sectionControl([String], Int)\n",
+        "    case sectionControl([String], Int)\n    case equalSectionControl([String], Int)\n",
+        "Equal-width NagramiX settings title mode",
+    )
+    replace_once(
+        item_list_controller,
+        "                            case let .sectionControl(sections, index):\n",
+        "                            case let .sectionControl(sections, index), let .equalSectionControl(sections, index):\n",
+        "Handle equal-width NagramiX settings title mode",
+    )
+    replace_once(
+        item_list_controller,
+        "                                let segmentedTitleView = ItemListControllerSegmentedTitleView(theme: controllerState.presentationData.theme, segments: sections, selectedIndex: index)\n",
+        "                                let segmentedTitleView = ItemListControllerSegmentedTitleView(theme: controllerState.presentationData.theme, segments: sections, selectedIndex: index, fillsAvailableWidth: controllerState.title.isEqualSectionControl)\n",
+        "Configure equal-width NagramiX settings title mode",
+    )
+    replace_once(
+        item_list_controller,
+        "public final class ItemListControllerTabBarItem: Equatable {\n",
+        """public extension ItemListControllerTitle {
+    var isEqualSectionControl: Bool {
+        if case .equalSectionControl = self {
+            return true
+        }
+        return false
+    }
+}
+
+public final class ItemListControllerTabBarItem: Equatable {
+""",
+        "Expose equal-width title layout selection",
+    )
+
+    segmented_title_view = source / "submodules" / "ItemListUI" / "Sources" / "ItemListControllerSegmentedTitleView.swift"
+    replace_once(
+        segmented_title_view,
+        "    private let tabSelector = ComponentView<Empty>()\n",
+        "    private let tabSelector = ComponentView<Empty>()\n    private let fillsAvailableWidth: Bool\n",
+        "Store equal-width segmented title layout",
+    )
+    replace_once(
+        segmented_title_view,
+        "    public init(theme: PresentationTheme, segments: [String], selectedIndex: Int) {\n",
+        "    public init(theme: PresentationTheme, segments: [String], selectedIndex: Int, fillsAvailableWidth: Bool = false) {\n",
+        "Add equal-width segmented title initializer",
+    )
+    replace_once(
+        segmented_title_view,
+        "        self.index = selectedIndex\n        \n        self.backgroundContainer = GlassBackgroundContainerView()\n",
+        "        self.index = selectedIndex\n        self.fillsAvailableWidth = fillsAvailableWidth\n        \n        self.backgroundContainer = GlassBackgroundContainerView()\n",
+        "Initialize equal-width segmented title layout",
+    )
+    replace_once(
+        segmented_title_view,
+        "                content: .title(HorizontalTabsComponent.Tab.Title(text: segment, entities: [], enableAnimations: false)),\n",
+        "                content: .title(HorizontalTabsComponent.Tab.Title(text: segment, entities: [], enableAnimations: false, isBold: self.fillsAvailableWidth)),\n",
+        "Use bold NagramiX settings category titles",
+    )
+    replace_once(
+        segmented_title_view,
+        "                layout: .fit\n",
+        "                layout: self.fillsAvailableWidth ? .equal : .fit\n",
+        "Use equal-width NagramiX settings category sections",
+    )
+
+    horizontal_tabs = source / "submodules" / "TelegramUI" / "Components" / "HorizontalTabsComponent" / "Sources" / "HorizontalTabsComponent.swift"
+    replace_once(
+        horizontal_tabs,
+        """    public enum Layout {
+        case fit
+        case fill
+    }
+""",
+        """    public enum Layout {
+        case fit
+        case fill
+        case equal
+    }
+""",
+        "Add unconditional equal-width horizontal tab layout",
+    )
+    replace_once(
+        horizontal_tabs,
+        """            public let enableAnimations: Bool
+""" + "            \n" + """            public init(text: String, entities: [MessageTextEntity], enableAnimations: Bool) {
+                self.text = text
+                self.entities = entities
+                self.enableAnimations = enableAnimations
+            }
+""",
+        """            public let enableAnimations: Bool
+            public let isBold: Bool
+""" + "            \n" + """            public init(text: String, entities: [MessageTextEntity], enableAnimations: Bool, isBold: Bool = false) {
+                self.text = text
+                self.entities = entities
+                self.enableAnimations = enableAnimations
+                self.isBold = isBold
+            }
+""",
+        "Support explicitly bold horizontal tab titles",
+    )
+    replace_once(
+        horizontal_tabs,
+        "                let font = Font.medium(15.0)\n",
+        "                let font = title.isBold ? Font.bold(15.0) : Font.medium(15.0)\n",
+        "Render NagramiX settings category titles in bold",
+    )
+    replace_once(
+        horizontal_tabs,
+        """            let scrollContentWidth: CGFloat
+            if case .fill = component.layout, totalContentWidth < availableSize.width {
+""",
+        """            let scrollContentWidth: CGFloat
+            let usesEqualItemWidths: Bool
+            switch component.layout {
+            case .fit:
+                usesEqualItemWidths = false
+            case .fill:
+                usesEqualItemWidths = totalContentWidth < availableSize.width
+            case .equal:
+                usesEqualItemWidths = true
+            }
+            if usesEqualItemWidths {
+""",
+        "Always divide NagramiX settings categories equally",
+    )
+    replace_once(
+        horizontal_tabs,
+        """            switch component.layout {
+            case .fill:
+                sizeWidth = availableSize.width
+            case .fit:
+""",
+        """            switch component.layout {
+            case .fill, .equal:
+                sizeWidth = availableSize.width
+            case .fit:
+""",
+        "Size equal-width NagramiX settings categories to the full panel",
+    )
+
     telegram_core_overlay = overlay / "Sources" / "TelegramCore" / "NagramiXProxyFailoverController.swift"
     telegram_core_target = source / "submodules" / "TelegramCore" / "Sources" / "Network" / telegram_core_overlay.name
     shutil.copy2(telegram_core_overlay, telegram_core_target)

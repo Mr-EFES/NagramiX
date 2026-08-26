@@ -29,9 +29,10 @@ public extension PresentationStrings {
         return value == key ? english : value
     }
     var nagramiXSettingsTitle: String { self.nagramiXLocalized("NagramiX.Settings.Title") }
-    var nagramiXSettingsGeneral: String { self.nagramiXLocalized("NagramiX.Settings.Page.General") }
-    var nagramiXSettingsMessenger: String { self.nagramiXLocalized("NagramiX.Settings.Page.Messenger") }
+    var nagramiXSettingsInterface: String { self.nagramiXLocalized("NagramiX.Settings.Page.Interface") }
+    var nagramiXSettingsFeatures: String { self.nagramiXLocalized("NagramiX.Settings.Page.Features") }
     var nagramiXSettingsOther: String { self.nagramiXLocalized("NagramiX.Settings.Page.Other") }
+    var nagramiXProxySettings: String { self.nagramiXLocalized("NagramiX.Settings.Proxy") }
     var nagramiXTabsHeader: String { self.nagramiXLocalized("NagramiX.Settings.Tabs.Header") }
     var nagramiXHideContactsTab: String { self.nagramiXLocalized("NagramiX.Settings.Tabs.HideContacts") }
     var nagramiXHideCallsTab: String { self.nagramiXLocalized("NagramiX.Settings.Tabs.HideCalls") }
