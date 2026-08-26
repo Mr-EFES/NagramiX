@@ -961,9 +961,6 @@ private func currentDateTimeFormat()""",
 """,
         """    private func nagramiXConfiguredControllers() -> [ViewController] {
         let settings = NagramiXTabSettings.current
-        let possibleControllers: [ViewController?] = [self.contactsController, self.callListController, self.chatListController, self.accountSettingsController]
-        let allControllers: [ViewController] = possibleControllers.compactMap { $0 }
-
         var controllers: [ViewController] = []
         if !settings.hideContacts, let contactsController = self.contactsController {
             controllers.append(contactsController)
