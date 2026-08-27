@@ -55,6 +55,8 @@ public struct NagramiXTabSettings: Equatable {
         static let showChatCreationDate = "nagramix.profiles.showChatCreationDate"
         static let confirmOutgoingCalls = "nagramix.calls.confirmOutgoing"
         static let forceTcpCalls = "nagramix.calls.forceTcp"
+        static let showDeletedMessages = "nagramix.messages.showDeletedMessages"
+        static let messageEditHistory = "nagramix.messages.editHistory"
     }
 
     public var hideContacts: Bool
@@ -76,6 +78,8 @@ public struct NagramiXTabSettings: Equatable {
     public var showChatCreationDate: Bool
     public var confirmOutgoingCalls: Bool
     public var forceTcpCalls: Bool
+    public var showDeletedMessages: Bool
+    public var messageEditHistory: Bool
 
     public init(
         hideContacts: Bool,
@@ -96,7 +100,9 @@ public struct NagramiXTabSettings: Equatable {
         showRegistrationDate: Bool,
         showChatCreationDate: Bool,
         confirmOutgoingCalls: Bool,
-        forceTcpCalls: Bool
+        forceTcpCalls: Bool,
+        showDeletedMessages: Bool,
+        messageEditHistory: Bool
     ) {
         self.hideContacts = hideContacts
         self.hideCalls = hideCalls
@@ -117,6 +123,8 @@ public struct NagramiXTabSettings: Equatable {
         self.showChatCreationDate = showChatCreationDate
         self.confirmOutgoingCalls = confirmOutgoingCalls
         self.forceTcpCalls = forceTcpCalls
+        self.showDeletedMessages = showDeletedMessages
+        self.messageEditHistory = messageEditHistory
     }
 
     public static var current: NagramiXTabSettings {
@@ -135,7 +143,7 @@ public struct NagramiXTabSettings: Equatable {
             hideContacts: defaults.object(forKey: Key.hideContacts) as? Bool ?? true,
             hideCalls: defaults.object(forKey: Key.hideCalls) as? Bool ?? true,
             showSearchButton: defaults.object(forKey: Key.showSearchButton) as? Bool ?? false,
-            useRearCameraForVideoMessages: defaults.object(forKey: Key.useRearCameraForVideoMessages) as? Bool ?? true,
+            useRearCameraForVideoMessages: defaults.object(forKey: Key.useRearCameraForVideoMessages) as? Bool ?? false,
             hideStories: defaults.object(forKey: Key.hideStories) as? Bool ?? false,
             disableStoryCameraSwipe: defaults.object(forKey: Key.disableStoryCameraSwipe) as? Bool ?? false,
             confirmStoryViewing: defaults.object(forKey: Key.confirmStoryViewing) as? Bool ?? false,
@@ -150,7 +158,9 @@ public struct NagramiXTabSettings: Equatable {
             showRegistrationDate: defaults.object(forKey: Key.showRegistrationDate) as? Bool ?? false,
             showChatCreationDate: defaults.object(forKey: Key.showChatCreationDate) as? Bool ?? true,
             confirmOutgoingCalls: defaults.object(forKey: Key.confirmOutgoingCalls) as? Bool ?? true,
-            forceTcpCalls: defaults.object(forKey: Key.forceTcpCalls) as? Bool ?? false
+            forceTcpCalls: defaults.object(forKey: Key.forceTcpCalls) as? Bool ?? false,
+            showDeletedMessages: defaults.object(forKey: Key.showDeletedMessages) as? Bool ?? false,
+            messageEditHistory: defaults.object(forKey: Key.messageEditHistory) as? Bool ?? false
         )
     }
 
@@ -180,6 +190,8 @@ public struct NagramiXTabSettings: Equatable {
         defaults.set(value.showChatCreationDate, forKey: Key.showChatCreationDate)
         defaults.set(value.confirmOutgoingCalls, forKey: Key.confirmOutgoingCalls)
         defaults.set(value.forceTcpCalls, forKey: Key.forceTcpCalls)
+        defaults.set(value.showDeletedMessages, forKey: Key.showDeletedMessages)
+        defaults.set(value.messageEditHistory, forKey: Key.messageEditHistory)
         defaults.removeObject(forKey: Key.legacyShowProxySponsorChannel)
 
         NotificationCenter.default.post(name: self.changedNotification, object: nil)

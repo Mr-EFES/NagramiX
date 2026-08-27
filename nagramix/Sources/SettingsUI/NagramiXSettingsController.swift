@@ -6,6 +6,8 @@ import TelegramPresentationData
 import PresentationDataUtils
 import ItemListUI
 import AccountContext
+import TelegramCore
+import AlertUI
 import NagramiXCore
 
 private struct NagramiXSettingsControllerArguments {
@@ -25,6 +27,9 @@ private struct NagramiXSettingsControllerArguments {
     let updateShowChatCreationDate: (Bool) -> Void
     let updateConfirmOutgoingCalls: (Bool) -> Void
     let updateForceTcpCalls: (Bool) -> Void
+    let updateShowDeletedMessages: (Bool) -> Void
+    let updateMessageEditHistory: (Bool) -> Void
+    let clearMessageArchive: () -> Void
 }
 
 private enum NagramiXSettingsCategory: Int, CaseIterable {
@@ -38,6 +43,7 @@ private enum NagramiXSettingsSection: Int32 {
     case videoMessages
     case stories
     case profiles
+    case messages
     case calls
     case other
 }
@@ -65,6 +71,13 @@ private enum NagramiXSettingsEntry: ItemListNodeEntry {
     case confirmOutgoingCalls(Bool)
     case forceTcpCalls(Bool)
     case forceTcpCallsInfo
+    case messagesHeader
+    case showDeletedMessages(Bool)
+    case showDeletedMessagesInfo
+    case messageEditHistory(Bool)
+    case messageEditHistoryInfo
+    case clearMessageArchive
+    case messageArchiveInfo
     case proxySettings
 
     var category: NagramiXSettingsCategory {
@@ -74,6 +87,8 @@ private enum NagramiXSettingsEntry: ItemListNodeEntry {
             return .interface
         case .videoMessagesHeader, .useRearCameraForVideoMessages, .featureStoriesHeader, .disableStoryCameraSwipe,
                 .confirmStoryViewing, .enableStoryRepost, .callsHeader, .confirmOutgoingCalls, .forceTcpCalls, .forceTcpCallsInfo:
+            return .features
+        case .messagesHeader, .showDeletedMessages, .showDeletedMessagesInfo, .messageEditHistory, .messageEditHistoryInfo, .clearMessageArchive, .messageArchiveInfo:
             return .features
         case .proxySettings:
             return .other
@@ -92,6 +107,8 @@ private enum NagramiXSettingsEntry: ItemListNodeEntry {
             return NagramiXSettingsSection.profiles.rawValue
         case .callsHeader, .confirmOutgoingCalls, .forceTcpCalls, .forceTcpCallsInfo:
             return NagramiXSettingsSection.calls.rawValue
+        case .messagesHeader, .showDeletedMessages, .showDeletedMessagesInfo, .messageEditHistory, .messageEditHistoryInfo, .clearMessageArchive, .messageArchiveInfo:
+            return NagramiXSettingsSection.messages.rawValue
         case .proxySettings:
             return NagramiXSettingsSection.other.rawValue
         }
@@ -117,11 +134,18 @@ private enum NagramiXSettingsEntry: ItemListNodeEntry {
         case .showProfileIds: return 31
         case .showRegistrationDate: return 32
         case .showChatCreationDate: return 33
-        case .callsHeader: return 40
-        case .confirmOutgoingCalls: return 41
-        case .forceTcpCalls: return 42
-        case .forceTcpCallsInfo: return 43
-        case .proxySettings: return 50
+        case .messagesHeader: return 34
+        case .showDeletedMessages: return 35
+        case .showDeletedMessagesInfo: return 36
+        case .messageEditHistory: return 37
+        case .messageEditHistoryInfo: return 38
+        case .clearMessageArchive: return 39
+        case .messageArchiveInfo: return 40
+        case .callsHeader: return 50
+        case .confirmOutgoingCalls: return 51
+        case .forceTcpCalls: return 52
+        case .forceTcpCallsInfo: return 53
+        case .proxySettings: return 60
         }
     }
 
@@ -174,6 +198,20 @@ private enum NagramiXSettingsEntry: ItemListNodeEntry {
             return ItemListSwitchItem(presentationData: presentationData, systemStyle: .glass, title: presentationData.strings.nagramiXForceTcpCalls, value: value, sectionId: self.section, style: .blocks, updated: arguments.updateForceTcpCalls)
         case .forceTcpCallsInfo:
             return ItemListTextItem(presentationData: presentationData, text: .plain(presentationData.strings.nagramiXForceTcpCallsInfo), sectionId: self.section)
+        case .messagesHeader:
+            return ItemListSectionHeaderItem(presentationData: presentationData, text: presentationData.strings.nagramiXMessagesHeader, sectionId: self.section)
+        case let .showDeletedMessages(value):
+            return ItemListSwitchItem(presentationData: presentationData, systemStyle: .glass, title: presentationData.strings.nagramiXDeletedMessages, value: value, sectionId: self.section, style: .blocks, updated: arguments.updateShowDeletedMessages)
+        case .showDeletedMessagesInfo:
+            return ItemListTextItem(presentationData: presentationData, text: .plain(presentationData.strings.nagramiXDeletedMessagesInfo), sectionId: self.section)
+        case let .messageEditHistory(value):
+            return ItemListSwitchItem(presentationData: presentationData, systemStyle: .glass, title: presentationData.strings.nagramiXMessageEditHistory, value: value, sectionId: self.section, style: .blocks, updated: arguments.updateMessageEditHistory)
+        case .messageEditHistoryInfo:
+            return ItemListTextItem(presentationData: presentationData, text: .plain(presentationData.strings.nagramiXMessageEditHistoryInfo), sectionId: self.section)
+        case .clearMessageArchive:
+            return ItemListDisclosureItem(presentationData: presentationData, systemStyle: .glass, title: presentationData.strings.nagramiXClearMessageArchive, label: "", sectionId: self.section, style: .blocks, action: arguments.clearMessageArchive)
+        case .messageArchiveInfo:
+            return ItemListTextItem(presentationData: presentationData, text: .plain(presentationData.strings.nagramiXLocalArchiveInfo), sectionId: self.section)
         case .proxySettings:
             return ItemListDisclosureItem(presentationData: presentationData, systemStyle: .glass, title: presentationData.strings.nagramiXProxySettings, label: "", sectionId: self.section, style: .blocks, action: arguments.openProxySettings)
         }
@@ -192,6 +230,9 @@ private func nagramiXSettingsEntries(settings: NagramiXTabSettings, category: Na
         .profilesHeader, .showProfileIds(settings.showProfileIds),
         .showRegistrationDate(settings.showRegistrationDate),
         .showChatCreationDate(settings.showChatCreationDate),
+        .messagesHeader, .showDeletedMessages(settings.showDeletedMessages), .showDeletedMessagesInfo,
+        .messageEditHistory(settings.messageEditHistory), .messageEditHistoryInfo,
+        .clearMessageArchive, .messageArchiveInfo,
         .callsHeader, .confirmOutgoingCalls(settings.confirmOutgoingCalls),
         .forceTcpCalls(settings.forceTcpCalls), .forceTcpCallsInfo,
         .proxySettings,
@@ -207,6 +248,7 @@ public func nagramiXSettingsController(context: AccountContext) -> ViewControlle
         settingsPromise.set(NagramiXTabSettings.current)
     }
     var pushControllerImpl: ((ViewController) -> Void)?
+    var presentControllerImpl: ((ViewController) -> Void)?
     let arguments = NagramiXSettingsControllerArguments(
         openProxySettings: {
             pushControllerImpl?(proxySettingsController(context: context))
@@ -225,7 +267,23 @@ public func nagramiXSettingsController(context: AccountContext) -> ViewControlle
         updateShowRegistrationDate: { value in update { $0.showRegistrationDate = value } },
         updateShowChatCreationDate: { value in update { $0.showChatCreationDate = value } },
         updateConfirmOutgoingCalls: { value in update { $0.confirmOutgoingCalls = value } },
-        updateForceTcpCalls: { value in update { $0.forceTcpCalls = value } }
+        updateForceTcpCalls: { value in update { $0.forceTcpCalls = value } },
+        updateShowDeletedMessages: { value in update { $0.showDeletedMessages = value } },
+        updateMessageEditHistory: { value in update { $0.messageEditHistory = value } },
+        clearMessageArchive: {
+            let strings = context.sharedContext.currentPresentationData.with { $0 }.strings
+            presentControllerImpl?(textAlertController(
+                context: context,
+                title: strings.nagramiXClearMessageArchive,
+                text: strings.nagramiXClearMessageArchiveConfirm,
+                actions: [
+                    TextAlertAction(type: .genericAction, title: strings.nagramiXCancel, action: {}),
+                    TextAlertAction(type: .defaultDestructiveAction, title: strings.nagramiXClear, action: {
+                        context.account.nagramiXMessageArchive.clearAll()
+                    })
+                ]
+            ))
+        }
     )
     let signal = combineLatest(queue: .mainQueue(), context.sharedContext.presentationData, settingsPromise.get(), categoryPromise.get())
     |> map { presentationData, settings, category -> (ItemListControllerState, (ItemListNodeState, Any)) in
@@ -253,6 +311,9 @@ public func nagramiXSettingsController(context: AccountContext) -> ViewControlle
     let controller = ItemListController(context: context, state: signal)
     pushControllerImpl = { [weak controller] pushedController in
         (controller?.navigationController as? NavigationController)?.pushViewController(pushedController)
+    }
+    presentControllerImpl = { [weak controller] presentedController in
+        controller?.present(presentedController, in: .window(.root))
     }
     controller.titleControlValueChanged = { index in
         if let category = NagramiXSettingsCategory(rawValue: index) {

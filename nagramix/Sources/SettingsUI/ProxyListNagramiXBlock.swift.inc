@@ -4,6 +4,7 @@ private final class ProxySettingsControllerArguments {
     let editCustomDoh: () -> Void
     let toggleAutoSwitch: (Bool) -> Void
     let selectAutoSwitchTimeout: () -> Void
+    let checkAllProxies: () -> Void
     let addNewServer: () -> Void
     let activateServer: (ProxyServerSettings) -> Void
     let editServer: (ProxyServerSettings) -> Void
@@ -12,12 +13,13 @@ private final class ProxySettingsControllerArguments {
     let toggleUseForCalls: (Bool) -> Void
     let shareProxyList: () -> Void
 
-    init(toggleEnabled: @escaping (Bool) -> Void, selectDns: @escaping () -> Void, editCustomDoh: @escaping () -> Void, toggleAutoSwitch: @escaping (Bool) -> Void, selectAutoSwitchTimeout: @escaping () -> Void, addNewServer: @escaping () -> Void, activateServer: @escaping (ProxyServerSettings) -> Void, editServer: @escaping (ProxyServerSettings) -> Void, removeServer: @escaping (ProxyServerSettings) -> Void, setServerWithRevealedOptions: @escaping (ProxyServerSettings?, ProxyServerSettings?) -> Void, toggleUseForCalls: @escaping (Bool) -> Void, shareProxyList: @escaping () -> Void) {
+    init(toggleEnabled: @escaping (Bool) -> Void, selectDns: @escaping () -> Void, editCustomDoh: @escaping () -> Void, toggleAutoSwitch: @escaping (Bool) -> Void, selectAutoSwitchTimeout: @escaping () -> Void, checkAllProxies: @escaping () -> Void, addNewServer: @escaping () -> Void, activateServer: @escaping (ProxyServerSettings) -> Void, editServer: @escaping (ProxyServerSettings) -> Void, removeServer: @escaping (ProxyServerSettings) -> Void, setServerWithRevealedOptions: @escaping (ProxyServerSettings?, ProxyServerSettings?) -> Void, toggleUseForCalls: @escaping (Bool) -> Void, shareProxyList: @escaping () -> Void) {
         self.toggleEnabled = toggleEnabled
         self.selectDns = selectDns
         self.editCustomDoh = editCustomDoh
         self.toggleAutoSwitch = toggleAutoSwitch
         self.selectAutoSwitchTimeout = selectAutoSwitchTimeout
+        self.checkAllProxies = checkAllProxies
         self.addNewServer = addNewServer
         self.activateServer = activateServer
         self.editServer = editServer
@@ -63,6 +65,7 @@ private enum ProxySettingsControllerEntry: ItemListNodeEntry {
     case customDoh(PresentationTheme, String, String)
     case autoSwitch(PresentationTheme, String, Bool)
     case autoSwitchTimeout(PresentationTheme, String, String)
+    case checkAllProxies(PresentationTheme, String, Bool)
     case serversHeader(PresentationTheme, String)
     case addServer(PresentationTheme, String, Bool)
     case server(Int, PresentationTheme, PresentationStrings, ProxyServerSettings, Bool, DisplayProxyServerStatus, ProxySettingsServerItemEditing, Bool)
@@ -72,7 +75,7 @@ private enum ProxySettingsControllerEntry: ItemListNodeEntry {
 
     var section: ItemListSectionId {
         switch self {
-        case .enabled, .dns, .customDoh, .autoSwitch, .autoSwitchTimeout:
+        case .enabled, .dns, .customDoh, .autoSwitch, .autoSwitchTimeout, .checkAllProxies:
             return ProxySettingsControllerSection.enabled.rawValue
         case .serversHeader, .addServer, .server:
             return ProxySettingsControllerSection.servers.rawValue
@@ -90,6 +93,7 @@ private enum ProxySettingsControllerEntry: ItemListNodeEntry {
         case .customDoh: return 2
         case .autoSwitch: return 3
         case .autoSwitchTimeout: return 4
+        case .checkAllProxies: return 5
         case .serversHeader: return 10
         case .addServer: return 11
         case let .server(index, _, _, _, _, _, _, _): return 20 + index
@@ -106,6 +110,7 @@ private enum ProxySettingsControllerEntry: ItemListNodeEntry {
         case .customDoh: return .index(2)
         case .autoSwitch: return .index(3)
         case .autoSwitchTimeout: return .index(4)
+        case .checkAllProxies: return .index(5)
         case .serversHeader: return .index(10)
         case .addServer: return .index(11)
         case let .server(_, _, _, settings, _, _, _, _): return .server(settings.host, settings.port, settings.connection)
@@ -122,6 +127,8 @@ private enum ProxySettingsControllerEntry: ItemListNodeEntry {
         case let (.dns(lt, ls, lv), .dns(rt, rs, rv)), let (.customDoh(lt, ls, lv), .customDoh(rt, rs, rv)), let (.autoSwitchTimeout(lt, ls, lv), .autoSwitchTimeout(rt, rs, rv)):
             return lt === rt && ls == rs && lv == rv
         case let (.autoSwitch(lt, ls, lv), .autoSwitch(rt, rs, rv)):
+            return lt === rt && ls == rs && lv == rv
+        case let (.checkAllProxies(lt, ls, lv), .checkAllProxies(rt, rs, rv)):
             return lt === rt && ls == rs && lv == rv
         case let (.serversHeader(lt, ls), .serversHeader(rt, rs)), let (.shareProxyList(lt, ls), .shareProxyList(rt, rs)), let (.useForCallsInfo(lt, ls), .useForCallsInfo(rt, rs)):
             return lt === rt && ls == rs
@@ -159,6 +166,12 @@ private enum ProxySettingsControllerEntry: ItemListNodeEntry {
             return ItemListSwitchItem(presentationData: presentationData, systemStyle: .glass, title: title, value: value, sectionId: self.section, style: .blocks, updated: arguments.toggleAutoSwitch)
         case let .autoSwitchTimeout(_, title, value):
             return ItemListDisclosureItem(presentationData: presentationData, systemStyle: .glass, title: title, label: value, sectionId: self.section, style: .blocks, action: arguments.selectAutoSwitchTimeout)
+        case let .checkAllProxies(_, title, checking):
+            return ProxySettingsActionItem(presentationData: presentationData, systemStyle: .glass, title: title, icon: .refresh, sectionId: self.section, editing: false, action: {
+                if !checking {
+                    arguments.checkAllProxies()
+                }
+            })
         case let .serversHeader(_, text):
             return ItemListSectionHeaderItem(presentationData: presentationData, text: text, sectionId: self.section)
         case let .addServer(_, text, _):
@@ -206,6 +219,7 @@ private func proxySettingsControllerEntries(theme: PresentationTheme, strings: P
     if nagramiXSettings.proxyAutoSwitchEnabled {
         entries.append(.autoSwitchTimeout(theme, strings.nagramiXProxySwitchAfter, nagramiXTimeoutTitle(nagramiXSettings.proxyAutoSwitchTimeout, strings: strings)))
     }
+    entries.append(.checkAllProxies(theme, state.checkingAllProxies ? strings.nagramiXProxyChecking : strings.nagramiXProxyCheckAll, state.checkingAllProxies))
     entries.append(.serversHeader(theme, strings.SocksProxySetup_SavedProxies))
     entries.append(.addServer(theme, strings.SocksProxySetup_AddProxy, state.editing))
     var index = 0

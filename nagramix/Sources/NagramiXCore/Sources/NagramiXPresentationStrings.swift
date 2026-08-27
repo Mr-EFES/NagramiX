@@ -76,6 +76,12 @@ public extension PresentationStrings {
     var nagramiXCustomDohUnavailable: String { self.nagramiXLocalized("NagramiX.Network.DNS.CustomUnavailable") }
     var nagramiXProxyAutoSwitch: String { self.nagramiXLocalized("NagramiX.Network.Proxy.AutoSwitch") }
     var nagramiXProxySwitchAfter: String { self.nagramiXLocalized("NagramiX.Network.Proxy.SwitchAfter") }
+    var nagramiXProxyCheckAll: String { self.nagramiXLocalized("NagramiX.Network.Proxy.CheckAll") }
+    var nagramiXProxyChecking: String { self.nagramiXLocalized("NagramiX.Network.Proxy.Checking") }
+    var nagramiXProxyNoneToCheck: String { self.nagramiXLocalized("NagramiX.Network.Proxy.NoneToCheck") }
+    func nagramiXProxyCheckSummary(total: Int, available: Int, unavailable: Int) -> String {
+        return String(format: self.nagramiXLocalized("NagramiX.Network.Proxy.CheckSummary"), total, available, unavailable)
+    }
     var nagramiXSeconds15: String { self.nagramiXLocalized("NagramiX.Time.15Seconds") }
     var nagramiXSeconds30: String { self.nagramiXLocalized("NagramiX.Time.30Seconds") }
     var nagramiXSeconds60: String { self.nagramiXLocalized("NagramiX.Time.60Seconds") }
@@ -94,6 +100,21 @@ public extension PresentationStrings {
     var nagramiXConfirmOutgoingCalls: String { self.nagramiXLocalized("NagramiX.Settings.Calls.ConfirmOutgoing") }
     var nagramiXForceTcpCalls: String { self.nagramiXLocalized("NagramiX.Settings.Calls.ForceTcp") }
     var nagramiXForceTcpCallsInfo: String { self.nagramiXLocalized("NagramiX.Settings.Calls.ForceTcpInfo") }
+    var nagramiXMessagesHeader: String { self.nagramiXLocalized("NagramiX.Settings.Messages.Header") }
+    var nagramiXDeletedMessages: String { self.nagramiXLocalized("NagramiX.Settings.Messages.Deleted") }
+    var nagramiXDeletedMessagesInfo: String { self.nagramiXLocalized("NagramiX.Settings.Messages.DeletedInfo") }
+    var nagramiXMessageEditHistory: String { self.nagramiXLocalized("NagramiX.Settings.Messages.EditHistory") }
+    var nagramiXMessageEditHistoryInfo: String { self.nagramiXLocalized("NagramiX.Settings.Messages.EditHistoryInfo") }
+    var nagramiXDeleted: String { self.nagramiXLocalized("NagramiX.Messages.Deleted") }
+    var nagramiXEditHistory: String { self.nagramiXLocalized("NagramiX.Messages.EditHistory") }
+    var nagramiXOriginalVersion: String { self.nagramiXLocalized("NagramiX.Messages.OriginalVersion") }
+    var nagramiXCurrentVersion: String { self.nagramiXLocalized("NagramiX.Messages.CurrentVersion") }
+    var nagramiXNoPreviousVersions: String { self.nagramiXLocalized("NagramiX.Messages.NoPreviousVersions") }
+    var nagramiXClearMessageArchive: String { self.nagramiXLocalized("NagramiX.Messages.ClearArchive") }
+    var nagramiXClearMessageArchiveConfirm: String { self.nagramiXLocalized("NagramiX.Messages.ClearArchiveConfirm") }
+    var nagramiXClear: String { self.nagramiXLocalized("NagramiX.Common.Clear") }
+    var nagramiXCancel: String { self.nagramiXLocalized("NagramiX.Common.Cancel") }
+    var nagramiXLocalArchiveInfo: String { self.nagramiXLocalized("NagramiX.Messages.ArchiveInfo") }
     var nagramiXCallConfirmationTitle: String { self.nagramiXLocalized("NagramiX.CallConfirmation.Title") }
     var nagramiXCallConfirmationText: String { self.nagramiXLocalized("NagramiX.CallConfirmation.Text") }
     var nagramiXCallAction: String { self.nagramiXLocalized("NagramiX.CallConfirmation.Action") }

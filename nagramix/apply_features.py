@@ -11,7 +11,15 @@ from pathlib import Path
 def replace_once(path: Path, old: str, new: str, label: str) -> None:
     text = path.read_text(encoding="utf-8")
     if old not in text:
-        raise SystemExit(f"Pinned 0.2.0 patch anchor was not found ({label}): {path}")
+        raise SystemExit(f"Pinned patch anchor was not found ({label}): {path}")
+    path.write_text(text.replace(old, new, 1), encoding="utf-8")
+
+
+def replace_unique(path: Path, old: str, new: str, label: str) -> None:
+    text = path.read_text(encoding="utf-8")
+    occurrence_count = text.count(old)
+    if occurrence_count != 1:
+        raise SystemExit(f"Pinned patch anchor must occur exactly once, found {occurrence_count} ({label}): {path}")
     path.write_text(text.replace(old, new, 1), encoding="utf-8")
 
 
@@ -505,6 +513,131 @@ public final class ItemListControllerTabBarItem: Equatable {
     telegram_core_target = source / "submodules" / "TelegramCore" / "Sources" / "Network" / telegram_core_overlay.name
     shutil.copy2(telegram_core_overlay, telegram_core_target)
 
+    proxy_statuses = source / "submodules" / "TelegramCore" / "Sources" / "Network" / "ProxyServersStatuses.swift"
+    replace_once(
+        proxy_statuses,
+        """final class ProxyServersStatusesImpl {
+    private let queue: Queue
+\x20\x20\x20\x20
+    private var contexts: [ProxyServerSettings: ProxyServerItemContext] = [:]
+""",
+        """final class ProxyServersStatusesImpl {
+    private let queue: Queue
+    private let context: MTContext
+    private let datacenterId: Int
+
+    private var contexts: [ProxyServerSettings: ProxyServerItemContext] = [:]
+    private var contextIds: [ProxyServerSettings: Int64] = [:]
+    private var nextContextId: Int64 = 0
+""",
+        "Retain native proxy checker inputs for manual refresh",
+    )
+    replace_once(
+        proxy_statuses,
+        """    init(queue: Queue, network: Network, servers: Signal<[ProxyServerSettings], NoError>) {
+        self.queue = queue
+\x20\x20\x20\x20\x20\x20\x20\x20
+""",
+        """    init(queue: Queue, network: Network, servers: Signal<[ProxyServerSettings], NoError>) {
+        self.queue = queue
+        self.context = network.context
+        self.datacenterId = network.datacenterId
+
+""",
+        "Capture native proxy checker context",
+    )
+    replace_once(
+        proxy_statuses,
+        """                        if strongSelf.contexts[key] == nil {
+                            let context = ProxyServerItemContext(queue: strongSelf.queue, context: network.context, datacenterId: network.datacenterId, server: key, updated: { value in
+                                queue.async {
+                                    if let strongSelf = self {
+                                        strongSelf.contexts[key]?.value = value
+                                        strongSelf.updateValues()
+                                    }
+                                }
+                            })
+                            strongSelf.contexts[key] = context
+                        }
+""",
+        """                        if strongSelf.contexts[key] == nil {
+                            strongSelf.addContext(for: key)
+                        }
+""",
+        "Create proxy checks through a reusable native context helper",
+    )
+    replace_once(
+        proxy_statuses,
+        """                    for key in removeKeys {
+                        let _ = strongSelf.contexts.removeValue(forKey: key)
+                    }
+""",
+        """                    for key in removeKeys {
+                        let _ = strongSelf.contexts.removeValue(forKey: key)
+                        strongSelf.contextIds.removeValue(forKey: key)
+                    }
+""",
+        "Invalidate deleted proxy check callbacks",
+    )
+    replace_once(
+        proxy_statuses,
+        """    deinit {
+        self.serversDisposable?.dispose()
+    }
+\x20\x20\x20\x20
+    private func updateValues() {
+""",
+        """    deinit {
+        self.serversDisposable?.dispose()
+    }
+
+    private func addContext(for server: ProxyServerSettings) {
+        assert(self.queue.isCurrent())
+        self.nextContextId &+= 1
+        let contextId = self.nextContextId
+        self.contextIds[server] = contextId
+        let queue = self.queue
+        let context = ProxyServerItemContext(queue: queue, context: self.context, datacenterId: self.datacenterId, server: server, updated: { [weak self] value in
+            queue.async {
+                if let strongSelf = self, strongSelf.contextIds[server] == contextId {
+                    strongSelf.contexts[server]?.value = value
+                    strongSelf.updateValues()
+                }
+            }
+        })
+        self.contexts[server] = context
+    }
+
+    func recheckAll(servers: [ProxyServerSettings]) {
+        assert(self.queue.isCurrent())
+        let servers = Array(Set(servers))
+        self.contexts.removeAll()
+        self.contextIds.removeAll()
+        self.currentValues = Dictionary(uniqueKeysWithValues: servers.map { ($0, ProxyServerStatus.checking) })
+        for server in servers {
+            self.addContext(for: server)
+        }
+    }
+
+    private func updateValues() {
+""",
+        "Add native batch proxy recheck implementation",
+    )
+    replace_once(
+        proxy_statuses,
+        """    public func statuses() -> Signal<[ProxyServerSettings: ProxyServerStatus], NoError> {
+""",
+        """    public func recheckAll(servers: [ProxyServerSettings]) {
+        self.impl.with { impl in
+            impl.recheckAll(servers: servers)
+        }
+    }
+
+    public func statuses() -> Signal<[ProxyServerSettings: ProxyServerStatus], NoError> {
+""",
+        "Expose native proxy batch recheck trigger",
+    )
+
     settings_build = source / "submodules" / "SettingsUI" / "BUILD"
     replace_once(
         settings_build,
@@ -517,7 +650,7 @@ public final class ItemListControllerTabBarItem: Equatable {
     replace_once(
         proxy_list,
         "import UrlEscaping\n",
-        "import UrlEscaping\nimport NagramiXCore\n",
+        "import UrlEscaping\nimport UndoUI\nimport NagramiXCore\n",
         "Proxy settings NagramiXCore import",
     )
     replace_between(
@@ -526,6 +659,21 @@ public final class ItemListControllerTabBarItem: Equatable {
         "private struct ProxySettingsControllerState: Equatable {",
         (overlay / "Sources" / "SettingsUI" / "ProxyListNagramiXBlock.swift.inc").read_text(encoding="utf-8"),
         "Proxy screen DNS and automatic failover controls",
+    )
+    replace_once(
+        proxy_list,
+        """private struct ProxySettingsControllerState: Equatable {
+    var editing: Bool = false
+    var revealedServer: ProxyServerSettings? = nil
+}
+""",
+        """private struct ProxySettingsControllerState: Equatable {
+    var editing: Bool = false
+    var revealedServer: ProxyServerSettings? = nil
+    var checkingAllProxies: Bool = false
+}
+""",
+        "Track the manual proxy batch check state",
     )
     replace_once(
         proxy_list,
@@ -550,6 +698,9 @@ public final class ItemListControllerTabBarItem: Equatable {
     var selectDnsImpl: (() -> Void)?
     var editCustomDohImpl: (() -> Void)?
     var selectTimeoutImpl: (() -> Void)?
+    var checkAllProxiesImpl: (() -> Void)?
+    let checkAllProxiesSettingsDisposable = MetaDisposable()
+    let checkAllProxiesStatusesDisposable = MetaDisposable()
 
     let arguments = ProxySettingsControllerArguments(toggleEnabled: { value in
 """,
@@ -569,6 +720,8 @@ public final class ItemListControllerTabBarItem: Equatable {
         updateNagramiXSettings { $0.proxyAutoSwitchEnabled = value }
     }, selectAutoSwitchTimeout: {
         selectTimeoutImpl?()
+    }, checkAllProxies: {
+        checkAllProxiesImpl?()
     }, addNewServer: {
 """,
         "Proxy settings DNS and Auto-Switch actions",
@@ -644,6 +797,88 @@ public final class ItemListControllerTabBarItem: Equatable {
     replace_once(
         proxy_list,
         """    let signal = combineLatest(updatedPresentationData, statePromise.get(), proxySettings.get(), statusesContext.statuses(), network.connectionStatus)
+""",
+        """    checkAllProxiesImpl = {
+        if stateValue.with({ $0.checkingAllProxies }) {
+            return
+        }
+        checkAllProxiesSettingsDisposable.set((proxySettings.get()
+        |> take(1)
+        |> deliverOnMainQueue).start(next: { settings in
+            var uniqueServers: [ProxyServerSettings] = []
+            var seenServers = Set<ProxyServerSettings>()
+            for server in settings.servers where seenServers.insert(server).inserted {
+                uniqueServers.append(server)
+            }
+            guard !uniqueServers.isEmpty else {
+                let presentationData = sharedContext.currentPresentationData.with { $0 }
+                presentControllerImpl?(UndoOverlayController(presentationData: presentationData, content: .info(title: nil, text: presentationData.strings.nagramiXProxyNoneToCheck, timeout: nil, customUndoText: nil), elevatedLayout: false, action: { _ in return false }))
+                return
+            }
+            updateState { state in
+                var state = state
+                state.checkingAllProxies = true
+                return state
+            }
+            Logger.shared.log("NagramiX", "Proxy batch check started: count=\\(uniqueServers.count)")
+            let targetServers = Set(uniqueServers)
+            var observedCheckingState = false
+            checkAllProxiesStatusesDisposable.set((combineLatest(statusesContext.statuses(), proxySettings.get())
+            |> deliverOnMainQueue).start(next: { [weak checkAllProxiesStatusesDisposable] statuses, currentSettings in
+                let currentServers = targetServers.intersection(Set(currentSettings.servers))
+                var resultStatuses: [ProxyServerStatus] = []
+                resultStatuses.reserveCapacity(currentServers.count)
+                for server in currentServers {
+                    guard let status = statuses[server] else {
+                        return
+                    }
+                    resultStatuses.append(status)
+                }
+                if resultStatuses.contains(where: { status in
+                    if case .checking = status {
+                        return true
+                    }
+                    return false
+                }) {
+                    observedCheckingState = true
+                    return
+                }
+                if currentServers.isEmpty {
+                    observedCheckingState = true
+                }
+                guard observedCheckingState else {
+                    return
+                }
+                var availableCount = 0
+                for status in resultStatuses {
+                    if case .available = status {
+                        availableCount += 1
+                    }
+                }
+                let totalCount = resultStatuses.count
+                let unavailableCount = totalCount - availableCount
+                checkAllProxiesStatusesDisposable?.set(nil)
+                updateState { state in
+                    var state = state
+                    state.checkingAllProxies = false
+                    return state
+                }
+                Logger.shared.log("NagramiX", "Proxy batch check completed: available=\\(availableCount) unavailable=\\(unavailableCount)")
+                let presentationData = sharedContext.currentPresentationData.with { $0 }
+                let text = presentationData.strings.nagramiXProxyCheckSummary(total: totalCount, available: availableCount, unavailable: unavailableCount)
+                presentControllerImpl?(UndoOverlayController(presentationData: presentationData, content: .succeed(text: text, timeout: nil, customUndoText: nil), elevatedLayout: false, action: { _ in return false }))
+            }))
+            statusesContext.recheckAll(servers: uniqueServers)
+        }))
+    }
+
+    let signal = combineLatest(updatedPresentationData, statePromise.get(), proxySettings.get(), statusesContext.statuses(), network.connectionStatus)
+""",
+        "Run all saved proxies through Telegram's native checker",
+    )
+    replace_once(
+        proxy_list,
+        """    let signal = combineLatest(updatedPresentationData, statePromise.get(), proxySettings.get(), statusesContext.statuses(), network.connectionStatus)
     |> map { presentationData, state, proxySettings, statuses, connectionStatus -> (ItemListControllerState, (ItemListNodeState, Any)) in
 """,
         """    let signal = combineLatest(updatedPresentationData, statePromise.get(), proxySettings.get(), statusesContext.statuses(), network.connectionStatus, nagramiXSettingsPromise.get())
@@ -671,6 +906,45 @@ public final class ItemListControllerTabBarItem: Equatable {
     }
 """,
         "Present Proxy selectors and Custom DoH editor",
+    )
+
+    proxy_action_item = source / "submodules" / "SettingsUI" / "Sources" / "Data and Storage" / "ProxySettingsActionItem.swift"
+    replace_once(
+        proxy_action_item,
+        "import PresentationDataUtils\n",
+        "import PresentationDataUtils\nimport AppBundle\n",
+        "Proxy batch action refresh icon dependency",
+    )
+    replace_once(
+        proxy_action_item,
+        """enum ProxySettingsActionIcon {
+    case none
+    case add
+}
+""",
+        """enum ProxySettingsActionIcon {
+    case none
+    case add
+    case refresh
+}
+""",
+        "Add the proxy batch refresh action icon",
+    )
+    replace_once(
+        proxy_action_item,
+        """            let icon = item.icon == .add ? PresentationResourcesItemList.plusIconImage(item.presentationData.theme) : nil
+""",
+        """            let icon: UIImage?
+            switch item.icon {
+            case .none:
+                icon = nil
+            case .add:
+                icon = PresentationResourcesItemList.plusIconImage(item.presentationData.theme)
+            case .refresh:
+                icon = generateTintedImage(image: UIImage(bundleImageName: "Settings/Refresh"), color: item.presentationData.theme.list.itemAccentColor)
+            }
+""",
+        "Render the themed proxy batch refresh icon",
     )
 
     telegram_ui_build = source / "submodules" / "TelegramUI" / "BUILD"
@@ -1316,158 +1590,81 @@ public final class ItemListControllerTabBarItem: Equatable {
     replace_once(
         video_message_camera,
         "import AccountContext\n",
-        "import AccountContext\nimport AVFoundation\nimport NagramiXCore\n",
+        "import AccountContext\nimport NagramiXCore\n",
         "Video message camera NagramiXCore import",
     )
     replace_once(
         video_message_camera,
         '            let isFrontPosition = "".isEmpty\n',
         """            let prefersRearCamera = NagramiXTabSettings.current.useRearCameraForVideoMessages
-            let hasRearCamera = AVCaptureDevice.default(.builtInWideAngleCamera, for: .video, position: .back) != nil
-            let isFrontPosition = !prefersRearCamera || !hasRearCamera
+            let isFrontPosition = !prefersRearCamera
+            Logger.shared.log("NagramiX", "Round video initial camera preference: rear=\\(prefersRearCamera), position=\\(isFrontPosition ? "front" : "back")")
 """,
         "Video messages start on the configured camera",
     )
 
-    camera_device = source / "submodules" / "Camera" / "Sources" / "CameraDevice.swift"
-    camera_device_text = camera_device.read_text(encoding="utf-8")
-    camera_device_text = camera_device_text.replace("    }\n    \n    func setZoomDelta", "    }\n\n    func setZoomDelta")
-    camera_device_text = camera_device_text.replace("    }\n    \n    func rampZoom", "    }\n\n    func rampZoom")
-    camera_device.write_text(camera_device_text, encoding="utf-8")
+    camera_output = source / "submodules" / "Camera" / "Sources" / "CameraOutput.swift"
     replace_once(
-        camera_device,
-        """    func setZoomLevel(_ zoomLevel: CGFloat) {
-        guard let device = self.videoDevice else {
-            return
-        }
-        self.transaction(device) { device in
-            let target = device.neutralZoomFactor + zoomLevel
-            device.videoZoomFactor = self.clampedZoomFactor(target, for: device)
-        }
-    }
+        camera_output,
+        """    private var currentPosition: Camera.Position = .front
+    private var lastSwitchTimestamp: Double = 0.0
+""",
+        """    private var currentPosition: Camera.Position = .front
+    private var lastSwitchTimestamp: Double = 0.0
 
-    func setZoomDelta(_ zoomDelta: CGFloat) {
-        guard let device = self.videoDevice else {
-            return
-        }
-        self.transaction(device) { device in
-            let target = device.videoZoomFactor * zoomDelta
-            device.videoZoomFactor = self.clampedZoomFactor(target, for: device)
-        }
-    }
-
-    func rampZoom(_ zoomLevel: CGFloat, rate: CGFloat) {
-        guard let device = self.videoDevice else {
-            return
-        }
-        self.transaction(device) { device in
-            let target = self.clampedZoomFactor(zoomLevel, for: device)
-            device.ramp(toVideoZoomFactor: target, withRate: Float(rate))
-        }
+    func setInitialPosition(_ position: Camera.Position) {
+        self.currentPosition = position
+        self.lastSwitchTimestamp = 0.0
     }
 """,
-        """    func setZoomLevel(_ zoomLevel: CGFloat) {
-        guard let device = self.videoDevice else {
-            return
-        }
-        self.transaction(device) { device in
-            let target = device.neutralZoomFactor + zoomLevel
-            device.videoZoomFactor = self.clampedZoomFactor(target, for: device)
-        }
-    }
-
-    func setZoomDelta(_ zoomDelta: CGFloat) {
-        guard let device = self.videoDevice else {
-            return
-        }
-        self.transaction(device) { device in
-            let target = device.videoZoomFactor * zoomDelta
-            device.videoZoomFactor = self.clampedZoomFactor(target, for: device)
-        }
-    }
-
-    func rampZoom(_ zoomLevel: CGFloat, rate: CGFloat) {
-        guard let device = self.videoDevice else {
-            return
-        }
-        self.transaction(device) { device in
-            let target = self.clampedZoomFactor(zoomLevel, for: device)
-            device.ramp(toVideoZoomFactor: target, withRate: Float(rate))
-        }
-    }
-
-    func rampZoomToNeutral(rate: CGFloat) {
-        guard let device = self.videoDevice else {
-            return
-        }
-        self.transaction(device) { device in
-            let target = self.clampedZoomFactor(device.neutralZoomFactor, for: device)
-            device.ramp(toVideoZoomFactor: target, withRate: Float(rate))
-        }
-    }
-""",
-        "Expose a smooth return to the virtual camera's neutral 1x factor",
+        "Allow the native round-video recorder to start from its configured position",
     )
 
     camera_context = source / "submodules" / "Camera" / "Sources" / "Camera.swift"
     replace_once(
         camera_context,
-        """    func takePhoto() -> Signal<PhotoCaptureResult, NoError> {
+        """            self.mainDeviceContext?.output.processCodes = { [weak self] codes in
+                self?.detectedCodesPipe.putNext(codes)
+            }
+        }
+        self.session.session.startRunning()
 """,
-        """    func rampZoomToNeutral(rate: CGFloat) {
+        """            self.mainDeviceContext?.output.processCodes = { [weak self] codes in
+                self?.detectedCodesPipe.putNext(codes)
+            }
+        }
+
         if self.initialConfiguration.isRoundVideo {
-            if self.positionValue == .front {
-                self.additionalDeviceContext?.device.rampZoomToNeutral(rate: rate)
+            if self.positionValue == .back && self.mainDeviceContext?.device.videoDevice == nil {
+                Logger.shared.log("NagramiX", "Round video rear camera unavailable; falling back to front")
+                if enabled {
+                    if self.additionalDeviceContext?.device.videoDevice != nil {
+                        self.positionValue = .front
+                        self._positionPromise.set(.front)
+                    }
+                } else if let mainDeviceContext = self.mainDeviceContext {
+                    self.configure {
+                        mainDeviceContext.invalidate(switchAudio: false)
+                        mainDeviceContext.configure(position: .front, previewView: self.simplePreviewView, audio: self.initialConfiguration.audio, photo: self.initialConfiguration.photo, metadata: self.initialConfiguration.metadata, preferWide: true, preferLowerFramerate: true, switchAudio: false)
+                    }
+                    if mainDeviceContext.device.videoDevice != nil {
+                        self.positionValue = .front
+                        self._positionPromise.set(.front)
+                    }
+                }
+            }
+
+            self.mainDeviceContext?.output.setInitialPosition(self.positionValue)
+            let activeDeviceContext = self.positionValue == .front && enabled ? self.additionalDeviceContext : self.mainDeviceContext
+            if let device = activeDeviceContext?.device.videoDevice {
+                Logger.shared.log("NagramiX", "Round video selected camera: id=\\(device.uniqueID), type=\\(device.deviceType.rawValue), position=\\(self.positionValue == .front ? "front" : "back")")
             } else {
-                self.mainDeviceContext?.device.rampZoomToNeutral(rate: rate)
-            }
-        } else {
-            self.mainDeviceContext?.device.rampZoomToNeutral(rate: rate)
-        }
-    }
-
-    func takePhoto() -> Signal<PhotoCaptureResult, NoError> {
-""",
-        "Route neutral zoom through the active round-video camera",
-    )
-    replace_once(
-        camera_context,
-        """    public func setTorchActive(_ active: Bool) {
-""",
-        """    public func rampZoomToNeutral(rate: CGFloat) {
-        self.queue.async {
-            if let context = self.contextRef?.takeUnretainedValue() {
-                context.rampZoomToNeutral(rate: rate)
+                Logger.shared.log("NagramiX", "Round video camera selection failed for position=\\(self.positionValue == .front ? "front" : "back")")
             }
         }
-    }
-
-    public func setTorchActive(_ active: Bool) {
+        self.session.session.startRunning()
 """,
-        "Expose smooth neutral zoom to the video-message UI",
-    )
-    replace_once(
-        video_message_camera,
-        """            case .ended, .cancelled:
-                camera.rampZoom(1.0, rate: 8.0)
-""",
-        """            case .ended, .cancelled:
-                camera.rampZoomToNeutral(rate: 4.0)
-""",
-        "Return smoothly to the system virtual camera's neutral 1x",
-    )
-    replace_once(
-        video_message_camera,
-        """            let isDualCameraEnabled = Camera.isDualCameraSupported(forRoundVideo: true)
-            let prefersRearCamera = NagramiXTabSettings.current.useRearCameraForVideoMessages
-""",
-        """            let prefersRearCamera = NagramiXTabSettings.current.useRearCameraForVideoMessages
-            // Rear-camera mode must create a rear-only capture session. A dual
-            // session always initializes the front stream as an additional
-            // source and can leak its first frames into the recorded result.
-            let isDualCameraEnabled = !prefersRearCamera && Camera.isDualCameraSupported(forRoundVideo: true)
-""",
-        "Create a rear-only round-video capture session",
+        "Initialize round-video output from the native camera position",
     )
 
     chat_list_entries = source / "submodules" / "ChatListUI" / "Sources" / "Node" / "ChatListNodeEntries.swift"
@@ -1527,22 +1724,6 @@ public final class ItemListControllerTabBarItem: Equatable {
     public func updateState(_ f: (ChatListNodeState) -> ChatListNodeState) {
 """,
         "Expose an immediate NagramiX chat-list refresh",
-    )
-
-    camera_source = source / "submodules" / "Camera" / "Sources" / "Camera.swift"
-    replace_once(
-        camera_source,
-        """        if self.initialConfiguration.isRoundVideo {
-            return mainDeviceContext.output.startRecording(mode: .roundVideo, orientation: DeviceModel.current.isIpad ? orientation : .portrait, additionalOutput: self.additionalDeviceContext?.output)
-""",
-        """        if self.initialConfiguration.isRoundVideo {
-            // In dual-camera mode CameraOutput defaults to the front stream.
-            // Synchronize it with the position shown in the preview before the
-            // recorder starts, so the sent round video uses the same camera.
-            mainDeviceContext.output.markPositionChange(position: self.positionValue)
-            return mainDeviceContext.output.startRecording(mode: .roundVideo, orientation: DeviceModel.current.isIpad ? orientation : .portrait, additionalOutput: self.additionalDeviceContext?.output)
-""",
-        "Record round video from the camera selected in the preview",
     )
 
     chat_list_controller = source / "submodules" / "ChatListUI" / "Sources" / "ChatListController.swift"
@@ -2639,9 +2820,12 @@ filegroup(
                     }
                     f(.dismissWithoutContent)
                 })))
-                actions.append(.action(ContextMenuActionItem(text: chatPresentationInterfaceState.strings.nagramiXForwardWithoutAuthor, icon: { theme in
-                    return generateTintedImage(image: UIImage(bundleImageName: "Chat/Context Menu/Forward"), color: theme.actionSheet.primaryTextColor)
-                }, action: { _, f in
+                let canForwardWithoutAuthor = message.id.peerId.namespace != Namespaces.Peer.SecretChat
+                    && !messagesToForward.contains(where: { $0.media.contains(where: { $0 is TelegramMediaPaidContent }) })
+                    && (context.isPremium || !messagesToForward.contains(where: { $0.richText != nil }))
+                actions.append(.action(ContextMenuActionItem(text: chatPresentationInterfaceState.strings.nagramiXForwardWithoutAuthor, textColor: canForwardWithoutAuthor ? .primary : .disabled, icon: { _ in
+                    return nil
+                }, iconAnimation: ContextMenuActionItem.IconAnimation(name: "message_preview_person_off"), action: !canForwardWithoutAuthor ? nil : { _, f in
                     if let forwardMessagesWithOptions = interfaceInteraction.forwardMessagesWithOptions {
                         forwardMessagesWithOptions(messagesToForward, ChatInterfaceForwardOptionsState(hideNames: true, hideCaptions: false, unhideNamesOnCaptionChange: false))
                     } else {
@@ -2651,6 +2835,22 @@ filegroup(
                 })))
 """,
         "Add explicit attributed and anonymous forwarding actions",
+    )
+
+    chat_controller_forward_messages = source / "submodules" / "TelegramUI" / "Sources" / "ChatControllerForwardMessages.swift"
+    replace_once(
+        chat_controller_forward_messages,
+        """                        var attributes: [EngineMessage.Attribute] = []
+                        attributes.append(ForwardOptionsMessageAttribute(hideNames: forwardOptions?.hideNames == true, hideCaptions: forwardOptions?.hideCaptions == true))
+""",
+        """                        // An explicit mode from the NagramiX context menu must survive the
+                        // destination picker. Standard Telegram forwarding passes nil here and keeps
+                        // using the options selected inside the picker.
+                        let effectiveForwardOptions = options ?? forwardOptions
+                        var attributes: [EngineMessage.Attribute] = []
+                        attributes.append(ForwardOptionsMessageAttribute(hideNames: effectiveForwardOptions?.hideNames == true, hideCaptions: effectiveForwardOptions?.hideCaptions == true))
+""",
+        "Preserve the selected NagramiX forward mode after destination selection",
     )
     replace_once(
         context_menus,
@@ -2796,4 +2996,301 @@ filegroup(
         "Confirm native outgoing calls before starting them",
     )
 
+    message_archive_overlay = overlay / "Sources" / "TelegramCore" / "NagramiXMessageArchive.swift"
+    message_archive_target = source / "submodules" / "TelegramCore" / "Sources" / "Utils" / message_archive_overlay.name
+    shutil.copy2(message_archive_overlay, message_archive_target)
+
+    replace_unique(
+        account_source,
+        """    public let supplementary: Bool
+    public let isSupportUser: Bool
+    public let postbox: Postbox
+    public let network: Network
+""",
+        """    public let supplementary: Bool
+    public let isSupportUser: Bool
+    public let postbox: Postbox
+    public let nagramiXMessageArchive: NagramiXMessageArchive
+    public let network: Network
+""",
+        "Account-owned NagramiX message archive",
+    )
+    replace_unique(
+        account_source,
+        """        self.networkArguments = networkArguments
+        self.peerId = peerId
+""" + "        \n" + """        self.auxiliaryMethods = auxiliaryMethods
+""",
+        """        self.networkArguments = networkArguments
+        self.peerId = peerId
+        self.nagramiXMessageArchive = NagramiXMessageArchive(postbox: postbox, accountPeerId: peerId, basePath: basePath)
+""" + "        \n" + """        self.auxiliaryMethods = auxiliaryMethods
+""",
+        "Initialize the per-account local message archive",
+    )
+
+    state_management = source / "submodules" / "TelegramCore" / "Sources" / "State" / "AccountStateManagementUtils.swift"
+    replace_unique(
+        state_management,
+        """                let _ = transaction.addMessages(messages, location: location)
+                if case .UpperHistoryBlock = location {
+""",
+        """                let _ = transaction.addMessages(messages, location: location)
+                if let messageArchive = NagramiXMessageArchive.forPostbox(postbox) {
+                    for message in messages {
+                        var archivePeers: [PeerId: Peer] = [:]
+                        var archivePeerIds = Set<PeerId>([message.id.peerId])
+                        if let authorId = message.authorId {
+                            archivePeerIds.insert(authorId)
+                        }
+                        for media in message.media {
+                            archivePeerIds.formUnion(media.peerIds)
+                        }
+                        for peerId in archivePeerIds {
+                            if let peer = transaction.getPeer(peerId) {
+                                archivePeers[peerId] = peer
+                            }
+                        }
+                        messageArchive.captureIncoming(message, peers: archivePeers)
+                    }
+                }
+                if case .UpperHistoryBlock = location {
+""",
+        "Capture incoming messages after native Postbox insertion",
+    )
+    replace_unique(
+        state_management,
+        """                    let peers: [PeerId:Peer] = previousMessage.peers.reduce([:], { current, value in
+                        var current = current
+                        current[value.0] = value.1
+                        return current
+                    })
+""" + "                    \n" + """                    if previousMessage.text == message.text {
+""",
+        """                    let peers: [PeerId:Peer] = previousMessage.peers.reduce([:], { current, value in
+                        var current = current
+                        current[value.0] = value.1
+                        return current
+                    })
+                    NagramiXMessageArchive.forPostbox(postbox)?.recordIncomingEdit(previousMessage: previousMessage, replacementMessage: message, peers: peers, receivedAt: Int32(CFAbsoluteTimeGetCurrent() + kCFAbsoluteTimeIntervalSince1970))
+""" + "                    \n" + """                    if previousMessage.text == message.text {
+""",
+        "Store the previous received content before applying an edit",
+    )
+    replace_unique(
+        state_management,
+        """            case let .DeleteMessagesWithGlobalIds(ids):
+                var resourceIds: [MediaResourceId] = []
+""",
+        """            case let .DeleteMessagesWithGlobalIds(ids):
+                NagramiXMessageArchive.forPostbox(postbox)?.archiveServerDeletion(globalIds: ids, deletedAt: Int32(CFAbsoluteTimeGetCurrent() + kCFAbsoluteTimeIntervalSince1970))
+                var resourceIds: [MediaResourceId] = []
+""",
+        "Archive non-channel server deletions before native removal",
+    )
+    replace_unique(
+        state_management,
+        """            case let .DeleteMessages(ids):
+                _internal_deleteMessages(transaction: transaction, mediaBox: mediaBox, ids: ids, manualAddMessageThreadStatsDifference: { id, add, remove in
+""",
+        """            case let .DeleteMessages(ids):
+                NagramiXMessageArchive.forPostbox(postbox)?.archiveServerDeletion(messageIds: ids, deletedAt: Int32(CFAbsoluteTimeGetCurrent() + kCFAbsoluteTimeIntervalSince1970))
+                _internal_deleteMessages(transaction: transaction, mediaBox: mediaBox, ids: ids, manualAddMessageThreadStatsDifference: { id, add, remove in
+""",
+        "Archive channel server deletions before native removal",
+    )
+
+    interactive_delete = source / "submodules" / "TelegramCore" / "Sources" / "TelegramEngine" / "Messages" / "DeleteMessagesInteractively.swift"
+    replace_unique(
+        interactive_delete,
+        """    _internal_deleteMessages(transaction: transaction, mediaBox: postbox.mediaBox, ids: messageIds.map(\\.messageId))
+""",
+        """    NagramiXMessageArchive.forPostbox(postbox)?.removeLocal(messageIds: messageIds.map(\\.messageId))
+    _internal_deleteMessages(transaction: transaction, mediaBox: postbox.mediaBox, ids: messageIds.map(\\.messageId))
+""",
+        "Respect explicit local deletion of every expanded message/group id",
+    )
+    replace_unique(
+        interactive_delete,
+        """func _internal_clearHistoryInRangeInteractively(postbox: Postbox, peerId: PeerId, threadId: Int64?, minTimestamp: Int32, maxTimestamp: Int32, type: InteractiveHistoryClearingType) -> Signal<Void, NoError> {
+    return postbox.transaction { transaction -> Void in
+""",
+        """func _internal_clearHistoryInRangeInteractively(postbox: Postbox, peerId: PeerId, threadId: Int64?, minTimestamp: Int32, maxTimestamp: Int32, type: InteractiveHistoryClearingType) -> Signal<Void, NoError> {
+    NagramiXMessageArchive.forPostbox(postbox)?.clear(peerId: peerId)
+    return postbox.transaction { transaction -> Void in
+""",
+        "Clear the local archive with an interactive range clear",
+    )
+    replace_unique(
+        interactive_delete,
+        """func _internal_clearHistoryInteractively(postbox: Postbox, peerId: PeerId, threadId: Int64?, type: InteractiveHistoryClearingType) -> Signal<Void, NoError> {
+    return postbox.transaction { transaction -> Void in
+""",
+        """func _internal_clearHistoryInteractively(postbox: Postbox, peerId: PeerId, threadId: Int64?, type: InteractiveHistoryClearingType) -> Signal<Void, NoError> {
+    NagramiXMessageArchive.forPostbox(postbox)?.clear(peerId: peerId)
+    return postbox.transaction { transaction -> Void in
+""",
+        "Clear the local archive with an interactive history clear",
+    )
+
+    chat_history_list = source / "submodules" / "TelegramUI" / "Sources" / "ChatHistoryListNode.swift"
+    replace_unique(
+        chat_history_list,
+        """        let previousView = self.previousView
+        let automaticDownloadNetworkType = context.account.networkType
+""",
+        """        historyViewUpdate = combineLatest(historyViewUpdate, context.account.nagramiXMessageArchive.updates)
+        |> map { update, _ in
+            return update
+        }
+
+        let previousView = self.previousView
+        let automaticDownloadNetworkType = context.account.networkType
+""",
+        "Refresh an open chat when its local archive changes",
+    )
+
+    chat_history_entries = source / "submodules" / "TelegramUI" / "Sources" / "ChatHistoryEntriesForView.swift"
+    replace_unique(
+        chat_history_entries,
+        """    var count = 0
+    loop: for entry in view.entries {
+""",
+        """    var sourceEntries = view.entries
+    if let peerId = location.peerId {
+        let existingIds = Set(sourceEntries.map { $0.message.id })
+        let firstIndex = sourceEntries.first?.message.index
+        let lastIndex = sourceEntries.last?.message.index
+        let archivedMessages = context.account.nagramiXMessageArchive.deletedMessages(
+            peerId: peerId,
+            threadId: location.threadId,
+            minIndex: view.earlierId == nil ? nil : firstIndex,
+            maxIndex: view.laterId == nil ? nil : lastIndex
+        )
+        for message in archivedMessages where !existingIds.contains(message.id) {
+            let withinEarlierBoundary = firstIndex.map { message.index >= $0 || view.earlierId == nil } ?? true
+            let withinLaterBoundary = lastIndex.map { message.index <= $0 || view.laterId == nil } ?? true
+            if withinEarlierBoundary && withinLaterBoundary {
+                sourceEntries.append(MessageHistoryEntry(message: message, isRead: true, location: nil, monthLocation: nil, attributes: MutableMessageHistoryEntryAttributes(authorIsContact: false)))
+            }
+        }
+        sourceEntries.sort(by: { $0.message.index < $1.message.index })
+    }
+
+    var count = 0
+    loop: for entry in sourceEntries {
+""",
+        "Inject display-only deleted snapshots into the open history range",
+    )
+
+    text_bubble = source / "submodules" / "TelegramUI" / "Components" / "Chat" / "ChatMessageTextBubbleContentNode" / "Sources" / "ChatMessageTextBubbleContentNode.swift"
+    replace_unique(
+        text_bubble,
+        "import TelegramCore\n",
+        "import TelegramCore\nimport NagramiXCore\n",
+        "Deleted-message marker localization import",
+    )
+    replace_unique(
+        text_bubble,
+        """                var customTruncationToken: ((UIFont, Bool) -> NSAttributedString?)?
+""",
+        """                if item.message.attributes.contains(where: { $0 is NagramiXArchivedMessageAttribute }) {
+                    let markedText = NSMutableAttributedString(attributedString: attributedText)
+                    markedText.append(NSAttributedString(string: "\\n"))
+                    if let image = generateTintedImage(image: UIImage(bundleImageName: "Chat/Context Menu/Delete"), color: messageTheme.accentTextColor) {
+                        let attachment = NSTextAttachment()
+                        attachment.image = image
+                        attachment.bounds = CGRect(x: 0.0, y: -2.0, width: 13.0, height: 13.0)
+                        markedText.append(NSAttributedString(attachment: attachment))
+                        markedText.append(NSAttributedString(string: " "))
+                    }
+                    markedText.append(NSAttributedString(string: item.presentationData.strings.nagramiXDeleted, font: Font.semibold(12.0), textColor: messageTheme.accentTextColor))
+                    attributedText = markedText
+                }
+
+                var customTruncationToken: ((UIFont, Bool) -> NSAttributedString?)?
+""",
+        "Render a tinted trash icon and Deleted label in archived bubbles",
+    )
+
+    context_menus = source / "submodules" / "TelegramUI" / "Sources" / "ChatInterfaceStateContextMenus.swift"
+    replace_unique(
+        context_menus,
+        "import NagramiXCore\n",
+        "import NagramiXCore\nimport AlertUI\nimport TextFormat\n",
+        "Edit-history alert imports",
+    )
+    replace_unique(
+        context_menus,
+        """        return ContextController.Items(content: .list(actions), tip: nil)
+""",
+        """        let currentEntities = message.textEntitiesAttribute?.entities ?? []
+        let archivedAttribute = message.attributes.first(where: { $0 is NagramiXArchivedMessageAttribute }) as? NagramiXArchivedMessageAttribute
+        let editHistory = context.account.nagramiXMessageArchive.revisions(messageId: message.id, currentText: message.text, currentEntities: currentEntities)
+        let editHistoryAction: ContextMenuItem?
+        if !editHistory.isEmpty {
+            editHistoryAction = .action(ContextMenuActionItem(text: chatPresentationInterfaceState.strings.nagramiXEditHistory, icon: { theme in
+                return generateTintedImage(image: UIImage(bundleImageName: "Chat/Context Menu/Edit"), color: theme.actionSheet.primaryTextColor)
+            }, action: { c, _ in
+                c?.dismiss(completion: {
+                    let presentationData = context.sharedContext.currentPresentationData.with { $0 }
+                    let title = NSAttributedString(string: presentationData.strings.nagramiXEditHistory, font: Font.semibold(presentationData.listsFontSize.baseDisplaySize), textColor: presentationData.theme.actionSheet.primaryTextColor, paragraphAlignment: .center)
+                    let body = NSMutableAttributedString()
+                    let formatter = DateFormatter()
+                    formatter.locale = Locale.current
+                    formatter.dateStyle = .short
+                    formatter.timeStyle = .short
+                    for i in 0 ..< editHistory.count {
+                        if i != 0 {
+                            body.append(NSAttributedString(string: "\\n\\n"))
+                        }
+                        let date = formatter.string(from: Date(timeIntervalSince1970: TimeInterval(editHistory[i].timestamp)))
+                        let label = i == 0 ? presentationData.strings.nagramiXOriginalVersion + " · " + date : (i == editHistory.count - 1 ? presentationData.strings.nagramiXCurrentVersion + " · " + date : date)
+                        body.append(NSAttributedString(string: label + "\\n", font: Font.semibold(13.0), textColor: presentationData.theme.actionSheet.controlAccentColor))
+                        body.append(stringWithAppliedEntities(editHistory[i].text, entities: editHistory[i].entities, baseColor: presentationData.theme.actionSheet.primaryTextColor, linkColor: presentationData.theme.actionSheet.controlAccentColor, baseFont: Font.regular(15.0), linkFont: Font.regular(15.0), boldFont: Font.semibold(15.0), italicFont: Font.italic(15.0), boldItalicFont: Font.semiboldItalic(15.0), fixedFont: Font.monospace(15.0), blockQuoteFont: Font.regular(15.0), message: nil))
+                    }
+                    controllerInteraction.presentController(richTextAlertController(context: context, title: title, text: body, actions: [TextAlertAction(type: .defaultAction, title: presentationData.strings.Common_OK, action: {})]), nil)
+                })
+            }))
+            if let editHistoryAction {
+                actions.append(editHistoryAction)
+            }
+        } else {
+            editHistoryAction = nil
+        }
+        if archivedAttribute != nil {
+            actions.removeAll()
+            if !message.text.isEmpty {
+                actions.append(.action(ContextMenuActionItem(text: chatPresentationInterfaceState.strings.Conversation_ContextMenuCopy, icon: { theme in
+                    return generateTintedImage(image: UIImage(bundleImageName: "Chat/Context Menu/Copy"), color: theme.actionSheet.primaryTextColor)
+                }, action: { _, f in
+                    storeMessageTextInPasteboard(message.text, entities: currentEntities)
+                    f(.default)
+                })))
+            }
+            if let editHistoryAction {
+                actions.append(editHistoryAction)
+            }
+            actions.append(.separator)
+            actions.append(.action(ContextMenuActionItem(text: chatPresentationInterfaceState.strings.Conversation_ContextMenuDelete, textColor: .destructive, icon: { theme in
+                return generateTintedImage(image: UIImage(bundleImageName: "Chat/Context Menu/Delete"), color: theme.actionSheet.destructiveActionTextColor)
+            }, action: { _, f in
+                context.account.nagramiXMessageArchive.removeLocal(messageIds: [message.id])
+                f(.dismissWithoutContent)
+            })))
+        }
+        return ContextController.Items(content: .list(actions), tip: nil)
+""",
+        "Expose edit history and restrict archived messages to local-safe actions",
+    )
+
     print("Applied isolated NagramiX next-version feature overlay")
+
+
+if __name__ == "__main__":
+    import argparse
+
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--telegram-dir", required=True, type=Path, help="Path to a clean Telegram-iOS 12.9.2 checkout")
+    arguments = parser.parse_args()
+    apply_features(arguments.telegram_dir.resolve())
