@@ -118,7 +118,7 @@ public final class NagramiXMessageArchive {
         self.path = basePath + "/nagramix-message-archive.json"
         self.queue = Queue(name: "org.nagramix.message-archive", qos: .utility)
 
-        Self.registry.modify { value in
+        _ = Self.registry.modify { value in
             var value = value
             value[ObjectIdentifier(postbox)] = NagramiXWeakMessageArchive(self)
             return value
@@ -145,7 +145,7 @@ public final class NagramiXMessageArchive {
         if let settingsObserver = self.settingsObserver {
             NotificationCenter.default.removeObserver(settingsObserver)
         }
-        Self.registry.modify { value in
+        _ = Self.registry.modify { value in
             var value = value
             value.removeValue(forKey: ObjectIdentifier(self.postbox))
             return value
