@@ -548,6 +548,7 @@ public final class ItemListControllerTabBarItem: Equatable {
                 }
             }, error: { _ in
                 subscriber.putNext(.notAvailable)
+            }, completed: {
             })
 """,
         "Treat offline and DNS proxy-check failures as unavailable results",
