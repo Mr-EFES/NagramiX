@@ -3032,7 +3032,7 @@ extension ChatControllerImpl {
                             var copiedGroupingKeys: [Int64: Int64] = [:]
                             for message in messages {
                                 var attributes: [EngineMessage.Attribute] = []
-                                var inlineStickers: [MediaId: Media] = [:]
+                                var inlineStickers: [EngineMedia.Id: EngineRawMedia] = [:]
                                 if let entities = message.attributes.first(where: { $0 is TextEntitiesMessageAttribute }) as? TextEntitiesMessageAttribute {
                                     attributes.append(TextEntitiesMessageAttribute(entities: entities.entities))
                                     for mediaId in entities.associatedMediaIds {
