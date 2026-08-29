@@ -24,7 +24,7 @@ private struct NagramiXSettingsControllerArguments {
     let updateEnableStoryRepost: (Bool) -> Void
     let updateShowProfileIds: (Bool) -> Void
     let updateShowRegistrationDate: (Bool) -> Void
-    let updateShowChatCreationDate: (Bool) -> Void
+    let updateShowMutualContactIcon: (Bool) -> Void
     let updateConfirmOutgoingCalls: (Bool) -> Void
     let updateForceTcpCalls: (Bool) -> Void
     let updateShowDeletedMessages: (Bool) -> Void
@@ -66,7 +66,7 @@ private enum NagramiXSettingsEntry: ItemListNodeEntry {
     case profilesHeader
     case showProfileIds(Bool)
     case showRegistrationDate(Bool)
-    case showChatCreationDate(Bool)
+    case showMutualContactIcon(Bool)
     case callsHeader
     case confirmOutgoingCalls(Bool)
     case forceTcpCalls(Bool)
@@ -83,7 +83,7 @@ private enum NagramiXSettingsEntry: ItemListNodeEntry {
     var category: NagramiXSettingsCategory {
         switch self {
         case .tabsHeader, .hideContacts, .hideCalls, .showSearchButton, .showProxyButton, .hideProxySponsorChannel,
-                .interfaceStoriesHeader, .hideStories, .profilesHeader, .showProfileIds, .showRegistrationDate, .showChatCreationDate:
+                .interfaceStoriesHeader, .hideStories, .profilesHeader, .showProfileIds, .showRegistrationDate, .showMutualContactIcon:
             return .interface
         case .videoMessagesHeader, .useRearCameraForVideoMessages, .featureStoriesHeader, .disableStoryCameraSwipe,
                 .confirmStoryViewing, .enableStoryRepost, .callsHeader, .confirmOutgoingCalls, .forceTcpCalls, .forceTcpCallsInfo:
@@ -103,7 +103,7 @@ private enum NagramiXSettingsEntry: ItemListNodeEntry {
             return NagramiXSettingsSection.videoMessages.rawValue
         case .interfaceStoriesHeader, .featureStoriesHeader, .hideStories, .disableStoryCameraSwipe, .confirmStoryViewing, .enableStoryRepost:
             return NagramiXSettingsSection.stories.rawValue
-        case .profilesHeader, .showProfileIds, .showRegistrationDate, .showChatCreationDate:
+        case .profilesHeader, .showProfileIds, .showRegistrationDate, .showMutualContactIcon:
             return NagramiXSettingsSection.profiles.rawValue
         case .callsHeader, .confirmOutgoingCalls, .forceTcpCalls, .forceTcpCallsInfo:
             return NagramiXSettingsSection.calls.rawValue
@@ -133,7 +133,7 @@ private enum NagramiXSettingsEntry: ItemListNodeEntry {
         case .profilesHeader: return 30
         case .showProfileIds: return 31
         case .showRegistrationDate: return 32
-        case .showChatCreationDate: return 33
+        case .showMutualContactIcon: return 33
         case .messagesHeader: return 34
         case .showDeletedMessages: return 35
         case .showDeletedMessagesInfo: return 36
@@ -188,8 +188,8 @@ private enum NagramiXSettingsEntry: ItemListNodeEntry {
             return ItemListSwitchItem(presentationData: presentationData, systemStyle: .glass, title: presentationData.strings.nagramiXShowProfileIds, value: value, sectionId: self.section, style: .blocks, updated: arguments.updateShowProfileIds)
         case let .showRegistrationDate(value):
             return ItemListSwitchItem(presentationData: presentationData, systemStyle: .glass, title: presentationData.strings.nagramiXShowRegistrationDate, value: value, sectionId: self.section, style: .blocks, updated: arguments.updateShowRegistrationDate)
-        case let .showChatCreationDate(value):
-            return ItemListSwitchItem(presentationData: presentationData, systemStyle: .glass, title: presentationData.strings.nagramiXShowChatCreationDate, value: value, sectionId: self.section, style: .blocks, updated: arguments.updateShowChatCreationDate)
+        case let .showMutualContactIcon(value):
+            return ItemListSwitchItem(presentationData: presentationData, systemStyle: .glass, title: presentationData.strings.nagramiXShowMutualContactIcon, value: value, sectionId: self.section, style: .blocks, updated: arguments.updateShowMutualContactIcon)
         case .callsHeader:
             return ItemListSectionHeaderItem(presentationData: presentationData, text: presentationData.strings.nagramiXCallsHeader, sectionId: self.section)
         case let .confirmOutgoingCalls(value):
@@ -229,7 +229,7 @@ private func nagramiXSettingsEntries(settings: NagramiXTabSettings, category: Na
         .confirmStoryViewing(settings.confirmStoryViewing), .enableStoryRepost(settings.enableStoryRepost),
         .profilesHeader, .showProfileIds(settings.showProfileIds),
         .showRegistrationDate(settings.showRegistrationDate),
-        .showChatCreationDate(settings.showChatCreationDate),
+        .showMutualContactIcon(settings.showMutualContactIcon),
         .messagesHeader, .showDeletedMessages(settings.showDeletedMessages), .showDeletedMessagesInfo,
         .messageEditHistory(settings.messageEditHistory), .messageEditHistoryInfo,
         .clearMessageArchive, .messageArchiveInfo,
@@ -265,7 +265,7 @@ public func nagramiXSettingsController(context: AccountContext) -> ViewControlle
         updateEnableStoryRepost: { value in update { $0.enableStoryRepost = value } },
         updateShowProfileIds: { value in update { $0.showProfileIds = value } },
         updateShowRegistrationDate: { value in update { $0.showRegistrationDate = value } },
-        updateShowChatCreationDate: { value in update { $0.showChatCreationDate = value } },
+        updateShowMutualContactIcon: { value in update { $0.showMutualContactIcon = value } },
         updateConfirmOutgoingCalls: { value in update { $0.confirmOutgoingCalls = value } },
         updateForceTcpCalls: { value in update { $0.forceTcpCalls = value } },
         updateShowDeletedMessages: { value in update { $0.showDeletedMessages = value } },

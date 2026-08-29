@@ -97,8 +97,8 @@ public let defaultPresentationStrings = PresentationStrings(primaryComponent:"""
     replace_once(
         presentation_theme_settings,
         "PresentationThemeSettings(theme: .builtin(.dayClassic), themePreferredBaseTheme:",
-        "PresentationThemeSettings(theme: .builtin(.night), themePreferredBaseTheme:",
-        "Use Telegram's standard dark theme on a clean install",
+        "PresentationThemeSettings(theme: .builtin(.nightAccent), themePreferredBaseTheme:",
+        "Use Telegram's standard dark-blue theme on a clean install",
     )
 
     presentation_data = source / "submodules" / "TelegramPresentationData" / "Sources" / "PresentationData.swift"
@@ -134,34 +134,9 @@ private func currentDateTimeFormat()""",
     presentation_data.write_text(presentation_data_text, encoding="utf-8")
     replace_once(
         presentation_data,
-        """        var effectiveChatWallpaper: TelegramWallpaper = (themeSettings.themeSpecificChatWallpapers[coloredThemeIndex(reference: effectiveTheme, accentColor: effectiveColors)] ?? themeSettings.themeSpecificChatWallpapers[effectiveTheme.index]) ?? theme.chat.defaultWallpaper
-        if case .builtin = effectiveChatWallpaper {
-""",
-        """        var effectiveChatWallpaper: TelegramWallpaper = (themeSettings.themeSpecificChatWallpapers[coloredThemeIndex(reference: effectiveTheme, accentColor: effectiveColors)] ?? themeSettings.themeSpecificChatWallpapers[effectiveTheme.index]) ?? theme.chat.defaultWallpaper
-        if themeSettings.theme == .builtin(.night) && themeSettings.themeSpecificChatWallpapers.isEmpty {
-            effectiveChatWallpaper = defaultBuiltinWallpaper(data: .variant8, colors: [0x10b997, 0x785cff, 0xf09a35, 0x5dcc47], intensity: -75)
-        }
-        if case .builtin = effectiveChatWallpaper {
-""",
-        "Apply the built-in gaming wallpaper only to a clean profile",
-    )
-    replace_once(
-        presentation_data,
-        """        let currentWallpaper: TelegramWallpaper
-        if let themeSpecificWallpaper = themeSpecificWallpaper {
-""",
-        """        var currentWallpaper: TelegramWallpaper
-        if themeSettings.theme == .builtin(.night) && themeSettings.themeSpecificChatWallpapers.isEmpty {
-            currentWallpaper = defaultBuiltinWallpaper(data: .variant8, colors: [0x10b997, 0x785cff, 0xf09a35, 0x5dcc47], intensity: -75)
-        } else if let themeSpecificWallpaper = themeSpecificWallpaper {
-""",
-        "Keep the gaming wallpaper active until the user selects an appearance",
-    )
-    replace_once(
-        presentation_data,
         """    return PresentationData(strings: defaultPresentationStrings, theme: defaultPresentationTheme, autoNightModeTriggered: false, chatWallpaper: defaultPresentationTheme.chat.defaultWallpaper,""",
-        """    return PresentationData(strings: defaultPresentationStrings, theme: defaultDarkPresentationTheme, autoNightModeTriggered: false, chatWallpaper: defaultBuiltinWallpaper(data: .variant8, colors: [0x10b997, 0x785cff, 0xf09a35, 0x5dcc47], intensity: -75),""",
-        "Use dark gaming presentation data before account settings load",
+        """    return PresentationData(strings: defaultPresentationStrings, theme: defaultDarkTintedPresentationTheme, autoNightModeTriggered: false, chatWallpaper: defaultDarkTintedPresentationTheme.chat.defaultWallpaper,""",
+        "Use Telegram's dark-blue presentation before account settings load",
     )
 
     core_source = overlay / "Sources" / "NagramiXCore"
@@ -375,6 +350,43 @@ public final class ItemListControllerTabBarItem: Equatable {
         "                layout: .fit\n",
         "                layout: self.fillsAvailableWidth ? .equal : .fit\n",
         "Use equal-width NagramiX settings category sections",
+    )
+    replace_once(
+        segmented_title_view,
+        """        self.addSubview(self.backgroundContainer)
+        self.backgroundContainer.contentView.addSubview(self.backgroundView)
+""",
+        """        self.addSubview(self.backgroundContainer)
+        self.backgroundContainer.contentView.addSubview(self.backgroundView)
+
+        if self.fillsAvailableWidth {
+            self.setContentHuggingPriority(.defaultLow, for: .horizontal)
+            self.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
+        }
+""",
+        "Let the equal-width category control occupy all available navigation width",
+    )
+    replace_once(
+        segmented_title_view,
+        """    override public func layoutSubviews() {
+""",
+        """    override public var intrinsicContentSize: CGSize {
+        if self.fillsAvailableWidth {
+            return CGSize(width: UIView.noIntrinsicMetric, height: 44.0)
+        }
+        return super.intrinsicContentSize
+    }
+
+    override public func sizeThatFits(_ size: CGSize) -> CGSize {
+        if self.fillsAvailableWidth {
+            return CGSize(width: size.width, height: 44.0)
+        }
+        return super.sizeThatFits(size)
+    }
+
+    override public func layoutSubviews() {
+""",
+        "Make the category title adaptive instead of sizing it from localized text",
     )
 
     horizontal_tabs = source / "submodules" / "TelegramUI" / "Components" / "HorizontalTabsComponent" / "Sources" / "HorizontalTabsComponent.swift"
@@ -983,7 +995,7 @@ public final class ItemListControllerTabBarItem: Equatable {
     replace_once(
         story_container_build,
         '        "//submodules/AccountContext",\n',
-        '        "//submodules/AccountContext",\n        "//submodules/NagramiXCore:NagramiXCore",\n',
+        '        "//submodules/AccountContext",\n        "//submodules/NagramiXCore:NagramiXCore",\n        "//submodules/PhotoResources",\n',
         "StoryContainerScreen NagramiXCore dependency",
     )
 
@@ -1940,8 +1952,102 @@ public final class ItemListControllerTabBarItem: Equatable {
     replace_once(
         story_container_screen,
         "import TelegramCore\n",
-        "import TelegramCore\nimport TelegramPresentationData\nimport NagramiXCore\n",
+        "import TelegramCore\nimport TelegramPresentationData\nimport PhotoResources\nimport NagramiXCore\n",
         "Story viewer NagramiX imports",
+    )
+    replace_once(
+        story_container_screen,
+        "public class StoryContainerScreen: ViewControllerComponentContainer, KeyShortcutResponder {\n",
+        """private final class NagramiXStoryConfirmationController: ViewController {
+    private let previewSignal: Signal<(TransformImageArguments) -> DrawingContext?, NoError>?
+    private let confirmed: () -> Void
+    private let cancelled: () -> Void
+    private var previewDisposable: Disposable?
+    private var finished = false
+    private let imageView = UIImageView()
+    private let dimView = UIView()
+    private let titleLabel = UILabel()
+    private let bodyLabel = UILabel()
+    private let closeButton = UIButton(type: .system)
+    private let actionButton = UIButton(type: .system)
+
+    init(previewSignal: Signal<(TransformImageArguments) -> DrawingContext?, NoError>?, title: String, body: String, action: String, confirmed: @escaping () -> Void, cancelled: @escaping () -> Void) {
+        self.previewSignal = previewSignal
+        self.confirmed = confirmed
+        self.cancelled = cancelled
+        super.init(navigationBarPresentationData: nil)
+        self.navigationPresentation = .flatModal
+        self.statusBar.statusBarStyle = .White
+        self.titleLabel.text = title
+        self.bodyLabel.text = body
+        self.actionButton.setTitle(action, for: .normal)
+    }
+
+    required init(coder: NSCoder) { fatalError("init(coder:) has not been implemented") }
+    deinit { self.previewDisposable?.dispose() }
+
+    override func loadDisplayNode() {
+        self.displayNode = ASDisplayNode()
+        self.displayNode.backgroundColor = .black
+        self.displayNodeDidLoad()
+        self.imageView.contentMode = .scaleAspectFill
+        self.imageView.clipsToBounds = true
+        self.dimView.backgroundColor = UIColor(white: 0.0, alpha: 0.48)
+        self.titleLabel.textColor = .white
+        self.titleLabel.font = UIFont.systemFont(ofSize: 28.0, weight: .bold)
+        self.titleLabel.textAlignment = .center
+        self.bodyLabel.textColor = UIColor(white: 1.0, alpha: 0.84)
+        self.bodyLabel.font = UIFont.systemFont(ofSize: 17.0)
+        self.bodyLabel.textAlignment = .center
+        self.bodyLabel.numberOfLines = 0
+        self.closeButton.setTitle("×", for: .normal)
+        self.closeButton.setTitleColor(.white, for: .normal)
+        self.closeButton.titleLabel?.font = UIFont.systemFont(ofSize: 36.0)
+        self.closeButton.addTarget(self, action: #selector(self.closePressed), for: .touchUpInside)
+        self.actionButton.setTitleColor(.white, for: .normal)
+        self.actionButton.titleLabel?.font = UIFont.systemFont(ofSize: 17.0, weight: .semibold)
+        self.actionButton.backgroundColor = UIColor(rgb: 0x2f80ed)
+        self.actionButton.layer.cornerRadius = 14.0
+        self.actionButton.addTarget(self, action: #selector(self.confirmPressed), for: .touchUpInside)
+        [self.imageView, self.dimView, self.titleLabel, self.bodyLabel, self.closeButton, self.actionButton].forEach { self.displayNode.view.addSubview($0) }
+        if let previewSignal = self.previewSignal {
+            self.previewDisposable = (previewSignal |> deliverOnMainQueue).start(next: { [weak self] process in
+                let size = CGSize(width: 1080.0, height: 1920.0)
+                self?.imageView.image = process(TransformImageArguments(corners: ImageCorners(), imageSize: size, boundingSize: size, intrinsicInsets: UIEdgeInsets()))?.generateImage()
+            })
+        }
+    }
+
+    override func containerLayoutUpdated(_ layout: ContainerViewLayout, transition: ContainedViewLayoutTransition) {
+        super.containerLayoutUpdated(layout, transition: transition)
+        let bounds = CGRect(origin: .zero, size: layout.size)
+        transition.updateFrame(view: self.imageView, frame: bounds)
+        transition.updateFrame(view: self.dimView, frame: bounds)
+        let inset: CGFloat = 28.0
+        transition.updateFrame(view: self.closeButton, frame: CGRect(x: layout.size.width - 60.0, y: layout.safeInsets.top + 8.0, width: 44.0, height: 44.0))
+        let titleSize = self.titleLabel.sizeThatFits(CGSize(width: layout.size.width - inset * 2.0, height: 80.0))
+        let bodySize = self.bodyLabel.sizeThatFits(CGSize(width: layout.size.width - inset * 2.0, height: 180.0))
+        let top = floor((layout.size.height - titleSize.height - bodySize.height - 12.0) * 0.46)
+        transition.updateFrame(view: self.titleLabel, frame: CGRect(x: inset, y: top, width: layout.size.width - inset * 2.0, height: titleSize.height))
+        transition.updateFrame(view: self.bodyLabel, frame: CGRect(x: inset, y: top + titleSize.height + 12.0, width: layout.size.width - inset * 2.0, height: bodySize.height))
+        transition.updateFrame(view: self.actionButton, frame: CGRect(x: inset, y: layout.size.height - layout.safeInsets.bottom - 72.0, width: layout.size.width - inset * 2.0, height: 52.0))
+    }
+
+    @objc private func closePressed() {
+        guard !self.finished else { return }
+        self.finished = true
+        self.dismiss(completion: self.cancelled)
+    }
+    @objc private func confirmPressed() {
+        guard !self.finished else { return }
+        self.finished = true
+        self.dismiss(completion: self.confirmed)
+    }
+}
+
+public class StoryContainerScreen: ViewControllerComponentContainer, KeyShortcutResponder {
+""",
+        "Add a full-screen pre-view story confirmation",
     )
     replace_once(
         story_container_screen,
@@ -2206,26 +2312,31 @@ public final class ItemListControllerTabBarItem: Equatable {
             self.nagramiXIsPresentingConfirmation = true
             let presentationData = self.context.sharedContext.currentPresentationData.with { $0 }
             let owner = slice.effectivePeer.displayTitle(strings: presentationData.strings, displayOrder: presentationData.nameDisplayOrder)
-            let actionSheet = ActionSheetController(presentationData: presentationData)
-            actionSheet.dismissed = { [weak self] _ in
-                self?.nagramiXIsPresentingConfirmation = false
+            var previewSignal: Signal<(TransformImageArguments) -> DrawingContext?, NoError>?
+            if let peerReference = PeerReference(slice.effectivePeer) {
+                switch slice.item.storyItem.media {
+                case let .image(image):
+                    previewSignal = chatMessagePhoto(postbox: self.context.account.postbox, userLocation: .peer(peerReference.id), userContentType: .story, photoReference: .story(peer: peerReference, id: slice.item.storyItem.id, media: image), synchronousLoad: false, highQuality: false)
+                case let .file(file):
+                    previewSignal = mediaGridMessageVideo(postbox: self.context.account.postbox, userLocation: .peer(peerReference.id), userContentType: .story, videoReference: .story(peer: peerReference, id: slice.item.storyItem.id, media: file), onlyFullSize: false, useLargeThumbnail: true, synchronousLoad: false, autoFetchFullSizeThumbnail: false, overlayColor: nil, nilForEmptyResult: false, useMiniThumbnailIfAvailable: true, blurred: false)
+                default:
+                    break
+                }
             }
-            actionSheet.setItemGroups([
-                ActionSheetItemGroup(items: [
-                    ActionSheetTextItem(title: presentationData.strings.nagramiXStoryConfirmationTitle + "\\n" + presentationData.strings.nagramiXStoryConfirmationText(owner: owner)),
-                    ActionSheetButtonItem(title: presentationData.strings.nagramiXViewStoryAction, color: .accent, font: .bold, action: { [weak self, weak actionSheet] in
-                        self?.nagramiXIsPresentingConfirmation = false
-                        actionSheet?.dismissAnimated()
-                        action()
-                    }),
-                ]),
-                ActionSheetItemGroup(items: [
-                    ActionSheetButtonItem(title: presentationData.strings.Common_Cancel, color: .accent, font: .bold, action: { [weak actionSheet] in
-                        actionSheet?.dismissAnimated()
-                    }),
-                ]),
-            ])
-            parentController.present(actionSheet, in: .window(.root))
+            let confirmationController = NagramiXStoryConfirmationController(
+                previewSignal: previewSignal,
+                title: presentationData.strings.nagramiXStoryConfirmationTitle,
+                body: presentationData.strings.nagramiXStoryConfirmationText(owner: owner),
+                action: presentationData.strings.nagramiXViewStoryAction,
+                confirmed: { [weak self] in
+                    self?.nagramiXIsPresentingConfirmation = false
+                    action()
+                },
+                cancelled: { [weak self] in
+                    self?.nagramiXIsPresentingConfirmation = false
+                }
+            )
+            parentController.present(confirmationController, in: .window(.root))
         }
 
         if let state = self.nagramiXContent.stateValue {
@@ -2719,20 +2830,20 @@ filegroup(
     replace_once(
         chat_panel_interaction,
         "    public let forwardMessages: ([EngineRawMessage]) -> Void\n",
-        "    public let forwardMessages: ([EngineRawMessage]) -> Void\n    public let forwardMessagesWithOptions: (([EngineRawMessage], ChatInterfaceForwardOptionsState?) -> Void)?\n    public let selectMessagesByAuthor: ((EnginePeer.Id) -> Void)?\n",
-        "Expose attributed and anonymous forwarding plus author selection",
+        "    public let forwardMessages: ([EngineRawMessage]) -> Void\n    public let copyMessagesWithoutSource: (([EngineRawMessage]) -> Void)?\n    public let selectMessagesByAuthor: ((EnginePeer.Id) -> Void)?\n",
+        "Expose a distinct copy-as-new handler plus author selection",
     )
     replace_once(
         chat_panel_interaction,
         "        forwardMessages: @escaping ([EngineRawMessage]) -> Void,\n        updateForwardOptionsState:",
-        "        forwardMessages: @escaping ([EngineRawMessage]) -> Void,\n        forwardMessagesWithOptions: (([EngineRawMessage], ChatInterfaceForwardOptionsState?) -> Void)? = nil,\n        selectMessagesByAuthor: ((EnginePeer.Id) -> Void)? = nil,\n        updateForwardOptionsState:",
+        "        forwardMessages: @escaping ([EngineRawMessage]) -> Void,\n        copyMessagesWithoutSource: (([EngineRawMessage]) -> Void)? = nil,\n        selectMessagesByAuthor: ((EnginePeer.Id) -> Void)? = nil,\n        updateForwardOptionsState:",
         "Add optional NagramiX chat interaction callbacks",
     )
     replace_once(
         chat_panel_interaction,
         "        self.forwardMessages = forwardMessages\n        self.updateForwardOptionsState = updateForwardOptionsState\n",
-        "        self.forwardMessages = forwardMessages\n        self.forwardMessagesWithOptions = forwardMessagesWithOptions\n        self.selectMessagesByAuthor = selectMessagesByAuthor\n        self.updateForwardOptionsState = updateForwardOptionsState\n",
-        "Store optional NagramiX chat interaction callbacks",
+        "        self.forwardMessages = forwardMessages\n        self.copyMessagesWithoutSource = copyMessagesWithoutSource\n        self.selectMessagesByAuthor = selectMessagesByAuthor\n        self.updateForwardOptionsState = updateForwardOptionsState\n",
+        "Store the explicit NagramiX copy-as-new callback",
     )
 
     chat_load_node = source / "submodules" / "TelegramUI" / "Sources" / "Chat" / "ChatControllerLoadDisplayNode.swift"
@@ -2740,7 +2851,7 @@ filegroup(
         chat_load_node,
         """        }, updateForwardOptionsState: { [weak self] f in
 """,
-        """        }, forwardMessagesWithOptions: { [weak self] messages, options in
+        """        }, copyMessagesWithoutSource: { [weak self] messages in
             guard let self, !messages.isEmpty else {
                 return
             }
@@ -2748,7 +2859,7 @@ filegroup(
                 return
             }
             self.commitPurposefulAction()
-            self.forwardMessages(messageIds: messages.map { $0.id }.sorted(), options: options)
+            self.forwardMessages(messageIds: messages.map { $0.id }.sorted(), transferMode: .copyAsNew)
         }, selectMessagesByAuthor: { [weak self] authorId in
             guard let self, self.isNodeLoaded else {
                 return
@@ -2774,7 +2885,7 @@ filegroup(
             }, alertAction: {}, delay: true)
         }, updateForwardOptionsState: { [weak self] f in
 """,
-        "Wire anonymous forwarding and loaded-author selection into ChatController",
+        "Wire copy-as-new and loaded-author selection into ChatController",
     )
 
     context_menus = source / "submodules" / "TelegramUI" / "Sources" / "ChatInterfaceStateContextMenus.swift"
@@ -2813,44 +2924,107 @@ filegroup(
                 actions.append(.action(ContextMenuActionItem(text: chatPresentationInterfaceState.strings.nagramiXForwardWithAuthor, icon: { theme in
                     return generateTintedImage(image: UIImage(bundleImageName: "Chat/Context Menu/Forward"), color: theme.actionSheet.primaryTextColor)
                 }, action: { _, f in
-                    if let forwardMessagesWithOptions = interfaceInteraction.forwardMessagesWithOptions {
-                        forwardMessagesWithOptions(messagesToForward, ChatInterfaceForwardOptionsState(hideNames: false, hideCaptions: false, unhideNamesOnCaptionChange: false))
-                    } else {
-                        interfaceInteraction.forwardMessages(messagesToForward)
-                    }
+                    interfaceInteraction.forwardMessages(messagesToForward)
                     f(.dismissWithoutContent)
                 })))
-                let canForwardWithoutAuthor = message.id.peerId.namespace != Namespaces.Peer.SecretChat
+                let canForwardWithoutAuthor = interfaceInteraction.copyMessagesWithoutSource != nil
+                    && message.id.peerId.namespace != Namespaces.Peer.SecretChat
                     && !messagesToForward.contains(where: { $0.media.contains(where: { $0 is TelegramMediaPaidContent }) })
-                    && (context.isPremium || !messagesToForward.contains(where: { $0.richText != nil }))
+                    && !messagesToForward.contains(where: { candidate in
+                        candidate.text.isEmpty && !candidate.media.contains(where: { media in
+                            return media is TelegramMediaImage || media is TelegramMediaFile || media is TelegramMediaContact || media is TelegramMediaMap
+                        })
+                    })
                 actions.append(.action(ContextMenuActionItem(text: chatPresentationInterfaceState.strings.nagramiXForwardWithoutAuthor, textColor: canForwardWithoutAuthor ? .primary : .disabled, icon: { _ in
                     return nil
                 }, iconAnimation: ContextMenuActionItem.IconAnimation(name: "message_preview_person_off"), action: !canForwardWithoutAuthor ? nil : { _, f in
-                    if let forwardMessagesWithOptions = interfaceInteraction.forwardMessagesWithOptions {
-                        forwardMessagesWithOptions(messagesToForward, ChatInterfaceForwardOptionsState(hideNames: true, hideCaptions: false, unhideNamesOnCaptionChange: false))
-                    } else {
-                        interfaceInteraction.forwardMessages(messagesToForward)
-                    }
+                    interfaceInteraction.copyMessagesWithoutSource?(messagesToForward)
                     f(.dismissWithoutContent)
                 })))
 """,
-        "Add explicit attributed and anonymous forwarding actions",
+        "Separate standard forwarding from safe copy-as-new sending",
     )
 
     chat_controller_forward_messages = source / "submodules" / "TelegramUI" / "Sources" / "ChatControllerForwardMessages.swift"
     replace_once(
         chat_controller_forward_messages,
+        "extension ChatControllerImpl {\n",
+        """enum NagramiXMessageTransferMode {
+    case forwardWithSource
+    case copyAsNew
+}
+
+extension ChatControllerImpl {
+""",
+        "Add an explicit message transfer mode",
+    )
+    replace_once(
+        chat_controller_forward_messages,
+        "    func forwardMessages(messageIds: [EngineMessage.Id], options: ChatInterfaceForwardOptionsState? = nil, resetCurrent: Bool = false) {\n",
+        "    func forwardMessages(messageIds: [EngineMessage.Id], options: ChatInterfaceForwardOptionsState? = nil, resetCurrent: Bool = false, transferMode: NagramiXMessageTransferMode = .forwardWithSource) {\n",
+        "Accept the typed transfer mode",
+    )
+    replace_once(
+        chat_controller_forward_messages,
+        "            self?.forwardMessages(messages: sortedMessages, options: options, resetCurrent: resetCurrent)\n",
+        "            self?.forwardMessages(messages: sortedMessages, options: options, resetCurrent: resetCurrent, transferMode: transferMode)\n",
+        "Propagate the transfer mode after loading",
+    )
+    replace_once(
+        chat_controller_forward_messages,
+        "    func forwardMessages(messages: [EngineRawMessage], options: ChatInterfaceForwardOptionsState? = nil, resetCurrent: Bool) {\n",
+        "    func forwardMessages(messages: [EngineRawMessage], options: ChatInterfaceForwardOptionsState? = nil, resetCurrent: Bool, transferMode: NagramiXMessageTransferMode = .forwardWithSource) {\n",
+        "Keep classic forwarding as the default",
+    )
+    replace_once(
+        chat_controller_forward_messages,
         """                        var attributes: [EngineMessage.Attribute] = []
                         attributes.append(ForwardOptionsMessageAttribute(hideNames: forwardOptions?.hideNames == true, hideCaptions: forwardOptions?.hideCaptions == true))
+""" + "                        \n" + """                        result.append(contentsOf: messages.map { message -> EnqueueMessage in
+                            return .forward(source: message.id, threadId: nil, grouping: .auto, attributes: attributes, correlationId: nil)
+                        })
 """,
-        """                        // An explicit mode from the NagramiX context menu must survive the
-                        // destination picker. Standard Telegram forwarding passes nil here and keeps
-                        // using the options selected inside the picker.
-                        let effectiveForwardOptions = options ?? forwardOptions
-                        var attributes: [EngineMessage.Attribute] = []
-                        attributes.append(ForwardOptionsMessageAttribute(hideNames: effectiveForwardOptions?.hideNames == true, hideCaptions: effectiveForwardOptions?.hideCaptions == true))
+        """                        switch transferMode {
+                        case .forwardWithSource:
+                            var attributes: [EngineMessage.Attribute] = []
+                            attributes.append(ForwardOptionsMessageAttribute(hideNames: forwardOptions?.hideNames == true, hideCaptions: forwardOptions?.hideCaptions == true))
+                            result.append(contentsOf: messages.map { message -> EnqueueMessage in
+                                return .forward(source: message.id, threadId: nil, grouping: .auto, attributes: attributes, correlationId: nil)
+                            })
+                        case .copyAsNew:
+                            var copiedGroupingKeys: [Int64: Int64] = [:]
+                            for message in messages {
+                                var attributes: [EngineMessage.Attribute] = []
+                                if let entities = message.attributes.first(where: { $0 is TextEntitiesMessageAttribute }) as? TextEntitiesMessageAttribute {
+                                    attributes.append(TextEntitiesMessageAttribute(entities: entities.entities))
+                                }
+                                if message.attributes.contains(where: { $0 is MediaSpoilerMessageAttribute }) {
+                                    attributes.append(MediaSpoilerMessageAttribute())
+                                }
+                                var mediaReference: AnyMediaReference?
+                                if let media = message.media.first(where: { media in
+                                    media is TelegramMediaImage || media is TelegramMediaFile || media is TelegramMediaContact || media is TelegramMediaMap
+                                }) {
+                                    mediaReference = .message(message: MessageReference(message), media: media)
+                                }
+                                if message.text.isEmpty && mediaReference == nil {
+                                    continue
+                                }
+                                var localGroupingKey: Int64?
+                                if let groupingKey = message.groupingKey {
+                                    if let existing = copiedGroupingKeys[groupingKey] {
+                                        localGroupingKey = existing
+                                    } else {
+                                        let generated = Int64.random(in: Int64.min ... Int64.max)
+                                        copiedGroupingKeys[groupingKey] = generated
+                                        localGroupingKey = generated
+                                    }
+                                }
+                                result.append(.message(text: message.text, attributes: attributes, inlineStickers: [:], mediaReference: mediaReference, threadId: nil, replyToMessageId: nil, replyToStoryId: nil, localGroupingKey: localGroupingKey, correlationId: nil, bubbleUpEmojiOrStickersets: []))
+                            }
+                        }
 """,
-        "Preserve the selected NagramiX forward mode after destination selection",
+        "Build fresh messages without forward or reply metadata",
     )
     replace_once(
         context_menus,
@@ -2878,8 +3052,30 @@ filegroup(
     replace_once(
         peer_info_profile_items,
         "import BoostLevelIconComponent\n",
-        "import BoostLevelIconComponent\nimport NagramiXCore\n",
+        "import BoostLevelIconComponent\nimport UndoUI\nimport NagramiXCore\n",
         "NagramiX profile metadata import",
+    )
+    replace_once(
+        peer_info_profile_items,
+        """private let enabledPrivateBioEntities: EnabledEntityTypes = [.internalUrl, .mention, .hashtag]
+""",
+        """private let enabledPrivateBioEntities: EnabledEntityTypes = [.internalUrl, .mention, .hashtag]
+
+private func nagramiXCopyProfileId(_ value: Int64, presentationData: PresentationData, interaction: PeerInfoInteraction) {
+    UIPasteboard.general.string = "\\(value)"
+    interaction.getController()?.present(
+        UndoOverlayController(
+            presentationData: presentationData,
+            content: .copy(text: presentationData.strings.nagramiXProfileIdCopied),
+            elevatedLayout: false,
+            animateInAsReplacement: false,
+            action: { _ in false }
+        ),
+        in: .current
+    )
+}
+""",
+        "Copy profile IDs through the native Telegram confirmation overlay",
     )
     replace_once(
         peer_info_profile_items,
@@ -2890,7 +3086,9 @@ filegroup(
 
         let nagramiXSettings = NagramiXTabSettings.current
         if nagramiXSettings.showProfileIds {
-            items[currentPeerInfoSection]!.append(PeerInfoScreenLabeledValueItem(id: ItemNagramiXProfileId, label: presentationData.strings.nagramiXProfileId, text: "\\(user.id.id._internalGetInt64Value())", textColor: .primary, action: nil, requestLayout: { animated in
+            items[currentPeerInfoSection]!.append(PeerInfoScreenLabeledValueItem(id: ItemNagramiXProfileId, label: presentationData.strings.nagramiXProfileId, text: "\\(user.id.id._internalGetInt64Value())", textColor: .accent, action: { _, _ in
+                nagramiXCopyProfileId(user.id.id._internalGetInt64Value(), presentationData: presentationData, interaction: interaction)
+            }, requestLayout: { animated in
                 interaction.requestLayout(animated)
             }))
         }
@@ -2908,17 +3106,12 @@ filegroup(
         "        let ItemCommunity = 12\n",
         """        let ItemCommunity = 12
         let ItemNagramiXProfileId = 13
-        let ItemNagramiXCreationDate = 14
 
         let nagramiXSettings = NagramiXTabSettings.current
         if nagramiXSettings.showProfileIds {
-            items[currentPeerInfoSection]!.append(PeerInfoScreenLabeledValueItem(id: ItemNagramiXProfileId, label: presentationData.strings.nagramiXProfileId, text: "\\(channel.id.id._internalGetInt64Value())", textColor: .primary, action: nil, requestLayout: { animated in
-                interaction.requestLayout(animated)
-            }))
-        }
-        if nagramiXSettings.showChatCreationDate {
-            let creationText = NagramiXPeerMetadata.formattedDate(timestamp: channel.creationDate, locale: Locale.current) ?? presentationData.strings.nagramiXUnknown
-            items[currentPeerInfoSection]!.append(PeerInfoScreenLabeledValueItem(id: ItemNagramiXCreationDate, label: presentationData.strings.nagramiXChatCreationDate, text: creationText, textColor: .primary, action: nil, requestLayout: { animated in
+            items[currentPeerInfoSection]!.append(PeerInfoScreenLabeledValueItem(id: ItemNagramiXProfileId, label: presentationData.strings.nagramiXProfileId, text: "\\(channel.id.id._internalGetInt64Value())", textColor: .accent, action: { _, _ in
+                nagramiXCopyProfileId(channel.id.id._internalGetInt64Value(), presentationData: presentationData, interaction: interaction)
+            }, requestLayout: { animated in
                 interaction.requestLayout(animated)
             }))
         }
@@ -2932,17 +3125,12 @@ filegroup(
 """,
         """    } else if case let .legacyGroup(group) = data.peer {
         let ItemNagramiXProfileId = 1
-        let ItemNagramiXCreationDate = 2
 
         let nagramiXSettings = NagramiXTabSettings.current
         if nagramiXSettings.showProfileIds {
-            items[currentPeerInfoSection]!.append(PeerInfoScreenLabeledValueItem(id: ItemNagramiXProfileId, label: presentationData.strings.nagramiXProfileId, text: "\\(group.id.id._internalGetInt64Value())", textColor: .primary, action: nil, requestLayout: { animated in
-                interaction.requestLayout(animated)
-            }))
-        }
-        if nagramiXSettings.showChatCreationDate {
-            let creationText = NagramiXPeerMetadata.formattedDate(timestamp: group.creationDate, locale: Locale.current) ?? presentationData.strings.nagramiXUnknown
-            items[currentPeerInfoSection]!.append(PeerInfoScreenLabeledValueItem(id: ItemNagramiXCreationDate, label: presentationData.strings.nagramiXChatCreationDate, text: creationText, textColor: .primary, action: nil, requestLayout: { animated in
+            items[currentPeerInfoSection]!.append(PeerInfoScreenLabeledValueItem(id: ItemNagramiXProfileId, label: presentationData.strings.nagramiXProfileId, text: "\\(group.id.id._internalGetInt64Value())", textColor: .accent, action: { _, _ in
+                nagramiXCopyProfileId(group.id.id._internalGetInt64Value(), presentationData: presentationData, interaction: interaction)
+            }, requestLayout: { animated in
                 interaction.requestLayout(animated)
             }))
         }
@@ -2950,6 +3138,50 @@ filegroup(
 """,
         "Show optional NagramiX legacy-group metadata",
     )
+
+    contacts_peer_item = source / "submodules" / "ContactsPeerItem" / "Sources" / "ContactsPeerItem.swift"
+    contacts_peer_item_build = source / "submodules" / "ContactsPeerItem" / "BUILD"
+    if contacts_peer_item.exists():
+        replace_once(
+            contacts_peer_item,
+            "import TelegramCore\n",
+            "import TelegramCore\nimport NagramiXCore\n",
+            "Read the mutual-contact badge preference in native contact cells",
+        )
+        replace_once(
+            contacts_peer_item,
+            """            switch item.status {
+""",
+            """            if NagramiXTabSettings.current.showMutualContactIcon,
+               case let .peer(peer, _) = item.peer,
+               let peer,
+               case let .user(user) = peer,
+               peer.id != item.context.account.peerId,
+               user.botInfo == nil,
+               user.flags.contains(.mutualContact),
+               !(user.firstName ?? "").isEmpty || !(user.lastName ?? "").isEmpty,
+               let currentTitle = titleAttributedString {
+                let updatedTitle = NSMutableAttributedString(attributedString: currentTitle)
+                if #available(iOS 13.0, *), let icon = UIImage(systemName: "person.2.fill", withConfiguration: UIImage.SymbolConfiguration(pointSize: 12.0, weight: .semibold))?.withTintColor(item.presentationData.theme.list.itemAccentColor, renderingMode: .alwaysOriginal) {
+                    updatedTitle.append(NSAttributedString(string: " "))
+                    let attachment = NSTextAttachment()
+                    attachment.image = icon
+                    attachment.bounds = CGRect(x: 0.0, y: -1.0, width: 14.0, height: 12.0)
+                    updatedTitle.append(NSAttributedString(attachment: attachment))
+                    titleAttributedString = updatedTitle
+                }
+            }
+
+            switch item.status {
+""",
+            "Append a theme-tinted mutual-contact icon to real mutual users",
+        )
+        replace_once(
+            contacts_peer_item_build,
+            '        "//submodules/TelegramCore:TelegramCore",\n',
+            '        "//submodules/TelegramCore:TelegramCore",\n        "//submodules/NagramiXCore:NagramiXCore",\n',
+            "Link contact cells with NagramiX settings",
+        )
 
     account_utils = source / "submodules" / "AccountUtils" / "Sources" / "AccountUtils.swift"
     replace_once(

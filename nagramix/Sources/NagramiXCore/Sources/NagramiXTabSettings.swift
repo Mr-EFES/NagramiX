@@ -52,7 +52,7 @@ public struct NagramiXTabSettings: Equatable {
         static let legacyShowProxySponsorChannel = "nagramix.interface.showProxySponsorChannel"
         static let showProfileIds = "nagramix.profiles.showIds"
         static let showRegistrationDate = "nagramix.profiles.showRegistrationDate"
-        static let showChatCreationDate = "nagramix.profiles.showChatCreationDate"
+        static let showMutualContactIcon = "nagramix.profiles.showMutualContactIcon"
         static let confirmOutgoingCalls = "nagramix.calls.confirmOutgoing"
         static let forceTcpCalls = "nagramix.calls.forceTcp"
         static let showDeletedMessages = "nagramix.messages.showDeletedMessages"
@@ -75,7 +75,7 @@ public struct NagramiXTabSettings: Equatable {
     public var hideProxySponsorChannel: Bool
     public var showProfileIds: Bool
     public var showRegistrationDate: Bool
-    public var showChatCreationDate: Bool
+    public var showMutualContactIcon: Bool
     public var confirmOutgoingCalls: Bool
     public var forceTcpCalls: Bool
     public var showDeletedMessages: Bool
@@ -98,7 +98,7 @@ public struct NagramiXTabSettings: Equatable {
         hideProxySponsorChannel: Bool,
         showProfileIds: Bool,
         showRegistrationDate: Bool,
-        showChatCreationDate: Bool,
+        showMutualContactIcon: Bool,
         confirmOutgoingCalls: Bool,
         forceTcpCalls: Bool,
         showDeletedMessages: Bool,
@@ -120,7 +120,7 @@ public struct NagramiXTabSettings: Equatable {
         self.hideProxySponsorChannel = hideProxySponsorChannel
         self.showProfileIds = showProfileIds
         self.showRegistrationDate = showRegistrationDate
-        self.showChatCreationDate = showChatCreationDate
+        self.showMutualContactIcon = showMutualContactIcon
         self.confirmOutgoingCalls = confirmOutgoingCalls
         self.forceTcpCalls = forceTcpCalls
         self.showDeletedMessages = showDeletedMessages
@@ -156,7 +156,7 @@ public struct NagramiXTabSettings: Equatable {
             hideProxySponsorChannel: hideProxySponsorChannel,
             showProfileIds: defaults.object(forKey: Key.showProfileIds) as? Bool ?? false,
             showRegistrationDate: defaults.object(forKey: Key.showRegistrationDate) as? Bool ?? false,
-            showChatCreationDate: defaults.object(forKey: Key.showChatCreationDate) as? Bool ?? true,
+            showMutualContactIcon: defaults.object(forKey: Key.showMutualContactIcon) as? Bool ?? false,
             confirmOutgoingCalls: defaults.object(forKey: Key.confirmOutgoingCalls) as? Bool ?? true,
             forceTcpCalls: defaults.object(forKey: Key.forceTcpCalls) as? Bool ?? false,
             showDeletedMessages: defaults.object(forKey: Key.showDeletedMessages) as? Bool ?? false,
@@ -187,7 +187,7 @@ public struct NagramiXTabSettings: Equatable {
         defaults.set(value.hideProxySponsorChannel, forKey: Key.hideProxySponsorChannel)
         defaults.set(value.showProfileIds, forKey: Key.showProfileIds)
         defaults.set(value.showRegistrationDate, forKey: Key.showRegistrationDate)
-        defaults.set(value.showChatCreationDate, forKey: Key.showChatCreationDate)
+        defaults.set(value.showMutualContactIcon, forKey: Key.showMutualContactIcon)
         defaults.set(value.confirmOutgoingCalls, forKey: Key.confirmOutgoingCalls)
         defaults.set(value.forceTcpCalls, forKey: Key.forceTcpCalls)
         defaults.set(value.showDeletedMessages, forKey: Key.showDeletedMessages)

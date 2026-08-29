@@ -132,9 +132,9 @@
 "NagramiX.Info.Updates" = "Обновления NagramiX";
 "NagramiX.Info.Help" = "Помощь NagramiX";
 "NagramiX.Settings.Profiles.Header" = "ПРОФИЛИ";
-"NagramiX.Settings.Profiles.ShowIds" = "ID профилей";
+"NagramiX.Settings.Profiles.ShowIds" = "ID профиля";
 "NagramiX.Settings.Profiles.ShowRegistrationDate" = "Показывать дату регистрации";
-"NagramiX.Settings.Profiles.ShowChatCreationDate" = "Показывать дату создания чата";
+"NagramiX.Settings.Profiles.ShowMutualContactIcon" = "Значок взаимного контакта";
 "NagramiX.Settings.Calls.Header" = "ЗВОНКИ";
 "NagramiX.Settings.Calls.ConfirmOutgoing" = "Подтверждение вызова";
 "NagramiX.Settings.Calls.ForceTcp" = "Force TCP";
@@ -162,7 +162,7 @@
 "NagramiX.Context.SelectFromAuthor" = "Выбрать от автора";
 "NagramiX.Network.DataCenters" = "Дата-центры";
 "NagramiX.Profile.Id" = "ID профиля";
+"NagramiX.Profile.IdCopied" = "ID скопирован";
 "NagramiX.Profile.RegistrationDate" = "Регистрация";
 "NagramiX.Profile.RegistrationApproximate" = "Примерно %@ г.";
-"NagramiX.Profile.ChatCreationDate" = "Создан";
 "NagramiX.Common.Unknown" = "Неизвестно";

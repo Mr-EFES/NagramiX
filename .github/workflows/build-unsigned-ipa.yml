@@ -19,7 +19,7 @@ jobs:
       TELEGRAM_API_ID: ${{ secrets.TELEGRAM_API_ID }}
       TELEGRAM_API_HASH: ${{ secrets.TELEGRAM_API_HASH }}
       BAZEL_CACHE: ${{ github.workspace }}/.bazel-cache
-      NAGRAMIX_VERSION: 0.2.2
+      NAGRAMIX_VERSION: 0.2.3
 
     steps:
       - name: Check out NagramiX overlay
@@ -87,7 +87,7 @@ jobs:
             --upstream-team C67CF9S4VU \
             --upstream-bundle ph.telegra.Telegraph \
             --team NAGRAMIX0 \
-            --bundle com.gamesfanteam.nagramix
+            --bundle com.mr-efes.nagramix
 
       - name: Build native NagramiX arm64 application without profiles
         working-directory: Telegram-iOS
@@ -122,7 +122,7 @@ jobs:
           bash scripts/package_unsigned_ipa.sh \
             "$RUNNER_TEMP/nagramix-unpack/Payload/Telegram.app" \
             "NagramiX-${NAGRAMIX_VERSION}-unsigned.ipa" \
-            com.gamesfanteam.nagramix \
+            com.mr-efes.nagramix \
             "$NAGRAMIX_VERSION"
 
       - name: Record provenance

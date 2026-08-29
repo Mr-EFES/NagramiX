@@ -8,7 +8,7 @@ plist_fragment(
     template =
     """
     <key>CFBundleIdentifier</key>
-    <string>com.gamesfanteam.nagramix.localization</string>
+    <string>com.mr-efes.nagramix.localization</string>
     <key>CFBundleDevelopmentRegion</key>
     <string>en</string>
     <key>CFBundleName</key>

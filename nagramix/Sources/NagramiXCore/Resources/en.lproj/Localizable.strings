@@ -58,9 +58,9 @@
 "NagramiX.Info.Updates" = "NagramiX Updates";
 "NagramiX.Info.Help" = "NagramiX Help";
 "NagramiX.Settings.Profiles.Header" = "PROFILES";
-"NagramiX.Settings.Profiles.ShowIds" = "Profile IDs";
+"NagramiX.Settings.Profiles.ShowIds" = "Profile ID";
 "NagramiX.Settings.Profiles.ShowRegistrationDate" = "Show Registration Date";
-"NagramiX.Settings.Profiles.ShowChatCreationDate" = "Show Chat Creation Date";
+"NagramiX.Settings.Profiles.ShowMutualContactIcon" = "Mutual Contact Badge";
 "NagramiX.Settings.Calls.Header" = "CALLS";
 "NagramiX.Settings.Calls.ConfirmOutgoing" = "Confirm Outgoing Calls";
 "NagramiX.Settings.Calls.ForceTcp" = "Force TCP";
@@ -88,7 +88,7 @@
 "NagramiX.Context.SelectFromAuthor" = "Select From Author";
 "NagramiX.Network.DataCenters" = "Data Centers";
 "NagramiX.Profile.Id" = "Profile ID";
+"NagramiX.Profile.IdCopied" = "ID copied";
 "NagramiX.Profile.RegistrationDate" = "Registration";
 "NagramiX.Profile.RegistrationApproximate" = "Approximately %@";
-"NagramiX.Profile.ChatCreationDate" = "Created";
 "NagramiX.Common.Unknown" = "Unknown";

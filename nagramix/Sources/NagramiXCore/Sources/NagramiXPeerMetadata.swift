@@ -1,17 +1,6 @@
 import Foundation
 
 public enum NagramiXPeerMetadata {
-    public static func formattedDate(timestamp: Int32, locale: Locale) -> String? {
-        guard timestamp > 0 else {
-            return nil
-        }
-        let formatter = DateFormatter()
-        formatter.locale = locale
-        formatter.dateStyle = .medium
-        formatter.timeStyle = .none
-        return formatter.string(from: Date(timeIntervalSince1970: TimeInterval(timestamp)))
-    }
-
     /// Telegram doesn't expose a user registration timestamp.
     /// This deliberately returns a broad, explicitly approximate year based on
     /// historically observed numeric user-id ranges instead of pretending to

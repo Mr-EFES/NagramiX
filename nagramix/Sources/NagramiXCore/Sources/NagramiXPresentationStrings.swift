@@ -95,7 +95,7 @@ public extension PresentationStrings {
     var nagramiXProfilesHeader: String { self.nagramiXLocalized("NagramiX.Settings.Profiles.Header") }
     var nagramiXShowProfileIds: String { self.nagramiXLocalized("NagramiX.Settings.Profiles.ShowIds") }
     var nagramiXShowRegistrationDate: String { self.nagramiXLocalized("NagramiX.Settings.Profiles.ShowRegistrationDate") }
-    var nagramiXShowChatCreationDate: String { self.nagramiXLocalized("NagramiX.Settings.Profiles.ShowChatCreationDate") }
+    var nagramiXShowMutualContactIcon: String { self.nagramiXLocalized("NagramiX.Settings.Profiles.ShowMutualContactIcon") }
     var nagramiXCallsHeader: String { self.nagramiXLocalized("NagramiX.Settings.Calls.Header") }
     var nagramiXConfirmOutgoingCalls: String { self.nagramiXLocalized("NagramiX.Settings.Calls.ConfirmOutgoing") }
     var nagramiXForceTcpCalls: String { self.nagramiXLocalized("NagramiX.Settings.Calls.ForceTcp") }
@@ -123,10 +123,10 @@ public extension PresentationStrings {
     var nagramiXSelectFromAuthor: String { self.nagramiXLocalized("NagramiX.Context.SelectFromAuthor") }
     var nagramiXDataCenters: String { self.nagramiXLocalized("NagramiX.Network.DataCenters") }
     var nagramiXProfileId: String { self.nagramiXLocalized("NagramiX.Profile.Id") }
+    var nagramiXProfileIdCopied: String { self.nagramiXLocalized("NagramiX.Profile.IdCopied") }
     var nagramiXRegistrationDate: String { self.nagramiXLocalized("NagramiX.Profile.RegistrationDate") }
     func nagramiXApproximateRegistration(_ year: Int) -> String {
         return self.nagramiXLocalized("NagramiX.Profile.RegistrationApproximate").replacingOccurrences(of: "%@", with: "\(year)")
     }
-    var nagramiXChatCreationDate: String { self.nagramiXLocalized("NagramiX.Profile.ChatCreationDate") }
     var nagramiXUnknown: String { self.nagramiXLocalized("NagramiX.Common.Unknown") }
 }
