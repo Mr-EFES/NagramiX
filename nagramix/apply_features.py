@@ -175,11 +175,11 @@ private func currentDateTimeFormat()""",
     if ([NagramiXDNSResolver usesSystemResolver]) {
         return [self resolveHostnameNative:hostname port:port];
     }
-    return [[NagramiXDNSResolver resolveHostname:hostname] timeout:12.0 onQueue:[MTQueue concurrentDefaultQueue] orSignal:[MTSignal fail:nil]];
+    return [[NagramiXDNSResolver resolveHostname:hostname] timeout:12.0 onQueue:[MTQueue concurrentDefaultQueue] orSignal:[MTSignal fail:[NSError errorWithDomain:@"org.nagramix.dns" code:5 userInfo:nil]]];
 }
 
 + (MTSignal *)testDohEndpoint:(NSString *)endpoint hostname:(NSString *)hostname {
-    return [[NagramiXDNSResolver testEndpoint:endpoint hostname:hostname] timeout:12.0 onQueue:[MTQueue concurrentDefaultQueue] orSignal:[MTSignal fail:nil]];
+    return [[NagramiXDNSResolver testEndpoint:endpoint hostname:hostname] timeout:12.0 onQueue:[MTQueue concurrentDefaultQueue] orSignal:[MTSignal fail:[NSError errorWithDomain:@"org.nagramix.dns" code:6 userInfo:nil]]];
 }
 """,
         "Use selected System or DoH resolver in the real MTProto proxy DNS path",
@@ -526,6 +526,32 @@ public final class ItemListControllerTabBarItem: Equatable {
     shutil.copy2(telegram_core_overlay, telegram_core_target)
 
     proxy_statuses = source / "submodules" / "TelegramCore" / "Sources" / "Network" / "ProxyServersStatuses.swift"
+    replace_once(
+        proxy_statuses,
+        """            let disposable = MTProxyConnectivity.pingProxy(with: context, datacenterId: datacenterId, settings: server.mtProxySettings).start(next: { next in
+                if let next = next as? MTProxyConnectivityStatus {
+                    if !next.reachable {
+                        subscriber.putNext(.notAvailable)
+                    } else {
+                        subscriber.putNext(.available(next.roundTripTime))
+                    }
+                }
+            })
+""",
+        """            let disposable = MTProxyConnectivity.pingProxy(with: context, datacenterId: datacenterId, settings: server.mtProxySettings).start(next: { next in
+                if let next = next as? MTProxyConnectivityStatus {
+                    if !next.reachable {
+                        subscriber.putNext(.notAvailable)
+                    } else {
+                        subscriber.putNext(.available(next.roundTripTime))
+                    }
+                }
+            }, error: { _ in
+                subscriber.putNext(.notAvailable)
+            })
+""",
+        "Treat offline and DNS proxy-check failures as unavailable results",
+    )
     replace_once(
         proxy_statuses,
         """final class ProxyServersStatusesImpl {
@@ -2928,8 +2954,12 @@ filegroup(
                     f(.dismissWithoutContent)
                 })))
                 let canForwardWithoutAuthor = interfaceInteraction.copyMessagesWithoutSource != nil
-                    && message.id.peerId.namespace != Namespaces.Peer.SecretChat
-                    && !messagesToForward.contains(where: { $0.media.contains(where: { $0 is TelegramMediaPaidContent }) })
+                    && !messagesToForward.contains(where: { candidate in
+                        candidate.id.peerId.namespace == Namespaces.Peer.SecretChat
+                            || candidate.isCopyProtected()
+                            || candidate.containsSecretMedia
+                            || candidate.media.contains(where: { $0 is TelegramMediaPaidContent || $0 is TelegramMediaExpiredContent })
+                    })
                     && !messagesToForward.contains(where: { candidate in
                         candidate.text.isEmpty && !candidate.media.contains(where: { media in
                             return media is TelegramMediaImage || media is TelegramMediaFile || media is TelegramMediaContact || media is TelegramMediaMap
@@ -2949,7 +2979,7 @@ filegroup(
     replace_once(
         chat_controller_forward_messages,
         "extension ChatControllerImpl {\n",
-        """enum NagramiXMessageTransferMode {
+        """enum NagramiXMessageTransferMode: Equatable {
     case forwardWithSource
     case copyAsNew
 }
@@ -2978,6 +3008,12 @@ extension ChatControllerImpl {
     )
     replace_once(
         chat_controller_forward_messages,
+        "            }, multipleSelection: true, forwardedMessageIds: messages.map { $0.id }, selectForumThreads: true))\n",
+        "            }, multipleSelection: true, forwardedMessageIds: transferMode == .forwardWithSource ? messages.map { $0.id } : [], selectForumThreads: true))\n",
+        "Keep forward-only picker metadata out of copy-as-new mode",
+    )
+    replace_once(
+        chat_controller_forward_messages,
         """                        var attributes: [EngineMessage.Attribute] = []
                         attributes.append(ForwardOptionsMessageAttribute(hideNames: forwardOptions?.hideNames == true, hideCaptions: forwardOptions?.hideCaptions == true))
 """ + "                        \n" + """                        result.append(contentsOf: messages.map { message -> EnqueueMessage in
@@ -2995,8 +3031,14 @@ extension ChatControllerImpl {
                             var copiedGroupingKeys: [Int64: Int64] = [:]
                             for message in messages {
                                 var attributes: [EngineMessage.Attribute] = []
+                                var inlineStickers: [MediaId: Media] = [:]
                                 if let entities = message.attributes.first(where: { $0 is TextEntitiesMessageAttribute }) as? TextEntitiesMessageAttribute {
                                     attributes.append(TextEntitiesMessageAttribute(entities: entities.entities))
+                                    for mediaId in entities.associatedMediaIds {
+                                        if let media = message.associatedMedia[mediaId] {
+                                            inlineStickers[mediaId] = media
+                                        }
+                                    }
                                 }
                                 if message.attributes.contains(where: { $0 is MediaSpoilerMessageAttribute }) {
                                     attributes.append(MediaSpoilerMessageAttribute())
@@ -3020,7 +3062,7 @@ extension ChatControllerImpl {
                                         localGroupingKey = generated
                                     }
                                 }
-                                result.append(.message(text: message.text, attributes: attributes, inlineStickers: [:], mediaReference: mediaReference, threadId: nil, replyToMessageId: nil, replyToStoryId: nil, localGroupingKey: localGroupingKey, correlationId: nil, bubbleUpEmojiOrStickersets: []))
+                                result.append(.message(text: message.text, attributes: attributes, inlineStickers: inlineStickers, mediaReference: mediaReference, threadId: nil, replyToMessageId: nil, replyToStoryId: nil, localGroupingKey: localGroupingKey, correlationId: nil, bubbleUpEmojiOrStickersets: []))
                             }
                         }
 """,

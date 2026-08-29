@@ -3,9 +3,15 @@
 #import <arpa/inet.h>
 #import <stdint.h>
 #import <MtProtoKit/MTSignal.h>
+#import <MtProtoKit/MTLogging.h>
 
 static NSString * const NagramiXDnsProviderKey = @"nagramix.network.dnsProvider";
 static NSString * const NagramiXCustomDohUrlKey = @"nagramix.network.customDohUrl";
+static NSString * const NagramiXDnsErrorDomain = @"org.nagramix.dns";
+
+static NSError *NagramiXDnsError(NSInteger code) {
+    return [NSError errorWithDomain:NagramiXDnsErrorDomain code:code userInfo:nil];
+}
 
 typedef NS_ENUM(NSInteger, NagramiXDnsProvider) {
     NagramiXDnsProviderSystem = 0,
@@ -177,7 +183,7 @@ static NSString * _Nullable NagramiXParseDnsResponse(NSData *data, uint16_t iden
 + (MTSignal *)resolveHostname:(NSString *)hostname {
     NSString *endpoint = [self configuredEndpoint];
     if (endpoint.length == 0) {
-        return [MTSignal fail:nil];
+        return [MTSignal fail:NagramiXDnsError(1)];
     }
     return [self resolveHostname:hostname endpoint:endpoint];
 }
@@ -190,13 +196,14 @@ static NSString * _Nullable NagramiXParseDnsResponse(NSData *data, uint16_t iden
     return [[MTSignal alloc] initWithGenerator:^id<MTDisposable>(MTSubscriber *subscriber) {
         NSURL *url = [NSURL URLWithString:endpoint];
         if (url == nil || ![url.scheme.lowercaseString isEqualToString:@"https"] || url.host.length == 0) {
-            [subscriber putError:nil];
+            [subscriber putError:NagramiXDnsError(2)];
             return nil;
         }
 
         NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration ephemeralSessionConfiguration];
         configuration.timeoutIntervalForRequest = 8.0;
         configuration.timeoutIntervalForResource = 12.0;
+        configuration.waitsForConnectivity = NO;
         configuration.requestCachePolicy = NSURLRequestReloadIgnoringLocalCacheData;
         NSURLSession *session = [NSURLSession sessionWithConfiguration:configuration];
         NSObject *cancellationLock = [[NSObject alloc] init];
@@ -213,7 +220,10 @@ static NSString * _Nullable NagramiXParseDnsResponse(NSData *data, uint16_t iden
             }
             if (index >= types.count) {
                 [session finishTasksAndInvalidate];
-                [subscriber putError:nil];
+                if (MTLogEnabled()) {
+                    MTLog(@"[NagramiXDNS resolution unavailable; connection will retry asynchronously]");
+                }
+                [subscriber putError:NagramiXDnsError(3)];
                 attempt = nil;
                 return;
             }
@@ -222,7 +232,7 @@ static NSString * _Nullable NagramiXParseDnsResponse(NSData *data, uint16_t iden
             NSData *query = NagramiXMakeDnsQuery(hostname, type, identifier);
             if (query == nil) {
                 [session invalidateAndCancel];
-                [subscriber putError:nil];
+                [subscriber putError:NagramiXDnsError(4)];
                 attempt = nil;
                 return;
             }

@@ -22,13 +22,25 @@ final class NagramiXProxyFailoverController {
         case checking(origin: ProxyServerSettings, candidates: [ProxyServerSettings], index: Int, token: UInt64)
         case applying(origin: ProxyServerSettings, candidates: [ProxyServerSettings], index: Int, candidate: ProxyServerSettings, token: UInt64)
         case connecting(origin: ProxyServerSettings, candidates: [ProxyServerSettings], index: Int, candidate: ProxyServerSettings, token: UInt64)
+        case restoring(origin: ProxyServerSettings, failed: ProxyServerSettings, token: UInt64)
 
         var expectedServer: ProxyServerSettings? {
             switch self {
             case let .applying(_, _, _, candidate, _), let .connecting(_, _, _, candidate, _):
                 return candidate
+            case let .restoring(origin, _, _):
+                return origin
             default:
                 return nil
+            }
+        }
+
+        var origin: ProxyServerSettings? {
+            switch self {
+            case .idle:
+                return nil
+            case let .waiting(origin, _), let .checking(origin, _, _, _), let .applying(origin, _, _, _, _), let .connecting(origin, _, _, _, _), let .restoring(origin, _, _):
+                return origin
             }
         }
     }
@@ -49,6 +61,7 @@ final class NagramiXProxyFailoverController {
     private var phase: Phase = .idle
     private var generation: UInt64 = 0
     private var suppressedServer: ProxyServerSettings?
+    private var didLogNetworkUnavailable = false
 
     init() {
     }
@@ -116,6 +129,7 @@ final class NagramiXProxyFailoverController {
         self.status = value
         switch value {
         case .online:
+            self.didLogNetworkUnavailable = false
             self.suppressedServer = nil
             self.invalidate(suppressCurrent: false)
         case let .connecting(_, hasProxyIssues):
@@ -131,14 +145,24 @@ final class NagramiXProxyFailoverController {
                 }
             } else {
                 switch self.phase {
-                case .applying(_, _, _, _, _), .connecting(_, _, _, _, _):
+                case .applying(_, _, _, _, _), .connecting(_, _, _, _, _), .restoring(_, _, _):
                     break
                 default:
                     self.suppressedServer = nil
                     self.invalidate(suppressCurrent: false)
                 }
             }
-        case .waitingForNetwork, .updating:
+        case .waitingForNetwork:
+            if !self.didLogNetworkUnavailable {
+                self.didLogNetworkUnavailable = true
+                Logger.shared.log("NagramiX", "Network unavailable; proxy failover deferred")
+            }
+            // Absence of a route is a normal offline state, not evidence that
+            // the selected proxy is bad. Cancel every in-flight probe and keep
+            // (or restore) the user's original selection.
+            self.restoreOriginIfNeededOrInvalidate(suppressCurrent: false)
+        case .updating:
+            self.didLogNetworkUnavailable = false
             // Interface changes are not proxy failures.
             self.suppressedServer = nil
             self.invalidate(suppressCurrent: false)
@@ -194,8 +218,17 @@ final class NagramiXProxyFailoverController {
 
     private func check(origin: ProxyServerSettings, candidates: [ProxyServerSettings], index: Int, token: UInt64) {
         guard token == self.generation, let network = self.network else { return }
+        if case .waitingForNetwork = self.status {
+            self.restoreOriginIfNeededOrInvalidate(suppressCurrent: false)
+            return
+        }
+        self.checkAvailableCandidate(origin: origin, candidates: candidates, index: index, token: token, network: network)
+    }
+
+    private func checkAvailableCandidate(origin: ProxyServerSettings, candidates: [ProxyServerSettings], index: Int, token: UInt64, network: Network) {
         guard index < candidates.count else {
-            self.invalidate(suppressCurrent: true)
+            Logger.shared.log("NagramiX", "Proxy failover completed without an available candidate")
+            self.restoreOriginIfNeededOrInvalidate(suppressCurrent: true)
             return
         }
         let candidate = candidates[index]
@@ -222,6 +255,16 @@ final class NagramiXProxyFailoverController {
                 }
                 self.apply(origin: origin, candidates: candidates, index: index, candidate: candidate, token: token)
             }
+        }, error: { [weak self] _ in
+            self?.queue.async {
+                guard let self, token == self.generation,
+                      case let .checking(_, _, phaseIndex, phaseToken) = self.phase,
+                      phaseIndex == index, phaseToken == token else { return }
+                Logger.shared.log("NagramiX", "Proxy connectivity check failed; candidate marked unavailable")
+                self.cancelTimer()
+                self.probeDisposable = nil
+                self.check(origin: origin, candidates: candidates, index: index + 1, token: token)
+            }
         }, completed: { [weak self] in
             self?.queue.async {
                 guard let self, token == self.generation,
@@ -232,6 +275,45 @@ final class NagramiXProxyFailoverController {
                 self.check(origin: origin, candidates: candidates, index: index + 1, token: token)
             }
         })
+    }
+
+    private func restoreOriginIfNeededOrInvalidate(suppressCurrent: Bool) {
+        guard case .restoring = self.phase else {
+            guard let origin = self.phase.origin,
+                  let failed = self.settings.activeServer,
+                  failed != origin,
+                  self.settings.servers.contains(origin),
+                  let accountManager = self.accountManager else {
+                self.invalidate(suppressCurrent: suppressCurrent)
+                return
+            }
+
+            self.generation &+= 1
+            let token = self.generation
+            self.cancelTimer()
+            self.probeDisposable?.dispose()
+            self.probeDisposable = nil
+            self.applyDisposable?.dispose()
+            self.applyDisposable = nil
+            self.phase = .restoring(origin: origin, failed: failed, token: token)
+            self.suppressedServer = suppressCurrent ? origin : nil
+            Logger.shared.log("NagramiX", "Restoring the original proxy after an interrupted failover")
+            self.applyDisposable = (updateProxySettingsInteractively(accountManager: accountManager, { current in
+                guard current.enabled, current.activeServer == failed, current.servers.contains(origin) else {
+                    return current
+                }
+                var current = current
+                current.activeServer = origin
+                return current
+            }) |> deliverOn(self.queue)).start(next: { [weak self] _ in
+                guard let self, token == self.generation,
+                      case let .restoring(phaseOrigin, phaseFailed, phaseToken) = self.phase,
+                      phaseOrigin == origin, phaseFailed == failed, phaseToken == token else { return }
+                self.applyDisposable = nil
+                self.invalidate(suppressCurrent: suppressCurrent)
+            })
+            return
+        }
     }
 
     private func apply(origin: ProxyServerSettings, candidates: [ProxyServerSettings], index: Int, candidate: ProxyServerSettings, token: UInt64) {
