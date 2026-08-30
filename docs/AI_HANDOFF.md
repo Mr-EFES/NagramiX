@@ -2,7 +2,7 @@
 
 ## Last updated
 
-- Date: 2026-08-27 (Europe/Moscow).
+- Date: 2026-08-30 (Europe/Moscow).
 - Agent: Codex, primary agent.
 - Repository root used for this handoff: `D:\NagramiX\IA\referenced-chatgpt-conversation-this-is-an`.
 
@@ -11,13 +11,13 @@
 NagramiX is an overlay repository for an independent Telegram client for iOS. It does not track the complete Telegram-iOS tree. CI checks out a pinned Telegram-iOS revision, verifies it as version 12.9.2, applies the NagramiX overlay and produces an unsigned ARM64 IPA.
 
 - Active branch: `codex/nagramix-next-fixes`.
-- Current HEAD: `f6bb526` (`fix: satisfy Swift 6 atomic result checks`), following feature commit `05a9099`.
-- Tracking branch: `origin/codex/nagramix-next-fixes`.
+- Functional build commit: `22ec680` (`fix: use public media aliases in copy mode`); the following documentation-only synchronization commit does not change the IPA sources.
+- Tracking branch: `origin/codex/nagramix-next-fixes`; the functional build commit is pushed.
 - Configured and successfully pushed origin: `https://github.com/Mr-EFES/NagramiX.git`.
 - Tracked functional files were clean before adding the two handoff documents.
 - Existing untracked local material: `.codex-ci-31536377921.log`, `.codex-tmp-0.1.2/`, `.codex-validation-0.1.9/`, `.codex-validation-0.2.1/` through `.codex-validation-0.2.4/`, `artifacts/` and `outputs/`. These are validation trees, logs or build artifacts, not current tracked work. Do not stage them indiscriminately.
-- Latest confirmed native build: GitHub Actions run `33094859022`, successful for commit `f6bb526` after correcting two Swift 6 unused-result diagnostics found by run `33093783236`.
-- Latest downloaded artifact: `outputs/NagramiX-0.2.2-33094859022/NagramiX-0.2.2-unsigned-arm64/NagramiX-0.2.2-unsigned.ipa`, 72,773,188 bytes, SHA-256 `18A6D0302A3032F45F12897500788D6BD04FEA05E72E22A34E9FD9CF6E835FFB`.
+- Latest confirmed native build: GitHub Actions run `33269968974`, successful for commit `22ec680` and version `0.2.3` build `7`.
+- Latest downloaded artifact: `outputs/NagramiX-0.2.3-33269968974/NagramiX-0.2.3-unsigned.ipa`, 72,774,846 bytes, SHA-256 `2512A4EAC603FE78D7B3D1D71B2404DD160C5A3818F6A4A87FCD4EF68390FCD2`.
 
 ## Current development focus
 
@@ -77,7 +77,7 @@ The earlier forwarding, round-video and proxy work plus the deleted-message/edit
 - `nagramix/Sources/SettingsUI/NagramiXSettingsController.swift` — adds the FEATURES / MESSAGES switches, explanatory rows and confirmed local-archive cleanup action.
 - `nagramix/Sources/NagramiXCore/Sources/NagramiXPresentationStrings.swift` and `Resources/{en,ru}.lproj/Localizable.strings` — add all message-archive labels and actions without Swift string literals.
 - `nagramix/apply_features.py` — copies the archive into TelegramCore and uniquely anchors integration into Account, state mutation, interactive deletion, chat-history rendering, bubble status and the message context menu. It also restores a missing CLI entry point so `python nagramix/apply_features.py --telegram-dir ...` actually applies the overlay.
-- `nagramix/Sources/SettingsUI/ProxyListNagramiXBlock.swift.inc` — retains the prior uncommitted proxy batch-check work.
+- `nagramix/Sources/SettingsUI/ProxyListNagramiXBlock.swift.inc` — contains the committed proxy batch-check work.
 
 The archive is keyed by peer/message namespace/message id and stored as `nagramix-message-archive.json` inside the account `basePath`. Telegram's existing `managedCleanupAccounts` removes the complete `account-*` directory after logout/removal, so the archive follows account data cleanup. Synthetic deleted messages are built only for the active `MessageHistoryView` conversion and are never inserted into Postbox; they therefore do not participate in unread counts, notifications, chat-list ordering/last-message, search, read state or server actions. Context actions on synthetic messages are restricted to Copy, Edit History and local Delete.
 
@@ -124,7 +124,7 @@ The pre-existing `README.md` modification is unrelated and must not be folded in
 ## Decisions already made
 
 - Keep NagramiX custom behavior isolated from upstream whenever practical so Telegram-iOS updates remain reviewable.
-- Maintain a separate bundle identifier: `com.gamesfanteam.nagramix`.
+- Maintain a separate bundle identifier: `com.mr-efes.nagramix`.
 - Produce unsigned ARM64 IPA files without Apple certificates or signing secrets in the repository.
 - Keep Telegram-iOS pinned until a deliberate upstream migration audits all exact patch anchors.
 - Do not compile Android NagramX code into iOS; reproduce selected behavior using Telegram-iOS architecture.
@@ -149,7 +149,7 @@ The pre-existing `README.md` modification is unrelated and must not be folded in
 - Empty-caption media does not yet get a separate media-node Deleted badge; the implemented bubble marker covers text and supported media captions. Native build/device testing must decide whether a dedicated media overlay is needed.
 - Temporary validation trees and downloaded artifacts are untracked and can create noisy `git status` output. Do not treat them as authoritative sources or stage them accidentally.
 - `docs/BOOTSTRAP.md` and part of `README.md` retain wording centered on 0.2.0 even though the current workflow version is 0.2.1. This is a documentation consistency issue, not an instruction to modify it during unrelated tasks.
-- The configured Git remote still uses the former `GamesFanTeam` URL. Verify repository ownership/redirect state before changing the remote.
+- The configured Git remote is `https://github.com/Mr-EFES/NagramiX.git` for fetch and push.
 
 ## Build / Test
 
@@ -178,7 +178,7 @@ The workflow performs these verified stages:
 5. Generate temporary build-only profiles with `nagramix/generate_fake_profiles.py`.
 6. Build Telegram-iOS with its native `build-system/Make/Make.py`, configuration `release_arm64`, through Bazel.
 7. Package and validate the unsigned app with `scripts/package_unsigned_ipa.sh`.
-8. Upload `NagramiX-0.2.1-unsigned.ipa` and `BUILD-PROVENANCE.txt` as an Actions artifact.
+8. Upload `NagramiX-0.2.3-unsigned.ipa` and `BUILD-PROVENANCE.txt` as an Actions artifact.
 
 The workflow can be started with GitHub Actions `workflow_dispatch` or by a pull request change under its configured paths.
 
@@ -205,7 +205,7 @@ The produced IPA is unsigned. Sign it externally, install it on a physical iPhon
 - Overlay application/static integration before that build: **PASS** as part of the successful CI pipeline.
 - Automated unit tests: **NOT RUN / no overlay-specific suite discovered**.
 - Lint: **NOT RUN / no overlay-specific lint job discovered**.
-- IPA archive integrity: **PASS** — ZIP validation passed; the artifact contains `Payload/NagramiX.app/Info.plist` and the ARM64 Mach-O `Payload/NagramiX.app/Telegram`, bundle id `com.gamesfanteam.nagramix`, version `0.2.2`, and no `_CodeSignature` or `embedded.mobileprovision`; SHA-256 recorded above.
+- IPA archive integrity: **PASS** — ZIP validation passed; the artifact contains `Payload/NagramiX.app/Info.plist` and the ARM64 Mach-O `Payload/NagramiX.app/Telegram`, bundle id `com.mr-efes.nagramix`, version `0.2.3`, and no `_CodeSignature` or `embedded.mobileprovision`; SHA-256 recorded above.
 - Manual verification of 0.2.1 on a physical iPhone: **PENDING / not recorded in the repository**.
 - Latest deleted-message/edit-history overlay: **STATIC PASS / NATIVE PASS / DEVICE PENDING** — clean pinned application, unique new anchors, Python compilation, localization checks, overlay/generated `git diff --check` and macOS ARM64 compilation passed; physical-device behavior is not yet verified.
 
@@ -237,9 +237,48 @@ No workflow, build configuration or new image asset was intentionally changed du
 - Keep secrets out of patches, logs and handoff documents.
 - Before closing the next session, replace stale state in this file with verified current facts rather than endlessly appending chat history.
 
-## Pending 0.2.3 iPhone test build
+## Built 0.2.3 iPhone test version
 
-The tracked overlay now contains the six user-requested follow-up fixes. No external build was started during this work:
+### Offline/proxy startup and Copy as New hardening (2026-08-29)
+
+The tracked overlay includes the two additional fixes built into the 0.2.3 test version.
+
+Offline/proxy changes:
+
+- `NagramiXProxyFailoverController` remains entirely on its dedicated `SwiftSignalKit.Queue`; account/UI construction never waits for a proxy check.
+- `.waitingForNetwork` is treated as a normal state. It cancels pending timers/probes and does not classify the active proxy as broken.
+- the `MTProxyConnectivity` error channel is handled explicitly. A DNS/socket failure advances to the next candidate instead of escaping or leaving the state machine stuck;
+- if connectivity disappears after automatic failover temporarily selected a candidate, the controller restores the original user-selected proxy only when the current value still matches the controller's own candidate. A concurrent manual proxy change is not overwritten;
+- failed DoH requests use non-nil local errors, `NSURLSessionConfiguration.waitsForConnectivity = false`, generic non-sensitive logging and the existing `MTTcpConnection` close/reconnect path. No hostname, proxy address, credentials, password or MTProto secret is logged;
+- Telegram's proxy list checker maps its checker's error channel to the existing `.notAvailable` state. No ICMP/socket-only checker or main-thread network operation was added.
+
+No `.ips`, `.crash`, device console or symbolicated stack trace was present in the project, and the Windows host cannot reproduce Airplane Mode on an iPhone. Therefore the exact original runtime stack trace is still unavailable. The verified source-level risk was the NagramiX-added DNS/failover error path around account networking, not Telegram's local UI/database bootstrap. A physical-device crash log is still required if the issue reproduces after the new build.
+
+Copy-as-new changes:
+
+- `NagramiXMessageTransferMode.copyAsNew` is distinct from `.forwardWithSource` all the way through destination selection;
+- copy mode no longer gives the picker `forwardedMessageIds`, so forward-only options do not leak into this operation;
+- classic forwarding still builds `.forward` values with native `ForwardOptionsMessageAttribute` behavior;
+- copy mode builds only new `EnqueueMessage.message` values. It copies text/caption entities, custom-emoji associated media, supported image/file/contact/map references, spoiler state and fresh per-operation album grouping keys;
+- copy mode sets no `ForwardOptionsMessageAttribute`, reply id or story reply id and never mutates the source `Message`;
+- protected, secret-media/self-destruct, expired and paid content is rejected before copy mode is offered;
+- TelegramCore's normal enqueue path creates the result with `forwardInfo: nil` and derives the author from the current account or native channel/send-as rules. Text and supported captions are therefore editable through Telegram's ordinary edit rules; media types that Telegram normally does not allow editing remain non-editable.
+
+Validation for these latest fixes:
+
+- Python compilation of `apply_overlay.py`, `apply_features.py` and `generate_fake_profiles.py`: PASS;
+- repository `git diff --check`: PASS;
+- clean overlay application to Telegram-iOS `6ad963e5b62d354da79040f388ae2b9132fb17b8`: PASS;
+- all exact anchors used by the overlay: PASS;
+- generated-tree `git diff --check`: PASS;
+- static invariants for asynchronous failover, DNS error handling, `.copyAsNew`/`.forward` separation, `forwardInfo: nil`, current-account/native-send-as authorship, entities, custom emoji, media, grouping and protected-content rejection: PASS;
+- localization duplicate check and English-to-Russian fallback coverage: PASS;
+- native Xcode/Bazel build for these latest changes: PASS in workflow `33269968974`;
+- Airplane Mode/proxy recovery and copy/edit tests on a physical iPhone: PENDING.
+
+Authoritative changed files for this fix are `nagramix/Sources/TelegramCore/NagramiXProxyFailoverController.swift`, `nagramix/Sources/MtProtoKit/NagramiXDNSResolver.m`, `nagramix/apply_features.py` and this handoff. The clean generated validation tree is `.codex-validation-offline-copy4-0.2.3` and must not be committed.
+
+The tracked overlay contains the six user-requested follow-up fixes included in build 0.2.3:
 
 - clean-install appearance uses Telegram's built-in dark-blue `.nightAccent` theme and its native wallpaper; saved appearance settings are untouched;
 - the Profiles settings retain Profile ID and approximate registration date, remove the chat-creation-date feature, make the displayed numeric ID copyable with Telegram's `UndoOverlayController`, and add the default-off mutual-contact badge preference;
@@ -261,7 +300,22 @@ Local validation on 2026-08-29:
 - exact-anchor enforcement: PASS;
 - overlay and generated-tree `git diff --check`: PASS;
 - localization duplicate check: PASS; every English NagramiX key has a Russian counterpart;
-- native macOS/Bazel compilation: PENDING;
+- native macOS/Bazel compilation: PASS in workflow `33269968974`;
 - physical-iPhone behavior and crash testing: PENDING.
 
 The disposable validation worktree is `.codex-validation-ready-0.2.3`; it is not a durable source and must not be committed. Stage only the tracked overlay/build metadata and this handoff file, never the validation trees, artifacts, logs or the unrelated existing README edit.
+
+## NagramiX 0.2.3 native test build (2026-08-29)
+
+- Successful workflow: `33269968974`, job `99146579963`, commit `22ec68018c160fd57e5b1f2959050ce87bc9bcf1`.
+- Native macOS/Xcode/Bazel release ARM64 compilation: **PASS**.
+- Overlay application, unsigned packaging, provenance recording and artifact upload: **PASS**.
+- Artifact: `NagramiX-0.2.3-unsigned-arm64` (GitHub artifact id `9720430103`).
+- Downloaded IPA: `outputs/NagramiX-0.2.3-33269968974/NagramiX-0.2.3-unsigned.ipa`.
+- IPA ZIP validation: **PASS**; `Payload/NagramiX.app/Info.plist` is present.
+- Metadata: bundle id `com.mr-efes.nagramix`, short version `0.2.3`, build `7`, ARM64 Mach-O CPU type `0x0100000c`.
+- IPA SHA-256: `2512A4EAC603FE78D7B3D1D71B2404DD160C5A3818F6A4A87FCD4EF68390FCD2`.
+- The IPA intentionally has no `_CodeSignature` and no `embedded.mobileprovision`; external signing is required before installation.
+- The first build attempt exposed a missing mandatory `completed` callback in the Swift bridge for `MTSignal.start`; commit `146c158` fixed it.
+- The second build exposed unavailable direct Postbox type names in TelegramUI copy mode; commit `22ec680` switched to public `EngineMedia.Id` / `EngineRawMedia` aliases.
+- Physical-iPhone runtime, offline/proxy recovery and copy-as-new/editability verification: **PENDING USER TEST**. Native compilation alone does not prove these runtime scenarios.
