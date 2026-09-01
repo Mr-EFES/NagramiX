@@ -5,15 +5,16 @@
 ## Project identity
 
 - **Name:** NagramiX.
-- **Purpose:** an independent, unofficial, modified Telegram client for iOS.
-- **Base:** a pinned Telegram-iOS 12.9.2 revision. NagramiX is an overlay repository, not a full fork containing the complete Telegram-iOS source tree.
-- **Reference project:** NagramX tag/reference 1258 is used only as a source of product ideas. Android code is not compiled into NagramiX.
+- **Purpose:** an independent, unofficial, modified Telegram client for iOS and Android.
+- **Bases:** pinned Telegram-iOS 12.9.2 and NagramX 1258 revisions. NagramiX is an overlay repository, not a full fork containing either complete upstream source tree.
+- **Android project:** NagramX tag 1258 is the pinned Android base. CI compiles it only after applying the tracked `android/` overlay.
 - **Primary technologies:** Swift, Objective-C/Objective-C++, Python, Bash, Bazel/Starlark, Xcode and GitHub Actions.
-- **Target:** unsigned ARM64 IPA for physical iPhone installation after external signing (for example with SideStore).
+- **Targets:** unsigned ARM64 IPA for physical iPhone installation after external signing (for example with SideStore), and an ARM64 debug-signed APK for physical Android pre-release testing.
 
 ### Key directories
 
 - `nagramix/` — the authoritative NagramiX overlay, branding, custom sources, configuration template and patch scripts.
+- `android/` — the authoritative Android pin, exact-anchor overlay script and Android-specific documentation.
 - `nagramix/Sources/NagramiXCore/` — persistent settings and NagramiX localization resources.
 - `nagramix/Sources/SettingsUI/` — NagramiX settings, custom DoH UI and the proxy-screen overlay block.
 - `nagramix/Sources/TelegramCore/` — proxy failover controller integrated into TelegramCore.
@@ -23,6 +24,7 @@
 - `nagramix/apply_features.py` — exact-anchor patches against the pinned Telegram-iOS revision. Treat this as a high-risk integration file.
 - `scripts/package_unsigned_ipa.sh` — strips temporary signatures/profiles, validates metadata and packages the unsigned IPA.
 - `.github/workflows/build-unsigned-ipa.yml` — authoritative macOS/Xcode/Bazel build pipeline.
+- `.github/workflows/build-android-apk.yml` — authoritative Ubuntu/Gradle Android ARM64 test-APK pipeline.
 - `docs/` — bootstrap/release documentation and the current AI handoff.
 - `work/`, `.codex-validation-*`, `.codex-tmp-*`, `artifacts/` and `outputs/` — local checkouts, validation copies or build outputs. They are not authoritative source code and must not be edited as a substitute for changing the tracked overlay.
 
