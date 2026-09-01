@@ -2,15 +2,15 @@
 
 ## Last updated
 
-- Date: 2026-08-30 (Europe/Moscow).
+- Date: 2026-09-01 (UTC).
 - Agent: Codex, primary agent.
-- Repository root used for this handoff: `D:\NagramiX\IA\referenced-chatgpt-conversation-this-is-an`.
+- Repository root used for this handoff: `/workspace/NagramiX`.
 
 ## Current project state
 
 NagramiX is an overlay repository for an independent Telegram client for iOS. It does not track the complete Telegram-iOS tree. CI checks out a pinned Telegram-iOS revision, verifies it as version 12.9.2, applies the NagramiX overlay and produces an unsigned ARM64 IPA.
 
-- Active branch: `codex/nagramix-next-fixes`.
+- Active release-preparation branch: `release/0.2.4-prerelease` (created from `origin/main` at `7a35310`).
 - Functional build commit: `22ec680` (`fix: use public media aliases in copy mode`); the following documentation-only synchronization commit does not change the IPA sources.
 - Tracking branch: `origin/codex/nagramix-next-fixes`; the functional build commit is pushed.
 - Configured and successfully pushed origin: `https://github.com/Mr-EFES/NagramiX.git`.
@@ -319,3 +319,14 @@ The disposable validation worktree is `.codex-validation-ready-0.2.3`; it is not
 - The first build attempt exposed a missing mandatory `completed` callback in the Swift bridge for `MTSignal.start`; commit `146c158` fixed it.
 - The second build exposed unavailable direct Postbox type names in TelegramUI copy mode; commit `22ec680` switched to public `EngineMedia.Id` / `EngineRawMedia` aliases.
 - Physical-iPhone runtime, offline/proxy recovery and copy-as-new/editability verification: **PENDING USER TEST**. Native compilation alone does not prove these runtime scenarios.
+
+## NagramiX 0.2.4 pre-release preparation (2026-09-01)
+
+The 0.2.4 pre-release changes only release metadata and documentation before the native build:
+
+- `.github/workflows/build-unsigned-ipa.yml` now packages `NagramiX-0.2.4-unsigned.ipa`;
+- `README.md` identifies 0.2.4 as a pre-release;
+- `docs/NAGRAMIX-0.2.4.md` records the current feature set, verified scope, known limitations and the physical-device test matrix;
+- no product source or pinned Telegram-iOS revision was changed for this version bump.
+
+Verification completed before commit: Python compilation for all three overlay scripts, YAML parsing, `git diff --check`, shell syntax for the IPA packager, JSON parsing for the configuration template, and localization key parity/duplicate checks. Native macOS/Xcode/Bazel compilation, IPA validation, GitHub pre-release publication and physical-device testing are pending at this point. The exact next step is to commit and push the release-preparation branch, create its pull request, dispatch the macOS build, verify the downloaded unsigned IPA, and publish it in a GitHub pre-release with these notes. Physical-device scenarios remain pending after publication.
