@@ -2,7 +2,7 @@
 
 **NagramiX** — независимый неофициальный клиент Telegram для iOS и Android.
 
-Проект применяет небольшие изолированные overlay к закреплённым исходникам Telegram-iOS и NagramX: полный upstream-код обеих платформ не копируется в репозиторий.
+Проект применяет небольшие изолированные overlay к закреплённым официальным исходникам Telegram для iOS и Android: полный upstream-код обеих платформ не копируется в репозиторий. NagramX используется только как источник идей; его код не является базой NagramiX.
 
 ## Текущая версия: 0.2.4 pre-release
 
@@ -74,7 +74,7 @@ GitHub Actions собирает нативное ARM64-приложение на
 
 ### Android
 
-- База: NagramX 1258, точная ревизия закреплена в `android/upstream.env`.
+- База: официальный Telegram Android 12.9.2 (`DrKLO/Telegram`), точная ревизия закреплена в `android/upstream.env`.
 - Package ID: `com.mr_efes.nagramix`.
 - Результат: `NagramiX-0.2.4-android-arm64.apk`, подписанный временным debug-ключом CI для тестовой установки.
 

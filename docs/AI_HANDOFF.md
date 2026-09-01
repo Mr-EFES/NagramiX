@@ -8,7 +8,7 @@
 
 ## Current project state
 
-NagramiX is an overlay monorepo for independent Telegram clients for iOS and Android. It does not track either complete upstream tree. CI applies the iOS overlay to pinned Telegram-iOS 12.9.2 and the Android overlay to pinned NagramX 1258.
+NagramiX is an overlay monorepo for independent Telegram clients for iOS and Android. It does not track either complete upstream tree. CI applies the iOS overlay to pinned official Telegram-iOS 12.9.2 and the Android overlay to pinned official Telegram Android 12.9.2. iOS is the product priority; NagramX 1258 is an idea reference only.
 
 - Active release-preparation branch: `release/0.2.4-prerelease` (created from `origin/main` at `7a35310`).
 - Functional build commit: `22ec680` (`fix: use public media aliases in copy mode`); the following documentation-only synchronization commit does not change the IPA sources.
@@ -88,7 +88,7 @@ The pre-existing `README.md` modification is unrelated and must not be folded in
 ## Important architecture/context
 
 1. **Overlay, not full fork.** `nagramix/apply_overlay.py` is the CI entry point. It generates a temporary configuration from environment secrets, changes pinned branding/build anchors, creates app-icon assets and invokes `apply_features(source)`.
-2. **Pinned upstreams.** `nagramix/upstream.env` pins Telegram-iOS commit `6ad963e5b62d354da79040f388ae2b9132fb17b8`; `android/upstream.env` pins NagramX tag 1258 at commit `ee899eff5a4980ae4f9eca7f60227029b95cbe07`.
+2. **Pinned upstreams.** `nagramix/upstream.env` pins Telegram-iOS commit `6ad963e5b62d354da79040f388ae2b9132fb17b8`; `android/upstream.env` pins official Telegram Android 12.9.2 at commit `b7561f0c641b521df0000bda2704664d792d6a1a`.
 3. **Fail-fast patching.** `nagramix/apply_features.py` uses exact single-occurrence anchors and ranges. A missing anchor aborts the overlay instead of silently producing a partially branded or partially functional build. Updating Telegram-iOS requires auditing these patches.
 4. **Isolated custom code.** Custom Swift/Objective-C sources live under `nagramix/Sources/` and are copied into the temporary Telegram tree. Bazel dependencies and small upstream integrations are then added by the patcher.
 5. **Settings persistence.** `NagramiXTabSettings` stores tab, camera, story, DNS, proxy and interface choices in `UserDefaults`, publishes change notifications and contains the sponsor-setting migration. Persisted-key compatibility matters.
@@ -351,3 +351,11 @@ Android run `33543742039` succeeded for commit `55211affebbb12a430d07772d340e61f
 The first Android publisher run `33547055308` verified the complete APK ZIP but failed its checksum command because the checksum file stores a basename while the workflow ran from the repository root. The validation was corrected to execute `sha256sum --check` inside `release-assets`; the downloaded APK itself was not implicated.
 
 Android publisher run `33547148058` then passed ZIP integrity, SHA-256 verification and release upload. GitHub pre-release `v0.2.4-rc1` now contains `NagramiX-0.2.4-android-arm64.apk` (77,171,492 bytes, SHA-256 `b6347954016ba9e5d37ca34e6a80d793d0dafa3b52e91b7bc847c92066639937`) alongside the iOS IPA and Android metadata, signature, checksum and provenance files. PRs `#4` and `#5` are merged. Remaining work is exclusively physical-device Android testing and any fixes it reveals; record results in `docs/ANDROID-FUNCTION-PARITY.md` without upgrading Pending rows based on compilation alone.
+
+## Android architecture correction: official Telegram base (2026-09-01)
+
+The product owner clarified the authoritative architecture: NagramiX is an independent application; iOS is the priority platform, Android is a first-class secondary platform, and both start from official Telegram repositories. Shared product ideas may come from NagramX 1258, but NagramX source must not be the Android base or be compiled into NagramiX. iOS features are implemented natively in Swift/Objective-C and Android counterparts in NagramiX-owned Kotlin/Java.
+
+The earlier NagramX-based Android artifact and parity claims are superseded and must not be treated as the independent Android client. The replacement pin is official `DrKLO/Telegram` commit `b7561f0c641b521df0000bda2704664d792d6a1a`, whose `gradle.properties` reports 12.9.2 (6991). `android/apply_overlay.py` was rewritten for this official tree: it sets independent version/package metadata, injects NagramiX branding and a Kotlin-owned settings namespace, uses repository-secret Telegram API credentials through generated BuildConfig fields, disables official-only update/passkey behavior, configures independent debug signing and limits the development APK to ARM64.
+
+The parity matrix was reset to honest implementation states. Most product features are **Not ported** on the corrected official Android base; successful compilation cannot change those states. The prior APK must be removed/replaced in `v0.2.4-rc1` after the corrected official-base CI succeeds. Exact next step: apply the rewritten overlay to a clean official checkout, run static checks, build in Android CI, verify package/signature/provenance, replace the pre-release APK, then implement matrix rows one by one with Kotlin/Java and Samsung device tests.

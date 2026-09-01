@@ -6,9 +6,11 @@
 
 - **Name:** NagramiX.
 - **Purpose:** an independent, unofficial, modified Telegram client for iOS and Android.
-- **Bases:** pinned Telegram-iOS 12.9.2 and NagramX 1258 revisions. NagramiX is an overlay repository, not a full fork containing either complete upstream source tree.
-- **Android project:** NagramX tag 1258 is the pinned Android base. CI compiles it only after applying the tracked `android/` overlay.
-- **Primary technologies:** Swift, Objective-C/Objective-C++, Python, Bash, Bazel/Starlark, Xcode and GitHub Actions.
+- **Bases:** pinned official Telegram-iOS 12.9.2 and official Telegram Android 12.9.2 revisions. NagramiX is an overlay repository, not a full fork containing either complete upstream source tree.
+- **Product priority:** iPhone/iOS is the primary platform. Android is a first-class secondary build for Samsung/Android device testing.
+- **Reference project:** NagramX 1258 is used only as a source of product ideas and behavior references. NagramX code is not the Android base and must not be compiled into NagramiX.
+- **Platform implementations:** shared NagramiX product behavior is implemented natively in Swift/Objective-C for iOS and Kotlin/Java for Android against the respective official Telegram codebase.
+- **Primary technologies:** Swift, Objective-C/Objective-C++, Kotlin, Java, Python, Bash, Bazel/Starlark, Gradle, Xcode and GitHub Actions.
 - **Targets:** unsigned ARM64 IPA for physical iPhone installation after external signing (for example with SideStore), and an ARM64 debug-signed APK for physical Android pre-release testing.
 
 ### Key directories
