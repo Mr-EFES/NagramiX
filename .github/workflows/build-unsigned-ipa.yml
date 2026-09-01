@@ -19,7 +19,7 @@ jobs:
       TELEGRAM_API_ID: ${{ secrets.TELEGRAM_API_ID }}
       TELEGRAM_API_HASH: ${{ secrets.TELEGRAM_API_HASH }}
       BAZEL_CACHE: ${{ github.workspace }}/.bazel-cache
-      NAGRAMIX_VERSION: 0.2.3
+      NAGRAMIX_VERSION: 0.2.4
 
     steps:
       - name: Check out NagramiX overlay

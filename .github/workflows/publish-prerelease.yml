@@ -1,0 +1,52 @@
+name: Publish NagramiX pre-release artifact
+
+on:
+  workflow_dispatch:
+    inputs:
+      run_id:
+        description: Successful unsigned-IPA workflow run id
+        required: true
+        type: string
+      artifact_name:
+        description: Artifact name produced by the build
+        required: true
+        type: string
+      tag:
+        description: Existing GitHub pre-release tag
+        required: true
+        type: string
+
+permissions:
+  actions: read
+  contents: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download the verified workflow artifact
+        uses: actions/download-artifact@v5
+        with:
+          name: ${{ inputs.artifact_name }}
+          path: release-assets
+          github-token: ${{ github.token }}
+          run-id: ${{ inputs.run_id }}
+
+      - name: Validate release files
+        shell: bash
+        run: |
+          test -f release-assets/NagramiX-0.2.4-unsigned.ipa
+          test -f release-assets/BUILD-PROVENANCE.txt
+          unzip -t release-assets/NagramiX-0.2.4-unsigned.ipa
+          sha256sum release-assets/NagramiX-0.2.4-unsigned.ipa
+
+      - name: Upload files to the existing pre-release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          gh release upload "${{ inputs.tag }}" \
+            release-assets/NagramiX-0.2.4-unsigned.ipa \
+            release-assets/BUILD-PROVENANCE.txt \
+            --repo "${{ github.repository }}" \
+            --clobber
