@@ -322,11 +322,12 @@ The disposable validation worktree is `.codex-validation-ready-0.2.3`; it is not
 
 ## NagramiX 0.2.4 pre-release preparation (2026-09-01)
 
-The 0.2.4 pre-release changes only release metadata and documentation before the native build:
+The 0.2.4 pre-release changes release metadata and documentation before the native build:
 
 - `.github/workflows/build-unsigned-ipa.yml` now packages `NagramiX-0.2.4-unsigned.ipa`;
 - `README.md` identifies 0.2.4 as a pre-release;
 - `docs/NAGRAMIX-0.2.4.md` records the current feature set, verified scope, known limitations and the physical-device test matrix;
+- `.github/workflows/publish-prerelease.yml` transfers a successful Actions artifact directly into an existing GitHub pre-release; this avoids relying on a local host's access to the Azure Actions-artifact CDN;
 - no product source or pinned Telegram-iOS revision was changed for this version bump.
 
-Verification completed before commit: Python compilation for all three overlay scripts, YAML parsing, `git diff --check`, shell syntax for the IPA packager, JSON parsing for the configuration template, and localization key parity/duplicate checks. Native macOS/Xcode/Bazel compilation, IPA validation, GitHub pre-release publication and physical-device testing are pending at this point. The exact next step is to commit and push the release-preparation branch, create its pull request, dispatch the macOS build, verify the downloaded unsigned IPA, and publish it in a GitHub pre-release with these notes. Physical-device scenarios remain pending after publication.
+Native macOS/Xcode/Bazel run `33513250714` succeeded for commit `3fb56f6abb0c1001472d06d68f235eaea68b25bb`; its packaging, provenance and artifact-upload steps passed and produced Actions artifact `NagramiX-0.2.4-unsigned-arm64` (artifact id `9805797797`, 72,514,272 bytes). Local download was not possible because this environment's CONNECT proxy returned HTTP 403 for the Azure Actions-artifact CDN, so local plist/Mach-O/SHA-256 inspection was not claimed. The publisher workflow validates the artifact ZIP before attaching the IPA and provenance to GitHub. Static verification completed: Python compilation for all three overlay scripts, YAML parsing, `git diff --check`, shell syntax for the IPA packager, JSON parsing for the configuration template, and localization coverage/duplicate checks. Physical-device testing remains pending after publication.
