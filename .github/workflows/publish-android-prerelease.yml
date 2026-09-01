@@ -41,7 +41,7 @@ jobs:
           test -f release-assets/android-apk-signature.txt
           test -f release-assets/android-apk-sha256.txt
           unzip -t release-assets/NagramiX-0.2.4-android-arm64.apk
-          sha256sum --check release-assets/android-apk-sha256.txt
+          (cd release-assets && sha256sum --check android-apk-sha256.txt)
 
       - name: Upload Android files to the existing pre-release
         env:
