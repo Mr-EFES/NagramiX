@@ -2,15 +2,15 @@
 
 ## Last updated
 
-- Date: 2026-08-30 (Europe/Moscow).
+- Date: 2026-09-01 (UTC).
 - Agent: Codex, primary agent.
-- Repository root used for this handoff: `D:\NagramiX\IA\referenced-chatgpt-conversation-this-is-an`.
+- Repository root used for this handoff: `/workspace/NagramiX`.
 
 ## Current project state
 
 NagramiX is an overlay repository for an independent Telegram client for iOS. It does not track the complete Telegram-iOS tree. CI checks out a pinned Telegram-iOS revision, verifies it as version 12.9.2, applies the NagramiX overlay and produces an unsigned ARM64 IPA.
 
-- Active branch: `codex/nagramix-next-fixes`.
+- Active release-preparation branch: `release/0.2.4-prerelease` (created from `origin/main` at `7a35310`).
 - Functional build commit: `22ec680` (`fix: use public media aliases in copy mode`); the following documentation-only synchronization commit does not change the IPA sources.
 - Tracking branch: `origin/codex/nagramix-next-fixes`; the functional build commit is pushed.
 - Configured and successfully pushed origin: `https://github.com/Mr-EFES/NagramiX.git`.
@@ -319,3 +319,15 @@ The disposable validation worktree is `.codex-validation-ready-0.2.3`; it is not
 - The first build attempt exposed a missing mandatory `completed` callback in the Swift bridge for `MTSignal.start`; commit `146c158` fixed it.
 - The second build exposed unavailable direct Postbox type names in TelegramUI copy mode; commit `22ec680` switched to public `EngineMedia.Id` / `EngineRawMedia` aliases.
 - Physical-iPhone runtime, offline/proxy recovery and copy-as-new/editability verification: **PENDING USER TEST**. Native compilation alone does not prove these runtime scenarios.
+
+## NagramiX 0.2.4 pre-release preparation (2026-09-01)
+
+The 0.2.4 pre-release changes release metadata and documentation before the native build:
+
+- `.github/workflows/build-unsigned-ipa.yml` now packages `NagramiX-0.2.4-unsigned.ipa`;
+- `README.md` identifies 0.2.4 as a pre-release;
+- `docs/NAGRAMIX-0.2.4.md` records the current feature set, verified scope, known limitations and the physical-device test matrix;
+- `.github/workflows/publish-prerelease.yml` transfers a successful Actions artifact directly into an existing GitHub pre-release; this avoids relying on a local host's access to the Azure Actions-artifact CDN;
+- no product source or pinned Telegram-iOS revision was changed for this version bump.
+
+Native macOS/Xcode/Bazel run `33513250714` succeeded for commit `3fb56f6abb0c1001472d06d68f235eaea68b25bb`; its packaging, provenance and artifact-upload steps passed and produced Actions artifact `NagramiX-0.2.4-unsigned-arm64` (artifact id `9805797797`, 72,514,272 bytes). Local download was not possible because this environment's CONNECT proxy returned HTTP 403 for the Azure Actions-artifact CDN, so local plist/Mach-O/SHA-256 inspection was not claimed. The publisher workflow validates the artifact ZIP before attaching the IPA and provenance to GitHub. Static verification completed: Python compilation for all three overlay scripts, YAML parsing, `git diff --check`, shell syntax for the IPA packager, JSON parsing for the configuration template, and localization coverage/duplicate checks. Physical-device testing remains pending after publication.
