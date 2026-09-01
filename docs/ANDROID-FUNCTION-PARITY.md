@@ -1,6 +1,6 @@
 # NagramiX 0.2.4 Android / iOS functional parity
 
-NagramiX is one independent product with native clients based on official Telegram sources. iOS is primary and uses Telegram-iOS 12.9.2. Android is secondary and uses official Telegram Android 12.9.2. NagramX 1258 is an idea reference only.
+NagramiX is one independent product with native clients based on official Telegram sources. iOS is primary and currently uses Telegram-iOS 12.9.2. Android is secondary and currently uses official Telegram Android 12.10.1. NagramX 1258 is an idea reference only.
 
 Status meanings:
 

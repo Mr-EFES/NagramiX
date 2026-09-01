@@ -6,7 +6,7 @@
 
 - **Name:** NagramiX.
 - **Purpose:** an independent, unofficial, modified Telegram client for iOS and Android.
-- **Bases:** pinned official Telegram-iOS 12.9.2 and official Telegram Android 12.9.2 revisions. NagramiX is an overlay repository, not a full fork containing either complete upstream source tree.
+- **Bases:** audited pins of the current official Telegram-iOS and official Telegram Android default branches. At the 2026-09-01 audit these report iOS 12.9.2 and Android 12.10.1. NagramiX is an overlay repository, not a full fork containing either complete upstream source tree.
 - **Product priority:** iPhone/iOS is the primary platform. Android is a first-class secondary build for Samsung/Android device testing.
 - **Reference project:** NagramX 1258 is used only as a source of product ideas and behavior references. NagramX code is not the Android base and must not be compiled into NagramiX.
 - **Platform implementations:** shared NagramiX product behavior is implemented natively in Swift/Objective-C for iOS and Kotlin/Java for Android against the respective official Telegram codebase.
@@ -15,15 +15,16 @@
 
 ### Key directories
 
-- `nagramix/` — the authoritative NagramiX overlay, branding, custom sources, configuration template and patch scripts.
+- `product/` — the platform-neutral source of truth for NagramiX identity, feature specifications, canonical settings, terminology, parity and release scope.
+- `ios/` — the authoritative NagramiX overlay, branding, custom sources, configuration template and patch scripts.
 - `android/` — the authoritative Android pin, exact-anchor overlay script and Android-specific documentation.
-- `nagramix/Sources/NagramiXCore/` — persistent settings and NagramiX localization resources.
-- `nagramix/Sources/SettingsUI/` — NagramiX settings, custom DoH UI and the proxy-screen overlay block.
-- `nagramix/Sources/TelegramCore/` — proxy failover controller integrated into TelegramCore.
-- `nagramix/Sources/MtProtoKit/` — custom DNS/DoH resolver integrated into the pinned MtProtoKit sources.
-- `nagramix/branding/` — primary and alternate application icon sources.
-- `nagramix/apply_overlay.py` — top-level overlay entry point used by CI; generates private build configuration, applies branding and invokes the feature patcher.
-- `nagramix/apply_features.py` — exact-anchor patches against the pinned Telegram-iOS revision. Treat this as a high-risk integration file.
+- `ios/Sources/NagramiXCore/` — persistent settings and NagramiX localization resources.
+- `ios/Sources/SettingsUI/` — NagramiX settings, custom DoH UI and the proxy-screen overlay block.
+- `ios/Sources/TelegramCore/` — proxy failover controller integrated into TelegramCore.
+- `ios/Sources/MtProtoKit/` — custom DNS/DoH resolver integrated into the pinned MtProtoKit sources.
+- `ios/branding/` — primary and alternate application icon sources.
+- `ios/apply_overlay.py` — top-level overlay entry point used by CI; generates private build configuration, applies branding and invokes the feature patcher.
+- `ios/apply_features.py` — exact-anchor patches against the pinned Telegram-iOS revision. Treat this as a high-risk integration file.
 - `scripts/package_unsigned_ipa.sh` — strips temporary signatures/profiles, validates metadata and packages the unsigned IPA.
 - `.github/workflows/build-unsigned-ipa.yml` — authoritative macOS/Xcode/Bazel build pipeline.
 - `.github/workflows/build-android-apk.yml` — authoritative Ubuntu/Gradle Android ARM64 test-APK pipeline.
@@ -32,11 +33,13 @@
 
 ## Repository model
 
-GitHub Actions checks out the pinned Telegram-iOS commit from `nagramix/upstream.env`, verifies the expected upstream version, then applies the tracked NagramiX overlay to that clean checkout.
+GitHub Actions checks out the pinned Telegram-iOS commit from `ios/upstream.env`, verifies the expected upstream version, then applies the tracked NagramiX overlay to that clean checkout.
+
+Before either platform build, `scripts/check_upstreams.py --require-current` compares the audited pin and version with the official Telegram default branch. A stale result blocks the build until a deliberate upstream migration audits the exact anchors. Never silently build a moving branch or blindly update a pin.
 
 Do not make product changes directly inside a temporary Telegram-iOS checkout and assume they are preserved. Every durable NagramiX change must exist in tracked overlay source, a tracked patch operation, build configuration, documentation or Git history.
 
-The exact string anchors in `nagramix/apply_features.py` intentionally fail when the pinned upstream source no longer matches. Do not weaken those checks or replace them with best-effort patching without a deliberate upstream migration review.
+The exact string anchors in `ios/apply_features.py` intentionally fail when the pinned upstream source no longer matches. Do not weaken those checks or replace them with best-effort patching without a deliberate upstream migration review.
 
 ## Working rules
 

@@ -4,7 +4,7 @@ work/
 *.xcarchive
 __pycache__/
 *.pyc
-nagramix/generated-configuration.json
+ios/generated-configuration.json
 .codex-*
 artifacts/
 outputs/

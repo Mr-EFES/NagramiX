@@ -8,7 +8,7 @@
 
 ## Current project state
 
-NagramiX is an overlay monorepo for independent Telegram clients for iOS and Android. It does not track either complete upstream tree. CI applies the iOS overlay to pinned official Telegram-iOS 12.9.2 and the Android overlay to pinned official Telegram Android 12.9.2. iOS is the product priority; NagramX 1258 is an idea reference only.
+NagramiX is an overlay monorepo for independent Telegram clients for iOS and Android. It does not track either complete upstream tree. CI applies the iOS overlay to pinned official Telegram-iOS 12.9.2 and the Android overlay to pinned official Telegram Android 12.10.1. iOS is the product priority; NagramX 1258 is an idea reference only.
 
 - Active release-preparation branch: `release/0.2.4-prerelease` (created from `origin/main` at `7a35310`).
 - Functional build commit: `22ec680` (`fix: use public media aliases in copy mode`); the following documentation-only synchronization commit does not change the IPA sources.
@@ -23,7 +23,7 @@ NagramiX is an overlay monorepo for independent Telegram clients for iOS and And
 
 The NagramiX settings screen has been reorganized locally into the typed categories Interface, Features and Other. Commit `6bf96de` contains that reorganization. Commit `a8cc5a3` adds the Force TCP call setting and its real one-to-one VoIP transport integration. A clean application of the combined overlay to pinned Telegram-iOS 12.9.2 passed in `.codex-validation-force-tcp-3`.
 
-The message context-menu forward modes were corrected locally in the uncommitted `nagramix/apply_features.py` change. The two existing actions already passed explicit `ChatInterfaceForwardOptionsState` values, but `ChatControllerForwardMessages.swift` discarded that outer value after destination selection and used only the peer picker's `forwardOptions`. The overlay now uses `options ?? forwardOptions`: NagramiX's explicit mode wins, while ordinary Telegram forwarding with `options == nil` retains the picker's standard behavior. “Forward without author” uses Telegram's existing `ForwardOptionsMessageAttribute(hideNames: true)`, which becomes the native `messages.forwardMessages` bit 11 (`drop_author`) and suppresses local `forwardInfo`; it does not rebuild or modify `MessageObject` instances. Text entities, media/captions, custom emoji, message order and album grouping remain in the native forwarding pipeline. Secret chats, paid media and non-Premium rich messages disable the anonymous action, while the existing action-availability logic continues to block protected and self-destruct content. The distinct icon reuses Telegram's tintable `message_preview_person_off` animation.
+The message context-menu forward modes were corrected locally in the uncommitted `ios/apply_features.py` change. The two existing actions already passed explicit `ChatInterfaceForwardOptionsState` values, but `ChatControllerForwardMessages.swift` discarded that outer value after destination selection and used only the peer picker's `forwardOptions`. The overlay now uses `options ?? forwardOptions`: NagramiX's explicit mode wins, while ordinary Telegram forwarding with `options == nil` retains the picker's standard behavior. “Forward without author” uses Telegram's existing `ForwardOptionsMessageAttribute(hideNames: true)`, which becomes the native `messages.forwardMessages` bit 11 (`drop_author`) and suppresses local `forwardInfo`; it does not rebuild or modify `MessageObject` instances. Text entities, media/captions, custom emoji, message order and album grouping remain in the native forwarding pipeline. Secret chats, paid media and non-Premium rich messages disable the anonymous action, while the existing action-availability logic continues to block protected and self-destruct content. The distinct icon reuses Telegram's tintable `message_preview_person_off` animation.
 
 The rear-camera video-message implementation was rewritten locally in the same uncommitted overlay. The former code manually probed only `.builtInWideAngleCamera`, disabled Telegram's dual-camera path for rear starts, replaced native pinch completion with custom neutral-zoom methods, and marked a position change immediately before recording. All four workarounds were removed. `VideoMessageCameraScreen` now snapshots the existing setting once and changes only its initial `CameraState.position`; the original `Camera.Configuration`, dual-camera decision, `CameraDevice.configure` lens selection, `Camera.togglePosition`, zoom gestures, recorder call, orientation/mirroring, flash, animations and cleanup remain intact. `CameraOutput.setInitialPosition` initializes the recorder's native stream selector without creating a switch timestamp or reopening a camera. The same device contexts and `CameraDevice.configure` path used by Telegram's switch button therefore select the initial rear camera. Missing rear-device selection falls back once to the already configured front context where possible; existing `Camera` runtime-error logging/recovery remains authoritative for later HAL/session errors. The persisted key remains `nagramix.videoMessages.useRearCamera`; only the absent-key default changed from `true` to the requested `false`, so stored user values are preserved.
 
@@ -62,7 +62,7 @@ The following is supported by commit `21802bf`, the tracked sources and current 
 - Added the NagramiX information block: Features, Updates and Help, with puzzle/megaphone/message icons and the project website, update channel and help bot destinations.
 - Inverted and migrated the proxy sponsor setting to `hideProxySponsorChannel`, defaulting to hidden.
 - Hardened proxy failover state against competing timers and stale asynchronous callbacks.
-- Continued fixes for story-view confirmation, rear-camera video messages and zoom behavior through exact upstream patches in `nagramix/apply_features.py`.
+- Continued fixes for story-view confirmation, rear-camera video messages and zoom behavior through exact upstream patches in `ios/apply_features.py`.
 - Kept the clean-install defaults for Russian localization, dark theme and the built-in game wallpaper, without intentionally overwriting established user choices.
 - The previous 0.1.9/0.2.0 work introduced the DNS selector and DoH resolver path, custom DoH validation, proxy auto-switch controller, persistent proxy button, tab controls, story controls, eight application icons and Russian Debug-menu localization.
 
@@ -70,14 +70,14 @@ These statements describe implemented code and build history. They do not imply 
 
 ## Completed in the 0.2.2 build
 
-The earlier forwarding, round-video and proxy work plus the deleted-message/edit-history implementation are committed and included in the successful 0.2.2 native build. The durable feature sources are under `nagramix/`, not in a generated validation tree:
+The earlier forwarding, round-video and proxy work plus the deleted-message/edit-history implementation are committed and included in the successful 0.2.2 native build. The durable feature sources are under `ios/`, not in a generated validation tree:
 
-- `nagramix/Sources/TelegramCore/NagramiXMessageArchive.swift` — new account-owned, asynchronous local snapshot archive. It stores only received incoming cloud messages, text/caption entities, safe image/file references and peer data; it excludes secret chats, verification-code chats, copy-protected peers/messages, autoremove/autoclear/view-once/ephemeral content and paid media.
-- `nagramix/Sources/NagramiXCore/Sources/NagramiXTabSettings.swift` — persists `nagramix.messages.showDeletedMessages` and `nagramix.messages.editHistory`, both defaulting to `false`.
-- `nagramix/Sources/SettingsUI/NagramiXSettingsController.swift` — adds the FEATURES / MESSAGES switches, explanatory rows and confirmed local-archive cleanup action.
-- `nagramix/Sources/NagramiXCore/Sources/NagramiXPresentationStrings.swift` and `Resources/{en,ru}.lproj/Localizable.strings` — add all message-archive labels and actions without Swift string literals.
-- `nagramix/apply_features.py` — copies the archive into TelegramCore and uniquely anchors integration into Account, state mutation, interactive deletion, chat-history rendering, bubble status and the message context menu. It also restores a missing CLI entry point so `python nagramix/apply_features.py --telegram-dir ...` actually applies the overlay.
-- `nagramix/Sources/SettingsUI/ProxyListNagramiXBlock.swift.inc` — contains the committed proxy batch-check work.
+- `ios/Sources/TelegramCore/NagramiXMessageArchive.swift` — new account-owned, asynchronous local snapshot archive. It stores only received incoming cloud messages, text/caption entities, safe image/file references and peer data; it excludes secret chats, verification-code chats, copy-protected peers/messages, autoremove/autoclear/view-once/ephemeral content and paid media.
+- `ios/Sources/NagramiXCore/Sources/NagramiXTabSettings.swift` — persists `nagramix.messages.showDeletedMessages` and `nagramix.messages.editHistory`, both defaulting to `false`.
+- `ios/Sources/SettingsUI/NagramiXSettingsController.swift` — adds the FEATURES / MESSAGES switches, explanatory rows and confirmed local-archive cleanup action.
+- `ios/Sources/NagramiXCore/Sources/NagramiXPresentationStrings.swift` and `Resources/{en,ru}.lproj/Localizable.strings` — add all message-archive labels and actions without Swift string literals.
+- `ios/apply_features.py` — copies the archive into TelegramCore and uniquely anchors integration into Account, state mutation, interactive deletion, chat-history rendering, bubble status and the message context menu. It also restores a missing CLI entry point so `python ios/apply_features.py --telegram-dir ...` actually applies the overlay.
+- `ios/Sources/SettingsUI/ProxyListNagramiXBlock.swift.inc` — contains the committed proxy batch-check work.
 
 The archive is keyed by peer/message namespace/message id and stored as `nagramix-message-archive.json` inside the account `basePath`. Telegram's existing `managedCleanupAccounts` removes the complete `account-*` directory after logout/removal, so the archive follows account data cleanup. Synthetic deleted messages are built only for the active `MessageHistoryView` conversion and are never inserted into Postbox; they therefore do not participate in unread counts, notifications, chat-list ordering/last-message, search, read state or server actions. Context actions on synthetic messages are restricted to Copy, Edit History and local Delete.
 
@@ -87,10 +87,10 @@ The pre-existing `README.md` modification is unrelated and must not be folded in
 
 ## Important architecture/context
 
-1. **Overlay, not full fork.** `nagramix/apply_overlay.py` is the CI entry point. It generates a temporary configuration from environment secrets, changes pinned branding/build anchors, creates app-icon assets and invokes `apply_features(source)`.
-2. **Pinned upstreams.** `nagramix/upstream.env` pins Telegram-iOS commit `6ad963e5b62d354da79040f388ae2b9132fb17b8`; `android/upstream.env` pins official Telegram Android 12.9.2 at commit `b7561f0c641b521df0000bda2704664d792d6a1a`.
-3. **Fail-fast patching.** `nagramix/apply_features.py` uses exact single-occurrence anchors and ranges. A missing anchor aborts the overlay instead of silently producing a partially branded or partially functional build. Updating Telegram-iOS requires auditing these patches.
-4. **Isolated custom code.** Custom Swift/Objective-C sources live under `nagramix/Sources/` and are copied into the temporary Telegram tree. Bazel dependencies and small upstream integrations are then added by the patcher.
+1. **Overlay, not full fork.** `ios/apply_overlay.py` is the CI entry point. It generates a temporary configuration from environment secrets, changes pinned branding/build anchors, creates app-icon assets and invokes `apply_features(source)`.
+2. **Pinned upstreams.** `ios/upstream.env` pins Telegram-iOS commit `6ad963e5b62d354da79040f388ae2b9132fb17b8`; `android/upstream.env` pins official Telegram Android 12.10.1 at commit `b7561f0c641b521df0000bda2704664d792d6a1a`.
+3. **Fail-fast patching.** `ios/apply_features.py` uses exact single-occurrence anchors and ranges. A missing anchor aborts the overlay instead of silently producing a partially branded or partially functional build. Updating Telegram-iOS requires auditing these patches.
+4. **Isolated custom code.** Custom Swift/Objective-C sources live under `ios/Sources/` and are copied into the temporary Telegram tree. Bazel dependencies and small upstream integrations are then added by the patcher.
 5. **Settings persistence.** `NagramiXTabSettings` stores tab, camera, story, DNS, proxy and interface choices in `UserDefaults`, publishes change notifications and contains the sponsor-setting migration. Persisted-key compatibility matters.
 6. **DNS integration.** `NagramiXDNSResolver` is copied into MtProtoKit and patched into the `MTDNS` resolution path. The selected provider is represented by one typed `NagramiXDnsProvider`. Inspect the actual MtProtoKit call path before expanding claims about which traffic is resolved through DoH.
 7. **Proxy failover.** `NagramiXProxyFailoverController` lives in TelegramCore, observes connection/proxy state, delays according to 15/30/60-second settings, checks candidates through existing Telegram proxy-connectivity infrastructure, updates real `ProxySettings` and invalidates stale work. It must remain independent of the proxy settings screen lifecycle.
@@ -104,22 +104,22 @@ The pre-existing `README.md` modification is unrelated and must not be folded in
 - `README.md` — project identity, current version, feature summary and build outcome.
 - `docs/BOOTSTRAP.md` — bootstrap/build model and risk map; some wording still reflects the 0.2.0 iteration.
 - `docs/NAGRAMIX-0.1.7.md` through `docs/NAGRAMIX-0.2.0.md` — historical test-version notes and physical-device checklists.
-- `nagramix/upstream.env` — authoritative pinned Telegram-iOS SHA/version and NagramX reference.
-- `nagramix/configuration.template.json` — non-secret build configuration template and NagramiX bundle metadata.
-- `nagramix/apply_overlay.py` — branding/configuration/icon orchestration and feature-overlay entry point.
-- `nagramix/apply_features.py` — all exact upstream integration patches; highest-risk maintenance file.
-- `nagramix/generate_fake_profiles.py` — temporary self-signed profile generation on macOS.
+- `ios/upstream.env` — authoritative pinned Telegram-iOS SHA/version and NagramX reference.
+- `ios/configuration.template.json` — non-secret build configuration template and NagramiX bundle metadata.
+- `ios/apply_overlay.py` — branding/configuration/icon orchestration and feature-overlay entry point.
+- `ios/apply_features.py` — all exact upstream integration patches; highest-risk maintenance file.
+- `ios/generate_fake_profiles.py` — temporary self-signed profile generation on macOS.
 - `scripts/package_unsigned_ipa.sh` — unsigned IPA packaging and final metadata checks.
-- `nagramix/Sources/NagramiXCore/Sources/NagramiXTabSettings.swift` — typed DNS provider, persistent feature settings, defaults, migration and notifications.
-- `nagramix/Sources/NagramiXCore/Sources/NagramiXPresentationStrings.swift` — NagramiX localization accessors layered on Telegram presentation data.
-- `nagramix/Sources/NagramiXCore/Resources/{en,ru}.lproj/Localizable.strings` — English and Russian NagramiX strings.
-- `nagramix/Sources/SettingsUI/NagramiXSettingsController.swift` — main NagramiX settings UI.
-- `nagramix/Sources/SettingsUI/NagramiXCustomDohController.swift` — HTTPS DoH URL validation/edit UI.
-- `nagramix/Sources/SettingsUI/ProxyListNagramiXBlock.swift.inc` — replacement proxy screen block injected into pinned SettingsUI.
-- `nagramix/Sources/TelegramCore/NagramiXProxyFailoverController.swift` — runtime proxy failure monitor and failover coordinator.
-- `nagramix/Sources/TelegramCore/NagramiXMessageArchive.swift` — account-scoped local deleted-message and edit-revision snapshot service.
-- `nagramix/Sources/MtProtoKit/NagramiXDNSResolver.{h,m}` — DNS-over-HTTPS implementation for MtProtoKit integration.
-- `nagramix/branding/AppIcons/1.png` through `8.png` — authoritative app-icon source images.
+- `ios/Sources/NagramiXCore/Sources/NagramiXTabSettings.swift` — typed DNS provider, persistent feature settings, defaults, migration and notifications.
+- `ios/Sources/NagramiXCore/Sources/NagramiXPresentationStrings.swift` — NagramiX localization accessors layered on Telegram presentation data.
+- `ios/Sources/NagramiXCore/Resources/{en,ru}.lproj/Localizable.strings` — English and Russian NagramiX strings.
+- `ios/Sources/SettingsUI/NagramiXSettingsController.swift` — main NagramiX settings UI.
+- `ios/Sources/SettingsUI/NagramiXCustomDohController.swift` — HTTPS DoH URL validation/edit UI.
+- `ios/Sources/SettingsUI/ProxyListNagramiXBlock.swift.inc` — replacement proxy screen block injected into pinned SettingsUI.
+- `ios/Sources/TelegramCore/NagramiXProxyFailoverController.swift` — runtime proxy failure monitor and failover coordinator.
+- `ios/Sources/TelegramCore/NagramiXMessageArchive.swift` — account-scoped local deleted-message and edit-revision snapshot service.
+- `ios/Sources/MtProtoKit/NagramiXDNSResolver.{h,m}` — DNS-over-HTTPS implementation for MtProtoKit integration.
+- `ios/branding/AppIcons/1.png` through `8.png` — authoritative app-icon source images.
 
 ## Decisions already made
 
@@ -141,7 +141,7 @@ The pre-existing `README.md` modification is unrelated and must not be folded in
 - NagramiX 0.2.1 compiled successfully, but full 0.2.1 physical-iPhone regression results have not yet been recorded. Do not convert compile success into a claim that every story, camera, zoom, DNS or failover scenario is proven.
 - The latest IPA is unsigned and must be signed externally before installation.
 - Native iOS compilation cannot be performed in the current Windows workspace; use the macOS GitHub Actions pipeline.
-- `nagramix/apply_features.py` is large and tightly coupled to the pinned upstream text. It is intentionally fragile across upstream revisions.
+- `ios/apply_features.py` is large and tightly coupled to the pinned upstream text. It is intentionally fragile across upstream revisions.
 - No dedicated automated unit-test or lint target for the overlay repository was discovered during this audit.
 - The message archive can only retain content and revisions actually received by this client after a feature is enabled. Telegram exposes no API for recovering earlier deletions or unseen edits.
 - The current archive persists compact snapshot metadata in one account-local JSON file. UI conversion is range-filtered and limited to 200 deleted entries per history update, but a future large-scale iteration should move storage to a sharded/Postbox-backed index before claiming stress validation for very large archives.
@@ -164,18 +164,18 @@ Required repository secrets:
 
 The workflow performs these verified stages:
 
-1. Read `nagramix/upstream.env`.
+1. Read `ios/upstream.env`.
 2. Check out Telegram-iOS with recursive submodules at the pinned SHA.
 3. Verify `versions.json` reports Telegram `12.9.2` and select its required Xcode.
 4. Run:
 
    ```bash
-   python3 nagramix/apply_overlay.py \
+   python3 ios/apply_overlay.py \
      --source Telegram-iOS \
      --configuration "$RUNNER_TEMP/nagramix-configuration.json"
    ```
 
-5. Generate temporary build-only profiles with `nagramix/generate_fake_profiles.py`.
+5. Generate temporary build-only profiles with `ios/generate_fake_profiles.py`.
 6. Build Telegram-iOS with its native `build-system/Make/Make.py`, configuration `release_arm64`, through Bazel.
 7. Package and validate the unsigned app with `scripts/package_unsigned_ipa.sh`.
 8. Upload `NagramiX-0.2.3-unsigned.ipa` and `BUILD-PROVENANCE.txt` as an Actions artifact.
@@ -187,7 +187,7 @@ The workflow can be started with GitHub Actions `workflow_dispatch` or by a pull
 From the repository root, Windows/macOS/Linux agents can run:
 
 ```text
-python -m py_compile nagramix/apply_overlay.py nagramix/apply_features.py nagramix/generate_fake_profiles.py
+python -m py_compile ios/apply_overlay.py ios/apply_features.py ios/generate_fake_profiles.py
 git diff --check
 ```
 
@@ -221,11 +221,11 @@ The produced IPA is unsigned. Sign it externally, install it on a physical iPhon
 
 ## Files modified in the latest session
 
-- `nagramix/Sources/TelegramCore/NagramiXMessageArchive.swift` — new persistent account-local snapshot service and synthetic deleted-message model.
-- `nagramix/Sources/NagramiXCore/Sources/NagramiXTabSettings.swift` — adds the two default-off persisted message switches while retaining earlier settings work.
-- `nagramix/Sources/SettingsUI/NagramiXSettingsController.swift` — adds the FEATURES / MESSAGES controls and confirmed archive cleanup.
-- `nagramix/Sources/NagramiXCore/Sources/NagramiXPresentationStrings.swift` and `Resources/{en,ru}.lproj/Localizable.strings` — add message-archive UI strings while retaining prior proxy strings.
-- `nagramix/apply_features.py` — integrates capture-before-edit/delete, local-delete suppression, synthetic history entries, Deleted bubble status and formatted Edit History context action; it also restores the executable CLI footer and enforces unique anchors for the new integration.
+- `ios/Sources/TelegramCore/NagramiXMessageArchive.swift` — new persistent account-local snapshot service and synthetic deleted-message model.
+- `ios/Sources/NagramiXCore/Sources/NagramiXTabSettings.swift` — adds the two default-off persisted message switches while retaining earlier settings work.
+- `ios/Sources/SettingsUI/NagramiXSettingsController.swift` — adds the FEATURES / MESSAGES controls and confirmed archive cleanup.
+- `ios/Sources/NagramiXCore/Sources/NagramiXPresentationStrings.swift` and `Resources/{en,ru}.lproj/Localizable.strings` — add message-archive UI strings while retaining prior proxy strings.
+- `ios/apply_features.py` — integrates capture-before-edit/delete, local-delete suppression, synthetic history entries, Deleted bubble status and formatted Edit History context action; it also restores the executable CLI footer and enforces unique anchors for the new integration.
 - `docs/AI_HANDOFF.md` — records the archive architecture, static validation, exclusions and remaining native/device limitations.
 
 No workflow, build configuration or new image asset was intentionally changed during this session. Generated Telegram sources were changed only inside disposable validation worktrees; the durable implementation remains in the tracked overlay.
@@ -276,7 +276,7 @@ Validation for these latest fixes:
 - native Xcode/Bazel build for these latest changes: PASS in workflow `33269968974`;
 - Airplane Mode/proxy recovery and copy/edit tests on a physical iPhone: PENDING.
 
-Authoritative changed files for this fix are `nagramix/Sources/TelegramCore/NagramiXProxyFailoverController.swift`, `nagramix/Sources/MtProtoKit/NagramiXDNSResolver.m`, `nagramix/apply_features.py` and this handoff. The clean generated validation tree is `.codex-validation-offline-copy4-0.2.3` and must not be committed.
+Authoritative changed files for this fix are `ios/Sources/TelegramCore/NagramiXProxyFailoverController.swift`, `ios/Sources/MtProtoKit/NagramiXDNSResolver.m`, `ios/apply_features.py` and this handoff. The clean generated validation tree is `.codex-validation-offline-copy4-0.2.3` and must not be committed.
 
 The tracked overlay contains the six user-requested follow-up fixes included in build 0.2.3:
 
@@ -356,6 +356,24 @@ Android publisher run `33547148058` then passed ZIP integrity, SHA-256 verificat
 
 The product owner clarified the authoritative architecture: NagramiX is an independent application; iOS is the priority platform, Android is a first-class secondary platform, and both start from official Telegram repositories. Shared product ideas may come from NagramX 1258, but NagramX source must not be the Android base or be compiled into NagramiX. iOS features are implemented natively in Swift/Objective-C and Android counterparts in NagramiX-owned Kotlin/Java.
 
-The earlier NagramX-based Android artifact and parity claims are superseded and must not be treated as the independent Android client. The replacement pin is official `DrKLO/Telegram` commit `b7561f0c641b521df0000bda2704664d792d6a1a`, whose `gradle.properties` reports 12.9.2 (6991). `android/apply_overlay.py` was rewritten for this official tree: it sets independent version/package metadata, injects NagramiX branding and a Kotlin-owned settings namespace, uses repository-secret Telegram API credentials through generated BuildConfig fields, disables official-only update/passkey behavior, configures independent debug signing and limits the development APK to ARM64.
+The earlier NagramX-based Android artifact and parity claims are superseded and must not be treated as the independent Android client. The replacement pin is official `DrKLO/Telegram` commit `62b56a07ca7e30e39f7fd00a6728d6bbd716ca1c`, whose `gradle.properties` reports 12.10.1 (7038). `android/apply_overlay.py` was rewritten for this official tree: it sets independent version/package metadata, injects NagramiX branding and a Kotlin-owned settings namespace, uses repository-secret Telegram API credentials through generated BuildConfig fields, disables official-only update/passkey behavior, configures independent debug signing and limits the development APK to ARM64.
 
 The parity matrix was reset to honest implementation states. Most product features are **Not ported** on the corrected official Android base; successful compilation cannot change those states. The prior APK must be removed/replaced in `v0.2.4-rc1` after the corrected official-base CI succeeds. Exact next step: apply the rewritten overlay to a clean official checkout, run static checks, build in Android CI, verify package/signature/provenance, replace the pre-release APK, then implement matrix rows one by one with Kotlin/Java and Samsung device tests.
+
+## Repository product/systematization pass (2026-09-01)
+
+The owner approved a three-layer monorepo: `product/` defines NagramiX behavior and settings, `ios/` implements it against official Telegram-iOS, and `android/` implements it with NagramiX-owned Kotlin/Java against official Telegram Android. iOS remains the implementation priority; Android parity is a required follow-up rather than a claim inferred from another client.
+
+Changes in this pass:
+
+- moved the former iOS-specific `nagramix/` tree to `ios/` and updated authoritative workflows/documentation without changing persisted `nagramix.*` setting keys;
+- added platform-neutral product identity, settings contract, terminology, compatibility, feature registry, feature lifecycle, upstream policy and 0.2.4 scope under `product/`;
+- added `scripts/check_upstreams.py` plus scheduled/manual CI audit, and made IPA/APK builds require current official pins;
+- verified official master on 2026-09-01: Telegram-iOS is 12.9.2 at `6ad963e5b62d354da79040f388ae2b9132fb17b8`; Telegram Android is 12.10.1 (7038) at `62b56a07ca7e30e39f7fd00a6728d6bbd716ca1c`;
+- migrated the corrected Android overlay to that current official Android commit and SDK 36;
+- documented current minimums from official sources: iOS 13.0 and Android API 21 / Android 5.0;
+- rewrote README around the independent, unofficial, non-commercial product, official bases, directory layout, compatibility, pre-release model and honest Android backlog.
+
+Static verification completed: official upstream audit with `--require-current`, Android overlay application to a clean official checkout, Python compilation, JSON parsing, workflow YAML parsing, embedded shell syntax and repository/generated-tree `git diff --check`. Native IPA was not rebuilt because iOS product code did not change. The restructured current-official Android APK requires a fresh GitHub Actions build before the obsolete NagramX-based APK release asset can be replaced. Physical-device validation remains pending.
+
+Exact next step: authenticate GitHub CLI, synchronize with `origin/main`, push this focused restructuring commit, create a PR, run Android CI, inspect APK metadata/signature/provenance, replace the old Android release asset only after success, then continue feature ports from `product/features/registry.json` in iOS-priority order.

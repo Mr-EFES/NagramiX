@@ -54,8 +54,8 @@ def main() -> None:
         )
 
     properties = source / "gradle.properties"
-    replace_exact(properties, "APP_VERSION_CODE=6991", f"APP_VERSION_CODE={env['NAGRAMIX_ANDROID_VERSION_CODE']}")
-    replace_exact(properties, "APP_VERSION_NAME=12.9.2", f"APP_VERSION_NAME={env['NAGRAMIX_ANDROID_VERSION']}")
+    replace_exact(properties, "APP_VERSION_CODE=7038", f"APP_VERSION_CODE={env['NAGRAMIX_ANDROID_VERSION_CODE']}")
+    replace_exact(properties, "APP_VERSION_NAME=12.10.1", f"APP_VERSION_NAME={env['NAGRAMIX_ANDROID_VERSION']}")
     replace_exact(properties, "APP_PACKAGE=org.telegram.messenger", f"APP_PACKAGE={env['NAGRAMIX_ANDROID_PACKAGE']}")
 
     core_gradle = source / "TMessagesProj" / "build.gradle"
@@ -67,12 +67,12 @@ def main() -> None:
     replace_exact(
         core_gradle,
         "    implementation 'androidx.core:core:1.16.0'",
-        "    implementation 'androidx.core:core:1.16.0'\n    implementation 'org.jetbrains.kotlin:kotlin-stdlib:1.9.20'",
+        "    implementation 'androidx.core:core:1.16.0'\n    implementation 'org.jetbrains.kotlin:kotlin-stdlib:2.1.0'",
     )
     replace_exact(
         core_gradle,
-        "        targetSdkVersion 35\n\n        vectorDrawables.generatedDensities",
-        "        targetSdkVersion 35\n\n"
+        "        targetSdkVersion 36\n\n        vectorDrawables.generatedDensities",
+        "        targetSdkVersion 36\n\n"
         "        buildConfigField \"int\", \"NAGRAMIX_APP_ID\", getProps(\"TELEGRAM_APP_ID\")\n"
         "        buildConfigField \"String\", \"NAGRAMIX_APP_HASH\", \"\\\"\" + getProps(\"TELEGRAM_APP_HASH\") + \"\\\"\"\n\n"
         "        vectorDrawables.generatedDensities",
@@ -103,7 +103,7 @@ def main() -> None:
         ROOT / "android" / "Sources" / "NagramiXSettings.kt",
         source / "TMessagesProj" / "src" / "main" / "java" / "com" / "mr_efes" / "nagramix" / "NagramiXSettings.kt",
     )
-    copy(ROOT / "nagramix" / "branding" / "AppIcons" / "1.png", resource_root / "drawable-nodpi" / "nagramix_app_icon.png")
+    copy(ROOT / "ios" / "branding" / "AppIcons" / "1.png", resource_root / "drawable-nodpi" / "nagramix_app_icon.png")
 
     manifests = [
         source / "TMessagesProj" / "config" / "debug" / "AndroidManifest.xml",
