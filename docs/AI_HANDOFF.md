@@ -2,15 +2,15 @@
 
 ## Last updated
 
-- Date: 2026-08-30 (Europe/Moscow).
+- Date: 2026-09-01 (UTC).
 - Agent: Codex, primary agent.
-- Repository root used for this handoff: `D:\NagramiX\IA\referenced-chatgpt-conversation-this-is-an`.
+- Repository root used for this handoff: `/workspace/NagramiX`.
 
 ## Current project state
 
-NagramiX is an overlay repository for an independent Telegram client for iOS. It does not track the complete Telegram-iOS tree. CI checks out a pinned Telegram-iOS revision, verifies it as version 12.9.2, applies the NagramiX overlay and produces an unsigned ARM64 IPA.
+NagramiX is an overlay monorepo for independent Telegram clients for iOS and Android. It does not track either complete upstream tree. CI applies the iOS overlay to pinned Telegram-iOS 12.9.2 and the Android overlay to pinned NagramX 1258.
 
-- Active branch: `codex/nagramix-next-fixes`.
+- Active release-preparation branch: `release/0.2.4-prerelease` (created from `origin/main` at `7a35310`).
 - Functional build commit: `22ec680` (`fix: use public media aliases in copy mode`); the following documentation-only synchronization commit does not change the IPA sources.
 - Tracking branch: `origin/codex/nagramix-next-fixes`; the functional build commit is pushed.
 - Configured and successfully pushed origin: `https://github.com/Mr-EFES/NagramiX.git`.
@@ -88,7 +88,7 @@ The pre-existing `README.md` modification is unrelated and must not be folded in
 ## Important architecture/context
 
 1. **Overlay, not full fork.** `nagramix/apply_overlay.py` is the CI entry point. It generates a temporary configuration from environment secrets, changes pinned branding/build anchors, creates app-icon assets and invokes `apply_features(source)`.
-2. **Pinned upstream.** `nagramix/upstream.env` pins Telegram-iOS commit `6ad963e5b62d354da79040f388ae2b9132fb17b8` and expects application version `12.9.2`. NagramX reference `1258` is informational/product reference only.
+2. **Pinned upstreams.** `nagramix/upstream.env` pins Telegram-iOS commit `6ad963e5b62d354da79040f388ae2b9132fb17b8`; `android/upstream.env` pins NagramX tag 1258 at commit `ee899eff5a4980ae4f9eca7f60227029b95cbe07`.
 3. **Fail-fast patching.** `nagramix/apply_features.py` uses exact single-occurrence anchors and ranges. A missing anchor aborts the overlay instead of silently producing a partially branded or partially functional build. Updating Telegram-iOS requires auditing these patches.
 4. **Isolated custom code.** Custom Swift/Objective-C sources live under `nagramix/Sources/` and are copied into the temporary Telegram tree. Bazel dependencies and small upstream integrations are then added by the patcher.
 5. **Settings persistence.** `NagramiXTabSettings` stores tab, camera, story, DNS, proxy and interface choices in `UserDefaults`, publishes change notifications and contains the sponsor-setting migration. Persisted-key compatibility matters.
@@ -127,7 +127,7 @@ The pre-existing `README.md` modification is unrelated and must not be folded in
 - Maintain a separate bundle identifier: `com.mr-efes.nagramix`.
 - Produce unsigned ARM64 IPA files without Apple certificates or signing secrets in the repository.
 - Keep Telegram-iOS pinned until a deliberate upstream migration audits all exact patch anchors.
-- Do not compile Android NagramX code into iOS; reproduce selected behavior using Telegram-iOS architecture.
+- Keep the Android and iOS applications independently compiled and platform-native; parity is user-visible behavior, not shared platform code.
 - Keep eight NagramiX icons only; icon 1 is the real primary icon and icons 2–8 are alternates.
 - Default tab behavior: Contacts and Calls hidden, titles shown, separate Search button hidden.
 - Default video-message camera preference: front camera; enabling the existing setting changes only the next round-video recorder's initial position to rear.
@@ -319,3 +319,35 @@ The disposable validation worktree is `.codex-validation-ready-0.2.3`; it is not
 - The first build attempt exposed a missing mandatory `completed` callback in the Swift bridge for `MTSignal.start`; commit `146c158` fixed it.
 - The second build exposed unavailable direct Postbox type names in TelegramUI copy mode; commit `22ec680` switched to public `EngineMedia.Id` / `EngineRawMedia` aliases.
 - Physical-iPhone runtime, offline/proxy recovery and copy-as-new/editability verification: **PENDING USER TEST**. Native compilation alone does not prove these runtime scenarios.
+
+## NagramiX 0.2.4 pre-release preparation (2026-09-01)
+
+The 0.2.4 pre-release changes release metadata and documentation before the native build:
+
+- `.github/workflows/build-unsigned-ipa.yml` now packages `NagramiX-0.2.4-unsigned.ipa`;
+- `README.md` identifies 0.2.4 as a pre-release;
+- `docs/NAGRAMIX-0.2.4.md` records the current feature set, verified scope, known limitations and the physical-device test matrix;
+- `.github/workflows/publish-prerelease.yml` transfers a successful Actions artifact directly into an existing GitHub pre-release; this avoids relying on a local host's access to the Azure Actions-artifact CDN;
+- no product source or pinned Telegram-iOS revision was changed for this version bump.
+
+Native macOS/Xcode/Bazel run `33513250714` succeeded for commit `3fb56f6abb0c1001472d06d68f235eaea68b25bb`; its packaging, provenance and artifact-upload steps passed and produced Actions artifact `NagramiX-0.2.4-unsigned-arm64` (artifact id `9805797797`, 72,514,272 bytes). Local download was not possible because this environment's CONNECT proxy returned HTTP 403 for the Azure Actions-artifact CDN, so local plist/Mach-O/SHA-256 inspection was not claimed. The publisher workflow validates the artifact ZIP before attaching the IPA and provenance to GitHub. Static verification completed: Python compilation for all three overlay scripts, YAML parsing, `git diff --check`, shell syntax for the IPA packager, JSON parsing for the configuration template, and localization coverage/duplicate checks. Physical-device testing remains pending after publication.
+
+## Android monorepo baseline (2026-09-01)
+
+The repository now contains a second platform overlay under `android/`. NagramX tag 1258 is pinned to exact commit `ee899eff5a4980ae4f9eca7f60227029b95cbe07`; the full 30,000-file upstream tree remains external. `android/apply_overlay.py` rejects any other commit or changed exact anchor, then applies version 0.2.4, package `com.mr_efes.nagramix`, NagramiX branding, debug-signing compatibility and aligned clean-install defaults. It also verifies source anchors for deleted messages, edit history, stories, copy/forward modes, round-video selection, custom DoH and Force TCP.
+
+`.github/workflows/build-android-apk.yml` checks out the pinned Android source recursively, applies the overlay, uses the existing Telegram API repository secrets, installs JDK/SDK/NDK tooling, builds an ARM64 debug APK, validates package/version/signature metadata, records SHA-256/provenance and uploads the test artifact. The generated debug signing key is not a stable production identity; users may need to uninstall a differently signed earlier build.
+
+`docs/ANDROID-FUNCTION-PARITY.md` is the durable parity matrix. Source-level availability or a successful Gradle build must not be presented as physical-device verification. Current verification: overlay application to a clean pinned checkout, exact anchors, Python compilation, YAML parsing and overlay/generated-tree `git diff --check` pass. Native Gradle/NDK CI and all physical-device rows remain pending. Exact next step: push the branch, let the Android workflow build the APK, inspect its metadata/signature/SHA-256, then install it on an ARM64 Android device and record every matrix result or mismatch.
+
+The first Android CI attempt, run `33543465270`, reached the SDK installation step and failed before compilation because `sdkmanager` does not expose `platforms;android-37`; pinned NagramX uses the upstream-tested preview package name `platforms;android-37.0`. The workflow was corrected to request that exact package. No APK was produced by the failed attempt.
+
+### Android 0.2.4 native CI result
+
+Android run `33543742039` succeeded for commit `55211affebbb12a430d07772d340e61f73b082b5`. Gradle completed in 29m10s and produced artifact `NagramiX-0.2.4-android-arm64` (artifact id `9815786610`, archive size 67,568,542 bytes). Validated APK metadata: package `com.mr_efes.nagramix`, version code `204`, build version `0.2.4-f828a0c`, compile SDK 37. `apksigner` verified APK Signature Scheme v2 with the ephemeral Android Debug certificate; certificate SHA-256 is `f35b50bf9de6e1fb3780eaa945d10e57343c685cf605973f67d57245c5c4a7b3`. APK SHA-256 is `b6347954016ba9e5d37ca34e6a80d793d0dafa3b52e91b7bc847c92066639937`. Compilation and packaging are proven; physical-device functionality remains pending.
+
+`.github/workflows/publish-android-prerelease.yml` transfers the validated Actions artifact to an existing GitHub pre-release without exposing credentials or depending on a local artifact CDN download. After merge, dispatch it for run `33543742039`, artifact `NagramiX-0.2.4-android-arm64`, tag `v0.2.4-rc1`. The exact next step after publication is to install the APK on an ARM64 Android device and record results in `docs/ANDROID-FUNCTION-PARITY.md`.
+
+The first Android publisher run `33547055308` verified the complete APK ZIP but failed its checksum command because the checksum file stores a basename while the workflow ran from the repository root. The validation was corrected to execute `sha256sum --check` inside `release-assets`; the downloaded APK itself was not implicated.
+
+Android publisher run `33547148058` then passed ZIP integrity, SHA-256 verification and release upload. GitHub pre-release `v0.2.4-rc1` now contains `NagramiX-0.2.4-android-arm64.apk` (77,171,492 bytes, SHA-256 `b6347954016ba9e5d37ca34e6a80d793d0dafa3b52e91b7bc847c92066639937`) alongside the iOS IPA and Android metadata, signature, checksum and provenance files. PRs `#4` and `#5` are merged. Remaining work is exclusively physical-device Android testing and any fixes it reveals; record results in `docs/ANDROID-FUNCTION-PARITY.md` without upgrading Pending rows based on compilation alone.

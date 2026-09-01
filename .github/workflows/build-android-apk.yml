@@ -1,0 +1,127 @@
+name: Build NagramiX Android APK
+
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - ".github/workflows/build-android-apk.yml"
+      - "android/**"
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    name: Android ARM64 APK
+    runs-on: ubuntu-latest
+    timeout-minutes: 180
+    env:
+      NATIVE_TARGET: arm64-v8a
+
+    steps:
+      - name: Check out NagramiX overlays
+        uses: actions/checkout@v4
+
+      - name: Load pinned Android reference
+        id: android
+        shell: bash
+        run: |
+          cat android/upstream.env >> "$GITHUB_ENV"
+          source android/upstream.env
+          echo "ref=$NAGRAMX_REF" >> "$GITHUB_OUTPUT"
+
+      - name: Validate Telegram API credentials
+        env:
+          TELEGRAM_APP_ID: ${{ secrets.TELEGRAM_API_ID }}
+          TELEGRAM_APP_HASH: ${{ secrets.TELEGRAM_API_HASH }}
+        shell: bash
+        run: |
+          test -n "$TELEGRAM_APP_ID" || { echo "Missing TELEGRAM_API_ID repository secret"; exit 1; }
+          test -n "$TELEGRAM_APP_HASH" || { echo "Missing TELEGRAM_API_HASH repository secret"; exit 1; }
+
+      - name: Check out pinned NagramX Android source
+        uses: actions/checkout@v4
+        with:
+          repository: risin42/NagramX
+          ref: ${{ steps.android.outputs.ref }}
+          path: Android-Upstream
+          submodules: recursive
+          fetch-depth: 1
+
+      - name: Apply NagramiX Android overlay
+        run: python3 android/apply_overlay.py --source Android-Upstream
+
+      - name: Set up JDK 21
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "21"
+
+      - name: Set up Gradle
+        uses: gradle/actions/setup-gradle@v4
+
+      - name: Set up Android SDK and NDK
+        uses: android-actions/setup-android@v3
+
+      - name: Install Android native build tools
+        shell: bash
+        run: |
+          sdkmanager "build-tools;36.0.0" "ndk;27.2.12479018" "platforms;android-37.0"
+          sudo apt-get update
+          sudo apt-get install --no-install-recommends --yes nasm
+
+      - name: Configure private Android build values
+        working-directory: Android-Upstream
+        env:
+          TELEGRAM_APP_ID: ${{ secrets.TELEGRAM_API_ID }}
+          TELEGRAM_APP_HASH: ${{ secrets.TELEGRAM_API_HASH }}
+        shell: bash
+        run: |
+          {
+            printf 'sdk.dir=%s\n' "$ANDROID_HOME"
+            printf 'TELEGRAM_APP_ID=%s\n' "$TELEGRAM_APP_ID"
+            printf 'TELEGRAM_APP_HASH=%s\n' "$TELEGRAM_APP_HASH"
+          } > local.properties
+
+      - name: Build installable ARM64 debug APK
+        working-directory: Android-Upstream
+        env:
+          BUILD_TIMESTAMP: ${{ github.run_id }}
+          COMMIT_ID: ${{ github.sha }}
+        run: ./gradlew --no-daemon TMessagesProj:assembleDebug
+
+      - name: Validate APK metadata and signature
+        id: apk
+        shell: bash
+        run: |
+          apk="$(find Android-Upstream/TMessagesProj/build/outputs/apk/debug -type f -name '*arm64-v8a*.apk' -print -quit)"
+          aapt="$ANDROID_HOME/build-tools/36.0.0/aapt"
+          apksigner="$ANDROID_HOME/build-tools/36.0.0/apksigner"
+          test -n "$apk" && test -f "$apk"
+          "$aapt" dump badging "$apk" | tee android-apk-metadata.txt
+          "$aapt" dump badging "$apk" | grep -F "package: name='$NAGRAMIX_ANDROID_PACKAGE'"
+          "$aapt" dump badging "$apk" | grep -F "versionName='$NAGRAMIX_ANDROID_VERSION"
+          "$apksigner" verify --verbose --print-certs "$apk" | tee android-apk-signature.txt
+          cp "$apk" "NagramiX-${NAGRAMIX_ANDROID_VERSION}-android-arm64.apk"
+          sha256sum "NagramiX-${NAGRAMIX_ANDROID_VERSION}-android-arm64.apk" | tee android-apk-sha256.txt
+          printf 'apk=%s\n' "NagramiX-${NAGRAMIX_ANDROID_VERSION}-android-arm64.apk" >> "$GITHUB_OUTPUT"
+
+      - name: Record Android provenance
+        shell: bash
+        run: |
+          printf 'NagramX repository: %s\nNagramX tag: %s\nNagramX commit: %s\nNagramiX Android version: %s\n' \
+            "$NAGRAMX_REPOSITORY" "$NAGRAMX_TAG" "$NAGRAMX_REF" "$NAGRAMIX_ANDROID_VERSION" \
+            > ANDROID-BUILD-PROVENANCE.txt
+
+      - name: Upload Android APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: NagramiX-${{ env.NAGRAMIX_ANDROID_VERSION }}-android-arm64
+          path: |
+            ${{ steps.apk.outputs.apk }}
+            ANDROID-BUILD-PROVENANCE.txt
+            android-apk-metadata.txt
+            android-apk-signature.txt
+            android-apk-sha256.txt
+          if-no-files-found: error
+          retention-days: 14
