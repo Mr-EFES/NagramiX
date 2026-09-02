@@ -135,6 +135,12 @@ def main() -> None:
     )
     replace_exact(
         dialogs_activity,
+        "public class DialogsActivity extends BaseFragment implements NotificationCenter.NotificationCenterDelegate, FloatingDebugProvider, FactorAnimator.Target, MainTabsActivity.TabFragmentDelegate {",
+        "public class DialogsActivity extends BaseFragment implements NotificationCenter.NotificationCenterDelegate, FloatingDebugProvider, FactorAnimator.Target, MainTabsActivity.TabFragmentDelegate {\n\n"
+        "    public boolean nagramixCopyAsNew;",
+    )
+    replace_exact(
+        dialogs_activity,
         "        searchItem.setVisibility(View.GONE);\n\n"
         "        if (!onlySelect && searchString == null && folderId == 0 && communityId == 0) {",
         "        checkUi_nagramixSearchButton();\n\n"
@@ -270,6 +276,237 @@ def main() -> None:
         peer_stories,
         "                allowRepost = allowShare;",
         "                allowRepost = allowShare && NagramiXSettings.INSTANCE.preferences(ApplicationLoader.applicationContext).getBoolean(NagramiXSettings.ENABLE_STORY_REPOST, false);",
+    )
+
+    send_messages_helper = source / "TMessagesProj" / "src" / "main" / "java" / "org" / "telegram" / "messenger" / "SendMessagesHelper.java"
+    replace_exact(
+        send_messages_helper,
+        "    public void processForwardFromMyName(MessageObject messageObject, long did, long payStars, long monoForumPeerId, MessageSuggestionParams suggestionParams) {",
+        "    public int sendMessagesAsNagramiXCopy(ArrayList<MessageObject> messages, long did, boolean notify, int scheduleDate, int scheduleRepeatPeriod, long payStars, long monoForumPeerId, MessageSuggestionParams suggestionParams) {\n"
+        "        if (messages == null || messages.isEmpty()) {\n"
+        "            return 0;\n"
+        "        }\n"
+        "        for (MessageObject message : messages) {\n"
+        "            boolean text = message != null && message.messageOwner.message != null\n"
+        "                    && (message.messageOwner.media == null || message.messageOwner.media instanceof TLRPC.TL_messageMediaEmpty\n"
+        "                    || message.messageOwner.media instanceof TLRPC.TL_messageMediaWebPage);\n"
+        "            boolean media = message != null && message.messageOwner.media != null\n"
+        "                    && (message.messageOwner.media.photo instanceof TLRPC.TL_photo\n"
+        "                    || message.messageOwner.media.document instanceof TLRPC.TL_document\n"
+        "                    || message.messageOwner.media instanceof TLRPC.TL_messageMediaVenue\n"
+        "                    || message.messageOwner.media instanceof TLRPC.TL_messageMediaGeo\n"
+        "                    || message.messageOwner.media.phone_number != null);\n"
+        "            if (message == null || !text && !media || message.isEphemeral() || message.messageOwner.noforwards\n"
+        "                    || message.messageOwner.media instanceof TLRPC.TL_messageMediaPaidMedia) {\n"
+        "                return 1;\n"
+        "            }\n"
+        "        }\n"
+        "        HashMap<Long, Long> groupIds = new HashMap<>();\n"
+        "        for (int i = 0; i < messages.size(); i++) {\n"
+        "            MessageObject message = messages.get(i);\n"
+        "            HashMap<String, String> copyParams = null;\n"
+        "            if (message.getGroupId() != 0) {\n"
+        "                long groupId = groupIds.computeIfAbsent(message.getGroupId(), ignored -> Utilities.random.nextLong());\n"
+        "                copyParams = new HashMap<>();\n"
+        "                copyParams.put(\"groupId\", Long.toString(groupId));\n"
+        "                if (i + 1 == messages.size() || messages.get(i + 1).getGroupId() != message.getGroupId()) {\n"
+        "                    copyParams.put(\"final\", \"1\");\n"
+        "                }\n"
+        "            }\n"
+        "            processForwardFromMyName(message, did, payStars, monoForumPeerId, suggestionParams, notify, scheduleDate, scheduleRepeatPeriod, true, copyParams);\n"
+        "        }\n"
+        "        return 0;\n"
+        "    }\n\n"
+        "    public void processForwardFromMyName(MessageObject messageObject, long did, long payStars, long monoForumPeerId, MessageSuggestionParams suggestionParams) {\n"
+        "        processForwardFromMyName(messageObject, did, payStars, monoForumPeerId, suggestionParams, true, 0, 0, false, null);\n"
+        "    }\n\n"
+        "    private void processForwardFromMyName(MessageObject messageObject, long did, long payStars, long monoForumPeerId, MessageSuggestionParams suggestionParams, boolean notify, int scheduleDate, int scheduleRepeatPeriod, boolean copyAsNew, HashMap<String, String> copyParams) {",
+    )
+    replace_exact(
+        send_messages_helper,
+        "        if (messageObject == null) {\n"
+        "            return;\n"
+        "        }\n"
+        "        if (messageObject.messageOwner.media != null",
+        "        if (messageObject == null) {\n"
+        "            return;\n"
+        "        }\n"
+        "        MessageObject copyReply = copyAsNew ? null : messageObject.replyMessageObject;\n"
+        "        int copyTtl = copyAsNew ? 0 : messageObject.messageOwner.media != null ? messageObject.messageOwner.media.ttl_seconds : 0;\n"
+        "        if (messageObject.messageOwner.media != null",
+    )
+    replace_exact(
+        send_messages_helper,
+        "SendMessagesHelper.SendMessageParams.of((TLRPC.TL_photo) messageObject.messageOwner.media.photo, null, did, messageObject.replyMessageObject, null, messageObject.messageOwner.message, messageObject.messageOwner.entities, null, params, true, 0, 0, messageObject.messageOwner.media.ttl_seconds, messageObject, false)",
+        "SendMessagesHelper.SendMessageParams.of((TLRPC.TL_photo) messageObject.messageOwner.media.photo, null, did, copyReply, null, messageObject.messageOwner.message, messageObject.messageOwner.entities, null, params, notify, scheduleDate, scheduleRepeatPeriod, copyTtl, messageObject, false, messageObject.hasMediaSpoilers())",
+    )
+    replace_exact(
+        send_messages_helper,
+        "SendMessagesHelper.SendMessageParams.of((TLRPC.TL_document) messageObject.messageOwner.media.document, null, messageObject.messageOwner.attachPath, did, messageObject.replyMessageObject, null, messageObject.messageOwner.message, messageObject.messageOwner.entities, null, params, true, 0, 0, messageObject.messageOwner.media.ttl_seconds, messageObject, null, false)",
+        "SendMessagesHelper.SendMessageParams.of((TLRPC.TL_document) messageObject.messageOwner.media.document, null, messageObject.messageOwner.attachPath, did, copyReply, null, messageObject.messageOwner.message, messageObject.messageOwner.entities, null, params, notify, scheduleDate, scheduleRepeatPeriod, copyTtl, messageObject, null, false, messageObject.hasMediaSpoilers())",
+    )
+    replace_exact(
+        send_messages_helper,
+        "SendMessagesHelper.SendMessageParams.of(messageObject.messageOwner.media, did, messageObject.replyMessageObject, null, null, null, true, 0, 0)",
+        "SendMessagesHelper.SendMessageParams.of(messageObject.messageOwner.media, did, copyReply, null, null, null, notify, scheduleDate, scheduleRepeatPeriod)",
+    )
+    replace_exact(
+        send_messages_helper,
+        "SendMessagesHelper.SendMessageParams.of(user, did, messageObject.replyMessageObject, null, null, null, true, 0, 0)",
+        "SendMessagesHelper.SendMessageParams.of(user, did, copyReply, null, null, null, notify, scheduleDate, scheduleRepeatPeriod)",
+    )
+    replace_exact(
+        send_messages_helper,
+        "SendMessagesHelper.SendMessageParams.of(messageObject.messageOwner.message, did, messageObject.replyMessageObject, null, webPage, true, entities, null, null, true, 0, 0, null, false)",
+        "SendMessagesHelper.SendMessageParams.of(messageObject.messageOwner.message, did, copyReply, null, webPage, true, entities, null, copyParams, notify, scheduleDate, scheduleRepeatPeriod, null, false)",
+    )
+    replace_exact(
+        send_messages_helper,
+        "            HashMap<String, String> params = null;\n"
+        "            if (DialogObject.isEncryptedDialog(did) && messageObject.messageOwner.peer_id != null && (messageObject.messageOwner.media.photo instanceof TLRPC.TL_photo || messageObject.messageOwner.media.document instanceof TLRPC.TL_document)) {\n"
+        "                params = new HashMap<>();",
+        "            HashMap<String, String> params = copyParams == null ? null : new HashMap<>(copyParams);\n"
+        "            if (DialogObject.isEncryptedDialog(did) && messageObject.messageOwner.peer_id != null && (messageObject.messageOwner.media.photo instanceof TLRPC.TL_photo || messageObject.messageOwner.media.document instanceof TLRPC.TL_document)) {\n"
+        "                if (params == null) {\n"
+        "                    params = new HashMap<>();\n"
+        "                }",
+    )
+    entity_filter = """            ArrayList<TLRPC.MessageEntity> entities;
+            if (messageObject.messageOwner.entities != null && !messageObject.messageOwner.entities.isEmpty()) {
+                entities = new ArrayList<>();
+                for (int a = 0; a < messageObject.messageOwner.entities.size(); a++) {
+                    TLRPC.MessageEntity entity = messageObject.messageOwner.entities.get(a);
+                    if (entity instanceof TLRPC.TL_messageEntityBold ||
+                            entity instanceof TLRPC.TL_messageEntityItalic ||
+                            entity instanceof TLRPC.TL_messageEntityPre ||
+                            entity instanceof TLRPC.TL_messageEntityCode ||
+                            entity instanceof TLRPC.TL_messageEntityTextUrl ||
+                            entity instanceof TLRPC.TL_messageEntitySpoiler ||
+                            entity instanceof TLRPC.TL_messageEntityCustomEmoji) {
+                        entities.add(entity);
+                    }
+                }
+            } else {
+                entities = null;
+            }
+"""
+    replace_exact(
+        send_messages_helper,
+        entity_filter,
+        "            ArrayList<TLRPC.MessageEntity> entities = messageObject.messageOwner.entities == null\n"
+        "                    ? null : new ArrayList<>(messageObject.messageOwner.entities);\n",
+    )
+
+    chat_activity = source / "TMessagesProj" / "src" / "main" / "java" / "org" / "telegram" / "ui" / "ChatActivity.java"
+    replace_exact(
+        chat_activity,
+        "    public final static int OPTION_ADD_TO_TODO = 110;",
+        "    public final static int OPTION_ADD_TO_TODO = 110;\n"
+        "    public final static int OPTION_NAGRAMIX_FORWARD_COPY = 111;",
+    )
+    replace_exact(
+        chat_activity,
+        "    public MessagePreviewParams messagePreviewParams;",
+        "    public MessagePreviewParams messagePreviewParams;\n"
+        "    private boolean nagramixForwardPanelAsCopy;",
+    )
+    replace_exact(
+        chat_activity,
+        "                if (canForward) {\n"
+        "                    items.add(LocaleController.getString(R.string.Forward));\n"
+        "                    options.add(OPTION_FORWARD);\n"
+        "                    icons.add(R.drawable.msg_forward);\n"
+        "                }",
+        "                if (canForward) {\n"
+        "                    items.add(LocaleController.getString(R.string.Forward));\n"
+        "                    options.add(OPTION_FORWARD);\n"
+        "                    icons.add(R.drawable.msg_forward);\n"
+        "                    items.add(LocaleController.getString(R.string.NagramiXForwardAsCopy));\n"
+        "                    options.add(OPTION_NAGRAMIX_FORWARD_COPY);\n"
+        "                    icons.add(R.drawable.msg_copy);\n"
+        "                }",
+    )
+    forward_case = """            case OPTION_FORWARD: {
+                if (getMessagesController().isFrozen()) {
+                    AccountFrozenAlert.show(currentAccount);
+                    selectedObject = null;
+                    selectedObjectToEditCaption = null;
+                    selectedObjectGroup = null;
+                    return;
+                }
+                forwardingMessage = selectedObject;
+                forwardingMessageGroup = selectedObjectGroup;
+                Bundle args = new Bundle();
+                args.putBoolean("onlySelect", true);
+                args.putInt("dialogsType", DialogsActivity.DIALOGS_TYPE_FORWARD);
+                args.putInt("messagesCount", 1);
+                args.putInt("hasPoll", forwardingMessage.isTodo() ? 3 : forwardingMessage.isPoll() ? (forwardingMessage.isPublicPoll() ? 2 : 1) : 0);
+                if (ChatObject.isMonoForum(currentChat) && ChatObject.canManageMonoForum(currentAccount, currentChat) && currentChat.linked_monoforum_id != 0) {
+                    args.putLong("forward_into_channel", -currentChat.linked_monoforum_id);
+                }
+                args.putBoolean("hasInvoice", forwardingMessage.isInvoice());
+                args.putBoolean("canSelectTopics", true);
+                DialogsActivity fragment = new DialogsActivity(args);
+                fragment.setDelegate(this);
+                presentFragment(fragment);
+                break;
+            }
+"""
+    copy_case = forward_case.replace("OPTION_FORWARD", "OPTION_NAGRAMIX_FORWARD_COPY", 1).replace(
+        "                fragment.setDelegate(this);",
+        "                fragment.nagramixCopyAsNew = true;\n                fragment.setDelegate(this);",
+    )
+    replace_exact(chat_activity, forward_case, forward_case + copy_case)
+    replace_exact(
+        chat_activity,
+        "                    getSendMessagesHelper().sendMessage(fmessages, did, false, false, notify, scheduleDate, scheduleRepeatPeriod, null, -1, price == null ? 0 : price, getSendMonoForumPeerId(), getSendMessageSuggestionParams());",
+        "                    if (fragment.nagramixCopyAsNew) {\n"
+        "                        getSendMessagesHelper().sendMessagesAsNagramiXCopy(fmessages, did, notify, scheduleDate, scheduleRepeatPeriod, price == null ? 0 : price, getSendMonoForumPeerId(), getSendMessageSuggestionParams());\n"
+        "                    } else {\n"
+        "                        getSendMessagesHelper().sendMessage(fmessages, did, false, false, notify, scheduleDate, scheduleRepeatPeriod, null, -1, price == null ? 0 : price, getSendMonoForumPeerId(), getSendMessageSuggestionParams());\n"
+        "                    }",
+    )
+    replace_exact(
+        chat_activity,
+        "                        chatActivity.showFieldPanelForForward(true, fmessages);",
+        "                        if (fragment.nagramixCopyAsNew) {\n"
+        "                            chatActivity.showFieldPanelForForwardAsCopy(fmessages);\n"
+        "                        } else {\n"
+        "                            chatActivity.showFieldPanelForForward(true, fmessages);\n"
+        "                        }",
+    )
+    replace_exact(
+        chat_activity,
+        "                    showFieldPanelForForward(true, fmessages);",
+        "                    if (fragment.nagramixCopyAsNew) {\n"
+        "                        showFieldPanelForForwardAsCopy(fmessages);\n"
+        "                    } else {\n"
+        "                        showFieldPanelForForward(true, fmessages);\n"
+        "                    }",
+    )
+    replace_exact(
+        chat_activity,
+        "    public void showFieldPanelForForward(boolean show, ArrayList<MessageObject> messageObjectsToForward) {",
+        "    public void showFieldPanelForForwardAsCopy(ArrayList<MessageObject> messageObjectsToForward) {\n"
+        "        showFieldPanelForForward(true, messageObjectsToForward);\n"
+        "        nagramixForwardPanelAsCopy = true;\n"
+        "        if (messagePreviewParams != null) {\n"
+        "            messagePreviewParams.hideForwardSendersName = true;\n"
+        "        }\n"
+        "    }\n\n"
+        "    public void showFieldPanelForForward(boolean show, ArrayList<MessageObject> messageObjectsToForward) {\n"
+        "        nagramixForwardPanelAsCopy = false;",
+    )
+    replace_exact(
+        chat_activity,
+        "        int result = getSendMessagesHelper().sendMessage(arrayList, dialog_id, fromMyName, hideCaption, notify, scheduleDate, 0, getThreadMessage(), -1, payStars, getSendMonoForumPeerId(), getSendMessageSuggestionParams());",
+        "        int result;\n"
+        "        if (nagramixForwardPanelAsCopy) {\n"
+        "            result = getSendMessagesHelper().sendMessagesAsNagramiXCopy(arrayList, dialog_id, notify, scheduleDate, 0, payStars, getSendMonoForumPeerId(), getSendMessageSuggestionParams());\n"
+        "            nagramixForwardPanelAsCopy = false;\n"
+        "        } else {\n"
+        "            result = getSendMessagesHelper().sendMessage(arrayList, dialog_id, fromMyName, hideCaption, notify, scheduleDate, 0, getThreadMessage(), -1, payStars, getSendMonoForumPeerId(), getSendMessageSuggestionParams());\n"
+        "        }",
     )
     replace_exact(
         voip_service,

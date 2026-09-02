@@ -23,6 +23,7 @@
     <string name="NagramiXStoryViewConfirmAction">Посмотреть</string>
     <string name="NagramiXConfirmOutgoingCalls">Подтверждать исходящие звонки</string>
     <string name="NagramiXShowDeletedMessages">Показывать локально полученные удалённые сообщения</string>
+    <string name="NagramiXForwardAsCopy">Переслать без источника</string>
     <string name="NagramiXEditHistory">Хранить локально полученную историю правок</string>
     <string name="NagramiXForceTcpCalls">Принудительно использовать TCP для звонков</string>
     <string name="NagramiXFeaturesInfo">Локальный архив не может восстановить содержимое, которое этот клиент не получил.</string>

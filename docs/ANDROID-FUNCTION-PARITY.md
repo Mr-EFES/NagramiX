@@ -20,7 +20,7 @@ Status meanings:
 | Front/rear round video | Implemented | Initial camera setting integrated with native recorder paths | Pending device |
 | Story controls/confirmation | Implemented | Strip visibility, pre-view confirmation and repost setting integrated; camera-swipe control not applicable to current Android UI | Pending device |
 | Forward with source | Telegram-native | Telegram-native | Not tested |
-| Forward without source/copy-as-new | Implemented | Not ported | Not tested |
+| Forward without source/copy-as-new | Implemented | New-message pipeline for supported text/media, entities, spoilers and albums | Pending device |
 | Deleted-message archive | Implemented | Not ported | Not tested |
 | Edit history | Implemented | Not ported | Not tested |
 | DNS provider/custom DoH | Implemented | Not ported | Not tested |

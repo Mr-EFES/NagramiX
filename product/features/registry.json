@@ -77,7 +77,7 @@
         "device": "device_pending"
       },
       "android": {
-        "implementation": "not_started",
+        "implementation": "implemented",
         "compile": "not_started",
         "device": "not_started"
       }

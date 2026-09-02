@@ -24,6 +24,7 @@
     <string name="NagramiXStoryViewConfirmAction">View</string>
     <string name="NagramiXConfirmOutgoingCalls">Confirm outgoing calls</string>
     <string name="NagramiXShowDeletedMessages">Show locally observed deleted messages</string>
+    <string name="NagramiXForwardAsCopy">Forward without source</string>
     <string name="NagramiXEditHistory">Keep locally observed edit history</string>
     <string name="NagramiXForceTcpCalls">Force TCP for calls</string>
     <string name="NagramiXFeaturesInfo">Local archives cannot recover content that this client did not receive.</string>
