@@ -34,7 +34,7 @@
       "android": {
         "implementation": "in_progress",
         "compile": "not_started",
-        "device": "device_pending"
+        "device": "not_started"
       }
     },
     {

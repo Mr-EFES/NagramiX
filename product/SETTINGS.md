@@ -13,7 +13,7 @@ Platform storage mechanisms differ, but ids, defaults and user-visible meaning s
 | `stories.disableCameraSwipe` | `false` | Features / Stories | Disable the gesture that starts story recording. |
 | `stories.confirmViewing` | `false` | Features / Stories | Confirm before opening an unseen story. |
 | `stories.enableRepost` | `false` | Features / Stories | Expose the native story repost action. |
-| `calls.confirmOutgoing` | `false` | Features / Calls | Confirm before starting an outgoing call. |
+| `calls.confirmOutgoing` | `true` | Features / Calls | Confirm before starting an outgoing call. |
 | `calls.forceTcp` | `false` | Features / Calls | Force supported voice/video call transports to TCP. |
 | `messages.showDeletedMessages` | `false` | Features / Messages | Show locally captured incoming messages after deletion, subject to exclusions. |
 | `messages.editHistory` | `false` | Features / Messages | Preserve and display revisions actually observed by this client. |

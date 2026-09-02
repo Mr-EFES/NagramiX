@@ -377,3 +377,11 @@ Changes in this pass:
 Static verification completed: official upstream audit with `--require-current`, Android overlay application to a clean official checkout, Python compilation, JSON parsing, workflow YAML parsing, embedded shell syntax and repository/generated-tree `git diff --check`. Native IPA was not rebuilt because iOS product code did not change. The restructured current-official Android APK requires a fresh GitHub Actions build before the obsolete NagramX-based APK release asset can be replaced. Physical-device validation remains pending.
 
 Exact next step: authenticate GitHub CLI, synchronize with `origin/main`, push this focused restructuring commit, create a PR, run Android CI, inspect APK metadata/signature/provenance, replace the old Android release asset only after success, then continue feature ports from `product/features/registry.json` in iOS-priority order.
+
+## PR #7 review follow-up (2026-09-02 UTC)
+
+Addressed every inline review item: Android now uses canonical `interface.hideStories`; the shared outgoing-call confirmation default matches the shipped iOS `true`; Android documentation names official Telegram 12.10.1; icon status remains `not_started` until compilation; scheduled upstream checks fail when pins become stale; and the launcher source is owned by `android/branding`. The Android overlay also removes the Google Services plugin from the repackaged application, fixing CI's `processAfatDebugGoogleServices` failure for the independent package id.
+
+Changed files are the six reviewed files, `android/branding/AppIcons/1.png`, `android/apply_overlay.py`, and this handoff. Static validation is required before commit. Native Android CI must rerun; physical Android and iPhone testing remains pending. Exact next step after a green Android build is to keep implementing the product registry rather than publish a parity APK.
+
+Sparse clean-pin overlay validation initially found a trailing blank line after plugin removal. The exact anchor was widened to consume the separator plus plugin line; rerun must pass generated-tree `git diff --check`.

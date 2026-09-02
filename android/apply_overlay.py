@@ -85,6 +85,7 @@ def main() -> None:
     replace_exact(build_vars, "    public static boolean SUPPORTS_PASSKEYS = true;", "    public static boolean SUPPORTS_PASSKEYS = false;")
 
     app_gradle = source / "TMessagesProj_App" / "build.gradle"
+    replace_exact(app_gradle, "\n\napply plugin: 'com.google.gms.google-services'", "")
     replace_exact(
         app_gradle,
         '        debug {\n            storeFile file("../TMessagesProj/config/release.keystore")\n            storePassword RELEASE_STORE_PASSWORD\n            keyAlias RELEASE_KEY_ALIAS\n            keyPassword RELEASE_KEY_PASSWORD\n        }',
@@ -103,7 +104,7 @@ def main() -> None:
         ROOT / "android" / "Sources" / "NagramiXSettings.kt",
         source / "TMessagesProj" / "src" / "main" / "java" / "com" / "mr_efes" / "nagramix" / "NagramiXSettings.kt",
     )
-    copy(ROOT / "ios" / "branding" / "AppIcons" / "1.png", resource_root / "drawable-nodpi" / "nagramix_app_icon.png")
+    copy(ROOT / "android" / "branding" / "AppIcons" / "1.png", resource_root / "drawable-nodpi" / "nagramix_app_icon.png")
 
     manifests = [
         source / "TMessagesProj" / "config" / "debug" / "AndroidManifest.xml",

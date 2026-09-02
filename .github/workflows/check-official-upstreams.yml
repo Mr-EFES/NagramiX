@@ -14,4 +14,4 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Compare pins with official Telegram repositories
-        run: python3 scripts/check_upstreams.py --json
+        run: python3 scripts/check_upstreams.py --json --require-current

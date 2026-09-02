@@ -4,7 +4,7 @@ Android is the secondary platform of the independent NagramiX application. iOS r
 
 ## Base and output
 
-- Upstream: official [`DrKLO/Telegram`](https://github.com/DrKLO/Telegram), pinned to Android 12.9.2 and the exact commit in `android/upstream.env`.
+- Upstream: official [`DrKLO/Telegram`](https://github.com/DrKLO/Telegram), pinned to Android 12.10.1 and the exact commit in `android/upstream.env`.
 - Idea reference only: NagramX 1258. Its source is not compiled into NagramiX.
 - Version: `0.2.4`.
 - Package id: `com.mr_efes.nagramix`.

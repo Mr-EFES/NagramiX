@@ -15,7 +15,7 @@ object NagramiXSettings {
 
     const val HIDE_CONTACTS_TAB = "interface.hideContactsTab"
     const val SHOW_TAB_TITLES = "interface.showTabTitles"
-    const val HIDE_STORIES = "stories.hide"
+    const val HIDE_STORIES = "interface.hideStories"
     const val REAR_VIDEO_MESSAGES = "videoMessages.useRearCamera"
     const val SHOW_DELETED_MESSAGES = "messages.showDeletedMessages"
     const val EDIT_HISTORY = "messages.editHistory"
