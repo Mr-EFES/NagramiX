@@ -2,12 +2,6 @@ name: Build NagramiX Android APK
 
 on:
   workflow_dispatch:
-  pull_request:
-    paths:
-      - ".github/workflows/build-android-apk.yml"
-      - "android/**"
-      - "product/**"
-      - "scripts/check_upstreams.py"
 
 permissions:
   contents: read
