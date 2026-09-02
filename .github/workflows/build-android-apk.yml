@@ -24,6 +24,9 @@ jobs:
       - name: Check out NagramiX overlays
         uses: actions/checkout@v4
 
+      - name: Require complete Android 0.2.4 implementation parity
+        run: python3 scripts/check_android_release_ready.py --release 0.2.4
+
       - name: Require current official Telegram android base
         run: python3 scripts/check_upstreams.py --platform android --require-current
 

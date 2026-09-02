@@ -24,6 +24,12 @@ jobs:
   publish:
     runs-on: ubuntu-latest
     steps:
+      - name: Check out NagramiX release policy
+        uses: actions/checkout@v4
+
+      - name: Require complete Android 0.2.4 implementation parity
+        run: python3 scripts/check_android_release_ready.py --release 0.2.4
+
       - name: Download the verified Android artifact
         uses: actions/download-artifact@v5
         with:

@@ -385,3 +385,11 @@ Addressed every inline review item: Android now uses canonical `interface.hideSt
 Changed files are the six reviewed files, `android/branding/AppIcons/1.png`, `android/apply_overlay.py`, and this handoff. Static validation passed before commit. Native Android CI is rerunning; physical Android and iPhone testing remains pending. Exact next step after a green Android build is to keep implementing the product registry rather than publish a parity APK.
 
 Sparse clean-pin overlay validation initially found a trailing blank line after plugin removal. The exact anchor was widened to consume the separator plus plugin line; the rerun applied successfully and generated-tree `git diff --check` passed.
+
+## Android 0.2.4 parity build hold (2026-09-02 UTC)
+
+The owner explicitly prohibited further Android builds or APK publication until the Android implementation reaches iOS 0.2.4 feature parity. Active Android Actions runs `33606103552` and `33605904230` were cancelled, and the obsolete NagramX-based APK plus its Android metadata/provenance assets were removed from pre-release `v0.2.4-rc1`. The iOS IPA remains available.
+
+`scripts/check_android_release_ready.py` is now a mandatory first-stage gate in both Android build and Android publication workflows. It fails while any feature in `product/features/registry.json` has an Android implementation status other than `implemented`; current expected result is failure because the Android port is incomplete. Do not bypass or weaken this gate to obtain an APK. Implement and review the Android rows against the pinned official Telegram source, update statuses only when durable integrations exist, and build only after all implementation rows pass. Physical-device statuses remain separate and must not be inferred from compilation.
+
+Existing uncommitted work in `android/Sources/NagramiXSettingsActivity.java` and `android/Sources/strings_nagramix.xml` predates this build-hold change and was deliberately preserved without being included in the hold commit. The exact next step is to verify and integrate that settings UI through `android/apply_overlay.py`, then continue feature ports one registry row at a time without triggering an APK build.
