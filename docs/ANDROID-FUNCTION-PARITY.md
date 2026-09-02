@@ -15,7 +15,7 @@ Status meanings:
 | NagramiX settings ownership | Implemented | Settings namespace and native settings screen integrated | Pending device |
 | Hide Contacts tab | Implemented, default on | Integrated with native main-tab visibility | Pending device |
 | Hide Calls tab | Implemented, default on | Integrated; Settings occupies the shared native position | Pending device |
-| Tab titles/search controls | Implemented | Tab-title visibility integrated; separate Search control not ported | Not tested |
+| Tab titles/search controls | Implemented | Tab-title visibility and separate native Search button integrated | Pending device |
 | Eight NagramiX app icons | Implemented | Primary NagramiX icon only | Pending device |
 | Front/rear round video | Implemented | Not ported | Not tested |
 | Story controls/confirmation | Implemented | Not ported | Not tested |

@@ -94,7 +94,7 @@ public class NagramiXSettingsActivity extends BaseFragment {
             boolean value = !preferences.getBoolean(item.key, NagramiXSettings.booleanDefault(item.key));
             preferences.edit().putBoolean(item.key, value).apply();
             ((TextCheckCell) view).setChecked(value);
-            NotificationCenter.getInstance(currentAccount).postNotificationName(NotificationCenter.updateInterfaces);
+            NotificationCenter.getInstance(currentAccount).postNotificationName(NotificationCenter.updateInterfaces, org.telegram.messenger.MessagesController.UPDATE_MASK_ALL);
         });
         ((FrameLayout) fragmentView).addView(listView, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.MATCH_PARENT));
         return fragmentView;

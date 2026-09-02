@@ -126,6 +126,52 @@ def main() -> None:
         "import com.mr_efes.nagramix.NagramiXSettings;",
     )
 
+    dialogs_activity = source / "TMessagesProj" / "src" / "main" / "java" / "org" / "telegram" / "ui" / "DialogsActivity.java"
+    replace_exact(
+        dialogs_activity,
+        "import org.telegram.ui.Components.chat.ViewPositionWatcher;",
+        "import org.telegram.ui.Components.chat.ViewPositionWatcher;\n\n"
+        "import com.mr_efes.nagramix.NagramiXSettings;",
+    )
+    replace_exact(
+        dialogs_activity,
+        "        searchItem.setVisibility(View.GONE);\n\n"
+        "        if (!onlySelect && searchString == null && folderId == 0 && communityId == 0) {",
+        "        checkUi_nagramixSearchButton();\n\n"
+        "        if (!onlySelect && searchString == null && folderId == 0 && communityId == 0) {",
+    )
+    replace_exact(
+        dialogs_activity,
+        "            updateStatus(UserConfig.getInstance(account).getCurrentUser(), true);\n"
+        "        } else if (id == NotificationCenter.appDidLogout) {",
+        "            updateStatus(UserConfig.getInstance(account).getCurrentUser(), true);\n"
+        "            checkUi_nagramixSearchButton();\n"
+        "        } else if (id == NotificationCenter.appDidLogout) {",
+    )
+    replace_exact(
+        dialogs_activity,
+        "        if (!show) {\n"
+        "            initialSearchType = -1;\n"
+        "        }",
+        "        if (!show) {\n"
+        "            initialSearchType = -1;\n"
+        "            checkUi_nagramixSearchButton();\n"
+        "        }",
+    )
+    replace_exact(
+        dialogs_activity,
+        "    private void checkSuggestClearDatabase() {",
+        "    private void checkUi_nagramixSearchButton() {\n"
+        "        if (searchItem == null) {\n"
+        "            return;\n"
+        "        }\n"
+        "        boolean eligible = initialDialogsType == DIALOGS_TYPE_DEFAULT && !isArchive() && !onlySelect && searchString == null && folderId == 0 && communityId == 0;\n"
+        "        boolean visible = NagramiXSettings.INSTANCE.preferences(ApplicationLoader.applicationContext).getBoolean(NagramiXSettings.SHOW_SEARCH_TAB, false);\n"
+        "        searchItem.setVisibility(eligible && visible ? View.VISIBLE : View.GONE);\n"
+        "    }\n\n"
+        "    private void checkSuggestClearDatabase() {",
+    )
+
     voip_service = source / "TMessagesProj" / "src" / "main" / "java" / "org" / "telegram" / "messenger" / "voip" / "VoIPService.java"
     replace_exact(
         voip_service,

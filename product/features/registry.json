@@ -17,7 +17,7 @@
         "device": "device_pending"
       },
       "android": {
-        "implementation": "in_progress",
+        "implementation": "implemented",
         "compile": "not_started",
         "device": "not_started"
       }
