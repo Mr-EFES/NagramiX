@@ -13,6 +13,14 @@
 - **Primary technologies:** Swift, Objective-C/Objective-C++, Kotlin, Java, Python, Bash, Bazel/Starlark, Gradle, Xcode and GitHub Actions.
 - **Targets:** unsigned ARM64 IPA for physical iPhone installation after external signing (for example with SideStore), and an ARM64 debug-signed APK for physical Android pre-release testing.
 
+### Non-negotiable development model
+
+- NagramiX is one independent, unofficial and non-commercial product with its own features, settings and branding.
+- Only audited pins from the official Telegram repositories may be used as build bases. The currently published official Android source repository is `DrKLO/Telegram`; do not replace it with a similarly named but nonexistent repository. Reference clients may inform specifications only and must never become a compiled base.
+- Define shared product behavior in `product/` first, then implement it independently and natively in `ios/` and `android/`. Do not share platform implementation code or substitute one platform's source for the other.
+- iOS/iPhone is the primary implementation. Android/Samsung is second in sequencing, but it must not remain a permanently reduced product. Platform-specific UX may differ only where the operating system or official Telegram architecture requires it; shared observable semantics must converge.
+- Release artifacts remain platform-native: unsigned ARM64 IPA for iOS and debug-signed ARM64 APK for Android. An equal version number is not evidence of feature parity.
+
 ### Key directories
 
 - `product/` — the platform-neutral source of truth for NagramiX identity, feature specifications, canonical settings, terminology, parity and release scope.

@@ -2,6 +2,17 @@
 
 **NagramiX** is an independent, unofficial, non-commercial Telegram client for iPhone and Android. It is not affiliated with, sponsored by or endorsed by Telegram Messenger Inc.
 
+NagramiX is a standalone product with its own features, settings and branding. Its build bases are only audited pins of the official Telegram sources for each platform.
+
+## Platform model
+
+| Platform | Priority | Official source base | Native implementation | Artifact |
+| --- | --- | --- | --- | --- |
+| iOS / iPhone | Primary | `TelegramMessenger/Telegram-iOS` | Swift, Objective-C/Objective-C++ | unsigned ARM64 IPA |
+| Android / Samsung | Secondary, without permanent feature reduction | `DrKLO/Telegram` | Kotlin, Java | debug-signed ARM64 APK |
+
+Shared observable behavior is specified under `product/` and then implemented independently under `ios/` and `android/`. Platform-native UI and lifecycle details may differ, but Android must converge on the same NagramiX product capabilities rather than remain a reduced edition.
+
 NagramiX does not claim ownership of Telegram, the Telegram name, protocol or official source code. Official Telegram code remains governed by its upstream licenses. NagramiX-specific work remains separately identifiable in this overlay repository.
 
 ## Platform priority
