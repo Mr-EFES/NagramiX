@@ -18,6 +18,9 @@
     <string name="NagramiXDisableStoryCameraSwipe">Отключить жест открытия камеры историй</string>
     <string name="NagramiXConfirmStoryViewing">Подтверждать просмотр непросмотренных историй</string>
     <string name="NagramiXEnableStoryRepost">Включить действие репоста историй</string>
+    <string name="NagramiXStoryViewConfirmTitle">Посмотреть эту историю?</string>
+    <string name="NagramiXStoryViewConfirmText">История будет отмечена просмотренной только после продолжения.</string>
+    <string name="NagramiXStoryViewConfirmAction">Посмотреть</string>
     <string name="NagramiXConfirmOutgoingCalls">Подтверждать исходящие звонки</string>
     <string name="NagramiXShowDeletedMessages">Показывать локально полученные удалённые сообщения</string>
     <string name="NagramiXEditHistory">Хранить локально полученную историю правок</string>

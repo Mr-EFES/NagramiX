@@ -18,7 +18,7 @@ Status meanings:
 | Tab titles/search controls | Implemented | Tab-title visibility and separate native Search button integrated | Pending device |
 | Eight NagramiX app icons | Implemented | Primary NagramiX icon only | Pending device |
 | Front/rear round video | Implemented | Initial camera setting integrated with native recorder paths | Pending device |
-| Story controls/confirmation | Implemented | Not ported | Not tested |
+| Story controls/confirmation | Implemented | Strip visibility, pre-view confirmation and repost setting integrated; camera-swipe control not applicable to current Android UI | Pending device |
 | Forward with source | Telegram-native | Telegram-native | Not tested |
 | Forward without source/copy-as-new | Implemented | Not ported | Not tested |
 | Deleted-message archive | Implemented | Not ported | Not tested |

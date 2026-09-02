@@ -146,6 +146,7 @@ def main() -> None:
         "        } else if (id == NotificationCenter.appDidLogout) {",
         "            updateStatus(UserConfig.getInstance(account).getCurrentUser(), true);\n"
         "            checkUi_nagramixSearchButton();\n"
+        "            updateStoriesVisibility(true);\n"
         "        } else if (id == NotificationCenter.appDidLogout) {",
     )
     replace_exact(
@@ -170,6 +171,17 @@ def main() -> None:
         "        searchItem.setVisibility(eligible && visible ? View.VISIBLE : View.GONE);\n"
         "    }\n\n"
         "    private void checkSuggestClearDatabase() {",
+    )
+    replace_exact(
+        dialogs_activity,
+        "        hasOnlySlefStories = onlySelfStories;\n\n"
+        "        boolean oldStoriesCellVisibility = dialogStoriesCellVisible;",
+        "        if (NagramiXSettings.INSTANCE.preferences(ApplicationLoader.applicationContext).getBoolean(NagramiXSettings.HIDE_STORIES, false)) {\n"
+        "            onlySelfStories = false;\n"
+        "            newVisibility = false;\n"
+        "        }\n\n"
+        "        hasOnlySlefStories = onlySelfStories;\n\n"
+        "        boolean oldStoriesCellVisibility = dialogStoriesCellVisible;",
     )
 
     voip_service = source / "TMessagesProj" / "src" / "main" / "java" / "org" / "telegram" / "messenger" / "voip" / "VoIPService.java"
@@ -207,6 +219,57 @@ def main() -> None:
         "        if (!fromPaused) {\n"
         "            isFrontface = !NagramiXSettings.INSTANCE.preferences(ApplicationLoader.applicationContext).getBoolean(NagramiXSettings.REAR_VIDEO_MESSAGES, false);\n"
         "            updateFlash();",
+    )
+
+    dialog_stories = source / "TMessagesProj" / "src" / "main" / "java" / "org" / "telegram" / "ui" / "Stories" / "DialogStoriesCell.java"
+    replace_exact(
+        dialog_stories,
+        "import org.telegram.ui.ActionBar.AlertDialog;",
+        "import org.telegram.ui.ActionBar.AlertDialog;\n\n"
+        "import com.mr_efes.nagramix.NagramiXSettings;",
+    )
+    replace_exact(dialog_stories, "            openStoryForCell(cell, false);", "            openStoryForCell(cell, false, false);")
+    replace_exact(
+        dialog_stories,
+        "    public void openStoryForCell(StoryCell cell) {\n"
+        "        openStoryForCell(cell, false);\n"
+        "    }\n\n"
+        "    private void openStoryForCell(StoryCell cell, boolean overscroll) {",
+        "    public void openStoryForCell(StoryCell cell) {\n"
+        "        openStoryForCell(cell, false, false);\n"
+        "    }\n\n"
+        "    private void openStoryForCell(StoryCell cell, boolean overscroll, boolean confirmed) {",
+    )
+    replace_exact(
+        dialog_stories,
+        "        try {\n"
+        "            performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP);",
+        "        if (!confirmed && !cell.isSelf && storiesController.hasUnreadStories(cell.dialogId)\n"
+        "                && NagramiXSettings.INSTANCE.preferences(getContext()).getBoolean(NagramiXSettings.CONFIRM_STORY_VIEWING, false)) {\n"
+        "            new AlertDialog.Builder(getContext(), fragment != null ? fragment.getResourceProvider() : null)\n"
+        "                    .setTitle(getString(R.string.NagramiXStoryViewConfirmTitle))\n"
+        "                    .setMessage(getString(R.string.NagramiXStoryViewConfirmText))\n"
+        "                    .setNegativeButton(getString(R.string.Cancel), null)\n"
+        "                    .setPositiveButton(getString(R.string.NagramiXStoryViewConfirmAction), (dialog, which) -> openStoryForCell(cell, overscroll, true))\n"
+        "                    .show();\n"
+        "            return;\n"
+        "        }\n"
+        "        try {\n"
+        "            performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP);",
+    )
+    replace_exact(dialog_stories, "        openStoryForCell(overscrollSelectedView, true);", "        openStoryForCell(overscrollSelectedView, true, false);")
+
+    peer_stories = source / "TMessagesProj" / "src" / "main" / "java" / "org" / "telegram" / "ui" / "Stories" / "PeerStoriesView.java"
+    replace_exact(
+        peer_stories,
+        "import org.telegram.messenger.AccountInstance;",
+        "import org.telegram.messenger.AccountInstance;\n\n"
+        "import com.mr_efes.nagramix.NagramiXSettings;",
+    )
+    replace_exact(
+        peer_stories,
+        "                allowRepost = allowShare;",
+        "                allowRepost = allowShare && NagramiXSettings.INSTANCE.preferences(ApplicationLoader.applicationContext).getBoolean(NagramiXSettings.ENABLE_STORY_REPOST, false);",
     )
     replace_exact(
         voip_service,
