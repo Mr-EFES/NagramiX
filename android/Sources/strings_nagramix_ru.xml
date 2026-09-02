@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="NagramiXSettingsTitle">Настройки NagramiX</string>
+    <string name="NagramiXSettingsInfo">Настройка независимых функций NagramiX.</string>
+    <string name="NagramiXCategoryInterface">Интерфейс</string>
+    <string name="NagramiXCategoryFeatures">Функции</string>
+    <string name="NagramiXCategoryOther">Прочее</string>
+    <string name="NagramiXHideContactsTab">Скрыть вкладку «Контакты»</string>
+    <string name="NagramiXHideCallsTab">Скрыть вкладку «Звонки»</string>
+    <string name="NagramiXShowTabTitles">Показывать названия вкладок</string>
+    <string name="NagramiXShowSearchTab">Показывать отдельную вкладку поиска</string>
+    <string name="NagramiXHideStories">Скрыть истории</string>
+    <string name="NagramiXShowProfileId">Показывать ID профиля</string>
+    <string name="NagramiXShowRegistrationDate">Показывать примерную дату регистрации</string>
+    <string name="NagramiXShowMutualContactIcon">Показывать значок взаимного контакта</string>
+    <string name="NagramiXInterfaceInfo">Настройки начнут влиять на интерфейс после завершения соответствующих Android-интеграций.</string>
+    <string name="NagramiXRearVideoMessages">Начинать круглые видео с задней камеры</string>
+    <string name="NagramiXDisableStoryCameraSwipe">Отключить жест открытия камеры историй</string>
+    <string name="NagramiXConfirmStoryViewing">Подтверждать просмотр непросмотренных историй</string>
+    <string name="NagramiXEnableStoryRepost">Включить действие репоста историй</string>
+    <string name="NagramiXConfirmOutgoingCalls">Подтверждать исходящие звонки</string>
+    <string name="NagramiXShowDeletedMessages">Показывать локально полученные удалённые сообщения</string>
+    <string name="NagramiXEditHistory">Хранить локально полученную историю правок</string>
+    <string name="NagramiXForceTcpCalls">Принудительно использовать TCP для звонков</string>
+    <string name="NagramiXFeaturesInfo">Локальный архив не может восстановить содержимое, которое этот клиент не получил.</string>
+    <string name="NagramiXProxyAutoSwitch">Автоматически переключать недоступные прокси</string>
+    <string name="NagramiXShowProxyButton">Всегда показывать кнопку прокси</string>
+    <string name="NagramiXHideProxySponsorChannel">Скрывать канал спонсора прокси</string>
+    <string name="NagramiXOtherInfo">Сетевые настройки требуют завершения платформенной интеграции и проверки на устройстве.</string>
+</resources>

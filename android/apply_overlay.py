@@ -100,9 +100,28 @@ def main() -> None:
 
     resource_root = source / "TMessagesProj" / "src" / "main" / "res"
     copy(ROOT / "android" / "Sources" / "strings_nagramix.xml", resource_root / "values" / "strings_nagramix.xml")
+    copy(ROOT / "android" / "Sources" / "strings_nagramix_ru.xml", resource_root / "values-ru" / "strings_nagramix.xml")
     copy(
         ROOT / "android" / "Sources" / "NagramiXSettings.kt",
         source / "TMessagesProj" / "src" / "main" / "java" / "com" / "mr_efes" / "nagramix" / "NagramiXSettings.kt",
+    )
+    copy(
+        ROOT / "android" / "Sources" / "NagramiXSettingsActivity.java",
+        source / "TMessagesProj" / "src" / "main" / "java" / "org" / "telegram" / "ui" / "NagramiXSettingsActivity.java",
+    )
+
+    settings_activity = source / "TMessagesProj" / "src" / "main" / "java" / "org" / "telegram" / "ui" / "SettingsActivity.java"
+    replace_exact(
+        settings_activity,
+        "        items.add(SettingCell.Factory.of(10, IconBackgroundColors.PURPLE.top, IconBackgroundColors.PURPLE.bottom, R.drawable.settings_language, getString(R.string.SettingsLanguage), LocaleController.getCurrentLanguageName()));",
+        "        items.add(SettingCell.Factory.of(10, IconBackgroundColors.PURPLE.top, IconBackgroundColors.PURPLE.bottom, R.drawable.settings_language, getString(R.string.SettingsLanguage), LocaleController.getCurrentLanguageName()));\n"
+        "        items.add(SettingCell.Factory.of(24, IconBackgroundColors.BLUE_ALT.top, IconBackgroundColors.BLUE_ALT.bottom, R.drawable.settings_features, getString(R.string.NagramiXSettingsTitle)));",
+    )
+    replace_exact(
+        settings_activity,
+        "            case 10:\n                presentSettingFragment(new LanguageSelectActivity());\n                break;",
+        "            case 10:\n                presentSettingFragment(new LanguageSelectActivity());\n                break;\n"
+        "            case 24:\n                presentSettingFragment(new NagramiXSettingsActivity());\n                break;",
     )
     copy(ROOT / "android" / "branding" / "AppIcons" / "1.png", resource_root / "drawable-nodpi" / "nagramix_app_icon.png")
 

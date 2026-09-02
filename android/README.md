@@ -19,7 +19,7 @@ Feature work must be expressed as Kotlin/Java sources under `android/Sources/` p
 
 ## Current implementation status
 
-This architecture correction establishes the official Telegram base, independent branding, private API credentials, Kotlin compilation and NagramiX settings ownership. It does **not** claim that all iOS NagramiX features are already ported. `docs/ANDROID-FUNCTION-PARITY.md` is the authoritative implementation and device-validation backlog.
+The overlay integrates a NagramiX entry in Telegram's main settings and a native settings screen backed by the canonical NagramiX preference namespace. The screen exposes the 0.2.4 boolean settings with English and Russian resources. A visible switch does **not** mean its product integration is complete; feature status changes only after the corresponding Telegram Android behavior is patched and verified. `docs/ANDROID-FUNCTION-PARITY.md` is the authoritative implementation and device-validation backlog.
 
 ## Physical-device focus
 

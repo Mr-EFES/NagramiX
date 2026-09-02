@@ -1,4 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="NagramiXAppName" translatable="false">NagramiX</string>
+    <string name="NagramiXSettingsTitle">NagramiX Settings</string>
+    <string name="NagramiXSettingsInfo">Configure independent NagramiX features.</string>
+    <string name="NagramiXCategoryInterface">Interface</string>
+    <string name="NagramiXCategoryFeatures">Features</string>
+    <string name="NagramiXCategoryOther">Other</string>
+    <string name="NagramiXHideContactsTab">Hide Contacts tab</string>
+    <string name="NagramiXHideCallsTab">Hide Calls tab</string>
+    <string name="NagramiXShowTabTitles">Show tab titles</string>
+    <string name="NagramiXShowSearchTab">Show separate Search tab</string>
+    <string name="NagramiXHideStories">Hide stories</string>
+    <string name="NagramiXShowProfileId">Show profile ID</string>
+    <string name="NagramiXShowRegistrationDate">Show approximate registration date</string>
+    <string name="NagramiXShowMutualContactIcon">Show mutual-contact marker</string>
+    <string name="NagramiXInterfaceInfo">These preferences become active as their Android integrations are completed.</string>
+    <string name="NagramiXRearVideoMessages">Start round videos with rear camera</string>
+    <string name="NagramiXDisableStoryCameraSwipe">Disable story-camera swipe</string>
+    <string name="NagramiXConfirmStoryViewing">Confirm before viewing unseen stories</string>
+    <string name="NagramiXEnableStoryRepost">Enable story repost action</string>
+    <string name="NagramiXConfirmOutgoingCalls">Confirm outgoing calls</string>
+    <string name="NagramiXShowDeletedMessages">Show locally observed deleted messages</string>
+    <string name="NagramiXEditHistory">Keep locally observed edit history</string>
+    <string name="NagramiXForceTcpCalls">Force TCP for calls</string>
+    <string name="NagramiXFeaturesInfo">Local archives cannot recover content that this client did not receive.</string>
+    <string name="NagramiXProxyAutoSwitch">Automatically switch unavailable proxies</string>
+    <string name="NagramiXShowProxyButton">Always show proxy button</string>
+    <string name="NagramiXHideProxySponsorChannel">Hide proxy sponsor channel</string>
+    <string name="NagramiXOtherInfo">Network behavior still requires its platform integration and device testing.</string>
 </resources>

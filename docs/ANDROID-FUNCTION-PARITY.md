@@ -12,7 +12,7 @@ Status meanings:
 | Capability | iOS 0.2.4 | Android official-base status | Device validation |
 | --- | --- | --- | --- |
 | Independent branding/package | Implemented | Implemented in Android overlay | Pending device |
-| NagramiX settings ownership | Implemented | Kotlin settings namespace added; settings UI not ported | Pending device |
+| NagramiX settings ownership | Implemented | Settings namespace and native settings screen integrated | Pending device |
 | Hide Contacts tab | Implemented, default on | Not ported | Not tested |
 | Hide Calls tab | Implemented, default on | Not ported / Android navigation differs | Not tested |
 | Tab titles/search controls | Implemented | Not ported | Not tested |
