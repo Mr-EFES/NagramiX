@@ -109,6 +109,10 @@ def main() -> None:
         ROOT / "android" / "Sources" / "NagramiXSettingsActivity.java",
         source / "TMessagesProj" / "src" / "main" / "java" / "org" / "telegram" / "ui" / "NagramiXSettingsActivity.java",
     )
+    copy(
+        ROOT / "android" / "Sources" / "NagramiXMessageArchive.java",
+        source / "TMessagesProj" / "src" / "main" / "java" / "com" / "mr_efes" / "nagramix" / "NagramiXMessageArchive.java",
+    )
 
     settings_activity = source / "TMessagesProj" / "src" / "main" / "java" / "org" / "telegram" / "ui" / "SettingsActivity.java"
     replace_exact(
@@ -402,13 +406,24 @@ def main() -> None:
         chat_activity,
         "    public final static int OPTION_ADD_TO_TODO = 110;",
         "    public final static int OPTION_ADD_TO_TODO = 110;\n"
-        "    public final static int OPTION_NAGRAMIX_FORWARD_COPY = 111;",
+        "    public final static int OPTION_NAGRAMIX_FORWARD_COPY = 111;\n"
+        "    public final static int OPTION_NAGRAMIX_EDIT_HISTORY = 112;",
     )
     replace_exact(
         chat_activity,
         "    public MessagePreviewParams messagePreviewParams;",
         "    public MessagePreviewParams messagePreviewParams;\n"
         "    private boolean nagramixForwardPanelAsCopy;",
+    )
+    replace_exact(
+        chat_activity,
+        "                final boolean canForward = !selectedObject.isSponsored()",
+        "                if (!com.mr_efes.nagramix.NagramiXMessageArchive.getInstance(currentAccount).revisions(dialog_id, selectedObject.getId()).isEmpty()) {\n"
+        "                    items.add(LocaleController.getString(R.string.NagramiXEditHistoryTitle));\n"
+        "                    options.add(OPTION_NAGRAMIX_EDIT_HISTORY);\n"
+        "                    icons.add(R.drawable.msg_edit);\n"
+        "                }\n\n"
+        "                final boolean canForward = !selectedObject.isSponsored()",
     )
     replace_exact(
         chat_activity,
@@ -456,7 +471,22 @@ def main() -> None:
         "                fragment.setDelegate(this);",
         "                fragment.nagramixCopyAsNew = true;\n                fragment.setDelegate(this);",
     )
-    replace_exact(chat_activity, forward_case, forward_case + copy_case)
+    history_case = """            case OPTION_NAGRAMIX_EDIT_HISTORY: {
+                ArrayList<TLRPC.Message> revisions = com.mr_efes.nagramix.NagramiXMessageArchive.getInstance(currentAccount).revisions(dialog_id, selectedObject.getId());
+                CharSequence[] entries = new CharSequence[revisions.size()];
+                for (int i = 0; i < revisions.size(); i++) {
+                    TLRPC.Message revision = revisions.get(i);
+                    int timestamp = revision.edit_date != 0 ? revision.edit_date : revision.date;
+                    entries[i] = LocaleController.formatDateTime(timestamp, false) + "\\n" + revision.message;
+                }
+                AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity(), themeDelegate);
+                builder.setTitle(LocaleController.getString(R.string.NagramiXEditHistoryTitle));
+                builder.setItems(entries, (dialog, which) -> AndroidUtilities.addToClipboard(revisions.get(which).message));
+                showDialog(builder.create());
+                break;
+            }
+"""
+    replace_exact(chat_activity, forward_case, forward_case + history_case + copy_case)
     replace_exact(
         chat_activity,
         "                    getSendMessagesHelper().sendMessage(fmessages, did, false, false, notify, scheduleDate, scheduleRepeatPeriod, null, -1, price == null ? 0 : price, getSendMonoForumPeerId(), getSendMessageSuggestionParams());",
@@ -563,6 +593,61 @@ def main() -> None:
         "            case 10:\n                presentSettingFragment(new LanguageSelectActivity());\n                break;",
         "            case 10:\n                presentSettingFragment(new LanguageSelectActivity());\n                break;\n"
         "            case 24:\n                presentSettingFragment(new NagramiXSettingsActivity());\n                break;",
+    )
+    replace_exact(
+        chat_activity,
+        "        ArrayList<MessageObject> messArr = (ArrayList<MessageObject>) args[2];",
+        "        ArrayList<MessageObject> messArr = (ArrayList<MessageObject>) args[2];\n"
+        "        com.mr_efes.nagramix.NagramiXMessageArchive archive = com.mr_efes.nagramix.NagramiXMessageArchive.getInstance(currentAccount);\n"
+        "        archive.captureLoaded(dialog_id, messArr);\n"
+        "        archive.mergeDeleted(dialog_id, messArr);",
+    )
+    replace_exact(
+        chat_activity,
+        "            ArrayList<Integer> markAsDeletedMessages = (ArrayList<Integer>) args[0];\n"
+        "            long channelId = (Long) args[1];",
+        "            ArrayList<Integer> markAsDeletedMessages = (ArrayList<Integer>) args[0];\n"
+        "            long channelId = (Long) args[1];\n"
+        "            markAsDeletedMessages = com.mr_efes.nagramix.NagramiXMessageArchive.getInstance(currentAccount).archiveDeletion(dialog_id, markAsDeletedMessages, messagesDict[0]);",
+    )
+    replace_exact(
+        chat_activity,
+        "            int loadIndex = did == dialog_id ? 0 : 1;\n"
+        "            doOnIdle(() -> {\n"
+        "                replaceMessageObjects(messageObjects, loadIndex, false);",
+        "            int loadIndex = did == dialog_id ? 0 : 1;\n"
+        "            com.mr_efes.nagramix.NagramiXMessageArchive.getInstance(currentAccount).recordEdits(did, messageObjects, messagesDict[loadIndex]);\n"
+        "            doOnIdle(() -> {\n"
+        "                replaceMessageObjects(messageObjects, loadIndex, false);",
+    )
+    messages_storage = source / "TMessagesProj" / "src" / "main" / "java" / "org" / "telegram" / "messenger" / "MessagesStorage.java"
+    replace_exact(
+        messages_storage,
+        "    private void putMessagesInternal(ArrayList<TLRPC.Message> messages, boolean withTransaction, boolean doNotUpdateDialogDate, int downloadMask, boolean ifNoLastMessage, int mode, long threadMessageId) {\n"
+        "        if (messages != null) {",
+        "    private void putMessagesInternal(ArrayList<TLRPC.Message> messages, boolean withTransaction, boolean doNotUpdateDialogDate, int downloadMask, boolean ifNoLastMessage, int mode, long threadMessageId) {\n"
+        "        if (messages != null && mode == ChatActivity.MODE_DEFAULT) {\n"
+        "            com.mr_efes.nagramix.NagramiXMessageArchive.getInstance(currentAccount).captureIncoming(messages);\n"
+        "        }\n"
+        "        if (messages != null) {",
+    )
+    replace_exact(
+        messages_storage,
+        "    private ArrayList<Long> markMessagesAsDeletedInternal(long dialogId, ArrayList<Integer> messages, boolean deleteFiles, int mode, int threadMessageId) {\n"
+        "        SQLiteCursor cursor = null;",
+        "    private ArrayList<Long> markMessagesAsDeletedInternal(long dialogId, ArrayList<Integer> messages, boolean deleteFiles, int mode, int threadMessageId) {\n"
+        "        if (mode == ChatActivity.MODE_DEFAULT) {\n"
+        "            com.mr_efes.nagramix.NagramiXMessageArchive.getInstance(currentAccount).markDeleted(dialogId, messages);\n"
+        "        }\n"
+        "        SQLiteCursor cursor = null;",
+    )
+    user_config = source / "TMessagesProj" / "src" / "main" / "java" / "org" / "telegram" / "messenger" / "UserConfig.java"
+    replace_exact(
+        user_config,
+        "    public void clearConfig() {\n        getPreferences().edit().clear().apply();",
+        "    public void clearConfig() {\n"
+        "        com.mr_efes.nagramix.NagramiXMessageArchive.getInstance(currentAccount).clearAll();\n"
+        "        getPreferences().edit().clear().apply();",
     )
     copy(ROOT / "android" / "branding" / "AppIcons" / "1.png", resource_root / "drawable-nodpi" / "nagramix_app_icon.png")
 

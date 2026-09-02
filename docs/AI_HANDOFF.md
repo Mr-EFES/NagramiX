@@ -434,3 +434,23 @@ deleted-message archive, edit history, DNS/DoH, proxy failover, profile data and
 offline startup remain. Exact next step: implement the account-local Android
 message archive and observed edit history, including exclusions and chat UI,
 while keeping Android workflows absent.
+
+## Android message archive tranche (2026-09-02 UTC)
+
+`NagramiXMessageArchive.java` now provides an account-scoped SQLite snapshot
+store on the official Android base. Incoming cloud messages are captured from
+the native storage ingress without fetching media. Outgoing, self, verification,
+secret-dialog, protected, paid, TTL, expiring and secret-media messages are
+excluded. Server deletions mark existing snapshots; an open chat preserves an
+eligible deleted object, and later history loads merge persisted deleted
+snapshots with a localized marker. Logout clears the account archive.
+
+Observed edits in an open chat capture the previous serialized message only
+when text/entities/media content changes. A native context-menu action lists
+captured revisions and allows copying the selected text. Both registry rows are
+only `in_progress`: compile validation is intentionally prohibited, deletion
+coverage for every non-open channel/global-id path still needs audit, synthetic
+message action restrictions need hardening, and the settings UI still needs a
+confirmed archive-cleanup action. Exact-anchor application and generated-tree
+diff checks pass; no APK was built. Next: close those gaps before advancing
+either archive row to `implemented`.

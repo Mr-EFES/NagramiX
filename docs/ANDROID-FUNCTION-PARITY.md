@@ -21,8 +21,8 @@ Status meanings:
 | Story controls/confirmation | Implemented | Strip visibility, pre-view confirmation and repost setting integrated; camera-swipe control not applicable to current Android UI | Pending device |
 | Forward with source | Telegram-native | Telegram-native | Not tested |
 | Forward without source/copy-as-new | Implemented | New-message pipeline for supported text/media, entities, spoilers and albums | Pending device |
-| Deleted-message archive | Implemented | Not ported | Not tested |
-| Edit history | Implemented | Not ported | Not tested |
+| Deleted-message archive | Implemented | Account-local snapshot storage, exclusions and chat merge in progress | Not tested |
+| Edit history | Implemented | Observed-revision capture and context-menu viewer in progress | Not tested |
 | DNS provider/custom DoH | Implemented | Not ported | Not tested |
 | Proxy check/failover/button | Implemented | Not ported | Not tested |
 | Force TCP calls | Implemented | NagramiX setting integrated with native VoIP endpoints and P2P policy | Pending device |

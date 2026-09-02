@@ -32,4 +32,6 @@
     <string name="NagramiXShowProxyButton">Always show proxy button</string>
     <string name="NagramiXHideProxySponsorChannel">Hide proxy sponsor channel</string>
     <string name="NagramiXOtherInfo">Network behavior still requires its platform integration and device testing.</string>
+    <string name="NagramiXDeletedMarker">Deleted locally</string>
+    <string name="NagramiXEditHistoryTitle">Edit history</string>
 </resources>
