@@ -133,7 +133,7 @@ jobs:
         shell: bash
         run: |
           upstream_sha="$(git -C Telegram-iOS rev-parse HEAD)"
-          printf 'Telegram-iOS commit: %s\nNagramX reference: %s\n' "$upstream_sha" "$NAGRAMX_REFERENCE_REF" > BUILD-PROVENANCE.txt
+          printf 'Telegram-iOS commit: %s\n' "$upstream_sha" > BUILD-PROVENANCE.txt
 
       - name: Upload unsigned IPA
         uses: actions/upload-artifact@v4

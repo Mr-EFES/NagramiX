@@ -8,7 +8,7 @@
 
 ## Current project state
 
-NagramiX is an overlay monorepo for independent Telegram clients for iOS and Android. It does not track either complete upstream tree. CI applies the iOS overlay to pinned official Telegram-iOS 12.9.2 and the Android overlay to pinned official Telegram Android 12.10.1. iOS is the product priority; NagramX 1258 is an idea reference only.
+NagramiX is an overlay monorepo for independent Telegram clients for iOS and Android. It does not track either complete upstream tree. CI applies the iOS overlay to pinned official Telegram-iOS 12.9.2 and the Android overlay to pinned official Telegram Android 12.10.1. iOS is the product priority; all product behavior is owned and specified by NagramiX.
 
 - Active release-preparation branch: `release/0.2.4-prerelease` (created from `origin/main` at `7a35310`).
 - Functional build commit: `22ec680` (`fix: use public media aliases in copy mode`); the following documentation-only synchronization commit does not change the IPA sources.
@@ -104,7 +104,7 @@ The pre-existing `README.md` modification is unrelated and must not be folded in
 - `README.md` — project identity, current version, feature summary and build outcome.
 - `docs/BOOTSTRAP.md` — bootstrap/build model and risk map; some wording still reflects the 0.2.0 iteration.
 - `docs/NAGRAMIX-0.1.7.md` through `docs/NAGRAMIX-0.2.0.md` — historical test-version notes and physical-device checklists.
-- `ios/upstream.env` — authoritative pinned Telegram-iOS SHA/version and NagramX reference.
+- `ios/upstream.env` — authoritative pinned Telegram-iOS SHA/version.
 - `ios/configuration.template.json` — non-secret build configuration template and NagramiX bundle metadata.
 - `ios/apply_overlay.py` — branding/configuration/icon orchestration and feature-overlay entry point.
 - `ios/apply_features.py` — all exact upstream integration patches; highest-risk maintenance file.
@@ -334,13 +334,13 @@ Native macOS/Xcode/Bazel run `33513250714` succeeded for commit `3fb56f6abb0c100
 
 ## Android monorepo baseline (2026-09-01)
 
-The repository now contains a second platform overlay under `android/`. NagramX tag 1258 is pinned to exact commit `ee899eff5a4980ae4f9eca7f60227029b95cbe07`; the full 30,000-file upstream tree remains external. `android/apply_overlay.py` rejects any other commit or changed exact anchor, then applies version 0.2.4, package `com.mr_efes.nagramix`, NagramiX branding, debug-signing compatibility and aligned clean-install defaults. It also verifies source anchors for deleted messages, edit history, stories, copy/forward modes, round-video selection, custom DoH and Force TCP.
+This historical Android baseline is superseded. The current Android overlay uses only the pinned official Telegram Android source and NagramiX-owned Kotlin/Java integrations.
 
 `.github/workflows/build-android-apk.yml` checks out the pinned Android source recursively, applies the overlay, uses the existing Telegram API repository secrets, installs JDK/SDK/NDK tooling, builds an ARM64 debug APK, validates package/version/signature metadata, records SHA-256/provenance and uploads the test artifact. The generated debug signing key is not a stable production identity; users may need to uninstall a differently signed earlier build.
 
 `docs/ANDROID-FUNCTION-PARITY.md` is the durable parity matrix. Source-level availability or a successful Gradle build must not be presented as physical-device verification. Current verification: overlay application to a clean pinned checkout, exact anchors, Python compilation, YAML parsing and overlay/generated-tree `git diff --check` pass. Native Gradle/NDK CI and all physical-device rows remain pending. Exact next step: push the branch, let the Android workflow build the APK, inspect its metadata/signature/SHA-256, then install it on an ARM64 Android device and record every matrix result or mismatch.
 
-The first Android CI attempt, run `33543465270`, reached the SDK installation step and failed before compilation because `sdkmanager` does not expose `platforms;android-37`; pinned NagramX uses the upstream-tested preview package name `platforms;android-37.0`. The workflow was corrected to request that exact package. No APK was produced by the failed attempt.
+The first historical Android CI attempt, run `33543465270`, failed during SDK installation before compilation. No APK was produced by that attempt.
 
 ### Android 0.2.4 native CI result
 
@@ -354,9 +354,9 @@ Android publisher run `33547148058` then passed ZIP integrity, SHA-256 verificat
 
 ## Android architecture correction: official Telegram base (2026-09-01)
 
-The product owner clarified the authoritative architecture: NagramiX is an independent application; iOS is the priority platform, Android is a first-class secondary platform, and both start from official Telegram repositories. Shared product ideas may come from NagramX 1258, but NagramX source must not be the Android base or be compiled into NagramiX. iOS features are implemented natively in Swift/Objective-C and Android counterparts in NagramiX-owned Kotlin/Java.
+The product owner clarified the authoritative architecture: NagramiX is an independent application; iOS is the priority platform, Android is a first-class secondary platform, and both start from official Telegram repositories. iOS features are implemented natively in Swift/Objective-C and Android counterparts in NagramiX-owned Kotlin/Java.
 
-The earlier NagramX-based Android artifact and parity claims are superseded and must not be treated as the independent Android client. The replacement pin is official `DrKLO/Telegram` commit `62b56a07ca7e30e39f7fd00a6728d6bbd716ca1c`, whose `gradle.properties` reports 12.10.1 (7038). `android/apply_overlay.py` was rewritten for this official tree: it sets independent version/package metadata, injects NagramiX branding and a Kotlin-owned settings namespace, uses repository-secret Telegram API credentials through generated BuildConfig fields, disables official-only update/passkey behavior, configures independent debug signing and limits the development APK to ARM64.
+The earlier Android artifact and parity claims are superseded and must not be treated as the current independent Android client. The replacement pin is official `DrKLO/Telegram` commit `62b56a07ca7e30e39f7fd00a6728d6bbd716ca1c`, whose `gradle.properties` reports 12.10.1 (7038). `android/apply_overlay.py` was rewritten for this official tree: it sets independent version/package metadata, injects NagramiX branding and a Kotlin-owned settings namespace, uses repository-secret Telegram API credentials through generated BuildConfig fields, disables official-only update/passkey behavior, configures independent debug signing and limits the development APK to ARM64.
 
 The parity matrix was reset to honest implementation states. Most product features are **Not ported** on the corrected official Android base; successful compilation cannot change those states. The prior APK must be removed/replaced in `v0.2.4-rc1` after the corrected official-base CI succeeds. Exact next step: apply the rewritten overlay to a clean official checkout, run static checks, build in Android CI, verify package/signature/provenance, replace the pre-release APK, then implement matrix rows one by one with Kotlin/Java and Samsung device tests.
 
@@ -374,7 +374,7 @@ Changes in this pass:
 - documented current minimums from official sources: iOS 13.0 and Android API 21 / Android 5.0;
 - rewrote README around the independent, unofficial, non-commercial product, official bases, directory layout, compatibility, pre-release model and honest Android backlog.
 
-Static verification completed: official upstream audit with `--require-current`, Android overlay application to a clean official checkout, Python compilation, JSON parsing, workflow YAML parsing, embedded shell syntax and repository/generated-tree `git diff --check`. Native IPA was not rebuilt because iOS product code did not change. The restructured current-official Android APK requires a fresh GitHub Actions build before the obsolete NagramX-based APK release asset can be replaced. Physical-device validation remains pending.
+Static verification completed: official upstream audit with `--require-current`, Android overlay application to a clean official checkout, Python compilation, JSON parsing, workflow YAML parsing, embedded shell syntax and repository/generated-tree `git diff --check`. Native IPA was not rebuilt because iOS product code did not change. The restructured current-official Android APK requires a fresh GitHub Actions build before the obsolete non-current-base APK release asset can be replaced. Physical-device validation remains pending.
 
 Exact next step: authenticate GitHub CLI, synchronize with `origin/main`, push this focused restructuring commit, create a PR, run Android CI, inspect APK metadata/signature/provenance, replace the old Android release asset only after success, then continue feature ports from `product/features/registry.json` in iOS-priority order.
 
@@ -388,7 +388,7 @@ Sparse clean-pin overlay validation initially found a trailing blank line after 
 
 ## Android 0.2.4 parity build hold (2026-09-02 UTC)
 
-The owner explicitly prohibited further Android builds or APK publication until the Android implementation reaches iOS 0.2.4 feature parity. Active Android Actions runs `33606103552` and `33605904230` were cancelled, and the obsolete NagramX-based APK plus its Android metadata/provenance assets were removed from pre-release `v0.2.4-rc1`. The iOS IPA remains available.
+The owner explicitly prohibited further Android builds or APK publication until the Android implementation reaches iOS 0.2.4 feature parity. Active Android Actions runs `33606103552` and `33605904230` were cancelled, and the obsolete non-current-base APK plus its Android metadata/provenance assets were removed from pre-release `v0.2.4-rc1`. The iOS IPA remains available.
 
 Automatic pull-request Android builds are disabled. `scripts/check_android_release_ready.py` is a mandatory first-stage gate in both the manually dispatched Android build and Android publication workflows. It fails while any feature in `product/features/registry.json` has an Android implementation status other than `implemented`; current expected result is failure because the Android port is incomplete. Do not bypass or weaken this gate to obtain an APK. Implement and review the Android rows against the pinned official Telegram source, update statuses only when durable integrations exist, and build only after all implementation rows pass. Physical-device statuses remain separate and must not be inferred from compilation.
 
@@ -397,3 +397,5 @@ Existing uncommitted work in `android/Sources/NagramiXSettingsActivity.java` and
 ## Confirmed product development model (2026-09-02 UTC)
 
 The owner reconfirmed the permanent architecture: NagramiX is one independent, unofficial and non-commercial product with its own features, settings and branding. Shared behavior is designed in `product/`, then implemented independently with Swift/Objective-C in `ios/` and Kotlin/Java in `android/`, using only audited official Telegram pins. iOS is first in implementation priority; Android is second but must not remain a permanently reduced edition. The currently existing official Android GitHub repository was verified as `DrKLO/Telegram`; `TelegramMessenger/Telegram-Android` does not resolve on GitHub and must not be recorded as a fetchable upstream unless Telegram actually creates or moves to it. These rules are now durable in `AGENTS.md` and `product/PRODUCT.md`.
+
+The owner subsequently directed the project to remove the former reference-client concept completely. All names, reference pins, provenance fields and documentation for it were removed from tracked authoritative files. NagramiX now documents only its own product specifications and the audited official Telegram platform bases. Existing settings keys and NagramiX package identifiers were not changed. Verification covered a repository-wide case-insensitive search, environment parsing, Python syntax, workflow YAML and diff checks. No Android APK was built. Next: continue the NagramiX-owned Android settings integration and feature registry ports while the parity gate remains active.

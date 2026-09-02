@@ -5,7 +5,6 @@ Android is the secondary platform of the independent NagramiX application. iOS r
 ## Base and output
 
 - Upstream: official [`DrKLO/Telegram`](https://github.com/DrKLO/Telegram), pinned to Android 12.10.1 and the exact commit in `android/upstream.env`.
-- Idea reference only: NagramX 1258. Its source is not compiled into NagramiX.
 - Version: `0.2.4`.
 - Package id: `com.mr_efes.nagramix`.
 - CI output: an installable ARM64 debug-signed APK for physical-device development testing.
@@ -16,7 +15,7 @@ The generated debug signature is not a production identity. Updating over a buil
 
 `android/apply_overlay.py` verifies the exact official Telegram Android commit, applies independent NagramiX branding/package metadata, injects NagramiX-owned Kotlin settings sources and configures the official build for an ARM64 development APK. The complete upstream Android tree is deliberately not vendored.
 
-Feature work must be expressed as Kotlin/Java sources under `android/Sources/` plus exact integration operations in `android/apply_overlay.py`. It must not depend on NagramX packages or pretend that a source-name check is a port.
+Feature work must be expressed as Kotlin/Java sources under `android/Sources/` plus exact integration operations in `android/apply_overlay.py`. A source-name check is not a feature port.
 
 ## Current implementation status
 

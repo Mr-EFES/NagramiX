@@ -6,7 +6,7 @@ This directory is the platform-neutral source of truth for the independent Nagra
 
 1. iOS is the implementation priority, but an approved shared feature is not complete until both platform rows are implemented or a documented platform exception is approved.
 2. Official Telegram-iOS and official Telegram Android are the only code bases.
-3. NagramX and other clients are idea references only. Their code is not compiled or copied as the implementation.
+3. Platform implementations are NagramiX-owned native code applied only to audited official Telegram sources.
 4. Shared setting ids, defaults, semantics, privacy exclusions and acceptance criteria are defined here first.
 5. Swift/Objective-C and Kotlin/Java implementations remain platform-native.
 6. Compilation proves build compatibility; device validation is tracked separately.

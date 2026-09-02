@@ -6,9 +6,9 @@ import android.content.SharedPreferences
 /**
  * NagramiX-owned Android settings namespace.
  *
- * Product features must depend on these keys rather than NagramX classes. Each
- * feature is implemented against official Telegram Android in the tracked
- * overlay and keeps platform-appropriate Kotlin/Java integration.
+ * Product features depend on these canonical keys. Each feature is implemented
+ * against official Telegram Android in the tracked overlay and keeps
+ * platform-appropriate Kotlin/Java integration.
  */
 object NagramiXSettings {
     private const val PREFERENCES = "nagramix.settings"

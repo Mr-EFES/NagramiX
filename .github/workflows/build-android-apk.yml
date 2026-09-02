@@ -125,8 +125,8 @@ jobs:
       - name: Record Android provenance
         shell: bash
         run: |
-          printf 'Telegram Android repository: %s\nTelegram Android version: %s\nTelegram Android commit: %s\nNagramX idea reference: %s\nNagramiX Android version: %s\n' \
-            "$TELEGRAM_ANDROID_REPOSITORY" "$TELEGRAM_ANDROID_VERSION" "$TELEGRAM_ANDROID_REF" "$NAGRAMX_IDEA_REFERENCE" "$NAGRAMIX_ANDROID_VERSION" \
+          printf 'Telegram Android repository: %s\nTelegram Android version: %s\nTelegram Android commit: %s\nNagramiX Android version: %s\n' \
+            "$TELEGRAM_ANDROID_REPOSITORY" "$TELEGRAM_ANDROID_VERSION" "$TELEGRAM_ANDROID_REF" "$NAGRAMIX_ANDROID_VERSION" \
             > ANDROID-BUILD-PROVENANCE.txt
 
       - name: Upload Android APK
