@@ -17,7 +17,7 @@
         "device": "device_pending"
       },
       "android": {
-        "implementation": "not_started",
+        "implementation": "in_progress",
         "compile": "not_started",
         "device": "not_started"
       }
@@ -152,7 +152,7 @@
         "device": "device_pending"
       },
       "android": {
-        "implementation": "not_started",
+        "implementation": "implemented",
         "compile": "not_started",
         "device": "not_started"
       }

@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.mr_efes.nagramix.NagramiXSettings;
 
 import org.telegram.messenger.LocaleController;
+import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.R;
 import org.telegram.ui.ActionBar.ActionBar;
 import org.telegram.ui.ActionBar.BaseFragment;
@@ -93,6 +94,7 @@ public class NagramiXSettingsActivity extends BaseFragment {
             boolean value = !preferences.getBoolean(item.key, NagramiXSettings.booleanDefault(item.key));
             preferences.edit().putBoolean(item.key, value).apply();
             ((TextCheckCell) view).setChecked(value);
+            NotificationCenter.getInstance(currentAccount).postNotificationName(NotificationCenter.updateInterfaces);
         });
         ((FrameLayout) fragmentView).addView(listView, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.MATCH_PARENT));
         return fragmentView;

@@ -13,9 +13,9 @@ Status meanings:
 | --- | --- | --- | --- |
 | Independent branding/package | Implemented | Implemented in Android overlay | Pending device |
 | NagramiX settings ownership | Implemented | Settings namespace and native settings screen integrated | Pending device |
-| Hide Contacts tab | Implemented, default on | Not ported | Not tested |
-| Hide Calls tab | Implemented, default on | Not ported / Android navigation differs | Not tested |
-| Tab titles/search controls | Implemented | Not ported | Not tested |
+| Hide Contacts tab | Implemented, default on | Integrated with native main-tab visibility | Pending device |
+| Hide Calls tab | Implemented, default on | Integrated; Settings occupies the shared native position | Pending device |
+| Tab titles/search controls | Implemented | Tab-title visibility integrated; separate Search control not ported | Not tested |
 | Eight NagramiX app icons | Implemented | Primary NagramiX icon only | Pending device |
 | Front/rear round video | Implemented | Not ported | Not tested |
 | Story controls/confirmation | Implemented | Not ported | Not tested |
@@ -25,7 +25,7 @@ Status meanings:
 | Edit history | Implemented | Not ported | Not tested |
 | DNS provider/custom DoH | Implemented | Not ported | Not tested |
 | Proxy check/failover/button | Implemented | Not ported | Not tested |
-| Force TCP calls | Implemented | Not ported as NagramiX user setting | Not tested |
+| Force TCP calls | Implemented | NagramiX setting integrated with native VoIP endpoints and P2P policy | Pending device |
 | Profile ID/date/mutual marker | Implemented | Not ported | Not tested |
 | Offline/proxy startup hardening | Implemented | Not ported | Not tested |
 

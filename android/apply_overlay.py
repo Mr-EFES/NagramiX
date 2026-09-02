@@ -117,6 +117,82 @@ def main() -> None:
         "        items.add(SettingCell.Factory.of(10, IconBackgroundColors.PURPLE.top, IconBackgroundColors.PURPLE.bottom, R.drawable.settings_language, getString(R.string.SettingsLanguage), LocaleController.getCurrentLanguageName()));\n"
         "        items.add(SettingCell.Factory.of(24, IconBackgroundColors.BLUE_ALT.top, IconBackgroundColors.BLUE_ALT.bottom, R.drawable.settings_features, getString(R.string.NagramiXSettingsTitle)));",
     )
+
+    main_tabs_activity = source / "TMessagesProj" / "src" / "main" / "java" / "org" / "telegram" / "ui" / "MainTabsActivity.java"
+    replace_exact(
+        main_tabs_activity,
+        "import org.telegram.ui.Components.chat.ViewPositionWatcher;",
+        "import org.telegram.ui.Components.chat.ViewPositionWatcher;\n\n"
+        "import com.mr_efes.nagramix.NagramiXSettings;",
+    )
+
+    voip_service = source / "TMessagesProj" / "src" / "main" / "java" / "org" / "telegram" / "messenger" / "voip" / "VoIPService.java"
+    replace_exact(
+        voip_service,
+        "import android.app.NotificationChannel;",
+        "import android.app.NotificationChannel;\n\nimport com.mr_efes.nagramix.NagramiXSettings;",
+    )
+    replace_exact(
+        voip_service,
+        "\t\t\tfinal Instance.Config config = new Instance.Config(initializationTimeout, receiveTimeout, voipDataSaving, privateCall.p2p_allowed, enableAec, enableNs, true, false, serverConfig.enableStunMarking, logFilePath, statsLogFilePath, privateCall.protocol.max_layer, privateCall.custom_parameters == null ? \"\" : privateCall.custom_parameters.data);",
+        "\t\t\tfinal boolean forceTcp = NagramiXSettings.INSTANCE.preferences(this).getBoolean(NagramiXSettings.FORCE_TCP_CALLS, false);\n"
+        "\t\t\tfinal Instance.Config config = new Instance.Config(initializationTimeout, receiveTimeout, voipDataSaving, forceTcp ? false : privateCall.p2p_allowed, enableAec, enableNs, true, false, serverConfig.enableStunMarking, logFilePath, statsLogFilePath, privateCall.protocol.max_layer, privateCall.custom_parameters == null ? \"\" : privateCall.custom_parameters.data);",
+    )
+    replace_exact(
+        voip_service,
+        "\t\t\tfinal boolean forceTcp = preferences.getBoolean(\"dbg_force_tcp_in_calls\", false);\n",
+        "",
+    )
+    replace_exact(
+        voip_service,
+        "\t\t\tif (forceTcp) {\n"
+        "\t\t\t\tAndroidUtilities.runOnUIThread(() -> Toast.makeText(VoIPService.this, \"This call uses TCP which will degrade its quality.\", Toast.LENGTH_SHORT).show());\n"
+        "\t\t\t}\n\n",
+        "",
+    )
+    replace_exact(
+        main_tabs_activity,
+        "        checkUi_callTabVisible(getUserConfig().showCallsTab, false);",
+        "        checkUi_callTabVisible(getUserConfig().showCallsTab, false);\n"
+        "        checkUi_nagramixTabs(false);",
+    )
+    replace_exact(
+        main_tabs_activity,
+        "        if (id == NotificationCenter.notificationsCountUpdated || id == NotificationCenter.updateInterfaces) {\n"
+        "            checkUnreadCount(fragmentView != null && fragmentView.isAttachedToWindow());",
+        "        if (id == NotificationCenter.notificationsCountUpdated || id == NotificationCenter.updateInterfaces) {\n"
+        "            checkUnreadCount(fragmentView != null && fragmentView.isAttachedToWindow());\n"
+        "            checkUi_nagramixTabs(true);",
+    )
+    replace_exact(
+        main_tabs_activity,
+        "    private void checkUi_callTabVisible(boolean callTabsVisible, boolean animated) {\n"
+        "        if (tabsView != null) {",
+        "    private void checkUi_nagramixTabs(boolean animated) {\n"
+        "        if (tabsView == null || tabs == null) {\n"
+        "            return;\n"
+        "        }\n"
+        "        boolean hideContacts = NagramiXSettings.INSTANCE.preferences(ApplicationLoader.applicationContext).getBoolean(NagramiXSettings.HIDE_CONTACTS_TAB, true);\n"
+        "        boolean showTitles = NagramiXSettings.INSTANCE.preferences(ApplicationLoader.applicationContext).getBoolean(NagramiXSettings.SHOW_TAB_TITLES, true);\n"
+        "        tabsView.setViewVisible(tabs[INDEX_CONTACTS], !hideContacts, animated);\n"
+        "        tabs[INDEX_CHATS].setText(showTitles ? getString(R.string.MainTabsChats) : \"\");\n"
+        "        tabs[INDEX_CONTACTS].setText(showTitles ? getString(R.string.MainTabsContacts) : \"\");\n"
+        "        tabs[INDEX_SETTINGS].setText(showTitles ? getString(R.string.Settings) : \"\");\n"
+        "        tabs[INDEX_CALLS].setText(showTitles ? getString(R.string.MainTabsCalls) : \"\");\n"
+        "        tabs[INDEX_PROFILE].setText(showTitles ? getString(R.string.MainTabsProfile) : \"\");\n"
+        "        checkUi_callTabVisible(getUserConfig().showCallsTab, animated);\n"
+        "    }\n\n"
+        "    private void checkUi_callTabVisible(boolean callTabsVisible, boolean animated) {\n"
+        "        callTabsVisible = callTabsVisible && !NagramiXSettings.INSTANCE.preferences(ApplicationLoader.applicationContext).getBoolean(NagramiXSettings.HIDE_CALLS_TAB, true);\n"
+        "        if (tabsView != null) {",
+    )
+    replace_exact(
+        main_tabs_activity,
+        "        } else if (position == POSITION_CALLS_OR_SETTINGS) {\n"
+        "            if (getUserConfig().showCallsTab) {",
+        "        } else if (position == POSITION_CALLS_OR_SETTINGS) {\n"
+        "            if (getUserConfig().showCallsTab && !NagramiXSettings.INSTANCE.preferences(ApplicationLoader.applicationContext).getBoolean(NagramiXSettings.HIDE_CALLS_TAB, true)) {",
+    )
     replace_exact(
         settings_activity,
         "            case 10:\n                presentSettingFragment(new LanguageSelectActivity());\n                break;",
