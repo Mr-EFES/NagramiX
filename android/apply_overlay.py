@@ -189,6 +189,25 @@ def main() -> None:
         "\t\t\tfinal boolean forceTcp = preferences.getBoolean(\"dbg_force_tcp_in_calls\", false);\n",
         "",
     )
+
+    instant_camera = source / "TMessagesProj" / "src" / "main" / "java" / "org" / "telegram" / "ui" / "Components" / "InstantCameraView.java"
+    replace_exact(
+        instant_camera,
+        "import com.google.android.exoplayer2.ExoPlayer;",
+        "import com.google.android.exoplayer2.ExoPlayer;\n\n"
+        "import com.mr_efes.nagramix.NagramiXSettings;",
+    )
+    replace_exact(
+        instant_camera,
+        "        if (!fromPaused) {\n"
+        "            if (!useCamera2) {\n"
+        "                isFrontface = true;\n"
+        "            }\n"
+        "            updateFlash();",
+        "        if (!fromPaused) {\n"
+        "            isFrontface = !NagramiXSettings.INSTANCE.preferences(ApplicationLoader.applicationContext).getBoolean(NagramiXSettings.REAR_VIDEO_MESSAGES, false);\n"
+        "            updateFlash();",
+    )
     replace_exact(
         voip_service,
         "\t\t\tif (forceTcp) {\n"

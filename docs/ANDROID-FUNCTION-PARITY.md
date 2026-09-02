@@ -17,7 +17,7 @@ Status meanings:
 | Hide Calls tab | Implemented, default on | Integrated; Settings occupies the shared native position | Pending device |
 | Tab titles/search controls | Implemented | Tab-title visibility and separate native Search button integrated | Pending device |
 | Eight NagramiX app icons | Implemented | Primary NagramiX icon only | Pending device |
-| Front/rear round video | Implemented | Not ported | Not tested |
+| Front/rear round video | Implemented | Initial camera setting integrated with native recorder paths | Pending device |
 | Story controls/confirmation | Implemented | Not ported | Not tested |
 | Forward with source | Telegram-native | Telegram-native | Not tested |
 | Forward without source/copy-as-new | Implemented | Not ported | Not tested |
