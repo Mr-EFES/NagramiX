@@ -9,7 +9,7 @@ NagramiX является самостоятельным продуктом с �
 | Платформа | Приоритет | Официальная база | Нативная реализация | Артефакт |
 | --- | --- | --- | --- | --- |
 | iOS / iPhone | Основной | `TelegramMessenger/Telegram-iOS` | Swift, Objective-C/Objective-C++ | unsigned ARM64 IPA |
-| Android / Samsung | Второй, без постоянного урезания функций | `DrKLO/Telegram` | Kotlin, Java | debug-signed ARM64 APK |
+| Android / Samsung | Второй, без постоянного урезания функций | `TelegramMessenger/Telegram-Android ` | Kotlin, Java | debug-signed ARM64 APK |
 
 Общее продуктовое поведение описывается в [`product/`](product/README.md), а затем независимо реализуется в [`ios/`](ios/) и [`android/`](android/). Похожая функция в стороннем клиенте не считается готовым портом.
 
