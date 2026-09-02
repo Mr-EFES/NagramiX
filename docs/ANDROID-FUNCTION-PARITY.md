@@ -32,3 +32,7 @@ Status meanings:
 ## Acceptance rule
 
 Matching version numbers or successful compilation do not mean functional parity. Each shared feature requires a NagramiX-owned Android Kotlin/Java implementation against official Telegram Android, review of platform-specific semantics, and physical-device testing.
+
+Android APK build and publication workflows are intentionally absent while any
+Android implementation row is incomplete. Compilation and device states remain
+separate evidence after the source-parity gate passes.

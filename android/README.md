@@ -7,13 +7,17 @@ Android is the secondary platform of the independent NagramiX application. iOS r
 - Upstream: official [`DrKLO/Telegram`](https://github.com/DrKLO/Telegram), pinned to Android 12.10.1 and the exact commit in `android/upstream.env`.
 - Version: `0.2.4`.
 - Package id: `com.mr_efes.nagramix`.
-- CI output: an installable ARM64 debug-signed APK for physical-device development testing.
+- Future release output: an ARM64 debug-signed APK, only after source parity.
 
 The generated debug signature is not a production identity. Updating over a build signed with another key may require uninstalling the earlier application first.
 
 ## Overlay model
 
-`android/apply_overlay.py` verifies the exact official Telegram Android commit, applies independent NagramiX branding/package metadata, injects NagramiX-owned Kotlin settings sources and configures the official build for an ARM64 development APK. The complete upstream Android tree is deliberately not vendored.
+`android/apply_overlay.py` verifies the exact official Telegram Android commit, applies independent NagramiX branding/package metadata and injects NagramiX-owned Kotlin/Java sources. The complete upstream Android tree is deliberately not vendored.
+
+Android APK build and publication workflows are intentionally absent. They may
+only be restored after every Android 0.2.4 registry row is implemented and a
+source-parity audit passes.
 
 Feature work must be expressed as Kotlin/Java sources under `android/Sources/` plus exact integration operations in `android/apply_overlay.py`. A source-name check is not a feature port.
 
@@ -23,4 +27,4 @@ The overlay integrates a NagramiX entry in Telegram's main settings and a native
 
 ## Physical-device focus
 
-After CI produces the replacement APK, test installation, login, messaging, notifications and background recovery first. Feature rows can move to Implemented only after their Kotlin/Java integration exists, and to Verified only after physical-device testing.
+After the parity gate permits a future APK, test installation, login, messaging, notifications and background recovery first. Feature rows can move to Implemented only after their Kotlin/Java integration exists, and to Verified only after physical-device testing.

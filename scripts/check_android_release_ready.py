@@ -24,9 +24,18 @@ def main() -> None:
             f"expected {args.release!r}"
         )
 
+    features = registry.get("features")
+    if not isinstance(features, list) or not features:
+        raise SystemExit("Feature registry must contain a non-empty 'features' list.")
+    if any(not isinstance(feature, dict) or not feature.get("id") for feature in features):
+        raise SystemExit("Every feature registry entry must be an object with a non-empty id.")
+    ids = [feature["id"] for feature in features]
+    if len(ids) != len(set(ids)):
+        raise SystemExit("Feature registry contains duplicate feature ids.")
+
     incomplete = [
         feature
-        for feature in registry.get("features", [])
+        for feature in features
         if feature.get("android", {}).get("implementation") != "implemented"
     ]
     if incomplete:

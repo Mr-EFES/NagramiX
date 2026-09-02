@@ -33,7 +33,7 @@ NagramiX является самостоятельным продуктом с �
 
 ### Статус Android
 
-Android строится на официальной базе Telegram. Независимый package id, брендинг, Kotlin settings foundation и официальный build pipeline подготовлены. APK будет опубликован только после реализации Android-паритета 0.2.4 и прохождения CI.
+Android строится на официальной базе Telegram. Независимый package id, брендинг и Kotlin/Java feature overlay развиваются в этом репозитории. Android APK build и publication workflows намеренно отсутствуют и будут восстановлены только после полного исходного паритета 0.2.4.
 
 Большинство продуктовых функций ещё требуется реализовать нативно на Kotlin/Java. Честный статус каждой функции находится в [`product/features/registry.json`](product/features/registry.json) и [`docs/ANDROID-FUNCTION-PARITY.md`](docs/ANDROID-FUNCTION-PARITY.md).
 
@@ -61,7 +61,7 @@ product/     единые функции, настройки, терминоло
 ios/         overlay и Swift/Objective-C реализации для Telegram-iOS
 android/     overlay и Kotlin/Java реализации для Telegram Android
 scripts/     общие проверки upstream и упаковка
-.github/     IPA/APK/upstream/publish workflows
+.github/     iOS IPA и общие upstream workflows; Android APK workflows заблокированы до parity
 docs/        bootstrap, handoff и исторические release notes
 ```
 

@@ -417,3 +417,20 @@ The `round_video_camera` row now records Android source implementation as `imple
 The Android `story_controls` row now records source implementation as `implemented`. `interface.hideStories` forces both peer and self story-strip visibility off through the native `updateStoriesVisibility` state machine and refreshes on settings changes. `stories.confirmViewing` intercepts only non-self unread story opens before haptic, media preloading, `StoryViewer.open`, or seen-state work; cancellation does not enter the viewer, while confirmation resumes the exact native path once. `stories.enableRepost` gates Telegram's existing allowRepost calculation without weakening its public/expiry/screenshot/channel eligibility checks. Current official Android has no swipe-to-open-story-camera gesture in its dialogs implementation, so `stories.disableCameraSwipe` is a documented platform non-applicability rather than a no-op patch. Exact anchors, localization parity, clean-pin application and generated diff checks passed. Compile/device status remains unverified; no APK was built. Next: `forward_copy`.
 
 The Android `forward_copy` row now records source implementation as `implemented`. The message context menu adds a distinct localized “Forward without source” action alongside untouched native Forward. Destination selection carries an explicit copy mode. Supported text/web previews, photos, documents, locations and contacts are recreated through `SendMessageParams` rather than `messages.forwardMessages`; replies and TTL are removed, all source entities (including custom emoji) and media spoilers are retained, fresh group ids preserve album grouping, and notify/schedule/repeat/payStars/send-as parameters flow through the native send path. Ephemeral, protected, paid and unsupported media are rejected atomically before sending. The forwarding preview retains copy mode until send and resets it on ordinary forwarding, avoiding stale mode leakage. Exact overlay application, generated diff, localization parity and static path inspection passed. Compilation/device testing remain intentionally deferred and no APK was built. Next: local deleted-message archive and edit history.
+
+## Android workflow removal and PR review follow-up (2026-09-02 UTC)
+
+The owner's stronger release rule supersedes the earlier manual-gate approach:
+Android build and publication workflow files are now removed entirely until
+source parity. This also makes the review comments about stale artifact binding
+and build-workflow path triggers non-applicable while the lock is active. The
+settings source mentioned by review is tracked and integrated. The retained
+future readiness checker now fails closed for a missing/empty feature list,
+missing ids and duplicate ids. No APK or Gradle build was run.
+
+Current source status: tabs, round-video camera, stories, copy-as-new and Force
+TCP are implemented but not compiled/device-tested; icons are in progress;
+deleted-message archive, edit history, DNS/DoH, proxy failover, profile data and
+offline startup remain. Exact next step: implement the account-local Android
+message archive and observed edit history, including exclusions and chat UI,
+while keeping Android workflows absent.

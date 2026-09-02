@@ -34,7 +34,7 @@
 - `ios/apply_features.py` — exact-anchor patches against the pinned Telegram-iOS revision. Treat this as a high-risk integration file.
 - `scripts/package_unsigned_ipa.sh` — strips temporary signatures/profiles, validates metadata and packages the unsigned IPA.
 - `.github/workflows/build-unsigned-ipa.yml` — authoritative macOS/Xcode/Bazel build pipeline.
-- `.github/workflows/build-android-apk.yml` — authoritative Ubuntu/Gradle Android ARM64 test-APK pipeline.
+- Android APK build and publication workflows must remain absent until every Android 0.2.4 feature is natively implemented and the source-parity audit passes.
 - `docs/` — bootstrap/release documentation and the current AI handoff.
 - `work/`, `.codex-validation-*`, `.codex-tmp-*`, `artifacts/` and `outputs/` — local checkouts, validation copies or build outputs. They are not authoritative source code and must not be edited as a substitute for changing the tracked overlay.
 
