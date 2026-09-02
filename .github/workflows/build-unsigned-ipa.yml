@@ -5,7 +5,8 @@ on:
   pull_request:
     paths:
       - ".github/workflows/build-unsigned-ipa.yml"
-      - "nagramix/**"
+      - "ios/**"
+      - "product/**"
       - "scripts/**"
 
 permissions:
@@ -25,12 +26,15 @@ jobs:
       - name: Check out NagramiX overlay
         uses: actions/checkout@v4
 
+      - name: Require current official Telegram ios base
+        run: python3 scripts/check_upstreams.py --platform ios --require-current
+
       - name: Load pinned upstream reference
         id: upstream
         shell: bash
         run: |
-          cat nagramix/upstream.env >> "$GITHUB_ENV"
-          source nagramix/upstream.env
+          cat ios/upstream.env >> "$GITHUB_ENV"
+          source ios/upstream.env
           echo "ref=$TELEGRAM_IOS_REF" >> "$GITHUB_OUTPUT"
 
       - name: Validate required Telegram API credentials
@@ -66,7 +70,7 @@ jobs:
       - name: Apply NagramiX overlay
         shell: bash
         run: |
-          python3 nagramix/apply_overlay.py \
+          python3 ios/apply_overlay.py \
             --source Telegram-iOS \
             --configuration "$RUNNER_TEMP/nagramix-configuration.json"
 
@@ -80,7 +84,7 @@ jobs:
       - name: Generate build-only NagramiX profiles
         shell: bash
         run: |
-          python3 nagramix/generate_fake_profiles.py \
+          python3 ios/generate_fake_profiles.py \
             --source-profiles Telegram-iOS/build-system/fake-codesigning/profiles \
             --source-certs Telegram-iOS/build-system/fake-codesigning/certs \
             --destination "$RUNNER_TEMP/nagramix-codesigning" \

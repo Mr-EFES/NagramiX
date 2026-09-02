@@ -1,0 +1,17 @@
+name: Check official Telegram upstreams
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "17 6 * * *"
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Compare pins with official Telegram repositories
+        run: python3 scripts/check_upstreams.py --json --require-current

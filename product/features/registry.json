@@ -1,0 +1,191 @@
+{
+  "schemaVersion": 1,
+  "product": "NagramiX",
+  "release": "0.2.4",
+  "platformPriority": [
+    "ios",
+    "android"
+  ],
+  "features": [
+    {
+      "id": "tabs",
+      "title": "Tab visibility and labels",
+      "specification": "specified",
+      "ios": {
+        "implementation": "implemented",
+        "compile": "compile_passed",
+        "device": "device_pending"
+      },
+      "android": {
+        "implementation": "not_started",
+        "compile": "not_started",
+        "device": "not_started"
+      }
+    },
+    {
+      "id": "icons",
+      "title": "NagramiX application icons",
+      "specification": "specified",
+      "ios": {
+        "implementation": "implemented",
+        "compile": "compile_passed",
+        "device": "device_pending"
+      },
+      "android": {
+        "implementation": "in_progress",
+        "compile": "not_started",
+        "device": "not_started"
+      }
+    },
+    {
+      "id": "round_video_camera",
+      "title": "Front/rear round-video camera",
+      "specification": "specified",
+      "ios": {
+        "implementation": "implemented",
+        "compile": "compile_passed",
+        "device": "device_pending"
+      },
+      "android": {
+        "implementation": "not_started",
+        "compile": "not_started",
+        "device": "not_started"
+      }
+    },
+    {
+      "id": "story_controls",
+      "title": "Story visibility, confirmation and repost controls",
+      "specification": "specified",
+      "ios": {
+        "implementation": "implemented",
+        "compile": "compile_passed",
+        "device": "device_pending"
+      },
+      "android": {
+        "implementation": "not_started",
+        "compile": "not_started",
+        "device": "not_started"
+      }
+    },
+    {
+      "id": "forward_copy",
+      "title": "Forward with source and copy without source",
+      "specification": "specified",
+      "ios": {
+        "implementation": "implemented",
+        "compile": "compile_passed",
+        "device": "device_pending"
+      },
+      "android": {
+        "implementation": "not_started",
+        "compile": "not_started",
+        "device": "not_started"
+      }
+    },
+    {
+      "id": "deleted_messages",
+      "title": "Local deleted-message archive",
+      "specification": "specified",
+      "ios": {
+        "implementation": "implemented",
+        "compile": "compile_passed",
+        "device": "device_pending"
+      },
+      "android": {
+        "implementation": "not_started",
+        "compile": "not_started",
+        "device": "not_started"
+      }
+    },
+    {
+      "id": "edit_history",
+      "title": "Locally observed edit history",
+      "specification": "specified",
+      "ios": {
+        "implementation": "implemented",
+        "compile": "compile_passed",
+        "device": "device_pending"
+      },
+      "android": {
+        "implementation": "not_started",
+        "compile": "not_started",
+        "device": "not_started"
+      }
+    },
+    {
+      "id": "dns_doh",
+      "title": "DNS provider and custom DoH",
+      "specification": "specified",
+      "ios": {
+        "implementation": "implemented",
+        "compile": "compile_passed",
+        "device": "device_pending"
+      },
+      "android": {
+        "implementation": "not_started",
+        "compile": "not_started",
+        "device": "not_started"
+      }
+    },
+    {
+      "id": "proxy_failover",
+      "title": "Proxy checking, visibility and failover",
+      "specification": "specified",
+      "ios": {
+        "implementation": "implemented",
+        "compile": "compile_passed",
+        "device": "device_pending"
+      },
+      "android": {
+        "implementation": "not_started",
+        "compile": "not_started",
+        "device": "not_started"
+      }
+    },
+    {
+      "id": "force_tcp",
+      "title": "Force TCP calls",
+      "specification": "specified",
+      "ios": {
+        "implementation": "implemented",
+        "compile": "compile_passed",
+        "device": "device_pending"
+      },
+      "android": {
+        "implementation": "not_started",
+        "compile": "not_started",
+        "device": "not_started"
+      }
+    },
+    {
+      "id": "profile_info",
+      "title": "Profile id, registration estimate and mutual marker",
+      "specification": "specified",
+      "ios": {
+        "implementation": "implemented",
+        "compile": "compile_passed",
+        "device": "device_pending"
+      },
+      "android": {
+        "implementation": "not_started",
+        "compile": "not_started",
+        "device": "not_started"
+      }
+    },
+    {
+      "id": "offline_startup",
+      "title": "Offline and unavailable-proxy startup hardening",
+      "specification": "specified",
+      "ios": {
+        "implementation": "implemented",
+        "compile": "compile_passed",
+        "device": "device_pending"
+      },
+      "android": {
+        "implementation": "not_started",
+        "compile": "not_started",
+        "device": "not_started"
+      }
+    }
+  ]
+}
