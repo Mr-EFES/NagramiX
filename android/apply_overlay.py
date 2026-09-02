@@ -489,6 +489,20 @@ def main() -> None:
     replace_exact(chat_activity, forward_case, forward_case + history_case + copy_case)
     replace_exact(
         chat_activity,
+        "            case OPTION_DELETE: {\n                if (getParentActivity() == null) {",
+        "            case OPTION_DELETE: {\n"
+        "                if (selectedObject != null && com.mr_efes.nagramix.NagramiXMessageArchive.getInstance(currentAccount).isDeleted(dialog_id, selectedObject.getId())) {\n"
+        "                    int localId = selectedObject.getId();\n"
+        "                    com.mr_efes.nagramix.NagramiXMessageArchive.getInstance(currentAccount).remove(dialog_id, localId);\n"
+        "                    ArrayList<Integer> localIds = new ArrayList<>();\n"
+        "                    localIds.add(localId);\n"
+        "                    processDeletedMessages(localIds, 0, false);\n"
+        "                    break;\n"
+        "                }\n"
+        "                if (getParentActivity() == null) {",
+    )
+    replace_exact(
+        chat_activity,
         "                    getSendMessagesHelper().sendMessage(fmessages, did, false, false, notify, scheduleDate, scheduleRepeatPeriod, null, -1, price == null ? 0 : price, getSendMonoForumPeerId(), getSendMessageSuggestionParams());",
         "                    if (fragment.nagramixCopyAsNew) {\n"
         "                        getSendMessagesHelper().sendMessagesAsNagramiXCopy(fmessages, did, notify, scheduleDate, scheduleRepeatPeriod, price == null ? 0 : price, getSendMonoForumPeerId(), getSendMessageSuggestionParams());\n"

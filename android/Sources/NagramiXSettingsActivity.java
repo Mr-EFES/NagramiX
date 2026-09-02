@@ -17,11 +17,13 @@ import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.R;
 import org.telegram.ui.ActionBar.ActionBar;
+import org.telegram.ui.ActionBar.AlertDialog;
 import org.telegram.ui.ActionBar.BaseFragment;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Cells.HeaderCell;
 import org.telegram.ui.Cells.TextCheckCell;
 import org.telegram.ui.Cells.TextInfoPrivacyCell;
+import org.telegram.ui.Cells.TextSettingsCell;
 import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.ListView.AdapterWithDiffUtils;
 import org.telegram.ui.Components.RecyclerListView;
@@ -33,6 +35,7 @@ public class NagramiXSettingsActivity extends BaseFragment {
     private static final int HEADER = 0;
     private static final int CHECK = 1;
     private static final int INFO = 2;
+    private static final int ACTION = 3;
 
     private final ArrayList<Item> items = new ArrayList<>();
     private SharedPreferences preferences;
@@ -73,6 +76,7 @@ public class NagramiXSettingsActivity extends BaseFragment {
         addCheck(NagramiXSettings.SHOW_DELETED_MESSAGES, R.string.NagramiXShowDeletedMessages);
         addCheck(NagramiXSettings.EDIT_HISTORY, R.string.NagramiXEditHistory);
         addCheck(NagramiXSettings.FORCE_TCP_CALLS, R.string.NagramiXForceTcpCalls);
+        addAction(R.string.NagramiXClearArchive);
         addInfo(R.string.NagramiXFeaturesInfo);
 
         addHeader(R.string.NagramiXCategoryOther);
@@ -90,6 +94,16 @@ public class NagramiXSettingsActivity extends BaseFragment {
         listView.setOnItemClickListener((view, position) -> {
             if (position < 0 || position >= items.size()) return;
             Item item = items.get(position);
+            if (item.viewType == ACTION) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity(), resourceProvider);
+                builder.setTitle(LocaleController.getString(R.string.NagramiXClearArchive));
+                builder.setMessage(LocaleController.getString(R.string.NagramiXClearArchiveConfirm));
+                builder.setNegativeButton(LocaleController.getString(R.string.Cancel), null);
+                builder.setPositiveButton(LocaleController.getString(R.string.Delete), (dialog, which) ->
+                        com.mr_efes.nagramix.NagramiXMessageArchive.getInstance(currentAccount).clearAll());
+                showDialog(builder.create());
+                return;
+            }
             if (item.key == null) return;
             boolean value = !preferences.getBoolean(item.key, NagramiXSettings.booleanDefault(item.key));
             preferences.edit().putBoolean(item.key, value).apply();
@@ -103,6 +117,7 @@ public class NagramiXSettingsActivity extends BaseFragment {
     private void addHeader(int text) { items.add(new Item(HEADER, null, text)); }
     private void addCheck(String key, int text) { items.add(new Item(CHECK, key, text)); }
     private void addInfo(int text) { items.add(new Item(INFO, null, text)); }
+    private void addAction(int text) { items.add(new Item(ACTION, null, text)); }
 
     private static final class Item extends AdapterWithDiffUtils.Item {
         final String key;
@@ -112,7 +127,7 @@ public class NagramiXSettingsActivity extends BaseFragment {
 
     private final class ListAdapter extends RecyclerListView.SelectionAdapter {
         @Override
-        public boolean isEnabled(RecyclerView.ViewHolder holder) { return holder.getItemViewType() == CHECK; }
+        public boolean isEnabled(RecyclerView.ViewHolder holder) { return holder.getItemViewType() == CHECK || holder.getItemViewType() == ACTION; }
         @Override
         public int getItemCount() { return items.size(); }
         @Override
@@ -121,7 +136,7 @@ public class NagramiXSettingsActivity extends BaseFragment {
         @NonNull
         @Override
         public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int type) {
-            View view = type == HEADER ? new HeaderCell(getContext()) : type == CHECK ? new TextCheckCell(getContext()) : new TextInfoPrivacyCell(getContext());
+            View view = type == HEADER ? new HeaderCell(getContext()) : type == CHECK ? new TextCheckCell(getContext()) : type == ACTION ? new TextSettingsCell(getContext()) : new TextInfoPrivacyCell(getContext());
             return new RecyclerListView.Holder(view);
         }
 
@@ -134,6 +149,10 @@ public class NagramiXSettingsActivity extends BaseFragment {
             } else if (item.viewType == CHECK) {
                 boolean divider = position + 1 < items.size() && items.get(position + 1).viewType == CHECK;
                 ((TextCheckCell) holder.itemView).setTextAndCheck(text, preferences.getBoolean(item.key, NagramiXSettings.booleanDefault(item.key)), divider);
+            } else if (item.viewType == ACTION) {
+                TextSettingsCell cell = (TextSettingsCell) holder.itemView;
+                cell.setTextColor(Theme.getColor(Theme.key_text_RedRegular));
+                cell.setText(text, false);
             } else {
                 TextInfoPrivacyCell cell = (TextInfoPrivacyCell) holder.itemView;
                 cell.setText(TextUtils.isEmpty(text) ? null : text);

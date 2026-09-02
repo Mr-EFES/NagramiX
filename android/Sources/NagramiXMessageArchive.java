@@ -151,13 +151,43 @@ public final class NagramiXMessageArchive extends SQLiteOpenHelper {
         try {
             for (TLRPC.Message message : messages) {
                 if (message != null) {
-                    captureIfMissing(db, MessageObject.getDialogId(message), message);
+                    captureIncomingMessage(db, MessageObject.getDialogId(message), message);
                 }
             }
             db.setTransactionSuccessful();
         } finally {
             db.endTransaction();
         }
+    }
+
+    private void captureIncomingMessage(SQLiteDatabase db, long dialogId, TLRPC.Message replacement) {
+        if (!eligible(dialogId, replacement)) return;
+        byte[] replacementBody = serialize(replacement);
+        if (replacementBody == null) return;
+        byte[] previousBody = null;
+        try (Cursor cursor = db.query("messages", new String[]{"body"},
+                "dialog_id=? AND message_id=?", new String[]{Long.toString(dialogId), Integer.toString(replacement.id)},
+                null, null, null, "1")) {
+            if (cursor.moveToFirst()) previousBody = cursor.getBlob(0);
+        }
+        if (previousBody == null) {
+            captureIfMissing(db, dialogId, replacement);
+            return;
+        }
+        TLRPC.Message previous = deserialize(previousBody);
+        if (previous == null || sameContent(previous, replacement)) return;
+        if (enabled(NagramiXSettings.EDIT_HISTORY)) {
+            ContentValues revision = new ContentValues();
+            revision.put("dialog_id", dialogId);
+            revision.put("message_id", replacement.id);
+            revision.put("observed_at", Math.max(replacement.edit_date, replacement.date));
+            revision.put("body", previousBody);
+            db.insertWithOnConflict("revisions", null, revision, SQLiteDatabase.CONFLICT_IGNORE);
+        }
+        ContentValues current = new ContentValues();
+        current.put("body", replacementBody);
+        db.update("messages", current, "dialog_id=? AND message_id=?",
+                new String[]{Long.toString(dialogId), Integer.toString(replacement.id)});
     }
 
     public synchronized void recordEdits(long dialogId, List<MessageObject> replacements,
@@ -277,6 +307,9 @@ public final class NagramiXMessageArchive extends SQLiteOpenHelper {
                 if (message == null) continue;
                 String marker = "\n" + org.telegram.messenger.LocaleController.getString(org.telegram.messenger.R.string.NagramiXDeletedMarker);
                 message.message = (message.message == null ? "" : message.message) + marker;
+                message.noforwards = true;
+                message.unread = false;
+                message.media_unread = false;
                 destination.add(new MessageObject(account, message, true, false));
                 present.add(id);
             }
@@ -295,6 +328,21 @@ public final class NagramiXMessageArchive extends SQLiteOpenHelper {
             }
         }
         return result;
+    }
+
+    public synchronized boolean isDeleted(long dialogId, int messageId) {
+        try (Cursor cursor = getReadableDatabase().query("messages", new String[]{"deleted_at"},
+                "dialog_id=? AND message_id=?", new String[]{Long.toString(dialogId), Integer.toString(messageId)},
+                null, null, null, "1")) {
+            return cursor.moveToFirst() && cursor.getLong(0) > 0;
+        }
+    }
+
+    public synchronized void remove(long dialogId, int messageId) {
+        SQLiteDatabase db = getWritableDatabase();
+        String[] args = {Long.toString(dialogId), Integer.toString(messageId)};
+        db.delete("revisions", "dialog_id=? AND message_id=?", args);
+        db.delete("messages", "dialog_id=? AND message_id=?", args);
     }
 
     public synchronized void clearAll() {

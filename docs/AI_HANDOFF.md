@@ -454,3 +454,13 @@ message action restrictions need hardening, and the settings UI still needs a
 confirmed archive-cleanup action. Exact-anchor application and generated-tree
 diff checks pass; no APK was built. Next: close those gaps before advancing
 either archive row to `implemented`.
+
+The follow-up closes part of that backlog: storage ingress now detects content
+changes globally, records the previous serialized message and updates the
+current snapshot, so edit capture is not limited to an open chat. The settings
+screen has a destructive, confirmed per-account archive cleanup action. Locally
+merged deleted snapshots are forced read and non-forwardable, and Delete removes
+only the local archive row instead of invoking a server action. Both rows remain
+`in_progress` pending a complete audit of other context actions and every
+channel/global-id deletion path. Static overlay/localization/diff checks pass;
+no Gradle or APK command was run.

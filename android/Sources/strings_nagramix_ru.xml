@@ -33,4 +33,6 @@
     <string name="NagramiXOtherInfo">Сетевые настройки требуют завершения платформенной интеграции и проверки на устройстве.</string>
     <string name="NagramiXDeletedMarker">Удалено локально</string>
     <string name="NagramiXEditHistoryTitle">История изменений</string>
+    <string name="NagramiXClearArchive">Очистить локальный архив сообщений</string>
+    <string name="NagramiXClearArchiveConfirm">Удалить все локально сохранённые удалённые сообщения и историю изменений этого аккаунта?</string>
 </resources>
