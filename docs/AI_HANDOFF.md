@@ -630,6 +630,16 @@ The owner explicitly authorized an iOS IPA build containing the current 0.2.5
 settings-width, wide-channel-posts and copy-as-new work. The authoritative
 unsigned-IPA workflow now labels and packages this source state as NagramiX
 0.2.5. Android build and publication remain prohibited by the separate 0.2.4
-parity hold. Next: run the macOS workflow for the current branch, retain its
-exact run URL and artifact/checksum result here, and use the produced unsigned
-ARM64 IPA for the physical-iPhone acceptance matrix above.
+parity hold.
+
+Manual workflow run `34165630426` was requested for commit `32257df`, but GitHub
+did not start the macOS job or execute any build step. GitHub reported: recent
+account payments failed or the Actions spending limit must be increased. The
+automatically triggered PR run `34165626298` was blocked by the same repository
+billing condition. No IPA or checksum was produced; this is an account-level
+runner limitation rather than a source/build failure.
+
+Exact next step: resolve GitHub Actions billing/spending access, then rerun
+`build-unsigned-ipa.yml` on `fix/ios-copy-as-new`. Record the successful run URL,
+download `NagramiX-0.2.5-unsigned-arm64`, and use its unsigned ARM64 IPA for the
+physical-iPhone acceptance matrix above.
