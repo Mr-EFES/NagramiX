@@ -324,8 +324,8 @@ public final class ItemListControllerTabBarItem: Equatable {
     replace_once(
         segmented_title_view,
         "    private let tabSelector = ComponentView<Empty>()\n",
-        "    private let tabSelector = ComponentView<Empty>()\n    private let fillsAvailableWidth: Bool\n",
-        "Store equal-width segmented title layout",
+        "    private let tabSelector = ComponentView<Empty>()\n    private let fillsAvailableWidth: Bool\n    private var expandedContentFrame: CGRect?\n",
+        "Store full-width NagramiX segmented title layout",
     )
     replace_once(
         segmented_title_view,
@@ -356,7 +356,8 @@ public final class ItemListControllerTabBarItem: Equatable {
         """        self.addSubview(self.backgroundContainer)
         self.backgroundContainer.contentView.addSubview(self.backgroundView)
 """,
-        """        self.addSubview(self.backgroundContainer)
+        """        self.clipsToBounds = !self.fillsAvailableWidth
+        self.addSubview(self.backgroundContainer)
         self.backgroundContainer.contentView.addSubview(self.backgroundView)
 
         if self.fillsAvailableWidth {
@@ -364,7 +365,7 @@ public final class ItemListControllerTabBarItem: Equatable {
             self.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
         }
 """,
-        "Let the equal-width category control occupy all available navigation width",
+        "Allow the NagramiX category panel to use the trailing navigation space",
     )
     replace_once(
         segmented_title_view,
@@ -387,6 +388,42 @@ public final class ItemListControllerTabBarItem: Equatable {
     override public func layoutSubviews() {
 """,
         "Make the category title adaptive instead of sizing it from localized text",
+    )
+    replace_once(
+        segmented_title_view,
+        "    private func update(transition: ComponentTransition) {\n        guard let size = self.validLayout else {\n            return\n        }\n",
+        """    override public func point(inside point: CGPoint, with event: UIEvent?) -> Bool {
+        if let expandedContentFrame = self.expandedContentFrame, expandedContentFrame.contains(point) {
+            return true
+        }
+        return super.point(inside: point, with: event)
+    }
+
+    private func update(transition: ComponentTransition) {
+        guard let size = self.validLayout else {
+            return
+        }
+
+        var contentWidth = size.width
+        if self.fillsAvailableWidth, let window = self.window {
+            let windowFrame = self.convert(self.bounds, to: window)
+            let trailingInset = max(16.0, window.safeAreaInsets.right)
+            contentWidth = max(contentWidth, floor(window.bounds.width - windowFrame.minX - trailingInset))
+        }
+""",
+        "Extend the category panel from its post-back-button origin to the content trailing inset",
+    )
+    replace_once(
+        segmented_title_view,
+        "            containerSize: CGSize(width: size.width, height: 44.0)\n",
+        "            containerSize: CGSize(width: contentWidth, height: 44.0)\n",
+        "Give equal category tabs the complete trailing navigation width",
+    )
+    replace_once(
+        segmented_title_view,
+        "        let tabSelectorFrame = CGRect(origin: CGPoint(x: floor((size.width - tabSelectorSize.width) / 2.0), y: floor((size.height - tabSelectorSize.height) / 2.0)), size: tabSelectorSize)\n",
+        "        let tabSelectorFrame = CGRect(origin: CGPoint(x: self.fillsAvailableWidth ? 0.0 : floor((size.width - tabSelectorSize.width) / 2.0), y: floor((size.height - tabSelectorSize.height) / 2.0)), size: tabSelectorSize)\n        self.expandedContentFrame = tabSelectorFrame\n",
+        "Anchor the full-width category panel after the back button instead of centering a compressed control",
     )
 
     horizontal_tabs = source / "submodules" / "TelegramUI" / "Components" / "HorizontalTabsComponent" / "Sources" / "HorizontalTabsComponent.swift"

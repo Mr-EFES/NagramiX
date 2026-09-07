@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="430" height="760" viewBox="0 0 430 760">
+  <rect width="430" height="760" fill="#1c1c1e"/>
+  <text x="24" y="38" fill="#ffffff" font-family="Arial, sans-serif" font-size="15" font-weight="700">NagramiX — исправленная ширина</text>
+  <circle cx="43" cy="91" r="27" fill="#2c2c2e" stroke="#48484a"/>
+  <path d="M49 77 L35 91 L49 105" fill="none" stroke="#fff" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <!-- The category control starts after Back and reaches the same trailing edge as cards. -->
+  <rect x="78" y="64" width="334" height="54" rx="27" fill="#242426" stroke="#515154"/>
+  <rect x="81" y="67" width="108" height="48" rx="24" fill="#48484b"/>
+  <line x1="189" y1="72" x2="189" y2="110" stroke="#3a3a3c"/>
+  <line x1="300" y1="72" x2="300" y2="110" stroke="#3a3a3c"/>
+  <text x="135" y="97" text-anchor="middle" fill="#fff" font-family="Arial, sans-serif" font-size="15" font-weight="700">Интерфейс</text>
+  <text x="245" y="97" text-anchor="middle" fill="#fff" font-family="Arial, sans-serif" font-size="15" font-weight="700">Функции</text>
+  <text x="356" y="97" text-anchor="middle" fill="#fff" font-family="Arial, sans-serif" font-size="15" font-weight="700">Прочее</text>
+  <path d="M78 134 V145 M78 140 H412 M412 134 V145" stroke="#32d74b" stroke-width="2" fill="none"/>
+  <text x="245" y="165" text-anchor="middle" fill="#32d74b" font-family="Arial, sans-serif" font-size="12">панель до правого края карточек · 3 равные секции</text>
+  <text x="24" y="215" fill="#8e8e93" font-family="Arial, sans-serif" font-size="14">ПАНЕЛЬ ВКЛАДОК</text>
+  <rect x="18" y="230" width="394" height="240" rx="26" fill="#2c2c2e"/>
+  <g fill="#fff" font-family="Arial, sans-serif" font-size="17">
+    <text x="36" y="274">Скрыть вкладку «Контакты»</text>
+    <text x="36" y="334">Скрыть вкладку «Звонки»</text>
+    <text x="36" y="394">Показывать кнопку поиска</text>
+    <text x="36" y="454">Показывать кнопку прокси</text>
+  </g>
+  <g stroke="#444446"><line x1="36" y1="292" x2="394" y2="292"/><line x1="36" y1="352" x2="394" y2="352"/><line x1="36" y1="412" x2="394" y2="412"/></g>
+  <g>
+    <rect x="338" y="250" width="55" height="31" rx="15.5" fill="#30d158"/><circle cx="377" cy="265.5" r="13" fill="#fff"/>
+    <rect x="338" y="310" width="55" height="31" rx="15.5" fill="#30d158"/><circle cx="377" cy="325.5" r="13" fill="#fff"/>
+    <rect x="338" y="370" width="55" height="31" rx="15.5" fill="#636366"/><circle cx="354" cy="385.5" r="13" fill="#fff"/>
+    <rect x="338" y="430" width="55" height="31" rx="15.5" fill="#30d158"/><circle cx="377" cy="445.5" r="13" fill="#fff"/>
+  </g>
+  <text x="24" y="520" fill="#8e8e93" font-family="Arial, sans-serif" font-size="14">ИСТОРИИ</text>
+  <rect x="18" y="535" width="394" height="72" rx="26" fill="#2c2c2e"/>
+  <text x="36" y="579" fill="#fff" font-family="Arial, sans-serif" font-size="17">Скрыть истории</text>
+  <rect x="338" y="555" width="55" height="31" rx="15.5" fill="#636366"/><circle cx="354" cy="570.5" r="13" fill="#fff"/>
+  <text x="24" y="654" fill="#8e8e93" font-family="Arial, sans-serif" font-size="14">ПРОФИЛИ</text>
+  <rect x="18" y="669" width="394" height="72" rx="26" fill="#2c2c2e"/>
+  <text x="36" y="713" fill="#fff" font-family="Arial, sans-serif" font-size="17">ID профиля</text>
+  <rect x="338" y="689" width="55" height="31" rx="15.5" fill="#636366"/><circle cx="354" cy="704.5" r="13" fill="#fff"/>
+</svg>
