@@ -526,3 +526,26 @@ exact-anchor clean-pin application and generated-tree diff validation passed.
 Compilation and physical call testing remain deferred
 under the no-build rule. No APK was built. Next: native proxy check/failover and
 visibility behavior, then offline startup and archive audits.
+
+## iOS settings category width correction (2026-09-07 UTC)
+
+The owner reconfirmed that the Interface / Features / Other category control
+must begin after the circular Back control and extend to the same trailing inset
+as the settings cards. Equal internal tab widths alone did not satisfy this:
+UIKit's navigation title slot reserves symmetric space for the Back item and
+therefore left an unnecessary empty area on the right.
+
+The NagramiX-only `equalSectionControl` overlay now keeps its post-Back origin,
+computes the available width to the window's trailing safe/content inset, draws
+the glass panel into that otherwise unused navigation space, divides the result
+into three equal hit targets, and extends hit testing across the complete panel.
+Ordinary Telegram `.sectionControl` titles retain their existing fit layout.
+The intended geometry is recorded in
+`docs/mockups/settings-category-full-width.svg` and its rendered PNG preview.
+
+Python syntax, exact application to a clean pinned Telegram-iOS 12.9.2 checkout,
+generated-tree `git diff --check`, and visual inspection of the mockup passed.
+Native Xcode/Bazel compilation and physical-iPhone layout/touch verification
+remain pending. Exact next step: run the authoritative iOS workflow when builds
+are permitted, then verify narrow displays, Dynamic Type, all three hit regions,
+rotation/safe areas and the absence of clipping on a physical iPhone.
