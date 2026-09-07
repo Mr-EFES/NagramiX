@@ -19,4 +19,6 @@ Detailed shared contracts live beside the registry, including
 [`profile-info.md`](profile-info.md), [`dns-doh.md`](dns-doh.md), and
 [`outgoing-call-confirmation.md`](outgoing-call-confirmation.md). The next
 release feature [`wide-channel-posts.md`](wide-channel-posts.md) is tracked
-separately from the still-active Android 0.2.4 parity registry.
+separately from the still-active Android 0.2.4 parity registry. The exact
+transfer semantics for [`copy-as-new.md`](copy-as-new.md) apply to both native
+platform implementations.

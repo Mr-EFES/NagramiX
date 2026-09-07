@@ -3042,17 +3042,7 @@ filegroup(
                     f(.dismissWithoutContent)
                 })))
                 let canForwardWithoutAuthor = interfaceInteraction.copyMessagesWithoutSource != nil
-                    && !messagesToForward.contains(where: { candidate in
-                        candidate.id.peerId.namespace == Namespaces.Peer.SecretChat
-                            || candidate.isCopyProtected()
-                            || candidate.containsSecretMedia
-                            || candidate.media.contains(where: { $0 is TelegramMediaPaidContent || $0 is TelegramMediaExpiredContent })
-                    })
-                    && !messagesToForward.contains(where: { candidate in
-                        candidate.text.isEmpty && !candidate.media.contains(where: { media in
-                            return media is TelegramMediaImage || media is TelegramMediaFile || media is TelegramMediaContact || media is TelegramMediaMap
-                        })
-                    })
+                    && nagramiXCanCopyMessagesAsNew(messagesToForward)
                 actions.append(.action(ContextMenuActionItem(text: chatPresentationInterfaceState.strings.nagramiXForwardWithoutAuthor, textColor: canForwardWithoutAuthor ? .primary : .disabled, icon: { _ in
                     return nil
                 }, iconAnimation: ContextMenuActionItem.IconAnimation(name: "message_preview_person_off"), action: !canForwardWithoutAuthor ? nil : { _, f in
@@ -3070,6 +3060,67 @@ filegroup(
         """enum NagramiXMessageTransferMode: Equatable {
     case forwardWithSource
     case copyAsNew
+}
+
+func nagramiXCanCopyMessagesAsNew(_ messages: [EngineRawMessage]) -> Bool {
+    return nagramiXCopyMessagesAsNew(messages) != nil
+}
+
+private func nagramiXCopyMessagesAsNew(_ messages: [EngineRawMessage]) -> [EnqueueMessage]? {
+    guard !messages.isEmpty else {
+        return nil
+    }
+    var result: [EnqueueMessage] = []
+    var copiedGroupingKeys: [Int64: Int64] = [:]
+    for message in messages {
+        if message.id.peerId.namespace == Namespaces.Peer.SecretChat
+            || message.isCopyProtected()
+            || message.containsSecretMedia
+            || message.media.contains(where: { $0 is TelegramMediaPaidContent || $0 is TelegramMediaExpiredContent }) {
+            return nil
+        }
+
+        var attributes: [EngineMessage.Attribute] = []
+        var inlineStickers: [EngineMedia.Id: EngineRawMedia] = [:]
+        if let entities = message.attributes.first(where: { $0 is TextEntitiesMessageAttribute }) as? TextEntitiesMessageAttribute {
+            attributes.append(TextEntitiesMessageAttribute(entities: entities.entities))
+            for mediaId in entities.associatedMediaIds {
+                if let media = message.associatedMedia[mediaId] {
+                    inlineStickers[mediaId] = media
+                }
+            }
+        }
+        if message.attributes.contains(where: { $0 is MediaSpoilerMessageAttribute }) {
+            attributes.append(MediaSpoilerMessageAttribute())
+        }
+
+        var mediaReference: AnyMediaReference?
+        for media in message.media {
+            if media is TelegramMediaWebpage {
+                continue
+            } else if mediaReference == nil && (media is TelegramMediaImage || media is TelegramMediaFile || media is TelegramMediaContact || media is TelegramMediaMap) {
+                mediaReference = .message(message: MessageReference(message), media: media)
+            } else {
+                return nil
+            }
+        }
+        if message.text.isEmpty && mediaReference == nil {
+            return nil
+        }
+
+        var localGroupingKey: Int64?
+        if let groupingKey = message.groupingKey {
+            if let existing = copiedGroupingKeys[groupingKey] {
+                localGroupingKey = existing
+            } else {
+                let generated = Int64.random(in: Int64.min ... Int64.max)
+                copiedGroupingKeys[groupingKey] = generated
+                localGroupingKey = generated
+            }
+        }
+        result.append(.message(text: message.text, attributes: attributes, inlineStickers: inlineStickers, mediaReference: mediaReference, threadId: nil, replyToMessageId: nil, replyToStoryId: nil, localGroupingKey: localGroupingKey, correlationId: nil, bubbleUpEmojiOrStickersets: []))
+    }
+    return result
 }
 
 extension ChatControllerImpl {
@@ -3102,6 +3153,30 @@ extension ChatControllerImpl {
     )
     replace_once(
         chat_controller_forward_messages,
+        """            var attemptSelectionImpl: ((EnginePeer, ChatListDisabledPeerReason) -> Void)?
+            let controller = self.context.sharedContext.makePeerSelectionController(""",
+        """            var attemptSelectionImpl: ((EnginePeer, ChatListDisabledPeerReason) -> Void)?
+            var nagramiXCopyThreadIds: [EnginePeer.Id: Int64] = [:]
+            let controller = self.context.sharedContext.makePeerSelectionController(""",
+        "Preserve selected destination topics in copy-as-new mode",
+    )
+    replace_once(
+        chat_controller_forward_messages,
+        """                                for (peer, shouldDivert) in targetPeersShouldDivert {
+                                    var peerMessages = result
+                                    if shouldDivert {
+""",
+        """                                for (peer, shouldDivert) in targetPeersShouldDivert {
+                                    var peerMessages = result
+                                    if transferMode == .copyAsNew, let threadId = nagramiXCopyThreadIds[peer.id] {
+                                        peerMessages = peerMessages.map { $0.withUpdatedThreadId(threadId) }
+                                    }
+                                    if shouldDivert {
+""",
+        "Apply only the destination thread id without copying any source reply",
+    )
+    replace_once(
+        chat_controller_forward_messages,
         """                        var attributes: [EngineMessage.Attribute] = []
                         attributes.append(ForwardOptionsMessageAttribute(hideNames: forwardOptions?.hideNames == true, hideCaptions: forwardOptions?.hideCaptions == true))
 """ + "                        \n" + """                        result.append(contentsOf: messages.map { message -> EnqueueMessage in
@@ -3116,45 +3191,34 @@ extension ChatControllerImpl {
                                 return .forward(source: message.id, threadId: nil, grouping: .auto, attributes: attributes, correlationId: nil)
                             })
                         case .copyAsNew:
-                            var copiedGroupingKeys: [Int64: Int64] = [:]
-                            for message in messages {
-                                var attributes: [EngineMessage.Attribute] = []
-                                var inlineStickers: [EngineMedia.Id: EngineRawMedia] = [:]
-                                if let entities = message.attributes.first(where: { $0 is TextEntitiesMessageAttribute }) as? TextEntitiesMessageAttribute {
-                                    attributes.append(TextEntitiesMessageAttribute(entities: entities.entities))
-                                    for mediaId in entities.associatedMediaIds {
-                                        if let media = message.associatedMedia[mediaId] {
-                                            inlineStickers[mediaId] = media
-                                        }
-                                    }
-                                }
-                                if message.attributes.contains(where: { $0 is MediaSpoilerMessageAttribute }) {
-                                    attributes.append(MediaSpoilerMessageAttribute())
-                                }
-                                var mediaReference: AnyMediaReference?
-                                if let media = message.media.first(where: { media in
-                                    media is TelegramMediaImage || media is TelegramMediaFile || media is TelegramMediaContact || media is TelegramMediaMap
-                                }) {
-                                    mediaReference = .message(message: MessageReference(message), media: media)
-                                }
-                                if message.text.isEmpty && mediaReference == nil {
-                                    continue
-                                }
-                                var localGroupingKey: Int64?
-                                if let groupingKey = message.groupingKey {
-                                    if let existing = copiedGroupingKeys[groupingKey] {
-                                        localGroupingKey = existing
-                                    } else {
-                                        let generated = Int64.random(in: Int64.min ... Int64.max)
-                                        copiedGroupingKeys[groupingKey] = generated
-                                        localGroupingKey = generated
-                                    }
-                                }
-                                result.append(.message(text: message.text, attributes: attributes, inlineStickers: inlineStickers, mediaReference: mediaReference, threadId: nil, replyToMessageId: nil, replyToStoryId: nil, localGroupingKey: localGroupingKey, correlationId: nil, bubbleUpEmojiOrStickersets: []))
+                            guard let copiedMessages = nagramiXCopyMessagesAsNew(messages) else {
+                                return
                             }
+                            result.append(contentsOf: copiedMessages)
                         }
 """,
         "Build fresh messages without forward or reply metadata",
+    )
+    replace_once(
+        chat_controller_forward_messages,
+        """                let peerId = peer.id
+                let accountPeerId = strongSelf.context.account.peerId
+""" + "                \n" + """                if resetCurrent {
+""",
+        """                let peerId = peer.id
+                let accountPeerId = strongSelf.context.account.peerId
+
+                if transferMode == .copyAsNew {
+                    if let threadId {
+                        nagramiXCopyThreadIds[peer.id] = threadId
+                    }
+                    strongController.multiplePeersSelected?([peer], [peer.id: peer], NSAttributedString(string: ""), .generic, nil, nil)
+                    return
+                }
+
+                if resetCurrent {
+""",
+        "Route single-destination copy mode through the real send-as-new commit path",
     )
     replace_once(
         context_menus,

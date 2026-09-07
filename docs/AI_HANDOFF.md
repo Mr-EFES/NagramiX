@@ -576,3 +576,50 @@ iPhone behavior. No build was started as requested. Exact next step: native
 compile and physical-iPhone tests when the owner permits a 0.2.5 build; then
 implement the separately requested editable “send without name/source” menu
 semantics before porting this feature natively to Android.
+
+## iOS copy-as-new transfer correction (2026-09-07 UTC)
+
+The context menu still had a critical routing defect despite already displaying
+separate “Переслать от” and “Переслать без” actions. The multi-destination
+callback could build fresh `.message` enqueue values, but the peer picker's
+single-destination callback bypassed it. Saved Messages therefore entered the
+official `.forward` shortcut, while another quick destination entered Telegram's
+forward-composer state. That made the two actions observably equivalent in the
+owner's primary acceptance path.
+
+The iOS overlay now centralizes eligibility and content extraction in one atomic
+copy-as-new builder. The typed `NagramiXMessageTransferMode` remains the boundary:
+`forwardWithSource` retains Telegram's unchanged `.forward` path, while
+`copyAsNew` creates only `.message` enqueue values and sends them with Telegram's
+existing picker, payment/scheduling and `enqueueMessages` pipeline. The
+single-destination callback, including Saved Messages, is explicitly routed into
+the same copy commit path as multiple destinations. Text entities and associated
+custom-emoji media are retained; native image/file/contact/map references cover
+common photo, video, animation, document, audio, voice, video-message, sticker,
+contact and location content. Fresh grouping keys preserve album membership and
+selection order. Source reply/thread/forward attributes are not copied; a
+selected destination topic contributes only its destination thread id.
+
+Eligibility now rejects the entire selection when any item is from a secret
+chat, copy-protected, secret/self-destructing, paid, expired or contains an
+unsupported media combination. This prevents partial sends and does not weaken
+Telegram's protected-content rules. The shared behavior is documented in
+`product/features/copy-as-new.md`, and 0.2.5 release scope records the correction.
+
+Verified: Python syntax; JSON parsing; exact overlay application to a clean
+pinned Telegram-iOS 12.9.2 checkout; generated-tree and repository diff checks;
+static inspection that copy mode contains no `.forward`, preserves entities and
+routes single destinations through the copy commit callback. Not verified: an
+Xcode/Bazel native compile, server-created message metadata, editability, media
+reference expiry/revalidation, Send As, paid destinations, albums or the full
+physical-device source/destination matrix. No build was started. The parity
+ledger therefore resets iOS `forward_copy` compile/device evidence until the
+changed implementation is rebuilt and tested.
+
+Exact next step when the owner permits a build: run the authoritative iOS
+workflow, then on a physical iPhone perform the required channel/group/private/
+bot → Saved Messages test, inspect that no forward header exists, edit copied
+text using Telegram's native Edit action, and exercise formatted text, each
+supported media kind, albums, multi-selection ordering, protected content,
+forum topics and Send As. Do not call the feature runtime-verified before those
+checks pass.
