@@ -140,6 +140,35 @@ def main() -> None:
         "    }\n\n"
         "    public static void getHostByName(String hostName, long address) {",
     )
+
+    voip_helper = source / "TMessagesProj" / "src" / "main" / "java" / "org" / "telegram" / "ui" / "Components" / "voip" / "VoIPHelper.java"
+    replace_exact(
+        voip_helper,
+        "\tpublic static void startCall(TLRPC.User user, boolean videoCall, boolean canVideoCall, final Activity activity, TLRPC.UserFull userFull, AccountInstance accountInstance) {\n"
+        "\t\tif (accountInstance == null ? MessagesController.getInstance(UserConfig.selectedAccount).isFrozen() : accountInstance.getMessagesController().isFrozen()) {",
+        "\tpublic static void startCall(TLRPC.User user, boolean videoCall, boolean canVideoCall, final Activity activity, TLRPC.UserFull userFull, AccountInstance accountInstance) {\n"
+        "\t\tstartCall(user, videoCall, canVideoCall, activity, userFull, accountInstance, false);\n"
+        "\t}\n\n"
+        "\tprivate static void startCall(TLRPC.User user, boolean videoCall, boolean canVideoCall, final Activity activity, TLRPC.UserFull userFull, AccountInstance accountInstance, boolean nagramixConfirmed) {\n"
+        "\t\tif (accountInstance == null ? MessagesController.getInstance(UserConfig.selectedAccount).isFrozen() : accountInstance.getMessagesController().isFrozen()) {",
+    )
+    replace_exact(
+        voip_helper,
+        "\t\tif (Build.VERSION.SDK_INT >= 23) {\n"
+        "\t\t\tint code;",
+        "\t\tif (!nagramixConfirmed && com.mr_efes.nagramix.NagramiXSettings.INSTANCE.preferences(activity).getBoolean(com.mr_efes.nagramix.NagramiXSettings.CONFIRM_OUTGOING_CALLS, true)) {\n"
+        "\t\t\tString name = ContactsController.formatName(user.first_name, user.last_name);\n"
+        "\t\t\tnew AlertDialog.Builder(activity)\n"
+        "\t\t\t\t\t.setTitle(LocaleController.getString(R.string.NagramiXOutgoingCallTitle))\n"
+        "\t\t\t\t\t.setMessage(LocaleController.formatString(videoCall ? R.string.NagramiXOutgoingVideoCall : R.string.NagramiXOutgoingAudioCall, name))\n"
+        "\t\t\t\t\t.setNegativeButton(LocaleController.getString(R.string.Cancel), null)\n"
+        "\t\t\t\t\t.setPositiveButton(LocaleController.getString(R.string.NagramiXCallAction), (dialog, which) -> startCall(user, videoCall, canVideoCall, activity, userFull, accountInstance, true))\n"
+        "\t\t\t\t\t.show();\n"
+        "\t\t\treturn;\n"
+        "\t\t}\n\n"
+        "\t\tif (Build.VERSION.SDK_INT >= 23) {\n"
+        "\t\t\tint code;",
+    )
     replace_exact(
         connections_manager,
         "        protected ResolvedDomain doInBackground(Void... voids) {\n"

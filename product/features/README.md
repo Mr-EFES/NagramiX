@@ -16,4 +16,5 @@ Statuses:
 A feature cannot be called cross-platform complete until both platform records are `verified` or an explicit `not_applicable` exception is approved.
 
 Detailed shared contracts live beside the registry, including
-[`profile-info.md`](profile-info.md) and [`dns-doh.md`](dns-doh.md).
+[`profile-info.md`](profile-info.md), [`dns-doh.md`](dns-doh.md), and
+[`outgoing-call-confirmation.md`](outgoing-call-confirmation.md).

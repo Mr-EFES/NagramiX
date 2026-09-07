@@ -23,6 +23,10 @@
     <string name="NagramiXStoryViewConfirmText">The story will be marked as viewed only after you continue.</string>
     <string name="NagramiXStoryViewConfirmAction">View</string>
     <string name="NagramiXConfirmOutgoingCalls">Confirm outgoing calls</string>
+    <string name="NagramiXOutgoingCallTitle">Start call?</string>
+    <string name="NagramiXOutgoingAudioCall">Start an audio call with %1$s?</string>
+    <string name="NagramiXOutgoingVideoCall">Start a video call with %1$s?</string>
+    <string name="NagramiXCallAction">Call</string>
     <string name="NagramiXShowDeletedMessages">Show locally observed deleted messages</string>
     <string name="NagramiXForwardAsCopy">Forward without source</string>
     <string name="NagramiXEditHistory">Keep locally observed edit history</string>

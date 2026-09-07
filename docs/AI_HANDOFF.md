@@ -512,3 +512,17 @@ availability, captive-portal behavior and physical-device recovery remain
 unverified under the Android no-build rule. No APK was built. Next: implement
 proxy checking/failover/button behavior and offline/proxy startup hardening,
 then finish the message archive action/deletion-path audit.
+
+## Android outgoing-call confirmation (2026-09-07 UTC)
+
+A parity-ledger omission was corrected: `calls.confirmOutgoing` is now its own
+release-gated feature row and has a shared product contract. The official
+one-to-one `VoIPHelper.startCall` path preserves its frozen-account, privacy and
+offline checks, then shows a native NagramiX confirmation for outgoing audio or
+video calls when enabled. Confirming resumes the same permission/initiation path
+exactly once through a private confirmed overload; cancellation starts nothing.
+Incoming and group calls are untouched. Static syntax, localization, registry,
+exact-anchor clean-pin application and generated-tree diff validation passed.
+Compilation and physical call testing remain deferred
+under the no-build rule. No APK was built. Next: native proxy check/failover and
+visibility behavior, then offline startup and archive audits.

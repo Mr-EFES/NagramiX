@@ -25,6 +25,7 @@ Status meanings:
 | Edit history | Implemented | Observed-revision capture and context-menu viewer in progress | Not tested |
 | DNS provider/custom DoH | Implemented | System plus five named RFC 8484 providers and validated custom HTTPS endpoint integrated | Pending compile/device |
 | Proxy check/failover/button | Implemented | Not ported | Not tested |
+| Outgoing call confirmation | Implemented | Native one-to-one audio/video start path requires confirmation when enabled | Pending compile/device |
 | Force TCP calls | Implemented | NagramiX setting integrated with native VoIP endpoints and P2P policy | Pending device |
 | Profile ID/date/mutual marker | Implemented | Copyable peer ID, matching approximate-year ranges and real mutual-contact icon integrated | Pending compile/device |
 | Offline/proxy startup hardening | Implemented | Not ported | Not tested |

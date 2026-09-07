@@ -143,6 +143,21 @@
       }
     },
     {
+      "id": "outgoing_call_confirmation",
+      "title": "Outgoing call confirmation",
+      "specification": "specified",
+      "ios": {
+        "implementation": "implemented",
+        "compile": "compile_passed",
+        "device": "device_pending"
+      },
+      "android": {
+        "implementation": "implemented",
+        "compile": "not_started",
+        "device": "not_started"
+      }
+    },
+    {
       "id": "force_tcp",
       "title": "Force TCP calls",
       "specification": "specified",
