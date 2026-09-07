@@ -623,3 +623,13 @@ text using Telegram's native Edit action, and exercise formatted text, each
 supported media kind, albums, multi-selection ordering, protected content,
 forum topics and Send As. Do not call the feature runtime-verified before those
 checks pass.
+
+## iOS 0.2.5 build authorization (2026-09-07 UTC)
+
+The owner explicitly authorized an iOS IPA build containing the current 0.2.5
+settings-width, wide-channel-posts and copy-as-new work. The authoritative
+unsigned-IPA workflow now labels and packages this source state as NagramiX
+0.2.5. Android build and publication remain prohibited by the separate 0.2.4
+parity hold. Next: run the macOS workflow for the current branch, retain its
+exact run URL and artifact/checksum result here, and use the produced unsigned
+ARM64 IPA for the physical-iPhone acceptance matrix above.
