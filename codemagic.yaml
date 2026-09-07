@@ -9,7 +9,7 @@ workflows:
       groups:
         - nagramix_credentials
       vars:
-        NAGRAMIX_VERSION: "0.2.4"
+        NAGRAMIX_VERSION: "0.2.5"
 
     cache:
       cache_paths:
