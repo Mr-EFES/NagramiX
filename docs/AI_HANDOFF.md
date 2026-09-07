@@ -643,3 +643,23 @@ Exact next step: resolve GitHub Actions billing/spending access, then rerun
 `build-unsigned-ipa.yml` on `fix/ios-copy-as-new`. Record the successful run URL,
 download `NagramiX-0.2.5-unsigned-arm64`, and use its unsigned ARM64 IPA for the
 physical-iPhone acceptance matrix above.
+
+## Successful iOS 0.2.5 build and publication (2026-09-07 UTC)
+
+After the repository became public, authoritative macOS workflow run
+`34168064256` successfully compiled commit
+`7979d81724bb2b302f5cd8f7fbc540bdeec7c549`, packaged the unsigned ARM64 app,
+recorded provenance and uploaded artifact `NagramiX-0.2.5-unsigned-arm64`.
+This exact commit includes the full-width settings category control, optional
+wide channel posts and the corrected single-/multi-destination copy-as-new path.
+
+Publisher run `34170839450` downloaded that build artifact inside GitHub
+Actions, passed its ZIP and SHA-256 validation, and uploaded
+`NagramiX-0.2.5-unsigned.ipa` plus `BUILD-PROVENANCE.txt` to pre-release
+`v0.2.5-rc1`. The IPA is 72,779,731 bytes and GitHub reports SHA-256
+`2d56d10c099a064dbc62963326955b6d737d715908c90c73a9b11e917340aaee`.
+
+Native compilation is now verified. Physical-iPhone behavior is not: the next
+step is to externally sign and install this IPA, then execute the settings-width,
+wide-post and complete copy-as-new acceptance matrices described above. Do not
+claim runtime verification until those device results are recorded.
