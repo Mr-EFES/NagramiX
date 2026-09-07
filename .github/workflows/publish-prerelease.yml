@@ -35,10 +35,10 @@ jobs:
       - name: Validate release files
         shell: bash
         run: |
-          test -f release-assets/NagramiX-0.2.4-unsigned.ipa
+          test -f release-assets/NagramiX-0.2.5-unsigned.ipa
           test -f release-assets/BUILD-PROVENANCE.txt
-          unzip -t release-assets/NagramiX-0.2.4-unsigned.ipa
-          sha256sum release-assets/NagramiX-0.2.4-unsigned.ipa
+          unzip -t release-assets/NagramiX-0.2.5-unsigned.ipa
+          sha256sum release-assets/NagramiX-0.2.5-unsigned.ipa
 
       - name: Upload files to the existing pre-release
         env:
@@ -46,7 +46,7 @@ jobs:
         shell: bash
         run: |
           gh release upload "${{ inputs.tag }}" \
-            release-assets/NagramiX-0.2.4-unsigned.ipa \
+            release-assets/NagramiX-0.2.5-unsigned.ipa \
             release-assets/BUILD-PROVENANCE.txt \
             --repo "${{ github.repository }}" \
             --clobber
