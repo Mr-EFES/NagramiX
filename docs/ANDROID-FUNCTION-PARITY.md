@@ -16,17 +16,17 @@ Status meanings:
 | Hide Contacts tab | Implemented, default on | Integrated with native main-tab visibility | Pending device |
 | Hide Calls tab | Implemented, default on | Integrated; Settings occupies the shared native position | Pending device |
 | Tab titles/search controls | Implemented | Tab-title visibility and separate native Search button integrated | Pending device |
-| Eight NagramiX app icons | Implemented | Primary NagramiX icon only | Pending device |
+| Eight NagramiX app icons | Implemented | Eight Android-owned launcher aliases integrated with the native icon selector | Pending compile/device |
 | Front/rear round video | Implemented | Initial camera setting integrated with native recorder paths | Pending device |
 | Story controls/confirmation | Implemented | Strip visibility, pre-view confirmation and repost setting integrated; camera-swipe control not applicable to current Android UI | Pending device |
 | Forward with source | Telegram-native | Telegram-native | Not tested |
 | Forward without source/copy-as-new | Implemented | New-message pipeline for supported text/media, entities, spoilers and albums | Pending device |
 | Deleted-message archive | Implemented | Account-local snapshot storage, exclusions and chat merge in progress | Not tested |
 | Edit history | Implemented | Observed-revision capture and context-menu viewer in progress | Not tested |
-| DNS provider/custom DoH | Implemented | Not ported | Not tested |
+| DNS provider/custom DoH | Implemented | System plus five named RFC 8484 providers and validated custom HTTPS endpoint integrated | Pending compile/device |
 | Proxy check/failover/button | Implemented | Not ported | Not tested |
 | Force TCP calls | Implemented | NagramiX setting integrated with native VoIP endpoints and P2P policy | Pending device |
-| Profile ID/date/mutual marker | Implemented | Not ported | Not tested |
+| Profile ID/date/mutual marker | Implemented | Copyable peer ID, matching approximate-year ranges and real mutual-contact icon integrated | Pending compile/device |
 | Offline/proxy startup hardening | Implemented | Not ported | Not tested |
 
 ## Acceptance rule

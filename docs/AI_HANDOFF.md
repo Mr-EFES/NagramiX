@@ -464,3 +464,51 @@ only the local archive row instead of invoking a server action. Both rows remain
 `in_progress` pending a complete audit of other context actions and every
 channel/global-id deletion path. Static overlay/localization/diff checks pass;
 no Gradle or APK command was run.
+
+## Android profile information (2026-09-02 UTC)
+
+The `profile_info` source row is implemented. User, group and channel profiles
+conditionally expose a copyable numeric peer id through Telegram's native
+detail cell and copy bulletin. User profiles use a NagramiX-owned metadata
+helper with the same broad, explicitly approximate registration-year ranges as
+iOS. `UserCell` appends a theme-colored group glyph only for Telegram users
+whose real `mutual_contact` field is true, excluding self, bots and deleted
+accounts. The shared contract is now durable in
+`product/features/profile-info.md`. Exact overlay application and generated
+diff checks passed. Compilation, rendering, clipboard behavior and physical
+device verification remain intentionally pending; no APK was built. Next:
+complete the seven Android alternate launcher icons, then DNS/DoH.
+
+## Android application icons (2026-09-02 UTC)
+
+The `icons` source row is implemented. All eight NagramiX PNG sources are now
+owned under `android/branding/AppIcons/`. The overlay copies them to Android
+resources, replaces the six official launcher choices with eight NagramiX-owned
+`LauncherIconController` entries, and exact-range replaces the launcher aliases
+in the official main manifest. The first alias is enabled by default and the
+existing native Telegram icon selector/switching lifecycle is retained. Static
+validation confirms exactly eight enum entries, aliases and generated resource
+files. Compilation, launcher refresh behavior and Samsung home-screen rendering
+remain pending under the no-build rule. No APK was built. Next: DNS provider and
+custom DoH integration.
+
+## Android DNS and custom DoH (2026-09-02 UTC)
+
+The `dns_doh` Android source row is implemented without producing an APK.
+`NagramiXDnsResolver` provides the same system, Google, Quad9, AdGuard, Mullvad,
+Cloudflare and custom-provider contract as iOS using bounded RFC 8484 wire-format
+POST requests. It validates response ids, status and address records, attempts A
+then AAAA, and deliberately does not fall back to system DNS after a selected
+DoH provider fails. The official `ConnectionsManager` resolver path is selected
+through exact anchors and its result cache is cleared whenever the provider
+changes.
+
+The native NagramiX settings screen now exposes the provider selector and a
+custom HTTPS URL editor. Custom URLs are syntax checked and must resolve
+`example.com` before persistence. The cross-platform behavior is documented in
+`product/features/dns-doh.md`. Static source, resource, exact-anchor clean-pin
+overlay and generated-tree diff validation passed. Native compilation, real provider
+availability, captive-portal behavior and physical-device recovery remain
+unverified under the Android no-build rule. No APK was built. Next: implement
+proxy checking/failover/button behavior and offline/proxy startup hardening,
+then finish the message archive action/deletion-path audit.

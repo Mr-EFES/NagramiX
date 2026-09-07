@@ -2,9 +2,11 @@ package org.telegram.ui;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.text.InputType;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.FrameLayout;
 
 import androidx.annotation.NonNull;
@@ -36,9 +38,11 @@ public class NagramiXSettingsActivity extends BaseFragment {
     private static final int CHECK = 1;
     private static final int INFO = 2;
     private static final int ACTION = 3;
+    private static final int DNS = 4;
 
     private final ArrayList<Item> items = new ArrayList<>();
     private SharedPreferences preferences;
+    private RecyclerListView listView;
 
     @Override
     public View createView(Context context) {
@@ -80,6 +84,7 @@ public class NagramiXSettingsActivity extends BaseFragment {
         addInfo(R.string.NagramiXFeaturesInfo);
 
         addHeader(R.string.NagramiXCategoryOther);
+        addDns();
         addCheck(NagramiXSettings.PROXY_AUTO_SWITCH, R.string.NagramiXProxyAutoSwitch);
         addCheck(NagramiXSettings.SHOW_PROXY_BUTTON, R.string.NagramiXShowProxyButton);
         addCheck(NagramiXSettings.HIDE_PROXY_SPONSOR_CHANNEL, R.string.NagramiXHideProxySponsorChannel);
@@ -87,7 +92,7 @@ public class NagramiXSettingsActivity extends BaseFragment {
 
         fragmentView = new FrameLayout(context);
         fragmentView.setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundGray));
-        RecyclerListView listView = new RecyclerListView(context);
+        listView = new RecyclerListView(context);
         listView.setLayoutManager(new LinearLayoutManager(context));
         listView.setVerticalScrollBarEnabled(false);
         listView.setAdapter(new ListAdapter());
@@ -104,6 +109,10 @@ public class NagramiXSettingsActivity extends BaseFragment {
                 showDialog(builder.create());
                 return;
             }
+            if (item.viewType == DNS) {
+                showDnsProviders();
+                return;
+            }
             if (item.key == null) return;
             boolean value = !preferences.getBoolean(item.key, NagramiXSettings.booleanDefault(item.key));
             preferences.edit().putBoolean(item.key, value).apply();
@@ -118,6 +127,80 @@ public class NagramiXSettingsActivity extends BaseFragment {
     private void addCheck(String key, int text) { items.add(new Item(CHECK, key, text)); }
     private void addInfo(int text) { items.add(new Item(INFO, null, text)); }
     private void addAction(int text) { items.add(new Item(ACTION, null, text)); }
+    private void addDns() { items.add(new Item(DNS, NagramiXSettings.DNS_PROVIDER, R.string.NagramiXDns)); }
+
+    private void showDnsProviders() {
+        CharSequence[] labels = new CharSequence[] {
+                LocaleController.getString(R.string.NagramiXDnsSystem),
+                "Google DNS", "Quad9", "AdGuard DNS", "Mullvad DNS", "Cloudflare DNS",
+                LocaleController.getString(R.string.NagramiXDnsCustom)
+        };
+        String[] values = new String[] {"system", "google", "quad9", "adguard", "mullvad", "cloudflare", "custom"};
+        AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity(), resourceProvider);
+        builder.setTitle(LocaleController.getString(R.string.NagramiXDns));
+        builder.setItems(labels, (dialog, which) -> {
+            if (which == values.length - 1) {
+                showCustomDohEditor();
+            } else {
+                preferences.edit().putString(NagramiXSettings.DNS_PROVIDER, values[which]).apply();
+                clearDnsCache();
+                notifyListChanged();
+            }
+        });
+        showDialog(builder.create());
+    }
+
+    private void showCustomDohEditor() {
+        EditText input = new EditText(getParentActivity());
+        input.setSingleLine(true);
+        input.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_URI);
+        input.setHint("https://example.com/dns-query");
+        input.setText(preferences.getString(NagramiXSettings.CUSTOM_DOH_URL, ""));
+        int padding = org.telegram.messenger.AndroidUtilities.dp(24);
+        FrameLayout container = new FrameLayout(getParentActivity());
+        container.setPadding(padding, 0, padding, 0);
+        container.addView(input, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, 50));
+        AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity(), resourceProvider);
+        builder.setTitle(LocaleController.getString(R.string.NagramiXCustomDohUrl));
+        builder.setView(container);
+        builder.setNegativeButton(LocaleController.getString(R.string.Cancel), null);
+        builder.setPositiveButton(LocaleController.getString(R.string.Save), null);
+        AlertDialog dialog = builder.create();
+        dialog.setOnShowListener(ignored -> dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(view -> {
+            String value = input.getText().toString().trim();
+            if (!com.mr_efes.nagramix.NagramiXDnsResolver.isValidEndpoint(value)) {
+                input.setError(LocaleController.getString(R.string.NagramiXDnsInvalid));
+                return;
+            }
+            input.setEnabled(false);
+            dialog.getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(false);
+            org.telegram.messenger.Utilities.globalQueue.postRunnable(() -> {
+                boolean available = com.mr_efes.nagramix.NagramiXDnsResolver.testEndpoint(value);
+                org.telegram.messenger.AndroidUtilities.runOnUIThread(() -> {
+                    if (!available) {
+                        input.setEnabled(true);
+                        dialog.getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(true);
+                        input.setError(LocaleController.getString(R.string.NagramiXDnsUnavailable));
+                        return;
+                    }
+                    preferences.edit().putString(NagramiXSettings.CUSTOM_DOH_URL, value)
+                            .putString(NagramiXSettings.DNS_PROVIDER, "custom").apply();
+                    clearDnsCache();
+                    dialog.dismiss();
+                    notifyListChanged();
+                });
+            });
+        }));
+        showDialog(dialog);
+    }
+
+    private void clearDnsCache() {
+        org.telegram.tgnet.ConnectionsManager.nagramixClearDnsCache();
+    }
+
+    private void notifyListChanged() {
+        if (listView != null && listView.getAdapter() != null) listView.getAdapter().notifyDataSetChanged();
+    }
 
     private static final class Item extends AdapterWithDiffUtils.Item {
         final String key;
@@ -127,7 +210,7 @@ public class NagramiXSettingsActivity extends BaseFragment {
 
     private final class ListAdapter extends RecyclerListView.SelectionAdapter {
         @Override
-        public boolean isEnabled(RecyclerView.ViewHolder holder) { return holder.getItemViewType() == CHECK || holder.getItemViewType() == ACTION; }
+        public boolean isEnabled(RecyclerView.ViewHolder holder) { return holder.getItemViewType() == CHECK || holder.getItemViewType() == ACTION || holder.getItemViewType() == DNS; }
         @Override
         public int getItemCount() { return items.size(); }
         @Override
@@ -136,7 +219,7 @@ public class NagramiXSettingsActivity extends BaseFragment {
         @NonNull
         @Override
         public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int type) {
-            View view = type == HEADER ? new HeaderCell(getContext()) : type == CHECK ? new TextCheckCell(getContext()) : type == ACTION ? new TextSettingsCell(getContext()) : new TextInfoPrivacyCell(getContext());
+            View view = type == HEADER ? new HeaderCell(getContext()) : type == CHECK ? new TextCheckCell(getContext()) : type == ACTION || type == DNS ? new TextSettingsCell(getContext()) : new TextInfoPrivacyCell(getContext());
             return new RecyclerListView.Holder(view);
         }
 
@@ -153,10 +236,23 @@ public class NagramiXSettingsActivity extends BaseFragment {
                 TextSettingsCell cell = (TextSettingsCell) holder.itemView;
                 cell.setTextColor(Theme.getColor(Theme.key_text_RedRegular));
                 cell.setText(text, false);
+            } else if (item.viewType == DNS) {
+                String provider = preferences.getString(NagramiXSettings.DNS_PROVIDER, "system");
+                ((TextSettingsCell) holder.itemView).setTextAndValue(text, dnsProviderTitle(provider), false);
             } else {
                 TextInfoPrivacyCell cell = (TextInfoPrivacyCell) holder.itemView;
                 cell.setText(TextUtils.isEmpty(text) ? null : text);
             }
         }
+    }
+
+    private String dnsProviderTitle(String provider) {
+        if ("google".equals(provider)) return "Google DNS";
+        if ("quad9".equals(provider)) return "Quad9";
+        if ("adguard".equals(provider)) return "AdGuard DNS";
+        if ("mullvad".equals(provider)) return "Mullvad DNS";
+        if ("cloudflare".equals(provider)) return "Cloudflare DNS";
+        if ("custom".equals(provider)) return LocaleController.getString(R.string.NagramiXDnsCustom);
+        return LocaleController.getString(R.string.NagramiXDnsSystem);
     }
 }

@@ -32,6 +32,15 @@ def replace_exact(path: Path, old: str, new: str) -> None:
     path.write_text(content.replace(old, new), encoding="utf-8")
 
 
+def replace_range_exact(path: Path, start: str, end: str, replacement: str) -> None:
+    content = path.read_text(encoding="utf-8")
+    if content.count(start) != 1 or content.count(end) != 1:
+        raise RuntimeError(f"Expected unique range anchors in {path}: {start!r} .. {end!r}")
+    start_index = content.index(start)
+    end_index = content.index(end, start_index)
+    path.write_text(content[:start_index] + replacement + content[end_index:], encoding="utf-8")
+
+
 def copy(source: Path, destination: Path) -> None:
     destination.parent.mkdir(parents=True, exist_ok=True)
     shutil.copy2(source, destination)
@@ -112,6 +121,35 @@ def main() -> None:
     copy(
         ROOT / "android" / "Sources" / "NagramiXMessageArchive.java",
         source / "TMessagesProj" / "src" / "main" / "java" / "com" / "mr_efes" / "nagramix" / "NagramiXMessageArchive.java",
+    )
+    copy(
+        ROOT / "android" / "Sources" / "NagramiXPeerMetadata.java",
+        source / "TMessagesProj" / "src" / "main" / "java" / "com" / "mr_efes" / "nagramix" / "NagramiXPeerMetadata.java",
+    )
+    copy(
+        ROOT / "android" / "Sources" / "NagramiXDnsResolver.java",
+        source / "TMessagesProj" / "src" / "main" / "java" / "com" / "mr_efes" / "nagramix" / "NagramiXDnsResolver.java",
+    )
+
+    connections_manager = source / "TMessagesProj" / "src" / "main" / "java" / "org" / "telegram" / "tgnet" / "ConnectionsManager.java"
+    replace_exact(
+        connections_manager,
+        "    public static void getHostByName(String hostName, long address) {",
+        "    public static void nagramixClearDnsCache() {\n"
+        "        AndroidUtilities.runOnUIThread(dnsCache::clear);\n"
+        "    }\n\n"
+        "    public static void getHostByName(String hostName, long address) {",
+    )
+    replace_exact(
+        connections_manager,
+        "        protected ResolvedDomain doInBackground(Void... voids) {\n"
+        "            ByteArrayOutputStream outbuf = null;",
+        "        protected ResolvedDomain doInBackground(Void... voids) {\n"
+        "            if (!com.mr_efes.nagramix.NagramiXDnsResolver.usesSystemResolver(ApplicationLoader.applicationContext)) {\n"
+        "                ArrayList<String> result = com.mr_efes.nagramix.NagramiXDnsResolver.resolve(ApplicationLoader.applicationContext, currentHostName);\n"
+        "                return result == null ? null : new ResolvedDomain(result, SystemClock.elapsedRealtime());\n"
+        "            }\n"
+        "            ByteArrayOutputStream outbuf = null;",
     )
 
     settings_activity = source / "TMessagesProj" / "src" / "main" / "java" / "org" / "telegram" / "ui" / "SettingsActivity.java"
@@ -663,7 +701,146 @@ def main() -> None:
         "        com.mr_efes.nagramix.NagramiXMessageArchive.getInstance(currentAccount).clearAll();\n"
         "        getPreferences().edit().clear().apply();",
     )
-    copy(ROOT / "android" / "branding" / "AppIcons" / "1.png", resource_root / "drawable-nodpi" / "nagramix_app_icon.png")
+    profile_activity = source / "TMessagesProj" / "src" / "main" / "java" / "org" / "telegram" / "ui" / "ProfileActivity.java"
+    replace_exact(
+        profile_activity,
+        "    private int usernameRow;\n    private int notificationsDividerRow;",
+        "    private int usernameRow;\n"
+        "    private int nagramixProfileIdRow;\n"
+        "    private int nagramixRegistrationRow;\n"
+        "    private int notificationsDividerRow;",
+    )
+    replace_exact(
+        profile_activity,
+        "        usernameRow = -1;\n        settingsTimerRow = -1;",
+        "        usernameRow = -1;\n"
+        "        nagramixProfileIdRow = -1;\n"
+        "        nagramixRegistrationRow = -1;\n"
+        "        settingsTimerRow = -1;",
+    )
+    replace_exact(
+        profile_activity,
+        "                if (user != null && username != null) {\n"
+        "                    usernameRow = rowCount++;\n"
+        "                }\n"
+        "                if (userInfo != null) {",
+        "                if (user != null && username != null) {\n"
+        "                    usernameRow = rowCount++;\n"
+        "                }\n"
+        "                if (user != null && com.mr_efes.nagramix.NagramiXSettings.INSTANCE.preferences(ApplicationLoader.applicationContext).getBoolean(com.mr_efes.nagramix.NagramiXSettings.SHOW_PROFILE_ID, true)) {\n"
+        "                    nagramixProfileIdRow = rowCount++;\n"
+        "                }\n"
+        "                if (user != null && com.mr_efes.nagramix.NagramiXSettings.INSTANCE.preferences(ApplicationLoader.applicationContext).getBoolean(com.mr_efes.nagramix.NagramiXSettings.SHOW_REGISTRATION_DATE, true)) {\n"
+        "                    nagramixRegistrationRow = rowCount++;\n"
+        "                }\n"
+        "                if (userInfo != null) {",
+    )
+    replace_exact(
+        profile_activity,
+        "            if (actionsView == null) {\n"
+        "                if (infoHeaderRow != -1) {\n"
+        "                    notificationsDividerRow = rowCount++;",
+        "            if (com.mr_efes.nagramix.NagramiXSettings.INSTANCE.preferences(ApplicationLoader.applicationContext).getBoolean(com.mr_efes.nagramix.NagramiXSettings.SHOW_PROFILE_ID, true)) {\n"
+        "                nagramixProfileIdRow = rowCount++;\n"
+        "            }\n"
+        "            if (actionsView == null) {\n"
+        "                if (infoHeaderRow != -1) {\n"
+        "                    notificationsDividerRow = rowCount++;",
+    )
+    replace_exact(
+        profile_activity,
+        "                    if (position == birthdayRow) {",
+        "                    if (position == nagramixProfileIdRow) {\n"
+        "                        long peerId = userId != 0 ? userId : -chatId;\n"
+        "                        detailCell.setTextAndValue(Long.toString(peerId), LocaleController.getString(R.string.NagramiXProfileId), false);\n"
+        "                    } else if (position == nagramixRegistrationRow) {\n"
+        "                        int year = com.mr_efes.nagramix.NagramiXPeerMetadata.approximateRegistrationYear(userId);\n"
+        "                        detailCell.setTextAndValue(LocaleController.formatString(R.string.NagramiXApproximateRegistration, year), LocaleController.getString(R.string.NagramiXRegistrationDate), false);\n"
+        "                    } else if (position == birthdayRow) {",
+    )
+    replace_exact(
+        profile_activity,
+        "            } else if (position == phoneRow || position == locationRow || position == numberRow || position == birthdayRow) {",
+        "            } else if (position == phoneRow || position == locationRow || position == numberRow || position == birthdayRow || position == nagramixProfileIdRow || position == nagramixRegistrationRow) {",
+    )
+    replace_exact(
+        profile_activity,
+        "    private boolean processOnClickOrPress(final int position, final View view, final float x, final float y) {\n"
+        "        if (position == usernameRow || position == setUsernameRow) {",
+        "    private boolean processOnClickOrPress(final int position, final View view, final float x, final float y) {\n"
+        "        if (position == nagramixProfileIdRow) {\n"
+        "            long peerId = userId != 0 ? userId : -chatId;\n"
+        "            AndroidUtilities.addToClipboard(Long.toString(peerId));\n"
+        "            BulletinFactory.of(this).createCopyBulletin(LocaleController.getString(R.string.NagramiXProfileIdCopied), resourcesProvider).show();\n"
+        "            return true;\n"
+        "        } else if (position == usernameRow || position == setUsernameRow) {",
+    )
+    user_cell = source / "TMessagesProj" / "src" / "main" / "java" / "org" / "telegram" / "ui" / "Cells" / "UserCell.java"
+    replace_exact(
+        user_cell,
+        "        long botVerificationIcon = 0;",
+        "        if (currentUser != null && currentUser.mutual_contact && !currentUser.self && !currentUser.bot && !currentUser.deleted\n"
+        "                && com.mr_efes.nagramix.NagramiXSettings.INSTANCE.preferences(org.telegram.messenger.ApplicationLoader.applicationContext).getBoolean(com.mr_efes.nagramix.NagramiXSettings.SHOW_MUTUAL_CONTACT_ICON, false)) {\n"
+        "            CharSequence currentTitle = nameTextView.getText();\n"
+        "            android.text.SpannableStringBuilder markedTitle = new android.text.SpannableStringBuilder(currentTitle);\n"
+        "            int markerStart = markedTitle.length();\n"
+        "            markedTitle.append(\"  \\uFFFC\");\n"
+        "            org.telegram.ui.Components.ColoredImageSpan marker = new org.telegram.ui.Components.ColoredImageSpan(R.drawable.msg_groups, org.telegram.ui.Components.ColoredImageSpan.ALIGN_CENTER);\n"
+        "            marker.setSize(dp(14));\n"
+        "            markedTitle.setSpan(marker, markerStart + 2, markerStart + 3, android.text.Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);\n"
+        "            nameTextView.setText(markedTitle);\n"
+        "        }\n"
+        "        long botVerificationIcon = 0;",
+    )
+    for icon_index in range(1, 9):
+        copy(
+            ROOT / "android" / "branding" / "AppIcons" / f"{icon_index}.png",
+            resource_root / "drawable-nodpi" / f"nagramix_app_icon_{icon_index}.png",
+        )
+
+    launcher_controller = source / "TMessagesProj" / "src" / "main" / "java" / "org" / "telegram" / "ui" / "LauncherIconController.java"
+    replace_exact(
+        launcher_controller,
+        "        DEFAULT(\"DefaultIcon\", R.drawable.icon_background_sa, R.mipmap.icon_foreground_sa, R.string.AppIconDefault),\n"
+        "        VINTAGE(\"VintageIcon\", R.drawable.icon_6_background_sa, R.mipmap.icon_6_foreground_sa, R.string.AppIconVintage),\n"
+        "        AQUA(\"AquaIcon\", R.drawable.icon_4_background_sa, R.mipmap.icon_foreground_sa, R.string.AppIconAqua),\n"
+        "        PREMIUM(\"PremiumIcon\", R.drawable.icon_3_background_sa, R.mipmap.icon_3_foreground_sa, R.string.AppIconPremium, true),\n"
+        "        TURBO(\"TurboIcon\", R.drawable.icon_5_background_sa, R.mipmap.icon_5_foreground_sa, R.string.AppIconTurbo, true),\n"
+        "        NOX(\"NoxIcon\", R.mipmap.icon_2_background_sa, R.mipmap.icon_foreground_sa, R.string.AppIconNox, true);",
+        "        DEFAULT(\"NagramiXIcon1\", R.drawable.nagramix_app_icon_1, R.drawable.nagramix_app_icon_1, R.string.NagramiXIcon1),\n"
+        "        NAGRAMIX_2(\"NagramiXIcon2\", R.drawable.nagramix_app_icon_2, R.drawable.nagramix_app_icon_2, R.string.NagramiXIcon2),\n"
+        "        NAGRAMIX_3(\"NagramiXIcon3\", R.drawable.nagramix_app_icon_3, R.drawable.nagramix_app_icon_3, R.string.NagramiXIcon3),\n"
+        "        NAGRAMIX_4(\"NagramiXIcon4\", R.drawable.nagramix_app_icon_4, R.drawable.nagramix_app_icon_4, R.string.NagramiXIcon4),\n"
+        "        NAGRAMIX_5(\"NagramiXIcon5\", R.drawable.nagramix_app_icon_5, R.drawable.nagramix_app_icon_5, R.string.NagramiXIcon5),\n"
+        "        NAGRAMIX_6(\"NagramiXIcon6\", R.drawable.nagramix_app_icon_6, R.drawable.nagramix_app_icon_6, R.string.NagramiXIcon6),\n"
+        "        NAGRAMIX_7(\"NagramiXIcon7\", R.drawable.nagramix_app_icon_7, R.drawable.nagramix_app_icon_7, R.string.NagramiXIcon7),\n"
+        "        NAGRAMIX_8(\"NagramiXIcon8\", R.drawable.nagramix_app_icon_8, R.drawable.nagramix_app_icon_8, R.string.NagramiXIcon8);",
+    )
+    main_manifest = source / "TMessagesProj" / "src" / "main" / "AndroidManifest.xml"
+    aliases = []
+    for icon_index in range(1, 9):
+        aliases.append(
+            "        <activity-alias\n"
+            f"            android:enabled=\"{'true' if icon_index == 1 else 'false'}\"\n"
+            f"            android:name=\"org.telegram.messenger.NagramiXIcon{icon_index}\"\n"
+            "            android:targetActivity=\"org.telegram.ui.LaunchActivity\"\n"
+            f"            android:icon=\"@drawable/nagramix_app_icon_{icon_index}\"\n"
+            f"            android:roundIcon=\"@drawable/nagramix_app_icon_{icon_index}\"\n"
+            "            android:exported=\"true\">\n\n"
+            "            <intent-filter>\n"
+            "                <action android:name=\"android.intent.action.MAIN\" />\n"
+            "                <category android:name=\"android.intent.category.LAUNCHER\" />\n"
+            "                <category android:name=\"android.intent.category.MULTIWINDOW_LAUNCHER\" />\n"
+            "            </intent-filter>\n"
+            "            <meta-data android:name=\"android.app.shortcuts\" android:resource=\"@xml/shortcuts\" />\n"
+            "        </activity-alias>\n\n"
+        )
+    replace_range_exact(
+        main_manifest,
+        "        <activity-alias\n            android:enabled=\"true\"\n            android:name=\"org.telegram.messenger.DefaultIcon\"",
+        "        <activity\n            android:name=\"org.telegram.ui.LaunchActivity\"",
+        "".join(aliases),
+    )
 
     manifests = [
         source / "TMessagesProj" / "config" / "debug" / "AndroidManifest.xml",
@@ -679,8 +856,8 @@ def main() -> None:
             raise RuntimeError(f"Expected one application label in {manifest}; found {label_count}")
         content = content.replace('android:label="@string/AppNameBeta"', 'android:label="@string/NagramiXAppName"')
         content = content.replace('android:label="@string/AppName"', 'android:label="@string/NagramiXAppName"')
-        content = content.replace('android:icon="@mipmap/ic_launcher"', 'android:icon="@drawable/nagramix_app_icon"')
-        content = content.replace('android:roundIcon="@mipmap/ic_launcher_round"', 'android:roundIcon="@drawable/nagramix_app_icon"')
+        content = content.replace('android:icon="@mipmap/ic_launcher"', 'android:icon="@drawable/nagramix_app_icon_1"')
+        content = content.replace('android:roundIcon="@mipmap/ic_launcher_round"', 'android:roundIcon="@drawable/nagramix_app_icon_1"')
         manifest.write_text(content, encoding="utf-8")
 
     print(

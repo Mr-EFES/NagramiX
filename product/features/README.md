@@ -14,3 +14,6 @@ Statuses:
 - `not_applicable` — approved platform exception with a reason.
 
 A feature cannot be called cross-platform complete until both platform records are `verified` or an explicit `not_applicable` exception is approved.
+
+Detailed shared contracts live beside the registry, including
+[`profile-info.md`](profile-info.md) and [`dns-doh.md`](dns-doh.md).

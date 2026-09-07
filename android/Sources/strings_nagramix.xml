@@ -32,8 +32,27 @@
     <string name="NagramiXShowProxyButton">Always show proxy button</string>
     <string name="NagramiXHideProxySponsorChannel">Hide proxy sponsor channel</string>
     <string name="NagramiXOtherInfo">Network behavior still requires its platform integration and device testing.</string>
+    <string name="NagramiXDns">DNS</string>
+    <string name="NagramiXDnsSystem">System DNS</string>
+    <string name="NagramiXDnsCustom">Custom DoH</string>
+    <string name="NagramiXCustomDohUrl">DoH server URL</string>
+    <string name="NagramiXDnsInvalid">Enter a valid HTTPS URL with a host and no spaces.</string>
+    <string name="NagramiXDnsUnavailable">The DoH server did not return a valid response. Check the URL and connection.</string>
     <string name="NagramiXDeletedMarker">Deleted locally</string>
     <string name="NagramiXEditHistoryTitle">Edit history</string>
     <string name="NagramiXClearArchive">Clear local message archive</string>
     <string name="NagramiXClearArchiveConfirm">Delete all locally stored deleted messages and edit revisions for this account?</string>
+    <string name="NagramiXProfileId">Profile ID</string>
+    <string name="NagramiXProfileIdCopied">Profile ID copied</string>
+    <string name="NagramiXRegistrationDate">Registration date</string>
+    <string name="NagramiXApproximateRegistration">Approximately %1$d</string>
+    <string name="NagramiXMutualMarker">mutual</string>
+    <string name="NagramiXIcon1">NagramiX 1</string>
+    <string name="NagramiXIcon2">NagramiX 2</string>
+    <string name="NagramiXIcon3">NagramiX 3</string>
+    <string name="NagramiXIcon4">NagramiX 4</string>
+    <string name="NagramiXIcon5">NagramiX 5</string>
+    <string name="NagramiXIcon6">NagramiX 6</string>
+    <string name="NagramiXIcon7">NagramiX 7</string>
+    <string name="NagramiXIcon8">NagramiX 8</string>
 </resources>
