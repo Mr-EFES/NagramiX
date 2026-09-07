@@ -38,6 +38,8 @@ public extension PresentationStrings {
     var nagramiXHideCallsTab: String { self.nagramiXLocalized("NagramiX.Settings.Tabs.HideCalls") }
     var nagramiXHideTabTitles: String { self.nagramiXLocalized("NagramiX.Settings.Tabs.HideTitles") }
     var nagramiXShowSearchButton: String { self.nagramiXLocalized("NagramiX.Settings.Tabs.ShowSearch") }
+    var nagramiXChatsHeader: String { self.nagramiXLocalized("NagramiX.Settings.Chats.Header") }
+    var nagramiXWideChannelPosts: String { self.nagramiXLocalized("NagramiX.Settings.Chats.WideChannelPosts") }
     var nagramiXVideoMessagesHeader: String { self.nagramiXLocalized("NagramiX.Settings.VideoMessages.Header") }
     var nagramiXUseRearCamera: String { self.nagramiXLocalized("NagramiX.Settings.VideoMessages.UseRearCamera") }
     var nagramiXStoriesHeader: String { self.nagramiXLocalized("NagramiX.Settings.Stories.Header") }

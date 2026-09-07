@@ -324,8 +324,8 @@ public final class ItemListControllerTabBarItem: Equatable {
     replace_once(
         segmented_title_view,
         "    private let tabSelector = ComponentView<Empty>()\n",
-        "    private let tabSelector = ComponentView<Empty>()\n    private let fillsAvailableWidth: Bool\n",
-        "Store equal-width segmented title layout",
+        "    private let tabSelector = ComponentView<Empty>()\n    private let fillsAvailableWidth: Bool\n    private var expandedContentFrame: CGRect?\n",
+        "Store full-width NagramiX segmented title layout",
     )
     replace_once(
         segmented_title_view,
@@ -356,7 +356,8 @@ public final class ItemListControllerTabBarItem: Equatable {
         """        self.addSubview(self.backgroundContainer)
         self.backgroundContainer.contentView.addSubview(self.backgroundView)
 """,
-        """        self.addSubview(self.backgroundContainer)
+        """        self.clipsToBounds = !self.fillsAvailableWidth
+        self.addSubview(self.backgroundContainer)
         self.backgroundContainer.contentView.addSubview(self.backgroundView)
 
         if self.fillsAvailableWidth {
@@ -364,7 +365,7 @@ public final class ItemListControllerTabBarItem: Equatable {
             self.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
         }
 """,
-        "Let the equal-width category control occupy all available navigation width",
+        "Allow the NagramiX category panel to use the trailing navigation space",
     )
     replace_once(
         segmented_title_view,
@@ -387,6 +388,42 @@ public final class ItemListControllerTabBarItem: Equatable {
     override public func layoutSubviews() {
 """,
         "Make the category title adaptive instead of sizing it from localized text",
+    )
+    replace_once(
+        segmented_title_view,
+        "    private func update(transition: ComponentTransition) {\n        guard let size = self.validLayout else {\n            return\n        }\n",
+        """    override public func point(inside point: CGPoint, with event: UIEvent?) -> Bool {
+        if let expandedContentFrame = self.expandedContentFrame, expandedContentFrame.contains(point) {
+            return true
+        }
+        return super.point(inside: point, with: event)
+    }
+
+    private func update(transition: ComponentTransition) {
+        guard let size = self.validLayout else {
+            return
+        }
+
+        var contentWidth = size.width
+        if self.fillsAvailableWidth, let window = self.window {
+            let windowFrame = self.convert(self.bounds, to: window)
+            let trailingInset = max(16.0, window.safeAreaInsets.right)
+            contentWidth = max(contentWidth, floor(window.bounds.width - windowFrame.minX - trailingInset))
+        }
+""",
+        "Extend the category panel from its post-back-button origin to the content trailing inset",
+    )
+    replace_once(
+        segmented_title_view,
+        "            containerSize: CGSize(width: size.width, height: 44.0)\n",
+        "            containerSize: CGSize(width: contentWidth, height: 44.0)\n",
+        "Give equal category tabs the complete trailing navigation width",
+    )
+    replace_once(
+        segmented_title_view,
+        "        let tabSelectorFrame = CGRect(origin: CGPoint(x: floor((size.width - tabSelectorSize.width) / 2.0), y: floor((size.height - tabSelectorSize.height) / 2.0)), size: tabSelectorSize)\n",
+        "        let tabSelectorFrame = CGRect(origin: CGPoint(x: self.fillsAvailableWidth ? 0.0 : floor((size.width - tabSelectorSize.width) / 2.0), y: floor((size.height - tabSelectorSize.height) / 2.0)), size: tabSelectorSize)\n        self.expandedContentFrame = tabSelectorFrame\n",
+        "Anchor the full-width category panel after the back button instead of centering a compressed control",
     )
 
     horizontal_tabs = source / "submodules" / "TelegramUI" / "Components" / "HorizontalTabsComponent" / "Sources" / "HorizontalTabsComponent.swift"
@@ -992,6 +1029,56 @@ public final class ItemListControllerTabBarItem: Equatable {
         '        "//submodules/SettingsUI:SettingsUI",\n',
         '        "//submodules/SettingsUI:SettingsUI",\n        "//submodules/NagramiXCore:NagramiXCore",\n',
         "TelegramUI NagramiXCore dependency",
+    )
+
+    chat_bubble_build = source / "submodules" / "TelegramUI" / "Components" / "Chat" / "ChatMessageBubbleItemNode" / "BUILD"
+    replace_once(
+        chat_bubble_build,
+        '        "//submodules/AccountContext",\n',
+        '        "//submodules/AccountContext",\n        "//submodules/NagramiXCore:NagramiXCore",\n',
+        "Chat message bubble NagramiX settings dependency",
+    )
+    chat_bubble_source = source / "submodules" / "TelegramUI" / "Components" / "Chat" / "ChatMessageBubbleItemNode" / "Sources" / "ChatMessageBubbleItemNode.swift"
+    replace_once(
+        chat_bubble_source,
+        "import AccountContext\n",
+        "import AccountContext\nimport NagramiXCore\n",
+        "Chat message bubble NagramiX settings import",
+    )
+    replace_once(
+        chat_bubble_source,
+        "        let chatLocationPeerId: PeerId = item.chatLocation.peerId ?? item.content.firstMessage.id.peerId\n",
+        """        let chatLocationPeerId: PeerId = item.chatLocation.peerId ?? item.content.firstMessage.id.peerId
+        let nagramiXWideChannelPost: Bool
+        if NagramiXTabSettings.current.wideChannelPosts,
+           case .peer = item.chatLocation,
+           let channel = firstMessage.peers[firstMessage.id.peerId] as? TelegramChannel,
+           case .broadcast = channel.info,
+           firstMessage.adAttribute == nil,
+           !isPreview {
+            nagramiXWideChannelPost = true
+        } else {
+            nagramiXWideChannelPost = false
+        }
+""",
+        "Identify only ordinary main-timeline broadcast posts for wide layout",
+    )
+    replace_once(
+        chat_bubble_source,
+        "        /*if isInlinePage {\n            needsShareButton = false\n        }*/\n                        \n        var tmpWidth: CGFloat\n",
+        """        /*if isInlinePage {
+            needsShareButton = false
+        }*/
+
+        if nagramiXWideChannelPost {
+            needsShareButton = false
+            needsSummarizeButton = false
+            allowFullWidth = true
+        }
+
+        var tmpWidth: CGFloat
+""",
+        "Use the floating-control gutter for optional wide channel posts",
     )
 
     tab_bar_build = source / "submodules" / "TabBarUI" / "BUILD"
@@ -2955,17 +3042,7 @@ filegroup(
                     f(.dismissWithoutContent)
                 })))
                 let canForwardWithoutAuthor = interfaceInteraction.copyMessagesWithoutSource != nil
-                    && !messagesToForward.contains(where: { candidate in
-                        candidate.id.peerId.namespace == Namespaces.Peer.SecretChat
-                            || candidate.isCopyProtected()
-                            || candidate.containsSecretMedia
-                            || candidate.media.contains(where: { $0 is TelegramMediaPaidContent || $0 is TelegramMediaExpiredContent })
-                    })
-                    && !messagesToForward.contains(where: { candidate in
-                        candidate.text.isEmpty && !candidate.media.contains(where: { media in
-                            return media is TelegramMediaImage || media is TelegramMediaFile || media is TelegramMediaContact || media is TelegramMediaMap
-                        })
-                    })
+                    && nagramiXCanCopyMessagesAsNew(messagesToForward)
                 actions.append(.action(ContextMenuActionItem(text: chatPresentationInterfaceState.strings.nagramiXForwardWithoutAuthor, textColor: canForwardWithoutAuthor ? .primary : .disabled, icon: { _ in
                     return nil
                 }, iconAnimation: ContextMenuActionItem.IconAnimation(name: "message_preview_person_off"), action: !canForwardWithoutAuthor ? nil : { _, f in
@@ -2983,6 +3060,67 @@ filegroup(
         """enum NagramiXMessageTransferMode: Equatable {
     case forwardWithSource
     case copyAsNew
+}
+
+func nagramiXCanCopyMessagesAsNew(_ messages: [EngineRawMessage]) -> Bool {
+    return nagramiXCopyMessagesAsNew(messages) != nil
+}
+
+private func nagramiXCopyMessagesAsNew(_ messages: [EngineRawMessage]) -> [EnqueueMessage]? {
+    guard !messages.isEmpty else {
+        return nil
+    }
+    var result: [EnqueueMessage] = []
+    var copiedGroupingKeys: [Int64: Int64] = [:]
+    for message in messages {
+        if message.id.peerId.namespace == Namespaces.Peer.SecretChat
+            || message.isCopyProtected()
+            || message.containsSecretMedia
+            || message.media.contains(where: { $0 is TelegramMediaPaidContent || $0 is TelegramMediaExpiredContent }) {
+            return nil
+        }
+
+        var attributes: [EngineMessage.Attribute] = []
+        var inlineStickers: [EngineMedia.Id: EngineRawMedia] = [:]
+        if let entities = message.attributes.first(where: { $0 is TextEntitiesMessageAttribute }) as? TextEntitiesMessageAttribute {
+            attributes.append(TextEntitiesMessageAttribute(entities: entities.entities))
+            for mediaId in entities.associatedMediaIds {
+                if let media = message.associatedMedia[mediaId] {
+                    inlineStickers[mediaId] = media
+                }
+            }
+        }
+        if message.attributes.contains(where: { $0 is MediaSpoilerMessageAttribute }) {
+            attributes.append(MediaSpoilerMessageAttribute())
+        }
+
+        var mediaReference: AnyMediaReference?
+        for media in message.media {
+            if media is TelegramMediaWebpage {
+                continue
+            } else if mediaReference == nil && (media is TelegramMediaImage || media is TelegramMediaFile || media is TelegramMediaContact || media is TelegramMediaMap) {
+                mediaReference = .message(message: MessageReference(message), media: media)
+            } else {
+                return nil
+            }
+        }
+        if message.text.isEmpty && mediaReference == nil {
+            return nil
+        }
+
+        var localGroupingKey: Int64?
+        if let groupingKey = message.groupingKey {
+            if let existing = copiedGroupingKeys[groupingKey] {
+                localGroupingKey = existing
+            } else {
+                let generated = Int64.random(in: Int64.min ... Int64.max)
+                copiedGroupingKeys[groupingKey] = generated
+                localGroupingKey = generated
+            }
+        }
+        result.append(.message(text: message.text, attributes: attributes, inlineStickers: inlineStickers, mediaReference: mediaReference, threadId: nil, replyToMessageId: nil, replyToStoryId: nil, localGroupingKey: localGroupingKey, correlationId: nil, bubbleUpEmojiOrStickersets: []))
+    }
+    return result
 }
 
 extension ChatControllerImpl {
@@ -3015,6 +3153,30 @@ extension ChatControllerImpl {
     )
     replace_once(
         chat_controller_forward_messages,
+        """            var attemptSelectionImpl: ((EnginePeer, ChatListDisabledPeerReason) -> Void)?
+            let controller = self.context.sharedContext.makePeerSelectionController(""",
+        """            var attemptSelectionImpl: ((EnginePeer, ChatListDisabledPeerReason) -> Void)?
+            var nagramiXCopyThreadIds: [EnginePeer.Id: Int64] = [:]
+            let controller = self.context.sharedContext.makePeerSelectionController(""",
+        "Preserve selected destination topics in copy-as-new mode",
+    )
+    replace_once(
+        chat_controller_forward_messages,
+        """                                for (peer, shouldDivert) in targetPeersShouldDivert {
+                                    var peerMessages = result
+                                    if shouldDivert {
+""",
+        """                                for (peer, shouldDivert) in targetPeersShouldDivert {
+                                    var peerMessages = result
+                                    if transferMode == .copyAsNew, let threadId = nagramiXCopyThreadIds[peer.id] {
+                                        peerMessages = peerMessages.map { $0.withUpdatedThreadId(threadId) }
+                                    }
+                                    if shouldDivert {
+""",
+        "Apply only the destination thread id without copying any source reply",
+    )
+    replace_once(
+        chat_controller_forward_messages,
         """                        var attributes: [EngineMessage.Attribute] = []
                         attributes.append(ForwardOptionsMessageAttribute(hideNames: forwardOptions?.hideNames == true, hideCaptions: forwardOptions?.hideCaptions == true))
 """ + "                        \n" + """                        result.append(contentsOf: messages.map { message -> EnqueueMessage in
@@ -3029,45 +3191,34 @@ extension ChatControllerImpl {
                                 return .forward(source: message.id, threadId: nil, grouping: .auto, attributes: attributes, correlationId: nil)
                             })
                         case .copyAsNew:
-                            var copiedGroupingKeys: [Int64: Int64] = [:]
-                            for message in messages {
-                                var attributes: [EngineMessage.Attribute] = []
-                                var inlineStickers: [EngineMedia.Id: EngineRawMedia] = [:]
-                                if let entities = message.attributes.first(where: { $0 is TextEntitiesMessageAttribute }) as? TextEntitiesMessageAttribute {
-                                    attributes.append(TextEntitiesMessageAttribute(entities: entities.entities))
-                                    for mediaId in entities.associatedMediaIds {
-                                        if let media = message.associatedMedia[mediaId] {
-                                            inlineStickers[mediaId] = media
-                                        }
-                                    }
-                                }
-                                if message.attributes.contains(where: { $0 is MediaSpoilerMessageAttribute }) {
-                                    attributes.append(MediaSpoilerMessageAttribute())
-                                }
-                                var mediaReference: AnyMediaReference?
-                                if let media = message.media.first(where: { media in
-                                    media is TelegramMediaImage || media is TelegramMediaFile || media is TelegramMediaContact || media is TelegramMediaMap
-                                }) {
-                                    mediaReference = .message(message: MessageReference(message), media: media)
-                                }
-                                if message.text.isEmpty && mediaReference == nil {
-                                    continue
-                                }
-                                var localGroupingKey: Int64?
-                                if let groupingKey = message.groupingKey {
-                                    if let existing = copiedGroupingKeys[groupingKey] {
-                                        localGroupingKey = existing
-                                    } else {
-                                        let generated = Int64.random(in: Int64.min ... Int64.max)
-                                        copiedGroupingKeys[groupingKey] = generated
-                                        localGroupingKey = generated
-                                    }
-                                }
-                                result.append(.message(text: message.text, attributes: attributes, inlineStickers: inlineStickers, mediaReference: mediaReference, threadId: nil, replyToMessageId: nil, replyToStoryId: nil, localGroupingKey: localGroupingKey, correlationId: nil, bubbleUpEmojiOrStickersets: []))
+                            guard let copiedMessages = nagramiXCopyMessagesAsNew(messages) else {
+                                return
                             }
+                            result.append(contentsOf: copiedMessages)
                         }
 """,
         "Build fresh messages without forward or reply metadata",
+    )
+    replace_once(
+        chat_controller_forward_messages,
+        """                let peerId = peer.id
+                let accountPeerId = strongSelf.context.account.peerId
+""" + "                \n" + """                if resetCurrent {
+""",
+        """                let peerId = peer.id
+                let accountPeerId = strongSelf.context.account.peerId
+
+                if transferMode == .copyAsNew {
+                    if let threadId {
+                        nagramiXCopyThreadIds[peer.id] = threadId
+                    }
+                    strongController.multiplePeersSelected?([peer], [peer.id: peer], NSAttributedString(string: ""), .generic, nil, nil)
+                    return
+                }
+
+                if resetCurrent {
+""",
+        "Route single-destination copy mode through the real send-as-new commit path",
     )
     replace_once(
         context_menus,

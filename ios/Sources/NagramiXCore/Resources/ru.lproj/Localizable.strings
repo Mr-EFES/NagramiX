@@ -8,6 +8,8 @@
 "NagramiX.Settings.Tabs.HideCalls" = "Скрыть вкладку «Звонки»";
 "NagramiX.Settings.Tabs.HideTitles" = "Скрыть имена вкладок";
 "NagramiX.Settings.Tabs.ShowSearch" = "Показывать кнопку поиска";
+"NagramiX.Settings.Chats.Header" = "ЧАТЫ";
+"NagramiX.Settings.Chats.WideChannelPosts" = "Широкие посты в каналах";
 "NagramiX.Settings.VideoMessages.Header" = "КРУГЛЫЕ ВИДЕО";
 "NagramiX.Settings.VideoMessages.UseRearCamera" = "На заднюю камеру";
 "NagramiX.Settings.Stories.Header" = "ИСТОРИИ";

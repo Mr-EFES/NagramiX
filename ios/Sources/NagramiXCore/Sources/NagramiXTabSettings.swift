@@ -38,6 +38,7 @@ public struct NagramiXTabSettings: Equatable {
         static let hideContacts = "nagramix.tabs.hideContacts"
         static let hideCalls = "nagramix.tabs.hideCalls"
         static let showSearchButton = "nagramix.tabs.showSearchButton"
+        static let wideChannelPosts = "nagramix.interface.wideChannelPosts"
         static let useRearCameraForVideoMessages = "nagramix.videoMessages.useRearCamera"
         static let hideStories = "nagramix.stories.hide"
         static let disableStoryCameraSwipe = "nagramix.stories.disableCameraSwipe"
@@ -62,6 +63,7 @@ public struct NagramiXTabSettings: Equatable {
     public var hideContacts: Bool
     public var hideCalls: Bool
     public var showSearchButton: Bool
+    public var wideChannelPosts: Bool
     public var useRearCameraForVideoMessages: Bool
     public var hideStories: Bool
     public var disableStoryCameraSwipe: Bool
@@ -85,6 +87,7 @@ public struct NagramiXTabSettings: Equatable {
         hideContacts: Bool,
         hideCalls: Bool,
         showSearchButton: Bool,
+        wideChannelPosts: Bool,
         useRearCameraForVideoMessages: Bool,
         hideStories: Bool,
         disableStoryCameraSwipe: Bool,
@@ -107,6 +110,7 @@ public struct NagramiXTabSettings: Equatable {
         self.hideContacts = hideContacts
         self.hideCalls = hideCalls
         self.showSearchButton = showSearchButton
+        self.wideChannelPosts = wideChannelPosts
         self.useRearCameraForVideoMessages = useRearCameraForVideoMessages
         self.hideStories = hideStories
         self.disableStoryCameraSwipe = disableStoryCameraSwipe
@@ -143,6 +147,7 @@ public struct NagramiXTabSettings: Equatable {
             hideContacts: defaults.object(forKey: Key.hideContacts) as? Bool ?? true,
             hideCalls: defaults.object(forKey: Key.hideCalls) as? Bool ?? true,
             showSearchButton: defaults.object(forKey: Key.showSearchButton) as? Bool ?? false,
+            wideChannelPosts: defaults.object(forKey: Key.wideChannelPosts) as? Bool ?? false,
             useRearCameraForVideoMessages: defaults.object(forKey: Key.useRearCameraForVideoMessages) as? Bool ?? false,
             hideStories: defaults.object(forKey: Key.hideStories) as? Bool ?? false,
             disableStoryCameraSwipe: defaults.object(forKey: Key.disableStoryCameraSwipe) as? Bool ?? false,
@@ -174,6 +179,7 @@ public struct NagramiXTabSettings: Equatable {
         defaults.set(value.hideContacts, forKey: Key.hideContacts)
         defaults.set(value.hideCalls, forKey: Key.hideCalls)
         defaults.set(value.showSearchButton, forKey: Key.showSearchButton)
+        defaults.set(value.wideChannelPosts, forKey: Key.wideChannelPosts)
         defaults.set(value.useRearCameraForVideoMessages, forKey: Key.useRearCameraForVideoMessages)
         defaults.set(value.hideStories, forKey: Key.hideStories)
         defaults.set(value.disableStoryCameraSwipe, forKey: Key.disableStoryCameraSwipe)
