@@ -8,6 +8,8 @@
 "NagramiX.Settings.Tabs.HideCalls" = "Hide Calls Tab";
 "NagramiX.Settings.Tabs.HideTitles" = "Hide Tab Titles";
 "NagramiX.Settings.Tabs.ShowSearch" = "Show Search Button";
+"NagramiX.Settings.Chats.Header" = "CHATS";
+"NagramiX.Settings.Chats.WideChannelPosts" = "Wide Channel Posts";
 "NagramiX.Settings.VideoMessages.Header" = "VIDEO MESSAGES";
 "NagramiX.Settings.VideoMessages.UseRearCamera" = "Use Rear Camera";
 "NagramiX.Settings.Stories.Header" = "STORIES";

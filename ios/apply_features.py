@@ -1031,6 +1031,56 @@ public final class ItemListControllerTabBarItem: Equatable {
         "TelegramUI NagramiXCore dependency",
     )
 
+    chat_bubble_build = source / "submodules" / "TelegramUI" / "Components" / "Chat" / "ChatMessageBubbleItemNode" / "BUILD"
+    replace_once(
+        chat_bubble_build,
+        '        "//submodules/AccountContext",\n',
+        '        "//submodules/AccountContext",\n        "//submodules/NagramiXCore:NagramiXCore",\n',
+        "Chat message bubble NagramiX settings dependency",
+    )
+    chat_bubble_source = source / "submodules" / "TelegramUI" / "Components" / "Chat" / "ChatMessageBubbleItemNode" / "Sources" / "ChatMessageBubbleItemNode.swift"
+    replace_once(
+        chat_bubble_source,
+        "import AccountContext\n",
+        "import AccountContext\nimport NagramiXCore\n",
+        "Chat message bubble NagramiX settings import",
+    )
+    replace_once(
+        chat_bubble_source,
+        "        let chatLocationPeerId: PeerId = item.chatLocation.peerId ?? item.content.firstMessage.id.peerId\n",
+        """        let chatLocationPeerId: PeerId = item.chatLocation.peerId ?? item.content.firstMessage.id.peerId
+        let nagramiXWideChannelPost: Bool
+        if NagramiXTabSettings.current.wideChannelPosts,
+           case .peer = item.chatLocation,
+           let channel = firstMessage.peers[firstMessage.id.peerId] as? TelegramChannel,
+           case .broadcast = channel.info,
+           firstMessage.adAttribute == nil,
+           !isPreview {
+            nagramiXWideChannelPost = true
+        } else {
+            nagramiXWideChannelPost = false
+        }
+""",
+        "Identify only ordinary main-timeline broadcast posts for wide layout",
+    )
+    replace_once(
+        chat_bubble_source,
+        "        /*if isInlinePage {\n            needsShareButton = false\n        }*/\n                        \n        var tmpWidth: CGFloat\n",
+        """        /*if isInlinePage {
+            needsShareButton = false
+        }*/
+
+        if nagramiXWideChannelPost {
+            needsShareButton = false
+            needsSummarizeButton = false
+            allowFullWidth = true
+        }
+
+        var tmpWidth: CGFloat
+""",
+        "Use the floating-control gutter for optional wide channel posts",
+    )
+
     tab_bar_build = source / "submodules" / "TabBarUI" / "BUILD"
     replace_once(
         tab_bar_build,

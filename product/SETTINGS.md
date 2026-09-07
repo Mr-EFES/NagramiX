@@ -9,6 +9,7 @@ Platform storage mechanisms differ, but ids, defaults and user-visible meaning s
 | `interface.showTabTitles` | `true` | Interface / Tabs | Show tab labels. |
 | `interface.showSearchTab` | `false` | Interface / Tabs | Show a separate Search tab/button. |
 | `interface.hideStories` | `false` | Interface / Stories | Hide the stories strip. |
+| `interface.wideChannelPosts` | `false` | Interface / Chats | Let broadcast-channel posts use the width normally reserved for floating share controls. |
 | `videoMessages.useRearCamera` | `false` | Features / Video messages | Start the next round-video recorder with the rear camera. |
 | `stories.disableCameraSwipe` | `false` | Features / Stories | Disable the gesture that starts story recording. |
 | `stories.confirmViewing` | `false` | Features / Stories | Confirm before opening an unseen story. |

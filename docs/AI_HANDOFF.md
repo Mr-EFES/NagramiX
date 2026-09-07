@@ -549,3 +549,30 @@ Native Xcode/Bazel compilation and physical-iPhone layout/touch verification
 remain pending. Exact next step: run the authoritative iOS workflow when builds
 are permitted, then verify narrow displays, Dynamic Type, all three hit regions,
 rotation/safe areas and the absence of clipping on a physical iPhone.
+
+## iOS 0.2.5 wide channel posts (2026-09-07 UTC)
+
+The owner requested an opt-in `interface.wideChannelPosts` feature for iOS 0.2.5
+and a later independent Android port. The product contract is recorded in
+`product/features/wide-channel-posts.md`, separately from the still-active
+Android 0.2.4 parity registry. The persisted iOS setting defaults to false and
+appears as “Wide Channel Posts” / “Широкие посты в каналах” in a new Chats section
+on the Interface page.
+
+The tracked overlay integrates only with ordinary posts in the main `.peer`
+timeline of a broadcast channel. When enabled it removes the floating
+share/summarize gutter and lets the native bubble/content layout use that width.
+Long-press/context actions, message content nodes, comments, reactions and
+metadata remain native. Private chats, groups, Saved Messages, reply threads,
+previews, custom contents and ads retain official layout. Disabling the option
+leaves the original source path unchanged.
+
+Verified: product/settings documentation, settings persistence/UI/localization
+source inspection, Python syntax, exact application to a clean pinned
+Telegram-iOS 12.9.2 checkout, and generated-tree/repository diff checks. Not
+verified: native Xcode/Bazel compilation, runtime relayout after toggling, media
+and grouped-post rendering, Dynamic Type, narrow/landscape layouts, or physical
+iPhone behavior. No build was started as requested. Exact next step: native
+compile and physical-iPhone tests when the owner permits a 0.2.5 build; then
+implement the separately requested editable “send without name/source” menu
+semantics before porting this feature natively to Android.
