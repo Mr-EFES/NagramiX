@@ -636,3 +636,10 @@ media no longer offer “Forward without source”, while the send path retains 
 same defensive validation. Clean-pin overlay application and diff checks passed;
 no APK build was run. Remaining blockers are archive scoping/menu safety and
 shared StoryViewer confirmation.
+
+### Global deleted-message follow-up (2026-09-08 UTC)
+
+Android archive deletion handling no longer drops Telegram's global/non-channel
+events when `dialogId == 0`; it marks every previously eligible stored owner row
+matching each event message id. Dialog-scoped events retain their composite-key
+update. Clean-pin overlay application and diff checks passed; no APK was built.

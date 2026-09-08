@@ -292,15 +292,20 @@ public final class NagramiXMessageArchive extends SQLiteOpenHelper {
     }
 
     public synchronized void markDeleted(long dialogId, List<Integer> ids) {
-        if (!enabled(NagramiXSettings.SHOW_DELETED_MESSAGES) || dialogId == 0) {
+        if (!enabled(NagramiXSettings.SHOW_DELETED_MESSAGES)) {
             return;
         }
         SQLiteDatabase db = getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put("deleted_at", System.currentTimeMillis() / 1000L);
         for (Integer id : ids) {
-            db.update("messages", values, "dialog_id=? AND message_id=?",
-                    new String[]{Long.toString(dialogId), Integer.toString(id)});
+            if (dialogId == 0) {
+                db.update("messages", values, "message_id=?",
+                        new String[]{Integer.toString(id)});
+            } else {
+                db.update("messages", values, "dialog_id=? AND message_id=?",
+                        new String[]{Long.toString(dialogId), Integer.toString(id)});
+            }
         }
     }
 

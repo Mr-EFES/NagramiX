@@ -15,8 +15,9 @@ broadcast posts have durable native Android integrations.
 
 ## Remaining review blockers
 
-- Deleted archives must be bounded to the loaded history window, scoped by forum
-  topic, handle global deletion events and suppress unsafe server actions.
+- Deleted archives now resolve global deletion events across their stored owning
+  dialogs; loaded-window bounds, forum-topic scope and server-action safety
+  remain under review.
 - Story confirmation must cover the shared viewer entry path.
 - Copy-as-new must hide or reject unsupported content before destination choice.
 - DNS provider changes must reject in-flight results from the old generation.
