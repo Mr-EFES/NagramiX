@@ -414,6 +414,16 @@ workflows must remain disabled. Exact next step: close those three source
 blockers, pass `scripts/check_android_release_ready.py --release 0.2.5`, then
 restore the ARM64 APK workflow and run native CI.
 
+PR #9 inline review findings were addressed on 2026-09-08: the System DNS
+choice now calls Android's `InetAddress` resolver rather than Telegram's remote
+HTTP resolver; custom DoH validation uses a fragment-owned executor and rejects
+callbacks after dialog dismissal/provider changes or fragment destruction;
+group/channel profile IDs use the same positive underlying id as iOS; Android
+provider strings are documented as platform-native persistence; and the APK
+overlay copies generated 512px launcher assets instead of decoding the 2048px
+branding masters. These corrections passed clean-pin overlay application and
+static checks; native compilation and device validation remain pending.
+
 ## Android 0.2.4 parity build hold (2026-09-02 UTC)
 
 The owner explicitly prohibited further Android builds or APK publication until the Android implementation reaches iOS 0.2.4 feature parity. Active Android Actions runs `33606103552` and `33605904230` were cancelled, and the obsolete non-current-base APK plus its Android metadata/provenance assets were removed from pre-release `v0.2.4-rc1`. The iOS IPA remains available.

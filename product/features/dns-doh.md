@@ -1,8 +1,9 @@
 # DNS provider and custom DoH
 
 NagramiX lets the user choose the system resolver, Google, Quad9, AdGuard,
-Mullvad, Cloudflare, or a custom DNS-over-HTTPS endpoint. Provider identifiers
-and endpoints are identical on both platforms.
+Mullvad, Cloudflare, or a custom DNS-over-HTTPS endpoint. Provider meanings and
+endpoints are identical on both platforms. Persisted identifiers are
+platform-native implementation details and are not shared across installations.
 
 DoH uses RFC 8484 POST requests with `application/dns-message`. A records are
 attempted first and AAAA records second. Requests use finite connection and

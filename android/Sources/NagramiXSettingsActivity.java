@@ -31,6 +31,8 @@ import org.telegram.ui.Components.ListView.AdapterWithDiffUtils;
 import org.telegram.ui.Components.RecyclerListView;
 
 import java.util.ArrayList;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 /** NagramiX-owned settings surface backed only by the canonical preference contract. */
 public class NagramiXSettingsActivity extends BaseFragment {
@@ -43,6 +45,15 @@ public class NagramiXSettingsActivity extends BaseFragment {
     private final ArrayList<Item> items = new ArrayList<>();
     private SharedPreferences preferences;
     private RecyclerListView listView;
+    private final ExecutorService dnsValidationExecutor = Executors.newSingleThreadExecutor();
+    private int dnsValidationGeneration;
+
+    @Override
+    public void onFragmentDestroy() {
+        dnsValidationGeneration++;
+        dnsValidationExecutor.shutdownNow();
+        super.onFragmentDestroy();
+    }
 
     @Override
     public View createView(Context context) {
@@ -143,6 +154,7 @@ public class NagramiXSettingsActivity extends BaseFragment {
             if (which == values.length - 1) {
                 showCustomDohEditor();
             } else {
+                dnsValidationGeneration++;
                 preferences.edit().putString(NagramiXSettings.DNS_PROVIDER, values[which]).apply();
                 clearDnsCache();
                 notifyListChanged();
@@ -167,6 +179,10 @@ public class NagramiXSettingsActivity extends BaseFragment {
         builder.setNegativeButton(LocaleController.getString(R.string.Cancel), null);
         builder.setPositiveButton(LocaleController.getString(R.string.Save), null);
         AlertDialog dialog = builder.create();
+        final int generation = ++dnsValidationGeneration;
+        dialog.setOnDismissListener(ignored -> {
+            if (dnsValidationGeneration == generation) dnsValidationGeneration++;
+        });
         dialog.setOnShowListener(ignored -> dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(view -> {
             String value = input.getText().toString().trim();
             if (!com.mr_efes.nagramix.NagramiXDnsResolver.isValidEndpoint(value)) {
@@ -175,9 +191,10 @@ public class NagramiXSettingsActivity extends BaseFragment {
             }
             input.setEnabled(false);
             dialog.getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(false);
-            org.telegram.messenger.Utilities.globalQueue.postRunnable(() -> {
+            dnsValidationExecutor.execute(() -> {
                 boolean available = com.mr_efes.nagramix.NagramiXDnsResolver.testEndpoint(value);
                 org.telegram.messenger.AndroidUtilities.runOnUIThread(() -> {
+                    if (dnsValidationGeneration != generation || !dialog.isShowing()) return;
                     if (!available) {
                         input.setEnabled(true);
                         dialog.getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(true);

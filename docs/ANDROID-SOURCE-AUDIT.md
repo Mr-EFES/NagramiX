@@ -37,6 +37,8 @@ until all of these blockers are resolved:
 - The overlay applies cleanly to official Telegram Android commit
   `62b56a07ca7e30e39f7fd00a6728d6bbd716ca1c`.
 - Exact anchors for the wide-post integration match once.
+- PR #9 review corrections cover native System DNS, lifecycle-safe dedicated
+  custom-DoH validation, canonical positive chat IDs and launcher-sized assets.
 - Python compilation and repository/generated-tree whitespace validation pass.
 - Native Gradle/NDK compilation and physical-device behavior are not verified
   by this audit.

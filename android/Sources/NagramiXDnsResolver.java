@@ -30,6 +30,19 @@ public final class NagramiXDnsResolver {
         return result == null || result.isEmpty() ? null : result;
     }
 
+    public static ArrayList<String> resolveSystem(String hostname) {
+        try {
+            ArrayList<String> result = new ArrayList<>();
+            for (java.net.InetAddress address : java.net.InetAddress.getAllByName(hostname)) {
+                String value = address.getHostAddress();
+                if (value != null && !result.contains(value)) result.add(value);
+            }
+            return result.isEmpty() ? null : result;
+        } catch (Exception ignore) {
+            return null;
+        }
+    }
+
     public static boolean testEndpoint(String endpoint) {
         return isValidEndpoint(endpoint) && resolveAt(endpoint, "example.com") != null;
     }

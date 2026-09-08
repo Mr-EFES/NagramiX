@@ -249,6 +249,10 @@ def main() -> None:
         "        protected ResolvedDomain doInBackground(Void... voids) {\n"
         "            ByteArrayOutputStream outbuf = null;",
         "        protected ResolvedDomain doInBackground(Void... voids) {\n"
+        "            if (com.mr_efes.nagramix.NagramiXDnsResolver.usesSystemResolver(ApplicationLoader.applicationContext)) {\n"
+        "                ArrayList<String> result = com.mr_efes.nagramix.NagramiXDnsResolver.resolveSystem(currentHostName);\n"
+        "                return result == null ? null : new ResolvedDomain(result, SystemClock.elapsedRealtime());\n"
+        "            }\n"
         "            if (!com.mr_efes.nagramix.NagramiXDnsResolver.usesSystemResolver(ApplicationLoader.applicationContext)) {\n"
         "                ArrayList<String> result = com.mr_efes.nagramix.NagramiXDnsResolver.resolve(ApplicationLoader.applicationContext, currentHostName);\n"
         "                return result == null ? null : new ResolvedDomain(result, SystemClock.elapsedRealtime());\n"
@@ -855,7 +859,7 @@ def main() -> None:
         profile_activity,
         "                    if (position == birthdayRow) {",
         "                    if (position == nagramixProfileIdRow) {\n"
-        "                        long peerId = userId != 0 ? userId : -chatId;\n"
+        "                        long peerId = userId != 0 ? userId : chatId;\n"
         "                        detailCell.setTextAndValue(Long.toString(peerId), LocaleController.getString(R.string.NagramiXProfileId), false);\n"
         "                    } else if (position == nagramixRegistrationRow) {\n"
         "                        int year = com.mr_efes.nagramix.NagramiXPeerMetadata.approximateRegistrationYear(userId);\n"
@@ -873,7 +877,7 @@ def main() -> None:
         "        if (position == usernameRow || position == setUsernameRow) {",
         "    private boolean processOnClickOrPress(final int position, final View view, final float x, final float y) {\n"
         "        if (position == nagramixProfileIdRow) {\n"
-        "            long peerId = userId != 0 ? userId : -chatId;\n"
+        "            long peerId = userId != 0 ? userId : chatId;\n"
         "            AndroidUtilities.addToClipboard(Long.toString(peerId));\n"
         "            BulletinFactory.of(this).createCopyBulletin(LocaleController.getString(R.string.NagramiXProfileIdCopied), resourcesProvider).show();\n"
         "            return true;\n"
@@ -898,7 +902,7 @@ def main() -> None:
     )
     for icon_index in range(1, 9):
         copy(
-            ROOT / "android" / "branding" / "AppIcons" / f"{icon_index}.png",
+            ROOT / "android" / "branding" / "AppIconsLauncher" / f"{icon_index}.png",
             resource_root / "drawable-nodpi" / f"nagramix_app_icon_{icon_index}.png",
         )
 
