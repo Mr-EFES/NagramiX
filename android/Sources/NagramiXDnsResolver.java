@@ -10,12 +10,17 @@ import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.security.SecureRandom;
 import java.util.ArrayList;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /** RFC 8484 resolver used only when a NagramiX DoH provider is selected. */
 public final class NagramiXDnsResolver {
     private static final SecureRandom RANDOM = new SecureRandom();
+    private static final AtomicInteger GENERATION = new AtomicInteger();
 
     private NagramiXDnsResolver() {}
+
+    public static int generation() { return GENERATION.get(); }
+    public static void invalidate() { GENERATION.incrementAndGet(); }
 
     public static boolean usesSystemResolver(Context context) {
         return "system".equals(NagramiXSettings.INSTANCE.preferences(context)

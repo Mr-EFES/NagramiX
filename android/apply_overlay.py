@@ -222,9 +222,36 @@ def main() -> None:
         connections_manager,
         "    public static void getHostByName(String hostName, long address) {",
         "    public static void nagramixClearDnsCache() {\n"
+        "        com.mr_efes.nagramix.NagramiXDnsResolver.invalidate();\n"
         "        AndroidUtilities.runOnUIThread(dnsCache::clear);\n"
         "    }\n\n"
         "    public static void getHostByName(String hostName, long address) {",
+    )
+    replace_exact(
+        connections_manager,
+        "        private ArrayList<Long> addresses = new ArrayList<>();\n"
+        "        private String currentHostName;\n\n"
+        "        public ResolveHostByNameTask(String hostName) {\n"
+        "            super();\n"
+        "            currentHostName = hostName;",
+        "        private ArrayList<Long> addresses = new ArrayList<>();\n"
+        "        private String currentHostName;\n"
+        "        private final int nagramixDnsGeneration;\n\n"
+        "        public ResolveHostByNameTask(String hostName) {\n"
+        "            super();\n"
+        "            nagramixDnsGeneration = com.mr_efes.nagramix.NagramiXDnsResolver.generation();\n"
+        "            currentHostName = hostName;",
+    )
+    replace_exact(
+        connections_manager,
+        "        protected void onPostExecute(final ResolvedDomain result) {\n"
+        "            if (result != null) {",
+        "        protected void onPostExecute(final ResolvedDomain result) {\n"
+        "            if (nagramixDnsGeneration != com.mr_efes.nagramix.NagramiXDnsResolver.generation()) {\n"
+        "                for (int a = 0, N = addresses.size(); a < N; a++) native_onHostNameResolved(currentHostName, addresses.get(a), \"\");\n"
+        "                return;\n"
+        "            }\n"
+        "            if (result != null) {",
     )
 
     voip_helper = source / "TMessagesProj" / "src" / "main" / "java" / "org" / "telegram" / "ui" / "Components" / "voip" / "VoIPHelper.java"

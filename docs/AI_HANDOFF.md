@@ -615,3 +615,15 @@ Native Xcode/Bazel compilation and physical-iPhone layout/touch verification
 remain pending. Exact next step: run the authoritative iOS workflow when builds
 are permitted, then verify narrow displays, Dynamic Type, all three hit regions,
 rotation/safe areas and the absence of clipping on a physical iPhone.
+
+## PR #13 second review correction (2026-09-08 UTC)
+
+A later review found that the prior source-parity declaration was premature:
+deleted archive pagination/topic/global-delete/menu safety, shared story-entry
+confirmation, copy-as-new eligibility and stale in-flight DNS completion still
+require corrections. The affected registry rows were returned to `in_progress`
+and the Android APK workflow was removed again, so no build can start. DNS
+provider changes now increment a resolver generation and stale background
+results are rejected before cache insertion. No APK build was run. Exact next
+step: finish the remaining review items, rerun the clean-pin audit, and restore
+the manual workflow only after the gate honestly passes.

@@ -15,14 +15,16 @@ The generated debug signature is not a production identity. Updating over a buil
 
 `android/apply_overlay.py` verifies the exact official Telegram Android commit, applies independent NagramiX branding/package metadata and injects NagramiX-owned Kotlin/Java sources. The complete upstream Android tree is deliberately not vendored.
 
-The ARM64 APK build workflow is manual-only and guarded by the source-parity
-check. Publication remains unavailable until an authorized native build passes.
+Android APK build and publication workflows remain absent until the second
+source review is complete and the parity gate passes honestly.
 
 Feature work must be expressed as Kotlin/Java sources under `android/Sources/` plus exact integration operations in `android/apply_overlay.py`. A source-name check is not a feature port.
 
 ## Current implementation status
 
-The overlay integrates a NagramiX entry in Telegram's main settings and a native settings screen backed by the canonical NagramiX preference namespace. Source integrations are complete for the 0.2.5 registry, but compilation and device verification remain separate states. `docs/ANDROID-FUNCTION-PARITY.md` is authoritative.
+The overlay integrates a NagramiX entry and native settings surface. Several
+0.2.5 integrations remain under source review; compilation and device states
+are separate. `docs/ANDROID-FUNCTION-PARITY.md` is authoritative.
 
 ## Physical-device focus
 
