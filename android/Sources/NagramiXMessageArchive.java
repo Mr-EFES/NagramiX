@@ -24,7 +24,7 @@ import java.util.Set;
  * The archive never requests missing messages or media from Telegram.
  */
 public final class NagramiXMessageArchive extends SQLiteOpenHelper {
-    private static final int VERSION = 1;
+    private static final int VERSION = 2;
     private static final NagramiXMessageArchive[] INSTANCES = new NagramiXMessageArchive[UserConfig.MAX_ACCOUNT_COUNT];
 
     public static NagramiXMessageArchive getInstance(int account) {
@@ -45,14 +45,16 @@ public final class NagramiXMessageArchive extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL("CREATE TABLE messages(dialog_id INTEGER NOT NULL, message_id INTEGER NOT NULL, body BLOB NOT NULL, deleted_at INTEGER NOT NULL DEFAULT 0, PRIMARY KEY(dialog_id, message_id))");
+        db.execSQL("CREATE TABLE messages(dialog_id INTEGER NOT NULL, message_id INTEGER NOT NULL, thread_id INTEGER NOT NULL DEFAULT 0, body BLOB NOT NULL, deleted_at INTEGER NOT NULL DEFAULT 0, PRIMARY KEY(dialog_id, message_id))");
         db.execSQL("CREATE TABLE revisions(dialog_id INTEGER NOT NULL, message_id INTEGER NOT NULL, observed_at INTEGER NOT NULL, body BLOB NOT NULL, UNIQUE(dialog_id, message_id, observed_at, body))");
         db.execSQL("CREATE INDEX revisions_message ON revisions(dialog_id, message_id, observed_at)");
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        // Version one has no migrations.
+        if (oldVersion < 2) {
+            db.execSQL("ALTER TABLE messages ADD COLUMN thread_id INTEGER NOT NULL DEFAULT 0");
+        }
     }
 
     private boolean enabled(String key) {
@@ -120,8 +122,14 @@ public final class NagramiXMessageArchive extends SQLiteOpenHelper {
         ContentValues values = new ContentValues();
         values.put("dialog_id", dialogId);
         values.put("message_id", message.id);
+        values.put("thread_id", threadId(message));
         values.put("body", body);
         db.insertWithOnConflict("messages", null, values, SQLiteDatabase.CONFLICT_IGNORE);
+    }
+
+    private static int threadId(TLRPC.Message message) {
+        if (message == null || message.reply_to == null || !message.reply_to.forum_topic) return 0;
+        return message.reply_to.reply_to_top_id != 0 ? message.reply_to.reply_to_top_id : message.reply_to.reply_to_msg_id;
     }
 
     public synchronized void captureLoaded(long dialogId, List<MessageObject> messages) {
@@ -274,6 +282,7 @@ public final class NagramiXMessageArchive extends SQLiteOpenHelper {
             if (db.update("messages", values, "dialog_id=? AND message_id=?",
                     new String[]{Long.toString(dialogId), Integer.toString(id)}) != 0) {
                 markDeletedForDisplay(object.messageOwner);
+                object.nagramixArchivedDeleted = true;
                 remaining.remove(id);
             }
         }
@@ -309,21 +318,35 @@ public final class NagramiXMessageArchive extends SQLiteOpenHelper {
         }
     }
 
-    public synchronized void mergeDeleted(long dialogId, ArrayList<MessageObject> destination) {
+    public synchronized void mergeDeleted(long dialogId, long threadId, ArrayList<MessageObject> destination) {
         if (!enabled(NagramiXSettings.SHOW_DELETED_MESSAGES)) {
             return;
         }
+        if (destination.isEmpty()) return;
         Set<Integer> present = new HashSet<>();
-        for (MessageObject object : destination) present.add(object.getId());
+        int minId = Integer.MAX_VALUE;
+        int maxId = 0;
+        for (MessageObject object : destination) {
+            int id = object.getId();
+            if (id <= 0) continue;
+            present.add(id);
+            minId = Math.min(minId, id);
+            maxId = Math.max(maxId, id);
+        }
+        if (maxId == 0) return;
         try (Cursor cursor = getReadableDatabase().query("messages", new String[]{"message_id", "body"},
-                "dialog_id=? AND deleted_at>0", new String[]{Long.toString(dialogId)}, null, null, null)) {
+                "dialog_id=? AND thread_id=? AND deleted_at>0 AND message_id>=? AND message_id<=?",
+                new String[]{Long.toString(dialogId), Long.toString(threadId), Integer.toString(minId), Integer.toString(maxId)},
+                null, null, "message_id DESC", "100")) {
             while (cursor.moveToNext()) {
                 int id = cursor.getInt(0);
                 if (present.contains(id)) continue;
                 TLRPC.Message message = deserialize(cursor.getBlob(1));
                 if (message == null) continue;
                 markDeletedForDisplay(message);
-                destination.add(new MessageObject(account, message, true, false));
+                MessageObject archived = new MessageObject(account, message, true, false);
+                archived.nagramixArchivedDeleted = true;
+                destination.add(archived);
                 present.add(id);
             }
         }

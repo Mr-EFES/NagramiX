@@ -7,7 +7,8 @@ Android is the secondary platform of the independent NagramiX application. iOS r
 - Upstream: official [`DrKLO/Telegram`](https://github.com/DrKLO/Telegram), pinned to Android 12.10.1 and the exact commit in `android/upstream.env`.
 - Version: `0.2.5`.
 - Package id: `com.mr_efes.nagramix`.
-- Future release output: an ARM64 debug-signed APK, only after source parity.
+- Future release output: an ARM64 debug-signed APK, only by an explicitly
+  authorized manual workflow dispatch.
 
 The generated debug signature is not a production identity. Updating over a build signed with another key may require uninstalling the earlier application first.
 
@@ -15,16 +16,16 @@ The generated debug signature is not a production identity. Updating over a buil
 
 `android/apply_overlay.py` verifies the exact official Telegram Android commit, applies independent NagramiX branding/package metadata and injects NagramiX-owned Kotlin/Java sources. The complete upstream Android tree is deliberately not vendored.
 
-Android APK build and publication workflows remain absent until the second
-source review is complete and the parity gate passes honestly.
+The Android build workflow is manual-only and runs the source-parity gate before
+any checkout or build step. There is no automatic Android publication workflow.
 
 Feature work must be expressed as Kotlin/Java sources under `android/Sources/` plus exact integration operations in `android/apply_overlay.py`. A source-name check is not a feature port.
 
 ## Current implementation status
 
-The overlay integrates a NagramiX entry and native settings surface. Several
-0.2.5 integrations remain under source review; compilation and device states
-are separate. `docs/ANDROID-FUNCTION-PARITY.md` is authoritative.
+Every 0.2.5 registry feature has a native Android integration and the source
+gate passes. Compilation and device states remain separate and pending.
+`docs/ANDROID-FUNCTION-PARITY.md` is authoritative.
 
 ## Physical-device focus
 

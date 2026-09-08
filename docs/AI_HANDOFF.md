@@ -643,3 +643,26 @@ Android archive deletion handling no longer drops Telegram's global/non-channel
 events when `dialogId == 0`; it marks every previously eligible stored owner row
 matching each event message id. Dialog-scoped events retain their composite-key
 update. Clean-pin overlay application and diff checks passed; no APK was built.
+
+## Android source-parity review closure (2026-09-08 UTC)
+
+The seven findings from PR #13 are now closed in tracked source. Archive schema
+v2 records forum-topic ids; deleted reloads are constrained to the active topic
+and loaded positive-id window, ordered and capped. Global deletions retain their
+owning rows. Restored deletions short-circuit the native context-menu builder to
+local Copy, observed Edit History and local Delete only. Story confirmation now
+runs through the shared `StoryViewer.open` path. Copy-as-new support and DNS
+resolver generations retain the earlier centralized eligibility and stale-work
+fixes.
+
+All Android registry implementation rows are `implemented`, and the 0.2.5
+source-parity gate passes. A manual-only ARM64 workflow was restored with the
+parity gate before checkout/build; it was not dispatched. Verification: Python
+syntax, JSON/XML parsing, workflow YAML parsing, exact overlay application to a
+fresh official Android 12.10.1 pin, generated-tree `git diff --check`, upstream
+pin audit and parity gate. Not verified: Java/Kotlin compilation, Gradle, APK
+packaging, emulator or Samsung/physical-device behavior. No Gradle command ran
+and no APK was created. Exact next step: after explicit owner authorization,
+dispatch the manual ARM64 workflow, inspect its metadata/signature, then run the
+physical-device parity checklist; any runtime discrepancy reopens its registry
+row.

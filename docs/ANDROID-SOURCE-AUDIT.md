@@ -1,32 +1,34 @@
 # Android source-parity audit
 
-## Scope and current result
+## Scope and result
 
-The Android overlay is audited against NagramiX 0.2.5 and official Telegram
-Android 12.10.1 at `62b56a07ca7e30e39f7fd00a6728d6bbd716ca1c`.
-Source parity is **not yet complete**; compilation and device parity are also
-unverified.
+The Android overlay was re-audited for NagramiX 0.2.5 against official
+Telegram Android 12.10.1 at `62b56a07ca7e30e39f7fd00a6728d6bbd716ca1c`.
+All release-registry features have durable native Android integrations and the
+source-parity gate passes. This is source parity only: Android compilation and
+physical-device parity remain unverified until the owner authorizes the manual
+ARM64 build and live test.
 
-## Completed integrations
+## Review closure
 
-Tabs, icons, round-video camera, proxy rotation/visibility, outgoing-call
-confirmation, Force TCP, profiles, offline connection-state behavior and wide
-broadcast posts have durable native Android integrations.
+- Deleted-message reload merges are bounded to the positive-ID range of the
+  currently loaded history page, sorted newest first and capped at 100 rows.
+- Archive schema version 2 persists forum-topic thread ids; reload uses the
+  active `threadMessageId`, preventing cross-topic injection.
+- Dialog-scoped and Telegram global deletion events both mark stored rows.
+- A deleted archived message exposes only local Copy, observed Edit History and
+  local Delete actions; Reply, Pin, Forward, Report and other server actions are
+  never inserted.
+- Story confirmation is enforced in the shared `StoryViewer.open` entry path,
+  covering dialog strips, profiles, chat headers and other native callers.
+- Copy-as-new uses one shared support predicate for both menu visibility and the
+  defensive send path.
+- DNS provider changes invalidate completed cache entries and generation-tag
+  in-flight work so obsolete results cannot repopulate the cache.
 
-## Remaining review blockers
+## Validation boundary
 
-- Deleted archives now resolve global deletion events across their stored owning
-  dialogs; loaded-window bounds, forum-topic scope and server-action safety
-  remain under review.
-- Story confirmation must cover the shared viewer entry path.
-- Copy-as-new must hide or reject unsupported content before destination choice.
-- DNS provider changes must reject in-flight results from the old generation.
-
-The DNS generation invalidation is implemented locally and awaits review. The
-affected registry rows remain `in_progress`, so the parity gate fails.
-
-## Build boundary
-
-Android APK build and publication workflows are absent. No APK was built.
-Restore a manual-only workflow only after every blocker is fixed, the clean-pin
-overlay applies, and the parity gate passes.
+The exact-anchor overlay applies successfully to a clean checkout of the
+pinned official source, generated changes pass whitespace checks, and the 0.2.5
+registry gate passes. The ARM64 workflow is `workflow_dispatch` only and has not
+been dispatched. No Gradle task ran and no APK was created in this audit.

@@ -147,6 +147,7 @@ def main() -> None:
         message_object,
         "    public boolean sideMenuEnabled;\n    public int getMaxMessageTextWidth() {",
         "    public boolean sideMenuEnabled;\n"
+        "    public boolean nagramixArchivedDeleted;\n"
         "    private boolean nagramixWideChannelPost;\n\n"
         "    public void setNagramiXWideChannelPost(boolean value) {\n"
         "        if (nagramixWideChannelPost != value) {\n"
@@ -435,43 +436,36 @@ def main() -> None:
         "            updateFlash();",
     )
 
-    dialog_stories = source / "TMessagesProj" / "src" / "main" / "java" / "org" / "telegram" / "ui" / "Stories" / "DialogStoriesCell.java"
+    story_viewer = source / "TMessagesProj" / "src" / "main" / "java" / "org" / "telegram" / "ui" / "Stories" / "StoryViewer.java"
     replace_exact(
-        dialog_stories,
-        "import org.telegram.ui.ActionBar.AlertDialog;",
-        "import org.telegram.ui.ActionBar.AlertDialog;\n\n"
-        "import com.mr_efes.nagramix.NagramiXSettings;",
-    )
-    replace_exact(dialog_stories, "            openStoryForCell(cell, false);", "            openStoryForCell(cell, false, false);")
-    replace_exact(
-        dialog_stories,
-        "    public void openStoryForCell(StoryCell cell) {\n"
-        "        openStoryForCell(cell, false);\n"
-        "    }\n\n"
-        "    private void openStoryForCell(StoryCell cell, boolean overscroll) {",
-        "    public void openStoryForCell(StoryCell cell) {\n"
-        "        openStoryForCell(cell, false, false);\n"
-        "    }\n\n"
-        "    private void openStoryForCell(StoryCell cell, boolean overscroll, boolean confirmed) {",
+        story_viewer,
+        "public class StoryViewer implements NotificationCenter.NotificationCenterDelegate, BaseFragment.AttachedSheet, IPipSourceDelegate {",
+        "public class StoryViewer implements NotificationCenter.NotificationCenterDelegate, BaseFragment.AttachedSheet, IPipSourceDelegate {\n"
+        "    private boolean nagramixStoryOpenConfirmed;",
     )
     replace_exact(
-        dialog_stories,
-        "        try {\n"
-        "            performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP);",
-        "        if (!confirmed && !cell.isSelf && storiesController.hasUnreadStories(cell.dialogId)\n"
-        "                && NagramiXSettings.INSTANCE.preferences(getContext()).getBoolean(NagramiXSettings.CONFIRM_STORY_VIEWING, false)) {\n"
-        "            new AlertDialog.Builder(getContext(), fragment != null ? fragment.getResourceProvider() : null)\n"
-        "                    .setTitle(getString(R.string.NagramiXStoryViewConfirmTitle))\n"
-        "                    .setMessage(getString(R.string.NagramiXStoryViewConfirmText))\n"
-        "                    .setNegativeButton(getString(R.string.Cancel), null)\n"
-        "                    .setPositiveButton(getString(R.string.NagramiXStoryViewConfirmAction), (dialog, which) -> openStoryForCell(cell, overscroll, true))\n"
-        "                    .show();\n"
+        story_viewer,
+        "    public void open(int account, Context context, TL_stories.StoryItem storyItem, ArrayList<Long> peerIds, int position, StoriesController.StoriesList storiesList, TL_stories.PeerStories userStories, PlaceProvider placeProvider, boolean reversed) {\n"
+        "        if (!isContextSafe(context)) {",
+        "    public void open(int account, Context context, TL_stories.StoryItem storyItem, ArrayList<Long> peerIds, int position, StoriesController.StoriesList storiesList, TL_stories.PeerStories userStories, PlaceProvider placeProvider, boolean reversed) {\n"
+        "        long nagramixDialogId = storyItem != null ? storyItem.dialogId : peerIds != null && position >= 0 && position < peerIds.size() ? peerIds.get(position) : 0;\n"
+        "        boolean nagramixConfirmed = nagramixStoryOpenConfirmed;\n"
+        "        nagramixStoryOpenConfirmed = false;\n"
+        "        if (!nagramixConfirmed && nagramixDialogId != 0 && nagramixDialogId != UserConfig.getInstance(account).getClientUserId()\n"
+        "                && MessagesController.getInstance(account).getStoriesController().hasUnreadStories(nagramixDialogId)\n"
+        "                && com.mr_efes.nagramix.NagramiXSettings.INSTANCE.preferences(ApplicationLoader.applicationContext).getBoolean(com.mr_efes.nagramix.NagramiXSettings.CONFIRM_STORY_VIEWING, false)) {\n"
+        "            new org.telegram.ui.ActionBar.AlertDialog.Builder(context, fragment != null ? fragment.getResourceProvider() : null)\n"
+        "                    .setTitle(LocaleController.getString(R.string.NagramiXStoryViewConfirmTitle))\n"
+        "                    .setMessage(LocaleController.getString(R.string.NagramiXStoryViewConfirmText))\n"
+        "                    .setNegativeButton(LocaleController.getString(R.string.Cancel), null)\n"
+        "                    .setPositiveButton(LocaleController.getString(R.string.NagramiXStoryViewConfirmAction), (dialog, which) -> {\n"
+        "                        nagramixStoryOpenConfirmed = true;\n"
+        "                        open(account, context, storyItem, peerIds, position, storiesList, userStories, placeProvider, reversed);\n"
+        "                    }).show();\n"
         "            return;\n"
         "        }\n"
-        "        try {\n"
-        "            performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP);",
+        "        if (!isContextSafe(context)) {",
     )
-    replace_exact(dialog_stories, "        openStoryForCell(overscrollSelectedView, true);", "        openStoryForCell(overscrollSelectedView, true, false);")
 
     peer_stories = source / "TMessagesProj" / "src" / "main" / "java" / "org" / "telegram" / "ui" / "Stories" / "PeerStoriesView.java"
     replace_exact(
@@ -609,6 +603,28 @@ def main() -> None:
     )
 
     chat_activity = source / "TMessagesProj" / "src" / "main" / "java" / "org" / "telegram" / "ui" / "ChatActivity.java"
+    replace_exact(
+        chat_activity,
+        "        final boolean isEphemeralFromBot = isEphemeral && !message.isOut();",
+        "        final boolean isEphemeralFromBot = isEphemeral && !message.isOut();\n"
+        "        if (message.nagramixArchivedDeleted) {\n"
+        "            if (message.type == MessageObject.TYPE_TEXT || message.type == MessageObject.TYPE_ARTICLE || message.isAnimatedEmoji()\n"
+        "                    || message.isAnimatedEmojiStickers() || getMessageCaption(message, groupedMessages) != null) {\n"
+        "                items.add(LocaleController.getString(R.string.Copy));\n"
+        "                options.add(OPTION_COPY);\n"
+        "                icons.add(R.drawable.msg_copy);\n"
+        "            }\n"
+        "            if (!com.mr_efes.nagramix.NagramiXMessageArchive.getInstance(currentAccount).revisions(dialog_id, message.getId()).isEmpty()) {\n"
+        "                items.add(LocaleController.getString(R.string.NagramiXEditHistoryTitle));\n"
+        "                options.add(OPTION_NAGRAMIX_EDIT_HISTORY);\n"
+        "                icons.add(R.drawable.msg_edit);\n"
+        "            }\n"
+        "            items.add(LocaleController.getString(R.string.Delete));\n"
+        "            options.add(OPTION_DELETE);\n"
+        "            icons.add(deleteIconRes);\n"
+        "            return;\n"
+        "        }",
+    )
     replace_exact(
         chat_activity,
         "    public final static int OPTION_ADD_TO_TODO = 110;",
@@ -823,7 +839,7 @@ def main() -> None:
         "        ArrayList<MessageObject> messArr = (ArrayList<MessageObject>) args[2];\n"
         "        com.mr_efes.nagramix.NagramiXMessageArchive archive = com.mr_efes.nagramix.NagramiXMessageArchive.getInstance(currentAccount);\n"
         "        archive.captureLoaded(dialog_id, messArr);\n"
-        "        archive.mergeDeleted(dialog_id, messArr);",
+        "        archive.mergeDeleted(dialog_id, threadMessageId, messArr);",
     )
     replace_exact(
         chat_activity,

@@ -33,7 +33,9 @@ NagramiX является самостоятельным продуктом с �
 
 ### Статус Android
 
-Android строится на официальной базе Telegram. Source parity 0.2.5 ещё проходит review; APK workflow отсутствует до устранения всех блокеров.
+Android строится на официальной базе Telegram. Source parity 0.2.5 прошёл
+review; ручной ARM64 APK workflow подготовлен, но запускается только по прямой
+команде владельца. Компиляция и проверка на устройстве ещё не выполнялись.
 
 ## Совместимость
 
@@ -59,7 +61,7 @@ product/     единые функции, настройки, терминоло
 ios/         overlay и Swift/Objective-C реализации для Telegram-iOS
 android/     overlay и Kotlin/Java реализации для Telegram Android
 scripts/     общие проверки upstream и упаковка
-.github/     iOS IPA и общие upstream workflows; Android APK workflows заблокированы до parity
+.github/     iOS IPA workflow и ручной, parity-gated Android ARM64 workflow
 docs/        bootstrap, handoff и исторические release notes
 ```
 
