@@ -627,3 +627,12 @@ provider changes now increment a resolver generation and stale background
 results are rejected before cache insertion. No APK build was run. Exact next
 step: finish the remaining review items, rerun the clean-pin audit, and restore
 the manual workflow only after the gate honestly passes.
+
+### Copy-as-new eligibility follow-up (2026-09-08 UTC)
+
+The Android context menu now uses the same centralized support predicate as the
+send helper. Polls, invoices, paid/ephemeral/protected and other unsupported
+media no longer offer “Forward without source”, while the send path retains the
+same defensive validation. Clean-pin overlay application and diff checks passed;
+no APK build was run. Remaining blockers are archive scoping/menu safety and
+shared StoryViewer confirmation.
