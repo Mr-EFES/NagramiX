@@ -386,6 +386,34 @@ Changed files are the six reviewed files, `android/branding/AppIcons/1.png`, `an
 
 Sparse clean-pin overlay validation initially found a trailing blank line after plugin removal. The exact anchor was widened to consume the separator plus plugin line; the rerun applied successfully and generated-tree `git diff --check` passed.
 
+## Android wide channel posts and source audit (2026-09-08 UTC)
+
+GitHub CLI authorization was restored for `Mr-EFES` without placing a token in
+the repository remote. The Android parity history was recovered from
+`origin/feature/android-0.2.4-parity-next`, synchronized with current `main`,
+and continued on `work/feature/android-0.2.4-source-parity`.
+
+Android now has the native counterpart of `interface.wideChannelPosts`, default
+off. The setting is exposed under Interface. For an ordinary main-timeline post
+whose peer is a broadcast channel, `ChatMessageCell` suppresses its floating
+share/summarize controls and adds their 40 dp side allowance to native message
+measurement. Replies, threads, pinned/search/custom preview presentations,
+sponsored messages and megagroups retain official layout behavior. Text,
+media, reactions, comments and context actions remain in Telegram's existing
+cell pipeline.
+
+The overlay applied cleanly to official Telegram Android 12.10.1 at
+`62b56a07ca7e30e39f7fd00a6728d6bbd716ca1c`; Python compilation and both
+repository and generated-tree `git diff --check` passed. Native Gradle/NDK
+compilation and physical-device layout testing remain pending.
+
+The final source audit is recorded in `docs/ANDROID-SOURCE-AUDIT.md`. Full
+source parity is not yet achieved: deleted/edit archives require final review,
+proxy failover is not ported, and offline-startup behavior is unaudited. APK
+workflows must remain disabled. Exact next step: close those three source
+blockers, pass `scripts/check_android_release_ready.py --release 0.2.5`, then
+restore the ARM64 APK workflow and run native CI.
+
 ## Android 0.2.4 parity build hold (2026-09-02 UTC)
 
 The owner explicitly prohibited further Android builds or APK publication until the Android implementation reaches iOS 0.2.4 feature parity. Active Android Actions runs `33606103552` and `33605904230` were cancelled, and the obsolete non-current-base APK plus its Android metadata/provenance assets were removed from pre-release `v0.2.4-rc1`. The iOS IPA remains available.

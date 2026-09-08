@@ -131,6 +131,81 @@ def main() -> None:
         source / "TMessagesProj" / "src" / "main" / "java" / "com" / "mr_efes" / "nagramix" / "NagramiXDnsResolver.java",
     )
 
+    message_object = source / "TMessagesProj" / "src" / "main" / "java" / "org" / "telegram" / "messenger" / "MessageObject.java"
+    replace_exact(
+        message_object,
+        "    public boolean sideMenuEnabled;\n    public int getMaxMessageTextWidth() {",
+        "    public boolean sideMenuEnabled;\n"
+        "    private boolean nagramixWideChannelPost;\n\n"
+        "    public void setNagramiXWideChannelPost(boolean value) {\n"
+        "        if (nagramixWideChannelPost != value) {\n"
+        "            nagramixWideChannelPost = value;\n"
+        "            resetLayout();\n"
+        "        }\n"
+        "    }\n\n"
+        "    public int getMaxMessageTextWidth() {",
+    )
+    replace_exact(
+        message_object,
+        "            maxWidth = generatedWithMinSize - dp(type == TYPE_ARTICLE ? 40 : 80);",
+        "            maxWidth = generatedWithMinSize - dp(type == TYPE_ARTICLE ? 40 : nagramixWideChannelPost ? 40 : 80);",
+    )
+
+    chat_message_cell = source / "TMessagesProj" / "src" / "main" / "java" / "org" / "telegram" / "ui" / "Cells" / "ChatMessageCell.java"
+    replace_exact(
+        chat_message_cell,
+        "    private boolean drawSummarizeButton;",
+        "    private boolean drawSummarizeButton;\n    private boolean nagramixWideChannelPost;",
+    )
+    replace_exact(
+        chat_message_cell,
+        "    private void setMessageContent(MessageObject messageObject, MessageObject.GroupedMessages groupedMessages, boolean bottomNear, boolean topNear, boolean firstInChat, boolean lastInChatList) {\n"
+        "        if (messageObject.checkLayout() || currentPosition != null && lastHeight != AndroidUtilities.displaySize.y) {",
+        "    private void setMessageContent(MessageObject messageObject, MessageObject.GroupedMessages groupedMessages, boolean bottomNear, boolean topNear, boolean firstInChat, boolean lastInChatList) {\n"
+        "        nagramixWideChannelPost = shouldUseNagramiXWideChannelPost(messageObject);\n"
+        "        messageObject.setNagramiXWideChannelPost(nagramixWideChannelPost);\n"
+        "        if (messageObject.checkLayout() || currentPosition != null && lastHeight != AndroidUtilities.displaySize.y) {",
+    )
+    replace_exact(
+        chat_message_cell,
+        "            drawSummarizeButton = TranslateController.isSummarizable(messageObject);",
+        "            drawSummarizeButton = TranslateController.isSummarizable(messageObject);\n"
+        "            if (nagramixWideChannelPost) {\n"
+        "                drawSideButton = 0;\n"
+        "                drawSideButton2 = 0;\n"
+        "                drawSummarizeButton = false;\n"
+        "            }",
+    )
+    replace_exact(
+        chat_message_cell,
+        "    public int getParentWidth() {\n"
+        "        MessageObject object = currentMessageObject == null ? messageObjectToSet : currentMessageObject;\n"
+        "        if (object != null && object.preview && parentWidth > 0) {\n"
+        "            return parentWidth;\n"
+        "        }\n"
+        "        return AndroidUtilities.displaySize.x;\n"
+        "    }",
+        "    private boolean shouldUseNagramiXWideChannelPost(MessageObject messageObject) {\n"
+        "        if (messageObject == null || messageObject.messageOwner == null || messageObject.messageOwner.peer_id == null\n"
+        "                || messageObject.messageOwner.peer_id.channel_id == 0 || messageObject.preview || messageObject.isRepostPreview\n"
+        "                || messageObject.isSponsored() || messageObject.searchType != 0 || isRepliesChat || isThreadChat\n"
+        "                || isPinnedChat || isSideMenued) {\n"
+        "            return false;\n"
+        "        }\n"
+        "        TLRPC.Chat chat = MessagesController.getInstance(currentAccount).getChat(messageObject.messageOwner.peer_id.channel_id);\n"
+        "        return chat != null && ChatObject.isChannel(chat) && !chat.megagroup\n"
+        "                && com.mr_efes.nagramix.NagramiXSettings.INSTANCE.preferences(ApplicationLoader.applicationContext)\n"
+        "                .getBoolean(com.mr_efes.nagramix.NagramiXSettings.WIDE_CHANNEL_POSTS, false);\n"
+        "    }\n\n"
+        "    public int getParentWidth() {\n"
+        "        MessageObject object = currentMessageObject == null ? messageObjectToSet : currentMessageObject;\n"
+        "        if (object != null && object.preview && parentWidth > 0) {\n"
+        "            return parentWidth;\n"
+        "        }\n"
+        "        return AndroidUtilities.displaySize.x + (nagramixWideChannelPost ? dp(40) : 0);\n"
+        "    }",
+    )
+
     connections_manager = source / "TMessagesProj" / "src" / "main" / "java" / "org" / "telegram" / "tgnet" / "ConnectionsManager.java"
     replace_exact(
         connections_manager,

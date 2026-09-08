@@ -1,4 +1,4 @@
-# NagramiX 0.2.4 Android / iOS functional parity
+# NagramiX 0.2.5 Android / iOS functional parity
 
 NagramiX is one independent product with native clients based on official Telegram sources. iOS is primary and currently uses Telegram-iOS 12.9.2. Android is secondary and currently uses official Telegram Android 12.10.1.
 
@@ -9,13 +9,14 @@ Status meanings:
 - **Pending device:** implemented in source but not tested on a physical device.
 - **Verified:** tested on the relevant physical device.
 
-| Capability | iOS 0.2.4 | Android official-base status | Device validation |
+| Capability | iOS 0.2.5 | Android official-base status | Device validation |
 | --- | --- | --- | --- |
 | Independent branding/package | Implemented | Implemented in Android overlay | Pending device |
 | NagramiX settings ownership | Implemented | Settings namespace and native settings screen integrated | Pending device |
 | Hide Contacts tab | Implemented, default on | Integrated with native main-tab visibility | Pending device |
 | Hide Calls tab | Implemented, default on | Integrated; Settings occupies the shared native position | Pending device |
 | Tab titles/search controls | Implemented | Tab-title visibility and separate native Search button integrated | Pending device |
+| Wide channel posts | Implemented | Broadcast-channel timeline expands into the hidden side-control allowance when enabled | Pending compile/device |
 | Eight NagramiX app icons | Implemented | Eight Android-owned launcher aliases integrated with the native icon selector | Pending compile/device |
 | Front/rear round video | Implemented | Initial camera setting integrated with native recorder paths | Pending device |
 | Story controls/confirmation | Implemented | Strip visibility, pre-view confirmation and repost setting integrated; camera-swipe control not applicable to current Android UI | Pending device |

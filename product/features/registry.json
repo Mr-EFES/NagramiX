@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "product": "NagramiX",
-  "release": "0.2.4",
+  "release": "0.2.5",
   "platformPriority": [
     "ios",
     "android"
@@ -198,6 +198,21 @@
       },
       "android": {
         "implementation": "not_started",
+        "compile": "not_started",
+        "device": "not_started"
+      }
+    },
+    {
+      "id": "wide_channel_posts",
+      "title": "Wide posts in broadcast-channel timelines",
+      "specification": "specified",
+      "ios": {
+        "implementation": "implemented",
+        "compile": "compile_passed",
+        "device": "device_pending"
+      },
+      "android": {
+        "implementation": "implemented",
         "compile": "not_started",
         "device": "not_started"
       }

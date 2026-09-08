@@ -10,6 +10,7 @@
     <string name="NagramiXShowTabTitles">Показывать названия вкладок</string>
     <string name="NagramiXShowSearchTab">Показывать отдельную вкладку поиска</string>
     <string name="NagramiXHideStories">Скрыть истории</string>
+    <string name="NagramiXWideChannelPosts">Широкие посты в каналах</string>
     <string name="NagramiXShowProfileId">Показывать ID профиля</string>
     <string name="NagramiXShowRegistrationDate">Показывать примерную дату регистрации</string>
     <string name="NagramiXShowMutualContactIcon">Показывать значок взаимного контакта</string>

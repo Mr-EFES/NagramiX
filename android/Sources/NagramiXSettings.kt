@@ -18,6 +18,7 @@ object NagramiXSettings {
     const val SHOW_TAB_TITLES = "interface.showTabTitles"
     const val SHOW_SEARCH_TAB = "interface.showSearchTab"
     const val HIDE_STORIES = "interface.hideStories"
+    const val WIDE_CHANNEL_POSTS = "interface.wideChannelPosts"
     const val REAR_VIDEO_MESSAGES = "videoMessages.useRearCamera"
     const val DISABLE_STORY_CAMERA_SWIPE = "stories.disableCameraSwipe"
     const val CONFIRM_STORY_VIEWING = "stories.confirmViewing"
@@ -50,6 +51,7 @@ object NagramiXSettings {
             .putBoolean(SHOW_TAB_TITLES, true)
             .putBoolean(SHOW_SEARCH_TAB, false)
             .putBoolean(HIDE_STORIES, false)
+            .putBoolean(WIDE_CHANNEL_POSTS, false)
             .putBoolean(REAR_VIDEO_MESSAGES, false)
             .putBoolean(DISABLE_STORY_CAMERA_SWIPE, false)
             .putBoolean(CONFIRM_STORY_VIEWING, false)

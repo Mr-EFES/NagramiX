@@ -11,6 +11,7 @@
     <string name="NagramiXShowTabTitles">Show tab titles</string>
     <string name="NagramiXShowSearchTab">Show separate Search tab</string>
     <string name="NagramiXHideStories">Hide stories</string>
+    <string name="NagramiXWideChannelPosts">Wide channel posts</string>
     <string name="NagramiXShowProfileId">Show profile ID</string>
     <string name="NagramiXShowRegistrationDate">Show approximate registration date</string>
     <string name="NagramiXShowMutualContactIcon">Show mutual-contact marker</string>

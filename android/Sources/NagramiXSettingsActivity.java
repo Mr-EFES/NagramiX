@@ -66,6 +66,7 @@ public class NagramiXSettingsActivity extends BaseFragment {
         addCheck(NagramiXSettings.SHOW_TAB_TITLES, R.string.NagramiXShowTabTitles);
         addCheck(NagramiXSettings.SHOW_SEARCH_TAB, R.string.NagramiXShowSearchTab);
         addCheck(NagramiXSettings.HIDE_STORIES, R.string.NagramiXHideStories);
+        addCheck(NagramiXSettings.WIDE_CHANNEL_POSTS, R.string.NagramiXWideChannelPosts);
         addCheck(NagramiXSettings.SHOW_PROFILE_ID, R.string.NagramiXShowProfileId);
         addCheck(NagramiXSettings.SHOW_REGISTRATION_DATE, R.string.NagramiXShowRegistrationDate);
         addCheck(NagramiXSettings.SHOW_MUTUAL_CONTACT_ICON, R.string.NagramiXShowMutualContactIcon);
