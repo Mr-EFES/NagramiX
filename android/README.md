@@ -5,7 +5,7 @@ Android is the secondary platform of the independent NagramiX application. iOS r
 ## Base and output
 
 - Upstream: official [`DrKLO/Telegram`](https://github.com/DrKLO/Telegram), pinned to Android 12.10.1 and the exact commit in `android/upstream.env`.
-- Version: `0.2.4`.
+- Version: `0.2.5`.
 - Package id: `com.mr_efes.nagramix`.
 - Future release output: an ARM64 debug-signed APK, only after source parity.
 
@@ -15,15 +15,14 @@ The generated debug signature is not a production identity. Updating over a buil
 
 `android/apply_overlay.py` verifies the exact official Telegram Android commit, applies independent NagramiX branding/package metadata and injects NagramiX-owned Kotlin/Java sources. The complete upstream Android tree is deliberately not vendored.
 
-Android APK build and publication workflows are intentionally absent. They may
-only be restored after every Android 0.2.4 registry row is implemented and a
-source-parity audit passes.
+The ARM64 APK build workflow is manual-only and guarded by the source-parity
+check. Publication remains unavailable until an authorized native build passes.
 
 Feature work must be expressed as Kotlin/Java sources under `android/Sources/` plus exact integration operations in `android/apply_overlay.py`. A source-name check is not a feature port.
 
 ## Current implementation status
 
-The overlay integrates a NagramiX entry in Telegram's main settings and a native settings screen backed by the canonical NagramiX preference namespace. The screen exposes the 0.2.4 boolean settings with English and Russian resources. A visible switch does **not** mean its product integration is complete; feature status changes only after the corresponding Telegram Android behavior is patched and verified. `docs/ANDROID-FUNCTION-PARITY.md` is the authoritative implementation and device-validation backlog.
+The overlay integrates a NagramiX entry in Telegram's main settings and a native settings screen backed by the canonical NagramiX preference namespace. Source integrations are complete for the 0.2.5 registry, but compilation and device verification remain separate states. `docs/ANDROID-FUNCTION-PARITY.md` is authoritative.
 
 ## Physical-device focus
 

@@ -41,6 +41,7 @@ public class NagramiXSettingsActivity extends BaseFragment {
     private static final int INFO = 2;
     private static final int ACTION = 3;
     private static final int DNS = 4;
+    private static final int PROXY_TIMEOUT = 5;
 
     private final ArrayList<Item> items = new ArrayList<>();
     private SharedPreferences preferences;
@@ -59,6 +60,7 @@ public class NagramiXSettingsActivity extends BaseFragment {
     public View createView(Context context) {
         NagramiXSettings.INSTANCE.initializeDefaults(context);
         preferences = NagramiXSettings.INSTANCE.preferences(context);
+        NagramiXSettings.syncProxyRotation(context);
         items.clear();
 
         actionBar.setBackButtonImage(R.drawable.ic_ab_back);
@@ -98,6 +100,7 @@ public class NagramiXSettingsActivity extends BaseFragment {
         addHeader(R.string.NagramiXCategoryOther);
         addDns();
         addCheck(NagramiXSettings.PROXY_AUTO_SWITCH, R.string.NagramiXProxyAutoSwitch);
+        items.add(new Item(PROXY_TIMEOUT, NagramiXSettings.PROXY_AUTO_SWITCH_TIMEOUT, R.string.NagramiXProxyAutoSwitchTimeout));
         addCheck(NagramiXSettings.SHOW_PROXY_BUTTON, R.string.NagramiXShowProxyButton);
         addCheck(NagramiXSettings.HIDE_PROXY_SPONSOR_CHANNEL, R.string.NagramiXHideProxySponsorChannel);
         addInfo(R.string.NagramiXOtherInfo);
@@ -125,9 +128,14 @@ public class NagramiXSettingsActivity extends BaseFragment {
                 showDnsProviders();
                 return;
             }
+            if (item.viewType == PROXY_TIMEOUT) {
+                showProxyTimeouts();
+                return;
+            }
             if (item.key == null) return;
             boolean value = !preferences.getBoolean(item.key, NagramiXSettings.booleanDefault(item.key));
             preferences.edit().putBoolean(item.key, value).apply();
+            if (NagramiXSettings.PROXY_AUTO_SWITCH.equals(item.key)) NagramiXSettings.syncProxyRotation(getContext());
             ((TextCheckCell) view).setChecked(value);
             NotificationCenter.getInstance(currentAccount).postNotificationName(NotificationCenter.updateInterfaces, org.telegram.messenger.MessagesController.UPDATE_MASK_ALL);
         });
@@ -212,6 +220,22 @@ public class NagramiXSettingsActivity extends BaseFragment {
         showDialog(dialog);
     }
 
+    private void showProxyTimeouts() {
+        final int[] values = {5, 10, 15, 30, 60};
+        CharSequence[] labels = new CharSequence[values.length];
+        for (int i = 0; i < values.length; i++) {
+            labels[i] = LocaleController.formatString(R.string.NagramiXSeconds, values[i]);
+        }
+        AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity(), resourceProvider);
+        builder.setTitle(LocaleController.getString(R.string.NagramiXProxyAutoSwitchTimeout));
+        builder.setItems(labels, (dialog, which) -> {
+            preferences.edit().putInt(NagramiXSettings.PROXY_AUTO_SWITCH_TIMEOUT, values[which]).apply();
+            NagramiXSettings.syncProxyRotation(getContext());
+            notifyListChanged();
+        });
+        showDialog(builder.create());
+    }
+
     private void clearDnsCache() {
         org.telegram.tgnet.ConnectionsManager.nagramixClearDnsCache();
     }
@@ -228,7 +252,7 @@ public class NagramiXSettingsActivity extends BaseFragment {
 
     private final class ListAdapter extends RecyclerListView.SelectionAdapter {
         @Override
-        public boolean isEnabled(RecyclerView.ViewHolder holder) { return holder.getItemViewType() == CHECK || holder.getItemViewType() == ACTION || holder.getItemViewType() == DNS; }
+        public boolean isEnabled(RecyclerView.ViewHolder holder) { return holder.getItemViewType() == CHECK || holder.getItemViewType() == ACTION || holder.getItemViewType() == DNS || holder.getItemViewType() == PROXY_TIMEOUT; }
         @Override
         public int getItemCount() { return items.size(); }
         @Override
@@ -237,7 +261,7 @@ public class NagramiXSettingsActivity extends BaseFragment {
         @NonNull
         @Override
         public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int type) {
-            View view = type == HEADER ? new HeaderCell(getContext()) : type == CHECK ? new TextCheckCell(getContext()) : type == ACTION || type == DNS ? new TextSettingsCell(getContext()) : new TextInfoPrivacyCell(getContext());
+            View view = type == HEADER ? new HeaderCell(getContext()) : type == CHECK ? new TextCheckCell(getContext()) : type == ACTION || type == DNS || type == PROXY_TIMEOUT ? new TextSettingsCell(getContext()) : new TextInfoPrivacyCell(getContext());
             return new RecyclerListView.Holder(view);
         }
 
@@ -257,6 +281,9 @@ public class NagramiXSettingsActivity extends BaseFragment {
             } else if (item.viewType == DNS) {
                 String provider = preferences.getString(NagramiXSettings.DNS_PROVIDER, "system");
                 ((TextSettingsCell) holder.itemView).setTextAndValue(text, dnsProviderTitle(provider), false);
+            } else if (item.viewType == PROXY_TIMEOUT) {
+                int seconds = preferences.getInt(NagramiXSettings.PROXY_AUTO_SWITCH_TIMEOUT, 15);
+                ((TextSettingsCell) holder.itemView).setTextAndValue(text, LocaleController.formatString(R.string.NagramiXSeconds, seconds), true);
             } else {
                 TextInfoPrivacyCell cell = (TextInfoPrivacyCell) holder.itemView;
                 cell.setText(TextUtils.isEmpty(text) ? null : text);

@@ -424,6 +424,34 @@ overlay copies generated 512px launcher assets instead of decoding the 2048px
 branding masters. These corrections passed clean-pin overlay application and
 static checks; native compilation and device validation remain pending.
 
+## Android 0.2.5 source parity ready for authorized build (2026-09-08 UTC)
+
+The remaining source-audit rows were closed without building an APK. Deleted
+messages now receive their local marker immediately while their eligible
+snapshot is retained for reload; edit-revision capture/view/cleanup paths were
+reviewed and retained. Canonical proxy settings now synchronize Telegram
+Android's existing native `ProxyRotationController`, including the selectable
+5/10/15/30/60-second delay. The main proxy menu can stay visible while disabled
+and proxy-sponsored promo responses are discarded when requested.
+
+Offline startup uses Telegram Android's existing connection-state behavior:
+`ConnectionStateWaitingForNetwork` does not schedule rotation and cancels a
+pending rotation runnable, while NagramiX DNS and custom validation execute off
+the UI thread. No parallel network monitor was introduced.
+
+The registry and release metadata now target 0.2.5, and the source-parity gate
+passes. `.github/workflows/build-android-apk.yml` is restored with
+`workflow_dispatch` as its only trigger and includes the parity gate before any
+toolchain or build work. It has not been dispatched, in accordance with the
+owner's explicit instruction not to build without a separate command. Overlay
+application, Python/JSON/YAML validation and repository/generated-tree
+`diff --check` passed. Native Gradle/NDK compilation, APK inspection and every
+physical-device row remain pending.
+
+Exact next step: wait for explicit authorization to dispatch the manual ARM64
+APK workflow. Do not restore publication or claim runtime parity before the
+artifact and Samsung/Android device tests pass.
+
 ## Android 0.2.4 parity build hold (2026-09-02 UTC)
 
 The owner explicitly prohibited further Android builds or APK publication until the Android implementation reaches iOS 0.2.4 feature parity. Active Android Actions runs `33606103552` and `33605904230` were cancelled, and the obsolete non-current-base APK plus its Android metadata/provenance assets were removed from pre-release `v0.2.4-rc1`. The iOS IPA remains available.

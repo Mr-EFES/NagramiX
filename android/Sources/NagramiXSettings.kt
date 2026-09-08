@@ -2,6 +2,10 @@ package com.mr_efes.nagramix
 
 import android.content.Context
 import android.content.SharedPreferences
+import org.telegram.messenger.MessagesController
+import org.telegram.messenger.NotificationCenter
+import org.telegram.messenger.ProxyRotationController
+import org.telegram.messenger.SharedConfig
 
 /**
  * NagramiX-owned Android settings namespace.
@@ -70,6 +74,22 @@ object NagramiXSettings {
             .putBoolean(HIDE_PROXY_SPONSOR_CHANNEL, true)
             .putBoolean("defaults.initialized", true)
             .apply()
+    }
+
+    @JvmStatic
+    fun syncProxyRotation(context: Context) {
+        val preferences = preferences(context)
+        val enabled = preferences.getBoolean(PROXY_AUTO_SWITCH, false)
+        val seconds = preferences.getInt(PROXY_AUTO_SWITCH_TIMEOUT, 15)
+        val timeoutIndex = ProxyRotationController.ROTATION_TIMEOUTS.indexOf(seconds)
+            .takeIf { it >= 0 } ?: ProxyRotationController.DEFAULT_TIMEOUT_INDEX
+        SharedConfig.proxyRotationEnabled = enabled
+        SharedConfig.proxyRotationTimeout = timeoutIndex
+        MessagesController.getGlobalMainSettings().edit()
+            .putBoolean("proxyRotationEnabled", enabled)
+            .putInt("proxyRotationTimeout", timeoutIndex)
+            .apply()
+        NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.proxySettingsChanged)
     }
 
     @JvmStatic

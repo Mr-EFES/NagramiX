@@ -131,6 +131,17 @@ def main() -> None:
         source / "TMessagesProj" / "src" / "main" / "java" / "com" / "mr_efes" / "nagramix" / "NagramiXDnsResolver.java",
     )
 
+    application_loader = source / "TMessagesProj" / "src" / "main" / "java" / "org" / "telegram" / "messenger" / "ApplicationLoader.java"
+    replace_exact(
+        application_loader,
+        "        LauncherIconController.tryFixLauncherIconIfNeeded();\n"
+        "        ProxyRotationController.init();",
+        "        LauncherIconController.tryFixLauncherIconIfNeeded();\n"
+        "        com.mr_efes.nagramix.NagramiXSettings.INSTANCE.initializeDefaults(applicationContext);\n"
+        "        com.mr_efes.nagramix.NagramiXSettings.syncProxyRotation(applicationContext);\n"
+        "        ProxyRotationController.init();",
+    )
+
     message_object = source / "TMessagesProj" / "src" / "main" / "java" / "org" / "telegram" / "messenger" / "MessageObject.java"
     replace_exact(
         message_object,
@@ -338,6 +349,26 @@ def main() -> None:
         "        }\n\n"
         "        hasOnlySlefStories = onlySelfStories;\n\n"
         "        boolean oldStoriesCellVisibility = dialogStoriesCellVisible;",
+    )
+    replace_exact(
+        dialogs_activity,
+        "            final boolean proxyVisible = proxyEnabled && !TextUtils.isEmpty(proxyAddress)\n"
+        "                    || getMessagesController().blockedCountry && !SharedConfig.proxyList.isEmpty();",
+        "            final boolean proxyVisible = NagramiXSettings.INSTANCE.preferences(ApplicationLoader.applicationContext).getBoolean(NagramiXSettings.SHOW_PROXY_BUTTON, true)\n"
+        "                    || proxyEnabled && !TextUtils.isEmpty(proxyAddress)\n"
+        "                    || getMessagesController().blockedCountry && !SharedConfig.proxyList.isEmpty();",
+    )
+
+    messages_controller = source / "TMessagesProj" / "src" / "main" / "java" / "org" / "telegram" / "messenger" / "MessagesController.java"
+    replace_exact(
+        messages_controller,
+        "                if (res.proxy) {\n"
+        "                    promoDialogType = PROMO_TYPE_PROXY;",
+        "                if (res.proxy) {\n"
+        "                    if (com.mr_efes.nagramix.NagramiXSettings.INSTANCE.preferences(ApplicationLoader.applicationContext).getBoolean(com.mr_efes.nagramix.NagramiXSettings.HIDE_PROXY_SPONSOR_CHANNEL, true)) {\n"
+        "                        noDialog = true;\n"
+        "                    }\n"
+        "                    promoDialogType = PROMO_TYPE_PROXY;",
     )
 
     voip_service = source / "TMessagesProj" / "src" / "main" / "java" / "org" / "telegram" / "messenger" / "voip" / "VoIPService.java"

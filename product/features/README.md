@@ -17,4 +17,6 @@ A feature cannot be called cross-platform complete until both platform records a
 
 Detailed shared contracts live beside the registry, including
 [`profile-info.md`](profile-info.md), [`dns-doh.md`](dns-doh.md), and
-[`outgoing-call-confirmation.md`](outgoing-call-confirmation.md).
+[`outgoing-call-confirmation.md`](outgoing-call-confirmation.md),
+[`proxy-failover.md`](proxy-failover.md), and
+[`offline-startup.md`](offline-startup.md).

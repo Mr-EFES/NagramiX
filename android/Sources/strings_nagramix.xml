@@ -34,6 +34,8 @@
     <string name="NagramiXForceTcpCalls">Force TCP for calls</string>
     <string name="NagramiXFeaturesInfo">Local archives cannot recover content that this client did not receive.</string>
     <string name="NagramiXProxyAutoSwitch">Automatically switch unavailable proxies</string>
+    <string name="NagramiXProxyAutoSwitchTimeout">Proxy failover delay</string>
+    <string name="NagramiXSeconds">%1$d seconds</string>
     <string name="NagramiXShowProxyButton">Always show proxy button</string>
     <string name="NagramiXHideProxySponsorChannel">Hide proxy sponsor channel</string>
     <string name="NagramiXOtherInfo">Network behavior still requires its platform integration and device testing.</string>

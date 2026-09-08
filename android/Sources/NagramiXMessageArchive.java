@@ -273,10 +273,22 @@ public final class NagramiXMessageArchive extends SQLiteOpenHelper {
             values.put("deleted_at", deletedAt);
             if (db.update("messages", values, "dialog_id=? AND message_id=?",
                     new String[]{Long.toString(dialogId), Integer.toString(id)}) != 0) {
+                markDeletedForDisplay(object.messageOwner);
                 remaining.remove(id);
             }
         }
         return remaining;
+    }
+
+    private static void markDeletedForDisplay(TLRPC.Message message) {
+        String marker = org.telegram.messenger.LocaleController.getString(org.telegram.messenger.R.string.NagramiXDeletedMarker);
+        String text = message.message == null ? "" : message.message;
+        if (!text.endsWith("\n" + marker) && !text.equals(marker)) {
+            message.message = text.isEmpty() ? marker : text + "\n" + marker;
+        }
+        message.noforwards = true;
+        message.unread = false;
+        message.media_unread = false;
     }
 
     public synchronized void markDeleted(long dialogId, List<Integer> ids) {
@@ -305,11 +317,7 @@ public final class NagramiXMessageArchive extends SQLiteOpenHelper {
                 if (present.contains(id)) continue;
                 TLRPC.Message message = deserialize(cursor.getBlob(1));
                 if (message == null) continue;
-                String marker = "\n" + org.telegram.messenger.LocaleController.getString(org.telegram.messenger.R.string.NagramiXDeletedMarker);
-                message.message = (message.message == null ? "" : message.message) + marker;
-                message.noforwards = true;
-                message.unread = false;
-                message.media_unread = false;
+                markDeletedForDisplay(message);
                 destination.add(new MessageObject(account, message, true, false));
                 present.add(id);
             }

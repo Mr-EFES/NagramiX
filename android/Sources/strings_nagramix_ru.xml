@@ -33,6 +33,8 @@
     <string name="NagramiXForceTcpCalls">Принудительно использовать TCP для звонков</string>
     <string name="NagramiXFeaturesInfo">Локальный архив не может восстановить содержимое, которое этот клиент не получил.</string>
     <string name="NagramiXProxyAutoSwitch">Автоматически переключать недоступные прокси</string>
+    <string name="NagramiXProxyAutoSwitchTimeout">Задержка переключения прокси</string>
+    <string name="NagramiXSeconds">%1$d с</string>
     <string name="NagramiXShowProxyButton">Всегда показывать кнопку прокси</string>
     <string name="NagramiXHideProxySponsorChannel">Скрывать канал спонсора прокси</string>
     <string name="NagramiXOtherInfo">Сетевые настройки требуют завершения платформенной интеграции и проверки на устройстве.</string>

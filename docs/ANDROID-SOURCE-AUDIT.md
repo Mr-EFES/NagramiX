@@ -1,50 +1,39 @@
 # Android source-parity audit
 
-## Scope
+## Scope and result
 
-This audit compares the tracked Android overlay with the NagramiX 0.2.5
-feature registry and the pinned official Telegram Android 12.10.1 source. It
-records source integration only; compilation and physical-device evidence are
-tracked separately.
+The tracked Android overlay was compared with the NagramiX 0.2.5 registry and
+official Telegram Android 12.10.1 at
+`62b56a07ca7e30e39f7fd00a6728d6bbd716ca1c`. Every registry row now has a
+native Android integration. This is **source parity**, not compiled or
+physical-device parity.
 
-## Source-complete rows
+## Completed integration review
 
-The tracked overlay has native Android integration for settings ownership,
-tabs, launcher icons, round-video initial camera selection, story controls,
-copy-as-new, DNS/DoH, outgoing-call confirmation, Force TCP, profile metadata
-and wide broadcast-channel posts. The wide-post implementation is limited to
-ordinary broadcast-channel timelines, disables the floating share and
-summarize controls, and expands the existing message width allowance by the
-space reserved for those controls. It excludes replies, threads, pinned and
-search presentations, sponsored messages, previews and megagroups.
+- Deleted/edit archives restrict capture to eligible incoming cloud messages,
+  preserve Telegram's serialized entities/media references, mark observed
+  deletions immediately, merge archived deletions after reload, expose revision
+  history and clear account-owned data on logout.
+- Proxy behavior reuses Telegram Android's native asynchronous `checkProxy` and
+  `ProxyRotationController`. Canonical NagramiX preferences synchronize the
+  enabled state and 5/10/15/30/60-second timeout; waiting-for-network cancels
+  pending rotation through Telegram's existing connection-state observer.
+- The proxy entry can remain visible while disabled, and proxy-sponsored promo
+  dialogs are discarded when the canonical hide setting is enabled.
+- System DNS uses Android `InetAddress` on Telegram's background resolver task.
+  DoH validation uses a lifecycle-invalidated dedicated executor.
+- Wide posts remain restricted to ordinary broadcast-channel timelines.
 
-## Remaining source blockers
+## Build boundary
 
-Android source parity is **not complete**. APK workflows must remain disabled
-until all of these blockers are resolved:
+The parity gate passes and the ARM64 debug APK workflow is restored with
+`workflow_dispatch` as its only trigger. It validates the current pin, secrets,
+ARM64-only libraries, package/version, debug signature, SHA-256 and provenance.
+The workflow has **not** been dispatched. Native Gradle/NDK compilation, APK
+metadata and all physical-device behavior remain unverified.
 
-1. `deleted_messages` and `edit_history` remain in progress. Their storage,
-   deletion capture, merge and viewer paths need a focused lifecycle,
-   exclusion and account-cleanup review before being promoted to Implemented.
-2. `proxy_failover` is not ported. The existing Android settings are not a
-   connectivity controller and must not be counted as implementation.
-3. `offline_startup` is not ported. Android needs an evidence-based audit of
-   startup and unavailable-proxy behavior before deciding whether a platform
-   patch is required.
+## Exact next step
 
-## Verification performed
-
-- The overlay applies cleanly to official Telegram Android commit
-  `62b56a07ca7e30e39f7fd00a6728d6bbd716ca1c`.
-- Exact anchors for the wide-post integration match once.
-- PR #9 review corrections cover native System DNS, lifecycle-safe dedicated
-  custom-DoH validation, canonical positive chat IDs and launcher-sized assets.
-- Python compilation and repository/generated-tree whitespace validation pass.
-- Native Gradle/NDK compilation and physical-device behavior are not verified
-  by this audit.
-
-## Next step
-
-Finish the archive review, implement proxy failover, audit offline startup,
-then rerun the parity gate. Only after it passes should the ARM64 APK workflow
-be restored and executed.
+Wait for explicit product-owner authorization to run **Build NagramiX Android
+APK**. After the build, inspect all generated evidence before installing on a
+physical ARM64 Samsung/Android device.
