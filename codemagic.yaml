@@ -1,0 +1,129 @@
+workflows:
+  build-unsigned-ipa:
+    name: Build unsigned NagramiX IPA
+    instance_type: mac_mini_m2
+    max_build_duration: 120
+
+    environment:
+      xcode: 26.2
+      groups:
+        - nagramix_credentials
+      vars:
+        NAGRAMIX_VERSION: "0.2.5"
+
+    cache:
+      cache_paths:
+        - $CM_BUILD_DIR/.bazel-cache
+
+    scripts:
+      - name: Validate inputs and load pinned upstream
+        script: |
+          set -euo pipefail
+
+          test -n "${TELEGRAM_API_ID:-}" || { echo "Missing TELEGRAM_API_ID"; exit 1; }
+          test -n "${TELEGRAM_API_HASH:-}" || { echo "Missing TELEGRAM_API_HASH"; exit 1; }
+
+          python3 scripts/check_upstreams.py --platform ios --require-current
+          cat ios/upstream.env >> "$CM_ENV"
+          echo "BAZEL_CACHE=$CM_BUILD_DIR/.bazel-cache" >> "$CM_ENV"
+
+      - name: Check out pinned Telegram-iOS source
+        script: |
+          set -euo pipefail
+
+          rm -rf Telegram-iOS
+          git init Telegram-iOS
+          git -C Telegram-iOS remote add origin https://github.com/TelegramMessenger/Telegram-iOS.git
+          git -C Telegram-iOS fetch --depth=1 origin "$TELEGRAM_IOS_REF"
+          git -C Telegram-iOS checkout --detach FETCH_HEAD
+          git -C Telegram-iOS submodule update --init --recursive
+
+      - name: Verify upstream and Xcode
+        script: |
+          set -euo pipefail
+
+          actual="$(python3 -c 'import json; print(json.load(open("Telegram-iOS/versions.json"))["app"])')"
+          test "$actual" = "$TELEGRAM_IOS_VERSION" || {
+            echo "Pinned ref reports Telegram $actual, expected $TELEGRAM_IOS_VERSION"
+            exit 1
+          }
+
+          required_xcode="$(python3 -c 'import json; print(json.load(open("Telegram-iOS/versions.json"))["xcode"])')"
+          actual_xcode="$(xcodebuild -version | awk 'NR==1 {print $2}')"
+          test "$actual_xcode" = "$required_xcode" || {
+            echo "Xcode $actual_xcode selected, but Telegram-iOS requires $required_xcode"
+            exit 1
+          }
+
+      - name: Apply NagramiX overlay
+        script: |
+          set -euo pipefail
+
+          rm -rf "$CM_BUILD_DIR/.ci"
+          mkdir -p "$CM_BUILD_DIR/.ci"
+
+          python3 ios/apply_overlay.py \
+            --source Telegram-iOS \
+            --configuration "$CM_BUILD_DIR/.ci/nagramix-configuration.json"
+
+      - name: Generate build-only NagramiX profiles
+        script: |
+          set -euo pipefail
+
+          python3 ios/generate_fake_profiles.py \
+            --source-profiles Telegram-iOS/build-system/fake-codesigning/profiles \
+            --source-certs Telegram-iOS/build-system/fake-codesigning/certs \
+            --destination "$CM_BUILD_DIR/.ci/nagramix-codesigning" \
+            --upstream-team C67CF9S4VU \
+            --upstream-bundle ph.telegra.Telegraph \
+            --team NAGRAMIX0 \
+            --bundle com.mr-efes.nagramix
+
+      - name: Build native NagramiX arm64 application
+        script: |
+          set -euo pipefail
+
+          cd Telegram-iOS
+
+          python3 build-system/Make/ImportCertificates.py \
+            --path "$CM_BUILD_DIR/.ci/nagramix-codesigning/certs"
+
+          python3 build-system/Make/Make.py \
+            --cacheDir="$BAZEL_CACHE" \
+            --overrideXcodeVersion \
+            build \
+            --configurationPath="$CM_BUILD_DIR/.ci/nagramix-configuration.json" \
+            --codesigningInformationPath="$CM_BUILD_DIR/.ci/nagramix-codesigning" \
+            --buildNumber="$BUILD_NUMBER" \
+            --configuration=release_arm64 \
+            --outputBuildArtifactsPath="$CM_BUILD_DIR/.ci/build-artifacts"
+
+      - name: Package unsigned IPA
+        script: |
+          set -euo pipefail
+
+          source_ipa="$CM_BUILD_DIR/.ci/build-artifacts/Telegram.ipa"
+          test -f "$source_ipa" || { echo "Built Telegram.ipa was not found at $source_ipa"; exit 1; }
+
+          unpack_dir="$CM_BUILD_DIR/.ci/nagramix-unpack"
+          rm -rf "$unpack_dir"
+          mkdir -p "$unpack_dir"
+          unzip -q "$source_ipa" -d "$unpack_dir"
+
+          bash scripts/package_unsigned_ipa.sh \
+            "$unpack_dir/Payload/Telegram.app" \
+            "NagramiX-${NAGRAMIX_VERSION}-unsigned.ipa" \
+            com.mr-efes.nagramix \
+            "$NAGRAMIX_VERSION"
+
+      - name: Record provenance
+        script: |
+          set -euo pipefail
+
+          upstream_sha="$(git -C Telegram-iOS rev-parse HEAD)"
+          printf 'Telegram-iOS commit: %s\nNagramX reference: %s\n' \
+            "$upstream_sha" "$NAGRAMX_REFERENCE_REF" > BUILD-PROVENANCE.txt
+
+    artifacts:
+      - NagramiX-*-unsigned.ipa
+      - BUILD-PROVENANCE.txt
