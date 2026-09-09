@@ -6,7 +6,7 @@ Android is the secondary platform of the independent NagramiX application. iOS r
 
 - Upstream: official [`DrKLO/Telegram`](https://github.com/DrKLO/Telegram), pinned to Android 12.10.1 and the exact commit in `android/upstream.env`.
 - Idea reference only: NagramX 1258. Its source is not compiled into NagramiX.
-- Version: `0.2.4`.
+- Version: `0.2.6`.
 - Package id: `com.mr_efes.nagramix`.
 - CI output: an installable ARM64 debug-signed APK for physical-device development testing.
 
@@ -20,7 +20,7 @@ Feature work must be expressed as Kotlin/Java sources under `android/Sources/` p
 
 ## Current implementation status
 
-This architecture correction establishes the official Telegram base, independent branding, private API credentials, Kotlin compilation and NagramiX settings ownership. It does **not** claim that all iOS NagramiX features are already ported. `docs/ANDROID-FUNCTION-PARITY.md` is the authoritative implementation and device-validation backlog.
+This architecture establishes the official Telegram base, independent branding, private API credentials, Kotlin compilation and NagramiX settings ownership. The 0.2.6 overlay also supplies clean-install Russian and built-in Telegram Dark Blue defaults without replacing explicit saved choices. It does **not** claim that the remaining iOS NagramiX features are already ported. `docs/ANDROID-FUNCTION-PARITY.md` is the authoritative implementation and device-validation backlog.
 
 ## Physical-device focus
 

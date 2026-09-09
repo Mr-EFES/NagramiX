@@ -1080,6 +1080,21 @@ public final class ItemListControllerTabBarItem: Equatable {
 """,
         "Use the floating-control gutter for optional wide channel posts",
     )
+    replace_once(
+        chat_bubble_source,
+        "        maximumContentWidth = max(0.0, maximumContentWidth)\n        \n        var contentPropertiesAndPrepareLayouts:",
+        """        if nagramiXWideChannelPost {
+            // Content-type branches above retain Telegram's special sizing in
+            // every other chat. A broadcast post deliberately receives the
+            // common adaptive width so forwarded content, polls, media,
+            // instant video and grouped content all start from one geometry.
+            maximumContentWidth = floor(tmpWidth - layoutConstants.bubble.edgeInset * 3.0 - layoutConstants.bubble.contentInsets.left - layoutConstants.bubble.contentInsets.right - avatarInset)
+        }
+        maximumContentWidth = max(0.0, maximumContentWidth)
+
+        var contentPropertiesAndPrepareLayouts:""",
+        "Give every ordinary broadcast-post content node the shared adaptive width",
+    )
 
     tab_bar_build = source / "submodules" / "TabBarUI" / "BUILD"
     replace_once(
@@ -2175,6 +2190,7 @@ public class StoryContainerScreen: ViewControllerComponentContainer, KeyShortcut
     private let nagramiXContent: StoryContentContext
     private var nagramiXPresentationDisposable: Disposable?
     private var nagramiXIsPresentingConfirmation = false
+    private var nagramiXApprovedStoryId: EngineStoryId?
 """,
         "Story presentation and settings state",
     )
@@ -2401,7 +2417,56 @@ public class StoryContainerScreen: ViewControllerComponentContainer, KeyShortcut
         story_container_screen,
         "    public func nagramiXPresent(from parentController: ViewController, action: @escaping () -> Void) {",
         "    public func nagramiXPush(from parentController: ViewController, completion: @escaping () -> Void = {}) {",
-        """    public func nagramiXPresent(from parentController: ViewController, action: @escaping () -> Void) {
+        """    fileprivate func nagramiXConfirmNavigation(peer: EnginePeer, item: StoryContentItem, action: @escaping () -> Void) {
+        guard NagramiXTabSettings.current.confirmStoryViewing, peer.id != self.context.account.peerId else {
+            action()
+            return
+        }
+        guard !self.nagramiXIsPresentingConfirmation else { return }
+        self.nagramiXIsPresentingConfirmation = true
+
+        let presentationData = self.context.sharedContext.currentPresentationData.with { $0 }
+        let effectivePeer = item.itemPeer ?? peer
+        let owner = effectivePeer.displayTitle(strings: presentationData.strings, displayOrder: presentationData.nameDisplayOrder)
+        var previewSignal: Signal<(TransformImageArguments) -> DrawingContext?, NoError>?
+        if let peerReference = PeerReference(effectivePeer) {
+            switch item.storyItem.media {
+            case let .image(image):
+                previewSignal = chatMessagePhoto(postbox: self.context.account.postbox, userLocation: .peer(peerReference.id), userContentType: .story, photoReference: .story(peer: peerReference, id: item.storyItem.id, media: image), synchronousLoad: false, highQuality: false)
+            case let .file(file):
+                previewSignal = mediaGridMessageVideo(postbox: self.context.account.postbox, userLocation: .peer(peerReference.id), userContentType: .story, videoReference: .story(peer: peerReference, id: item.storyItem.id, media: file), onlyFullSize: false, useLargeThumbnail: true, synchronousLoad: false, autoFetchFullSizeThumbnail: false, overlayColor: nil, nilForEmptyResult: false, useMiniThumbnailIfAvailable: true, blurred: false)
+            default:
+                break
+            }
+        }
+        let confirmationController = NagramiXStoryConfirmationController(
+            previewSignal: previewSignal,
+            title: presentationData.strings.nagramiXStoryConfirmationTitle,
+            body: presentationData.strings.nagramiXStoryConfirmationText(owner: owner),
+            action: presentationData.strings.nagramiXViewStoryAction,
+            confirmed: { [weak self] in
+                guard let self else { return }
+                self.nagramiXIsPresentingConfirmation = false
+                self.nagramiXApprovedStoryId = item.id
+                action()
+            },
+            cancelled: { [weak self] in
+                self?.nagramiXIsPresentingConfirmation = false
+            }
+        )
+        self.present(confirmationController, in: .window(.root))
+    }
+
+    fileprivate func nagramiXCanMarkStoryAsSeen(_ id: EngineStoryId) -> Bool {
+        guard NagramiXTabSettings.current.confirmStoryViewing else { return true }
+        guard let slice = self.nagramiXContent.stateValue?.slice else { return false }
+        if slice.effectivePeer.id == self.context.account.peerId { return true }
+        guard self.nagramiXApprovedStoryId == id else { return false }
+        self.nagramiXApprovedStoryId = nil
+        return true
+    }
+
+    public func nagramiXPresent(from parentController: ViewController, action: @escaping () -> Void) {
         guard NagramiXTabSettings.current.confirmStoryViewing else {
             action()
             return
@@ -2418,7 +2483,7 @@ public class StoryContainerScreen: ViewControllerComponentContainer, KeyShortcut
                 action()
                 return
             }
-            if slice.effectivePeer.id == self.context.account.peerId || slice.item.isSeen {
+            if slice.effectivePeer.id == self.context.account.peerId {
                 action()
                 return
             }
@@ -2444,6 +2509,7 @@ public class StoryContainerScreen: ViewControllerComponentContainer, KeyShortcut
                 action: presentationData.strings.nagramiXViewStoryAction,
                 confirmed: { [weak self] in
                     self?.nagramiXIsPresentingConfirmation = false
+                    self?.nagramiXApprovedStoryId = slice.item.id
                     action()
                 },
                 cancelled: { [weak self] in
@@ -2467,6 +2533,77 @@ public class StoryContainerScreen: ViewControllerComponentContainer, KeyShortcut
 
 """,
         "Present native confirmation before an unseen external story opens",
+    )
+    replace_once(
+        story_container_screen,
+        """                    if let mappedId {
+                        self.pendingNavigationToItemId = mappedId
+                        component.content.navigate(navigation: .item(.id(mappedId)))
+                    }
+""",
+        """                    if let mappedId, let targetItem = slice.allItems.first(where: { $0.id == mappedId }) {
+                        controller.nagramiXConfirmNavigation(peer: targetItem.itemPeer ?? slice.peer, item: targetItem, action: { [weak self] in
+                            guard let self, let component = self.component else { return }
+                            self.pendingNavigationToItemId = mappedId
+                            component.content.navigate(navigation: .item(.id(mappedId)))
+                        })
+                    }
+""",
+        "Gate every explicit same-peer story navigation before changing the focused item",
+    )
+    replace_once(
+        story_container_screen,
+        "            guard let component = self.component, let environment = self.environment, let controller = environment.controller() as? StoryContainerScreen else {\n",
+        "            guard let environment = self.environment, let controller = environment.controller() as? StoryContainerScreen else {\n",
+        "Remove the now-unused navigation component binding after the per-story gate owns navigation",
+    )
+    replace_once(
+        story_container_screen,
+        "                if let component = self.component, let stateValue = self.stateValue, let _ = stateValue.slice {\n",
+        "                if let component = self.component, let stateValue = self.stateValue, let _ = stateValue.slice, let environment = self.environment, let controller = environment.controller() as? StoryContainerScreen {\n",
+        "Access the confirmation controller before committing a peer swipe",
+    )
+    replace_once(
+        story_container_screen,
+        "                    if let direction {\n                        component.content.navigate(navigation: .peer(direction))\n                        \n                        if case .previous = direction {\n",
+        """                    if let direction {
+                        let targetSlice: StoryContentContextState.FocusedSlice?
+                        switch direction {
+                        case .previous:
+                            targetSlice = stateValue.previousSlice
+                        case .next:
+                            targetSlice = stateValue.nextSlice
+                        }
+                        if let targetSlice {
+                            controller.nagramiXConfirmNavigation(peer: targetSlice.effectivePeer, item: targetSlice.item, action: { [weak self] in
+                                guard let self, let component = self.component else { return }
+                                component.content.navigate(navigation: .peer(direction))
+                            })
+                        } else {
+                            component.content.navigate(navigation: .peer(direction))
+                        }
+
+                        if case .previous = direction {
+""",
+        "Gate peer swipes before changing to the target peer story",
+    )
+    replace_once(
+        story_container_screen,
+        """                                markAsSeen: { [weak self] id in
+                                    guard let self, let component = self.component else {
+                                        return
+                                    }
+                                    component.content.markAsSeen(id: id)
+                                },
+""",
+        """                                markAsSeen: { [weak self] id in
+                                    guard let self, let component = self.component, let environment = self.environment, let controller = environment.controller() as? StoryContainerScreen, controller.nagramiXCanMarkStoryAsSeen(id) else {
+                                        return
+                                    }
+                                    component.content.markAsSeen(id: id)
+                                },
+""",
+        "Reject native seen registration until the exact target story is approved",
     )
 
     replace_once(
@@ -2960,6 +3097,20 @@ filegroup(
         "Store the explicit NagramiX copy-as-new callback",
     )
 
+    chat_controller_source = source / "submodules" / "TelegramUI" / "Sources" / "ChatController.swift"
+    replace_once(
+        chat_controller_source,
+        "    let navigationActionDisposable = MetaDisposable()\n    let messageIndexDisposable = MetaDisposable()\n",
+        "    let navigationActionDisposable = MetaDisposable()\n    let nagramiXSelectAuthorDisposable = MetaDisposable()\n    var nagramiXSelectAuthorGeneration: UInt64 = 0\n    var nagramiXIsSelectingAuthorMessages = false\n    let messageIndexDisposable = MetaDisposable()\n",
+        "Own the cancellable Select From Author pagination lifecycle",
+    )
+    replace_once(
+        chat_controller_source,
+        "        self.navigationActionDisposable.dispose()\n        self.galleryHiddenMesageAndMediaDisposable.dispose()\n",
+        "        self.navigationActionDisposable.dispose()\n        self.nagramiXSelectAuthorDisposable.dispose()\n        self.galleryHiddenMesageAndMediaDisposable.dispose()\n",
+        "Cancel Select From Author when leaving the chat",
+    )
+
     chat_load_node = source / "submodules" / "TelegramUI" / "Sources" / "Chat" / "ChatControllerLoadDisplayNode.swift"
     replace_once(
         chat_load_node,
@@ -2975,28 +3126,49 @@ filegroup(
             self.commitPurposefulAction()
             self.forwardMessages(messageIds: messages.map { $0.id }.sorted(), transferMode: .copyAsNew)
         }, selectMessagesByAuthor: { [weak self] authorId in
-            guard let self, self.isNodeLoaded else {
+            guard let self, self.isNodeLoaded, !self.nagramiXIsSelectingAuthorMessages, let peerId = self.chatLocation.peerId else {
                 return
             }
-            var messageIds: [EngineMessage.Id] = []
-            self.chatDisplayNode.historyNode.forEachItemNode { itemNode in
-                guard let itemNode = itemNode as? ChatMessageItemView, let item = itemNode.item else {
+            self.nagramiXIsSelectingAuthorMessages = true
+            self.nagramiXSelectAuthorGeneration &+= 1
+            let generation = self.nagramiXSelectAuthorGeneration
+            let threadId = self.chatLocation.threadId
+            let location: SearchMessagesLocation = .peer(peerId: peerId, fromId: authorId, tags: nil, reactions: nil, threadId: threadId, minDate: nil, maxDate: nil)
+            let presentationData = self.context.sharedContext.currentPresentationData.with { $0 }
+            let progressController = OverlayStatusController(theme: presentationData.theme, type: .loading(cancelled: { [weak self] in
+                guard let self else { return }
+                self.nagramiXSelectAuthorGeneration &+= 1
+                self.nagramiXIsSelectingAuthorMessages = false
+                self.nagramiXSelectAuthorDisposable.set(nil)
+            }))
+            self.present(progressController, in: .window(.root), with: ViewControllerPresentationArguments(presentationAnimation: .modalSheet))
+
+            var requestPage: ((SearchMessagesState?) -> Void)?
+            requestPage = { [weak self, weak progressController] state in
+                guard let self, self.nagramiXSelectAuthorGeneration == generation, self.chatLocation.peerId == peerId, self.chatLocation.threadId == threadId else {
                     return
                 }
-                for (message, _) in item.content {
-                    if message.author?.id == authorId && !messageIds.contains(message.id) {
-                        messageIds.append(message.id)
+                self.nagramiXSelectAuthorDisposable.set((self.context.engine.messages.searchMessages(location: location, query: "", state: state, limit: 100)
+                |> deliverOnMainQueue).startStrict(next: { [weak self, weak progressController] result, updatedState in
+                    guard let self, self.nagramiXSelectAuthorGeneration == generation, self.chatLocation.peerId == peerId, self.chatLocation.threadId == threadId else {
+                        return
                     }
-                }
+                    if !result.completed {
+                        requestPage?(updatedState)
+                        return
+                    }
+                    self.nagramiXIsSelectingAuthorMessages = false
+                    progressController?.dismiss()
+                    let messageIds = result.messages.map { $0.id }
+                    guard !messageIds.isEmpty else { return }
+                    let _ = self.presentVoiceMessageDiscardAlert(action: { [weak self] in
+                        self?.updateChatPresentationInterfaceState(animated: true, interactive: true, { state in
+                            state.updatedInterfaceState { $0.withUpdatedSelectedMessages(messageIds) }.updatedShowCommands(false)
+                        })
+                    }, alertAction: {}, delay: true)
+                }))
             }
-            guard !messageIds.isEmpty else {
-                return
-            }
-            let _ = self.presentVoiceMessageDiscardAlert(action: {
-                self.updateChatPresentationInterfaceState(animated: true, interactive: true, { state in
-                    state.updatedInterfaceState { $0.withUpdatedSelectedMessages(messageIds) }.updatedShowCommands(false)
-                })
-            }, alertAction: {}, delay: true)
+            requestPage?(nil)
         }, updateForwardOptionsState: { [weak self] f in
 """,
         "Wire copy-as-new and loaded-author selection into ChatController",

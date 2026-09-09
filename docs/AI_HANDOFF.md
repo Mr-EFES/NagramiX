@@ -385,3 +385,191 @@ Addressed every inline review item: Android now uses canonical `interface.hideSt
 Changed files are the six reviewed files, `android/branding/AppIcons/1.png`, `android/apply_overlay.py`, and this handoff. Static validation passed before commit. Native Android CI is rerunning; physical Android and iPhone testing remains pending. Exact next step after a green Android build is to keep implementing the product registry rather than publish a parity APK.
 
 Sparse clean-pin overlay validation initially found a trailing blank line after plugin removal. The exact anchor was widened to consume the separator plus plugin line; the rerun applied successfully and generated-tree `git diff --check` passed.
+
+## iOS 0.2.6 implementation session (2026-09-09 UTC)
+
+The iOS release metadata now targets 0.2.6. Story behavior settings are consolidated under Features / Stories without changing any persisted key, Force TCP is displayed under Other while retaining `nagramix.calls.forceTcp` and its existing VoIP backend, and the deleted-message/edit-history secondary text is explicitly marked Experimental in English and Russian. The broadcast-wide layout overlay now restores the shared adaptive content width after Telegram's content-type-specific clamps, so ordinary broadcast posts feed one width into their native content nodes while non-broadcast chats preserve upstream geometry.
+
+The existing 0.2.5 iOS overlay was inspected against a clean pinned Telegram-iOS 12.9.2 checkout. It already routes multi-destination Copy as New through Telegram's standard `.generic`, `.silent`, `.schedule`, and `.whenOnline` transformations, uses `OutgoingScheduleInfoMessageAttribute`, and keeps copied values as `.message`; clean-install Russian and `.nightAccent` defaults are also already present. The clean overlay application passed after the 0.2.6 changes.
+
+The remaining iOS source blocks were completed in the follow-up. `StoryContainerScreen` now gates explicit item navigation, automatic/tap navigation routed through it, and peer swipes against the exact target `EngineStoryId` before changing the content context. The fullscreen controller uses Telegram photo/video thumbnail signals without starting playback; confirmation grants a one-story approval id, and the native `markAsSeen` callback rejects unapproved external stories. Own stories and setting-off behavior remain native. Cancellation does not execute the navigation action.
+
+Select From Author now uses `TelegramEngine.Messages.searchMessages` with `.peer(peerId:fromId:threadId:)`, feeds each returned `SearchMessagesState` into the next request until `result.completed`, and selects the accumulated engine result ids. A dedicated `MetaDisposable`, generation, active-operation guard, cancellable Telegram loading overlay, and peer/thread checks protect cancellation and controller lifecycle. Display names and forward metadata are not used as identity.
+
+Clean overlay application, generated-tree `diff --check`, Python compilation, and generated-source invariants passed. Native macOS/Bazel compilation and physical-device acceptance remain pending. No Android parity work was started, per the owner-requested iOS-first sequence. Exact next step: port the accepted 0.2.6 product behavior natively to the official Android base, then run platform builds and physical-device matrices.
+
+## Android 0.2.6 parity continuation (2026-09-09 UTC)
+
+Android release metadata now targets 0.2.6/206. The NagramiX-owned settings namespace gained the existing product keys for story swipe, per-story confirmation, repost and wide broadcast posts without renaming prior keys. The official `LocaleController` initialization now chooses built-in `ru` only when Telegram has no explicit `language` preference, preserving manual choices and logout behavior while keeping IntroActivity's native system-language suggestion. The official `Theme` initialization similarly selects the existing `Dark Blue` ThemeInfo/accent 9 only when no explicit day theme exists, before the first UI is rendered; saved themes remain authoritative and auto-night support is untouched.
+
+A clean application to official Telegram Android 12.10.1 passed, along with Python compilation and generated-tree `diff --check`. Native Gradle/NDK compilation and physical-device clean-install/update checks remain pending. Most Android parity rows—including StoryViewer gating, settings UI, wide message-cell layout, Copy as New, archive/edit history, Force TCP UI/backend, and Select From Author—are still not ported. Exact next step: implement the Android NagramiX settings surface and StoryViewer per-target gate using the inspected official classes, then continue message sending/layout/search integrations before any release build.
+
+## Android 0.2.6 settings surface (2026-09-09 UTC)
+
+A NagramiX entry is now integrated into official Telegram's SettingsActivity using its existing SettingCell/presentSettingFragment path. The NagramiX-owned BaseFragment provides equal-width Interface, Features and Other selectors and uses Telegram HeaderCell, TextCheckCell and TextInfoPrivacyCell components with Theme colors. Features / Stories contains exactly hide stories, disable recording swipe, per-story confirmation and repost; Other contains the single existing Force TCP key; deleted messages and edit history use localized Experimental secondary text. English and Russian resources are copied through the exact overlay.
+
+This completes the Android settings placement/UI portion only. The switches persist stable product keys, but most corresponding Android behaviors are not connected yet. StoryViewer gating, wide ChatMessageCell geometry, Copy as New/send options, archive/edit-history storage/UI, Force TCP transport, Select From Author pagination and the remaining parity features are still pending. Clean overlay application, XML parsing and generated-tree `diff --check` passed; native compilation was not run. Exact next step: implement the per-story pre-navigation/read gate in official StoryViewer/PeerStoriesView and bind the settings to their native behavior.
+
+## Android per-story privacy gate (2026-09-09 UTC)
+
+The official Android `PeerStoriesView.updatePosition` is now the common pre-bind gate for every selected target, including initial bind, tap/automatic next/previous and peer-page changes. Before `currentStory` changes, media/player setup runs or `CurrentStory.checkSendView` can call `StoriesController.markStoryAsRead`, it asks `StoryViewer` to approve the exact `(dialogId, storyId)`. Approval is consumed once on the re-entered bind. Own stories and setting-off behavior bypass the gate. Cancel restores the already bound selection, or closes an initial viewer with no committed story.
+
+`NagramiXStoryConfirmationView` is a fullscreen child of Telegram's StoryViewer container, not an AlertDialog. It uses `StoriesUtilities.setImage` with `BackupImageView`'s native blurred receiver for cached photo/video thumbnails, a Theme-derived scrim and controls, dynamic user/channel title, a large View button and close action. StoryViewer Back cancels the overlay first. No player, audio or timer is created by the confirmation view.
+
+Clean exact-overlay application and generated-tree `diff --check` pass. Native Java/Kotlin/Gradle compilation and device acceptance remain pending. Hide-story, recording-swipe and repost switches still require behavior wiring; other Android parity blocks also remain pending.
+
+## Android Story gate and Force TCP integration (2026-09-09 UTC)
+
+Android now has a source-level per-target Story gate at `PeerStoriesView.updatePosition` for active same-peer navigation and at `setActive` for preloaded peer-page activation. Both execute before `currentStory` replacement, player request and `CurrentStory.checkSendView`/`StoriesController.markStoryAsRead`. `StoryViewer` owns a one-use `(dialogId, storyId)` approval and handles Back; the fullscreen NagramiX view uses Telegram's blurred `BackupImageView`/`StoriesUtilities.setImage` thumbnail path, dynamic peer names, Theme colors, close and confirm controls. Cancellation leaves the committed story unchanged or closes an initial viewer.
+
+Force TCP now reuses official `VoIPService`'s existing `forceTcp` endpoint-type branch. The stable NagramiX preference is ORed with Telegram's debug preference at call context construction; when disabled upstream behavior is unchanged, and no MTProto/message transport is affected.
+
+Clean exact-overlay application, XML parsing, Python compilation, generated pre-bind/read-gate invariants and generated-tree `diff --check` pass. Native Gradle compilation and device tests remain pending. Hide Stories, recording swipe, repost, wide messages, Copy as New, archive/edit history and Select From Author still require Android behavior ports.
+
+## Android Story controls completion (2026-09-09 UTC)
+
+The remaining Story switches are now connected to official Android behavior. `DialogsActivity.updateStoriesVisibility` forces both ordinary and self-only tray visibility false when `interface.hideStories` is enabled. `DialogStoriesCell.openStoryForCell` rejects only the overscroll-to-recorder path for a self cell when `stories.disableCameraSwipe` is enabled, leaving explicit recorder buttons intact. `PeerStoriesView` retains all upstream share/public/channel checks and additionally requires `stories.enableRepost` before exposing the native repost control. No duplicate story UI or player implementation was added.
+
+The clean official-base overlay and generated-tree `diff --check` pass. Story controls are source-complete but native/device validation is pending. Wide message layout, Copy as New with send options, archive/edit history, Select From Author and other parity rows remain incomplete.
+
+## Android Copy as New send-options integration (2026-09-09 UTC)
+
+Android now exposes “Forward without” / “Переслать без” beside Telegram's ordinary Forward action for both a single message and action-mode multi-selection. The destination selection remains Telegram's `DialogsActivity`; NagramiX carries only a transient operation flag into `ChatActivity.didSelectDialogs`. Multi-destination sends pass that flag as the existing `SendMessagesHelper.sendMessage(... forwardFromMyName ...)` argument together with the picker-provided `notify`, `scheduleDate` and `scheduleRepeatPeriod`. For a single destination, the normal composer preview is retained and its existing `hideForwardSendersName` option is enabled, so the standard send-button menu supplies silent and schedule choices.
+
+The reused `forwardFromMyName` implementation builds fresh outgoing messages and omits the `fwd_from` branch while preserving Telegram's normal media/entity/grouping checks. Ordinary Forward explicitly clears the transient flag, and the flag is consumed when the destination callback begins, preventing leakage into a later operation. Stable preferences were not added or changed because this is an operation mode, not a setting.
+
+Clean application to the pinned official Android checkout, Python compilation, XML parsing and generated-tree `git diff --check` passed. Native Gradle compilation and device validation of text, formatted text, each media type, albums, multi-select, silent, scheduled and unsupported destinations remain pending. The 0.2.6 Android master task is still incomplete: wide broadcast geometry, full-history Select From Author, and deleted/edit archive runtime behavior are the next functional blocks before the build-readiness audit.
+
+## Android preference migration correction (2026-09-09 UTC)
+
+The first Android settings implementation used one chained default write when its new `defaults.initialized` marker was absent. That could overwrite keys already written by an older NagramiX build during an update—the exact migration behavior prohibited by the 0.2.6 requirements. `NagramiXSettings.initializeDefaults` now checks `SharedPreferences.contains` for every stable boolean, string and integer key and writes only missing values before recording the marker. Existing values for Hide Stories, Force TCP and all other product settings therefore remain unchanged, while clean installs receive the same defaults. The preference filename and every product key remain unchanged.
+
+Static Kotlin/source inspection, clean overlay application and repository/generated-tree `diff --check` passed. Native migration tests remain pending until the owner authorizes builds. Next functional step remains the shared wide-broadcast geometry integration.
+
+## Android wide broadcast-post geometry (2026-09-09 UTC)
+
+`ChatMessageCell` now owns one `nagramiXUsesWideBroadcastLayout` decision based on the bound message's destination dialog and Telegram's real `ChatObject.isChannelAndNotMegaGroup` model check. It excludes service actions and sponsored cells, so forwarded-source identity cannot narrow a post and RecyclerView reuse recomputes the state from the newly bound message. Private dialogs, bots, groups, megagroups/topics and setting-off behavior retain their upstream widths.
+
+The companion `nagramiXWideContentWidth` derives its result from the current phone/tablet parent width and side-menu allowance rather than a fixed device width. The main text branch, Telegram's content-specific 270/289/300dp clamps, the final ordinary-bubble width, and paid-media `GroupMedia` override all consume that shared policy. Existing media/aspect-ratio, grouped-position, poll, link-preview, caption, reactions and footer algorithms remain in place and receive the expanded available width instead of being replaced. Service rendering is untouched. The settings switch posts Telegram's existing `updateInterfaces` notification so active chats rebind without a process restart.
+
+The exact-count replacements intentionally fail if upstream adds/removes a covered width clamp. Clean application to official Android 12.10.1, Python compilation, generated scope invariants and generated-tree `diff --check` passed. Native compilation and the required phone/tablet/orientation/type/device matrix remain pending until the build command. Next implementation stage is full-history Select From Author.
+
+## Android full-history Select From Author (2026-09-09 UTC)
+
+The message menu now exposes localized Select From Author for cloud messages with a real sender peer. The sender key is `MessageObject.getFromChatId`, not a display name, username, `post_author` or `fwd_from`, so forwarded messages follow their sender in the current chat. Secret chats are excluded because Telegram's server search API is not available there.
+
+`ChatActivity` issues native `TL_messages_search` requests for the current peer with `from_id`, an empty filter/query and pages of 100. Forum-topic calls set the schema's `top_msg_id` flag. Each page advances by the smallest returned message id until a short/empty page or a non-advancing offset proves the real end; 100 is only the API page size, not an overall limit. Returned Telegram messages are placed in the controller's existing id-keyed selection maps and the former manual 100-message ceiling was removed. RecyclerView cells continue deriving checked state from those maps.
+
+One active request id plus a generation guard validates dialog id and topic id on every callback. Back/selection exit cancels the request and dismisses the native progress dialog; requests are also bound to `classGuid`, preventing callbacks after controller destruction. Repeated invocation is ignored while a page is active. The progress secondary text reports the current selected count through English/Russian resources.
+
+Clean official-overlay application, Python/XML validation, generated request/identity/topic/cancellation invariants and generated-tree `diff --check` passed. Native compilation and live API tests with 300/1,000/5,000/10,000-message histories remain pending until the owner commands builds. Next source stage is Android deleted-message/edit-history runtime parity.
+
+## Android initial rear video-message camera (2026-09-09 UTC)
+
+The existing `videoMessages.useRearCamera` key is now exposed in Features / Messages and read once whenever `InstantCameraView.showCamera` starts a new, non-resumed round-video session. It changes only the initial `isFrontface` selection. Telegram's existing Camera1/Camera2 session creation, dual-camera availability, switch control, zoom, flash, orientation, encoding and cleanup remain authoritative. Resuming an interrupted recorder does not reapply the preference. The default remains front and stored values are preserved by the per-key migration logic.
+
+Clean overlay application, localization parsing and generated-source inspection passed; native Camera1/Camera2 and Samsung device tests remain pending until the build command. Deleted/edit-history runtime work remains the active stage.
+
+## Android clean-install classification correction (2026-09-09 UTC)
+
+The earlier LocaleController/Theme patches treated every missing explicit `language` or `theme` key as a clean install. That would incorrectly switch an existing user who had always followed the system locale/theme when upgrading. `ApplicationLoader.postInitApplication` now classifies the installation before LocaleController or Theme initializes: an empty Telegram global settings store is recorded once as `installation.cleanDefaults=true` in the NagramiX preferences. An existing install with Telegram state records false. Android Clear Data empties both stores and therefore correctly becomes a clean run again.
+
+Russian and built-in Dark Blue defaults are now applied only when both the corresponding explicit Telegram key is absent and the persisted clean-install classification is true. Explicit language/theme choices remain authoritative, existing system-default users are not migrated, logout does not rewrite the classification, and the decision occurs before first UI rendering. The audit also found and fixed missing NagramiXSettings imports in generated LocaleController and Theme sources.
+
+Clean pinned-overlay application and generated import/classification/default guards passed. Native clean-install, upgrade, Clear Data, logout and first-frame tests remain pending until the build command.
+
+## Android Story confirmation visual audit (2026-09-09 UTC)
+
+The visual audit found two violations in the first confirmation view: the close glyph was a hardcoded text character, and the scrim derived from `windowBackgroundWhiteBlackText`, which becomes light in dark themes. The overlay now uses Telegram's existing `ic_close_white` drawable with the localized `Close` accessibility label and Theme tint. The scrim uses Telegram's story-aware `key_chat_BlurAlpha` color, and title/body use the existing high-contrast button-text Theme color. No literal UI glyph or hardcoded ARGB color remains.
+
+Static source/resource inspection passes. Screenshot and physical story-preview validation remain pending until the owner-authorized build.
+
+## Android DNS provider and custom DoH parity (2026-09-09 UTC)
+
+Other / Network now exposes the existing `network.dnsProvider` and `network.customDohUrl` keys. The selector cycles System, Google, Quad9, AdGuard, Mullvad, Cloudflare and Custom DoH; custom input accepts only an HTTPS URI with a host. Provider labels, editor text and validation errors are English/Russian resources. Changing either value invalidates Telegram's existing hostname task/cache so subsequent resolutions use the new provider without a process restart.
+
+`ConnectionsManager.ResolveHostByNameTask` remains Telegram's native host-resolution callback path. System mode calls `InetAddress` as upstream fallback does. DoH modes send an RFC 8484 `application/dns-message` POST, parse bounded DNS question/answer sections including compressed owner names, accept only successful class-IN IPv4 A records, and return the existing `ResolvedDomain`; failures retain Telegram's system fallback. No third-party resolver dependency or parallel networking stack was added. Provider endpoints match the iOS product enum and the custom endpoint is never used unless its stored scheme is HTTPS.
+
+Clean pinned-overlay application, Python/XML checks, RFC 8484 generated-source invariants and generated-tree `diff --check` passed. A direct RFC 8484 curl probe was attempted for all five built-in endpoints, but this environment's outbound CONNECT proxy returned HTTP 403 before reaching every provider; endpoint reachability was therefore not claimed. Native networking, captive portal, proxy and IPv6/device matrices remain pending until the build command.
+
+## Android profile metadata parity (2026-09-09 UTC)
+
+Other / Profiles now exposes the canonical `profiles.showId`, `profiles.showRegistrationDate` and `profiles.showMutualContactIcon` preferences with the product defaults. `ProfileActivity` adds native `TextDetailCell` rows for numeric user/chat IDs and an explicitly approximate user registration year. Tapping the ID uses Telegram's clipboard helper and copy bulletin. The year estimator is a NagramiX-owned Android counterpart to the iOS helper and does not claim that Telegram exposes an exact registration timestamp.
+
+`UserCell` adds Telegram's existing themed contacts drawable only for real `mutual_contact` users that are neither self nor bots, and only when no premium/emoji-status right badge already owns that slot. Recycler reuse clears the drawable through the existing non-matching branch. Existing preference values are protected by the per-key migration logic.
+
+Clean official-overlay application, Python/XML parsing, generated profile-row/identity/default invariants and generated-tree `diff --check` passed. Native profile rendering, RTL/accessibility, premium badge interaction and physical-device acceptance remain pending until the build command. Remaining source stages are deleted/edit-history persistence, tabs/search navigation parity, alternate icons, proxy failover, offline startup hardening, then residual and cross-platform audits.
+
+## Android eight-icon parity (2026-09-09 UTC)
+
+All eight authoritative NagramiX icon PNGs are now tracked for Android and byte-match their iOS source counterparts. The overlay maps Telegram's six existing launcher components to NagramiX icons 1–6 and adds two more launcher aliases for icons 7–8. Every alias uses the same resource for ordinary and round icon declarations, and the default application icon is NagramiX 1 across debug/release manifest overlays.
+
+The implementation deliberately reuses Telegram's `LauncherIconController` and `AppIconsSelectorCell`: the controller now enumerates eight non-premium NagramiX choices, package-manager component switching remains native, and the selector is embedded in NagramiX Interface settings. No secondary icon preference was introduced, so launcher component state remains the sole source of truth and Telegram's existing repair logic still recovers if no alias is enabled.
+
+Clean application to official Telegram Android 12.10.1 passed. All generated manifests parse as XML, contain the eight icon resources/launcher components, and generated/repository `diff --check` passes. Native launcher refresh behavior—especially Samsung One UI caching—still requires the owner-authorized APK and physical-device test. Remaining source stages are deleted/edit-history persistence, tabs/search navigation parity, proxy failover, offline startup hardening, then residual and cross-platform audits.
+
+## Android native proxy checking and failover parity (2026-09-09 UTC)
+
+The existing canonical proxy keys are now fully exposed: Interface contains the proxy-button and proxy-sponsor visibility controls, while Other / Network opens Telegram's native `ProxyListActivity` and configures automatic switching with the product's 15/30/60-second choices. Toggling or changing the timeout maps the canonical value to Telegram's existing `SharedConfig.proxyRotationEnabled` and `proxyRotationTimeout` storage and posts the native `proxySettingsChanged` notification.
+
+No parallel checker or scheduler was introduced. Telegram's `ProxyListActivity` continues to call `ConnectionsManager.checkProxy` for saved entries and display native availability/ping state. Telegram's initialized `ProxyRotationController` remains responsible for observing connection state, waiting the selected timeout, checking candidates, sorting reachable proxies by ping and applying the selected proxy through `ConnectionsManager.setProxySettings`. The NagramiX chat-list proxy menu visibility guard is applied at its native insertion point. Proxy promo responses are still processed and cached normally, but the promo dialog is not inserted when the canonical hide-sponsor switch is enabled.
+
+Clean pinned-overlay application, localization XML parsing, generated native-rotation/visibility/sponsor invariants and repository/generated-tree `diff --check` passed. Live proxy reachability, failover timing and network-transition tests remain pending until the owner-authorized build. Remaining source stages are deleted/edit-history persistence, tabs/search navigation parity, offline startup hardening, then residual and cross-platform audits.
+
+## Android offline/proxy startup hardening (2026-09-09 UTC)
+
+The Android audit confirmed that Telegram already initializes `ProxyRotationController` asynchronously from `ApplicationLoader`, uses native `ConnectionsManager.checkProxy`, and cancels its delayed runnable whenever the selected account leaves `ConnectionStateConnectingToProxy`. Local database/UI startup therefore remains independent of NagramiX DNS and proxy probes; no blocking startup check was added.
+
+One lifecycle race remained in the upstream rotation flow: canceling a delayed runnable did not invalidate native proxy-check callbacks already in flight. A callback arriving after Airplane Mode, a network-state transition, or a manual proxy selection could still publish availability and rotate away from the user's current proxy. The overlay now gives every batch a generation and captures the exact original `SharedConfig.currentProxy`. Callbacks reject a stale generation or changed origin before publishing results, and both non-proxy-connecting states and `proxySettingsChanged` invalidate the generation, clear the origin and end the active batch. Candidate application also verifies that the current proxy still equals the captured origin.
+
+Clean Telegram Android 12.10.1 overlay application, Python compilation, generated generation/origin/offline guards and repository/generated-tree `diff --check` passed. Airplane Mode at cold launch, offline-to-online recovery, manual proxy changes during a probe and Samsung process recreation remain physical-device tests for the owner-authorized build. Remaining source stages are deleted/edit-history persistence, tabs/search navigation parity, then residual and cross-platform audits.
+
+## Android message archive persistence foundation (2026-09-09 UTC)
+
+The first half of deleted-message/edit-history parity is now durable. A per-account NagramiX SQLite archive snapshots eligible incoming cloud messages from Telegram's common `MessagesStorage.putMessagesInternal` path, after they have already been decoded but without blocking the Telegram storage queue: serialization is immediate and all archive database work runs on a dedicated single-thread executor. Repeated snapshots compare the serialized Telegram message and store the previous value as an observed revision before replacing the current snapshot.
+
+Server delete updates are marked before Telegram removes messages: non-channel IDs use Telegram's account-global cloud message id semantics, while channel deletions use the exact negative channel dialog id. Secret chats, service messages, outgoing messages, TTL/ephemeral/secret media, message/chat copy-protected content and paid media are excluded. Both capture and deletion marking are gated by the existing experimental settings; no preference key changed.
+
+Clean overlay application and generated capture/delete anchors pass, along with Python compilation and repository/generated-tree `diff --check`. At this checkpoint it was intentionally not marked Implemented in the parity registry: deserialization/query APIs, history-range injection, Deleted rendering, edit-history UI and explicit local-delete/clear semantics still remained. Native SQLite/TL serialization was not compiled pending the owner's build command. The immediately following checkpoint completes those source paths.
+
+## Android deleted-message and edit-history read/UI completion (2026-09-09 UTC)
+
+The archive now deserializes stored messages through Telegram's native `TLRPC.Message.TLdeserialize` and provides serial-queue queries for deleted history ranges and observed revisions. `ChatActivity` defers each native history-load page once, asynchronously merges only archived IDs absent from the server result, preserves the page's ascending/descending order, lets Telegram's existing topic/group/media algorithms consume the merged list, and rejects callbacks after the dialog/controller leaves the screen. Live server deletions retain eligible loaded cells immediately. `ChatMessageCell` adds a localized Deleted marker to existing time metadata rather than mutating the archived message text.
+
+Archived cells expose only Copy, observed Edit History and local Delete, preventing reply/forward/react/server-delete actions against display-only snapshots. Edit History loads revisions asynchronously and presents the original, intermediate timestamps and current text through Telegram's themed alert. Explicit local deletion removes both snapshot and revisions; full native dialog-history clearing clears both archive tables. The settings remain Experimental and default off, and the capture exclusions from the persistence stage remain unchanged.
+
+Clean Telegram Android 12.10.1 overlay application, Python/XML/JSON checks, generated query/merge/marker/menu/clear invariants and repository/generated-tree `diff --check` passed. Native compilation and device histories with text/media/albums/topics, process restart, local clear and large archives remain pending until the owner-authorized build. No artificial retention limit is imposed because the feature contract covers all locally observed available history. Deleted-message and edit-history Android registry rows are now source-implemented. Remaining stages are tabs/search navigation parity, residual integration audit and final cross-platform source audit.
+
+## Android tabs and search-navigation parity (2026-09-09 UTC)
+
+The missing canonical `interface.hideCallsTab` and `interface.showSearchTab` keys are now owned by Android alongside the existing Contacts/title keys, use the product defaults and remain protected by per-key migration. All four controls are exposed once in Interface settings.
+
+Telegram Android 12.10.1 uses a four-position `MainTabsActivity` pager rather than iOS's controller array. The overlay therefore does not merely hide the Contacts view: it dynamically reduces the pager count from four to three, maps Calls/Settings and Profile to their new physical positions, skips Contacts fragment creation, hides its `GlassTabView`, and updates selection, gesture interpolation, fragment dropping and fade calculations through the shared mapping. Hide Calls preserves Android's native combined slot and selects Settings even if Telegram's own Calls preference is on. Disabling tab titles clears only the native label views; icons and accessibility descriptions remain owned by Telegram. The Search preference gates Telegram's existing chat-list search action instead of creating a parallel search fragment.
+
+Clean overlay application, generated dynamic-count/position/fragment/visibility/title/search invariants, localization parsing, Python compilation and repository/generated-tree `diff --check` passed. Preference changes take effect when Telegram recreates the root tabs; a risky live ViewPager topology mutation was intentionally not added. Phone/tablet swipe order, settings fallback, accessibility and state restoration remain pending until the owner-authorized build. Remaining stages are the residual integration/registry audit and final cross-platform source audit.
+
+## Android feature-registry reconciliation (2026-09-09 UTC)
+
+The residual product-registry audit found that eight Android rows still said `not_started` even though their source integrations and parity-table entries had already been completed and statically checked in earlier checkpoints. The Android implementation fields for round-video camera selection, story controls, copy-as-new forwarding, DNS/DoH, Force TCP, profile metadata, wide channel posts and Select From Author now accurately read `implemented`. Compile and device fields deliberately remain `not_started`: this reconciliation records source status only and does not misrepresent a native build or physical-device result.
+
+JSON parsing and a registry/parity consistency check passed. The only remaining pre-build source stage is the final cross-platform overlay audit; native compilation still requires the owner's explicit build command.
+
+## 0.2.6 final pre-build source audit (2026-09-09 UTC)
+
+The cross-platform source-preparation audit is complete. Both official upstream pins still match their current audited default branches (Telegram-iOS 12.9.2 and Telegram Android 12.10.1), all 14 registry features are recorded as source-implemented on both platforms, Android's complete overlay applies cleanly to the pinned checkout, and the iOS/Android overlay scripts compile as Python. Android localization XML, iOS localization resource syntax, release JSON, the unsigned-IPA packaging shell and repository/generated-tree whitespace checks pass.
+
+No native build was started, as explicitly requested. The repository is now at the **build-command boundary**: the next action is the owner's explicit command to run the authoritative iOS macOS workflow first, fix any native compile failures without overstating runtime behavior, then run the Android Gradle ARM64 workflow. Compile fields must remain unchanged until those jobs actually pass, and physical-device acceptance remains a separate post-build stage.
+
+## IPA build authorization and release publishing preparation (2026-09-09 UTC)
+
+The owner has now explicitly authorized the iOS IPA build, while keeping the Android APK build behind a later separate command. The 0.2.6 release notes enumerate all 14 implemented product functions and state that the future APK must be attached to the same pre-release. The publisher workflow now checks out those tracked notes, creates `v0.2.6-rc1` when absent or updates it when present, and then uploads the validated unsigned IPA and provenance with `--clobber`.
+
+At the preparation checkpoint this environment had no configured Git remote and `gh auth status` reported no authenticated GitHub host. The subsequent checkpoint records the completed authentication, push and workflow dispatch; do not use this earlier limitation as the current status.
+
+## IPA workflow started (2026-09-09 UTC)
+
+GitHub device authentication was completed for account `Mr-EFES`, including the required `workflow` scope, and `origin` now points to `https://github.com/Mr-EFES/NagramiX.git`. Because the remote already has a `work/...` ref namespace, the local `work` branch was pushed as `codex/nagramix-0.2.6-build`. The authorized **Build unsigned NagramiX IPA** workflow was dispatched from commit `53b464947dd5aac2eb51b2086a17c17dcbfc2d18` as run `34389662090` (`https://github.com/Mr-EFES/NagramiX/actions/runs/34389662090`). Credentials, upstream audit and overlay checkout passed, and the run reached the native ARM64 build step.
+
+Run `34389662090` completed with `failure` at step 12, **Build native NagramiX arm64 application without profiles**, at approximately 19:25 UTC. Setup, upstream, credentials, overlay and profile preparation had passed; packaging, artifact upload and release publishing did not run. The environment can query the public run summary, but repeated authenticated attempts to download job `102594566866` logs currently fail at its outbound proxy with HTTP 502, so no source diagnosis is yet possible and a blind retry would be wasteful. No Android workflow was started. Resume by downloading that job log once GitHub connectivity recovers, fix the first real compiler error, push the fix and dispatch a new IPA run; publish only after a verified successful artifact.
+
+GitHub log access subsequently recovered. The sole Swift diagnostic was `immutable value 'component' was never used` in `StoryContainerScreen.View.navigate(direction:)`: the per-story navigation gate had moved the only same-peer `component.content.navigate` call into its confirmation closure, leaving the outer upstream guard binding unused under Telegram's warnings-as-errors build. The overlay now removes only that stale binding while retaining the environment/controller guard and reacquiring `self.component` inside the approved closure. A clean exact-anchor overlay check must pass before the retry.

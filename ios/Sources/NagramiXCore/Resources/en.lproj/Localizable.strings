@@ -69,9 +69,9 @@
 "NagramiX.Settings.Calls.ForceTcpInfo" = "Please change this setting only if you know what it does.";
 "NagramiX.Settings.Messages.Header" = "MESSAGES";
 "NagramiX.Settings.Messages.Deleted" = "Deleted Messages";
-"NagramiX.Settings.Messages.DeletedInfo" = "Show deleted messages with a Deleted label";
+"NagramiX.Settings.Messages.DeletedInfo" = "Experimental · Shows deleted messages with a Deleted label";
 "NagramiX.Settings.Messages.EditHistory" = "Message Edit History";
-"NagramiX.Settings.Messages.EditHistoryInfo" = "Long-press an edited message to view previous versions";
+"NagramiX.Settings.Messages.EditHistoryInfo" = "Experimental · Shows the revisions of edited messages observed by this client";
 "NagramiX.Messages.Deleted" = "Deleted";
 "NagramiX.Messages.EditHistory" = "Edit History";
 "NagramiX.Messages.OriginalVersion" = "Original Version";

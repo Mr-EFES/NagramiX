@@ -143,9 +143,9 @@
 "NagramiX.Settings.Calls.ForceTcpInfo" = "Пожалуйста, меняйте эту настройку только если вы знаете, что она делает.";
 "NagramiX.Settings.Messages.Header" = "СООБЩЕНИЯ";
 "NagramiX.Settings.Messages.Deleted" = "Удалённые сообщения";
-"NagramiX.Settings.Messages.DeletedInfo" = "Показывать удалённые сообщения с меткой «Удалено»";
+"NagramiX.Settings.Messages.DeletedInfo" = "Экспериментально · Показывает удалённые сообщения с меткой «Удалено»";
 "NagramiX.Settings.Messages.EditHistory" = "История правок сообщений";
-"NagramiX.Settings.Messages.EditHistoryInfo" = "Зажмите отредактированное сообщение, чтобы увидеть предыдущие версии";
+"NagramiX.Settings.Messages.EditHistoryInfo" = "Экспериментально · Показывает полученную этим клиентом историю изменений сообщений";
 "NagramiX.Messages.Deleted" = "Удалено";
 "NagramiX.Messages.EditHistory" = "История правок";
 "NagramiX.Messages.OriginalVersion" = "Исходная версия";

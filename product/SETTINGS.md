@@ -8,13 +8,13 @@ Platform storage mechanisms differ, but ids, defaults and user-visible meaning s
 | `interface.hideCallsTab` | `true` | Interface / Tabs | Hide the Calls tab where the platform exposes it. |
 | `interface.showTabTitles` | `true` | Interface / Tabs | Show tab labels. |
 | `interface.showSearchTab` | `false` | Interface / Tabs | Show a separate Search tab/button. |
-| `interface.hideStories` | `false` | Interface / Stories | Hide the stories strip. |
+| `interface.hideStories` | `false` | Features / Stories | Hide the stories strip. |
 | `videoMessages.useRearCamera` | `false` | Features / Video messages | Start the next round-video recorder with the rear camera. |
 | `stories.disableCameraSwipe` | `false` | Features / Stories | Disable the gesture that starts story recording. |
-| `stories.confirmViewing` | `false` | Features / Stories | Confirm before opening an unseen story. |
+| `stories.confirmViewing` | `false` | Features / Stories | Confirm before opening each unseen story. |
 | `stories.enableRepost` | `false` | Features / Stories | Expose the native story repost action. |
 | `calls.confirmOutgoing` | `true` | Features / Calls | Confirm before starting an outgoing call. |
-| `calls.forceTcp` | `false` | Features / Calls | Force supported voice/video call transports to TCP. |
+| `calls.forceTcp` | `false` | Other / Calls | Force supported voice/video call transports to TCP. |
 | `messages.showDeletedMessages` | `false` | Features / Messages | Show locally captured incoming messages after deletion, subject to exclusions. |
 | `messages.editHistory` | `false` | Features / Messages | Preserve and display revisions actually observed by this client. |
 | `profiles.showId` | `true` | Interface / Profiles | Show the numeric peer id. |

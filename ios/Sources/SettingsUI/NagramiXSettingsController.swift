@@ -61,7 +61,6 @@ private enum NagramiXSettingsEntry: ItemListNodeEntry {
     case wideChannelPosts(Bool)
     case videoMessagesHeader
     case useRearCameraForVideoMessages(Bool)
-    case interfaceStoriesHeader
     case featureStoriesHeader
     case hideStories(Bool)
     case disableStoryCameraSwipe(Bool)
@@ -87,14 +86,14 @@ private enum NagramiXSettingsEntry: ItemListNodeEntry {
     var category: NagramiXSettingsCategory {
         switch self {
         case .tabsHeader, .hideContacts, .hideCalls, .showSearchButton, .showProxyButton, .hideProxySponsorChannel, .chatsHeader, .wideChannelPosts,
-                .interfaceStoriesHeader, .hideStories, .profilesHeader, .showProfileIds, .showRegistrationDate, .showMutualContactIcon:
+                .profilesHeader, .showProfileIds, .showRegistrationDate, .showMutualContactIcon:
             return .interface
-        case .videoMessagesHeader, .useRearCameraForVideoMessages, .featureStoriesHeader, .disableStoryCameraSwipe,
-                .confirmStoryViewing, .enableStoryRepost, .callsHeader, .confirmOutgoingCalls, .forceTcpCalls, .forceTcpCallsInfo:
+        case .videoMessagesHeader, .useRearCameraForVideoMessages, .featureStoriesHeader, .hideStories, .disableStoryCameraSwipe,
+                .confirmStoryViewing, .enableStoryRepost, .callsHeader, .confirmOutgoingCalls:
             return .features
         case .messagesHeader, .showDeletedMessages, .showDeletedMessagesInfo, .messageEditHistory, .messageEditHistoryInfo, .clearMessageArchive, .messageArchiveInfo:
             return .features
-        case .proxySettings:
+        case .forceTcpCalls, .forceTcpCallsInfo, .proxySettings:
             return .other
         }
     }
@@ -107,7 +106,7 @@ private enum NagramiXSettingsEntry: ItemListNodeEntry {
             return NagramiXSettingsSection.chats.rawValue
         case .videoMessagesHeader, .useRearCameraForVideoMessages:
             return NagramiXSettingsSection.videoMessages.rawValue
-        case .interfaceStoriesHeader, .featureStoriesHeader, .hideStories, .disableStoryCameraSwipe, .confirmStoryViewing, .enableStoryRepost:
+        case .featureStoriesHeader, .hideStories, .disableStoryCameraSwipe, .confirmStoryViewing, .enableStoryRepost:
             return NagramiXSettingsSection.stories.rawValue
         case .profilesHeader, .showProfileIds, .showRegistrationDate, .showMutualContactIcon:
             return NagramiXSettingsSection.profiles.rawValue
@@ -132,7 +131,6 @@ private enum NagramiXSettingsEntry: ItemListNodeEntry {
         case .wideChannelPosts: return 7
         case .videoMessagesHeader: return 10
         case .useRearCameraForVideoMessages: return 11
-        case .interfaceStoriesHeader: return 20
         case .hideStories: return 21
         case .featureStoriesHeader: return 25
         case .disableStoryCameraSwipe: return 26
@@ -184,7 +182,7 @@ private enum NagramiXSettingsEntry: ItemListNodeEntry {
             return ItemListSectionHeaderItem(presentationData: presentationData, text: presentationData.strings.nagramiXVideoMessagesHeader, sectionId: self.section)
         case let .useRearCameraForVideoMessages(value):
             return ItemListSwitchItem(presentationData: presentationData, systemStyle: .glass, title: presentationData.strings.nagramiXUseRearCamera, value: value, sectionId: self.section, style: .blocks, updated: arguments.updateUseRearCameraForVideoMessages)
-        case .interfaceStoriesHeader, .featureStoriesHeader:
+        case .featureStoriesHeader:
             return ItemListSectionHeaderItem(presentationData: presentationData, text: presentationData.strings.nagramiXStoriesHeader, sectionId: self.section)
         case let .hideStories(value):
             return ItemListSwitchItem(presentationData: presentationData, systemStyle: .glass, title: presentationData.strings.nagramiXHideStories, value: value, sectionId: self.section, style: .blocks, updated: arguments.updateHideStories)
@@ -237,7 +235,7 @@ private func nagramiXSettingsEntries(settings: NagramiXTabSettings, category: Na
         .hideProxySponsorChannel(settings.hideProxySponsorChannel),
         .chatsHeader, .wideChannelPosts(settings.wideChannelPosts),
         .videoMessagesHeader, .useRearCameraForVideoMessages(settings.useRearCameraForVideoMessages),
-        .interfaceStoriesHeader, .featureStoriesHeader, .hideStories(settings.hideStories),
+        .featureStoriesHeader, .hideStories(settings.hideStories),
         .disableStoryCameraSwipe(settings.disableStoryCameraSwipe),
         .confirmStoryViewing(settings.confirmStoryViewing), .enableStoryRepost(settings.enableStoryRepost),
         .profilesHeader, .showProfileIds(settings.showProfileIds),

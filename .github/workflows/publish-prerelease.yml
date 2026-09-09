@@ -12,8 +12,9 @@ on:
         required: true
         type: string
       tag:
-        description: Existing GitHub pre-release tag
+        description: GitHub pre-release tag shared by the IPA and APK
         required: true
+        default: v0.2.6-rc1
         type: string
 
 permissions:
@@ -24,6 +25,9 @@ jobs:
   publish:
     runs-on: ubuntu-latest
     steps:
+      - name: Check out NagramiX release metadata
+        uses: actions/checkout@v4
+
       - name: Download the verified workflow artifact
         uses: actions/download-artifact@v5
         with:
@@ -35,18 +39,32 @@ jobs:
       - name: Validate release files
         shell: bash
         run: |
-          test -f release-assets/NagramiX-0.2.5-unsigned.ipa
+          test -f release-assets/NagramiX-0.2.6-unsigned.ipa
           test -f release-assets/BUILD-PROVENANCE.txt
-          unzip -t release-assets/NagramiX-0.2.5-unsigned.ipa
-          sha256sum release-assets/NagramiX-0.2.5-unsigned.ipa
+          unzip -t release-assets/NagramiX-0.2.6-unsigned.ipa
+          sha256sum release-assets/NagramiX-0.2.6-unsigned.ipa
 
-      - name: Upload files to the existing pre-release
+      - name: Create or update the 0.2.6 pre-release
         env:
           GH_TOKEN: ${{ github.token }}
         shell: bash
         run: |
+          if gh release view "${{ inputs.tag }}" --repo "${{ github.repository }}" >/dev/null 2>&1; then
+            gh release edit "${{ inputs.tag }}" \
+              --repo "${{ github.repository }}" \
+              --title "NagramiX 0.2.6 pre-release" \
+              --notes-file product/releases/0.2.6.md \
+              --prerelease
+          else
+            gh release create "${{ inputs.tag }}" \
+              --repo "${{ github.repository }}" \
+              --title "NagramiX 0.2.6 pre-release" \
+              --notes-file product/releases/0.2.6.md \
+              --prerelease \
+              --target "${{ github.sha }}"
+          fi
           gh release upload "${{ inputs.tag }}" \
-            release-assets/NagramiX-0.2.5-unsigned.ipa \
+            release-assets/NagramiX-0.2.6-unsigned.ipa \
             release-assets/BUILD-PROVENANCE.txt \
             --repo "${{ github.repository }}" \
             --clobber
