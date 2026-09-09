@@ -12,8 +12,9 @@ on:
         required: true
         type: string
       tag:
-        description: Existing GitHub pre-release tag
+        description: Existing shared iOS and Android pre-release tag
         required: true
+        default: v0.2.6-rc1
         type: string
 
 permissions:
@@ -24,7 +25,7 @@ jobs:
   publish:
     runs-on: ubuntu-latest
     steps:
-      - name: Download the verified Android artifact
+      - name: Download the verified Android workflow artifact
         uses: actions/download-artifact@v5
         with:
           name: ${{ inputs.artifact_name }}
@@ -35,21 +36,22 @@ jobs:
       - name: Validate Android release files
         shell: bash
         run: |
-          test -f release-assets/NagramiX-0.2.4-android-arm64.apk
+          test -f release-assets/NagramiX-0.2.6-android-arm64.apk
           test -f release-assets/ANDROID-BUILD-PROVENANCE.txt
           test -f release-assets/android-apk-metadata.txt
           test -f release-assets/android-apk-signature.txt
           test -f release-assets/android-apk-sha256.txt
-          unzip -t release-assets/NagramiX-0.2.4-android-arm64.apk
+          unzip -t release-assets/NagramiX-0.2.6-android-arm64.apk
           (cd release-assets && sha256sum --check android-apk-sha256.txt)
 
-      - name: Upload Android files to the existing pre-release
+      - name: Upload APK to the shared 0.2.6 pre-release
         env:
           GH_TOKEN: ${{ github.token }}
         shell: bash
         run: |
+          gh release view "${{ inputs.tag }}" --repo "${{ github.repository }}" >/dev/null
           gh release upload "${{ inputs.tag }}" \
-            release-assets/NagramiX-0.2.4-android-arm64.apk \
+            release-assets/NagramiX-0.2.6-android-arm64.apk \
             release-assets/ANDROID-BUILD-PROVENANCE.txt \
             release-assets/android-apk-metadata.txt \
             release-assets/android-apk-signature.txt \

@@ -579,3 +579,9 @@ GitHub log access subsequently recovered. The sole Swift diagnostic was `immutab
 The clean overlay check passed, commit `8585cc569d1998a53cdffebe905433b7e9b73a97` was pushed as `codex/nagramix-0.2.6-ipa-fix`, and retry run `34396991951` completed successfully through native ARM64 compilation, unsigned packaging, provenance generation and artifact upload. Artifact `NagramiX-0.2.6-unsigned-arm64` was 72,523,848 bytes in Actions.
 
 Publisher run `34418350595` then downloaded and validated that artifact, passed `unzip -t`, and created pre-release `v0.2.6-rc1` with the tracked 14-function notes. The live release contains `NagramiX-0.2.6-unsigned.ipa` (72,785,139 bytes) and `BUILD-PROVENANCE.txt`: `https://github.com/Mr-EFES/NagramiX/releases/tag/v0.2.6-rc1`. All iOS registry compile fields now read `compile_passed`; device status remains pending. Do not start Android until the owner's separate command.
+
+## Android APK build authorized and started (2026-09-09 UTC)
+
+The owner separately authorized the Android build. Workflow **Build NagramiX Android APK** was dispatched from commit `efee01aed761ef0970078a8bb28290d5b934b29d` as run `34418761864` (`https://github.com/Mr-EFES/NagramiX/actions/runs/34418761864`). It targets the official pinned Telegram Android 12.10.1 source and the ARM64 `afatDebug` variant. Do not publish unless compilation and the workflow's package-name, version, ABI and debug-signature validations all pass.
+
+A dedicated Android publisher now downloads only the named successful run artifact, requires the APK plus provenance/metadata/signature/checksum reports, validates the ZIP and recorded SHA-256, requires the existing shared `v0.2.6-rc1`, and uploads all Android files there without altering the IPA. On successful build, dispatch it with artifact `NagramiX-0.2.6-android-arm64`; on failure, inspect and fix the first actual build diagnostic before retrying.
