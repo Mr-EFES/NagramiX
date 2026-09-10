@@ -10,6 +10,7 @@ import android.widget.LinearLayout;
 import android.widget.EditText;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.mr_efes.nagramix.NagramiXSettings;
 
@@ -22,6 +23,7 @@ import org.telegram.messenger.SharedConfig;
 import org.telegram.tgnet.ConnectionsManager;
 import org.telegram.messenger.R;
 import org.telegram.ui.ActionBar.BaseFragment;
+import org.telegram.ui.ActionBar.ActionBar;
 import org.telegram.ui.ActionBar.AlertDialog;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Cells.HeaderCell;
@@ -43,7 +45,14 @@ public class NagramiXSettingsActivity extends BaseFragment {
     public View createView(Context context) {
         actionBar.setBackButtonImage(R.drawable.ic_ab_back);
         actionBar.setTitle(LocaleController.getString(R.string.NagramiXSettings));
-        actionBar.setActionBarMenuOnItemClick(id -> { if (id == -1) finishFragment(); });
+        actionBar.setActionBarMenuOnItemClick(new ActionBar.ActionBarMenuOnItemClick() {
+            @Override
+            public void onItemClick(int id) {
+                if (id == -1) {
+                    finishFragment();
+                }
+            }
+        });
         preferences = NagramiXSettings.INSTANCE.preferences(context);
         NagramiXSettings.INSTANCE.initializeDefaults(context);
 
@@ -217,7 +226,7 @@ public class NagramiXSettingsActivity extends BaseFragment {
                         ConnectionsManager.invalidateNagramiXDnsCache();
                         rebuild(context);
                     } else {
-                        AndroidUtilities.showToast(LocaleController.getString(R.string.NagramiXInvalidDoh));
+                        Toast.makeText(getParentActivity(), LocaleController.getString(R.string.NagramiXInvalidDoh), Toast.LENGTH_SHORT).show();
                     }
                 }).show();
     }

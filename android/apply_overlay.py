@@ -913,6 +913,16 @@ def main() -> None:
     )
     replace_exact(
         chat_activity,
+        "import android.util.SparseArray;",
+        "import android.util.SparseArray;\nimport android.util.SparseBooleanArray;",
+    )
+    replace_exact(
+        chat_activity,
+        "import android.widget.TextView;",
+        "import android.widget.TextView;\nimport android.widget.Toast;",
+    )
+    replace_exact(
+        chat_activity,
         "    public final static int OPTION_FORWARD = 2;",
         "    public final static int OPTION_FORWARD = 2;\n"
         "    private static final int OPTION_NAGRAMIX_COPY_AS_NEW = 10002;\n"
@@ -1273,7 +1283,7 @@ def main() -> None:
         NagramiXMessageArchive.getInstance(currentAccount).loadRevisions(expectedDialogId, expectedMessageId, revisions -> {
             if (dialog_id != expectedDialogId || getParentActivity() == null) return;
             if (revisions.isEmpty()) {
-                AndroidUtilities.showToast(LocaleController.getString(R.string.NagramiXNoEditHistory));
+                Toast.makeText(getParentActivity(), LocaleController.getString(R.string.NagramiXNoEditHistory), Toast.LENGTH_SHORT).show();
                 return;
             }
             StringBuilder body = new StringBuilder();
