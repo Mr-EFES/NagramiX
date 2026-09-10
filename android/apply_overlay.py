@@ -1279,12 +1279,12 @@ def main() -> None:
             StringBuilder body = new StringBuilder();
             for (int i = 0; i < revisions.size(); i++) {
                 TLRPC.Message revision = revisions.get(i);
-                if (body.length() > 0) body.append("\n\n");
+                if (body.length() > 0) body.append("\\n\\n");
                 body.append(i == 0 ? LocaleController.getString(R.string.NagramiXOriginalVersion) : LocaleController.formatDateTime(revision.date, true));
-                body.append("\n").append(revision.message == null ? "" : revision.message);
+                body.append("\\n").append(revision.message == null ? "" : revision.message);
             }
-            body.append("\n\n").append(LocaleController.getString(R.string.NagramiXCurrentVersion));
-            body.append("\n").append(source.messageOwner.message == null ? "" : source.messageOwner.message);
+            body.append("\\n\\n").append(LocaleController.getString(R.string.NagramiXCurrentVersion));
+            body.append("\\n").append(source.messageOwner.message == null ? "" : source.messageOwner.message);
             new AlertDialog.Builder(getParentActivity())
                     .setTitle(LocaleController.getString(R.string.NagramiXEditHistory))
                     .setMessage(body.toString())
