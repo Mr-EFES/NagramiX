@@ -2,22 +2,29 @@
 
 ## Last updated
 
-- Date: 2026-09-01 (UTC).
+- Date: 2026-09-10 (UTC).
 - Agent: Codex, primary agent.
 - Repository root used for this handoff: `/workspace/NagramiX`.
+
+## Main-branch consolidation and scope correction (2026-09-10 UTC)
+
+The repository's local `main` branch was created from and tracks `origin/main`, then fast-forwarded from the former 0.2.5 tip `f5e2b9e` through the complete published 0.2.6 line ending at `1f05146`. This brings the iOS 0.2.6 build/publication checkpoint, the Android 0.2.6 implementation, all compiler-guided Android fixes, and the Android publication record onto one linear main-branch history. The previous squashed `work` attempt was preserved as a separate local branch rather than merged, because its product tree duplicates the verified release line and lacks the individual compiler-fix checkpoints.
+
+The 0.2.6 release wording was also corrected: its 14 entries are the tracked and auditable 0.2.6 contract, **not** proof that every request ever made by the owner was captured or delivered. Earlier statements implying complete fulfillment beyond that written contract were too broad. Unknown or omitted requests must first be reconciled against the owner's original list, added to product specifications and the feature registry, and then implemented and tested honestly; they must not be inferred from a successful build or from the 0.2.6 version number.
+
+Verification for this consolidation includes remote-ref/ancestry inspection, confirmation that the chosen 0.2.6 Android-release tip contains the old `origin/main`, comparison against the other 0.2.6 branch tips, JSON/YAML/Python/shell/static overlay checks, and repository whitespace checks. Existing native build evidence remains the successful published 0.2.6 workflow history recorded below. No new native build or physical-device test was performed during consolidation.
+
+Exact next step after publishing the consolidated `main`: obtain the owner's missing-feature list and turn every omitted request into a named product specification and registry row before promising a 0.2.7 scope.
 
 ## Current project state
 
 NagramiX is an overlay monorepo for independent Telegram clients for iOS and Android. It does not track either complete upstream tree. CI applies the iOS overlay to pinned official Telegram-iOS 12.9.2 and the Android overlay to pinned official Telegram Android 12.10.1. iOS is the product priority; NagramX 1258 is an idea reference only.
 
-- Active release-preparation branch: `release/0.2.4-prerelease` (created from `origin/main` at `7a35310`).
-- Functional build commit: `22ec680` (`fix: use public media aliases in copy mode`); the following documentation-only synchronization commit does not change the IPA sources.
-- Tracking branch: `origin/codex/nagramix-next-fixes`; the functional build commit is pushed.
-- Configured and successfully pushed origin: `https://github.com/Mr-EFES/NagramiX.git`.
-- Tracked functional files were clean before adding the two handoff documents.
-- Existing untracked local material: `.codex-ci-31536377921.log`, `.codex-tmp-0.1.2/`, `.codex-validation-0.1.9/`, `.codex-validation-0.2.1/` through `.codex-validation-0.2.4/`, `artifacts/` and `outputs/`. These are validation trees, logs or build artifacts, not current tracked work. Do not stage them indiscriminately.
-- Latest confirmed native build: GitHub Actions run `33269968974`, successful for commit `22ec680` and version `0.2.3` build `7`.
-- Latest downloaded artifact: `outputs/NagramiX-0.2.3-33269968974/NagramiX-0.2.3-unsigned.ipa`, 72,774,846 bytes, SHA-256 `2512A4EAC603FE78D7B3D1D71B2404DD160C5A3818F6A4A87FCD4EF68390FCD2`.
+- Active integration branch: local `main`, containing the complete linear 0.2.6 history through the consolidation commit recorded above.
+- Configured origin: `https://github.com/Mr-EFES/NagramiX.git`; GitHub CLI device authentication for account `Mr-EFES` was confirmed before publication.
+- Latest confirmed native iOS build: GitHub Actions run `34396991951`, successful for commit `8585cc5`; publisher run `34418350595` attached the unsigned IPA to `v0.2.6-rc1`.
+- Latest confirmed native Android build: GitHub Actions run `34436394652`, successful for commit `ac3b270`; publisher run `34438808463` attached the ARM64 debug APK and verification files to the same pre-release.
+- Native compilation is recorded as passed for the 14 documented 0.2.6 rows. iPhone device status remains pending and Android device status remains not started; do not present either build as physical-device acceptance.
 
 ## Current development focus
 
