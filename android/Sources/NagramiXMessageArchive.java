@@ -64,6 +64,7 @@ public final class NagramiXMessageArchive {
                     if (!isEligible(message)) continue;
                     long dialogId = MessageObject.getDialogId(message);
                     byte[] value = serialize(message);
+                    if (value == null) continue;
                     byte[] previous = currentValue(db, dialogId, message.id);
                     if (previous != null && editsEnabled && !Arrays.equals(previous, value)) {
                         ContentValues revision = new ContentValues();
@@ -181,14 +182,21 @@ public final class NagramiXMessageArchive {
     }
 
     private static byte[] serialize(TLRPC.Message message) {
-        NativeByteBuffer buffer = new NativeByteBuffer(message.getObjectSize());
-        message.serializeToStream(buffer);
-        ByteBuffer copy = buffer.buffer.duplicate();
-        copy.flip();
-        byte[] value = new byte[copy.remaining()];
-        copy.get(value);
-        buffer.reuse();
-        return value;
+        NativeByteBuffer buffer = null;
+        try {
+            buffer = new NativeByteBuffer(message.getObjectSize());
+            message.serializeToStream(buffer);
+            ByteBuffer copy = buffer.buffer.duplicate();
+            copy.flip();
+            byte[] value = new byte[copy.remaining()];
+            copy.get(value);
+            return value;
+        } catch (Exception error) {
+            FileLog.e(error);
+            return null;
+        } finally {
+            if (buffer != null) buffer.reuse();
+        }
     }
 
     private static TLRPC.Message deserialize(byte[] value) {
