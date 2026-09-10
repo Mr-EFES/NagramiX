@@ -1128,19 +1128,20 @@ def main() -> None:
                 archiveMaxDate = Math.max(archiveMaxDate, date);
             }
             final long expectedDialogId = dialog_id;
+            final ArrayList<MessageObject> archiveMessages = messArr;
             NagramiXMessageArchive.getInstance(currentAccount).loadDeleted(dialog_id, archiveMinDate, archiveMaxDate, archived -> {
                 if (dialog_id != expectedDialogId || getParentActivity() == null) return;
                 java.util.HashSet<Integer> existingIds = new java.util.HashSet<>();
-                for (MessageObject item : messArr) existingIds.add(item.getId());
+                for (MessageObject item : archiveMessages) existingIds.add(item.getId());
                 for (TLRPC.Message message : archived) {
                     if (existingIds.add(message.id)) {
                         MessageObject item = new MessageObject(currentAccount, message, false, true);
                         item.nagramiXArchivedDeleted = true;
-                        messArr.add(item);
+                        archiveMessages.add(item);
                     }
                 }
-                boolean descending = messArr.size() > 1 && messArr.get(0).messageOwner.date > messArr.get(messArr.size() - 1).messageOwner.date;
-                java.util.Collections.sort(messArr, (left, right) -> descending
+                boolean descending = archiveMessages.size() > 1 && archiveMessages.get(0).messageOwner.date > archiveMessages.get(archiveMessages.size() - 1).messageOwner.date;
+                java.util.Collections.sort(archiveMessages, (left, right) -> descending
                         ? Integer.compare(right.messageOwner.date, left.messageOwner.date)
                         : Integer.compare(left.messageOwner.date, right.messageOwner.date));
                 didReceivedNotification_messagesDidLoad(id, account, args);
