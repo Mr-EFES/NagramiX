@@ -100,6 +100,27 @@ def main() -> None:
     )
     replace_exact(
         core_gradle,
+        """    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+
+        coreLibraryDesugaringEnabled true
+    }
+""",
+        """    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+
+        coreLibraryDesugaringEnabled true
+    }
+
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+""",
+    )
+    replace_exact(
+        core_gradle,
         "        targetSdkVersion 36\n\n        vectorDrawables.generatedDensities",
         "        targetSdkVersion 36\n\n"
         "        buildConfigField \"int\", \"NAGRAMIX_APP_ID\", getProps(\"TELEGRAM_APP_ID\")\n"
