@@ -897,6 +897,37 @@ def main() -> None:
 
         boolean oldStoriesCellVisibility = dialogStoriesCellVisible;''',
     )
+    replace_exact(
+        dialogs_activity,
+        "            storiesVisibilityAnimator = ValueAnimator.ofFloat(0f, 1f);",
+        "            final boolean nagramiXAnimatedVisibility = newVisibility;\n"
+        "            storiesVisibilityAnimator = ValueAnimator.ofFloat(0f, 1f);",
+    )
+    replace_exact(
+        dialogs_activity,
+        '''                    progressToShowStories = (float) animation.getAnimatedValue();
+                    if (!newVisibility) {''',
+        '''                    progressToShowStories = (float) animation.getAnimatedValue();
+                    if (!nagramiXAnimatedVisibility) {''',
+    )
+    replace_exact(
+        dialogs_activity,
+        '''                    storiesVisibilityAnimator = null;
+                    hasStories = newVisibility;''',
+        '''                    storiesVisibilityAnimator = null;
+                    hasStories = nagramiXAnimatedVisibility;''',
+    )
+    replace_exact(
+        dialogs_activity,
+        '''                    if (!hasStories && !hasOnlySlefStories) {
+                        dialogStoriesCell.setVisibility(View.GONE);
+                    }
+                    if (!newVisibility) {''',
+        '''                    if (!hasStories && !hasOnlySlefStories) {
+                        dialogStoriesCell.setVisibility(View.GONE);
+                    }
+                    if (!nagramiXAnimatedVisibility) {''',
+    )
 
     dialog_stories_cell = source / "TMessagesProj" / "src" / "main" / "java" / "org" / "telegram" / "ui" / "Stories" / "DialogStoriesCell.java"
     replace_exact(
