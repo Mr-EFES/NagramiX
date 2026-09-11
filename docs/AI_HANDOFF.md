@@ -18,6 +18,10 @@ On 2026-09-11 the owner set a main-only, iOS-first development policy. The conso
 
 Exact next step: rebuild the unsigned IPA from the exact `main` SHA, perform physical-iPhone acceptance, and inventory any owner request missing from the product specifications before promising a later release scope.
 
+## iOS 0.2.6 acceptance reset (2026-09-11 UTC)
+
+The owner decided that the previously published `v0.2.6-rc1` must not represent the accepted iPhone release. The GitHub release was already absent when checked; its remaining remote tag was deleted. An initial rebuild dispatch from `d8d54fe` was canceled before compilation so this handoff update could be included in the exact `main` provenance. The next action is to dispatch the authoritative unsigned-IPA workflow from the resulting documentation commit, retain the artifact as an unaccepted test candidate, and publish a 0.2.6 release only after physical-iPhone acceptance. Older 0.2.4 and 0.2.5 tags remain historical records and were not removed.
+
 ## Current project state
 
 NagramiX is an overlay monorepo for independent Telegram clients for iOS and Android. It does not track either complete upstream tree. CI applies the iOS overlay to pinned official Telegram-iOS 12.9.2 and the Android overlay to pinned official Telegram Android 12.10.1. iOS is the product priority; NagramX 1258 is an idea reference only.
