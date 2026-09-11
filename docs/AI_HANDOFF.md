@@ -2,7 +2,7 @@
 
 ## Last updated
 
-- Date: 2026-09-10 (UTC).
+- Date: 2026-09-11 (UTC).
 - Agent: Codex, primary agent.
 - Repository root used for this handoff: `/workspace/NagramiX`.
 
@@ -14,7 +14,9 @@ The 0.2.6 release wording was also corrected: its 14 entries are the tracked and
 
 Verification for this consolidation includes remote-ref/ancestry inspection, confirmation that the chosen 0.2.6 Android-release tip contains the old `origin/main`, comparison against the other 0.2.6 branch tips, JSON/YAML/Python/shell/static overlay checks, and repository whitespace checks. Existing native build evidence remains the successful published 0.2.6 workflow history recorded below. No new native build or physical-device test was performed during consolidation.
 
-Exact next step after publishing the consolidated `main`: obtain the owner's missing-feature list and turn every omitted request into a named product specification and registry row before promising a 0.2.7 scope.
+On 2026-09-11 the owner set a main-only, iOS-first development policy. Active work must start from `main`; obsolete development branches may be removed after confirming that `main` is published and contains their required results. Android source is retained, but new Android implementation, builds and device testing are paused until the matching iOS behavior is specified, implemented and accepted. The concise next-iOS-build inventory and remaining acceptance work are recorded in `product/releases/NEXT-IOS.md`.
+
+Exact next step: publish and verify the main-only repository state, rebuild the unsigned IPA from that exact `main` SHA, perform physical-iPhone acceptance, and inventory any owner request missing from the product specifications before promising a later release scope.
 
 ## Current project state
 
