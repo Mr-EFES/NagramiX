@@ -20,7 +20,9 @@ Exact next step: rebuild the unsigned IPA from the exact `main` SHA, perform phy
 
 ## iOS 0.2.6 acceptance reset (2026-09-11 UTC)
 
-The owner decided that the previously published `v0.2.6-rc1` must not represent the accepted iPhone release. The GitHub release was already absent when checked; its remaining remote tag was deleted. An initial rebuild dispatch from `d8d54fe` was canceled before compilation so this handoff update could be included in the exact `main` provenance. The next action is to dispatch the authoritative unsigned-IPA workflow from the resulting documentation commit, retain the artifact as an unaccepted test candidate, and publish a 0.2.6 release only after physical-iPhone acceptance. Older 0.2.4 and 0.2.5 tags remain historical records and were not removed.
+The owner decided that the previously published `v0.2.6-rc1` must not represent the accepted iPhone release. The GitHub release was already absent when checked; its remaining remote tag was deleted. An initial rebuild dispatch from `d8d54fe` was canceled before compilation so the acceptance-reset documentation could be included in provenance. Replacement run `34586208208` from `8b92946` completed successfully through native ARM64 compilation, unsigned packaging, provenance generation and artifact upload. Its IPA remains an unaccepted Actions test artifact; publish 0.2.6 only after physical-iPhone acceptance. Older 0.2.4 and 0.2.5 tags remain historical records and were not removed.
+
+The owner subsequently established exact release numbering with no RC suffixes: the accepted release tags are `v0.2.6`, then `v0.2.7`, and so on. Publisher defaults, release titles and current release documentation now follow that policy. Build artifacts remain unpublished test candidates until iPhone acceptance; successful acceptance permits publication under the exact `v0.2.6` tag.
 
 ## Current project state
 
@@ -28,7 +30,7 @@ NagramiX is an overlay monorepo for independent Telegram clients for iOS and And
 
 - Active integration branch: local `main`, containing the complete linear 0.2.6 history through the consolidation commit recorded above.
 - Configured origin: `https://github.com/Mr-EFES/NagramiX.git`; GitHub CLI device authentication for account `Mr-EFES` was confirmed before publication.
-- Latest confirmed native iOS build: GitHub Actions run `34396991951`, successful for commit `8585cc5`; publisher run `34418350595` attached the unsigned IPA to `v0.2.6-rc1`.
+- Latest confirmed native iOS build: GitHub Actions run `34586208208`, successful for commit `8b92946`; its unsigned IPA and provenance are retained as Actions artifact `NagramiX-0.2.6-unsigned-arm64` for physical-iPhone acceptance and have not been published as a release.
 - Latest confirmed native Android build: GitHub Actions run `34436394652`, successful for commit `ac3b270`; publisher run `34438808463` attached the ARM64 debug APK and verification files to the same pre-release.
 - Native compilation is recorded as passed for the 14 documented 0.2.6 rows. iPhone device status remains pending and Android device status remains not started; do not present either build as physical-device acceptance.
 

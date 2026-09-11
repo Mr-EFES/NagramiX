@@ -1,4 +1,4 @@
-name: Publish NagramiX Android pre-release artifact
+name: Publish NagramiX Android release artifact
 
 on:
   workflow_dispatch:
@@ -12,9 +12,9 @@ on:
         required: true
         type: string
       tag:
-        description: Existing shared iOS and Android pre-release tag
+        description: Existing shared iOS and Android release tag
         required: true
-        default: v0.2.6-rc1
+        default: v0.2.6
         type: string
 
 permissions:
@@ -44,7 +44,7 @@ jobs:
           unzip -t release-assets/NagramiX-0.2.6-android-arm64.apk
           (cd release-assets && sha256sum --check android-apk-sha256.txt)
 
-      - name: Upload APK to the shared 0.2.6 pre-release
+      - name: Upload APK to the shared 0.2.6 release
         env:
           GH_TOKEN: ${{ github.token }}
         shell: bash
