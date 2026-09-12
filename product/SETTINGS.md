@@ -1,6 +1,6 @@
 # Canonical NagramiX settings contract
 
-Platform storage mechanisms differ, but ids, defaults and user-visible meaning should remain aligned. Existing persisted platform keys must not be renamed without a migration.
+Setting ids, defaults and user-visible meaning form the iOS product contract. Existing persisted keys must not be renamed without a migration.
 
 | Canonical id | Default | Category | Meaning |
 | --- | --- | --- | --- |
@@ -27,4 +27,4 @@ Platform storage mechanisms differ, but ids, defaults and user-visible meaning s
 | `network.showProxyButton` | `true` | Other / Proxy | Keep the proxy control visible in chats. |
 | `network.hideProxySponsorChannel` | `true` | Other / Proxy | Hide proxy sponsor channel content. |
 
-Archive, network and call settings require explicit platform specifications before an Android row can become Implemented. Similar upstream debug flags are not substitutes for NagramiX-owned settings.
+Archive, network and call settings require explicit iOS specifications before implementation. Similar upstream debug flags are not substitutes for NagramiX-owned settings.

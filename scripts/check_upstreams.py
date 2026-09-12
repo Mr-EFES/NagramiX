@@ -60,40 +60,14 @@ def ios_status() -> dict[str, object]:
     }
 
 
-def android_status() -> dict[str, object]:
-    pin = env_file(ROOT / "android" / "upstream.env")
-    repository = pin["TELEGRAM_ANDROID_REPOSITORY"]
-    head = remote_head(repository)
-    properties = {}
-    for line in download_text(repository, head, "gradle.properties").splitlines():
-        key, separator, value = line.partition("=")
-        if separator:
-            properties[key] = value
-    return {
-        "platform": "android",
-        "repository": repository,
-        "pinnedCommit": pin["TELEGRAM_ANDROID_REF"],
-        "pinnedVersion": pin["TELEGRAM_ANDROID_VERSION"],
-        "officialCommit": head,
-        "officialVersion": properties["APP_VERSION_NAME"],
-        "officialVersionCode": properties["APP_VERSION_CODE"],
-        "minimumOS": "API 21",
-        "current": head == pin["TELEGRAM_ANDROID_REF"] and properties["APP_VERSION_NAME"] == pin["TELEGRAM_ANDROID_VERSION"],
-    }
-
-
 def main() -> None:
     parser = argparse.ArgumentParser()
-    parser.add_argument("--platform", choices=("all", "ios", "android"), default="all")
+    parser.add_argument("--platform", choices=("all", "ios"), default="all")
     parser.add_argument("--require-current", action="store_true")
     parser.add_argument("--json", action="store_true")
     args = parser.parse_args()
 
-    results = []
-    if args.platform in ("all", "ios"):
-        results.append(ios_status())
-    if args.platform in ("all", "android"):
-        results.append(android_status())
+    results = [ios_status()]
 
     if args.json:
         print(json.dumps(results, indent=2))

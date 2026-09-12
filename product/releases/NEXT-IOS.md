@@ -2,7 +2,7 @@
 
 ## Confirmed contents
 
-The next iPhone build from `main` contains the 14 source-implemented and previously compile-verified NagramiX 0.2.6 feature groups:
+The next iPhone build from `main` contains the 14 source-implemented and previously compile-verified NagramiX 0.2.7 feature groups:
 
 1. tab visibility, labels and search controls;
 2. eight application icons;
@@ -26,6 +26,6 @@ The next iPhone build from `main` contains the 14 source-implemented and previou
 - Reconcile the owner's requests that are absent from the current product specifications. No unrecorded request is promised for the next build until it has an explicit specification and registry entry.
 - Record failures individually, fix them on iOS first and repeat build/device verification before calling the build ready.
 
-## Platform sequencing
+## Platform scope
 
-iOS is the only active implementation target. Android sources remain preserved but Android feature work, builds and device acceptance are paused. Android parity resumes only after the corresponding iOS behavior is specified, implemented and accepted.
+iOS is the only implementation target. Android sources and build automation have been removed from this repository.

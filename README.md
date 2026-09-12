@@ -1,19 +1,18 @@
 # NagramiX
 
-**NagramiX** — независимый, неофициальный и некоммерческий клиент Telegram для iPhone и Android.
+**NagramiX** — независимый, неофициальный и некоммерческий клиент Telegram для iPhone.
 
-NagramiX является самостоятельным продуктом с собственными функциями, настройками и брендингом. Базой служат только актуально проверенные официальные исходники Telegram для каждой платформы. 
+NagramiX является самостоятельным iOS-продуктом с собственными функциями, настройками и брендингом. Базой служат актуально проверенные официальные исходники Telegram-iOS.
 
-## Приоритет и платформы
+## Платформа
 
-| Платформа | Приоритет | Официальная база | Нативная реализация | Артефакт |
-| --- | --- | --- | --- | --- |
-| iOS / iPhone | Основной | `TelegramMessenger/Telegram-iOS` | Swift, Objective-C/Objective-C++ | unsigned ARM64 IPA |
-| Android / Samsung | Второй, без постоянного урезания функций | `TelegramMessenger/Telegram-Android ` | Kotlin, Java | debug-signed ARM64 APK |
+| Платформа | Официальная база | Нативная реализация | Артефакт |
+| --- | --- | --- | --- |
+| iOS / iPhone | `TelegramMessenger/Telegram-iOS` | Swift, Objective-C/Objective-C++ | unsigned ARM64 IPA |
 
-Общее продуктовое поведение описывается в [`product/`](product/README.md), а затем независимо реализуется в [`ios/`](ios/) и [`android/`](android/). Похожая функция в стороннем клиенте не считается готовым портом.
+Продуктовое поведение описывается в [`product/`](product/README.md), а реализация и брендинг находятся в [`ios/`](ios/).
 
-## Текущая версия в разработке: 0.2.6
+## Текущая версия в разработке: 0.2.7
 
 ### Реализовано в iOS
 
@@ -29,57 +28,41 @@ NagramiX является самостоятельным продуктом с �
 - Force TCP для звонков;
 - защита offline/proxy запуска.
 
-Исходники iOS 0.2.6 подготовлены; нативная сборка и физическая проверка ещё не выполнены. Полная физическая проверка на iPhone остаётся обязательной для runtime-утверждений.
-
-### Статус Android
-
-Android перестроен на официальную базу Telegram. Независимый package id, брендинг, Kotlin settings foundation и официальный build pipeline подготовлены. Предыдущий APK на базе NagramX архитектурно устарел и должен быть заменён официальной Telegram Android сборкой после прохождения нового CI.
-
-Большинство продуктовых функций ещё требуется реализовать нативно на Kotlin/Java. Честный статус каждой функции находится в [`product/features/registry.json`](product/features/registry.json) и [`docs/ANDROID-FUNCTION-PARITY.md`](docs/ANDROID-FUNCTION-PARITY.md).
+Исходники iOS 0.2.7 подготовлены. Нативная сборка и физическая проверка актуального состояния на iPhone ещё не выполнены.
 
 ## Совместимость
-
-### iPhone
 
 - текущий официальный pin: Telegram-iOS 12.9.2;
 - минимальная версия: **iOS 13.0**;
 - IPA не содержит Apple-подписи и требует внешней подписи, например через SideStore.
-
-### Android
-
-- текущий официальный pin: Telegram Android 12.10.1;
-- минимальная версия: **Android 5.0 / API 21**;
-- APK предназначен для ARM64 и подписывается изолированным debug-ключом CI;
-- при другой подписи старую тестовую сборку может потребоваться удалить.
 
 Подробности: [`product/COMPATIBILITY.md`](product/COMPATIBILITY.md).
 
 ## Структура репозитория
 
 ```text
-product/     единые функции, настройки, терминология, parity и release scope
-ios/         overlay и Swift/Objective-C реализации для Telegram-iOS
-android/     overlay и Kotlin/Java реализации для Telegram Android
-scripts/     общие проверки upstream и упаковка
-.github/     IPA/APK/upstream/publish workflows
+product/     функции, настройки, терминология и release scope
+ios/         overlay, брендинг и Swift/Objective-C реализации для Telegram-iOS
+scripts/     проверка iOS upstream и упаковка IPA
+.github/     IPA build, upstream audit и publish workflows
 docs/        bootstrap, handoff и исторические release notes
 ```
 
-Полные исходники Telegram не копируются в репозиторий. CI получает закреплённый официальный commit и накладывает контролируемый exact-anchor overlay.
+Полные исходники Telegram-iOS не копируются в репозиторий. CI получает закреплённый официальный commit и накладывает контролируемый exact-anchor overlay.
 
-## Проверка актуальности официальных баз
+## Проверка актуальности официальной базы
 
 ```bash
 python3 scripts/check_upstreams.py
 python3 scripts/check_upstreams.py --require-current
 ```
 
-Перед IPA/APK build workflow проверяет официальный master соответствующей платформы. Если pin устарел, сборка останавливается до осознанной миграции и аудита patch anchors.
+Перед IPA build workflow проверяет официальный `master`. Если pin устарел, сборка останавливается до осознанной миграции и аудита patch anchors.
 
 ## Pre-release
 
-Тестовые версии публикуются во вкладке [Releases](https://github.com/Mr-EFES/NagramiX/releases) как **pre-release**. В одном выпуске могут находиться IPA и APK, но только если provenance подтверждает официальную базу каждой платформы. Release notes должны указывать upstream-версии, минимальные OS, подпись, SHA-256, проверенный функционал и известные ограничения.
+Тестовые версии публикуются во вкладке [Releases](https://github.com/Mr-EFES/NagramiX/releases) как **pre-release**. Release notes должны указывать upstream-версию, минимальную версию iOS, состояние подписи, SHA-256, проверенный функционал и известные ограничения.
 
 ## Правовой статус
 
-NagramiX — независимое неофициальное некоммерческое приложение. Проект не связан с Telegram Messenger Inc., не спонсируется и не одобряется Telegram. Название Telegram, протокол и официальные исходники принадлежат их соответствующим правообладателям и используются на условиях upstream-лицензий. NagramiX не заявляет прав на Telegram и отделяет собственные изменения в overlay-слоях.
+NagramiX — независимое неофициальное некоммерческое приложение. Проект не связан с Telegram Messenger Inc., не спонсируется и не одобряется Telegram.

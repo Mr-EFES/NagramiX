@@ -1,10 +1,9 @@
 {
   "schemaVersion": 1,
   "product": "NagramiX",
-  "release": "0.2.6",
+  "release": "0.2.7",
   "platformPriority": [
-    "ios",
-    "android"
+    "ios"
   ],
   "features": [
     {
@@ -13,12 +12,7 @@
       "specification": "specified",
       "ios": {
         "implementation": "implemented",
-        "compile": "compile_passed",
-        "device": "device_pending"
-      },
-      "android": {
-        "implementation": "implemented",
-        "compile": "compile_passed",
+        "compile": "not_started",
         "device": "not_started"
       }
     },
@@ -28,12 +22,7 @@
       "specification": "specified",
       "ios": {
         "implementation": "implemented",
-        "compile": "compile_passed",
-        "device": "device_pending"
-      },
-      "android": {
-        "implementation": "implemented",
-        "compile": "compile_passed",
+        "compile": "not_started",
         "device": "not_started"
       }
     },
@@ -43,12 +32,7 @@
       "specification": "specified",
       "ios": {
         "implementation": "implemented",
-        "compile": "compile_passed",
-        "device": "device_pending"
-      },
-      "android": {
-        "implementation": "implemented",
-        "compile": "compile_passed",
+        "compile": "not_started",
         "device": "not_started"
       }
     },
@@ -58,12 +42,7 @@
       "specification": "specified",
       "ios": {
         "implementation": "implemented",
-        "compile": "compile_passed",
-        "device": "device_pending"
-      },
-      "android": {
-        "implementation": "implemented",
-        "compile": "compile_passed",
+        "compile": "not_started",
         "device": "not_started"
       }
     },
@@ -73,12 +52,7 @@
       "specification": "specified",
       "ios": {
         "implementation": "implemented",
-        "compile": "compile_passed",
-        "device": "device_pending"
-      },
-      "android": {
-        "implementation": "implemented",
-        "compile": "compile_passed",
+        "compile": "not_started",
         "device": "not_started"
       }
     },
@@ -88,12 +62,7 @@
       "specification": "specified",
       "ios": {
         "implementation": "implemented",
-        "compile": "compile_passed",
-        "device": "device_pending"
-      },
-      "android": {
-        "implementation": "implemented",
-        "compile": "compile_passed",
+        "compile": "not_started",
         "device": "not_started"
       }
     },
@@ -103,12 +72,7 @@
       "specification": "specified",
       "ios": {
         "implementation": "implemented",
-        "compile": "compile_passed",
-        "device": "device_pending"
-      },
-      "android": {
-        "implementation": "implemented",
-        "compile": "compile_passed",
+        "compile": "not_started",
         "device": "not_started"
       }
     },
@@ -118,12 +82,7 @@
       "specification": "specified",
       "ios": {
         "implementation": "implemented",
-        "compile": "compile_passed",
-        "device": "device_pending"
-      },
-      "android": {
-        "implementation": "implemented",
-        "compile": "compile_passed",
+        "compile": "not_started",
         "device": "not_started"
       }
     },
@@ -133,12 +92,7 @@
       "specification": "specified",
       "ios": {
         "implementation": "implemented",
-        "compile": "compile_passed",
-        "device": "device_pending"
-      },
-      "android": {
-        "implementation": "implemented",
-        "compile": "compile_passed",
+        "compile": "not_started",
         "device": "not_started"
       }
     },
@@ -148,12 +102,7 @@
       "specification": "specified",
       "ios": {
         "implementation": "implemented",
-        "compile": "compile_passed",
-        "device": "device_pending"
-      },
-      "android": {
-        "implementation": "implemented",
-        "compile": "compile_passed",
+        "compile": "not_started",
         "device": "not_started"
       }
     },
@@ -163,12 +112,7 @@
       "specification": "specified",
       "ios": {
         "implementation": "implemented",
-        "compile": "compile_passed",
-        "device": "device_pending"
-      },
-      "android": {
-        "implementation": "implemented",
-        "compile": "compile_passed",
+        "compile": "not_started",
         "device": "not_started"
       }
     },
@@ -178,12 +122,7 @@
       "specification": "specified",
       "ios": {
         "implementation": "implemented",
-        "compile": "compile_passed",
-        "device": "device_pending"
-      },
-      "android": {
-        "implementation": "implemented",
-        "compile": "compile_passed",
+        "compile": "not_started",
         "device": "not_started"
       }
     },
@@ -193,12 +132,7 @@
       "specification": "specified",
       "ios": {
         "implementation": "implemented",
-        "compile": "compile_passed",
-        "device": "device_pending"
-      },
-      "android": {
-        "implementation": "implemented",
-        "compile": "compile_passed",
+        "compile": "not_started",
         "device": "not_started"
       }
     },
@@ -208,12 +142,7 @@
       "specification": "specified",
       "ios": {
         "implementation": "implemented",
-        "compile": "compile_passed",
-        "device": "device_pending"
-      },
-      "android": {
-        "implementation": "implemented",
-        "compile": "compile_passed",
+        "compile": "not_started",
         "device": "not_started"
       }
     }

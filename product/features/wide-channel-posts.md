@@ -18,7 +18,6 @@ does not affect private chats, groups, Saved Messages, replies/comments,
 message previews, search results, ads or custom chat contents. The default is
 `false`, and disabling it preserves official Telegram layout behavior.
 
-## Platform plan
+## Implementation
 
 - iOS 0.2.5: native Swift integration and Interface checkbox.
-- Android: required native Kotlin/Java counterpart after the 0.2.4 parity work.

@@ -1,4 +1,4 @@
-name: Check official Telegram upstreams
+name: Check official Telegram-iOS upstream
 
 on:
   workflow_dispatch:
@@ -13,5 +13,5 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Compare pins with official Telegram repositories
+      - name: Compare pin with official Telegram-iOS repository
         run: python3 scripts/check_upstreams.py --json --require-current

@@ -2,9 +2,17 @@
 
 ## Last updated
 
-- Date: 2026-09-11 (UTC).
+- Date: 2026-09-12 (UTC).
 - Agent: Codex, primary agent.
 - Repository root used for this handoff: `/workspace/NagramiX`.
+
+## 0.2.7 iOS-only build-ready preparation (2026-09-12 UTC)
+
+The owner requested a clean single-branch repository prepared for, but not yet running, the NagramiX 0.2.7 IPA build. The active branch is now named `main`. The Android overlay, branding, parity document and Android build/publish workflows were removed. Current identity, bootstrap, product, compatibility, settings, upstream and feature-registry documents now describe iPhone/iOS only; older release notes and older handoff sections retain historical facts only.
+
+GitHub Actions and Codemagic version metadata, the release publisher, README, feature registry and `product/releases/0.2.7.md` target 0.2.7. The registry compile/device fields are deliberately `not_started` until the new macOS build and physical-iPhone acceptance actually occur. The refreshed `AppIcons/1.png` through `8.png` remain the authoritative set, with icon 1 used as the primary icon.
+
+Static repository checks are recorded in the latest commit. A fresh clean-overlay application and native macOS build remain part of the authoritative workflow. No 0.2.7 workflow was dispatched because the owner asked to give a separate build command. Exact next step: after the owner's command, push `main` if authenticated GitHub access is available, dispatch `.github/workflows/build-unsigned-ipa.yml` from that exact commit, wait for compilation/package/upload, and report the run and artifact without claiming device acceptance.
 
 ## Main-branch consolidation and scope correction (2026-09-10 UTC)
 

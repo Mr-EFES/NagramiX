@@ -1,16 +1,7 @@
 # Feature lifecycle
 
-`registry.json` is the concise parity ledger used for planning and release review.
+`registry.json` is the iOS implementation ledger used for planning and release review.
 
-Statuses:
+Statuses: `specified`, `not_started`, `in_progress`, `implemented`, `compile_passed`, `device_pending`, `verified`, and `not_applicable`.
 
-- `specified` — product behavior and acceptance criteria are approved.
-- `not_started` — no durable integration exists.
-- `in_progress` — implementation exists but is incomplete.
-- `implemented` — durable integration exists and static review passed.
-- `compile_passed` — authoritative native build passed.
-- `device_pending` — compile passed; physical-device behavior is unverified.
-- `verified` — required physical-device scenarios passed.
-- `not_applicable` — approved platform exception with a reason.
-
-A feature cannot be called cross-platform complete until both platform records are `verified` or an explicit `not_applicable` exception is approved.
+A feature is complete only when its iOS record is `verified`, unless an explicit exception is approved.
