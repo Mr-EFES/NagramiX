@@ -6,6 +6,14 @@
 - Agent: Codex, primary agent.
 - Repository root used for this handoff: `/workspace/NagramiX`.
 
+## NagramiX 0.2.7 build and release published (2026-09-12 UTC)
+
+The owner authorized the 0.2.7 build and release. GitHub Actions build run `34691813693` compiled the native ARM64 application from exact commit `56d14a08cf9d652c2754d42ec07d6f4eb3ad3867`, packaged the unsigned IPA, recorded provenance and uploaded artifact `NagramiX-0.2.7-unsigned-arm64` successfully. Publisher run `34692112858` downloaded and validated that artifact and published release `v0.2.7` at `https://github.com/Mr-EFES/NagramiX/releases/tag/v0.2.7`.
+
+The release contains `NagramiX-0.2.7-unsigned.ipa` (73,353,874 bytes, SHA-256 `f562fd0de1b4636e42bc32aff0e13b0d4e8af72a73f09d1cbbb63497d73d0109`) and `BUILD-PROVENANCE.txt`. The tag and release target the exact build commit above. All registry compile fields now read `compile_passed`; device fields remain `device_pending`. A local artifact download attempt was rejected by the external Azure blob endpoint, but the publisher's in-GitHub download, ZIP validation, checksum calculation and release upload all passed, and the live release asset exposes its GitHub-computed digest.
+
+No physical-iPhone behavior has been verified. Exact next step: externally sign and install the released IPA, then record the owner's feature-by-feature 0.2.7 results before changing runtime claims or planning fixes.
+
 ## 0.2.7 iOS-only build-ready preparation (2026-09-12 UTC)
 
 The owner requested a clean single-branch repository prepared for, but not yet running, the NagramiX 0.2.7 IPA build. The active branch is now named `main`. The Android overlay, branding, parity document and Android build/publish workflows were removed. Current identity, bootstrap, product, compatibility, settings, upstream and feature-registry documents now describe iPhone/iOS only; older release notes and older handoff sections retain historical facts only.

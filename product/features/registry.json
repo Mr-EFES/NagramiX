@@ -12,8 +12,8 @@
       "specification": "specified",
       "ios": {
         "implementation": "implemented",
-        "compile": "not_started",
-        "device": "not_started"
+        "compile": "compile_passed",
+        "device": "device_pending"
       }
     },
     {
@@ -22,8 +22,8 @@
       "specification": "specified",
       "ios": {
         "implementation": "implemented",
-        "compile": "not_started",
-        "device": "not_started"
+        "compile": "compile_passed",
+        "device": "device_pending"
       }
     },
     {
@@ -32,8 +32,8 @@
       "specification": "specified",
       "ios": {
         "implementation": "implemented",
-        "compile": "not_started",
-        "device": "not_started"
+        "compile": "compile_passed",
+        "device": "device_pending"
       }
     },
     {
@@ -42,8 +42,8 @@
       "specification": "specified",
       "ios": {
         "implementation": "implemented",
-        "compile": "not_started",
-        "device": "not_started"
+        "compile": "compile_passed",
+        "device": "device_pending"
       }
     },
     {
@@ -52,8 +52,8 @@
       "specification": "specified",
       "ios": {
         "implementation": "implemented",
-        "compile": "not_started",
-        "device": "not_started"
+        "compile": "compile_passed",
+        "device": "device_pending"
       }
     },
     {
@@ -62,8 +62,8 @@
       "specification": "specified",
       "ios": {
         "implementation": "implemented",
-        "compile": "not_started",
-        "device": "not_started"
+        "compile": "compile_passed",
+        "device": "device_pending"
       }
     },
     {
@@ -72,8 +72,8 @@
       "specification": "specified",
       "ios": {
         "implementation": "implemented",
-        "compile": "not_started",
-        "device": "not_started"
+        "compile": "compile_passed",
+        "device": "device_pending"
       }
     },
     {
@@ -82,8 +82,8 @@
       "specification": "specified",
       "ios": {
         "implementation": "implemented",
-        "compile": "not_started",
-        "device": "not_started"
+        "compile": "compile_passed",
+        "device": "device_pending"
       }
     },
     {
@@ -92,8 +92,8 @@
       "specification": "specified",
       "ios": {
         "implementation": "implemented",
-        "compile": "not_started",
-        "device": "not_started"
+        "compile": "compile_passed",
+        "device": "device_pending"
       }
     },
     {
@@ -102,8 +102,8 @@
       "specification": "specified",
       "ios": {
         "implementation": "implemented",
-        "compile": "not_started",
-        "device": "not_started"
+        "compile": "compile_passed",
+        "device": "device_pending"
       }
     },
     {
@@ -112,8 +112,8 @@
       "specification": "specified",
       "ios": {
         "implementation": "implemented",
-        "compile": "not_started",
-        "device": "not_started"
+        "compile": "compile_passed",
+        "device": "device_pending"
       }
     },
     {
@@ -122,8 +122,8 @@
       "specification": "specified",
       "ios": {
         "implementation": "implemented",
-        "compile": "not_started",
-        "device": "not_started"
+        "compile": "compile_passed",
+        "device": "device_pending"
       }
     },
     {
@@ -132,8 +132,8 @@
       "specification": "specified",
       "ios": {
         "implementation": "implemented",
-        "compile": "not_started",
-        "device": "not_started"
+        "compile": "compile_passed",
+        "device": "device_pending"
       }
     },
     {
@@ -142,8 +142,8 @@
       "specification": "specified",
       "ios": {
         "implementation": "implemented",
-        "compile": "not_started",
-        "device": "not_started"
+        "compile": "compile_passed",
+        "device": "device_pending"
       }
     }
   ]
