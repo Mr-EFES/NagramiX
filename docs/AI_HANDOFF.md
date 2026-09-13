@@ -2,9 +2,81 @@
 
 ## Last updated
 
-- Date: 2026-09-12 (UTC).
+- Date: 2026-09-13 (UTC).
 - Agent: Codex, primary agent.
 - Repository root used for this handoff: `/workspace/NagramiX`.
+
+## NagramiX 0.2.8 device-feedback corrections prepared (2026-09-13 UTC)
+
+On 2026-09-13 the owner explicitly requested the real 0.2.8 IPA build. The
+current workspace has no GitHub CLI session, `GH_TOKEN`/`GITHUB_TOKEN`, or Git
+credential, and the checkout initially had no remote. The public
+`https://github.com/Mr-EFES/NagramiX.git` remote was restored and fetched;
+`origin/main` is still at `28cb96e`, while the 0.2.8 source commit is local
+`0b074a8` on branch `work`. `git push origin HEAD:main` failed before any remote
+mutation with `could not read Username for 'https://github.com'`. Consequently
+the authoritative macOS workflow cannot yet be dispatched from the 0.2.8
+commit, and no IPA was built or claimed. Exact next step: authenticate GitHub
+CLI/Git for `Mr-EFES` with repository and workflow write access, push
+`0b074a8` plus this handoff checkpoint to `main`, dispatch
+`.github/workflows/build-unsigned-ipa.yml`, wait for every build/package/upload
+step, then download and validate `NagramiX-0.2.8-unsigned-arm64` before giving it
+to the owner for signing and device testing.
+
+The owner confirmed on a physical iPhone that the 0.2.7 rear-camera round-video
+behavior works correctly. That path was deliberately left unchanged and the
+feature registry now records device acceptance for that feature only.
+
+The owner also reported that 0.2.7 did not satisfy three previously requested
+behaviors. The 0.2.8 overlay now patches the actual clean-install authorization
+path instead of only changing shared presentation fallbacks: RMIntro loads all
+welcome-carousel strings from Telegram's bundled Russian localization, the main
+button reads “Начать общение”, and both native main-button callbacks download
+and apply `ru` before continuing to phone/code/password screens. Telegram's
+server-supported localization suggestion remains the native alternative, but
+English is no longer suppressed; thus an English-language iPhone can display
+“Continue with English”. Russian suggestions are suppressed because the main
+flow is already Russian. Existing persisted language choices remain untouched.
+
+The clean-install theme remains Telegram's built-in `.nightAccent` tinted dark
+theme both in `PresentationThemeSettings.defaultSettings` and in the temporary
+presentation data used before account settings load. Existing persisted theme
+choices remain untouched. A new product specification records exact clean
+install, alternate-language and upgrade acceptance scenarios.
+
+Wide Channel Posts previously raised only `maximumContentWidth`; Telegram's
+intrinsic content measurement could still collapse the actual bubble, so the
+setting did not guarantee the requested result. For ordinary posts in a main
+broadcast-channel timeline, the overlay now also raises final
+`maxContentWidth` to `maximumNodeWidth`, making the outer bubble consume the
+maximum safe width. It continues to use Telegram's native content and reaction
+finalizers, hides only the potentially overlapping floating share/summarize
+controls, and preserves the existing exclusions for previews, ads, replies,
+search/custom contents, private chats and groups.
+
+Tracked version/build/publisher metadata, README, feature registry, canonical
+settings, NEXT-IOS inventory, and new `product/releases/0.2.8.md` now target
+0.2.8. The corrected features are marked compile/device pending; no build or
+release has been dispatched.
+
+Verification completed in this Linux workspace: Python compilation, JSON and
+shell validation, repository and generated-tree `diff --check`, exact generated
+source assertions, and a complete `ios/apply_overlay.py` run against a clean
+checkout of pinned Telegram-iOS commit
+`6ad963e5b62d354da79040f388ae2b9132fb17b8`. Pillow was installed only in the
+agent environment so Linux could generate icon validation output; no dependency
+was added to the repository. Native macOS/Xcode/Bazel compilation, screenshots,
+and physical-iPhone verification of the corrected language/theme/wide-post
+behavior were not possible locally and remain pending.
+
+Known risk: the alternative authorization language comes from Telegram's
+supported server suggestion for the device, matching the native flow; if that
+request is unavailable, the optional alternative button does not appear. Exact
+next step: run the 0.2.8 macOS GitHub Actions build, externally sign/install the
+candidate on a clean English-language iPhone and execute
+`product/features/clean-install-defaults.md`; then enable Wide Channel Posts and
+verify text, media, forwarded, quoted, grouped and reaction-bearing posts against
+the supplied maximum-width screenshots before publishing 0.2.8.
 
 ## NagramiX 0.2.7 build and release published (2026-09-12 UTC)
 

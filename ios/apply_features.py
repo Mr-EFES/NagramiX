@@ -139,6 +139,62 @@ private func currentDateTimeFormat()""",
         "Use Telegram's dark-blue presentation before account settings load",
     )
 
+    intro_controller = source / "submodules" / "RMIntro" / "Sources" / "platform" / "ios" / "RMIntroViewController.m"
+    replace_once(
+        intro_controller,
+        'NSBundle *bundle = [NSBundle bundleWithPath:[[NSBundle mainBundle] pathForResource:@"en" ofType:@"lproj"]];',
+        'NSBundle *bundle = [NSBundle bundleWithPath:[[NSBundle mainBundle] pathForResource:@"ru" ofType:@"lproj"]];',
+        "Render every clean-install welcome carousel page from Russian resources",
+    )
+
+    authorization_splash = source / "submodules" / "AuthorizationUI" / "Sources" / "AuthorizationSequenceSplashController.swift"
+    replace_once(
+        authorization_splash,
+        'if let available = localization.availableLocalizations.first, available.languageCode != "en" {',
+        'if let available = localization.availableLocalizations.first, available.languageCode != "ru" {',
+        "Offer the iPhone language as an alternative to the Russian welcome flow",
+    )
+    replace_once(
+        authorization_splash,
+        'self.startButton = SolidRoundedButtonNode(title: "Start Messaging", theme:',
+        'self.startButton = SolidRoundedButtonNode(title: "Начать общение", theme:',
+        "Show the clean-install welcome action in Russian",
+    )
+    replace_unique(
+        authorization_splash,
+        '''        self.controller.startMessaging = { [weak self] in
+            self?.activateLocalization("en")
+        }''',
+        '''        self.controller.startMessaging = { [weak self] in
+            self?.activateLocalization("ru")
+        }''',
+        "Keep the native welcome action on Russian",
+    )
+    replace_unique(
+        authorization_splash,
+        '''        self.startButton.pressed = { [weak self] in
+            self?.activateLocalization("en")
+        }''',
+        '''        self.startButton.pressed = { [weak self] in
+            self?.activateLocalization("ru")
+        }''',
+        "Start authorization in Russian",
+    )
+    replace_once(
+        authorization_splash,
+        '''            } else {
+                return "en"
+            }
+        }
+        let suggestedCode = self.suggestedLocalization.get()''',
+        '''            } else {
+                return "ru"
+            }
+        }
+        let suggestedCode = self.suggestedLocalization.get()''',
+        "Treat Russian as the absent-settings authorization locale",
+    )
+
     core_source = overlay / "Sources" / "NagramiXCore"
     core_target = source / "submodules" / "NagramiXCore"
     if core_target.exists():
@@ -1094,6 +1150,20 @@ public final class ItemListControllerTabBarItem: Equatable {
 
         var contentPropertiesAndPrepareLayouts:""",
         "Give every ordinary broadcast-post content node the shared adaptive width",
+    )
+    replace_once(
+        chat_bubble_source,
+        "        var contentSize = CGSize(width: maxContentWidth, height: 0.0)\n",
+        """        if nagramiXWideChannelPost {
+            // A width constraint alone still lets short text and compact media
+            // collapse back to Telegram's intrinsic bubble width. Make the
+            // outer broadcast bubble itself fill the complete safe width;
+            // native content nodes and reaction controls remain unchanged.
+            maxContentWidth = max(maxContentWidth, maximumNodeWidth)
+        }
+        var contentSize = CGSize(width: maxContentWidth, height: 0.0)
+""",
+        "Force enabled broadcast post bubbles to the maximum safe width",
     )
 
     tab_bar_build = source / "submodules" / "TabBarUI" / "BUILD"

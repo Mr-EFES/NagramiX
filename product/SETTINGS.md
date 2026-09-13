@@ -8,6 +8,7 @@ Setting ids, defaults and user-visible meaning form the iOS product contract. Ex
 | `interface.hideCallsTab` | `true` | Interface / Tabs | Hide the Calls tab where the platform exposes it. |
 | `interface.showTabTitles` | `true` | Interface / Tabs | Show tab labels. |
 | `interface.showSearchTab` | `false` | Interface / Tabs | Show a separate Search tab/button. |
+| `interface.wideChannelPosts` | `false` | Interface / Chats | Force ordinary broadcast-channel posts to the maximum safe width. |
 | `interface.hideStories` | `false` | Features / Stories | Hide the stories strip. |
 | `videoMessages.useRearCamera` | `false` | Features / Video messages | Start the next round-video recorder with the rear camera. |
 | `stories.disableCameraSwipe` | `false` | Features / Stories | Disable the gesture that starts story recording. |
