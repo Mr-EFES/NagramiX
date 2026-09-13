@@ -8,20 +8,29 @@
 
 ## NagramiX 0.2.8 device-feedback corrections prepared (2026-09-13 UTC)
 
-On 2026-09-13 the owner explicitly requested the real 0.2.8 IPA build. The
-current workspace has no GitHub CLI session, `GH_TOKEN`/`GITHUB_TOKEN`, or Git
-credential, and the checkout initially had no remote. The public
-`https://github.com/Mr-EFES/NagramiX.git` remote was restored and fetched;
-`origin/main` is still at `28cb96e`, while the 0.2.8 source commit is local
-`0b074a8` on branch `work`. `git push origin HEAD:main` failed before any remote
-mutation with `could not read Username for 'https://github.com'`. Consequently
-the authoritative macOS workflow cannot yet be dispatched from the 0.2.8
-commit, and no IPA was built or claimed. Exact next step: authenticate GitHub
-CLI/Git for `Mr-EFES` with repository and workflow write access, push
-`0b074a8` plus this handoff checkpoint to `main`, dispatch
-`.github/workflows/build-unsigned-ipa.yml`, wait for every build/package/upload
-step, then download and validate `NagramiX-0.2.8-unsigned-arm64` before giving it
-to the owner for signing and device testing.
+GitHub authorization was restored with `repo` and `workflow` scopes. The 0.2.8
+source commit `cde451da3fe719e8e83b47f80accca9d25c7b799` was pushed to `origin/main`.
+Build run `34777758178` completed every authoritative macOS/Xcode/Bazel ARM64,
+unsigned-package, provenance and artifact-upload step successfully. Publisher
+run `34778268845` downloaded and validated the Actions artifact and published
+release `v0.2.8` at `https://github.com/Mr-EFES/NagramiX/releases/tag/v0.2.8`.
+The release IPA is 73,354,109 bytes with SHA-256
+`5ae29d8dd5b9b6cc978449b956548881a522eeed82d944f449907059f9d585ef`;
+the release asset exposes the same GitHub digest. Its downloaded archive passed
+`unzip -t`; `Info.plist` reports bundle id `com.mr-efes.nagramix`, display name
+`NagramiX` and version `0.2.8`; no `_CodeSignature` directory or
+`embedded.mobileprovision` remains. `BUILD-PROVENANCE.txt` records pinned
+Telegram-iOS `6ad963e5b62d354da79040f388ae2b9132fb17b8` and NagramX reference 1258.
+The corrected clean-install and wide-post rows now record `compile_passed` but
+remain `device_pending`. Exact next step: externally sign the published IPA and
+perform the physical-iPhone acceptance scenarios below.
+
+The build initially could not be dispatched because this checkout had no remote
+or GitHub credential. The remote was restored and GitHub device authorization
+was completed with the current CLI OAuth client and explicit `repo`/`workflow`
+scopes. Earlier scope-less device tokens and their 403 push attempts made no
+remote changes and have been superseded by the successful authenticated runs
+recorded above.
 
 The owner confirmed on a physical iPhone that the 0.2.7 rear-camera round-video
 behavior works correctly. That path was deliberately left unchanged and the
