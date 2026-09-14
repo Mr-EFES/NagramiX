@@ -2,9 +2,53 @@
 
 ## Last updated
 
-- Date: 2026-09-13 (UTC).
+- Date: 2026-09-14 (UTC).
 - Agent: Codex, primary agent.
 - Repository root used for this handoff: `/workspace/NagramiX`.
+
+## NagramiX 0.2.9 onboarding resource regression fix (2026-09-14 UTC)
+
+Physical-iPhone testing proved 0.2.8 defective: the welcome screen displayed
+raw `Tour.Title1` / `Tour.Text1` keys. Root cause was verified in the pinned
+Telegram BUILD graph: Telegram intentionally generates an empty
+`ru.lproj/Localizable.strings`, while the 0.2.8 overlay changed RMIntro from the
+complete bundled English resource to that empty Russian placeholder. The
+separately hardcoded Russian start button masked only one symptom. Successful
+compilation and package metadata checks did not validate localized resource
+contents.
+
+The 0.2.9 overlay now derives a complete Russian clean-install dictionary from
+the pinned complete English dictionary, replaces all six Tour titles, all six
+Tour descriptions and `Tour.StartButton` with Russian values, removes `ru` from
+Telegram's empty-language generator, and explicitly includes the generated
+Russian file in `AppStringResources`. RMIntro can therefore load real bundled
+Russian strings before any network request, while all non-Tour keys have a
+readable English fallback until Telegram downloads and applies the full Russian
+langpack. The existing Russian primary action and native alternative-language
+action remain in place.
+
+New tracked validator `scripts/validate_intro_localization.py` rejects a missing
+Russian file, any missing/empty/raw-key Tour value, or any expected translated
+value without Cyrillic. The authoritative build workflow runs it once on the
+post-overlay source and again on the Russian resource inside the natively built
+`.app` before unsigned packaging. This makes a recurrence of the exact 0.2.8
+failure a build-blocking error rather than a device surprise.
+
+Version/build/publisher/README/registry/NEXT metadata now targets 0.2.9;
+`product/releases/0.2.8.md` records that 0.2.8 is superseded and must not be used
+for acceptance. Local validation passed: Python compilation, JSON/shell and
+repository/generated-tree whitespace checks, clean full overlay application to
+pinned Telegram-iOS `6ad963e5b62d354da79040f388ae2b9132fb17b8`, validation
+of all 13 generated Russian Tour strings, and inspection that the patched Bazel
+graph no longer generates an empty Russian localization. Native macOS/Xcode
+compilation and physical-iPhone runtime verification are still pending.
+
+Exact next step: commit and push the 0.2.9 correction, run the authoritative
+macOS workflow, confirm the second validator passes inside the built `.app`,
+download/inspect the final IPA, and only then provide it for clean-install
+English-iPhone testing. After login, retest the dark default and every requested
+wide-channel post/reaction layout; do not mark those device-passed from compile
+evidence.
 
 ## NagramiX 0.2.8 device-feedback corrections prepared (2026-09-13 UTC)
 

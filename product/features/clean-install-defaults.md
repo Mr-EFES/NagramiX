@@ -38,3 +38,6 @@ are preserved; this default must not overwrite an explicit user preference.
 
 - iOS 0.2.8: exact-anchor overlay changes in TelegramPresentationData,
   TelegramUIPreferences, RMIntro and AuthorizationUI.
+- iOS 0.2.9: replace Telegram's empty generated Russian application resource
+  with a complete bundled fallback dictionary, translate every welcome key and
+  validate those values both before compilation and inside the built `.app`.

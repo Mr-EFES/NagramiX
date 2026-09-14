@@ -45,6 +45,61 @@ def localize_debug_titles(path: Path) -> None:
 def apply_features(source: Path) -> None:
     overlay = Path(__file__).resolve().parent
 
+    # Telegram intentionally generates an empty ru.lproj placeholder in its
+    # application bundle and downloads Russian after launch. NagramiX needs a
+    # complete dictionary before the first network request, so derive it from
+    # the pinned complete English dictionary and replace the welcome copy with
+    # Russian. Keeping all other keys provides a safe readable fallback if the
+    # Russian langpack download is unavailable.
+    english_app_strings = source / "Telegram" / "Telegram-iOS" / "en.lproj" / "Localizable.strings"
+    russian_app_strings = source / "Telegram" / "Telegram-iOS" / "ru.lproj" / "Localizable.strings"
+    russian_strings_text = english_app_strings.read_text(encoding="utf-8")
+    russian_tour_strings = {
+        "Tour.Title1": "Telegram",
+        "Tour.Text1": "Самый **быстрый** мессенджер в мире.\\nОн **бесплатный** и **безопасный**.",
+        "Tour.Title2": "Быстрый",
+        "Tour.Text2": "**Telegram** доставляет сообщения\\nбыстрее других приложений.",
+        "Tour.Title3": "Мощный",
+        "Tour.Text3": "В **Telegram** нет ограничений\\nна размер медиафайлов и чатов.",
+        "Tour.Title4": "Безопасный",
+        "Tour.Text4": "**Telegram** защищает ваши сообщения\\nот атак злоумышленников.",
+        "Tour.Title5": "Облачный",
+        "Tour.Text5": "**Telegram** даёт доступ к сообщениям\\nс нескольких устройств.",
+        "Tour.Title6": "Бесплатный",
+        "Tour.Text6": "**Telegram** предоставляет бесплатное\\nоблачное хранилище для чатов и медиа.",
+        "Tour.StartButton": "Начать общение",
+    }
+    for key, value in russian_tour_strings.items():
+        pattern = re.compile(rf'("{re.escape(key)}"\s*=\s*")([^"\\]*(?:\\.[^"\\]*)*)(";)')
+        russian_strings_text, replacement_count = pattern.subn(
+            lambda match, value=value: match.group(1) + value + match.group(3),
+            russian_strings_text,
+            count=1,
+        )
+        if replacement_count != 1:
+            raise SystemExit(f"Pinned Russian welcome string anchor must occur exactly once ({key})")
+    russian_app_strings.parent.mkdir(parents=True, exist_ok=True)
+    russian_app_strings.write_text(russian_strings_text, encoding="utf-8")
+
+    telegram_build = source / "Telegram" / "BUILD"
+    replace_unique(
+        telegram_build,
+        '    "ru",\n',
+        '',
+        "Do not overwrite the NagramiX Russian strings with Telegram's empty placeholder",
+    )
+    replace_unique(
+        telegram_build,
+        '''    srcs = [
+        "Telegram-iOS/en.lproj/Localizable.strings",
+    ] + [''',
+        '''    srcs = [
+        "Telegram-iOS/en.lproj/Localizable.strings",
+        "Telegram-iOS/ru.lproj/Localizable.strings",
+    ] + [''',
+        "Bundle the complete NagramiX Russian clean-install dictionary",
+    )
+
     settings_icons_source = overlay / "Assets" / "SettingsIcons"
     settings_icons_target = source / "submodules" / "TelegramUI" / "Images.xcassets" / "Item List" / "Icons"
     for icon_source in settings_icons_source.iterdir():
