@@ -50,6 +50,19 @@ English-iPhone testing. After login, retest the dark default and every requested
 wide-channel post/reaction layout; do not mark those device-passed from compile
 evidence.
 
+After commit `35dabe4` was pushed, build run `34863329057` successfully reached
+and completed native ARM64 compilation. The new post-build validator then
+stopped packaging as designed, revealing that Xcode compiles
+`Localizable.strings` into a binary plist. The first validator implementation
+only decoded UTF-8 source text and failed with `UnicodeDecodeError`; this was a
+validator-format defect, not a compilation or localization-content failure.
+The validator now detects `bplist`, loads it with Python `plistlib`, and applies
+the same 13-key/raw-value/Cyrillic checks to the compiled dictionary while
+retaining source-text validation. Both source and synthesized binary-plist
+fixtures pass locally, and the deliberately raw-key source fixture still fails.
+Exact next step: push this validator correction and rerun the complete workflow;
+do not publish unless the validator passes against the actual built `.app`.
+
 ## NagramiX 0.2.8 device-feedback corrections prepared (2026-09-13 UTC)
 
 GitHub authorization was restored with `repo` and `workflow` scopes. The 0.2.8

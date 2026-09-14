@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import argparse
+import plistlib
 import re
 from pathlib import Path
 
@@ -23,16 +24,35 @@ def main() -> None:
     if not args.strings_file.is_file():
         raise SystemExit(f"Russian localization is missing: {args.strings_file}")
 
-    text = args.strings_file.read_text(encoding="utf-8")
+    raw_data = args.strings_file.read_bytes()
+    compiled_values: dict[str, str] | None = None
+    if raw_data.startswith(b"bplist"):
+        parsed = plistlib.loads(raw_data)
+        if not isinstance(parsed, dict):
+            raise SystemExit(f"Compiled Russian localization is not a dictionary: {args.strings_file}")
+        compiled_values = parsed
+        text = ""
+    else:
+        try:
+            text = raw_data.decode("utf-8")
+        except UnicodeDecodeError as error:
+            raise SystemExit(f"Russian localization has an unsupported encoding: {error}") from error
+
     for key in REQUIRED_KEYS:
-        match = re.search(
-            rf'^"{re.escape(key)}"\s*=\s*"((?:\\.|[^"\\])*)";\s*$',
-            text,
-            flags=re.MULTILINE,
-        )
-        if match is None:
-            raise SystemExit(f"Russian welcome localization is missing key: {key}")
-        value = match.group(1).strip()
+        if compiled_values is not None:
+            raw_value = compiled_values.get(key)
+            if not isinstance(raw_value, str):
+                raise SystemExit(f"Compiled Russian welcome localization is missing key: {key}")
+            value = raw_value.strip()
+        else:
+            match = re.search(
+                rf'^"{re.escape(key)}"\s*=\s*"((?:\\.|[^"\\])*)";\s*$',
+                text,
+                flags=re.MULTILINE,
+            )
+            if match is None:
+                raise SystemExit(f"Russian welcome localization is missing key: {key}")
+            value = match.group(1).strip()
         if not value or value == key or value.startswith("Tour."):
             raise SystemExit(f"Russian welcome localization has invalid value for {key}: {value!r}")
         if key != "Tour.Title1" and not re.search("[А-Яа-яЁё]", value):
