@@ -8,6 +8,22 @@
 
 ## NagramiX 0.2.9 onboarding resource regression fix (2026-09-14 UTC)
 
+Build run `34864568013` completed successfully from exact source commit
+`053822a0093d8597d79c2ed9cebf21bb58d7a2bc`. Both localization gates passed,
+including validation of all 13 Russian Tour strings inside the Xcode-compiled
+binary-plist resource in the actual `.app`; native ARM64 compilation, unsigned
+packaging, provenance and artifact upload also passed. Publisher run
+`34865648631` downloaded/validated the artifact and published release `v0.2.9`.
+The final IPA is 73,712,891 bytes with SHA-256
+`f475e7bea152d7284200a1599af577897add9bbfb96cb0522e30577f5948acab`.
+A fresh release download passed `unzip -t`, bundle id/name/version checks,
+unsigned-state checks, and the Russian localization validator directly against
+`Payload/NagramiX.app/ru.lproj/Localizable.strings`. Manual plist inspection
+confirmed real values including `Tour.Title2=Быстрый` and
+`Tour.StartButton=Начать общение`, not raw keys. Device behavior remains pending;
+exact next step is external signing and clean-install testing on the owner's
+English-language iPhone, followed by dark-theme and wide-post acceptance.
+
 Physical-iPhone testing proved 0.2.8 defective: the welcome screen displayed
 raw `Tour.Title1` / `Tour.Text1` keys. Root cause was verified in the pinned
 Telegram BUILD graph: Telegram intentionally generates an empty
