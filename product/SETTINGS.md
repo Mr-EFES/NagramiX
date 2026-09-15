@@ -8,6 +8,7 @@ Setting ids, defaults and user-visible meaning form the iOS product contract. Ex
 | `interface.hideCallsTab` | `true` | Interface / Tabs | Hide the Calls tab where the platform exposes it. |
 | `interface.showTabTitles` | `true` | Interface / Tabs | Show tab labels. |
 | `interface.showSearchTab` | `false` | Interface / Tabs | Show a separate Search tab/button. |
+| `interface.wideChannelPosts` | `false` | Interface / Chats | Force ordinary broadcast-channel posts to the maximum safe width. |
 | `interface.hideStories` | `false` | Features / Stories | Hide the stories strip. |
 | `videoMessages.useRearCamera` | `false` | Features / Video messages | Start the next round-video recorder with the rear camera. |
 | `stories.disableCameraSwipe` | `false` | Features / Stories | Disable the gesture that starts story recording. |
@@ -22,7 +23,7 @@ Setting ids, defaults and user-visible meaning form the iOS product contract. Ex
 | `profiles.showMutualContactIcon` | `false` | Interface / Profiles | Mark real mutual contacts. |
 | `network.dnsProvider` | `system` | Other / Network | Choose system or an approved DoH provider. |
 | `network.customDohUrl` | empty | Other / Network | HTTPS URL used only for the custom DoH provider. |
-| `network.proxyAutoSwitchEnabled` | `false` | Other / Proxy | Enable automatic failover among saved proxies. |
+| `network.proxyAutoSwitchEnabled` | `true` | Other / Proxy | Enable automatic failover among saved proxies; preserve an explicit saved user choice. |
 | `network.proxyAutoSwitchTimeout` | `15` | Other / Proxy | Failover delay in seconds; allowed values are 15, 30 and 60. |
 | `network.showProxyButton` | `true` | Other / Proxy | Keep the proxy control visible in chats. |
 | `network.hideProxySponsorChannel` | `true` | Other / Proxy | Hide proxy sponsor channel content. |

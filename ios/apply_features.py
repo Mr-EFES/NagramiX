@@ -45,6 +45,61 @@ def localize_debug_titles(path: Path) -> None:
 def apply_features(source: Path) -> None:
     overlay = Path(__file__).resolve().parent
 
+    # Telegram intentionally generates an empty ru.lproj placeholder in its
+    # application bundle and downloads Russian after launch. NagramiX needs a
+    # complete dictionary before the first network request, so derive it from
+    # the pinned complete English dictionary and replace the welcome copy with
+    # Russian. Keeping all other keys provides a safe readable fallback if the
+    # Russian langpack download is unavailable.
+    english_app_strings = source / "Telegram" / "Telegram-iOS" / "en.lproj" / "Localizable.strings"
+    russian_app_strings = source / "Telegram" / "Telegram-iOS" / "ru.lproj" / "Localizable.strings"
+    russian_strings_text = english_app_strings.read_text(encoding="utf-8")
+    russian_tour_strings = {
+        "Tour.Title1": "Telegram",
+        "Tour.Text1": "Самый **быстрый** мессенджер в мире.\\nОн **бесплатный** и **безопасный**.",
+        "Tour.Title2": "Быстрый",
+        "Tour.Text2": "**Telegram** доставляет сообщения\\nбыстрее других приложений.",
+        "Tour.Title3": "Мощный",
+        "Tour.Text3": "В **Telegram** нет ограничений\\nна размер медиафайлов и чатов.",
+        "Tour.Title4": "Безопасный",
+        "Tour.Text4": "**Telegram** защищает ваши сообщения\\nот атак злоумышленников.",
+        "Tour.Title5": "Облачный",
+        "Tour.Text5": "**Telegram** даёт доступ к сообщениям\\nс нескольких устройств.",
+        "Tour.Title6": "Бесплатный",
+        "Tour.Text6": "**Telegram** предоставляет бесплатное\\nоблачное хранилище для чатов и медиа.",
+        "Tour.StartButton": "Начать общение",
+    }
+    for key, value in russian_tour_strings.items():
+        pattern = re.compile(rf'("{re.escape(key)}"\s*=\s*")([^"\\]*(?:\\.[^"\\]*)*)(";)')
+        russian_strings_text, replacement_count = pattern.subn(
+            lambda match, value=value: match.group(1) + value + match.group(3),
+            russian_strings_text,
+            count=1,
+        )
+        if replacement_count != 1:
+            raise SystemExit(f"Pinned Russian welcome string anchor must occur exactly once ({key})")
+    russian_app_strings.parent.mkdir(parents=True, exist_ok=True)
+    russian_app_strings.write_text(russian_strings_text, encoding="utf-8")
+
+    telegram_build = source / "Telegram" / "BUILD"
+    replace_unique(
+        telegram_build,
+        '    "ru",\n',
+        '',
+        "Do not overwrite the NagramiX Russian strings with Telegram's empty placeholder",
+    )
+    replace_unique(
+        telegram_build,
+        '''    srcs = [
+        "Telegram-iOS/en.lproj/Localizable.strings",
+    ] + [''',
+        '''    srcs = [
+        "Telegram-iOS/en.lproj/Localizable.strings",
+        "Telegram-iOS/ru.lproj/Localizable.strings",
+    ] + [''',
+        "Bundle the complete NagramiX Russian clean-install dictionary",
+    )
+
     settings_icons_source = overlay / "Assets" / "SettingsIcons"
     settings_icons_target = source / "submodules" / "TelegramUI" / "Images.xcassets" / "Item List" / "Icons"
     for icon_source in settings_icons_source.iterdir():
@@ -137,6 +192,68 @@ private func currentDateTimeFormat()""",
         """    return PresentationData(strings: defaultPresentationStrings, theme: defaultPresentationTheme, autoNightModeTriggered: false, chatWallpaper: defaultPresentationTheme.chat.defaultWallpaper,""",
         """    return PresentationData(strings: defaultPresentationStrings, theme: defaultDarkTintedPresentationTheme, autoNightModeTriggered: false, chatWallpaper: defaultDarkTintedPresentationTheme.chat.defaultWallpaper,""",
         "Use Telegram's dark-blue presentation before account settings load",
+    )
+
+    intro_controller = source / "submodules" / "RMIntro" / "Sources" / "platform" / "ios" / "RMIntroViewController.m"
+    replace_once(
+        intro_controller,
+        'NSBundle *bundle = [NSBundle bundleWithPath:[[NSBundle mainBundle] pathForResource:@"en" ofType:@"lproj"]];',
+        'NSBundle *bundle = [NSBundle bundleWithPath:[[NSBundle mainBundle] pathForResource:@"ru" ofType:@"lproj"]];',
+        "Render every clean-install welcome carousel page from Russian resources",
+    )
+
+    authorization_splash = source / "submodules" / "AuthorizationUI" / "Sources" / "AuthorizationSequenceSplashController.swift"
+    replace_once(
+        authorization_splash,
+        'chooseLanguageString: "Choose Language", chooseLanguageOtherString: "Choose Language", englishLanguageNameString: "English"',
+        'chooseLanguageString: "Выбрать язык", chooseLanguageOtherString: "Другие языки", englishLanguageNameString: "English"',
+        "Localize the clean-install language menu while retaining English as the alternative",
+    )
+    replace_once(
+        authorization_splash,
+        'if let available = localization.availableLocalizations.first, available.languageCode != "en" {',
+        'if let available = localization.availableLocalizations.first, available.languageCode != "ru" {',
+        "Offer the iPhone language as an alternative to the Russian welcome flow",
+    )
+    replace_once(
+        authorization_splash,
+        'self.startButton = SolidRoundedButtonNode(title: "Start Messaging", theme:',
+        'self.startButton = SolidRoundedButtonNode(title: "Начать общение", theme:',
+        "Show the clean-install welcome action in Russian",
+    )
+    replace_unique(
+        authorization_splash,
+        '''        self.controller.startMessaging = { [weak self] in
+            self?.activateLocalization("en")
+        }''',
+        '''        self.controller.startMessaging = { [weak self] in
+            self?.activateLocalization("ru")
+        }''',
+        "Keep the native welcome action on Russian",
+    )
+    replace_unique(
+        authorization_splash,
+        '''        self.startButton.pressed = { [weak self] in
+            self?.activateLocalization("en")
+        }''',
+        '''        self.startButton.pressed = { [weak self] in
+            self?.activateLocalization("ru")
+        }''',
+        "Start authorization in Russian",
+    )
+    replace_once(
+        authorization_splash,
+        '''            } else {
+                return "en"
+            }
+        }
+        let suggestedCode = self.suggestedLocalization.get()''',
+        '''            } else {
+                return "ru"
+            }
+        }
+        let suggestedCode = self.suggestedLocalization.get()''',
+        "Treat Russian as the absent-settings authorization locale",
     )
 
     core_source = overlay / "Sources" / "NagramiXCore"
@@ -1094,6 +1211,20 @@ public final class ItemListControllerTabBarItem: Equatable {
 
         var contentPropertiesAndPrepareLayouts:""",
         "Give every ordinary broadcast-post content node the shared adaptive width",
+    )
+    replace_once(
+        chat_bubble_source,
+        "        var contentSize = CGSize(width: maxContentWidth, height: 0.0)\n",
+        """        if nagramiXWideChannelPost {
+            // A width constraint alone still lets short text and compact media
+            // collapse back to Telegram's intrinsic bubble width. Make the
+            // outer broadcast bubble itself fill the complete safe width;
+            // native content nodes and reaction controls remain unchanged.
+            maxContentWidth = max(maxContentWidth, maximumNodeWidth)
+        }
+        var contentSize = CGSize(width: maxContentWidth, height: 0.0)
+""",
+        "Force enabled broadcast post bubbles to the maximum safe width",
     )
 
     tab_bar_build = source / "submodules" / "TabBarUI" / "BUILD"
@@ -3143,6 +3274,7 @@ filegroup(
             }))
             self.present(progressController, in: .window(.root), with: ViewControllerPresentationArguments(presentationAnimation: .modalSheet))
 
+            var selectedMessageIds = Set<EngineMessage.Id>()
             var requestPage: ((SearchMessagesState?) -> Void)?
             requestPage = { [weak self, weak progressController] state in
                 guard let self, self.nagramiXSelectAuthorGeneration == generation, self.chatLocation.peerId == peerId, self.chatLocation.threadId == threadId else {
@@ -3153,13 +3285,16 @@ filegroup(
                     guard let self, self.nagramiXSelectAuthorGeneration == generation, self.chatLocation.peerId == peerId, self.chatLocation.threadId == threadId else {
                         return
                     }
+                    for message in result.messages {
+                        selectedMessageIds.insert(message.id)
+                    }
                     if !result.completed {
                         requestPage?(updatedState)
                         return
                     }
                     self.nagramiXIsSelectingAuthorMessages = false
                     progressController?.dismiss()
-                    let messageIds = result.messages.map { $0.id }
+                    let messageIds = selectedMessageIds.sorted()
                     guard !messageIds.isEmpty else { return }
                     let _ = self.presentVoiceMessageDiscardAlert(action: { [weak self] in
                         self?.updateChatPresentationInterfaceState(animated: true, interactive: true, { state in
@@ -3320,8 +3455,8 @@ extension ChatControllerImpl {
     replace_once(
         chat_controller_forward_messages,
         "            }, multipleSelection: true, forwardedMessageIds: messages.map { $0.id }, selectForumThreads: true))\n",
-        "            }, multipleSelection: true, forwardedMessageIds: transferMode == .forwardWithSource ? messages.map { $0.id } : [], selectForumThreads: true))\n",
-        "Keep forward-only picker metadata out of copy-as-new mode",
+        "            }, multipleSelection: true, forwardedMessageIds: messages.map { $0.id }, selectForumThreads: true))\n",
+        "Keep Telegram's selectable send panel in copy-as-new mode",
     )
     replace_once(
         chat_controller_forward_messages,

@@ -10,11 +10,12 @@ NagramiX exposes two explicit message-transfer modes:
   It never invokes `.forward`, mutates the source message, rewrites its author,
   or removes forward metadata after sending.
 
-Both actions use Telegram's standard destination picker and pending-message
-pipeline. A single quick destination, including Saved Messages, must enter the
-same `copyAsNew` commit path as multi-destination selection; it must never fall
-through to Telegram's Saved Messages `.forward` shortcut or destination
-forward-composer state.
+Both actions use Telegram's standard selectable destination picker, send panel
+and pending-message pipeline. Copy-as-new keeps `forwardedMessageIds` populated
+for picker presentation only, so Telegram exposes its normal send button and
+long-press modes; the commit still constructs `.message` values and never
+enqueues `.forward`. Silent, scheduled and when-online modes therefore pass
+through Telegram's existing `transformEnqueueMessages` path.
 
 ## Preserved content
 
