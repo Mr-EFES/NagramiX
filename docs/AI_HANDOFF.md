@@ -28,16 +28,9 @@ across every search page instead of discarding all pages except the final one;
 proxy auto-switch defaults to enabled when its persisted key is absent; and the
 failover timer now covers every sustained `.connecting` state rather than only
 the `hasProxyIssues` subtype. Existing explicit persisted proxy choices remain
-preserved. Build/publisher/README/registry/NEXT metadata now points to 0.3.0 and
-the touched rows are reset to compile/device pending.
-
-This checkpoint is deliberately **not build-ready**. Exhaustive media-node
-verification for maximum-width posts, complete bundled Russian authorization
-strings rather than English non-Tour fallbacks, and a full audit of failover
-candidate ordering still remain. Exact next step: inspect those pinned upstream
-paths, finish each correction, apply the complete overlay to a clean checkout,
-add targeted generated-source assertions, and only then state readiness for the
-owner's separate build command.
+preserved. Build/publisher/README/registry/NEXT metadata points to 0.3.0. The
+touched rows were reset to compile pending during preparation and were promoted
+to `compile_passed` only after build `34936275726`; all remain device pending.
 
 Continued 0.3.0 work keeps `forwardedMessageIds` populated in copy-as-new's
 multi-selection controller. This is presentation state for Telegram's native
@@ -55,7 +48,7 @@ previously the persisted switch could appear ineffective until an unrelated
 controller recreation. The layout patch itself still applies only to verified
 broadcast-channel messages and preserves the native reaction/footer nodes.
 
-The authoritative build now runs `scripts/validate_0_3_0_overlay.py` directly
+The authoritative build runs `scripts/validate_0_3_0_overlay.py` directly
 after applying the overlay. Unlike repository-only text checks, this gate reads
 the generated pinned Telegram sources and blocks compilation if the Russian
 authorization actions, tinted-dark startup contract, paginated author
