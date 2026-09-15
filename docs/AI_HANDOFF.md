@@ -8,6 +8,18 @@
 
 ## NagramiX 0.3.0 correction work in progress (2026-09-14 UTC)
 
+Build run `34936275726` completed successfully on 2026-09-15 from exact
+NagramiX commit `39df1acdad22dd5f73af373ea9923f36b5ccf04a`. It passed the
+post-overlay 0.3.0 contract gate, Russian resource validation, native
+macOS/Xcode/Bazel ARM64 compilation, unsigned packaging and artifact upload.
+Publisher run `34937848482` then downloaded and validated that artifact and
+published release `v0.3.0`. The downloadable IPA is 73,715,873 bytes with
+SHA-256 `13c9b9c71b7f996864f4214c51f79a9ecd5d788e552f5efbabed2cfe1d4c113d`.
+Its provenance pins Telegram-iOS
+`6ad963e5b62d354da79040f388ae2b9132fb17b8`. Compile states for the five
+corrected features are now `compile_passed`; device acceptance remains pending
+and must not be inferred from a successful build.
+
 The owner rejected 0.2.9 and required that no build be started until the full
 0.3.0 correction set is ready. Initial verified fixes are now tracked locally:
 the authorization language chooser uses Russian labels while preserving English
