@@ -1,11 +1,21 @@
 {
   "schemaVersion": 1,
   "product": "NagramiX",
-  "release": "0.2.7",
+  "release": "0.3.1",
   "platformPriority": [
     "ios"
   ],
   "features": [
+    {
+      "id": "clean_install_defaults",
+      "title": "Russian authorization and dark clean-install theme",
+      "specification": "specified",
+      "ios": {
+        "implementation": "implemented",
+        "compile": "not_started",
+        "device": "device_pending"
+      }
+    },
     {
       "id": "tabs",
       "title": "Tab visibility and labels",
@@ -33,7 +43,7 @@
       "ios": {
         "implementation": "implemented",
         "compile": "compile_passed",
-        "device": "device_pending"
+        "device": "device_passed"
       }
     },
     {
@@ -42,7 +52,7 @@
       "specification": "specified",
       "ios": {
         "implementation": "implemented",
-        "compile": "compile_passed",
+        "compile": "not_started",
         "device": "device_pending"
       }
     },
@@ -128,11 +138,11 @@
     },
     {
       "id": "wide_channel_posts",
-      "title": "Adaptive wide broadcast-channel posts",
+      "title": "Maximum-width broadcast-channel posts",
       "specification": "specified",
       "ios": {
         "implementation": "implemented",
-        "compile": "compile_passed",
+        "compile": "not_started",
         "device": "device_pending"
       }
     },

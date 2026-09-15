@@ -2,9 +2,275 @@
 
 ## Last updated
 
-- Date: 2026-09-12 (UTC).
+- Date: 2026-09-15 (UTC).
 - Agent: Codex, primary agent.
 - Repository root used for this handoff: `/workspace/NagramiX`.
+
+## NagramiX 0.3.0 correction work in progress (2026-09-14 UTC)
+
+### 0.3.1 device-feedback corrections (2026-09-15 UTC)
+
+The next candidate is 0.3.1 so the corrected artifact cannot be confused with
+either published 0.3.0 binary. Device feedback asked to retain Telegram's third
+Send When Online option, Russian as the absent-settings default across every
+launch, the tinted dark `.nightAccent` theme rather than black night, truly
+universal broadcast-timeline width, and unreadable story content before view
+approval. Source audit confirmed the copy composer already passes
+`.whenOnline` to `scheduleWhenOnlineTimestamp` under Telegram's native
+presence eligibility; 0.3.1 validation now explicitly gates that path rather
+than forcing the option in chats where Telegram itself disallows it. Russian
+default-string resources and `.nightAccent` are likewise explicitly gated.
+
+Wide-post eligibility now resolves the destination using
+`chatLocationPeerId`; content-source, preview and sponsored-message exclusions
+were removed so all content rendered in an actual broadcast channel reaches
+the common maximum-width layout, without widening channel forwards shown in
+unrelated chats. Both external story-navigation confirmation paths now request
+their video thumbnail with `blurred: true` in addition to the existing
+full-screen dark `UIBlurEffect`. Compile and device states for the touched
+features are pending until a new authoritative build and physical test.
+
+### Forward Without Author composer correction (2026-09-15 UTC)
+
+Authoritative build run `34974992373` completed successfully from exact
+NagramiX commit `f9855cedca033d85f0e3b0c45e2152583026fac4`. The post-overlay
+execution-path validator, Russian-first localization validator, native
+macOS/Xcode/Bazel ARM64 compilation, unsigned packaging and artifact upload all
+passed. Publisher run `34977394805` validated the artifact and replaced the
+`v0.3.0` release asset. The corrected IPA is 73,715,828 bytes with SHA-256
+`7ff46e8ebca88c1e31282573019839a8bf66265e1e7c76aadbe5a38e0ed900ee`.
+The release tag now targets the exact built commit. `forward_copy.compile` is
+therefore `compile_passed`; all behavioral scenarios remain device pending
+until the owner installs and tests this exact IPA.
+
+Device feedback and pinned-source tracing invalidated the earlier assumption
+that keeping `forwardedMessageIds` in the destination picker was equivalent to
+using the chat composer. The actual copy branch forced the picker's
+`multiplePeersSelected` callback with `.generic`; that callback immediately
+built `EnqueueMessage.message` values and called `enqueueMessages`, so the
+destination chat never opened and the text/caption could not be edited there.
+
+The overlay now makes copy mode single-destination, routes `peerSelected` to
+`nagramiXOpenCopyComposer`, opens or reuses the real destination
+`ChatControllerImpl`, seeds its `ChatTextInputState`, and keeps the source media
+only as transient controller state. `ChatControllerNode.sendCurrentMessage`
+converts that transient payload to fresh `.message` values and passes them into
+the existing `sendMessages` call with Telegram's own `silentPosting`,
+`scheduleTime`, `repeatPeriod` and `postpone` arguments. The old forced
+`multiplePeersSelected(... .generic ...)` call is removed. Ordinary forwarding
+still follows the untouched Telegram `.forward` branches. Generated-tree
+validation checks both the live route and absence of that obsolete direct-send
+call. Physical-device scenarios remain pending for this new change.
+
+The new-controller path waits for `ChatController.ready` before applying the
+transient accessory/input state, preventing initial peer-state loading from
+overwriting the copy composer. Generated `.message` values also receive the
+destination chat's `threadId`, so a topic selected in the peer picker remains
+the send destination. Presentation updates use the existing non-persistent
+default, preventing a process restart from restoring forward ids without the
+matching transient copy payload.
+
+Build run `34936275726` completed successfully on 2026-09-15 from exact
+NagramiX commit `39df1acdad22dd5f73af373ea9923f36b5ccf04a`. It passed the
+post-overlay 0.3.0 contract gate, Russian resource validation, native
+macOS/Xcode/Bazel ARM64 compilation, unsigned packaging and artifact upload.
+Publisher run `34937848482` then downloaded and validated that artifact and
+published release `v0.3.0`. The downloadable IPA is 73,715,873 bytes with
+SHA-256 `13c9b9c71b7f996864f4214c51f79a9ecd5d788e552f5efbabed2cfe1d4c113d`.
+Its provenance pins Telegram-iOS
+`6ad963e5b62d354da79040f388ae2b9132fb17b8`. Compile states for the five
+corrected features are now `compile_passed`; device acceptance remains pending
+and must not be inferred from a successful build.
+
+The owner rejected 0.2.9 and required that no build be started until the full
+0.3.0 correction set is ready. Initial verified fixes are now tracked locally:
+the authorization language chooser uses Russian labels while preserving English
+as the explicit alternative; Select From Author accumulates unique message ids
+across every search page instead of discarding all pages except the final one;
+proxy auto-switch defaults to enabled when its persisted key is absent; and the
+failover timer now covers every sustained `.connecting` state rather than only
+the `hasProxyIssues` subtype. Existing explicit persisted proxy choices remain
+preserved. Build/publisher/README/registry/NEXT metadata points to 0.3.0. The
+touched rows were reset to compile pending during preparation and were promoted
+to `compile_passed` only after build `34936275726`; all remain device pending.
+
+Continued 0.3.0 work keeps `forwardedMessageIds` populated in copy-as-new's
+multi-selection controller. This is presentation state for Telegram's native
+selectable send panel, whose existing `AttachmentTextInputPanelSendMode` switch
+already applies generic, silent, scheduled and when-online transformations
+before the shared commit closure. The actual copy payload remains `.message`,
+not `.forward`, so source attribution is still absent. Clean generated-source
+inspection confirms the picker receives message ids and the native mode switch
+remains around the copy result. Product docs now state this explicitly.
+
+Changing Wide Channel Posts now requests the existing tab-interface soft
+restart immediately after persisting the value. This recreates already-open
+chat controllers so their message nodes are laid out again with the new width;
+previously the persisted switch could appear ineffective until an unrelated
+controller recreation. The layout patch itself still applies only to verified
+broadcast-channel messages and preserves the native reaction/footer nodes.
+
+The authoritative build runs `scripts/validate_0_3_0_overlay.py` directly
+after applying the overlay. Unlike repository-only text checks, this gate reads
+the generated pinned Telegram sources and blocks compilation if the Russian
+authorization actions, tinted-dark startup contract, paginated author
+selection, native copy send modes, maximum-width broadcast layout, proxy
+defaults or failover hooks disappear from the actual build tree. Native compile
+and physical-device acceptance remain pending and are not implied by this gate.
+
+## NagramiX 0.2.9 onboarding resource regression fix (2026-09-14 UTC)
+
+Build run `34864568013` completed successfully from exact source commit
+`053822a0093d8597d79c2ed9cebf21bb58d7a2bc`. Both localization gates passed,
+including validation of all 13 Russian Tour strings inside the Xcode-compiled
+binary-plist resource in the actual `.app`; native ARM64 compilation, unsigned
+packaging, provenance and artifact upload also passed. Publisher run
+`34865648631` downloaded/validated the artifact and published release `v0.2.9`.
+The final IPA is 73,712,891 bytes with SHA-256
+`f475e7bea152d7284200a1599af577897add9bbfb96cb0522e30577f5948acab`.
+A fresh release download passed `unzip -t`, bundle id/name/version checks,
+unsigned-state checks, and the Russian localization validator directly against
+`Payload/NagramiX.app/ru.lproj/Localizable.strings`. Manual plist inspection
+confirmed real values including `Tour.Title2=Быстрый` and
+`Tour.StartButton=Начать общение`, not raw keys. Device behavior remains pending;
+exact next step is external signing and clean-install testing on the owner's
+English-language iPhone, followed by dark-theme and wide-post acceptance.
+
+Physical-iPhone testing proved 0.2.8 defective: the welcome screen displayed
+raw `Tour.Title1` / `Tour.Text1` keys. Root cause was verified in the pinned
+Telegram BUILD graph: Telegram intentionally generates an empty
+`ru.lproj/Localizable.strings`, while the 0.2.8 overlay changed RMIntro from the
+complete bundled English resource to that empty Russian placeholder. The
+separately hardcoded Russian start button masked only one symptom. Successful
+compilation and package metadata checks did not validate localized resource
+contents.
+
+The 0.2.9 overlay now derives a complete Russian clean-install dictionary from
+the pinned complete English dictionary, replaces all six Tour titles, all six
+Tour descriptions and `Tour.StartButton` with Russian values, removes `ru` from
+Telegram's empty-language generator, and explicitly includes the generated
+Russian file in `AppStringResources`. RMIntro can therefore load real bundled
+Russian strings before any network request, while all non-Tour keys have a
+readable English fallback until Telegram downloads and applies the full Russian
+langpack. The existing Russian primary action and native alternative-language
+action remain in place.
+
+New tracked validator `scripts/validate_intro_localization.py` rejects a missing
+Russian file, any missing/empty/raw-key Tour value, or any expected translated
+value without Cyrillic. The authoritative build workflow runs it once on the
+post-overlay source and again on the Russian resource inside the natively built
+`.app` before unsigned packaging. This makes a recurrence of the exact 0.2.8
+failure a build-blocking error rather than a device surprise.
+
+Version/build/publisher/README/registry/NEXT metadata now targets 0.2.9;
+`product/releases/0.2.8.md` records that 0.2.8 is superseded and must not be used
+for acceptance. Local validation passed: Python compilation, JSON/shell and
+repository/generated-tree whitespace checks, clean full overlay application to
+pinned Telegram-iOS `6ad963e5b62d354da79040f388ae2b9132fb17b8`, validation
+of all 13 generated Russian Tour strings, and inspection that the patched Bazel
+graph no longer generates an empty Russian localization. Native macOS/Xcode
+compilation and physical-iPhone runtime verification are still pending.
+
+Exact next step: commit and push the 0.2.9 correction, run the authoritative
+macOS workflow, confirm the second validator passes inside the built `.app`,
+download/inspect the final IPA, and only then provide it for clean-install
+English-iPhone testing. After login, retest the dark default and every requested
+wide-channel post/reaction layout; do not mark those device-passed from compile
+evidence.
+
+After commit `35dabe4` was pushed, build run `34863329057` successfully reached
+and completed native ARM64 compilation. The new post-build validator then
+stopped packaging as designed, revealing that Xcode compiles
+`Localizable.strings` into a binary plist. The first validator implementation
+only decoded UTF-8 source text and failed with `UnicodeDecodeError`; this was a
+validator-format defect, not a compilation or localization-content failure.
+The validator now detects `bplist`, loads it with Python `plistlib`, and applies
+the same 13-key/raw-value/Cyrillic checks to the compiled dictionary while
+retaining source-text validation. Both source and synthesized binary-plist
+fixtures pass locally, and the deliberately raw-key source fixture still fails.
+Exact next step: push this validator correction and rerun the complete workflow;
+do not publish unless the validator passes against the actual built `.app`.
+
+## NagramiX 0.2.8 device-feedback corrections prepared (2026-09-13 UTC)
+
+GitHub authorization was restored with `repo` and `workflow` scopes. The 0.2.8
+source commit `cde451da3fe719e8e83b47f80accca9d25c7b799` was pushed to `origin/main`.
+Build run `34777758178` completed every authoritative macOS/Xcode/Bazel ARM64,
+unsigned-package, provenance and artifact-upload step successfully. Publisher
+run `34778268845` downloaded and validated the Actions artifact and published
+release `v0.2.8` at `https://github.com/Mr-EFES/NagramiX/releases/tag/v0.2.8`.
+The release IPA is 73,354,109 bytes with SHA-256
+`5ae29d8dd5b9b6cc978449b956548881a522eeed82d944f449907059f9d585ef`;
+the release asset exposes the same GitHub digest. Its downloaded archive passed
+`unzip -t`; `Info.plist` reports bundle id `com.mr-efes.nagramix`, display name
+`NagramiX` and version `0.2.8`; no `_CodeSignature` directory or
+`embedded.mobileprovision` remains. `BUILD-PROVENANCE.txt` records pinned
+Telegram-iOS `6ad963e5b62d354da79040f388ae2b9132fb17b8` and NagramX reference 1258.
+The corrected clean-install and wide-post rows now record `compile_passed` but
+remain `device_pending`. Exact next step: externally sign the published IPA and
+perform the physical-iPhone acceptance scenarios below.
+
+The build initially could not be dispatched because this checkout had no remote
+or GitHub credential. The remote was restored and GitHub device authorization
+was completed with the current CLI OAuth client and explicit `repo`/`workflow`
+scopes. Earlier scope-less device tokens and their 403 push attempts made no
+remote changes and have been superseded by the successful authenticated runs
+recorded above.
+
+The owner confirmed on a physical iPhone that the 0.2.7 rear-camera round-video
+behavior works correctly. That path was deliberately left unchanged and the
+feature registry now records device acceptance for that feature only.
+
+The owner also reported that 0.2.7 did not satisfy three previously requested
+behaviors. The 0.2.8 overlay now patches the actual clean-install authorization
+path instead of only changing shared presentation fallbacks: RMIntro loads all
+welcome-carousel strings from Telegram's bundled Russian localization, the main
+button reads “Начать общение”, and both native main-button callbacks download
+and apply `ru` before continuing to phone/code/password screens. Telegram's
+server-supported localization suggestion remains the native alternative, but
+English is no longer suppressed; thus an English-language iPhone can display
+“Continue with English”. Russian suggestions are suppressed because the main
+flow is already Russian. Existing persisted language choices remain untouched.
+
+The clean-install theme remains Telegram's built-in `.nightAccent` tinted dark
+theme both in `PresentationThemeSettings.defaultSettings` and in the temporary
+presentation data used before account settings load. Existing persisted theme
+choices remain untouched. A new product specification records exact clean
+install, alternate-language and upgrade acceptance scenarios.
+
+Wide Channel Posts previously raised only `maximumContentWidth`; Telegram's
+intrinsic content measurement could still collapse the actual bubble, so the
+setting did not guarantee the requested result. For ordinary posts in a main
+broadcast-channel timeline, the overlay now also raises final
+`maxContentWidth` to `maximumNodeWidth`, making the outer bubble consume the
+maximum safe width. It continues to use Telegram's native content and reaction
+finalizers, hides only the potentially overlapping floating share/summarize
+controls, and preserves the existing exclusions for previews, ads, replies,
+search/custom contents, private chats and groups.
+
+Tracked version/build/publisher metadata, README, feature registry, canonical
+settings, NEXT-IOS inventory, and new `product/releases/0.2.8.md` now target
+0.2.8. The corrected features are marked compile/device pending; no build or
+release has been dispatched.
+
+Verification completed in this Linux workspace: Python compilation, JSON and
+shell validation, repository and generated-tree `diff --check`, exact generated
+source assertions, and a complete `ios/apply_overlay.py` run against a clean
+checkout of pinned Telegram-iOS commit
+`6ad963e5b62d354da79040f388ae2b9132fb17b8`. Pillow was installed only in the
+agent environment so Linux could generate icon validation output; no dependency
+was added to the repository. Native macOS/Xcode/Bazel compilation, screenshots,
+and physical-iPhone verification of the corrected language/theme/wide-post
+behavior were not possible locally and remain pending.
+
+Known risk: the alternative authorization language comes from Telegram's
+supported server suggestion for the device, matching the native flow; if that
+request is unavailable, the optional alternative button does not appear. Exact
+next step: run the 0.2.8 macOS GitHub Actions build, externally sign/install the
+candidate on a clean English-language iPhone and execute
+`product/features/clean-install-defaults.md`; then enable Wide Channel Posts and
+verify text, media, forwarded, quoted, grouped and reaction-bearing posts against
+the supplied maximum-width screenshots before publishing 0.2.8.
 
 ## NagramiX 0.2.7 build and release published (2026-09-12 UTC)
 
