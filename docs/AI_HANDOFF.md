@@ -27,8 +27,17 @@ were removed so all content rendered in an actual broadcast channel reaches
 the common maximum-width layout, without widening channel forwards shown in
 unrelated chats. Both external story-navigation confirmation paths now request
 their video thumbnail with `blurred: true` in addition to the existing
-full-screen dark `UIBlurEffect`. Compile and device states for the touched
-features are pending until a new authoritative build and physical test.
+full-screen dark `UIBlurEffect`.
+
+Authoritative macOS/Xcode/Bazel ARM64 build run `35018959830` completed
+successfully from exact commit `27383a17e051a52320d706d3ee2c640f1584da6b`.
+Overlay validation, native compilation, unsigned packaging, provenance and
+artifact upload passed. Publisher run `35021603114` downloaded and validated
+the artifact and published release `v0.3.1`. The release IPA is 73,719,647
+bytes with SHA-256
+`8514d65a8092df949a4bfee90e2fd3070b61ef68db2fe7d38d9e3ce6ea45ca15`.
+The touched iOS compile states are now `compile_passed`; physical-device
+behavior remains pending and must not be inferred from the successful build.
 
 ### Forward Without Author composer correction (2026-09-15 UTC)
 
