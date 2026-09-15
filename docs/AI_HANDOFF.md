@@ -10,6 +10,17 @@
 
 ### Forward Without Author composer correction (2026-09-15 UTC)
 
+Authoritative build run `34974992373` completed successfully from exact
+NagramiX commit `f9855cedca033d85f0e3b0c45e2152583026fac4`. The post-overlay
+execution-path validator, Russian-first localization validator, native
+macOS/Xcode/Bazel ARM64 compilation, unsigned packaging and artifact upload all
+passed. Publisher run `34977394805` validated the artifact and replaced the
+`v0.3.0` release asset. The corrected IPA is 73,715,828 bytes with SHA-256
+`7ff46e8ebca88c1e31282573019839a8bf66265e1e7c76aadbe5a38e0ed900ee`.
+The release tag now targets the exact built commit. `forward_copy.compile` is
+therefore `compile_passed`; all behavioral scenarios remain device pending
+until the owner installs and tests this exact IPA.
+
 Device feedback and pinned-source tracing invalidated the earlier assumption
 that keeping `forwardedMessageIds` in the destination picker was equivalent to
 using the chat composer. The actual copy branch forced the picker's
@@ -27,8 +38,7 @@ the existing `sendMessages` call with Telegram's own `silentPosting`,
 `multiplePeersSelected(... .generic ...)` call is removed. Ordinary forwarding
 still follows the untouched Telegram `.forward` branches. Generated-tree
 validation checks both the live route and absence of that obsolete direct-send
-call. Native compile and physical-device scenarios are pending for this new
-change; `forward_copy.compile` is reset accordingly.
+call. Physical-device scenarios remain pending for this new change.
 
 The new-controller path waits for `ChatController.ready` before applying the
 transient accessory/input state, preventing initial peer-state loading from
