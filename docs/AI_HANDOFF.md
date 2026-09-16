@@ -32,7 +32,17 @@ on an eligible offline `TelegramUserPresence`, and `.whenOnline` still maps to
 `scheduleWhenOnlineTimestamp`. It must not be forced for contacts/chats where
 official Telegram suppresses it. The validator now gates the corrected missing
 locale sentinel, System theme target, reliable channel lookup and native
-when-online route. Version 0.3.2 compile and device acceptance are pending.
+when-online route.
+
+Authoritative macOS/Xcode/Bazel ARM64 build run `35072555654` completed
+successfully from exact commit `e69921ad4df78469c591e04cacb5b9be6d0ab637`.
+Overlay validation, native compilation, unsigned IPA packaging, provenance and
+artifact upload all passed. Publisher run `35075061082` downloaded and validated
+the artifact and published release `v0.3.2`. The release IPA is 73,717,644 bytes
+with SHA-256
+`f1434962e581b1921ef0beb5bc12345852529aa8ea321ff4ce43809bc93121a2`.
+The touched compile states are now `compile_passed`; device acceptance remains
+pending until the owner installs and exercises this exact IPA.
 
 ### 0.3.1 device-feedback corrections (2026-09-15 UTC)
 
