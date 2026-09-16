@@ -10,11 +10,32 @@ NagramiX exposes two explicit message-transfer modes:
   It never invokes `.forward`, mutates the source message, rewrites its author,
   or removes forward metadata after sending.
 
-Both actions use Telegram's standard destination picker and pending-message
-pipeline. A single quick destination, including Saved Messages, must enter the
-same `copyAsNew` commit path as multi-destination selection; it must never fall
-through to Telegram's Saved Messages `.forward` shortcut or destination
-forward-composer state.
+Standard forwarding keeps Telegram's multi-destination picker and unchanged
+direct forwarding behavior. Copy-as-new deliberately uses single-destination
+selection: choosing a peer opens that real `ChatControllerImpl`, places the
+source text or supported media caption in its ordinary editable text input, and
+retains the supported source media as a transient controller payload. It does
+not enqueue anything from the picker.
+
+The normal forward-id accessory is used only to keep Telegram's standard send
+button and native long-press Send Options available. Inside
+`ChatControllerNode.sendCurrentMessage`, and only while the transient copy
+payload is present, those ids are converted to fresh `.message` values instead
+of `.forward` values. The resulting messages then continue through the existing
+`sendMessages(messages, silentPosting, scheduleTime, repeatPeriod, postpone)`
+pipeline. Normal, silent, scheduled and when-online delivery are therefore
+selected and executed by Telegram's existing composer code rather than by a
+NagramiX picker callback.
+
+Telegram exposes **Send When Online** only for an eligible offline user in a
+private chat. Copy-as-new must preserve that native presence/capability check;
+it must not force the option into groups, channels, service chats or private
+chats where Telegram itself suppresses it.
+
+Dismissing the forward accessory while a copy-as-new payload is active is a
+real cancellation: NagramiX clears the transient source payload and the
+text/caption it seeded into the composer. Telegram's ordinary Forward path is
+unchanged and continues to preserve an unrelated user-written draft.
 
 ## Preserved content
 
@@ -39,7 +60,9 @@ paid content and unsupported media are rejected. A multi-message selection is
 accepted only when every item can be recreated; unsupported items are not
 silently omitted and partial copies are not sent.
 
-Because the server request is produced from `.message`, the resulting message
+For a single source message, edits made in the composer replace that message's
+text or supported media caption before the `.message` value is built. Because
+the server request is produced from `.message`, the resulting message
 has the current destination send identity and no forward header. It therefore
 uses Telegram's standard Edit action wherever Telegram normally allows editing
 an ordinary outgoing message; NagramiX does not add a custom editor.
@@ -47,7 +70,9 @@ an ordinary outgoing message; NagramiX does not add a custom editor.
 ## Required device acceptance
 
 The release is not verified until channel, group, private-chat and bot messages
-can be copied to Saved Messages without a forward header, retain entities/media,
-and ordinary copied text can subsequently be edited with Telegram's native
-long-press **Edit** action. Multi-select order and album grouping must also be
-verified on a physical device.
+open in the selected destination composer before sending; editable text and
+supported captions retain entities/media; normal, silent, scheduled and
+when-online modes use Telegram's native send menu; and the received message has
+no forward header or source author. Standard Forward must be regression-tested
+separately. Multi-select order and album grouping must also be verified on a
+physical device.

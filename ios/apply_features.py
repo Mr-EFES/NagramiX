@@ -45,6 +45,61 @@ def localize_debug_titles(path: Path) -> None:
 def apply_features(source: Path) -> None:
     overlay = Path(__file__).resolve().parent
 
+    # Telegram intentionally generates an empty ru.lproj placeholder in its
+    # application bundle and downloads Russian after launch. NagramiX needs a
+    # complete dictionary before the first network request, so derive it from
+    # the pinned complete English dictionary and replace the welcome copy with
+    # Russian. Keeping all other keys provides a safe readable fallback if the
+    # Russian langpack download is unavailable.
+    english_app_strings = source / "Telegram" / "Telegram-iOS" / "en.lproj" / "Localizable.strings"
+    russian_app_strings = source / "Telegram" / "Telegram-iOS" / "ru.lproj" / "Localizable.strings"
+    russian_strings_text = english_app_strings.read_text(encoding="utf-8")
+    russian_tour_strings = {
+        "Tour.Title1": "Telegram",
+        "Tour.Text1": "Самый **быстрый** мессенджер в мире.\\nОн **бесплатный** и **безопасный**.",
+        "Tour.Title2": "Быстрый",
+        "Tour.Text2": "**Telegram** доставляет сообщения\\nбыстрее других приложений.",
+        "Tour.Title3": "Мощный",
+        "Tour.Text3": "В **Telegram** нет ограничений\\nна размер медиафайлов и чатов.",
+        "Tour.Title4": "Безопасный",
+        "Tour.Text4": "**Telegram** защищает ваши сообщения\\nот атак злоумышленников.",
+        "Tour.Title5": "Облачный",
+        "Tour.Text5": "**Telegram** даёт доступ к сообщениям\\nс нескольких устройств.",
+        "Tour.Title6": "Бесплатный",
+        "Tour.Text6": "**Telegram** предоставляет бесплатное\\nоблачное хранилище для чатов и медиа.",
+        "Tour.StartButton": "Начать общение",
+    }
+    for key, value in russian_tour_strings.items():
+        pattern = re.compile(rf'("{re.escape(key)}"\s*=\s*")([^"\\]*(?:\\.[^"\\]*)*)(";)')
+        russian_strings_text, replacement_count = pattern.subn(
+            lambda match, value=value: match.group(1) + value + match.group(3),
+            russian_strings_text,
+            count=1,
+        )
+        if replacement_count != 1:
+            raise SystemExit(f"Pinned Russian welcome string anchor must occur exactly once ({key})")
+    russian_app_strings.parent.mkdir(parents=True, exist_ok=True)
+    russian_app_strings.write_text(russian_strings_text, encoding="utf-8")
+
+    telegram_build = source / "Telegram" / "BUILD"
+    replace_unique(
+        telegram_build,
+        '    "ru",\n',
+        '',
+        "Do not overwrite the NagramiX Russian strings with Telegram's empty placeholder",
+    )
+    replace_unique(
+        telegram_build,
+        '''    srcs = [
+        "Telegram-iOS/en.lproj/Localizable.strings",
+    ] + [''',
+        '''    srcs = [
+        "Telegram-iOS/en.lproj/Localizable.strings",
+        "Telegram-iOS/ru.lproj/Localizable.strings",
+    ] + [''',
+        "Bundle the complete NagramiX Russian clean-install dictionary",
+    )
+
     settings_icons_source = overlay / "Assets" / "SettingsIcons"
     settings_icons_target = source / "submodules" / "TelegramUI" / "Images.xcassets" / "Item List" / "Icons"
     for icon_source in settings_icons_source.iterdir():
@@ -100,6 +155,12 @@ public let defaultPresentationStrings = PresentationStrings(primaryComponent:"""
         "PresentationThemeSettings(theme: .builtin(.nightAccent), themePreferredBaseTheme:",
         "Use Telegram's standard dark-blue theme on a clean install",
     )
+    replace_once(
+        presentation_theme_settings,
+        "automaticThemeSwitchSetting: AutomaticThemeSwitchSetting(force: false, trigger: .system, theme: .builtin(.night))",
+        "automaticThemeSwitchSetting: AutomaticThemeSwitchSetting(force: false, trigger: .system, theme: .builtin(.nightAccent))",
+        "Use the tinted dark theme for the default system night switch",
+    )
 
     presentation_data = source / "submodules" / "TelegramPresentationData" / "Sources" / "PresentationData.swift"
     replace_once(
@@ -137,6 +198,68 @@ private func currentDateTimeFormat()""",
         """    return PresentationData(strings: defaultPresentationStrings, theme: defaultPresentationTheme, autoNightModeTriggered: false, chatWallpaper: defaultPresentationTheme.chat.defaultWallpaper,""",
         """    return PresentationData(strings: defaultPresentationStrings, theme: defaultDarkTintedPresentationTheme, autoNightModeTriggered: false, chatWallpaper: defaultDarkTintedPresentationTheme.chat.defaultWallpaper,""",
         "Use Telegram's dark-blue presentation before account settings load",
+    )
+
+    intro_controller = source / "submodules" / "RMIntro" / "Sources" / "platform" / "ios" / "RMIntroViewController.m"
+    replace_once(
+        intro_controller,
+        'NSBundle *bundle = [NSBundle bundleWithPath:[[NSBundle mainBundle] pathForResource:@"en" ofType:@"lproj"]];',
+        'NSBundle *bundle = [NSBundle bundleWithPath:[[NSBundle mainBundle] pathForResource:@"ru" ofType:@"lproj"]];',
+        "Render every clean-install welcome carousel page from Russian resources",
+    )
+
+    authorization_splash = source / "submodules" / "AuthorizationUI" / "Sources" / "AuthorizationSequenceSplashController.swift"
+    replace_once(
+        authorization_splash,
+        'chooseLanguageString: "Choose Language", chooseLanguageOtherString: "Choose Language", englishLanguageNameString: "English"',
+        'chooseLanguageString: "Выбрать язык", chooseLanguageOtherString: "Другие языки", englishLanguageNameString: "English"',
+        "Localize the clean-install language menu while retaining English as the alternative",
+    )
+    replace_once(
+        authorization_splash,
+        'if let available = localization.availableLocalizations.first, available.languageCode != "en" {',
+        'if let available = localization.availableLocalizations.first, available.languageCode != "ru" {',
+        "Offer the iPhone language as an alternative to the Russian welcome flow",
+    )
+    replace_once(
+        authorization_splash,
+        'self.startButton = SolidRoundedButtonNode(title: "Start Messaging", theme:',
+        'self.startButton = SolidRoundedButtonNode(title: "Начать общение", theme:',
+        "Show the clean-install welcome action in Russian",
+    )
+    replace_unique(
+        authorization_splash,
+        '''        self.controller.startMessaging = { [weak self] in
+            self?.activateLocalization("en")
+        }''',
+        '''        self.controller.startMessaging = { [weak self] in
+            self?.activateLocalization("ru")
+        }''',
+        "Keep the native welcome action on Russian",
+    )
+    replace_unique(
+        authorization_splash,
+        '''        self.startButton.pressed = { [weak self] in
+            self?.activateLocalization("en")
+        }''',
+        '''        self.startButton.pressed = { [weak self] in
+            self?.activateLocalization("ru")
+        }''',
+        "Start authorization in Russian",
+    )
+    replace_once(
+        authorization_splash,
+        '''            } else {
+                return "en"
+            }
+        }
+        let suggestedCode = self.suggestedLocalization.get()''',
+        '''            } else {
+                return ""
+            }
+        }
+        let suggestedCode = self.suggestedLocalization.get()''',
+        "Force the Russian localization download when no explicit locale exists",
     )
 
     core_source = overlay / "Sources" / "NagramiXCore"
@@ -1051,17 +1174,14 @@ public final class ItemListControllerTabBarItem: Equatable {
         """        let chatLocationPeerId: PeerId = item.chatLocation.peerId ?? item.content.firstMessage.id.peerId
         let nagramiXWideChannelPost: Bool
         if NagramiXTabSettings.current.wideChannelPosts,
-           case .peer = item.chatLocation,
            let channel = firstMessage.peers[firstMessage.id.peerId] as? TelegramChannel,
-           case .broadcast = channel.info,
-           firstMessage.adAttribute == nil,
-           !isPreview {
+           case .broadcast = channel.info {
             nagramiXWideChannelPost = true
         } else {
             nagramiXWideChannelPost = false
         }
 """,
-        "Identify only ordinary main-timeline broadcast posts for wide layout",
+        "Identify every message rendered in a broadcast-channel timeline",
     )
     replace_once(
         chat_bubble_source,
@@ -1094,6 +1214,34 @@ public final class ItemListControllerTabBarItem: Equatable {
 
         var contentPropertiesAndPrepareLayouts:""",
         "Give every ordinary broadcast-post content node the shared adaptive width",
+    )
+    replace_once(
+        chat_bubble_source,
+        "        var contentSize = CGSize(width: maxContentWidth, height: 0.0)\n",
+        """        if nagramiXWideChannelPost {
+            // A width constraint alone still lets short text and compact media
+            // collapse back to Telegram's intrinsic bubble width. Make the
+            // outer broadcast bubble itself fill the complete safe width;
+            // native content nodes and reaction controls remain unchanged.
+            maxContentWidth = max(maxContentWidth, maximumNodeWidth)
+        }
+        var contentSize = CGSize(width: maxContentWidth, height: 0.0)
+""",
+        "Force enabled broadcast post bubbles to the maximum safe width",
+    )
+    replace_once(
+        chat_bubble_source,
+        "            let maxSize = layoutConstants.image.maxDimensions.fittedToWidthOrSmaller(maximumContentWidth - layoutConstants.image.bubbleInsets.left - layoutConstants.image.bubbleInsets.right)\n",
+        """            let availableMosaicWidth = maximumContentWidth - layoutConstants.image.bubbleInsets.left - layoutConstants.image.bubbleInsets.right
+            let maxSize: CGSize
+            if nagramiXWideChannelPost {
+                let scale = availableMosaicWidth / max(1.0, layoutConstants.image.maxDimensions.width)
+                maxSize = CGSize(width: availableMosaicWidth, height: floor(layoutConstants.image.maxDimensions.height * max(1.0, scale)))
+            } else {
+                maxSize = layoutConstants.image.maxDimensions.fittedToWidthOrSmaller(availableMosaicWidth)
+            }
+""",
+        "Allow photo, video and mixed-media mosaics to consume the wide channel width",
     )
 
     tab_bar_build = source / "submodules" / "TabBarUI" / "BUILD"
@@ -2094,6 +2242,7 @@ public final class ItemListControllerTabBarItem: Equatable {
     private var previewDisposable: Disposable?
     private var finished = false
     private let imageView = UIImageView()
+    private let blurView = UIVisualEffectView(effect: UIBlurEffect(style: .dark))
     private let dimView = UIView()
     private let titleLabel = UILabel()
     private let bodyLabel = UILabel()
@@ -2138,7 +2287,8 @@ public final class ItemListControllerTabBarItem: Equatable {
         self.actionButton.backgroundColor = UIColor(rgb: 0x2f80ed)
         self.actionButton.layer.cornerRadius = 14.0
         self.actionButton.addTarget(self, action: #selector(self.confirmPressed), for: .touchUpInside)
-        [self.imageView, self.dimView, self.titleLabel, self.bodyLabel, self.closeButton, self.actionButton].forEach { self.displayNode.view.addSubview($0) }
+        self.blurView.isUserInteractionEnabled = false
+        [self.imageView, self.blurView, self.dimView, self.titleLabel, self.bodyLabel, self.closeButton, self.actionButton].forEach { self.displayNode.view.addSubview($0) }
         if let previewSignal = self.previewSignal {
             self.previewDisposable = (previewSignal |> deliverOnMainQueue).start(next: { [weak self] process in
                 let size = CGSize(width: 1080.0, height: 1920.0)
@@ -2151,6 +2301,7 @@ public final class ItemListControllerTabBarItem: Equatable {
         super.containerLayoutUpdated(layout, transition: transition)
         let bounds = CGRect(origin: .zero, size: layout.size)
         transition.updateFrame(view: self.imageView, frame: bounds)
+        transition.updateFrame(view: self.blurView, frame: bounds)
         transition.updateFrame(view: self.dimView, frame: bounds)
         let inset: CGFloat = 28.0
         transition.updateFrame(view: self.closeButton, frame: CGRect(x: layout.size.width - 60.0, y: layout.safeInsets.top + 8.0, width: 44.0, height: 44.0))
@@ -2434,7 +2585,7 @@ public class StoryContainerScreen: ViewControllerComponentContainer, KeyShortcut
             case let .image(image):
                 previewSignal = chatMessagePhoto(postbox: self.context.account.postbox, userLocation: .peer(peerReference.id), userContentType: .story, photoReference: .story(peer: peerReference, id: item.storyItem.id, media: image), synchronousLoad: false, highQuality: false)
             case let .file(file):
-                previewSignal = mediaGridMessageVideo(postbox: self.context.account.postbox, userLocation: .peer(peerReference.id), userContentType: .story, videoReference: .story(peer: peerReference, id: item.storyItem.id, media: file), onlyFullSize: false, useLargeThumbnail: true, synchronousLoad: false, autoFetchFullSizeThumbnail: false, overlayColor: nil, nilForEmptyResult: false, useMiniThumbnailIfAvailable: true, blurred: false)
+                previewSignal = mediaGridMessageVideo(postbox: self.context.account.postbox, userLocation: .peer(peerReference.id), userContentType: .story, videoReference: .story(peer: peerReference, id: item.storyItem.id, media: file), onlyFullSize: false, useLargeThumbnail: true, synchronousLoad: false, autoFetchFullSizeThumbnail: false, overlayColor: nil, nilForEmptyResult: false, useMiniThumbnailIfAvailable: true, blurred: true)
             default:
                 break
             }
@@ -2497,7 +2648,7 @@ public class StoryContainerScreen: ViewControllerComponentContainer, KeyShortcut
                 case let .image(image):
                     previewSignal = chatMessagePhoto(postbox: self.context.account.postbox, userLocation: .peer(peerReference.id), userContentType: .story, photoReference: .story(peer: peerReference, id: slice.item.storyItem.id, media: image), synchronousLoad: false, highQuality: false)
                 case let .file(file):
-                    previewSignal = mediaGridMessageVideo(postbox: self.context.account.postbox, userLocation: .peer(peerReference.id), userContentType: .story, videoReference: .story(peer: peerReference, id: slice.item.storyItem.id, media: file), onlyFullSize: false, useLargeThumbnail: true, synchronousLoad: false, autoFetchFullSizeThumbnail: false, overlayColor: nil, nilForEmptyResult: false, useMiniThumbnailIfAvailable: true, blurred: false)
+                    previewSignal = mediaGridMessageVideo(postbox: self.context.account.postbox, userLocation: .peer(peerReference.id), userContentType: .story, videoReference: .story(peer: peerReference, id: slice.item.storyItem.id, media: file), onlyFullSize: false, useLargeThumbnail: true, synchronousLoad: false, autoFetchFullSizeThumbnail: false, overlayColor: nil, nilForEmptyResult: false, useMiniThumbnailIfAvailable: true, blurred: true)
                 default:
                     break
                 }
@@ -3143,6 +3294,7 @@ filegroup(
             }))
             self.present(progressController, in: .window(.root), with: ViewControllerPresentationArguments(presentationAnimation: .modalSheet))
 
+            var selectedMessageIds = Set<EngineMessage.Id>()
             var requestPage: ((SearchMessagesState?) -> Void)?
             requestPage = { [weak self, weak progressController] state in
                 guard let self, self.nagramiXSelectAuthorGeneration == generation, self.chatLocation.peerId == peerId, self.chatLocation.threadId == threadId else {
@@ -3153,13 +3305,16 @@ filegroup(
                     guard let self, self.nagramiXSelectAuthorGeneration == generation, self.chatLocation.peerId == peerId, self.chatLocation.threadId == threadId else {
                         return
                     }
+                    for message in result.messages {
+                        selectedMessageIds.insert(message.id)
+                    }
                     if !result.completed {
                         requestPage?(updatedState)
                         return
                     }
                     self.nagramiXIsSelectingAuthorMessages = false
                     progressController?.dismiss()
-                    let messageIds = result.messages.map { $0.id }
+                    let messageIds = selectedMessageIds.sorted()
                     guard !messageIds.isEmpty else { return }
                     let _ = self.presentVoiceMessageDiscardAlert(action: { [weak self] in
                         self?.updateChatPresentationInterfaceState(animated: true, interactive: true, { state in
@@ -3238,7 +3393,7 @@ func nagramiXCanCopyMessagesAsNew(_ messages: [EngineRawMessage]) -> Bool {
     return nagramiXCopyMessagesAsNew(messages) != nil
 }
 
-private func nagramiXCopyMessagesAsNew(_ messages: [EngineRawMessage]) -> [EnqueueMessage]? {
+func nagramiXCopyMessagesAsNew(_ messages: [EngineRawMessage], replacingText: NSAttributedString? = nil, threadId: Int64? = nil) -> [EnqueueMessage]? {
     guard !messages.isEmpty else {
         return nil
     }
@@ -3252,15 +3407,25 @@ private func nagramiXCopyMessagesAsNew(_ messages: [EngineRawMessage]) -> [Enque
             return nil
         }
 
+        let replacementText: NSAttributedString? = messages.count == 1 ? replacingText : nil
+        let effectiveText = replacementText ?? NSAttributedString(string: message.text)
         var attributes: [EngineMessage.Attribute] = []
         var inlineStickers: [EngineMedia.Id: EngineRawMedia] = [:]
-        if let entities = message.attributes.first(where: { $0 is TextEntitiesMessageAttribute }) as? TextEntitiesMessageAttribute {
-            attributes.append(TextEntitiesMessageAttribute(entities: entities.entities))
-            for mediaId in entities.associatedMediaIds {
+        let sourceEntities = message.attributes.first(where: { $0 is TextEntitiesMessageAttribute }) as? TextEntitiesMessageAttribute
+        if let sourceEntities {
+            for mediaId in sourceEntities.associatedMediaIds {
                 if let media = message.associatedMedia[mediaId] {
                     inlineStickers[mediaId] = media
                 }
             }
+        }
+        if let replacementText {
+            let entities = generateChatInputTextEntities(replacementText)
+            if !entities.isEmpty {
+                attributes.append(TextEntitiesMessageAttribute(entities: entities))
+            }
+        } else if let sourceEntities {
+            attributes.append(TextEntitiesMessageAttribute(entities: sourceEntities.entities))
         }
         if message.attributes.contains(where: { $0 is MediaSpoilerMessageAttribute }) {
             attributes.append(MediaSpoilerMessageAttribute())
@@ -3276,7 +3441,7 @@ private func nagramiXCopyMessagesAsNew(_ messages: [EngineRawMessage]) -> [Enque
                 return nil
             }
         }
-        if message.text.isEmpty && mediaReference == nil {
+        if effectiveText.string.isEmpty && mediaReference == nil {
             return nil
         }
 
@@ -3290,12 +3455,89 @@ private func nagramiXCopyMessagesAsNew(_ messages: [EngineRawMessage]) -> [Enque
                 localGroupingKey = generated
             }
         }
-        result.append(.message(text: message.text, attributes: attributes, inlineStickers: inlineStickers, mediaReference: mediaReference, threadId: nil, replyToMessageId: nil, replyToStoryId: nil, localGroupingKey: localGroupingKey, correlationId: nil, bubbleUpEmojiOrStickersets: []))
+        result.append(.message(text: effectiveText.string, attributes: attributes, inlineStickers: inlineStickers, mediaReference: mediaReference, threadId: threadId, replyToMessageId: nil, replyToStoryId: nil, localGroupingKey: localGroupingKey, correlationId: nil, bubbleUpEmojiOrStickersets: []))
     }
     return result
 }
 
 extension ChatControllerImpl {
+    private func nagramiXCopyInputState(_ messages: [EngineRawMessage]) -> ChatTextInputState {
+        guard messages.count == 1, let message = messages.first else {
+            return ChatTextInputState()
+        }
+        let entities = (message.attributes.first(where: { $0 is TextEntitiesMessageAttribute }) as? TextEntitiesMessageAttribute)?.entities ?? []
+        return ChatTextInputState(inputText: chatInputStateStringWithAppliedEntities(message.text, entities: entities))
+    }
+
+    private func nagramiXOpenCopyComposer(messages: [EngineRawMessage], peer: EnginePeer, threadId: Int64?, picker: PeerSelectionController) {
+        guard nagramiXCopyMessagesAsNew(messages) != nil else {
+            return
+        }
+        let inputState = self.nagramiXCopyInputState(messages)
+        let configure: (ChatControllerImpl) -> Void = { controller in
+            controller.nagramiXCopyMessagesWithoutSource = messages
+            controller.updateChatPresentationInterfaceState(animated: false, interactive: true, { state in
+                state.updatedInterfaceState({ interfaceState in
+                    interfaceState
+                        .withUpdatedForwardMessageIds(messages.map { $0.id })
+                        .withUpdatedForwardOptionsState(nil)
+                        .withUpdatedComposeInputState(inputState)
+                        .withoutSelectionState()
+                }).updatedInputMode({ _ in .text })
+            })
+        }
+
+        if case let .peer(currentPeerId) = self.chatLocation, currentPeerId == peer.id, self.chatLocation.threadId == threadId, self.parentController == nil {
+            configure(self)
+            picker.dismiss()
+            return
+        }
+
+        if let navigationController = self.navigationController as? NavigationController {
+            for case let chatController as ChatControllerImpl in navigationController.viewControllers {
+                if case let .peer(currentPeerId) = chatController.chatLocation, currentPeerId == peer.id, chatController.chatLocation.threadId == threadId, chatController.parentController == nil {
+                    configure(chatController)
+                    var controllers = navigationController.viewControllers
+                    controllers.removeAll(where: { $0 is PeerSelectionController })
+                    navigationController.setViewControllers(controllers, animated: true)
+                    return
+                }
+            }
+        }
+
+        let proceed: (ChatControllerImpl) -> Void = { [weak self] chatController in
+            guard let self else {
+                return
+            }
+            chatController.nagramiXCopyMessagesWithoutSource = messages
+            let _ = (chatController.ready.get()
+            |> filter { $0 }
+            |> take(1)
+            |> deliverOnMainQueue).startStandalone(next: { _ in
+                configure(chatController)
+            })
+            let navigationController = (self.parentController?.navigationController as? NavigationController) ?? self.effectiveNavigationController
+            guard let navigationController else {
+                return
+            }
+            var controllers = navigationController.viewControllers
+            controllers.removeAll(where: { $0 is PeerSelectionController })
+            controllers.append(chatController)
+            navigationController.setViewControllers(controllers, animated: true)
+        }
+        if let threadId {
+            let _ = (self.context.sharedContext.chatControllerForForumThread(context: self.context, peerId: peer.id, threadId: threadId)
+            |> deliverOnMainQueue).startStandalone(next: { controller in
+                if let controller = controller as? ChatControllerImpl {
+                    proceed(controller)
+                }
+            })
+        } else {
+            proceed(ChatControllerImpl(context: self.context, chatLocation: .peer(id: peer.id), initialTextInputState: inputState))
+        }
+        picker.dismiss()
+    }
+
 """,
         "Add an explicit message transfer mode",
     )
@@ -3320,56 +3562,8 @@ extension ChatControllerImpl {
     replace_once(
         chat_controller_forward_messages,
         "            }, multipleSelection: true, forwardedMessageIds: messages.map { $0.id }, selectForumThreads: true))\n",
-        "            }, multipleSelection: true, forwardedMessageIds: transferMode == .forwardWithSource ? messages.map { $0.id } : [], selectForumThreads: true))\n",
-        "Keep forward-only picker metadata out of copy-as-new mode",
-    )
-    replace_once(
-        chat_controller_forward_messages,
-        """            var attemptSelectionImpl: ((EnginePeer, ChatListDisabledPeerReason) -> Void)?
-            let controller = self.context.sharedContext.makePeerSelectionController(""",
-        """            var attemptSelectionImpl: ((EnginePeer, ChatListDisabledPeerReason) -> Void)?
-            var nagramiXCopyThreadIds: [EnginePeer.Id: Int64] = [:]
-            let controller = self.context.sharedContext.makePeerSelectionController(""",
-        "Preserve selected destination topics in copy-as-new mode",
-    )
-    replace_once(
-        chat_controller_forward_messages,
-        """                                for (peer, shouldDivert) in targetPeersShouldDivert {
-                                    var peerMessages = result
-                                    if shouldDivert {
-""",
-        """                                for (peer, shouldDivert) in targetPeersShouldDivert {
-                                    var peerMessages = result
-                                    if transferMode == .copyAsNew, let threadId = nagramiXCopyThreadIds[peer.id] {
-                                        peerMessages = peerMessages.map { $0.withUpdatedThreadId(threadId) }
-                                    }
-                                    if shouldDivert {
-""",
-        "Apply only the destination thread id without copying any source reply",
-    )
-    replace_once(
-        chat_controller_forward_messages,
-        """                        var attributes: [EngineMessage.Attribute] = []
-                        attributes.append(ForwardOptionsMessageAttribute(hideNames: forwardOptions?.hideNames == true, hideCaptions: forwardOptions?.hideCaptions == true))
-""" + "                        \n" + """                        result.append(contentsOf: messages.map { message -> EnqueueMessage in
-                            return .forward(source: message.id, threadId: nil, grouping: .auto, attributes: attributes, correlationId: nil)
-                        })
-""",
-        """                        switch transferMode {
-                        case .forwardWithSource:
-                            var attributes: [EngineMessage.Attribute] = []
-                            attributes.append(ForwardOptionsMessageAttribute(hideNames: forwardOptions?.hideNames == true, hideCaptions: forwardOptions?.hideCaptions == true))
-                            result.append(contentsOf: messages.map { message -> EnqueueMessage in
-                                return .forward(source: message.id, threadId: nil, grouping: .auto, attributes: attributes, correlationId: nil)
-                            })
-                        case .copyAsNew:
-                            guard let copiedMessages = nagramiXCopyMessagesAsNew(messages) else {
-                                return
-                            }
-                            result.append(contentsOf: copiedMessages)
-                        }
-""",
-        "Build fresh messages without forward or reply metadata",
+        "            }, multipleSelection: transferMode == .forwardWithSource, forwardedMessageIds: messages.map { $0.id }, selectForumThreads: true))\n",
+        "Use single-destination navigation for the editable copy composer",
     )
     replace_once(
         chat_controller_forward_messages,
@@ -3381,16 +3575,128 @@ extension ChatControllerImpl {
                 let accountPeerId = strongSelf.context.account.peerId
 
                 if transferMode == .copyAsNew {
-                    if let threadId {
-                        nagramiXCopyThreadIds[peer.id] = threadId
-                    }
-                    strongController.multiplePeersSelected?([peer], [peer.id: peer], NSAttributedString(string: ""), .generic, nil, nil)
+                    strongSelf.nagramiXOpenCopyComposer(messages: messages, peer: peer, threadId: threadId, picker: strongController)
                     return
                 }
+                strongSelf.nagramiXCopyMessagesWithoutSource = nil
 
                 if resetCurrent {
 """,
-        "Route single-destination copy mode through the real send-as-new commit path",
+        "Open the destination chat with an editable copy in its standard composer",
+    )
+    replace_once(
+        chat_controller_forward_messages,
+        """                                    if !isChatPinnedMessages {
+                                        maybeChat.updateChatPresentationInterfaceState(animated: false, interactive: true,""",
+        """                                    if !isChatPinnedMessages {
+                                        maybeChat.nagramiXCopyMessagesWithoutSource = nil
+                                        maybeChat.updateChatPresentationInterfaceState(animated: false, interactive: true,""",
+        "Do not let a cancelled copy draft affect a later standard forward",
+    )
+
+    chat_controller_source = source / "submodules" / "TelegramUI" / "Sources" / "ChatController.swift"
+    replace_once(
+        chat_controller_source,
+        "    var initialTextInputState: ChatTextInputState?\n",
+        "    var initialTextInputState: ChatTextInputState?\n    var nagramiXCopyMessagesWithoutSource: [EngineRawMessage]?\n",
+        "Keep the selected copy payload on the destination chat controller",
+    )
+
+    chat_controller_node = source / "submodules" / "TelegramUI" / "Sources" / "ChatControllerNode.swift"
+    replace_once(
+        chat_controller_node,
+        """                        } else if let _ = accessoryPanelNode as? ForwardAccessoryPanelNode {
+                            strongSelf.requestUpdateChatInterfaceState(.animated(duration: 0.4, curve: .spring), false, { $0.withUpdatedForwardMessageIds(nil).withUpdatedForwardOptionsState(nil) })
+""",
+        """                        } else if let _ = accessoryPanelNode as? ForwardAccessoryPanelNode {
+                            let isNagramiXCopy = strongSelf.controller?.nagramiXCopyMessagesWithoutSource != nil
+                            strongSelf.controller?.nagramiXCopyMessagesWithoutSource = nil
+                            strongSelf.requestUpdateChatInterfaceState(.animated(duration: 0.4, curve: .spring), false, { state in
+                                var state = state.withUpdatedForwardMessageIds(nil).withUpdatedForwardOptionsState(nil)
+                                if isNagramiXCopy {
+                                    state = state.withUpdatedComposeInputState(ChatTextInputState(inputText: NSAttributedString(string: "")))
+                                }
+                                return state
+                            })
+""",
+        "Cancel copy-as-new by clearing both its payload and seeded composer text",
+    )
+    replace_once(
+        chat_load_node,
+        """        }, dismissForwardMessages: { [weak self] in
+            guard let self else {
+                return
+            }
+            self.chatDisplayNode.requestUpdateChatInterfaceState(.animated(duration: 0.4, curve: .spring), false, { $0.withUpdatedForwardMessageIds(nil).withUpdatedForwardOptionsState(nil) })
+""",
+        """        }, dismissForwardMessages: { [weak self] in
+            guard let self else {
+                return
+            }
+            let isNagramiXCopy = self.nagramiXCopyMessagesWithoutSource != nil
+            self.nagramiXCopyMessagesWithoutSource = nil
+            self.chatDisplayNode.requestUpdateChatInterfaceState(.animated(duration: 0.4, curve: .spring), false, { state in
+                var state = state.withUpdatedForwardMessageIds(nil).withUpdatedForwardOptionsState(nil)
+                if isNagramiXCopy {
+                    state = state.withUpdatedComposeInputState(ChatTextInputState(inputText: NSAttributedString(string: "")))
+                }
+                return state
+            })
+""",
+        "Clear copy-as-new text from the controller-level cancel action",
+    )
+    replace_once(
+        chat_controller_node,
+        """                if let forwardMessageIds = self.chatPresentationInterfaceState.interfaceState.forwardMessageIds {
+                    var attributes: [MessageAttribute] = []
+                    attributes.append(ForwardOptionsMessageAttribute(hideNames: self.chatPresentationInterfaceState.interfaceState.forwardOptionsState?.hideNames == true, hideCaptions: self.chatPresentationInterfaceState.interfaceState.forwardOptionsState?.hideCaptions == true))
+
+                    var replyThreadId: Int64?
+                    if case let .replyThread(replyThreadMessage) = self.chatPresentationInterfaceState.chatLocation {
+                        replyThreadId = replyThreadMessage.threadId
+                    }
+""" + "                    \n" + """                    for id in forwardMessageIds.sorted() {
+                        messages.append(.forward(source: id, threadId: replyThreadId, grouping: .auto, attributes: attributes, correlationId: nil))
+                    }
+                }
+""",
+        """                if self.chatPresentationInterfaceState.interfaceState.forwardMessageIds != nil, let copyMessages = self.controller?.nagramiXCopyMessagesWithoutSource {
+                    guard let copiedMessages = nagramiXCopyMessagesAsNew(copyMessages, replacingText: effectiveInputText, threadId: self.chatLocation.threadId) else {
+                        return
+                    }
+                    messages = copiedMessages
+                } else if let forwardMessageIds = self.chatPresentationInterfaceState.interfaceState.forwardMessageIds {
+                    var attributes: [MessageAttribute] = []
+                    attributes.append(ForwardOptionsMessageAttribute(hideNames: self.chatPresentationInterfaceState.interfaceState.forwardOptionsState?.hideNames == true, hideCaptions: self.chatPresentationInterfaceState.interfaceState.forwardOptionsState?.hideCaptions == true))
+
+                    var replyThreadId: Int64?
+                    if case let .replyThread(replyThreadMessage) = self.chatPresentationInterfaceState.chatLocation {
+                        replyThreadId = replyThreadMessage.threadId
+                    }
+
+                    for id in forwardMessageIds.sorted() {
+                        messages.append(.forward(source: id, threadId: replyThreadId, grouping: .auto, attributes: attributes, correlationId: nil))
+                    }
+                }
+""",
+        "Convert copy payloads inside Telegram's standard composer send pipeline",
+    )
+    replace_once(
+        chat_controller_node,
+        """                    self.setupSendActionOnViewUpdate({ [weak self] in
+                        guard let self, let textInputPanelNode = self.inputPanelNode as? ChatTextInputPanelNode else {
+                            return
+                        }
+                        self.collapseInput()
+""",
+        """                    self.setupSendActionOnViewUpdate({ [weak self] in
+                        guard let self, let textInputPanelNode = self.inputPanelNode as? ChatTextInputPanelNode else {
+                            return
+                        }
+                        self.controller?.nagramiXCopyMessagesWithoutSource = nil
+                        self.collapseInput()
+""",
+        "Clear the transient copy payload only after Telegram accepts the send action",
     )
     replace_once(
         context_menus,
@@ -3449,6 +3755,7 @@ private func nagramiXCopyProfileId(_ value: Int64, presentationData: Presentatio
         """        let ItemCommunity = 10000
         let ItemNagramiXProfileId = 11000
         let ItemNagramiXRegistration = 11001
+        let ItemNagramiXMutualContact = 11002
 
         let nagramiXSettings = NagramiXTabSettings.current
         if nagramiXSettings.showProfileIds {
@@ -3464,8 +3771,13 @@ private func nagramiXCopyProfileId(_ value: Int64, presentationData: Presentatio
                 interaction.requestLayout(animated)
             }))
         }
+        if nagramiXSettings.showMutualContactIcon, user.flags.contains(.mutualContact), user.botInfo == nil, user.id != context.account.peerId {
+            items[currentPeerInfoSection]!.append(PeerInfoScreenLabeledValueItem(id: ItemNagramiXMutualContact, label: "", text: "👥 \\(presentationData.strings.nagramiXMutualContact)", textColor: .accent, action: nil, requestLayout: { animated in
+                interaction.requestLayout(animated)
+            }))
+        }
 """,
-        "Show optional NagramiX user metadata",
+        "Show optional NagramiX user metadata and mutual-contact badge",
     )
     replace_once(
         peer_info_profile_items,

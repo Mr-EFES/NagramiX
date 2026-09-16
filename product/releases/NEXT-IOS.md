@@ -2,7 +2,7 @@
 
 ## Confirmed contents
 
-The next iPhone build from `main` contains the 14 source-implemented and previously compile-verified NagramiX 0.2.7 feature groups:
+The next iPhone build contains the existing source-implemented NagramiX feature groups plus the 0.3.3 corrections:
 
 1. tab visibility, labels and search controls;
 2. eight application icons;
@@ -16,8 +16,10 @@ The next iPhone build from `main` contains the 14 source-implemented and previou
 10. Force TCP for calls;
 11. profile ID, approximate registration year and mutual-contact marker;
 12. offline and unavailable-proxy startup hardening;
-13. adaptive wide broadcast-channel posts;
+13. maximum-width broadcast-channel posts;
 14. paginated Select From Author.
+15. Russian-first clean-install authorization with the iPhone language offered
+    as the native alternative, plus the tinted dark clean-install theme.
 
 ## Still required
 

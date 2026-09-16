@@ -155,7 +155,7 @@ public struct NagramiXTabSettings: Equatable {
             enableStoryRepost: defaults.object(forKey: Key.enableStoryRepost) as? Bool ?? false,
             dnsProvider: NagramiXDnsProvider(rawValue: defaults.integer(forKey: Key.dnsProvider)) ?? .system,
             customDohUrl: defaults.string(forKey: Key.customDohUrl) ?? "",
-            proxyAutoSwitchEnabled: defaults.object(forKey: Key.proxyAutoSwitchEnabled) as? Bool ?? false,
+            proxyAutoSwitchEnabled: defaults.object(forKey: Key.proxyAutoSwitchEnabled) as? Bool ?? true,
             proxyAutoSwitchTimeout: [15, 30, 60].contains(defaults.integer(forKey: Key.proxyAutoSwitchTimeout)) ? defaults.integer(forKey: Key.proxyAutoSwitchTimeout) : 15,
             showProxyButton: defaults.object(forKey: Key.showProxyButton) as? Bool ?? true,
             hideProxySponsorChannel: hideProxySponsorChannel,
