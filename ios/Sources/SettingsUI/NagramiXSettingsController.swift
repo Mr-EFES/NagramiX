@@ -267,7 +267,10 @@ public func nagramiXSettingsController(context: AccountContext) -> ViewControlle
         updateHideContacts: { value in update { $0.hideContacts = value } },
         updateHideCalls: { value in update { $0.hideCalls = value } },
         updateShowSearchButton: { value in update { $0.showSearchButton = value } },
-        updateWideChannelPosts: { value in update { $0.wideChannelPosts = value } },
+        updateWideChannelPosts: { value in
+            update { $0.wideChannelPosts = value }
+            NagramiXTabSettings.requestTabInterfaceSoftRestart()
+        },
         updateShowProxyButton: { value in update { $0.showProxyButton = value } },
         updateHideProxySponsorChannel: { value in update { $0.hideProxySponsorChannel = value } },
         updateUseRearCameraForVideoMessages: { value in update { $0.useRearCameraForVideoMessages = value } },
