@@ -17,8 +17,10 @@ upgrade are preserved.
 
 A clean installation uses Telegram's built-in tinted dark theme
 (`.nightAccent`, displayed as the dark variant) from the first presentation
-frame and as the stored-settings fallback. Existing theme choices on an upgrade
-are preserved; this default must not overwrite an explicit user preference.
+frame, as the stored-settings fallback and as the default System night-switch
+target. The black `.night` variant is not used by these defaults. Existing theme
+choices on an upgrade are preserved; this default must not overwrite an
+explicit user preference.
 
 ## Acceptance criteria
 
@@ -41,3 +43,7 @@ are preserved; this default must not overwrite an explicit user preference.
 - iOS 0.2.9: replace Telegram's empty generated Russian application resource
   with a complete bundled fallback dictionary, translate every welcome key and
   validate those values both before compilation and inside the built `.app`.
+- iOS 0.3.2: treat missing localization settings as genuinely missing so the
+  Russian start action persists `ru` through Telegram's native localization
+  pipeline, and change the System night-switch target from `.night` to
+  `.nightAccent`.

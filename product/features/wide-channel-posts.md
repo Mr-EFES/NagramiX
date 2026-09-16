@@ -14,13 +14,13 @@ metadata, comments and grouped posts continue through their native content and
 layout nodes; NagramiX changes the outer width constraint and the resulting
 bubble width, not the reaction or content implementations.
 
-Channel identity is resolved from `chatLocationPeerId`, rather than from the
-individual message's source peer. This includes text, photo/caption, video,
-grouped-media, forwarded-content and sponsored entries displayed in that
-channel, while avoiding channel-sourced forwards displayed in an unrelated
-private chat or group. The option does not affect private chats, groups or
-Saved Messages. The default is `false`, and disabling it preserves official
-Telegram layout behavior.
+Channel identity is resolved from `firstMessage.id.peerId`, the destination peer
+that Telegram includes in every rendered message's peer dictionary. This
+includes text, photo/caption, video, grouped-media, forwarded-content and
+sponsored entries displayed in that channel, while avoiding channel-sourced
+forwards displayed in an unrelated private chat or group. The option does not
+affect private chats, groups or Saved Messages. The default is `false`, and
+disabling it preserves official Telegram layout behavior.
 
 ## Implementation
 
@@ -30,3 +30,5 @@ Telegram layout behavior.
 - iOS 0.3.1: resolve eligibility from the destination channel timeline and
   remove content-source/preview/ad exclusions that left some channel posts
   narrow.
+- iOS 0.3.2: use the message destination id rather than relying on the optional
+  chat-location peer being present in each message's peer dictionary.

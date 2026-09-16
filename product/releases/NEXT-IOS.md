@@ -2,7 +2,7 @@
 
 ## Confirmed contents
 
-The next iPhone build contains the existing source-implemented NagramiX feature groups plus the 0.3.1 corrections:
+The next iPhone build contains the existing source-implemented NagramiX feature groups plus the 0.3.2 corrections:
 
 1. tab visibility, labels and search controls;
 2. eight application icons;

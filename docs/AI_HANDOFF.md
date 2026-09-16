@@ -2,11 +2,37 @@
 
 ## Last updated
 
-- Date: 2026-09-15 (UTC).
+- Date: 2026-09-16 (UTC).
 - Agent: Codex, primary agent.
 - Repository root used for this handoff: `/workspace/NagramiX`.
 
 ## NagramiX 0.3.0 correction work in progress (2026-09-14 UTC)
+
+### 0.3.2 device-feedback root-cause corrections (2026-09-16 UTC)
+
+Physical testing of 0.3.1 showed that its successful compile and source-anchor
+checks did not establish the intended language, theme or wide-post behavior.
+The Russian authorization bug was concrete: the patched start action requested
+`ru`, but the absent-settings branch also reported the current language as
+`ru`. `activateLocalization` therefore took its early `currentCode == code`
+return and never called Telegram's `downloadAndApplyLocalization`, so Russian
+was not persisted. The missing-settings sentinel is now empty; explicit saved
+language choices are still returned unchanged.
+
+The default presentation theme was `.nightAccent`, but Telegram's default
+System night-switch target remained `.night`, allowing the black “Ночная”
+variant to replace the requested tinted “Тёмная” theme. Both defaults now use
+`.nightAccent`. Wide-post detection no longer looks up the optional chat
+location id in the message peer dictionary; it uses the message destination id
+that is guaranteed to accompany the rendered message, while retaining the
+same broadcast check and maximum-width geometry.
+
+The Send When Online path remains Telegram-native: its menu visibility depends
+on an eligible offline `TelegramUserPresence`, and `.whenOnline` still maps to
+`scheduleWhenOnlineTimestamp`. It must not be forced for contacts/chats where
+official Telegram suppresses it. The validator now gates the corrected missing
+locale sentinel, System theme target, reliable channel lookup and native
+when-online route. Version 0.3.2 compile and device acceptance are pending.
 
 ### 0.3.1 device-feedback corrections (2026-09-15 UTC)
 

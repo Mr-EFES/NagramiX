@@ -35,7 +35,7 @@ def main() -> None:
     )
     require(
         source / "submodules/AuthorizationUI/Sources/AuthorizationSequenceSplashController.swift",
-        ['self?.activateLocalization("ru")', "downloadAndApplyLocalization", 'return "ru"'],
+        ['self?.activateLocalization("ru")', "downloadAndApplyLocalization", 'return ""'],
     )
     require(
         source / "submodules/TelegramPresentationData/Sources/DefaultPresentationStrings.swift",
@@ -43,7 +43,10 @@ def main() -> None:
     )
     require(
         source / "submodules/TelegramUIPreferences/Sources/PresentationThemeSettings.swift",
-        ["PresentationThemeSettings(theme: .builtin(.nightAccent)"],
+        [
+            "PresentationThemeSettings(theme: .builtin(.nightAccent)",
+            "trigger: .system, theme: .builtin(.nightAccent)",
+        ],
     )
     require(
         source / "submodules/TelegramPresentationData/Sources/PresentationData.swift",
@@ -90,7 +93,7 @@ def main() -> None:
     require(
         bubble_source,
         [
-            "firstMessage.peers[chatLocationPeerId] as? TelegramChannel",
+            "firstMessage.peers[firstMessage.id.peerId] as? TelegramChannel",
             "case .broadcast = channel.info",
             "allowFullWidth = true",
             "maxContentWidth = max(maxContentWidth, maximumNodeWidth)",
@@ -105,7 +108,7 @@ def main() -> None:
         ["case .connecting = self.status", "self.checkAvailableCandidate", "MTProxyConnectivity.pingProxy"],
     )
 
-    print("0.3.0 generated overlay contracts validated")
+    print("0.3.2 generated overlay contracts validated")
 
 
 if __name__ == "__main__":

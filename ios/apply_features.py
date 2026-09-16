@@ -155,6 +155,12 @@ public let defaultPresentationStrings = PresentationStrings(primaryComponent:"""
         "PresentationThemeSettings(theme: .builtin(.nightAccent), themePreferredBaseTheme:",
         "Use Telegram's standard dark-blue theme on a clean install",
     )
+    replace_once(
+        presentation_theme_settings,
+        "automaticThemeSwitchSetting: AutomaticThemeSwitchSetting(force: false, trigger: .system, theme: .builtin(.night))",
+        "automaticThemeSwitchSetting: AutomaticThemeSwitchSetting(force: false, trigger: .system, theme: .builtin(.nightAccent))",
+        "Use the tinted dark theme for the default system night switch",
+    )
 
     presentation_data = source / "submodules" / "TelegramPresentationData" / "Sources" / "PresentationData.swift"
     replace_once(
@@ -249,11 +255,11 @@ private func currentDateTimeFormat()""",
         }
         let suggestedCode = self.suggestedLocalization.get()''',
         '''            } else {
-                return "ru"
+                return ""
             }
         }
         let suggestedCode = self.suggestedLocalization.get()''',
-        "Treat Russian as the absent-settings authorization locale",
+        "Force the Russian localization download when no explicit locale exists",
     )
 
     core_source = overlay / "Sources" / "NagramiXCore"
@@ -1168,7 +1174,7 @@ public final class ItemListControllerTabBarItem: Equatable {
         """        let chatLocationPeerId: PeerId = item.chatLocation.peerId ?? item.content.firstMessage.id.peerId
         let nagramiXWideChannelPost: Bool
         if NagramiXTabSettings.current.wideChannelPosts,
-           let channel = firstMessage.peers[chatLocationPeerId] as? TelegramChannel,
+           let channel = firstMessage.peers[firstMessage.id.peerId] as? TelegramChannel,
            case .broadcast = channel.info {
             nagramiXWideChannelPost = true
         } else {
