@@ -167,4 +167,5 @@
 "NagramiX.Profile.IdCopied" = "ID скопирован";
 "NagramiX.Profile.RegistrationDate" = "Регистрация";
 "NagramiX.Profile.RegistrationApproximate" = "Примерно %@ г.";
+"NagramiX.Profile.MutualContact" = "Взаимный контакт";
 "NagramiX.Common.Unknown" = "Неизвестно";

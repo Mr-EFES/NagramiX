@@ -5,7 +5,7 @@ import MtProtoKit
 private enum NagramiXNetworkSettingsBridge {
     static let changedNotification = Notification.Name("NagramiXSettingsChanged")
     static var proxyAutoSwitchEnabled: Bool {
-        return UserDefaults.standard.object(forKey: "nagramix.network.proxyAutoSwitchEnabled") as? Bool ?? false
+        return UserDefaults.standard.object(forKey: "nagramix.network.proxyAutoSwitchEnabled") as? Bool ?? true
     }
     static var proxyAutoSwitchTimeout: Int {
         let value = UserDefaults.standard.integer(forKey: "nagramix.network.proxyAutoSwitchTimeout")
@@ -182,7 +182,7 @@ final class NagramiXProxyFailoverController {
             self.invalidate(suppressCurrent: false)
             return
         }
-        guard case let .connecting(_, hasIssues) = self.status, hasIssues,
+        guard case .connecting = self.status,
               self.suppressedServer != active,
               case .idle = self.phase,
               NagramiXProxyFailoverController.owner == nil || NagramiXProxyFailoverController.owner === self else {
@@ -197,8 +197,7 @@ final class NagramiXProxyFailoverController {
                   case let .waiting(origin, phaseToken) = self.phase,
                   phaseToken == token,
                   self.settings.activeServer == origin,
-                  case let .connecting(_, stillFailing) = self.status,
-                  stillFailing else { return }
+                  case .connecting = self.status else { return }
             self.begin(origin: origin, servers: servers, token: token)
         }
     }
