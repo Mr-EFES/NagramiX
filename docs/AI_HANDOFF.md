@@ -2,9 +2,27 @@
 
 ## Last updated
 
-- Date: 2026-09-14 (UTC).
+- Date: 2026-09-19 (UTC).
 - Agent: Codex, primary agent.
 - Repository root used for this handoff: `/workspace/NagramiX`.
+
+## NagramiX 0.3.5 build preparation (2026-09-19 UTC)
+
+The iOS build and publisher workflows now target 0.3.5, the product registry and
+README identify 0.3.5 as the current candidate, and tracked 0.3.5 release notes
+describe the unchanged feature set and its pending validation state. The audited
+Telegram-iOS 12.9.2 pin remains current. Python compilation, JSON parsing, shell
+syntax validation, the current-upstream gate and `git diff --check` passed.
+
+No native build was dispatched from this workspace: it has no configured Git
+remote and `gh auth status` reports no authenticated GitHub host. This Linux
+environment also cannot perform the authoritative Xcode build locally. No IPA
+or other generated artifact was added to the repository. Exact next step: push
+the 0.3.5 preparation commit to GitHub, dispatch **Build unsigned NagramiX IPA**,
+verify that the built-app localization and unsigned-package checks pass, then
+dispatch the publisher with the successful run id, artifact
+`NagramiX-0.3.5-unsigned-arm64` and tag `v0.3.5`. Physical-iPhone runtime
+acceptance remains separate and pending.
 
 ## NagramiX 0.2.9 onboarding resource regression fix (2026-09-14 UTC)
 
