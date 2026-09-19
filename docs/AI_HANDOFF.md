@@ -8,6 +8,28 @@
 
 ## NagramiX 0.3.5 build preparation (2026-09-19 UTC)
 
+GitHub authentication was restored and branch
+`codex/nagramix-0.3.5-wide-post-fix` was pushed at exact source commit
+`1fd5d59c8cb70907066cec2636f86f73701e4cb2`. Authoritative build run
+`35463623735` completed successfully: current-upstream and credentials gates,
+clean overlay application, native ARM64 Xcode/Bazel compilation, built-app
+Russian localization validation, unsigned packaging, provenance and artifact
+upload all passed. Publisher run `35464064005` downloaded and validated the
+artifact and published release `v0.3.5` at
+`https://github.com/Mr-EFES/NagramiX/releases/tag/v0.3.5`.
+
+The published `NagramiX-0.3.5-unsigned.ipa` is 73,714,961 bytes with SHA-256
+`e4285bc89a0706ea137757dbfdb97d6e2c33345bb2965e481425ea1a53d87656`.
+A fresh release download passed `unzip -t`; `Info.plist` reports bundle id
+`com.mr-efes.nagramix`, display name `NagramiX` and version `0.3.5`; the archive
+contains no `_CodeSignature` directory or embedded provisioning profile.
+Provenance records Telegram-iOS
+`6ad963e5b62d354da79040f388ae2b9132fb17b8` and NagramX reference 1258. The
+wide-post compile status is now `compile_passed`; device status correctly
+remains pending. Exact next step: externally sign this published IPA, install it
+on the physical iPhone, enable Wide Channel Posts, and execute the screenshot
+comparison and content-layout scenarios below.
+
 The owner explicitly authorized the native 0.3.5 build after the wide-post
 correction. `origin` was restored to `https://github.com/Mr-EFES/NagramiX.git`,
 but pushing commit `1f8f049` to
