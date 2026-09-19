@@ -48,12 +48,9 @@ space; no parallel media renderer or custom blur path was introduced.
 The generated-source validator now requires the corrected safe-width finalizer
 and rejects the obsolete intrinsic-width expression. Version, publisher,
 README, registry and release metadata target 0.3.6; a tracked warning records
-that 0.3.5 must not be used. The wide-post compile status is reset to
-`not_started`, and physical-device status remains pending. Exact next step:
-apply the complete overlay to a fresh pinned Telegram-iOS checkout, run all
-static validators, commit and push the focused change, then run the native
-macOS build and test the exact 0.3.6 IPA with one photo and one video before
-accepting it.
+that 0.3.5 must not be used. The successful build above moved wide-post compile
+status to `compile_passed`; physical-device status remains pending until the
+exact 0.3.6 IPA is tested with one photo and one video.
 
 ## NagramiX 0.3.0 correction work in progress (2026-09-14 UTC)
 
