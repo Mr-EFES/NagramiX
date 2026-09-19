@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "product": "NagramiX",
-  "release": "0.3.4",
+  "release": "0.3.6",
   "platformPriority": [
     "ios"
   ],
@@ -142,7 +142,7 @@
       "specification": "specified",
       "ios": {
         "implementation": "implemented",
-        "compile": "compile_passed",
+        "compile": "not_started",
         "device": "device_pending"
       }
     },

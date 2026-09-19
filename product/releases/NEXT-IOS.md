@@ -2,7 +2,7 @@
 
 ## Confirmed contents
 
-The next iPhone build contains the existing source-implemented NagramiX feature groups plus the 0.3.4 wide-channel-post verification candidate:
+The 0.3.6 iPhone build retains the working 0.3.4 feature set and changes only the final width of intrinsically narrow single-photo and single-video channel posts:
 
 1. tab visibility, labels and search controls;
 2. eight application icons;

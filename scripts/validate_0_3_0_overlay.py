@@ -109,7 +109,7 @@ def main() -> None:
             "needsSummarizeButton = false",
             "allowFullWidth = true",
             "maximumContentWidth = floor(tmpWidth - layoutConstants.bubble.edgeInset * 3.0",
-            "maxContentWidth = max(maxContentWidth, maximumNodeWidth)",
+            "maxContentWidth = max(maxContentWidth, maximumContentWidth)",
             "let availableMosaicWidth = maximumContentWidth",
             "let scale = availableMosaicWidth / max(1.0, layoutConstants.image.maxDimensions.width)",
             "maxSize = CGSize(width: availableMosaicWidth",
@@ -117,6 +117,7 @@ def main() -> None:
     )
     bubble_text = bubble_source.read_text(encoding="utf-8")
     for forbidden in (
+        "maxContentWidth = max(maxContentWidth, maximumNodeWidth)",
         "nagramiXWideChannelPost && item.presentationData.isPreview",
         "nagramiXWideChannelPost && item.content.firstMessage.adAttribute",
         "nagramiXWideChannelPost && mosaicRange == nil",
@@ -140,7 +141,7 @@ def main() -> None:
         ["case .connecting = self.status", "self.checkAvailableCandidate", "MTProxyConnectivity.pingProxy"],
     )
 
-    print("0.3.4 generated overlay contracts validated")
+    print("0.3.6 generated overlay contracts validated")
 
 
 if __name__ == "__main__":

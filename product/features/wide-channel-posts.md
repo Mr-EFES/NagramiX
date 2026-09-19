@@ -38,3 +38,7 @@ disabling it preserves official Telegram layout behavior.
 - iOS 0.3.4: preserve the common width path for text, single photo/video and
   every grouped-media shape, and make those exact generated-source contracts a
   blocking pre-build validation before producing the physical-device candidate.
+- iOS 0.3.6: retain the 0.3.4 implementation and change only the final outer
+  width for intrinsically narrow single photos and videos. The bubble uses the
+  pre-clamp safe content width while Telegram's existing media renderer retains
+  its native aspect fitting and blur-background treatment where needed.

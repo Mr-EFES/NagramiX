@@ -2,9 +2,37 @@
 
 ## Last updated
 
-- Date: 2026-09-16 (UTC).
+- Date: 2026-09-19 (UTC).
 - Agent: Codex, primary agent.
 - Repository root used for this handoff: `/workspace/NagramiX`.
+
+## NagramiX 0.3.6 returns to the 0.3.4 source line (2026-09-19 UTC)
+
+Physical-device feedback declared 0.3.5 broadly nonfunctional. It must not be
+used as a base or acceptance candidate. The 0.3.6 work branch was therefore
+created directly from published 0.3.4 commit
+`6182ae37d3fd4a93edc3ceb7bac153ab3d9f0586`; none of the 0.3.5 source or
+metadata commits were carried forward.
+
+The requested scope is deliberately narrow. Multi-photo and multi-video wide
+channel posts already render correctly in 0.3.4 and remain untouched. For a
+single photo or video, Telegram reduces `maximumNodeWidth` to the media node's
+intrinsic preferred width. The 0.3.4 outer-width finalizer reused that reduced
+value, leaving the post at standard width. The 0.3.6 overlay changes only that
+finalizer to the earlier `maximumContentWidth` safe constraint. Telegram's
+existing media node remains responsible for aspect fitting, playback and its
+native `.blurBackground` rendering where the source aspect ratio leaves side
+space; no parallel media renderer or custom blur path was introduced.
+
+The generated-source validator now requires the corrected safe-width finalizer
+and rejects the obsolete intrinsic-width expression. Version, publisher,
+README, registry and release metadata target 0.3.6; a tracked warning records
+that 0.3.5 must not be used. The wide-post compile status is reset to
+`not_started`, and physical-device status remains pending. Exact next step:
+apply the complete overlay to a fresh pinned Telegram-iOS checkout, run all
+static validators, commit and push the focused change, then run the native
+macOS build and test the exact 0.3.6 IPA with one photo and one video before
+accepting it.
 
 ## NagramiX 0.3.0 correction work in progress (2026-09-14 UTC)
 
