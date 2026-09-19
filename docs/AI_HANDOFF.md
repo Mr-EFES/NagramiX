@@ -8,6 +8,18 @@
 
 ## NagramiX 0.3.5 build preparation (2026-09-19 UTC)
 
+The owner explicitly authorized the native 0.3.5 build after the wide-post
+correction. `origin` was restored to `https://github.com/Mr-EFES/NagramiX.git`,
+but pushing commit `1f8f049` to
+`codex/nagramix-0.3.5-wide-post-fix` failed before any remote change because
+this environment has no GitHub credential and terminal prompting is disabled
+(`fatal: could not read Username for 'https://github.com'`). `gh auth status`
+also reports no authenticated host, and no GitHub token is present in the
+environment. Consequently no workflow run exists yet and no IPA was produced.
+Once GitHub authentication is restored, push the current `work` branch, run
+**Build unsigned NagramiX IPA** from commit `1f8f049` or its descendant, and
+continue directly with the artifact and device checks documented below.
+
 Physical-iPhone feedback clarified that the existing Wide Channel Posts patch
 still produced the narrow layout shown in the first supplied screenshot. The
 finalizer was incorrectly expanding `maxContentWidth` only to
