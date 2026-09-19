@@ -8,10 +8,33 @@
 
 ## NagramiX 0.3.5 build preparation (2026-09-19 UTC)
 
+Physical-iPhone feedback clarified that the existing Wide Channel Posts patch
+still produced the narrow layout shown in the first supplied screenshot. The
+finalizer was incorrectly expanding `maxContentWidth` only to
+`maximumNodeWidth`; Telegram had already reduced that value to the smallest
+content node's intrinsic/preferred width, so portrait media and short text
+could remain narrow. The 0.3.5 overlay now expands the final outer bubble to
+the earlier `maximumContentWidth` safe constraint instead. This is the geometry
+needed for the full-width result in the second supplied screenshot while
+retaining the native safe insets and content nodes. The wide-post registry row
+has been reset to `not_started` for compile status until this correction passes
+the authoritative macOS build; device status remains pending until the exact
+0.3.5 artifact is tested on an iPhone.
+
+The full overlay applied cleanly to a fresh checkout of pinned Telegram-iOS
+`6ad963e5b62d354da79040f388ae2b9132fb17b8`, and inspection of generated
+`ChatMessageBubbleItemNode.swift` confirmed that the finalizer uses
+`maximumContentWidth`, not the already-clamped `maximumNodeWidth`. Source
+localization validation also passed. Native compilation and device verification
+remain unavailable in this Linux workspace. Exact next step: push the corrected
+0.3.5 commit, run the unsigned IPA workflow, then install that exact artifact
+and compare portrait-media, short-text, multiline-text, grouped-media and
+reaction-bearing channel posts against the supplied full-width reference.
+
 The iOS build and publisher workflows now target 0.3.5, the product registry and
 README identify 0.3.5 as the current candidate, and tracked 0.3.5 release notes
-describe the unchanged feature set and its pending validation state. The audited
-Telegram-iOS 12.9.2 pin remains current. Python compilation, JSON parsing, shell
+describe the feature set, wide-post correction and pending validation state.
+The audited Telegram-iOS 12.9.2 pin remains current. Python compilation, JSON parsing, shell
 syntax validation, the current-upstream gate and `git diff --check` passed.
 
 No native build was dispatched from this workspace: it has no configured Git

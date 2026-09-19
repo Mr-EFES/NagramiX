@@ -24,3 +24,7 @@ message previews, search results, ads or custom chat contents. The default is
 - iOS 0.2.5: native Swift integration and Interface checkbox.
 - iOS 0.2.8: force the outer bubble to the maximum safe width instead of merely
   offering that width to intrinsically sized content.
+- iOS 0.3.5: use the pre-intrinsic-clamp safe content width for the final outer
+  bubble. The previous finalizer reused `maximumNodeWidth`, which Telegram had
+  already reduced to the narrowest content node and therefore left portrait
+  media and short posts narrow.

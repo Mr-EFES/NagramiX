@@ -1210,11 +1210,12 @@ public final class ItemListControllerTabBarItem: Equatable {
         chat_bubble_source,
         "        var contentSize = CGSize(width: maxContentWidth, height: 0.0)\n",
         """        if nagramiXWideChannelPost {
-            // A width constraint alone still lets short text and compact media
-            // collapse back to Telegram's intrinsic bubble width. Make the
-            // outer broadcast bubble itself fill the complete safe width;
-            // native content nodes and reaction controls remain unchanged.
-            maxContentWidth = max(maxContentWidth, maximumNodeWidth)
+            // maximumNodeWidth is reduced to the smallest content node's
+            // preferred width above, so using it here leaves short text and
+            // portrait media in a narrow bubble. Use the common safe content
+            // constraint calculated before those intrinsic clamps to make the
+            // outer broadcast bubble span the available timeline width.
+            maxContentWidth = max(maxContentWidth, maximumContentWidth)
         }
         var contentSize = CGSize(width: maxContentWidth, height: 0.0)
 """,

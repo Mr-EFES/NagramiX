@@ -16,7 +16,8 @@ The 0.3.5 iPhone build contains the existing source-implemented NagramiX feature
 10. Force TCP for calls;
 11. profile ID, approximate registration year and mutual-contact marker;
 12. offline and unavailable-proxy startup hardening;
-13. maximum-width broadcast-channel posts;
+13. corrected maximum-width broadcast-channel posts that fill the safe timeline
+    width instead of retaining an intrinsic narrow media/text width;
 14. paginated Select From Author.
 15. Russian-first clean-install authorization with the iPhone language offered
     as the native alternative, plus the tinted dark clean-install theme.
