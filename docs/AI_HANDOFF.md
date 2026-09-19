@@ -8,6 +8,27 @@
 
 ## NagramiX 0.3.6 returns to the 0.3.4 source line (2026-09-19 UTC)
 
+Authoritative build run `35464971005` completed successfully from exact source
+commit `45323da432fc37d23eba7d4ded9585defb639a9f`. The upstream gate, clean overlay
+application, generated-source validators, native ARM64 Xcode/Bazel compilation,
+built-app Russian localization check, unsigned packaging, provenance and
+artifact upload all passed. Publisher run `35466817627` downloaded and validated
+the artifact and published release `v0.3.6` at
+`https://github.com/Mr-EFES/NagramiX/releases/tag/v0.3.6`.
+
+The published `NagramiX-0.3.6-unsigned.ipa` is 73,716,288 bytes with SHA-256
+`b18134b1a07cd2d24dc696c9ff44fdafe450fe9d47080f63df6dfbf7487298f6`.
+A fresh release download passed `unzip -t`; `Info.plist` reports bundle id
+`com.mr-efes.nagramix`, display name `NagramiX` and version `0.3.6`; no
+`_CodeSignature` directory or embedded provisioning profile is present.
+Provenance records pinned Telegram-iOS
+`6ad963e5b62d354da79040f388ae2b9132fb17b8` and NagramX reference 1258. The
+wide-post compile status is now `compile_passed`; physical-device acceptance
+remains pending. Exact next step: externally sign this exact IPA and compare one
+photo and one video in a broadcast-channel timeline against the supplied
+full-width reference, while confirming multi-media and all other accepted 0.3.4
+behavior remain unchanged.
+
 Physical-device feedback declared 0.3.5 broadly nonfunctional. It must not be
 used as a base or acceptance candidate. The 0.3.6 work branch was therefore
 created directly from published 0.3.4 commit
