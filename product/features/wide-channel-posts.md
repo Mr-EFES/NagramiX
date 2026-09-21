@@ -42,3 +42,6 @@ disabling it preserves official Telegram layout behavior.
   width for intrinsically narrow single photos and videos. The bubble uses the
   pre-clamp safe content width while Telegram's existing media renderer retains
   its native aspect fitting and blur-background treatment where needed.
+- iOS 0.3.7: after intrinsic measurement, force the final outer width only for
+  text-only channel posts. The text-node check deliberately leaves single
+  photos, single videos, captions and grouped-media geometry on the 0.3.6 path.

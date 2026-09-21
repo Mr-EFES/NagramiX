@@ -1218,16 +1218,18 @@ public final class ItemListControllerTabBarItem: Equatable {
     replace_once(
         chat_bubble_source,
         "        var contentSize = CGSize(width: maxContentWidth, height: 0.0)\n",
-        """        if nagramiXWideChannelPost {
-            // maximumNodeWidth has already been reduced to the intrinsic width
-            // preferred by a single photo or video. Use the earlier common safe
-            // constraint for the outer bubble; Telegram's native media renderer
-            // keeps its aspect-fit/blur-background behavior inside that width.
+        """        let nagramiXWideChannelTextPost = nagramiXWideChannelPost
+            && contentNodeMessagesAndClasses.count == 1
+            && (contentNodeMessagesAndClasses[0] as! (message: Message, type: AnyClass, attributes: ChatMessageEntryAttributes, bubbleAttributes: BubbleItemAttributes)).type == ChatMessageTextBubbleContentNode.self
+        if nagramiXWideChannelTextPost {
+            // Text has now completed its intrinsic measurement. Expand only the
+            // final outer text bubble to the common safe width; media and mosaic
+            // geometry continue to use Telegram's native calculated dimensions.
             maxContentWidth = max(maxContentWidth, maximumContentWidth)
         }
         var contentSize = CGSize(width: maxContentWidth, height: 0.0)
 """,
-        "Force enabled broadcast post bubbles to the maximum safe width",
+        "Force enabled text-only broadcast post bubbles to the maximum safe width",
     )
     replace_once(
         chat_bubble_source,

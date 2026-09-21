@@ -2,7 +2,9 @@
 
 ## Confirmed contents
 
-The 0.3.6 iPhone build retains the working 0.3.4 feature set and changes only the final width of intrinsically narrow single-photo and single-video channel posts:
+The 0.3.7 iPhone build retains the 0.3.6 feature set and adds the final
+text-only width correction for short and multiline channel posts, without
+changing single-photo, single-video or album geometry:
 
 1. tab visibility, labels and search controls;
 2. eight application icons;

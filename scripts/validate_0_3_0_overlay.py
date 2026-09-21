@@ -109,6 +109,10 @@ def main() -> None:
             "needsSummarizeButton = false",
             "allowFullWidth = true",
             "maximumContentWidth = floor(tmpWidth - layoutConstants.bubble.edgeInset * 3.0",
+            "let nagramiXWideChannelTextPost = nagramiXWideChannelPost",
+            "contentNodeMessagesAndClasses.count == 1",
+            ".type == ChatMessageTextBubbleContentNode.self",
+            "if nagramiXWideChannelTextPost {",
             "maxContentWidth = max(maxContentWidth, maximumContentWidth)",
             "let availableMosaicWidth = maximumContentWidth",
             "let scale = availableMosaicWidth / max(1.0, layoutConstants.image.maxDimensions.width)",
@@ -121,6 +125,7 @@ def main() -> None:
         "nagramiXWideChannelPost && item.presentationData.isPreview",
         "nagramiXWideChannelPost && item.content.firstMessage.adAttribute",
         "nagramiXWideChannelPost && mosaicRange == nil",
+        "if nagramiXWideChannelPost {\n            // maximumNodeWidth has already been reduced",
     ):
         if forbidden in bubble_text:
             raise SystemExit(f"{bubble_source}: wide channel posts must not exclude a supported post shape: {forbidden}")
@@ -141,7 +146,7 @@ def main() -> None:
         ["case .connecting = self.status", "self.checkAvailableCandidate", "MTProxyConnectivity.pingProxy"],
     )
 
-    print("0.3.6 generated overlay contracts validated")
+    print("0.3.7 generated overlay contracts validated")
 
 
 if __name__ == "__main__":

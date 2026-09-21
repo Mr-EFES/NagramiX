@@ -6,6 +6,34 @@
 - Agent: Codex, primary agent.
 - Repository root used for this handoff: `/workspace/NagramiX`.
 
+## NagramiX 0.3.7 text-post width correction prepared (2026-09-21 UTC)
+
+The missing 0.3.7 source change was recreated on
+`fix/wide-text-posts-0.3.7`. After Telegram finishes intrinsic content
+measurement, the overlay now identifies a text-only broadcast post by requiring
+exactly one `ChatMessageTextBubbleContentNode` and expands only that final outer
+bubble to the common safe width. The restriction deliberately leaves single
+photos, single videos, captions and grouped-media geometry on the compiled
+0.3.6 paths.
+
+The generated-source validator now requires the final text-only guard and width
+assignment, so CI fails if either disappears. Build/publisher metadata, README,
+registry, product specification, NEXT inventory and new 0.3.7 release notes now
+describe the targeted correction. Only the wide-channel-post registry row was
+returned to `compile_pending`; no native build result is claimed for the new
+source.
+
+A clean overlay application to pinned Telegram-iOS
+`6ad963e5b62d354da79040f388ae2b9132fb17b8` passed together with Russian intro
+localization validation, 0.3.7 generated-source contracts, Python compilation,
+JSON parsing, shell syntax and repository/generated-tree whitespace checks.
+Pillow was installed only in the agent environment to generate validation icon
+outputs; no dependency was added to the repository. Native macOS/Xcode ARM64
+compilation and physical-iPhone behavior remain unverified. Exact next step:
+commit and push this focused 0.3.7 source, open the pull request, dispatch the
+authoritative build workflow from that exact commit, inspect any first compiler
+diagnostic, and publish only after the full build and package validation pass.
+
 ## GitHub authorization restored; reported 0.3.7 source is absent (2026-09-21 UTC)
 
 GitHub device authorization completed successfully for account `Mr-EFES` with
