@@ -34,6 +34,18 @@ commit and push this focused 0.3.7 source, open the pull request, dispatch the
 authoritative build workflow from that exact commit, inspect any first compiler
 diagnostic, and publish only after the full build and package validation pass.
 
+The focused source was committed as `dcc949cd77de609a4e24801bc9954b92416a7105`,
+pushed to `fix/wide-text-posts-0.3.7`, and opened as pull request #14. The
+authoritative workflow was dispatched from that exact commit as run
+`35601293344` (`https://github.com/Mr-EFES/NagramiX/actions/runs/35601293344`).
+Upstream/current-version checks, credential checks, clean Telegram checkout,
+overlay application, Bazel-cache restore and build-only profile generation have
+passed; the run is currently inside native ARM64 compilation. Packaging and
+artifact upload have not yet run. Resume by waiting for this run rather than
+dispatching a duplicate; on failure inspect the first compiler diagnostic, and
+on success validate/download the artifact before changing compile status or
+publishing.
+
 ## GitHub authorization restored; reported 0.3.7 source is absent (2026-09-21 UTC)
 
 GitHub device authorization completed successfully for account `Mr-EFES` with
