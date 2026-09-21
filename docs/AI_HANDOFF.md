@@ -17,6 +17,13 @@ up to four times only when its captured output contains a transient HTTP
 still stop immediately. Exact next step: commit and push this CI hardening,
 dispatch the 0.3.7 workflow from the new commit, and inspect the native result.
 
+The retry hardening was committed as `e2af0ef329f085911cf012ced111eaa396c249ad`,
+pushed to pull request #14, and dispatched as run `35615184300`. The run passed
+checkout, upstream/version, overlay, cache and profile preparation and is in
+the native ARM64 build step. Resume by inspecting this run; do not dispatch a
+duplicate while it remains active. On success, validate its IPA/provenance
+artifact before changing compile status or publishing.
+
 Build run `35601293344` reached native Swift compilation and failed on the
 0.3.7 text-only guard because Swift 6 treats its forced cast between identical
 tuple types as an error. The overlay now reads the already typed tuple's
