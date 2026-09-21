@@ -8,6 +8,19 @@
 
 ## NagramiX 0.3.7 text-post width correction prepared (2026-09-21 UTC)
 
+Build run `35601293344` reached native Swift compilation and failed on the
+0.3.7 text-only guard because Swift 6 treats its forced cast between identical
+tuple types as an error. The overlay now reads the already typed tuple's
+`.type` member directly, preserving the exact guard and layout behavior without
+any cast. The generated-source validator additionally requires that direct
+member access and rejects a reintroduced forced cast. A fresh overlay
+application to pinned Telegram-iOS, both overlay validators, Python compilation,
+JSON parsing, shell syntax, and repository/generated-tree whitespace checks all
+pass. Native compilation of this correction is pending. Exact next step: commit
+and push the compiler correction to pull request #14, dispatch a new
+authoritative 0.3.7 workflow from that commit, then inspect the result and only
+publish after packaging and artifact validation pass.
+
 The missing 0.3.7 source change was recreated on
 `fix/wide-text-posts-0.3.7`. After Telegram finishes intrinsic content
 measurement, the overlay now identifies a text-only broadcast post by requiring
