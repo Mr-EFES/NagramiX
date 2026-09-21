@@ -2,9 +2,26 @@
 
 ## Last updated
 
-- Date: 2026-09-19 (UTC).
+- Date: 2026-09-21 (UTC).
 - Agent: Codex, primary agent.
 - Repository root used for this handoff: `/workspace/NagramiX`.
+
+## GitHub authorization restored; reported 0.3.7 source is absent (2026-09-21 UTC)
+
+GitHub device authorization completed successfully for account `Mr-EFES` with
+`repo` and `workflow` scopes, and `origin` was restored to
+`https://github.com/Mr-EFES/NagramiX.git`. All remote branches were fetched
+before attempting a build.
+
+The previously reported 0.3.7 commit `2f9d502` and branch
+`fix/wide-text-posts-0.3.7` do not exist in this checkout or on GitHub: the API
+returns no commit for that SHA, and the newest available source line is
+`origin/codex/nagramix-0.3.6-single-media` at `e3837fe`. Consequently no 0.3.7
+workflow was dispatched; building 0.3.6 under a new label would not include the
+reported short-text correction. No application source was changed in this
+session. Exact next step: recover or recreate the missing 0.3.7 patch on top of
+`e3837fe`, run the static overlay checks, push it, and dispatch the authoritative
+macOS workflow only from that verified commit.
 
 ## NagramiX 0.3.6 returns to the 0.3.4 source line (2026-09-19 UTC)
 
