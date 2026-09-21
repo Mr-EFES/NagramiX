@@ -30,6 +30,14 @@ member access. Native compilation of this second correction is pending. Exact
 next step: push it to pull request #14 and dispatch the authoritative workflow
 again from the new commit.
 
+The unlabeled-tuple correction was committed as
+`c1744eea3d593d40b65aa529dc04e9f97faf5e6b`, pushed to pull request #14, and
+dispatched as authoritative build run `35613367134`
+(`https://github.com/Mr-EFES/NagramiX/actions/runs/35613367134`). The run is in
+progress. Resume by inspecting this exact run rather than dispatching a
+duplicate; if it succeeds, validate the uploaded unsigned IPA and provenance
+before changing compile status or publishing.
+
 The missing 0.3.7 source change was recreated on
 `fix/wide-text-posts-0.3.7`. After Telegram finishes intrinsic content
 measurement, the overlay now identifies a text-only broadcast post by requiring
