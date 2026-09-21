@@ -101,15 +101,29 @@ jobs:
         shell: bash
         run: |
           python3 build-system/Make/ImportCertificates.py --path "$RUNNER_TEMP/nagramix-codesigning/certs"
-          python3 build-system/Make/Make.py \
-            --cacheDir="$BAZEL_CACHE" \
-            --overrideXcodeVersion \
-            build \
-            --configurationPath="$RUNNER_TEMP/nagramix-configuration.json" \
-            --codesigningInformationPath="$RUNNER_TEMP/nagramix-codesigning" \
-            --buildNumber="${GITHUB_RUN_NUMBER}" \
-            --configuration=release_arm64 \
-            --outputBuildArtifactsPath="$RUNNER_TEMP/build-artifacts"
+          for attempt in 1 2 3 4; do
+            build_log="$RUNNER_TEMP/nagramix-build-attempt-${attempt}.log"
+            set +e
+            python3 build-system/Make/Make.py \
+              --cacheDir="$BAZEL_CACHE" \
+              --overrideXcodeVersion \
+              build \
+              --configurationPath="$RUNNER_TEMP/nagramix-configuration.json" \
+              --codesigningInformationPath="$RUNNER_TEMP/nagramix-codesigning" \
+              --buildNumber="${GITHUB_RUN_NUMBER}" \
+              --configuration=release_arm64 \
+              --outputBuildArtifactsPath="$RUNNER_TEMP/build-artifacts" 2>&1 | tee "$build_log"
+            build_status=${PIPESTATUS[0]}
+            set -e
+
+            if [[ $build_status -eq 0 ]]; then
+              break
+            fi
+            if [[ $attempt -eq 4 ]] || ! grep -qE 'GET returned 50[234]|HTTP (response code )?50[234]|Gateway Time-out' "$build_log"; then
+              exit "$build_status"
+            fi
+            sleep $((attempt * 30))
+          done
 
       - name: Save Bazel cache
         if: always() && steps.bazel-cache.outputs.cache-hit != 'true'

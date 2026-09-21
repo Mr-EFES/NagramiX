@@ -8,6 +8,15 @@
 
 ## NagramiX 0.3.7 text-post width correction prepared (2026-09-21 UTC)
 
+GitHub authorization was restored for `Mr-EFES` with `repo` and `workflow`
+scopes. Attempts 1–3 of run `35613367134` never reached compilation: GitHub's
+release-download path repeatedly returned HTTP 504 while Bazel fetched first
+`rules_kotlin` and then `rules_cc`. The workflow now retries the native build
+up to four times only when its captured output contains a transient HTTP
+502/503/504 download failure; compiler and all other deterministic failures
+still stop immediately. Exact next step: commit and push this CI hardening,
+dispatch the 0.3.7 workflow from the new commit, and inspect the native result.
+
 Build run `35601293344` reached native Swift compilation and failed on the
 0.3.7 text-only guard because Swift 6 treats its forced cast between identical
 tuple types as an error. The overlay now reads the already typed tuple's
