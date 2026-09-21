@@ -1220,7 +1220,7 @@ public final class ItemListControllerTabBarItem: Equatable {
         "        var contentSize = CGSize(width: maxContentWidth, height: 0.0)\n",
         """        let nagramiXWideChannelTextPost = nagramiXWideChannelPost
             && contentNodeMessagesAndClasses.count == 1
-            && contentNodeMessagesAndClasses[0].type == ChatMessageTextBubbleContentNode.self
+            && contentNodeMessagesAndClasses[0].1 == ChatMessageTextBubbleContentNode.self
         if nagramiXWideChannelTextPost {
             // Text has now completed its intrinsic measurement. Expand only the
             // final outer text bubble to the common safe width; media and mosaic

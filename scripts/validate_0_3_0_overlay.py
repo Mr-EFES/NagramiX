@@ -111,8 +111,7 @@ def main() -> None:
             "maximumContentWidth = floor(tmpWidth - layoutConstants.bubble.edgeInset * 3.0",
             "let nagramiXWideChannelTextPost = nagramiXWideChannelPost",
             "contentNodeMessagesAndClasses.count == 1",
-            "contentNodeMessagesAndClasses[0].type == ChatMessageTextBubbleContentNode.self",
-            ".type == ChatMessageTextBubbleContentNode.self",
+            "contentNodeMessagesAndClasses[0].1 == ChatMessageTextBubbleContentNode.self",
             "if nagramiXWideChannelTextPost {",
             "maxContentWidth = max(maxContentWidth, maximumContentWidth)",
             "let availableMosaicWidth = maximumContentWidth",
@@ -123,6 +122,7 @@ def main() -> None:
     bubble_text = bubble_source.read_text(encoding="utf-8")
     for forbidden in (
         "contentNodeMessagesAndClasses[0] as!",
+        "contentNodeMessagesAndClasses[0].type",
         "maxContentWidth = max(maxContentWidth, maximumNodeWidth)",
         "nagramiXWideChannelPost && item.presentationData.isPreview",
         "nagramiXWideChannelPost && item.content.firstMessage.adAttribute",

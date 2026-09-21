@@ -21,6 +21,15 @@ and push the compiler correction to pull request #14, dispatch a new
 authoritative 0.3.7 workflow from that commit, then inspect the result and only
 publish after packaging and artifact validation pass.
 
+Retry run `35610694756` confirmed that the forced-cast diagnostic is gone, but
+also established that the upstream array's declared tuple type is unlabeled;
+therefore direct `.type` access does not compile. The guard now reads tuple
+element `.1`, which is the existing `AnyClass` content-node type, without a cast.
+The validator requires `.1` and rejects both the forced cast and invalid labeled
+member access. Native compilation of this second correction is pending. Exact
+next step: push it to pull request #14 and dispatch the authoritative workflow
+again from the new commit.
+
 The missing 0.3.7 source change was recreated on
 `fix/wide-text-posts-0.3.7`. After Telegram finishes intrinsic content
 measurement, the overlay now identifies a text-only broadcast post by requiring
