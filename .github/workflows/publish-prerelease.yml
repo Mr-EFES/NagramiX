@@ -1,0 +1,70 @@
+name: Публикация релиза NagramiX
+
+on:
+  workflow_dispatch:
+    inputs:
+      run_id:
+        description: ID успешного запуска сборки неподписанного IPA
+        required: true
+        type: string
+      artifact_name:
+        description: Имя артефакта сборки
+        required: true
+        type: string
+      tag:
+        description: Тег GitHub-релиза для IPA
+        required: true
+        default: v0.3.7
+        type: string
+
+permissions:
+  actions: read
+  contents: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Получить метаданные релиза NagramiX
+        uses: actions/checkout@v4
+
+      - name: Скачать проверенный артефакт workflow
+        uses: actions/download-artifact@v5
+        with:
+          name: ${{ inputs.artifact_name }}
+          path: release-assets
+          github-token: ${{ github.token }}
+          run-id: ${{ inputs.run_id }}
+
+      - name: Проверить файлы релиза
+        shell: bash
+        run: |
+          test -f release-assets/NagramiX-0.3.7-unsigned.ipa
+          test -f release-assets/BUILD-PROVENANCE.txt
+          unzip -t release-assets/NagramiX-0.3.7-unsigned.ipa
+          sha256sum release-assets/NagramiX-0.3.7-unsigned.ipa
+
+      - name: Создать или обновить релиз 0.3.7
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          if gh release view "${{ inputs.tag }}" --repo "${{ github.repository }}" >/dev/null 2>&1; then
+            gh release edit "${{ inputs.tag }}" \
+              --repo "${{ github.repository }}" \
+              --title "NagramiX 0.3.7" \
+              --notes-file product/releases/0.3.7.md \
+              --latest
+          else
+            gh release create "${{ inputs.tag }}" \
+              --repo "${{ github.repository }}" \
+              --title "NagramiX 0.3.7" \
+              --notes-file product/releases/0.3.7.md \
+              --latest \
+              --target "${{ github.sha }}"
+          fi
+          gh release upload "${{ inputs.tag }}" \
+            release-assets/NagramiX-0.3.7-unsigned.ipa \
+            release-assets/BUILD-PROVENANCE.txt \
+            --repo "${{ github.repository }}" \
+            --clobber

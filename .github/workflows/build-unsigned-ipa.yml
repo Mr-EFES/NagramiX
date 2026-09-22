@@ -1,0 +1,150 @@
+name: Сборка неподписанного IPA NagramiX
+
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - ".github/workflows/build-unsigned-ipa.yml"
+      - "ios/**"
+      - "product/**"
+      - "scripts/**"
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: macos-26
+    timeout-minutes: 180
+    env:
+      TELEGRAM_API_ID: ${{ secrets.TELEGRAM_API_ID }}
+      TELEGRAM_API_HASH: ${{ secrets.TELEGRAM_API_HASH }}
+      BAZEL_CACHE: ${{ github.workspace }}/.bazel-cache
+      NAGRAMIX_VERSION: 0.3.7
+
+    steps:
+      - name: Получить overlay NagramiX
+        uses: actions/checkout@v4
+
+      - name: Проверить актуальность официальной базы Telegram-iOS
+        run: python3 scripts/check_upstreams.py --platform ios --require-current
+
+      - name: Загрузить закреплённую ссылку upstream
+        id: upstream
+        shell: bash
+        run: |
+          cat ios/upstream.env >> "$GITHUB_ENV"
+          source ios/upstream.env
+          echo "ref=$TELEGRAM_IOS_REF" >> "$GITHUB_OUTPUT"
+
+      - name: Проверить обязательные учётные данные Telegram API
+        shell: bash
+        run: |
+          test -n "$TELEGRAM_API_ID" || { echo "Missing TELEGRAM_API_ID repository secret"; exit 1; }
+          test -n "$TELEGRAM_API_HASH" || { echo "Missing TELEGRAM_API_HASH repository secret"; exit 1; }
+
+      - name: Получить Telegram-iOS
+        uses: actions/checkout@v4
+        with:
+          repository: TelegramMessenger/Telegram-iOS
+          ref: ${{ steps.upstream.outputs.ref }}
+          path: Telegram-iOS
+          submodules: recursive
+          fetch-depth: 1
+
+      - name: Проверить ожидаемую версию upstream
+        shell: bash
+        run: |
+          actual="$(python3 -c 'import json; print(json.load(open("Telegram-iOS/versions.json"))["app"])')"
+          test "$actual" = "$TELEGRAM_IOS_VERSION" || {
+            echo "Pinned ref reports Telegram $actual, expected $TELEGRAM_IOS_VERSION"
+            exit 1
+          }
+
+      - name: Выбрать требуемую версию Xcode
+        shell: bash
+        run: |
+          xcode_version="$(python3 -c 'import json; print(json.load(open("Telegram-iOS/versions.json"))["xcode"])')"
+          sudo xcode-select -s "/Applications/Xcode_${xcode_version}.app/Contents/Developer"
+
+      - name: Применить overlay NagramiX
+        shell: bash
+        run: |
+          python3 ios/apply_overlay.py \
+            --source Telegram-iOS \
+            --configuration "$RUNNER_TEMP/nagramix-configuration.json"
+          python3 scripts/validate_intro_localization.py \
+            Telegram-iOS/Telegram/Telegram-iOS/ru.lproj/Localizable.strings
+
+      - name: Восстановить кеш Bazel
+        id: bazel-cache
+        uses: actions/cache/restore@v4
+        with:
+          path: ${{ env.BAZEL_CACHE }}
+          key: telegram-ios-${{ runner.os }}-${{ runner.arch }}-${{ env.TELEGRAM_IOS_REF }}
+
+      - name: Создать временные профили NagramiX для сборки
+        shell: bash
+        run: |
+          python3 ios/generate_fake_profiles.py \
+            --source-profiles Telegram-iOS/build-system/fake-codesigning/profiles \
+            --source-certs Telegram-iOS/build-system/fake-codesigning/certs \
+            --destination "$RUNNER_TEMP/nagramix-codesigning" \
+            --upstream-team C67CF9S4VU \
+            --upstream-bundle ph.telegra.Telegraph \
+            --team NAGRAMIX0 \
+            --bundle com.mr-efes.nagramix
+
+      - name: Собрать нативное ARM64-приложение NagramiX без профилей
+        working-directory: Telegram-iOS
+        shell: bash
+        run: |
+          python3 build-system/Make/ImportCertificates.py --path "$RUNNER_TEMP/nagramix-codesigning/certs"
+          python3 build-system/Make/Make.py \
+            --cacheDir="$BAZEL_CACHE" \
+            --overrideXcodeVersion \
+            build \
+            --configurationPath="$RUNNER_TEMP/nagramix-configuration.json" \
+            --codesigningInformationPath="$RUNNER_TEMP/nagramix-codesigning" \
+            --buildNumber="${GITHUB_RUN_NUMBER}" \
+            --configuration=release_arm64 \
+            --outputBuildArtifactsPath="$RUNNER_TEMP/build-artifacts"
+
+      - name: Сохранить кеш Bazel
+        if: always() && steps.bazel-cache.outputs.cache-hit != 'true'
+        uses: actions/cache/save@v4
+        with:
+          path: ${{ env.BAZEL_CACHE }}
+          key: telegram-ios-${{ runner.os }}-${{ runner.arch }}-${{ env.TELEGRAM_IOS_REF }}
+
+      - name: Найти и упаковать неподписанное приложение
+        shell: bash
+        run: |
+          source_ipa="$RUNNER_TEMP/build-artifacts/Telegram.ipa"
+          test -f "$source_ipa" || { echo "Built Telegram.ipa was not found at $source_ipa"; exit 1; }
+          rm -rf "$RUNNER_TEMP/nagramix-unpack"
+          mkdir -p "$RUNNER_TEMP/nagramix-unpack"
+          unzip -q "$source_ipa" -d "$RUNNER_TEMP/nagramix-unpack"
+          python3 scripts/validate_intro_localization.py \
+            "$RUNNER_TEMP/nagramix-unpack/Payload/Telegram.app/ru.lproj/Localizable.strings"
+          bash scripts/package_unsigned_ipa.sh \
+            "$RUNNER_TEMP/nagramix-unpack/Payload/Telegram.app" \
+            "NagramiX-${NAGRAMIX_VERSION}-unsigned.ipa" \
+            com.mr-efes.nagramix \
+            "$NAGRAMIX_VERSION"
+
+      - name: Записать происхождение сборки
+        shell: bash
+        run: |
+          upstream_sha="$(git -C Telegram-iOS rev-parse HEAD)"
+          printf 'Telegram-iOS commit: %s\nNagramX reference: %s\n' "$upstream_sha" "$NAGRAMX_REFERENCE_REF" > BUILD-PROVENANCE.txt
+
+      - name: Загрузить неподписанный IPA
+        uses: actions/upload-artifact@v4
+        with:
+          name: NagramiX-${{ env.NAGRAMIX_VERSION }}-unsigned-arm64
+          path: |
+            NagramiX-${{ env.NAGRAMIX_VERSION }}-unsigned.ipa
+            BUILD-PROVENANCE.txt
+          if-no-files-found: error
+          retention-days: 14

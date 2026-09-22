@@ -1,0 +1,160 @@
+{
+  "schemaVersion": 1,
+  "product": "NagramiX",
+  "release": "0.3.7",
+  "platformPriority": [
+    "ios"
+  ],
+  "features": [
+    {
+      "id": "clean_install_defaults",
+      "title": "Русская авторизация и тёмная тема при чистой установке",
+      "specification": "specified",
+      "ios": {
+        "implementation": "implemented",
+        "compile": "compile_passed",
+        "device": "device_pending"
+      }
+    },
+    {
+      "id": "tabs",
+      "title": "Видимость и названия вкладок",
+      "specification": "specified",
+      "ios": {
+        "implementation": "implemented",
+        "compile": "compile_passed",
+        "device": "device_pending"
+      }
+    },
+    {
+      "id": "icons",
+      "title": "Иконки приложения NagramiX",
+      "specification": "specified",
+      "ios": {
+        "implementation": "implemented",
+        "compile": "compile_passed",
+        "device": "device_pending"
+      }
+    },
+    {
+      "id": "round_video_camera",
+      "title": "Передняя и задняя камера круглых видео",
+      "specification": "specified",
+      "ios": {
+        "implementation": "implemented",
+        "compile": "compile_passed",
+        "device": "device_passed"
+      }
+    },
+    {
+      "id": "story_controls",
+      "title": "Управление видимостью, подтверждением и репостом историй",
+      "specification": "specified",
+      "ios": {
+        "implementation": "implemented",
+        "compile": "compile_passed",
+        "device": "device_pending"
+      }
+    },
+    {
+      "id": "forward_copy",
+      "title": "Пересылка с источником и копирование без источника",
+      "specification": "specified",
+      "ios": {
+        "implementation": "implemented",
+        "compile": "compile_passed",
+        "device": "device_pending"
+      }
+    },
+    {
+      "id": "deleted_messages",
+      "title": "Локально сохранённые удалённые сообщения",
+      "specification": "specified",
+      "ios": {
+        "implementation": "implemented",
+        "compile": "compile_passed",
+        "device": "device_pending"
+      }
+    },
+    {
+      "id": "edit_history",
+      "title": "История замеченных правок сообщений",
+      "specification": "specified",
+      "ios": {
+        "implementation": "implemented",
+        "compile": "compile_passed",
+        "device": "device_pending"
+      }
+    },
+    {
+      "id": "dns_doh",
+      "title": "Системный DNS и DNS-over-HTTPS",
+      "specification": "specified",
+      "ios": {
+        "implementation": "implemented",
+        "compile": "compile_passed",
+        "device": "device_pending"
+      }
+    },
+    {
+      "id": "proxy_failover",
+      "title": "Проверка и автоматическое переключение прокси",
+      "specification": "specified",
+      "ios": {
+        "implementation": "implemented",
+        "compile": "compile_passed",
+        "device": "device_pending"
+      }
+    },
+    {
+      "id": "force_tcp",
+      "title": "Force TCP для звонков",
+      "specification": "specified",
+      "ios": {
+        "implementation": "implemented",
+        "compile": "compile_passed",
+        "device": "device_pending"
+      }
+    },
+    {
+      "id": "profile_info",
+      "title": "Profile id, registration estimate and mutual marker",
+      "specification": "specified",
+      "ios": {
+        "implementation": "implemented",
+        "compile": "compile_passed",
+        "device": "device_pending"
+      }
+    },
+    {
+      "id": "offline_startup",
+      "title": "Запуск без сети и при недоступном прокси",
+      "specification": "specified",
+      "ios": {
+        "implementation": "implemented",
+        "compile": "compile_passed",
+        "device": "device_pending"
+      }
+    },
+    {
+      "id": "wide_channel_posts",
+      "title": "Широкие посты каналов",
+      "specification": "specified",
+      "ios": {
+        "implementation": "implemented",
+        "compile": "compile_passed",
+        "device": "device_pending"
+      }
+    },
+    {
+      "id": "select_from_author",
+      "title": "Выбор сообщений автора",
+      "specification": "specified",
+      "ios": {
+        "implementation": "implemented",
+        "compile": "compile_passed",
+        "device": "device_pending"
+      }
+    }
+  ]
+}

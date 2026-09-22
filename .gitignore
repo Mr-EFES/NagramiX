@@ -1,0 +1,10 @@
+work/
+.DS_Store
+*.ipa
+*.xcarchive
+__pycache__/
+*.pyc
+ios/generated-configuration.json
+.codex-*
+artifacts/
+outputs/
