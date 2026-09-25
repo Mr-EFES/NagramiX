@@ -50,7 +50,11 @@ private final class NagramiXSettingsSearchHeaderItemNode: ItemListControllerHead
             displayBackground: true
         )
         self.searchBarNode.hasCancelButton = false
-        self.searchBarNode.placeholderString = item.presentationData.strings.nagramiXSettingsSearch
+        self.searchBarNode.placeholderString = NSAttributedString(
+            string: item.presentationData.strings.nagramiXSettingsSearch,
+            font: Font.regular(17.0),
+            textColor: item.presentationData.theme.rootController.navigationSearchBar.inputPlaceholderTextColor
+        )
         self.searchBarNode.text = item.query
 
         super.init()
@@ -69,7 +73,11 @@ private final class NagramiXSettingsSearchHeaderItemNode: ItemListControllerHead
             preferClearGlass: false,
             strings: item.presentationData.strings
         )
-        self.searchBarNode.placeholderString = item.presentationData.strings.nagramiXSettingsSearch
+        self.searchBarNode.placeholderString = NSAttributedString(
+            string: item.presentationData.strings.nagramiXSettingsSearch,
+            font: Font.regular(17.0),
+            textColor: item.presentationData.theme.rootController.navigationSearchBar.inputPlaceholderTextColor
+        )
         if self.searchBarNode.text != item.query {
             self.searchBarNode.text = item.query
         }
