@@ -14,7 +14,7 @@ on:
       tag:
         description: Тег GitHub-релиза для IPA
         required: true
-        default: v0.3.7
+        default: v0.3.8
         type: string
 
 permissions:
@@ -39,12 +39,12 @@ jobs:
       - name: Проверить файлы релиза
         shell: bash
         run: |
-          test -f release-assets/NagramiX-0.3.7-unsigned.ipa
+          test -f release-assets/NagramiX-0.3.8-unsigned.ipa
           test -f release-assets/BUILD-PROVENANCE.txt
-          unzip -t release-assets/NagramiX-0.3.7-unsigned.ipa
-          sha256sum release-assets/NagramiX-0.3.7-unsigned.ipa
+          unzip -t release-assets/NagramiX-0.3.8-unsigned.ipa
+          sha256sum release-assets/NagramiX-0.3.8-unsigned.ipa
 
-      - name: Создать или обновить релиз 0.3.7
+      - name: Создать или обновить релиз 0.3.8
         env:
           GH_TOKEN: ${{ github.token }}
         shell: bash
@@ -52,19 +52,19 @@ jobs:
           if gh release view "${{ inputs.tag }}" --repo "${{ github.repository }}" >/dev/null 2>&1; then
             gh release edit "${{ inputs.tag }}" \
               --repo "${{ github.repository }}" \
-              --title "NagramiX 0.3.7" \
-              --notes-file product/releases/0.3.7.md \
+              --title "NagramiX 0.3.8" \
+              --notes-file product/releases/0.3.8.md \
               --latest
           else
             gh release create "${{ inputs.tag }}" \
               --repo "${{ github.repository }}" \
-              --title "NagramiX 0.3.7" \
-              --notes-file product/releases/0.3.7.md \
+              --title "NagramiX 0.3.8" \
+              --notes-file product/releases/0.3.8.md \
               --latest \
               --target "${{ github.sha }}"
           fi
           gh release upload "${{ inputs.tag }}" \
-            release-assets/NagramiX-0.3.7-unsigned.ipa \
+            release-assets/NagramiX-0.3.8-unsigned.ipa \
             release-assets/BUILD-PROVENANCE.txt \
             --repo "${{ github.repository }}" \
             --clobber

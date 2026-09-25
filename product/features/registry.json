@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "product": "NagramiX",
-  "release": "0.3.7",
+  "release": "0.3.8",
   "platformPriority": [
     "ios"
   ],
@@ -153,6 +153,16 @@
       "ios": {
         "implementation": "implemented",
         "compile": "compile_passed",
+        "device": "device_pending"
+      }
+    },
+    {
+      "id": "global_settings_search",
+      "title": "Глобальный поиск по настройкам",
+      "specification": "specified",
+      "ios": {
+        "implementation": "implemented",
+        "compile": "in_progress",
         "device": "device_pending"
       }
     }

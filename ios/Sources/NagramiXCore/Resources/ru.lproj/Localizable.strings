@@ -2,6 +2,8 @@
 "NagramiX.Settings.Page.Interface" = "Интерфейс";
 "NagramiX.Settings.Page.Features" = "Функции";
 "NagramiX.Settings.Page.Other" = "Прочее";
+"NagramiX.Settings.Search" = "Поиск";
+"NagramiX.Settings.Search.NoResults" = "Ничего не найдено";
 "NagramiX.Settings.Proxy" = "Настройки прокси";
 "NagramiX.Settings.Tabs.Header" = "ПАНЕЛЬ ВКЛАДОК";
 "NagramiX.Settings.Tabs.HideContacts" = "Скрыть вкладку «Контакты»";
