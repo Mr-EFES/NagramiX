@@ -32,6 +32,8 @@ public extension PresentationStrings {
     var nagramiXSettingsInterface: String { self.nagramiXLocalized("NagramiX.Settings.Page.Interface") }
     var nagramiXSettingsFeatures: String { self.nagramiXLocalized("NagramiX.Settings.Page.Features") }
     var nagramiXSettingsOther: String { self.nagramiXLocalized("NagramiX.Settings.Page.Other") }
+    var nagramiXSettingsSearch: String { self.nagramiXLocalized("NagramiX.Settings.Search") }
+    var nagramiXSettingsSearchNoResults: String { self.nagramiXLocalized("NagramiX.Settings.Search.NoResults") }
     var nagramiXProxySettings: String { self.nagramiXLocalized("NagramiX.Settings.Proxy") }
     var nagramiXTabsHeader: String { self.nagramiXLocalized("NagramiX.Settings.Tabs.Header") }
     var nagramiXHideContactsTab: String { self.nagramiXLocalized("NagramiX.Settings.Tabs.HideContacts") }

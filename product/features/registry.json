@@ -155,6 +155,16 @@
         "compile": "compile_passed",
         "device": "device_pending"
       }
+    },
+    {
+      "id": "global_settings_search",
+      "title": "Глобальный поиск по настройкам",
+      "specification": "specified",
+      "ios": {
+        "implementation": "implemented",
+        "compile": "in_progress",
+        "device": "device_pending"
+      }
     }
   ]
 }

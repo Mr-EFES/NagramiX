@@ -51,6 +51,7 @@ private enum NagramiXSettingsSection: Int32 {
 }
 
 private enum NagramiXSettingsEntry: ItemListNodeEntry {
+    case searchHeader(Int32, String)
     case tabsHeader
     case hideContacts(Bool)
     case hideCalls(Bool)
@@ -82,9 +83,14 @@ private enum NagramiXSettingsEntry: ItemListNodeEntry {
     case clearMessageArchive
     case messageArchiveInfo
     case proxySettings
+    case proxyDns
+    case proxyAutoSwitch
+    case proxyCheckAll
 
     var category: NagramiXSettingsCategory {
         switch self {
+        case .searchHeader:
+            return .interface
         case .tabsHeader, .hideContacts, .hideCalls, .showSearchButton, .showProxyButton, .hideProxySponsorChannel, .chatsHeader, .wideChannelPosts,
                 .profilesHeader, .showProfileIds, .showRegistrationDate, .showMutualContactIcon:
             return .interface
@@ -93,13 +99,15 @@ private enum NagramiXSettingsEntry: ItemListNodeEntry {
             return .features
         case .messagesHeader, .showDeletedMessages, .showDeletedMessagesInfo, .messageEditHistory, .messageEditHistoryInfo, .clearMessageArchive, .messageArchiveInfo:
             return .features
-        case .forceTcpCalls, .forceTcpCallsInfo, .proxySettings:
+        case .forceTcpCalls, .forceTcpCallsInfo, .proxySettings, .proxyDns, .proxyAutoSwitch, .proxyCheckAll:
             return .other
         }
     }
 
     var section: ItemListSectionId {
         switch self {
+        case let .searchHeader(sectionId, _):
+            return sectionId
         case .tabsHeader, .hideContacts, .hideCalls, .showSearchButton, .showProxyButton, .hideProxySponsorChannel:
             return NagramiXSettingsSection.tabs.rawValue
         case .chatsHeader, .wideChannelPosts:
@@ -114,13 +122,14 @@ private enum NagramiXSettingsEntry: ItemListNodeEntry {
             return NagramiXSettingsSection.calls.rawValue
         case .messagesHeader, .showDeletedMessages, .showDeletedMessagesInfo, .messageEditHistory, .messageEditHistoryInfo, .clearMessageArchive, .messageArchiveInfo:
             return NagramiXSettingsSection.messages.rawValue
-        case .proxySettings:
+        case .proxySettings, .proxyDns, .proxyAutoSwitch, .proxyCheckAll:
             return NagramiXSettingsSection.other.rawValue
         }
     }
 
     var stableId: Int32 {
         switch self {
+        case let .searchHeader(id, _): return 1000 + id
         case .tabsHeader: return 0
         case .hideContacts: return 1
         case .hideCalls: return 2
@@ -152,6 +161,9 @@ private enum NagramiXSettingsEntry: ItemListNodeEntry {
         case .forceTcpCalls: return 52
         case .forceTcpCallsInfo: return 53
         case .proxySettings: return 60
+        case .proxyDns: return 61
+        case .proxyAutoSwitch: return 62
+        case .proxyCheckAll: return 63
         }
     }
 
@@ -162,6 +174,8 @@ private enum NagramiXSettingsEntry: ItemListNodeEntry {
     func item(presentationData: ItemListPresentationData, arguments: Any) -> ListViewItem {
         let arguments = arguments as! NagramiXSettingsControllerArguments
         switch self {
+        case let .searchHeader(_, title):
+            return ItemListSectionHeaderItem(presentationData: presentationData, text: title, sectionId: self.section)
         case .tabsHeader:
             return ItemListSectionHeaderItem(presentationData: presentationData, text: presentationData.strings.nagramiXTabsHeader, sectionId: self.section)
         case let .hideContacts(value):
@@ -224,12 +238,161 @@ private enum NagramiXSettingsEntry: ItemListNodeEntry {
             return ItemListTextItem(presentationData: presentationData, text: .plain(presentationData.strings.nagramiXLocalArchiveInfo), sectionId: self.section)
         case .proxySettings:
             return ItemListDisclosureItem(presentationData: presentationData, systemStyle: .glass, title: presentationData.strings.nagramiXProxySettings, label: "", sectionId: self.section, style: .blocks, action: arguments.openProxySettings)
+        case .proxyDns:
+            return ItemListDisclosureItem(presentationData: presentationData, systemStyle: .glass, title: presentationData.strings.nagramiXDns, label: "", sectionId: self.section, style: .blocks, action: arguments.openProxySettings)
+        case .proxyAutoSwitch:
+            return ItemListDisclosureItem(presentationData: presentationData, systemStyle: .glass, title: presentationData.strings.nagramiXProxyAutoSwitch, label: "", sectionId: self.section, style: .blocks, action: arguments.openProxySettings)
+        case .proxyCheckAll:
+            return ItemListDisclosureItem(presentationData: presentationData, systemStyle: .glass, title: presentationData.strings.nagramiXProxyCheckAll, label: "", sectionId: self.section, style: .blocks, action: arguments.openProxySettings)
         }
     }
 }
 
-private func nagramiXSettingsEntries(settings: NagramiXTabSettings, category: NagramiXSettingsCategory) -> [NagramiXSettingsEntry] {
-    let entries: [NagramiXSettingsEntry] = [
+private extension NagramiXSettingsCategory {
+    func title(strings: PresentationStrings) -> String {
+        switch self {
+        case .interface:
+            return strings.nagramiXSettingsInterface
+        case .features:
+            return strings.nagramiXSettingsFeatures
+        case .other:
+            return strings.nagramiXSettingsOther
+        }
+    }
+}
+
+private extension NagramiXSettingsEntry {
+    var isSearchOnly: Bool {
+        switch self {
+        case .searchHeader, .proxyDns, .proxyAutoSwitch, .proxyCheckAll:
+            return true
+        default:
+            return false
+        }
+    }
+
+    var isSearchableSetting: Bool {
+        switch self {
+        case .searchHeader, .tabsHeader, .chatsHeader, .videoMessagesHeader, .featureStoriesHeader, .profilesHeader, .callsHeader, .messagesHeader,
+                .forceTcpCallsInfo, .showDeletedMessagesInfo, .messageEditHistoryInfo, .messageArchiveInfo:
+            return false
+        default:
+            return true
+        }
+    }
+
+    func title(strings: PresentationStrings) -> String {
+        switch self {
+        case let .searchHeader(_, title): return title
+        case .tabsHeader: return strings.nagramiXTabsHeader
+        case .hideContacts: return strings.nagramiXHideContactsTab
+        case .hideCalls: return strings.nagramiXHideCallsTab
+        case .showSearchButton: return strings.nagramiXShowSearchButton
+        case .showProxyButton: return strings.nagramiXShowProxyButton
+        case .hideProxySponsorChannel: return strings.nagramiXHideProxySponsorChannel
+        case .chatsHeader: return strings.nagramiXChatsHeader
+        case .wideChannelPosts: return strings.nagramiXWideChannelPosts
+        case .videoMessagesHeader: return strings.nagramiXVideoMessagesHeader
+        case .useRearCameraForVideoMessages: return strings.nagramiXUseRearCamera
+        case .featureStoriesHeader: return strings.nagramiXStoriesHeader
+        case .hideStories: return strings.nagramiXHideStories
+        case .disableStoryCameraSwipe: return strings.nagramiXDisableStoryCameraSwipe
+        case .confirmStoryViewing: return strings.nagramiXConfirmStoryViewing
+        case .enableStoryRepost: return strings.nagramiXEnableStoryRepost
+        case .profilesHeader: return strings.nagramiXProfilesHeader
+        case .showProfileIds: return strings.nagramiXShowProfileIds
+        case .showRegistrationDate: return strings.nagramiXShowRegistrationDate
+        case .showMutualContactIcon: return strings.nagramiXShowMutualContactIcon
+        case .callsHeader: return strings.nagramiXCallsHeader
+        case .confirmOutgoingCalls: return strings.nagramiXConfirmOutgoingCalls
+        case .forceTcpCalls: return strings.nagramiXForceTcpCalls
+        case .forceTcpCallsInfo: return strings.nagramiXForceTcpCallsInfo
+        case .messagesHeader: return strings.nagramiXMessagesHeader
+        case .showDeletedMessages: return strings.nagramiXDeletedMessages
+        case .showDeletedMessagesInfo: return strings.nagramiXDeletedMessagesInfo
+        case .messageEditHistory: return strings.nagramiXMessageEditHistory
+        case .messageEditHistoryInfo: return strings.nagramiXMessageEditHistoryInfo
+        case .clearMessageArchive: return strings.nagramiXClearMessageArchive
+        case .messageArchiveInfo: return strings.nagramiXLocalArchiveInfo
+        case .proxySettings: return strings.nagramiXProxySettings
+        case .proxyDns: return strings.nagramiXDns
+        case .proxyAutoSwitch: return strings.nagramiXProxyAutoSwitch
+        case .proxyCheckAll: return strings.nagramiXProxyCheckAll
+        }
+    }
+
+    func description(strings: PresentationStrings) -> String {
+        switch self {
+        case .forceTcpCalls:
+            return strings.nagramiXForceTcpCallsInfo
+        case .showDeletedMessages:
+            return strings.nagramiXDeletedMessagesInfo
+        case .messageEditHistory:
+            return strings.nagramiXMessageEditHistoryInfo
+        case .clearMessageArchive:
+            return strings.nagramiXLocalArchiveInfo
+        case .proxySettings:
+            return [strings.nagramiXDns, strings.nagramiXProxyAutoSwitch, strings.nagramiXProxyCheckAll].joined(separator: " ")
+        case .proxyDns, .proxyAutoSwitch, .proxyCheckAll:
+            return strings.nagramiXProxySettings
+        default:
+            return ""
+        }
+    }
+
+    func sectionTitle(strings: PresentationStrings) -> String {
+        switch self.section {
+        case NagramiXSettingsSection.tabs.rawValue: return strings.nagramiXTabsHeader
+        case NagramiXSettingsSection.chats.rawValue: return strings.nagramiXChatsHeader
+        case NagramiXSettingsSection.videoMessages.rawValue: return strings.nagramiXVideoMessagesHeader
+        case NagramiXSettingsSection.stories.rawValue: return strings.nagramiXStoriesHeader
+        case NagramiXSettingsSection.profiles.rawValue: return strings.nagramiXProfilesHeader
+        case NagramiXSettingsSection.messages.rawValue: return strings.nagramiXMessagesHeader
+        case NagramiXSettingsSection.calls.rawValue: return strings.nagramiXCallsHeader
+        default: return strings.nagramiXSettingsOther
+        }
+    }
+}
+
+private func nagramiXNormalizedSearchText(_ value: String) -> String {
+    return value.folding(options: [.caseInsensitive, .diacriticInsensitive], locale: Locale.current)
+        .trimmingCharacters(in: .whitespacesAndNewlines)
+}
+
+private func nagramiXSearchEntries(settings: NagramiXTabSettings, strings: PresentationStrings, query: String) -> [NagramiXSettingsEntry] {
+    let normalizedQuery = nagramiXNormalizedSearchText(query)
+    guard !normalizedQuery.isEmpty else {
+        return []
+    }
+
+    let matches = nagramiXAllSettingsEntries(settings: settings).filter { entry in
+        guard entry.isSearchableSetting else {
+            return false
+        }
+        let searchableText = [
+            entry.title(strings: strings),
+            entry.description(strings: strings),
+            entry.sectionTitle(strings: strings),
+            entry.category.title(strings: strings),
+        ].joined(separator: " ")
+        return nagramiXNormalizedSearchText(searchableText).contains(normalizedQuery)
+    }
+
+    var result: [NagramiXSettingsEntry] = []
+    var previousGroup: String?
+    for entry in matches {
+        let groupTitle = "\(entry.category.title(strings: strings)) · \(entry.sectionTitle(strings: strings))"
+        if groupTitle != previousGroup {
+            result.append(.searchHeader(entry.section, groupTitle))
+            previousGroup = groupTitle
+        }
+        result.append(entry)
+    }
+    return result
+}
+
+private func nagramiXAllSettingsEntries(settings: NagramiXTabSettings) -> [NagramiXSettingsEntry] {
+    return [
         .tabsHeader, .hideContacts(settings.hideContacts), .hideCalls(settings.hideCalls),
         .showSearchButton(settings.showSearchButton), .showProxyButton(settings.showProxyButton),
         .hideProxySponsorChannel(settings.hideProxySponsorChannel),
@@ -246,14 +409,19 @@ private func nagramiXSettingsEntries(settings: NagramiXTabSettings, category: Na
         .clearMessageArchive, .messageArchiveInfo,
         .callsHeader, .confirmOutgoingCalls(settings.confirmOutgoingCalls),
         .forceTcpCalls(settings.forceTcpCalls), .forceTcpCallsInfo,
-        .proxySettings,
+        .proxySettings, .proxyDns, .proxyAutoSwitch, .proxyCheckAll,
     ]
-    return entries.filter { $0.category == category }
+}
+
+private func nagramiXSettingsEntries(settings: NagramiXTabSettings, category: NagramiXSettingsCategory) -> [NagramiXSettingsEntry] {
+    return nagramiXAllSettingsEntries(settings: settings).filter { $0.category == category && !$0.isSearchOnly }
 }
 
 public func nagramiXSettingsController(context: AccountContext) -> ViewController {
     let settingsPromise = ValuePromise(NagramiXTabSettings.current, ignoreRepeated: false)
     let categoryPromise = ValuePromise<NagramiXSettingsCategory>(.interface, ignoreRepeated: true)
+    let searchQueryPromise = ValuePromise<String>("", ignoreRepeated: true)
+    let searchQueryValue = Atomic<String>(value: "")
     let update: ((inout NagramiXTabSettings) -> Void) -> Void = { transform in
         NagramiXTabSettings.update(transform)
         settingsPromise.set(NagramiXTabSettings.current)
@@ -297,10 +465,17 @@ public func nagramiXSettingsController(context: AccountContext) -> ViewControlle
             ))
         }
     )
-    let signal = combineLatest(queue: .mainQueue(), context.sharedContext.presentationData, settingsPromise.get(), categoryPromise.get())
-    |> map { presentationData, settings, category -> (ItemListControllerState, (ItemListNodeState, Any)) in
+    let signal = combineLatest(queue: .mainQueue(), context.sharedContext.presentationData, settingsPromise.get(), categoryPromise.get(), searchQueryPromise.get())
+    |> map { presentationData, settings, category, searchQuery -> (ItemListControllerState, (ItemListNodeState, Any)) in
         var presentationData = presentationData
         presentationData = presentationData.withUpdated(theme: presentationData.theme.withModalBlocksBackground())
+        let normalizedQuery = nagramiXNormalizedSearchText(searchQuery)
+        let entries: [NagramiXSettingsEntry]
+        if normalizedQuery.isEmpty {
+            entries = nagramiXSettingsEntries(settings: settings, category: category)
+        } else {
+            entries = nagramiXSearchEntries(settings: settings, strings: presentationData.strings, query: normalizedQuery)
+        }
         let controllerState = ItemListControllerState(
             presentationData: ItemListPresentationData(presentationData),
             title: .equalSectionControl([
@@ -314,8 +489,13 @@ public func nagramiXSettingsController(context: AccountContext) -> ViewControlle
         )
         let listState = ItemListNodeState(
             presentationData: ItemListPresentationData(presentationData),
-            entries: nagramiXSettingsEntries(settings: settings, category: category),
+            entries: entries,
             style: .blocks,
+            emptyStateItem: !normalizedQuery.isEmpty && entries.isEmpty ? ItemListTextEmptyStateItem(text: presentationData.strings.nagramiXSettingsSearchNoResults) : nil,
+            headerItem: NagramiXSettingsSearchHeaderItem(presentationData: presentationData, query: searchQuery, queryUpdated: { query in
+                let _ = searchQueryValue.swap(query)
+                searchQueryPromise.set(query)
+            }),
             animateChanges: true
         )
         return (controllerState, (listState, arguments))
@@ -326,6 +506,15 @@ public func nagramiXSettingsController(context: AccountContext) -> ViewControlle
     }
     presentControllerImpl = { [weak controller] presentedController in
         controller?.present(presentedController, in: .window(.root))
+    }
+    controller.attemptNavigation = { [weak controller] _ in
+        if !nagramiXNormalizedSearchText(searchQueryValue.with { $0 }).isEmpty {
+            let _ = searchQueryValue.swap("")
+            searchQueryPromise.set("")
+            controller?.view.endEditing(true)
+            return false
+        }
+        return true
     }
     controller.titleControlValueChanged = { index in
         if let category = NagramiXSettingsCategory(rawValue: index) {

@@ -832,6 +832,10 @@ public final class ItemListControllerTabBarItem: Equatable {
         '        "//submodules/AccountContext:AccountContext",\n        "//submodules/NagramiXCore:NagramiXCore",\n',
         "SettingsUI NagramiXCore dependency",
     )
+    shutil.copy2(
+        overlay / "Sources" / "SettingsUI" / "NagramiXSettingsSearchHeader.swift",
+        source / "submodules" / "SettingsUI" / "Sources" / "NagramiXSettingsSearchHeader.swift",
+    )
 
     proxy_list = source / "submodules" / "SettingsUI" / "Sources" / "Data and Storage" / "ProxyListSettingsController.swift"
     replace_once(

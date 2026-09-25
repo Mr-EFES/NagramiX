@@ -2,6 +2,8 @@
 "NagramiX.Settings.Page.Interface" = "Interface";
 "NagramiX.Settings.Page.Features" = "Features";
 "NagramiX.Settings.Page.Other" = "Other";
+"NagramiX.Settings.Search" = "Search";
+"NagramiX.Settings.Search.NoResults" = "Nothing found";
 "NagramiX.Settings.Proxy" = "Proxy Settings";
 "NagramiX.Settings.Tabs.Header" = "TAB BAR";
 "NagramiX.Settings.Tabs.HideContacts" = "Hide Contacts Tab";
