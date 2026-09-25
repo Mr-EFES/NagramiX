@@ -31,6 +31,7 @@ public enum NagramiXDnsProvider: Int, CaseIterable, Equatable {
 
 public struct NagramiXTabSettings: Equatable {
     public static let changedNotification = Notification.Name("NagramiXSettingsChanged")
+    public static let wideChannelPostsChangedNotification = Notification.Name("NagramiXWideChannelPostsChanged")
     public static let dnsChangedNotification = Notification.Name("NagramiXDnsSettingsChanged")
     public static let softRestartRequestedNotification = Notification.Name("NagramiXTabInterfaceSoftRestartRequested")
 
@@ -171,6 +172,7 @@ public struct NagramiXTabSettings: Equatable {
 
     public static func update(_ transform: (inout NagramiXTabSettings) -> Void) {
         var value = self.current
+        let previousWideChannelPosts = value.wideChannelPosts
         let previousDnsProvider = value.dnsProvider
         let previousCustomDohUrl = value.customDohUrl
         transform(&value)
@@ -201,6 +203,9 @@ public struct NagramiXTabSettings: Equatable {
         defaults.removeObject(forKey: Key.legacyShowProxySponsorChannel)
 
         NotificationCenter.default.post(name: self.changedNotification, object: nil)
+        if previousWideChannelPosts != value.wideChannelPosts {
+            NotificationCenter.default.post(name: self.wideChannelPostsChangedNotification, object: nil)
+        }
         if previousDnsProvider != value.dnsProvider || previousCustomDohUrl != value.customDohUrl {
             NotificationCenter.default.post(name: self.dnsChangedNotification, object: nil)
         }

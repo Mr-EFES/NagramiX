@@ -1208,17 +1208,115 @@ public final class ItemListControllerTabBarItem: Equatable {
     )
     replace_once(
         chat_bubble_source,
+        "            index += 1\n        }\n        \n        let topNodeMergeStatus:",
+        """            index += 1
+        }
+
+        if nagramiXWideChannelPost {
+            // Each content node reports its preferred maximum width during the
+            // preparation pass. Telegram normally intersects those values, so
+            // an intrinsically narrow photo can reduce the shared constraint
+            // for the following caption, forward/reply headers and footers.
+            // Wide channel posts instead keep the adaptive parent-derived
+            // constraint for the common finalization pass. Individual nodes
+            // still own aspect fitting/cropping and height calculation.
+            maximumNodeWidth = maximumContentWidth
+        }
+
+        let topNodeMergeStatus:""",
+        "Keep the adaptive width through every broadcast-post content layout",
+    )
+    replace_once(
+        chat_bubble_source,
         "        var contentSize = CGSize(width: maxContentWidth, height: 0.0)\n",
         """        if nagramiXWideChannelPost {
-            // A width constraint alone still lets short text and compact media
-            // collapse back to Telegram's intrinsic bubble width. Make the
-            // outer broadcast bubble itself fill the complete safe width;
-            // native content nodes and reaction controls remain unchanged.
+            // Keep the bubble, content containers, reactions and footer on the
+            // same width that was supplied to the content finalization pass.
             maxContentWidth = max(maxContentWidth, maximumNodeWidth)
         }
         var contentSize = CGSize(width: maxContentWidth, height: 0.0)
 """,
         "Force enabled broadcast post bubbles to the maximum safe width",
+    )
+    replace_once(
+        chat_bubble_source,
+        """                let (size, apply) = finalize(maxContentWidth)
+                let containerFrame = CGRect(origin: CGPoint(x: 0.0, y: contentNodeOriginY), size: size)
+                contentNodeFramesPropertiesAndApply.append((containerFrame, properties, contentGroupId == nil, apply))
+""",
+        """                let (intrinsicSize, apply) = finalize(maxContentWidth)
+                let size: CGSize
+                if nagramiXWideChannelPost {
+                    // Some content nodes intentionally return their intrinsic
+                    // width even after being finalized with a wider constraint.
+                    // Give every linear node the same wide frame so media,
+                    // text/caption, previews, files, polls and footers cannot
+                    // leave an unused strip inside the expanded background.
+                    size = CGSize(width: max(maxContentWidth, intrinsicSize.width), height: intrinsicSize.height)
+                } else {
+                    size = intrinsicSize
+                }
+                let containerFrame = CGRect(origin: CGPoint(x: 0.0, y: contentNodeOriginY), size: size)
+                contentNodeFramesPropertiesAndApply.append((containerFrame, properties, contentGroupId == nil, apply))
+""",
+        "Give every finalized broadcast-post content node the shared wide frame",
+    )
+
+    chat_controller_node = source / "submodules" / "TelegramUI" / "Sources" / "ChatControllerNode.swift"
+    replace_once(
+        chat_controller_node,
+        "import AccountContext\n",
+        "import AccountContext\nimport NagramiXCore\n",
+        "Chat controller NagramiX settings import",
+    )
+    replace_once(
+        chat_controller_node,
+        "    private var openStickersDisposable: Disposable?\n    private var displayVideoUnmuteTipDisposable: Disposable?\n    \n    private var onLayoutCompletions:",
+        """    private var openStickersDisposable: Disposable?
+    private var displayVideoUnmuteTipDisposable: Disposable?
+    private var nagramiXSettingsObserver: NSObjectProtocol?
+
+    private var onLayoutCompletions:""",
+        "Chat controller NagramiX settings observer state",
+    )
+    replace_once(
+        chat_controller_node,
+        """        super.init()
+
+        getContentAreaInScreenSpaceImpl = { [weak self] in""",
+        """        super.init()
+
+        self.nagramiXSettingsObserver = NotificationCenter.default.addObserver(forName: NagramiXTabSettings.wideChannelPostsChangedNotification, object: nil, queue: .main, using: { [weak self] _ in
+            guard let self else {
+                return
+            }
+            var messageIds: [MessageId] = []
+            self.historyNode.forEachVisibleItemNode { itemNode in
+                guard let itemNode = itemNode as? ChatMessageItemView, let item = itemNode.item else {
+                    return
+                }
+                messageIds.append(item.content.firstMessage.id)
+            }
+            for messageId in messageIds {
+                self.historyNode.requestMessageUpdate(messageId)
+            }
+        })
+
+        getContentAreaInScreenSpaceImpl = { [weak self] in""",
+        "Refresh visible message layouts after a NagramiX setting changes",
+    )
+    replace_once(
+        chat_controller_node,
+        """        self.displayVideoUnmuteTipDisposable?.dispose()
+        self.inputMediaNodeDataDisposable?.dispose()
+""",
+        """        self.displayVideoUnmuteTipDisposable?.dispose()
+        if let nagramiXSettingsObserver = self.nagramiXSettingsObserver {
+            NotificationCenter.default.removeObserver(nagramiXSettingsObserver)
+        }
+        self.inputMediaNodeDataDisposable?.dispose()
+""",
+        "Remove the chat controller NagramiX settings observer",
     )
 
     tab_bar_build = source / "submodules" / "TabBarUI" / "BUILD"
