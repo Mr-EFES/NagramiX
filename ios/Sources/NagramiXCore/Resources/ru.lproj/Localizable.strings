@@ -2,6 +2,8 @@
 "NagramiX.Settings.Page.Interface" = "Интерфейс";
 "NagramiX.Settings.Page.Features" = "Функции";
 "NagramiX.Settings.Page.Other" = "Прочее";
+"NagramiX.Settings.Search" = "Поиск";
+"NagramiX.Settings.Search.NoResults" = "Ничего не найдено";
 "NagramiX.Settings.Proxy" = "Настройки прокси";
 "NagramiX.Settings.Tabs.Header" = "ПАНЕЛЬ ВКЛАДОК";
 "NagramiX.Settings.Tabs.HideContacts" = "Скрыть вкладку «Контакты»";
@@ -144,6 +146,8 @@
 "NagramiX.Settings.Messages.Header" = "СООБЩЕНИЯ";
 "NagramiX.Settings.Messages.Deleted" = "Удалённые сообщения";
 "NagramiX.Settings.Messages.DeletedInfo" = "Экспериментально · Показывает удалённые сообщения с меткой «Удалено»";
+"NagramiX.Settings.Messages.DeletedLabel" = "Текст метки удаления";
+"NagramiX.Settings.Messages.DeletedLabelEditor" = "Текст удалённого сообщения";
 "NagramiX.Settings.Messages.EditHistory" = "История правок сообщений";
 "NagramiX.Settings.Messages.EditHistoryInfo" = "Экспериментально · Показывает полученную этим клиентом историю изменений сообщений";
 "NagramiX.Messages.Deleted" = "Удалено";

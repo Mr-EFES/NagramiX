@@ -832,6 +832,10 @@ public final class ItemListControllerTabBarItem: Equatable {
         '        "//submodules/AccountContext:AccountContext",\n        "//submodules/NagramiXCore:NagramiXCore",\n',
         "SettingsUI NagramiXCore dependency",
     )
+    shutil.copy2(
+        overlay / "Sources" / "SettingsUI" / "NagramiXSettingsSearchHeader.swift",
+        source / "submodules" / "SettingsUI" / "Sources" / "NagramiXSettingsSearchHeader.swift",
+    )
 
     proxy_list = source / "submodules" / "SettingsUI" / "Sources" / "Data and Storage" / "ProxyListSettingsController.swift"
     replace_once(
@@ -1160,6 +1164,7 @@ public final class ItemListControllerTabBarItem: Equatable {
         chat_bubble_source,
         "        let chatLocationPeerId: PeerId = item.chatLocation.peerId ?? item.content.firstMessage.id.peerId\n",
         """        let chatLocationPeerId: PeerId = item.chatLocation.peerId ?? item.content.firstMessage.id.peerId
+        let nagramiXArchivedMessage = firstMessage.attributes.contains(where: { $0 is NagramiXArchivedMessageAttribute })
         let nagramiXWideChannelPost: Bool
         if NagramiXTabSettings.current.wideChannelPosts,
            case .peer = item.chatLocation,
@@ -1173,6 +1178,14 @@ public final class ItemListControllerTabBarItem: Equatable {
         }
 """,
         "Identify only ordinary main-timeline broadcast posts for wide layout",
+    )
+    replace_once(
+        chat_bubble_source,
+        "    private var mosaicStatusNode: ChatMessageDateAndStatusNode?\n",
+        """    private var mosaicStatusNode: ChatMessageDateAndStatusNode?
+    private var nagramiXDeletedStatusNode: ImmediateTextNode?
+""",
+        "Deleted-message status node state",
     )
     replace_once(
         chat_bubble_source,
@@ -1208,17 +1221,222 @@ public final class ItemListControllerTabBarItem: Equatable {
     )
     replace_once(
         chat_bubble_source,
+        "            index += 1\n        }\n        \n        let topNodeMergeStatus:",
+        """            index += 1
+        }
+
+        if nagramiXWideChannelPost {
+            // Each content node reports its preferred maximum width during the
+            // preparation pass. Telegram normally intersects those values, so
+            // an intrinsically narrow photo can reduce the shared constraint
+            // for the following caption, forward/reply headers and footers.
+            // Wide channel posts instead keep the adaptive parent-derived
+            // constraint for the common finalization pass. Individual nodes
+            // still own aspect fitting/cropping and height calculation.
+            maximumNodeWidth = maximumContentWidth
+        }
+
+        let topNodeMergeStatus:""",
+        "Keep the adaptive width through every broadcast-post content layout",
+    )
+    replace_once(
+        chat_bubble_source,
+        """        if let mosaicRange = mosaicRange {
+            let maxSize = layoutConstants.image.maxDimensions.fittedToWidthOrSmaller(maximumContentWidth - layoutConstants.image.bubbleInsets.left - layoutConstants.image.bubbleInsets.right)
+            let (innerFramesAndPositions, innerSize) = chatMessageBubbleMosaicLayout(maxSize: maxSize, itemSizes: contentPropertiesAndLayouts[mosaicRange].map { item in
+""",
+        """        if let mosaicRange = mosaicRange {
+            let availableMosaicWidth = max(0.0, maximumContentWidth - layoutConstants.image.bubbleInsets.left - layoutConstants.image.bubbleInsets.right)
+            let maxSize: CGSize
+            if nagramiXWideChannelPost {
+                // Albums must receive the same adaptive width as the rest of
+                // the post. Keep Telegram's own mosaic algorithm and aspect
+                // handling; only replace its stock narrow width input.
+                maxSize = CGSize(width: availableMosaicWidth, height: max(availableMosaicWidth, layoutConstants.image.maxDimensions.height))
+            } else {
+                maxSize = layoutConstants.image.maxDimensions.fittedToWidthOrSmaller(availableMosaicWidth)
+            }
+            let (innerFramesAndPositions, innerSize) = chatMessageBubbleMosaicLayout(maxSize: maxSize, itemSizes: contentPropertiesAndLayouts[mosaicRange].map { item in
+""",
+        "Give Telegram grouped-media layout the adaptive broadcast-post width",
+    )
+    replace_once(
+        chat_bubble_source,
         "        var contentSize = CGSize(width: maxContentWidth, height: 0.0)\n",
         """        if nagramiXWideChannelPost {
-            // A width constraint alone still lets short text and compact media
-            // collapse back to Telegram's intrinsic bubble width. Make the
-            // outer broadcast bubble itself fill the complete safe width;
-            // native content nodes and reaction controls remain unchanged.
+            // Keep the bubble, content containers, reactions and footer on the
+            // same width that was supplied to the content finalization pass.
             maxContentWidth = max(maxContentWidth, maximumNodeWidth)
         }
         var contentSize = CGSize(width: maxContentWidth, height: 0.0)
 """,
         "Force enabled broadcast post bubbles to the maximum safe width",
+    )
+    replace_once(
+        chat_bubble_source,
+        "        contentSize.height += totalContentNodesHeight\n",
+        """        contentSize.height += totalContentNodesHeight
+        if nagramiXArchivedMessage {
+            // Keep the marker on its own compact footer row instead of
+            // competing with Telegram's date/views/edited metadata.
+            contentSize.height += 22.0
+        }
+""",
+        "Reserve an archived-message footer row",
+    )
+    replace_once(
+        chat_bubble_source,
+        """                let (size, apply) = finalize(maxContentWidth)
+                let containerFrame = CGRect(origin: CGPoint(x: 0.0, y: contentNodeOriginY), size: size)
+                contentNodeFramesPropertiesAndApply.append((containerFrame, properties, contentGroupId == nil, apply))
+""",
+        """                let (intrinsicSize, apply) = finalize(maxContentWidth)
+                let size: CGSize
+                if nagramiXWideChannelPost {
+                    // Some content nodes intentionally return their intrinsic
+                    // width even after being finalized with a wider constraint.
+                    // Give every linear node the same wide frame so media,
+                    // text/caption, previews, files, polls and footers cannot
+                    // leave an unused strip inside the expanded background.
+                    size = CGSize(width: max(maxContentWidth, intrinsicSize.width), height: intrinsicSize.height)
+                } else {
+                    size = intrinsicSize
+                }
+                let containerFrame = CGRect(origin: CGPoint(x: 0.0, y: contentNodeOriginY), size: size)
+                contentNodeFramesPropertiesAndApply.append((containerFrame, properties, contentGroupId == nil, apply))
+""",
+        "Give every finalized broadcast-post content node the shared wide frame",
+    )
+
+    chat_controller_node = source / "submodules" / "TelegramUI" / "Sources" / "ChatControllerNode.swift"
+    replace_once(
+        chat_controller_node,
+        "import AccountContext\n",
+        "import AccountContext\nimport NagramiXCore\n",
+        "Chat controller NagramiX settings import",
+    )
+    replace_once(
+        chat_controller_node,
+        "    private var openStickersDisposable: Disposable?\n    private var displayVideoUnmuteTipDisposable: Disposable?\n    \n    private var onLayoutCompletions:",
+        """    private var openStickersDisposable: Disposable?
+    private var displayVideoUnmuteTipDisposable: Disposable?
+    private var nagramiXSettingsObserver: NSObjectProtocol?
+    private var nagramiXDeletedLabelObserver: NSObjectProtocol?
+
+    private var onLayoutCompletions:""",
+        "Chat controller NagramiX settings observer state",
+    )
+    replace_once(
+        chat_controller_node,
+        """        super.init()
+
+        getContentAreaInScreenSpaceImpl = { [weak self] in""",
+        """        super.init()
+
+        let nagramiXRefreshVisibleMessages: () -> Void = { [weak self] in
+            guard let self else {
+                return
+            }
+            var messageIds = Set<MessageId>()
+            self.historyNode.forEachVisibleItemNode { itemNode in
+                guard let itemNode = itemNode as? ChatMessageItemView, let item = itemNode.item else {
+                    return
+                }
+                switch item.content {
+                case let .message(message, _, _, _, _):
+                    messageIds.insert(message.id)
+                case let .group(messages):
+                    for message in messages {
+                        messageIds.insert(message.0.id)
+                    }
+                }
+            }
+            for messageId in messageIds {
+                self.historyNode.requestMessageUpdate(messageId)
+            }
+        }
+        self.nagramiXSettingsObserver = NotificationCenter.default.addObserver(forName: NagramiXTabSettings.wideChannelPostsChangedNotification, object: nil, queue: .main, using: { _ in
+            nagramiXRefreshVisibleMessages()
+        })
+        self.nagramiXDeletedLabelObserver = NotificationCenter.default.addObserver(forName: NagramiXTabSettings.deletedMessageLabelChangedNotification, object: nil, queue: .main, using: { _ in
+            nagramiXRefreshVisibleMessages()
+        })
+
+        getContentAreaInScreenSpaceImpl = { [weak self] in""",
+        "Refresh visible message layouts after a NagramiX setting changes",
+    )
+    replace_once(
+        chat_controller_node,
+        """        self.displayVideoUnmuteTipDisposable?.dispose()
+        self.inputMediaNodeDataDisposable?.dispose()
+""",
+        """        self.displayVideoUnmuteTipDisposable?.dispose()
+        if let nagramiXSettingsObserver = self.nagramiXSettingsObserver {
+            NotificationCenter.default.removeObserver(nagramiXSettingsObserver)
+        }
+        if let nagramiXDeletedLabelObserver = self.nagramiXDeletedLabelObserver {
+            NotificationCenter.default.removeObserver(nagramiXDeletedLabelObserver)
+        }
+        self.inputMediaNodeDataDisposable?.dispose()
+""",
+        "Remove the chat controller NagramiX settings observer",
+    )
+
+    replace_once(
+        chat_bubble_source,
+        "        strongSelf.updateSearchTextHighlightState()\n",
+        """        let nagramiXIsArchived = item.content.firstMessage.attributes.contains(where: { $0 is NagramiXArchivedMessageAttribute })
+        let nagramiXContentAlpha: CGFloat = nagramiXIsArchived ? 0.5 : 1.0
+        // Reset every reused cell explicitly. Alpha changes presentation only;
+        // gesture recognizers and all native interactions remain enabled.
+        strongSelf.backgroundNode.alpha = nagramiXContentAlpha
+        strongSelf.backgroundWallpaperNode.alpha = nagramiXContentAlpha
+        strongSelf.shadowNode.alpha = nagramiXContentAlpha
+        strongSelf.clippingNode.alpha = nagramiXContentAlpha
+        strongSelf.backgroundHighlightNode?.alpha = nagramiXContentAlpha
+        strongSelf.actionButtonsNode?.alpha = nagramiXContentAlpha
+        strongSelf.reactionButtonsNode?.alpha = nagramiXContentAlpha
+
+        if nagramiXIsArchived {
+            let statusNode: ImmediateTextNode
+            if let current = strongSelf.nagramiXDeletedStatusNode {
+                statusNode = current
+            } else {
+                statusNode = ImmediateTextNode()
+                statusNode.maximumNumberOfLines = 1
+                statusNode.isUserInteractionEnabled = false
+                strongSelf.nagramiXDeletedStatusNode = statusNode
+                strongSelf.mainContextSourceNode.contentNode.addSubnode(statusNode)
+            }
+
+            let messageTheme = incoming ? item.presentationData.theme.theme.chat.message.incoming : item.presentationData.theme.theme.chat.message.outgoing
+            let configuredLabel = NagramiXTabSettings.current.deletedMessageLabel
+            let label = configuredLabel.isEmpty ? item.presentationData.strings.nagramiXDeleted : configuredLabel
+            let statusText = NSMutableAttributedString()
+            if let image = generateTintedImage(image: UIImage(bundleImageName: "Chat/Context Menu/Delete"), color: messageTheme.secondaryTextColor) {
+                let attachment = NSTextAttachment()
+                attachment.image = image
+                attachment.bounds = CGRect(x: 0.0, y: -2.0, width: 13.0, height: 13.0)
+                statusText.append(NSAttributedString(attachment: attachment))
+                statusText.append(NSAttributedString(string: " "))
+            }
+            statusText.append(NSAttributedString(string: label, font: Font.semibold(12.0), textColor: messageTheme.secondaryTextColor))
+            statusNode.attributedText = statusText
+            let statusSize = statusNode.updateLayout(CGSize(width: max(1.0, backgroundFrame.width - 16.0), height: 20.0))
+            statusNode.frame = CGRect(
+                x: max(backgroundFrame.minX + 8.0, backgroundFrame.maxX - 8.0 - statusSize.width),
+                y: backgroundFrame.maxY - 20.0,
+                width: statusSize.width,
+                height: statusSize.height
+            )
+        } else if let statusNode = strongSelf.nagramiXDeletedStatusNode {
+            strongSelf.nagramiXDeletedStatusNode = nil
+            statusNode.removeFromSupernode()
+        }
+
+        strongSelf.updateSearchTextHighlightState()
+""",
+        "Apply archived-message dimming and an undimmed footer marker",
     )
 
     tab_bar_build = source / "submodules" / "TabBarUI" / "BUILD"
@@ -3904,36 +4122,6 @@ private func nagramiXCopyProfileId(_ value: Int64, presentationData: Presentatio
     loop: for entry in sourceEntries {
 """,
         "Inject display-only deleted snapshots into the open history range",
-    )
-
-    text_bubble = source / "submodules" / "TelegramUI" / "Components" / "Chat" / "ChatMessageTextBubbleContentNode" / "Sources" / "ChatMessageTextBubbleContentNode.swift"
-    replace_unique(
-        text_bubble,
-        "import TelegramCore\n",
-        "import TelegramCore\nimport NagramiXCore\n",
-        "Deleted-message marker localization import",
-    )
-    replace_unique(
-        text_bubble,
-        """                var customTruncationToken: ((UIFont, Bool) -> NSAttributedString?)?
-""",
-        """                if item.message.attributes.contains(where: { $0 is NagramiXArchivedMessageAttribute }) {
-                    let markedText = NSMutableAttributedString(attributedString: attributedText)
-                    markedText.append(NSAttributedString(string: "\\n"))
-                    if let image = generateTintedImage(image: UIImage(bundleImageName: "Chat/Context Menu/Delete"), color: messageTheme.accentTextColor) {
-                        let attachment = NSTextAttachment()
-                        attachment.image = image
-                        attachment.bounds = CGRect(x: 0.0, y: -2.0, width: 13.0, height: 13.0)
-                        markedText.append(NSAttributedString(attachment: attachment))
-                        markedText.append(NSAttributedString(string: " "))
-                    }
-                    markedText.append(NSAttributedString(string: item.presentationData.strings.nagramiXDeleted, font: Font.semibold(12.0), textColor: messageTheme.accentTextColor))
-                    attributedText = markedText
-                }
-
-                var customTruncationToken: ((UIFont, Bool) -> NSAttributedString?)?
-""",
-        "Render a tinted trash icon and Deleted label in archived bubbles",
     )
 
     context_menus = source / "submodules" / "TelegramUI" / "Sources" / "ChatInterfaceStateContextMenus.swift"
