@@ -2,6 +2,8 @@
 "NagramiX.Settings.Page.Interface" = "Interface";
 "NagramiX.Settings.Page.Features" = "Features";
 "NagramiX.Settings.Page.Other" = "Other";
+"NagramiX.Settings.Search" = "Search";
+"NagramiX.Settings.Search.NoResults" = "Nothing found";
 "NagramiX.Settings.Proxy" = "Proxy Settings";
 "NagramiX.Settings.Tabs.Header" = "TAB BAR";
 "NagramiX.Settings.Tabs.HideContacts" = "Hide Contacts Tab";
@@ -70,6 +72,8 @@
 "NagramiX.Settings.Messages.Header" = "MESSAGES";
 "NagramiX.Settings.Messages.Deleted" = "Deleted Messages";
 "NagramiX.Settings.Messages.DeletedInfo" = "Experimental · Shows deleted messages with a Deleted label";
+"NagramiX.Settings.Messages.DeletedLabel" = "Deletion Label Text";
+"NagramiX.Settings.Messages.DeletedLabelEditor" = "Deleted Message Text";
 "NagramiX.Settings.Messages.EditHistory" = "Message Edit History";
 "NagramiX.Settings.Messages.EditHistoryInfo" = "Experimental · Shows the revisions of edited messages observed by this client";
 "NagramiX.Messages.Deleted" = "Deleted";

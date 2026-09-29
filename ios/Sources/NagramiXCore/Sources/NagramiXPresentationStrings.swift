@@ -32,6 +32,8 @@ public extension PresentationStrings {
     var nagramiXSettingsInterface: String { self.nagramiXLocalized("NagramiX.Settings.Page.Interface") }
     var nagramiXSettingsFeatures: String { self.nagramiXLocalized("NagramiX.Settings.Page.Features") }
     var nagramiXSettingsOther: String { self.nagramiXLocalized("NagramiX.Settings.Page.Other") }
+    var nagramiXSettingsSearch: String { self.nagramiXLocalized("NagramiX.Settings.Search") }
+    var nagramiXSettingsSearchNoResults: String { self.nagramiXLocalized("NagramiX.Settings.Search.NoResults") }
     var nagramiXProxySettings: String { self.nagramiXLocalized("NagramiX.Settings.Proxy") }
     var nagramiXTabsHeader: String { self.nagramiXLocalized("NagramiX.Settings.Tabs.Header") }
     var nagramiXHideContactsTab: String { self.nagramiXLocalized("NagramiX.Settings.Tabs.HideContacts") }
@@ -105,6 +107,8 @@ public extension PresentationStrings {
     var nagramiXMessagesHeader: String { self.nagramiXLocalized("NagramiX.Settings.Messages.Header") }
     var nagramiXDeletedMessages: String { self.nagramiXLocalized("NagramiX.Settings.Messages.Deleted") }
     var nagramiXDeletedMessagesInfo: String { self.nagramiXLocalized("NagramiX.Settings.Messages.DeletedInfo") }
+    var nagramiXDeletedMessageLabel: String { self.nagramiXLocalized("NagramiX.Settings.Messages.DeletedLabel") }
+    var nagramiXDeletedMessageLabelEditor: String { self.nagramiXLocalized("NagramiX.Settings.Messages.DeletedLabelEditor") }
     var nagramiXMessageEditHistory: String { self.nagramiXLocalized("NagramiX.Settings.Messages.EditHistory") }
     var nagramiXMessageEditHistoryInfo: String { self.nagramiXLocalized("NagramiX.Settings.Messages.EditHistoryInfo") }
     var nagramiXDeleted: String { self.nagramiXLocalized("NagramiX.Messages.Deleted") }

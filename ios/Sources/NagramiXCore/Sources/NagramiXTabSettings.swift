@@ -31,6 +31,8 @@ public enum NagramiXDnsProvider: Int, CaseIterable, Equatable {
 
 public struct NagramiXTabSettings: Equatable {
     public static let changedNotification = Notification.Name("NagramiXSettingsChanged")
+    public static let wideChannelPostsChangedNotification = Notification.Name("NagramiXWideChannelPostsChanged")
+    public static let deletedMessageLabelChangedNotification = Notification.Name("NagramiXDeletedMessageLabelChanged")
     public static let dnsChangedNotification = Notification.Name("NagramiXDnsSettingsChanged")
     public static let softRestartRequestedNotification = Notification.Name("NagramiXTabInterfaceSoftRestartRequested")
 
@@ -57,6 +59,7 @@ public struct NagramiXTabSettings: Equatable {
         static let confirmOutgoingCalls = "nagramix.calls.confirmOutgoing"
         static let forceTcpCalls = "nagramix.calls.forceTcp"
         static let showDeletedMessages = "nagramix.messages.showDeletedMessages"
+        static let deletedMessageLabel = "nagramix.messages.deletedMessageLabel"
         static let messageEditHistory = "nagramix.messages.editHistory"
     }
 
@@ -81,6 +84,7 @@ public struct NagramiXTabSettings: Equatable {
     public var confirmOutgoingCalls: Bool
     public var forceTcpCalls: Bool
     public var showDeletedMessages: Bool
+    public var deletedMessageLabel: String
     public var messageEditHistory: Bool
 
     public init(
@@ -105,6 +109,7 @@ public struct NagramiXTabSettings: Equatable {
         confirmOutgoingCalls: Bool,
         forceTcpCalls: Bool,
         showDeletedMessages: Bool,
+        deletedMessageLabel: String,
         messageEditHistory: Bool
     ) {
         self.hideContacts = hideContacts
@@ -128,6 +133,7 @@ public struct NagramiXTabSettings: Equatable {
         self.confirmOutgoingCalls = confirmOutgoingCalls
         self.forceTcpCalls = forceTcpCalls
         self.showDeletedMessages = showDeletedMessages
+        self.deletedMessageLabel = deletedMessageLabel
         self.messageEditHistory = messageEditHistory
     }
 
@@ -165,12 +171,15 @@ public struct NagramiXTabSettings: Equatable {
             confirmOutgoingCalls: defaults.object(forKey: Key.confirmOutgoingCalls) as? Bool ?? true,
             forceTcpCalls: defaults.object(forKey: Key.forceTcpCalls) as? Bool ?? false,
             showDeletedMessages: defaults.object(forKey: Key.showDeletedMessages) as? Bool ?? false,
+            deletedMessageLabel: self.normalizedDeletedMessageLabel(defaults.string(forKey: Key.deletedMessageLabel) ?? ""),
             messageEditHistory: defaults.object(forKey: Key.messageEditHistory) as? Bool ?? false
         )
     }
 
     public static func update(_ transform: (inout NagramiXTabSettings) -> Void) {
         var value = self.current
+        let previousWideChannelPosts = value.wideChannelPosts
+        let previousDeletedMessageLabel = value.deletedMessageLabel
         let previousDnsProvider = value.dnsProvider
         let previousCustomDohUrl = value.customDohUrl
         transform(&value)
@@ -197,10 +206,18 @@ public struct NagramiXTabSettings: Equatable {
         defaults.set(value.confirmOutgoingCalls, forKey: Key.confirmOutgoingCalls)
         defaults.set(value.forceTcpCalls, forKey: Key.forceTcpCalls)
         defaults.set(value.showDeletedMessages, forKey: Key.showDeletedMessages)
+        value.deletedMessageLabel = self.normalizedDeletedMessageLabel(value.deletedMessageLabel)
+        defaults.set(value.deletedMessageLabel, forKey: Key.deletedMessageLabel)
         defaults.set(value.messageEditHistory, forKey: Key.messageEditHistory)
         defaults.removeObject(forKey: Key.legacyShowProxySponsorChannel)
 
         NotificationCenter.default.post(name: self.changedNotification, object: nil)
+        if previousWideChannelPosts != value.wideChannelPosts {
+            NotificationCenter.default.post(name: self.wideChannelPostsChangedNotification, object: nil)
+        }
+        if previousDeletedMessageLabel != value.deletedMessageLabel {
+            NotificationCenter.default.post(name: self.deletedMessageLabelChangedNotification, object: nil)
+        }
         if previousDnsProvider != value.dnsProvider || previousCustomDohUrl != value.customDohUrl {
             NotificationCenter.default.post(name: self.dnsChangedNotification, object: nil)
         }
@@ -208,5 +225,13 @@ public struct NagramiXTabSettings: Equatable {
 
     public static func requestTabInterfaceSoftRestart() {
         NotificationCenter.default.post(name: self.softRestartRequestedNotification, object: nil)
+    }
+
+    public static func normalizedDeletedMessageLabel(_ value: String) -> String {
+        let singleLine = value.replacingOccurrences(of: "\r\n", with: " ")
+            .replacingOccurrences(of: "\n", with: " ")
+            .replacingOccurrences(of: "\r", with: " ")
+            .trimmingCharacters(in: .whitespacesAndNewlines)
+        return String(singleLine.prefix(64))
     }
 }
