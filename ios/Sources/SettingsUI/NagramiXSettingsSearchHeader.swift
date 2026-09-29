@@ -28,7 +28,7 @@ final class NagramiXSettingsSearchItem: ListViewItem, ItemListItem {
 
     func nodeConfiguredForParams(async: @escaping (@escaping () -> Void) -> Void, params: ListViewItemLayoutParams, synchronousLoads: Bool, previousItem: ListViewItem?, nextItem: ListViewItem?, completion: @escaping (ListViewItemNode, @escaping () -> (Signal<Void, NoError>?, (ListViewItemApply) -> Void)) -> Void) {
         async {
-            let node = NagramiXSettingsSearchItemNode()
+            let node = NagramiXSettingsSearchItemNode(layerBacked: false)
             let layout = node.update(item: self, params: params)
             node.contentSize = layout.contentSize
             node.insets = layout.insets
@@ -58,6 +58,10 @@ final class NagramiXSettingsSearchItem: ListViewItem, ItemListItem {
 private final class NagramiXSettingsSearchItemNode: ListViewItemNode, ItemListItemNode {
     private var item: NagramiXSettingsSearchItem?
     private var searchBarNode: SearchBarNode?
+
+    var tag: ItemListItemTag? {
+        return nil
+    }
 
     func update(item: NagramiXSettingsSearchItem, params: ListViewItemLayoutParams) -> ListViewItemNodeLayout {
         return ListViewItemNodeLayout(contentSize: CGSize(width: params.width, height: 64.0), insets: UIEdgeInsets())
