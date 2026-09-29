@@ -4,7 +4,7 @@
 
 - Дата: 2026-09-29 (UTC).
 - Актуальная версия продукта: **0.3.9**.
-- Статус: **кандидат в стабильную базовую версию для device-регресса**.
+- Статус: **опубликованный релиз 0.3.9 для device-регресса; stable подтверждается после физического теста**.
 - Платформа: только iPhone/iOS.
 
 ## Состояние репозитория и GitHub
@@ -13,7 +13,7 @@
 
 В GitHub Actions сохранены только три необходимые workflow: аудит upstream pin, сборка неподписанного IPA и публикация релиза. Ветка `work` отправлена в GitHub, открыт PR #15. Первый build run `36140188656` подтвердил наличие `TELEGRAM_API_ID` и `TELEGRAM_API_HASH` и дошёл до нативной Swift-компиляции, но обнаружил несовместимый тип placeholder в новом SearchBar. `NagramiXSettingsSearchHeader` исправлен: `SearchBarNode.placeholderString` теперь получает штатный theme-aware `NSAttributedString`, а не `String`. Повторный run `36142093146` успешно собрал, упаковал и загрузил артефакт `NagramiX-0.3.8-unsigned-arm64` размером 73 456 389 байт.
 
-Для текущего checkout восстановлен remote `origin` на `https://github.com/Mr-EFES/NagramiX.git`. В предыдущей сессии push, создание PR и запуск Actions были фактически проверены, однако credential GitHub CLI не перенесён в текущий контейнер: коммит 0.3.9 пока существует локально и требует повторной device-авторизации либо защищённого `GH_TOKEN` для push и запуска workflow. В `docs/BOOTSTRAP.md` описан безопасный неинтерактивный вариант. Секреты и токены в репозиторий не записывались.
+Для текущего checkout восстановлен remote `origin` на `https://github.com/Mr-EFES/NagramiX.git`. GitHub CLI авторизован с scopes `repo` и `workflow`; PR #16 влит в `main` merge-коммитом `a70dbd5c`. Publish run `36613861232` успешно создал публичный релиз `v0.3.9` и загрузил `NagramiX-0.3.9-unsigned.ipa` вместе с `BUILD-PROVENANCE.txt`. В `docs/BOOTSTRAP.md` описан безопасный неинтерактивный вариант авторизации. Секреты и токены в репозиторий не записывались.
 
 В 0.3.8 исправление `ChatMessageBubbleItemNode` сохраняло широкую `maximumContentWidth` и расширяло финальные frame линейных content nodes, благодаря чему одиночное media и caption стали широкими. Mosaic-ветка grouped media обходит эту линейную финализацию: её positions заранее рассчитывались через `chatMessageBubbleMosaicLayout` со штатным `layoutConstants.image.maxDimensions.fittedToWidthOrSmaller(...)`, то есть со старым narrow cap. Поэтому внешний container мог быть широким, а альбом оставался узким. В 0.3.9 для wide broadcast post в штатный mosaic algorithm передаётся динамический `availableMosaicWidth`, вычисленный из той же `maximumContentWidth` за вычетом штатных image insets. OFF-ветка дословно сохраняет исходный Telegram `fittedToWidthOrSmaller`; собственная grid logic не добавлена. Для ON/OFF observer теперь запрашивает обновление каждого message id видимой группы, чтобы grouped positions создавались заново с текущим режимом.
 
@@ -35,4 +35,4 @@ Visual state удалённых сообщений теперь использу
 
 GitHub Actions run `36605440836` для коммита `90e3870` подтвердил доступность repository secrets и дошёл до нативной Swift-компиляции. Он выявил две несовместимости нового list-item поиска с актуальным `ItemListUI`: `ListViewItemNode` требовал явный `layerBacked`, а `ItemListItemNode` — свойство `tag`. После добавления `layerBacked: false` и нейтрального `tag` повторный macOS run `36607225646` для коммита `5d4f073` успешно выполнил upstream-аудит, применение overlay, нативную ARM64-компиляцию, упаковку и upload. Создан артефакт `NagramiX-0.3.9-unsigned-arm64` (73 464 163 байта, artifact id `11053890725`). Автоматическое скачивание артефакта из текущего контейнера блокируется ответом Azure Blob `403 Forbidden`; сам GitHub artifact не просрочен и доступен со страницы run.
 
-Следующий шаг: скачать артефакт `NagramiX-0.3.9-unsigned-arm64` со страницы run `36607225646`, подписать и установить IPA, затем выполнить wide/search regression и deleted-message acceptance из `product/features/deleted-messages.md`: normal/deleted reuse, live delete, custom/empty/64-char label, text/media/album и metadata interactions во всех темах. Успешная компиляция подтверждена, но до device-регресса 0.3.9 не считается stable.
+Следующий шаг: скачать `NagramiX-0.3.9-unsigned.ipa` из публичного GitHub Release `v0.3.9`, подписать и установить IPA, затем выполнить wide/search regression и deleted-message acceptance из `product/features/deleted-messages.md`: normal/deleted reuse, live delete, custom/empty/64-char label, text/media/album и metadata interactions во всех темах. Успешная компиляция подтверждена, но до device-регресса 0.3.9 не считается stable.
