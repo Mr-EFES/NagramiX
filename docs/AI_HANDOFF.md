@@ -72,3 +72,5 @@ Mutual badge больше не использует неточную SF Symbol `
 Следующий шаг: выполнить macOS ARM64 build, затем физические acceptance tests языка/темы, Mullvad DNS restart, proxy 15/30/60, 300+ сообщений автора, deleted short-text/long-label и mutual badge в обоих списках. Защищённые wide posts, Story confirmation, camera, profile metadata, tabs и search не изменялись.
 
 GitHub Actions run `37113690780` впервые проверил этот diff нативным Swift compiler и обнаружил, что layout-only local `nagramiXDeletedStatusHeight` недоступен в поздней apply closure. Frame status node исправлен на эквивалентный расчёт от реально измеренного `statusSize.height`; зарезервированная layout-высота по-прежнему вычисляется до `contentSize`. Требуется повторный run.
+
+Повторный GitHub Actions run `37115365939` для commit `8893df8` успешно прошёл overlay application, нативную macOS ARM64-компиляцию, упаковку и upload. Создан artifact `NagramiX-0.3.9-unsigned-arm64` размером 73 462 141 байт, artifact id `11272167031`. PR #19 остаётся открытым; физические acceptance tests всё ещё требуются и не заменяются успешной компиляцией.
