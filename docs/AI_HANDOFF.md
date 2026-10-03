@@ -2,7 +2,7 @@
 
 ## Текущая база
 
-- Дата: 2026-09-29 (UTC).
+- Дата: 2026-10-01 (UTC).
 - Актуальная версия продукта: **0.3.9**.
 - Статус: **опубликованный релиз 0.3.9 для device-регресса; stable подтверждается после физического теста**.
 - Платформа: только iPhone/iOS.
@@ -36,3 +36,37 @@ Visual state удалённых сообщений теперь использу
 GitHub Actions run `36605440836` для коммита `90e3870` подтвердил доступность repository secrets и дошёл до нативной Swift-компиляции. Он выявил две несовместимости нового list-item поиска с актуальным `ItemListUI`: `ListViewItemNode` требовал явный `layerBacked`, а `ItemListItemNode` — свойство `tag`. После добавления `layerBacked: false` и нейтрального `tag` повторный macOS run `36607225646` для коммита `5d4f073` успешно выполнил upstream-аудит, применение overlay, нативную ARM64-компиляцию, упаковку и upload. Создан артефакт `NagramiX-0.3.9-unsigned-arm64` (73 464 163 байта, artifact id `11053890725`). Автоматическое скачивание артефакта из текущего контейнера блокируется ответом Azure Blob `403 Forbidden`; сам GitHub artifact не просрочен и доступен со страницы run.
 
 Следующий шаг: скачать `NagramiX-0.3.9-unsigned.ipa` из публичного GitHub Release `v0.3.9`, подписать и установить IPA, затем выполнить wide/search regression и deleted-message acceptance из `product/features/deleted-messages.md`: normal/deleted reuse, live delete, custom/empty/64-char label, text/media/album и metadata interactions во всех темах. Успешная компиляция подтверждена, но до device-регресса 0.3.9 не считается stable.
+
+
+## Итоги физической проверки 0.3.9 и Story blur
+
+Пользователь подтвердил как стабильные и защищённые от неявных изменений следующие code paths: старт круглого видео с задней камеры, подтверждение до просмотра Story, отключение свайпа записи Story, скрытие Stories, ID профиля, дата регистрации, wide channel posts (включая albums 2–10), скрытие вкладок Contacts/Calls, Proxy button и скрытие proxy sponsor channel. Правило закреплено в `AGENTS.md`: менять их поведение, ключи, defaults и UI можно только по будущей задаче, которая явно называет соответствующую функцию.
+
+Единственная продуктовая правка этой сессии находится в presentation layer `NagramiXStoryConfirmationController`. Контроллер по-прежнему получает preview signal из точного `StoryContentItem`: photo использует `.story(... id: item.storyItem.id ...)`, video — poster/thumbnail с тем же story id без запуска playback. Над target preview добавлен штатный `UIVisualEffectView` с `UIBlurEffect(style: .dark)` и интенсивностью `alpha = 0.5`; дополнительный black scrim уменьшен с 0.48 до 0.18, чтобы Story оставалась узнаваемой. Confirmation/cancel callbacks, `nagramiXApprovedStoryId` и `nagramiXCanMarkStoryAsSeen` не менялись.
+
+Полное применение overlay к чистому pinned Telegram-iOS `6ad963e5b62d354da79040f388ae2b9132fb17b8` прошло. Swift parser и структурные assertions подтвердили blur hierarchy, два точных photo/video preview paths и неизменный approval/read-state gate. Нативная macOS ARM64-сборка и визуальная проверка на iPhone для этой presentation-only правки ещё должны быть выполнены.
+
+
+## Search Bar: локальная правка компоновки
+
+По device-скриншоту установлена точная первопричина внешнего круглого `X`: `NagramiXSettingsSearchItem` создавал штатный `SearchBarNode` с `fieldStyle: .glass`. В Telegram-iOS 12.9.2 активное состояние `.glass` намеренно уменьшает background поля на 52 pt и создаёт отдельный 44 pt `GlassBackgroundView` close control. Поэтому `hasCancelButton = false` не помогал: он управляет другим legacy/modern cancel node, а внешний круг принадлежал glass placeholder infrastructure.
+
+Исправлен только `ios/Sources/SettingsUI/NagramiXSettingsSearchHeader.swift`: поле переведено на штатный `fieldStyle: .modern`, его внешний navigation background отключён, `hasCancelButton` оставлен `false`. В результате стандартный loupe остаётся внутри поля, отдельный glass close view больше не создаётся, поле использует всю parent width со штатными adaptive insets, а штатный `clearButton` появляется внутри справа только для непустого текста. Frame list item, локализованный placeholder, `textUpdated` callback и query synchronization не изменялись. Верхняя navigation/segmented panel и `NagramiXSettingsController` с глобальным индексом не изменялись.
+
+Полный overlay успешно применён к чистому pinned Telegram-iOS `6ad963e5b62d354da79040f388ae2b9132fb17b8`; применённый Swift прошёл parser и structural assertions для `.modern`, отсутствия `.glass`, скрытого external cancel, внутреннего clear и полной parent width. Нативная macOS ARM64-сборка и визуальная проверка на физическом iPhone (Light/Dark/AMOLED/custom, portrait/landscape/iPad/split-screen) ещё не выполнены. Следующий шаг: запустить GitHub Actions build, затем проверить Search Bar на устройстве и подтвердить одинаковую global search выдачу для `Proxy` и `Истории` на всех трёх вкладках.
+
+## Исправления после device-тестирования
+
+Текущая сессия сохранила уже реализованные clean-install defaults: полный первый auth flow начинает с русской `LocalizationSettings`, встроенная `.nightAccent` применяется до загрузки account preferences, а сохранённые пользователем язык и тема не перезаписываются. Эти пути повторно проверены по применённому overlay и не переписывались.
+
+Proxy failover теперь использует выбранные 15/30/60 секунд не только для восстановления исходного proxy, но и для подтверждения настоящего Telegram `.online` после применения кандидата. Ping остаётся лишь предварительной доступностью. Existing generation token, event-driven `connectionStatus`, offline gate и отмена stale callbacks сохранены.
+
+Подтверждённая кодом DNS failure mode состояла в том, что любой DoH timeout/error превращался в terminal signal; `MTTcpConnection` закрывал соединение, и при сохранённом Mullvad provider следующая попытка повторяла тот же путь. Это могло оставить запуск в бесконечном reconnect/offline состоянии. `MTDNS` теперь после ограниченной DoH-попытки асинхронно возвращается к штатному native resolver. Реального crash/ANR stack trace пользователь не предоставил, поэтому утверждать конкретное исключение нельзя; device log остаётся обязательным.
+
+Deleted footer теперь измеряется до фиксации `contentSize`: bubble короткого сообщения расширяется под icon + полный label в пределах штатного `maximumContentWidth`, а более длинный label переносится и увеличивает отдельную footer row. Alpha 0.5, реальный archive attribute, persistent key и штатный `Chat/Context Menu/Delete` не менялись.
+
+Mutual badge больше не использует неточную SF Symbol `person.2.fill`: добавлен template-vector рукопожатия. Он подключён в общей `ContactsPeerItem`, которая обслуживает contact list и recipient/forward picker, и по-прежнему использует реальный `TelegramUser.flags.contains(.mutualContact)` без сети. Состояние пересчитывается из item при каждом bind.
+
+`Select From Author` перепроверен против TelegramEngine: `SearchMessagesState` накапливает и дедуплицирует предыдущие страницы, а callback продолжает запросы до `SearchMessagesResult.completed`; только полный накопленный `result.messages` передаётся selection state. Artificial total limit отсутствует, `MetaDisposable` и generation/chat/thread guards отменяют устаревшие callbacks.
+
+Следующий шаг: выполнить macOS ARM64 build, затем физические acceptance tests языка/темы, Mullvad DNS restart, proxy 15/30/60, 300+ сообщений автора, deleted short-text/long-label и mutual badge в обоих списках. Защищённые wide posts, Story confirmation, camera, profile metadata, tabs и search не изменялись.

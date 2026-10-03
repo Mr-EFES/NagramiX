@@ -286,7 +286,15 @@ private func currentDateTimeFormat()""",
     if ([NagramiXDNSResolver usesSystemResolver]) {
         return [self resolveHostnameNative:hostname port:port];
     }
-    return [[NagramiXDNSResolver resolveHostname:hostname] timeout:12.0 onQueue:[MTQueue concurrentDefaultQueue] orSignal:[MTSignal fail:[NSError errorWithDomain:@"org.nagramix.dns" code:5 userInfo:nil]]];
+    MTSignal *doh = [[NagramiXDNSResolver resolveHostname:hostname] timeout:12.0 onQueue:[MTQueue concurrentDefaultQueue] orSignal:[MTSignal fail:[NSError errorWithDomain:@"org.nagramix.dns" code:5 userInfo:nil]]];
+    return [doh catch:^MTSignal *(__unused id error) {
+        // Keep DoH primary, but never let an unreachable provider hold app
+        // startup hostage by repeatedly closing every MTProto connection.
+        if (MTLogEnabled()) {
+            MTLog(@"[NagramiXDNS DoH unavailable; falling back to native resolver]");
+        }
+        return [self resolveHostnameNative:hostname port:port];
+    }];
 }
 
 + (MTSignal *)testDohEndpoint:(NSString *)endpoint hostname:(NSString *)hostname {
@@ -1268,6 +1276,25 @@ public final class ItemListControllerTabBarItem: Equatable {
             // same width that was supplied to the content finalization pass.
             maxContentWidth = max(maxContentWidth, maximumNodeWidth)
         }
+        var nagramiXDeletedStatusHeight: CGFloat = 0.0
+        if nagramiXArchivedMessage {
+            let configuredLabel = NagramiXTabSettings.current.deletedMessageLabel
+            let label = configuredLabel.isEmpty ? item.presentationData.strings.nagramiXDeleted : configuredLabel
+            let labelString = NSAttributedString(string: label, font: Font.semibold(12.0), textColor: .black)
+            let iconAndSpacingWidth: CGFloat = 17.0
+            let horizontalInsets: CGFloat = 16.0
+            let singleLineWidth = ceil(labelString.size().width) + iconAndSpacingWidth + horizontalInsets
+            // Grow short bubbles for the status up to Telegram's ordinary
+            // available width; labels that still do not fit wrap below content.
+            maxContentWidth = max(maxContentWidth, min(maximumContentWidth, singleLineWidth))
+            let availableLabelWidth = max(1.0, maxContentWidth - horizontalInsets - iconAndSpacingWidth)
+            let labelBounds = labelString.boundingRect(
+                with: CGSize(width: availableLabelWidth, height: CGFloat.greatestFiniteMagnitude),
+                options: [.usesLineFragmentOrigin, .usesFontLeading],
+                context: nil
+            )
+            nagramiXDeletedStatusHeight = max(22.0, ceil(labelBounds.height) + 8.0)
+        }
         var contentSize = CGSize(width: maxContentWidth, height: 0.0)
 """,
         "Force enabled broadcast post bubbles to the maximum safe width",
@@ -1277,9 +1304,9 @@ public final class ItemListControllerTabBarItem: Equatable {
         "        contentSize.height += totalContentNodesHeight\n",
         """        contentSize.height += totalContentNodesHeight
         if nagramiXArchivedMessage {
-            // Keep the marker on its own compact footer row instead of
-            // competing with Telegram's date/views/edited metadata.
-            contentSize.height += 22.0
+            // Keep the complete marker on its own measured footer row instead
+            // of competing with Telegram's date/views/edited metadata.
+            contentSize.height += nagramiXDeletedStatusHeight
         }
 """,
         "Reserve an archived-message footer row",
@@ -1403,7 +1430,7 @@ public final class ItemListControllerTabBarItem: Equatable {
                 statusNode = current
             } else {
                 statusNode = ImmediateTextNode()
-                statusNode.maximumNumberOfLines = 1
+                statusNode.maximumNumberOfLines = 0
                 statusNode.isUserInteractionEnabled = false
                 strongSelf.nagramiXDeletedStatusNode = statusNode
                 strongSelf.mainContextSourceNode.contentNode.addSubnode(statusNode)
@@ -1422,10 +1449,10 @@ public final class ItemListControllerTabBarItem: Equatable {
             }
             statusText.append(NSAttributedString(string: label, font: Font.semibold(12.0), textColor: messageTheme.secondaryTextColor))
             statusNode.attributedText = statusText
-            let statusSize = statusNode.updateLayout(CGSize(width: max(1.0, backgroundFrame.width - 16.0), height: 20.0))
+            let statusSize = statusNode.updateLayout(CGSize(width: max(1.0, backgroundFrame.width - 16.0), height: CGFloat.greatestFiniteMagnitude))
             statusNode.frame = CGRect(
                 x: max(backgroundFrame.minX + 8.0, backgroundFrame.maxX - 8.0 - statusSize.width),
-                y: backgroundFrame.maxY - 20.0,
+                y: backgroundFrame.maxY - nagramiXDeletedStatusHeight + 4.0,
                 width: statusSize.width,
                 height: statusSize.height
             )
@@ -2437,6 +2464,7 @@ public final class ItemListControllerTabBarItem: Equatable {
     private var previewDisposable: Disposable?
     private var finished = false
     private let imageView = UIImageView()
+    private let blurView = UIVisualEffectView(effect: UIBlurEffect(style: .dark))
     private let dimView = UIView()
     private let titleLabel = UILabel()
     private let bodyLabel = UILabel()
@@ -2464,7 +2492,9 @@ public final class ItemListControllerTabBarItem: Equatable {
         self.displayNodeDidLoad()
         self.imageView.contentMode = .scaleAspectFill
         self.imageView.clipsToBounds = true
-        self.dimView.backgroundColor = UIColor(white: 0.0, alpha: 0.48)
+        self.blurView.alpha = 0.5
+        self.blurView.isUserInteractionEnabled = false
+        self.dimView.backgroundColor = UIColor(white: 0.0, alpha: 0.18)
         self.titleLabel.textColor = .white
         self.titleLabel.font = UIFont.systemFont(ofSize: 28.0, weight: .bold)
         self.titleLabel.textAlignment = .center
@@ -2481,7 +2511,7 @@ public final class ItemListControllerTabBarItem: Equatable {
         self.actionButton.backgroundColor = UIColor(rgb: 0x2f80ed)
         self.actionButton.layer.cornerRadius = 14.0
         self.actionButton.addTarget(self, action: #selector(self.confirmPressed), for: .touchUpInside)
-        [self.imageView, self.dimView, self.titleLabel, self.bodyLabel, self.closeButton, self.actionButton].forEach { self.displayNode.view.addSubview($0) }
+        [self.imageView, self.blurView, self.dimView, self.titleLabel, self.bodyLabel, self.closeButton, self.actionButton].forEach { self.displayNode.view.addSubview($0) }
         if let previewSignal = self.previewSignal {
             self.previewDisposable = (previewSignal |> deliverOnMainQueue).start(next: { [weak self] process in
                 let size = CGSize(width: 1080.0, height: 1920.0)
@@ -2494,6 +2524,7 @@ public final class ItemListControllerTabBarItem: Equatable {
         super.containerLayoutUpdated(layout, transition: transition)
         let bounds = CGRect(origin: .zero, size: layout.size)
         transition.updateFrame(view: self.imageView, frame: bounds)
+        transition.updateFrame(view: self.blurView, frame: bounds)
         transition.updateFrame(view: self.dimView, frame: bounds)
         let inset: CGFloat = 28.0
         transition.updateFrame(view: self.closeButton, frame: CGRect(x: layout.size.width - 60.0, y: layout.safeInsets.top + 8.0, width: 44.0, height: 44.0))
@@ -3871,7 +3902,7 @@ private func nagramiXCopyProfileId(_ value: Int64, presentationData: Presentatio
                !(user.firstName ?? "").isEmpty || !(user.lastName ?? "").isEmpty,
                let currentTitle = titleAttributedString {
                 let updatedTitle = NSMutableAttributedString(attributedString: currentTitle)
-                if #available(iOS 13.0, *), let icon = UIImage(systemName: "person.2.fill", withConfiguration: UIImage.SymbolConfiguration(pointSize: 12.0, weight: .semibold))?.withTintColor(item.presentationData.theme.list.itemAccentColor, renderingMode: .alwaysOriginal) {
+                if let icon = generateTintedImage(image: UIImage(bundleImageName: "Item List/Icons/NagramiXMutualContact"), color: item.presentationData.theme.list.itemAccentColor) {
                     updatedTitle.append(NSAttributedString(string: " "))
                     let attachment = NSTextAttachment()
                     attachment.image = icon

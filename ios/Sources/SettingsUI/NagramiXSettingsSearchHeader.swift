@@ -74,20 +74,20 @@ private final class NagramiXSettingsSearchItemNode: ListViewItemNode, ItemListIt
         if let current = self.searchBarNode {
             searchBarNode = current
             searchBarNode.updateThemeAndStrings(
-                theme: SearchBarNodeTheme(theme: item.presentationData.theme, hasBackground: true, hasSeparator: false, inline: true),
+                theme: SearchBarNodeTheme(theme: item.presentationData.theme, hasBackground: false, hasSeparator: false, inline: true),
                 presentationTheme: item.presentationData.theme,
                 preferClearGlass: false,
                 strings: item.presentationData.strings
             )
         } else {
             searchBarNode = SearchBarNode(
-                theme: SearchBarNodeTheme(theme: item.presentationData.theme, hasBackground: true, hasSeparator: false, inline: true),
+                theme: SearchBarNodeTheme(theme: item.presentationData.theme, hasBackground: false, hasSeparator: false, inline: true),
                 presentationTheme: item.presentationData.theme,
                 preferClearGlass: false,
                 strings: item.presentationData.strings,
-                fieldStyle: .glass,
+                fieldStyle: .modern,
                 forceSeparator: false,
-                displayBackground: true
+                displayBackground: false
             )
             searchBarNode.hasCancelButton = false
             searchBarNode.textUpdated = { [weak self] text, _ in

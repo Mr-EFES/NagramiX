@@ -41,6 +41,24 @@ The exact string anchors in `ios/apply_features.py` intentionally fail when the 
 
 ## Working rules
 
+### Protected stable features
+
+The following iPhone behaviors were physically accepted in NagramiX 0.3.9 and are frozen. Do not refactor, rename preference keys, change defaults, move UI, or alter their Telegram integration unless a future user request explicitly names the specific feature to change:
+
+- round videos starting directly on the rear camera;
+- per-story confirmation before viewing (including its approval/read-state gate);
+- disabling the story-camera recording swipe;
+- hiding Stories;
+- profile ID display;
+- registration-date display;
+- wide broadcast-channel posts, including the current single-media and 2–10-item mosaic geometry and the stock layout when disabled;
+- hiding the Contacts tab;
+- hiding the Calls tab;
+- showing the Proxy button;
+- hiding the proxy sponsor channel.
+
+Treat an incidental behavioral change to any item above as a regression. Tests, documentation, or a narrowly requested presentation-only adjustment may cover a protected feature without changing its established behavior. For the story confirmation screen specifically, keep the confirmation, cancellation, per-story approval, and seen-state logic unchanged unless explicitly requested; its preview presentation may be changed only when the task expressly asks for that visual change.
+
 Every coding agent must:
 
 1. Read `AGENTS.md` first.
