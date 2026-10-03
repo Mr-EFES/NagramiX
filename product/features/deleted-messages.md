@@ -23,3 +23,7 @@
 - incoming/outgoing в private chat, group, channel и Saved Messages, если snapshot доступен backend;
 - Light, Dark, AMOLED и custom themes;
 - long press, selection, copy, media viewer, reactions, date/views/edited/footer не ломаются.
+
+## Геометрия status footer
+
+Ширина архивного bubble учитывает не только исходный message content, но и измеренную однострочную ширину `delete icon + spacing + deleted label + horizontal insets`. Короткое сообщение поэтому расширяется под пользовательскую метку, но не выходит за штатный `maximumContentWidth` Telegram. Если даже максимальной ширины недостаточно, `ImmediateTextNode` допускает несколько строк, а высота отдельного status footer вычисляется по полному тексту. Используется существующий ресурс Telegram `Chat/Context Menu/Delete`; emoji и отдельная копия иконки не применяются.

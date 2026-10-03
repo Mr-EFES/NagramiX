@@ -335,7 +335,9 @@ final class NagramiXProxyFailoverController {
                 return
             }
             self.phase = .connecting(origin: origin, candidates: candidates, index: index, candidate: candidate, token: token)
-            self.schedule(after: 12.0, token: token) { [weak self] in
+            // Ping only qualifies the candidate. Require Telegram's actual
+            // online state within the configured 15/30/60-second window.
+            self.schedule(after: Double(NagramiXNetworkSettingsBridge.proxyAutoSwitchTimeout), token: token) { [weak self] in
                 guard let self else { return }
                 if case .online = self.status, self.settings.activeServer == candidate {
                     self.invalidate(suppressCurrent: false)
