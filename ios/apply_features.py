@@ -1452,7 +1452,7 @@ public final class ItemListControllerTabBarItem: Equatable {
             let statusSize = statusNode.updateLayout(CGSize(width: max(1.0, backgroundFrame.width - 16.0), height: CGFloat.greatestFiniteMagnitude))
             statusNode.frame = CGRect(
                 x: max(backgroundFrame.minX + 8.0, backgroundFrame.maxX - 8.0 - statusSize.width),
-                y: backgroundFrame.maxY - nagramiXDeletedStatusHeight + 4.0,
+                y: backgroundFrame.maxY - statusSize.height - 4.0,
                 width: statusSize.width,
                 height: statusSize.height
             )

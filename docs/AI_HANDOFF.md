@@ -70,3 +70,5 @@ Mutual badge больше не использует неточную SF Symbol `
 `Select From Author` перепроверен против TelegramEngine: `SearchMessagesState` накапливает и дедуплицирует предыдущие страницы, а callback продолжает запросы до `SearchMessagesResult.completed`; только полный накопленный `result.messages` передаётся selection state. Artificial total limit отсутствует, `MetaDisposable` и generation/chat/thread guards отменяют устаревшие callbacks.
 
 Следующий шаг: выполнить macOS ARM64 build, затем физические acceptance tests языка/темы, Mullvad DNS restart, proxy 15/30/60, 300+ сообщений автора, deleted short-text/long-label и mutual badge в обоих списках. Защищённые wide posts, Story confirmation, camera, profile metadata, tabs и search не изменялись.
+
+GitHub Actions run `37113690780` впервые проверил этот diff нативным Swift compiler и обнаружил, что layout-only local `nagramiXDeletedStatusHeight` недоступен в поздней apply closure. Frame status node исправлен на эквивалентный расчёт от реально измеренного `statusSize.height`; зарезервированная layout-высота по-прежнему вычисляется до `contentSize`. Требуется повторный run.
