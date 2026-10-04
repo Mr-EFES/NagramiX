@@ -2130,6 +2130,27 @@ public final class ItemListControllerTabBarItem: Equatable {
         "Video messages start on the configured camera",
     )
 
+    chat_text_input_panel = source / "submodules" / "TelegramUI" / "Components" / "Chat" / "ChatTextInputPanelNode" / "Sources" / "ChatTextInputPanelNode.swift"
+    replace_unique(
+        chat_text_input_panel,
+        '''                } else {
+//                    interfaceInteraction.finishMediaRecording(.dismiss)
+                }
+                strongSelf.viewOnce = false
+''',
+        '''                } else if !sendMedia {
+                    // A cold-start camera or permission request can still be
+                    // pending. Invalidate it through the standard dismissal
+                    // path even before a recorder reaches the input panel.
+                    if case .video = interfaceState.interfaceState.mediaRecordingMode {
+                        interfaceInteraction.finishMediaRecording(.dismiss)
+                    }
+                }
+                strongSelf.viewOnce = false
+''',
+        "Cancel a pending round-video start before its recording state exists",
+    )
+
     camera_output = source / "submodules" / "Camera" / "Sources" / "CameraOutput.swift"
     replace_once(
         camera_output,
