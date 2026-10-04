@@ -1,8 +1,8 @@
 # NagramiX 0.4.1
 
-Единственная рабочая ветка — `main`. Актуальная версия разработки — **0.4.1**. Все накопленные исправления направлены в тестовую сборку; публикация IPA ожидает успешного workflow. Статус и сценарии: [docs/PENDING_RELEASE.md](docs/PENDING_RELEASE.md). Все аннотации и отчёты — на русском языке.
+Единственная рабочая ветка — `main`. Актуальная версия разработки — **0.4.1**. Тестовая сборка №66 успешно собрана и опубликована; физическая проверка ожидается. Статус и сценарии: [docs/PENDING_RELEASE.md](docs/PENDING_RELEASE.md). Все аннотации и отчёты — на русском языке.
 
-[Предыдущий IPA 0.4.0 — без новых исправлений](https://github.com/Mr-EFES/NagramiX/releases/download/v0.4.0/NagramiX-0.4.0-unsigned.ipa). Установка после внешней подписи через SideStore. Источник: `a2730925803c2984c1565feef65282cb7ce22347`; [сборка](https://github.com/Mr-EFES/NagramiX/actions/runs/37198280820).
+[Скачать тестовый IPA 0.4.1](https://github.com/Mr-EFES/NagramiX/releases/download/v0.4.1/NagramiX-0.4.1-unsigned.ipa) · [Релиз](https://github.com/Mr-EFES/NagramiX/releases/tag/v0.4.1) · [Сборка №66](https://github.com/Mr-EFES/NagramiX/actions/runs/37210408349). Установка после внешней подписи через SideStore. Исходный SHA: `195ff57748e29588c3d96f3ff6c471340358d0c7`. Это тестовая версия, физическая проверка ещё не выполнена.
 
 **NagramiX** — независимый, неофициальный и некоммерческий клиент Telegram для iPhone.
 
@@ -73,7 +73,7 @@ python3 scripts/check_upstreams.py --require-current
 
 ## Аннотация версии
 
-Полный актуальный состав и проверки 0.4.1: [`product/releases/0.4.1.md`](product/releases/0.4.1.md). Аннотация [GitHub Releases](https://github.com/Mr-EFES/NagramiX/releases) будет опубликована из этого файла после успешной тестовой сборки. При смене версии одновременно обновляются все текущие описания, реестр функций и версия workflow; сведения о прошлой разработке остаются в Git-истории.
+Полный актуальный состав и проверки 0.4.1: [`product/releases/0.4.1.md`](product/releases/0.4.1.md). Аннотация [GitHub Releases](https://github.com/Mr-EFES/NagramiX/releases) опубликована на русском языке. При смене версии одновременно обновляются все текущие описания, реестр функций и версия workflow; сведения о прошлой разработке остаются в Git-истории.
 
 ## Правовой статус
 
