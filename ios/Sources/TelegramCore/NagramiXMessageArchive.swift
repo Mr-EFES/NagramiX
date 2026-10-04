@@ -472,6 +472,31 @@ public final class NagramiXMessageArchive {
         return result.count > 1 ? result : []
     }
 
+    public func deletedMessage(id: MessageId) -> Message? {
+        guard NagramiXMessageArchiveSettings.current.showDeletedMessages,
+              let record = self.state.with({ $0.records[Self.key(id)] }), record.deletedAt != nil else { return nil }
+        return self.renderDeletedRecord(record)
+    }
+
+    public func updateDeletedMessageText(id: MessageId, text: String) {
+        self.queue.async { [weak self] in
+            guard let self else { return }
+            var updated = self.state.with { $0 }
+            let key = Self.key(id)
+            guard var record = updated.records[key], record.deletedAt != nil,
+                  text != record.content.text, !text.isEmpty || !record.content.media.isEmpty else { return }
+            let timestamp = Int32(Date().timeIntervalSince1970)
+            record.revisions.append(NagramiXMessageRevision(text: record.content.text, entities: record.content.entities, timestamp: record.contentTimestamp ?? record.timestamp))
+            // Plain-text local editing must not retain invalid entity offsets.
+            record.content = NagramiXArchivedContent(text: text, entities: [], media: record.content.media)
+            record.contentTimestamp = timestamp
+            updated.records[key] = record
+            _ = self.state.swap(updated)
+            self.persist(updated)
+            self.publishUpdate()
+        }
+    }
+
     public func deletedMessages(peerId: PeerId, threadId: Int64?, minIndex: MessageIndex?, maxIndex: MessageIndex?, limit: Int = 200) -> [Message] {
         guard NagramiXMessageArchiveSettings.current.showDeletedMessages else {
             return []
@@ -495,38 +520,40 @@ public final class NagramiXMessageArchive {
             .suffix(max(1, limit))
             .map { $0 }
         }
-        return records.compactMap { record -> Message? in
-            var peers: [PeerId: Peer] = [:]
-            for (_, data) in record.peerData {
-                if let peer = Self.decodedRootObject(data) as? Peer {
-                    peers[peer.id] = peer
-                }
+        return records.compactMap { self.renderDeletedRecord($0) }.sorted(by: { $0.index < $1.index })
+    }
+
+    private func renderDeletedRecord(_ record: NagramiXArchivedRecord) -> Message? {
+        var peers: [PeerId: Peer] = [:]
+        for (_, data) in record.peerData {
+            if let peer = Self.decodedRootObject(data) as? Peer {
+                peers[peer.id] = peer
             }
-            let media = record.content.media.compactMap { Self.decodedRootObject($0) as? Media }
-            var attributes: [MessageAttribute] = []
-            if !record.content.entities.isEmpty {
-                attributes.append(TextEntitiesMessageAttribute(entities: record.content.entities))
-            }
-            attributes.append(NagramiXArchivedMessageAttribute(deletedAt: record.deletedAt ?? record.timestamp, revisions: record.revisions))
-            let flags: StoreMessageFlags = [.Incoming]
-            let storeMessage = StoreMessage(
-                id: .Id(record.messageId),
-                customStableId: nil,
-                globallyUniqueId: nil,
-                groupingKey: record.groupingKey,
-                threadId: record.threadId,
-                timestamp: record.timestamp,
-                flags: flags,
-                tags: [],
-                globalTags: [],
-                localTags: [],
-                forwardInfo: nil,
-                authorId: record.authorId.map { PeerId($0) },
-                text: record.content.text,
-                attributes: attributes,
-                media: media
-            )
-            return locallyRenderedMessage(message: storeMessage, peers: peers)
-        }.sorted(by: { $0.index < $1.index })
+        }
+        let media = record.content.media.compactMap { Self.decodedRootObject($0) as? Media }
+        var attributes: [MessageAttribute] = []
+        if !record.content.entities.isEmpty {
+            attributes.append(TextEntitiesMessageAttribute(entities: record.content.entities))
+        }
+        attributes.append(NagramiXArchivedMessageAttribute(deletedAt: record.deletedAt ?? record.timestamp, revisions: record.revisions))
+        let flags: StoreMessageFlags = [.Incoming]
+        let storeMessage = StoreMessage(
+            id: .Id(record.messageId),
+            customStableId: nil,
+            globallyUniqueId: nil,
+            groupingKey: record.groupingKey,
+            threadId: record.threadId,
+            timestamp: record.timestamp,
+            flags: flags,
+            tags: [],
+            globalTags: [],
+            localTags: [],
+            forwardInfo: nil,
+            authorId: record.authorId.map { PeerId($0) },
+            text: record.content.text,
+            attributes: attributes,
+            media: media
+        )
+        return locallyRenderedMessage(message: storeMessage, peers: peers)?.withUpdatedStableVersion(stableVersion: UInt32(clamping: record.revisions.count))
     }
 }

@@ -76,7 +76,7 @@
 "NagramiX.Settings.Messages.DeletedLabelEditor" = "Deleted Message Text";
 "NagramiX.Settings.Messages.EditHistory" = "Message Edit History";
 "NagramiX.Settings.Messages.EditHistoryInfo" = "Experimental · Shows the revisions of edited messages observed by this client";
-"NagramiX.Messages.Deleted" = "Deleted";
+"NagramiX.Messages.Deleted" = "This message was deleted";
 "NagramiX.Messages.EditHistory" = "Edit History";
 "NagramiX.Messages.OriginalVersion" = "Original Version";
 "NagramiX.Messages.CurrentVersion" = "Current Version";
@@ -102,3 +102,6 @@
 "NagramiX.Settings.ContextMenu.Header" = "Context Menu";
 "NagramiX.Settings.ContextMenu.ForwardWithoutAuthor.Info" = "Show Forward Without Author in the message context menu.";
 "NagramiX.Settings.ContextMenu.SelectByAuthor.Info" = "Show Select From Author in the message context menu.";
+
+"NagramiX.Messages.ReplyWithQuote" = "Reply with quote";
+"NagramiX.Messages.EditLocalCopy" = "Edit local copy";

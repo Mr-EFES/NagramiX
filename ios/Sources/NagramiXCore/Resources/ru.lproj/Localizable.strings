@@ -150,7 +150,7 @@
 "NagramiX.Settings.Messages.DeletedLabelEditor" = "Текст удалённого сообщения";
 "NagramiX.Settings.Messages.EditHistory" = "История правок сообщений";
 "NagramiX.Settings.Messages.EditHistoryInfo" = "Экспериментально · Показывает полученную этим клиентом историю изменений сообщений";
-"NagramiX.Messages.Deleted" = "Удалено";
+"NagramiX.Messages.Deleted" = "Это сообщение было удалено";
 "NagramiX.Messages.EditHistory" = "История правок";
 "NagramiX.Messages.OriginalVersion" = "Исходная версия";
 "NagramiX.Messages.CurrentVersion" = "Текущая версия";
@@ -176,3 +176,6 @@
 "NagramiX.Settings.ContextMenu.Header" = "Контекстное меню";
 "NagramiX.Settings.ContextMenu.ForwardWithoutAuthor.Info" = "Показывать действие «Переслать без» в контекстном меню сообщений.";
 "NagramiX.Settings.ContextMenu.SelectByAuthor.Info" = "Показывать действие «Выделить от автора» в контекстном меню сообщений.";
+
+"NagramiX.Messages.ReplyWithQuote" = "Ответить цитатой";
+"NagramiX.Messages.EditLocalCopy" = "Редактировать локальную копию";

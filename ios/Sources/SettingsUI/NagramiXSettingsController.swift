@@ -641,3 +641,41 @@ public func nagramiXSettingsController(context: AccountContext) -> ViewControlle
     }
     return controller
 }
+
+// Editing an archived snapshot never invokes Telegram's server edit operation.
+public func nagramiXEditArchivedMessage(context: AccountContext, message: EngineRawMessage, present: @escaping (ViewController) -> Void) {
+    let presentationData = context.sharedContext.currentPresentationData.with { $0 }
+    let inputState = AlertInputFieldComponent.ExternalState()
+    var applyImpl: (() -> Void)?
+    let content: [AnyComponentWithIdentity<AlertComponentEnvironment>] = [
+        AnyComponentWithIdentity(id: "title", component: AnyComponent(AlertTitleComponent(title: presentationData.strings.nagramiXEditLocalCopy))),
+        AnyComponentWithIdentity(id: "input", component: AnyComponent(AlertInputFieldComponent(
+            context: context,
+            initialValue: message.text,
+            placeholder: "",
+            characterLimit: 4096,
+            hasClearButton: true,
+            keyboardType: .default,
+            autocapitalizationType: .sentences,
+            autocorrectionType: .yes,
+            isInitiallyFocused: true,
+            externalState: inputState,
+            shouldChangeText: { _ in true },
+            returnKeyAction: { applyImpl?() }
+        )))
+    ]
+    let alertController = AlertScreen(
+        configuration: AlertScreen.Configuration(allowInputInset: true),
+        content: content,
+        actions: [
+            .init(title: presentationData.strings.Common_Cancel),
+            .init(title: presentationData.strings.nagramiXSave, type: .default, action: { applyImpl?() }, autoDismiss: false)
+        ],
+        updatedPresentationData: (presentationData, context.sharedContext.presentationData)
+    )
+    applyImpl = {
+        context.account.nagramiXMessageArchive.updateDeletedMessageText(id: message.id, text: inputState.value)
+        alertController.dismiss()
+    }
+    present(alertController)
+}

@@ -1193,6 +1193,7 @@ public final class ItemListControllerTabBarItem: Equatable {
         "    private var mosaicStatusNode: ChatMessageDateAndStatusNode?\n",
         """    private var mosaicStatusNode: ChatMessageDateAndStatusNode?
     private var nagramiXDeletedStatusNode: ImmediateTextNode?
+    private var nagramiXDeletedStatusIconNode: ASImageNode?
 """,
         "Deleted-message status node state",
     )
@@ -1440,26 +1441,30 @@ public final class ItemListControllerTabBarItem: Equatable {
             let messageTheme = incoming ? item.presentationData.theme.theme.chat.message.incoming : item.presentationData.theme.theme.chat.message.outgoing
             let configuredLabel = NagramiXTabSettings.current.deletedMessageLabel
             let label = configuredLabel.isEmpty ? item.presentationData.strings.nagramiXDeleted : configuredLabel
-            let statusText = NSMutableAttributedString()
-            if let image = generateTintedImage(image: UIImage(bundleImageName: "Chat/Context Menu/Delete"), color: messageTheme.secondaryTextColor) {
-                let attachment = NSTextAttachment()
-                attachment.image = image
-                attachment.bounds = CGRect(x: 0.0, y: -2.0, width: 13.0, height: 13.0)
-                statusText.append(NSAttributedString(attachment: attachment))
-                statusText.append(NSAttributedString(string: " "))
+            let iconNode: ASImageNode
+            if let current = strongSelf.nagramiXDeletedStatusIconNode {
+                iconNode = current
+            } else {
+                iconNode = ASImageNode()
+                iconNode.isUserInteractionEnabled = false
+                strongSelf.nagramiXDeletedStatusIconNode = iconNode
+                strongSelf.mainContextSourceNode.contentNode.addSubnode(iconNode)
             }
-            statusText.append(NSAttributedString(string: label, font: Font.semibold(12.0), textColor: messageTheme.secondaryTextColor))
-            statusNode.attributedText = statusText
-            let statusSize = statusNode.updateLayout(CGSize(width: max(1.0, backgroundFrame.width - 16.0), height: CGFloat.greatestFiniteMagnitude))
+            iconNode.image = generateTintedImage(image: UIImage(bundleImageName: "Chat/Context Menu/Delete"), color: messageTheme.secondaryTextColor)
+            statusNode.attributedText = NSAttributedString(string: label, font: Font.semibold(12.0), textColor: messageTheme.secondaryTextColor)
+            let statusSize = statusNode.updateLayout(CGSize(width: max(1.0, backgroundFrame.width - 33.0), height: CGFloat.greatestFiniteMagnitude))
             statusNode.frame = CGRect(
-                x: max(backgroundFrame.minX + 8.0, backgroundFrame.maxX - 8.0 - statusSize.width),
+                x: max(backgroundFrame.minX + 25.0, backgroundFrame.maxX - 8.0 - statusSize.width),
                 y: backgroundFrame.maxY - statusSize.height - 4.0,
                 width: statusSize.width,
                 height: statusSize.height
             )
-        } else if let statusNode = strongSelf.nagramiXDeletedStatusNode {
+            iconNode.frame = CGRect(x: statusNode.frame.minX - 17.0, y: statusNode.frame.minY + 1.0, width: 13.0, height: 13.0)
+        } else {
+            strongSelf.nagramiXDeletedStatusNode?.removeFromSupernode()
             strongSelf.nagramiXDeletedStatusNode = nil
-            statusNode.removeFromSupernode()
+            strongSelf.nagramiXDeletedStatusIconNode?.removeFromSupernode()
+            strongSelf.nagramiXDeletedStatusIconNode = nil
         }
 
         strongSelf.updateSearchTextHighlightState()
@@ -3488,7 +3493,11 @@ filegroup(
                 return
             }
             self.commitPurposefulAction()
-            self.forwardMessages(messageIds: messages.map { $0.id }.sorted(), transferMode: .copyAsNew)
+            if messages.contains(where: { $0.attributes.contains(where: { $0 is NagramiXArchivedMessageAttribute }) }) {
+                self.forwardMessages(messages: messages.sorted(by: { $0.id < $1.id }), resetCurrent: false, transferMode: .copyAsNew)
+            } else {
+                self.forwardMessages(messageIds: messages.map { $0.id }.sorted(), transferMode: .copyAsNew)
+            }
         }, selectMessagesByAuthor: { [weak self] authorId in
             guard let self, self.isNodeLoaded, !self.nagramiXIsSelectingAuthorMessages, let peerId = self.chatLocation.peerId else {
                 return
@@ -3523,7 +3532,8 @@ filegroup(
                     }
                     self.nagramiXIsSelectingAuthorMessages = false
                     progressController?.dismiss()
-                    let messageIds = result.messages.map { $0.id }
+                    let archivedIds = self.context.account.nagramiXMessageArchive.deletedMessages(peerId: peerId, threadId: threadId, minIndex: nil, maxIndex: nil, limit: Int.max).filter { $0.author?.id == authorId }.map { $0.id }
+                    let messageIds = Array(Set(result.messages.map { $0.id } + archivedIds)).sorted()
                     guard !messageIds.isEmpty else { return }
                     let _ = self.presentVoiceMessageDiscardAlert(action: { [weak self] in
                         self?.updateChatPresentationInterfaceState(animated: true, interactive: true, { state in
@@ -3637,7 +3647,11 @@ private func nagramiXCopyMessagesAsNew(_ messages: [EngineRawMessage]) -> [Enque
             if media is TelegramMediaWebpage {
                 continue
             } else if mediaReference == nil && (media is TelegramMediaImage || media is TelegramMediaFile || media is TelegramMediaContact || media is TelegramMediaMap) {
-                mediaReference = .message(message: MessageReference(message), media: media)
+                if message.attributes.contains(where: { $0 is NagramiXArchivedMessageAttribute }) {
+                    mediaReference = .standalone(media: media)
+                } else {
+                    mediaReference = .message(message: MessageReference(message), media: media)
+                }
             } else {
                 return nil
             }
@@ -3960,6 +3974,29 @@ private func nagramiXCopyProfileId(_ value: Int64, presentationData: Presentatio
         "Confirm native outgoing calls before starting them",
     )
 
+    archived_context_source = source / "submodules" / "TelegramUI" / "Sources" / "ChatMessageContextControllerContentSource.swift"
+    replace_unique(
+        archived_context_source,
+        """        if self.message.adAttribute != nil {
+            return .single(false)
+        }
+        if let chatController = self.chatController, case .customChatContents = chatController.subject {
+""",
+        """        if self.message._asMessage().attributes.contains(where: { $0 is NagramiXArchivedMessageAttribute }), let chatController = self.chatController {
+            let archive = chatController.context.account.nagramiXMessageArchive
+            let messageId = self.message.id
+            return archive.updates
+            |> map { _ in archive.deletedMessage(id: messageId) == nil }
+            |> distinctUntilChanged
+        }
+        if self.message.adAttribute != nil {
+            return .single(false)
+        }
+        if let chatController = self.chatController, case .customChatContents = chatController.subject {
+""",
+        "Keep archived-message context extraction alive while its local snapshot exists",
+    )
+
     message_archive_overlay = overlay / "Sources" / "TelegramCore" / "NagramiXMessageArchive.swift"
     message_archive_target = source / "submodules" / "TelegramCore" / "Sources" / "Utils" / message_archive_overlay.name
     shutil.copy2(message_archive_overlay, message_archive_target)
@@ -4151,7 +4188,7 @@ private func nagramiXCopyProfileId(_ value: Int64, presentationData: Presentatio
     replace_unique(
         context_menus,
         "import NagramiXCore\n",
-        "import NagramiXCore\nimport AlertUI\nimport TextFormat\n",
+        "import NagramiXCore\nimport AlertUI\nimport TextFormat\nimport ChatInterfaceState\n",
         "Edit-history alert imports",
     )
     replace_unique(
@@ -4202,10 +4239,52 @@ private func nagramiXCopyProfileId(_ value: Int64, presentationData: Presentatio
                     f(.default)
                 })))
             }
+            if data.canReply, !message.text.isEmpty {
+                actions.append(.action(ContextMenuActionItem(text: chatPresentationInterfaceState.strings.nagramiXReplyWithQuote, icon: { theme in
+                    return generateTintedImage(image: UIImage(bundleImageName: "Chat/Context Menu/Reply"), color: theme.actionSheet.primaryTextColor)
+                }, action: { _, f in
+                    interfaceInteraction.updateTextInputStateAndMode { inputState, _ in
+                        let text = NSMutableAttributedString(string: "«" + message.text + "»\\n\\n")
+                        text.append(inputState.inputText)
+                        return (ChatTextInputState(inputText: text, selectionRange: text.length ..< text.length), .text)
+                    }
+                    f(.dismissWithoutContent)
+                })))
+            }
+            actions.append(.action(ContextMenuActionItem(text: chatPresentationInterfaceState.strings.nagramiXEditLocalCopy, icon: { theme in
+                return generateTintedImage(image: UIImage(bundleImageName: "Chat/Context Menu/Edit"), color: theme.actionSheet.primaryTextColor)
+            }, action: { c, _ in
+                c?.dismiss(completion: {
+                    nagramiXEditArchivedMessage(context: context, message: message, present: { controller in
+                        controllerInteraction.presentController(controller, nil)
+                    })
+                })
+            })))
+            if NagramiXTabSettings.current.showForwardWithoutAuthor, nagramiXCanCopyMessagesAsNew([message]), let copyMessagesWithoutSource = interfaceInteraction.copyMessagesWithoutSource {
+                actions.append(.action(ContextMenuActionItem(text: chatPresentationInterfaceState.strings.nagramiXForwardWithoutAuthor, icon: { theme in
+                    return generateTintedImage(image: UIImage(bundleImageName: "Chat/Context Menu/Forward"), color: theme.actionSheet.primaryTextColor)
+                }, action: { _, f in
+                    copyMessagesWithoutSource(selectAll ? messages : [message])
+                    f(.dismissWithoutContent)
+                })))
+            }
             if let editHistoryAction {
                 actions.append(editHistoryAction)
             }
             actions.append(.separator)
+            actions.append(.action(ContextMenuActionItem(text: chatPresentationInterfaceState.strings.Conversation_ContextMenuSelect, icon: { theme in
+                return generateTintedImage(image: UIImage(bundleImageName: "Chat/Context Menu/Select"), color: theme.actionSheet.primaryTextColor)
+            }, action: { _, f in
+                interfaceInteraction.beginMessageSelection(selectAll ? messages.map { $0.id } : [message.id], { transition in f(.custom(transition)) })
+            })))
+            if NagramiXTabSettings.current.showSelectByAuthor, let authorId = message.author?.id, let selectMessagesByAuthor = interfaceInteraction.selectMessagesByAuthor {
+                actions.append(.action(ContextMenuActionItem(text: chatPresentationInterfaceState.strings.nagramiXSelectFromAuthor, icon: { theme in
+                    return generateTintedImage(image: UIImage(bundleImageName: "Chat/Context Menu/SelectAll"), color: theme.actionSheet.primaryTextColor)
+                }, action: { _, f in
+                    selectMessagesByAuthor(authorId)
+                    f(.dismissWithoutContent)
+                })))
+            }
             actions.append(.action(ContextMenuActionItem(text: chatPresentationInterfaceState.strings.Conversation_ContextMenuDelete, textColor: .destructive, icon: { theme in
                 return generateTintedImage(image: UIImage(bundleImageName: "Chat/Context Menu/Delete"), color: theme.actionSheet.destructiveActionTextColor)
             }, action: { _, f in
@@ -4215,7 +4294,70 @@ private func nagramiXCopyProfileId(_ value: Int64, presentationData: Presentatio
         }
         return ContextController.Items(content: .list(actions), tip: nil)
 """,
-        "Expose edit history and restrict archived messages to local-safe actions",
+        "Expose functional archived-message actions without calling deleted server originals",
+    )
+
+    replace_unique(
+        chat_controller_forward_messages,
+        """            let sortedMessages = messages.values.compactMap { $0?._asMessage() }.sorted { lhs, rhs in
+                return lhs.id < rhs.id
+            }
+            self?.forwardMessages(messages: sortedMessages, options: options, resetCurrent: resetCurrent, transferMode: transferMode)
+""",
+        """            guard let self else { return }
+            let sortedMessages = messageIds.compactMap { id -> EngineRawMessage? in
+                return (messages[id] ?? nil)?._asMessage() ?? self.context.account.nagramiXMessageArchive.deletedMessage(id: id)
+            }.sorted { $0.id < $1.id }
+            let hasArchivedMessages = sortedMessages.contains(where: { $0.attributes.contains(where: { $0 is NagramiXArchivedMessageAttribute }) })
+            // Telegram cannot forward IDs that were already deleted remotely.
+            self.forwardMessages(messages: sortedMessages, options: options, resetCurrent: resetCurrent, transferMode: hasArchivedMessages ? .copyAsNew : transferMode)
+""",
+        "Resolve selected archived snapshots locally before copy-as-new transfer",
+    )
+    replace_unique(
+        chat_load_node,
+        """                if let messageIds = strongSelf.presentationInterfaceState.interfaceState.selectionState?.selectedIds, !messageIds.isEmpty {
+                    strongSelf.messageContextDisposable.set((strongSelf.context.sharedContext.chatAvailableMessageActions""",
+        """                if let messageIds = strongSelf.presentationInterfaceState.interfaceState.selectionState?.selectedIds, !messageIds.isEmpty {
+                    if messageIds.allSatisfy({ strongSelf.context.account.nagramiXMessageArchive.deletedMessage(id: $0) != nil }) {
+                        strongSelf.context.account.nagramiXMessageArchive.removeLocal(messageIds: Array(messageIds))
+                        strongSelf.updateChatPresentationInterfaceState(animated: true, interactive: true, { $0.updatedInterfaceState { $0.withoutSelectionState() } })
+                        return
+                    }
+                    strongSelf.messageContextDisposable.set((strongSelf.context.sharedContext.chatAvailableMessageActions""",
+        "Delete an archive-only selection from the local archive",
+    )
+
+    archived_selection_panel = source / "submodules" / "TelegramUI" / "Components" / "Chat" / "ChatMessageSelectionInputPanelNode" / "Sources" / "ChatMessageSelectionInputPanelNode.swift"
+    replace_unique(
+        archived_selection_panel,
+        """        if let actions = self.actions {
+            self.deleteButton.isEnabled = false
+""",
+        """        let archiveOnlySelection = !self.selectedMessages.isEmpty && self.context.map { context in
+            self.selectedMessages.allSatisfy { context.account.nagramiXMessageArchive.deletedMessage(id: $0) != nil }
+        } == true
+        if let actions = self.actions {
+            self.deleteButton.isEnabled = false
+""",
+        "Recognize local archived selections in the native selection toolbar",
+    )
+    replace_unique(
+        archived_selection_panel,
+        "            self.forwardButton.isImplicitlyDisabled = !actions.options.contains(.forward)\n",
+        "            self.forwardButton.isImplicitlyDisabled = !archiveOnlySelection && !actions.options.contains(.forward)\n",
+        "Enable copy transfer for an archived selection",
+    )
+    replace_unique(
+        archived_selection_panel,
+        """            self.shareButton.isImplicitlyDisabled = actions.options.intersection(.forward).isEmpty || actions.options.intersection(.externalShare).isEmpty
+""",
+        """            if archiveOnlySelection {
+                self.deleteButton.isEnabled = true
+            }
+            self.shareButton.isImplicitlyDisabled = actions.options.intersection(.forward).isEmpty || actions.options.intersection(.externalShare).isEmpty
+""",
+        "Enable local deletion for an archived selection",
     )
 
     print("Applied isolated NagramiX next-version feature overlay")
