@@ -1,4 +1,8 @@
-# NagramiX
+# NagramiX 0.3.9
+
+Единственная рабочая ветка — `main`. Все описания, аннотации, сообщения коммитов и PR ведутся на русском языке.
+
+Последняя успешная сборка актуальных исходников: [37117424816](https://github.com/Mr-EFES/NagramiX/actions/runs/37117424816), исходный коммит `161d1bfad191646259a4851d219ce36f9bdf437f`. Готовый артефакт доступен в этом запуске; IPA в ранее опубликованном релизе имеет более раннее происхождение и не содержит всех последних исправлений.
 
 **NagramiX** — независимый, неофициальный и некоммерческий клиент Telegram для iPhone.
 
@@ -52,7 +56,7 @@ runtime-регресса на физическом iPhone.
 product/     функции, настройки, терминология и release scope
 ios/         overlay, брендинг и Swift/Objective-C реализации для Telegram-iOS
 scripts/     проверка iOS upstream и упаковка IPA
-.github/     IPA build, upstream audit и publish workflows
+.github/     единственный workflow сборки неподписанного IPA
 docs/        bootstrap и актуальный handoff
 ```
 

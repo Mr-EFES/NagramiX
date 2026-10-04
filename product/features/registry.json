@@ -118,7 +118,7 @@
     },
     {
       "id": "profile_info",
-      "title": "Profile id, registration estimate and mutual marker",
+      "title": "ID профиля, примерная дата регистрации и значок взаимного контакта",
       "specification": "specified",
       "ios": {
         "implementation": "implemented",
@@ -162,7 +162,7 @@
       "specification": "specified",
       "ios": {
         "implementation": "implemented",
-        "compile": "in_progress",
+        "compile": "compile_passed",
         "device": "device_pending"
       }
     }
