@@ -8,11 +8,11 @@
   "features": [
     {
       "id": "clean_install_defaults",
-      "title": "Русская авторизация и тёмная тема при чистой установке",
+      "title": "Русский язык и стандартная серая тема при чистой установке",
       "specification": "specified",
       "ios": {
         "implementation": "implemented",
-        "compile": "compile_passed",
+        "compile": "in_progress",
         "device": "device_pending"
       }
     },

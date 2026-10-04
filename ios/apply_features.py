@@ -45,15 +45,15 @@ def localize_debug_titles(path: Path) -> None:
 def apply_features(source: Path) -> None:
     overlay = Path(__file__).resolve().parent
 
-    # Telegram intentionally generates an empty ru.lproj placeholder in its
-    # application bundle and downloads Russian after launch. NagramiX needs a
-    # complete dictionary before the first network request, so derive it from
-    # the pinned complete English dictionary and replace the welcome copy with
-    # Russian. Keeping all other keys provides a safe readable fallback if the
-    # Russian langpack download is unavailable.
+    # Полный русский ресурс доступен до сети и авторизации. Нельзя
+    # маскировать английские строки под русскую локализацию.
     english_app_strings = source / "Telegram" / "Telegram-iOS" / "en.lproj" / "Localizable.strings"
     russian_app_strings = source / "Telegram" / "Telegram-iOS" / "ru.lproj" / "Localizable.strings"
-    russian_strings_text = english_app_strings.read_text(encoding="utf-8")
+    russian_strings_text = (overlay / "Resources" / "ru.lproj" / "Localizable.strings").read_text(encoding="utf-8")
+    key_pattern = re.compile(r'^"([^"\n]+)"\s*=', re.MULTILINE)
+    missing_keys = set(key_pattern.findall(english_app_strings.read_text(encoding="utf-8"))) - set(key_pattern.findall(russian_strings_text))
+    if missing_keys:
+        raise SystemExit(f"Russian localization is missing upstream keys: {sorted(missing_keys)}")
     russian_tour_strings = {
         "Tour.Title1": "Telegram",
         "Tour.Text1": "Самый **быстрый** мессенджер в мире.\\nОн **бесплатный** и **безопасный**.",
@@ -152,8 +152,8 @@ public let defaultPresentationStrings = PresentationStrings(primaryComponent:"""
     replace_once(
         presentation_theme_settings,
         "PresentationThemeSettings(theme: .builtin(.dayClassic), themePreferredBaseTheme:",
-        "PresentationThemeSettings(theme: .builtin(.nightAccent), themePreferredBaseTheme:",
-        "Use Telegram's standard dark-blue theme on a clean install",
+        "PresentationThemeSettings(theme: .builtin(.night), themePreferredBaseTheme:",
+        "Use Telegram's standard neutral night theme on a clean install",
     )
 
     presentation_data = source / "submodules" / "TelegramPresentationData" / "Sources" / "PresentationData.swift"
@@ -190,8 +190,8 @@ private func currentDateTimeFormat()""",
     replace_once(
         presentation_data,
         """    return PresentationData(strings: defaultPresentationStrings, theme: defaultPresentationTheme, autoNightModeTriggered: false, chatWallpaper: defaultPresentationTheme.chat.defaultWallpaper,""",
-        """    return PresentationData(strings: defaultPresentationStrings, theme: defaultDarkTintedPresentationTheme, autoNightModeTriggered: false, chatWallpaper: defaultDarkTintedPresentationTheme.chat.defaultWallpaper,""",
-        "Use Telegram's dark-blue presentation before account settings load",
+        """    return PresentationData(strings: defaultPresentationStrings, theme: defaultDarkPresentationTheme, autoNightModeTriggered: false, chatWallpaper: defaultDarkPresentationTheme.chat.defaultWallpaper,""",
+        "Use Telegram's neutral night presentation before account settings load",
     )
 
     intro_controller = source / "submodules" / "RMIntro" / "Sources" / "platform" / "ios" / "RMIntroViewController.m"
@@ -203,11 +203,27 @@ private func currentDateTimeFormat()""",
     )
 
     authorization_splash = source / "submodules" / "AuthorizationUI" / "Sources" / "AuthorizationSequenceSplashController.swift"
-    replace_once(
+    replace_unique(
         authorization_splash,
-        'if let available = localization.availableLocalizations.first, available.languageCode != "en" {',
-        'if let available = localization.availableLocalizations.first, available.languageCode != "ru" {',
-        "Offer the iPhone language as an alternative to the Russian welcome flow",
+        '''        self.suggestedLocalization.set(.single(nil)
+        |> then(TelegramEngineUnauthorized(account: self.account).localization.currentlySuggestedLocalization(extractKeys: ["Login.ContinueWithLocalization"])))
+        let suggestedLocalization = self.suggestedLocalization
+''',
+        '''        self.suggestedLocalization.set(.single(nil))
+''',
+        "Skip automatic language suggestions on the Russian first launch",
+    )
+    replace_between(
+        authorization_splash,
+        "        let localizationSignal = SSignal(generator:",
+        "        self.controller = RMIntroViewController(",
+        """        let localizationSignal = SSignal(generator: { subscriber in
+            subscriber.putCompletion()
+            return SBlockDisposable(block: {})
+        })
+
+""",
+        "Do not offer another language during the Russian welcome flow",
     )
     replace_once(
         authorization_splash,
@@ -2270,44 +2286,12 @@ public final class ItemListControllerTabBarItem: Equatable {
                 })
             })
 ''',
-        '''            |> mapToSignal({ value -> Signal<(String, SuggestedLocalizationInfo)?, NoError> in
-                let currentLanguageCode = value.0.lowercased()
-                let preferredLanguageCode = Locale.preferredLanguages.first
-                    .map { $0.replacingOccurrences(of: "_", with: "-").split(separator: "-").first.map(String.init) ?? $0 }
-                    .map { $0.lowercased() }
-                let systemSuggestionKey = preferredLanguageCode.flatMap { "nagramix.localization.systemSuggestion.\\($0)" }
-
-                let requestedLanguageCode: String?
-                if let preferredLanguageCode,
-                   preferredLanguageCode != currentLanguageCode,
-                   !UserDefaults.standard.bool(forKey: systemSuggestionKey ?? "") {
-                    requestedLanguageCode = preferredLanguageCode
-                } else if let suggestedLocalization = value.1,
-                          !suggestedLocalization.isSeen,
-                          suggestedLocalization.languageCode != currentLanguageCode {
-                    requestedLanguageCode = suggestedLocalization.languageCode
-                } else {
-                    requestedLanguageCode = nil
-                }
-                guard let requestedLanguageCode else {
-                    return .single(nil)
-                }
-                return context.engine.localization.suggestedLocalizationInfo(languageCode: requestedLanguageCode, extractKeys: LanguageSuggestionControllerStrings.keys)
-                |> map({ suggestedLocalization -> (String, SuggestedLocalizationInfo)? in
-                    guard suggestedLocalization.availableLocalizations.contains(where: { $0.languageCode == requestedLanguageCode }) else {
-                        if let systemSuggestionKey {
-                            UserDefaults.standard.set(true, forKey: systemSuggestionKey)
-                        }
-                        return nil
-                    }
-                    if let systemSuggestionKey, requestedLanguageCode == preferredLanguageCode {
-                        UserDefaults.standard.set(true, forKey: systemSuggestionKey)
-                    }
-                    return (value.0, suggestedLocalization)
-                })
+        '''            |> mapToSignal({ _ -> Signal<(String, SuggestedLocalizationInfo)?, NoError> in
+                // Язык меняется только пользователем в штатных настройках.
+                return .single(nil)
             })
 ''',
-        "Suggest the supported iPhone language once while keeping Russian as the initial language",
+        "Keep language changes in the native settings without automatic suggestions",
     )
     replace_once(
         chat_list_controller,
