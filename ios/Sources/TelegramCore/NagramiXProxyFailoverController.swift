@@ -1,6 +1,5 @@
 import Foundation
 import SwiftSignalKit
-import MtProtoKit
 
 private enum NagramiXNetworkSettingsBridge {
     static let changedNotification = Notification.Name("NagramiXSettingsChanged")
@@ -13,34 +12,20 @@ private enum NagramiXNetworkSettingsBridge {
     }
 }
 
-/// Queue-confined state machine. Every callback carries a generation token,
-/// therefore a stale timer can never override a manual proxy selection.
+/// Queue-confined failover. A generation guards timers and queued transactions
+/// against manual selection, disabling proxies, or deleting a reserve.
 final class NagramiXProxyFailoverController {
     private enum Phase {
         case idle
-        case waiting(origin: ProxyServerSettings, token: UInt64)
-        case checking(origin: ProxyServerSettings, candidates: [ProxyServerSettings], index: Int, token: UInt64)
-        case applying(origin: ProxyServerSettings, candidates: [ProxyServerSettings], index: Int, candidate: ProxyServerSettings, token: UInt64)
-        case connecting(origin: ProxyServerSettings, candidates: [ProxyServerSettings], index: Int, candidate: ProxyServerSettings, token: UInt64)
-        case restoring(origin: ProxyServerSettings, failed: ProxyServerSettings, token: UInt64)
+        case waiting(token: UInt64)
+        case awaitingReserve(token: UInt64)
+        case applying(candidate: ProxyServerSettings, token: UInt64)
+        case connecting(candidate: ProxyServerSettings, token: UInt64)
 
         var expectedServer: ProxyServerSettings? {
             switch self {
-            case let .applying(_, _, _, candidate, _), let .connecting(_, _, _, candidate, _):
-                return candidate
-            case let .restoring(origin, _, _):
-                return origin
-            default:
-                return nil
-            }
-        }
-
-        var origin: ProxyServerSettings? {
-            switch self {
-            case .idle:
-                return nil
-            case let .waiting(origin, _), let .checking(origin, _, _, _), let .applying(origin, _, _, _, _), let .connecting(origin, _, _, _, _), let .restoring(origin, _, _):
-                return origin
+            case let .applying(candidate, _), let .connecting(candidate, _): return candidate
+            default: return nil
             }
         }
     }
@@ -57,18 +42,16 @@ final class NagramiXProxyFailoverController {
     private var settingsDisposable: Disposable?
     private var statusDisposable: Disposable?
     private var applyDisposable: Disposable?
-    private var probeDisposable: MTDisposable?
     private var observer: NSObjectProtocol?
+    private var lifecycleObservers: [NSObjectProtocol] = []
+    private var inForeground = true
+    private var cancellation = Atomic<Bool>(value: false)
     private var timer: SwiftSignalKit.Timer?
+    private var healthStatuses: [ProxyServerSettings: ProxyServerStatus] = [:]
     private var settings: ProxySettings = .defaultSettings
     private var status: ConnectionStatus = .waitingForNetwork
     private var phase: Phase = .idle
     private var generation: UInt64 = 0
-    private var suppressedServer: ProxyServerSettings?
-    private var didLogNetworkUnavailable = false
-
-    init() {
-    }
 
     func start(accountManager: AccountManager<TelegramAccountManagerTypes>, network: Network) {
         self.queue.async { [weak self] in
@@ -76,36 +59,50 @@ final class NagramiXProxyFailoverController {
             self.stopInternal()
             self.accountManager = accountManager
             self.network = network
+            self.lifecycleObservers.append(NotificationCenter.default.addObserver(forName: Notification.Name("NagramiXProxySelectionRequested"), object: nil, queue: nil, using: { [weak self] _ in
+                self?.queue.async {
+                    self?.invalidate()
+                    self?.reevaluate()
+                }
+            }))
+            for (name, foreground) in [("UIApplicationDidEnterBackgroundNotification", false), ("UIApplicationWillEnterForegroundNotification", true)] {
+                self.lifecycleObservers.append(NotificationCenter.default.addObserver(forName: Notification.Name(name), object: nil, queue: nil, using: { [weak self] _ in
+                    self?.queue.async {
+                        guard let self else { return }
+                        self.inForeground = foreground
+                        self.invalidate()
+                        self.reevaluate()
+                    }
+                }))
+            }
             let proxySettings = accountManager.sharedData(keys: [SharedDataKeys.proxySettings])
             |> map { $0.entries[SharedDataKeys.proxySettings]?.get(ProxySettings.self) ?? .defaultSettings }
-            let healthMonitor = ProxyServersStatuses(network: network, servers: proxySettings |> map { $0.servers }, refreshEnabled: proxySettings |> map { $0.enabled })
-            self.healthMonitor = healthMonitor
-            _ = network.nagramiXProxyStatuses.swap(healthMonitor)
-            self.healthDisposable = (healthMonitor.statuses() |> deliverOn(self.queue)).start(next: { [weak self] statuses in
-                guard let self, let suppressed = self.suppressedServer else { return }
-                if statuses.contains(where: { server, status in
-                    guard server != suppressed else { return false }
-                    if case .available = status { return true }
-                    return false
-                }) {
-                    self.suppressedServer = nil
+            let monitor = ProxyServersStatuses(network: network, servers: proxySettings |> map { $0.servers }, refreshEnabled: proxySettings |> map { $0.enabled }, activeServer: proxySettings |> map { $0.activeServer })
+            self.healthMonitor = monitor
+            _ = network.nagramiXProxyStatuses.swap(monitor)
+            self.healthDisposable = (monitor.statuses() |> deliverOn(self.queue)).start(next: { [weak self] statuses in
+                guard let self else { return }
+                self.healthStatuses = statuses
+                if !self.needsConnection {
+                    self.invalidate()
+                } else if case .awaitingReserve = self.phase {
+                    self.selectVerifiedReserve(token: self.generation)
+                } else {
                     self.reevaluate()
                 }
             })
-            self.settingsDisposable = (proxySettings
-            |> deliverOn(self.queue)).start(next: { [weak self] value in
+            self.settingsDisposable = (proxySettings |> deliverOn(self.queue)).start(next: { [weak self] value in
                 self?.updateSettings(value)
             })
-            self.statusDisposable = (network.connectionStatus
-            |> deliverOn(self.queue)).start(next: { [weak self] status in
-                self?.updateStatus(status)
+            self.statusDisposable = (network.connectionStatus |> deliverOn(self.queue)).start(next: { [weak self] value in
+                self?.updateStatus(value)
             })
             self.observer = NotificationCenter.default.addObserver(forName: NagramiXNetworkSettingsBridge.changedNotification, object: nil, queue: nil, using: { [weak self] _ in
                 self?.queue.async {
                     guard let self else { return }
                     let timeout = NagramiXNetworkSettingsBridge.proxyAutoSwitchTimeout
                     if !NagramiXNetworkSettingsBridge.proxyAutoSwitchEnabled || timeout != self.configuredTimeout {
-                        self.invalidate(suppressCurrent: false)
+                        self.invalidate()
                     }
                     self.configuredTimeout = timeout
                     self.reevaluate()
@@ -119,7 +116,7 @@ final class NagramiXProxyFailoverController {
     }
 
     private func stopInternal() {
-        self.invalidate(suppressCurrent: false)
+        self.invalidate()
         self.healthDisposable?.dispose()
         self.healthDisposable = nil
         if let network = self.network, let monitor = self.healthMonitor {
@@ -131,12 +128,32 @@ final class NagramiXProxyFailoverController {
         self.settingsDisposable = nil
         self.statusDisposable?.dispose()
         self.statusDisposable = nil
-        if let observer = self.observer {
-            NotificationCenter.default.removeObserver(observer)
-            self.observer = nil
-        }
+        if let observer = self.observer { NotificationCenter.default.removeObserver(observer) }
+        self.observer = nil
+        for observer in self.lifecycleObservers { NotificationCenter.default.removeObserver(observer) }
+        self.lifecycleObservers.removeAll()
+        self.settings = .defaultSettings
+        self.status = .waitingForNetwork
         self.accountManager = nil
         self.network = nil
+        self.healthStatuses.removeAll()
+    }
+
+    private var needsConnection: Bool {
+        switch self.status {
+        case .connecting, .updating: return true
+        case let .online(proxyAddress):
+            // MTProto reports proxySettings.ip. An old direct/other-proxy
+            // online event must not cancel the newly selected proxy's deadline.
+            guard let active = self.settings.activeServer, proxyAddress == active.host,
+                  let health = self.healthStatuses[active], case .available = health else { return true }
+            return false
+        case .waitingForNetwork: return false
+        }
+    }
+
+    private var enabled: Bool {
+        return self.inForeground && self.settings.enabled && NagramiXNetworkSettingsBridge.proxyAutoSwitchEnabled
     }
 
     private func updateSettings(_ value: ProxySettings) {
@@ -145,10 +162,8 @@ final class NagramiXProxyFailoverController {
         let activeChanged = previous.activeServer != value.activeServer
         let listChanged = previous.servers != value.servers
         if activeChanged || listChanged || previous.enabled != value.enabled {
-            let expected = self.phase.expectedServer
-            if !(activeChanged && expected == value.activeServer && !listChanged && value.enabled) {
-                self.suppressedServer = nil
-                self.invalidate(suppressCurrent: false)
+            if !(activeChanged && self.phase.expectedServer == value.activeServer && !listChanged && value.enabled) {
+                self.invalidate()
             }
         }
         self.reevaluate()
@@ -158,249 +173,105 @@ final class NagramiXProxyFailoverController {
         self.status = value
         switch value {
         case .online:
-            self.didLogNetworkUnavailable = false
-            self.suppressedServer = nil
-            self.invalidate(suppressCurrent: false)
-        case .connecting:
-            // The issue flag is delayed and can oscillate. Neither it nor
-            // repeated connecting events may restart the user's deadline.
-            self.didLogNetworkUnavailable = false
+            if !self.needsConnection { self.invalidate() }
         case .waitingForNetwork:
-            if !self.didLogNetworkUnavailable {
-                self.didLogNetworkUnavailable = true
-                Logger.shared.log("NagramiX", "Network unavailable; proxy failover deferred")
-            }
-            // Absence of a route is a normal offline state, not evidence that
-            // the selected proxy is bad. Cancel every in-flight probe and keep
-            // (or restore) the user's original selection.
-            self.restoreOriginIfNeededOrInvalidate(suppressCurrent: false)
-        case .updating:
-            self.didLogNetworkUnavailable = false
-            // Interface changes are not proxy failures.
-            self.suppressedServer = nil
-            self.invalidate(suppressCurrent: false)
+            // No route: retain the selection, cancel failover, do not cycle.
+            self.invalidate()
+        case .connecting, .updating:
+            // Both appear as Connecting in the UI. Repeated events and changes
+            // between these states must not restart the user's deadline.
+            break
         }
         self.reevaluate()
     }
 
     private func reevaluate() {
-        guard NagramiXNetworkSettingsBridge.proxyAutoSwitchEnabled,
-              self.settings.enabled,
-              let active = self.settings.activeServer else {
-            self.invalidate(suppressCurrent: false)
+        guard self.enabled, self.settings.activeServer != nil,
+              Set(self.settings.servers).count > 1 else {
+            self.invalidate()
             return
         }
-        let servers = self.uniqueServers(self.settings.servers)
-        guard servers.count > 1 else {
-            self.invalidate(suppressCurrent: false)
-            return
-        }
-        guard case .connecting = self.status,
-              self.suppressedServer != active,
-              case .idle = self.phase,
-              NagramiXProxyFailoverController.owner == nil || NagramiXProxyFailoverController.owner === self else {
-            return
-        }
-        NagramiXProxyFailoverController.owner = self
+        guard self.needsConnection, case .idle = self.phase,
+              Self.owner == nil || Self.owner === self else { return }
+        Self.owner = self
         self.generation &+= 1
         let token = self.generation
-        self.phase = .waiting(origin: active, token: token)
-        self.schedule(after: Double(NagramiXNetworkSettingsBridge.proxyAutoSwitchTimeout), token: token) { [weak self] in
-            guard let self,
-                  case let .waiting(origin, phaseToken) = self.phase,
-                  phaseToken == token,
-                  self.settings.activeServer == origin,
-                  case .connecting = self.status else { return }
-            self.begin(origin: origin, servers: servers, token: token)
+        self.cancellation = Atomic<Bool>(value: false)
+        self.phase = .waiting(token: token)
+        Logger.shared.log("NagramiX", "Proxy connection deadline armed: timeout=\(self.configuredTimeout)")
+        self.schedule(after: Double(self.configuredTimeout), token: token) { [weak self] in
+            guard let self, self.enabled, self.needsConnection,
+                  case let .waiting(phaseToken) = self.phase, phaseToken == token else { return }
+            self.deadlineExpired(token: token)
         }
     }
 
-    private func begin(origin: ProxyServerSettings, servers: [ProxyServerSettings], token: UInt64) {
-        guard token == self.generation, let index = servers.firstIndex(of: origin) else {
-            self.invalidate(suppressCurrent: true)
-            return
-        }
-        let candidates = (Array(servers[(index + 1)...]) + (index > 0 ? Array(servers[..<index]) : [])).filter { $0 != origin }
-        guard !candidates.isEmpty else {
-            self.invalidate(suppressCurrent: true)
-            return
-        }
-        self.healthMonitor?.markUnavailable(origin)
-        if let monitor = self.healthMonitor {
-            self.healthSnapshotDisposable = (monitor.availableServers() |> take(1) |> deliverOn(self.queue)).start(next: { [weak self] available in
-                guard let self, token == self.generation else { return }
-                self.healthSnapshotDisposable = nil
-                let reachable = candidates.filter { available.contains($0) }
-                // Go directly to a recently verified reserve at the deadline.
-                // Keep unchecked candidates afterwards in case reserves fail.
-                let ordered = reachable + candidates.filter { !available.contains($0) }
-                if let candidate = reachable.first {
-                    self.apply(origin: origin, candidates: ordered, index: 0, candidate: candidate, token: token)
-                } else {
-                    self.check(origin: origin, candidates: ordered, index: 0, token: token)
-                }
-            })
-        } else {
-            self.check(origin: origin, candidates: candidates, index: 0, token: token)
-        }
+    private func deadlineExpired(token: UInt64) {
+        guard token == self.generation, self.enabled, self.needsConnection else { return }
+        Logger.shared.log("NagramiX", "Proxy deadline expired; selecting a verified reserve")
+        if let active = self.settings.activeServer { self.healthMonitor?.markUnavailable(active) }
+        self.phase = .awaitingReserve(token: token)
+        self.selectVerifiedReserve(token: token)
     }
 
-    private func check(origin: ProxyServerSettings, candidates: [ProxyServerSettings], index: Int, token: UInt64) {
-        guard token == self.generation, let network = self.network else { return }
-        if case .waitingForNetwork = self.status {
-            self.restoreOriginIfNeededOrInvalidate(suppressCurrent: false)
-            return
-        }
-        if let monitor = self.healthMonitor, index < candidates.count {
-            self.healthSnapshotDisposable?.dispose()
-            self.healthSnapshotDisposable = (monitor.availableServers() |> take(1) |> deliverOn(self.queue)).start(next: { [weak self] available in
-                guard let self, token == self.generation else { return }
-                self.healthSnapshotDisposable = nil
-                if let nextIndex = candidates.indices.first(where: { $0 >= index && available.contains(candidates[$0]) }) {
-                    self.apply(origin: origin, candidates: candidates, index: nextIndex, candidate: candidates[nextIndex], token: token)
-                } else {
-                    self.checkAvailableCandidate(origin: origin, candidates: candidates, index: index, token: token, network: network)
-                }
-            })
-        } else {
-            self.checkAvailableCandidate(origin: origin, candidates: candidates, index: index, token: token, network: network)
-        }
-    }
-
-    private func checkAvailableCandidate(origin: ProxyServerSettings, candidates: [ProxyServerSettings], index: Int, token: UInt64, network: Network) {
-        guard index < candidates.count else {
-            Logger.shared.log("NagramiX", "Proxy failover completed without an available candidate")
-            self.restoreOriginIfNeededOrInvalidate(suppressCurrent: true)
-            return
-        }
-        let candidate = candidates[index]
-        self.phase = .checking(origin: origin, candidates: candidates, index: index, token: token)
-        self.probeDisposable?.dispose()
-        self.probeDisposable = nil
-        self.schedule(after: 12.0, token: token) { [weak self] in
-            guard let self else { return }
-            self.probeDisposable?.dispose()
-            self.probeDisposable = nil
-            self.check(origin: origin, candidates: candidates, index: index + 1, token: token)
-        }
-        self.probeDisposable = MTProxyConnectivity.pingProxy(with: network.context, datacenterId: network.datacenterId, settings: candidate.mtProxySettings).start(next: { [weak self] result in
-            self?.queue.async {
-                guard let self, token == self.generation,
-                      case let .checking(_, _, phaseIndex, phaseToken) = self.phase,
-                      phaseIndex == index, phaseToken == token else { return }
-                self.cancelTimer()
-                self.probeDisposable?.dispose()
-                self.probeDisposable = nil
-                guard let status = result as? MTProxyConnectivityStatus, status.reachable else {
-                    self.healthMonitor?.markUnavailable(candidate)
-                    self.check(origin: origin, candidates: candidates, index: index + 1, token: token)
-                    return
-                }
-                self.healthMonitor?.recordAvailable(candidate, roundTripTime: status.roundTripTime)
-                self.apply(origin: origin, candidates: candidates, index: index, candidate: candidate, token: token)
-            }
-        }, error: { [weak self] _ in
-            self?.queue.async {
-                guard let self, token == self.generation,
-                      case let .checking(_, _, phaseIndex, phaseToken) = self.phase,
-                      phaseIndex == index, phaseToken == token else { return }
-                Logger.shared.log("NagramiX", "Proxy connectivity check failed; candidate marked unavailable")
-                self.cancelTimer()
-                self.probeDisposable = nil
-                self.check(origin: origin, candidates: candidates, index: index + 1, token: token)
-            }
-        }, completed: { [weak self] in
-            self?.queue.async {
-                guard let self, token == self.generation,
-                      case let .checking(_, _, phaseIndex, phaseToken) = self.phase,
-                      phaseIndex == index, phaseToken == token else { return }
-                self.cancelTimer()
-                self.probeDisposable = nil
-                self.check(origin: origin, candidates: candidates, index: index + 1, token: token)
+    private func selectVerifiedReserve(token: UInt64) {
+        guard token == self.generation, self.enabled, self.needsConnection,
+              case .awaitingReserve = self.phase, let monitor = self.healthMonitor,
+              let active = self.settings.activeServer else { return }
+        self.healthSnapshotDisposable?.dispose()
+        self.healthSnapshotDisposable = (monitor.availableServers() |> take(1) |> deliverOn(self.queue)).start(next: { [weak self] available in
+            guard let self, token == self.generation, self.enabled, self.needsConnection,
+                  case .awaitingReserve = self.phase, self.settings.activeServer == active else { return }
+            self.healthSnapshotDisposable = nil
+            var seen = Set<ProxyServerSettings>()
+            let servers = self.settings.servers.filter { seen.insert($0).inserted }
+            guard let index = servers.firstIndex(of: active) else { self.invalidate(); return }
+            let candidates = Array(servers.dropFirst(index + 1)) + Array(servers.prefix(index))
+            if let candidate = candidates.first(where: { available.contains($0) }) {
+                self.apply(candidate: candidate, expected: active, token: token)
+            } else {
+                // No successful fresh ping: keep the current selection and
+                // await the shared bounded checker. Never select an unchecked
+                // server or add a serial 12-second probe after the deadline.
+                monitor.refreshIfNeeded()
             }
         })
     }
 
-    private func restoreOriginIfNeededOrInvalidate(suppressCurrent: Bool) {
-        guard case .restoring = self.phase else {
-            guard let origin = self.phase.origin,
-                  let failed = self.settings.activeServer,
-                  failed != origin,
-                  self.settings.servers.contains(origin),
-                  let accountManager = self.accountManager else {
-                self.invalidate(suppressCurrent: suppressCurrent)
-                return
-            }
-
-            self.generation &+= 1
-            let token = self.generation
-            self.cancelTimer()
-            self.probeDisposable?.dispose()
-            self.probeDisposable = nil
-            self.applyDisposable?.dispose()
-            self.applyDisposable = nil
-            self.phase = .restoring(origin: origin, failed: failed, token: token)
-            self.suppressedServer = suppressCurrent ? origin : nil
-            Logger.shared.log("NagramiX", "Restoring the original proxy after an interrupted failover")
-            self.applyDisposable = (updateProxySettingsInteractively(accountManager: accountManager, { current in
-                guard current.enabled, current.activeServer == failed, current.servers.contains(origin) else {
-                    return current
-                }
-                var current = current
-                current.activeServer = origin
-                return current
-            }) |> deliverOn(self.queue)).start(next: { [weak self] _ in
-                guard let self, token == self.generation,
-                      case let .restoring(phaseOrigin, phaseFailed, phaseToken) = self.phase,
-                      phaseOrigin == origin, phaseFailed == failed, phaseToken == token else { return }
-                self.applyDisposable = nil
-                self.invalidate(suppressCurrent: suppressCurrent)
-            })
-            return
-        }
-    }
-
-    private func apply(origin: ProxyServerSettings, candidates: [ProxyServerSettings], index: Int, candidate: ProxyServerSettings, token: UInt64) {
+    private func apply(candidate: ProxyServerSettings, expected: ProxyServerSettings, token: UInt64) {
         guard token == self.generation, let accountManager = self.accountManager else { return }
-        let expectedServer = self.settings.activeServer
-        self.phase = .applying(origin: origin, candidates: candidates, index: index, candidate: candidate, token: token)
+        Logger.shared.log("NagramiX", "Switching to a proxy with a fresh successful ping")
+        self.phase = .applying(candidate: candidate, token: token)
         self.applyDisposable?.dispose()
+        let cancellation = self.cancellation
         self.applyDisposable = (updateProxySettingsInteractively(accountManager: accountManager, { current in
-            // A queued transaction must not undo a manual selection, deletion
-            // or Use Proxy being switched off while the probe completed.
-            guard NagramiXNetworkSettingsBridge.proxyAutoSwitchEnabled,
-                  current.enabled, current.activeServer == expectedServer, current.servers.contains(candidate) else {
-                return current
-            }
+            guard !cancellation.with({ $0 }), NagramiXNetworkSettingsBridge.proxyAutoSwitchEnabled, current.enabled,
+                  current.activeServer == expected, current.servers.contains(candidate) else { return current }
             var current = current
             current.activeServer = candidate
             return current
         }) |> deliverOn(self.queue)).start(next: { [weak self] changed in
             guard let self, token == self.generation,
-                  case let .applying(_, _, phaseIndex, phaseCandidate, phaseToken) = self.phase,
-                  phaseIndex == index, phaseCandidate == candidate, phaseToken == token else { return }
+                  case let .applying(phaseCandidate, phaseToken) = self.phase,
+                  phaseCandidate == candidate, phaseToken == token else { return }
             self.applyDisposable = nil
-            if !changed && self.settings.activeServer != candidate {
-                self.check(origin: origin, candidates: candidates, index: index + 1, token: token)
-                return
-            }
-            self.phase = .connecting(origin: origin, candidates: candidates, index: index, candidate: candidate, token: token)
-            // Ping only qualifies the candidate. Require Telegram's actual
-            // online state within the configured 15/30/60-second window.
-            self.schedule(after: Double(NagramiXNetworkSettingsBridge.proxyAutoSwitchTimeout), token: token) { [weak self] in
-                guard let self else { return }
-                if case .online = self.status, self.settings.activeServer == candidate {
-                    self.invalidate(suppressCurrent: false)
+            guard changed || self.settings.activeServer == candidate else { self.invalidate(); self.reevaluate(); return }
+            self.phase = .connecting(candidate: candidate, token: token)
+            self.schedule(after: Double(self.configuredTimeout), token: token) { [weak self] in
+                guard let self, self.enabled,
+                      case let .connecting(phaseCandidate, phaseToken) = self.phase,
+                      phaseCandidate == candidate, phaseToken == token else { return }
+                if self.needsConnection {
+                    self.deadlineExpired(token: token)
                 } else {
-                    self.healthMonitor?.markUnavailable(candidate)
-                    self.check(origin: origin, candidates: candidates, index: index + 1, token: token)
+                    self.invalidate()
                 }
             }
         })
     }
 
     private func schedule(after timeout: Double, token: UInt64, action: @escaping () -> Void) {
-        self.cancelTimer()
+        self.timer?.invalidate()
         let timer = SwiftSignalKit.Timer(timeout: timeout, repeat: false, completion: { [weak self] in
             guard let self, token == self.generation else { return }
             self.timer = nil
@@ -410,34 +281,16 @@ final class NagramiXProxyFailoverController {
         timer.start()
     }
 
-    private func cancelTimer() {
+    private func invalidate() {
+        _ = self.cancellation.swap(true)
+        self.generation &+= 1
         self.timer?.invalidate()
         self.timer = nil
-    }
-
-    private func invalidate(suppressCurrent: Bool) {
-        let active = self.settings.activeServer
-        self.generation &+= 1
-        self.cancelTimer()
         self.healthSnapshotDisposable?.dispose()
         self.healthSnapshotDisposable = nil
-        self.probeDisposable?.dispose()
-        self.probeDisposable = nil
         self.applyDisposable?.dispose()
         self.applyDisposable = nil
         self.phase = .idle
-        self.suppressedServer = suppressCurrent ? active : nil
-        if NagramiXProxyFailoverController.owner === self {
-            NagramiXProxyFailoverController.owner = nil
-        }
-    }
-
-    private func uniqueServers(_ servers: [ProxyServerSettings]) -> [ProxyServerSettings] {
-        var result: [ProxyServerSettings] = []
-        var seen = Set<ProxyServerSettings>()
-        for server in servers where seen.insert(server).inserted {
-            result.append(server)
-        }
-        return result
+        if Self.owner === self { Self.owner = nil }
     }
 }

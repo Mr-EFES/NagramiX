@@ -716,13 +716,13 @@ public final class ItemListControllerTabBarItem: Equatable {
     replace_unique(
         proxy_statuses,
         "public init(network: Network, servers: Signal<[ProxyServerSettings], NoError>) {",
-        "public init(network: Network, servers: Signal<[ProxyServerSettings], NoError>, refreshEnabled: Signal<Bool, NoError> = .single(false)) {",
+        "public init(network: Network, servers: Signal<[ProxyServerSettings], NoError>, refreshEnabled: Signal<Bool, NoError> = .single(false), activeServer: Signal<ProxyServerSettings?, NoError> = .single(nil)) {",
         "Opt in to periodic proxy checks while enabled",
     )
     replace_unique(
         proxy_statuses,
         "return ProxyServersStatusesImpl(queue: queue, network: network, servers: servers)",
-        "return ProxyServersStatusesImpl(queue: queue, network: network, servers: servers, refreshEnabled: refreshEnabled)",
+        "return ProxyServersStatusesImpl(queue: queue, network: network, servers: servers, refreshEnabled: refreshEnabled, activeServer: activeServer)",
         "Pass automatic refresh state to the native checker",
     )
     replace_unique(
@@ -736,6 +736,10 @@ public final class ItemListControllerTabBarItem: Equatable {
         self.impl.with { $0.recheckAll(servers: servers) }
     }
 
+    public func refreshIfNeeded() {
+        self.impl.with { $0.refreshIfNeeded() }
+    }
+
     public func markUnavailable(_ server: ProxyServerSettings) {
         self.impl.with { $0.markUnavailable(server) }
     }
@@ -744,7 +748,7 @@ public final class ItemListControllerTabBarItem: Equatable {
         self.impl.with { $0.recordAvailable(server, roundTripTime: roundTripTime) }
     }
 
-    public func availableServers(maxAge: Double = 90.0) -> Signal<Set<ProxyServerSettings>, NoError> {
+    public func availableServers(maxAge: Double = 180.0) -> Signal<Set<ProxyServerSettings>, NoError> {
         return Signal { subscriber in
             self.impl.with { impl in
                 subscriber.putNext(impl.availableServers(maxAge: maxAge))
@@ -879,14 +883,13 @@ public final class ItemListControllerTabBarItem: Equatable {
         }).start()
     }, editServer: { server in""",
         """    }, activateServer: { server in
+        NotificationCenter.default.post(name: Notification.Name("NagramiXProxySelectionRequested"), object: nil)
         let _ = (accountManager.sharedData(keys: [SharedDataKeys.proxySettings])
         |> take(1)
         |> deliverOnMainQueue).start(next: { data in
             let settings = data.entries[SharedDataKeys.proxySettings]?.get(ProxySettings.self) ?? .defaultSettings
             guard settings.servers.contains(server) else { return }
-            if !settings.enabled {
-                updateNagramiXSettings { $0.proxyAutoSwitchEnabled = true }
-            }
+            updateNagramiXSettings { $0.proxyAutoSwitchEnabled = true }
             let _ = updateProxySettingsInteractively(accountManager: accountManager, { current in
                 var current = current
                 if current.servers.contains(server) {

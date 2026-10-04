@@ -5,7 +5,7 @@ private final class ProxyServerItemContext {
         self.disposable = (Signal<ProxyServerStatus, NoError> { subscriber in
             let disposable = MTProxyConnectivity.pingProxy(with: context, datacenterId: datacenterId, settings: server.mtProxySettings).start(next: { value in
                 if let value = value as? MTProxyConnectivityStatus {
-                    subscriber.putNext(value.reachable ? .available(value.roundTripTime) : .notAvailable)
+                    subscriber.putNext((value.reachable && value.roundTripTime.isFinite && value.roundTripTime >= 0.0 && value.roundTripTime <= 60.0) ? .available(value.roundTripTime) : .notAvailable)
                     subscriber.putCompletion()
                 }
             }, error: { _ in
@@ -37,25 +37,52 @@ final class ProxyServersStatusesImpl {
     private var serversDisposable: Disposable?
     private var refreshTimer: SwiftSignalKit.Timer?
     private var servers: [ProxyServerSettings] = []
+    private var activeServer: ProxyServerSettings?
     private var pending: [ProxyServerSettings] = []
     private var refreshEnabled = false
     private var networkAvailable = false
+    private var inForeground = true
+    private var manualPass = false
+    private var connectionIsOnline = false
+    private var lastPassStarted: TimeInterval = -Double.greatestFiniteMagnitude
+    private var foregroundObservers: [NSObjectProtocol] = []
     private var checkedAt: [ProxyServerSettings: TimeInterval] = [:]
     private var currentValues: [ProxyServerSettings: ProxyServerStatus] = [:] {
         didSet { self.values.set(.single(self.currentValues)) }
     }
     let values = Promise<[ProxyServerSettings: ProxyServerStatus]>([:])
 
-    init(queue: Queue, network: Network, servers: Signal<[ProxyServerSettings], NoError>, refreshEnabled: Signal<Bool, NoError>) {
+    init(queue: Queue, network: Network, servers: Signal<[ProxyServerSettings], NoError>, refreshEnabled: Signal<Bool, NoError>, activeServer: Signal<ProxyServerSettings?, NoError>) {
         self.queue = queue
         self.context = network.context
         self.datacenterId = network.datacenterId
-        self.serversDisposable = (combineLatest(servers, refreshEnabled, network.connectionStatus)
-        |> deliverOn(queue)).start(next: { [weak self] servers, refreshEnabled, connectionStatus in
+        // Observe application lifecycle without adding a UIKit dependency to
+        // TelegramCore; these are UIKit's public notification names.
+        for (name, foreground) in [("UIApplicationDidEnterBackgroundNotification", false), ("UIApplicationWillEnterForegroundNotification", true)] {
+            self.foregroundObservers.append(NotificationCenter.default.addObserver(forName: Notification.Name(name), object: nil, queue: nil, using: { [weak self] _ in
+                queue.async {
+                    guard let self else { return }
+                    self.inForeground = foreground
+                    if foreground {
+                        self.refreshIfNeeded()
+                    } else {
+                        self.manualPass = false
+                        self.lastPassStarted = -Double.greatestFiniteMagnitude
+                        self.cancelChecks()
+                    }
+                }
+            }))
+        }
+        self.serversDisposable = (combineLatest(servers, refreshEnabled, network.connectionStatus, activeServer)
+        |> deliverOn(queue)).start(next: { [weak self] servers, refreshEnabled, connectionStatus, activeServer in
             guard let self else { return }
             let previousServers = self.servers
+            let previousActive = self.activeServer
+            self.activeServer = activeServer
             let wasAvailable = self.networkAvailable
             let wasRefreshing = self.refreshEnabled
+            let wasOnline = self.connectionIsOnline
+            if case .online = connectionStatus { self.connectionIsOnline = true } else { self.connectionIsOnline = false }
             var seen = Set<ProxyServerSettings>()
             self.servers = servers.filter { seen.insert($0).inserted }
             self.refreshEnabled = refreshEnabled
@@ -72,14 +99,14 @@ final class ProxyServersStatusesImpl {
             self.pending.removeAll { !valid.contains($0) }
             self.checkedAt = self.checkedAt.filter { valid.contains($0.key) }
             var values = self.currentValues.filter { valid.contains($0.key) }
-            for server in self.servers where values[server] == nil { values[server] = .checking }
+            for server in self.servers where values[server] == nil { values[server] = refreshEnabled ? .checking : .notAvailable }
             self.currentValues = values
-            if !self.networkAvailable {
+            if !self.networkAvailable || !self.inForeground || (!refreshEnabled && !self.manualPass) {
                 self.cancelChecks()
-                self.checkedAt.removeAll()
+                if !self.networkAvailable { self.checkedAt.removeAll() }
                 return
             }
-            if !wasAvailable || (!wasRefreshing && refreshEnabled) {
+            if !wasAvailable || (!wasRefreshing && refreshEnabled) || previousActive != activeServer {
                 self.recheckAll(servers: self.servers, showChecking: false)
             } else {
                 for server in self.servers where !previousServers.contains(server) {
@@ -87,9 +114,10 @@ final class ProxyServersStatusesImpl {
                 }
                 self.startPending()
             }
-            if !refreshEnabled {
+            if wasOnline && !self.connectionIsOnline {
                 self.refreshTimer?.invalidate()
                 self.refreshTimer = nil
+                self.refreshIfNeeded()
             }
         })
     }
@@ -97,6 +125,7 @@ final class ProxyServersStatusesImpl {
     deinit {
         self.serversDisposable?.dispose()
         self.refreshTimer?.invalidate()
+        for observer in self.foregroundObservers { NotificationCenter.default.removeObserver(observer) }
     }
 
     func stop() {
@@ -105,6 +134,8 @@ final class ProxyServersStatusesImpl {
         self.serversDisposable = nil
         self.refreshEnabled = false
         self.networkAvailable = false
+        for observer in self.foregroundObservers { NotificationCenter.default.removeObserver(observer) }
+        self.foregroundObservers.removeAll()
         self.cancelChecks()
     }
 
@@ -112,6 +143,11 @@ final class ProxyServersStatusesImpl {
         self.contexts.removeAll()
         self.contextIds.removeAll()
         self.pending.removeAll()
+        var values = self.currentValues
+        for (server, value) in values {
+            if case .checking = value { values[server] = .notAvailable }
+        }
+        self.currentValues = values
         self.refreshTimer?.invalidate()
         self.refreshTimer = nil
     }
@@ -119,6 +155,8 @@ final class ProxyServersStatusesImpl {
     func recheckAll(servers: [ProxyServerSettings], showChecking: Bool = true) {
         assert(self.queue.isCurrent())
         self.cancelChecks()
+        self.manualPass = showChecking
+        self.lastPassStarted = ProcessInfo.processInfo.systemUptime
         var seen = Set<ProxyServerSettings>()
         let servers = servers.filter { self.servers.contains($0) && seen.insert($0).inserted }
         if showChecking {
@@ -129,8 +167,9 @@ final class ProxyServersStatusesImpl {
             }
             self.currentValues = values
         }
-        if self.networkAvailable {
-            self.pending = servers
+        if self.networkAvailable && self.inForeground && (self.refreshEnabled || self.manualPass) {
+            // Check the selected server first, before the 15-second deadline.
+            self.pending = servers.filter { $0 == self.activeServer } + servers.filter { $0 != self.activeServer }
         } else if showChecking {
             var values = self.currentValues
             for server in servers { values[server] = .notAvailable }
@@ -142,7 +181,7 @@ final class ProxyServersStatusesImpl {
     private func startPending() {
         assert(self.queue.isCurrent())
         // Two native probes at most, regardless of saved-list length.
-        while self.networkAvailable && self.contexts.count < 2 && !self.pending.isEmpty {
+        while self.networkAvailable && self.inForeground && (self.refreshEnabled || self.manualPass) && self.contexts.count < 2 && !self.pending.isEmpty {
             let server = self.pending.removeFirst()
             self.nextContextId &+= 1
             let contextId = self.nextContextId
@@ -160,14 +199,27 @@ final class ProxyServersStatusesImpl {
                 }
             })
         }
-        if self.pending.isEmpty && self.contexts.isEmpty && self.refreshEnabled && self.networkAvailable && !self.servers.isEmpty && self.refreshTimer == nil {
-            let timer = SwiftSignalKit.Timer(timeout: 60.0, repeat: false, completion: { [weak self] in
+        if self.pending.isEmpty && self.contexts.isEmpty { self.manualPass = false }
+        if self.pending.isEmpty && self.contexts.isEmpty && self.refreshEnabled && self.networkAvailable && self.inForeground && !self.servers.isEmpty && self.refreshTimer == nil {
+            // Two minutes while connected, faster recovery while connecting.
+            let timer = SwiftSignalKit.Timer(timeout: self.connectionIsOnline ? 120.0 : 30.0, repeat: false, completion: { [weak self] in
                 guard let self else { return }
                 self.refreshTimer = nil
                 self.recheckAll(servers: self.servers, showChecking: false)
             }, queue: self.queue)
             self.refreshTimer = timer
             timer.start()
+        }
+    }
+
+    func refreshIfNeeded() {
+        assert(self.queue.isCurrent())
+        guard self.refreshEnabled, self.networkAvailable, self.inForeground,
+              self.contexts.isEmpty, self.pending.isEmpty else { return }
+        if ProcessInfo.processInfo.systemUptime - self.lastPassStarted >= 30.0 {
+            self.recheckAll(servers: self.servers, showChecking: false)
+        } else {
+            self.startPending()
         }
     }
 
@@ -193,7 +245,8 @@ final class ProxyServersStatusesImpl {
 
     func recordAvailable(_ server: ProxyServerSettings, roundTripTime: Double) {
         assert(self.queue.isCurrent())
-        guard self.servers.contains(server), self.networkAvailable else { return }
+        guard self.servers.contains(server), self.networkAvailable, roundTripTime.isFinite,
+              roundTripTime >= 0.0 && roundTripTime <= 60.0 else { return }
         self.contexts.removeValue(forKey: server)
         self.contextIds.removeValue(forKey: server)
         self.pending.removeAll { $0 == server }
