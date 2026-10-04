@@ -59,7 +59,7 @@ private enum NagramiXSettingsSection: Int32 {
 }
 
 private enum NagramiXSettingsEntry: ItemListNodeEntry {
-    case search(String)
+    case search(String, sectionId: ItemListSectionId)
     case noSearchResults
     case searchHeader(Int32, String)
     case tabsHeader
@@ -123,8 +123,8 @@ private enum NagramiXSettingsEntry: ItemListNodeEntry {
 
     var section: ItemListSectionId {
         switch self {
-        case .search:
-            return -1
+        case let .search(_, sectionId):
+            return sectionId
         case .noSearchResults:
             return -1
         case let .searchHeader(sectionId, _):
@@ -205,7 +205,7 @@ private enum NagramiXSettingsEntry: ItemListNodeEntry {
     func item(presentationData: ItemListPresentationData, arguments: Any) -> ListViewItem {
         let arguments = arguments as! NagramiXSettingsControllerArguments
         switch self {
-        case let .search(query):
+        case let .search(query, _):
             return NagramiXSettingsSearchItem(presentationData: presentationData, query: query, sectionId: self.section, queryUpdated: arguments.updateSearchQuery)
         case .noSearchResults:
             return ItemListTextItem(presentationData: presentationData, text: .plain(presentationData.strings.nagramiXSettingsSearchNoResults), sectionId: self.section)
@@ -594,7 +594,10 @@ public func nagramiXSettingsController(context: AccountContext) -> ViewControlle
                 resultEntries = [.noSearchResults]
             }
         }
-        let entries: [NagramiXSettingsEntry] = [.search(searchQuery)] + resultEntries
+        // Share the first section to avoid the native 28 pt inter-section gap
+        // between the search field and its first heading.
+        let searchSectionId = resultEntries.first?.section ?? -1
+        let entries: [NagramiXSettingsEntry] = [.search(searchQuery, sectionId: searchSectionId)] + resultEntries
         let controllerState = ItemListControllerState(
             presentationData: ItemListPresentationData(presentationData),
             title: .equalSectionControl([

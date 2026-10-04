@@ -78,7 +78,9 @@ private final class NagramiXSettingsSearchItemNode: ListViewItemNode, ItemListIt
     }
 
     func update(item: NagramiXSettingsSearchItem, params: ListViewItemLayoutParams) -> ListViewItemNodeLayout {
-        return ListViewItemNodeLayout(contentSize: CGSize(width: params.width, height: 72.0), insets: UIEdgeInsets())
+        // The following native section title starts 7 pt into its item.
+        // Leave 11 pt below the field for an 18 pt visible gap.
+        return ListViewItemNodeLayout(contentSize: CGSize(width: params.width, height: 71.0), insets: UIEdgeInsets())
     }
 
     func apply(item: NagramiXSettingsSearchItem, params: ListViewItemLayoutParams) {
@@ -134,9 +136,9 @@ private final class NagramiXSettingsSearchItemNode: ListViewItemNode, ItemListIt
         }
 
         textField.frame = CGRect(
-            x: params.leftInset + 16.0,
+            x: params.leftInset,
             y: 12.0,
-            width: max(1.0, params.width - params.leftInset - params.rightInset - 32.0),
+            width: max(1.0, params.width - params.leftInset - params.rightInset),
             height: 48.0
         )
     }
