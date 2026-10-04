@@ -2131,10 +2131,9 @@ public final class ItemListControllerTabBarItem: Equatable {
                 }
                 strongSelf.viewOnce = false
 ''',
-        '''                } else if !sendMedia {
-                    // A cold-start camera or permission request can still be
-                    // pending. Invalidate it through the standard dismissal
-                    // path even before a recorder reaches the input panel.
+        '''                } else {
+                    // A released or interrupted gesture must invalidate the
+                    // pending video start, including permission callbacks.
                     if case .video = interfaceState.interfaceState.mediaRecordingMode {
                         interfaceInteraction.finishMediaRecording(.dismiss)
                     }
@@ -2142,6 +2141,58 @@ public final class ItemListControllerTabBarItem: Equatable {
                 strongSelf.viewOnce = false
 ''',
         "Cancel a pending round-video start before its recording state exists",
+    )
+
+    legacy_mic_header = source / "submodules" / "LegacyComponents" / "PublicHeaders" / "LegacyComponents" / "TGModernConversationInputMicButton.h"
+    replace_unique(
+        legacy_mic_header,
+        "@property (nonatomic) bool fadeDisabled;\n",
+        "@property (nonatomic) bool fadeDisabled;\n@property (nonatomic) bool cancelOnTrackingInterruption;\n",
+        "Opt-in cancellation of interrupted round-video gestures",
+    )
+    legacy_mic_button = source / "submodules" / "LegacyComponents" / "Sources" / "TGModernConversationInputMicButton.m"
+    replace_unique(
+        legacy_mic_button,
+        """- (void)cancelTrackingWithEvent:(UIEvent *)event
+{
+    if (_processCurrentTouch)
+""",
+        """- (void)cancelTrackingWithEvent:(UIEvent *)event
+{
+    if (self.cancelOnTrackingInterruption)
+    {
+        bool shouldCancel = _processCurrentTouch && !_locked;
+        _processCurrentTouch = false;
+        _targetTranslation = 0.0f;
+        _cancelTargetTranslation = 0.0f;
+        [super cancelTrackingWithEvent:event];
+        _yFeedbackOccured = false;
+        _xFeedbackOccured = false;
+        if (shouldCancel)
+        {
+            id<TGModernConversationInputMicButtonDelegate> delegate = _delegate;
+            if ([delegate respondsToSelector:@selector(micButtonInteractionCancelled:)])
+                [delegate micButtonInteractionCancelled:CGPointZero];
+        }
+        return;
+    }
+    if (_processCurrentTouch)
+""",
+        "Cancel interrupted video touch without scheduling a hands-free lock",
+    )
+    recording_button = source / "submodules" / "TelegramUI" / "Components" / "ChatTextInputMediaRecordingButton" / "Sources" / "ChatTextInputMediaRecordingButton.swift"
+    replace_unique(
+        recording_button,
+        """            self.mode = mode
+
+            self.updateAnimation(previousMode: previousMode)
+""",
+        """            self.mode = mode
+            self.cancelOnTrackingInterruption = mode == .video
+
+            self.updateAnimation(previousMode: previousMode)
+""",
+        "Use interruption cancellation only for round-video recording",
     )
 
     camera_output = source / "submodules" / "Camera" / "Sources" / "CameraOutput.swift"
