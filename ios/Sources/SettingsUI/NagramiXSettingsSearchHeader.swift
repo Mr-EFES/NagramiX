@@ -1,8 +1,8 @@
 import Foundation
+import UIKit
 import AsyncDisplayKit
 import Display
 import ItemListUI
-import SearchBarNode
 import SwiftSignalKit
 import TelegramPresentationData
 
@@ -55,64 +55,103 @@ final class NagramiXSettingsSearchItem: ListViewItem, ItemListItem {
     }
 }
 
-private final class NagramiXSettingsSearchItemNode: ListViewItemNode, ItemListItemNode {
+private final class NagramiXSettingsSearchTextField: UITextField {
+    override func textRect(forBounds bounds: CGRect) -> CGRect {
+        return super.textRect(forBounds: bounds).inset(by: UIEdgeInsets(top: 0.0, left: 0.0, bottom: 0.0, right: 12.0))
+    }
+
+    override func editingRect(forBounds bounds: CGRect) -> CGRect {
+        return super.editingRect(forBounds: bounds).inset(by: UIEdgeInsets(top: 0.0, left: 0.0, bottom: 0.0, right: 12.0))
+    }
+
+    override func clearButtonRect(forBounds bounds: CGRect) -> CGRect {
+        return super.clearButtonRect(forBounds: bounds).offsetBy(dx: -8.0, dy: 0.0)
+    }
+}
+
+private final class NagramiXSettingsSearchItemNode: ListViewItemNode, ItemListItemNode, UITextFieldDelegate {
     private var item: NagramiXSettingsSearchItem?
-    private var searchBarNode: SearchBarNode?
+    private var textField: NagramiXSettingsSearchTextField?
 
     var tag: ItemListItemTag? {
         return nil
     }
 
     func update(item: NagramiXSettingsSearchItem, params: ListViewItemLayoutParams) -> ListViewItemNodeLayout {
-        return ListViewItemNodeLayout(contentSize: CGSize(width: params.width, height: 64.0), insets: UIEdgeInsets())
+        return ListViewItemNodeLayout(contentSize: CGSize(width: params.width, height: 72.0), insets: UIEdgeInsets())
     }
 
     func apply(item: NagramiXSettingsSearchItem, params: ListViewItemLayoutParams) {
         self.item = item
 
-        let searchBarNode: SearchBarNode
-        if let current = self.searchBarNode {
-            searchBarNode = current
-            searchBarNode.updateThemeAndStrings(
-                theme: SearchBarNodeTheme(theme: item.presentationData.theme, hasBackground: false, hasSeparator: false, inline: true),
-                presentationTheme: item.presentationData.theme,
-                preferClearGlass: false,
-                strings: item.presentationData.strings
-            )
+        let textField: NagramiXSettingsSearchTextField
+        if let current = self.textField {
+            textField = current
         } else {
-            searchBarNode = SearchBarNode(
-                theme: SearchBarNodeTheme(theme: item.presentationData.theme, hasBackground: false, hasSeparator: false, inline: true),
-                presentationTheme: item.presentationData.theme,
-                preferClearGlass: false,
-                strings: item.presentationData.strings,
-                fieldStyle: .modern,
-                forceSeparator: false,
-                displayBackground: false
-            )
-            searchBarNode.hasCancelButton = false
-            searchBarNode.textUpdated = { [weak self] text, _ in
-                self?.item?.queryUpdated(text)
-            }
-            self.searchBarNode = searchBarNode
-            self.addSubnode(searchBarNode)
+            textField = NagramiXSettingsSearchTextField(frame: .zero)
+            textField.borderStyle = .none
+            textField.font = Font.regular(17.0)
+            textField.layer.cornerRadius = 24.0
+            textField.clipsToBounds = true
+            textField.clearButtonMode = .whileEditing
+            textField.autocorrectionType = .no
+            textField.autocapitalizationType = .none
+            textField.returnKeyType = .search
+            textField.delegate = self
+            textField.addTarget(self, action: #selector(self.textUpdated), for: .editingChanged)
+
+            let iconContainer = UIView(frame: CGRect(x: 0.0, y: 0.0, width: 44.0, height: 48.0))
+            iconContainer.isUserInteractionEnabled = false
+            iconContainer.isAccessibilityElement = false
+            let iconLabel = UILabel(frame: CGRect(x: 14.0, y: 0.0, width: 24.0, height: 48.0))
+            iconLabel.text = "🔍"
+            iconLabel.font = Font.regular(20.0)
+            iconLabel.textAlignment = .center
+            iconLabel.isAccessibilityElement = false
+            iconContainer.addSubview(iconLabel)
+            textField.leftView = iconContainer
+            textField.leftViewMode = .always
+            textField.accessibilityTraits = .searchField
+            textField.accessibilityIdentifier = "NagramiX.Settings.Search"
+
+            self.textField = textField
+            self.view.addSubview(textField)
         }
 
-        searchBarNode.placeholderString = NSAttributedString(
+        let theme = item.presentationData.theme.rootController.navigationSearchBar
+        textField.backgroundColor = theme.inputFillColor
+        textField.textColor = theme.inputTextColor
+        textField.tintColor = theme.accentColor
+        textField.keyboardAppearance = item.presentationData.theme.rootController.keyboardColor == .dark ? .dark : .light
+        textField.attributedPlaceholder = NSAttributedString(
             string: item.presentationData.strings.nagramiXSettingsSearch,
             font: Font.regular(17.0),
-            textColor: item.presentationData.theme.rootController.navigationSearchBar.inputPlaceholderTextColor
+            textColor: theme.inputPlaceholderTextColor
         )
-        if searchBarNode.text != item.query {
-            searchBarNode.text = item.query
+        textField.accessibilityLabel = item.presentationData.strings.nagramiXSettingsSearch
+        if textField.text != item.query {
+            textField.text = item.query
         }
 
-        let frame = CGRect(x: 0.0, y: 4.0, width: params.width, height: 56.0)
-        searchBarNode.frame = frame
-        searchBarNode.updateLayout(
-            boundingSize: frame.size,
-            leftInset: params.leftInset,
-            rightInset: params.rightInset,
-            transition: .immediate
+        textField.frame = CGRect(
+            x: params.leftInset + 16.0,
+            y: 12.0,
+            width: max(1.0, params.width - params.leftInset - params.rightInset - 32.0),
+            height: 48.0
         )
+    }
+
+    @objc private func textUpdated() {
+        self.item?.queryUpdated(self.textField?.text ?? "")
+    }
+
+    func textFieldShouldClear(_ textField: UITextField) -> Bool {
+        self.item?.queryUpdated("")
+        return true
+    }
+
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
     }
 }

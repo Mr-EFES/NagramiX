@@ -162,7 +162,7 @@
       "specification": "specified",
       "ios": {
         "implementation": "implemented",
-        "compile": "compile_passed",
+        "compile": "in_progress",
         "device": "device_pending"
       }
     }
