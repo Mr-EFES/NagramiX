@@ -8,6 +8,11 @@ on:
         type: boolean
         required: true
         default: false
+      prerelease:
+        description: Пометить публикацию как тестовую версию
+        type: boolean
+        required: true
+        default: true
 
 permissions:
   contents: read
@@ -179,6 +184,7 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
           RELEASE_VERSION: ${{ needs.build.outputs.version }}
+          RELEASE_PRERELEASE: ${{ inputs.prerelease }}
         shell: bash
         run: |
           set -euo pipefail
@@ -196,4 +202,8 @@ jobs:
             --notes-file "../product/releases/${RELEASE_VERSION}.md" --draft
           gh release upload "$tag" --repo "$GITHUB_REPOSITORY" \
             "NagramiX-${RELEASE_VERSION}-unsigned.ipa" BUILD-PROVENANCE.txt SHA256SUMS
-          gh release edit "$tag" --repo "$GITHUB_REPOSITORY" --draft=false --latest
+          if [ "$RELEASE_PRERELEASE" = true ]; then
+            gh release edit "$tag" --repo "$GITHUB_REPOSITORY" --draft=false --prerelease --latest=false
+          else
+            gh release edit "$tag" --repo "$GITHUB_REPOSITORY" --draft=false --prerelease=false --latest
+          fi
