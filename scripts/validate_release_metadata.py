@@ -23,13 +23,13 @@ def main() -> None:
     releases = sorted(p.name for p in (ROOT / "product/releases").glob("*.md"))
     if releases != [f"{version}.md"]:
         errors.append("Каталог аннотаций должен содержать только текущую версию")
-    for name in ["README.md", "docs/AI_HANDOFF.md", f"product/releases/{version}.md"]:
+    for name in ["README.md", "docs/AI_HANDOFF.md", ".gitignore", "LICENSE", f"product/releases/{version}.md"]:
         path = ROOT / name
         if not path.is_file() or f"NagramiX {version}" not in path.read_text():
             errors.append(f"Нет заголовка текущей версии: {name}")
     tracked = subprocess.check_output(["git", "ls-files", "-z"], cwd=ROOT).decode().split("\0")
     for name in tracked:
-        if not name.endswith(".md"):
+        if not name.endswith(".md") and name not in ("LICENSE", ".gitignore"):
             continue
         text = (ROOT / name).read_text()
         # Номера внешних компонентов проверяются отдельно, в upstream-аудите.

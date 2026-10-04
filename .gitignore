@@ -1,3 +1,5 @@
+# NagramiX 0.3.9 — временные файлы, артефакты и локальные секреты
+
 work/
 .DS_Store
 *.ipa
@@ -8,3 +10,11 @@ ios/generated-configuration.json
 .codex-*
 artifacts/
 outputs/
+
+# Локальные настройки окружения и секреты не публикуются
+.env
+.env.*
+!.env.example
+
+# Результаты локальных проверок
+.pytest_cache/
