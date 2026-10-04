@@ -4,10 +4,11 @@ NagramiX — overlay-репозиторий iPhone-клиента на закр�
 
 ## Подготовка
 
-1. Проверить pin командой `python3 scripts/check_upstreams.py --platform ios --require-current`.
-2. Получить `TELEGRAM_IOS_REF` из `ios/upstream.env` во временный каталог.
-3. Применить `python3 ios/apply_overlay.py --source <checkout> --configuration <temporary configuration.json>`.
-4. Проверить сгенерированные изменения и выполнить статические проверки.
+1. Проверить документацию командой `python3 scripts/validate_release_metadata.py`.
+2. Проверить pin командой `python3 scripts/check_upstreams.py --platform ios --require-current`.
+3. Получить `TELEGRAM_IOS_REF` из `ios/upstream.env` во временный каталог.
+4. Применить `python3 ios/apply_overlay.py --source <checkout> --configuration <temporary configuration.json>`.
+5. Проверить сгенерированные изменения и выполнить статические проверки.
 
 Нельзя коммитить checkout upstream, временные конфигурации и профили, результаты сборки или материалы подписи.
 
