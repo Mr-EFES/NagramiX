@@ -1,6 +1,8 @@
 # NagramiX 0.4.0
 
-Единственная рабочая ветка — `main`. Актуальная версия — **0.4.0**. Сборка и публикация этой версии разрешены пользователем; физическая проверка на iPhone ещё предстоит. Статус и сценарии: [docs/PENDING_RELEASE.md](docs/PENDING_RELEASE.md). Все аннотации и отчёты — на русском языке.
+Единственная рабочая ветка — `main`. Актуальная версия — **0.4.0**. Версия [опубликована](https://github.com/Mr-EFES/NagramiX/releases/tag/v0.4.0): нативная сборка **65** прошла, физическая проверка на iPhone ещё предстоит. Статус и сценарии: [docs/PENDING_RELEASE.md](docs/PENDING_RELEASE.md). Все аннотации и отчёты — на русском языке.
+
+[Скачать IPA 0.4.0](https://github.com/Mr-EFES/NagramiX/releases/download/v0.4.0/NagramiX-0.4.0-unsigned.ipa). Установка после внешней подписи через SideStore. Источник: `a2730925803c2984c1565feef65282cb7ce22347`; [сборка](https://github.com/Mr-EFES/NagramiX/actions/runs/37198280820).
 
 **NagramiX** — независимый, неофициальный и некоммерческий клиент Telegram для iPhone.
 
