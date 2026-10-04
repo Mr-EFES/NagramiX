@@ -152,8 +152,8 @@ public let defaultPresentationStrings = PresentationStrings(primaryComponent:"""
     replace_once(
         presentation_theme_settings,
         "PresentationThemeSettings(theme: .builtin(.dayClassic), themePreferredBaseTheme:",
-        "PresentationThemeSettings(theme: .builtin(.night), themePreferredBaseTheme:",
-        "Use Telegram's standard neutral night theme on a clean install",
+        "PresentationThemeSettings(theme: .builtin(.nightAccent), themePreferredBaseTheme:",
+        "Use Telegram's standard Tinted theme on a clean install",
     )
 
     presentation_data = source / "submodules" / "TelegramPresentationData" / "Sources" / "PresentationData.swift"
@@ -190,8 +190,8 @@ private func currentDateTimeFormat()""",
     replace_once(
         presentation_data,
         """    return PresentationData(strings: defaultPresentationStrings, theme: defaultPresentationTheme, autoNightModeTriggered: false, chatWallpaper: defaultPresentationTheme.chat.defaultWallpaper,""",
-        """    return PresentationData(strings: defaultPresentationStrings, theme: defaultDarkPresentationTheme, autoNightModeTriggered: false, chatWallpaper: defaultDarkPresentationTheme.chat.defaultWallpaper,""",
-        "Use Telegram's neutral night presentation before account settings load",
+        """    return PresentationData(strings: defaultPresentationStrings, theme: defaultDarkTintedPresentationTheme, autoNightModeTriggered: false, chatWallpaper: defaultDarkTintedPresentationTheme.chat.defaultWallpaper,""",
+        "Use Telegram's standard Tinted presentation before account settings load",
     )
 
     intro_controller = source / "submodules" / "RMIntro" / "Sources" / "platform" / "ios" / "RMIntroViewController.m"

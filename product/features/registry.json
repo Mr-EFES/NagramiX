@@ -8,7 +8,7 @@
   "features": [
     {
       "id": "clean_install_defaults",
-      "title": "Русский язык и стандартная серая тема при чистой установке",
+      "title": "Русский язык и стандартная тема Tinted при чистой установке",
       "specification": "specified",
       "ios": {
         "implementation": "implemented",
