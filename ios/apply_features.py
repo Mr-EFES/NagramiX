@@ -116,7 +116,8 @@ def apply_features(source: Path) -> None:
         """    public static let support = renderSettingsIcon(name: "Item List/Icons/Support", backgroundColors: [colorOrange])
     public static let faq = renderSettingsIcon(name: "Item List/Icons/Faq", backgroundColors: [colorLightBlue])
     public static let tips = renderSettingsIcon(name: "Item List/Icons/Tips", backgroundColors: [UIColor(rgb: 0xffcc02)])
-    public static let nagramiXFeatures = renderSettingsIcon(name: "Item List/Icons/NagramiXFeatures", backgroundColors: [colorPurple])
+    public static let nagramiXSettings = renderSettingsIcon(name: "Chat List/Tabs/IconSettings", scaleFactor: 0.72, backgroundColors: [colorBlue])
+    public static let nagramiXFeatures = renderSettingsIcon(name: "Item List/Icons/Tips", backgroundColors: [colorPurple])
     public static let nagramiXUpdates = renderSettingsIcon(name: "Item List/Icons/NagramiXUpdates", backgroundColors: [colorOrange])
 """,
         "NagramiX information block icons",
@@ -1821,7 +1822,7 @@ public final class ItemListControllerTabBarItem: Equatable {
         }))
 """ + "        \n" + """        if !settings.proxySettings.servers.isEmpty {
 """,
-        """        items[.nagramix]!.append(PeerInfoScreenDisclosureItem(id: 0, text: presentationData.strings.nagramiXSettingsTitle, icon: PresentationResourcesSettings.appearance, action: {
+        """        items[.nagramix]!.append(PeerInfoScreenDisclosureItem(id: 0, text: presentationData.strings.nagramiXSettingsTitle, icon: PresentationResourcesSettings.nagramiXSettings, action: {
             interaction.openSettings(.nagramix)
         }))
 
