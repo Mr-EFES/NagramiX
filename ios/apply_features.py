@@ -150,12 +150,10 @@ public let defaultPresentationStrings = PresentationStrings(primaryComponent:"""
     )
 
     presentation_theme_settings = source / "submodules" / "TelegramUIPreferences" / "Sources" / "PresentationThemeSettings.swift"
-    replace_once(
-        presentation_theme_settings,
-        "PresentationThemeSettings(theme: .builtin(.dayClassic), themePreferredBaseTheme:",
-        "PresentationThemeSettings(theme: .builtin(.nightAccent), themePreferredBaseTheme:",
-        "Use Telegram's standard Tinted theme on a clean install",
-    )
+    # Keep Telegram's native system-following defaults and all manual modes.
+    expected_system_defaults = "PresentationThemeSettings(theme: .builtin(.dayClassic), themePreferredBaseTheme: [:], themeSpecificAccentColors: [:], themeSpecificChatWallpapers: [:], useSystemFont: true, fontSize: .regular, listsFontSize: .regular, chatBubbleSettings: .default, automaticThemeSwitchSetting: AutomaticThemeSwitchSetting(force: false, trigger: .system, theme: .builtin(.night)), largeEmoji: true, reduceMotion: false)"
+    if presentation_theme_settings.read_text(encoding="utf-8").count(expected_system_defaults) != 1:
+        raise SystemExit("Pinned Telegram system-theme defaults no longer match")
 
     presentation_data = source / "submodules" / "TelegramPresentationData" / "Sources" / "PresentationData.swift"
     replace_once(
@@ -191,8 +189,10 @@ private func currentDateTimeFormat()""",
     replace_once(
         presentation_data,
         """    return PresentationData(strings: defaultPresentationStrings, theme: defaultPresentationTheme, autoNightModeTriggered: false, chatWallpaper: defaultPresentationTheme.chat.defaultWallpaper,""",
-        """    return PresentationData(strings: defaultPresentationStrings, theme: defaultDarkTintedPresentationTheme, autoNightModeTriggered: false, chatWallpaper: defaultDarkTintedPresentationTheme.chat.defaultWallpaper,""",
-        "Use Telegram's standard Tinted presentation before account settings load",
+        """    let systemIsDark = UIScreen.main.traitCollection.userInterfaceStyle == .dark
+    let initialTheme = systemIsDark ? defaultDarkPresentationTheme : defaultPresentationTheme
+    return PresentationData(strings: defaultPresentationStrings, theme: initialTheme, autoNightModeTriggered: systemIsDark, chatWallpaper: initialTheme.chat.defaultWallpaper,""",
+        "Follow the iOS appearance with standard Telegram themes before account settings load",
     )
 
     intro_controller = source / "submodules" / "RMIntro" / "Sources" / "platform" / "ios" / "RMIntroViewController.m"
