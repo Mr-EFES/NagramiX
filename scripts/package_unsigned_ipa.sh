@@ -32,6 +32,8 @@ final_name="$(/usr/libexec/PlistBuddy -c 'Print :CFBundleDisplayName' .nagramix-
 test "$final_name" = "NagramiX" || { echo "Unexpected final display name: $final_name" >&2; exit 1; }
 final_version="$(/usr/libexec/PlistBuddy -c 'Print :CFBundleShortVersionString' .nagramix-package/Payload/NagramiX.app/Info.plist)"
 test "$final_version" = "$TARGET_VERSION" || { echo "Unexpected final version: $final_version" >&2; exit 1; }
+final_region="$(/usr/libexec/PlistBuddy -c 'Print :CFBundleDevelopmentRegion' .nagramix-package/Payload/NagramiX.app/Info.plist)"
+test "$final_region" = "ru" || { echo "Unexpected development region: $final_region" >&2; exit 1; }
 (
   cd .nagramix-package
   /usr/bin/zip -qry "../$OUTPUT_PATH" Payload

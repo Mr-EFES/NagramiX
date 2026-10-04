@@ -160,6 +160,11 @@ def main() -> None:
     if not replace_text(build_file, old_fragment, new_fragment):
         raise SystemExit("Pinned CFBundleDisplayName fragment was not found")
 
+    old_region = "<key>CFBundleAllowMixedLocalizations</key>\n    <true/>\n    <key>CFBundleDevelopmentRegion</key>\n    <string>en</string>"
+    new_region = old_region.replace("<string>en</string>", "<string>ru</string>")
+    if not replace_text(build_file, old_region, new_region):
+        raise SystemExit("Pinned application development-region fragment was not found")
+
     # Build the device app with its real identifier and generated build-only
     # profiles. Extensions stay out of the first login checkpoint.
     make_file = source / "build-system" / "Make" / "Make.py"

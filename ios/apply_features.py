@@ -186,14 +186,6 @@ private func currentDateTimeFormat()""",
         "dictFromLocalization($0.localization, languageCode: $0.languageCode)",
     )
     presentation_data.write_text(presentation_data_text, encoding="utf-8")
-    replace_once(
-        presentation_data,
-        """    return PresentationData(strings: defaultPresentationStrings, theme: defaultPresentationTheme, autoNightModeTriggered: false, chatWallpaper: defaultPresentationTheme.chat.defaultWallpaper,""",
-        """    let systemIsDark = UIScreen.main.traitCollection.userInterfaceStyle == .dark
-    let initialTheme = systemIsDark ? defaultDarkPresentationTheme : defaultPresentationTheme
-    return PresentationData(strings: defaultPresentationStrings, theme: initialTheme, autoNightModeTriggered: systemIsDark, chatWallpaper: initialTheme.chat.defaultWallpaper,""",
-        "Follow the iOS appearance with standard Telegram themes before account settings load",
-    )
 
     intro_controller = source / "submodules" / "RMIntro" / "Sources" / "platform" / "ios" / "RMIntroViewController.m"
     replace_once(
@@ -350,6 +342,12 @@ private func currentDateTimeFormat()""",
     )
 
     network_source = source / "submodules" / "TelegramCore" / "Sources" / "Network" / "Network.swift"
+    replace_unique(
+        network_source,
+        'apiEnvironment = apiEnvironment.withUpdatedLangPackCode(languageCode ?? "en")',
+        'apiEnvironment = apiEnvironment.withUpdatedLangPackCode(languageCode ?? "ru")',
+        "Use Russian for the network language pack only when no language was selected",
+    )
     replace_once(
         network_source,
         """    public func dropConnectionStatus() {
@@ -3361,6 +3359,16 @@ public class StoryContainerScreen: ViewControllerComponentContainer, KeyShortcut
     )
 
     app_delegate = source / "submodules" / "TelegramUI" / "Sources" / "AppDelegate.swift"
+    replace_unique(
+        app_delegate,
+        """            if let traitCollection = window.rootViewController?.traitCollection {
+                systemUserInterfaceStyle = WindowUserInterfaceStyle(style: traitCollection.userInterfaceStyle)
+            }
+""",
+        """            systemUserInterfaceStyle = WindowUserInterfaceStyle(style: window.traitCollection.userInterfaceStyle)
+""",
+        "Read the system appearance from the window before its root controller exists",
+    )
     replace_once(
         app_delegate,
         """                var icons = [

@@ -582,8 +582,6 @@ public func nagramiXSettingsController(context: AccountContext) -> ViewControlle
     )
     let signal = combineLatest(queue: .mainQueue(), context.sharedContext.presentationData, settingsPromise.get(), categoryPromise.get(), searchQueryPromise.get())
     |> map { presentationData, settings, category, searchQuery -> (ItemListControllerState, (ItemListNodeState, Any)) in
-        var presentationData = presentationData
-        presentationData = presentationData.withUpdated(theme: presentationData.theme.withModalBlocksBackground())
         let normalizedQuery = nagramiXNormalizedSearchText(searchQuery)
         var resultEntries: [NagramiXSettingsEntry]
         if normalizedQuery.isEmpty {
