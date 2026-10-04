@@ -1,6 +1,8 @@
 # NagramiX 0.4.2
 
-Единственная рабочая ветка — `main`. Актуальная версия — **0.4.2**. Подготовлены исправления штатного оформления и русского языка при запуске; нативная сборка и публикация выполняются по команде пользователя. Статус: [docs/PENDING_RELEASE.md](docs/PENDING_RELEASE.md). Все аннотации и отчёты — на русском.
+Единственная рабочая ветка — `main`. Актуальная версия — **0.4.2**. Версия собрана и опубликована как обычный релиз, Latest. Нативные проверки прошли; новое оформление и холодный запуск ожидают проверки на iPhone. Статус: [docs/PENDING_RELEASE.md](docs/PENDING_RELEASE.md). Все аннотации и отчёты — на русском.
+
+[Скачать IPA 0.4.2](https://github.com/Mr-EFES/NagramiX/releases/download/v0.4.2/NagramiX-0.4.2-unsigned.ipa) · [Релиз](https://github.com/Mr-EFES/NagramiX/releases/tag/v0.4.2) · [Сборка №67](https://github.com/Mr-EFES/NagramiX/actions/runs/37230513623). Установка через внешнюю подпись, например SideStore. Исходный SHA `8ca39b000ed98256bca37dcfe9190408720d9aa0`.
 
 **NagramiX** — независимый, неофициальный и некоммерческий клиент Telegram для iPhone.
 
@@ -71,7 +73,7 @@ python3 scripts/check_upstreams.py --require-current
 
 ## Аннотация версии
 
-Полный актуальный состав и проверки 0.4.2: [`product/releases/0.4.2.md`](product/releases/0.4.2.md). Русская аннотация [GitHub Releases](https://github.com/Mr-EFES/NagramiX/releases) будет опубликована после успешной сборки. При смене версии одновременно обновляются все текущие описания, реестр функций и версия workflow; сведения о прошлой разработке остаются в Git-истории.
+Полный актуальный состав и проверки 0.4.2: [`product/releases/0.4.2.md`](product/releases/0.4.2.md). Русская аннотация [GitHub Releases](https://github.com/Mr-EFES/NagramiX/releases) опубликована. При смене версии одновременно обновляются все текущие описания, реестр функций и версия workflow; сведения о прошлой разработке остаются в Git-истории.
 
 ## Правовой статус
 
