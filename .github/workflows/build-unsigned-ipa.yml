@@ -2,23 +2,34 @@ name: Сборка неподписанного IPA NagramiX
 
 on:
   workflow_dispatch:
+    inputs:
+      publish_release:
+        description: Опубликовать релиз после успешной сборки
+        type: boolean
+        required: true
+        default: false
 
 permissions:
   contents: read
 
 jobs:
   build:
+    outputs:
+      version: ${{ steps.provenance.outputs.version }}
     runs-on: macos-26
     timeout-minutes: 180
     env:
       TELEGRAM_API_ID: ${{ secrets.TELEGRAM_API_ID }}
       TELEGRAM_API_HASH: ${{ secrets.TELEGRAM_API_HASH }}
       BAZEL_CACHE: ${{ github.workspace }}/.bazel-cache
-      NAGRAMIX_VERSION: 0.3.9
+      NAGRAMIX_VERSION: 0.4.0
 
     steps:
       - name: Получить overlay NagramiX
         uses: actions/checkout@v4
+
+      - name: Проверить метаданные релиза
+        run: python3 scripts/validate_release_metadata.py
 
       - name: Проверить актуальность официальной базы Telegram-iOS
         run: python3 scripts/check_upstreams.py --platform ios --require-current
@@ -128,10 +139,15 @@ jobs:
             "$NAGRAMIX_VERSION"
 
       - name: Записать происхождение сборки
+        id: provenance
         shell: bash
         run: |
           upstream_sha="$(git -C Telegram-iOS rev-parse HEAD)"
-          printf 'Telegram-iOS commit: %s\nNagramX reference: %s\n' "$upstream_sha" "$NAGRAMX_REFERENCE_REF" > BUILD-PROVENANCE.txt
+          printf 'NagramiX version: %s\nNagramiX commit: %s\nTelegram-iOS commit: %s\nWorkflow run: %s/%s/actions/runs/%s\n' \
+            "$NAGRAMIX_VERSION" "$GITHUB_SHA" "$upstream_sha" \
+            "$GITHUB_SERVER_URL" "$GITHUB_REPOSITORY" "$GITHUB_RUN_ID" > BUILD-PROVENANCE.txt
+          shasum -a 256 "NagramiX-${NAGRAMIX_VERSION}-unsigned.ipa" > SHA256SUMS
+          echo "version=$NAGRAMIX_VERSION" >> "$GITHUB_OUTPUT"
 
       - name: Загрузить неподписанный IPA
         uses: actions/upload-artifact@v4
@@ -140,5 +156,44 @@ jobs:
           path: |
             NagramiX-${{ env.NAGRAMIX_VERSION }}-unsigned.ipa
             BUILD-PROVENANCE.txt
+            SHA256SUMS
           if-no-files-found: error
           retention-days: 14
+
+  release:
+    name: Опубликовать релиз с проверенным IPA
+    needs: build
+    if: ${{ inputs.publish_release && github.ref == 'refs/heads/main' }}
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Получить аннотацию из исходного коммита сборки
+        uses: actions/checkout@v4
+      - name: Скачать результат этой сборки
+        uses: actions/download-artifact@v4
+        with:
+          name: NagramiX-${{ needs.build.outputs.version }}-unsigned-arm64
+          path: release-assets
+      - name: Проверить артефакт и опубликовать релиз
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RELEASE_VERSION: ${{ needs.build.outputs.version }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          cd release-assets
+          sha256sum --check SHA256SUMS
+          grep -Fx "NagramiX commit: $GITHUB_SHA" BUILD-PROVENANCE.txt
+          grep -Fx "NagramiX version: $RELEASE_VERSION" BUILD-PROVENANCE.txt
+          tag="v${RELEASE_VERSION}"
+          if gh release view "$tag" --repo "$GITHUB_REPOSITORY" >/dev/null 2>&1; then
+            echo "Релиз $tag уже существует; автоматическая замена запрещена."
+            exit 1
+          fi
+          gh release create "$tag" --repo "$GITHUB_REPOSITORY" \
+            --target "$GITHUB_SHA" --title "NagramiX ${RELEASE_VERSION}" \
+            --notes-file "../product/releases/${RELEASE_VERSION}.md" --draft
+          gh release upload "$tag" --repo "$GITHUB_REPOSITORY" \
+            "NagramiX-${RELEASE_VERSION}-unsigned.ipa" BUILD-PROVENANCE.txt SHA256SUMS
+          gh release edit "$tag" --repo "$GITHUB_REPOSITORY" --draft=false --latest

@@ -3,8 +3,8 @@
 ## Актуальные правила пользователя — 2026-10-04
 
 - Единственная рабочая ветка проекта — `main`; прежнее требование работать только в `NagramiX` отменено пользователем.
-- Опубликованная версия — 0.3.9; сохранять все её реализованные функции и защищённые пути ниже.
-- Все текущие исправления по умолчанию предназначены для следующей версии 0.4.0, даже если пользователь не называет версию отдельно. Не запускать сборку до отдельного запроса пользователя.
+- Актуальная версия разработки — 0.4.0; сохранять все реализованные функции и защищённые пути ниже.
+- Все текущие исправления относятся к 0.4.0. Пользователь разрешил сборку и публикацию этой версии 2026-10-04. Последующие сборки запускать по отдельной задаче.
 - Перед публикацией выполнить `python3 scripts/validate_release_metadata.py`.
 - При каждом изменении версии одновременно актуализировать README, `docs/AI_HANDOFF.md`, `product/releases/`, `product/features/registry.json`, версию workflow и аннотацию GitHub-релиза. В текущих документах описывать только актуальную версию и состояние; историю хранить в Git. Проверять всё отслеживаемое дерево на упоминания иных версий NagramiX и противоречивые сведения о ветках, PR, сборках и проверках.
 - Не выдавать существующий IPA за новый без проверки его исходного SHA. Версии Telegram-iOS и других внешних компонентов не являются версиями NagramiX.
@@ -57,7 +57,7 @@ The exact string anchors in `ios/apply_features.py` intentionally fail when the 
 
 ### Protected stable features
 
-The following iPhone behaviors were physically accepted in NagramiX 0.3.9 and are frozen. Do not refactor, rename preference keys, change defaults, move UI, or alter their Telegram integration unless a future user request explicitly names the specific feature to change:
+The following iPhone behaviors were physically accepted in the previous installed build and are frozen. Do not refactor, rename preference keys, change defaults, move UI, or alter their Telegram integration unless a future user request explicitly names the specific feature to change:
 
 - round videos starting directly on the rear camera;
 - per-story confirmation before viewing (including its approval/read-state gate);
