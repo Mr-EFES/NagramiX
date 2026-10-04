@@ -63,6 +63,12 @@ static BOOL NagramiXSkipDnsName(NSData *data, NSUInteger *offset) {
             if (cursor >= data.length) {
                 return NO;
             }
+            uint8_t low = 0;
+            [data getBytes:&low range:NSMakeRange(cursor, 1)];
+            NSUInteger target = ((NSUInteger)(length & 0x3f) << 8) | low;
+            if (target < 12 || target >= data.length) {
+                return NO;
+            }
             *offset = cursor + 1;
             return YES;
         }
@@ -77,7 +83,7 @@ static BOOL NagramiXSkipDnsName(NSData *data, NSUInteger *offset) {
 
 static NSData * _Nullable NagramiXMakeDnsQuery(NSString *hostname, uint16_t type, uint16_t identifier) {
     NSString *normalized = [hostname stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@"."]];
-    if (normalized.length == 0) {
+    if (normalized.length == 0 || [normalized lengthOfBytesUsingEncoding:NSUTF8StringEncoding] > 253) {
         return nil;
     }
     NSMutableData *data = [[NSMutableData alloc] init];
@@ -104,14 +110,14 @@ static NSData * _Nullable NagramiXMakeDnsQuery(NSString *hostname, uint16_t type
 }
 
 static NSString * _Nullable NagramiXParseDnsResponse(NSData *data, uint16_t identifier, uint16_t expectedType) {
-    if (data.length < 12) {
+    if (data.length < 12 || data.length > UINT16_MAX) {
         return nil;
     }
     uint16_t responseId = 0, flags = 0, questionCount = 0, answerCount = 0;
     if (!NagramiXReadUInt16(data, 0, &responseId) || !NagramiXReadUInt16(data, 2, &flags) || !NagramiXReadUInt16(data, 4, &questionCount) || !NagramiXReadUInt16(data, 6, &answerCount)) {
         return nil;
     }
-    if (responseId != identifier || (flags & 0x8000) == 0 || (flags & 0x000f) != 0) {
+    if (responseId != identifier || (flags & 0x8000) == 0 || (flags & 0x7a0f) != 0) {
         return nil;
     }
     NSUInteger offset = 12;
@@ -195,7 +201,7 @@ static NSString * _Nullable NagramiXParseDnsResponse(NSData *data, uint16_t iden
 + (MTSignal *)resolveHostname:(NSString *)hostname endpoint:(NSString *)endpoint {
     return [[MTSignal alloc] initWithGenerator:^id<MTDisposable>(MTSubscriber *subscriber) {
         NSURL *url = [NSURL URLWithString:endpoint];
-        if (url == nil || ![url.scheme.lowercaseString isEqualToString:@"https"] || url.host.length == 0) {
+        if (url == nil || ![url.scheme.lowercaseString isEqualToString:@"https"] || url.host.length == 0 || url.user != nil || url.password != nil) {
             [subscriber putError:NagramiXDnsError(2)];
             return nil;
         }
@@ -210,66 +216,98 @@ static NSString * _Nullable NagramiXParseDnsResponse(NSData *data, uint16_t iden
         __block BOOL cancelled = NO;
         __block NSURLSessionDataTask *currentTask = nil;
         __block void (^attempt)(NSUInteger) = nil;
-        NSArray<NSNumber *> *types = @[@1, @28];
+        // RFC 8484 GET first; keep POST for custom servers that require it.
+        NSArray<NSNumber *> *types = @[@1, @28, @1, @28];
 
         attempt = ^(NSUInteger index) {
             @synchronized (cancellationLock) {
                 if (cancelled) {
                     return;
                 }
-            }
-            if (index >= types.count) {
-                [session finishTasksAndInvalidate];
-                if (MTLogEnabled()) {
-                    MTLog(@"[NagramiXDNS resolution unavailable; connection will retry asynchronously]");
-                }
-                [subscriber putError:NagramiXDnsError(3)];
-                attempt = nil;
-                return;
-            }
-            uint16_t type = (uint16_t)types[index].unsignedIntegerValue;
-            uint16_t identifier = (uint16_t)arc4random_uniform(UINT16_MAX);
-            NSData *query = NagramiXMakeDnsQuery(hostname, type, identifier);
-            if (query == nil) {
-                [session invalidateAndCancel];
-                [subscriber putError:NagramiXDnsError(4)];
-                attempt = nil;
-                return;
-            }
-            NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:8.0];
-            request.HTTPMethod = @"POST";
-            request.HTTPBody = query;
-            [request setValue:@"application/dns-message" forHTTPHeaderField:@"Content-Type"];
-            [request setValue:@"application/dns-message" forHTTPHeaderField:@"Accept"];
-
-            currentTask = [session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-                @synchronized (cancellationLock) {
-                    if (cancelled) {
-                        return;
-                    }
-                }
-                NSHTTPURLResponse *httpResponse = [response isKindOfClass:[NSHTTPURLResponse class]] ? (NSHTTPURLResponse *)response : nil;
-                NSString *address = error == nil && httpResponse.statusCode == 200 ? NagramiXParseDnsResponse(data, identifier, type) : nil;
-                if (address.length != 0) {
+                if (index >= types.count) {
                     [session finishTasksAndInvalidate];
-                    [subscriber putNext:address];
-                    [subscriber putCompletion];
+                    if (MTLogEnabled()) {
+                        MTLog(@"[NagramiXDNS resolution unavailable; connection will retry asynchronously]");
+                    }
+                    [subscriber putError:NagramiXDnsError(3)];
                     attempt = nil;
-                } else {
-                    attempt(index + 1);
+                    return;
                 }
-            }];
-            [currentTask resume];
+                uint16_t type = (uint16_t)types[index].unsignedIntegerValue;
+                uint16_t identifier = 0; // RFC 8484: HTTP already correlates requests.
+                NSData *query = NagramiXMakeDnsQuery(hostname, type, identifier);
+                if (query == nil) {
+                    [session invalidateAndCancel];
+                    [subscriber putError:NagramiXDnsError(4)];
+                    attempt = nil;
+                    return;
+                }
+                BOOL useGet = index < 2;
+                NSURL *requestUrl = url;
+                if (useGet) {
+                    NSString *encoded = [[[query base64EncodedStringWithOptions:0] stringByReplacingOccurrencesOfString:@"+" withString:@"-"] stringByReplacingOccurrencesOfString:@"/" withString:@"_"];
+                    encoded = [encoded stringByReplacingOccurrencesOfString:@"=" withString:@""];
+                    NSURLComponents *components = [NSURLComponents componentsWithURL:url resolvingAgainstBaseURL:NO];
+                    NSMutableArray<NSURLQueryItem *> *items = [[NSMutableArray alloc] init];
+                    for (NSURLQueryItem *item in components.queryItems) {
+                        if (![item.name isEqualToString:@"dns"]) {
+                            [items addObject:item];
+                        }
+                    }
+                    [items addObject:[NSURLQueryItem queryItemWithName:@"dns" value:encoded]];
+                    components.queryItems = items;
+                    requestUrl = components.URL;
+                }
+                if (requestUrl == nil) {
+                    [session invalidateAndCancel];
+                    [subscriber putError:NagramiXDnsError(2)];
+                    attempt = nil;
+                    return;
+                }
+                NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:requestUrl cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:8.0];
+                request.HTTPMethod = useGet ? @"GET" : @"POST";
+                if (!useGet) {
+                    request.HTTPBody = query;
+                    [request setValue:@"application/dns-message" forHTTPHeaderField:@"Content-Type"];
+                }
+                [request setValue:@"application/dns-message" forHTTPHeaderField:@"Accept"];
+
+                currentTask = [session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+                    @synchronized (cancellationLock) {
+                        if (cancelled) {
+                            return;
+                        }
+                        NSHTTPURLResponse *httpResponse = [response isKindOfClass:[NSHTTPURLResponse class]] ? (NSHTTPURLResponse *)response : nil;
+                        NSString *address = error == nil && httpResponse.statusCode == 200 ? NagramiXParseDnsResponse(data, identifier, type) : nil;
+                        if (address.length != 0) {
+                            [session finishTasksAndInvalidate];
+                            [subscriber putNext:address];
+                            [subscriber putCompletion];
+                            attempt = nil;
+                        } else {
+                            // Copy under the same lock as cancellation. Calling a nil
+                            // block after timeout/disposal would crash the process.
+                            void (^nextAttempt)(NSUInteger) = attempt;
+                            if (nextAttempt != nil) {
+                                nextAttempt(index + 1);
+                            }
+                        }
+                    }
+                }];
+                [currentTask resume];
+            }
         };
-        attempt(0);
+        void (^initialAttempt)(NSUInteger) = attempt;
+        initialAttempt(0);
 
         return [[MTBlockDisposable alloc] initWithBlock:^{
             @synchronized (cancellationLock) {
                 cancelled = YES;
+                [currentTask cancel];
+                [session invalidateAndCancel];
+                currentTask = nil;
+                attempt = nil;
             }
-            [currentTask cancel];
-            [session invalidateAndCancel];
-            attempt = nil;
         }];
     }];
 }

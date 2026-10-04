@@ -50,6 +50,10 @@ final class NagramiXProxyFailoverController {
     private let queue = NagramiXProxyFailoverController.sharedQueue
     private var accountManager: AccountManager<TelegramAccountManagerTypes>?
     private var network: Network?
+    private var healthMonitor: ProxyServersStatuses?
+    private var healthDisposable: Disposable?
+    private var healthSnapshotDisposable: Disposable?
+    private var configuredTimeout = NagramiXNetworkSettingsBridge.proxyAutoSwitchTimeout
     private var settingsDisposable: Disposable?
     private var statusDisposable: Disposable?
     private var applyDisposable: Disposable?
@@ -72,9 +76,25 @@ final class NagramiXProxyFailoverController {
             self.stopInternal()
             self.accountManager = accountManager
             self.network = network
-            self.settingsDisposable = (accountManager.sharedData(keys: [SharedDataKeys.proxySettings])
-            |> deliverOn(self.queue)).start(next: { [weak self] data in
-                self?.updateSettings(data.entries[SharedDataKeys.proxySettings]?.get(ProxySettings.self) ?? .defaultSettings)
+            let proxySettings = accountManager.sharedData(keys: [SharedDataKeys.proxySettings])
+            |> map { $0.entries[SharedDataKeys.proxySettings]?.get(ProxySettings.self) ?? .defaultSettings }
+            let healthMonitor = ProxyServersStatuses(network: network, servers: proxySettings |> map { $0.servers }, refreshEnabled: proxySettings |> map { $0.enabled })
+            self.healthMonitor = healthMonitor
+            _ = network.nagramiXProxyStatuses.swap(healthMonitor)
+            self.healthDisposable = (healthMonitor.statuses() |> deliverOn(self.queue)).start(next: { [weak self] statuses in
+                guard let self, let suppressed = self.suppressedServer else { return }
+                if statuses.contains(where: { server, status in
+                    guard server != suppressed else { return false }
+                    if case .available = status { return true }
+                    return false
+                }) {
+                    self.suppressedServer = nil
+                    self.reevaluate()
+                }
+            })
+            self.settingsDisposable = (proxySettings
+            |> deliverOn(self.queue)).start(next: { [weak self] value in
+                self?.updateSettings(value)
             })
             self.statusDisposable = (network.connectionStatus
             |> deliverOn(self.queue)).start(next: { [weak self] status in
@@ -83,9 +103,11 @@ final class NagramiXProxyFailoverController {
             self.observer = NotificationCenter.default.addObserver(forName: NagramiXNetworkSettingsBridge.changedNotification, object: nil, queue: nil, using: { [weak self] _ in
                 self?.queue.async {
                     guard let self else { return }
-                    if !NagramiXNetworkSettingsBridge.proxyAutoSwitchEnabled {
+                    let timeout = NagramiXNetworkSettingsBridge.proxyAutoSwitchTimeout
+                    if !NagramiXNetworkSettingsBridge.proxyAutoSwitchEnabled || timeout != self.configuredTimeout {
                         self.invalidate(suppressCurrent: false)
                     }
+                    self.configuredTimeout = timeout
                     self.reevaluate()
                 }
             })
@@ -93,11 +115,18 @@ final class NagramiXProxyFailoverController {
     }
 
     func stop() {
-        self.queue.async { [weak self] in self?.stopInternal() }
+        self.queue.async { self.stopInternal() }
     }
 
     private func stopInternal() {
         self.invalidate(suppressCurrent: false)
+        self.healthDisposable?.dispose()
+        self.healthDisposable = nil
+        if let network = self.network, let monitor = self.healthMonitor {
+            _ = network.nagramiXProxyStatuses.modify { $0 === monitor ? nil : $0 }
+        }
+        self.healthMonitor?.stop()
+        self.healthMonitor = nil
         self.settingsDisposable?.dispose()
         self.settingsDisposable = nil
         self.statusDisposable?.dispose()
@@ -132,26 +161,10 @@ final class NagramiXProxyFailoverController {
             self.didLogNetworkUnavailable = false
             self.suppressedServer = nil
             self.invalidate(suppressCurrent: false)
-        case let .connecting(_, hasProxyIssues):
-            if hasProxyIssues {
-                if case let .connecting(origin, candidates, index, candidate, token) = self.phase,
-                   self.settings.activeServer == candidate,
-                   token == self.generation {
-                    // ConnectionsManager has confirmed that the candidate itself
-                    // cannot establish a proxy connection. Do not wait for the
-                    // secondary timeout and never retry this candidate in the
-                    // same failover generation.
-                    self.check(origin: origin, candidates: candidates, index: index + 1, token: token)
-                }
-            } else {
-                switch self.phase {
-                case .applying(_, _, _, _, _), .connecting(_, _, _, _, _), .restoring(_, _, _):
-                    break
-                default:
-                    self.suppressedServer = nil
-                    self.invalidate(suppressCurrent: false)
-                }
-            }
+        case .connecting:
+            // The issue flag is delayed and can oscillate. Neither it nor
+            // repeated connecting events may restart the user's deadline.
+            self.didLogNetworkUnavailable = false
         case .waitingForNetwork:
             if !self.didLogNetworkUnavailable {
                 self.didLogNetworkUnavailable = true
@@ -182,7 +195,7 @@ final class NagramiXProxyFailoverController {
             self.invalidate(suppressCurrent: false)
             return
         }
-        guard case let .connecting(_, hasIssues) = self.status, hasIssues,
+        guard case .connecting = self.status,
               self.suppressedServer != active,
               case .idle = self.phase,
               NagramiXProxyFailoverController.owner == nil || NagramiXProxyFailoverController.owner === self else {
@@ -197,8 +210,7 @@ final class NagramiXProxyFailoverController {
                   case let .waiting(origin, phaseToken) = self.phase,
                   phaseToken == token,
                   self.settings.activeServer == origin,
-                  case let .connecting(_, stillFailing) = self.status,
-                  stillFailing else { return }
+                  case .connecting = self.status else { return }
             self.begin(origin: origin, servers: servers, token: token)
         }
     }
@@ -213,7 +225,24 @@ final class NagramiXProxyFailoverController {
             self.invalidate(suppressCurrent: true)
             return
         }
-        self.check(origin: origin, candidates: candidates, index: 0, token: token)
+        self.healthMonitor?.markUnavailable(origin)
+        if let monitor = self.healthMonitor {
+            self.healthSnapshotDisposable = (monitor.availableServers() |> take(1) |> deliverOn(self.queue)).start(next: { [weak self] available in
+                guard let self, token == self.generation else { return }
+                self.healthSnapshotDisposable = nil
+                let reachable = candidates.filter { available.contains($0) }
+                // Go directly to a recently verified reserve at the deadline.
+                // Keep unchecked candidates afterwards in case reserves fail.
+                let ordered = reachable + candidates.filter { !available.contains($0) }
+                if let candidate = reachable.first {
+                    self.apply(origin: origin, candidates: ordered, index: 0, candidate: candidate, token: token)
+                } else {
+                    self.check(origin: origin, candidates: ordered, index: 0, token: token)
+                }
+            })
+        } else {
+            self.check(origin: origin, candidates: candidates, index: 0, token: token)
+        }
     }
 
     private func check(origin: ProxyServerSettings, candidates: [ProxyServerSettings], index: Int, token: UInt64) {
@@ -222,7 +251,20 @@ final class NagramiXProxyFailoverController {
             self.restoreOriginIfNeededOrInvalidate(suppressCurrent: false)
             return
         }
-        self.checkAvailableCandidate(origin: origin, candidates: candidates, index: index, token: token, network: network)
+        if let monitor = self.healthMonitor, index < candidates.count {
+            self.healthSnapshotDisposable?.dispose()
+            self.healthSnapshotDisposable = (monitor.availableServers() |> take(1) |> deliverOn(self.queue)).start(next: { [weak self] available in
+                guard let self, token == self.generation else { return }
+                self.healthSnapshotDisposable = nil
+                if let nextIndex = candidates.indices.first(where: { $0 >= index && available.contains(candidates[$0]) }) {
+                    self.apply(origin: origin, candidates: candidates, index: nextIndex, candidate: candidates[nextIndex], token: token)
+                } else {
+                    self.checkAvailableCandidate(origin: origin, candidates: candidates, index: index, token: token, network: network)
+                }
+            })
+        } else {
+            self.checkAvailableCandidate(origin: origin, candidates: candidates, index: index, token: token, network: network)
+        }
     }
 
     private func checkAvailableCandidate(origin: ProxyServerSettings, candidates: [ProxyServerSettings], index: Int, token: UInt64, network: Network) {
@@ -250,9 +292,11 @@ final class NagramiXProxyFailoverController {
                 self.probeDisposable?.dispose()
                 self.probeDisposable = nil
                 guard let status = result as? MTProxyConnectivityStatus, status.reachable else {
+                    self.healthMonitor?.markUnavailable(candidate)
                     self.check(origin: origin, candidates: candidates, index: index + 1, token: token)
                     return
                 }
+                self.healthMonitor?.recordAvailable(candidate, roundTripTime: status.roundTripTime)
                 self.apply(origin: origin, candidates: candidates, index: index, candidate: candidate, token: token)
             }
         }, error: { [weak self] _ in
@@ -318,11 +362,17 @@ final class NagramiXProxyFailoverController {
 
     private func apply(origin: ProxyServerSettings, candidates: [ProxyServerSettings], index: Int, candidate: ProxyServerSettings, token: UInt64) {
         guard token == self.generation, let accountManager = self.accountManager else { return }
+        let expectedServer = self.settings.activeServer
         self.phase = .applying(origin: origin, candidates: candidates, index: index, candidate: candidate, token: token)
         self.applyDisposable?.dispose()
         self.applyDisposable = (updateProxySettingsInteractively(accountManager: accountManager, { current in
+            // A queued transaction must not undo a manual selection, deletion
+            // or Use Proxy being switched off while the probe completed.
+            guard NagramiXNetworkSettingsBridge.proxyAutoSwitchEnabled,
+                  current.enabled, current.activeServer == expectedServer, current.servers.contains(candidate) else {
+                return current
+            }
             var current = current
-            current.enabled = true
             current.activeServer = candidate
             return current
         }) |> deliverOn(self.queue)).start(next: { [weak self] changed in
@@ -342,6 +392,7 @@ final class NagramiXProxyFailoverController {
                 if case .online = self.status, self.settings.activeServer == candidate {
                     self.invalidate(suppressCurrent: false)
                 } else {
+                    self.healthMonitor?.markUnavailable(candidate)
                     self.check(origin: origin, candidates: candidates, index: index + 1, token: token)
                 }
             }
@@ -368,6 +419,8 @@ final class NagramiXProxyFailoverController {
         let active = self.settings.activeServer
         self.generation &+= 1
         self.cancelTimer()
+        self.healthSnapshotDisposable?.dispose()
+        self.healthSnapshotDisposable = nil
         self.probeDisposable?.dispose()
         self.probeDisposable = nil
         self.applyDisposable?.dispose()

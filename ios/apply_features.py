@@ -415,6 +415,13 @@ private func currentDateTimeFormat()""",
         "Start the process-wide proxy failover controller outside UI lifecycle",
     )
 
+    replace_unique(
+        network_source,
+        "public final class Network: NSObject, MTRequestMessageServiceDelegate {\n",
+        "public final class Network: NSObject, MTRequestMessageServiceDelegate {\n    public let nagramiXProxyStatuses = Atomic<ProxyServersStatuses?>(value: nil)\n",
+        "Share proxy health checks safely between the account and its settings UI",
+    )
+
     settings_controller_source = overlay / "Sources" / "SettingsUI" / "NagramiXSettingsController.swift"
     settings_controller_target = source / "submodules" / "SettingsUI" / "Sources" / settings_controller_source.name
     shutil.copy2(settings_controller_source, settings_controller_target)
@@ -699,155 +706,56 @@ public final class ItemListControllerTabBarItem: Equatable {
     shutil.copy2(telegram_core_overlay, telegram_core_target)
 
     proxy_statuses = source / "submodules" / "TelegramCore" / "Sources" / "Network" / "ProxyServersStatuses.swift"
-    replace_once(
+    replace_between(
         proxy_statuses,
-        """            let disposable = MTProxyConnectivity.pingProxy(with: context, datacenterId: datacenterId, settings: server.mtProxySettings).start(next: { next in
-                if let next = next as? MTProxyConnectivityStatus {
-                    if !next.reachable {
-                        subscriber.putNext(.notAvailable)
-                    } else {
-                        subscriber.putNext(.available(next.roundTripTime))
-                    }
-                }
-            })
-""",
-        """            let disposable = MTProxyConnectivity.pingProxy(with: context, datacenterId: datacenterId, settings: server.mtProxySettings).start(next: { next in
-                if let next = next as? MTProxyConnectivityStatus {
-                    if !next.reachable {
-                        subscriber.putNext(.notAvailable)
-                    } else {
-                        subscriber.putNext(.available(next.roundTripTime))
-                    }
-                }
-            }, error: { _ in
-                subscriber.putNext(.notAvailable)
-            }, completed: {
-            })
-""",
-        "Treat offline and DNS proxy-check failures as unavailable results",
+        "private final class ProxyServerItemContext {",
+        "public final class ProxyServersStatuses {",
+        (overlay / "Sources" / "TelegramCore" / "ProxyServersStatuses.swift.inc").read_text(encoding="utf-8"),
+        "Bound native proxy checks and retain fresh results outside the UI",
     )
-    replace_once(
+    replace_unique(
         proxy_statuses,
-        """final class ProxyServersStatusesImpl {
-    private let queue: Queue
-\x20\x20\x20\x20
-    private var contexts: [ProxyServerSettings: ProxyServerItemContext] = [:]
-""",
-        """final class ProxyServersStatusesImpl {
-    private let queue: Queue
-    private let context: MTContext
-    private let datacenterId: Int
-
-    private var contexts: [ProxyServerSettings: ProxyServerItemContext] = [:]
-    private var contextIds: [ProxyServerSettings: Int64] = [:]
-    private var nextContextId: Int64 = 0
-""",
-        "Retain native proxy checker inputs for manual refresh",
+        "public init(network: Network, servers: Signal<[ProxyServerSettings], NoError>) {",
+        "public init(network: Network, servers: Signal<[ProxyServerSettings], NoError>, refreshEnabled: Signal<Bool, NoError> = .single(false)) {",
+        "Opt in to periodic proxy checks while enabled",
     )
-    replace_once(
+    replace_unique(
         proxy_statuses,
-        """    init(queue: Queue, network: Network, servers: Signal<[ProxyServerSettings], NoError>) {
-        self.queue = queue
-\x20\x20\x20\x20\x20\x20\x20\x20
-""",
-        """    init(queue: Queue, network: Network, servers: Signal<[ProxyServerSettings], NoError>) {
-        self.queue = queue
-        self.context = network.context
-        self.datacenterId = network.datacenterId
-
-""",
-        "Capture native proxy checker context",
+        "return ProxyServersStatusesImpl(queue: queue, network: network, servers: servers)",
+        "return ProxyServersStatusesImpl(queue: queue, network: network, servers: servers, refreshEnabled: refreshEnabled)",
+        "Pass automatic refresh state to the native checker",
     )
-    replace_once(
+    replace_unique(
         proxy_statuses,
-        """                        if strongSelf.contexts[key] == nil {
-                            let context = ProxyServerItemContext(queue: strongSelf.queue, context: network.context, datacenterId: network.datacenterId, server: key, updated: { value in
-                                queue.async {
-                                    if let strongSelf = self {
-                                        strongSelf.contexts[key]?.value = value
-                                        strongSelf.updateValues()
-                                    }
-                                }
-                            })
-                            strongSelf.contexts[key] = context
-                        }
-""",
-        """                        if strongSelf.contexts[key] == nil {
-                            strongSelf.addContext(for: key)
-                        }
-""",
-        "Create proxy checks through a reusable native context helper",
-    )
-    replace_once(
-        proxy_statuses,
-        """                    for key in removeKeys {
-                        let _ = strongSelf.contexts.removeValue(forKey: key)
-                    }
-""",
-        """                    for key in removeKeys {
-                        let _ = strongSelf.contexts.removeValue(forKey: key)
-                        strongSelf.contextIds.removeValue(forKey: key)
-                    }
-""",
-        "Invalidate deleted proxy check callbacks",
-    )
-    replace_once(
-        proxy_statuses,
-        """    deinit {
-        self.serversDisposable?.dispose()
-    }
-\x20\x20\x20\x20
-    private func updateValues() {
-""",
-        """    deinit {
-        self.serversDisposable?.dispose()
+        "    public func statuses() -> Signal<[ProxyServerSettings: ProxyServerStatus], NoError> {",
+        """    public func stop() {
+        self.impl.with { $0.stop() }
     }
 
-    private func addContext(for server: ProxyServerSettings) {
-        assert(self.queue.isCurrent())
-        self.nextContextId &+= 1
-        let contextId = self.nextContextId
-        self.contextIds[server] = contextId
-        let queue = self.queue
-        let context = ProxyServerItemContext(queue: queue, context: self.context, datacenterId: self.datacenterId, server: server, updated: { [weak self] value in
-            queue.async {
-                if let strongSelf = self, strongSelf.contextIds[server] == contextId {
-                    strongSelf.contexts[server]?.value = value
-                    strongSelf.updateValues()
-                }
+    public func recheckAll(servers: [ProxyServerSettings]) {
+        self.impl.with { $0.recheckAll(servers: servers) }
+    }
+
+    public func markUnavailable(_ server: ProxyServerSettings) {
+        self.impl.with { $0.markUnavailable(server) }
+    }
+
+    public func recordAvailable(_ server: ProxyServerSettings, roundTripTime: Double) {
+        self.impl.with { $0.recordAvailable(server, roundTripTime: roundTripTime) }
+    }
+
+    public func availableServers(maxAge: Double = 90.0) -> Signal<Set<ProxyServerSettings>, NoError> {
+        return Signal { subscriber in
+            self.impl.with { impl in
+                subscriber.putNext(impl.availableServers(maxAge: maxAge))
+                subscriber.putCompletion()
             }
-        })
-        self.contexts[server] = context
-    }
-
-    func recheckAll(servers: [ProxyServerSettings]) {
-        assert(self.queue.isCurrent())
-        let servers = Array(Set(servers))
-        self.contexts.removeAll()
-        self.contextIds.removeAll()
-        self.currentValues = Dictionary(uniqueKeysWithValues: servers.map { ($0, ProxyServerStatus.checking) })
-        for server in servers {
-            self.addContext(for: server)
+            return EmptyDisposable
         }
     }
 
-    private func updateValues() {
-""",
-        "Add native batch proxy recheck implementation",
-    )
-    replace_once(
-        proxy_statuses,
-        """    public func statuses() -> Signal<[ProxyServerSettings: ProxyServerStatus], NoError> {
-""",
-        """    public func recheckAll(servers: [ProxyServerSettings]) {
-        self.impl.with { impl in
-            impl.recheckAll(servers: servers)
-        }
-    }
-
-    public func statuses() -> Signal<[ProxyServerSettings: ProxyServerStatus], NoError> {
-""",
-        "Expose native proxy batch recheck trigger",
+    public func statuses() -> Signal<[ProxyServerSettings: ProxyServerStatus], NoError> {""",
+        "Expose manual refresh and a fresh snapshot to failover",
     )
 
     settings_build = source / "submodules" / "SettingsUI" / "BUILD"
@@ -922,6 +830,82 @@ public final class ItemListControllerTabBarItem: Equatable {
 """,
         "Proxy settings persistent NagramiX state",
     )
+    replace_unique(
+        proxy_list,
+        """    let arguments = ProxySettingsControllerArguments(toggleEnabled: { value in
+        let _ = updateProxySettingsInteractively""",
+        """    let arguments = ProxySettingsControllerArguments(toggleEnabled: { value in
+        if value {
+            updateNagramiXSettings { $0.proxyAutoSwitchEnabled = true }
+        }
+        let _ = updateProxySettingsInteractively""",
+        "Enable automatic switching when Use Proxy is turned on",
+    )
+    replace_unique(
+        proxy_list,
+        """            current.enabled = value
+            return current""",
+        """            current.enabled = value
+            if value && current.activeServer == nil {
+                current.activeServer = current.servers.first
+            }
+            return current""",
+        "Select a saved proxy when enabling without an active server",
+    )
+    replace_unique(
+        proxy_list,
+        """            if current.activeServer != server {
+                if let _ = current.servers.firstIndex(of: server) {
+                    current.activeServer = server
+                    current.enabled = true
+                }
+            }""",
+        """            if current.servers.contains(server) {
+                current.activeServer = server
+                current.enabled = true
+            }""",
+        "A tap also enables an already selected disabled proxy",
+    )
+    replace_unique(
+        proxy_list,
+        """    }, activateServer: { server in
+        let _ = updateProxySettingsInteractively(accountManager: accountManager, { current in
+            var current = current
+            if current.servers.contains(server) {
+                current.activeServer = server
+                current.enabled = true
+            }
+            return current
+        }).start()
+    }, editServer: { server in""",
+        """    }, activateServer: { server in
+        let _ = (accountManager.sharedData(keys: [SharedDataKeys.proxySettings])
+        |> take(1)
+        |> deliverOnMainQueue).start(next: { data in
+            let settings = data.entries[SharedDataKeys.proxySettings]?.get(ProxySettings.self) ?? .defaultSettings
+            guard settings.servers.contains(server) else { return }
+            if !settings.enabled {
+                updateNagramiXSettings { $0.proxyAutoSwitchEnabled = true }
+            }
+            let _ = updateProxySettingsInteractively(accountManager: accountManager, { current in
+                var current = current
+                if current.servers.contains(server) {
+                    current.activeServer = server
+                    current.enabled = true
+                }
+                return current
+            }).start()
+        })
+    }, editServer: { server in""",
+        "Enable automatic switching when a row tap enables proxy use",
+    )
+    replace_unique(
+        proxy_list,
+        "    let statusesContext = ProxyServersStatuses(network: network, servers: proxySettings.get()",
+        "    let statusesContext = network.nagramiXProxyStatuses.with { $0 } ?? ProxyServersStatuses(network: network, servers: proxySettings.get()",
+        "Reuse account health results for the existing Check All button",
+    )
+
     replace_once(
         proxy_list,
         """        }).start()
