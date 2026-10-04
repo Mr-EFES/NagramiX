@@ -41,6 +41,8 @@ public struct NagramiXTabSettings: Equatable {
         static let hideCalls = "nagramix.tabs.hideCalls"
         static let showSearchButton = "nagramix.tabs.showSearchButton"
         static let wideChannelPosts = "nagramix.interface.wideChannelPosts"
+        static let showForwardWithoutAuthor = "nagramix.contextMenu.showForwardWithoutAuthor"
+        static let showSelectByAuthor = "nagramix.contextMenu.showSelectByAuthor"
         static let useRearCameraForVideoMessages = "nagramix.videoMessages.useRearCamera"
         static let hideStories = "nagramix.stories.hide"
         static let disableStoryCameraSwipe = "nagramix.stories.disableCameraSwipe"
@@ -67,6 +69,8 @@ public struct NagramiXTabSettings: Equatable {
     public var hideCalls: Bool
     public var showSearchButton: Bool
     public var wideChannelPosts: Bool
+    public var showForwardWithoutAuthor: Bool
+    public var showSelectByAuthor: Bool
     public var useRearCameraForVideoMessages: Bool
     public var hideStories: Bool
     public var disableStoryCameraSwipe: Bool
@@ -110,7 +114,9 @@ public struct NagramiXTabSettings: Equatable {
         forceTcpCalls: Bool,
         showDeletedMessages: Bool,
         deletedMessageLabel: String,
-        messageEditHistory: Bool
+        messageEditHistory: Bool,
+        showForwardWithoutAuthor: Bool = true,
+        showSelectByAuthor: Bool = true
     ) {
         self.hideContacts = hideContacts
         self.hideCalls = hideCalls
@@ -135,6 +141,8 @@ public struct NagramiXTabSettings: Equatable {
         self.showDeletedMessages = showDeletedMessages
         self.deletedMessageLabel = deletedMessageLabel
         self.messageEditHistory = messageEditHistory
+        self.showForwardWithoutAuthor = showForwardWithoutAuthor
+        self.showSelectByAuthor = showSelectByAuthor
     }
 
     public static var current: NagramiXTabSettings {
@@ -172,7 +180,9 @@ public struct NagramiXTabSettings: Equatable {
             forceTcpCalls: defaults.object(forKey: Key.forceTcpCalls) as? Bool ?? false,
             showDeletedMessages: defaults.object(forKey: Key.showDeletedMessages) as? Bool ?? false,
             deletedMessageLabel: self.normalizedDeletedMessageLabel(defaults.string(forKey: Key.deletedMessageLabel) ?? ""),
-            messageEditHistory: defaults.object(forKey: Key.messageEditHistory) as? Bool ?? false
+            messageEditHistory: defaults.object(forKey: Key.messageEditHistory) as? Bool ?? false,
+            showForwardWithoutAuthor: defaults.object(forKey: Key.showForwardWithoutAuthor) as? Bool ?? true,
+            showSelectByAuthor: defaults.object(forKey: Key.showSelectByAuthor) as? Bool ?? true
         )
     }
 
@@ -209,6 +219,8 @@ public struct NagramiXTabSettings: Equatable {
         value.deletedMessageLabel = self.normalizedDeletedMessageLabel(value.deletedMessageLabel)
         defaults.set(value.deletedMessageLabel, forKey: Key.deletedMessageLabel)
         defaults.set(value.messageEditHistory, forKey: Key.messageEditHistory)
+        defaults.set(value.showForwardWithoutAuthor, forKey: Key.showForwardWithoutAuthor)
+        defaults.set(value.showSelectByAuthor, forKey: Key.showSelectByAuthor)
         defaults.removeObject(forKey: Key.legacyShowProxySponsorChannel)
 
         NotificationCenter.default.post(name: self.changedNotification, object: nil)

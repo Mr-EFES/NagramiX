@@ -165,10 +165,14 @@
 "NagramiX.CallConfirmation.Action" = "Позвонить";
 "NagramiX.Context.ForwardWithAuthor" = "Переслать от";
 "NagramiX.Context.ForwardWithoutAuthor" = "Переслать без";
-"NagramiX.Context.SelectFromAuthor" = "Выбрать от автора";
+"NagramiX.Context.SelectFromAuthor" = "Выделить от автора";
 "NagramiX.Network.DataCenters" = "Дата-центры";
 "NagramiX.Profile.Id" = "ID профиля";
 "NagramiX.Profile.IdCopied" = "ID скопирован";
 "NagramiX.Profile.RegistrationDate" = "Регистрация";
 "NagramiX.Profile.RegistrationApproximate" = "Примерно %@ г.";
 "NagramiX.Common.Unknown" = "Неизвестно";
+
+"NagramiX.Settings.ContextMenu.Header" = "Контекстное меню";
+"NagramiX.Settings.ContextMenu.ForwardWithoutAuthor.Info" = "Показывать действие «Переслать без» в контекстном меню сообщений.";
+"NagramiX.Settings.ContextMenu.SelectByAuthor.Info" = "Показывать действие «Выделить от автора» в контекстном меню сообщений.";

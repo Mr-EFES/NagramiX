@@ -3577,14 +3577,16 @@ filegroup(
                     interfaceInteraction.forwardMessages(messagesToForward)
                     f(.dismissWithoutContent)
                 })))
-                let canForwardWithoutAuthor = interfaceInteraction.copyMessagesWithoutSource != nil
-                    && nagramiXCanCopyMessagesAsNew(messagesToForward)
-                actions.append(.action(ContextMenuActionItem(text: chatPresentationInterfaceState.strings.nagramiXForwardWithoutAuthor, textColor: canForwardWithoutAuthor ? .primary : .disabled, icon: { _ in
-                    return nil
-                }, iconAnimation: ContextMenuActionItem.IconAnimation(name: "message_preview_person_off"), action: !canForwardWithoutAuthor ? nil : { _, f in
-                    interfaceInteraction.copyMessagesWithoutSource?(messagesToForward)
-                    f(.dismissWithoutContent)
-                })))
+                if NagramiXTabSettings.current.showForwardWithoutAuthor {
+                    let canForwardWithoutAuthor = interfaceInteraction.copyMessagesWithoutSource != nil
+                        && nagramiXCanCopyMessagesAsNew(messagesToForward)
+                    actions.append(.action(ContextMenuActionItem(text: chatPresentationInterfaceState.strings.nagramiXForwardWithoutAuthor, textColor: canForwardWithoutAuthor ? .primary : .disabled, icon: { _ in
+                        return nil
+                    }, iconAnimation: ContextMenuActionItem.IconAnimation(name: "message_preview_person_off"), action: !canForwardWithoutAuthor ? nil : { _, f in
+                        interfaceInteraction.copyMessagesWithoutSource?(messagesToForward)
+                        f(.dismissWithoutContent)
+                    })))
+                }
 """,
         "Separate standard forwarding from safe copy-as-new sending",
     )
@@ -3760,7 +3762,7 @@ extension ChatControllerImpl {
         context_menus,
         """            if messages.count > 1 {
 """,
-        """            if let authorId = message.author?.id, interfaceInteraction.selectMessagesByAuthor != nil {
+        """            if NagramiXTabSettings.current.showSelectByAuthor, let authorId = message.author?.id, interfaceInteraction.selectMessagesByAuthor != nil {
                 if !actions.isEmpty && !didAddSeparator {
                     didAddSeparator = true
                     actions.append(.separator)

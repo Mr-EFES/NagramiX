@@ -20,6 +20,8 @@ private struct NagramiXSettingsControllerArguments {
     let updateHideCalls: (Bool) -> Void
     let updateShowSearchButton: (Bool) -> Void
     let updateWideChannelPosts: (Bool) -> Void
+    let updateShowForwardWithoutAuthor: (Bool) -> Void
+    let updateShowSelectByAuthor: (Bool) -> Void
     let updateShowProxyButton: (Bool) -> Void
     let updateHideProxySponsorChannel: (Bool) -> Void
     let updateUseRearCameraForVideoMessages: (Bool) -> Void
@@ -53,6 +55,7 @@ private enum NagramiXSettingsSection: Int32 {
     case messages
     case calls
     case other
+    case contextMenu
 }
 
 private enum NagramiXSettingsEntry: ItemListNodeEntry {
@@ -67,6 +70,11 @@ private enum NagramiXSettingsEntry: ItemListNodeEntry {
     case hideProxySponsorChannel(Bool)
     case chatsHeader
     case wideChannelPosts(Bool)
+    case contextMenuHeader
+    case showForwardWithoutAuthor(Bool)
+    case forwardWithoutAuthorInfo
+    case showSelectByAuthor(Bool)
+    case selectByAuthorInfo
     case videoMessagesHeader
     case useRearCameraForVideoMessages(Bool)
     case featureStoriesHeader
@@ -100,7 +108,8 @@ private enum NagramiXSettingsEntry: ItemListNodeEntry {
         case .search, .noSearchResults, .searchHeader:
             return .interface
         case .tabsHeader, .hideContacts, .hideCalls, .showSearchButton, .showProxyButton, .hideProxySponsorChannel, .chatsHeader, .wideChannelPosts,
-                .profilesHeader, .showProfileIds, .showRegistrationDate, .showMutualContactIcon:
+                .profilesHeader, .showProfileIds, .showRegistrationDate, .showMutualContactIcon,
+                .contextMenuHeader, .showForwardWithoutAuthor, .forwardWithoutAuthorInfo, .showSelectByAuthor, .selectByAuthorInfo:
             return .interface
         case .videoMessagesHeader, .useRearCameraForVideoMessages, .featureStoriesHeader, .hideStories, .disableStoryCameraSwipe,
                 .confirmStoryViewing, .enableStoryRepost, .callsHeader, .confirmOutgoingCalls:
@@ -124,6 +133,8 @@ private enum NagramiXSettingsEntry: ItemListNodeEntry {
             return NagramiXSettingsSection.tabs.rawValue
         case .chatsHeader, .wideChannelPosts:
             return NagramiXSettingsSection.chats.rawValue
+        case .contextMenuHeader, .showForwardWithoutAuthor, .forwardWithoutAuthorInfo, .showSelectByAuthor, .selectByAuthorInfo:
+            return NagramiXSettingsSection.contextMenu.rawValue
         case .videoMessagesHeader, .useRearCameraForVideoMessages:
             return NagramiXSettingsSection.videoMessages.rawValue
         case .featureStoriesHeader, .hideStories, .disableStoryCameraSwipe, .confirmStoryViewing, .enableStoryRepost:
@@ -152,6 +163,11 @@ private enum NagramiXSettingsEntry: ItemListNodeEntry {
         case .hideProxySponsorChannel: return 5
         case .chatsHeader: return 6
         case .wideChannelPosts: return 7
+        case .contextMenuHeader: return 80
+        case .showForwardWithoutAuthor: return 81
+        case .forwardWithoutAuthorInfo: return 82
+        case .showSelectByAuthor: return 83
+        case .selectByAuthorInfo: return 84
         case .videoMessagesHeader: return 10
         case .useRearCameraForVideoMessages: return 11
         case .hideStories: return 21
@@ -211,6 +227,16 @@ private enum NagramiXSettingsEntry: ItemListNodeEntry {
             return ItemListSectionHeaderItem(presentationData: presentationData, text: presentationData.strings.nagramiXChatsHeader, sectionId: self.section)
         case let .wideChannelPosts(value):
             return ItemListSwitchItem(presentationData: presentationData, systemStyle: .glass, title: presentationData.strings.nagramiXWideChannelPosts, value: value, sectionId: self.section, style: .blocks, updated: arguments.updateWideChannelPosts)
+        case .contextMenuHeader:
+            return ItemListSectionHeaderItem(presentationData: presentationData, text: presentationData.strings.nagramiXContextMenuHeader.uppercased(), sectionId: self.section)
+        case let .showForwardWithoutAuthor(value):
+            return ItemListSwitchItem(presentationData: presentationData, systemStyle: .glass, title: presentationData.strings.nagramiXForwardWithoutAuthor, value: value, sectionId: self.section, style: .blocks, updated: arguments.updateShowForwardWithoutAuthor)
+        case .forwardWithoutAuthorInfo:
+            return ItemListTextItem(presentationData: presentationData, text: .plain(presentationData.strings.nagramiXForwardWithoutAuthorInfo), sectionId: self.section)
+        case let .showSelectByAuthor(value):
+            return ItemListSwitchItem(presentationData: presentationData, systemStyle: .glass, title: presentationData.strings.nagramiXSelectFromAuthor, value: value, sectionId: self.section, style: .blocks, updated: arguments.updateShowSelectByAuthor)
+        case .selectByAuthorInfo:
+            return ItemListTextItem(presentationData: presentationData, text: .plain(presentationData.strings.nagramiXSelectByAuthorInfo), sectionId: self.section)
         case .videoMessagesHeader:
             return ItemListSectionHeaderItem(presentationData: presentationData, text: presentationData.strings.nagramiXVideoMessagesHeader, sectionId: self.section)
         case let .useRearCameraForVideoMessages(value):
@@ -295,7 +321,8 @@ private extension NagramiXSettingsEntry {
     var isSearchableSetting: Bool {
         switch self {
         case .search, .noSearchResults, .searchHeader, .tabsHeader, .chatsHeader, .videoMessagesHeader, .featureStoriesHeader, .profilesHeader, .callsHeader, .messagesHeader,
-                .forceTcpCallsInfo, .showDeletedMessagesInfo, .messageEditHistoryInfo, .messageArchiveInfo:
+                .forceTcpCallsInfo, .showDeletedMessagesInfo, .messageEditHistoryInfo, .messageArchiveInfo,
+                .contextMenuHeader, .forwardWithoutAuthorInfo, .selectByAuthorInfo:
             return false
         default:
             return true
@@ -315,6 +342,11 @@ private extension NagramiXSettingsEntry {
         case .hideProxySponsorChannel: return strings.nagramiXHideProxySponsorChannel
         case .chatsHeader: return strings.nagramiXChatsHeader
         case .wideChannelPosts: return strings.nagramiXWideChannelPosts
+        case .contextMenuHeader: return strings.nagramiXContextMenuHeader
+        case .showForwardWithoutAuthor: return strings.nagramiXForwardWithoutAuthor
+        case .forwardWithoutAuthorInfo: return strings.nagramiXForwardWithoutAuthorInfo
+        case .showSelectByAuthor: return strings.nagramiXSelectFromAuthor
+        case .selectByAuthorInfo: return strings.nagramiXSelectByAuthorInfo
         case .videoMessagesHeader: return strings.nagramiXVideoMessagesHeader
         case .useRearCameraForVideoMessages: return strings.nagramiXUseRearCamera
         case .featureStoriesHeader: return strings.nagramiXStoriesHeader
@@ -347,6 +379,10 @@ private extension NagramiXSettingsEntry {
 
     func description(strings: PresentationStrings) -> String {
         switch self {
+        case .showForwardWithoutAuthor:
+            return strings.nagramiXForwardWithoutAuthorInfo
+        case .showSelectByAuthor:
+            return strings.nagramiXSelectByAuthorInfo
         case .forceTcpCalls:
             return strings.nagramiXForceTcpCallsInfo
         case .showDeletedMessages:
@@ -368,6 +404,7 @@ private extension NagramiXSettingsEntry {
         switch self.section {
         case NagramiXSettingsSection.tabs.rawValue: return strings.nagramiXTabsHeader
         case NagramiXSettingsSection.chats.rawValue: return strings.nagramiXChatsHeader
+        case NagramiXSettingsSection.contextMenu.rawValue: return strings.nagramiXContextMenuHeader
         case NagramiXSettingsSection.videoMessages.rawValue: return strings.nagramiXVideoMessagesHeader
         case NagramiXSettingsSection.stories.rawValue: return strings.nagramiXStoriesHeader
         case NagramiXSettingsSection.profiles.rawValue: return strings.nagramiXProfilesHeader
@@ -428,6 +465,8 @@ private func nagramiXAllSettingsEntries(settings: NagramiXTabSettings) -> [Nagra
         .profilesHeader, .showProfileIds(settings.showProfileIds),
         .showRegistrationDate(settings.showRegistrationDate),
         .showMutualContactIcon(settings.showMutualContactIcon),
+        .contextMenuHeader, .showForwardWithoutAuthor(settings.showForwardWithoutAuthor), .forwardWithoutAuthorInfo,
+        .showSelectByAuthor(settings.showSelectByAuthor), .selectByAuthorInfo,
         .messagesHeader, .showDeletedMessages(settings.showDeletedMessages), .showDeletedMessagesInfo,
         .deletedMessageLabel(settings.deletedMessageLabel),
         .messageEditHistory(settings.messageEditHistory), .messageEditHistoryInfo,
@@ -465,6 +504,8 @@ public func nagramiXSettingsController(context: AccountContext) -> ViewControlle
         updateHideCalls: { value in update { $0.hideCalls = value } },
         updateShowSearchButton: { value in update { $0.showSearchButton = value } },
         updateWideChannelPosts: { value in update { $0.wideChannelPosts = value } },
+        updateShowForwardWithoutAuthor: { value in update { $0.showForwardWithoutAuthor = value } },
+        updateShowSelectByAuthor: { value in update { $0.showSelectByAuthor = value } },
         updateShowProxyButton: { value in update { $0.showProxyButton = value } },
         updateHideProxySponsorChannel: { value in update { $0.hideProxySponsorChannel = value } },
         updateUseRearCameraForVideoMessages: { value in update { $0.useRearCameraForVideoMessages = value } },

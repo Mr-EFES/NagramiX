@@ -165,6 +165,16 @@
         "compile": "in_progress",
         "device": "device_pending"
       }
+    },
+    {
+      "id": "context_menu_settings",
+      "title": "Видимость действий контекстного меню",
+      "specification": "specified",
+      "ios": {
+        "implementation": "implemented",
+        "compile": "in_progress",
+        "device": "device_pending"
+      }
     }
   ]
 }

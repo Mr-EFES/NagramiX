@@ -98,3 +98,7 @@
 "NagramiX.Profile.RegistrationDate" = "Registration";
 "NagramiX.Profile.RegistrationApproximate" = "Approximately %@";
 "NagramiX.Common.Unknown" = "Unknown";
+
+"NagramiX.Settings.ContextMenu.Header" = "Context Menu";
+"NagramiX.Settings.ContextMenu.ForwardWithoutAuthor.Info" = "Show Forward Without Author in the message context menu.";
+"NagramiX.Settings.ContextMenu.SelectByAuthor.Info" = "Show Select From Author in the message context menu.";
