@@ -47,6 +47,25 @@ def apply_features(source: Path) -> None:
 
     # Полный русский ресурс доступен до сети и авторизации. Нельзя
     # маскировать английские строки под русскую локализацию.
+    # These files must remain exactly as provided by the pinned Telegram checkout.
+    stock_appearance_paths = [
+        "submodules/TelegramUIPreferences/Sources/PresentationThemeSettings.swift",
+        "submodules/Display/Source/Font.swift",
+        "submodules/ItemListUI/Sources/ItemListControllerSegmentedTitleView.swift",
+        "submodules/TelegramUI/Components/HorizontalTabsComponent/Sources/HorizontalTabsComponent.swift",
+        "submodules/TelegramUI/Components/ChatThemeScreen/Sources/ChatThemeScreen.swift",
+        "submodules/TelegramUI/Components/Settings/ThemeSettingsThemeItem/Sources/ThemeSettingsThemeItem.swift",
+    ]
+    stock_appearance_paths += [
+        "submodules/TelegramPresentationData/Sources/" + name + ".swift"
+        for name in ("DefaultDayPresentationTheme", "DefaultDarkPresentationTheme", "DefaultDarkTintedPresentationTheme", "MakePresentationTheme", "PresentationTheme", "PresentationThemeCodable", "PresentationThemeCoder")
+    ]
+    stock_appearance_paths += [
+        "submodules/SettingsUI/Sources/Themes/" + name + ".swift"
+        for name in ("ThemeSettingsController", "ThemeSettingsAccentColorItem", "ThemeSettingsBrightnessItem", "ThemeSettingsChatPreviewItem", "ThemeSettingsFontSizeItem")
+    ]
+    stock_appearance = {name: (source / name).read_bytes() for name in stock_appearance_paths}
+
     english_app_strings = source / "Telegram" / "Telegram-iOS" / "en.lproj" / "Localizable.strings"
     russian_app_strings = source / "Telegram" / "Telegram-iOS" / "ru.lproj" / "Localizable.strings"
     russian_strings_text = (overlay / "Resources" / "ru.lproj" / "Localizable.strings").read_text(encoding="utf-8")
@@ -133,11 +152,11 @@ def apply_features(source: Path) -> None:
     replace_once(
         default_strings,
         """public let defaultPresentationStrings = PresentationStrings(primaryComponent:""",
-        """private func nagramiXDefaultRussianDictionary() -> [String: String] {
+        """let nagramiXDefaultRussianDictionary: [String: String] = {
     var dictionary = NSDictionary(contentsOf: URL(fileURLWithPath: getAppBundle().path(forResource: "Localizable", ofType: "strings", inDirectory: nil, forLocalization: "ru")!)) as! [String: String]
     dictionary["Common.Edit"] = "Изменить"
     return dictionary
-}
+}()
 
 public let defaultPresentationStrings = PresentationStrings(primaryComponent:""",
         "Override the abbreviated Russian Edit label in the default locale",
@@ -145,7 +164,7 @@ public let defaultPresentationStrings = PresentationStrings(primaryComponent:"""
     replace_once(
         default_strings,
         'dict: NSDictionary(contentsOf: URL(fileURLWithPath: getAppBundle().path(forResource: "Localizable", ofType: "strings", inDirectory: nil, forLocalization: "ru")!)) as! [String : String]), secondaryComponent:',
-        'dict: nagramiXDefaultRussianDictionary()), secondaryComponent:',
+        'dict: nagramiXDefaultRussianDictionary), secondaryComponent:',
         "Use the corrected Russian dictionary on clean install",
     )
 
@@ -161,6 +180,17 @@ public let defaultPresentationStrings = PresentationStrings(primaryComponent:"""
         "public func dictFromLocalization(_ value: Localization) -> [String: String] {",
         "public func dictFromLocalization(_ value: Localization, languageCode: String? = nil) -> [String: String] {",
         "Pass locale identity into downloaded localization conversion",
+    )
+    replace_unique(
+        presentation_data,
+        """    var dict: [String: String] = [:]
+    for entry in value.entries {""",
+        """    var dict: [String: String] = [:]
+    if languageCode?.lowercased().hasPrefix("ru") == true {
+        dict = nagramiXDefaultRussianDictionary
+    }
+    for entry in value.entries {""",
+        "Keep complete offline Russian strings underneath downloaded localization entries",
     )
     replace_once(
         presentation_data,
@@ -230,7 +260,7 @@ private func currentDateTimeFormat()""",
             self?.activateLocalization("en")
         }''',
         '''        self.controller.startMessaging = { [weak self] in
-            self?.activateLocalization("ru")
+            self?.activateDefaultLocalization()
         }''',
         "Keep the native welcome action on Russian",
     )
@@ -240,7 +270,7 @@ private func currentDateTimeFormat()""",
             self?.activateLocalization("en")
         }''',
         '''        self.startButton.pressed = { [weak self] in
-            self?.activateLocalization("ru")
+            self?.activateDefaultLocalization()
         }''',
         "Start authorization in Russian",
     )
@@ -252,12 +282,54 @@ private func currentDateTimeFormat()""",
         }
         let suggestedCode = self.suggestedLocalization.get()''',
         '''            } else {
-                return "ru"
+                return ""
             }
         }
         let suggestedCode = self.suggestedLocalization.get()''',
-        "Treat Russian as the absent-settings authorization locale",
+        "Download and persist Russian before authorization when no language is saved",
     )
+
+    replace_unique(
+        authorization_splash,
+        "    private func activateLocalization(_ code: String) {",
+        """    private func activateDefaultLocalization() {
+        let _ = (self.accountManager.transaction { transaction -> String in
+            return transaction.getSharedData(SharedDataKeys.localizationSettings)?.get(LocalizationSettings.self)?.primaryComponent.languageCode ?? "ru"
+        }
+        |> deliverOnMainQueue).start(next: { [weak self] code in
+            self?.activateLocalization(code)
+        })
+    }
+
+    private func activateLocalization(_ code: String) {""",
+        "Use Russian on first install while preserving a saved manual language for added accounts",
+    )
+
+    # Authorization and logged-in UI must agree about the missing-language default.
+    localization_updates = source / "submodules" / "TelegramCore" / "Sources" / "State" / "ManagedLocalizationUpdatesOperations.swift"
+    replace_unique(
+        localization_updates,
+        'return (primary: ("en", 0, []), secondary: nil)',
+        'return (primary: ("ru", 0, []), secondary: nil)',
+        "Synchronize Russian rather than English when no language preference exists",
+    )
+    localization_updates_text = localization_updates.read_text(encoding="utf-8")
+    missing_localization_default = 'LocalizationSettings(primaryComponent: LocalizationComponent(languageCode: "en", localizedName: "English", localization: Localization(version: 0, entries: []), customPluralizationCode: nil), secondaryComponent: nil)'
+    if localization_updates_text.count(missing_localization_default) != 2:
+        raise SystemExit("Pinned localization update defaults no longer match")
+    localization_updates.write_text(localization_updates_text.replace(
+        missing_localization_default,
+        missing_localization_default.replace('languageCode: "en", localizedName: "English"', 'languageCode: "ru", localizedName: "Русский"'),
+    ), encoding="utf-8")
+    authorization_splash_text = authorization_splash.read_text(encoding="utf-8")
+    authorization_splash_text = authorization_splash_text.replace(
+        "dictFromLocalization(localizationSettings.primaryComponent.localization)",
+        "dictFromLocalization(localizationSettings.primaryComponent.localization, languageCode: localizationSettings.primaryComponent.languageCode)",
+    ).replace(
+        "dictFromLocalization($0.localization)",
+        "dictFromLocalization($0.localization, languageCode: $0.languageCode)",
+    )
+    authorization_splash.write_text(authorization_splash_text, encoding="utf-8")
 
     core_source = overlay / "Sources" / "NagramiXCore"
     core_target = source / "submodules" / "NagramiXCore"
@@ -432,36 +504,32 @@ private func currentDateTimeFormat()""",
         "    case sectionControl([String], Int)\n    case equalSectionControl([String], Int)\n",
         "Equal-width NagramiX settings title mode",
     )
-    replace_once(
+    # Leave the stock sectionControl branch intact. Only NagramiX uses the custom view.
+    item_list_text = item_list_controller.read_text(encoding="utf-8")
+    section_start = "                            case let .sectionControl(sections, index):"
+    section_end = "                            case let .textWithTabs(title, sections, index):"
+    if item_list_text.count(section_start) != 1 or item_list_text.count(section_end) != 1:
+        raise SystemExit("Pinned stock section-control branch no longer matches")
+    stock_section = item_list_text[item_list_text.index(section_start):item_list_text.index(section_end)]
+    custom_section = stock_section.replace(".sectionControl(sections, index)", ".equalSectionControl(sections, index)").replace("segmentedTitleView", "nagramiXSegmentedTitleView").replace("ItemListControllerSegmentedTitleView", "NagramiXItemListControllerSegmentedTitleView").replace("selectedIndex: index)", "selectedIndex: index, fillsAvailableWidth: true)")
+    item_list_controller.write_text(item_list_text.replace(section_end, custom_section + section_end, 1), encoding="utf-8")
+    replace_unique(
         item_list_controller,
-        "                            case let .sectionControl(sections, index):\n",
-        "                            case let .sectionControl(sections, index), let .equalSectionControl(sections, index):\n",
-        "Handle equal-width NagramiX settings title mode",
+        "    private var segmentedTitleView: ItemListControllerSegmentedTitleView?",
+        "    private var segmentedTitleView: ItemListControllerSegmentedTitleView?\n    private var nagramiXSegmentedTitleView: NagramiXItemListControllerSegmentedTitleView?",
+        "Keep NagramiX title state separate from Telegram title state",
     )
-    replace_once(
+    replace_unique(
         item_list_controller,
-        "                                let segmentedTitleView = ItemListControllerSegmentedTitleView(theme: controllerState.presentationData.theme, segments: sections, selectedIndex: index)\n",
-        "                                let segmentedTitleView = ItemListControllerSegmentedTitleView(theme: controllerState.presentationData.theme, segments: sections, selectedIndex: index, fillsAvailableWidth: controllerState.title.isEqualSectionControl)\n",
-        "Configure equal-width NagramiX settings title mode",
-    )
-    replace_once(
-        item_list_controller,
-        "public final class ItemListControllerTabBarItem: Equatable {\n",
-        """public extension ItemListControllerTitle {
-    var isEqualSectionControl: Bool {
-        if case .equalSectionControl = self {
-            return true
-        }
-        return false
-    }
-}
-
-public final class ItemListControllerTabBarItem: Equatable {
-""",
-        "Expose equal-width title layout selection",
+        "                        strongSelf.segmentedTitleView?.theme = controllerState.presentationData.theme",
+        "                        strongSelf.segmentedTitleView?.theme = controllerState.presentationData.theme\n                        strongSelf.nagramiXSegmentedTitleView?.theme = controllerState.presentationData.theme",
+        "Update the isolated NagramiX title with the same native presentation data",
     )
 
     segmented_title_view = source / "submodules" / "ItemListUI" / "Sources" / "ItemListControllerSegmentedTitleView.swift"
+    stock_segmented_title_view = segmented_title_view
+    segmented_title_view = segmented_title_view.with_name("NagramiXItemListControllerSegmentedTitleView.swift")
+    shutil.copy2(stock_segmented_title_view, segmented_title_view)
     replace_once(
         segmented_title_view,
         "    private let tabSelector = ComponentView<Empty>()\n",
@@ -568,6 +636,9 @@ public final class ItemListControllerTabBarItem: Equatable {
     )
 
     horizontal_tabs = source / "submodules" / "TelegramUI" / "Components" / "HorizontalTabsComponent" / "Sources" / "HorizontalTabsComponent.swift"
+    stock_horizontal_tabs = horizontal_tabs
+    horizontal_tabs = horizontal_tabs.with_name("NagramiXHorizontalTabsComponent.swift")
+    shutil.copy2(stock_horizontal_tabs, horizontal_tabs)
     replace_once(
         horizontal_tabs,
         """    public enum Layout {
@@ -642,6 +713,15 @@ public final class ItemListControllerTabBarItem: Equatable {
 """,
         "Size equal-width NagramiX settings categories to the full panel",
     )
+
+    segmented_text = segmented_title_view.read_text(encoding="utf-8")
+    segmented_text = segmented_text.replace("ItemListControllerSegmentedTitleView", "NagramiXItemListControllerSegmentedTitleView")
+    segmented_text = segmented_text.replace("HorizontalTabsComponent", "NagramiXHorizontalTabsComponent").replace("import NagramiXHorizontalTabsComponent", "import HorizontalTabsComponent")
+    segmented_title_view.write_text(segmented_text, encoding="utf-8")
+    horizontal_tabs_text = horizontal_tabs.read_text(encoding="utf-8")
+    for identifier in ("HorizontalTabsComponent", "ReorderingGestureRecognizerTimerTarget", "InternalGestureRecognizerDelegate", "ReorderingGestureRecognizer", "ItemComponent"):
+        horizontal_tabs_text = re.sub(rf"\b{identifier}\b", "NagramiX" + identifier, horizontal_tabs_text)
+    horizontal_tabs.write_text(horizontal_tabs_text, encoding="utf-8")
 
     telegram_voip_build = source / "submodules" / "TelegramVoip" / "BUILD"
     replace_once(
@@ -3359,16 +3439,6 @@ public class StoryContainerScreen: ViewControllerComponentContainer, KeyShortcut
     )
 
     app_delegate = source / "submodules" / "TelegramUI" / "Sources" / "AppDelegate.swift"
-    replace_unique(
-        app_delegate,
-        """            if let traitCollection = window.rootViewController?.traitCollection {
-                systemUserInterfaceStyle = WindowUserInterfaceStyle(style: traitCollection.userInterfaceStyle)
-            }
-""",
-        """            systemUserInterfaceStyle = WindowUserInterfaceStyle(style: window.traitCollection.userInterfaceStyle)
-""",
-        "Read the system appearance from the window before its root controller exists",
-    )
     replace_once(
         app_delegate,
         """                var icons = [
@@ -4422,7 +4492,14 @@ private func nagramiXCopyProfileId(_ value: Int64, presentationData: Presentatio
         "Enable local deletion for an archived selection",
     )
 
-    print("Applied isolated NagramiX next-version feature overlay")
+    if stock_section not in item_list_controller.read_text(encoding="utf-8"):
+        raise SystemExit("NagramiX overlay modified Telegram's stock sectionControl branch")
+
+    for name, original in stock_appearance.items():
+        if (source / name).read_bytes() != original:
+            raise SystemExit(f"NagramiX overlay modified protected stock Telegram appearance: {name}")
+
+    print("Applied isolated NagramiX next-version feature overlay; stock Telegram appearance preserved")
 
 
 if __name__ == "__main__":

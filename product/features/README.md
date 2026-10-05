@@ -6,7 +6,7 @@
 | --- | --- | --- |
 | `specification` | `specified` | Поведение описано. |
 | `ios.implementation` | `implemented` | Реализация включена в overlay. |
-| `ios.compile` | `compile_passed` | Нативная компиляция подтверждена. |
+| `ios.compile` | `compile_passed` / `compile_pending` | Нативная компиляция подтверждена / изменённые исходники ожидают следующей сборки. |
 | `ios.device` | `device_pending` | Нужна проверка на физическом устройстве. |
 | `ios.device` | `device_passed` | Проверка на устройстве подтверждена. |
 

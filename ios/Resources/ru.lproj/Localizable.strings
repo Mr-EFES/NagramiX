@@ -293,7 +293,7 @@
 // Common
 "Common.OK" = "ОК";
 "Common.Cancel" = "Отмена";
-"Common.Edit" = "Изм.";
+"Common.Edit" = "Изменить";
 "Common.edit" = "Изменить";
 "Common.Done" = "Готово";
 "Common.Next" = "Далее";
