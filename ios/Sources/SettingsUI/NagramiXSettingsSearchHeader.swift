@@ -56,6 +56,18 @@ final class NagramiXSettingsSearchItem: ListViewItem, ItemListItem {
 }
 
 private final class NagramiXSettingsSearchTextField: UITextField {
+    override var keyboardAppearance: UIKeyboardAppearance {
+        get { return super.keyboardAppearance }
+        set {
+            guard super.keyboardAppearance != newValue else { return }
+            // Match Telegram SearchBarNode's keyboard refresh, only on a style change.
+            let wasFirstResponder = self.isFirstResponder
+            if wasFirstResponder { self.resignFirstResponder() }
+            super.keyboardAppearance = newValue
+            if wasFirstResponder { let _ = self.becomeFirstResponder() }
+        }
+    }
+
     override func textRect(forBounds bounds: CGRect) -> CGRect {
         return super.textRect(forBounds: bounds).inset(by: UIEdgeInsets(top: 0.0, left: 0.0, bottom: 0.0, right: 12.0))
     }
@@ -143,6 +155,7 @@ private final class NagramiXSettingsSearchItemNode: ListViewItemNode, ItemListIt
         }
 
         self.clearButton.isHidden = item.query.isEmpty
+        textField.rightViewMode = item.query.isEmpty ? .never : .whileEditing
         textField.frame = CGRect(
             x: params.leftInset,
             y: 12.0,
@@ -154,11 +167,14 @@ private final class NagramiXSettingsSearchItemNode: ListViewItemNode, ItemListIt
     @objc private func clearPressed() {
         self.textField?.text = ""
         self.clearButton.isHidden = true
+        self.textField?.rightViewMode = .never
         self.item?.queryUpdated("")
     }
 
     @objc private func textUpdated() {
-        self.clearButton.isHidden = (self.textField?.text ?? "").isEmpty
+        let isEmpty = (self.textField?.text ?? "").isEmpty
+        self.clearButton.isHidden = isEmpty
+        self.textField?.rightViewMode = isEmpty ? .never : .whileEditing
         self.item?.queryUpdated(self.textField?.text ?? "")
     }
 
