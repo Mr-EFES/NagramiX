@@ -2578,14 +2578,47 @@ private func currentDateTimeFormat()""",
     replace_once(
         story_container_screen,
         "import TelegramCore\n",
-        "import TelegramCore\nimport TelegramPresentationData\nimport PhotoResources\nimport NagramiXCore\n",
+        "import TelegramCore\nimport TelegramPresentationData\nimport PhotoResources\nimport Postbox\nimport NagramiXCore\n",
         "Story viewer NagramiX imports",
     )
     replace_once(
         story_container_screen,
         "public class StoryContainerScreen: ViewControllerComponentContainer, KeyShortcutResponder {\n",
-        """private final class NagramiXStoryConfirmationController: ViewController {
-    private let previewSignal: Signal<(TransformImageArguments) -> DrawingContext?, NoError>?
+        """// Never upscale Telegram's already blurred tiny placeholder behind the confirmation.
+// Fetch only the photo or the video's preview image; this does not mark a story seen.
+private func nagramiXStoryPhotoPreview(context: AccountContext, peer: PeerReference, id: Int32, image: TelegramMediaImage) -> Signal<UIImage?, NoError> {
+    return chatMessagePhotoDatas(postbox: context.account.postbox, userLocation: .peer(peer.id), customUserContentType: .story, photoReference: .story(peer: peer, id: id, media: image), autoFetchFullSize: true)
+    |> filter { $0._3 && $0._1 != nil }
+    |> take(1)
+    |> map { value in
+        return value._1.flatMap { UIImage(data: $0) }
+    }
+}
+
+private func nagramiXStoryVideoPreview(context: AccountContext, peer: PeerReference, id: Int32, file: TelegramMediaFile) -> Signal<UIImage?, NoError> {
+    guard let representation = largestImageRepresentation(file.previewRepresentations) else {
+        return .single(nil)
+    }
+    let reference = FileMediaReference.story(peer: peer, id: id, media: file)
+    return Signal { subscriber in
+        let fetched = fetchedMediaResource(mediaBox: context.account.postbox.mediaBox, userLocation: .peer(peer.id), userContentType: .story, reference: reference.resourceReference(representation.resource), statsCategory: .image).start()
+        let data = (context.account.postbox.mediaBox.resourceData(representation.resource)
+        |> filter { $0.complete }
+        |> take(1)).start(next: { resource in
+            let image = (try? Data(contentsOf: URL(fileURLWithPath: resource.path), options: .mappedIfSafe)).flatMap { UIImage(data: $0) }
+            subscriber.putNext(image)
+        }, completed: {
+            subscriber.putCompletion()
+        })
+        return ActionDisposable {
+            data.dispose()
+            fetched.dispose()
+        }
+    }
+}
+
+private final class NagramiXStoryConfirmationController: ViewController {
+    private let previewSignal: Signal<UIImage?, NoError>?
     private let confirmed: () -> Void
     private let cancelled: () -> Void
     private var previewDisposable: Disposable?
@@ -2598,7 +2631,7 @@ private func currentDateTimeFormat()""",
     private let closeButton = UIButton(type: .system)
     private let actionButton = UIButton(type: .system)
 
-    init(previewSignal: Signal<(TransformImageArguments) -> DrawingContext?, NoError>?, title: String, body: String, action: String, confirmed: @escaping () -> Void, cancelled: @escaping () -> Void) {
+    init(previewSignal: Signal<UIImage?, NoError>?, title: String, body: String, action: String, confirmed: @escaping () -> Void, cancelled: @escaping () -> Void) {
         self.previewSignal = previewSignal
         self.confirmed = confirmed
         self.cancelled = cancelled
@@ -2640,9 +2673,8 @@ private func currentDateTimeFormat()""",
         self.actionButton.addTarget(self, action: #selector(self.confirmPressed), for: .touchUpInside)
         [self.imageView, self.blurView, self.dimView, self.titleLabel, self.bodyLabel, self.closeButton, self.actionButton].forEach { self.displayNode.view.addSubview($0) }
         if let previewSignal = self.previewSignal {
-            self.previewDisposable = (previewSignal |> deliverOnMainQueue).start(next: { [weak self] process in
-                let size = CGSize(width: 1080.0, height: 1920.0)
-                self?.imageView.image = process(TransformImageArguments(corners: ImageCorners(), imageSize: size, boundingSize: size, intrinsicInsets: UIEdgeInsets()))?.generateImage()
+            self.previewDisposable = (previewSignal |> deliverOnMainQueue).start(next: { [weak self] image in
+                self?.imageView.image = image
             })
         }
     }
@@ -2929,13 +2961,13 @@ public class StoryContainerScreen: ViewControllerComponentContainer, KeyShortcut
         let presentationData = self.context.sharedContext.currentPresentationData.with { $0 }
         let effectivePeer = item.itemPeer ?? peer
         let owner = effectivePeer.displayTitle(strings: presentationData.strings, displayOrder: presentationData.nameDisplayOrder)
-        var previewSignal: Signal<(TransformImageArguments) -> DrawingContext?, NoError>?
+        var previewSignal: Signal<UIImage?, NoError>?
         if let peerReference = PeerReference(effectivePeer) {
             switch item.storyItem.media {
             case let .image(image):
-                previewSignal = chatMessagePhoto(postbox: self.context.account.postbox, userLocation: .peer(peerReference.id), userContentType: .story, photoReference: .story(peer: peerReference, id: item.storyItem.id, media: image), synchronousLoad: false, highQuality: false)
+                previewSignal = nagramiXStoryPhotoPreview(context: self.context, peer: peerReference, id: item.storyItem.id, image: image)
             case let .file(file):
-                previewSignal = mediaGridMessageVideo(postbox: self.context.account.postbox, userLocation: .peer(peerReference.id), userContentType: .story, videoReference: .story(peer: peerReference, id: item.storyItem.id, media: file), onlyFullSize: false, useLargeThumbnail: true, synchronousLoad: false, autoFetchFullSizeThumbnail: false, overlayColor: nil, nilForEmptyResult: false, useMiniThumbnailIfAvailable: true, blurred: false)
+                previewSignal = nagramiXStoryVideoPreview(context: self.context, peer: peerReference, id: item.storyItem.id, file: file)
             default:
                 break
             }
@@ -2992,13 +3024,13 @@ public class StoryContainerScreen: ViewControllerComponentContainer, KeyShortcut
             self.nagramiXIsPresentingConfirmation = true
             let presentationData = self.context.sharedContext.currentPresentationData.with { $0 }
             let owner = slice.effectivePeer.displayTitle(strings: presentationData.strings, displayOrder: presentationData.nameDisplayOrder)
-            var previewSignal: Signal<(TransformImageArguments) -> DrawingContext?, NoError>?
+            var previewSignal: Signal<UIImage?, NoError>?
             if let peerReference = PeerReference(slice.effectivePeer) {
                 switch slice.item.storyItem.media {
                 case let .image(image):
-                    previewSignal = chatMessagePhoto(postbox: self.context.account.postbox, userLocation: .peer(peerReference.id), userContentType: .story, photoReference: .story(peer: peerReference, id: slice.item.storyItem.id, media: image), synchronousLoad: false, highQuality: false)
+                    previewSignal = nagramiXStoryPhotoPreview(context: self.context, peer: peerReference, id: slice.item.storyItem.id, image: image)
                 case let .file(file):
-                    previewSignal = mediaGridMessageVideo(postbox: self.context.account.postbox, userLocation: .peer(peerReference.id), userContentType: .story, videoReference: .story(peer: peerReference, id: slice.item.storyItem.id, media: file), onlyFullSize: false, useLargeThumbnail: true, synchronousLoad: false, autoFetchFullSizeThumbnail: false, overlayColor: nil, nilForEmptyResult: false, useMiniThumbnailIfAvailable: true, blurred: false)
+                    previewSignal = nagramiXStoryVideoPreview(context: self.context, peer: peerReference, id: slice.item.storyItem.id, file: file)
                 default:
                     break
                 }
