@@ -64,14 +64,16 @@ private final class NagramiXSettingsSearchTextField: UITextField {
         return super.editingRect(forBounds: bounds).inset(by: UIEdgeInsets(top: 0.0, left: 0.0, bottom: 0.0, right: 12.0))
     }
 
-    override func clearButtonRect(forBounds bounds: CGRect) -> CGRect {
-        return super.clearButtonRect(forBounds: bounds).offsetBy(dx: -8.0, dy: 0.0)
+    override func rightViewRect(forBounds bounds: CGRect) -> CGRect {
+        return super.rightViewRect(forBounds: bounds).offsetBy(dx: -8.0, dy: 0.0)
     }
 }
 
 private final class NagramiXSettingsSearchItemNode: ListViewItemNode, ItemListItemNode, UITextFieldDelegate {
     private var item: NagramiXSettingsSearchItem?
     private var textField: NagramiXSettingsSearchTextField?
+    private let searchIcon = UIImageView()
+    private let clearButton = UIButton(type: .custom)
 
     var tag: ItemListItemTag? {
         return nil
@@ -95,7 +97,11 @@ private final class NagramiXSettingsSearchItemNode: ListViewItemNode, ItemListIt
             textField.font = Font.regular(17.0)
             textField.layer.cornerRadius = 24.0
             textField.clipsToBounds = true
-            textField.clearButtonMode = .whileEditing
+            textField.clearButtonMode = .never
+            self.clearButton.frame = CGRect(x: 0.0, y: 0.0, width: 32.0, height: 48.0)
+            self.clearButton.addTarget(self, action: #selector(self.clearPressed), for: .touchUpInside)
+            textField.rightView = self.clearButton
+            textField.rightViewMode = .whileEditing
             textField.autocorrectionType = .no
             textField.autocapitalizationType = .none
             textField.returnKeyType = .search
@@ -105,12 +111,10 @@ private final class NagramiXSettingsSearchItemNode: ListViewItemNode, ItemListIt
             let iconContainer = UIView(frame: CGRect(x: 0.0, y: 0.0, width: 44.0, height: 48.0))
             iconContainer.isUserInteractionEnabled = false
             iconContainer.isAccessibilityElement = false
-            let iconLabel = UILabel(frame: CGRect(x: 14.0, y: 0.0, width: 24.0, height: 48.0))
-            iconLabel.text = "🔍"
-            iconLabel.font = Font.regular(20.0)
-            iconLabel.textAlignment = .center
-            iconLabel.isAccessibilityElement = false
-            iconContainer.addSubview(iconLabel)
+            self.searchIcon.frame = CGRect(x: 14.0, y: 14.0, width: 20.0, height: 20.0)
+            self.searchIcon.contentMode = .scaleAspectFit
+            self.searchIcon.isAccessibilityElement = false
+            iconContainer.addSubview(self.searchIcon)
             textField.leftView = iconContainer
             textField.leftViewMode = .always
             textField.accessibilityTraits = .searchField
@@ -124,6 +128,9 @@ private final class NagramiXSettingsSearchItemNode: ListViewItemNode, ItemListIt
         textField.backgroundColor = theme.inputFillColor
         textField.textColor = theme.inputTextColor
         textField.tintColor = theme.accentColor
+        self.searchIcon.image = generateTintedImage(image: UIImage(bundleImageName: "Components/Search Bar/Loupe"), color: theme.inputIconColor)
+        self.clearButton.setImage(generateTintedImage(image: UIImage(bundleImageName: "Components/Search Bar/Clear"), color: theme.inputClearButtonColor), for: .normal)
+        self.clearButton.accessibilityLabel = item.presentationData.strings.WebSearch_RecentSectionClear
         textField.keyboardAppearance = item.presentationData.theme.rootController.keyboardColor == .dark ? .dark : .light
         textField.attributedPlaceholder = NSAttributedString(
             string: item.presentationData.strings.nagramiXSettingsSearch,
@@ -135,6 +142,7 @@ private final class NagramiXSettingsSearchItemNode: ListViewItemNode, ItemListIt
             textField.text = item.query
         }
 
+        self.clearButton.isHidden = item.query.isEmpty
         textField.frame = CGRect(
             x: params.leftInset,
             y: 12.0,
@@ -143,7 +151,14 @@ private final class NagramiXSettingsSearchItemNode: ListViewItemNode, ItemListIt
         )
     }
 
+    @objc private func clearPressed() {
+        self.textField?.text = ""
+        self.clearButton.isHidden = true
+        self.item?.queryUpdated("")
+    }
+
     @objc private func textUpdated() {
+        self.clearButton.isHidden = (self.textField?.text ?? "").isEmpty
         self.item?.queryUpdated(self.textField?.text ?? "")
     }
 

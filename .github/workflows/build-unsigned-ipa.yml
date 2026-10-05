@@ -3,6 +3,11 @@ name: Сборка неподписанного IPA NagramiX
 on:
   workflow_dispatch:
     inputs:
+      clean_build:
+        description: Чистая сборка без восстановления и сохранения кеша Bazel
+        type: boolean
+        required: true
+        default: false
       publish_release:
         description: Опубликовать релиз после успешной сборки
         type: boolean
@@ -87,6 +92,7 @@ jobs:
             Telegram-iOS/Telegram/Telegram-iOS/ru.lproj/Localizable.strings
 
       - name: Восстановить кеш Bazel
+        if: ${{ !inputs.clean_build }}
         id: bazel-cache
         uses: actions/cache/restore@v4
         with:
@@ -121,7 +127,7 @@ jobs:
             --outputBuildArtifactsPath="$RUNNER_TEMP/build-artifacts"
 
       - name: Сохранить кеш Bazel
-        if: always() && steps.bazel-cache.outputs.cache-hit != 'true'
+        if: always() && !inputs.clean_build && steps.bazel-cache.outputs.cache-hit != 'true'
         uses: actions/cache/save@v4
         with:
           path: ${{ env.BAZEL_CACHE }}

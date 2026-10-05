@@ -55,6 +55,12 @@ def apply_features(source: Path) -> None:
         "submodules/TelegramUI/Components/HorizontalTabsComponent/Sources/HorizontalTabsComponent.swift",
         "submodules/TelegramUI/Components/ChatThemeScreen/Sources/ChatThemeScreen.swift",
         "submodules/TelegramUI/Components/Settings/ThemeSettingsThemeItem/Sources/ThemeSettingsThemeItem.swift",
+        "submodules/TelegramUI/Components/PeerInfo/PeerInfoScreen/Sources/PeerInfoHeaderNode.swift",
+        "submodules/TelegramUI/Components/PeerInfo/PeerInfoScreen/Sources/PeerInfoHeaderActionButtonNode.swift",
+        "submodules/TelegramUI/Components/PeerInfo/PeerInfoScreen/Sources/PeerInfoHeaderNavigationButton.swift",
+        "submodules/TelegramUI/Components/ChatListHeaderComponent/Sources/NavigationButtonComponent.swift",
+        "submodules/SearchBarNode/Sources/SearchBarNode.swift",
+        "submodules/PresentationDataUtils/Sources/SolidRoundedButtonNode.swift",
     ]
     stock_appearance_paths += [
         "submodules/TelegramPresentationData/Sources/" + name + ".swift"
@@ -169,10 +175,35 @@ public let defaultPresentationStrings = PresentationStrings(primaryComponent:"""
     )
 
     presentation_theme_settings = source / "submodules" / "TelegramUIPreferences" / "Sources" / "PresentationThemeSettings.swift"
-    # Keep Telegram's native system-following defaults and all manual modes.
+    # Verify stock defaults; the application's missing-entry initialization below
+    # selects a builtin theme without modifying these defaults or factories.
     expected_system_defaults = "PresentationThemeSettings(theme: .builtin(.dayClassic), themePreferredBaseTheme: [:], themeSpecificAccentColors: [:], themeSpecificChatWallpapers: [:], useSystemFont: true, fontSize: .regular, listsFontSize: .regular, chatBubbleSettings: .default, automaticThemeSwitchSetting: AutomaticThemeSwitchSetting(force: false, trigger: .system, theme: .builtin(.night)), largeEmoji: true, reduceMotion: false)"
     if presentation_theme_settings.read_text(encoding="utf-8").count(expected_system_defaults) != 1:
         raise SystemExit("Pinned Telegram system-theme defaults no longer match")
+
+    app_delegate = source / "submodules" / "TelegramUI" / "Sources" / "AppDelegate.swift"
+    replace_unique(
+        app_delegate,
+        "        let sharedContextSignal = currentPresentationDataAndSettings(accountManager: accountManager, systemUserInterfaceStyle: systemUserInterfaceStyle)\n",
+        """        // Seed only a missing theme preference before the first UI is constructed.
+        // Telegram's builtin Dark (Tinted) theme and all later manual/automatic choices
+        // continue through the stock presentation pipeline.
+        let nagramiXInitialTheme = accountManager.transaction { transaction -> Void in
+            transaction.updateSharedData(ApplicationSpecificSharedDataKeys.presentationThemeSettings, { entry in
+                guard entry == nil else { return entry }
+                let settings = PresentationThemeSettings.defaultSettings
+                    .withUpdatedTheme(.builtin(.nightAccent))
+                    .withUpdatedAutomaticThemeSwitchSetting(AutomaticThemeSwitchSetting(force: false, trigger: .explicitNone, theme: .builtin(.night)))
+                return EnginePreferencesEntry(settings)
+            })
+        }
+        let sharedContextSignal = nagramiXInitialTheme
+        |> mapToSignal { _ in
+            return currentPresentationDataAndSettings(accountManager: accountManager, systemUserInterfaceStyle: systemUserInterfaceStyle)
+        }
+""",
+        "Select stock Telegram Dark only when no theme choice exists",
+    )
 
     presentation_data = source / "submodules" / "TelegramPresentationData" / "Sources" / "PresentationData.swift"
     replace_once(
@@ -721,6 +752,10 @@ private func currentDateTimeFormat()""",
     horizontal_tabs_text = horizontal_tabs.read_text(encoding="utf-8")
     for identifier in ("HorizontalTabsComponent", "ReorderingGestureRecognizerTimerTarget", "InternalGestureRecognizerDelegate", "ReorderingGestureRecognizer", "ItemComponent"):
         horizontal_tabs_text = re.sub(rf"\b{identifier}\b", "NagramiX" + identifier, horizontal_tabs_text)
+    # NagramiX categories live on the navigation surface, not the chat composer.
+    if horizontal_tabs_text.count("component.theme.chat.inputPanel.panelControlColor") != 3:
+        raise SystemExit("Pinned custom tab color anchors no longer match")
+    horizontal_tabs_text = horizontal_tabs_text.replace("component.theme.chat.inputPanel.panelControlColor", "component.theme.rootController.navigationBar.primaryTextColor")
     horizontal_tabs.write_text(horizontal_tabs_text, encoding="utf-8")
 
     telegram_voip_build = source / "submodules" / "TelegramVoip" / "BUILD"
@@ -1363,7 +1398,8 @@ private func currentDateTimeFormat()""",
         if nagramiXArchivedMessage {
             let configuredLabel = NagramiXTabSettings.current.deletedMessageLabel
             let label = configuredLabel.isEmpty ? item.presentationData.strings.nagramiXDeleted : configuredLabel
-            let labelString = NSAttributedString(string: label, font: Font.semibold(12.0), textColor: .black)
+            let labelColor = incoming ? item.presentationData.theme.theme.chat.message.incoming.secondaryTextColor : item.presentationData.theme.theme.chat.message.outgoing.secondaryTextColor
+            let labelString = NSAttributedString(string: label, font: Font.semibold(12.0), textColor: labelColor)
             let iconAndSpacingWidth: CGFloat = 17.0
             let horizontalInsets: CGFloat = 16.0
             let singleLineWidth = ceil(labelString.size().width) + iconAndSpacingWidth + horizontalInsets
@@ -2618,6 +2654,8 @@ private func nagramiXStoryVideoPreview(context: AccountContext, peer: PeerRefere
 }
 
 private final class NagramiXStoryConfirmationController: ViewController {
+    private var theme: PresentationTheme
+    private var themeDisposable: Disposable?
     private let previewSignal: Signal<UIImage?, NoError>?
     private let confirmed: () -> Void
     private let cancelled: () -> Void
@@ -2631,7 +2669,8 @@ private final class NagramiXStoryConfirmationController: ViewController {
     private let closeButton = UIButton(type: .system)
     private let actionButton = UIButton(type: .system)
 
-    init(previewSignal: Signal<UIImage?, NoError>?, title: String, body: String, action: String, confirmed: @escaping () -> Void, cancelled: @escaping () -> Void) {
+    init(context: AccountContext, previewSignal: Signal<UIImage?, NoError>?, title: String, body: String, action: String, confirmed: @escaping () -> Void, cancelled: @escaping () -> Void) {
+        self.theme = context.sharedContext.currentPresentationData.with { $0 }.theme
         self.previewSignal = previewSignal
         self.confirmed = confirmed
         self.cancelled = cancelled
@@ -2641,10 +2680,24 @@ private final class NagramiXStoryConfirmationController: ViewController {
         self.titleLabel.text = title
         self.bodyLabel.text = body
         self.actionButton.setTitle(action, for: .normal)
+        self.themeDisposable = (context.sharedContext.presentationData |> deliverOnMainQueue).start(next: { [weak self] data in
+            guard let self else { return }
+            self.theme = data.theme
+            if self.isNodeLoaded { self.updateTheme() }
+        })
     }
 
     required init(coder: NSCoder) { fatalError("init(coder:) has not been implemented") }
-    deinit { self.previewDisposable?.dispose() }
+    deinit {
+        self.previewDisposable?.dispose()
+        self.themeDisposable?.dispose()
+    }
+
+    private func updateTheme() {
+        // Same paired fill/foreground keys as SolidRoundedButtonTheme(theme:).
+        self.actionButton.backgroundColor = self.theme.list.itemCheckColors.fillColor
+        self.actionButton.setTitleColor(self.theme.list.itemCheckColors.foregroundColor, for: .normal)
+    }
 
     override func loadDisplayNode() {
         self.displayNode = ASDisplayNode()
@@ -2666,9 +2719,8 @@ private final class NagramiXStoryConfirmationController: ViewController {
         self.closeButton.setTitleColor(.white, for: .normal)
         self.closeButton.titleLabel?.font = UIFont.systemFont(ofSize: 36.0)
         self.closeButton.addTarget(self, action: #selector(self.closePressed), for: .touchUpInside)
-        self.actionButton.setTitleColor(.white, for: .normal)
         self.actionButton.titleLabel?.font = UIFont.systemFont(ofSize: 17.0, weight: .semibold)
-        self.actionButton.backgroundColor = UIColor(rgb: 0x2f80ed)
+        self.updateTheme()
         self.actionButton.layer.cornerRadius = 14.0
         self.actionButton.addTarget(self, action: #selector(self.confirmPressed), for: .touchUpInside)
         [self.imageView, self.blurView, self.dimView, self.titleLabel, self.bodyLabel, self.closeButton, self.actionButton].forEach { self.displayNode.view.addSubview($0) }
@@ -2973,6 +3025,7 @@ public class StoryContainerScreen: ViewControllerComponentContainer, KeyShortcut
             }
         }
         let confirmationController = NagramiXStoryConfirmationController(
+            context: self.context,
             previewSignal: previewSignal,
             title: presentationData.strings.nagramiXStoryConfirmationTitle,
             body: presentationData.strings.nagramiXStoryConfirmationText(owner: owner),
@@ -3036,6 +3089,7 @@ public class StoryContainerScreen: ViewControllerComponentContainer, KeyShortcut
                 }
             }
             let confirmationController = NagramiXStoryConfirmationController(
+                context: self.context,
                 previewSignal: previewSignal,
                 title: presentationData.strings.nagramiXStoryConfirmationTitle,
                 body: presentationData.strings.nagramiXStoryConfirmationText(owner: owner),

@@ -4,7 +4,17 @@
 
 ## Текущая задача
 
-После физической установки 0.4.3 пользователь сообщил: при включённом значке взаимного контакта он не виден в контактах и отсутствует в профиле. Исправлены исходники для следующей сборки, без запуска нового workflow и изменения опубликованного IPA.
+Пользователь запросил аудит NagramiX UI на совместимость со штатными Telegram themes, исправление исчезающих верхних actions в Light и clean build. В актуальном сообщении скриншот не приложен; повторное изображение и точный экран запрошены. Конкретный View и сценарий пока не установлены; нельзя заявлять исправление скриншота или отсутствие всех визуальных ошибок без устройства. Новый clean-install default — стандартная «Тёмная» Telegram только при отсутствующей записи; это заменяет прежний system default.
+
+## Theme binding после сборки №68
+
+ios/apply_features.py: custom NagramiXHorizontalTabsComponent использует rootController.navigationBar.primaryTextColor вместо chat.inputPanel.panelControlColor; stock HorizontalTabs/NavigationButtonComponent неизменны. Measurement архивной метки вместо .black использует incoming/outgoing.secondaryTextColor (видимый footer уже использовал тот же ключ). Кнопка NagramiXStoryConfirmationController использует list.itemCheckColors.fillColor/foregroundColor по SolidRoundedButtonTheme(theme:), подписывается на presentationData/main queue и dispose при deinit. Белые надписи/чёрный backdrop/blur истории относятся к постоянной затемнённой media surface как в stock Stories, не к light list; принятый preview и seen/approval/cancel logic не изменены. Устаревший overlay блок удаляется дальнейшим patch и в generated source отсутствует.
+
+NagramiXSettingsSearchHeader: stock Loupe/Clear image + inputIconColor/inputClearButtonColor, собственная theme-aware rightView кнопка очистки вместо UIKit clear; fill/text/placeholder/cursor/keyboard — прежние navigationSearchBar keys. Обновляются при каждом native rebind; размеры/отступы/поиск не менялись. Категории получают theme через прежний ItemListController state; didSet/re-render учитывают theme identity.
+
+AppDelegate до sharedContextSignal выполняет AccountManager transaction/updateSharedData: guard entry == nil, стандартная defaultSettings.withUpdatedTheme(.nightAccent).withUpdatedAutomaticThemeSwitchSetting(force:false, trigger:.explicitNone, theme:.night). Сохранённые entries возвращаются без изменений. Default settings/factories/palettes/fonts и штатный system tracking не патчатся. Защита расширена до 24 stock файлов, включая header/actions/native search/button adapter.
+
+Workflow добавлен clean_build input: пропускает restore/save Bazel cache на новом macOS runner. Запустить с clean_build=true, publish_release=false; новая версия и перезапись релиза не запрошены. Исправление взаимного контакта также войдёт в эту проверочную сборку. Полный аудит/ограничения/матрица — docs/THEME_AUDIT.md. Linux не запускает iOS-приложение; визуальные acceptance Light/Dark/Night/live-switch/font-scale и отсутствующий screenshot scenario ожидают устройства.
 
 ## Исправление взаимного контакта после сборки №68
 
@@ -58,6 +68,8 @@ Overlay применён к Telegram-iOS 12.9.2, SHA 6ad963e5b62d354da79040f388a
 Прокси, DNS, первый кружок/жесты, Stories/read gate, wide posts/мозаики, IDs/дата, вкладки/спонсор, поиск и архив не переписывались. Согласованные края/размеры поиска сохранены в custom-категориях. Ограничения архива: серверное закрепление/редактирование удалённого оригинала не восстанавливаются; медиа требуют кэша. Секундные proxy timers в фоне iOS не гарантированы.
 
 ## Следующий шаг
+
+Завершить clean native build текущего SHA, записать результат и предоставить артефакт. Получить отсутствующий скриншот/точный экран для regression, затем физически проверить Light/Dark/Night/custom/live-switch/font-scale. Задачу целиком не считать закрытой до этих результатов.
 
 По отдельной задаче пользователя собрать обновлённые исходники, затем проверить взаимный/невзаимный контакт, включение/выключение без перезапуска, длинные имена, профиль, VoiceOver и обе темы. Текущий опубликованный IPA исправление взаимного контакта не содержит.
 
