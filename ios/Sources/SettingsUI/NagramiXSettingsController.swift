@@ -88,6 +88,7 @@ private enum NagramiXSettingsEntry: ItemListNodeEntry {
     case showMutualContactIcon(Bool)
     case callsHeader
     case confirmOutgoingCalls(Bool)
+    case otherCallsHeader
     case forceTcpCalls(Bool)
     case forceTcpCallsInfo
     case messagesHeader
@@ -116,7 +117,7 @@ private enum NagramiXSettingsEntry: ItemListNodeEntry {
             return .features
         case .messagesHeader, .showDeletedMessages, .showDeletedMessagesInfo, .deletedMessageLabel, .messageEditHistory, .messageEditHistoryInfo, .clearMessageArchive, .messageArchiveInfo:
             return .features
-        case .forceTcpCalls, .forceTcpCallsInfo, .proxySettings, .proxyDns, .proxyAutoSwitch, .proxyCheckAll:
+        case .otherCallsHeader, .forceTcpCalls, .forceTcpCallsInfo, .proxySettings, .proxyDns, .proxyAutoSwitch, .proxyCheckAll:
             return .other
         }
     }
@@ -141,7 +142,7 @@ private enum NagramiXSettingsEntry: ItemListNodeEntry {
             return NagramiXSettingsSection.stories.rawValue
         case .profilesHeader, .showProfileIds, .showRegistrationDate, .showMutualContactIcon:
             return NagramiXSettingsSection.profiles.rawValue
-        case .callsHeader, .confirmOutgoingCalls, .forceTcpCalls, .forceTcpCallsInfo:
+        case .callsHeader, .otherCallsHeader, .confirmOutgoingCalls, .forceTcpCalls, .forceTcpCallsInfo:
             return NagramiXSettingsSection.calls.rawValue
         case .messagesHeader, .showDeletedMessages, .showDeletedMessagesInfo, .deletedMessageLabel, .messageEditHistory, .messageEditHistoryInfo, .clearMessageArchive, .messageArchiveInfo:
             return NagramiXSettingsSection.messages.rawValue
@@ -187,6 +188,7 @@ private enum NagramiXSettingsEntry: ItemListNodeEntry {
         case .messageEditHistoryInfo: return 39
         case .clearMessageArchive: return 40
         case .messageArchiveInfo: return 41
+        case .otherCallsHeader: return 49
         case .callsHeader: return 50
         case .confirmOutgoingCalls: return 51
         case .forceTcpCalls: return 52
@@ -259,7 +261,7 @@ private enum NagramiXSettingsEntry: ItemListNodeEntry {
             return ItemListSwitchItem(presentationData: presentationData, systemStyle: .glass, title: presentationData.strings.nagramiXShowRegistrationDate, value: value, sectionId: self.section, style: .blocks, updated: arguments.updateShowRegistrationDate)
         case let .showMutualContactIcon(value):
             return ItemListSwitchItem(presentationData: presentationData, systemStyle: .glass, title: presentationData.strings.nagramiXShowMutualContactIcon, value: value, sectionId: self.section, style: .blocks, updated: arguments.updateShowMutualContactIcon)
-        case .callsHeader:
+        case .callsHeader, .otherCallsHeader:
             return ItemListSectionHeaderItem(presentationData: presentationData, text: presentationData.strings.nagramiXCallsHeader, sectionId: self.section)
         case let .confirmOutgoingCalls(value):
             return ItemListSwitchItem(presentationData: presentationData, systemStyle: .glass, title: presentationData.strings.nagramiXConfirmOutgoingCalls, value: value, sectionId: self.section, style: .blocks, updated: arguments.updateConfirmOutgoingCalls)
@@ -320,7 +322,7 @@ private extension NagramiXSettingsEntry {
 
     var isSearchableSetting: Bool {
         switch self {
-        case .search, .noSearchResults, .searchHeader, .tabsHeader, .chatsHeader, .videoMessagesHeader, .featureStoriesHeader, .profilesHeader, .callsHeader, .messagesHeader,
+        case .search, .noSearchResults, .searchHeader, .tabsHeader, .chatsHeader, .videoMessagesHeader, .featureStoriesHeader, .profilesHeader, .callsHeader, .otherCallsHeader, .messagesHeader,
                 .forceTcpCallsInfo, .showDeletedMessagesInfo, .messageEditHistoryInfo, .messageArchiveInfo,
                 .contextMenuHeader, .forwardWithoutAuthorInfo, .selectByAuthorInfo:
             return false
@@ -358,7 +360,7 @@ private extension NagramiXSettingsEntry {
         case .showProfileIds: return strings.nagramiXShowProfileIds
         case .showRegistrationDate: return strings.nagramiXShowRegistrationDate
         case .showMutualContactIcon: return strings.nagramiXShowMutualContactIcon
-        case .callsHeader: return strings.nagramiXCallsHeader
+        case .callsHeader, .otherCallsHeader: return strings.nagramiXCallsHeader
         case .confirmOutgoingCalls: return strings.nagramiXConfirmOutgoingCalls
         case .forceTcpCalls: return strings.nagramiXForceTcpCalls
         case .forceTcpCallsInfo: return strings.nagramiXForceTcpCallsInfo
@@ -472,7 +474,7 @@ private func nagramiXAllSettingsEntries(settings: NagramiXTabSettings) -> [Nagra
         .messageEditHistory(settings.messageEditHistory), .messageEditHistoryInfo,
         .clearMessageArchive, .messageArchiveInfo,
         .callsHeader, .confirmOutgoingCalls(settings.confirmOutgoingCalls),
-        .forceTcpCalls(settings.forceTcpCalls), .forceTcpCallsInfo,
+        .otherCallsHeader, .forceTcpCalls(settings.forceTcpCalls), .forceTcpCallsInfo,
         .proxySettings, .proxyDns, .proxyAutoSwitch, .proxyCheckAll,
     ]
 }
