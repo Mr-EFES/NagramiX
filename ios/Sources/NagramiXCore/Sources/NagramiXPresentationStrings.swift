@@ -102,6 +102,7 @@ public extension PresentationStrings {
     var nagramiXProfilesHeader: String { self.nagramiXLocalized("NagramiX.Settings.Profiles.Header") }
     var nagramiXShowProfileIds: String { self.nagramiXLocalized("NagramiX.Settings.Profiles.ShowIds") }
     var nagramiXShowRegistrationDate: String { self.nagramiXLocalized("NagramiX.Settings.Profiles.ShowRegistrationDate") }
+    var nagramiXMutualContact: String { self.nagramiXLocalized("NagramiX.Profiles.MutualContact") }
     var nagramiXShowMutualContactIcon: String { self.nagramiXLocalized("NagramiX.Settings.Profiles.ShowMutualContactIcon") }
     var nagramiXCallsHeader: String { self.nagramiXLocalized("NagramiX.Settings.Calls.Header") }
     var nagramiXConfirmOutgoingCalls: String { self.nagramiXLocalized("NagramiX.Settings.Calls.ConfirmOutgoing") }

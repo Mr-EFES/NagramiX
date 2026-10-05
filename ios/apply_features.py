@@ -3993,8 +3993,18 @@ private func nagramiXCopyProfileId(_ value: Int64, presentationData: Presentatio
         """        let ItemCommunity = 10000
         let ItemNagramiXProfileId = 11000
         let ItemNagramiXRegistration = 11001
+        let ItemNagramiXMutualContact = 11002
 
         let nagramiXSettings = NagramiXTabSettings.current
+        if nagramiXSettings.showMutualContactIcon,
+           user.id != context.account.peerId,
+           user.botInfo == nil,
+           user.flags.contains(.mutualContact),
+           !(user.firstName ?? "").isEmpty || !(user.lastName ?? "").isEmpty {
+            items[currentPeerInfoSection]!.append(PeerInfoScreenLabeledValueItem(id: ItemNagramiXMutualContact, label: presentationData.strings.Contacts_Title, text: "⇄ " + presentationData.strings.nagramiXMutualContact, textColor: .accent, action: nil, requestLayout: { animated in
+                interaction.requestLayout(animated)
+            }))
+        }
         if nagramiXSettings.showProfileIds {
             items[currentPeerInfoSection]!.append(PeerInfoScreenLabeledValueItem(id: ItemNagramiXProfileId, label: presentationData.strings.nagramiXProfileId, text: "\\(user.id.id._internalGetInt64Value())", textColor: .accent, action: { _, _ in
                 nagramiXCopyProfileId(user.id.id._internalGetInt64Value(), presentationData: presentationData, interaction: interaction)
@@ -4051,47 +4061,80 @@ private func nagramiXCopyProfileId(_ value: Int64, presentationData: Presentatio
 
     contacts_peer_item = source / "submodules" / "ContactsPeerItem" / "Sources" / "ContactsPeerItem.swift"
     contacts_peer_item_build = source / "submodules" / "ContactsPeerItem" / "BUILD"
-    if contacts_peer_item.exists():
-        replace_once(
-            contacts_peer_item,
-            "import TelegramCore\n",
-            "import TelegramCore\nimport NagramiXCore\n",
-            "Read the mutual-contact badge preference in native contact cells",
-        )
-        replace_once(
-            contacts_peer_item,
-            """            switch item.status {
-""",
-            """            if NagramiXTabSettings.current.showMutualContactIcon,
+    replace_once(contacts_peer_item, "import TelegramCore\n", "import TelegramCore\nimport NagramiXCore\n", "Read mutual-contact settings in native contact cells")
+    replace_once(
+        contacts_peer_item,
+        "            let (titleLayout, titleApply) = makeTitleLayout(",
+        """            if NagramiXTabSettings.current.showMutualContactIcon,
                case let .peer(peer, _) = item.peer,
                let peer,
                case let .user(user) = peer,
                peer.id != item.context.account.peerId,
                user.botInfo == nil,
                user.flags.contains(.mutualContact),
-               !(user.firstName ?? "").isEmpty || !(user.lastName ?? "").isEmpty,
-               let currentTitle = titleAttributedString {
-                let updatedTitle = NSMutableAttributedString(attributedString: currentTitle)
-                if let icon = generateTintedImage(image: UIImage(bundleImageName: "Item List/Icons/NagramiXMutualContact"), color: item.presentationData.theme.list.itemAccentColor) {
-                    updatedTitle.append(NSAttributedString(string: " "))
-                    let attachment = NSTextAttachment()
-                    attachment.image = icon
-                    attachment.bounds = CGRect(x: 0.0, y: -1.0, width: 14.0, height: 12.0)
-                    updatedTitle.append(NSAttributedString(attachment: attachment))
-                    titleAttributedString = updatedTitle
+               !(user.firstName ?? "").isEmpty || !(user.lastName ?? "").isEmpty {
+                if let originalStatus = statusAttributedString {
+                    let mutualStatus = NSMutableAttributedString(string: "⇄ " + item.presentationData.strings.nagramiXMutualContact, font: statusFont, textColor: item.presentationData.theme.list.itemAccentColor)
+                    if originalStatus.length > 0 {
+                        mutualStatus.append(NSAttributedString(string: " · ", font: statusFont, textColor: item.presentationData.theme.list.itemSecondaryTextColor))
+                        mutualStatus.append(originalStatus)
+                    }
+                    statusAttributedString = mutualStatus
+                } else if let originalTitle = titleAttributedString {
+                    // Pickers without a status keep their original row height.
+                    let mutualTitle = NSMutableAttributedString(string: "⇄ ", font: titleBoldFont, textColor: item.presentationData.theme.list.itemAccentColor)
+                    mutualTitle.append(originalTitle)
+                    titleAttributedString = mutualTitle
                 }
             }
 
-            switch item.status {
+            let (titleLayout, titleApply) = makeTitleLayout(""",
+        "Show a readable mutual-contact status independently of title truncation",
+    )
+    replace_once(contacts_peer_item, "    private var peerPresenceManager: PeerPresenceStatusManager?\n", "    private var nagramiXMutualObserver: NSObjectProtocol?\n    private var nagramiXLastMutualEnabled = NagramiXTabSettings.current.showMutualContactIcon\n    private var peerPresenceManager: PeerPresenceStatusManager?\n", "Mutual-contact settings observer state")
+    replace_once(
+        contacts_peer_item,
+        "        self.isAccessibilityElement = true\n",
+        """        self.nagramiXMutualObserver = NotificationCenter.default.addObserver(forName: NagramiXTabSettings.changedNotification, object: nil, queue: .main, using: { [weak self] _ in
+            guard let self else { return }
+            let enabled = NagramiXTabSettings.current.showMutualContactIcon
+            guard enabled != self.nagramiXLastMutualEnabled else { return }
+            self.nagramiXLastMutualEnabled = enabled
+            guard let params = self.layoutParams else { return }
+            let (_, apply) = self.asyncLayout()(params.0, params.1, params.2, params.3, params.4, params.5)
+            let (_, applyNodes) = apply()
+            applyNodes(false, false)
+        })
+        self.isAccessibilityElement = true
 """,
-            "Append a theme-tinted mutual-contact icon to real mutual users",
-        )
-        replace_once(
-            contacts_peer_item_build,
-            '        "//submodules/TelegramCore:TelegramCore",\n',
-            '        "//submodules/TelegramCore:TelegramCore",\n        "//submodules/NagramiXCore:NagramiXCore",\n',
-            "Link contact cells with NagramiX settings",
-        )
+        "Refresh bound contact cells immediately when preferences change",
+    )
+    replace_once(contacts_peer_item, "    override public func layoutForParams(", """    deinit {
+        if let observer = self.nagramiXMutualObserver {
+            NotificationCenter.default.removeObserver(observer)
+        }
+    }
+
+    override public func layoutForParams(""", "Dispose mutual-contact cell observer")
+    replace_once(contacts_peer_item_build, '        "//submodules/TelegramCore:TelegramCore",\n', '        "//submodules/TelegramCore:TelegramCore",\n        "//submodules/NagramiXCore:NagramiXCore",\n', "Link mutual-contact cells with settings")
+
+    replace_once(peer_info_screen, "import TelegramCore\n", "import TelegramCore\nimport NagramiXCore\n", "Read mutual-contact preference in profiles")
+    replace_once(peer_info_screen, "    private var validLayout: (layout: ContainerViewLayout, navigationHeight: CGFloat)?\n", "    private var validLayout: (layout: ContainerViewLayout, navigationHeight: CGFloat)?\n    private var nagramiXMutualObserver: NSObjectProtocol?\n    private var nagramiXLastMutualEnabled = NagramiXTabSettings.current.showMutualContactIcon\n", "Profile mutual-contact observer state")
+    replace_once(peer_info_screen, "        ), strings: baseNavigationBarPresentationData.strings))\n", """        ), strings: baseNavigationBarPresentationData.strings))
+        self.nagramiXMutualObserver = NotificationCenter.default.addObserver(forName: NagramiXTabSettings.changedNotification, object: nil, queue: .main, using: { [weak self] _ in
+            guard let self else { return }
+            let enabled = NagramiXTabSettings.current.showMutualContactIcon
+            guard enabled != self.nagramiXLastMutualEnabled else { return }
+            self.nagramiXLastMutualEnabled = enabled
+            guard self.isNodeLoaded, let (layout, navigationHeight) = self.validLayout else { return }
+            self.controllerNode.containerLayoutUpdated(layout: layout, navigationHeight: navigationHeight, transition: .immediate)
+        })
+""", "Refresh profile contact metadata when settings change")
+    replace_once(peer_info_screen, "        self.readyInternalDisposable?.dispose()\n", """        if let observer = self.nagramiXMutualObserver {
+            NotificationCenter.default.removeObserver(observer)
+        }
+        self.readyInternalDisposable?.dispose()
+""", "Dispose profile mutual-contact observer")
 
     account_utils = source / "submodules" / "AccountUtils" / "Sources" / "AccountUtils.swift"
     replace_once(
