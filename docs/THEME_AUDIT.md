@@ -31,7 +31,15 @@
 
 ## Проверки
 
-Применение overlay к чистому pin, сравнение с baseline, Python/Swift syntax и метаданные — пройдены. Нативная clean ARM64 сборка текущего SHA — ожидается; этот статус не относится к ранее опубликованному IPA №68. Новый workflow запрашивается без restore/save Bazel cache и без публикации/перезаписи релиза.
+Изменённые файлы: `ios/apply_features.py`, `ios/Sources/SettingsUI/NagramiXSettingsSearchHeader.swift`, `.github/workflows/build-unsigned-ipa.yml`, `AGENTS.md`, `README.md`, `docs/AI_HANDOFF.md`, `docs/PENDING_RELEASE.md`, `docs/THEME_AUDIT.md`, `docs/IPHONE_TEST_0.4.3.md`, `product/features/clean-install-defaults.md`, `product/features/registry.json`. Первые два содержат runtime-правки, workflow — отдельный режим чистой сборки, остальные — требования, статус и план приёмки.
+
+Точно выявленные нарушения в добавленном UI: чужой semantic key `chat.inputPanel.panelControlColor` на navigation surface категорий; фиксированный цвет `0x2f80ed` и `.white` у action подтверждения истории; emoji поиска без привязки к theme и стандартный UIKit clear без Telegram tint; `.black` у недисплейного measurement метки. Замены и фактические ключи перечислены в таблице выше. Это результаты аудита исходников, а не установленная причина невидимой кнопки на отсутствующем скриншоте.
+
+Применение overlay к чистому pin, сравнение с baseline, Python/Swift syntax и метаданные — пройдены.
+
+Чистая [сборка №71](https://github.com/Mr-EFES/NagramiX/actions/runs/37355849502) завершилась успешно 2026-10-05, исходный SHA `65b118088bdf9776e8bf0a5cb21b51a3041e3dd1`. Restore/save кеша Bazel пропущены; выполнена полная нативная компиляция, включая Swift typecheck. Ошибок компилятора нет; предупреждений для затронутых Swift-файлов в журнале не найдено. В журнале есть предупреждения базовых зависимостей и сборочного инструментария; они не исправлялись в рамках theme fix.
+
+[Проверочный артефакт с unsigned IPA](https://github.com/Mr-EFES/NagramiX/actions/runs/37355849502/artifacts/11367297769): версия 0.4.3/build71, размер IPA 73 888 976 байт, SHA-256 `448818d0cf640d69e8888b1fdb658bbc97b497066fec56bdbfc711158ea8e2ea`. Проверены совпадение checksum/provenance, исходный commit и upstream pin, ARM64 Mach-O, bundle ID `com.mr-efes.nagramix`, русский development region, 14843 основных/180 дополнительных RU строк, полное «Изменить» и «Взаимный контакт», отсутствие временных подписей и provisioning profiles. Для установки используется SideStore. Релиз v0.4.3/build68 и его файлы не изменены; новая сборка опубликована только в Actions.
 
 | Приёмка | Статус |
 | --- | --- |

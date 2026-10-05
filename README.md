@@ -77,3 +77,5 @@ python3 scripts/check_upstreams.py --require-current
 ## Правовой статус
 
 NagramiX — независимое неофициальное некоммерческое приложение. Проект не связан с Telegram Messenger Inc., не спонсируется и не одобряется Telegram.
+
+Проверочные правки оформления после релиза: [clean-сборка №71 с IPA](https://github.com/Mr-EFES/NagramiX/actions/runs/37355849502/artifacts/11367297769), [аудит и оставшаяся визуальная приёмка](docs/THEME_AUDIT.md). Старый релизный IPA №68 не заменён.

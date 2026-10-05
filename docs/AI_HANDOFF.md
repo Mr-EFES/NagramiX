@@ -14,7 +14,7 @@ NagramiXSettingsSearchHeader: stock Loupe/Clear image + inputIconColor/inputClea
 
 AppDelegate до sharedContextSignal выполняет AccountManager transaction/updateSharedData: guard entry == nil, стандартная defaultSettings.withUpdatedTheme(.nightAccent).withUpdatedAutomaticThemeSwitchSetting(force:false, trigger:.explicitNone, theme:.night). Сохранённые entries возвращаются без изменений. Default settings/factories/palettes/fonts и штатный system tracking не патчатся. Защита расширена до 24 stock файлов, включая header/actions/native search/button adapter.
 
-Workflow добавлен clean_build input: пропускает restore/save Bazel cache на новом macOS runner. Запустить с clean_build=true, publish_release=false; новая версия и перезапись релиза не запрошены. Исправление взаимного контакта также войдёт в эту проверочную сборку. Полный аудит/ограничения/матрица — docs/THEME_AUDIT.md. Linux не запускает iOS-приложение; визуальные acceptance Light/Dark/Night/live-switch/font-scale и отсутствующий screenshot scenario ожидают устройства.
+Workflow добавлен clean_build input: пропускает restore/save Bazel cache на новом macOS runner. Сборка №71 с clean_build=true, publish_release=false прошла; новая версия и перезапись релиза не запрошены. Исправление взаимного контакта также включено в эту проверочную сборку. Полный аудит/ограничения/матрица — docs/THEME_AUDIT.md. Linux не запускает iOS-приложение; визуальные acceptance Light/Dark/Night/live-switch/font-scale и отсутствующий screenshot scenario ожидают устройства.
 
 ## Исправление взаимного контакта после сборки №68
 
@@ -24,7 +24,7 @@ Workflow добавлен clean_build input: пропускает restore/save B
 
 В ContactsPeerItemNode/PeerInfoScreen добавлены main-queue observers только изменения showMutualContactIcon, weak self/cleanup. Переключатель обновляет открытые представления. Добавлена локализованная строка в NagramiXCore RU/EN и PresentationStrings. Спецификация mutual-contact-badge.md актуализирована.
 
-Проверено применение baseline/current overlay к pin, сохранение 18 защищённых stock-файлов, синтаксис Python/Swift, RU локализация и метаданные. Сравнение generated дерева ограничено ContactsPeerItem, PeerInfoProfileItems, PeerInfoScreen и добавленными строками NagramiXCore. Нативная компиляция изменённых исходников и физическая проверка НЕ выполнены; registry profile_info compile_pending. Опубликованный IPA сборки №68 остаётся прежним.
+Проверено применение baseline/current overlay к pin, сохранение 18 защищённых stock-файлов, синтаксис Python/Swift, RU локализация и метаданные. Сравнение generated дерева ограничено ContactsPeerItem, PeerInfoProfileItems, PeerInfoScreen и добавленными строками NagramiXCore. Нативная компиляция исправленных исходников прошла в чистой сборке №71; registry profile_info compile_passed, device_pending. Физическая проверка ещё не выполнена. Опубликованный IPA сборки №68 остаётся прежним.
 
 ## Изменения выпуска
 
@@ -69,12 +69,20 @@ Overlay применён к Telegram-iOS 12.9.2, SHA 6ad963e5b62d354da79040f388a
 
 ## Следующий шаг
 
-Завершить clean native build текущего SHA, записать результат и предоставить артефакт. Получить отсутствующий скриншот/точный экран для regression, затем физически проверить Light/Dark/Night/custom/live-switch/font-scale. Задачу целиком не считать закрытой до этих результатов.
+Clean native build №71 и проверка IPA завершены. Получить отсутствующий скриншот/точный экран для regression, затем физически проверить Light/Dark/Night/custom/live-switch/font-scale на артефакте №71. Задачу целиком не считать закрытой до этих результатов.
 
-По отдельной задаче пользователя собрать обновлённые исходники, затем проверить взаимный/невзаимный контакт, включение/выключение без перезапуска, длинные имена, профиль, VoiceOver и обе темы. Текущий опубликованный IPA исправление взаимного контакта не содержит.
+В №71 включено исправление взаимного контакта: проверить взаимный/невзаимный контакт, включение/выключение без перезапуска, длинные имена, профиль, VoiceOver и обе темы. Старый релизный IPA №68 это исправление не содержит.
 
-Установить опубликованный IPA через SideStore и пройти план на iPhone. Чистый первый запуск языка/default-переключателей проверять отдельно от обновления, которое сохраняет выбор и локальные данные. Записать результаты, затем исправлять по новым задачам пользователя. Нативная сборка и проверка IPA не доказывают отсутствие UI/runtime ошибок. GitHub main синхронизирован через exact SHA objects/update_ref force=false; поздний documentation commit не является исходным SHA IPA. Коммиты/отчёты — русские.
+Установить проверочный IPA №71 из Actions через SideStore и пройти план на iPhone. Чистый первый запуск языка/default-переключателей проверять отдельно от обновления, которое сохраняет выбор и локальные данные. Записать результаты, затем исправлять по новым задачам пользователя. Нативная сборка и проверка IPA не доказывают отсутствие UI/runtime ошибок. GitHub main синхронизирован через exact SHA objects/update_ref force=false; поздний documentation commit не является исходным SHA IPA. Коммиты/отчёты — русские.
 
 При смене keyboardAppearance в активном поиске используется штатный SearchBarNode pattern resign/becomeFirstResponder; guard исключает переактивацию при обычном вводе и прежнем стиле. Clear rightView скрывается режимом .never на пустом запросе, чтобы UIKit не возвращал пустую кнопку при layout. Первая чистая попытка №69 остановлена для включения этой необходимой live-theme правки; итоговую сборку следует проверять по новому SHA.
 
 Иконки/UIButton поиска создаются lazy при первом apply на main queue: Contacts/ItemList nodeConfiguredForParams может создавать сам ASDisplayNode в async closure, поэтому обычные UIKit views нельзя создавать eager в его stored properties. Для итоговой сборки используется SHA после этой правки, попытка №70 остановлена.
+
+## Итоговая чистая сборка theme fix
+
+Чистая [сборка №71](https://github.com/Mr-EFES/NagramiX/actions/runs/37355849502) завершилась успешно 2026-10-05, исходный SHA `65b118088bdf9776e8bf0a5cb21b51a3041e3dd1`. Restore/save кеша Bazel пропущены; выполнена полная нативная компиляция, включая Swift typecheck. Ошибок компилятора нет; предупреждений для затронутых Swift-файлов в журнале не найдено. В журнале есть предупреждения базовых зависимостей и сборочного инструментария; они не исправлялись в рамках theme fix.
+
+[Проверочный артефакт с unsigned IPA](https://github.com/Mr-EFES/NagramiX/actions/runs/37355849502/artifacts/11367297769): версия 0.4.3/build71, размер IPA 73 888 976 байт, SHA-256 `448818d0cf640d69e8888b1fdb658bbc97b497066fec56bdbfc711158ea8e2ea`. Проверены совпадение checksum/provenance, исходный commit и upstream pin, ARM64 Mach-O, bundle ID `com.mr-efes.nagramix`, русский development region, 14843 основных/180 дополнительных RU строк, полное «Изменить» и «Взаимный контакт», отсутствие временных подписей и provisioning profiles. Для установки используется SideStore. Релиз v0.4.3/build68 и его файлы не изменены; новая сборка опубликована только в Actions.
+
+Попытки №69 и №70 отменены для включения дополнительных исправлений клавиатуры и main-thread создания UIKit views; это не compile failure. Итоговый исходный SHA сборки №71 указан выше; последующий documentation commit не является исходником IPA. Визуальная приёмка и точный сценарий отсутствующего скриншота остаются открытыми.
