@@ -84,8 +84,8 @@ private final class NagramiXSettingsSearchTextField: UITextField {
 private final class NagramiXSettingsSearchItemNode: ListViewItemNode, ItemListItemNode, UITextFieldDelegate {
     private var item: NagramiXSettingsSearchItem?
     private var textField: NagramiXSettingsSearchTextField?
-    private let searchIcon = UIImageView()
-    private let clearButton = UIButton(type: .custom)
+    private lazy var searchIcon = UIImageView()
+    private lazy var clearButton = UIButton(type: .custom)
 
     var tag: ItemListItemTag? {
         return nil
