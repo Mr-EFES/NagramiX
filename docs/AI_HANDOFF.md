@@ -4,7 +4,7 @@
 
 ## Текущая задача
 
-Пользователь разрешил собрать рабочую тестовую 0.4.3 для физической проверки на iPhone 17 Pro Max, iOS 27.0, SideStore. Включить все накопленные изменения: русский язык до/после первой авторизации, stock-оформление Telegram, лёгкий blur истории, заголовок звонков в «Прочее», согласованные переключатели первого запуска. Опубликовать как prerelease, не заявлять стабильность без устройства.
+Пользователь разрешил собрать рабочую тестовую 0.4.3 для физической проверки на iPhone 17 Pro Max, iOS 27.0, SideStore. Включить все накопленные изменения: русский язык до/после первой авторизации, stock-оформление Telegram, лёгкий blur истории, заголовок звонков в «Прочее», согласованные переключатели первого запуска. Сборка №68 и публикация prerelease завершены успешно; не заявлять стабильность без устройства.
 
 ## Изменения выпуска
 
@@ -21,27 +21,27 @@
 
 Скачивается только фото или обложка видео; видео целиком не запрашивается. Пока изображение не загрузилось (либо отсутствует previewRepresentation/сеть), фон нейтральный чёрный, подтверждение и отмена доступны. Нельзя обещать отображение деталей недоступного медиа. Подписки и fetch отменяются при закрытии через прежний previewDisposable.
 
-Сравнение overlay до/после: изменён только StoryContainerScreen.swift. Swift-синтаксис проверен; тела closePressed/confirmPressed/nagramiXCanMarkStoryAsSeen совпадают, весь StoryContainerScreen после нормализации четырёх preview expressions и их типа совпадает побайтно. Логика подтверждения, отмены, навигации, per-story approval и seen-state сохранена. Это не новая нативная сборка и не визуальная проверка на iPhone.
+Сравнение overlay до/после: изменён только StoryContainerScreen.swift. Swift-синтаксис проверен; тела closePressed/confirmPressed/nagramiXCanMarkStoryAsSeen совпадают, весь StoryContainerScreen после нормализации четырёх preview expressions и их типа совпадает побайтно. Логика подтверждения, отмены, навигации, per-story approval и seen-state сохранена. Нативная сборка №68 прошла; визуальная проверка на iPhone ещё отсутствует.
 
 ## Заголовок звонков в «Прочее»
 
-В ios/Sources/SettingsUI/NagramiXSettingsController.swift добавлен otherCallsHeader во вкладку other перед Force TCP. Использует тот же ItemListSectionHeaderItem/локализованный nagramiXCallsHeader/section calls, что заголовки соседних вкладок. Отдельный stableId49, исключён из результатов поиска; поиск Force TCP по группе «Прочее · Звонки» сохранён. callsHeader и подтверждение исходящих звонков во вкладке «Функции» сохранены. Переключатель, сохранение forceTcpCalls и VoIP integration не изменены. Проверены применение overlay, синтаксис Swift и метаданные; визуальная проверка и нативная компиляция ожидают следующей сборки.
+В ios/Sources/SettingsUI/NagramiXSettingsController.swift добавлен otherCallsHeader во вкладку other перед Force TCP. Использует тот же ItemListSectionHeaderItem/локализованный nagramiXCallsHeader/section calls, что заголовки соседних вкладок. Отдельный stableId49, исключён из результатов поиска; поиск Force TCP по группе «Прочее · Звонки» сохранён. callsHeader и подтверждение исходящих звонков во вкладке «Функции» сохранены. Переключатель, сохранение forceTcpCalls и VoIP integration не изменены. Проверены применение overlay, синтаксис Swift и метаданные; нативная компиляция прошла в сборке №68, визуальная проверка ожидается.
 
 ## Значения переключателей при первом запуске
 
 В NagramiXTabSettings.current изменены только девять отсутствующих-key fallback false→true: wideChannelPosts/useRearCameraForVideoMessages/hideStories/disableStoryCameraSwipe/confirmStoryViewing/enableStoryRepost/showProfileIds/showRegistrationDate/showMutualContactIcon. Остальные перечисленные пользователем значения уже соответствуют запросу: hideContacts/hideCalls/showProxyButton/hideProxySponsorChannel/showForwardWithoutAuthor/showSelectByAuthor/confirmOutgoingCalls=true, showDeletedMessages/messageEditHistory/forceTcpCalls=false. Неназванные showSearchButton/proxyAutoSwitchEnabled остаются false; DNS system/таймер15 без изменений.
 
-object(forKey:) as? Bool ?? default сохраняет явный false, а не заменяет его новым default. Ключи, write/update и legacy migration спонсора не менялись; повторные старты/обновления не сбрасывают ручной выбор. Проверены все 19 запрошенных default-позиций, синтаксис, применение overlay и метаданные; нативная компиляция/первый запуск на устройстве ожидают следующей сборки. product/SETTINGS.md и спецификация широких постов актуализированы.
+object(forKey:) as? Bool ?? default сохраняет явный false, а не заменяет его новым default. Ключи, write/update и legacy migration спонсора не менялись; повторные старты/обновления не сбрасывают ручной выбор. Проверены все 19 запрошенных default-позиций, синтаксис, применение overlay и метаданные; нативная компиляция прошла в сборке №68, первый запуск на устройстве ожидает проверки. product/SETTINGS.md и спецификация широких постов актуализированы.
 
 ## Проверки и границы
 
-Overlay применён к Telegram-iOS 12.9.2, SHA 6ad963e5b62d354da79040f388ae2b9132fb17b8. Проверено сохранение 18 stock-файлов, stock sectionControl/defaultPresentationData и начальной темы AppDelegate; сравнение с baseline выявляет только целевые изменения и новые изолированные компоненты. Остальные функции совпадают побайтно. Python syntax, Swift tree-sitter syntax, intro localization, shell syntax, metadata и git diff проверены. Это не Swift typecheck, не новая нативная сборка и не физическая проверка. Гарантировать устранение визуальных проблем на iOS 27 без следующего IPA нельзя.
+Overlay применён к Telegram-iOS 12.9.2, SHA 6ad963e5b62d354da79040f388ae2b9132fb17b8. Проверено сохранение 18 stock-файлов, stock sectionControl/defaultPresentationData и начальной темы AppDelegate; сравнение с baseline выявляет только целевые изменения и новые изолированные компоненты. Остальные функции совпадают побайтно. Python syntax, Swift tree-sitter syntax, intro localization, shell syntax, metadata и git diff проверены. Нативная компиляция, включая Swift typecheck, прошла в сборке №68. Физическая проверка визуальных проблем на iOS 27 ещё не выполнена.
 
 Сохранённый английский из старого сбойного запуска не отличим от ручного выбора английского. Его автоматически не сбрасываем; новый чистый вход исправлен. Старые сохранённые Tinted/другие предпочтения также не сбрасываем. Проверить чистое состояние отдельно от обновления без потери локального архива.
 
 ## Сборка и публикация
 
-Метаданные переведены на 0.4.3, подготовлена русская аннотация. Предыдущие IPA не переименовываются и не заменяются. После успешной сборки записать исходный SHA/run/build/checksum и проверить скачанный новый IPA. [Статус](PENDING_RELEASE.md), [план](IPHONE_TEST_0.4.3.md).
+[Тестовый релиз](https://github.com/Mr-EFES/NagramiX/releases/tag/v0.4.3) опубликован 2026-10-05; [сборка №68](https://github.com/Mr-EFES/NagramiX/actions/runs/37328777156) прошла успешно. Исходный SHA `371eb84e9b0c2845856dd9d6809015e8166a84bb`. SHA-256 `de31cdbc398234aac40c9241d27e2a8cb8c0cf1fa9bb8f091d2745b1d490688f`. Размер 73 888 480 байт. Скачанный IPA проверен: версия 0.4.3/build 68, ARM64, bundle com.mr-efes.nagramix, русский development region, 14843 RU строк с полным Common.Edit «Изменить» и 179 custom RU строк, отсутствие signatures/profiles, правильные provenance/checksum. Это отдельный новый IPA; прежние файлы не заменены. [Статус](PENDING_RELEASE.md), [план](IPHONE_TEST_0.4.3.md).
 
 ## Сохранённые функции
 
@@ -49,4 +49,4 @@ Overlay применён к Telegram-iOS 12.9.2, SHA 6ad963e5b62d354da79040f388a
 
 ## Следующий шаг
 
-Проверить актуальность upstream, запустить единственный workflow с publish_release=true/prerelease=true от main, дождаться успешной сборки, скачать и проверить IPA/ARM64/RU/resources/provenance/checksum/signature removal. Записать фактический результат в текущие документы/реестр/русскую аннотацию. GitHub git push ранее возвращал 401; публикация exact SHA через /tmp/nagramix-publish.py и update_ref force=false. Коммиты/отчёты — русские.
+Установить опубликованный IPA через SideStore и пройти план на iPhone. Чистый первый запуск языка/default-переключателей проверять отдельно от обновления, которое сохраняет выбор и локальные данные. Записать результаты, затем исправлять по новым задачам пользователя. Нативная сборка и проверка IPA не доказывают отсутствие UI/runtime ошибок. GitHub main синхронизирован через exact SHA objects/update_ref force=false; поздний documentation commit не является исходным SHA IPA. Коммиты/отчёты — русские.
