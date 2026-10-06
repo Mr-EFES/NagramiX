@@ -1,10 +1,10 @@
-# Текущий контекст NagramiX 0.4.3
+# Текущий контекст NagramiX 0.4.4
 
 Обновлено 2026-10-06 (Москва). Единственная ветка main, upstream origin/main. Основа Telegram-iOS 12.9.2, pin `6ad963e5b62d354da79040f388ae2b9132fb17b8`. Проект overlay, не полный исходный fork. Все новые отчёты/коммиты/аннотации — русские.
 
-## Текущая задача и запрет сборки
+## Текущая задача — разрешённая сборка и публикация
 
-Пользователь прислал пять скриншотов. Light/House корректна; выбор Chick делает прозрачными три native action строки собственного профиля («Сменить эмодзи-статус», цвет профиля, фото), выбранную вкладку/другие акценты; также сообщается о невидимой отправке. Требуется stock Telegram оформление. Новый clean-install default: ночной режим «Системная», выбранная ночная «Тёмная». **Без отдельной новой команды пользователя сборку не запускать.** Нативная компиляция текущей правки и физическая проверка ожидаются; не заявлять стабильность.
+Пользователь прислал пять скриншотов. Light/House корректна; выбор Chick делает прозрачными три native action строки собственного профиля («Сменить эмодзи-статус», цвет профиля, фото), выбранную вкладку/другие акценты; также сообщается о невидимой отправке. Требуется stock Telegram оформление. Новый clean-install default: ночной режим «Системная», выбранная ночная «Тёмная». Пользователь дал команду собрать и опубликовать 0.4.4 с краткой русской аннотацией. Эта сборка разрешена. Физическая проверка ожидается; не заявлять стабильность.
 
 ## Что изменено после пяти скриншотов
 
@@ -20,19 +20,17 @@
 
 Baseline HEAD overlay и текущий overlay применены к чистым validation копиям pin. Ровно пять generated файлов отличаются (четыре конверсии и AppDelegate), остальные 921 совпадают. Новые source-файлы официальной базы дозагружены только для анализа. Tree-sitter Swift syntax пяти файлов, Python syntax, metadata, RU intro13, diff check пройдены. Проверены RGB24 black/blue/green/white и ARGB alpha255/128/1: RGB не меняется; восстанавливается только отсутствующая alpha.
 
-Это статические проверки. Native compile/typecheck/warnings и визуал новой правки НЕ проверены; workflow не запускался по прямому запрету пользователя. Registry clean_install_defaults и standard_telegram_themes: compile_pending/device_pending. Остальные функции не менялись. Документация/спецификация/реестр/план физической проверки актуализированы; версия остаётся 0.4.3 до отдельной задачи выпуска.
+Это статические проверки. Native compile/typecheck/warnings готовятся в разрешённой сборке 0.4.4; визуал новой правки пока не проверен. Registry clean_install_defaults и standard_telegram_themes: compile_pending/device_pending. Остальные функции не менялись. Документация/спецификация/реестр/план физической проверки актуализированы; версия обновлена до 0.4.4 по новой задаче выпуска.
 
-## Предыдущие артефакты — не новые исправления
+## Сборка и публикация 0.4.4
 
-- Релиз [v0.4.3](https://github.com/Mr-EFES/NagramiX/releases/tag/v0.4.3), IPA build68: исходный SHA `371eb84e9b0c2845856dd9d6809015e8166a84bb`; 73 888 480 байт; SHA256 `de31cdbc398234aac40c9241d27e2a8cb8c0cf1fa9bb8f091d2745b1d490688f`.
-- Отдельная [clean-сборка №71](https://github.com/Mr-EFES/NagramiX/actions/runs/37355849502), [артефакт](https://github.com/Mr-EFES/NagramiX/actions/runs/37355849502/artifacts/11367297769): исходный SHA `65b118088bdf9776e8bf0a5cb21b51a3041e3dd1`; 73 888 976 байт; SHA256 `448818d0cf640d69e8888b1fdb658bbc97b497066fec56bdbfc711158ea8e2ea`. Полная compile/typecheck успешна, связанных Swift warnings не найдено. IPA проверен: ARM64, version0.4.3/build71, bundle com.mr-efes.nagramix, regionru, RU14843/custom180, «Изменить»/«Взаимный контакт», без signatures/profiles, provenance/checksum совпадают.
-- №71 не содержит нынешней RGB24/ARGB/System-Dark правки. №68 не содержит также исправления взаимного контакта. Старые релиз/tag/assets не перезаписывались. Попытки69/70 ранее отменены для дополнительных исправлений поиска, не compile failures.
+Метаданные, единственная аннотация product/releases/0.4.4.md, registry, workflow и документация актуализированы. Native pipeline собирает ARM64 на macOS/Xcode. Release job дополнительно вызывает scripts/validate_unsigned_ipa.py до публикации: версия/build, source/upstream SHA, checksum, ARM64, русский region, все RU ключи/«Изменить»/«Взаимный контакт», удаление временных подписей/профилей. Скрипт проверен на предыдущем известном IPA; это не сборка 0.4.4. Старые теги/релизы не изменять. Новую публикацию пометить prerelease для физической проверки.
 
 ## Сохранённые функции и контекст
 
 Русский: полный bundled RU fallback, скачивание/сохранение ru до первого входа, отсутствие английского fallback после авторизации/фонового updates, полное «Изменить». Ручной язык сохраняется; старый сбойный saved en не отличим от намеренного en и не сбрасывается.
 
-Взаимный контакт: real TelegramUser.flags.mutualContact (не self/bot/nameless); «⇄ Взаимный контакт» перед прежним status, picker без status — компактный ⇄ перед именем. Native TextNode не принимает прежний NSTextAttachment. Профиль — PeerInfoScreenLabeledValueItem ID11002. Main-queue weak observers only toggle changes, cleanup. Контакты не зависят от разрешения phone addressbook для чтения server flag. Исправление вошло в №71, физическая приёмка не получена.
+Взаимный контакт: real TelegramUser.flags.mutualContact (не self/bot/nameless); «⇄ Взаимный контакт» перед прежним status, picker без status — компактный ⇄ перед именем. Native TextNode не принимает прежний NSTextAttachment. Профиль — PeerInfoScreenLabeledValueItem ID11002. Main-queue weak observers only toggle changes, cleanup. Контакты не зависят от разрешения phone addressbook для чтения server flag. Исправление включено в 0.4.4, физическая приёмка ожидается.
 
 Категории NagramiX изолированы как equalSectionControl; native shared HorizontalTabs/sectionControl остаются stock. Custom categories используют navigationBar.primaryTextColor. Поиск — stock Loupe/Clear + navigationSearchBar semantic colors; lazy UIKit creation main queue, native keyboard resign/become при изменении style; геометрия full-width48/r24/y12/item71 сохранена. Header «ЗВОНКИ» в Прочее stableId49 перед ForceTCP, исключён из search.
 
@@ -42,4 +40,4 @@ Stories: качественный completed photoDatas / largest video preview, 
 
 ## Следующий шаг
 
-Дождаться отдельной команды сборки. Затем собрать новый исходный SHA, проверить IPA/provenance/русские ресурсы и физически повторить House → Chick → профиль/send, выбранную вкладку, preview/editor/link, Light/Dark/Night/custom/live-switch/font-scale. Отдельно clean install System/Dark и сохранение ручного выбора/русского. [План](IPHONE_TEST_0.4.3.md), [статус](PENDING_RELEASE.md). Устройство iPhone 17 Pro Max, iOS 27.0, SideStore. Не выдавать старый IPA за текущий и не запускать workflow по собственной инициативе.
+Выполнить разрешённую сборку 0.4.4 и публикацию; проверить job log и скачанный IPA, записать run/build/source/hash. Затем физически повторить House → Chick → профиль/send, выбранную вкладку, preview/editor/link, Light/Dark/Night/custom/live-switch/font-scale. Отдельно clean install System/Dark и сохранение ручного выбора/русского. [План](IPHONE_TEST_0.4.4.md), [статус](PENDING_RELEASE.md). Устройство iPhone 17 Pro Max, iOS 27.0, SideStore. Не выдавать предыдущий IPA за новый.

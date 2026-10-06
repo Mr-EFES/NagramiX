@@ -32,7 +32,7 @@ jobs:
       TELEGRAM_API_ID: ${{ secrets.TELEGRAM_API_ID }}
       TELEGRAM_API_HASH: ${{ secrets.TELEGRAM_API_HASH }}
       BAZEL_CACHE: ${{ github.workspace }}/.bazel-cache
-      NAGRAMIX_VERSION: 0.4.3
+      NAGRAMIX_VERSION: 0.4.4
 
     steps:
       - name: Получить overlay NagramiX
@@ -198,6 +198,11 @@ jobs:
           sha256sum --check SHA256SUMS
           grep -Fx "NagramiX commit: $GITHUB_SHA" BUILD-PROVENANCE.txt
           grep -Fx "NagramiX version: $RELEASE_VERSION" BUILD-PROVENANCE.txt
+          python3 ../scripts/validate_unsigned_ipa.py \
+            --ipa "NagramiX-${RELEASE_VERSION}-unsigned.ipa" \
+            --version "$RELEASE_VERSION" --build-number "$GITHUB_RUN_NUMBER" \
+            --source-commit "$GITHUB_SHA" \
+            --provenance BUILD-PROVENANCE.txt --checksums SHA256SUMS
           tag="v${RELEASE_VERSION}"
           if gh release view "$tag" --repo "$GITHUB_REPOSITORY" >/dev/null 2>&1; then
             echo "Релиз $tag уже существует; автоматическая замена запрещена."
