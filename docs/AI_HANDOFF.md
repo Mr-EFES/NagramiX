@@ -2,7 +2,7 @@
 
 Обновлено 2026-10-06 (Москва). Единственная ветка main, upstream origin/main. Основа Telegram-iOS 12.9.2, pin `6ad963e5b62d354da79040f388ae2b9132fb17b8`. Проект overlay, не полный исходный fork. Все новые отчёты/коммиты/аннотации — русские.
 
-## Текущая задача — разрешённая сборка и публикация
+## Текущий статус — сборка опубликована, ожидается физическая проверка
 
 Пользователь прислал пять скриншотов. Light/House корректна; выбор Chick делает прозрачными три native action строки собственного профиля («Сменить эмодзи-статус», цвет профиля, фото), выбранную вкладку/другие акценты; также сообщается о невидимой отправке. Требуется stock Telegram оформление. Новый clean-install default: ночной режим «Системная», выбранная ночная «Тёмная». Пользователь дал команду собрать и опубликовать 0.4.4 с краткой русской аннотацией. Эта сборка разрешена. Физическая проверка ожидается; не заявлять стабильность.
 
@@ -20,11 +20,11 @@
 
 Baseline HEAD overlay и текущий overlay применены к чистым validation копиям pin. Ровно пять generated файлов отличаются (четыре конверсии и AppDelegate), остальные 921 совпадают. Новые source-файлы официальной базы дозагружены только для анализа. Tree-sitter Swift syntax пяти файлов, Python syntax, metadata, RU intro13, diff check пройдены. Проверены RGB24 black/blue/green/white и ARGB alpha255/128/1: RGB не меняется; восстанавливается только отсутствующая alpha.
 
-Это статические проверки. Native compile/typecheck/warnings готовятся в разрешённой сборке 0.4.4; визуал новой правки пока не проверен. Registry clean_install_defaults и standard_telegram_themes: compile_pending/device_pending. Остальные функции не менялись. Документация/спецификация/реестр/план физической проверки актуализированы; версия обновлена до 0.4.4 по новой задаче выпуска.
+Чистая нативная компиляция/typecheck прошла в сборке №72. В журналах не найдены warning/error для изменённых файлов оформления и NagramiX UI. Визуал новой правки пока не проверен. Registry clean_install_defaults и standard_telegram_themes: compile_passed/device_pending. Остальные функции не менялись. Документация/спецификация/реестр/план физической проверки актуализированы; версия обновлена до 0.4.4 по новой задаче выпуска.
 
 ## Сборка и публикация 0.4.4
 
-Метаданные, единственная аннотация product/releases/0.4.4.md, registry, workflow и документация актуализированы. Native pipeline собирает ARM64 на macOS/Xcode. Release job дополнительно вызывает scripts/validate_unsigned_ipa.py до публикации: версия/build, source/upstream SHA, checksum, ARM64, русский region, все RU ключи/«Изменить»/«Взаимный контакт», удаление временных подписей/профилей. Скрипт проверен на предыдущем известном IPA; это не сборка 0.4.4. Старые теги/релизы не изменять. Новую публикацию пометить prerelease для физической проверки.
+Метаданные, единственная аннотация product/releases/0.4.4.md, registry, workflow и документация актуализированы. Native pipeline собирает ARM64 на macOS/Xcode. Release job дополнительно вызывает scripts/validate_unsigned_ipa.py до публикации: версия/build, source/upstream SHA, checksum, ARM64, русский region, все RU ключи/«Изменить»/«Взаимный контакт», удаление временных подписей/профилей. Скрипт прошёл в release job и повторно на скачанном из релиза IPA 0.4.4. [Run №72](https://github.com/Mr-EFES/NagramiX/actions/runs/37482566528) и [релиз v0.4.4](https://github.com/Mr-EFES/NagramiX/releases/tag/v0.4.4) успешны. Build/source: 72 / `6ac34296c3000c8931c021d5b51d1bd2bd8a8b76`; размер 73892520 байт; SHA256 `28b8526e585c877e7b8dc08f5882de11633604f71f97fa696a5145005645074d`. RU 14843/180. Тег указывает на исходный commit сборки; последующий commit документации не меняет IPA. Prerelease для физической проверки; прежние теги/релизы не менялись.
 
 ## Сохранённые функции и контекст
 
@@ -40,4 +40,4 @@ Stories: качественный completed photoDatas / largest video preview, 
 
 ## Следующий шаг
 
-Выполнить разрешённую сборку 0.4.4 и публикацию; проверить job log и скачанный IPA, записать run/build/source/hash. Затем физически повторить House → Chick → профиль/send, выбранную вкладку, preview/editor/link, Light/Dark/Night/custom/live-switch/font-scale. Отдельно clean install System/Dark и сохранение ручного выбора/русского. [План](IPHONE_TEST_0.4.4.md), [статус](PENDING_RELEASE.md). Устройство iPhone 17 Pro Max, iOS 27.0, SideStore. Не выдавать предыдущий IPA за новый.
+Сборка, публикация, job logs и скачанный IPA проверены. Физически повторить House → Chick → профиль/send, выбранную вкладку, preview/editor/link, Light/Dark/Night/custom/live-switch/font-scale. Отдельно clean install System/Dark и сохранение ручного выбора/русского. [План](IPHONE_TEST_0.4.4.md), [статус](PENDING_RELEASE.md). Устройство iPhone 17 Pro Max, iOS 27.0, SideStore. Не выдавать предыдущий IPA за новый.
