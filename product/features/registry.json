@@ -8,11 +8,11 @@
   "features": [
     {
       "id": "clean_install_defaults",
-      "title": "Русский язык и стандартная тёмная тема Telegram при чистой установке",
+      "title": "Русский язык и системное оформление Telegram с тёмной ночной темой",
       "specification": "specified",
       "ios": {
         "implementation": "implemented",
-        "compile": "compile_passed",
+        "compile": "compile_pending",
         "device": "device_pending"
       }
     },
@@ -173,6 +173,16 @@
       "ios": {
         "implementation": "implemented",
         "compile": "compile_passed",
+        "device": "device_pending"
+      }
+    },
+    {
+      "id": "standard_telegram_themes",
+      "title": "Штатные темы Telegram и совместимость RGB24/ARGB акцентов облачных тем",
+      "specification": "specified",
+      "ios": {
+        "implementation": "implemented",
+        "compile": "compile_pending",
         "device": "device_pending"
       }
     }

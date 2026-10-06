@@ -42,12 +42,42 @@ def localize_debug_titles(path: Path) -> None:
     path.write_text(text, encoding="utf-8")
 
 
+def apply_telegram_theme_color_compatibility(source: Path) -> dict[str, bytes]:
+    # Cloud theme settings can contain legacy RGB24 values as well as ARGB.
+    # Keep the supplied RGB and any nonzero alpha; supply only the missing
+    # opaque alpha byte. Do not alter palettes, UIColor globally, or theme files.
+    patches = {
+        "submodules/TelegramPresentationData/Sources/MakePresentationTheme.swift": [
+            ("settings.accentColor", 4),
+            ("$0", 4),
+        ],
+        "submodules/SettingsUI/Sources/Themes/ThemeSettingsAccentColorItem.swift": [("settings.accentColor", 1)],
+        "submodules/TelegramUI/Components/Settings/ThemeAccentColorScreen/Sources/ThemeAccentColorController.swift": [("themeSettings.accentColor", 1)],
+        "submodules/TelegramUI/Sources/OpenResolvedUrl.swift": [("settings.accentColor", 1)],
+    }
+    expected_sources: dict[str, bytes] = {}
+    for name, conversions in patches.items():
+        path = source / name
+        text = path.read_text(encoding="utf-8")
+        for value, expected_count in conversions:
+            old = f"UIColor(argb: {value})"
+            new = f"UIColor(argb: {value} | ({value} >> 24 == 0 ? 0xff000000 : 0))"
+            count = text.count(old)
+            if count != expected_count:
+                raise SystemExit(f"Pinned theme color conversion must occur {expected_count} times, found {count}: {name}: {value}")
+            text = text.replace(old, new)
+        expected_sources[name] = text.encode("utf-8")
+        path.write_bytes(expected_sources[name])
+    return expected_sources
+
+
 def apply_features(source: Path) -> None:
     overlay = Path(__file__).resolve().parent
 
     # Полный русский ресурс доступен до сети и авторизации. Нельзя
     # маскировать английские строки под русскую локализацию.
-    # These files must remain exactly as provided by the pinned Telegram checkout.
+    # Preserve pinned appearance, allowing only the exact color-read compatibility
+    # substitutions below. The builtin palettes, fonts and theme UI stay stock.
     stock_appearance_paths = [
         "submodules/TelegramUIPreferences/Sources/PresentationThemeSettings.swift",
         "submodules/Display/Source/Font.swift",
@@ -61,6 +91,9 @@ def apply_features(source: Path) -> None:
         "submodules/TelegramUI/Components/ChatListHeaderComponent/Sources/NavigationButtonComponent.swift",
         "submodules/SearchBarNode/Sources/SearchBarNode.swift",
         "submodules/PresentationDataUtils/Sources/SolidRoundedButtonNode.swift",
+        "submodules/TelegramUI/Components/Settings/ThemeAccentColorScreen/Sources/ThemeAccentColorController.swift",
+        "submodules/TelegramUI/Components/PeerInfo/PeerInfoScreen/Sources/ListItems/PeerInfoScreenActionItem.swift",
+        "submodules/SettingsUI/Sources/Themes/ThemeAutoNightSettingsController.swift",
     ]
     stock_appearance_paths += [
         "submodules/TelegramPresentationData/Sources/" + name + ".swift"
@@ -71,6 +104,7 @@ def apply_features(source: Path) -> None:
         for name in ("ThemeSettingsController", "ThemeSettingsAccentColorItem", "ThemeSettingsBrightnessItem", "ThemeSettingsChatPreviewItem", "ThemeSettingsFontSizeItem")
     ]
     stock_appearance = {name: (source / name).read_bytes() for name in stock_appearance_paths}
+    compatible_theme_sources = apply_telegram_theme_color_compatibility(source)
 
     english_app_strings = source / "Telegram" / "Telegram-iOS" / "en.lproj" / "Localizable.strings"
     russian_app_strings = source / "Telegram" / "Telegram-iOS" / "ru.lproj" / "Localizable.strings"
@@ -186,14 +220,13 @@ public let defaultPresentationStrings = PresentationStrings(primaryComponent:"""
         app_delegate,
         "        let sharedContextSignal = currentPresentationDataAndSettings(accountManager: accountManager, systemUserInterfaceStyle: systemUserInterfaceStyle)\n",
         """        // Seed only a missing theme preference before the first UI is constructed.
-        // Telegram's builtin Dark (Tinted) theme and all later manual/automatic choices
-        // continue through the stock presentation pipeline.
+        // Keep Telegram's default day theme; select System and builtin Dark (Tinted)
+        // for night mode. All later choices use the stock presentation pipeline.
         let nagramiXInitialTheme = accountManager.transaction { transaction -> Void in
             transaction.updateSharedData(ApplicationSpecificSharedDataKeys.presentationThemeSettings, { entry in
                 guard entry == nil else { return entry }
                 let settings = PresentationThemeSettings.defaultSettings
-                    .withUpdatedTheme(.builtin(.nightAccent))
-                    .withUpdatedAutomaticThemeSwitchSetting(AutomaticThemeSwitchSetting(force: false, trigger: .explicitNone, theme: .builtin(.night)))
+                    .withUpdatedAutomaticThemeSwitchSetting(AutomaticThemeSwitchSetting(force: false, trigger: .system, theme: .builtin(.nightAccent)))
                 return EnginePreferencesEntry(settings)
             })
         }
@@ -202,7 +235,7 @@ public let defaultPresentationStrings = PresentationStrings(primaryComponent:"""
             return currentPresentationDataAndSettings(accountManager: accountManager, systemUserInterfaceStyle: systemUserInterfaceStyle)
         }
 """,
-        "Select stock Telegram Dark only when no theme choice exists",
+        "Select stock Telegram System with Dark night theme only when no choice exists",
     )
 
     presentation_data = source / "submodules" / "TelegramPresentationData" / "Sources" / "PresentationData.swift"
@@ -4625,10 +4658,11 @@ private func nagramiXCopyProfileId(_ value: Int64, presentationData: Presentatio
         raise SystemExit("NagramiX overlay modified Telegram's stock sectionControl branch")
 
     for name, original in stock_appearance.items():
-        if (source / name).read_bytes() != original:
+        expected = compatible_theme_sources.get(name, original)
+        if (source / name).read_bytes() != expected:
             raise SystemExit(f"NagramiX overlay modified protected stock Telegram appearance: {name}")
 
-    print("Applied isolated NagramiX next-version feature overlay; stock Telegram appearance preserved")
+    print("Applied isolated NagramiX feature overlay; stock palettes preserved, legacy cloud accent alpha repaired")
 
 
 if __name__ == "__main__":

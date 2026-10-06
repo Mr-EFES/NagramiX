@@ -17,3 +17,9 @@ SHA-256: `de31cdbc398234aac40c9241d27e2a8cb8c0cf1fa9bb8f091d2745b1d490688f`. Р�
 [Проверочный артефакт с unsigned IPA](https://github.com/Mr-EFES/NagramiX/actions/runs/37355849502/artifacts/11367297769): версия 0.4.3/build71, размер IPA 73 888 976 байт, SHA-256 `448818d0cf640d69e8888b1fdb658bbc97b497066fec56bdbfc711158ea8e2ea`. Проверены совпадение checksum/provenance, исходный commit и upstream pin, ARM64 Mach-O, bundle ID `com.mr-efes.nagramix`, русский development region, 14843 основных/180 дополнительных RU строк, полное «Изменить» и «Взаимный контакт», отсутствие временных подписей и provisioning profiles. Для установки используется SideStore. Релиз v0.4.3/build68 и его файлы не изменены; новая сборка опубликована только в Actions.
 
 Точный Light regression ожидает скриншот/экран и физический тест. Light/Dark/Night/custom/live-switch/font-scale не проверены на устройстве. См. [аудит](THEME_AUDIT.md), [план проверки](IPHONE_TEST_0.4.3.md). Новая сборка не объявлена стабильной.
+
+## Текущие исходники после №71 — не собраны
+
+По пяти скриншотам от 2026-10-06 найден путь исчезновения акцентных действий в PeerInfoScreenActionItem: чтение legacy RGB24 через ARGB давало alpha=0. Добавлена совместимость чтения в четырёх исходных Telegram-файлах, без изменения RGB/ненулевой ARGB alpha, палитр и UI. Начальные параметры теперь System / Dark night / force=false, stock дневная тема; только missing entry. См. [аудит](THEME_AUDIT.md).
+
+Проверены overlay, Swift syntax, сохранение остальных 921 generated файлов и metadata/локализация. Эти изменения НЕ входят в старые IPA №68/№71. Новая нативная сборка и публикация не запускались по прямому указанию пользователя. Следующий шаг — дождаться отдельной команды сборки, затем физически повторить House → Chick и действия профиля/отправки.
