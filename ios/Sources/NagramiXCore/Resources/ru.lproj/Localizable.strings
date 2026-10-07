@@ -166,6 +166,9 @@
 "NagramiX.Context.ForwardWithAuthor" = "Переслать от";
 "NagramiX.Context.ForwardWithoutAuthor" = "Переслать без";
 "NagramiX.Context.SelectFromAuthor" = "Выделить от автора";
+"NagramiX.Context.AuthorSelectionEmpty" = "Доступных сообщений этого автора не найдено.";
+"NagramiX.Context.AuthorSelectionFailed" = "Не удалось загрузить все сообщения автора. Проверьте подключение и повторите попытку. Неполный набор не выбран.";
+"NagramiX.Context.AuthorDeleteUnavailable" = "Удаление выбранного набора недоступно по правилам Telegram. В супергруппе для удаления чужих сообщений нужны права администратора. Архивные сообщения удаляются только локально. Очистка кэша освобождает место, но не удаляет переписку.";
 "NagramiX.Network.DataCenters" = "Дата-центры";
 "NagramiX.Profile.Id" = "ID профиля";
 "NagramiX.Profile.IdCopied" = "ID скопирован";

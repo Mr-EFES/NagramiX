@@ -3721,7 +3721,7 @@ filegroup(
     replace_once(
         chat_controller_source,
         "    let navigationActionDisposable = MetaDisposable()\n    let messageIndexDisposable = MetaDisposable()\n",
-        "    let navigationActionDisposable = MetaDisposable()\n    let nagramiXSelectAuthorDisposable = MetaDisposable()\n    var nagramiXSelectAuthorGeneration: UInt64 = 0\n    var nagramiXIsSelectingAuthorMessages = false\n    let messageIndexDisposable = MetaDisposable()\n",
+        "    let navigationActionDisposable = MetaDisposable()\n    let nagramiXSelectAuthorDisposable = MetaDisposable()\n    var nagramiXSelectedAuthorMessageIds: Set<MessageId>?\n    var nagramiXSelectAuthorGeneration: UInt64 = 0\n    var nagramiXIsSelectingAuthorMessages = false\n    let messageIndexDisposable = MetaDisposable()\n",
         "Own the cancellable Select From Author pagination lifecycle",
     )
     replace_once(
@@ -3730,6 +3730,9 @@ filegroup(
         "        self.navigationActionDisposable.dispose()\n        self.nagramiXSelectAuthorDisposable.dispose()\n        self.galleryHiddenMesageAndMediaDisposable.dispose()\n",
         "Cancel Select From Author when leaving the chat",
     )
+
+    author_selection_overlay = overlay / "Sources" / "TelegramCore" / "NagramiXAuthorSelection.swift"
+    shutil.copy2(author_selection_overlay, source / "submodules" / "TelegramCore" / "Sources" / "TelegramEngine" / "Messages" / author_selection_overlay.name)
 
     chat_load_node = source / "submodules" / "TelegramUI" / "Sources" / "Chat" / "ChatControllerLoadDisplayNode.swift"
     replace_once(
@@ -3757,7 +3760,6 @@ filegroup(
             self.nagramiXSelectAuthorGeneration &+= 1
             let generation = self.nagramiXSelectAuthorGeneration
             let threadId = self.chatLocation.threadId
-            let location: SearchMessagesLocation = .peer(peerId: peerId, fromId: authorId, tags: nil, reactions: nil, threadId: threadId, minDate: nil, maxDate: nil)
             let presentationData = self.context.sharedContext.currentPresentationData.with { $0 }
             let progressController = OverlayStatusController(theme: presentationData.theme, type: .loading(cancelled: { [weak self] in
                 guard let self else { return }
@@ -3767,36 +3769,58 @@ filegroup(
             }))
             self.present(progressController, in: .window(.root), with: ViewControllerPresentationArguments(presentationAnimation: .modalSheet))
 
-            var requestPage: ((SearchMessagesState?) -> Void)?
-            requestPage = { [weak self, weak progressController] state in
-                guard let self, self.nagramiXSelectAuthorGeneration == generation, self.chatLocation.peerId == peerId, self.chatLocation.threadId == threadId else {
+            self.nagramiXSelectAuthorDisposable.set((nagramiXMessagesByAuthor(account: self.context.account, peerId: peerId, authorId: authorId, threadId: threadId)
+            |> afterDisposed { [weak progressController] in
+                Queue.mainQueue().async {
+                    progressController?.dismiss()
+                }
+            }
+            |> deliverOnMainQueue).start(next: { [weak self, weak progressController] cloudIds in
+                guard let self, self.nagramiXSelectAuthorGeneration == generation else { return }
+                self.nagramiXIsSelectingAuthorMessages = false
+                progressController?.dismiss()
+                guard self.chatLocation.peerId == peerId, self.chatLocation.threadId == threadId else { return }
+                let archivedIds = self.context.account.nagramiXMessageArchive.deletedMessages(peerId: peerId, threadId: threadId, minIndex: nil, maxIndex: nil, limit: Int.max).filter { $0.author?.id == authorId }.map { $0.id }
+                let messageIds = Array(Set(cloudIds + archivedIds)).sorted()
+                guard !messageIds.isEmpty else {
+                    self.present(textAlertController(context: self.context, updatedPresentationData: self.updatedPresentationData, title: nil, text: self.presentationData.strings.nagramiXAuthorSelectionEmpty, actions: [TextAlertAction(type: .defaultAction, title: self.presentationData.strings.Common_OK, action: {})]), in: .window(.root))
                     return
                 }
-                self.nagramiXSelectAuthorDisposable.set((self.context.engine.messages.searchMessages(location: location, query: "", state: state, limit: 100)
-                |> deliverOnMainQueue).startStrict(next: { [weak self, weak progressController] result, updatedState in
-                    guard let self, self.nagramiXSelectAuthorGeneration == generation, self.chatLocation.peerId == peerId, self.chatLocation.threadId == threadId else {
-                        return
-                    }
-                    if !result.completed {
-                        requestPage?(updatedState)
-                        return
-                    }
-                    self.nagramiXIsSelectingAuthorMessages = false
-                    progressController?.dismiss()
-                    let archivedIds = self.context.account.nagramiXMessageArchive.deletedMessages(peerId: peerId, threadId: threadId, minIndex: nil, maxIndex: nil, limit: Int.max).filter { $0.author?.id == authorId }.map { $0.id }
-                    let messageIds = Array(Set(result.messages.map { $0.id } + archivedIds)).sorted()
-                    guard !messageIds.isEmpty else { return }
-                    let _ = self.presentVoiceMessageDiscardAlert(action: { [weak self] in
-                        self?.updateChatPresentationInterfaceState(animated: true, interactive: true, { state in
-                            state.updatedInterfaceState { $0.withUpdatedSelectedMessages(messageIds) }.updatedShowCommands(false)
-                        })
-                    }, alertAction: {}, delay: true)
-                }))
-            }
-            requestPage?(nil)
+                let _ = self.presentVoiceMessageDiscardAlert(action: { [weak self] in
+                    guard let self, self.nagramiXSelectAuthorGeneration == generation, self.chatLocation.peerId == peerId, self.chatLocation.threadId == threadId else { return }
+                    self.nagramiXSelectedAuthorMessageIds = Set(messageIds)
+                    self.updateChatPresentationInterfaceState(animated: true, interactive: true, { state in
+                        state.updatedInterfaceState { $0.withUpdatedSelectedMessages(messageIds) }.updatedShowCommands(false)
+                    })
+                }, alertAction: {}, delay: true)
+            }, error: { [weak self, weak progressController] _ in
+                guard let self, self.nagramiXSelectAuthorGeneration == generation else { return }
+                self.nagramiXIsSelectingAuthorMessages = false
+                progressController?.dismiss()
+                guard self.chatLocation.peerId == peerId, self.chatLocation.threadId == threadId else { return }
+                self.present(textAlertController(context: self.context, updatedPresentationData: self.updatedPresentationData, title: nil, text: self.presentationData.strings.nagramiXAuthorSelectionFailed, actions: [TextAlertAction(type: .defaultAction, title: self.presentationData.strings.Common_OK, action: {})]), in: .window(.root))
+            }))
         }, updateForwardOptionsState: { [weak self] f in
 """,
         "Wire copy-as-new and loaded-author selection into ChatController",
+    )
+
+    replace_unique(
+        chat_load_node,
+        """                                    strongSelf.presentClearCacheSuggestion()
+""",
+        """                                    if strongSelf.nagramiXSelectedAuthorMessageIds == messageIds {
+                                        strongSelf.present(textAlertController(context: strongSelf.context, updatedPresentationData: strongSelf.updatedPresentationData, title: nil, text: strongSelf.presentationData.strings.nagramiXAuthorDeleteUnavailable, actions: [
+                                            TextAlertAction(type: .defaultAction, title: strongSelf.presentationData.strings.Common_OK, action: {}),
+                                            TextAlertAction(type: .genericAction, title: strongSelf.presentationData.strings.ClearCache_FreeSpace, action: { [weak strongSelf] in
+                                                strongSelf?.presentClearCacheSuggestion()
+                                            })
+                                        ], actionLayout: .vertical), in: .window(.root))
+                                    } else {
+                                        strongSelf.presentClearCacheSuggestion()
+                                    }
+""",
+        "Explain a real deletion restriction only for a Select From Author selection",
     )
 
     context_menus = source / "submodules" / "TelegramUI" / "Sources" / "ChatInterfaceStateContextMenus.swift"

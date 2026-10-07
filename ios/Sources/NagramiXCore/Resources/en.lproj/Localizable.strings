@@ -92,6 +92,9 @@
 "NagramiX.Context.ForwardWithAuthor" = "Forward With Author";
 "NagramiX.Context.ForwardWithoutAuthor" = "Forward Without Author";
 "NagramiX.Context.SelectFromAuthor" = "Select From Author";
+"NagramiX.Context.AuthorSelectionEmpty" = "No accessible messages from this author were found.";
+"NagramiX.Context.AuthorSelectionFailed" = "Unable to load all messages from this author. Check your connection and try again. No partial selection was applied.";
+"NagramiX.Context.AuthorDeleteUnavailable" = "Telegram does not allow deleting this selection. Deleting other members’ messages in a supergroup requires administrator permissions. Archived messages can only be removed locally. Clearing the cache frees storage without deleting the conversation.";
 "NagramiX.Network.DataCenters" = "Data Centers";
 "NagramiX.Profile.Id" = "Profile ID";
 "NagramiX.Profile.IdCopied" = "ID copied";

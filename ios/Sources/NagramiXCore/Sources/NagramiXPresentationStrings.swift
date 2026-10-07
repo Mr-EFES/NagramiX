@@ -133,6 +133,9 @@ public extension PresentationStrings {
     var nagramiXForwardWithAuthor: String { self.nagramiXLocalized("NagramiX.Context.ForwardWithAuthor") }
     var nagramiXForwardWithoutAuthor: String { self.nagramiXLocalized("NagramiX.Context.ForwardWithoutAuthor") }
     var nagramiXSelectFromAuthor: String { self.nagramiXLocalized("NagramiX.Context.SelectFromAuthor") }
+    var nagramiXAuthorSelectionEmpty: String { self.nagramiXLocalized("NagramiX.Context.AuthorSelectionEmpty") }
+    var nagramiXAuthorSelectionFailed: String { self.nagramiXLocalized("NagramiX.Context.AuthorSelectionFailed") }
+    var nagramiXAuthorDeleteUnavailable: String { self.nagramiXLocalized("NagramiX.Context.AuthorDeleteUnavailable") }
     var nagramiXDataCenters: String { self.nagramiXLocalized("NagramiX.Network.DataCenters") }
     var nagramiXProfileId: String { self.nagramiXLocalized("NagramiX.Profile.Id") }
     var nagramiXProfileIdCopied: String { self.nagramiXLocalized("NagramiX.Profile.IdCopied") }
