@@ -1,6 +1,6 @@
 # Проверка NagramiX 0.4.5 на физическом iPhone
 
-IPA 0.4.5 №73 собран и проверен. Исходники: `1c85d9a8fa83edcdbaf5ebc59e9e06a8f50d1051`; [сборка и артефакт](https://github.com/Mr-EFES/NagramiX/actions/runs/37632252812). Версию/build/source и checksum сверять с BUILD-PROVENANCE.txt / SHA256SUMS. Устройство: iPhone 17 Pro Max / iOS 27.0 / SideStore. Результаты физической проверки ожидаются.
+IPA 0.4.5 №73 опубликован как первая стабильная база: [релиз](https://github.com/Mr-EFES/NagramiX/releases/tag/v0.4.5), [скачать IPA](https://github.com/Mr-EFES/NagramiX/releases/download/v0.4.5/NagramiX-0.4.5-unsigned.ipa). Файл повторно проверен после публичного скачивания. Исходники: `1c85d9a8fa83edcdbaf5ebc59e9e06a8f50d1051`; [сборка и артефакт](https://github.com/Mr-EFES/NagramiX/actions/runs/37632252812). Версию/build/source и checksum сверять с BUILD-PROVENANCE.txt / SHA256SUMS. Устройство: iPhone 17 Pro Max / iOS 27.0 / SideStore. Результаты физической проверки ожидаются.
 
 Сначала установить новый IPA поверх прежнего приложения через используемый способ внешней подписи. Сохранить одинаковый bundle ID и подпись при обновлении; иначе iOS может создать отдельное приложение. Перед удалением приложения учитывать, что локальный архив удалённых сообщений и предпочтения не восстанавливаются из Telegram. Чистую установку тестировать отдельно, сохранив нужные данные.
 
