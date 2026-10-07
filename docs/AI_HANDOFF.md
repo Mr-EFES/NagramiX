@@ -4,7 +4,7 @@
 
 ## Текущая задача — разрешённая сборка и публикация
 
-Пользователь положительно оценил предыдущий установленный IPA, кроме выбора/удаления автора. После анализа разрешил исправить только эту функцию; теперь дал отдельную команду собрать 0.4.5 для физического iPhone и опубликовать релиз с краткой русской аннотацией. Запуск этой сборки разрешён. Устройство iPhone 17 Pro Max, iOS 27.0, SideStore. Новая сборка и публикация готовятся; стабильность до физической приёмки не заявлять.
+Пользователь положительно оценил предыдущий установленный IPA, кроме выбора/удаления автора. После анализа разрешил исправить только эту функцию; теперь дал отдельную команду собрать 0.4.5 для физического iPhone и опубликовать релиз с краткой русской аннотацией. Запуск этой сборки разрешён. Устройство iPhone 17 Pro Max, iOS 27.0, SideStore. IPA №73 собран и проверен; создан черновик релиза, загрузка assets пока блокирована401. Стабильность до физической приёмки не заявлять.
 
 ## Исправление выбора автора
 
@@ -17,11 +17,11 @@
 
 Baseline и новый apply_features применены к чистым validation копиям точного pin. Generated diff — 6 ожидаемых файлов (helper, два controller файла, accessor и RU/EN); остальные 211 файлов проверочного дерева совпадают. Stock appearance guards проходят. Swift tree-sitter syntax четырёх файлов, Python syntax, RU intro13, metadata и diff check пройдены. Ровно 3 новых ключа на язык, прежние строки сохранены: RU183, EN109. Реальные SwiftSignalKit/API подписи и Bazel glob сверены с pin. Это статические проверки, не native compile/typecheck.
 
-Только registry select_from_author: compile_pending/device_pending, остальные функции не менялись. Результат компиляции и IPA текущего выпуска пока ожидается. Проверять build log и скачанный IPA, не переносить источник/номер/hash прежней сборки в новый релиз.
+Registry select_from_author: compile_passed/device_pending, остальные функции не менялись. Native ARM64 build №73 прошёл: source `1c85d9a8fa83edcdbaf5ebc59e9e06a8f50d1051`, [run](https://github.com/Mr-EFES/NagramiX/actions/runs/37632252812),5865actions. В изменённых Swift-файлах errors/warnings нет. IPA проверен scripts/validate_unsigned_ipa.py: version0.4.5/build73/source/pin, ARM64, RU14843/183, checksum/provenance, без подписей/профилей;73 897 507байт, SHA256 `26ca404ee21b5eb7bb14070844d27033cab791567f2cdd76a1b618aa5a5a2454`. Кеш restore timeout/save warnings и Node20 deprecation — инфраструктурные предупреждения; сборка успешна. Физической проверки новой функции нет.
 
 ## Версия и публикация
 
-Версия workflow/registry, README, единственная аннотация product/releases/0.4.5.md, docs и план IPHONE_TEST_0.4.5.md актуализированы. Сохранить один существующий workflow. Native build на macOS/Xcode с корректным Bazel content cache; версия/source/build/RU/ARM64/checksum/provenance и отсутствие временных подписей проверяются до публикации scripts/validate_unsigned_ipa.py. Публиковать prerelease для физической приёмки. Предыдущие GitHub теги/файлы релизов не перезаписывать. После завершения записать новый run/build/source/hash и проверенный результат, затем опубликовать итоговую документацию.
+Версия workflow/registry, README, единственная аннотация product/releases/0.4.5.md, docs и план IPHONE_TEST_0.4.5.md актуализированы. Сохранить один существующий workflow. Native build на macOS/Xcode с корректным Bazel content cache; версия/source/build/RU/ARM64/checksum/provenance и отсутствие временных подписей проверяются до публикации scripts/validate_unsigned_ipa.py. Публиковать prerelease для физической приёмки. Предыдущие GitHub теги/файлы релизов не перезаписывать. Общий run73 failure после успешного build: release job не появился; failed-job rerun HTTP500, GitHub status сообщает инцидент Actions/Git. Собственный draft v0.4.5 создан через gh API: release405895197, target1c85d9a, аннотация из product/releases/0.4.5.md. Assets0: upload возвращает401 Bad credentials, при рабочем api.github.com/gh auth status. Пользователю отправлен запрос обновить GH_TOKEN в секретах окружения, только этот repo/Contents Read-write. Не просить секрет в чат, не публиковать пустой draft, не пересобирать готовый IPA. Локально /tmp/nagramix-release045 содержит3проверенных файла (в другой среде скачатьartifact11491604794 изrun73). После обновления доступа загрузить без clobber, publish prerelease/latest=false, проверить публичный download, tag/source и body. Документация main может иметь последующий SHA, tag обязан остаться на build-source.
 
 ## Сохранённый функционал
 
@@ -31,4 +31,4 @@ Baseline и новый apply_features применены к чистым validat
 
 ## Следующий шаг
 
-Завершить разрешённую сборку/публикацию 0.4.5, проверить фактический IPA и logs. Затем физическая приёмка выбора автора (входящие/исходящие, группы с правами/без, 300+, старые сообщения, отмена/ошибка/смена чата, пересылка/жалоба, невыбранные сообщения) и общий регресс сохранённых функций по [плану](IPHONE_TEST_0.4.5.md). Анализ — [AUTHOR_SELECTION_AUDIT.md](AUTHOR_SELECTION_AUDIT.md), статус — [PENDING_RELEASE.md](PENDING_RELEASE.md). Не заявлять без физической проверки, что новая версия стабильна.
+Завершить загрузку файлов/публикацию уже проверенного IPA0.4.5№73 после обновления доступа uploads.github.com; повторно проверить публичный IPA и tag. Затем физическая приёмка выбора автора (входящие/исходящие, группы с правами/без, 300+, старые сообщения, отмена/ошибка/смена чата, пересылка/жалоба, невыбранные сообщения) и общий регресс сохранённых функций по [плану](IPHONE_TEST_0.4.5.md). Анализ — [AUTHOR_SELECTION_AUDIT.md](AUTHOR_SELECTION_AUDIT.md), статус — [PENDING_RELEASE.md](PENDING_RELEASE.md). Не заявлять без физической проверки, что новая версия стабильна.
