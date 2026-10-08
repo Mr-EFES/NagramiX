@@ -41,6 +41,7 @@ private struct NagramiXSettingsControllerArguments {
     let updateConfirmOutgoingCalls: (Bool) -> Void
     let updateForceTcpCalls: (Bool) -> Void
     let updateShowDeletedMessages: (Bool) -> Void
+    let updateSaveTemporaryMessages: (Bool) -> Void
     let editDeletedMessageLabel: () -> Void
     let updateMessageEditHistory: (Bool) -> Void
     let clearMessageArchive: () -> Void
@@ -106,6 +107,8 @@ private enum NagramiXSettingsEntry: ItemListNodeEntry {
     case messagesHeader
     case showDeletedMessages(Bool)
     case showDeletedMessagesInfo
+    case saveTemporaryMessages(Bool)
+    case saveTemporaryMessagesInfo
     case deletedMessageLabel(String)
     case messageEditHistory(Bool)
     case messageEditHistoryInfo
@@ -141,7 +144,7 @@ private enum NagramiXSettingsEntry: ItemListNodeEntry {
         case .photosHeader, .photoQualityHeader, .photoQuality, .photoQualityInfo, .sendLargePhotos, .sendLargePhotosInfo,
                 .stickersHeader, .stickerSizeHeader, .stickerSize, .showStickerTime, .stickerSizeInfo:
             return .features
-        case .messagesHeader, .showDeletedMessages, .showDeletedMessagesInfo, .deletedMessageLabel, .messageEditHistory, .messageEditHistoryInfo, .clearMessageArchive, .messageArchiveInfo:
+        case .messagesHeader, .showDeletedMessages, .showDeletedMessagesInfo, .saveTemporaryMessages, .saveTemporaryMessagesInfo, .deletedMessageLabel, .messageEditHistory, .messageEditHistoryInfo, .clearMessageArchive, .messageArchiveInfo:
             return .features
         case .otherCallsHeader, .forceTcpCalls, .forceTcpCallsInfo, .proxySettings, .proxyDns, .proxyAutoSwitch, .proxyCheckAll:
             return .other
@@ -170,7 +173,7 @@ private enum NagramiXSettingsEntry: ItemListNodeEntry {
             return NagramiXSettingsSection.profiles.rawValue
         case .callsHeader, .otherCallsHeader, .confirmOutgoingCalls, .forceTcpCalls, .forceTcpCallsInfo:
             return NagramiXSettingsSection.calls.rawValue
-        case .messagesHeader, .showDeletedMessages, .showDeletedMessagesInfo, .deletedMessageLabel, .messageEditHistory, .messageEditHistoryInfo, .clearMessageArchive, .messageArchiveInfo:
+        case .messagesHeader, .showDeletedMessages, .showDeletedMessagesInfo, .saveTemporaryMessages, .saveTemporaryMessagesInfo, .deletedMessageLabel, .messageEditHistory, .messageEditHistoryInfo, .clearMessageArchive, .messageArchiveInfo:
             return NagramiXSettingsSection.messages.rawValue
         case .photosHeader, .photoQualityHeader, .photoQuality, .photoQualityInfo, .sendLargePhotos, .sendLargePhotosInfo:
             return NagramiXSettingsSection.photos.rawValue
@@ -217,6 +220,8 @@ private enum NagramiXSettingsEntry: ItemListNodeEntry {
         case .messagesHeader: return 34
         case .showDeletedMessages: return 35
         case .showDeletedMessagesInfo: return 36
+        case .saveTemporaryMessages: return 103
+        case .saveTemporaryMessagesInfo: return 104
         case .deletedMessageLabel: return 37
         case .messageEditHistory: return 38
         case .messageEditHistoryInfo: return 39
@@ -246,7 +251,16 @@ private enum NagramiXSettingsEntry: ItemListNodeEntry {
     }
 
     static func < (lhs: NagramiXSettingsEntry, rhs: NagramiXSettingsEntry) -> Bool {
-        return lhs.stableId < rhs.stableId
+        // Keep persisted identities unchanged while placing the new rows
+        // immediately after the deleted-message option in native list diffs.
+        func position(_ entry: NagramiXSettingsEntry) -> Int32 {
+            switch entry {
+            case .saveTemporaryMessages: return 365
+            case .saveTemporaryMessagesInfo: return 366
+            default: return entry.stableId * 10
+            }
+        }
+        return position(lhs) < position(rhs)
     }
 
     func item(presentationData: ItemListPresentationData, arguments: Any) -> ListViewItem {
@@ -328,6 +342,10 @@ private enum NagramiXSettingsEntry: ItemListNodeEntry {
             return ItemListSwitchItem(presentationData: presentationData, systemStyle: .glass, title: presentationData.strings.nagramiXDeletedMessages, value: value, sectionId: self.section, style: .blocks, updated: arguments.updateShowDeletedMessages)
         case .showDeletedMessagesInfo:
             return ItemListTextItem(presentationData: presentationData, text: .plain(presentationData.strings.nagramiXDeletedMessagesInfo), sectionId: self.section)
+        case let .saveTemporaryMessages(value):
+            return ItemListSwitchItem(presentationData: presentationData, systemStyle: .glass, title: presentationData.strings.nagramiXTemporaryMessages, value: value, maximumNumberOfLines: 0, sectionId: self.section, style: .blocks, updated: arguments.updateSaveTemporaryMessages)
+        case .saveTemporaryMessagesInfo:
+            return ItemListTextItem(presentationData: presentationData, text: .plain(presentationData.strings.nagramiXTemporaryMessagesInfo), sectionId: self.section)
         case let .deletedMessageLabel(label):
             return ItemListDisclosureItem(presentationData: presentationData, systemStyle: .glass, title: presentationData.strings.nagramiXDeletedMessageLabel, label: label.isEmpty ? presentationData.strings.nagramiXDeleted : label, sectionId: self.section, style: .blocks, action: arguments.editDeletedMessageLabel)
         case let .messageEditHistory(value):
@@ -398,7 +416,7 @@ private extension NagramiXSettingsEntry {
     var isSearchableSetting: Bool {
         switch self {
         case .search, .noSearchResults, .searchHeader, .tabsHeader, .chatsHeader, .videoMessagesHeader, .featureStoriesHeader, .profilesHeader, .callsHeader, .otherCallsHeader, .messagesHeader,
-                .forceTcpCallsInfo, .showDeletedMessagesInfo, .messageEditHistoryInfo, .messageArchiveInfo,
+                .forceTcpCallsInfo, .showDeletedMessagesInfo, .saveTemporaryMessagesInfo, .messageEditHistoryInfo, .messageArchiveInfo,
                 .contextMenuHeader, .forwardWithoutAuthorInfo, .selectByAuthorInfo, .chatActionsOnHoldInfo, .compactChatListInfo,
                 .photosHeader, .photoQualityHeader, .photoQualityInfo, .sendLargePhotosInfo,
                 .stickersHeader, .stickerSizeHeader, .stickerSizeInfo:
@@ -448,6 +466,8 @@ private extension NagramiXSettingsEntry {
         case .messagesHeader: return strings.nagramiXMessagesHeader
         case .showDeletedMessages: return strings.nagramiXDeletedMessages
         case .showDeletedMessagesInfo: return strings.nagramiXDeletedMessagesInfo
+        case .saveTemporaryMessages: return strings.nagramiXTemporaryMessages
+        case .saveTemporaryMessagesInfo: return strings.nagramiXTemporaryMessagesInfo
         case .deletedMessageLabel: return strings.nagramiXDeletedMessageLabel
         case .messageEditHistory: return strings.nagramiXMessageEditHistory
         case .messageEditHistoryInfo: return strings.nagramiXMessageEditHistoryInfo
@@ -491,6 +511,8 @@ private extension NagramiXSettingsEntry {
             return strings.nagramiXForceTcpCallsInfo
         case .showDeletedMessages:
             return strings.nagramiXDeletedMessagesInfo
+        case .saveTemporaryMessages:
+            return strings.nagramiXTemporaryMessagesInfo
         case .messageEditHistory:
             return strings.nagramiXMessageEditHistoryInfo
         case .clearMessageArchive:
@@ -576,6 +598,7 @@ private func nagramiXAllSettingsEntries(settings: NagramiXTabSettings) -> [Nagra
         .contextMenuHeader, .showForwardWithoutAuthor(settings.showForwardWithoutAuthor), .forwardWithoutAuthorInfo,
         .showSelectByAuthor(settings.showSelectByAuthor), .selectByAuthorInfo,
         .messagesHeader, .showDeletedMessages(settings.showDeletedMessages), .showDeletedMessagesInfo,
+        .saveTemporaryMessages(settings.saveTemporaryMessages), .saveTemporaryMessagesInfo,
         .deletedMessageLabel(settings.deletedMessageLabel),
         .messageEditHistory(settings.messageEditHistory), .messageEditHistoryInfo,
         .clearMessageArchive, .messageArchiveInfo,
@@ -637,6 +660,7 @@ public func nagramiXSettingsController(context: AccountContext) -> ViewControlle
         updateConfirmOutgoingCalls: { value in update { $0.confirmOutgoingCalls = value } },
         updateForceTcpCalls: { value in update { $0.forceTcpCalls = value } },
         updateShowDeletedMessages: { value in update { $0.showDeletedMessages = value } },
+        updateSaveTemporaryMessages: { value in update { $0.saveTemporaryMessages = value } },
         editDeletedMessageLabel: {
             let presentationData = context.sharedContext.currentPresentationData.with { $0 }
             let inputState = AlertInputFieldComponent.ExternalState()

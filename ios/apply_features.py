@@ -178,6 +178,248 @@ def apply_media_controls(source: Path, overlay: Path) -> None:
     replace_unique(chat_node, "        if let nagramiXDeletedLabelObserver = self.nagramiXDeletedLabelObserver {", "        if let nagramiXMediaDisplayObserver = self.nagramiXMediaDisplayObserver {\n            NotificationCenter.default.removeObserver(nagramiXMediaDisplayObserver)\n        }\n        if let nagramiXDeletedLabelObserver = self.nagramiXDeletedLabelObserver {", "Remove sticker presentation observer")
 
 
+def apply_archived_media_resources(source: Path) -> None:
+    account = source / "submodules/TelegramCore/Sources/Account/Account.swift"
+    state = source / "submodules/TelegramCore/Sources/State/AccountStateManagementUtils.swift"
+    managed = source / "submodules/TelegramCore/Sources/State/ManagedAutoremoveMessageOperations.swift"
+    consumed = source / "submodules/TelegramCore/Sources/TelegramEngine/Messages/MarkMessageContentAsConsumedInteractively.swift"
+    controller = source / "submodules/TelegramUI/Sources/ChatController.swift"
+    history = source / "submodules/TelegramUI/Sources/ChatHistoryEntriesForView.swift"
+    context_source = source / "submodules/TelegramUI/Sources/ChatMessageContextControllerContentSource.swift"
+    replace_unique(
+        account,
+        "    account.pendingUpdateMessageManager.transformOutgoingMessageMedia = transformOutgoingMessageMedia\n}\n",
+        "    account.pendingUpdateMessageManager.transformOutgoingMessageMedia = transformOutgoingMessageMedia\n    account.nagramiXMessageArchive.startMediaDownloads()\n}\n",
+        "Start archive downloads only after the native MediaBox fetch callbacks exist",
+    )
+    replace_unique(
+        state,
+        """                if !resourceIds.isEmpty {
+                    let _ = mediaBox.removeCachedResources(Array(Set(resourceIds)), force: true).start()
+                }
+                deletedMessageIds.append(contentsOf: ids.map { .global($0) })
+""",
+        """                let removableResourceIds = NagramiXMessageArchive.forPostbox(postbox)?.cacheResourcesToRemove(Array(Set(resourceIds))) ?? Array(Set(resourceIds))
+                if !removableResourceIds.isEmpty {
+                    let _ = mediaBox.removeCachedResources(removableResourceIds, force: true).start()
+                }
+                deletedMessageIds.append(contentsOf: ids.map { .global($0) })
+""",
+        "Keep received resources until a complete independent archive copy exists",
+    )
+    replace_unique(
+        state,
+        """                transaction.deleteMessagesInRange(peerId: id.peerId, namespace: id.namespace, minId: 1, maxId: id.id, forEachMedia: { media in
+                    addMessageMediaResourceIdsToRemove(media: media, resourceIds: &resourceIds)
+                })
+                if !resourceIds.isEmpty {
+                    let _ = mediaBox.removeCachedResources(Array(Set(resourceIds)), force: true).start()
+                }
+""",
+        """                NagramiXMessageArchive.forPostbox(postbox)?.archiveServerDeletion(upToMessageId: id, deletedAt: Int32(CFAbsoluteTimeGetCurrent() + kCFAbsoluteTimeIntervalSince1970))
+                transaction.deleteMessagesInRange(peerId: id.peerId, namespace: id.namespace, minId: 1, maxId: id.id, forEachMedia: { media in
+                    addMessageMediaResourceIdsToRemove(media: media, resourceIds: &resourceIds)
+                })
+                let removableResourceIds = NagramiXMessageArchive.forPostbox(postbox)?.cacheResourcesToRemove(Array(Set(resourceIds))) ?? Array(Set(resourceIds))
+                if !removableResourceIds.isEmpty {
+                    let _ = mediaBox.removeCachedResources(removableResourceIds, force: true).start()
+                }
+""",
+        "Archive received message ranges without purging pending attachment copies",
+    )
+    replace_unique(
+        managed,
+        """                    if let message = transaction.getMessage(entry.messageId) {
+                        if message.id.peerId.namespace == Namespaces.Peer.SecretChat || isRemove {
+""",
+        """                    if let message = transaction.getMessage(entry.messageId) {
+                        NagramiXMessageArchive.forPostbox(postbox)?.archiveTemporaryExpiration(message: message, expiredAt: Int32(timestamp))
+                        if message.id.peerId.namespace == Namespaces.Peer.SecretChat || isRemove {
+""",
+        "Capture approved temporary media before the native expiry replaces or removes it",
+    )
+    replace_unique(
+        consumed,
+        """func _internal_markMessageContentAsConsumedInteractively(postbox: Postbox, messageId: MessageId) -> Signal<Void, NoError> {
+    return postbox.transaction { transaction -> Void in
+        if let message = transaction.getMessage(messageId), message.flags.contains(.Incoming) {
+            var updateMessage = false
+""",
+        """func _internal_markMessageContentAsConsumedInteractively(postbox: Postbox, messageId: MessageId) -> Signal<Void, NoError> {
+    return postbox.transaction { transaction -> Void in
+        if let message = transaction.getMessage(messageId), message.flags.contains(.Incoming) {
+            NagramiXMessageArchive.forPostbox(postbox)?.captureTemporaryBeforeViewing(message: message)
+            var updateMessage = false
+""",
+        "Capture approved temporary attachments before their native consumption starts",
+    )
+    replace_unique(
+        consumed,
+        "func markMessageContentAsConsumedRemotely(transaction: Transaction, messageId: MessageId, consumeDate: Int32?) {\n",
+        "func markMessageContentAsConsumedRemotely(transaction: Transaction, messageId: MessageId, consumeDate: Int32?, messageArchive: NagramiXMessageArchive? = nil) {\n",
+        "Pass an optional archive through native remote media consumption",
+    )
+    replace_unique(
+        consumed,
+        """        if updateMessage {
+            transaction.updateMessage(message.id, update: { currentMessage in
+""",
+        """        if updateMessage {
+            if updatedMedia.contains(where: { $0 is TelegramMediaExpiredContent }) {
+                messageArchive?.archiveTemporaryExpiration(message: message, expiredAt: consumeDate ?? Int32(Date().timeIntervalSince1970))
+            }
+            transaction.updateMessage(message.id, update: { currentMessage in
+""",
+        "Preserve approved view-once files before a remote consumption update",
+    )
+    for call in (
+        "markMessageContentAsConsumedRemotely(transaction: transaction, messageId: MessageId(peerId: peerId, namespace: Namespaces.Message.Cloud, id: id), consumeDate: date)",
+        "markMessageContentAsConsumedRemotely(transaction: transaction, messageId: messageId, consumeDate: date)",
+    ):
+        replace_unique(state, call, call[:-1] + ", messageArchive: NagramiXMessageArchive.forPostbox(postbox))", "Supply the account archive for remote read-content updates")
+    replace_unique(
+        controller,
+        """            var standalone = false
+            if case .customChatContents = self.chatLocation {
+                standalone = true
+            }
+""",
+        """            var standalone = message.attributes.contains(where: { $0 is NagramiXArchivedMessageAttribute })
+            if case .customChatContents = self.chatLocation {
+                standalone = true
+            }
+""",
+        "Open archived photos, videos, files and audio from their supplied snapshot, not a removed Postbox ID",
+    )
+    replace_unique(
+        history,
+        """    var sourceEntries = view.entries
+    if let peerId = location.peerId {
+        let existingIds = Set(sourceEntries.map { $0.message.id })
+""",
+        """    var sourceEntries = view.entries
+    if let peerId = location.peerId {
+        for index in sourceEntries.indices {
+            let entry = sourceEntries[index]
+            if entry.message.media.contains(where: { $0 is TelegramMediaExpiredContent }),
+               let snapshot = context.account.nagramiXMessageArchive.snapshotForExpiredMessage(id: entry.message.id) {
+                sourceEntries[index] = MessageHistoryEntry(message: snapshot, isRead: entry.isRead, location: entry.location, monthLocation: entry.monthLocation, attributes: entry.attributes)
+            }
+        }
+        let existingIds = Set(sourceEntries.map { $0.message.id })
+""",
+        "Replace an expired placeholder with its approved local copy without inserting duplicate IDs",
+    )
+    replace_unique(
+        context_source,
+        "            |> map { _ in archive.deletedMessage(id: messageId) == nil }\n",
+        "            |> map { _ in !archive.containsArchivedMessage(id: messageId) }\n",
+        "Keep expired-media context extraction alive until the archive is cleared",
+    )
+
+
+def apply_chat_hold_routing(source: Path) -> None:
+    """Route the native context gesture by its initial area, not by a new recognizer."""
+    row = source / "submodules/ChatListUI/Sources/Node/ChatListItem.swift"
+    controller = source / "submodules/ChatListUI/Sources/ChatListController.swift"
+    replace_unique(
+        row,
+        "    private var nagramiXLastActionsOnHold = true\n",
+        "    private var nagramiXLastActionsOnHold = true\n    private var nagramiXHoldBeganOnAvatar = false\n",
+        "Remember the initial hold area before native activation scaling",
+    )
+    replace_unique(
+        row,
+        """            self.nagramiXLastActionsOnHold = actionsOnHold
+            self.nagramiXApplyRevealSettings()
+""",
+        """            self.nagramiXLastActionsOnHold = actionsOnHold
+            self.contextContainer.cancelGesture()
+            self.nagramiXApplyRevealSettings()
+""",
+        "Cancel an in-progress hold when its routing preference changes",
+    )
+    replace_unique(
+        row,
+        """            strongSelf.contextContainer.additionalActivationProgressLayer = nil
+            if let inlineNavigationLocation = item.interaction.inlineNavigationLocation {
+""",
+        """            // Use the current native avatar bounds, including compact layout,
+            // and capture the area before the context activation animation.
+            let avatarLocation = strongSelf.avatarNode.view.convert(location, from: strongSelf.contextContainer.view)
+            strongSelf.nagramiXHoldBeganOnAvatar = !strongSelf.avatarContainerNode.isHidden && strongSelf.avatarNode.bounds.contains(avatarLocation)
+
+            strongSelf.contextContainer.additionalActivationProgressLayer = nil
+            if let inlineNavigationLocation = item.interaction.inlineNavigationLocation {
+""",
+        "Resolve the avatar in the native context gesture's coordinate space",
+    )
+    replace_unique(
+        row,
+        """            item.interaction.activateChatPreview?(item, threadId, strongSelf.contextContainer, gesture, nil)
+""",
+        """            if NagramiXTabSettings.current.chatActionsOnHold && !strongSelf.nagramiXHoldBeganOnAvatar {
+                let menuLocation = strongSelf.contextContainer.view.convert(location, to: nil)
+                item.interaction.activateChatPreview?(item, threadId, strongSelf.contextContainer, gesture, menuLocation)
+                return
+            }
+            item.interaction.activateChatPreview?(item, threadId, strongSelf.contextContainer, gesture, nil)
+""",
+        "Preserve native avatar preview; request a menu-only source for other areas",
+    )
+    replace_unique(
+        controller,
+        """            switch item.content {
+            case .loading:
+                break
+            case let .groupReference(groupReference):
+                let chatListController = ChatListControllerImpl(context: strongSelf.context, location: .chatList(groupId: groupReference.groupId), controlsHistoryPreload: false, hideNetworkActivityStatus: true, previewing: true, enableDebugActions: false)
+""",
+        """            if NagramiXTabSettings.current.chatActionsOnHold, gesture != nil, let menuLocation = location {
+                let menuItems: Signal<[ContextMenuItem], NoError>
+                switch item.content {
+                case .loading:
+                    gesture?.cancel()
+                    return
+                case let .groupReference(groupReference):
+                    menuItems = archiveContextMenuItems(context: strongSelf.context, group: groupReference.groupId, chatListController: strongSelf)
+                case let .peer(peerData):
+                    let peer = peerData.peer
+                    switch item.index {
+                    case .chatList:
+                        if let threadId = threadId, case let .channel(channel) = peer.peer, channel.isForum || channel.isMonoForum {
+                            menuItems = chatForumTopicMenuItems(context: strongSelf.context, peerId: peer.peerId, threadId: threadId, isPinned: nil, isClosed: nil, chatListController: strongSelf, joined: joined, canSelect: false)
+                        } else {
+                            menuItems = chatContextMenuItems(context: strongSelf.context, peerId: peer.peerId, promoInfo: peerData.promoInfo, source: .chatList(filter: strongSelf.chatListDisplayNode.mainContainerNode.currentItemNode.chatListFilter), chatListController: strongSelf, joined: joined)
+                        }
+                    case let .forum(pinnedIndex, _, threadId, _, _):
+                        let isPinned: Bool
+                        switch pinnedIndex {
+                        case .index:
+                            isPinned = true
+                        case .none:
+                            isPinned = false
+                        }
+                        menuItems = chatForumTopicMenuItems(context: strongSelf.context, peerId: peer.peerId, threadId: threadId, isPinned: isPinned, isClosed: peerData.threadInfo?.isClosed, chatListController: strongSelf, joined: joined, canSelect: true)
+                    }
+                }
+                // Use Telegram's menu-only source and existing action generators.
+                // No preview controller is created and no read action is performed.
+                let contextController = makeContextController(context: strongSelf.context, presentationData: strongSelf.presentationData, source: .location(ChatListContextLocationContentSource(controller: strongSelf, location: menuLocation)), items: menuItems |> map { ContextController.Items(content: .list($0)) }, gesture: gesture)
+                strongSelf.presentInGlobalOverlay(contextController)
+                return
+            }
+
+            switch item.content {
+            case .loading:
+                break
+            case let .groupReference(groupReference):
+                let chatListController = ChatListControllerImpl(context: strongSelf.context, location: .chatList(groupId: groupReference.groupId), controlsHistoryPreload: false, hideNetworkActivityStatus: true, previewing: true, enableDebugActions: false)
+""",
+        "Present native chat/archive/topic actions without opening a preview off the avatar",
+    )
+
+
 def apply_compact_chat_list(source: Path) -> None:
     item = source / "submodules/ChatListUI/Sources/Node/ChatListItem.swift"
     replace_unique(item, "    public var approximateHeight: CGFloat {", """    fileprivate var nagramiXCompactLayout: Bool {
@@ -203,12 +445,23 @@ def apply_compact_chat_list(source: Path) -> None:
     text = item.read_text()
     if text.count(old) != 2:
         raise SystemExit("Pinned chat avatar setup/layout diameter must occur twice")
-    text = text.replace(old, old + "\n            if item.nagramiXCompactLayout {\n                avatarDiameter = min(44.0, floor(item.presentationData.fontSize.baseDisplaySize * 44.0 / 17.0))\n            }")
+    text = text.replace(old, old + "\n            if item.nagramiXCompactLayout {\n                avatarDiameter = min(36.0, floor(item.presentationData.fontSize.baseDisplaySize * 36.0 / 17.0))\n            }")
     item.write_text(text)
     replace_unique(item, "            if avatarDiameter != 60.0 {", "            if avatarDiameter != 60.0 || self.nagramiXWasCompactAvatar {", "Restore the original placeholder font when compact mode is disabled")
     replace_unique(item, "            let avatarClipStyle: AvatarNodeClipStyle", "            self.nagramiXWasCompactAvatar = item.nagramiXCompactLayout\n            let avatarClipStyle: AvatarNodeClipStyle", "Record avatar reuse state after resetting font")
     replace_unique(item, "synchronousLoad: synchronousLoads, displayDimensions: CGSize(width: 60.0, height: 60.0))", "synchronousLoad: synchronousLoads, displayDimensions: item.nagramiXCompactLayout ? CGSize(width: avatarDiameter, height: avatarDiameter) : CGSize(width: 60.0, height: 60.0))", "Render compact placeholder avatars at the same size as photos")
-    replace_unique(item, "            let titleFont = Font.semibold", "            let nagramiXCompact = item.nagramiXCompactLayout\n            let titleFont = Font.semibold", "Snapshot compact row geometry per layout")
+    replace_unique(item, "            let titleFont = Font.semibold", "            let nagramiXCompact = item.nagramiXCompactLayout\n            let nagramiXCompactVerticalInset = floor(5.0 * item.presentationData.fontSize.itemListBaseFontSize / 17.0)\n            let titleFont = Font.semibold", "Snapshot compact row geometry per layout")
+    for declaration, compact_size, stock_size in [
+        ("titleFont = Font.semibold", 15, 16),
+        ("textFont = Font.regular", 14, 15),
+        ("italicTextFont = Font.italic", 14, 15),
+        ("dateFont = Font.regular", 12, 14),
+    ]:
+        old_font = f"            let {declaration}(floor(item.presentationData.fontSize.itemListBaseFontSize * {stock_size}.0 / 17.0))"
+        new_font = f"            let {declaration}(floor(item.presentationData.fontSize.itemListBaseFontSize * (nagramiXCompact ? {compact_size}.0 : {stock_size}.0) / 17.0))"
+        replace_unique(item, old_font, new_font, f"Compact chat {declaration.split(' = ')[0]} with native font scaling")
+    replace_unique(item, "            let avatarLeftEdgeInset: CGFloat = item.useCommunityViewLayout ? 10.0 : 16.0", "            let avatarLeftEdgeInset: CGFloat = nagramiXCompact ? 14.0 : (item.useCommunityViewLayout ? 10.0 : 16.0)", "Align compact avatars with the reference list inset")
+    replace_unique(item, "                    avatarLeftInset = 24.0 + avatarDiameter", "                    avatarLeftInset = (nagramiXCompact ? 22.0 : 24.0) + avatarDiameter", "Keep compact chat titles close to their avatars")
     replace_unique(item, "            let (authorLayout, authorApply) = authorLayout(item.context", """            if nagramiXCompact && forumThreads.isEmpty, let author = effectiveAuthorTitle, let preview = textAttributedString {
                 let combinedPreview = NSMutableAttributedString(attributedString: author)
                 combinedPreview.append(NSAttributedString(string: ": ", font: textFont, textColor: theme.authorNameColor))
@@ -221,18 +474,22 @@ def apply_compact_chat_list(source: Path) -> None:
     replace_unique(item, "maximumNumberOfLines: (authorAttributedString == nil && itemTags.isEmpty && forumThread == nil && topForumTopicItems.isEmpty) ? 2 : 1,", "maximumNumberOfLines: nagramiXCompact ? 1 : ((authorAttributedString == nil && itemTags.isEmpty && forumThread == nil && topForumTopicItems.isEmpty) ? 2 : 1),", "Use a single preview line only when compact mode is enabled")
     replace_unique(item, "            let rawContentRect = CGRect(origin:", """            if nagramiXCompact {
                 let fontScale = item.presentationData.fontSize.itemListBaseFontSize / 17.0
-                let topPadding = floor(8.0 * fontScale)
+                let topPadding = nagramiXCompactVerticalInset
                 let previewHeight = max(textLayout.size.height, inputActivitiesSize?.height ?? 0.0)
                 let textBottom = topPadding + titleLayout.size.height - 2.0 + max(0.0, authorLayout.height - 3.0) + previewHeight
-                var compactHeight = max(56.0, max(avatarDiameter + 12.0, ceil(textBottom + 8.0)))
+                var compactHeight = max(48.0, max(avatarDiameter + 12.0, ceil(textBottom + nagramiXCompactVerticalInset)))
                 if !itemTags.isEmpty {
                     let tagBottom = topPadding + measureLayout.size.height * 2.0 + floorToScreenPixels(22.0 * fontScale)
-                    compactHeight = max(compactHeight, ceil(tagBottom + 8.0))
+                    compactHeight = max(compactHeight, ceil(tagBottom + nagramiXCompactVerticalInset))
                 }
                 itemHeight = compactHeight
             }
 
             let rawContentRect = CGRect(origin:""", "Measure compact row height from text, activity, avatar, tags and topic details")
+    replace_unique(item,
+        "            let rawContentRect = CGRect(origin: CGPoint(x: 2.0, y: layoutOffset + floor(item.presentationData.fontSize.itemListBaseFontSize * 8.0 / 17.0)), size: CGSize(width: rawContentWidth, height: itemHeight - 12.0 - 9.0))",
+        "            let rawContentRect = CGRect(origin: CGPoint(x: 2.0, y: layoutOffset + (nagramiXCompact ? nagramiXCompactVerticalInset : floor(item.presentationData.fontSize.itemListBaseFontSize * 8.0 / 17.0))), size: CGSize(width: rawContentWidth, height: nagramiXCompact ? max(0.0, itemHeight - nagramiXCompactVerticalInset * 2.0) : itemHeight - 12.0 - 9.0))",
+        "Use the compact text surface for titles, previews, dates and trailing badges")
 
     node = source / "submodules/ChatListUI/Sources/Node/ChatListNode.swift"
     replace_unique(node, "import Foundation\n", "import Foundation\nimport NagramiXCore\n", "Read compact chat preference in every list including cached folders")
@@ -2719,6 +2976,7 @@ private func currentDateTimeFormat()""",
     }""",
         "Release the chat-row settings observer",
     )
+    apply_chat_hold_routing(source)
 
     chat_list_node = source / "submodules" / "ChatListUI" / "Sources" / "Node" / "ChatListNode.swift"
     replace_once(
@@ -4611,6 +4869,8 @@ private func nagramiXCopyProfileId(_ value: Int64, presentationData: Presentatio
     message_archive_overlay = overlay / "Sources" / "TelegramCore" / "NagramiXMessageArchive.swift"
     message_archive_target = source / "submodules" / "TelegramCore" / "Sources" / "Utils" / message_archive_overlay.name
     shutil.copy2(message_archive_overlay, message_archive_target)
+    archived_media_overlay = overlay / "Sources" / "TelegramCore" / "NagramiXArchivedMediaStore.swift"
+    shutil.copy2(archived_media_overlay, message_archive_target.with_name(archived_media_overlay.name))
 
     replace_unique(
         account_source,
@@ -4973,6 +5233,7 @@ private func nagramiXCopyProfileId(_ value: Int64, presentationData: Presentatio
 
     apply_media_controls(source, overlay)
     apply_compact_chat_list(source)
+    apply_archived_media_resources(source)
 
     if stock_section not in item_list_controller.read_text(encoding="utf-8"):
         raise SystemExit("NagramiX overlay modified Telegram's stock sectionControl branch")

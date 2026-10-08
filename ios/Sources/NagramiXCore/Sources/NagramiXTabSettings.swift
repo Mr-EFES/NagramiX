@@ -66,6 +66,7 @@ public struct NagramiXTabSettings: Equatable {
         static let confirmOutgoingCalls = "nagramix.calls.confirmOutgoing"
         static let forceTcpCalls = "nagramix.calls.forceTcp"
         static let showDeletedMessages = "nagramix.messages.showDeletedMessages"
+        static let saveTemporaryMessages = "nagramix.messages.saveTemporaryMessages"
         static let deletedMessageLabel = "nagramix.messages.deletedMessageLabel"
         static let messageEditHistory = "nagramix.messages.editHistory"
     }
@@ -95,6 +96,7 @@ public struct NagramiXTabSettings: Equatable {
     public var confirmOutgoingCalls: Bool
     public var forceTcpCalls: Bool
     public var showDeletedMessages: Bool
+    public var saveTemporaryMessages: Bool
     public var deletedMessageLabel: String
     public var messageEditHistory: Bool
     public var media: NagramiXMediaSettings
@@ -127,7 +129,8 @@ public struct NagramiXTabSettings: Equatable {
         showSelectByAuthor: Bool = true,
         chatActionsOnHold: Bool = true,
         media: NagramiXMediaSettings = .default,
-        compactChatList: Bool = false
+        compactChatList: Bool = false,
+        saveTemporaryMessages: Bool = false
     ) {
         self.hideContacts = hideContacts
         self.hideCalls = hideCalls
@@ -153,6 +156,7 @@ public struct NagramiXTabSettings: Equatable {
         self.confirmOutgoingCalls = confirmOutgoingCalls
         self.forceTcpCalls = forceTcpCalls
         self.showDeletedMessages = showDeletedMessages
+        self.saveTemporaryMessages = saveTemporaryMessages
         self.deletedMessageLabel = deletedMessageLabel
         self.messageEditHistory = messageEditHistory
         self.showForwardWithoutAuthor = showForwardWithoutAuthor
@@ -203,7 +207,8 @@ public struct NagramiXTabSettings: Equatable {
             showSelectByAuthor: defaults.object(forKey: Key.showSelectByAuthor) as? Bool ?? true,
             chatActionsOnHold: defaults.object(forKey: Key.chatActionsOnHold) as? Bool ?? true,
             media: .current,
-            compactChatList: self.compactChatListEnabled
+            compactChatList: self.compactChatListEnabled,
+            saveTemporaryMessages: defaults.object(forKey: Key.saveTemporaryMessages) as? Bool ?? false
         )
     }
 
@@ -240,6 +245,7 @@ public struct NagramiXTabSettings: Equatable {
         defaults.set(value.confirmOutgoingCalls, forKey: Key.confirmOutgoingCalls)
         defaults.set(value.forceTcpCalls, forKey: Key.forceTcpCalls)
         defaults.set(value.showDeletedMessages, forKey: Key.showDeletedMessages)
+        defaults.set(value.saveTemporaryMessages, forKey: Key.saveTemporaryMessages)
         value.deletedMessageLabel = self.normalizedDeletedMessageLabel(value.deletedMessageLabel)
         defaults.set(value.deletedMessageLabel, forKey: Key.deletedMessageLabel)
         defaults.set(value.messageEditHistory, forKey: Key.messageEditHistory)

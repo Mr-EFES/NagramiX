@@ -124,6 +124,8 @@ public extension PresentationStrings {
     var nagramiXMessagesHeader: String { self.nagramiXLocalized("NagramiX.Settings.Messages.Header") }
     var nagramiXDeletedMessages: String { self.nagramiXLocalized("NagramiX.Settings.Messages.Deleted") }
     var nagramiXDeletedMessagesInfo: String { self.nagramiXLocalized("NagramiX.Settings.Messages.DeletedInfo") }
+    var nagramiXTemporaryMessages: String { self.nagramiXLocalized("NagramiX.Settings.Messages.Temporary") }
+    var nagramiXTemporaryMessagesInfo: String { self.nagramiXLocalized("NagramiX.Settings.Messages.TemporaryInfo") }
     var nagramiXDeletedMessageLabel: String { self.nagramiXLocalized("NagramiX.Settings.Messages.DeletedLabel") }
     var nagramiXDeletedMessageLabelEditor: String { self.nagramiXLocalized("NagramiX.Settings.Messages.DeletedLabelEditor") }
     var nagramiXMessageEditHistory: String { self.nagramiXLocalized("NagramiX.Settings.Messages.EditHistory") }

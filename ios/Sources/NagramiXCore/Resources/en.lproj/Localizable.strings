@@ -13,7 +13,7 @@
 "NagramiX.Settings.Chats.Header" = "CHATS";
 "NagramiX.Settings.Chats.WideChannelPosts" = "Wide Channel Posts";
 "NagramiX.Settings.Chats.ActionsOnHold" = "Chat Options on Long Press";
-"NagramiX.Settings.Chats.ActionsOnHold.Info" = "Long press a chat, group or channel row for the standard preview and menu. Swipe actions are disabled, leaving horizontal gestures available for switching folders.";
+"NagramiX.Settings.Chats.ActionsOnHold.Info" = "Long press the avatar to preview without marking messages as read, or any other area of a chat, group or channel row for the standard actions menu. Swipe from any area to switch folders. Turn this option off to restore standard swipe actions.";
 "NagramiX.Settings.VideoMessages.Header" = "VIDEO MESSAGES";
 "NagramiX.Settings.VideoMessages.UseRearCamera" = "Use Rear Camera";
 "NagramiX.Settings.Stories.Header" = "STORIES";
@@ -73,7 +73,9 @@
 "NagramiX.Settings.Calls.ForceTcpInfo" = "Please change this setting only if you know what it does.";
 "NagramiX.Settings.Messages.Header" = "MESSAGES";
 "NagramiX.Settings.Messages.Deleted" = "Deleted Messages";
-"NagramiX.Settings.Messages.DeletedInfo" = "Experimental · Shows deleted messages with a Deleted label";
+"NagramiX.Settings.Messages.DeletedInfo" = "Saves received messages and attachment files in a local archive and displays them after deletion. Saving files requires downloading them and space on your device.";
+"NagramiX.Settings.Messages.Temporary" = "Temporary Messages";
+"NagramiX.Settings.Messages.TemporaryInfo" = "Together with Deleted Messages, saves temporary and view-once photos, videos, video messages and voice messages. Received files remain in the local archive until it is cleared.";
 "NagramiX.Settings.Messages.DeletedLabel" = "Deletion Label Text";
 "NagramiX.Settings.Messages.DeletedLabelEditor" = "Deleted Message Text";
 "NagramiX.Settings.Messages.EditHistory" = "Message Edit History";
@@ -84,8 +86,8 @@
 "NagramiX.Messages.CurrentVersion" = "Current Version";
 "NagramiX.Messages.NoPreviousVersions" = "No previous versions saved";
 "NagramiX.Messages.ClearArchive" = "Clear Local Message Archive";
-"NagramiX.Messages.ClearArchiveConfirm" = "Delete saved deleted messages and edit history?";
-"NagramiX.Messages.ArchiveInfo" = "Turning a switch off stops new snapshots and hides its UI. Saved local data is kept until you clear the archive.";
+"NagramiX.Messages.ClearArchiveConfirm" = "Delete saved messages, edit history and all local archive files, including temporary attachments?";
+"NagramiX.Messages.ArchiveInfo" = "Turning the feature off stops new capture and hides archived messages. Saved messages and files remain until you clear the archive.";
 "NagramiX.Common.Clear" = "Clear";
 "NagramiX.Common.Cancel" = "Cancel";
 "NagramiX.CallConfirmation.Title" = "Start Call?";

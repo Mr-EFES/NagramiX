@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "product": "NagramiX",
-  "release": "0.4.6",
+  "release": "0.4.7",
   "platformPriority": [
     "ios"
   ],
@@ -68,11 +68,21 @@
     },
     {
       "id": "deleted_messages",
-      "title": "Локально сохранённые удалённые сообщения",
+      "title": "Локально сохранённые удалённые сообщения и файлы вложений",
       "specification": "specified",
       "ios": {
         "implementation": "implemented",
-        "compile": "compile_passed",
+        "compile": "compile_pending",
+        "device": "device_pending"
+      }
+    },
+    {
+      "id": "temporary_messages",
+      "title": "Локальный архив временных и одноразовых входящих вложений",
+      "specification": "specified",
+      "ios": {
+        "implementation": "implemented",
+        "compile": "compile_pending",
         "device": "device_pending"
       }
     },
@@ -82,7 +92,7 @@
       "specification": "specified",
       "ios": {
         "implementation": "implemented",
-        "compile": "compile_passed",
+        "compile": "compile_pending",
         "device": "device_pending"
       }
     },
@@ -188,11 +198,11 @@
     },
     {
       "id": "chat_actions_on_hold",
-      "title": "Опции чатов по тапу со штатным предпросмотром и меню",
+      "title": "Опции чатов по тапу: предпросмотр на аватарке, меню на остальной строке",
       "specification": "specified",
       "ios": {
         "implementation": "implemented",
-        "compile": "compile_passed",
+        "compile": "compile_pending",
         "device": "device_pending"
       }
     },
@@ -212,7 +222,7 @@
       "specification": "specified",
       "ios": {
         "implementation": "implemented",
-        "compile": "compile_passed",
+        "compile": "compile_pending",
         "device": "device_pending"
       }
     }

@@ -13,7 +13,7 @@
 "NagramiX.Settings.Chats.Header" = "ЧАТЫ";
 "NagramiX.Settings.Chats.WideChannelPosts" = "Широкие посты в каналах";
 "NagramiX.Settings.Chats.ActionsOnHold" = "Опции чатов по тапу";
-"NagramiX.Settings.Chats.ActionsOnHold.Info" = "Удерживайте строку чата, группы или канала для штатного предпросмотра и меню. Действия свайпом отключены, горизонтальные жесты доступны для переключения папок.";
+"NagramiX.Settings.Chats.ActionsOnHold.Info" = "Удерживайте аватарку для предпросмотра без отметки прочтения, а любую другую область строки чата, группы или канала — для штатного меню действий. Свайпы из любой области переключают папки. Выключите опцию, чтобы вернуть штатные действия свайпом.";
 "NagramiX.Settings.VideoMessages.Header" = "КРУГЛЫЕ ВИДЕО";
 "NagramiX.Settings.VideoMessages.UseRearCamera" = "На заднюю камеру";
 "NagramiX.Settings.Stories.Header" = "ИСТОРИИ";
@@ -147,7 +147,9 @@
 "NagramiX.Settings.Calls.ForceTcpInfo" = "Пожалуйста, меняйте эту настройку только если вы знаете, что она делает.";
 "NagramiX.Settings.Messages.Header" = "СООБЩЕНИЯ";
 "NagramiX.Settings.Messages.Deleted" = "Удалённые сообщения";
-"NagramiX.Settings.Messages.DeletedInfo" = "Экспериментально · Показывает удалённые сообщения с меткой «Удалено»";
+"NagramiX.Settings.Messages.DeletedInfo" = "Сохраняет полученные сообщения и файлы вложений в локальном архиве и показывает их после удаления. Сохранение файлов требует загрузки и места на устройстве.";
+"NagramiX.Settings.Messages.Temporary" = "Временные сообщения";
+"NagramiX.Settings.Messages.TemporaryInfo" = "Вместе с «Удалёнными сообщениями» сохраняет временные и одноразовые фото, видео, кружки и голосовые сообщения. Полученные файлы остаются в локальном архиве до его очистки.";
 "NagramiX.Settings.Messages.DeletedLabel" = "Текст метки удаления";
 "NagramiX.Settings.Messages.DeletedLabelEditor" = "Текст удалённого сообщения";
 "NagramiX.Settings.Messages.EditHistory" = "История правок сообщений";
@@ -158,8 +160,8 @@
 "NagramiX.Messages.CurrentVersion" = "Текущая версия";
 "NagramiX.Messages.NoPreviousVersions" = "Нет сохранённых предыдущих версий";
 "NagramiX.Messages.ClearArchive" = "Очистить локальный архив сообщений";
-"NagramiX.Messages.ClearArchiveConfirm" = "Удалить сохранённые удалённые сообщения и историю правок?";
-"NagramiX.Messages.ArchiveInfo" = "Выключение прекращает сохранение новых версий и скрывает их. Локальные данные остаются до очистки архива.";
+"NagramiX.Messages.ClearArchiveConfirm" = "Удалить сохранённые сообщения, историю правок и все файлы локального архива, включая временные вложения?";
+"NagramiX.Messages.ArchiveInfo" = "Выключение прекращает новое сохранение и скрывает архивные сообщения. Сохранённые сообщения и файлы остаются до очистки архива.";
 "NagramiX.Common.Clear" = "Очистить";
 "NagramiX.Common.Cancel" = "Отмена";
 "NagramiX.CallConfirmation.Title" = "Начать вызов?";

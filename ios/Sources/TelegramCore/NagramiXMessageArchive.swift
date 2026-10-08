@@ -3,19 +3,21 @@ import Postbox
 import SwiftSignalKit
 
 /// The archive lives in TelegramCore, below the NagramiXCore presentation
-/// module in the Bazel dependency graph. Read the two persisted switches from
+/// module in the Bazel dependency graph. Read the persisted switches from
 /// the same UserDefaults keys used by NagramiXTabSettings without introducing
 /// a TelegramCore -> NagramiXCore dependency cycle.
 private struct NagramiXMessageArchiveSettings {
     static let changedNotification = Notification.Name("NagramiXSettingsChanged")
 
     let showDeletedMessages: Bool
+    let saveTemporaryMessages: Bool
     let messageEditHistory: Bool
 
     static var current: NagramiXMessageArchiveSettings {
         let defaults = UserDefaults.standard
         return NagramiXMessageArchiveSettings(
             showDeletedMessages: defaults.object(forKey: "nagramix.messages.showDeletedMessages") as? Bool ?? false,
+            saveTemporaryMessages: defaults.object(forKey: "nagramix.messages.saveTemporaryMessages") as? Bool ?? false,
             messageEditHistory: defaults.object(forKey: "nagramix.messages.editHistory") as? Bool ?? false
         )
     }
@@ -69,6 +71,7 @@ private struct NagramiXArchivedRecord: Codable, Equatable {
     let threadId: Int64?
     let groupingKey: Int64?
     let incoming: Bool
+    var temporary: Bool?
     var peerData: [String: Data]
     var content: NagramiXArchivedContent
     var contentTimestamp: Int32?
@@ -102,11 +105,20 @@ public final class NagramiXMessageArchive {
     private let postbox: Postbox
     private let accountPeerId: PeerId
     private let path: String
+    private let basePath: String
     private let queue: Queue
     private let state = Atomic<NagramiXMessageArchiveState>(value: NagramiXMessageArchiveState())
     private let revisionValue = ValuePromise<Int>(0, ignoreRepeated: false)
     private var revision: Int = 0
     private var settingsObserver: NSObjectProtocol?
+    private var lifecycleObservers: [NSObjectProtocol] = []
+    private var readyForMediaDownloads = false
+    private var inForeground = true
+    private var mediaDownloadSettings: (Bool, Bool)?
+    private let renderVersion = Atomic<UInt32>(value: 0)
+    private lazy var mediaStore = NagramiXArchivedMediaStore(mediaBox: self.postbox.mediaBox, queue: self.queue, basePath: self.basePath, changed: { [weak self] in
+        self?.publishUpdate()
+    })
 
     public var updates: Signal<Int, NoError> {
         return self.revisionValue.get()
@@ -116,14 +128,15 @@ public final class NagramiXMessageArchive {
         self.postbox = postbox
         self.accountPeerId = accountPeerId
         self.path = basePath + "/nagramix-message-archive.json"
+        self.basePath = basePath
         self.queue = Queue(name: "org.nagramix.message-archive", qos: .utility)
+        _ = self.mediaStore
 
         _ = Self.registry.modify { value in
             var value = value
             value[ObjectIdentifier(postbox)] = NagramiXWeakMessageArchive(self)
             return value
         }
-
         self.queue.async { [weak self] in
             guard let self else {
                 return
@@ -131,20 +144,38 @@ public final class NagramiXMessageArchive {
             if let data = try? Data(contentsOf: URL(fileURLWithPath: self.path)), let loaded = try? JSONDecoder().decode(NagramiXMessageArchiveState.self, from: data) {
                 _ = self.state.swap(loaded)
             }
+            self.mediaStore.load()
+            for (key, record) in self.state.with({ $0.records }) {
+                let requests = self.mediaRequests(record)
+                if let ticket = self.mediaStore.reserveRestored(key: key, requests: requests) {
+                    self.mediaStore.retain(key: key, requests: requests, ticket: ticket)
+                }
+            }
             self.publishUpdate()
         }
 
         self.settingsObserver = NotificationCenter.default.addObserver(forName: NagramiXMessageArchiveSettings.changedNotification, object: nil, queue: nil, using: { [weak self] _ in
             self?.queue.async {
+                self?.refreshMediaDownloads()
                 self?.publishUpdate()
             }
         })
+        for (name, foreground) in [("UIApplicationDidEnterBackgroundNotification", false), ("UIApplicationWillEnterForegroundNotification", true)] {
+            self.lifecycleObservers.append(NotificationCenter.default.addObserver(forName: Notification.Name(name), object: nil, queue: nil, using: { [weak self] _ in
+                self?.queue.async {
+                    guard let self else { return }
+                    self.inForeground = foreground
+                    self.refreshMediaDownloads()
+                }
+            }))
+        }
     }
 
     deinit {
         if let settingsObserver = self.settingsObserver {
             NotificationCenter.default.removeObserver(settingsObserver)
         }
+        for observer in self.lifecycleObservers { NotificationCenter.default.removeObserver(observer) }
         _ = Self.registry.modify { value in
             var value = value
             value.removeValue(forKey: ObjectIdentifier(self.postbox))
@@ -152,8 +183,32 @@ public final class NagramiXMessageArchive {
         }
     }
 
+    public func startMediaDownloads() {
+        self.queue.async { [weak self] in
+            guard let self else { return }
+            self.readyForMediaDownloads = true
+            self.refreshMediaDownloads()
+        }
+    }
+
+    private func refreshMediaDownloads() {
+        let settings = NagramiXMessageArchiveSettings.current
+        let enabled = self.readyForMediaDownloads && self.inForeground && settings.showDeletedMessages
+        let temporary = settings.saveTemporaryMessages
+        if let current = self.mediaDownloadSettings, current.0 == enabled, current.1 == temporary { return }
+        self.mediaDownloadSettings = (enabled, temporary)
+        self.mediaStore.configure(enabled: enabled, temporaryEnabled: temporary)
+    }
+
+    public func cacheResourcesToRemove(_ ids: [MediaResourceId]) -> [MediaResourceId] {
+        let settings = NagramiXMessageArchiveSettings.current
+        guard settings.showDeletedMessages else { return ids }
+        return self.mediaStore.resourcesToRemove(ids, includeTemporary: settings.saveTemporaryMessages)
+    }
+
     private func publishUpdate() {
         self.revision += 1
+        _ = self.renderVersion.modify { $0 &+ 1 }
         self.revisionValue.set(self.revision)
     }
 
@@ -178,6 +233,61 @@ public final class NagramiXMessageArchive {
         return PostboxDecoder(buffer: MemoryBuffer(data: data)).decodeRootObject()
     }
 
+    private func mediaRequests(_ record: NagramiXArchivedRecord) -> [NagramiXArchiveMediaRequest] {
+        var peers: [PeerId: Peer] = [:]
+        for data in record.peerData.values {
+            if let peer = Self.decodedRootObject(data) as? Peer { peers[peer.id] = peer }
+        }
+        guard let peer = peers[record.messageId.peerId] else { return [] }
+        let reference = MessageReference(peer: peer, author: record.authorId.flatMap { peers[PeerId($0)] }, id: record.messageId, timestamp: record.timestamp, incoming: record.incoming, secret: record.temporary == true, threadId: record.threadId)
+        var result: [NagramiXArchiveMediaRequest] = []
+        var seen = Set<MediaResourceId>()
+        for data in record.content.media {
+            guard let media = Self.decodedRootObject(data) as? Media else { continue }
+            let mediaReference = AnyMediaReference.message(message: reference, media: media)
+            func append(_ resource: TelegramMediaResource, primary: Bool) {
+                guard !(resource is EmptyMediaResource), seen.insert(resource.id).inserted else { return }
+                result.append(NagramiXArchiveMediaRequest(reference: mediaReference.resourceReference(resource), temporary: record.temporary == true, primary: primary))
+            }
+            func appendImage(_ image: TelegramMediaImage) {
+                let largest = image.representations.max { lhs, rhs in
+                    Int64(lhs.dimensions.width) * Int64(lhs.dimensions.height) < Int64(rhs.dimensions.width) * Int64(rhs.dimensions.height)
+                }
+                for representation in image.representations { append(representation.resource, primary: representation === largest) }
+                for video in image.videoRepresentations { append(video.resource, primary: true) }
+                if let video = image.video { appendFile(video) }
+            }
+            func appendFile(_ file: TelegramMediaFile) {
+                append(file.resource, primary: true)
+                for representation in file.previewRepresentations { append(representation.resource, primary: false) }
+                for thumbnail in file.videoThumbnails { append(thumbnail.resource, primary: false) }
+                if let cover = file.videoCover { appendImage(cover) }
+                for alternative in file.alternativeRepresentations { appendFile(alternative) }
+            }
+            if let image = media as? TelegramMediaImage { appendImage(image) }
+            if let file = media as? TelegramMediaFile { appendFile(file) }
+        }
+        return result
+    }
+
+    private func localRepresentation(_ representation: TelegramMediaImageRepresentation) -> TelegramMediaImageRepresentation {
+        return TelegramMediaImageRepresentation(dimensions: representation.dimensions, resource: self.mediaStore.localResource(for: representation.resource), progressiveSizes: representation.progressiveSizes, immediateThumbnailData: representation.immediateThumbnailData, hasVideo: representation.hasVideo, isPersonal: representation.isPersonal, typeHint: representation.typeHint)
+    }
+
+    private func localImage(_ image: TelegramMediaImage) -> TelegramMediaImage {
+        return TelegramMediaImage(imageId: image.imageId, representations: image.representations.map(self.localRepresentation), videoRepresentations: image.videoRepresentations.map { TelegramMediaImage.VideoRepresentation(dimensions: $0.dimensions, resource: self.mediaStore.localResource(for: $0.resource), startTimestamp: $0.startTimestamp) }, immediateThumbnailData: image.immediateThumbnailData, emojiMarkup: image.emojiMarkup, reference: image.reference, partialReference: nil, flags: image.flags, video: image.video.map(self.localFile))
+    }
+
+    private func localFile(_ file: TelegramMediaFile) -> TelegramMediaFile {
+        return TelegramMediaFile(fileId: file.fileId, partialReference: nil, resource: self.mediaStore.localResource(for: file.resource), previewRepresentations: file.previewRepresentations.map(self.localRepresentation), videoThumbnails: file.videoThumbnails.map { TelegramMediaFile.VideoThumbnail(dimensions: $0.dimensions, resource: self.mediaStore.localResource(for: $0.resource)) }, videoCover: file.videoCover.map(self.localImage), immediateThumbnailData: file.immediateThumbnailData, mimeType: file.mimeType, size: file.size, attributes: file.attributes, alternativeRepresentations: file.alternativeRepresentations.map(self.localFile))
+    }
+
+    private func localMedia(_ media: Media) -> Media {
+        if let image = media as? TelegramMediaImage { return self.localImage(image) }
+        if let file = media as? TelegramMediaFile { return self.localFile(file) }
+        return media
+    }
+
     private static func makeRecord(message: StoreMessage, peers: [PeerId: Peer]) -> NagramiXArchivedRecord? {
         guard case let .Id(id) = message.id else {
             return nil
@@ -191,15 +301,13 @@ public final class NagramiXMessageArchive {
         guard message.flags.contains(.Incoming) else {
             return nil
         }
-        guard !message.flags.contains(.CopyProtected) else {
+        let temporary = message.attributes.contains(where: { $0 is AutoremoveTimeoutMessageAttribute || $0 is AutoclearTimeoutMessageAttribute })
+        guard !message.flags.contains(.CopyProtected) || (temporary && NagramiXMessageArchiveSettings.current.saveTemporaryMessages) else {
             return nil
         }
-        guard !message.attributes.contains(where: {
-            $0 is AutoremoveTimeoutMessageAttribute
-                || $0 is AutoclearTimeoutMessageAttribute
-                || $0 is EphemeralMessageAttribute
-                || $0 is EphemeralOutgoingMessageAttribute
-        }) else {
+        guard !temporary || NagramiXMessageArchiveSettings.current.saveTemporaryMessages else { return nil }
+        guard !message.attributes.contains(where: { $0 is EphemeralMessageAttribute || $0 is EphemeralOutgoingMessageAttribute }),
+              !message.media.contains(where: { $0 is TelegramMediaExpiredContent }) else {
             return nil
         }
         guard !message.media.contains(where: { $0 is TelegramMediaPaidContent }) else {
@@ -238,6 +346,7 @@ public final class NagramiXMessageArchive {
             threadId: message.threadId,
             groupingKey: message.groupingKey,
             incoming: true,
+            temporary: temporary,
             peerData: peerData,
             content: NagramiXArchivedContent(text: message.text, entities: entities, media: media),
             contentTimestamp: message.timestamp,
@@ -270,6 +379,10 @@ public final class NagramiXMessageArchive {
     }
 
     public func captureIncoming(_ message: StoreMessage, peers: [PeerId: Peer]) {
+        if message.media.contains(where: { $0 is TelegramMediaExpiredContent }), case let .Id(id) = message.id {
+            self.markTemporaryExpired(id: id, expiredAt: Int32(Date().timeIntervalSince1970))
+            return
+        }
         let settings = NagramiXMessageArchiveSettings.current
         // Edit history captures the real previous Message immediately before an edit is
         // applied. Keeping every incoming message on disk is only necessary when a
@@ -280,6 +393,8 @@ public final class NagramiXMessageArchive {
         guard let record = Self.makeRecord(message: message, peers: peers), record.messageId.peerId != self.accountPeerId else {
             return
         }
+        let requests = self.mediaRequests(record)
+        let ticket = self.mediaStore.reserve(key: Self.key(record.messageId), requests: requests)
         self.queue.async { [weak self] in
             guard let self else {
                 return
@@ -296,6 +411,49 @@ public final class NagramiXMessageArchive {
             }
             _ = self.state.swap(updated)
             self.persist(updated)
+            self.mediaStore.retain(key: key, requests: requests, ticket: ticket)
+        }
+    }
+
+    /// Also covers existing attachments when the switch was enabled after receipt.
+    /// Capturing bytes does not itself consume the message or start its timer.
+    public func captureTemporaryBeforeViewing(message: Message) {
+        let settings = NagramiXMessageArchiveSettings.current
+        if settings.showDeletedMessages && settings.saveTemporaryMessages,
+           message.attributes.contains(where: { $0 is AutoremoveTimeoutMessageAttribute || $0 is AutoclearTimeoutMessageAttribute }),
+           let record = Self.makeRecord(message: message, peers: message.peers), record.temporary == true, record.messageId.peerId != self.accountPeerId {
+            let requests = self.mediaRequests(record)
+            let ticket = self.mediaStore.reserve(key: Self.key(record.messageId), requests: requests)
+            self.queue.async { [weak self] in
+                guard let self else { return }
+                var updated = self.state.with { $0 }
+                let key = Self.key(record.messageId)
+                if updated.records[key] == nil { updated.records[key] = record }
+                _ = self.state.swap(updated)
+                self.persist(updated)
+                self.mediaStore.retain(key: key, requests: requests, ticket: ticket)
+            }
+        }
+    }
+
+    /// Called immediately before Telegram replaces media with expired content.
+    /// Existing approved copies remain archived even if capture is later disabled.
+    public func archiveTemporaryExpiration(message: Message, expiredAt: Int32) {
+        self.captureTemporaryBeforeViewing(message: message)
+        self.markTemporaryExpired(id: message.id, expiredAt: expiredAt)
+    }
+
+    public func markTemporaryExpired(id: MessageId, expiredAt: Int32) {
+        self.queue.async { [weak self] in
+            guard let self else { return }
+            var updated = self.state.with { $0 }
+            let key = Self.key(id)
+            guard var record = updated.records[key], record.temporary == true, record.deletedAt == nil else { return }
+            record.deletedAt = expiredAt
+            updated.records[key] = record
+            _ = self.state.swap(updated)
+            self.persist(updated)
+            self.publishUpdate()
         }
     }
 
@@ -307,6 +465,8 @@ public final class NagramiXMessageArchive {
         guard let previous = Self.makeRecord(message: previousMessage, peers: peers), let replacement = Self.makeRecord(message: replacementMessage, peers: peers), replacement.messageId.peerId != self.accountPeerId else {
             return
         }
+        let requests = self.mediaRequests(replacement)
+        let ticket = self.mediaStore.reserve(key: Self.key(replacement.messageId), requests: requests)
         self.queue.async { [weak self] in
             guard let self else {
                 return
@@ -315,6 +475,7 @@ public final class NagramiXMessageArchive {
             let key = Self.key(replacement.messageId)
             var current = updated.records[key] ?? previous
             guard current.content != replacement.content else {
+                self.mediaStore.retain(key: key, requests: requests, ticket: ticket)
                 return
             }
             if settings.messageEditHistory {
@@ -330,16 +491,24 @@ public final class NagramiXMessageArchive {
             updated.records[key] = current
             _ = self.state.swap(updated)
             self.persist(updated)
+            self.mediaStore.retain(key: key, requests: requests, ticket: ticket)
             self.publishUpdate()
         }
     }
 
-    public func archiveServerDeletion(messageIds: [MessageId], deletedAt: Int32) {
-        let settings = NagramiXMessageArchiveSettings.current
-        guard settings.showDeletedMessages || settings.messageEditHistory else {
-            return
+    public func archiveServerDeletion(upToMessageId id: MessageId, deletedAt: Int32) {
+        self.queue.async { [weak self] in
+            guard let self else { return }
+            let ids = self.state.with { state in
+                state.records.values.filter { $0.messageId.peerId == id.peerId && $0.namespace == id.namespace && $0.id <= id.id }.map { $0.messageId }
+            }
+            self.archiveServerDeletion(messageIds: ids, deletedAt: deletedAt)
         }
-        let preserveDeletedMessage = settings.showDeletedMessages
+    }
+
+    public func archiveServerDeletion(messageIds: [MessageId], deletedAt: Int32) {
+        // A later switch-off pauses capture and hides the archive, but does not
+        // discard content that was already saved with the user's approval.
         let keys = Set(messageIds.map { Self.key($0) })
         self.queue.async { [weak self] in
             guard let self else {
@@ -349,15 +518,11 @@ public final class NagramiXMessageArchive {
             var changed = false
             for key in keys {
                 if var record = updated.records[key] {
-                    if preserveDeletedMessage {
-                        if record.deletedAt != nil {
-                            continue
-                        }
-                        record.deletedAt = deletedAt
-                        updated.records[key] = record
-                    } else {
-                        updated.records.removeValue(forKey: key)
+                    if record.deletedAt != nil {
+                        continue
                     }
+                    record.deletedAt = deletedAt
+                    updated.records[key] = record
                     changed = true
                 }
             }
@@ -370,11 +535,6 @@ public final class NagramiXMessageArchive {
     }
 
     public func archiveServerDeletion(globalIds: [Int32], deletedAt: Int32) {
-        let settings = NagramiXMessageArchiveSettings.current
-        guard settings.showDeletedMessages || settings.messageEditHistory else {
-            return
-        }
-        let preserveDeletedMessage = settings.showDeletedMessages
         let ids = Set(globalIds)
         self.queue.async { [weak self] in
             guard let self else {
@@ -393,15 +553,11 @@ public final class NagramiXMessageArchive {
                 guard var record = updated.records[key] else {
                     continue
                 }
-                if preserveDeletedMessage {
-                    if record.deletedAt != nil {
-                        continue
-                    }
-                    record.deletedAt = deletedAt
-                    updated.records[key] = record
-                } else {
-                    updated.records.removeValue(forKey: key)
+                if record.deletedAt != nil {
+                    continue
                 }
+                record.deletedAt = deletedAt
+                updated.records[key] = record
                 changed = true
             }
             if changed {
@@ -414,6 +570,7 @@ public final class NagramiXMessageArchive {
 
     public func removeLocal(messageIds: [MessageId]) {
         let keys = Set(messageIds.map { Self.key($0) })
+        let ticket = self.mediaStore.barrier()
         self.queue.async { [weak self] in
             guard let self else {
                 return
@@ -421,6 +578,7 @@ public final class NagramiXMessageArchive {
             var updated = self.state.with { $0 }
             let oldCount = updated.records.count
             updated.records = updated.records.filter { !keys.contains($0.key) }
+            self.mediaStore.remove(keys: keys, before: ticket)
             if updated.records.count != oldCount {
                 _ = self.state.swap(updated)
                 self.persist(updated)
@@ -430,13 +588,16 @@ public final class NagramiXMessageArchive {
     }
 
     public func clear(peerId: PeerId) {
+        let ticket = self.mediaStore.barrier()
         self.queue.async { [weak self] in
             guard let self else {
                 return
             }
             var updated = self.state.with { $0 }
             let rawPeerId = peerId.toInt64()
+            let keys = Set(updated.records.filter { $0.value.peerId == rawPeerId }.keys)
             updated.records = updated.records.filter { $0.value.peerId != rawPeerId }
+            self.mediaStore.remove(keys: keys, before: ticket)
             _ = self.state.swap(updated)
             self.persist(updated)
             self.publishUpdate()
@@ -444,6 +605,7 @@ public final class NagramiXMessageArchive {
     }
 
     public func clearAll() {
+        let ticket = self.mediaStore.barrier(clearFiles: true)
         self.queue.async { [weak self] in
             guard let self else {
                 return
@@ -451,6 +613,7 @@ public final class NagramiXMessageArchive {
             let updated = NagramiXMessageArchiveState()
             _ = self.state.swap(updated)
             try? FileManager.default.removeItem(atPath: self.path)
+            self.mediaStore.clear(before: ticket)
             self.publishUpdate()
         }
     }
@@ -476,6 +639,21 @@ public final class NagramiXMessageArchive {
         guard NagramiXMessageArchiveSettings.current.showDeletedMessages,
               let record = self.state.with({ $0.records[Self.key(id)] }), record.deletedAt != nil else { return nil }
         return self.renderDeletedRecord(record)
+    }
+
+    public func snapshotForExpiredMessage(id: MessageId) -> Message? {
+        guard NagramiXMessageArchiveSettings.current.showDeletedMessages,
+              let record = self.state.with({ $0.records[Self.key(id)] }), record.temporary == true else { return nil }
+        self.markTemporaryExpired(id: id, expiredAt: Int32(Date().timeIntervalSince1970))
+        return self.renderDeletedRecord(record)
+    }
+
+    public func containsArchivedMessage(id: MessageId) -> Bool {
+        guard NagramiXMessageArchiveSettings.current.showDeletedMessages else { return false }
+        return self.state.with { state in
+            guard let record = state.records[Self.key(id)] else { return false }
+            return record.deletedAt != nil || record.temporary == true
+        }
     }
 
     public func updateDeletedMessageText(id: MessageId, text: String) {
@@ -530,7 +708,7 @@ public final class NagramiXMessageArchive {
                 peers[peer.id] = peer
             }
         }
-        let media = record.content.media.compactMap { Self.decodedRootObject($0) as? Media }
+        let media = record.content.media.compactMap { Self.decodedRootObject($0) as? Media }.map(self.localMedia)
         var attributes: [MessageAttribute] = []
         if !record.content.entities.isEmpty {
             attributes.append(TextEntitiesMessageAttribute(entities: record.content.entities))
@@ -554,6 +732,6 @@ public final class NagramiXMessageArchive {
             attributes: attributes,
             media: media
         )
-        return locallyRenderedMessage(message: storeMessage, peers: peers)?.withUpdatedStableVersion(stableVersion: UInt32(clamping: record.revisions.count))
+        return locallyRenderedMessage(message: storeMessage, peers: peers)?.withUpdatedStableVersion(stableVersion: UInt32(clamping: record.revisions.count) &+ self.renderVersion.with { $0 })
     }
 }
