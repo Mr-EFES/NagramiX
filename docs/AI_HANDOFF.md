@@ -1,14 +1,20 @@
 # Текущий контекст NagramiX 0.4.6
 
-Обновлено 2026-10-08. Рабочая ветка — main; HEAD до текущих правок — 3117e3a. Последняя опубликованная стабильная версия — 0.4.5, сборка №73, исходный SHA 1c85d9a8fa83edcdbaf5ebc59e9e06a8f50d1051; публикация выполнена запуском №74. Её релиз, тег и файлы сохранены. База — Telegram-iOS 12.9.2, pin 6ad963e5b62d354da79040f388ae2b9132fb17b8. Проект использует overlay. Все новые аннотации и отчёты — на русском.
+Обновлено 2026-10-08. Единственная рабочая ветка — main. Пользователь разрешил сборку и публикацию для физического теста; задача выполнена. База — Telegram-iOS 12.9.2, pin 6ad963e5b62d354da79040f388ae2b9132fb17b8; upstream-аудит CURRENT. Проект — overlay. Все новые аннотации и отчёты — на русском.
 
-## Текущая задача
+## Выпуск и проверки
 
-2026-10-08 пользователь прямо разрешил сборку нового IPA 0.4.6 для физического теста и публикацию в репозитории. Подготовленные правки тем, полных подписей, опций чатов, медиа и компактного списка включаются вместе. Выполнены повторные статические проверки и upstream-аудит CURRENT 12.9.2 / 6ad963e5b62d354da79040f388ae2b9132fb17b8. Разрешены коммит/push/main и workflow с публикацией prerelease; нативная компиляция и физическая проверка ещё ожидаются.
+[Тестовый релиз 0.4.6](https://github.com/Mr-EFES/NagramiX/releases/tag/v0.4.6), prerelease=true, draft=false. Русская аннотация совпадает с product/releases/0.4.6.md. Предыдущий stable/latest 0.4.5 сохранён; его релиз/тег/файлы не изменены.
 
-## Запущенная сборка и публикация
+- Чистая ARM64-сборка [№75](https://github.com/Mr-EFES/NagramiX/actions/runs/37726223234), run ID 37726223234. Обе задачи build/release успешны.
+- Source SHA: bb9b1c6ef9d0a66446fb9d68ea580604ca72bd0e; тег v0.4.6 указывает на этот же коммит. Подготовка — 75fa9af и bb9b1c6; последующие коммиты main меняют только отчёты и статусы.
+- artifact ID 11529872292; build job 113144893124, release job 113161860680.
+- NagramiX-0.4.6-unsigned.ipa, 73 920 708 байт; SHA256 e21628e3a311faab2a57c0c934e49143f354e3813f3fcd20dac1fa8dc632a87a.
+- Проверен скачанный файл релиза валидатором scripts/validate_unsigned_ipa.py: версия 0.4.6/build 75, источник/checksum, ARM64, bundle metadata, отсутствие временных подписей и профилей, основной RU 14843 / NagramiX RU 196 ключей. Все 46 полных русских подписей совпадают с реестром.
+- Compiler warnings/errors для новых и изменённых Swift-путей в журнале не найдены. Существуют предупреждения сторонних/штатных исходников и Node.js 20 для actions v4; успешной сборке/публикации не помешали. Workflow дополнительно не менялся.
+- registry: текущие новые функции compile_passed, device_pending. Компиляция и проверка IPA не подтверждают поведение на устройстве.
 
-Чистая сборка [№75](https://github.com/Mr-EFES/NagramiX/actions/runs/37726223234), run ID 37726223234, job ID 113144893124. Source SHA `bb9b1c6ef9d0a66446fb9d68ea580604ca72bd0e`, clean_build=true, publish_release=true, prerelease=true, artifact_run_id пустой: новый IPA. Main опубликован после коммитов 75fa9af и bb9b1c6. Проверка базы/метаданных/версии/Xcode/overlay/профилей прошла; нативная компиляция выполняется. В Linux Xcode нет; физический тест ожидается. Использовать gh через inherited proxy с network permission; секреты не читать. Для возобновления: gh run view 37726223234 --repo Mr-EFES/NagramiX; при ошибке скачать логи, исправить только причину, повторить сборку. При успехе скачать артефакт/релиз и выполнить scripts/validate_unsigned_ipa.py с version 0.4.6, build-number 75, source-commit bb9b1c6ef9d0a66446fb9d68ea580604ca72bd0e; проверить опубликованные assets и обновить compile statuses. Предыдущий stable 0.4.5 не удалять.
+В Linux Xcode/Swift toolchain отсутствует; нативная компиляция выполнена только в GitHub Actions macOS. Для gh используется унаследованный proxy и разрешение network; секреты не читать. Валидационные деревья и файлы /tmp не авторитетны и в коммиты не включены. Основной факт выпуска и checksum продублированы в [RELEASE_STATUS.md](RELEASE_STATUS.md).
 
 ## Причина и исправление
 
@@ -22,7 +28,7 @@
 
 Добавлен ios/Resources/ru-full-control-labels.json: 46 ключей управления. В ios/Resources/ru.lproj/Localizable.strings исправлены 45 ключей, Common.Edit уже был полным. apply_features проверяет совпадение и формирует общий Swift-словарь; DefaultPresentationStrings использует его при первом запуске, PresentationData — после серверного пакета, только для русского компонента. Другие языки/выбор пользователя не перезаписываются. В DataAndStorageSettingsController только для полного названия сохранения отредактированных фотографий включён штатный maximumNumberOfLines: 0. Звонки используют stock HorizontalTabsComponent с измерением текста/прокруткой. Подробности и план — [RUSSIAN_CONTROL_LABELS.md](RUSSIAN_CONTROL_LABELS.md).
 
-Сравнение с предыдущим состоянием 0.4.6 после правки тем: изменены четыре generated-файла (русский ресурс, DefaultPresentationStrings, PresentationData, DataAndStorageSettingsController), остальные 223 файла ограниченного проверочного дерева совпадают. Swift-разбор трёх файлов, Python, значения всех 46 ключей, отсутствие иных изменений строк, ограничение русским компонентом и порядок после серверных записей проверены. Разбор серверных записей сохранён. Нативная/визуальная приёмка ожидается; clean_install_defaults теперь compile_pending/device_pending.
+Сравнение с предыдущим состоянием 0.4.6 после правки тем: изменены четыре generated-файла (русский ресурс, DefaultPresentationStrings, PresentationData, DataAndStorageSettingsController), остальные 223 файла ограниченного проверочного дерева совпадают. Swift-разбор трёх файлов, Python, значения всех 46 ключей, отсутствие иных изменений строк, ограничение русским компонентом и порядок после серверных записей проверены. Разбор серверных записей сохранён. Нативная компиляция прошла в сборке №75, визуальная приёмка ожидается; clean_install_defaults теперь compile_passed/device_pending.
 
 ## Опции чатов по тапу
 
@@ -32,17 +38,17 @@
 
 Точные якоря добавляют в ChatListItemNode хранение штатных опций и setRevealOptions/setRevealOptionsOpened/gestureRecognizerShouldBegin/didLoad. При ON опции пустые, только распознаватель свайпа строки отклоняется, native флаги блокирования папок снимаются. Активное раскрытие закрывается после очистки опций, чтобы отменённый полный свайп не выполнил старое действие. OFF возвращает штатные опции из актуального кэша. Загруженные строки, включая кэшированные папки, получают changedNotification на main с weak self и удалением наблюдателя в deinit. Новых обработчиков удерживания/меню/таймеров нет; native preview, tap, права действий, подтверждения, accessibility и editing не переписаны.
 
-Новый overlay применяется к чистому scoped набору pin. Отличаются шесть generated-файлов, остальные 222 файла совпадают, включая прежние изменения 0.4.6. Swift-разбор четырёх файлов и Python проходят. Проверены старые preference keys/локализации, новые stable id 8/9 и сохранность всех прежних байтов ChatListItem после исключения добавленного блока/import/deinit cleanup. Это статические проверки, не UIKit/UserDefaults execution и не native compile. ItemListRevealOptionsItemNode, ChatListContainerNode и InteractiveTransitionGestureRecognizer прочитаны, не изменены. chat_actions_on_hold — compile_pending/device_pending. [Описание и приёмка](../product/features/chat-actions-on-hold.md).
+Новый overlay применяется к чистому scoped набору pin. Отличаются шесть generated-файлов, остальные 222 файла совпадают, включая прежние изменения 0.4.6. Swift-разбор четырёх файлов и Python проходят. Проверены старые preference keys/локализации, новые stable id 8/9 и сохранность всех прежних байтов ChatListItem после исключения добавленного блока/import/deinit cleanup. Это статические проверки, не UIKit/UserDefaults execution и не native compile. ItemListRevealOptionsItemNode, ChatListContainerNode и InteractiveTransitionGestureRecognizer прочитаны, не изменены. chat_actions_on_hold — compile_passed/device_pending. [Описание и приёмка](../product/features/chat-actions-on-hold.md).
 
 ## Фотографии, стикеры и эмодзи
 
-По новому скриншоту и подтверждению пользователя добавлены пункты в Функции: качество фото/фотоисторий 100%, большие фото ON (2560), размер стикеров/крупных эмодзи 100%, время ON. Сохранённые значения, включая 0/OFF, имеют приоритет. Сборка разрешена новой командой пользователя.
+По новому скриншоту и подтверждению пользователя добавлены пункты в Функции: качество фото/фотоисторий 100%, большие фото ON (2560), размер стикеров/крупных эмодзи 100%, время ON. Сохранённые значения, включая 0/OFF, имеют приоритет. Набор включён в опубликованную сборку №75.
 
 Изменены NagramiXTabSettings, Core BUILD, PresentationStrings, RU/EN ресурсы, SettingsController и apply_features.py; добавлены Foundation-only модуль NagramiXMediaSettings и NagramiXPercentageItem. Последний использует TGPhotoEditorSliderView и штатные ItemListUI/Font/theme colors, обновляет процент при движении и сохраняет после жеста. Новые stable id 90–100, старые не менялись. Общий поиск охватывает новые настройки.
 
 Точные patches затрагивают LegacyMediaPickers, FetchPhotoLibraryImageResource, TelegramRootController (.image истории), два узла стикеров, ChatControllerNode и соответствующие BUILD. Реальный базовый compressImageToJPEG передаёт в Mozjpeg только image/path, поэтому quality может игнорироваться; целевые ветки используют UIImage.jpegData(compressionQuality:). Явные экспорты/форматы, JPEG XL, видео/обложки/миниатюры и файлы сохранены. Размер уменьшает локальную геометрию и крупный emoji-font; 100% штатный, 0% масштаб 0,01 и font >=1. Inline emoji и кубики не меняются. Время отключается пустым dateText, не скрытием узла статуса. Размер/время обновляют видимые сообщения через прежнее слабое замыкание; наблюдатель удаляется в deinit.
 
-Чистый scoped overlay проходит: 18 generated-файлов изменены, 3 добавлены, 256 совпадают с предыдущим состоянием. Синтаксис 11 Swift-файлов/Python, сохранность старых defaults/keys/IDs/RU/EN, неизменность обработчиков стикеров после updateSelectionState, явных экспортов и обложек проверены. Два отрицательных сценария якорей отклоняются; защита 28 appearance-путей проходит. Это не native typecheck, не UIKit/UserDefaults execution и не проверка JPEG-байтов. Xcode/Swift toolchain отсутствуют. Реестр/контракт/README/аннотация/статус/план актуализированы; compile_pending/device_pending. [Описание и приёмка](../product/features/media-controls.md).
+Чистый scoped overlay проходит: 18 generated-файлов изменены, 3 добавлены, 256 совпадают с предыдущим состоянием. Синтаксис 11 Swift-файлов/Python, сохранность старых defaults/keys/IDs/RU/EN, неизменность обработчиков стикеров после updateSelectionState, явных экспортов и обложек проверены. Два отрицательных сценария якорей отклоняются; защита 28 appearance-путей проходит. Это не native typecheck, не UIKit/UserDefaults execution и не проверка JPEG-байтов. Xcode/Swift toolchain отсутствуют. Реестр/контракт/README/аннотация/статус/план актуализированы; compile_passed/device_pending. [Описание и приёмка](../product/features/media-controls.md).
 
 ## Компактный список чатов
 
@@ -52,13 +58,13 @@
 
 Все существующие ChatListNode, включая кэшированные папки, наблюдают специальное уведомление на main с weak self и cleanup в deinit. Оно обновляет прежний revision signal. Atomic сравнивает bool на очереди обработки; изменение включает native forceAllUpdated, иначе неизменные данные записей не вызвали бы rebind строк. Таймеров/polling нет.
 
-Свежий scoped overlay проходит: 7 generated-файлов отличаются от предыдущего подготовленного состояния, 270 совпадают. Синтаксис 5 Swift-файлов/Python, старые keys/defaults/localizations/IDs и полнота switch проверены. Hold-блок и обработчики после revealOptionsInteractivelyOpened побайтно сохранены. Два отрицательных сценария якоря высоты отклоняются; appearance guards проходят. Это не native compile, не UIKit/UserDefaults runtime. Xcode/Swift toolchain отсутствуют. Сборка/workflow/релиз не запускались, compile_pending/device_pending. [Описание и приёмка](../product/features/compact-chat-list.md).
+Свежий scoped overlay проходит: 7 generated-файлов отличаются от предыдущего подготовленного состояния, 270 совпадают. Синтаксис 5 Swift-файлов/Python, старые keys/defaults/localizations/IDs и полнота switch проверены. Hold-блок и обработчики после revealOptionsInteractivelyOpened побайтно сохранены. Два отрицательных сценария якоря высоты отклоняются; appearance guards проходят. Это не native compile, не UIKit/UserDefaults runtime. Xcode/Swift toolchain отсутствуют. Новая сборка №75 и публикация прошли, compile_passed/device_pending. [Описание и приёмка](../product/features/compact-chat-list.md).
 
 ## Проверки и метаданные
 
-До правки русских подписей старый и новый overlay применены к чистым проверочным копиям закреплённого исходника. Отличаются только MakePresentationTheme.swift и ThemePickerController.swift; остальные 224 файла проверочного дерева совпадают. Синтаксис Python и tree-sitter-разбор двух Swift-файлов проходят. Проверки отрицательных сценариев для якорей и повторного наложения корректно отклоняют несовместимый исходник. Проверены метаданные, diff и 13 русских строк приветствия. --require-current подтвердил совпадение pin с официальной базой. Это ограниченный набор исходников, не полный checkout и не нативный typecheck. Xcode/Swift toolchain отсутствуют; IPA не собирался. standard_telegram_themes отмечен compile_pending/device_pending, статусы остальных неизменённых функций сохранены.
+До правки русских подписей старый и новый overlay применены к чистым проверочным копиям закреплённого исходника. Отличаются только MakePresentationTheme.swift и ThemePickerController.swift; остальные 224 файла проверочного дерева совпадают. Синтаксис Python и tree-sitter-разбор двух Swift-файлов проходят. Проверки отрицательных сценариев для якорей и повторного наложения корректно отклоняют несовместимый исходник. Проверены метаданные, diff и 13 русских строк приветствия. --require-current подтвердил совпадение pin с официальной базой. Это ограниченный набор исходников, не полный checkout и не нативный typecheck. Xcode/Swift toolchain отсутствуют; IPA собран нативно в macOS GitHub Actions, №75. standard_telegram_themes отмечен compile_passed/device_pending, статусы остальных неизменённых функций сохранены.
 
-Версия workflow/реестра, README, текущие описания, аннотация product/releases/0.4.6.md и план IPHONE_TEST_0.4.6.md обновлены. [RELEASE_STATUS.md](RELEASE_STATUS.md) отделяет разработку от опубликованного выпуска. Релиз 0.4.5 и его аннотация не изменялись. Единственный workflow запускается вручную.
+Версия workflow/реестра, README, текущие описания, аннотация product/releases/0.4.6.md и план IPHONE_TEST_0.4.6.md обновлены. [RELEASE_STATUS.md](RELEASE_STATUS.md) отделяет разработку от опубликованного выпуска. Релиз 0.4.5 сохранён; новый 0.4.6 опубликован отдельно. Единственный workflow запускается вручную.
 
 ## Сохранённый функционал
 
@@ -66,4 +72,6 @@
 
 ## Следующий шаг
 
-Собрать новый ARM64 IPA через единственный workflow, проверить исходный SHA, версию, build, подписи, provenance и SHA256; опубликовать тестовый релиз 0.4.6. После получения IPA — физическая приёмка по [плану](IPHONE_TEST_0.4.6.md) на iPhone 17 Pro Max / iOS 27.0 / SideStore. Не выдавать статические проверки/компиляцию за физический тест. Стабильный релиз 0.4.5 сохраняется.
+Передать опубликованный IPA пользователю для внешней подписи SideStore и физической приёмки на iPhone 17 Pro Max / iOS 27.0 по [плану](IPHONE_TEST_0.4.6.md). Все девять тем, System/Dark/Night/Light, полные подписи и увеличенный текст, удерживание/предпросмотр/папки, качество JPEG/2560, размер/время всех типов стикеров и эмодзи, компактный OFF/ON и сохранение предпочтений пока не проверены на устройстве. Никаких заявлений о полной runtime-корректности.
+
+Новый релиз не переводить в stable/latest и не удалять предыдущий stable до команды пользователя. Следующую сборку не начинать без новой команды. Поведение защищённых функций не менять без конкретной задачи.

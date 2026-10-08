@@ -22,7 +22,7 @@ Overlay применён к чистым проверочным исходник
 
 Разбор четырёх Swift-файлов и синтаксис Python проходят. Проверены уникальность новых stable id 8/9, сохранность старых ключей предпочтений и значений локализации, default true с чтением явного false и запись нового значения. После исключения добавленного блока/import/очистки наблюдателя ChatListItem побайтно совпадает с исходником: штатные tap/preview/menu/accessibility/editing callbacks не переписаны. ItemListRevealOptionsItemNode, ChatListContainerNode и InteractiveTransitionGestureRecognizer только исследованы, не изменены.
 
-Нативная компиляция, выполнение UIKit/UserDefaults и физическая приёмка ожидаются. Команда на сборку и публикацию получена 2026-10-08; результат ожидается. Статусы — compile_pending/device_pending.
+Нативная компиляция подтверждена чистой сборкой №75; IPA 0.4.6 опубликован и проверен. Выполнение UIKit/UserDefaults и физическая приёмка ожидаются. Статусы — compile_passed/device_pending.
 
 Будущая проверка на iPhone:
 
