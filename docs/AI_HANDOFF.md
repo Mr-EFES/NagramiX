@@ -42,6 +42,8 @@ UI: Функции/Сообщения, «Временные сообщения»
 
 ## Следующий шаг
 
-Проверить согласованность 0.4.7, сохранить все подготовленные изменения в main, push, запустить один clean ARM64 workflow с публикацией. Следить за шагами и при compile error исправлять только причину в overlay и повторять проверки. После успеха скачать именно новый IPA, SHA256SUMS и BUILD-PROVENANCE.txt из релиза и запустить validate_unsigned_ipa с фактическими version/build/source SHA. Проверить русские строки/полные подписи и релизный тег/аннотацию/assets. Обновить README/статусы/реестр/этот handoff, не менять исходный тег на поздний отчётный коммит.
+Метаданные/Python/intro/diff и проверки архива прошли. Коммит исходников 6c1e92da8d0c6eb1a61d0ef0a91e50faa95bc83b сохранён и отправлен в main. Запущен новый clean ARM64 workflow [№76](https://github.com/Mr-EFES/NagramiX/actions/runs/37763976227), run ID 37763976227, head SHA совпадает; publish_release=true/prerelease=true, artifact_run_id пустой. Результат компиляции/публикации ожидается.
+
+Следить за шагами и при compile error исправлять только причину в overlay и повторять проверки. После успеха скачать именно новый IPA, SHA256SUMS и BUILD-PROVENANCE.txt из релиза и запустить validate_unsigned_ipa с фактическими version/build/source SHA. Проверить русские строки/полные подписи и релизный тег/аннотацию/assets. Обновить README/статусы/реестр/этот handoff, не менять исходный тег на поздний отчётный коммит.
 
 [План iPhone](IPHONE_TEST_0.4.7.md): все типы incoming → удаление → stock-cache clear → авиарежим/перезапуск → копия; temporary/view-once/четыре сочетания, OFF после сохранения, clear во время fetch, сеть/фон/нехватка места, old JSON/обновление; compact по референсу и hold/avatar/folder/stock OFF. Физическая проверка пока ожидается.
