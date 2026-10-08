@@ -17,7 +17,7 @@ class NagramiXPercentageItem: ListViewItem, ItemListItem {
     let value: Int
     let sectionId: ItemListSectionId
     let updated: (Int) -> Void
-    
+
     init(presentationData: ItemListPresentationData, title: String, value: Int, sectionId: ItemListSectionId, updated: @escaping (Int) -> Void) {
         self.presentationData = presentationData
         self.title = title
@@ -25,15 +25,15 @@ class NagramiXPercentageItem: ListViewItem, ItemListItem {
         self.sectionId = sectionId
         self.updated = updated
     }
-    
+
     func nodeConfiguredForParams(async: @escaping (@escaping () -> Void) -> Void, params: ListViewItemLayoutParams, synchronousLoads: Bool, previousItem: ListViewItem?, nextItem: ListViewItem?, completion: @escaping (ListViewItemNode, @escaping () -> (Signal<Void, NoError>?, (ListViewItemApply) -> Void)) -> Void) {
         async {
             let node = NagramiXPercentageItemNode()
             let (layout, apply) = node.asyncLayout()(self, params, itemListNeighbors(item: self, topItem: previousItem as? ItemListItem, bottomItem: nextItem as? ItemListItem))
-            
+
             node.contentSize = layout.contentSize
             node.insets = layout.insets
-            
+
             Queue.mainQueue().async {
                 completion(node, {
                     return (nil, { _ in apply() })
@@ -41,12 +41,12 @@ class NagramiXPercentageItem: ListViewItem, ItemListItem {
             }
         }
     }
-    
+
     func updateNode(async: @escaping (@escaping () -> Void) -> Void, node: @escaping () -> ListViewItemNode, params: ListViewItemLayoutParams, previousItem: ListViewItem?, nextItem: ListViewItem?, animation: ListViewItemUpdateAnimation, completion: @escaping (ListViewItemNodeLayout, @escaping (ListViewItemApply) -> Void) -> Void) {
         Queue.mainQueue().async {
             if let nodeValue = node() as? NagramiXPercentageItemNode {
                 let makeLayout = nodeValue.asyncLayout()
-                
+
                 async {
                     let (layout, apply) = makeLayout(self, params, itemListNeighbors(item: self, topItem: previousItem as? ItemListItem, bottomItem: nextItem as? ItemListItem))
                     Queue.mainQueue().async {
@@ -65,34 +65,34 @@ class NagramiXPercentageItemNode: ListViewItemNode {
     private let topStripeNode: ASDisplayNode
     private let bottomStripeNode: ASDisplayNode
     private let maskNode: ASImageNode
-    
+
     private var sliderView: TGPhotoEditorSliderView?
     private let minimumLabel = UILabel()
     private let valueLabel = UILabel()
     private let maximumLabel = UILabel()
     private var isInteracting = false
-    
+
     private var item: NagramiXPercentageItem?
     private var layoutParams: ListViewItemLayoutParams?
-    
+
     init() {
         self.backgroundNode = ASDisplayNode()
         self.backgroundNode.isLayerBacked = true
-        
+
         self.topStripeNode = ASDisplayNode()
         self.topStripeNode.isLayerBacked = true
-        
+
         self.bottomStripeNode = ASDisplayNode()
         self.bottomStripeNode.isLayerBacked = true
-        
+
         self.maskNode = ASImageNode()
-        
+
         super.init(layerBacked: false)
     }
 
     override func didLoad() {
         super.didLoad()
-        
+
         let sliderView = NagramiXPercentageSliderView()
         sliderView.enablePanHandling = true
         sliderView.trackCornerRadius = 1.0
@@ -166,22 +166,22 @@ class NagramiXPercentageItemNode: ListViewItemNode {
             let contentSize: CGSize
             let insets: UIEdgeInsets
             let separatorHeight = UIScreenPixel
-            
+
             contentSize = CGSize(width: params.width, height: ceil(32.0 * item.presentationData.fontSize.baseDisplaySize / 17.0) + 64.0)
             insets = itemListNeighborsGroupedInsets(neighbors, params)
-            
+
             let layout = ListViewItemNodeLayout(contentSize: contentSize, insets: insets)
             let layoutSize = layout.size
-            
+
             return (layout, { [weak self] in
                 if let strongSelf = self {
                     strongSelf.item = item
                     strongSelf.layoutParams = params
-                    
+
                     strongSelf.backgroundNode.backgroundColor = item.theme.list.itemBlocksBackgroundColor
                     strongSelf.topStripeNode.backgroundColor = item.theme.list.itemBlocksSeparatorColor
                     strongSelf.bottomStripeNode.backgroundColor = item.theme.list.itemBlocksSeparatorColor
-                    
+
                     if strongSelf.backgroundNode.supernode == nil {
                         strongSelf.insertSubnode(strongSelf.backgroundNode, at: 0)
                     }
@@ -194,7 +194,7 @@ class NagramiXPercentageItemNode: ListViewItemNode {
                     if strongSelf.maskNode.supernode == nil {
                         strongSelf.insertSubnode(strongSelf.maskNode, at: 3)
                     }
-                    
+
                     let hasCorners = itemListHasRoundedBlockLayout(params)
                     var hasTopCorners = false
                     var hasBottomCorners = false
@@ -218,28 +218,28 @@ class NagramiXPercentageItemNode: ListViewItemNode {
                             hasBottomCorners = true
                             strongSelf.bottomStripeNode.isHidden = hasCorners
                     }
-                    
+
                     strongSelf.maskNode.image = hasCorners ? PresentationResourcesItemList.cornersImage(item.theme, top: hasTopCorners, bottom: hasBottomCorners) : nil
-                    
+
                     strongSelf.backgroundNode.frame = CGRect(origin: CGPoint(x: 0.0, y: -min(insets.top, separatorHeight)), size: CGSize(width: params.width, height: contentSize.height + min(insets.top, separatorHeight) + min(insets.bottom, separatorHeight)))
                     strongSelf.maskNode.frame = strongSelf.backgroundNode.frame.insetBy(dx: params.leftInset, dy: 0.0)
                     strongSelf.topStripeNode.frame = CGRect(origin: CGPoint(x: 0.0, y: -min(insets.top, separatorHeight)), size: CGSize(width: layoutSize.width, height: separatorHeight))
                     strongSelf.bottomStripeNode.frame = CGRect(origin: CGPoint(x: bottomStripeInset, y: contentSize.height + bottomStripeOffset), size: CGSize(width: layoutSize.width - bottomStripeInset, height: separatorHeight))
-                    
+
                     strongSelf.updateControls()
                 }
             })
         }
     }
-    
+
     override func animateInsertion(_ currentTimestamp: Double, duration: Double, options: ListViewItemAnimationOptions) {
         self.layer.animateAlpha(from: 0.0, to: 1.0, duration: 0.4)
     }
-    
+
     override func animateRemoved(_ currentTimestamp: Double, duration: Double) {
         self.layer.animateAlpha(from: 1.0, to: 0.0, duration: 0.15, removeOnCompletion: false)
     }
-    
+
     @objc private func sliderValueChanged() {
         self.updateValueLabel()
         if !self.isInteracting { self.commitValue() }
