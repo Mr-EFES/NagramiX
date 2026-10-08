@@ -58,6 +58,11 @@ public extension PresentationStrings {
     var nagramiXStickerSize: String { self.nagramiXLocalized("NagramiX.Settings.Stickers.Size") }
     var nagramiXShowStickerTime: String { self.nagramiXLocalized("NagramiX.Settings.Stickers.ShowTime") }
     var nagramiXStickerSizeInfo: String { self.nagramiXLocalized("NagramiX.Settings.Stickers.Size.Info") }
+    var nagramiXVideoPlaybackHeader: String { self.nagramiXLocalized("NagramiX.Settings.Video.Header") }
+    var nagramiXVideoPiPSwipe: String { self.nagramiXLocalized("NagramiX.Settings.Video.PiPSwipe") }
+    var nagramiXVideoPiPSwipeInfo: String { self.nagramiXLocalized("NagramiX.Settings.Video.PiPSwipe.Info") }
+    var nagramiXBackgroundVideoPlayback: String { self.nagramiXLocalized("NagramiX.Settings.Video.BackgroundPlayback") }
+    var nagramiXBackgroundVideoPlaybackInfo: String { self.nagramiXLocalized("NagramiX.Settings.Video.BackgroundPlayback.Info") }
     var nagramiXVideoMessagesHeader: String { self.nagramiXLocalized("NagramiX.Settings.VideoMessages.Header") }
     var nagramiXUseRearCamera: String { self.nagramiXLocalized("NagramiX.Settings.VideoMessages.UseRearCamera") }
     var nagramiXStoriesHeader: String { self.nagramiXLocalized("NagramiX.Settings.Stories.Header") }

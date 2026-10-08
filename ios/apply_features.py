@@ -318,6 +318,310 @@ def apply_archived_media_resources(source: Path) -> None:
     )
 
 
+def apply_archived_media_playback(source: Path) -> None:
+    """Keep supplied archive snapshots on one native playlist and route voice taps."""
+    manager = source / "submodules/AccountContext/Sources/MediaManager.swift"
+    file_node = source / "submodules/TelegramUI/Components/Chat/ChatMessageInteractiveFileNode/Sources/ChatMessageInteractiveFileNode.swift"
+    bubble = source / "submodules/TelegramUI/Components/Chat/ChatMessageBubbleItemNode/Sources/ChatMessageBubbleItemNode.swift"
+    replace_unique(
+        manager,
+        """public func peerMessagesMediaPlaylistAndItemId(_ message: EngineMessage, isRecentActions: Bool, isGlobalSearch: Bool, isDownloadList: Bool, isSavedMusic: Bool, isAttachMusic: Bool) -> (SharedMediaPlaylistId, SharedMediaPlaylistItemId)? {
+    if isSavedMusic {
+""",
+        """public func peerMessagesMediaPlaylistAndItemId(_ message: EngineMessage, isRecentActions: Bool, isGlobalSearch: Bool, isDownloadList: Bool, isSavedMusic: Bool, isAttachMusic: Bool) -> (SharedMediaPlaylistId, SharedMediaPlaylistItemId)? {
+    // OpenChatMessage plays an archived snapshot via .recentActions(message).
+    // Its controls, waveform and embedded video must observe that same playlist.
+    if message.attributes.contains(where: { $0 is NagramiXArchivedMessageAttribute }) {
+        return (PeerMessagesMediaPlaylistId.recentActions(message.id.peerId), PeerMessagesMediaPlaylistItemId(messageId: message.id, messageIndex: message.index))
+    }
+    if isSavedMusic {
+""",
+        "Bind archived playback status and audio levels to the native snapshot playlist",
+    )
+    replace_unique(
+        file_node,
+        "public final class ChatMessageInteractiveFileNode: ASDisplayNode {\n",
+        "public final class ChatMessageInteractiveFileNode: ASDisplayNode, ASGestureRecognizerDelegate {\n",
+        "Use the native wrapped gesture delegate for archived voice controls",
+    )
+    replace_unique(
+        file_node,
+        """        let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.fileTap(_:)))
+        self.view.addGestureRecognizer(tapRecognizer)
+""",
+        """        let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.fileTap(_:)))
+        tapRecognizer.delegate = self.wrappedGestureRecognizerDelegate
+        self.view.addGestureRecognizer(tapRecognizer)
+""",
+        "Reject archived voice body taps before the file recognizer consumes them",
+    )
+    replace_unique(
+        file_node,
+        """        self.tapRecognizer = tapRecognizer
+    }
+""" + "    \n" + """    @objc private func cacheProgressPressed() {
+""",
+        """        self.tapRecognizer = tapRecognizer
+    }
+
+    private var nagramiXIsArchivedVoice: Bool {
+        return self.file?.isVoice == true && self.message?.attributes.contains(where: { $0 is NagramiXArchivedMessageAttribute }) == true
+    }
+
+    public func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {
+        if gestureRecognizer === self.tapRecognizer && self.nagramiXIsArchivedVoice {
+            return self.statusContainerNode.frame.contains(touch.location(in: self.view))
+        }
+        return true
+    }
+
+    @objc private func cacheProgressPressed() {
+""",
+        "Limit only archived voice activation to the native Play Pause download control",
+    )
+    replace_unique(
+        file_node,
+        """    public func hasTapAction(at point: CGPoint) -> Bool {
+        if let _ = self.dateAndStatusNode.hitTest(self.view.convert(point, to: self.dateAndStatusNode.view), with: nil) {
+""",
+        """    public func hasTapAction(at point: CGPoint) -> Bool {
+        if self.nagramiXIsArchivedVoice {
+            if self.statusContainerNode.frame.contains(point) || self.audioTranscriptionButton?.frame.contains(point) == true {
+                return true
+            }
+        }
+        if let _ = self.dateAndStatusNode.hitTest(self.view.convert(point, to: self.dateAndStatusNode.view), with: nil) {
+""",
+        "Leave archived Play Pause and transcription taps to their native controls",
+    )
+    replace_unique(
+        bubble,
+        """    private var nagramiXDeletedStatusNode: ImmediateTextNode?
+    private var nagramiXDeletedStatusIconNode: ASImageNode?
+""",
+        """    private var nagramiXDeletedStatusNode: ImmediateTextNode?
+
+    private var nagramiXArchivedVoiceBodyMenuEnabled: Bool {
+        guard self.selectionNode == nil, let item = self.item, item.controllerInteraction.tapMessage == nil else {
+            return false
+        }
+        return item.message.attributes.contains(where: { $0 is NagramiXArchivedMessageAttribute })
+            && item.message.media.contains(where: { ($0 as? TelegramMediaFile)?.isVoice == true })
+    }
+    private var nagramiXDeletedStatusIconNode: ASImageNode?
+""",
+        "Identify archived voice body taps without intercepting message selection",
+    )
+    replace_unique(
+        bubble,
+        """                    }
+                }
+""" + "                \n" + """                if !strongSelf.backgroundNode.frame.contains(point) {
+                    return .waitForDoubleTap
+                }
+""",
+        """                    }
+                }
+
+                if strongSelf.nagramiXArchivedVoiceBodyMenuEnabled && strongSelf.backgroundNode.frame.contains(point) {
+                    return .waitForSingleTap
+                }
+                if !strongSelf.backgroundNode.frame.contains(point) {
+                    return .waitForDoubleTap
+                }
+""",
+        "Resolve an archived voice body tap immediately after native control hit tests",
+    )
+    replace_unique(
+        bubble,
+        """                    }
+                }
+                if self.currentMessageEffect() != nil {
+                    if self.backgroundNode.frame.contains(location) {
+""",
+        """                    }
+                }
+                if self.nagramiXArchivedVoiceBodyMenuEnabled && self.backgroundNode.frame.contains(location) {
+                    return .action(InternalBubbleTapAction.Action({ [weak self] in
+                        guard let self, let item = self.item else {
+                            return
+                        }
+                        item.controllerInteraction.openMessageContextMenu(item.message, false, self, self.backgroundNode.frame, nil, location)
+                    }, contextMenuOnLongPress: true))
+                }
+                if self.currentMessageEffect() != nil {
+                    if self.backgroundNode.frame.contains(location) {
+""",
+        "Open the native archive menu on a voice body tap instead of starting playback",
+    )
+
+
+def apply_copy_send_options(source: Path) -> None:
+    """Use the existing recipient panel and send menu instead of an implicit send."""
+    protocol = source / "submodules/AccountContext/Sources/PeerSelectionController.swift"
+    picker = source / "submodules/TelegramUI/Components/PeerSelectionController/Sources/PeerSelectionController.swift"
+    picker_node = source / "submodules/TelegramUI/Components/PeerSelectionController/Sources/PeerSelectionControllerNode.swift"
+    forwarding = source / "submodules/TelegramUI/Sources/ChatControllerForwardMessages.swift"
+    replace_unique(
+        protocol,
+        """    var customDismiss: (() -> Void)? { get set }
+}
+""",
+        """    var customDismiss: (() -> Void)? { get set }
+    func nagramiXSelectCopyRecipient(_ peer: EnginePeer)
+}
+""",
+        "Expose a narrow recipient-selection bridge for copy sending",
+    )
+    replace_unique(
+        picker,
+        """    }
+""" + "    \n" + """    @objc private func beginSelection() {
+""",
+        """    }
+
+    public func nagramiXSelectCopyRecipient(_ peer: EnginePeer) {
+        self.deactivateSearch()
+        self.beginSelection()
+        self.peerSelectionNode.nagramiXSelectCopyRecipient(peer)
+
+        // A forum/community picker may still be above this recipient controller.
+        // Return to its native send panel after choosing the destination topic.
+        if let navigationController = self.navigationController as? NavigationController,
+           let index = navigationController.viewControllers.firstIndex(where: { $0 === self }),
+           index + 1 < navigationController.viewControllers.count {
+            let viewControllers = Array(navigationController.viewControllers.prefix(index + 1))
+            self.peerSelectionNode.pushedController = nil
+            navigationController.setViewControllers(viewControllers, animated: true)
+        }
+    }
+
+    @objc private func beginSelection() {
+""",
+        "Activate the native text send panel and return from destination-topic selection",
+    )
+    replace_unique(
+        picker_node,
+        """            self.containerLayoutUpdated(layout, navigationBarHeight: navigationBarHeight, actualNavigationBarHeight: actualNavigationBarHeight, transition: transition)
+        }
+    }
+
+    private var selectedPeers: ([EnginePeer], [EnginePeer.Id: EnginePeer]) {
+""",
+        """            self.containerLayoutUpdated(layout, navigationBarHeight: navigationBarHeight, actualNavigationBarHeight: actualNavigationBarHeight, transition: transition)
+        }
+    }
+
+    func nagramiXSelectCopyRecipient(_ peer: EnginePeer) {
+        if self.contactListActive {
+            self.contactListNode?.updateSelectionState { state in
+                let state = state ?? ContactListNodeGroupSelectionState()
+                var foundPeers = state.foundPeers
+                if !foundPeers.contains(where: { $0.id == .peer(peer.id) }) {
+                    foundPeers.insert(.peer(peer: peer, isGlobal: false, participantCount: nil), at: 0)
+                }
+                var selectedPeerMap = state.selectedPeerMap
+                selectedPeerMap[.peer(peer.id)] = .peer(peer: peer, isGlobal: false, participantCount: nil)
+                let selectedState = state.selectedPeerIndices[.peer(peer.id)] == nil ? state.withToggledPeerId(.peer(peer.id)) : state
+                return selectedState.withFoundPeers(foundPeers).withSelectedPeerMap(selectedPeerMap)
+            }
+        } else {
+            let chatListNode = self.mainContainerNode?.currentItemNode ?? self.chatListNode
+            chatListNode?.updateState { state in
+                var state = state
+                state.selectedPeerIds.insert(peer.id)
+                state.selectedPeerMap[peer.id] = peer
+                if !state.foundPeers.contains(where: { $0.0.id == peer.id }) {
+                    state.foundPeers.insert((peer, nil), at: 0)
+                }
+                return state
+            }
+        }
+        // Copy mode deliberately has no forward IDs or source-author header.
+        if self.forwardedMessageIds.isEmpty, let panel = self.forwardAccessoryPanelNode {
+            panel.removeFromSupernode()
+            self.forwardAccessoryPanelNode = nil
+            if let (layout, navigationBarHeight, actualNavigationBarHeight) = self.containerLayout {
+                self.containerLayoutUpdated(layout, navigationBarHeight: navigationBarHeight, actualNavigationBarHeight: actualNavigationBarHeight, transition: .immediate)
+            }
+        }
+        self.textInputPanelNode?.updateSendButtonEnabled(!self.selectedPeers.0.isEmpty, animated: true)
+    }
+
+    private var selectedPeers: ([EnginePeer], [EnginePeer.Id: EnginePeer]) {
+""",
+        "Preselect the tapped recipient using native chat and contact selection state",
+    )
+    replace_unique(
+        forwarding,
+        "                    strongController.multiplePeersSelected?([peer], [peer.id: peer], NSAttributedString(string: \"\"), .generic, nil, nil)\n",
+        "                    strongController.nagramiXSelectCopyRecipient(peer)\n",
+        "Wait for the user's native send mode instead of forcing immediate copy delivery",
+    )
+    replace_unique(
+        forwarding,
+        "threadId: strongSelf.chatLocation.threadId, replyToMessageId: nil",
+        "threadId: transferMode == .copyAsNew ? nil : strongSelf.chatLocation.threadId, replyToMessageId: nil",
+        "Keep a copy comment out of the source conversation's topic",
+    )
+    replace_unique(
+        forwarding,
+        """                        switch mode {
+                        case .generic:
+                            commit(result)
+                        case .silent:
+                            let transformedMessages = strongSelf.transformEnqueueMessages(result, silentPosting: true)
+                            commit(transformedMessages)
+                        case .schedule:
+                            strongSelf.presentScheduleTimePicker(completion: { [weak self] timeResult in
+                                if let strongSelf = self {
+                                    let transformedMessages = strongSelf.transformEnqueueMessages(result, silentPosting: timeResult.silentPosting, scheduleTime: timeResult.time, repeatPeriod: timeResult.repeatPeriod)
+                                    commit(transformedMessages)
+                                }
+                            })
+                        case .whenOnline:
+                            let transformedMessages = strongSelf.transformEnqueueMessages(result, silentPosting: strongSelf.presentationInterfaceState.interfaceState.silentPosting, scheduleTime: scheduleWhenOnlineTimestamp)
+                            commit(transformedMessages)
+                        }
+""",
+        """                        let transformForSend: (Bool, Int32?, Int32?) -> [EnqueueMessage] = { [weak self] silentPosting, scheduleTime, repeatPeriod in
+                            guard let strongSelf = self else {
+                                return []
+                            }
+                            let transformedMessages = strongSelf.transformEnqueueMessages(result, silentPosting: silentPosting, scheduleTime: scheduleTime, repeatPeriod: repeatPeriod)
+                            guard transferMode == .copyAsNew else {
+                                return transformedMessages
+                            }
+                            // The stock transform also applies the SOURCE chat's reply,
+                            // topic, send-as, suggested post and paid-message defaults.
+                            // Copies keep their content and only take the selected send mode;
+                            // destination topic/payment handling remains in commit below.
+                            return zip(result, transformedMessages).map { original, transformed in
+                                let sendAttributes = transformed.attributes.filter { $0 is NotificationInfoMessageAttribute || $0 is OutgoingScheduleInfoMessageAttribute }
+                                return original.withUpdatedAttributes { attributes in
+                                    return attributes.filter { !($0 is NotificationInfoMessageAttribute) && !($0 is OutgoingScheduleInfoMessageAttribute) } + sendAttributes
+                                }
+                            }
+                        }
+                        switch mode {
+                        case .generic:
+                            commit(result)
+                        case .silent:
+                            commit(transformForSend(true, nil, nil))
+                        case .schedule:
+                            strongSelf.presentScheduleTimePicker(completion: { [weak self] timeResult in
+                                if self != nil {
+                                    commit(transformForSend(timeResult.silentPosting, timeResult.time, timeResult.repeatPeriod))
+                                }
+                            })
+                        case .whenOnline:
+                            commit(transformForSend(strongSelf.presentationInterfaceState.interfaceState.silentPosting, scheduleWhenOnlineTimestamp, nil))
+                        }
+""",
+        "Use native silent schedule attributes without leaking source-chat defaults into copies",
+    )
+
+
 def apply_chat_hold_routing(source: Path) -> None:
     """Route the native context gesture by its initial area, not by a new recognizer."""
     row = source / "submodules/ChatListUI/Sources/Node/ChatListItem.swift"
@@ -418,6 +722,334 @@ def apply_chat_hold_routing(source: Path) -> None:
 """,
         "Present native chat/archive/topic actions without opening a preview off the avatar",
     )
+    apply_chat_avatar_read_mode(source)
+
+
+def apply_chat_avatar_read_mode(source: Path) -> None:
+    """Full native chat on avatar tap; keep the read gate closed for its lifetime."""
+    container = source / "submodules/ChatListUI/Sources/ChatListControllerNode.swift"
+    node = source / "submodules/ChatListUI/Sources/Node/ChatListNode.swift"
+    row = source / "submodules/ChatListUI/Sources/Node/ChatListItem.swift"
+    controller = source / "submodules/ChatListUI/Sources/ChatListController.swift"
+    account = source / "submodules/AccountContext/Sources/AccountContext.swift"
+    chat = source / "submodules/TelegramUI/Sources/ChatController.swift"
+    navigation = source / "submodules/TelegramUI/Sources/NavigateToChatController.swift"
+
+    replace_unique(container, "import GlassControls\n", "import GlassControls\nimport NagramiXCore\n", "Use the existing chat gesture preference for folder directions")
+    replace_unique(container, """            if self.availableFilters.count > 1 {
+                return [.leftCenter, .rightCenter]
+""", """            if self.availableFilters.count > 1 {
+                if NagramiXTabSettings.current.chatActionsOnHold {
+                    // Telegram's aggregate directions include both edges and center.
+                    return [.left, .right]
+                }
+                return [.leftCenter, .rightCenter]
+""", "Allow native folder paging from both edges as well as the center when enabled")
+
+    # Separate callback: nil gesture/location must retain their native preview meaning.
+    replace_unique(node, "    let activateChatPreview: ((ChatListItem, Int64?, ASDisplayNode, ContextGesture?, CGPoint?) -> Void)?\n", "    let activateChatPreview: ((ChatListItem, Int64?, ASDisplayNode, ContextGesture?, CGPoint?) -> Void)?\n    var nagramiXOpenChatWithoutReadReceipts: ((ChatListItem) -> Void)?\n", "Add an explicit avatar-open intent to the row interaction")
+    replace_unique(node, "    public var activateChatPreview: ((ChatListItem, Int64?, ASDisplayNode, ContextGesture?, CGPoint?) -> Void)?\n", "    public var activateChatPreview: ((ChatListItem, Int64?, ASDisplayNode, ContextGesture?, CGPoint?) -> Void)?\n    public var nagramiXOpenChatWithoutReadReceipts: ((ChatListItem) -> Void)?\n", "Expose avatar-open intent on the native list node")
+    replace_unique(node, "        nodeInteraction.isInlineMode = isInlineMode\n", """        nodeInteraction.isInlineMode = isInlineMode
+        if !previewing, !isInlineMode, case .chatList = mode {
+            nodeInteraction.nagramiXOpenChatWithoutReadReceipts = { [weak self] item in
+                self?.nagramiXOpenChatWithoutReadReceipts?(item)
+            }
+        }
+""", "Keep avatar-open routing out of pickers, inline lists and preview controllers")
+    replace_unique(container, "    var activateChatPreview: ((ChatListItem, Int64?, ASDisplayNode, ContextGesture?, CGPoint?) -> Void)?\n", "    var activateChatPreview: ((ChatListItem, Int64?, ASDisplayNode, ContextGesture?, CGPoint?) -> Void)?\n    var nagramiXOpenChatWithoutReadReceipts: ((ChatListItem) -> Void)?\n", "Expose avatar-open intent on the folder container")
+    replace_unique(container, "            previousItemNode.listNode.activateChatPreview = nil\n", "            previousItemNode.listNode.activateChatPreview = nil\n            previousItemNode.listNode.nagramiXOpenChatWithoutReadReceipts = nil\n", "Detach avatar-open routing from inactive cached folders")
+    replace_unique(container, """        itemNode.listNode.activateChatPreview = { [weak self] item, threadId, sourceNode, gesture, location in
+            self?.activateChatPreview?(item, threadId, sourceNode, gesture, location)
+        }
+""", """        itemNode.listNode.activateChatPreview = { [weak self] item, threadId, sourceNode, gesture, location in
+            self?.activateChatPreview?(item, threadId, sourceNode, gesture, location)
+        }
+        itemNode.listNode.nagramiXOpenChatWithoutReadReceipts = { [weak self] item in
+            self?.nagramiXOpenChatWithoutReadReceipts?(item)
+        }
+""", "Forward avatar taps from the current and rebound folder nodes")
+
+    replace_unique(row, "    func setupItem(item: ChatListItem, synchronousLoads: Bool) {\n", """    private var nagramiXCanOpenAvatarWithoutReadReceipts: Bool {
+        guard let item = self.item, !item.editing, !item.hasActiveRevealControls,
+              !item.useCommunityViewLayout, item.interaction.inlineNavigationLocation == nil,
+              !item.interaction.isInlineMode, item.interaction.nagramiXOpenChatWithoutReadReceipts != nil,
+              case let .peer(peerData) = item.content, !peerData.displayAsMessage,
+              let peer = peerData.peer.peer else {
+            return false
+        }
+        if case .community = peer {
+            return false
+        }
+        // setupItem precedes the avatar visibility/layout update on reused rows.
+        // UIKit's hit test still excludes a hidden avatar at touch time.
+        return true
+    }
+
+    func setupItem(item: ChatListItem, synchronousLoads: Bool) {
+""", "Limit silent avatar opening to real non-editing chat rows")
+    replace_unique(row, "        self.avatarNode.isUserInteractionEnabled = !item.useCommunityViewLayout && ((storyState != nil && !peerIsCommunity) || peerLinkedCommunityId != nil)\n", "        self.avatarNode.isUserInteractionEnabled = self.nagramiXCanOpenAvatarWithoutReadReceipts || (!item.useCommunityViewLayout && ((storyState != nil && !peerIsCommunity) || peerLinkedCommunityId != nil))\n", "Enable native avatar tap recognition even when the peer has no stories")
+    replace_unique(row, "            var shouldHitTestAvatar = !isCommunity && self.avatarNode.storyStats != nil\n", "            var shouldHitTestAvatar = self.nagramiXCanOpenAvatarWithoutReadReceipts || (!isCommunity && self.avatarNode.storyStats != nil)\n", "Hit-test the actual avatar bounds without covering the rest of the row")
+    replace_unique(row, """    @objc private func avatarStoryTapGesture(_ recognizer: UITapGestureRecognizer) {
+        if case .ended = recognizer.state {
+            guard let item = self.item else {
+                return
+            }
+""", """    @objc private func avatarStoryTapGesture(_ recognizer: UITapGestureRecognizer) {
+        if case .ended = recognizer.state {
+            guard let item = self.item else {
+                return
+            }
+            if self.nagramiXCanOpenAvatarWithoutReadReceipts {
+                item.interaction.nagramiXOpenChatWithoutReadReceipts?(item)
+                return
+            }
+""", "Open a full silent chat on ordinary avatar tap regardless of the checkbox")
+
+    replace_unique(account, "    public let hideTopPanels: Bool\n", "    public let hideTopPanels: Bool\n    public let nagramiXReadHistoryDisabled: Bool\n", "Carry the per-controller read policy in the actual Telegram chat parameters")
+    replace_unique(account, "        hideTopPanels: Bool = false\n", "        hideTopPanels: Bool = false,\n        nagramiXReadHistoryDisabled: Bool = false\n", "Keep all existing chat construction paths readable by default")
+    replace_unique(account, "        self.hideTopPanels = hideTopPanels\n", "        self.hideTopPanels = hideTopPanels\n        self.nagramiXReadHistoryDisabled = nagramiXReadHistoryDisabled\n", "Initialize the immutable avatar read policy")
+    replace_unique(chat, "    public let canReadHistory = ValuePromise<Bool>(true, ignoreRepeated: true)\n", "    public let canReadHistory = ValuePromise<Bool>(true, ignoreRepeated: true)\n    let nagramiXReadHistoryDisabled: Bool\n", "Store the permanent read policy on this chat instance only")
+    replace_unique(chat, "        self.hideTopPanels = params?.hideTopPanels ?? false\n", "        self.hideTopPanels = params?.hideTopPanels ?? false\n        self.nagramiXReadHistoryDisabled = params?.nagramiXReadHistoryDisabled ?? false\n", "Install the read policy before the native history node is created")
+    replace_unique(chat, """            if let strongSelf = self, strongSelf.canReadHistoryValue != value {
+                strongSelf.canReadHistoryValue = value
+                strongSelf.raiseToListen?.enabled = value
+            }
+""", """            if let strongSelf = self {
+                // Native overlays may set canReadHistory back to true. This
+                // instance's policy also gates queued foreground emissions.
+                let effectiveValue = value && !strongSelf.nagramiXReadHistoryDisabled
+                if strongSelf.canReadHistoryValue != effectiveValue {
+                    strongSelf.canReadHistoryValue = effectiveValue
+                    strongSelf.raiseToListen?.enabled = effectiveValue
+                }
+            }
+""", "Keep every history binding false across foreground and overlay transitions")
+    replace_unique(navigation, "        if case let .peer(peer) = params.chatLocation, case let .channel(channel) = peer, channel.flags.contains(.isForum), !viewForumAsMessages {\n", "        if (params.chatController as? ChatControllerImpl)?.nagramiXReadHistoryDisabled != true, case let .peer(peer) = params.chatLocation, case let .channel(channel) = peer, channel.flags.contains(.isForum), !viewForumAsMessages {\n", "Keep explicit silent forum opening full-screen instead of redirecting to a topic list")
+    replace_unique(navigation, "                guard let controller = controller as? ChatControllerImpl else {\n", "                guard let controller = controller as? ChatControllerImpl, !controller.nagramiXReadHistoryDisabled else {\n", "Never reuse a silent avatar controller for an ordinary readable chat open")
+
+    replace_unique(controller, "        self.chatListDisplayNode.mainContainerNode.activateChatPreview = { [weak self] item, threadId, node, gesture, location in\n", """        self.chatListDisplayNode.mainContainerNode.nagramiXOpenChatWithoutReadReceipts = { [weak self] item in
+            guard let self, case let .peer(peerData) = item.content,
+                  !item.editing, let peer = peerData.peer.peer else {
+                return
+            }
+            var sourcePeer: Signal<EnginePeer?, NoError> = .single(peer)
+            var threadId: Int64?
+            if case let .forum(_, _, id, _, _) = item.index {
+                threadId = id
+            }
+            if case let .savedMessagesChats(peerId) = item.chatListLocation, peerId != self.context.account.peerId {
+                threadId = peer.id.toInt64()
+                sourcePeer = self.context.engine.data.get(TelegramEngine.EngineData.Item.Peer.Peer(id: peerId))
+            }
+            let _ = (sourcePeer |> take(1) |> deliverOnMainQueue).startStandalone(next: { [weak self] peer in
+                guard let self, let peer, let navigationController = self.navigationController as? NavigationController else {
+                    return
+                }
+                let location: NavigateToChatControllerParams.Location
+                if let threadId {
+                    let isMonoforum: Bool
+                    if case let .channel(channel) = peer {
+                        isMonoforum = channel.isMonoForum
+                    } else {
+                        isMonoforum = false
+                    }
+                    location = .replyThread(ChatReplyThreadMessage(peerId: peer.id, threadId: threadId, channelMessageId: nil, isChannelPost: false, isForumPost: true, isMonoforumPost: isMonoforum, maxMessage: nil, maxReadIncomingMessageId: nil, maxReadOutgoingMessageId: nil, unreadCount: 0, initialFilledHoles: IndexSet(), initialAnchor: .automatic, isNotAvailable: false))
+                } else {
+                    location = .peer(peer)
+                }
+                let chatController = self.context.sharedContext.makeChatController(context: self.context, chatLocation: location.asChatLocation, subject: nil, botStart: nil, mode: .standard(.default), params: ChatControllerParams(nagramiXReadHistoryDisabled: true))
+                chatController.canReadHistory.set(false)
+                self.chatListDisplayNode.mainContainerNode.currentItemNode.clearHighlightAnimated(true)
+                var parentGroupId: EnginePeerGroupId?
+                if case let .chatList(groupId) = item.chatListLocation {
+                    parentGroupId = groupId
+                }
+                self.context.sharedContext.navigateToChatController(NavigateToChatControllerParams(navigationController: navigationController, chatController: chatController, context: self.context, chatLocation: location, keepStack: .always, useExisting: false, parentGroupId: parentGroupId, chatListFilter: self.chatListDisplayNode.mainContainerNode.currentItemNode.chatListFilter?.id, forceOpenChat: true))
+            })
+        }
+
+        self.chatListDisplayNode.mainContainerNode.activateChatPreview = { [weak self] item, threadId, node, gesture, location in
+""", "Navigate through native age and navigation checks with a dedicated silent full chat")
+
+
+def apply_video_playback_options(source: Path) -> None:
+    gallery = source / "submodules/GalleryUI/Sources/Items/UniversalVideoGalleryItem.swift"
+    replace_unique(source / "submodules/GalleryUI/Sources/GalleryControllerNode.swift",
+        """            if distanceFromEquilibrium < -1.0, let centralItemNode = self.pager.centralItemNode(), centralItemNode.maybePerformActionForSwipeDownDismiss() {
+            }
+""",
+        """            if distanceFromEquilibrium < -1.0, let centralItemNode = self.pager.centralItemNode(), centralItemNode.maybePerformActionForSwipeDownDismiss() {
+                return
+            }
+""", "Let a handled downward PiP gesture use native custom dismissal instead of closing its gallery twice")
+    replace_unique(source / "submodules/GalleryUI/BUILD",
+        '        "//submodules/AccountContext:AccountContext",\n',
+        '        "//submodules/AccountContext:AccountContext",\n        "//submodules/NagramiXCore:NagramiXCore",\n',
+        "Bind gallery video options to existing NagramiX preferences")
+    replace_unique(gallery, "import AVKit\n", "import AVKit\nimport NagramiXCore\n", "Read swipe PiP and background audio preferences in the native video gallery")
+    replace_unique(gallery, "    func beginPictureInPicture() {", """    var nagramiXCanStartPictureInPicture: Bool {
+        return self.pictureInPictureController?.isPictureInPicturePossible == true
+    }
+
+    func beginPictureInPicture() {""", "Check native PiP availability before consuming a dismissal gesture")
+    replace_unique(gallery, "    private var playerStatusValue: MediaPlayerStatus?", "    private let nagramiXBackgroundVideoId = UUID()\n    private var playerStatusValue: MediaPlayerStatus?", "Give each video gallery a distinct audio-session owner")
+    replace_unique(gallery, "                    strongSelf.playerStatusValue = value", """                    strongSelf.playerStatusValue = value
+                    strongSelf.nagramiXUpdateBackgroundVideoPlayback()
+                    if NagramiXTabSettings.videoPiPSwipeEnabled && strongSelf.item?.isSecret == false && strongSelf.hasPictureInPicture && strongSelf.nativePictureInPictureContent == nil {
+                        strongSelf.setupNativePictureInPicture()
+                    }""", "Track native playing and buffering state and prepare eligible swipe PiP")
+    replace_unique(gallery, "            self.isCentral = isCentral\n", "            self.isCentral = isCentral\n            self.nagramiXUpdateBackgroundVideoPlayback()\n", "Release background audio ownership when paging to another gallery item")
+    replace_unique(gallery,
+        """            videoNode.ownsContentNodeUpdated = { [weak self] value in
+                if let strongSelf = self {
+                    strongSelf.updateDisplayPlaceholder(!value)""",
+        """            videoNode.ownsContentNodeUpdated = { [weak self] value in
+                if let strongSelf = self {
+                    strongSelf.nagramiXUpdateBackgroundVideoPlayback()
+                    strongSelf.updateDisplayPlaceholder(!value)""",
+        "Refresh background audio ownership when the existing video content is transferred")
+    replace_unique(gallery, "    deinit {\n        self.statusDisposable.dispose()", """    deinit {
+        self.context.sharedContext.mediaManager.setNagramiXBackgroundVideoPlayback(id: self.nagramiXBackgroundVideoId, active: false)
+        self.statusDisposable.dispose()""", "Remove background video ownership when its gallery is destroyed")
+    old_swipe = """    override func maybePerformActionForSwipeDismiss() -> Bool {
+        if let data = self.context.currentAppConfiguration.with({ $0 }).data {
+            if let _ = data["ios_killswitch_disable_swipe_pip"] {
+                return false
+            }
+            var swipeUpToClose = false
+            if let value = data["video_swipe_up_to_close"] as? Double, value == 1.0 {
+                swipeUpToClose = true
+            } else if let value = data["video_swipe_up_to_close"] as? Bool, value {
+                swipeUpToClose = true
+            }
+           \x20
+            if swipeUpToClose {
+                self.context.engine.accountData.addAppLogEvent(type: "swipe_up_close")
+               \x20
+                return false
+            }
+        }
+       \x20
+        if #available(iOS 15.0, *) {
+            if let nativePictureInPictureContent = self.nativePictureInPictureContent as? NativePictureInPictureContentImpl {
+                self.context.engine.accountData.addAppLogEvent(type: "swipe_up_pip")
+                nativePictureInPictureContent.beginPictureInPicture()
+                return true
+            }
+        }
+        return false
+    }
+   \x20
+    override func maybePerformActionForSwipeDownDismiss() -> Bool {
+        self.context.engine.accountData.addAppLogEvent(type: "swipe_down_close")
+        return false
+    }
+"""
+    replace_unique(gallery, old_swipe, """    override func maybePerformActionForSwipeDismiss() -> Bool {
+        return self.nagramiXStartSwipePictureInPicture(logEvent: "swipe_up_pip")
+    }
+
+    override func maybePerformActionForSwipeDownDismiss() -> Bool {
+        if self.nagramiXStartSwipePictureInPicture(logEvent: "swipe_down_pip") {
+            return true
+        }
+        self.context.engine.accountData.addAppLogEvent(type: "swipe_down_close")
+        return false
+    }
+
+    private func nagramiXStartSwipePictureInPicture(logEvent: String) -> Bool {
+        guard NagramiXTabSettings.videoPiPSwipeEnabled, self.hasPictureInPicture, let item = self.item, !item.isSecret else {
+            return false
+        }
+        if let data = self.context.currentAppConfiguration.with({ $0 }).data, data["ios_killswitch_disable_swipe_pip"] != nil {
+            return false
+        }
+        if self.nativePictureInPictureContent == nil {
+            self.setupNativePictureInPicture()
+        }
+        if #available(iOS 15.0, *), let content = self.nativePictureInPictureContent as? NativePictureInPictureContentImpl, content.nagramiXCanStartPictureInPicture {
+            self.context.engine.accountData.addAppLogEvent(type: logEvent)
+            content.beginPictureInPicture()
+            return true
+        }
+        // A missing player/layer or unsupported PiP leaves native dismissal intact.
+        return false
+    }
+
+    private func nagramiXUpdateBackgroundVideoPlayback() {
+        var active = false
+        if let item = self.item, !item.isSecret, !self.isLivePhoto, let status = self.playerStatusValue, status.soundEnabled,
+            self.videoNode?.ownsContentNode == true,
+            self.isCentral == true || self.context.sharedContext.mediaManager.currentPictureInPictureNode === self {
+            var supportedContent = false
+            if let content = item.content as? NativeVideoContent {
+                supportedContent = !content.fileReference.media.isAnimated
+            } else if let content = item.content as? HLSVideoContent {
+                supportedContent = !content.fileReference.media.isAnimated
+            }
+            if supportedContent {
+                switch status.status {
+                case .playing:
+                    active = true
+                case let .buffering(_, whilePlaying, _, _):
+                    active = whilePlaying
+                default:
+                    break
+                }
+            }
+        }
+        self.context.sharedContext.mediaManager.setNagramiXBackgroundVideoPlayback(id: self.nagramiXBackgroundVideoId, active: active)
+    }
+""", "Use native PiP for both vertical swipes and register only audible ordinary video playback")
+
+    protocol = source / "submodules/AccountContext/Sources/MediaManager.swift"
+    replace_unique(protocol, "    var currentPictureInPictureNode: AnyObject? { get set }", """    var currentPictureInPictureNode: AnyObject? { get set }
+
+    // Gallery-owned audio only; this does not create or replace a media player.
+    func setNagramiXBackgroundVideoPlayback(id: UUID, active: Bool)""", "Bridge current gallery playback to the existing media-manager audio-session policy")
+
+    manager = source / "submodules/TelegramUI/Sources/MediaManager.swift"
+    replace_unique(manager, "import Foundation\n", "import Foundation\nimport NagramiXCore\n", "Read background video preference in the native audio-session owner")
+    replace_unique(manager, "    private let inForeground: Signal<Bool, NoError>", """    private var nagramiXBackgroundVideoOwners = Set<UUID>()
+    private let nagramiXBackgroundVideoPlaying = ValuePromise<Bool>(false, ignoreRepeated: true)
+    private var nagramiXVideoSettingsObserver: NSObjectProtocol?
+    private let inForeground: Signal<Bool, NoError>""", "Track live gallery audio without retaining gallery nodes")
+    replace_unique(manager,
+        "        let shouldKeepAudioSession: Signal<Bool, NoError> = combineLatest(queue: Queue.mainQueue(), self.globalMediaPlayerState, inForeground)\n        |> map { stateAndType, inForeground -> Bool in",
+        """        self.nagramiXVideoSettingsObserver = NotificationCenter.default.addObserver(forName: NagramiXTabSettings.changedNotification, object: nil, queue: .main, using: { [weak self] _ in
+            self?.nagramiXUpdateBackgroundVideoState()
+        })
+        let shouldKeepAudioSession: Signal<Bool, NoError> = combineLatest(queue: Queue.mainQueue(), self.globalMediaPlayerState, inForeground, self.nagramiXBackgroundVideoPlaying.get())
+        |> map { stateAndType, inForeground, backgroundVideoPlaying -> Bool in
+            if backgroundVideoPlaying {
+                return false
+            }""", "Keep the native audio session for audible background-enabled video and react to live settings changes")
+    replace_unique(manager, "    deinit {\n", """    public func setNagramiXBackgroundVideoPlayback(id: UUID, active: Bool) {
+        let update: () -> Void = { [weak self] in
+            guard let self else { return }
+            if active {
+                self.nagramiXBackgroundVideoOwners.insert(id)
+            } else {
+                self.nagramiXBackgroundVideoOwners.remove(id)
+            }
+            self.nagramiXUpdateBackgroundVideoState()
+        }
+        if Thread.isMainThread {
+            update()
+        } else {
+            Queue.mainQueue().async(update)
+        }
+    }
+
+    private func nagramiXUpdateBackgroundVideoState() {
+        self.nagramiXBackgroundVideoPlaying.set(NagramiXTabSettings.backgroundVideoPlaybackEnabled && !self.nagramiXBackgroundVideoOwners.isEmpty)
+    }
+
+    deinit {
+        if let observer = self.nagramiXVideoSettingsObserver {
+            NotificationCenter.default.removeObserver(observer)
+        }
+""", "Serialize video owners on the main queue and dispose the settings observer")
 
 
 def apply_compact_chat_list(source: Path) -> None:
@@ -472,10 +1104,20 @@ def apply_compact_chat_list(source: Path) -> None:
 
             let (authorLayout, authorApply) = authorLayout(item.context""", "Preserve author and draft attribution inline in a compact preview")
     replace_unique(item, "maximumNumberOfLines: (authorAttributedString == nil && itemTags.isEmpty && forumThread == nil && topForumTopicItems.isEmpty) ? 2 : 1,", "maximumNumberOfLines: nagramiXCompact ? 1 : ((authorAttributedString == nil && itemTags.isEmpty && forumThread == nil && topForumTopicItems.isEmpty) ? 2 : 1),", "Use a single preview line only when compact mode is enabled")
+    replace_unique(item, "            var inputActivitiesSize: CGSize?", """            // ChatListInputActivitiesNode returns its boundingSize even for .none.
+            // In compact rows, bound it to one preview line, not the stock 40pt area.
+            let inputActivitiesHeight: CGFloat = nagramiXCompact ? max(textLayout.size.height, ceil(titleFont.lineHeight) + 4.0) : 40.0
+            var inputActivitiesSize: CGSize?""", "Bound compact typing indicators to the measured preview line")
+    for activity_peer, activities in [("chatPeerId", "inputActivities"), ("nil", "[]")]:
+        replace_unique(item,
+            f"inputActivitiesLayout(CGSize(width: rawContentWidth - badgeSize, height: 40.0), item.presentationData, item.presentationData.theme.chatList.messageTextColor, {activity_peer}, {activities})",
+            f"inputActivitiesLayout(CGSize(width: rawContentWidth - badgeSize, height: inputActivitiesHeight), item.presentationData, item.presentationData.theme.chatList.messageTextColor, {activity_peer}, {activities})",
+            "Use compact typing bounds for active state and native state cleanup")
     replace_unique(item, "            let rawContentRect = CGRect(origin:", """            if nagramiXCompact {
                 let fontScale = item.presentationData.fontSize.itemListBaseFontSize / 17.0
                 let topPadding = nagramiXCompactVerticalInset
-                let previewHeight = max(textLayout.size.height, inputActivitiesSize?.height ?? 0.0)
+                let activityHeight: CGFloat = inputActivities?.isEmpty == false ? (inputActivitiesSize?.height ?? 0.0) : 0.0
+                let previewHeight = max(textLayout.size.height, activityHeight)
                 let textBottom = topPadding + titleLayout.size.height - 2.0 + max(0.0, authorLayout.height - 3.0) + previewHeight
                 var compactHeight = max(48.0, max(avatarDiameter + 12.0, ceil(textBottom + nagramiXCompactVerticalInset)))
                 if !itemTags.isEmpty {
@@ -1808,6 +2450,7 @@ private func currentDateTimeFormat()""",
         """    private var mosaicStatusNode: ChatMessageDateAndStatusNode?
     private var nagramiXDeletedStatusNode: ImmediateTextNode?
     private var nagramiXDeletedStatusIconNode: ASImageNode?
+    private var nagramiXOriginalClippingGroupOpacity: Bool?
 """,
         "Deleted-message status node state",
     )
@@ -1910,7 +2553,7 @@ private func currentDateTimeFormat()""",
                 options: [.usesLineFragmentOrigin, .usesFontLeading],
                 context: nil
             )
-            nagramiXDeletedStatusHeight = max(22.0, ceil(labelBounds.height) + 8.0)
+            nagramiXDeletedStatusHeight = max(16.0, ceil(labelBounds.height) + 2.0)
         }
         var contentSize = CGSize(width: maxContentWidth, height: 0.0)
 """,
@@ -2037,6 +2680,17 @@ private func currentDateTimeFormat()""",
         strongSelf.backgroundWallpaperNode.alpha = nagramiXContentAlpha
         strongSelf.shadowNode.alpha = nagramiXContentAlpha
         strongSelf.clippingNode.alpha = nagramiXContentAlpha
+        // Composite the native thumbnail/video/control stack before dimming it.
+        // Otherwise each overlapping layer can blend separately at 50% alpha.
+        if nagramiXIsArchived {
+            if strongSelf.nagramiXOriginalClippingGroupOpacity == nil {
+                strongSelf.nagramiXOriginalClippingGroupOpacity = strongSelf.clippingNode.layer.allowsGroupOpacity
+            }
+            strongSelf.clippingNode.layer.allowsGroupOpacity = true
+        } else if let original = strongSelf.nagramiXOriginalClippingGroupOpacity {
+            strongSelf.clippingNode.layer.allowsGroupOpacity = original
+            strongSelf.nagramiXOriginalClippingGroupOpacity = nil
+        }
         strongSelf.backgroundHighlightNode?.alpha = nagramiXContentAlpha
         strongSelf.actionButtonsNode?.alpha = nagramiXContentAlpha
         strongSelf.reactionButtonsNode?.alpha = nagramiXContentAlpha
@@ -5234,6 +5888,9 @@ private func nagramiXCopyProfileId(_ value: Int64, presentationData: Presentatio
     apply_media_controls(source, overlay)
     apply_compact_chat_list(source)
     apply_archived_media_resources(source)
+    apply_archived_media_playback(source)
+    apply_copy_send_options(source)
+    apply_video_playback_options(source)
 
     if stock_section not in item_list_controller.read_text(encoding="utf-8"):
         raise SystemExit("NagramiX overlay modified Telegram's stock sectionControl branch")

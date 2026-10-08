@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "product": "NagramiX",
-  "release": "0.4.7",
+  "release": "0.4.8",
   "platformPriority": [
     "ios"
   ],
@@ -62,7 +62,7 @@
       "specification": "specified",
       "ios": {
         "implementation": "implemented",
-        "compile": "compile_passed",
+        "compile": "compile_pending",
         "device": "device_pending"
       }
     },
@@ -72,7 +72,7 @@
       "specification": "specified",
       "ios": {
         "implementation": "implemented",
-        "compile": "compile_passed",
+        "compile": "compile_pending",
         "device": "device_pending"
       }
     },
@@ -82,7 +82,7 @@
       "specification": "specified",
       "ios": {
         "implementation": "implemented",
-        "compile": "compile_passed",
+        "compile": "compile_pending",
         "device": "device_pending"
       }
     },
@@ -198,11 +198,11 @@
     },
     {
       "id": "chat_actions_on_hold",
-      "title": "Опции чатов по тапу: предпросмотр на аватарке, меню на остальной строке",
+      "title": "Опции чатов по тапу: папки из любой области, меню вне аватарки, полный чат без прочтения по аватарке",
       "specification": "specified",
       "ios": {
         "implementation": "implemented",
-        "compile": "compile_passed",
+        "compile": "compile_pending",
         "device": "device_pending"
       }
     },
@@ -222,7 +222,27 @@
       "specification": "specified",
       "ios": {
         "implementation": "implemented",
-        "compile": "compile_passed",
+        "compile": "compile_pending",
+        "device": "device_pending"
+      }
+    },
+    {
+      "id": "video_pip_swipe",
+      "title": "Видео PiP свайпом в Прочее, включено по умолчанию",
+      "specification": "specified",
+      "ios": {
+        "implementation": "implemented",
+        "compile": "compile_pending",
+        "device": "device_pending"
+      }
+    },
+    {
+      "id": "background_video_playback",
+      "title": "Звук видео при сворачивании и блокировке экрана, включено по умолчанию",
+      "specification": "specified",
+      "ios": {
+        "implementation": "implemented",
+        "compile": "compile_pending",
         "device": "device_pending"
       }
     }

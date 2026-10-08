@@ -13,7 +13,7 @@
 "NagramiX.Settings.Chats.Header" = "ЧАТЫ";
 "NagramiX.Settings.Chats.WideChannelPosts" = "Широкие посты в каналах";
 "NagramiX.Settings.Chats.ActionsOnHold" = "Опции чатов по тапу";
-"NagramiX.Settings.Chats.ActionsOnHold.Info" = "Удерживайте аватарку для предпросмотра без отметки прочтения, а любую другую область строки чата, группы или канала — для штатного меню действий. Свайпы из любой области переключают папки. Выключите опцию, чтобы вернуть штатные действия свайпом.";
+"NagramiX.Settings.Chats.ActionsOnHold.Info" = "Удерживайте любую область строки, кроме аватарки, для штатного меню действий. Свайпы из любой области переключают папки. Выключите опцию, чтобы вернуть штатные действия свайпом. Нажатие на аватарку в обоих режимах открывает переписку без отметки прочтения.";
 "NagramiX.Settings.VideoMessages.Header" = "КРУГЛЫЕ ВИДЕО";
 "NagramiX.Settings.VideoMessages.UseRearCamera" = "На заднюю камеру";
 "NagramiX.Settings.Stories.Header" = "ИСТОРИИ";
@@ -201,3 +201,9 @@
 
 "NagramiX.Settings.Chats.Compact" = "Компактный список чатов";
 "NagramiX.Settings.Chats.Compact.Info" = "Меньшие аватары и одна строка последнего сообщения. Дополнительные сведения и увеличенный текст учитываются при расчёте высоты. Выключите, чтобы вернуть стандартный вид Telegram.";
+
+"NagramiX.Settings.Video.Header" = "Видео";
+"NagramiX.Settings.Video.PiPSwipe" = "Видео PiP свайпом";
+"NagramiX.Settings.Video.PiPSwipe.Info" = "Свайп вверх или вниз по открытому видео включает режим «Картинка в картинке», если он доступен.";
+"NagramiX.Settings.Video.BackgroundPlayback" = "Воспроизводить видео в фоне";
+"NagramiX.Settings.Video.BackgroundPlayback.Info" = "Продолжать звук запущенного видео при сворачивании приложения и блокировке экрана.";

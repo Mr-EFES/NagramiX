@@ -30,6 +30,8 @@ private struct NagramiXSettingsControllerArguments {
     let updateShowSelectByAuthor: (Bool) -> Void
     let updateShowProxyButton: (Bool) -> Void
     let updateHideProxySponsorChannel: (Bool) -> Void
+    let updateVideoPiPSwipe: (Bool) -> Void
+    let updateBackgroundVideoPlayback: (Bool) -> Void
     let updateUseRearCameraForVideoMessages: (Bool) -> Void
     let updateHideStories: (Bool) -> Void
     let updateDisableStoryCameraSwipe: (Bool) -> Void
@@ -65,6 +67,8 @@ private enum NagramiXSettingsSection: Int32 {
     case contextMenu
     case photos
     case stickers
+    case videoPlayback
+    case otherVideo
 }
 
 private enum NagramiXSettingsEntry: ItemListNodeEntry {
@@ -90,6 +94,12 @@ private enum NagramiXSettingsEntry: ItemListNodeEntry {
     case selectByAuthorInfo
     case videoMessagesHeader
     case useRearCameraForVideoMessages(Bool)
+    case videoPlaybackHeader
+    case backgroundVideoPlayback(Bool)
+    case backgroundVideoPlaybackInfo
+    case otherVideoHeader
+    case videoPiPSwipe(Bool)
+    case videoPiPSwipeInfo
     case featureStoriesHeader
     case hideStories(Bool)
     case disableStoryCameraSwipe(Bool)
@@ -146,7 +156,9 @@ private enum NagramiXSettingsEntry: ItemListNodeEntry {
             return .features
         case .messagesHeader, .showDeletedMessages, .showDeletedMessagesInfo, .saveTemporaryMessages, .saveTemporaryMessagesInfo, .deletedMessageLabel, .messageEditHistory, .messageEditHistoryInfo, .clearMessageArchive, .messageArchiveInfo:
             return .features
-        case .otherCallsHeader, .forceTcpCalls, .forceTcpCallsInfo, .proxySettings, .proxyDns, .proxyAutoSwitch, .proxyCheckAll:
+        case .videoPlaybackHeader, .backgroundVideoPlayback, .backgroundVideoPlaybackInfo:
+            return .features
+        case .otherVideoHeader, .videoPiPSwipe, .videoPiPSwipeInfo, .otherCallsHeader, .forceTcpCalls, .forceTcpCallsInfo, .proxySettings, .proxyDns, .proxyAutoSwitch, .proxyCheckAll:
             return .other
         }
     }
@@ -179,6 +191,10 @@ private enum NagramiXSettingsEntry: ItemListNodeEntry {
             return NagramiXSettingsSection.photos.rawValue
         case .stickersHeader, .stickerSizeHeader, .stickerSize, .showStickerTime, .stickerSizeInfo:
             return NagramiXSettingsSection.stickers.rawValue
+        case .videoPlaybackHeader, .backgroundVideoPlayback, .backgroundVideoPlaybackInfo:
+            return NagramiXSettingsSection.videoPlayback.rawValue
+        case .otherVideoHeader, .videoPiPSwipe, .videoPiPSwipeInfo:
+            return NagramiXSettingsSection.otherVideo.rawValue
         case .proxySettings, .proxyDns, .proxyAutoSwitch, .proxyCheckAll:
             return NagramiXSettingsSection.other.rawValue
         }
@@ -206,6 +222,12 @@ private enum NagramiXSettingsEntry: ItemListNodeEntry {
         case .forwardWithoutAuthorInfo: return 82
         case .showSelectByAuthor: return 83
         case .selectByAuthorInfo: return 84
+        case .videoPlaybackHeader: return 105
+        case .backgroundVideoPlayback: return 106
+        case .backgroundVideoPlaybackInfo: return 107
+        case .otherVideoHeader: return 108
+        case .videoPiPSwipe: return 109
+        case .videoPiPSwipeInfo: return 110
         case .videoMessagesHeader: return 10
         case .useRearCameraForVideoMessages: return 11
         case .hideStories: return 21
@@ -255,6 +277,12 @@ private enum NagramiXSettingsEntry: ItemListNodeEntry {
         // immediately after the deleted-message option in native list diffs.
         func position(_ entry: NagramiXSettingsEntry) -> Int32 {
             switch entry {
+            case .videoPlaybackHeader: return 111
+            case .backgroundVideoPlayback: return 112
+            case .backgroundVideoPlaybackInfo: return 113
+            case .otherVideoHeader: return 540
+            case .videoPiPSwipe: return 550
+            case .videoPiPSwipeInfo: return 560
             case .saveTemporaryMessages: return 365
             case .saveTemporaryMessagesInfo: return 366
             default: return entry.stableId * 10
@@ -310,6 +338,18 @@ private enum NagramiXSettingsEntry: ItemListNodeEntry {
             return ItemListSectionHeaderItem(presentationData: presentationData, text: presentationData.strings.nagramiXVideoMessagesHeader, sectionId: self.section)
         case let .useRearCameraForVideoMessages(value):
             return ItemListSwitchItem(presentationData: presentationData, systemStyle: .glass, title: presentationData.strings.nagramiXUseRearCamera, value: value, sectionId: self.section, style: .blocks, updated: arguments.updateUseRearCameraForVideoMessages)
+        case .videoPlaybackHeader:
+            return ItemListSectionHeaderItem(presentationData: presentationData, text: presentationData.strings.nagramiXVideoPlaybackHeader, sectionId: self.section)
+        case let .backgroundVideoPlayback(value):
+            return ItemListSwitchItem(presentationData: presentationData, systemStyle: .glass, title: presentationData.strings.nagramiXBackgroundVideoPlayback, value: value, sectionId: self.section, style: .blocks, updated: arguments.updateBackgroundVideoPlayback)
+        case .backgroundVideoPlaybackInfo:
+            return ItemListTextItem(presentationData: presentationData, text: .plain(presentationData.strings.nagramiXBackgroundVideoPlaybackInfo), sectionId: self.section)
+        case .otherVideoHeader:
+            return ItemListSectionHeaderItem(presentationData: presentationData, text: presentationData.strings.nagramiXSettingsOther, sectionId: self.section)
+        case let .videoPiPSwipe(value):
+            return ItemListSwitchItem(presentationData: presentationData, systemStyle: .glass, title: presentationData.strings.nagramiXVideoPiPSwipe, value: value, sectionId: self.section, style: .blocks, updated: arguments.updateVideoPiPSwipe)
+        case .videoPiPSwipeInfo:
+            return ItemListTextItem(presentationData: presentationData, text: .plain(presentationData.strings.nagramiXVideoPiPSwipeInfo), sectionId: self.section)
         case .featureStoriesHeader:
             return ItemListSectionHeaderItem(presentationData: presentationData, text: presentationData.strings.nagramiXStoriesHeader, sectionId: self.section)
         case let .hideStories(value):
@@ -419,7 +459,8 @@ private extension NagramiXSettingsEntry {
                 .forceTcpCallsInfo, .showDeletedMessagesInfo, .saveTemporaryMessagesInfo, .messageEditHistoryInfo, .messageArchiveInfo,
                 .contextMenuHeader, .forwardWithoutAuthorInfo, .selectByAuthorInfo, .chatActionsOnHoldInfo, .compactChatListInfo,
                 .photosHeader, .photoQualityHeader, .photoQualityInfo, .sendLargePhotosInfo,
-                .stickersHeader, .stickerSizeHeader, .stickerSizeInfo:
+                .stickersHeader, .stickerSizeHeader, .stickerSizeInfo,
+                .videoPlaybackHeader, .backgroundVideoPlaybackInfo, .otherVideoHeader, .videoPiPSwipeInfo:
             return false
         default:
             return true
@@ -450,6 +491,12 @@ private extension NagramiXSettingsEntry {
         case .selectByAuthorInfo: return strings.nagramiXSelectByAuthorInfo
         case .videoMessagesHeader: return strings.nagramiXVideoMessagesHeader
         case .useRearCameraForVideoMessages: return strings.nagramiXUseRearCamera
+        case .videoPlaybackHeader: return strings.nagramiXVideoPlaybackHeader
+        case .backgroundVideoPlayback: return strings.nagramiXBackgroundVideoPlayback
+        case .backgroundVideoPlaybackInfo: return strings.nagramiXBackgroundVideoPlaybackInfo
+        case .otherVideoHeader: return strings.nagramiXSettingsOther
+        case .videoPiPSwipe: return strings.nagramiXVideoPiPSwipe
+        case .videoPiPSwipeInfo: return strings.nagramiXVideoPiPSwipeInfo
         case .featureStoriesHeader: return strings.nagramiXStoriesHeader
         case .hideStories: return strings.nagramiXHideStories
         case .disableStoryCameraSwipe: return strings.nagramiXDisableStoryCameraSwipe
@@ -493,6 +540,10 @@ private extension NagramiXSettingsEntry {
 
     func description(strings: PresentationStrings) -> String {
         switch self {
+        case .backgroundVideoPlayback:
+            return strings.nagramiXBackgroundVideoPlaybackInfo
+        case .videoPiPSwipe:
+            return strings.nagramiXVideoPiPSwipeInfo
         case .photoQuality:
             return strings.nagramiXPhotoQualityInfo
         case .sendLargePhotos:
@@ -537,6 +588,8 @@ private extension NagramiXSettingsEntry {
         case NagramiXSettingsSection.messages.rawValue: return strings.nagramiXMessagesHeader
         case NagramiXSettingsSection.calls.rawValue: return strings.nagramiXCallsHeader
         case NagramiXSettingsSection.photos.rawValue: return strings.nagramiXPhotosHeader
+        case NagramiXSettingsSection.videoPlayback.rawValue: return strings.nagramiXVideoPlaybackHeader
+        case NagramiXSettingsSection.otherVideo.rawValue: return strings.nagramiXSettingsOther
         case NagramiXSettingsSection.stickers.rawValue: return strings.nagramiXStickersHeader
         default: return strings.nagramiXSettingsOther
         }
@@ -589,6 +642,7 @@ private func nagramiXAllSettingsEntries(settings: NagramiXTabSettings) -> [Nagra
         .chatActionsOnHold(settings.chatActionsOnHold), .chatActionsOnHoldInfo,
         .compactChatList(settings.compactChatList), .compactChatListInfo,
         .videoMessagesHeader, .useRearCameraForVideoMessages(settings.useRearCameraForVideoMessages),
+        .videoPlaybackHeader, .backgroundVideoPlayback(settings.backgroundVideoPlayback), .backgroundVideoPlaybackInfo,
         .featureStoriesHeader, .hideStories(settings.hideStories),
         .disableStoryCameraSwipe(settings.disableStoryCameraSwipe),
         .confirmStoryViewing(settings.confirmStoryViewing), .enableStoryRepost(settings.enableStoryRepost),
@@ -608,6 +662,7 @@ private func nagramiXAllSettingsEntries(settings: NagramiXTabSettings) -> [Nagra
         .stickersHeader, .stickerSizeHeader, .stickerSize(settings.media.stickerSize),
         .showStickerTime(settings.media.showStickerTime), .stickerSizeInfo,
         .otherCallsHeader, .forceTcpCalls(settings.forceTcpCalls), .forceTcpCallsInfo,
+        .otherVideoHeader, .videoPiPSwipe(settings.videoPiPSwipe), .videoPiPSwipeInfo,
         .proxySettings, .proxyDns, .proxyAutoSwitch, .proxyCheckAll,
     ]
 }
@@ -649,6 +704,8 @@ public func nagramiXSettingsController(context: AccountContext) -> ViewControlle
         updateShowSelectByAuthor: { value in update { $0.showSelectByAuthor = value } },
         updateShowProxyButton: { value in update { $0.showProxyButton = value } },
         updateHideProxySponsorChannel: { value in update { $0.hideProxySponsorChannel = value } },
+        updateVideoPiPSwipe: { value in update { $0.videoPiPSwipe = value } },
+        updateBackgroundVideoPlayback: { value in update { $0.backgroundVideoPlayback = value } },
         updateUseRearCameraForVideoMessages: { value in update { $0.useRearCameraForVideoMessages = value } },
         updateHideStories: { value in update { $0.hideStories = value } },
         updateDisableStoryCameraSwipe: { value in update { $0.disableStoryCameraSwipe = value } },

@@ -13,7 +13,7 @@
 "NagramiX.Settings.Chats.Header" = "CHATS";
 "NagramiX.Settings.Chats.WideChannelPosts" = "Wide Channel Posts";
 "NagramiX.Settings.Chats.ActionsOnHold" = "Chat Options on Long Press";
-"NagramiX.Settings.Chats.ActionsOnHold.Info" = "Long press the avatar to preview without marking messages as read, or any other area of a chat, group or channel row for the standard actions menu. Swipe from any area to switch folders. Turn this option off to restore standard swipe actions.";
+"NagramiX.Settings.Chats.ActionsOnHold.Info" = "Long press any area of a row except the avatar for the standard actions menu. Swipe from any area to switch folders. Turn this option off to restore standard swipe actions. Tapping the avatar in either mode opens the full chat without marking messages as read.";
 "NagramiX.Settings.VideoMessages.Header" = "VIDEO MESSAGES";
 "NagramiX.Settings.VideoMessages.UseRearCamera" = "Use Rear Camera";
 "NagramiX.Settings.Stories.Header" = "STORIES";
@@ -127,3 +127,9 @@
 
 "NagramiX.Settings.Chats.Compact" = "Compact Chat List";
 "NagramiX.Settings.Chats.Compact.Info" = "Smaller avatars and one line for the last message. Additional details and larger text are included in the row height. Turn off to restore the standard Telegram layout.";
+
+"NagramiX.Settings.Video.Header" = "Video";
+"NagramiX.Settings.Video.PiPSwipe" = "Video PiP by swipe";
+"NagramiX.Settings.Video.PiPSwipe.Info" = "Swiping up or down on an open video starts Picture in Picture when available.";
+"NagramiX.Settings.Video.BackgroundPlayback" = "Play video in background";
+"NagramiX.Settings.Video.BackgroundPlayback.Info" = "Continue audio from a playing video when the app is minimized or the screen is locked.";

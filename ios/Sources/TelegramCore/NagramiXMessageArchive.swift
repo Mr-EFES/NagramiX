@@ -720,6 +720,9 @@ public final class NagramiXMessageArchive {
         }
         attributes.append(NagramiXArchivedMessageAttribute(deletedAt: record.deletedAt ?? record.timestamp, revisions: record.revisions))
         let flags: StoreMessageFlags = [.Incoming]
+        // Classify the retained media with the same tags as a native message.
+        // Expiry attributes belong to the consumed original, not this local copy.
+        let (tags, globalTags) = tagsForStoreMessage(incoming: true, attributes: attributes, media: media, textEntities: record.content.entities, isPinned: false)
         let storeMessage = StoreMessage(
             id: .Id(record.messageId),
             customStableId: nil,
@@ -728,8 +731,8 @@ public final class NagramiXMessageArchive {
             threadId: record.threadId,
             timestamp: record.timestamp,
             flags: flags,
-            tags: [],
-            globalTags: [],
+            tags: tags,
+            globalTags: globalTags,
             localTags: [],
             forwardInfo: nil,
             authorId: record.authorId.map { PeerId($0) },

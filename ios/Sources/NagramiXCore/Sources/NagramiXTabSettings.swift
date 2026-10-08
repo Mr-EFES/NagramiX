@@ -44,6 +44,8 @@ public struct NagramiXTabSettings: Equatable {
         static let hideCalls = "nagramix.tabs.hideCalls"
         static let showSearchButton = "nagramix.tabs.showSearchButton"
         static let wideChannelPosts = "nagramix.interface.wideChannelPosts"
+        static let videoPiPSwipe = "nagramix.video.pipSwipe"
+        static let backgroundVideoPlayback = "nagramix.video.backgroundPlayback"
         static let compactChatList = "nagramix.interface.compactChatList"
         static let chatActionsOnHold = "nagramix.interface.chatActionsOnHold"
         static let showForwardWithoutAuthor = "nagramix.contextMenu.showForwardWithoutAuthor"
@@ -75,6 +77,8 @@ public struct NagramiXTabSettings: Equatable {
     public var hideCalls: Bool
     public var showSearchButton: Bool
     public var wideChannelPosts: Bool
+    public var videoPiPSwipe: Bool
+    public var backgroundVideoPlayback: Bool
     public var compactChatList: Bool
     public var chatActionsOnHold: Bool
     public var showForwardWithoutAuthor: Bool
@@ -130,12 +134,16 @@ public struct NagramiXTabSettings: Equatable {
         chatActionsOnHold: Bool = true,
         media: NagramiXMediaSettings = .default,
         compactChatList: Bool = false,
-        saveTemporaryMessages: Bool = false
+        saveTemporaryMessages: Bool = false,
+        videoPiPSwipe: Bool = true,
+        backgroundVideoPlayback: Bool = true
     ) {
         self.hideContacts = hideContacts
         self.hideCalls = hideCalls
         self.showSearchButton = showSearchButton
         self.wideChannelPosts = wideChannelPosts
+        self.videoPiPSwipe = videoPiPSwipe
+        self.backgroundVideoPlayback = backgroundVideoPlayback
         self.compactChatList = compactChatList
         self.chatActionsOnHold = chatActionsOnHold
         self.media = media
@@ -161,6 +169,14 @@ public struct NagramiXTabSettings: Equatable {
         self.messageEditHistory = messageEditHistory
         self.showForwardWithoutAuthor = showForwardWithoutAuthor
         self.showSelectByAuthor = showSelectByAuthor
+    }
+
+    public static var videoPiPSwipeEnabled: Bool {
+        return UserDefaults.standard.object(forKey: Key.videoPiPSwipe) as? Bool ?? true
+    }
+
+    public static var backgroundVideoPlaybackEnabled: Bool {
+        return UserDefaults.standard.object(forKey: Key.backgroundVideoPlayback) as? Bool ?? true
     }
 
     public static var compactChatListEnabled: Bool {
@@ -208,7 +224,9 @@ public struct NagramiXTabSettings: Equatable {
             chatActionsOnHold: defaults.object(forKey: Key.chatActionsOnHold) as? Bool ?? true,
             media: .current,
             compactChatList: self.compactChatListEnabled,
-            saveTemporaryMessages: defaults.object(forKey: Key.saveTemporaryMessages) as? Bool ?? false
+            saveTemporaryMessages: defaults.object(forKey: Key.saveTemporaryMessages) as? Bool ?? false,
+            videoPiPSwipe: self.videoPiPSwipeEnabled,
+            backgroundVideoPlayback: self.backgroundVideoPlaybackEnabled
         )
     }
 
@@ -226,6 +244,8 @@ public struct NagramiXTabSettings: Equatable {
         defaults.set(value.hideCalls, forKey: Key.hideCalls)
         defaults.set(value.showSearchButton, forKey: Key.showSearchButton)
         defaults.set(value.wideChannelPosts, forKey: Key.wideChannelPosts)
+        defaults.set(value.videoPiPSwipe, forKey: Key.videoPiPSwipe)
+        defaults.set(value.backgroundVideoPlayback, forKey: Key.backgroundVideoPlayback)
         defaults.set(value.compactChatList, forKey: Key.compactChatList)
         defaults.set(value.chatActionsOnHold, forKey: Key.chatActionsOnHold)
         defaults.set(value.useRearCameraForVideoMessages, forKey: Key.useRearCameraForVideoMessages)
