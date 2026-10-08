@@ -46,4 +46,6 @@ UI: Функции/Сообщения, «Временные сообщения»
 
 Следить за шагами и при compile error исправлять только причину в overlay и повторять проверки. После успеха скачать именно новый IPA, SHA256SUMS и BUILD-PROVENANCE.txt из релиза и запустить validate_unsigned_ipa с фактическими version/build/source SHA. Проверить русские строки/полные подписи и релизный тег/аннотацию/assets. Обновить README/статусы/реестр/этот handoff, не менять исходный тег на поздний отчётный коммит.
 
+После исправления сохранён/push source bcfdff03c15265462e18b0899673ea460192d3ba. Запущена новая чистая [№77](https://github.com/Mr-EFES/NagramiX/actions/runs/37766142058), run ID 37766142058, head SHA совпадает; publish_release/prerelease=true. Это текущая попытка; №76 failed, артефакт из неё не использовать. Мониторинг — /tmp/nagramix-0.4.7-watch77.log.
+
 [План iPhone](IPHONE_TEST_0.4.7.md): все типы incoming → удаление → stock-cache clear → авиарежим/перезапуск → копия; temporary/view-once/четыре сочетания, OFF после сохранения, clear во время fetch, сеть/фон/нехватка места, old JSON/обновление; compact по референсу и hold/avatar/folder/stock OFF. Физическая проверка пока ожидается.
