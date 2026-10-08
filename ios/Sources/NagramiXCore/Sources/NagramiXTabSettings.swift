@@ -1,4 +1,5 @@
 import Foundation
+import NagramiXMediaSettings
 
 public enum NagramiXDnsProvider: Int, CaseIterable, Equatable {
     case system = 0
@@ -36,11 +37,15 @@ public struct NagramiXTabSettings: Equatable {
     public static let dnsChangedNotification = Notification.Name("NagramiXDnsSettingsChanged")
     public static let softRestartRequestedNotification = Notification.Name("NagramiXTabInterfaceSoftRestartRequested")
 
+    public static let compactChatListChangedNotification = Notification.Name("NagramiXCompactChatListChanged")
+
     private enum Key {
         static let hideContacts = "nagramix.tabs.hideContacts"
         static let hideCalls = "nagramix.tabs.hideCalls"
         static let showSearchButton = "nagramix.tabs.showSearchButton"
         static let wideChannelPosts = "nagramix.interface.wideChannelPosts"
+        static let compactChatList = "nagramix.interface.compactChatList"
+        static let chatActionsOnHold = "nagramix.interface.chatActionsOnHold"
         static let showForwardWithoutAuthor = "nagramix.contextMenu.showForwardWithoutAuthor"
         static let showSelectByAuthor = "nagramix.contextMenu.showSelectByAuthor"
         static let useRearCameraForVideoMessages = "nagramix.videoMessages.useRearCamera"
@@ -69,6 +74,8 @@ public struct NagramiXTabSettings: Equatable {
     public var hideCalls: Bool
     public var showSearchButton: Bool
     public var wideChannelPosts: Bool
+    public var compactChatList: Bool
+    public var chatActionsOnHold: Bool
     public var showForwardWithoutAuthor: Bool
     public var showSelectByAuthor: Bool
     public var useRearCameraForVideoMessages: Bool
@@ -90,6 +97,7 @@ public struct NagramiXTabSettings: Equatable {
     public var showDeletedMessages: Bool
     public var deletedMessageLabel: String
     public var messageEditHistory: Bool
+    public var media: NagramiXMediaSettings
 
     public init(
         hideContacts: Bool,
@@ -116,12 +124,18 @@ public struct NagramiXTabSettings: Equatable {
         deletedMessageLabel: String,
         messageEditHistory: Bool,
         showForwardWithoutAuthor: Bool = true,
-        showSelectByAuthor: Bool = true
+        showSelectByAuthor: Bool = true,
+        chatActionsOnHold: Bool = true,
+        media: NagramiXMediaSettings = .default,
+        compactChatList: Bool = false
     ) {
         self.hideContacts = hideContacts
         self.hideCalls = hideCalls
         self.showSearchButton = showSearchButton
         self.wideChannelPosts = wideChannelPosts
+        self.compactChatList = compactChatList
+        self.chatActionsOnHold = chatActionsOnHold
+        self.media = media
         self.useRearCameraForVideoMessages = useRearCameraForVideoMessages
         self.hideStories = hideStories
         self.disableStoryCameraSwipe = disableStoryCameraSwipe
@@ -143,6 +157,10 @@ public struct NagramiXTabSettings: Equatable {
         self.messageEditHistory = messageEditHistory
         self.showForwardWithoutAuthor = showForwardWithoutAuthor
         self.showSelectByAuthor = showSelectByAuthor
+    }
+
+    public static var compactChatListEnabled: Bool {
+        return UserDefaults.standard.object(forKey: Key.compactChatList) as? Bool ?? false
     }
 
     public static var current: NagramiXTabSettings {
@@ -182,12 +200,16 @@ public struct NagramiXTabSettings: Equatable {
             deletedMessageLabel: self.normalizedDeletedMessageLabel(defaults.string(forKey: Key.deletedMessageLabel) ?? ""),
             messageEditHistory: defaults.object(forKey: Key.messageEditHistory) as? Bool ?? false,
             showForwardWithoutAuthor: defaults.object(forKey: Key.showForwardWithoutAuthor) as? Bool ?? true,
-            showSelectByAuthor: defaults.object(forKey: Key.showSelectByAuthor) as? Bool ?? true
+            showSelectByAuthor: defaults.object(forKey: Key.showSelectByAuthor) as? Bool ?? true,
+            chatActionsOnHold: defaults.object(forKey: Key.chatActionsOnHold) as? Bool ?? true,
+            media: .current,
+            compactChatList: self.compactChatListEnabled
         )
     }
 
     public static func update(_ transform: (inout NagramiXTabSettings) -> Void) {
         var value = self.current
+        let previousCompactChatList = value.compactChatList
         let previousWideChannelPosts = value.wideChannelPosts
         let previousDeletedMessageLabel = value.deletedMessageLabel
         let previousDnsProvider = value.dnsProvider
@@ -199,6 +221,8 @@ public struct NagramiXTabSettings: Equatable {
         defaults.set(value.hideCalls, forKey: Key.hideCalls)
         defaults.set(value.showSearchButton, forKey: Key.showSearchButton)
         defaults.set(value.wideChannelPosts, forKey: Key.wideChannelPosts)
+        defaults.set(value.compactChatList, forKey: Key.compactChatList)
+        defaults.set(value.chatActionsOnHold, forKey: Key.chatActionsOnHold)
         defaults.set(value.useRearCameraForVideoMessages, forKey: Key.useRearCameraForVideoMessages)
         defaults.set(value.hideStories, forKey: Key.hideStories)
         defaults.set(value.disableStoryCameraSwipe, forKey: Key.disableStoryCameraSwipe)
@@ -223,7 +247,12 @@ public struct NagramiXTabSettings: Equatable {
         defaults.set(value.showSelectByAuthor, forKey: Key.showSelectByAuthor)
         defaults.removeObject(forKey: Key.legacyShowProxySponsorChannel)
 
+        NagramiXMediaSettings.update(value.media)
+
         NotificationCenter.default.post(name: self.changedNotification, object: nil)
+        if previousCompactChatList != value.compactChatList {
+            NotificationCenter.default.post(name: self.compactChatListChangedNotification, object: nil)
+        }
         if previousWideChannelPosts != value.wideChannelPosts {
             NotificationCenter.default.post(name: self.wideChannelPostsChangedNotification, object: nil)
         }

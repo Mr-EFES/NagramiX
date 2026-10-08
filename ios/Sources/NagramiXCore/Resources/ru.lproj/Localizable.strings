@@ -12,6 +12,8 @@
 "NagramiX.Settings.Tabs.ShowSearch" = "Показывать кнопку поиска";
 "NagramiX.Settings.Chats.Header" = "ЧАТЫ";
 "NagramiX.Settings.Chats.WideChannelPosts" = "Широкие посты в каналах";
+"NagramiX.Settings.Chats.ActionsOnHold" = "Опции чатов по тапу";
+"NagramiX.Settings.Chats.ActionsOnHold.Info" = "Удерживайте строку чата, группы или канала для штатного предпросмотра и меню. Действия свайпом отключены, горизонтальные жесты доступны для переключения папок.";
 "NagramiX.Settings.VideoMessages.Header" = "КРУГЛЫЕ ВИДЕО";
 "NagramiX.Settings.VideoMessages.UseRearCamera" = "На заднюю камеру";
 "NagramiX.Settings.Stories.Header" = "ИСТОРИИ";
@@ -184,3 +186,16 @@
 "NagramiX.Messages.EditLocalCopy" = "Редактировать локальную копию";
 
 "NagramiX.Profiles.MutualContact" = "Взаимный контакт";
+
+"NagramiX.Settings.Photos.Header" = "ФОТОГРАФИИ";
+"NagramiX.Settings.Photos.Quality" = "КАЧЕСТВО";
+"NagramiX.Settings.Photos.Quality.Info" = "Качество исходящих фото и фотоисторий. 100% — максимальное качество JPEG, а не отправка оригинала файлом.";
+"NagramiX.Settings.Photos.SendLarge" = "Отправлять большие фото";
+"NagramiX.Settings.Photos.SendLarge.Info" = "Увеличить предел стороны сжатых фото до 2560 пикселей. Маленькие фото не увеличиваются.";
+"NagramiX.Settings.Stickers.Header" = "СТИКЕРЫ И ЭМОДЗИ";
+"NagramiX.Settings.Stickers.Size" = "РАЗМЕР";
+"NagramiX.Settings.Stickers.ShowTime" = "Показывать время";
+"NagramiX.Settings.Stickers.Size.Info" = "Размер стикеров и крупных отдельных эмодзи в сообщениях: 100% — штатный, 0% — минимальный. Скрытие времени сохраняет отметки доставки и реакции.";
+
+"NagramiX.Settings.Chats.Compact" = "Компактный список чатов";
+"NagramiX.Settings.Chats.Compact.Info" = "Меньшие аватары и одна строка последнего сообщения. Дополнительные сведения и увеличенный текст учитываются при расчёте высоты. Выключите, чтобы вернуть стандартный вид Telegram.";

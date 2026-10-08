@@ -496,7 +496,7 @@
 "Contacts.AccessDeniedError" = "Требуется доступ к контактам";
 "Contacts.AccessDeniedHelpLandscape" = "Пожалуйста, зайдите в настройки %@ > Конфиденциальность и безопасность > Контакты и разрешите доступ для Telegram.";
 "Contacts.AccessDeniedHelpPortrait" = "Пожалуйста, перейдите в настройки %@ > Конфиденциальность и безопасность > Контакты и разрешите доступ для Telegram.";
-"Contacts.AccessDeniedHelpON" = "ВКЛ";
+"Contacts.AccessDeniedHelpON" = "ВКЛЮЧЕНО";
 "Contacts.InviteToTelegram" = "Пригласить в Telegram";
 "Contacts.InviteFriends" = "Пригласить";
 "Contacts.SelectAll" = "Выбрать всех";
@@ -521,9 +521,9 @@
 "Conversation.Mute" = "Убрать звук";
 "ChatList.Mute" = "Убрать звук";
 "Conversation.TitleMute" = "Убрать звук";
-"Conversation.Unmute" = "Вкл. звук";
-"ChatList.Unmute" = "Вкл. звук";
-"Conversation.TitleUnmute" = "Вкл. звук";
+"Conversation.Unmute" = "Включить звук";
+"ChatList.Unmute" = "Включить звук";
+"Conversation.TitleUnmute" = "Включить звук";
 "Conversation.Edit" = "Изменить";
 "Conversation.Info" = "Подробнее";
 "Conversation.Search" = "Поиск";
@@ -676,8 +676,8 @@
 "UserInfo.CreateNewContact" = "Создать новый контакт";
 "UserInfo.AddToExisting" = "Добавить в имеющийся";
 "UserInfo.AddPhone" = "добавить телефон";
-"UserInfo.NotificationsEnabled" = "Вкл.";
-"UserInfo.NotificationsDisabled" = "Выкл.";
+"UserInfo.NotificationsEnabled" = "Включены";
+"UserInfo.NotificationsDisabled" = "Выключены";
 "UserInfo.NotificationsEnable" = "Включить";
 "UserInfo.NotificationsDisable" = "Выключить";
 "UserInfo.Invite" = "Пригласить в Telegram";
@@ -823,7 +823,7 @@
 "BlockedUsers.LeavePrefix" = "Покинуть";
 "BlockedUsers.Info" = "Заблокированные пользователи не могут писать Вам и приглашать Вас в группы. Они также не видят Вашу фотографию, истории и время последнего захода.";
 "BlockedUsers.AddNew" = "Добавить…";
-"BlockedUsers.Unblock" = "Разблок.";
+"BlockedUsers.Unblock" = "Разблокировать";
 
 // Wallpaper
 "Wallpaper.Title" = "Обои для чатов";
@@ -1035,9 +1035,9 @@
 "Camera.PhotoMode" = "ФОТО";
 "Camera.VideoMode" = "ВИДЕО";
 "Camera.SquareMode" = "КВАДРАТ";
-"Camera.FlashOff" = "Выкл.";
-"Camera.FlashOn" = "Вкл.";
-"Camera.FlashAuto" = "Авто";
+"Camera.FlashOff" = "Выключена";
+"Camera.FlashOn" = "Включена";
+"Camera.FlashAuto" = "Автоматически";
 "Camera.Retake" = "Переснять";
 
 "Settings.PhoneNumber" = "Номер";
@@ -1802,7 +1802,7 @@
 "Watch.UserInfo.Mute_many" = "Не беспокоить %@ часов";
 
 "Watch.UserInfo.MuteTitle" = "Убрать звук";
-"Watch.UserInfo.Unmute" = "Вкл. звук";
+"Watch.UserInfo.Unmute" = "Включить звук";
 
 "Watch.GroupInfo.Title" = "Информация о группе";
 "Watch.ChannelInfo.Title" = "О канале";
@@ -2303,7 +2303,7 @@ Unused sets are archived when you add more.";
 "Conversation.DeleteMessagesForEveryone" = "Удалить у всех";
 
 "NetworkUsageSettings.Title" = "Использование трафика";
-"NetworkUsageSettings.Cellular" = "Моб. сеть";
+"NetworkUsageSettings.Cellular" = "Мобильная сеть";
 "NetworkUsageSettings.Wifi" = "Wi-Fi";
 
 "NetworkUsageSettings.GeneralDataSection" = "СООБЩЕНИЯ";
@@ -2324,7 +2324,7 @@ Unused sets are archived when you add more.";
 
 "Calls.TabTitle" = "Звонки";
 "Calls.All" = "Все";
-"Calls.Missed" = "Пропущ.";
+"Calls.Missed" = "Пропущенные";
 
 "CallSettings.Title" = "Звонки";
 "CallSettings.RecentCalls" = "Недавние звонки";
@@ -2513,7 +2513,7 @@ Unused sets are archived when you add more.";
 
 "User.DeletedAccount" = "Удалённый аккаунт";
 
-"Settings.SaveEditedPhotos" = "Сохранять отред. фото";
+"Settings.SaveEditedPhotos" = "Сохранять отредактированные фотографии";
 
 "Message.PaymentSent" = "Оплата: %@";
 "Notification.PaymentSent" = "Вы успешно перевели {amount} для {name} за {title}";
@@ -2568,7 +2568,7 @@ Unused sets are archived when you add more.";
 
 
 
-"Settings.SaveEditedPhotos" = "Сохранять отред. фото";
+"Settings.SaveEditedPhotos" = "Сохранять отредактированные фотографии";
 
 "Calls.NoCallsPlaceholder" = "Здесь будут Ваши недавние звонки";
 "Calls.NoMissedCallsPlacehoder" = "Нет пропущенных звонков";
@@ -3607,8 +3607,8 @@ Unused sets are archived when you add more.";
 "Privacy.ChatsTitle" = "ЧАТЫ";
 "Privacy.DeleteDrafts" = "Удалить черновики";
 
-"UserInfo.NotificationsDefaultEnabled" = "По умолчанию (вкл.)";
-"UserInfo.NotificationsDefaultDisabled" = "По умолчанию (выкл.)";
+"UserInfo.NotificationsDefaultEnabled" = "По умолчанию (включены)";
+"UserInfo.NotificationsDefaultDisabled" = "По умолчанию (выключены)";
 
 "Notifications.MessageNotificationsExceptions" = "Исключения";
 "Notifications.GroupNotificationsExceptions" = "Исключения";
@@ -4188,7 +4188,7 @@ Unused sets are archived when you add more.";
 
 "Call.AnsweringWithAccount" = "Ответить как %@";
 
-"AutoDownloadSettings.CellularTitle" = "Через моб. сеть";
+"AutoDownloadSettings.CellularTitle" = "Через мобильную сеть";
 "AutoDownloadSettings.WifiTitle" = "Через Wi-Fi";
 "AutoDownloadSettings.AutoDownload" = "Загружать автоматически";
 "AutoDownloadSettings.MediaTypes" = "ЗАГРУЖАТЬ МУЛЬТИМЕДИА";
@@ -4521,7 +4521,7 @@ Sorry for the inconvenience.";
 "Contacts.SearchUsersAndGroupsLabel" = "Поиск пользователей и групп";
 
 "PrivacySettings.PasscodeOff" = "Нет";
-"PrivacySettings.PasscodeOn" = "Вкл";
+"PrivacySettings.PasscodeOn" = "Включён";
 
 "UserInfo.BlockConfirmationTitle" = "Запретить %@ писать Вам сообщения и звонить через Telegram?";
 "UserInfo.BlockActionTitle" = "Заблокировать %@";
@@ -5649,8 +5649,8 @@ Sorry for the inconvenience.";
 "ProfilePhoto.OpenInEditor" = "Открыть в редакторе";
 
 "Settings.EditAccount" = "Изменить аккаунт";
-"Settings.EditPhoto" = "Изм.";
-"Settings.EditVideo" = "Изм.";
+"Settings.EditPhoto" = "Изменить";
+"Settings.EditVideo" = "Изменить";
 "Settings.CancelUpload" = "Отменить загрузку";
 
 "Settings.FrequentlyAskedQuestions" = "Часто задаваемые вопросы";
@@ -5871,10 +5871,10 @@ Sorry for the inconvenience.";
 "VoiceChat.Connecting" = "Соединение...";
 "VoiceChat.Reconnecting" = "Переподключение...";
 
-"VoiceChat.Unmute" = "Вкл. звук";
+"VoiceChat.Unmute" = "Включить звук";
 "VoiceChat.UnmuteHelp" = "или удерживайте кнопку, чтобы говорить";
 "VoiceChat.Live" = "Вы в эфире";
-"VoiceChat.Mute" = "Выкл. микрофон";
+"VoiceChat.Mute" = "Выключить микрофон";
 "VoiceChat.Muted" = "Без микрофона";
 "VoiceChat.MutedHelp" = "Вам запретили использовать микрофон";
 
@@ -6039,8 +6039,8 @@ Sorry for the inconvenience.";
 "Call.VoiceOver.VoiceCallCanceled" = "Отменённый голосовой звонок";
 "Call.VoiceOver.VideoCallCanceled" = "Отменённый видеозвонок";
 
-"VoiceChat.UnmuteForMe" = "Вкл. звук для меня";
-"VoiceChat.MuteForMe" = "Выкл. звук для меня";
+"VoiceChat.UnmuteForMe" = "Включить звук для меня";
+"VoiceChat.MuteForMe" = "Выключить звук для меня";
 
 "PeerInfo.ButtonVoiceChat" = "Видеочат";
 "PeerInfo.ButtonLiveStream" = "Трансляция";
@@ -7166,8 +7166,8 @@ Sorry for the inconvenience.";
 
 "Notifications.Options" = "Настройки";
 
-"Notifications.On" = "Вкл.";
-"Notifications.Off" = "Выкл.";
+"Notifications.On" = "Включены";
+"Notifications.Off" = "Выключены";
 
 "AuthSessions.View.Browser" = "Браузер";
 "AuthSessions.View.Device" = "Устройство";
@@ -7592,7 +7592,7 @@ Sorry for the inconvenience.";
 "PeerInfo.EnableSound" = "Включить звук";
 "PeerInfo.DisableSound" = "Выключить звук";
 "PeerInfo.MuteFor" = "Выключить на время...";
-"PeerInfo.MuteForever" = "Выкл. уведомления";
+"PeerInfo.MuteForever" = "Выключить уведомления";
 "PeerInfo.MuteForCustom" = "Выбрать срок...";
 "PeerInfo.NotificationsCustomize" = "Настроить";
 
@@ -8877,9 +8877,9 @@ Sorry for the inconvenience.";
 "GroupPermission.NoSendVideoMessage" = "без видеосообщений";
 "GroupPermission.NoSendFile" = "без файлов";
 
-"Settings.AutosaveMediaOn" = "Вкл.";
+"Settings.AutosaveMediaOn" = "Включено";
 "Settings.AutosaveMediaOff" = "Нет";
-"Settings.AutosaveMediaOn" = "Вкл.";
+"Settings.AutosaveMediaOn" = "Включено";
 "Settings.AutosaveMediaAllMedia" = "Все медиа (%@)";
 "Settings.AutosaveMediaPhoto" = "фотографии";
 "Settings.AutosaveMediaNoPhoto" = "без фото";
@@ -9080,8 +9080,8 @@ Sorry for the inconvenience.";
 "PowerSavingScreen.OptionPreloadText" = "Запуск загрузки медиафайлов при входе в список чатов.";
 
 "PowerSavingScreen.ToggleHeaderEmpty" = "РЕЖИМ ЭНЕРГОСБЕРЕЖЕНИЯ";
-"PowerSavingScreen.ToggleHeaderOn" = "РЕЖИМ ЭНЕРГОСБЕРЕЖЕНИЯ (ВКЛ.)";
-"PowerSavingScreen.ToggleHeaderOff" = "РЕЖИМ ЭНЕРГОСБЕРЕЖЕНИЯ (ВЫКЛ.)";
+"PowerSavingScreen.ToggleHeaderOn" = "РЕЖИМ ЭНЕРГОСБЕРЕЖЕНИЯ (ВКЛЮЧЁН)";
+"PowerSavingScreen.ToggleHeaderOff" = "РЕЖИМ ЭНЕРГОСБЕРЕЖЕНИЯ (ВЫКЛЮЧЕН)";
 
 "PowerSavingScreen.OptionsHeader" = "РЕСУРСОЁМКИЕ ПРОЦЕССЫ";
 
@@ -9090,8 +9090,8 @@ Sorry for the inconvenience.";
 
 "PowerSavingScreen.Title" = "Энергосбережение";
 
-"PowerSaving.BatteryLevelLimit.Off" = "Выкл.";
-"PowerSaving.BatteryLevelLimit.On" = "Вкл.";
+"PowerSaving.BatteryLevelLimit.Off" = "Выключено";
+"PowerSaving.BatteryLevelLimit.On" = "Включено";
 "PowerSaving.BatteryLevelLimit.AlwaysOn" = "Всегда включено";
 "PowerSaving.BatteryLevelLimit.AlwaysOff" = "Всегда выключено";
 "PowerSaving.BatteryLevelLimit.WhenBelow" = "При заряде менее %@%";
@@ -9122,8 +9122,8 @@ Sorry for the inconvenience.";
 "Chat.ContextMenu.AdSponsorInfoCopied" = "Текст скопирован.";
 
 "Settings.PowerSaving" = "Энергосбережение";
-"Settings.PowerSavingOn" = "Вкл.";
-"Settings.PowerSavingOff" = "Выкл.";
+"Settings.PowerSavingOn" = "Включено";
+"Settings.PowerSavingOff" = "Выключено";
 
 "Conversation.BotApp" = "Веб-приложение";
 "Conversation.OpenBotApp" = "ЗАПУСТИТЬ";
@@ -9257,8 +9257,8 @@ Sorry for the inconvenience.";
 "PeerInfo.BotBlockedTitle" = "Бот заблокирован";
 "PeerInfo.BotBlockedText" = "Этот бот не сможет отправлять Вам сообщения.";
 
-"ChatList.ContextMuteAll" = "Выкл. уведомления";
-"ChatList.ContextUnmuteAll" = "Вкл. уведомления";
+"ChatList.ContextMuteAll" = "Выключить уведомления";
+"ChatList.ContextUnmuteAll" = "Включить уведомления";
 "ChatList.ToastFolderMuted" = "Уведомления отключены во всех чатах в **%@**";
 "ChatList.ToastFolderUnmuted" = "Уведомления включены во всех чатах в **%@**";
 "ChatList.ContextMenuShare" = "Поделиться";
@@ -9497,7 +9497,7 @@ Sorry for the inconvenience.";
 
 "MediaPicker.AddImage" = "Добавить изображение";
 
-"AutoDownloadSettings.OnForContacts" = "Вкл. для контактов";
+"AutoDownloadSettings.OnForContacts" = "Включено для контактов";
 
 "AutoDownloadSettings.StoriesSectionHeader" = "АВТОЗАГРУЗКА ИСТОРИЙ";
 "AutoDownloadSettings.StoriesArchivedContacts" = "Контакты в архиве";
@@ -9512,7 +9512,7 @@ Sorry for the inconvenience.";
 
 "ArchiveSettings.Title" = "Настройки архива";
 
-"ArchiveSettings.UnmutedChatsHeader" = "ЧАТЫ С ВКЛ. УВЕДОМЛЕНИЯМИ";
+"ArchiveSettings.UnmutedChatsHeader" = "ЧАТЫ С ВКЛЮЧЁННЫМИ УВЕДОМЛЕНИЯМИ";
 "ArchiveSettings.UnmutedChatsFooter" = "Оставлять чаты в архиве, даже если для них включены уведомления и приходит новое сообщение.";
 "ArchiveSettings.FolderChatsHeader" = "ЧАТЫ ИЗ ПАПОК";
 "ArchiveSettings.FolderChatsFooter" = "Оставлять в архиве чаты, добавленные в папки, даже если для них включены уведомления и приходит новое сообщение.";
@@ -9711,7 +9711,7 @@ Sorry for the inconvenience.";
 "Story.Editor.Tool.Enhance" = "Улучшение";
 "Story.Editor.Tool.Brightness" = "Яркость";
 "Story.Editor.Tool.Contrast" = "Контраст";
-"Story.Editor.Tool.Saturation" = "Насыщенн.";
+"Story.Editor.Tool.Saturation" = "Насыщенность";
 "Story.Editor.Tool.Warmth" = "Температура";
 "Story.Editor.Tool.Fade" = "Затемнение";
 "Story.Editor.Tool.Highlights" = "Свет";
@@ -14430,8 +14430,8 @@ Sorry for the inconvenience.";
 "Chat.ContextMenu.AuthorInfo" = "От %@";
 
 "PeerInfo.AllowChannelMessages" = "Сообщения каналу";
-"PeerInfo.AllowChannelMessages.Free" = "Беспл.";
-"PeerInfo.AllowChannelMessages.Off" = "Выкл.";
+"PeerInfo.AllowChannelMessages.Free" = "Бесплатно";
+"PeerInfo.AllowChannelMessages.Off" = "Выключено";
 "PeerInfo.ChannelMessages" = "Сообщения каналу";
 
 "Chat.EmptyStateMonoforum.Text" = "Вы можете отправить сообщение администратору **%@**.";
@@ -15182,7 +15182,7 @@ Error: %8$@";
 "Gift.View.SenderInfo" = "**%@** отправил(а) этот подарок **%@**.";
 
 "VideoChat.EncryptionKeyLabelShort" = "Звонок защищён";
-"VoiceChat.MuteShort" = "выкл. звук";
+"VoiceChat.MuteShort" = "Выключить звук";
 
 "Stars.Intro.Transaction.GiftDropOriginalDetails" = "Удаление подписи к подарку";
 "Stars.Intro.Transaction.PrepaidGiftUpgrade" = "Улучшение подарка";
@@ -16144,7 +16144,7 @@ Error: %8$@";
 "MediaPicker.LivePhoto.Live" = "Анимация";
 "MediaPicker.LivePhoto.Loop" = "Петля";
 "MediaPicker.LivePhoto.Bounce" = "Маятник";
-"MediaPicker.LivePhoto.LiveOff" = "Live выкл.";
+"MediaPicker.LivePhoto.LiveOff" = "Live выключено";
 
 "MediaPicker.LivePhoto.Tooltip.Live" = "Live-анимация включена";
 "MediaPicker.LivePhoto.Tooltip.Loop" = "Live-анимация с эффектом «петля»";
@@ -16339,7 +16339,7 @@ Error: %8$@";
 
 "Settings.ChatAutomation" = "Автоматизация чатов";
 "Settings.ChatAutomationInfo" = "Подключите бота, который будет отвечать на сообщения от Вашего имени.";
-"Settings.ChatAutomationOff" = "Выкл.";
+"Settings.ChatAutomationOff" = "Выключено";
 
 "Chat.SendReactionRestricted" = "Вы не можете отправлять реакции в этом чате.";
 
@@ -16619,7 +16619,7 @@ Error: %8$@";
 "WelcomeMessages.Title" = "Приветствие";
 "WelcomeMessages.EmptyTitle" = "Новое приветствие";
 "WelcomeMessages.EmptyText" = "Приветствие будет автоматически отправляться новым участникам.";
-"WelcomeMessages.Off" = "Выкл.";
+"WelcomeMessages.Off" = "Выключено";
 "WelcomeMessages.ServiceHeader1" = "Новые участники увидят эти сообщения, когда присоединятся к чату";
 "WelcomeMessages.ServiceHeader2" = "Чтобы удалить сообщение, нажмите на него";
 "WelcomeMessages.MessageLimitReachedText_1" = "Можно добавить не более %@ сообщения.";

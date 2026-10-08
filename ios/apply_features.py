@@ -3,6 +3,7 @@
 
 from __future__ import annotations
 
+import json
 import shutil
 import re
 from pathlib import Path
@@ -71,13 +72,197 @@ def apply_telegram_theme_color_compatibility(source: Path) -> dict[str, bytes]:
     return expected_sources
 
 
+def apply_telegram_theme_variant_compatibility(source: Path) -> dict[str, bytes]:
+    # Match Telegram's dark/light cloud-theme overload: an unavailable exact
+    # base must try the same appearance family before the first (often day) entry.
+    factory = source / "submodules/TelegramPresentationData/Sources/MakePresentationTheme.swift"
+    for settings, indent in (("cloudTheme.settings", "    "), ("info.theme.settings", "            ")):
+        old = f"{indent}}} else if let firstSettings = {settings}?.first {{\n{indent}    settings = firstSettings"
+        new = f"""{indent}}} else if let baseTheme = baseTheme, let compatibleSettings = {settings}?.first(where: {{
+{indent}    switch baseTheme {{
+{indent}    case .night, .tinted:
+{indent}        return $0.baseTheme == .night || $0.baseTheme == .tinted
+{indent}    case .classic, .day:
+{indent}        return $0.baseTheme == .classic || $0.baseTheme == .day
+{indent}    }}
+{indent}}}) {{
+{indent}    settings = compatibleSettings
+{indent}}} else if let firstSettings = {settings}?.first {{
+{indent}    settings = firstSettings"""
+        # Only the exact-base overload, not the existing dark: overload.
+        text = factory.read_text(encoding="utf-8")
+        marker = "public func makePresentationTheme(cloudTheme: TelegramTheme, baseTheme:"
+        if settings == "info.theme.settings":
+            marker = "public func makePresentationTheme(mediaBox: MediaBox, themeReference:"
+        if text.count(marker) != 1:
+            raise SystemExit(f"Pinned cloud theme overload must occur once: {marker}")
+        start = text.index(marker)
+        prefix, body = text[:start], text[start:]
+        if body.count(old) != 1 or f"let compatibleSettings = {settings}?.first(where:" in body:
+            raise SystemExit(f"Pinned cloud theme base fallback must occur once: {settings}")
+        factory.write_text(prefix + body.replace(old, new, 1), encoding="utf-8")
+
+    picker = source / "submodules/SettingsUI/Sources/ThemePickerController.swift"
+    replace_unique(
+        picker,
+        "selectThemeImpl?(nil, initialThemeReference, true)",
+        "selectThemeImpl?(theme.referenceTheme.baseTheme, initialThemeReference, true)",
+        "Preserve the stock chat-theme preview base when applying a preset",
+    )
+    replace_unique(
+        picker,
+        """    selectThemeImpl = { baseTheme, theme, preset in
+        guard let presentationTheme = makePresentationTheme(mediaBox: context.sharedContext.accountManager.mediaBox, themeReference: theme) else {""",
+        """    selectThemeImpl = { baseTheme, theme, preset in
+        guard let presentationTheme = makePresentationTheme(mediaBox: context.sharedContext.accountManager.mediaBox, themeReference: theme, baseTheme: baseTheme) else {""",
+        "Resolve the chosen stock variant and its wallpaper before applying it",
+    )
+    return {str(path.relative_to(source)): path.read_bytes() for path in (factory, picker)}
+
+
+def apply_media_controls(source: Path, overlay: Path) -> None:
+    # Foundation-only preferences avoid a LocalMediaResources -> presentation
+    # data -> MediaResources -> LocalMediaResources dependency cycle.
+    target = source / "submodules/NagramiXMediaSettings"
+    if target.exists():
+        raise SystemExit(f"NagramiXMediaSettings already exists: {target}")
+    shutil.copytree(overlay / "Sources/NagramiXMediaSettings", target)
+    shutil.copy2(overlay / "Sources/SettingsUI/NagramiXPercentageItem.swift", source / "submodules/SettingsUI/Sources/NagramiXPercentageItem.swift")
+
+    modules = [
+        ("submodules/SettingsUI", '        "//submodules/AccountContext:AccountContext",\n'),
+        ("submodules/TelegramUI", '        "//submodules/SettingsUI:SettingsUI",\n'),
+        ("submodules/LegacyMediaPickerUI", '        "//submodules/TelegramCore:TelegramCore",\n'),
+        ("submodules/LocalMediaResources", '        "//submodules/TelegramCore:TelegramCore",\n'),
+        ("submodules/TelegramUI/Components/Chat/ChatMessageStickerItemNode", '        "//submodules/TelegramCore",\n'),
+        ("submodules/TelegramUI/Components/Chat/ChatMessageAnimatedStickerItemNode", '        "//submodules/TelegramCore",\n'),
+    ]
+    for module, anchor in modules:
+        replace_unique(source / module / "BUILD", anchor, anchor + '        "//submodules/NagramiXMediaSettings:NagramiXMediaSettings",\n', f"{module} media settings dependency")
+
+    picker = source / "submodules/LegacyMediaPickerUI/Sources/LegacyMediaPickers.swift"
+    fetch = source / "submodules/LocalMediaResources/Sources/FetchPhotoLibraryImageResource.swift"
+    root = source / "submodules/TelegramUI/Sources/TelegramRootController.swift"
+    static_sticker = source / "submodules/TelegramUI/Components/Chat/ChatMessageStickerItemNode/Sources/ChatMessageStickerItemNode.swift"
+    animated_sticker = source / "submodules/TelegramUI/Components/Chat/ChatMessageAnimatedStickerItemNode/Sources/ChatMessageAnimatedStickerItemNode.swift"
+    for path in (picker, fetch, root, static_sticker, animated_sticker):
+        replace_unique(path, "import Foundation\n", "import Foundation\nimport NagramiXMediaSettings\n", f"{path.name} media settings import")
+
+    # Snapshot settings once per enqueue/fetch, never rewrite file uploads,
+    # previews, video encoding, explicit JPEG XL exports or existing resources.
+    replace_unique(picker, "        let disposable = SSignal.combineSignals(signals).start(next: { anyValues in\n", "        let mediaSettings = NagramiXMediaSettings.current\n        let disposable = SSignal.combineSignals(signals).start(next: { anyValues in\n", "Snapshot outgoing photo preferences")
+    replace_unique(picker, "let maxSize = item.forceHd ? CGSize(width: 2560.0, height: 2560.0) : CGSize(width: 1280.0, height: 1280.0)", "let maxSize = (item.forceHd || mediaSettings.sendLargePhotos) ? CGSize(width: 2560.0, height: 2560.0) : CGSize(width: 1280.0, height: 1280.0)", "Enable native HD photo dimensions")
+    replace_unique(picker, "compressImageToJPEG(scaledImage, quality: 0.6, tempFilePath: tempFile.path)", "scaledImage.jpegData(compressionQuality: CGFloat(mediaSettings.jpegQuality))", "Encode prepared photo using selected JPEG quality")
+    replace_unique(picker, "let scaledSize = size.aspectFittedOrSmaller(CGSize(width: 1280.0, height: 1280.0))", "let maxSide: CGFloat = (item.forceHd || mediaSettings.sendLargePhotos) ? 2560.0 : 1280.0\n                                        let scaledSize = size.aspectFittedOrSmaller(CGSize(width: maxSide, height: maxSide))", "Keep asset representation dimensions consistent with HD resource")
+    replace_unique(picker, "forceHd: item.forceHd)", "forceHd: item.forceHd || mediaSettings.sendLargePhotos)", "Carry native HD flag into photo library resource")
+
+    replace_unique(fetch, "    return Signal { subscriber in\n        let queue = ThreadPoolQueue(threadPool: fetchPhotoWorkers)", "    return Signal { subscriber in\n        let mediaSettings = NagramiXMediaSettings.current\n        let queue = ThreadPoolQueue(threadPool: fetchPhotoWorkers)", "Snapshot photo library compression preferences")
+    # Explicit width/height and JPEG XL formats remain the stock export path.
+    replace_unique(fetch, "compressImageToJPEG(scaledImage, quality: 0.6, tempFilePath: tempFile.path)", "((width == nil && height == nil && format == nil) ? scaledImage.jpegData(compressionQuality: CGFloat(mediaSettings.jpegQuality)) : compressImageToJPEG(scaledImage, quality: 0.6, tempFilePath: tempFile.path))", "Encode photo library JPEG with selected quality")
+    replace_unique(root, "compressImageToJPEG(image, quality: 0.7, tempFilePath: tempFile.path)", "image.jpegData(compressionQuality: CGFloat(NagramiXMediaSettings.current.jpegQuality))", "Apply JPEG preference to final outgoing photo story")
+
+    replace_unique(static_sticker, "        let displaySize = CGSize(width: 184.0, height: 184.0)", "        let mediaSettings = NagramiXMediaSettings.current\n        let stickerScale = CGFloat(mediaSettings.stickerScale)\n        let displaySize = CGSize(width: 184.0 * stickerScale, height: 184.0 * stickerScale)", "Scale static sticker layout")
+    replace_unique(static_sticker, "font: item.presentationData.messageEmojiFont,", "font: item.presentationData.messageEmojiFont.withSize(max(1.0, item.presentationData.messageEmojiFont.pointSize * stickerScale)),", "Scale static large emoji using existing typeface")
+    replace_unique(animated_sticker, "        var displaySize = CGSize(width: 180.0, height: 180.0)", "        let mediaSettings = NagramiXMediaSettings.current\n        let stickerScale: CGFloat = self.telegramDice == nil ? CGFloat(mediaSettings.stickerScale) : 1.0\n        var displaySize = CGSize(width: 180.0 * stickerScale, height: 180.0 * stickerScale)", "Scale animated stickers and standalone emoji, keep dice stock")
+    replace_unique(animated_sticker, "displaySize = CGSize(width: 240.0, height: 240.0)", "displaySize = CGSize(width: 240.0 * stickerScale, height: 240.0 * stickerScale)", "Scale video sticker layout")
+    replace_unique(animated_sticker, "let font = Font.regular(fontSizeForEmojiString(item.message.text))", "let font = Font.regular(max(1.0, fontSizeForEmojiString(item.message.text) * stickerScale))", "Scale standalone emoji text without changing inline text")
+    replace_unique(static_sticker, "                dateText: dateText,", '                dateText: mediaSettings.showStickerTime ? dateText : "",', "Hide only static sticker timestamp, keep delivery/reaction node")
+    replace_unique(animated_sticker, "                dateText: dateText,", '                dateText: (mediaSettings.showStickerTime || telegramDice != nil) ? dateText : "",', "Hide only sticker/emoji time, keep dice and other statuses")
+
+    # Reuse the existing visible-message invalidation path. Preferences do not
+    # poll and neither sending nor the stock action/selection handlers change.
+    chat_node = source / "submodules/TelegramUI/Sources/ChatControllerNode.swift"
+    replace_unique(chat_node, "import Foundation\n", "import Foundation\nimport NagramiXMediaSettings\n", "Observe sticker presentation preferences")
+    replace_unique(chat_node, "    private var nagramiXDeletedLabelObserver: NSObjectProtocol?\n", "    private var nagramiXDeletedLabelObserver: NSObjectProtocol?\n    private var nagramiXMediaDisplayObserver: NSObjectProtocol?\n", "Sticker presentation observer state")
+    replace_unique(chat_node, "        self.nagramiXDeletedLabelObserver = NotificationCenter.default.addObserver", "        self.nagramiXMediaDisplayObserver = NotificationCenter.default.addObserver(forName: NagramiXMediaSettings.displayChangedNotification, object: nil, queue: .main, using: { _ in\n            nagramiXRefreshVisibleMessages()\n        })\n        self.nagramiXDeletedLabelObserver = NotificationCenter.default.addObserver", "Refresh visible sticker layouts when size/time changes")
+    replace_unique(chat_node, "        if let nagramiXDeletedLabelObserver = self.nagramiXDeletedLabelObserver {", "        if let nagramiXMediaDisplayObserver = self.nagramiXMediaDisplayObserver {\n            NotificationCenter.default.removeObserver(nagramiXMediaDisplayObserver)\n        }\n        if let nagramiXDeletedLabelObserver = self.nagramiXDeletedLabelObserver {", "Remove sticker presentation observer")
+
+
+def apply_compact_chat_list(source: Path) -> None:
+    item = source / "submodules/ChatListUI/Sources/Node/ChatListItem.swift"
+    replace_unique(item, "    public var approximateHeight: CGFloat {", """    fileprivate var nagramiXCompactLayout: Bool {
+        guard NagramiXTabSettings.compactChatListEnabled, !self.interaction.isInlineMode, !self.useCommunityViewLayout else {
+            return false
+        }
+        switch self.chatListLocation {
+        case .chatList, .savedMessagesChats:
+            break
+        default:
+            return false
+        }
+        if case .forum = self.index { return false }
+        if case let .peer(data) = self.content, data.displayAsMessage || data.customMessageListData != nil {
+            return false
+        }
+        return true
+    }
+
+    public var approximateHeight: CGFloat {""", "Limit compact geometry to standard chat rows, not message results or topic lists")
+    replace_unique(item, "    public private(set) var item: ChatListItem?", "    private var nagramiXWasCompactAvatar = false\n\n    public private(set) var item: ChatListItem?", "Track compact placeholder font reuse")
+    old = "var avatarDiameter = min(60.0, floor(item.presentationData.fontSize.baseDisplaySize * 60.0 / 17.0))"
+    text = item.read_text()
+    if text.count(old) != 2:
+        raise SystemExit("Pinned chat avatar setup/layout diameter must occur twice")
+    text = text.replace(old, old + "\n            if item.nagramiXCompactLayout {\n                avatarDiameter = min(44.0, floor(item.presentationData.fontSize.baseDisplaySize * 44.0 / 17.0))\n            }")
+    item.write_text(text)
+    replace_unique(item, "            if avatarDiameter != 60.0 {", "            if avatarDiameter != 60.0 || self.nagramiXWasCompactAvatar {", "Restore the original placeholder font when compact mode is disabled")
+    replace_unique(item, "            let avatarClipStyle: AvatarNodeClipStyle", "            self.nagramiXWasCompactAvatar = item.nagramiXCompactLayout\n            let avatarClipStyle: AvatarNodeClipStyle", "Record avatar reuse state after resetting font")
+    replace_unique(item, "synchronousLoad: synchronousLoads, displayDimensions: CGSize(width: 60.0, height: 60.0))", "synchronousLoad: synchronousLoads, displayDimensions: item.nagramiXCompactLayout ? CGSize(width: avatarDiameter, height: avatarDiameter) : CGSize(width: 60.0, height: 60.0))", "Render compact placeholder avatars at the same size as photos")
+    replace_unique(item, "            let titleFont = Font.semibold", "            let nagramiXCompact = item.nagramiXCompactLayout\n            let titleFont = Font.semibold", "Snapshot compact row geometry per layout")
+    replace_unique(item, "            let (authorLayout, authorApply) = authorLayout(item.context", """            if nagramiXCompact && forumThreads.isEmpty, let author = effectiveAuthorTitle, let preview = textAttributedString {
+                let combinedPreview = NSMutableAttributedString(attributedString: author)
+                combinedPreview.append(NSAttributedString(string: ": ", font: textFont, textColor: theme.authorNameColor))
+                combinedPreview.append(preview)
+                textAttributedString = combinedPreview
+                effectiveAuthorTitle = nil
+            }
+
+            let (authorLayout, authorApply) = authorLayout(item.context""", "Preserve author and draft attribution inline in a compact preview")
+    replace_unique(item, "maximumNumberOfLines: (authorAttributedString == nil && itemTags.isEmpty && forumThread == nil && topForumTopicItems.isEmpty) ? 2 : 1,", "maximumNumberOfLines: nagramiXCompact ? 1 : ((authorAttributedString == nil && itemTags.isEmpty && forumThread == nil && topForumTopicItems.isEmpty) ? 2 : 1),", "Use a single preview line only when compact mode is enabled")
+    replace_unique(item, "            let rawContentRect = CGRect(origin:", """            if nagramiXCompact {
+                let fontScale = item.presentationData.fontSize.itemListBaseFontSize / 17.0
+                let topPadding = floor(8.0 * fontScale)
+                let previewHeight = max(textLayout.size.height, inputActivitiesSize?.height ?? 0.0)
+                let textBottom = topPadding + titleLayout.size.height - 2.0 + max(0.0, authorLayout.height - 3.0) + previewHeight
+                var compactHeight = max(56.0, max(avatarDiameter + 12.0, ceil(textBottom + 8.0)))
+                if !itemTags.isEmpty {
+                    let tagBottom = topPadding + measureLayout.size.height * 2.0 + floorToScreenPixels(22.0 * fontScale)
+                    compactHeight = max(compactHeight, ceil(tagBottom + 8.0))
+                }
+                itemHeight = compactHeight
+            }
+
+            let rawContentRect = CGRect(origin:""", "Measure compact row height from text, activity, avatar, tags and topic details")
+
+    node = source / "submodules/ChatListUI/Sources/Node/ChatListNode.swift"
+    replace_unique(node, "import Foundation\n", "import Foundation\nimport NagramiXCore\n", "Read compact chat preference in every list including cached folders")
+    replace_unique(node, "    private let nagramiXSettingsRevision =", "    private var nagramiXCompactObserver: NSObjectProtocol?\n    private let nagramiXSettingsRevision =", "Compact list observer state")
+    replace_unique(node, "        super.init()\n", """        super.init()
+
+        self.nagramiXCompactObserver = NotificationCenter.default.addObserver(forName: NagramiXTabSettings.compactChatListChangedNotification, object: nil, queue: .main, using: { [weak self] _ in
+            self?.nagramiXRefreshSettings()
+        })
+""", "Refresh all existing chat list nodes on compact mode changes")
+    replace_unique(node, "        let previousChatListFilters = Atomic<[ChatListFilter]?>(value: nil)", "        let previousCompactChatList = Atomic<Bool>(value: NagramiXTabSettings.compactChatListEnabled)\n        let previousChatListFilters = Atomic<[ChatListFilter]?>(value: nil)", "Track geometry change independently of backend entry equality")
+    replace_unique(node, "            var forceAllUpdated = false", """            var forceAllUpdated = false
+            let compactChatList = NagramiXTabSettings.compactChatListEnabled
+            if previousCompactChatList.swap(compactChatList) != compactChatList {
+                forceAllUpdated = true
+            }""", "Force native row rebind when compact geometry changes but message data is equal")
+    replace_unique(node, "    deinit {\n        self.chatListDisposable.dispose()", """    deinit {
+        if let observer = self.nagramiXCompactObserver {
+            NotificationCenter.default.removeObserver(observer)
+        }
+        self.chatListDisposable.dispose()""", "Remove compact list notification observer")
+
+
 def apply_features(source: Path) -> None:
     overlay = Path(__file__).resolve().parent
 
     # Полный русский ресурс доступен до сети и авторизации. Нельзя
     # маскировать английские строки под русскую локализацию.
-    # Preserve pinned appearance, allowing only the exact color-read compatibility
-    # substitutions below. The builtin palettes, fonts and theme UI stay stock.
+    # Preserve pinned appearance, allowing only exact color-read and variant
+    # compatibility substitutions. Builtin palettes, fonts and layout stay stock.
     stock_appearance_paths = [
         "submodules/TelegramUIPreferences/Sources/PresentationThemeSettings.swift",
         "submodules/Display/Source/Font.swift",
@@ -94,6 +279,7 @@ def apply_features(source: Path) -> None:
         "submodules/TelegramUI/Components/Settings/ThemeAccentColorScreen/Sources/ThemeAccentColorController.swift",
         "submodules/TelegramUI/Components/PeerInfo/PeerInfoScreen/Sources/ListItems/PeerInfoScreenActionItem.swift",
         "submodules/SettingsUI/Sources/Themes/ThemeAutoNightSettingsController.swift",
+        "submodules/SettingsUI/Sources/ThemePickerController.swift",
     ]
     stock_appearance_paths += [
         "submodules/TelegramPresentationData/Sources/" + name + ".swift"
@@ -105,10 +291,22 @@ def apply_features(source: Path) -> None:
     ]
     stock_appearance = {name: (source / name).read_bytes() for name in stock_appearance_paths}
     compatible_theme_sources = apply_telegram_theme_color_compatibility(source)
+    compatible_theme_sources.update(apply_telegram_theme_variant_compatibility(source))
 
     english_app_strings = source / "Telegram" / "Telegram-iOS" / "en.lproj" / "Localizable.strings"
     russian_app_strings = source / "Telegram" / "Telegram-iOS" / "ru.lproj" / "Localizable.strings"
     russian_strings_text = (overlay / "Resources" / "ru.lproj" / "Localizable.strings").read_text(encoding="utf-8")
+    # A shared, audited set of control labels applies both offline and after
+    # Telegram downloads a Russian language pack. Never rewrite arbitrary text.
+    full_russian_labels = json.loads((overlay / "Resources" / "ru-full-control-labels.json").read_text(encoding="utf-8"))
+    for key, value in full_russian_labels.items():
+        matches = re.findall(rf'^"{re.escape(key)}"\s*=\s*"((?:\\.|[^"\\])*)";', russian_strings_text, re.MULTILINE)
+        if not matches or any(match != value for match in matches):
+            raise SystemExit(f"Full Russian control label differs from bundled localization: {key}")
+    full_russian_labels_swift = "\n".join(
+        f"    {json.dumps(key, ensure_ascii=False)}: {json.dumps(value, ensure_ascii=False)},"
+        for key, value in full_russian_labels.items()
+    )
     key_pattern = re.compile(r'^"([^"\n]+)"\s*=', re.MULTILINE)
     missing_keys = set(key_pattern.findall(english_app_strings.read_text(encoding="utf-8"))) - set(key_pattern.findall(russian_strings_text))
     if missing_keys:
@@ -139,6 +337,16 @@ def apply_features(source: Path) -> None:
             raise SystemExit(f"Pinned Russian welcome string anchor must occur exactly once ({key})")
     russian_app_strings.parent.mkdir(parents=True, exist_ok=True)
     russian_app_strings.write_text(russian_strings_text, encoding="utf-8")
+
+    data_storage_controller = source / "submodules/SettingsUI/Sources/Data and Storage/DataAndStorageSettingsController.swift"
+    replace_unique(
+        data_storage_controller,
+        """            case let .saveEditedPhotos(_, text, value):
+                return ItemListSwitchItem(presentationData: presentationData, systemStyle: .glass, title: text, value: value, sectionId: self.section, style: .blocks, updated: { value in""",
+        """            case let .saveEditedPhotos(_, text, value):
+                return ItemListSwitchItem(presentationData: presentationData, systemStyle: .glass, title: text, value: value, maximumNumberOfLines: 0, sectionId: self.section, style: .blocks, updated: { value in""",
+        "Wrap the full edited-photo setting label using native ItemList sizing",
+    )
 
     telegram_build = source / "Telegram" / "BUILD"
     replace_unique(
@@ -192,14 +400,14 @@ def apply_features(source: Path) -> None:
     replace_once(
         default_strings,
         """public let defaultPresentationStrings = PresentationStrings(primaryComponent:""",
-        """let nagramiXDefaultRussianDictionary: [String: String] = {
+        "let nagramiXFullRussianControlLabels: [String: String] = [\n" + full_russian_labels_swift + "\n]\n\n" + """let nagramiXDefaultRussianDictionary: [String: String] = {
     var dictionary = NSDictionary(contentsOf: URL(fileURLWithPath: getAppBundle().path(forResource: "Localizable", ofType: "strings", inDirectory: nil, forLocalization: "ru")!)) as! [String: String]
-    dictionary["Common.Edit"] = "Изменить"
+    dictionary.merge(nagramiXFullRussianControlLabels, uniquingKeysWith: { _, fullLabel in fullLabel })
     return dictionary
 }()
 
 public let defaultPresentationStrings = PresentationStrings(primaryComponent:""",
-        "Override the abbreviated Russian Edit label in the default locale",
+        "Use full Russian control labels in the default locale",
     )
     replace_once(
         default_strings,
@@ -263,13 +471,13 @@ public let defaultPresentationStrings = PresentationStrings(primaryComponent:"""
 
 private func currentDateTimeFormat()""",
         """    if languageCode?.lowercased().hasPrefix("ru") == true {
-        dict["Common.Edit"] = "Изменить"
+        dict.merge(nagramiXFullRussianControlLabels, uniquingKeysWith: { _, fullLabel in fullLabel })
     }
     return dict
 }
 
 private func currentDateTimeFormat()""",
-        "Correct every user-facing Edit action in the Russian locale",
+        "Keep full control labels after Russian language-pack updates",
     )
     presentation_data_text = presentation_data.read_text(encoding="utf-8")
     presentation_data_text = presentation_data_text.replace(
@@ -2425,6 +2633,91 @@ private func currentDateTimeFormat()""",
                     guard case let .chatList(index) = item.item.index else {
 """,
         "Hide only the proxy sponsor entry when requested",
+    )
+
+    chat_list_item = source / "submodules/ChatListUI/Sources/Node/ChatListItem.swift"
+    replace_unique(
+        chat_list_item,
+        "import ItemListUI\n",
+        "import ItemListUI\nimport NagramiXCore\n",
+        "Chat-list row hold-only actions dependency",
+    )
+    replace_unique(
+        chat_list_item,
+        "    public private(set) var item: ChatListItem?\n",
+        """    private var nagramiXRevealSettingsObserver: NSObjectProtocol?
+    private var nagramiXStockRevealOptions: (left: [ItemListRevealOption], right: [ItemListRevealOption]) = ([], [])
+    private var nagramiXRevealAnimationsEnabled = true
+    private var nagramiXLastActionsOnHold = true
+
+    override public func didLoad() {
+        super.didLoad()
+        self.nagramiXLastActionsOnHold = NagramiXTabSettings.current.chatActionsOnHold
+        self.nagramiXApplyRevealSettings()
+        self.nagramiXRevealSettingsObserver = NotificationCenter.default.addObserver(forName: NagramiXTabSettings.changedNotification, object: nil, queue: .main, using: { [weak self] _ in
+            guard let self else { return }
+            let actionsOnHold = NagramiXTabSettings.current.chatActionsOnHold
+            guard actionsOnHold != self.nagramiXLastActionsOnHold else { return }
+            self.nagramiXLastActionsOnHold = actionsOnHold
+            self.nagramiXApplyRevealSettings()
+        })
+    }
+
+    override public func setRevealOptions(_ options: (left: [ItemListRevealOption], right: [ItemListRevealOption]), enableAnimations: Bool = true) {
+        self.nagramiXStockRevealOptions = options
+        self.nagramiXRevealAnimationsEnabled = enableAnimations
+        self.nagramiXApplyRevealSettings()
+    }
+
+    private func nagramiXApplyRevealSettings() {
+        if NagramiXTabSettings.current.chatActionsOnHold {
+            let wasRevealed = !self.revealOffset.isZero
+            // Clear native options before cancelling an active full swipe so
+            // cancellation cannot select its old extended action.
+            super.setRevealOptions((left: [], right: []), enableAnimations: self.nagramiXRevealAnimationsEnabled)
+            super.setRevealOptionsOpened(false, animated: false)
+            if wasRevealed {
+                self.revealOptionsInteractivelyClosed()
+            }
+        } else {
+            super.setRevealOptions(self.nagramiXStockRevealOptions, enableAnimations: self.nagramiXRevealAnimationsEnabled)
+        }
+    }
+
+    override public func setRevealOptionsOpened(_ value: Bool, animated: Bool) {
+        if NagramiXTabSettings.current.chatActionsOnHold {
+            self.nagramiXApplyRevealSettings()
+            if value {
+                self.revealOptionsInteractivelyClosed()
+            }
+        } else {
+            super.setRevealOptionsOpened(value, animated: animated)
+        }
+    }
+
+    override public func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
+        if gestureRecognizer is ItemListRevealOptionsGestureRecognizer && NagramiXTabSettings.current.chatActionsOnHold {
+            return false
+        }
+        return super.gestureRecognizerShouldBegin(gestureRecognizer)
+    }
+
+    public private(set) var item: ChatListItem?
+""",
+        "Gate only native row swipe actions; preserve context preview and folder gestures",
+    )
+    replace_unique(
+        chat_list_item,
+        """    deinit {
+        self.cachedDataDisposable.dispose()
+    }""",
+        """    deinit {
+        if let observer = self.nagramiXRevealSettingsObserver {
+            NotificationCenter.default.removeObserver(observer)
+        }
+        self.cachedDataDisposable.dispose()
+    }""",
+        "Release the chat-row settings observer",
     )
 
     chat_list_node = source / "submodules" / "ChatListUI" / "Sources" / "Node" / "ChatListNode.swift"
@@ -4678,6 +4971,9 @@ private func nagramiXCopyProfileId(_ value: Int64, presentationData: Presentatio
         "Enable local deletion for an archived selection",
     )
 
+    apply_media_controls(source, overlay)
+    apply_compact_chat_list(source)
+
     if stock_section not in item_list_controller.read_text(encoding="utf-8"):
         raise SystemExit("NagramiX overlay modified Telegram's stock sectionControl branch")
 
@@ -4686,7 +4982,7 @@ private func nagramiXCopyProfileId(_ value: Int64, presentationData: Presentatio
         if (source / name).read_bytes() != expected:
             raise SystemExit(f"NagramiX overlay modified protected stock Telegram appearance: {name}")
 
-    print("Applied isolated NagramiX feature overlay; stock palettes preserved, legacy cloud accent alpha repaired")
+    print("Applied isolated NagramiX feature overlay; stock palettes preserved, cloud accent/variant compatibility applied")
 
 
 if __name__ == "__main__":

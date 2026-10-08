@@ -16,10 +16,16 @@ import NagramiXCore
 private struct NagramiXSettingsControllerArguments {
     let openProxySettings: () -> Void
     let updateSearchQuery: (String) -> Void
+    let updatePhotoQuality: (Int) -> Void
+    let updateSendLargePhotos: (Bool) -> Void
+    let updateStickerSize: (Int) -> Void
+    let updateShowStickerTime: (Bool) -> Void
     let updateHideContacts: (Bool) -> Void
     let updateHideCalls: (Bool) -> Void
     let updateShowSearchButton: (Bool) -> Void
     let updateWideChannelPosts: (Bool) -> Void
+    let updateCompactChatList: (Bool) -> Void
+    let updateChatActionsOnHold: (Bool) -> Void
     let updateShowForwardWithoutAuthor: (Bool) -> Void
     let updateShowSelectByAuthor: (Bool) -> Void
     let updateShowProxyButton: (Bool) -> Void
@@ -56,6 +62,8 @@ private enum NagramiXSettingsSection: Int32 {
     case calls
     case other
     case contextMenu
+    case photos
+    case stickers
 }
 
 private enum NagramiXSettingsEntry: ItemListNodeEntry {
@@ -70,6 +78,10 @@ private enum NagramiXSettingsEntry: ItemListNodeEntry {
     case hideProxySponsorChannel(Bool)
     case chatsHeader
     case wideChannelPosts(Bool)
+    case chatActionsOnHold(Bool)
+    case chatActionsOnHoldInfo
+    case compactChatList(Bool)
+    case compactChatListInfo
     case contextMenuHeader
     case showForwardWithoutAuthor(Bool)
     case forwardWithoutAuthorInfo
@@ -103,17 +115,31 @@ private enum NagramiXSettingsEntry: ItemListNodeEntry {
     case proxyDns
     case proxyAutoSwitch
     case proxyCheckAll
+    case photosHeader
+    case photoQualityHeader
+    case photoQuality(Int)
+    case photoQualityInfo
+    case sendLargePhotos(Bool)
+    case sendLargePhotosInfo
+    case stickersHeader
+    case stickerSizeHeader
+    case stickerSize(Int)
+    case showStickerTime(Bool)
+    case stickerSizeInfo
 
     var category: NagramiXSettingsCategory {
         switch self {
         case .search, .noSearchResults, .searchHeader:
             return .interface
-        case .tabsHeader, .hideContacts, .hideCalls, .showSearchButton, .showProxyButton, .hideProxySponsorChannel, .chatsHeader, .wideChannelPosts,
+        case .tabsHeader, .hideContacts, .hideCalls, .showSearchButton, .showProxyButton, .hideProxySponsorChannel, .chatsHeader, .wideChannelPosts, .chatActionsOnHold, .chatActionsOnHoldInfo, .compactChatList, .compactChatListInfo,
                 .profilesHeader, .showProfileIds, .showRegistrationDate, .showMutualContactIcon,
                 .contextMenuHeader, .showForwardWithoutAuthor, .forwardWithoutAuthorInfo, .showSelectByAuthor, .selectByAuthorInfo:
             return .interface
         case .videoMessagesHeader, .useRearCameraForVideoMessages, .featureStoriesHeader, .hideStories, .disableStoryCameraSwipe,
                 .confirmStoryViewing, .enableStoryRepost, .callsHeader, .confirmOutgoingCalls:
+            return .features
+        case .photosHeader, .photoQualityHeader, .photoQuality, .photoQualityInfo, .sendLargePhotos, .sendLargePhotosInfo,
+                .stickersHeader, .stickerSizeHeader, .stickerSize, .showStickerTime, .stickerSizeInfo:
             return .features
         case .messagesHeader, .showDeletedMessages, .showDeletedMessagesInfo, .deletedMessageLabel, .messageEditHistory, .messageEditHistoryInfo, .clearMessageArchive, .messageArchiveInfo:
             return .features
@@ -132,7 +158,7 @@ private enum NagramiXSettingsEntry: ItemListNodeEntry {
             return sectionId
         case .tabsHeader, .hideContacts, .hideCalls, .showSearchButton, .showProxyButton, .hideProxySponsorChannel:
             return NagramiXSettingsSection.tabs.rawValue
-        case .chatsHeader, .wideChannelPosts:
+        case .chatsHeader, .wideChannelPosts, .chatActionsOnHold, .chatActionsOnHoldInfo, .compactChatList, .compactChatListInfo:
             return NagramiXSettingsSection.chats.rawValue
         case .contextMenuHeader, .showForwardWithoutAuthor, .forwardWithoutAuthorInfo, .showSelectByAuthor, .selectByAuthorInfo:
             return NagramiXSettingsSection.contextMenu.rawValue
@@ -146,6 +172,10 @@ private enum NagramiXSettingsEntry: ItemListNodeEntry {
             return NagramiXSettingsSection.calls.rawValue
         case .messagesHeader, .showDeletedMessages, .showDeletedMessagesInfo, .deletedMessageLabel, .messageEditHistory, .messageEditHistoryInfo, .clearMessageArchive, .messageArchiveInfo:
             return NagramiXSettingsSection.messages.rawValue
+        case .photosHeader, .photoQualityHeader, .photoQuality, .photoQualityInfo, .sendLargePhotos, .sendLargePhotosInfo:
+            return NagramiXSettingsSection.photos.rawValue
+        case .stickersHeader, .stickerSizeHeader, .stickerSize, .showStickerTime, .stickerSizeInfo:
+            return NagramiXSettingsSection.stickers.rawValue
         case .proxySettings, .proxyDns, .proxyAutoSwitch, .proxyCheckAll:
             return NagramiXSettingsSection.other.rawValue
         }
@@ -164,6 +194,10 @@ private enum NagramiXSettingsEntry: ItemListNodeEntry {
         case .hideProxySponsorChannel: return 5
         case .chatsHeader: return 6
         case .wideChannelPosts: return 7
+        case .chatActionsOnHold: return 8
+        case .chatActionsOnHoldInfo: return 9
+        case .compactChatList: return 101
+        case .compactChatListInfo: return 102
         case .contextMenuHeader: return 80
         case .showForwardWithoutAuthor: return 81
         case .forwardWithoutAuthorInfo: return 82
@@ -197,6 +231,17 @@ private enum NagramiXSettingsEntry: ItemListNodeEntry {
         case .proxyDns: return 61
         case .proxyAutoSwitch: return 62
         case .proxyCheckAll: return 63
+        case .photosHeader: return 90
+        case .photoQualityHeader: return 91
+        case .photoQuality: return 92
+        case .photoQualityInfo: return 93
+        case .sendLargePhotos: return 94
+        case .sendLargePhotosInfo: return 95
+        case .stickersHeader: return 96
+        case .stickerSizeHeader: return 97
+        case .stickerSize: return 98
+        case .showStickerTime: return 99
+        case .stickerSizeInfo: return 100
         }
     }
 
@@ -229,6 +274,14 @@ private enum NagramiXSettingsEntry: ItemListNodeEntry {
             return ItemListSectionHeaderItem(presentationData: presentationData, text: presentationData.strings.nagramiXChatsHeader, sectionId: self.section)
         case let .wideChannelPosts(value):
             return ItemListSwitchItem(presentationData: presentationData, systemStyle: .glass, title: presentationData.strings.nagramiXWideChannelPosts, value: value, sectionId: self.section, style: .blocks, updated: arguments.updateWideChannelPosts)
+        case let .chatActionsOnHold(value):
+            return ItemListSwitchItem(presentationData: presentationData, systemStyle: .glass, title: presentationData.strings.nagramiXChatActionsOnHold, value: value, maximumNumberOfLines: 0, sectionId: self.section, style: .blocks, updated: arguments.updateChatActionsOnHold)
+        case .chatActionsOnHoldInfo:
+            return ItemListTextItem(presentationData: presentationData, text: .plain(presentationData.strings.nagramiXChatActionsOnHoldInfo), sectionId: self.section)
+        case let .compactChatList(value):
+            return ItemListSwitchItem(presentationData: presentationData, systemStyle: .glass, title: presentationData.strings.nagramiXCompactChatList, value: value, maximumNumberOfLines: 0, sectionId: self.section, style: .blocks, updated: arguments.updateCompactChatList)
+        case .compactChatListInfo:
+            return ItemListTextItem(presentationData: presentationData, text: .plain(presentationData.strings.nagramiXCompactChatListInfo), sectionId: self.section)
         case .contextMenuHeader:
             return ItemListSectionHeaderItem(presentationData: presentationData, text: presentationData.strings.nagramiXContextMenuHeader.uppercased(), sectionId: self.section)
         case let .showForwardWithoutAuthor(value):
@@ -285,6 +338,28 @@ private enum NagramiXSettingsEntry: ItemListNodeEntry {
             return ItemListDisclosureItem(presentationData: presentationData, systemStyle: .glass, title: presentationData.strings.nagramiXClearMessageArchive, label: "", sectionId: self.section, style: .blocks, action: arguments.clearMessageArchive)
         case .messageArchiveInfo:
             return ItemListTextItem(presentationData: presentationData, text: .plain(presentationData.strings.nagramiXLocalArchiveInfo), sectionId: self.section)
+        case .photosHeader:
+            return ItemListSectionHeaderItem(presentationData: presentationData, text: presentationData.strings.nagramiXPhotosHeader, sectionId: self.section)
+        case .photoQualityHeader:
+            return ItemListSectionHeaderItem(presentationData: presentationData, text: presentationData.strings.nagramiXPhotoQuality, sectionId: self.section)
+        case let .photoQuality(value):
+            return NagramiXPercentageItem(presentationData: presentationData, title: presentationData.strings.nagramiXPhotoQuality, value: value, sectionId: self.section, updated: arguments.updatePhotoQuality)
+        case .photoQualityInfo:
+            return ItemListTextItem(presentationData: presentationData, text: .plain(presentationData.strings.nagramiXPhotoQualityInfo), sectionId: self.section)
+        case let .sendLargePhotos(value):
+            return ItemListSwitchItem(presentationData: presentationData, systemStyle: .glass, title: presentationData.strings.nagramiXSendLargePhotos, value: value, maximumNumberOfLines: 0, sectionId: self.section, style: .blocks, updated: arguments.updateSendLargePhotos)
+        case .sendLargePhotosInfo:
+            return ItemListTextItem(presentationData: presentationData, text: .plain(presentationData.strings.nagramiXSendLargePhotosInfo), sectionId: self.section)
+        case .stickersHeader:
+            return ItemListSectionHeaderItem(presentationData: presentationData, text: presentationData.strings.nagramiXStickersHeader, sectionId: self.section)
+        case .stickerSizeHeader:
+            return ItemListSectionHeaderItem(presentationData: presentationData, text: presentationData.strings.nagramiXStickerSize, sectionId: self.section)
+        case let .stickerSize(value):
+            return NagramiXPercentageItem(presentationData: presentationData, title: presentationData.strings.nagramiXStickerSize, value: value, sectionId: self.section, updated: arguments.updateStickerSize)
+        case let .showStickerTime(value):
+            return ItemListSwitchItem(presentationData: presentationData, systemStyle: .glass, title: presentationData.strings.nagramiXShowStickerTime, value: value, maximumNumberOfLines: 0, sectionId: self.section, style: .blocks, updated: arguments.updateShowStickerTime)
+        case .stickerSizeInfo:
+            return ItemListTextItem(presentationData: presentationData, text: .plain(presentationData.strings.nagramiXStickerSizeInfo), sectionId: self.section)
         case .proxySettings:
             return ItemListDisclosureItem(presentationData: presentationData, systemStyle: .glass, title: presentationData.strings.nagramiXProxySettings, label: "", sectionId: self.section, style: .blocks, action: arguments.openProxySettings)
         case .proxyDns:
@@ -324,7 +399,9 @@ private extension NagramiXSettingsEntry {
         switch self {
         case .search, .noSearchResults, .searchHeader, .tabsHeader, .chatsHeader, .videoMessagesHeader, .featureStoriesHeader, .profilesHeader, .callsHeader, .otherCallsHeader, .messagesHeader,
                 .forceTcpCallsInfo, .showDeletedMessagesInfo, .messageEditHistoryInfo, .messageArchiveInfo,
-                .contextMenuHeader, .forwardWithoutAuthorInfo, .selectByAuthorInfo:
+                .contextMenuHeader, .forwardWithoutAuthorInfo, .selectByAuthorInfo, .chatActionsOnHoldInfo, .compactChatListInfo,
+                .photosHeader, .photoQualityHeader, .photoQualityInfo, .sendLargePhotosInfo,
+                .stickersHeader, .stickerSizeHeader, .stickerSizeInfo:
             return false
         default:
             return true
@@ -344,6 +421,10 @@ private extension NagramiXSettingsEntry {
         case .hideProxySponsorChannel: return strings.nagramiXHideProxySponsorChannel
         case .chatsHeader: return strings.nagramiXChatsHeader
         case .wideChannelPosts: return strings.nagramiXWideChannelPosts
+        case .chatActionsOnHold: return strings.nagramiXChatActionsOnHold
+        case .chatActionsOnHoldInfo: return strings.nagramiXChatActionsOnHoldInfo
+        case .compactChatList: return strings.nagramiXCompactChatList
+        case .compactChatListInfo: return strings.nagramiXCompactChatListInfo
         case .contextMenuHeader: return strings.nagramiXContextMenuHeader
         case .showForwardWithoutAuthor: return strings.nagramiXForwardWithoutAuthor
         case .forwardWithoutAuthorInfo: return strings.nagramiXForwardWithoutAuthorInfo
@@ -376,11 +457,32 @@ private extension NagramiXSettingsEntry {
         case .proxyDns: return strings.nagramiXDns
         case .proxyAutoSwitch: return strings.nagramiXProxyAutoSwitch
         case .proxyCheckAll: return strings.nagramiXProxyCheckAll
+        case .photosHeader: return strings.nagramiXPhotosHeader
+        case .photoQualityHeader: return strings.nagramiXPhotoQuality
+        case .photoQuality: return strings.nagramiXPhotoQuality
+        case .photoQualityInfo: return strings.nagramiXPhotoQualityInfo
+        case .sendLargePhotos: return strings.nagramiXSendLargePhotos
+        case .sendLargePhotosInfo: return strings.nagramiXSendLargePhotosInfo
+        case .stickersHeader: return strings.nagramiXStickersHeader
+        case .stickerSizeHeader: return strings.nagramiXStickerSize
+        case .stickerSize: return strings.nagramiXStickerSize
+        case .showStickerTime: return strings.nagramiXShowStickerTime
+        case .stickerSizeInfo: return strings.nagramiXStickerSizeInfo
         }
     }
 
     func description(strings: PresentationStrings) -> String {
         switch self {
+        case .photoQuality:
+            return strings.nagramiXPhotoQualityInfo
+        case .sendLargePhotos:
+            return strings.nagramiXSendLargePhotosInfo
+        case .stickerSize, .showStickerTime:
+            return strings.nagramiXStickerSizeInfo
+        case .compactChatList:
+            return strings.nagramiXCompactChatListInfo
+        case .chatActionsOnHold:
+            return strings.nagramiXChatActionsOnHoldInfo
         case .showForwardWithoutAuthor:
             return strings.nagramiXForwardWithoutAuthorInfo
         case .showSelectByAuthor:
@@ -412,6 +514,8 @@ private extension NagramiXSettingsEntry {
         case NagramiXSettingsSection.profiles.rawValue: return strings.nagramiXProfilesHeader
         case NagramiXSettingsSection.messages.rawValue: return strings.nagramiXMessagesHeader
         case NagramiXSettingsSection.calls.rawValue: return strings.nagramiXCallsHeader
+        case NagramiXSettingsSection.photos.rawValue: return strings.nagramiXPhotosHeader
+        case NagramiXSettingsSection.stickers.rawValue: return strings.nagramiXStickersHeader
         default: return strings.nagramiXSettingsOther
         }
     }
@@ -460,6 +564,8 @@ private func nagramiXAllSettingsEntries(settings: NagramiXTabSettings) -> [Nagra
         .showSearchButton(settings.showSearchButton), .showProxyButton(settings.showProxyButton),
         .hideProxySponsorChannel(settings.hideProxySponsorChannel),
         .chatsHeader, .wideChannelPosts(settings.wideChannelPosts),
+        .chatActionsOnHold(settings.chatActionsOnHold), .chatActionsOnHoldInfo,
+        .compactChatList(settings.compactChatList), .compactChatListInfo,
         .videoMessagesHeader, .useRearCameraForVideoMessages(settings.useRearCameraForVideoMessages),
         .featureStoriesHeader, .hideStories(settings.hideStories),
         .disableStoryCameraSwipe(settings.disableStoryCameraSwipe),
@@ -474,6 +580,10 @@ private func nagramiXAllSettingsEntries(settings: NagramiXTabSettings) -> [Nagra
         .messageEditHistory(settings.messageEditHistory), .messageEditHistoryInfo,
         .clearMessageArchive, .messageArchiveInfo,
         .callsHeader, .confirmOutgoingCalls(settings.confirmOutgoingCalls),
+        .photosHeader, .photoQualityHeader, .photoQuality(settings.media.photoQuality), .photoQualityInfo,
+        .sendLargePhotos(settings.media.sendLargePhotos), .sendLargePhotosInfo,
+        .stickersHeader, .stickerSizeHeader, .stickerSize(settings.media.stickerSize),
+        .showStickerTime(settings.media.showStickerTime), .stickerSizeInfo,
         .otherCallsHeader, .forceTcpCalls(settings.forceTcpCalls), .forceTcpCallsInfo,
         .proxySettings, .proxyDns, .proxyAutoSwitch, .proxyCheckAll,
     ]
@@ -502,10 +612,16 @@ public func nagramiXSettingsController(context: AccountContext) -> ViewControlle
             let _ = searchQueryValue.swap(query)
             searchQueryPromise.set(query)
         },
+        updatePhotoQuality: { value in update { $0.media.photoQuality = value } },
+        updateSendLargePhotos: { value in update { $0.media.sendLargePhotos = value } },
+        updateStickerSize: { value in update { $0.media.stickerSize = value } },
+        updateShowStickerTime: { value in update { $0.media.showStickerTime = value } },
         updateHideContacts: { value in update { $0.hideContacts = value } },
         updateHideCalls: { value in update { $0.hideCalls = value } },
         updateShowSearchButton: { value in update { $0.showSearchButton = value } },
         updateWideChannelPosts: { value in update { $0.wideChannelPosts = value } },
+        updateCompactChatList: { value in update { $0.compactChatList = value } },
+        updateChatActionsOnHold: { value in update { $0.chatActionsOnHold = value } },
         updateShowForwardWithoutAuthor: { value in update { $0.showForwardWithoutAuthor = value } },
         updateShowSelectByAuthor: { value in update { $0.showSelectByAuthor = value } },
         updateShowProxyButton: { value in update { $0.showProxyButton = value } },

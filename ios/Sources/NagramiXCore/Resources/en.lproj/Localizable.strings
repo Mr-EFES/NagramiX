@@ -12,6 +12,8 @@
 "NagramiX.Settings.Tabs.ShowSearch" = "Show Search Button";
 "NagramiX.Settings.Chats.Header" = "CHATS";
 "NagramiX.Settings.Chats.WideChannelPosts" = "Wide Channel Posts";
+"NagramiX.Settings.Chats.ActionsOnHold" = "Chat Options on Long Press";
+"NagramiX.Settings.Chats.ActionsOnHold.Info" = "Long press a chat, group or channel row for the standard preview and menu. Swipe actions are disabled, leaving horizontal gestures available for switching folders.";
 "NagramiX.Settings.VideoMessages.Header" = "VIDEO MESSAGES";
 "NagramiX.Settings.VideoMessages.UseRearCamera" = "Use Rear Camera";
 "NagramiX.Settings.Stories.Header" = "STORIES";
@@ -110,3 +112,16 @@
 "NagramiX.Messages.EditLocalCopy" = "Edit local copy";
 
 "NagramiX.Profiles.MutualContact" = "Mutual contact";
+
+"NagramiX.Settings.Photos.Header" = "PHOTOS";
+"NagramiX.Settings.Photos.Quality" = "QUALITY";
+"NagramiX.Settings.Photos.Quality.Info" = "Quality of outgoing photos and photo stories. 100% is maximum JPEG quality, not an original file.";
+"NagramiX.Settings.Photos.SendLarge" = "Send Large Photos";
+"NagramiX.Settings.Photos.SendLarge.Info" = "Increase the compressed photo side limit to 2560 pixels. Small photos are not upscaled.";
+"NagramiX.Settings.Stickers.Header" = "STICKERS AND EMOJI";
+"NagramiX.Settings.Stickers.Size" = "SIZE";
+"NagramiX.Settings.Stickers.ShowTime" = "Show Time";
+"NagramiX.Settings.Stickers.Size.Info" = "Size of stickers and large standalone emoji in messages: 100% is the standard size, 0% is minimal. Hiding time keeps delivery marks and reactions.";
+
+"NagramiX.Settings.Chats.Compact" = "Compact Chat List";
+"NagramiX.Settings.Chats.Compact.Info" = "Smaller avatars and one line for the last message. Additional details and larger text are included in the row height. Turn off to restore the standard Telegram layout.";

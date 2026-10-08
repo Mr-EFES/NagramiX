@@ -45,6 +45,19 @@ public extension PresentationStrings {
     var nagramiXSelectByAuthorInfo: String { self.nagramiXLocalized("NagramiX.Settings.ContextMenu.SelectByAuthor.Info") }
     var nagramiXChatsHeader: String { self.nagramiXLocalized("NagramiX.Settings.Chats.Header") }
     var nagramiXWideChannelPosts: String { self.nagramiXLocalized("NagramiX.Settings.Chats.WideChannelPosts") }
+    var nagramiXChatActionsOnHold: String { self.nagramiXLocalized("NagramiX.Settings.Chats.ActionsOnHold") }
+    var nagramiXCompactChatList: String { self.nagramiXLocalized("NagramiX.Settings.Chats.Compact") }
+    var nagramiXCompactChatListInfo: String { self.nagramiXLocalized("NagramiX.Settings.Chats.Compact.Info") }
+    var nagramiXChatActionsOnHoldInfo: String { self.nagramiXLocalized("NagramiX.Settings.Chats.ActionsOnHold.Info") }
+    var nagramiXPhotosHeader: String { self.nagramiXLocalized("NagramiX.Settings.Photos.Header") }
+    var nagramiXPhotoQuality: String { self.nagramiXLocalized("NagramiX.Settings.Photos.Quality") }
+    var nagramiXPhotoQualityInfo: String { self.nagramiXLocalized("NagramiX.Settings.Photos.Quality.Info") }
+    var nagramiXSendLargePhotos: String { self.nagramiXLocalized("NagramiX.Settings.Photos.SendLarge") }
+    var nagramiXSendLargePhotosInfo: String { self.nagramiXLocalized("NagramiX.Settings.Photos.SendLarge.Info") }
+    var nagramiXStickersHeader: String { self.nagramiXLocalized("NagramiX.Settings.Stickers.Header") }
+    var nagramiXStickerSize: String { self.nagramiXLocalized("NagramiX.Settings.Stickers.Size") }
+    var nagramiXShowStickerTime: String { self.nagramiXLocalized("NagramiX.Settings.Stickers.ShowTime") }
+    var nagramiXStickerSizeInfo: String { self.nagramiXLocalized("NagramiX.Settings.Stickers.Size.Info") }
     var nagramiXVideoMessagesHeader: String { self.nagramiXLocalized("NagramiX.Settings.VideoMessages.Header") }
     var nagramiXUseRearCamera: String { self.nagramiXLocalized("NagramiX.Settings.VideoMessages.UseRearCamera") }
     var nagramiXStoriesHeader: String { self.nagramiXLocalized("NagramiX.Settings.Stories.Header") }

@@ -39,6 +39,7 @@ swift_library(
         ":NagramiXLocalization",
     ],
     deps = [
+        "//submodules/NagramiXMediaSettings:NagramiXMediaSettings",
         "//submodules/TelegramPresentationData:TelegramPresentationData",
     ],
     visibility = [

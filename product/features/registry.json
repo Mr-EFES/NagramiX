@@ -1,18 +1,18 @@
 {
   "schemaVersion": 1,
   "product": "NagramiX",
-  "release": "0.4.5",
+  "release": "0.4.6",
   "platformPriority": [
     "ios"
   ],
   "features": [
     {
       "id": "clean_install_defaults",
-      "title": "Русский язык и системное оформление Telegram с тёмной ночной темой",
+      "title": "Русский язык, полные подписи и системное оформление Telegram с тёмной ночной темой",
       "specification": "specified",
       "ios": {
         "implementation": "implemented",
-        "compile": "compile_passed",
+        "compile": "compile_pending",
         "device": "device_pending"
       }
     },
@@ -178,11 +178,41 @@
     },
     {
       "id": "standard_telegram_themes",
-      "title": "Штатные темы Telegram и совместимость RGB24/ARGB акцентов облачных тем",
+      "title": "Штатные темы Telegram: акценты RGB24/ARGB и выбор светлого/тёмного варианта",
       "specification": "specified",
       "ios": {
         "implementation": "implemented",
-        "compile": "compile_passed",
+        "compile": "compile_pending",
+        "device": "device_pending"
+      }
+    },
+    {
+      "id": "chat_actions_on_hold",
+      "title": "Опции чатов по тапу со штатным предпросмотром и меню",
+      "specification": "specified",
+      "ios": {
+        "implementation": "implemented",
+        "compile": "compile_pending",
+        "device": "device_pending"
+      }
+    },
+    {
+      "id": "media_controls",
+      "title": "Качество фото и фотоисторий, большие фото, размер стикеров/эмодзи и время",
+      "specification": "specified",
+      "ios": {
+        "implementation": "implemented",
+        "compile": "compile_pending",
+        "device": "device_pending"
+      }
+    },
+    {
+      "id": "compact_chat_list",
+      "title": "Компактный список чатов, выключенный по умолчанию",
+      "specification": "specified",
+      "ios": {
+        "implementation": "implemented",
+        "compile": "compile_pending",
         "device": "device_pending"
       }
     }

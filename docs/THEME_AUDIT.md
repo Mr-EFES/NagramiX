@@ -1,6 +1,6 @@
 # Аудит оформления NagramiX
 
-Обновлено 2026-10-06. База — официальный Telegram-iOS 12.9.2, pin `6ad963e5b62d354da79040f388ae2b9132fb17b8`. Используются реальные iOS API: PresentationTheme, PresentationData, SwiftSignalKit, ItemListPresentationData и ComponentFlow. Android ThemeDescription/ResourcesProvider к этому проекту не относятся.
+Обновлено 2026-10-07. База — официальный Telegram-iOS 12.9.2, pin `6ad963e5b62d354da79040f388ae2b9132fb17b8`. Используются реальные iOS API: PresentationTheme, PresentationData, SwiftSignalKit, ItemListPresentationData и ComponentFlow. Android ThemeDescription/ResourcesProvider к этому проекту не относятся.
 
 ## Пять референсов и найденный путь ошибки
 
@@ -31,9 +31,19 @@
 
 Перед штатным UIColor(argb:) добавляется отсутствующий старший alpha byte только при `value >> 24 == 0`. RGB сохраняется; любой ненулевой ARGB alpha, включая полупрозрачный, сохраняется. Маска `0xff000000` — альфа-байт представления цвета, не чёрная палитра UI. Чёрный RGB24 0 также становится непрозрачным. Современный [API описывает ARGB](https://core.telegram.org/constructor/themeSettings); исправление поддерживает legacy RGB24, не отбрасывает alpha у современных ARGB, не меняет модель, сериализацию, серверные параметры или сохранённые preferences. Файловые темы и их native decoder не патчились.
 
-Durable runtime-изменения находятся только в `ios/apply_features.py`. Добавлен Python helper применения точечных преобразований с точными count/anchor guards. Это интеграционный patch helper, а не runtime theme engine. Фабрики Day/Dark/Night/Tinted, их RGB-палитры, шрифты и layout не переписаны. Stock theme settings UI сохранён; в selector/editor изменено только чтение цвета. Защищены 27 appearance-файлов: 24 неизменны побайтно, для трёх разрешён лишь точный ожидаемый результат конверсий. Общий UIColor(argb:) не меняется.
+Durable runtime-изменения находятся только в `ios/apply_features.py`. Добавлен Python helper применения точечных преобразований с точными count/anchor guards. Это интеграционный patch helper, а не runtime theme engine. Фабрики Day/Dark/Night/Tinted, их RGB-палитры, шрифты и layout не переписаны. Stock theme settings UI сохранён; в selector/editor изменено только чтение цвета. Защищены 28 appearance-файлов: 24 неизменны побайтно, для четырёх разрешён лишь точный ожидаемый результат конверсий и выбора варианта, описанного ниже. Общий UIColor(argb:) не меняется.
 
 При выборе/переключении темы тот же native PresentationData pipeline строит PresentationTheme. Все существующие semantic bindings получают исправленный акцент; новых observers, polling, Light/Dark ветвлений или альтернативных UI нет. Перезапуск нужен для установки нового IPA, но последующие переключения остаются штатными live updates.
+
+## Выбор варианта темы чатов — правка 0.4.6
+
+Новые четыре референса: System/Night, System/Dark и сетка девяти тем при активном ночном режиме. Пользователь сообщает, что применение темы неожиданно делает оформление светлым. Сами скриншоты показывают тёмную сетку; сырые настройки конкретной применённой серверной темы и момент перехода на устройстве не получены.
+
+Исследован stock ThemePickerController: сетка вызывает previewTheme(theme, nightMode), загрузка запрашивает .night/.classic, customApply передаёт selectThemeImpl(nil, initialThemeReference, true). Дальше selectThemeImpl загружает PresentationTheme без baseTheme. Миниатюры и stock makePresentationTheme(cloudTheme:dark:) уже выбирают весь набор .night/.tinted либо .classic/.day; два overload с baseTheme выбирают точное совпадение, иначе settings.first. Для settings=[day,tinted], baseTheme=night это first/day; миниатюра при этом dark/tinted. Потеря базы предпросмотра также не позволяет записать themePreferredBaseTheme для этого выбора.
+
+В двух baseTheme overload MakePresentationTheme добавлен тот же stock подход выбора группы: exact → совместимая группа заданной базы → прежний first. При nil сохраняется прежний first, при отсутствии нужной группы сохраняется прежний fallback. Цвета, обои и palette берутся из выбранного TelegramThemeSettings, не синтезируются. ThemePickerController передаёт theme.referenceTheme.baseTheme в existing selectThemeImpl и использует baseTheme при загрузке варианта/обоев. Native запись themePreferredBaseTheme получает реально показанную базу.
+
+Точная причина перехода для конкретного серверного набора пользователя без runtime-журнала не доказана; найденный путь несовпадения воспроизведён по исходникам и устранён. Никакой force/system/schedule state не изменён, новая theme engine/палитра не создана, factory defaults и шрифты сохранены. Уже сохранённый выбор не мигрируется/не сбрасывается: загрузчик исправляет несовпадающую базу при наличии совместимого варианта. Одновариантная custom theme сохраняет прежнее поведение: отсутствующий тёмный вариант не изобретается.
 
 ## Первый запуск
 
@@ -53,20 +63,9 @@ Durable runtime-изменения находятся только в `ios/apply
 
 ## Проверки и состояние сборки
 
-- Overlay применён к двум чистым validation деревьям закреплённой базы: предыдущий HEAD и текущие изменения.
-- Generated diff — ровно пять файлов: четыре конверсии плюс AppDelegate начальных настроек. Остальные 921 файла совпадают.
-- Tree-sitter Swift syntax пяти файлов, Python syntax, metadata, 13 RU intro strings и diff check — пройдены. Это не native typecheck.
-- Проверены значения RGB24 black/blue/green/white, opaque ARGB, alpha128 и alpha1: RGB сохраняется, нулевая alpha становится255, ненулевая остаётся исходной. Это проверка представления/конверсии, не отрисовки iOS.
-- Сохранённый код тем скомпилирован в IPA 0.4.5 №73; пользователь положительно оценил общую работу предыдущей версии. В текущем выпуске оформление не менялось.
-- Пользователь разрешил сборку 0.4.5 с правкой выбора автора. Результат новой компиляции и IPA ожидается; полный визуальный регресс — на новом IPA по плану.
+- Старый и новый apply_features применены к чистым validation копиям точного pin. Два ожидаемых generated-файла отличаются, остальные 224 файла проверочного дерева совпадают. Это scoped validation tree, не полный checkout Telegram.
+- Защита штатных файлов и tree-sitter-разбор двух изменённых Swift-файлов проходят; синтаксис Python, согласованность метаданных и git diff --check также проверены. Удаление ожидаемого загрузчика/якоря применения и повторное наложение новой правки корректно отклоняются. Проверены 13 русских строк приветствия. Фабрики палитр, автоматическое переключение и defaults не изменены.
+- Проверка официальной базы с --require-current: CURRENT, Telegram-iOS 12.9.2, SHA 6ad963e5b62d354da79040f388ae2b9132fb17b8; закреплённая и официальная версии совпадают.
+- Прежний IPA сборки №73 относится к предыдущему опубликованному выпуску и не подтверждает компиляцию правки 0.4.6. Swift toolchain/Xcode в этой среде отсутствуют. Команда на нативную сборку получена 2026-10-08; компиляция и physical acceptance ожидаются.
 
-| Приёмка новых исходников | Статус |
-| --- | --- |
-| House → Chick → профиль: три действия/иконки | Причина обработки выявлена и исправлена в коде; нужен физический тест опубликованного IPA №73 |
-| Кнопка отправки, выбранная вкладка, меню, поиск | Общий источник акцента исправлен; физически не проверено |
-| Light / Dark-Tinted / Night-Black / custom | Палитры сохранены; визуально не проверено |
-| House → Chick → House, Light → Dark → Light без restart | Native updates сохранены; визуально не проверено |
-| Обычный/увеличенный текст | Fonts/layout не изменены; физически не проверено |
-| Clean install System/Dark + manual choice/restart | Missing-entry seed проверен в коде; нужен физический тест |
-
-Полный план — [IPHONE_TEST_0.4.5.md](IPHONE_TEST_0.4.5.md). Следующий шаг: повторить эти сценарии на опубликованной сборке №73 на iPhone 17 Pro Max / iOS 27.0 / SideStore. Полную визуальную приёмку пока не считать завершённой.
+Будущая приёмка: все девять тем из сетки и карусели; System/Dark и System/Night на тёмной iOS, System на светлой iOS; Off/manual Light/Night, Schedule/Auto; предпросмотр → применить/отменить, смена темы без restart, повторный cold start. Проверить фон/пузыри, действия профиля и отправку, а также исходные Light/RGB24 regression cases. План — [IPHONE_TEST_0.4.6.md](IPHONE_TEST_0.4.6.md). Физическую визуальную приёмку пока не считать выполненной.
