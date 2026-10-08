@@ -42,7 +42,7 @@ UI: Функции/Сообщения, «Временные сообщения»
 
 ## Следующий шаг
 
-Метаданные/Python/intro/diff и проверки архива прошли. Коммит исходников 6c1e92da8d0c6eb1a61d0ef0a91e50faa95bc83b сохранён и отправлен в main. Запущен новый clean ARM64 workflow [№76](https://github.com/Mr-EFES/NagramiX/actions/runs/37763976227), run ID 37763976227, head SHA совпадает; publish_release=true/prerelease=true, artifact_run_id пустой. Результат компиляции/публикации ожидается.
+Первая clean ARM64 попытка [№76](https://github.com/Mr-EFES/NagramiX/actions/runs/37763976227), source 6c1e92da8d0c6eb1a61d0ef0a91e50faa95bc83b, failed в TelegramCore: NagramiXMessageArchive.swift:424, message.peers — SimpleDictionary, ожидается [PeerId: Peer]. В captureTemporaryBeforeViewing добавлено то же reduce-преобразование, что уже используется stock AccountStateManagementUtils. Поведение флагов/capture осталось прежним; остальные пути не менялись. Повторные overlay/reverse/36 negatives/syntax/defaults/IDs/localization/metadata/diff прошли. Журнал — /tmp/nagramix-0.4.7-build76-failed.log, не коммитить. IPA/релиз в неуспешной попытке не создавались. Сохранить исправление и запустить новую clean попытку с пустым artifact_run_id и публикацией prerelease.
 
 Следить за шагами и при compile error исправлять только причину в overlay и повторять проверки. После успеха скачать именно новый IPA, SHA256SUMS и BUILD-PROVENANCE.txt из релиза и запустить validate_unsigned_ipa с фактическими version/build/source SHA. Проверить русские строки/полные подписи и релизный тег/аннотацию/assets. Обновить README/статусы/реестр/этот handoff, не менять исходный тег на поздний отчётный коммит.
 

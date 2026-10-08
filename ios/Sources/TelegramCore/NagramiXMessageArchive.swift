@@ -419,9 +419,14 @@ public final class NagramiXMessageArchive {
     /// Capturing bytes does not itself consume the message or start its timer.
     public func captureTemporaryBeforeViewing(message: Message) {
         let settings = NagramiXMessageArchiveSettings.current
-        if settings.showDeletedMessages && settings.saveTemporaryMessages,
-           message.attributes.contains(where: { $0 is AutoremoveTimeoutMessageAttribute || $0 is AutoclearTimeoutMessageAttribute }),
-           let record = Self.makeRecord(message: message, peers: message.peers), record.temporary == true, record.messageId.peerId != self.accountPeerId {
+        guard settings.showDeletedMessages && settings.saveTemporaryMessages,
+              message.attributes.contains(where: { $0 is AutoremoveTimeoutMessageAttribute || $0 is AutoclearTimeoutMessageAttribute }) else { return }
+        let peers: [PeerId: Peer] = message.peers.reduce([:], { current, entry in
+            var current = current
+            current[entry.0] = entry.1
+            return current
+        })
+        if let record = Self.makeRecord(message: message, peers: peers), record.temporary == true, record.messageId.peerId != self.accountPeerId {
             let requests = self.mediaRequests(record)
             let ticket = self.mediaStore.reserve(key: Self.key(record.messageId), requests: requests)
             self.queue.async { [weak self] in
