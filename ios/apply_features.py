@@ -862,7 +862,7 @@ def apply_chat_avatar_read_mode(source: Path) -> None:
                 self.chatListDisplayNode.mainContainerNode.currentItemNode.clearHighlightAnimated(true)
                 var parentGroupId: EnginePeerGroupId?
                 if case let .chatList(groupId) = item.chatListLocation {
-                    parentGroupId = groupId
+                    parentGroupId = groupId._asGroup()
                 }
                 self.context.sharedContext.navigateToChatController(NavigateToChatControllerParams(navigationController: navigationController, chatController: chatController, context: self.context, chatLocation: location, keepStack: .always, useExisting: false, parentGroupId: parentGroupId, chatListFilter: self.chatListDisplayNode.mainContainerNode.currentItemNode.chatListFilter?.id, forceOpenChat: true))
             })
