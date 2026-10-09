@@ -1,6 +1,6 @@
 # Текущий контекст NagramiX 0.4.9
 
-## Активная задача: запуск чистой сборки и тестового релиза для iPhone
+## Активная задача: сборка №80 запущена, проверить результат и релиз
 
 Пользователь 2026-10-09 явно разрешил сборку и публикацию. До этого подготовлены все перечисленные ниже правки. Версия workflow/реестра/аннотации/README/LICENSE/gitignore повышена согласованно до 0.4.9; прежний release-файл переименован в текущий. История остаётся в Git, существующие GitHub releases/tags/IPA не удалять.
 
@@ -9,6 +9,10 @@
 Адаптированы exact anchors: системный DNS сохраняет native coalescing/10s/take1; custom DoH/fallback тот же. Network больше не имеет mtProto: reconnect через mainSession pause/resume по shouldKeepConnection на собственной queue, без принудительного пробуждения background. Account observers/failover до mediaBox сохраняют cleanup/lifetime и supplementary guard. iOS stock default engine MtProtoKit (Rust default только macOS), NetworkEngineSettings не модифицированы. Private NagramiX settings tabs используют новую fillSlotWidths для равных секций; stock tabs unchanged. Force TCP mutable params, wide gutter, settings section до native wallet перенесены точно. Camera/CameraOutput реализации теперь CameraLegacy/LegacyCamera; те же rear/fallback/output position/zoom hooks, публичный Camera façade не патчится. Archive playlist helper сохраняет richMessageQueueId guard и выбирает recentActions для архивного snapshot. Download pool теперь соблюдает native main/CDN limits, увеличивает только разрешённые1MiB parts, fast-path saturation и dispatch имеют одинаковые limits; OFF сохраняет native pools, uploads/other prefix ограничен native. Добавлены20 недостающих RU keys с теми же placeholders; сокращений действий нет. [Аудит миграции](TELEGRAM_13_MIGRATION.md).
 
 Fresh strict apply_features и полная apply_overlay с брендингом/8icons/Make проходят на scoped13.0. 326 raw source blob SHA-verified плюс Make/versions отдельно; 304 strict unique operations и608 missing/duplicate primitive guard cases. Это проверки guards, не native execution. 295 Swift без новых grammar errors (8 stock warnings). RU intro13keys, Python syntax/metadata/diff passed. Native compile ещё ожидается. Все предыдущие pending changes сохранены; временные /tmp/nagramix-13-* материалы и dummy validation configuration не коммитить. Следующий шаг — commit русского build checkpoint/main, обычный push, fresh clean dispatch с publish/prerelease; результат проверять по source/run/IPA.
+
+Чистый workflow dispatch выполнен: run37939001337/build80, source4ca7e7159bdbbc84bf9beb0ada0bba8b4d31c73b/main, clean_build=true,artifact_run_id empty,publish_release=true,prerelease=true. Push обычный, успешен. Сборка queued/in_progress, успех/релиз ещё НЕ подтверждены. Продолжать наблюдение, исправлять реальные compiler errors при наличии; не выдавать queued за успех. Предыдущие релизы не трогались. После success независимо скачать/проверить новый IPA и обновить текущий отчёт.
+
+При дополнительном семантическом аудите найден новый internal top-level horizontalTabsFillSlotWidths в базовом компоненте. Клонированный компонент в том же модуле дублировал его declaration, что недопустимо для Swift. Добавлены два строгих replace_unique: helper и вызов private nagramiXHorizontalTabsFillSlotWidths. Fresh overlay изменяет только NagramiXHorizontalTabsComponent.swift относительно проверенной миграции; stock component byte-identical. №80 остановлен до публикации для включения этой адаптации; native compiler result этой попытки не объявлять успешным. Запустить новый clean build из checkpoint с helper fix. Текущее число strict operations306; guards и синтаксис проверить снова после текущей правки.
 
 ## Подготовленные функциональные изменения
 

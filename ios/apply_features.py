@@ -3031,6 +3031,17 @@ private func currentDateTimeFormat()""",
     segmented_text = segmented_text.replace("ItemListControllerSegmentedTitleView", "NagramiXItemListControllerSegmentedTitleView")
     segmented_text = segmented_text.replace("HorizontalTabsComponent", "NagramiXHorizontalTabsComponent").replace("import NagramiXHorizontalTabsComponent", "import HorizontalTabsComponent")
     segmented_title_view.write_text(segmented_text, encoding="utf-8")
+    # Telegram 13 adds an internal helper alongside the stock component. The
+    # cloned NagramiX component is compiled in the same module: isolate its
+    # helper as well, leaving the stock function and its tests unchanged.
+    replace_unique(horizontal_tabs,
+        "func horizontalTabsFillSlotWidths(",
+        "private func nagramiXHorizontalTabsFillSlotWidths(",
+        "Isolate the new fill-width helper in the NagramiX tab clone")
+    replace_unique(horizontal_tabs,
+        "fillSlotWidths = horizontalTabsFillSlotWidths(",
+        "fillSlotWidths = nagramiXHorizontalTabsFillSlotWidths(",
+        "Use only the private cloned tab-width helper")
     horizontal_tabs_text = horizontal_tabs.read_text(encoding="utf-8")
     for identifier in ("HorizontalTabsComponent", "ReorderingGestureRecognizerTimerTarget", "InternalGestureRecognizerDelegate", "ReorderingGestureRecognizer", "ItemComponent"):
         horizontal_tabs_text = re.sub(rf"\b{identifier}\b", "NagramiX" + identifier, horizontal_tabs_text)
