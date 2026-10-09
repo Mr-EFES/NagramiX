@@ -13,7 +13,7 @@
 "NagramiX.Settings.Chats.Header" = "CHATS";
 "NagramiX.Settings.Chats.WideChannelPosts" = "Wide Channel Posts";
 "NagramiX.Settings.Chats.ActionsOnHold" = "Chat Options on Long Press";
-"NagramiX.Settings.Chats.ActionsOnHold.Info" = "Long press any area of a row except the avatar for the standard actions menu. Swipe from any area to switch folders. Turn this option off to restore standard swipe actions. Tapping the avatar in either mode opens the full chat without marking messages as read.";
+"NagramiX.Settings.Chats.ActionsOnHold.Info" = "Long press any area of a row except the avatar for the standard actions menu.";
 "NagramiX.Settings.VideoMessages.Header" = "VIDEO MESSAGES";
 "NagramiX.Settings.VideoMessages.UseRearCamera" = "Use Rear Camera";
 "NagramiX.Settings.Stories.Header" = "STORIES";
@@ -107,7 +107,7 @@
 "NagramiX.Common.Unknown" = "Unknown";
 
 "NagramiX.Settings.ContextMenu.Header" = "Context Menu";
-"NagramiX.Settings.ContextMenu.ForwardWithoutAuthor.Info" = "Show Forward Without Author in the message context menu.";
+"NagramiX.Settings.ContextMenu.ForwardWithoutAuthor.Info" = "Show Forward Without Author for one recipient, with send options.";
 "NagramiX.Settings.ContextMenu.SelectByAuthor.Info" = "Show Select From Author in the message context menu.";
 
 "NagramiX.Messages.ReplyWithQuote" = "Reply with quote";
@@ -133,3 +133,23 @@
 "NagramiX.Settings.Video.PiPSwipe.Info" = "Swiping up or down on an open video starts Picture in Picture when available.";
 "NagramiX.Settings.Video.BackgroundPlayback" = "Play video in background";
 "NagramiX.Settings.Video.BackgroundPlayback.Info" = "Continue audio from a playing video when the app is minimized or the screen is locked.";
+
+"NagramiX.Settings.Chats.ChannelBottomPanel" = "Channel Bottom Panel";
+"NagramiX.Settings.Chats.ChannelBottomPanel.Info" = "Show the standard bottom panel in subscribed channels: notifications, search and available actions. Turn off to hide the panel. Join buttons and the post composer remain available.";
+
+"NagramiX.Settings.Messages.DoubleTapEdit" = "Edit on Double Tap";
+"NagramiX.Settings.Messages.DoubleTapEdit.Info" = "Double-tap a message or post to open the standard editor when Telegram permits editing. Turn off to restore the usual double-tap behavior.";
+"NagramiX.Settings.Chats.HideReactions" = "Hide Reactions";
+"NagramiX.Settings.Chats.HideReactions.Info" = "Hide reactions below messages and posts. The reactions are preserved; turn this off to display them again.";
+
+"NagramiX.Settings.Downloads.Header" = "Downloads";
+"NagramiX.Settings.Downloads.Enabled" = "Download Acceleration";
+"NagramiX.Settings.Downloads.Mode" = "Download Mode";
+"NagramiX.Settings.Downloads.Info" = "Increases parallel requests, connections and part sizes for large files. If your network struggles with the load, choose a less intensive mode. Actual speed depends on your connection and Telegram. New parameters apply when a file download starts.";
+"NagramiX.Settings.Downloads.Standard" = "Standard";
+"NagramiX.Settings.Downloads.Medium" = "Medium";
+"NagramiX.Settings.Downloads.Maximum" = "Maximum";
+"NagramiX.Settings.Downloads.Disable" = "Turn Off";
+
+"NagramiX.Context.BroadcastMessages" = "Broadcast";
+"NagramiX.Settings.ContextMenu.BroadcastMessages.Info" = "Show Broadcast to send copies without the author to multiple recipients.";

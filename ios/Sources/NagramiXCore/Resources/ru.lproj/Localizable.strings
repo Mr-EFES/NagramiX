@@ -13,7 +13,7 @@
 "NagramiX.Settings.Chats.Header" = "ЧАТЫ";
 "NagramiX.Settings.Chats.WideChannelPosts" = "Широкие посты в каналах";
 "NagramiX.Settings.Chats.ActionsOnHold" = "Опции чатов по тапу";
-"NagramiX.Settings.Chats.ActionsOnHold.Info" = "Удерживайте любую область строки, кроме аватарки, для штатного меню действий. Свайпы из любой области переключают папки. Выключите опцию, чтобы вернуть штатные действия свайпом. Нажатие на аватарку в обоих режимах открывает переписку без отметки прочтения.";
+"NagramiX.Settings.Chats.ActionsOnHold.Info" = "Удерживайте любую область строки, кроме аватарки, для штатного меню действий.";
 "NagramiX.Settings.VideoMessages.Header" = "КРУГЛЫЕ ВИДЕО";
 "NagramiX.Settings.VideoMessages.UseRearCamera" = "На заднюю камеру";
 "NagramiX.Settings.Stories.Header" = "ИСТОРИИ";
@@ -181,7 +181,7 @@
 "NagramiX.Common.Unknown" = "Неизвестно";
 
 "NagramiX.Settings.ContextMenu.Header" = "Контекстное меню";
-"NagramiX.Settings.ContextMenu.ForwardWithoutAuthor.Info" = "Показывать действие «Переслать без» в контекстном меню сообщений.";
+"NagramiX.Settings.ContextMenu.ForwardWithoutAuthor.Info" = "Показывать действие «Переслать без»: один адресат, без указания автора, с выбором способа отправки.";
 "NagramiX.Settings.ContextMenu.SelectByAuthor.Info" = "Показывать действие «Выделить от автора» в контекстном меню сообщений.";
 
 "NagramiX.Messages.ReplyWithQuote" = "Ответить цитатой";
@@ -207,3 +207,23 @@
 "NagramiX.Settings.Video.PiPSwipe.Info" = "Свайп вверх или вниз по открытому видео включает режим «Картинка в картинке», если он доступен.";
 "NagramiX.Settings.Video.BackgroundPlayback" = "Воспроизводить видео в фоне";
 "NagramiX.Settings.Video.BackgroundPlayback.Info" = "Продолжать звук запущенного видео при сворачивании приложения и блокировке экрана.";
+
+"NagramiX.Settings.Chats.ChannelBottomPanel" = "Нижняя панель канала";
+"NagramiX.Settings.Chats.ChannelBottomPanel.Info" = "Показывать штатную нижнюю панель подписанного канала: уведомления, поиск и доступные действия. При выключении панель скрыта. Кнопка подписки и поле публикации постов сохраняются.";
+
+"NagramiX.Settings.Messages.DoubleTapEdit" = "Редактирование двойным тапом";
+"NagramiX.Settings.Messages.DoubleTapEdit.Info" = "Дважды нажмите на сообщение или пост, чтобы открыть штатное редактирование, если оно разрешено Telegram. При выключении двойной тап работает как обычно.";
+"NagramiX.Settings.Chats.HideReactions" = "Скрыть реакции";
+"NagramiX.Settings.Chats.HideReactions.Info" = "Скрывать реакции под сообщениями и постами. Сами реакции сохраняются; выключите настройку, чтобы снова их видеть.";
+
+"NagramiX.Settings.Downloads.Header" = "Загрузка";
+"NagramiX.Settings.Downloads.Enabled" = "Ускорение загрузки";
+"NagramiX.Settings.Downloads.Mode" = "Ускорение скачивания";
+"NagramiX.Settings.Downloads.Info" = "Увеличивает число параллельных запросов, соединений и размер частей больших файлов. Если сеть не справляется с нагрузкой, выберите менее интенсивный режим. Фактическая скорость зависит от соединения и Telegram. Новые параметры применяются при начале загрузки файла.";
+"NagramiX.Settings.Downloads.Standard" = "Штатно";
+"NagramiX.Settings.Downloads.Medium" = "Среднее";
+"NagramiX.Settings.Downloads.Maximum" = "Максимум";
+"NagramiX.Settings.Downloads.Disable" = "Выключить";
+
+"NagramiX.Context.BroadcastMessages" = "Рассылка";
+"NagramiX.Settings.ContextMenu.BroadcastMessages.Info" = "Показывать действие «Рассылка»: отправка копии без автора нескольким адресатам.";

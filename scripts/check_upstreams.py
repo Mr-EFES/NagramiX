@@ -5,6 +5,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import re
 from pathlib import Path
 import subprocess
 import urllib.request
@@ -48,6 +49,10 @@ def ios_status() -> dict[str, object]:
     repository = "https://github.com/TelegramMessenger/Telegram-iOS.git"
     head = remote_head(repository)
     metadata = json.loads(download_text(repository, head, "versions.json"))
+    build = download_text(repository, pin["TELEGRAM_IOS_REF"], "Telegram/BUILD")
+    minimum = re.search(r'^minimum_os_version\s*=\s*"([0-9.]+)"', build, re.MULTILINE)
+    if minimum is None:
+        raise RuntimeError("Pinned iOS deployment target was not found in Telegram/BUILD")
     return {
         "platform": "ios",
         "repository": repository,
@@ -55,7 +60,7 @@ def ios_status() -> dict[str, object]:
         "pinnedVersion": pin["TELEGRAM_IOS_VERSION"],
         "officialCommit": head,
         "officialVersion": metadata["app"],
-        "minimumOS": "13.0",
+        "minimumOS": minimum.group(1),
         "current": head == pin["TELEGRAM_IOS_REF"] and metadata["app"] == pin["TELEGRAM_IOS_VERSION"],
     }
 

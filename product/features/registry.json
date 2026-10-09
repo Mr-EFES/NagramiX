@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "product": "NagramiX",
-  "release": "0.4.8",
+  "release": "0.4.9",
   "platformPriority": [
     "ios"
   ],
@@ -58,11 +58,11 @@
     },
     {
       "id": "forward_copy",
-      "title": "Пересылка с источником и копирование без источника",
+      "title": "Переслать от, Переслать без одному адресату и Рассылка копий нескольким адресатам",
       "specification": "specified",
       "ios": {
         "implementation": "implemented",
-        "compile": "compile_passed",
+        "compile": "compile_pending",
         "device": "device_pending"
       }
     },
@@ -72,7 +72,7 @@
       "specification": "specified",
       "ios": {
         "implementation": "implemented",
-        "compile": "compile_passed",
+        "compile": "compile_pending",
         "device": "device_pending"
       }
     },
@@ -82,7 +82,7 @@
       "specification": "specified",
       "ios": {
         "implementation": "implemented",
-        "compile": "compile_passed",
+        "compile": "compile_pending",
         "device": "device_pending"
       }
     },
@@ -182,7 +182,7 @@
       "specification": "specified",
       "ios": {
         "implementation": "implemented",
-        "compile": "compile_passed",
+        "compile": "compile_pending",
         "device": "device_pending"
       }
     },
@@ -198,11 +198,11 @@
     },
     {
       "id": "chat_actions_on_hold",
-      "title": "Опции чатов по тапу: папки из любой области, меню вне аватарки, полный чат без прочтения по аватарке",
+      "title": "Опции чатов по тапу: штатный архив, меню вне аватарки, полный чат только для просмотра по аватарке",
       "specification": "specified",
       "ios": {
         "implementation": "implemented",
-        "compile": "compile_passed",
+        "compile": "compile_pending",
         "device": "device_pending"
       }
     },
@@ -212,7 +212,7 @@
       "specification": "specified",
       "ios": {
         "implementation": "implemented",
-        "compile": "compile_passed",
+        "compile": "compile_pending",
         "device": "device_pending"
       }
     },
@@ -232,7 +232,7 @@
       "specification": "specified",
       "ios": {
         "implementation": "implemented",
-        "compile": "compile_passed",
+        "compile": "compile_pending",
         "device": "device_pending"
       }
     },
@@ -242,7 +242,57 @@
       "specification": "specified",
       "ios": {
         "implementation": "implemented",
-        "compile": "compile_passed",
+        "compile": "compile_pending",
+        "device": "device_pending"
+      }
+    },
+    {
+      "id": "channel_bottom_panel",
+      "title": "Нижняя панель канала, выключенная по умолчанию",
+      "specification": "specified",
+      "ios": {
+        "implementation": "implemented",
+        "compile": "compile_pending",
+        "device": "device_pending"
+      }
+    },
+    {
+      "id": "double_tap_edit",
+      "title": "Редактирование двойным тапом, выключенное по умолчанию",
+      "specification": "specified",
+      "ios": {
+        "implementation": "implemented",
+        "compile": "compile_pending",
+        "device": "device_pending"
+      }
+    },
+    {
+      "id": "hide_reactions",
+      "title": "Скрыть реакции, выключено по умолчанию",
+      "specification": "specified",
+      "ios": {
+        "implementation": "implemented",
+        "compile": "compile_pending",
+        "device": "device_pending"
+      }
+    },
+    {
+      "id": "download_acceleration",
+      "title": "Ускорение загрузки с режимами Штатно / Среднее / Максимум, выключено по умолчанию",
+      "specification": "specified",
+      "ios": {
+        "implementation": "implemented",
+        "compile": "compile_pending",
+        "device": "device_pending"
+      }
+    },
+    {
+      "id": "broadcast_messages",
+      "title": "Рассылка копий нескольким адресатам с независимой видимостью",
+      "specification": "specified",
+      "ios": {
+        "implementation": "implemented",
+        "compile": "compile_pending",
         "device": "device_pending"
       }
     }

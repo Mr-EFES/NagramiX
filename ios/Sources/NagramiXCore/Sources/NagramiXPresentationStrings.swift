@@ -44,6 +44,20 @@ public extension PresentationStrings {
     var nagramiXForwardWithoutAuthorInfo: String { self.nagramiXLocalized("NagramiX.Settings.ContextMenu.ForwardWithoutAuthor.Info") }
     var nagramiXSelectByAuthorInfo: String { self.nagramiXLocalized("NagramiX.Settings.ContextMenu.SelectByAuthor.Info") }
     var nagramiXChatsHeader: String { self.nagramiXLocalized("NagramiX.Settings.Chats.Header") }
+    var nagramiXDownloadsHeader: String { self.nagramiXLocalized("NagramiX.Settings.Downloads.Header") }
+    var nagramiXDownloadAcceleration: String { self.nagramiXLocalized("NagramiX.Settings.Downloads.Enabled") }
+    var nagramiXDownloadAccelerationMode: String { self.nagramiXLocalized("NagramiX.Settings.Downloads.Mode") }
+    var nagramiXDownloadAccelerationInfo: String { self.nagramiXLocalized("NagramiX.Settings.Downloads.Info") }
+    var nagramiXDownloadStandard: String { self.nagramiXLocalized("NagramiX.Settings.Downloads.Standard") }
+    var nagramiXDownloadMedium: String { self.nagramiXLocalized("NagramiX.Settings.Downloads.Medium") }
+    var nagramiXDownloadMaximum: String { self.nagramiXLocalized("NagramiX.Settings.Downloads.Maximum") }
+    var nagramiXDownloadDisable: String { self.nagramiXLocalized("NagramiX.Settings.Downloads.Disable") }
+    var nagramiXDoubleTapEdit: String { self.nagramiXLocalized("NagramiX.Settings.Messages.DoubleTapEdit") }
+    var nagramiXDoubleTapEditInfo: String { self.nagramiXLocalized("NagramiX.Settings.Messages.DoubleTapEdit.Info") }
+    var nagramiXHideReactions: String { self.nagramiXLocalized("NagramiX.Settings.Chats.HideReactions") }
+    var nagramiXHideReactionsInfo: String { self.nagramiXLocalized("NagramiX.Settings.Chats.HideReactions.Info") }
+    var nagramiXChannelBottomPanel: String { self.nagramiXLocalized("NagramiX.Settings.Chats.ChannelBottomPanel") }
+    var nagramiXChannelBottomPanelInfo: String { self.nagramiXLocalized("NagramiX.Settings.Chats.ChannelBottomPanel.Info") }
     var nagramiXWideChannelPosts: String { self.nagramiXLocalized("NagramiX.Settings.Chats.WideChannelPosts") }
     var nagramiXChatActionsOnHold: String { self.nagramiXLocalized("NagramiX.Settings.Chats.ActionsOnHold") }
     var nagramiXCompactChatList: String { self.nagramiXLocalized("NagramiX.Settings.Chats.Compact") }
@@ -152,6 +166,8 @@ public extension PresentationStrings {
     var nagramiXCallAction: String { self.nagramiXLocalized("NagramiX.CallConfirmation.Action") }
     var nagramiXForwardWithAuthor: String { self.nagramiXLocalized("NagramiX.Context.ForwardWithAuthor") }
     var nagramiXForwardWithoutAuthor: String { self.nagramiXLocalized("NagramiX.Context.ForwardWithoutAuthor") }
+    var nagramiXBroadcastMessages: String { self.nagramiXLocalized("NagramiX.Context.BroadcastMessages") }
+    var nagramiXBroadcastMessagesInfo: String { self.nagramiXLocalized("NagramiX.Settings.ContextMenu.BroadcastMessages.Info") }
     var nagramiXSelectFromAuthor: String { self.nagramiXLocalized("NagramiX.Context.SelectFromAuthor") }
     var nagramiXAuthorSelectionEmpty: String { self.nagramiXLocalized("NagramiX.Context.AuthorSelectionEmpty") }
     var nagramiXAuthorSelectionFailed: String { self.nagramiXLocalized("NagramiX.Context.AuthorSelectionFailed") }

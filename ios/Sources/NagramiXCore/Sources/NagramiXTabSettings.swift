@@ -38,6 +38,8 @@ public struct NagramiXTabSettings: Equatable {
     public static let softRestartRequestedNotification = Notification.Name("NagramiXTabInterfaceSoftRestartRequested")
 
     public static let compactChatListChangedNotification = Notification.Name("NagramiXCompactChatListChanged")
+    public static let channelBottomPanelChangedNotification = Notification.Name("NagramiXChannelBottomPanelChanged")
+    public static let hideReactionsChangedNotification = Notification.Name("NagramiXHideReactionsChanged")
 
     private enum Key {
         static let hideContacts = "nagramix.tabs.hideContacts"
@@ -47,8 +49,12 @@ public struct NagramiXTabSettings: Equatable {
         static let videoPiPSwipe = "nagramix.video.pipSwipe"
         static let backgroundVideoPlayback = "nagramix.video.backgroundPlayback"
         static let compactChatList = "nagramix.interface.compactChatList"
+        static let showChannelBottomPanel = "nagramix.interface.showChannelBottomPanel"
+        static let doubleTapEdit = "nagramix.features.doubleTapEdit"
+        static let hideReactions = "nagramix.interface.hideReactions"
         static let chatActionsOnHold = "nagramix.interface.chatActionsOnHold"
         static let showForwardWithoutAuthor = "nagramix.contextMenu.showForwardWithoutAuthor"
+        static let showBroadcastMessages = "nagramix.contextMenu.showBroadcastMessages"
         static let showSelectByAuthor = "nagramix.contextMenu.showSelectByAuthor"
         static let useRearCameraForVideoMessages = "nagramix.videoMessages.useRearCamera"
         static let hideStories = "nagramix.stories.hide"
@@ -80,8 +86,13 @@ public struct NagramiXTabSettings: Equatable {
     public var videoPiPSwipe: Bool
     public var backgroundVideoPlayback: Bool
     public var compactChatList: Bool
+    public var showChannelBottomPanel: Bool
+    public var doubleTapEdit: Bool
+    public var hideReactions: Bool
+    public var downloads: NagramiXDownloadSettings
     public var chatActionsOnHold: Bool
     public var showForwardWithoutAuthor: Bool
+    public var showBroadcastMessages: Bool
     public var showSelectByAuthor: Bool
     public var useRearCameraForVideoMessages: Bool
     public var hideStories: Bool
@@ -136,7 +147,12 @@ public struct NagramiXTabSettings: Equatable {
         compactChatList: Bool = false,
         saveTemporaryMessages: Bool = false,
         videoPiPSwipe: Bool = true,
-        backgroundVideoPlayback: Bool = true
+        backgroundVideoPlayback: Bool = true,
+        showChannelBottomPanel: Bool = false,
+        doubleTapEdit: Bool = false,
+        hideReactions: Bool = false,
+        downloads: NagramiXDownloadSettings = .default,
+        showBroadcastMessages: Bool = true
     ) {
         self.hideContacts = hideContacts
         self.hideCalls = hideCalls
@@ -145,6 +161,10 @@ public struct NagramiXTabSettings: Equatable {
         self.videoPiPSwipe = videoPiPSwipe
         self.backgroundVideoPlayback = backgroundVideoPlayback
         self.compactChatList = compactChatList
+        self.showChannelBottomPanel = showChannelBottomPanel
+        self.doubleTapEdit = doubleTapEdit
+        self.hideReactions = hideReactions
+        self.downloads = downloads
         self.chatActionsOnHold = chatActionsOnHold
         self.media = media
         self.useRearCameraForVideoMessages = useRearCameraForVideoMessages
@@ -168,6 +188,7 @@ public struct NagramiXTabSettings: Equatable {
         self.deletedMessageLabel = deletedMessageLabel
         self.messageEditHistory = messageEditHistory
         self.showForwardWithoutAuthor = showForwardWithoutAuthor
+        self.showBroadcastMessages = showBroadcastMessages
         self.showSelectByAuthor = showSelectByAuthor
     }
 
@@ -181,6 +202,18 @@ public struct NagramiXTabSettings: Equatable {
 
     public static var compactChatListEnabled: Bool {
         return UserDefaults.standard.object(forKey: Key.compactChatList) as? Bool ?? false
+    }
+
+    public static var doubleTapEditEnabled: Bool {
+        return UserDefaults.standard.object(forKey: Key.doubleTapEdit) as? Bool ?? false
+    }
+
+    public static var hideReactionsEnabled: Bool {
+        return UserDefaults.standard.object(forKey: Key.hideReactions) as? Bool ?? false
+    }
+
+    public static var channelBottomPanelEnabled: Bool {
+        return UserDefaults.standard.object(forKey: Key.showChannelBottomPanel) as? Bool ?? false
     }
 
     public static var current: NagramiXTabSettings {
@@ -226,13 +259,21 @@ public struct NagramiXTabSettings: Equatable {
             compactChatList: self.compactChatListEnabled,
             saveTemporaryMessages: defaults.object(forKey: Key.saveTemporaryMessages) as? Bool ?? false,
             videoPiPSwipe: self.videoPiPSwipeEnabled,
-            backgroundVideoPlayback: self.backgroundVideoPlaybackEnabled
+            backgroundVideoPlayback: self.backgroundVideoPlaybackEnabled,
+            showChannelBottomPanel: self.channelBottomPanelEnabled,
+            doubleTapEdit: self.doubleTapEditEnabled,
+            hideReactions: self.hideReactionsEnabled,
+            downloads: .current,
+            // Preserve the previous copy-action visibility until explicitly changed.
+            showBroadcastMessages: defaults.object(forKey: Key.showBroadcastMessages) as? Bool ?? (defaults.object(forKey: Key.showForwardWithoutAuthor) as? Bool ?? true)
         )
     }
 
     public static func update(_ transform: (inout NagramiXTabSettings) -> Void) {
         var value = self.current
         let previousCompactChatList = value.compactChatList
+        let previousChannelBottomPanel = value.showChannelBottomPanel
+        let previousHideReactions = value.hideReactions
         let previousWideChannelPosts = value.wideChannelPosts
         let previousDeletedMessageLabel = value.deletedMessageLabel
         let previousDnsProvider = value.dnsProvider
@@ -247,6 +288,9 @@ public struct NagramiXTabSettings: Equatable {
         defaults.set(value.videoPiPSwipe, forKey: Key.videoPiPSwipe)
         defaults.set(value.backgroundVideoPlayback, forKey: Key.backgroundVideoPlayback)
         defaults.set(value.compactChatList, forKey: Key.compactChatList)
+        defaults.set(value.showChannelBottomPanel, forKey: Key.showChannelBottomPanel)
+        defaults.set(value.doubleTapEdit, forKey: Key.doubleTapEdit)
+        defaults.set(value.hideReactions, forKey: Key.hideReactions)
         defaults.set(value.chatActionsOnHold, forKey: Key.chatActionsOnHold)
         defaults.set(value.useRearCameraForVideoMessages, forKey: Key.useRearCameraForVideoMessages)
         defaults.set(value.hideStories, forKey: Key.hideStories)
@@ -270,12 +314,20 @@ public struct NagramiXTabSettings: Equatable {
         defaults.set(value.deletedMessageLabel, forKey: Key.deletedMessageLabel)
         defaults.set(value.messageEditHistory, forKey: Key.messageEditHistory)
         defaults.set(value.showForwardWithoutAuthor, forKey: Key.showForwardWithoutAuthor)
+        defaults.set(value.showBroadcastMessages, forKey: Key.showBroadcastMessages)
         defaults.set(value.showSelectByAuthor, forKey: Key.showSelectByAuthor)
         defaults.removeObject(forKey: Key.legacyShowProxySponsorChannel)
 
         NagramiXMediaSettings.update(value.media)
+        NagramiXDownloadSettings.update(value.downloads)
 
         NotificationCenter.default.post(name: self.changedNotification, object: nil)
+        if previousHideReactions != value.hideReactions {
+            NotificationCenter.default.post(name: self.hideReactionsChangedNotification, object: nil)
+        }
+        if previousChannelBottomPanel != value.showChannelBottomPanel {
+            NotificationCenter.default.post(name: self.channelBottomPanelChangedNotification, object: nil)
+        }
         if previousCompactChatList != value.compactChatList {
             NotificationCenter.default.post(name: self.compactChatListChangedNotification, object: nil)
         }

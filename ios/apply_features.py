@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import json
+import hashlib
 import shutil
 import re
 from pathlib import Path
@@ -41,6 +42,252 @@ def localize_debug_titles(path: Path) -> None:
     text = text.replace('text = "Done"', 'text = presentationData.strings.nagramiXDebugLocalized("Done")')
     text = text.replace('text = "Failed"', 'text = presentationData.strings.nagramiXDebugLocalized("Failed")')
     path.write_text(text, encoding="utf-8")
+
+
+def apply_channel_bottom_panel(source: Path) -> None:
+    # Hide only the ordinary subscribed broadcast-reader panel. Keep the
+    # native join, composer, search, selection and pinned-message actions.
+    factory = source / "submodules/TelegramUI/Sources/ChatInterfaceStateInputPanels.swift"
+    node = source / "submodules/TelegramUI/Sources/ChatControllerNode.swift"
+    if (
+        "import NagramiXCore\n" in factory.read_text(encoding="utf-8")
+        or "NagramiXTabSettings.channelBottomPanelEnabled" in factory.read_text(encoding="utf-8")
+        or "nagramiXChannelBottomPanelObserver" in node.read_text(encoding="utf-8")
+    ):
+        raise SystemExit("Channel bottom panel overlay is already or partially applied")
+    replace_unique(factory, "import Foundation\n", "import Foundation\nimport NagramiXCore\n", "Channel bottom panel settings import")
+    replace_unique(
+        factory,
+        """                } else if !channel.hasPermission(.sendSomething) || !isMember {
+                    if let currentPanel = (currentPanel as? ChatChannelSubscriberInputPanelNode) ?? (currentSecondaryPanel as? ChatChannelSubscriberInputPanelNode) {
+""",
+        """                } else if !channel.hasPermission(.sendSomething) || !isMember {
+                    if isMember, case .peer = chatPresentationInterfaceState.chatLocation, !NagramiXTabSettings.channelBottomPanelEnabled {
+                        return (nil, nil)
+                    }
+                    if let currentPanel = (currentPanel as? ChatChannelSubscriberInputPanelNode) ?? (currentSecondaryPanel as? ChatChannelSubscriberInputPanelNode) {
+""",
+        "Hide the subscribed broadcast bottom panel through native panel selection",
+    )
+
+    # TelegramUI already links NagramiXCore; ChatControllerNode imports it in
+    # the existing archive/wide-post overlay. Use the native layout callback.
+    replace_unique(
+        node,
+        "    var requestLayout: (ContainedViewLayoutTransition) -> Void = { _ in }\n",
+        "    var requestLayout: (ContainedViewLayoutTransition) -> Void = { _ in }\n    private var nagramiXChannelBottomPanelObserver: NSObjectProtocol?\n",
+        "Channel bottom panel observer ownership",
+    )
+    replace_unique(
+        node,
+        "        self.inputMediaNodeDataDisposable = (self.inputMediaNodeDataPromise.get()\n",
+        """        self.nagramiXChannelBottomPanelObserver = NotificationCenter.default.addObserver(forName: NagramiXTabSettings.channelBottomPanelChangedNotification, object: nil, queue: .main, using: { [weak self] _ in
+            self?.requestLayout(.immediate)
+        })
+
+        self.inputMediaNodeDataDisposable = (self.inputMediaNodeDataPromise.get()
+""",
+        "Relayout channel bottom panel after a live preference change",
+    )
+    replace_unique(
+        node,
+        "        self.openStickersDisposable?.dispose()\n",
+        """        self.openStickersDisposable?.dispose()
+        if let observer = self.nagramiXChannelBottomPanelObserver {
+            NotificationCenter.default.removeObserver(observer)
+        }
+""",
+        "Remove channel bottom panel observer on chat destruction",
+    )
+
+
+def apply_message_interaction_options(source: Path) -> None:
+    interaction = source / "submodules/TelegramUI/Components/ChatControllerInteraction/Sources/ChatControllerInteraction.swift"
+    controller = source / "submodules/TelegramUI/Sources/ChatController.swift"
+    node = source / "submodules/TelegramUI/Sources/ChatControllerNode.swift"
+    bubble = source / "submodules/TelegramUI/Components/Chat/ChatMessageBubbleItemNode/Sources/ChatMessageBubbleItemNode.swift"
+    animated = source / "submodules/TelegramUI/Components/Chat/ChatMessageAnimatedStickerItemNode/Sources/ChatMessageAnimatedStickerItemNode.swift"
+    if "nagramiXEditMessageOnDoubleTap" in interaction.read_text(encoding="utf-8") or "nagramiXHideReactionsObserver" in node.read_text(encoding="utf-8"):
+        raise SystemExit("Message interaction options are already or partially applied")
+    for path in (controller, bubble, animated):
+        if "nagramiXEditMessageOnDoubleTap" in path.read_text(encoding="utf-8") or "NagramiXTabSettings.hideReactionsEnabled" in path.read_text(encoding="utf-8"):
+            raise SystemExit(f"Message interaction options are partially applied: {path}")
+    for name in ("ChatMessageStickerItemNode", "ChatMessageAnimatedStickerItemNode", "ChatMessageInstantVideoItemNode", "ChatMessageDateAndStatusNode"):
+        directory = source / ("submodules/TelegramUI/Components/Chat/" + name)
+        text = (directory / ("Sources/" + name + ".swift")).read_text(encoding="utf-8")
+        if "import NagramiXCore\n" in text or "NagramiXTabSettings.hideReactionsEnabled" in text or "//submodules/NagramiXCore:NagramiXCore" in (directory / "BUILD").read_text(encoding="utf-8"):
+            raise SystemExit(f"Reaction visibility overlay is partially applied: {name}")
+    if "import NagramiXCore\n" in controller.read_text(encoding="utf-8"):
+        raise SystemExit("Double-tap edit controller import is already applied")
+
+    replace_unique(interaction, "public final class ChatControllerInteraction: ChatControllerInteractionProtocol {\n", """public final class ChatControllerInteraction: ChatControllerInteractionProtocol {
+    public var nagramiXEditMessageOnDoubleTap: (EngineRawMessage) -> Bool = { _ in false }
+""", "Bridge native double-tap edit without changing existing interaction initializers")
+    replace_unique(controller, "import Foundation\n", "import Foundation\nimport NagramiXCore\n", "Read double-tap edit preference in native chat controller")
+    replace_unique(controller, "        self.controllerInteraction = controllerInteraction\n", """        self.controllerInteraction = controllerInteraction
+        controllerInteraction.nagramiXEditMessageOnDoubleTap = { [weak self] message in
+            guard let self, NagramiXTabSettings.doubleTapEditEnabled, self.isNodeLoaded,
+                  self.presentationInterfaceState.interfaceState.selectionState == nil,
+                  !message.attributes.contains(where: { $0 is NagramiXArchivedMessageAttribute }),
+                  !message.media.contains(where: { $0 is TelegramMediaAction }),
+                  let interfaceInteraction = self.interfaceInteraction else {
+                return false
+            }
+            if case .standard(.previewing) = self.presentationInterfaceState.mode {
+                return false
+            }
+            if case .pinnedMessages = self.presentationInterfaceState.subject {
+                return false
+            }
+            if self.presentationInterfaceState.renderedPeer?.peer is TelegramChannel && message.id.peerId.namespace == Namespaces.Peer.CloudGroup {
+                return false
+            }
+            guard canEditMessage(context: self.context, limitsConfiguration: self.context.currentLimitsConfiguration.with { EngineConfiguration.Limits($0) }, message: message) else {
+                return false
+            }
+            if message.media.contains(where: { $0 is TelegramMediaTodo }) {
+                interfaceInteraction.editTodoMessage(message.id, nil, false)
+            } else {
+                interfaceInteraction.setupEditMessage(message.id, { _ in })
+            }
+            return true
+        }
+""", "Use native editability and edit setup for double taps")
+
+    # The native hit-test chooses the touched message inside albums. Do not
+    # replace that with item.message (the first album member).
+    for path in (bubble, animated):
+        old = """                    case let .openContextMenu(openContextMenu):
+                        if canAddMessageReactions(message: EngineMessage("""
+        new = """                    case let .openContextMenu(openContextMenu):
+                        if case .doubleTap = gesture, item.controllerInteraction.nagramiXEditMessageOnDoubleTap(openContextMenu.tapMessage) {
+                            return
+                        }
+                        if canAddMessageReactions(message: EngineMessage("""
+        replace_unique(path, old, new, "Prefer editable double-tap target before the default reaction")
+        old = """                } else if case .doubleTap = gesture {
+                    if canAddMessageReactions(message: EngineMessage(item.message)) {
+"""
+        hit_test = "self.backgroundNode.frame.contains(location) && " if path == bubble else ""
+        new = f"""                }} else if case .doubleTap = gesture {{
+                    if {hit_test}item.controllerInteraction.nagramiXEditMessageOnDoubleTap(item.message) {{
+                        return
+                    }}
+                    if canAddMessageReactions(message: EngineMessage(item.message)) {{
+"""
+        replace_unique(path, old, new, "Edit a double-tapped text or large emoji before default reaction fallback")
+
+    replace_unique(bubble,
+        "    if !reactionsAreInline && !hideAllAdditionalInfo, let reactionsAttribute = mergedMessageReactions(",
+        "    if !NagramiXTabSettings.hideReactionsEnabled && !reactionsAreInline && !hideAllAdditionalInfo, let reactionsAttribute = mergedMessageReactions(",
+        "Omit dedicated reaction footers without hiding comments")
+    replace_unique(bubble, "        if needReactions || forceReactionsOutside {\n", "        if !NagramiXTabSettings.hideReactionsEnabled && (needReactions || forceReactionsOutside) {\n", "Omit external bubble reactions and their layout space")
+
+    for name in ("ChatMessageStickerItemNode", "ChatMessageAnimatedStickerItemNode", "ChatMessageInstantVideoItemNode", "ChatMessageDateAndStatusNode"):
+        directory = source / ("submodules/TelegramUI/Components/Chat/" + name)
+        path = directory / ("Sources/" + name + ".swift")
+        replace_unique(path, "import Foundation\n", "import Foundation\nimport NagramiXCore\n", "Reaction visibility import for " + name)
+        replace_unique(directory / "BUILD", '        "//submodules/TelegramCore",\n', '        "//submodules/TelegramCore",\n        "//submodules/NagramiXCore:NagramiXCore",\n', "Link reaction visibility preferences for " + name)
+        if name != "ChatMessageDateAndStatusNode":
+            replace_unique(path,
+                "            if shouldDisplayInlineDateReactions(message: EngineMessage(item.message), isPremium: item.associatedData.isPremium, forceInline: item.associatedData.forceInlineReactions) {\n",
+                "            if NagramiXTabSettings.hideReactionsEnabled || shouldDisplayInlineDateReactions(message: EngineMessage(item.message), isPremium: item.associatedData.isPremium, forceInline: item.associatedData.forceInlineReactions) {\n",
+                "Hide separate sticker and round-video reactions through native empty layout")
+        else:
+            # Arguments are a local value copy. Stored message attributes and
+            # sending/reaction APIs retain the original server data.
+            replace_unique(path, "        return { [weak self] arguments in\n", """        return { [weak self] arguments in
+            var arguments = arguments
+            if NagramiXTabSettings.hideReactionsEnabled {
+                arguments.reactions = []
+                arguments.reactionPeers = []
+            }
+""", "Hide all inline date/status reactions through native empty layout")
+
+    replace_unique(node, "    private var nagramiXDeletedLabelObserver: NSObjectProtocol?\n", "    private var nagramiXDeletedLabelObserver: NSObjectProtocol?\n    private var nagramiXHideReactionsObserver: NSObjectProtocol?\n", "Own live reaction visibility observer")
+    replace_unique(node, """        self.nagramiXDeletedLabelObserver = NotificationCenter.default.addObserver(forName: NagramiXTabSettings.deletedMessageLabelChangedNotification, object: nil, queue: .main, using: { _ in
+            nagramiXRefreshVisibleMessages()
+        })
+""", """        self.nagramiXDeletedLabelObserver = NotificationCenter.default.addObserver(forName: NagramiXTabSettings.deletedMessageLabelChangedNotification, object: nil, queue: .main, using: { _ in
+            nagramiXRefreshVisibleMessages()
+        })
+        self.nagramiXHideReactionsObserver = NotificationCenter.default.addObserver(forName: NagramiXTabSettings.hideReactionsChangedNotification, object: nil, queue: .main, using: { [weak self] _ in
+            guard let self else {
+                return
+            }
+            var messageIds = Set<MessageId>()
+            self.historyNode.forEachItemNode { itemNode in
+                guard let item = (itemNode as? ChatMessageItemView)?.item else {
+                    return
+                }
+                for (message, _) in item.content {
+                    messageIds.insert(message.id)
+                }
+            }
+            for messageId in messageIds {
+                self.historyNode.requestMessageUpdate(messageId)
+            }
+        })
+""", "Rebind visible messages when reaction visibility changes")
+    replace_unique(node, """        if let nagramiXDeletedLabelObserver = self.nagramiXDeletedLabelObserver {
+            NotificationCenter.default.removeObserver(nagramiXDeletedLabelObserver)
+        }
+""", """        if let nagramiXDeletedLabelObserver = self.nagramiXDeletedLabelObserver {
+            NotificationCenter.default.removeObserver(nagramiXDeletedLabelObserver)
+        }
+        if let observer = self.nagramiXHideReactionsObserver {
+            NotificationCenter.default.removeObserver(observer)
+        }
+""", "Remove reaction visibility observer on chat destruction")
+
+
+def apply_download_acceleration(source: Path) -> None:
+    fetch = source / "submodules/TelegramCore/Sources/Network/MultipartFetch.swift"
+    manager = source / "submodules/TelegramCore/Sources/Network/MultiplexedRequestManager.swift"
+    build = source / "submodules/TelegramCore/BUILD"
+    if any("NagramiXDownloadSettings" in path.read_text(encoding="utf-8") or "nagramiXDownloadTuning" in path.read_text(encoding="utf-8") or "import NagramiXMediaSettings\n" in path.read_text(encoding="utf-8") for path in (fetch, manager)) or "//submodules/NagramiXMediaSettings:NagramiXMediaSettings" in build.read_text(encoding="utf-8"):
+        raise SystemExit("Download acceleration overlay is already or partially applied")
+    for path in (fetch, manager):
+        replace_unique(path, "import Foundation\n", "import Foundation\nimport NagramiXMediaSettings\n", "Read download acceleration preferences in " + path.name)
+    replace_unique(build, """        "//submodules/WebProxyTransport:WebProxyTransport",
+        "//submodules/SSignalKit/SwiftSignalKit:SwiftSignalKit",
+""", """        "//submodules/WebProxyTransport:WebProxyTransport",
+        "//submodules/SSignalKit/SwiftSignalKit:SwiftSignalKit",
+        "//submodules/NagramiXMediaSettings:NagramiXMediaSettings",
+""", "Link Foundation-only download preferences without UI dependency cycles")
+    replace_unique(fetch, """        if isStory {
+            self.defaultPartSize = 512 * 1024
+""", """        let nagramiXDownloadTuning = NagramiXDownloadSettings.current.tuning
+        if !isStory, encryptionKey == nil, let size = size, size > 512 * 1024,
+           case .generic = location, let tuning = nagramiXDownloadTuning {
+            // Snapshot once per file; preserve native alignment, CDN hash,
+            // revalidation, cancellation and unknown-size/secret/story paths.
+            self.defaultPartSize = tuning.partSize
+            self.parallelParts = tuning.parallelParts
+        } else if isStory {
+            self.defaultPartSize = 512 * 1024
+""", "Tune only known large ordinary cloud downloads before native scheduling")
+    replace_unique(manager, """    private func isTargetSaturated(_ targetKey: MultiplexedRequestTargetKey) -> Bool {
+        let (maxRequestsPerWorker, maxWorkersPerTarget) = self.limits(targetKey.target)
+""", """    private func nagramiXLimits(_ request: RequestData) -> (requestsPerWorker: Int, workersPerTarget: Int) {
+        let native = self.limits(request.target)
+        if request.resourceId != nil, request.expectedResponseSize == 1024 * 1024,
+           let tuning = NagramiXDownloadSettings.current.tuning {
+            return (native.requestsPerWorker, max(native.workersPerTarget, tuning.workersPerTarget))
+        }
+        return native
+    }
+
+    private func isTargetSaturated(_ targetKey: MultiplexedRequestTargetKey, request: RequestData) -> Bool {
+        let (maxRequestsPerWorker, maxWorkersPerTarget) = self.nagramiXLimits(request)
+""", "Preserve native main/CDN capacity and tune only accelerated parts")
+    replace_unique(manager, "!self.isTargetSaturated(targetKey)", "!self.isTargetSaturated(targetKey, request: request)", "Check accelerated capacity before the native saturated-target fast path")
+    replace_unique(manager, "            let (maxRequestsPerWorker, maxWorkersPerTarget) = self.limits(request.target)\n", "            let (maxRequestsPerWorker, maxWorkersPerTarget) = self.nagramiXLimits(request)\n", "Use the same native download limits for queue dispatch")
+    replace_unique(manager, """            for targetContext in self.targetContexts[targetKey]! {
+                if targetContext.requests.count < maxRequestsPerWorker {
+""", """            for targetContext in self.targetContexts[targetKey]!.prefix(maxWorkersPerTarget) {
+                if targetContext.requests.count < maxRequestsPerWorker {
+""", "Keep uploads and native requests within their stock worker pool")
 
 
 def apply_telegram_theme_color_compatibility(source: Path) -> dict[str, bytes]:
@@ -325,10 +572,22 @@ def apply_archived_media_playback(source: Path) -> None:
     bubble = source / "submodules/TelegramUI/Components/Chat/ChatMessageBubbleItemNode/Sources/ChatMessageBubbleItemNode.swift"
     replace_unique(
         manager,
-        """public func peerMessagesMediaPlaylistAndItemId(_ message: EngineMessage, isRecentActions: Bool, isGlobalSearch: Bool, isDownloadList: Bool, isSavedMusic: Bool, isAttachMusic: Bool) -> (SharedMediaPlaylistId, SharedMediaPlaylistItemId)? {
+        """public func peerMessagesMediaPlaylistAndItemId(_ message: EngineMessage, isRecentActions: Bool, isGlobalSearch: Bool, isDownloadList: Bool, isSavedMusic: Bool, isAttachMusic: Bool, richMessageQueueId: EngineMessage.Id? = nil) -> (SharedMediaPlaylistId, SharedMediaPlaylistItemId)? {
+    if let richMessageQueueId {
+        // A rich message's audio queue renders synthesized Local-id rows whose id.id IS the
+        // InstantPageMedia index. The playing playlist is an InstantPageMediaPlaylist, so its
+        // identity — not a PeerMessages one — is what the row must be compared against.
+        return (RichMessagePlaylistId(messageId: richMessageQueueId), RichMessagePlaylistItemId(index: Int(message.id.id)))
+    }
     if isSavedMusic {
 """,
-        """public func peerMessagesMediaPlaylistAndItemId(_ message: EngineMessage, isRecentActions: Bool, isGlobalSearch: Bool, isDownloadList: Bool, isSavedMusic: Bool, isAttachMusic: Bool) -> (SharedMediaPlaylistId, SharedMediaPlaylistItemId)? {
+        """public func peerMessagesMediaPlaylistAndItemId(_ message: EngineMessage, isRecentActions: Bool, isGlobalSearch: Bool, isDownloadList: Bool, isSavedMusic: Bool, isAttachMusic: Bool, richMessageQueueId: EngineMessage.Id? = nil) -> (SharedMediaPlaylistId, SharedMediaPlaylistItemId)? {
+    if let richMessageQueueId {
+        // A rich message's audio queue renders synthesized Local-id rows whose id.id IS the
+        // InstantPageMedia index. The playing playlist is an InstantPageMediaPlaylist, so its
+        // identity — not a PeerMessages one — is what the row must be compared against.
+        return (RichMessagePlaylistId(messageId: richMessageQueueId), RichMessagePlaylistItemId(index: Int(message.id.id)))
+    }
     // OpenChatMessage plays an archived snapshot via .recentActions(message).
     // Its controls, waveform and embedded video must observe that same playlist.
     if message.attributes.contains(where: { $0 is NagramiXArchivedMessageAttribute }) {
@@ -870,6 +1129,869 @@ def apply_chat_avatar_read_mode(source: Path) -> None:
 
         self.chatListDisplayNode.mainContainerNode.activateChatPreview = { [weak self] item, threadId, node, gesture, location in
 """, "Navigate through native age and navigation checks with a dedicated silent full chat")
+
+
+def apply_chat_actions_readonly_fix(source: Path) -> None:
+    """Restore native archive eligibility and make avatar opening read-only."""
+    menus = source / "submodules/ChatListUI/Sources/ChatContextMenus.swift"
+    row = source / "submodules/ChatListUI/Sources/Node/ChatListItem.swift"
+    chat = source / "submodules/TelegramUI/Sources/ChatController.swift"
+    node = source / "submodules/TelegramUI/Sources/ChatControllerNode.swift"
+    load = source / "submodules/TelegramUI/Sources/Chat/ChatControllerLoadDisplayNode.swift"
+    panels = source / "submodules/TelegramUI/Sources/ChatInterfaceStateInputPanels.swift"
+
+    for path, markers in [
+        (menus, ["let archiveEnabled = !isSavedMessages && peerId != EnginePeer.Id(namespace: Namespaces.Peer.CloudUser, id: EnginePeer.Id.Id._internalFromInt64Value(777000))\n"]),
+        (row, ["if strongSelf.nagramiXHoldBeganOnAvatar && strongSelf.nagramiXCanOpenAvatarWithoutReadReceipts"]),
+        (panels, ["nagramiXReadOnly"]),
+        (node, ["nagramiXReadOnly: self.controller?", "self.controller?.nagramiXReadHistoryDisabled == true ? nil"]),
+        (chat, ["guard !self.nagramiXReadHistoryDisabled else", "guard let self, !self.nagramiXReadHistoryDisabled, NagramiXTabSettings.doubleTapEditEnabled"]),
+        (load, ["guard let strongSelf = self, !strongSelf.nagramiXReadHistoryDisabled else", "if strongSelf.nagramiXReadHistoryDisabled {"]),
+    ]:
+        text = path.read_text(encoding="utf-8")
+        if any(marker in text for marker in markers):
+            raise SystemExit(f"Chat avatar/archive overlay is already or partially applied: {path}")
+
+    replace_unique(menus,
+        "                        let archiveEnabled = !isSavedMessages && peerId != EnginePeer.Id(namespace: Namespaces.Peer.CloudUser, id: EnginePeer.Id.Id._internalFromInt64Value(777000)) && peerId == context.account.peerId\n",
+        "                        let archiveEnabled = !isSavedMessages && peerId != EnginePeer.Id(namespace: Namespaces.Peer.CloudUser, id: EnginePeer.Id.Id._internalFromInt64Value(777000))\n",
+        "Remove the contradictory self-peer requirement; retain native archive actions and exclusions")
+    replace_unique(row,
+        "            if NagramiXTabSettings.current.chatActionsOnHold && !strongSelf.nagramiXHoldBeganOnAvatar {\n",
+        """            if strongSelf.nagramiXHoldBeganOnAvatar && strongSelf.nagramiXCanOpenAvatarWithoutReadReceipts {
+                // Cancel native extraction and the pending short tap before navigation.
+                // The same read-only route applies with the preference on or off.
+                strongSelf.contextContainer.cancelGesture()
+                strongSelf.avatarTapRecognizer?.isEnabled = false
+                strongSelf.avatarTapRecognizer?.isEnabled = true
+                item.interaction.nagramiXOpenChatWithoutReadReceipts?(item)
+                return
+            }
+            if NagramiXTabSettings.current.chatActionsOnHold && !strongSelf.nagramiXHoldBeganOnAvatar {
+""",
+        "Avatar holds open the dedicated full chat instead of preview actions in either mode")
+
+    replace_unique(panels,
+        "interfaceInteraction: ChatPanelInterfaceInteraction?) -> (primary: ChatInputPanelNode?, secondary: ChatInputPanelNode?) {\n",
+        "interfaceInteraction: ChatPanelInterfaceInteraction?, nagramiXReadOnly: Bool = false) -> (primary: ChatInputPanelNode?, secondary: ChatInputPanelNode?) {\n",
+        "Carry the per-controller read-only policy into the native panel factory")
+    replace_unique(panels,
+        "    if case .standard(.embedded) = chatPresentationInterfaceState.mode {\n",
+        """    // Preserve the native search panel above; never create a composer,
+    // subscriber action panel or selection/send panel for an avatar-only visit.
+    if nagramiXReadOnly {
+        return (nil, nil)
+    }
+
+    if case .standard(.embedded) = chatPresentationInterfaceState.mode {
+""",
+        "Remove native composing panels through layout rather than hiding their views")
+    replace_unique(node,
+        "        let inputPanelNodes = inputPanelForChatPresentationIntefaceState(self.chatPresentationInterfaceState, context: self.context, currentPanel: self.inputPanelNode, currentSecondaryPanel: self.secondaryInputPanelNode, textInputPanelNode: self.textInputPanelNode, chatControllerInteraction: self.controllerInteraction, interfaceInteraction: self.interfaceInteraction)\n",
+        "        let inputPanelNodes = inputPanelForChatPresentationIntefaceState(self.chatPresentationInterfaceState, context: self.context, currentPanel: self.inputPanelNode, currentSecondaryPanel: self.secondaryInputPanelNode, textInputPanelNode: self.textInputPanelNode, chatControllerInteraction: self.controllerInteraction, interfaceInteraction: self.interfaceInteraction, nagramiXReadOnly: self.controller?.nagramiXReadHistoryDisabled == true)\n",
+        "Bind panel layout to this avatar controller only")
+    replace_unique(node,
+        "        let inputNodeForState = inputNodeForChatPresentationIntefaceState(",
+        "        let inputNodeForState = self.controller?.nagramiXReadHistoryDisabled == true ? nil : inputNodeForChatPresentationIntefaceState(",
+        "Do not create a keyboard/media input node during read-only viewing")
+    for variable, factory in [
+        ("accessoryPanelNode", "accessoryPanelForChatPresentationIntefaceState"),
+        ("inputContextPanelNode", "inputContextPanelForChatPresentationIntefaceState"),
+        ("overlayContextPanelNode", "chatOverlayContextPanelForChatPresentationIntefaceState"),
+    ]:
+        replace_unique(node,
+            f"        if let {variable} = {factory}(",
+            f"        if let {variable} = self.controller?.nagramiXReadHistoryDisabled == true ? nil : {factory}(",
+            f"Keep {variable} out of the dedicated read-only screen")
+
+    replace_unique(chat,
+        "    func sendMessages(_ messages: [EnqueueMessage], media: Bool = false, postpone: Bool = false, commit: Bool = false) {\n",
+        """    func sendMessages(_ messages: [EnqueueMessage], media: Bool = false, postpone: Bool = false, commit: Bool = false) {
+        guard !self.nagramiXReadHistoryDisabled else {
+            return
+        }
+""",
+        "Reject outgoing message actions from the read-only chat instance")
+    replace_unique(chat,
+        "            guard let self, NagramiXTabSettings.doubleTapEditEnabled, self.isNodeLoaded,\n",
+        "            guard let self, !self.nagramiXReadHistoryDisabled, NagramiXTabSettings.doubleTapEditEnabled, self.isNodeLoaded,\n",
+        "Keep double-tap editing, including Todo editing, out of read-only visits")
+    replace_unique(load,
+        """        self.chatDisplayNode.sendMessages = { [weak self] messages, silentPosting, scheduleTime, repeatPeriod, isAnyMessageTextPartitioned, postpone in
+            guard let strongSelf = self else {
+""",
+        """        self.chatDisplayNode.sendMessages = { [weak self] messages, silentPosting, scheduleTime, repeatPeriod, isAnyMessageTextPartitioned, postpone in
+            guard let strongSelf = self, !strongSelf.nagramiXReadHistoryDisabled else {
+""",
+        "Gate the native node enqueue callback as well as the controller send path")
+    replace_unique(load,
+        """        let interfaceInteraction = ChatPanelInterfaceInteraction(setupReplyMessage: { [weak self] messageId, innerSubject, completion in
+            guard let strongSelf = self, strongSelf.isNodeLoaded else {
+                return
+            }
+""",
+        """        let interfaceInteraction = ChatPanelInterfaceInteraction(setupReplyMessage: { [weak self] messageId, innerSubject, completion in
+            guard let strongSelf = self, strongSelf.isNodeLoaded else {
+                return
+            }
+            if strongSelf.nagramiXReadHistoryDisabled {
+                completion(.immediate, {})
+                return
+            }
+""",
+        "Do not enter reply composition from a read-only message context menu")
+    replace_unique(load,
+        """        }, setupEditMessage: { [weak self] messageId, completion in
+            if let strongSelf = self, strongSelf.isNodeLoaded {
+""",
+        """        }, setupEditMessage: { [weak self] messageId, completion in
+            if let strongSelf = self, strongSelf.isNodeLoaded {
+                if strongSelf.nagramiXReadHistoryDisabled {
+                    completion(.immediate)
+                    return
+                }
+""",
+        "Do not enter edit composition during an avatar-only visit")
+
+
+def apply_copy_broadcast_split(source: Path) -> None:
+    """Separate multi-recipient copies from single-recipient anonymous forwarding."""
+    forwarding = source / "submodules/TelegramUI/Sources/ChatControllerForwardMessages.swift"
+    interaction = source / "submodules/ChatPresentationInterfaceState/Sources/ChatPanelInterfaceInteraction.swift"
+    load = source / "submodules/TelegramUI/Sources/Chat/ChatControllerLoadDisplayNode.swift"
+    menus = source / "submodules/TelegramUI/Sources/ChatInterfaceStateContextMenus.swift"
+    picker_node = source / "submodules/TelegramUI/Components/PeerSelectionController/Sources/PeerSelectionControllerNode.swift"
+    contacts = source / "submodules/ContactListUI/Sources/ContactListNode.swift"
+    for path, markers in [
+        (forwarding, ["forwardWithoutSource", "copyToSingleRecipient", "transferMode.copiesAsNew", "transferMode.singleRecipient", "!strongSelf.nagramiXReadHistoryDisabled", "!maybeChat.nagramiXReadHistoryDisabled"]),
+        (interaction, ["forwardMessagesWithoutSource:", "self.forwardMessagesWithoutSource"]),
+        (load, ["}, forwardMessagesWithoutSource:"]),
+        (menus, ["nagramiXBroadcastMessages", "interfaceInteraction.forwardMessagesWithoutSource"]),
+        (picker_node, ["Bound the local-copy fallback", "strongSelf.controller?.multipleSelectionLimit == 1, strongSelf.forwardedMessageIds.isEmpty"]),
+        (contacts, ["nagramiXSelectionLimit"]),
+    ]:
+        if any(marker in path.read_text(encoding="utf-8") for marker in markers):
+            raise SystemExit(f"Copy/broadcast split is already or partially applied: {path}")
+
+    replace_unique(forwarding, "    case copyAsNew\n", """    case copyAsNew
+    case forwardWithoutSource
+    case copyToSingleRecipient
+
+    var copiesAsNew: Bool {
+        return self == .copyAsNew || self == .copyToSingleRecipient
+    }
+
+    var singleRecipient: Bool {
+        return self == .forwardWithoutSource || self == .copyToSingleRecipient
+    }
+""", "Keep the former copy pipeline as broadcast and add explicit single-recipient modes")
+    replace_unique(forwarding,
+        "transferMode: hasArchivedMessages ? .copyAsNew : transferMode)",
+        "transferMode: hasArchivedMessages ? (transferMode.singleRecipient ? .copyToSingleRecipient : .copyAsNew) : transferMode)",
+        "Never forward a deleted server ID; preserve single-recipient intent for archived copies")
+    replace_unique(forwarding,
+        "hasFilters: true, attemptSelection: { peer, _, reason in\n",
+        "hasFilters: transferMode != .copyToSingleRecipient, attemptSelection: { peer, _, reason in\n",
+        "Use the native bounded flat list for the local-copy fallback")
+    replace_unique(forwarding,
+        "}, multipleSelection: true, forwardedMessageIds: transferMode == .forwardWithSource ? messages.map { $0.id } : [], selectForumThreads: true))\n",
+        "}, multipleSelection: !transferMode.singleRecipient, multipleSelectionLimit: transferMode == .copyToSingleRecipient ? 1 : nil, forwardedMessageIds: transferMode.copiesAsNew ? [] : messages.map { $0.id }, selectForumThreads: true))\n",
+        "Single anonymous forwarding has no multi-select; broadcast retains the previous selector")
+    replace_unique(forwarding,
+        """            controller.multiplePeersSelected = { [weak self, weak controller] peers, peerMap, messageText, mode, forwardOptions, _ in
+                let peerIds = peers.map { $0.id }
+""",
+        """            controller.multiplePeersSelected = { [weak self, weak controller] peers, peerMap, messageText, mode, forwardOptions, _ in
+                // Enforce the recipient contract before payments, scheduling or enqueue.
+                guard !transferMode.singleRecipient || peers.count == 1 else {
+                    return
+                }
+                let peerIds = peers.map { $0.id }
+""", "Reject any multi-recipient callback for a single-recipient action")
+    for old, new, label in [
+        ("threadId: transferMode == .copyAsNew ? nil : strongSelf.chatLocation.threadId", "threadId: transferMode.copiesAsNew ? nil : strongSelf.chatLocation.threadId", "Keep copy comments detached from the source topic"),
+        ("if transferMode == .copyAsNew, let threadId = nagramiXCopyThreadIds[peer.id]", "if transferMode.copiesAsNew, let threadId = nagramiXCopyThreadIds[peer.id]", "Apply destination topics to either copy mode"),
+        ("guard transferMode == .copyAsNew else", "guard transferMode.copiesAsNew else", "Preserve copy-safe silent/schedule transformations for the local fallback"),
+        ("if transferMode == .copyAsNew {", "if transferMode.copiesAsNew {", "Keep native copy send controls for broadcast and archived single-recipient copies"),
+        ("                        case .forwardWithSource:\n", "                        case .forwardWithSource, .forwardWithoutSource:\n", "Use the native forward enqueue type for ordinary anonymous forwarding"),
+        ("                        case .copyAsNew:\n", "                        case .copyAsNew, .copyToSingleRecipient:\n", "Preserve the existing snapshot copier in both local-copy modes"),
+        ("ForwardOptionsMessageAttribute(hideNames: forwardOptions?.hideNames == true, hideCaptions: forwardOptions?.hideCaptions == true)", "ForwardOptionsMessageAttribute(hideNames: transferMode == .forwardWithoutSource || forwardOptions?.hideNames == true, hideCaptions: forwardOptions?.hideCaptions == true)", "Hide the author for the explicit anonymous mode only"),
+    ]:
+        replace_unique(forwarding, old, new, label)
+    replace_unique(forwarding,
+        """                if case .peer(peerId) = strongSelf.chatLocation, strongSelf.parentController == nil, !isPinnedMessages {
+""",
+        """                if case .peer(peerId) = strongSelf.chatLocation, strongSelf.parentController == nil, !isPinnedMessages, !strongSelf.nagramiXReadHistoryDisabled, (transferMode != .forwardWithoutSource || threadId == nil) {
+""", "Keep anonymous forwards out of read-only views and correctly route destination topics")
+    replace_unique(forwarding,
+        "                } else if peerId == strongSelf.context.account.peerId {\n",
+        "                } else if peerId == strongSelf.context.account.peerId && transferMode != .forwardWithoutSource {\n",
+        "Anonymous forwarding to Saved Messages also waits for explicit send")
+    for prefix in ["$0.withUpdatedForwardMessageIds(messages.map { $0.id }).withUpdatedForwardOptionsState(", "return currentState.withUpdatedForwardMessageIds(messages.map { $0.id }).withUpdatedForwardOptionsState("]:
+        replace_unique(forwarding,
+            prefix + "ChatInterfaceForwardOptionsState(hideNames: !hasNotOwnMessages, hideCaptions: false, unhideNamesOnCaptionChange: false))",
+            prefix + "ChatInterfaceForwardOptionsState(hideNames: transferMode == .forwardWithoutSource || !hasNotOwnMessages, hideCaptions: false, unhideNamesOnCaptionChange: false))",
+            "Prepare the native destination draft with its author hidden for anonymous forwarding")
+    replace_unique(forwarding,
+        "                                    if !isChatPinnedMessages {\n",
+        "                                    if !isChatPinnedMessages, !maybeChat.nagramiXReadHistoryDisabled, (transferMode != .forwardWithoutSource || maybeChat.chatLocation.threadId == threadId) {\n",
+        "Only reuse an editable destination with the correct anonymous-forward topic")
+    replace_unique(forwarding,
+        """                                        maybeChat.updateChatPresentationInterfaceState(animated: false, interactive: true, { $0.updatedInterfaceState({ $0.withUpdatedForwardMessageIds(messages.map { $0.id }).withoutSelectionState() }) })
+""",
+        """                                        maybeChat.updateChatPresentationInterfaceState(animated: false, interactive: true, { $0.updatedInterfaceState({ state in
+                                            var state = state.withUpdatedForwardMessageIds(messages.map { $0.id }).withoutSelectionState()
+                                            if transferMode == .forwardWithoutSource {
+                                                state = state.withUpdatedForwardOptionsState(ChatInterfaceForwardOptionsState(hideNames: true, hideCaptions: false, unhideNamesOnCaptionChange: false))
+                                            }
+                                            return state
+                                        }) })
+""", "Reset stale forwarding author options on a reused anonymous destination")
+
+    replace_unique(interaction, "    public let copyMessagesWithoutSource: (([EngineRawMessage]) -> Void)?\n", "    public let copyMessagesWithoutSource: (([EngineRawMessage]) -> Void)?\n    public let forwardMessagesWithoutSource: (([EngineRawMessage]) -> Void)?\n", "Expose the single-recipient action separately from broadcast copies")
+    replace_unique(interaction, "        copyMessagesWithoutSource: (([EngineRawMessage]) -> Void)? = nil,\n", "        copyMessagesWithoutSource: (([EngineRawMessage]) -> Void)? = nil,\n        forwardMessagesWithoutSource: (([EngineRawMessage]) -> Void)? = nil,\n", "Keep existing interaction initializers compatible")
+    replace_unique(interaction, "        self.copyMessagesWithoutSource = copyMessagesWithoutSource\n", "        self.copyMessagesWithoutSource = copyMessagesWithoutSource\n        self.forwardMessagesWithoutSource = forwardMessagesWithoutSource\n", "Store the single-recipient forwarding callback")
+    replace_unique(load, "        }, selectMessagesByAuthor: { [weak self] authorId in\n", """        }, forwardMessagesWithoutSource: { [weak self] messages in
+            guard let self, !messages.isEmpty else {
+                return
+            }
+            guard !self.presentAccountFrozenInfoIfNeeded(delay: true) else {
+                return
+            }
+            self.commitPurposefulAction()
+            if messages.contains(where: { $0.attributes.contains(where: { $0 is NagramiXArchivedMessageAttribute }) }) {
+                self.forwardMessages(messages: messages.sorted(by: { $0.id < $1.id }), resetCurrent: false, transferMode: .copyToSingleRecipient)
+            } else {
+                self.forwardMessages(messageIds: messages.map { $0.id }.sorted(), transferMode: .forwardWithoutSource)
+            }
+        }, selectMessagesByAuthor: { [weak self] authorId in
+""", "Wire the single-recipient action without changing the existing broadcast callback")
+
+    old = """                if NagramiXTabSettings.current.showForwardWithoutAuthor {
+                    let canForwardWithoutAuthor = interfaceInteraction.copyMessagesWithoutSource != nil
+                        && nagramiXCanCopyMessagesAsNew(messagesToForward)
+                    actions.append(.action(ContextMenuActionItem(text: chatPresentationInterfaceState.strings.nagramiXForwardWithoutAuthor, textColor: canForwardWithoutAuthor ? .primary : .disabled, icon: { _ in
+                        return nil
+                    }, iconAnimation: ContextMenuActionItem.IconAnimation(name: "message_preview_person_off"), action: !canForwardWithoutAuthor ? nil : { _, f in
+                        interfaceInteraction.copyMessagesWithoutSource?(messagesToForward)
+                        f(.dismissWithoutContent)
+                    })))
+                }
+"""
+    single = old.replace("interfaceInteraction.copyMessagesWithoutSource", "interfaceInteraction.forwardMessagesWithoutSource")
+    broadcast = old.replace(".showForwardWithoutAuthor", ".showBroadcastMessages").replace("strings.nagramiXForwardWithoutAuthor", "strings.nagramiXBroadcastMessages")
+    replace_unique(menus, old, single + broadcast, "Show anonymous forwarding and broadcast as separate native menu actions")
+    old = """            if NagramiXTabSettings.current.showForwardWithoutAuthor, nagramiXCanCopyMessagesAsNew([message]), let copyMessagesWithoutSource = interfaceInteraction.copyMessagesWithoutSource {
+                actions.append(.action(ContextMenuActionItem(text: chatPresentationInterfaceState.strings.nagramiXForwardWithoutAuthor, icon: { theme in
+                    return generateTintedImage(image: UIImage(bundleImageName: "Chat/Context Menu/Forward"), color: theme.actionSheet.primaryTextColor)
+                }, action: { _, f in
+                    copyMessagesWithoutSource(selectAll ? messages : [message])
+                    f(.dismissWithoutContent)
+                })))
+            }
+"""
+    single = old.replace("nagramiXCanCopyMessagesAsNew([message])", "nagramiXCanCopyMessagesAsNew(selectAll ? messages : [message])").replace("copyMessagesWithoutSource", "forwardMessagesWithoutSource")
+    broadcast = old.replace(".showForwardWithoutAuthor", ".showBroadcastMessages").replace("strings.nagramiXForwardWithoutAuthor", "strings.nagramiXBroadcastMessages").replace("nagramiXCanCopyMessagesAsNew([message])", "nagramiXCanCopyMessagesAsNew(selectAll ? messages : [message])")
+    replace_unique(menus, old, single + broadcast, "Keep both copy actions for archived snapshots without forwarding deleted IDs")
+
+    # Only the archived single-recipient fallback uses this bounded native picker.
+    replace_unique(contacts, "    public var multipleSelection = false\n", "    public var multipleSelection = false\n    public var nagramiXSelectionLimit: Int?\n", "Add an opt-in contact selection bound without changing other pickers")
+    replace_unique(contacts, "        let updatedSelectionState = f(self.selectionStateValue)\n", """        let updatedSelectionState = f(self.selectionStateValue)
+        if let limit = self.nagramiXSelectionLimit, let updatedSelectionState, updatedSelectionState.selectedPeerIndices.count > limit {
+            return
+        }
+""", "Apply the explicit bound to contact taps, search and selection updates")
+    replace_unique(picker_node, "    func nagramiXSelectCopyRecipient(_ peer: EnginePeer) {\n", """    func nagramiXSelectCopyRecipient(_ peer: EnginePeer) {
+        // Bound the local-copy fallback in both native destination lists.
+        if self.controller?.multipleSelectionLimit == 1 {
+            self.contactListNode?.nagramiXSelectionLimit = 1
+            let chatListNode = self.mainContainerNode?.currentItemNode ?? self.chatListNode
+            chatListNode?.selectionLimit = 1
+        }
+""", "Bound only the single archived-copy recipient picker")
+    replace_unique(picker_node, """                                updated = true
+                                var state = state
+                                var foundPeers = state.foundPeers
+""", """                                if strongSelf.controller?.multipleSelectionLimit == 1, strongSelf.forwardedMessageIds.isEmpty,
+                                   !state.selectedPeerIds.contains(peer.id), state.selectedPeerIds.count >= 1 {
+                                    ignoredSelectionContainer = true
+                                    return state
+                                }
+                                updated = true
+                                var state = state
+                                var foundPeers = state.foundPeers
+""", "Keep global-search insertion inside the single archived-copy bound")
+
+
+def apply_archived_round_video_fix(source: Path) -> None:
+    """Keep one native round-video surface, stable ownership and stock controls."""
+    native = source / "submodules/TelegramUniversalVideoContent/Sources/NativeVideoContent.swift"
+    decoration = source / "submodules/TelegramUniversalVideoContent/Sources/ChatBubbleInstantVideoDecoration.swift"
+    embedded = source / "submodules/TelegramUI/Components/Chat/ChatMessageInteractiveInstantVideoNode/Sources/ChatMessageInteractiveInstantVideoNode.swift"
+    shared = source / "submodules/TelegramUI/Sources/SharedMediaPlayer.swift"
+    for path in (native, decoration, embedded, shared):
+        if any(marker in path.read_text(encoding="utf-8") for marker in ("nagramiXArchivedInstantVideo", "NagramiXArchivedInstantVideo", "nagramiXArchivedMessageId", "nagramiXIsArchivedInstantVideo")):
+            raise SystemExit(f"Archived round-video overlay is already or partially applied: {path}")
+
+    replace_unique(native, "public final class NativeVideoContent: UniversalVideoContent {\n", """private struct NagramiXArchivedInstantVideoId: Hashable {
+    let messageId: MessageId
+    let fileId: MediaId
+    let resourceId: MediaResourceId
+}
+
+public final class NativeVideoContent: UniversalVideoContent {
+    private let nagramiXArchivedInstantVideo: Bool
+""", "Use the full archive identity shared by embedded video and native playlist")
+    replace_unique(native,
+        "hasSentFramesToDisplay: (() -> Void)? = nil) {\n        self.id = id\n",
+        """hasSentFramesToDisplay: (() -> Void)? = nil, nagramiXArchivedMessageId: MessageId? = nil) {
+        if let messageId = nagramiXArchivedMessageId, fileReference.media.isInstantVideo {
+            self.nagramiXArchivedInstantVideo = true
+            self.id = AnyHashable(NagramiXArchivedInstantVideoId(messageId: messageId, fileId: fileReference.media.fileId, resourceId: fileReference.media.resource.id))
+        } else {
+            self.nagramiXArchivedInstantVideo = false
+            self.id = id
+        }
+""", "Keep one archive decoder across rerenders without changing ordinary content IDs")
+    replace_unique(native,
+        "displayImage: self.displayImage, hasSentFramesToDisplay: self.hasSentFramesToDisplay)\n",
+        "displayImage: self.displayImage, hasSentFramesToDisplay: self.hasSentFramesToDisplay, nagramiXArchivedInstantVideo: self.nagramiXArchivedInstantVideo)\n",
+        "Pass the archive presentation flag to the existing native decoder")
+    replace_unique(native,
+        "    private let hasSentFramesToDisplay: (() -> Void)?\n",
+        "    private let hasSentFramesToDisplay: (() -> Void)?\n    private let nagramiXArchivedInstantVideo: Bool\n    private var nagramiXArchivedInstantVideoHasFrame = false\n",
+        "Track archive poster lifetime without creating a player")
+    replace_unique(native,
+        "displayImage: Bool, hasSentFramesToDisplay: (() -> Void)?) {\n        self.postbox = postbox\n",
+        "displayImage: Bool, hasSentFramesToDisplay: (() -> Void)?, nagramiXArchivedInstantVideo: Bool = false) {\n        self.nagramiXArchivedInstantVideo = nagramiXArchivedInstantVideo\n        self.postbox = postbox\n",
+        "Leave all existing nonarchive decoder callers on their stock defaults")
+    replace_unique(native,
+        """            didProcessFramesToDisplay = true
+            self.playerNode.isHidden = false
+            self.hasSentFramesToDisplay?()
+""",
+        """            didProcessFramesToDisplay = true
+            self.playerNode.isHidden = false
+            if self.nagramiXArchivedInstantVideo {
+                // The poster must not show through a semi-transparent live frame.
+                self.nagramiXArchivedInstantVideoHasFrame = true
+                self.imageNode.isHidden = true
+            }
+            self.hasSentFramesToDisplay?()
+""", "Remove the static poster only after an actual archive video frame is ready")
+    replace_unique(native,
+        "    private func createThumbnailPlayer() {\n        guard let videoThumbnail",
+        """    private func createThumbnailPlayer() {
+        if self.nagramiXArchivedInstantVideo {
+            // Retained full video uses the same main decoder for preview/playback.
+            return
+        }
+        guard let videoThumbnail""", "Prevent an additional moving thumbnail beneath transparent archived video")
+    replace_unique(native,
+        """    func updateLayout(size: CGSize, actualSize: CGSize, transition: ContainedViewLayoutTransition) {
+        self.validLayout = (size, actualSize)
+""",
+        """    func updateLayout(size: CGSize, actualSize: CGSize, transition: ContainedViewLayoutTransition) {
+        let transition: ContainedViewLayoutTransition = self.nagramiXArchivedInstantVideo ? .immediate : transition
+        if self.nagramiXArchivedInstantVideo {
+            // Animate the outer native circle, not a second inner renderer scale.
+            for key in ["transform", "position", "bounds"] {
+                self.playerNode.layer.removeAnimation(forKey: key)
+                self.imageNode.layer.removeAnimation(forKey: key)
+            }
+        }
+        self.validLayout = (size, actualSize)
+""", "Keep archive renderer and poster geometry synchronized during ownership changes")
+    replace_unique(native,
+        "        self.imageNode.isHidden = value\n",
+        "        self.imageNode.isHidden = value || (self.nagramiXArchivedInstantVideo && self.nagramiXArchivedInstantVideoHasFrame)\n",
+        "Do not resurrect the archive poster when native PiP state resets")
+
+    replace_unique(decoration,
+        "    private let inset: CGFloat\n",
+        "    private let inset: CGFloat\n    private let nagramiXArchivedInstantVideo: Bool\n",
+        "Keep archived clipping geometry independent of the outer scale animation")
+    replace_unique(decoration,
+        """    public init(inset: CGFloat, backgroundImage: UIImage?, tapped: @escaping () -> Void) {
+        self.inset = inset
+""",
+        """    public init(inset: CGFloat, backgroundImage: UIImage?, nagramiXArchivedInstantVideo: Bool = false, tapped: @escaping () -> Void) {
+        self.nagramiXArchivedInstantVideo = nagramiXArchivedInstantVideo
+        self.inset = inset
+""", "Preserve stock decoration callers and gestures")
+    replace_unique(decoration,
+        """    public func updateLayout(size: CGSize, actualSize: CGSize, transition: ContainedViewLayoutTransition) {
+        self.validLayout = (size, actualSize)
+""",
+        """    public func updateLayout(size: CGSize, actualSize: CGSize, transition: ContainedViewLayoutTransition) {
+        let transition: ContainedViewLayoutTransition = self.nagramiXArchivedInstantVideo ? .immediate : transition
+        if self.nagramiXArchivedInstantVideo {
+            for key in ["transform", "position", "bounds", "cornerRadius"] {
+                self.contentContainerNode.layer.removeAnimation(forKey: key)
+                self.contentNode?.layer.removeAnimation(forKey: key)
+            }
+        }
+        self.validLayout = (size, actualSize)
+""", "Size the archive clip and content together; keep the stock outer circle animation")
+
+    replace_unique(embedded,
+        "    private var videoNode: UniversalVideoNode?\n",
+        """    private var videoNode: UniversalVideoNode?
+    private var nagramiXIsArchivedInstantVideo: Bool {
+        return self.item?.message.attributes.contains(where: { $0 is NagramiXArchivedMessageAttribute }) == true
+    }
+""", "Base archived activation on playback state instead of the animated mute badge")
+    replace_unique(embedded,
+        """            var ignoreForward = false
+            var ignoreSource = false
+""",
+        """            let nagramiXArchivedInstantVideo = item.message.attributes.contains(where: { $0 is NagramiXArchivedMessageAttribute })
+            let previouslyArchived = currentItem?.message.attributes.contains(where: { $0 is NagramiXArchivedMessageAttribute }) == true
+            if nagramiXArchivedInstantVideo || previouslyArchived {
+                updatedMedia = updatedMedia || updatedMessageId || nagramiXArchivedInstantVideo != previouslyArchived
+            }
+
+            var ignoreForward = false
+            var ignoreSource = false
+""", "Recreate only changed archive ownership and reset flags when a normal row is reused")
+    replace_unique(embedded,
+        """                            if let videoNode = strongSelf.videoNode {
+                                videoNode.layer.allowsGroupOpacity = true
+                                videoNode.layer.animateAlpha(from: 1.0, to: 0.0, duration: 0.5, delay: 0.2, removeOnCompletion: false, completion: { [weak videoNode] _ in
+                                    videoNode?.removeFromSupernode()
+                                })
+                            }
+""",
+        """                            if let videoNode = strongSelf.videoNode {
+                                if nagramiXArchivedInstantVideo || previouslyArchived {
+                                    // Do not leave the previous moving circle behind the local copy.
+                                    videoNode.canAttachContent = false
+                                    videoNode.removeFromSupernode()
+                                    previousVideoNode = nil
+                                } else {
+                                    videoNode.layer.allowsGroupOpacity = true
+                                    videoNode.layer.animateAlpha(from: 1.0, to: 0.0, duration: 0.5, delay: 0.2, removeOnCompletion: false, completion: { [weak videoNode] _ in
+                                        videoNode?.removeFromSupernode()
+                                    })
+                                }
+                            }
+""", "Release the old archive renderer before installing its replacement")
+    replace_unique(embedded,
+        "ChatBubbleInstantVideoDecoration(inset: 2.0, backgroundImage: instantVideoBackgroundImage, tapped: {\n",
+        "ChatBubbleInstantVideoDecoration(inset: 2.0, backgroundImage: instantVideoBackgroundImage, nagramiXArchivedInstantVideo: nagramiXArchivedInstantVideo, tapped: {\n",
+        "Opt only archived circles into synchronized native clipping")
+    replace_unique(embedded,
+        """                                    if let item = strongSelf.item {
+                                        if strongSelf.infoBackgroundNode.alpha.isZero {
+""",
+        """                                    if let item = strongSelf.item {
+                                        if strongSelf.nagramiXIsArchivedInstantVideo {
+                                            strongSelf.activateVideoPlayback()
+                                            return
+                                        }
+                                        if strongSelf.infoBackgroundNode.alpha.isZero {
+""", "Route archive decoration taps through the same native playback-state action")
+    replace_unique(embedded,
+        "storeAfterDownload: nil), priority: item.associatedData.isStandalone ? .overlay : .embedded",
+        "storeAfterDownload: nil, nagramiXArchivedMessageId: nagramiXArchivedInstantVideo ? item.message.id : nil), priority: item.associatedData.isStandalone ? .overlay : .embedded",
+        "Bind the embedded retained video to the full archive identity")
+    replace_unique(embedded,
+        """                            strongSelf.videoNode = videoNode
+                            strongSelf.insertSubnode(videoNode, belowSubnode: previousVideoNode ?? strongSelf.dateAndStatusNode)
+""",
+        """                            if nagramiXArchivedInstantVideo || previouslyArchived {
+                                // A replacement starts with identity transform; apply the
+                                // current outer scale even when imageScale did not change.
+                                videoNode.transform = CATransform3DMakeScale(imageScale, imageScale, 1.0)
+                                strongSelf.imageScale = imageScale
+                            }
+                            strongSelf.videoNode = videoNode
+                            strongSelf.insertSubnode(videoNode, belowSubnode: previousVideoNode ?? strongSelf.dateAndStatusNode)
+""", "Initialize every archive replacement at its actual collapsed or expanded size")
+    replace_unique(shared,
+        "captureProtected: item.message.isCopyProtected(), storeAfterDownload: nil), close:",
+        "captureProtected: item.message.isCopyProtected(), storeAfterDownload: nil, nagramiXArchivedMessageId: item.message.attributes.contains(where: { $0 is NagramiXArchivedMessageAttribute }) ? item.message.id : nil), close:",
+        "Use the exact same decoder identity for the stock shared playlist")
+    replace_unique(embedded,
+        """        guard let item = self.item, self.shouldOpen() else {
+            return
+        }
+        if self.infoBackgroundNode.alpha.isZero {
+""",
+        """        guard let item = self.item, self.shouldOpen() else {
+            return
+        }
+        if self.nagramiXIsArchivedInstantVideo {
+            if let status = self.status, case .playbackStatus = status.mediaStatus {
+                item.context.sharedContext.mediaManager.playlistControl(.playback(.togglePlayPause), type: .voice)
+            } else {
+                // Open the supplied snapshot on the first action, even while the
+                // mute badge or local-file status is still updating.
+                let _ = item.controllerInteraction.openMessage(item.message, OpenMessageParams(mode: .default))
+            }
+            return
+        }
+        if self.infoBackgroundNode.alpha.isZero {
+""", "Start or toggle archived video using the native playlist rather than a cosmetic alpha")
+
+
+def apply_photo_jpeg_compatibility_fix(source: Path) -> None:
+    """Keep photo quality while restoring the progressive JPEG cache contract."""
+    binding = source / "submodules/MozjpegBinding/Sources/MozjpegBinding.mm"
+    header = source / "submodules/MozjpegBinding/Public/MozjpegBinding/MozjpegBinding.h"
+    encoder = source / "submodules/ImageCompression/Sources/ImageCompression.swift"
+    photos = source / "submodules/PhotoResources/Sources/PhotoResources.swift"
+    picker = source / "submodules/LegacyMediaPickerUI/Sources/LegacyMediaPickers.swift"
+    fetch = source / "submodules/LocalMediaResources/Sources/FetchPhotoLibraryImageResource.swift"
+    root = source / "submodules/TelegramUI/Sources/TelegramRootController.swift"
+    for path in (binding, header, encoder, photos, picker, fetch, root):
+        if any(marker in path.read_text(encoding="utf-8") for marker in ("NagramiXJPEG", "nagramiXCompressImageToJPEG", "nagramiXProgressivePhotoData", "compressJPEGDataWithQuality")):
+            raise SystemExit(f"Photo JPEG compatibility overlay is already or partially applied: {path}")
+    if binding.read_text(encoding="utf-8").count("#define USE_JPEGLI false\n") != 1:
+        raise SystemExit("Photo JPEG compatibility requires the pinned native mozjpeg backend")
+    if "#include <setjmp.h>\n" in binding.read_text(encoding="utf-8"):
+        raise SystemExit("Photo JPEG compatibility error handling is already or partially applied")
+
+    replace_unique(header,
+        "NSData * _Nullable compressJPEGData(UIImage * _Nonnull sourceImage, NSString * _Nonnull tempFilePath);\n",
+        "NSData * _Nullable compressJPEGData(UIImage * _Nonnull sourceImage, NSString * _Nonnull tempFilePath);\nNSData * _Nullable compressJPEGDataWithQuality(UIImage * _Nonnull sourceImage, NSString * _Nonnull tempFilePath, int quality);\n",
+        "Expose quality without losing native progressive JPEG scans")
+    replace_unique(binding, "#include <limits.h>\n", "#include <limits.h>\n#include <setjmp.h>\n#include <stdint.h>\n", "Recover native JPEG errors instead of terminating the process")
+    encoder_text = binding.read_text(encoding="utf-8")
+    encoder_start = "#else\nNSData * _Nullable compressJPEGData(UIImage * _Nonnull sourceImage, NSString * _Nonnull tempFilePath) {"
+    if encoder_text.count(encoder_start) != 1:
+        raise SystemExit("Pinned mozjpeg encoder range was not found")
+    old_encoder = encoder_start + encoder_text.split(encoder_start, 1)[1].split("\n#endif", 1)[0] + "\n#endif"
+    if hashlib.sha256(old_encoder.encode("utf-8")).hexdigest() != "54daecabba0ff16a4ac7c0233c535e74fadd9ab415f6eded84f750bc271ccf69":
+        raise SystemExit("Pinned mozjpeg encoder bytes have changed")
+    replace_unique(binding, old_encoder, """#else
+struct NagramiXJPEGError {
+    struct jpeg_error_mgr base;
+    jmp_buf recovery;
+};
+
+struct NagramiXJPEGState {
+    struct jpeg_compress_struct compressor;
+    struct NagramiXJPEGError error;
+    bool compressorCreated;
+    FILE *file;
+    uint8_t *buffer;
+};
+
+static void NagramiXJPEGErrorExit(j_common_ptr info) {
+    struct NagramiXJPEGError *error = (struct NagramiXJPEGError *)info->err;
+    longjmp(error->recovery, 1);
+}
+
+static void NagramiXJPEGDispose(struct NagramiXJPEGState *state) {
+    if (state->compressorCreated) {
+        jpeg_destroy_compress(&state->compressor);
+    }
+    if (state->file != NULL) {
+        fclose(state->file);
+    }
+    free(state->buffer);
+    free(state);
+}
+
+NSData * _Nullable compressJPEGDataWithQuality(UIImage * _Nonnull sourceImage, NSString * _Nonnull tempFilePath, int quality) {
+    CGImageRef image = sourceImage.CGImage;
+    if (image == NULL) {
+        return nil;
+    }
+    size_t width = CGImageGetWidth(image);
+    size_t height = CGImageGetHeight(image);
+    if (width == 0 || height == 0 || width > JPEG_MAX_DIMENSION || height > JPEG_MAX_DIMENSION) {
+        return nil;
+    }
+    size_t targetBytesPerRow = (4 * width + 31) & ~(size_t)31;
+    size_t bufferBytesPerRow = (3 * width + 31) & ~(size_t)31;
+    if (height > SIZE_MAX / targetBytesPerRow || height > SIZE_MAX / bufferBytesPerRow) {
+        return nil;
+    }
+
+    uint8_t *targetMemory = (uint8_t *)calloc(height, targetBytesPerRow);
+    if (targetMemory == NULL) {
+        return nil;
+    }
+    CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
+    CGContextRef targetContext = colorSpace == NULL ? NULL : CGBitmapContextCreate(targetMemory, width, height, 8, targetBytesPerRow, colorSpace, kCGImageAlphaNoneSkipFirst | kCGBitmapByteOrder32Host);
+    if (colorSpace != NULL) {
+        CGColorSpaceRelease(colorSpace);
+    }
+    if (targetContext == NULL) {
+        free(targetMemory);
+        return nil;
+    }
+    CGContextDrawImage(targetContext, CGRectMake(0, 0, width, height), image);
+    CGContextRelease(targetContext);
+
+    struct NagramiXJPEGState *state = (struct NagramiXJPEGState *)calloc(1, sizeof(struct NagramiXJPEGState));
+    if (state == NULL) {
+        free(targetMemory);
+        return nil;
+    }
+    state->buffer = (uint8_t *)malloc(bufferBytesPerRow * height);
+    if (state->buffer == NULL) {
+        free(targetMemory);
+        NagramiXJPEGDispose(state);
+        return nil;
+    }
+    for (size_t y = 0; y < height; y++) {
+        for (size_t x = 0; x < width; x++) {
+            uint32_t color = *((uint32_t *)&targetMemory[y * targetBytesPerRow + x * 4]);
+            state->buffer[y * bufferBytesPerRow + x * 3] = (color >> 16) & 0xff;
+            state->buffer[y * bufferBytesPerRow + x * 3 + 1] = (color >> 8) & 0xff;
+            state->buffer[y * bufferBytesPerRow + x * 3 + 2] = color & 0xff;
+        }
+    }
+    free(targetMemory);
+
+    state->file = fopen([tempFilePath fileSystemRepresentation], "wb");
+    if (state->file == NULL) {
+        NagramiXJPEGDispose(state);
+        return nil;
+    }
+    state->compressor.err = jpeg_std_error(&state->error.base);
+    state->error.base.error_exit = NagramiXJPEGErrorExit;
+    // Mutable recovery state lives on the heap, so longjmp cannot invalidate it.
+    if (setjmp(state->error.recovery)) {
+        NagramiXJPEGDispose(state);
+        [[NSFileManager defaultManager] removeItemAtPath:tempFilePath error:nil];
+        return nil;
+    }
+    state->compressorCreated = true;
+    jpeg_create_compress(&state->compressor);
+    jpeg_stdio_dest(&state->compressor, state->file);
+    state->compressor.image_width = (JDIMENSION)width;
+    state->compressor.image_height = (JDIMENSION)height;
+    state->compressor.input_components = 3;
+    state->compressor.in_color_space = JCS_RGB;
+    jpeg_c_set_int_param(&state->compressor, JINT_COMPRESS_PROFILE, JCP_FASTEST);
+    jpeg_set_defaults(&state->compressor);
+    state->compressor.arith_code = FALSE;
+    state->compressor.dct_method = JDCT_ISLOW;
+    state->compressor.optimize_coding = TRUE;
+    jpeg_set_quality(&state->compressor, MAX(0, MIN(100, quality)), 1);
+    jpeg_simple_progression(&state->compressor);
+    jpeg_start_compress(&state->compressor, 1);
+    JSAMPROW rowPointer[1];
+    while (state->compressor.next_scanline < state->compressor.image_height) {
+        rowPointer[0] = (JSAMPROW)(state->buffer + state->compressor.next_scanline * bufferBytesPerRow);
+        jpeg_write_scanlines(&state->compressor, rowPointer, 1);
+    }
+    jpeg_finish_compress(&state->compressor);
+    bool fileComplete = fclose(state->file) == 0;
+    state->file = NULL;
+    NagramiXJPEGDispose(state);
+    NSData *result = fileComplete ? [[NSData alloc] initWithContentsOfFile:tempFilePath] : nil;
+    [[NSFileManager defaultManager] removeItemAtPath:tempFilePath error:nil];
+    return result;
+}
+
+NSData * _Nullable compressJPEGData(UIImage * _Nonnull sourceImage, NSString * _Nonnull tempFilePath) {
+    // Existing Telegram callers keep the native encoder's original quality.
+    return compressJPEGDataWithQuality(sourceImage, tempFilePath, 72);
+}
+#endif""", "Preserve native progression and safely handle JPEG allocation/file/codec errors")
+
+    replace_unique(encoder, "public func compressImageToJPEGXL(_ image: UIImage, quality: Int) -> Data? {\n", """public func nagramiXCompressImageToJPEG(_ image: UIImage, quality: Float, tempFilePath: String) -> Data? {
+    guard quality.isFinite else {
+        return nil
+    }
+    return autoreleasepool {
+        let percentage = Int32((min(1.0, max(0.0, quality)) * 100.0).rounded())
+        return compressJPEGDataWithQuality(image, tempFilePath, percentage)
+    }
+}
+
+public func compressImageToJPEGXL(_ image: UIImage, quality: Int) -> Data? {
+""", "Encode outgoing photos with native progressive JPEG and selected quality")
+    replace_unique(picker, "scaledImage.jpegData(compressionQuality: CGFloat(mediaSettings.jpegQuality))", "nagramiXCompressImageToJPEG(scaledImage, quality: Float(mediaSettings.jpegQuality), tempFilePath: tempFile.path)", "Restore progressive prepared photo encoding")
+    replace_unique(picker,
+        """                                            let _ = try? scaledImageData.write(to: URL(fileURLWithPath: tempFilePath))
+
+                                            let resource = LocalFileReferenceMediaResource(localFilePath: tempFilePath, randomId: randomId)
+""",
+        """                                            do {
+                                                try scaledImageData.write(to: URL(fileURLWithPath: tempFilePath), options: .atomic)
+                                            } catch {
+                                                subscriber.putError(Void())
+                                                return
+                                            }
+
+                                            let resource = LocalFileReferenceMediaResource(localFilePath: tempFilePath, randomId: randomId)
+""", "Never enqueue a missing or partially written prepared photo")
+    replace_unique(fetch, "scaledImage.jpegData(compressionQuality: CGFloat(mediaSettings.jpegQuality))", "nagramiXCompressImageToJPEG(scaledImage, quality: Float(mediaSettings.jpegQuality), tempFilePath: tempFile.path)", "Restore progressive photo library encoding")
+    replace_unique(root, "image.jpegData(compressionQuality: CGFloat(NagramiXMediaSettings.current.jpegQuality))", "nagramiXCompressImageToJPEG(image, quality: Float(NagramiXMediaSettings.current.jpegQuality), tempFilePath: tempFile.path)", "Keep final photo story JPEG compatible with native caches")
+
+    replace_unique(photos,
+        """        return Signal { subscriber in
+            let signals: [Signal<(SizeSource, Data?), NoError>] = sources.map { source -> Signal<(SizeSource, Data?), NoError> in
+""",
+        """        let nagramiXProgressivePhotoData = Signal<Tuple4<Data?, Data?, ChatMessagePhotoQuality, Bool>, NoError> { subscriber in
+            let signals: [Signal<(SizeSource, Data?), NoError>] = sources.map { source -> Signal<(SizeSource, Data?), NoError> in
+""", "Keep stock incremental fetching for actual progressive resources")
+    replace_unique(photos,
+        """            return ActionDisposable {
+                dataDisposable.dispose()
+                fetchDisposable?.dispose()
+            }
+        }
+    }
+\x20\x20\x20\x20
+    if !forceThumbnail || photoReference.media.immediateThumbnailData == nil,""",
+        """            return ActionDisposable {
+                dataDisposable.dispose()
+                fetchDisposable?.dispose()
+            }
+        }
+        // A complete cached upload can differ from the server's JPEG bytes
+        // and scan offsets (older uploads are sequential). Always decode the
+        // whole cached JPEG; incomplete resources keep native progressive fetch.
+        return mediaBox.resourceData(progressiveRepresentation.resource, option: .complete(waitUntilFetchStatus: false), attemptSynchronously: synchronousLoad)
+        |> take(1)
+        |> mapToSignal { cached -> Signal<Tuple4<Data?, Data?, ChatMessagePhotoQuality, Bool>, NoError> in
+            if cached.complete, cached.size > 0,
+               let source = CGImageSourceCreateWithURL(URL(fileURLWithPath: cached.path) as CFURL, nil),
+               let type = CGImageSourceGetType(source), type as String == "public.jpeg",
+               let data = try? Data(contentsOf: URL(fileURLWithPath: cached.path), options: .mappedIfSafe), !data.isEmpty {
+                return .single(Tuple4(nil, data, .full, true))
+            }
+            return nagramiXProgressivePhotoData
+        }
+    }
+\x20\x20\x20\x20
+    if !forceThumbnail || photoReference.media.immediateThumbnailData == nil,""", "Decode complete cached JPEG without offsets from a different server byte stream")
+
+
+def apply_background_video_hierarchy_fix(source: Path) -> None:
+    """Keep the existing decoder running without PiP and compose lifecycle owners."""
+    universal = source / "submodules/AccountContext/Sources/UniversalVideoNode.swift"
+    gallery = source / "submodules/GalleryUI/Sources/Items/UniversalVideoGalleryItem.swift"
+    backends = [source / "submodules/TelegramUniversalVideoContent/Sources" / name for name in ("NativeVideoContent.swift", "HLSVideoJSNativeContentNode.swift")]
+    for path in [universal, gallery] + backends:
+        text = path.read_text(encoding="utf-8")
+        if "nagramiXBackgroundPlayback" in text or "setNagramiXBackgroundPlayback" in text:
+            raise SystemExit(f"Background hierarchy overlay is already or partially applied: {path}")
+
+    replace_unique(universal,
+        "    func setCanPlaybackWithoutHierarchy(_ canPlaybackWithoutHierarchy: Bool)\n",
+        "    func setCanPlaybackWithoutHierarchy(_ canPlaybackWithoutHierarchy: Bool)\n    func setNagramiXBackgroundPlayback(id: UUID, active: Bool)\n",
+        "Expose an independent background owner without changing native PiP callers")
+    replace_unique(universal,
+        "public protocol UniversalVideoContent {\n",
+        """public extension UniversalVideoContentNode {
+    // Only ordinary native/HLS videos opt in; other content keeps its stock path.
+    func setNagramiXBackgroundPlayback(id: UUID, active: Bool) {
+    }
+}
+
+public protocol UniversalVideoContent {
+""", "Keep every other video content implementation source-compatible")
+    replace_unique(universal,
+        "    private var contentNodeId: Int32?\n",
+        "    private var contentNodeId: Int32?\n    private var nagramiXBackgroundPlaybackOwners = Set<UUID>()\n",
+        "Remember only this wrapper's background owner tokens for cleanup")
+    replace_unique(universal,
+        """    deinit {
+        assert(Queue.mainQueue().isCurrent())
+""",
+        """    deinit {
+        assert(Queue.mainQueue().isCurrent())
+        let backgroundOwners = self.nagramiXBackgroundPlaybackOwners
+        self.manager.withUniversalVideoContent(id: self.content.id, { contentNode in
+            for id in backgroundOwners {
+                contentNode?.setNagramiXBackgroundPlayback(id: id, active: false)
+            }
+        })
+""", "Release wrapper-owned tokens before detaching a shared decoder")
+    replace_unique(universal,
+        "    public func enterNativePictureInPicture() -> Bool {\n",
+        """    public func setNagramiXBackgroundPlayback(id: UUID, active: Bool) {
+        if active {
+            self.nagramiXBackgroundPlaybackOwners.insert(id)
+        } else {
+            self.nagramiXBackgroundPlaybackOwners.remove(id)
+        }
+        self.manager.withUniversalVideoContent(id: self.content.id, { contentNode in
+            contentNode?.setNagramiXBackgroundPlayback(id: id, active: active)
+        })
+    }
+
+    public func enterNativePictureInPicture() -> Bool {
+""", "Forward the gallery claim to its existing shared native decoder")
+
+    for backend in backends:
+        replace_unique(backend,
+            """    func setCanPlaybackWithoutHierarchy(_ canPlaybackWithoutHierarchy: Bool) {
+        self.playerNode.setCanPlaybackWithoutHierarchy(canPlaybackWithoutHierarchy)
+    }
+""",
+            """    private var nagramiXNativePlaybackWithoutHierarchy = false
+    private var nagramiXBackgroundPlaybackOwners = Set<UUID>()
+
+    func setCanPlaybackWithoutHierarchy(_ canPlaybackWithoutHierarchy: Bool) {
+        self.nagramiXNativePlaybackWithoutHierarchy = canPlaybackWithoutHierarchy
+        if self.nagramiXBackgroundPlaybackOwners.isEmpty {
+            self.playerNode.setCanPlaybackWithoutHierarchy(canPlaybackWithoutHierarchy)
+        }
+    }
+
+    func setNagramiXBackgroundPlayback(id: UUID, active: Bool) {
+        let wasAllowed = self.nagramiXNativePlaybackWithoutHierarchy || !self.nagramiXBackgroundPlaybackOwners.isEmpty
+        if active {
+            self.nagramiXBackgroundPlaybackOwners.insert(id)
+        } else {
+            self.nagramiXBackgroundPlaybackOwners.remove(id)
+        }
+        let isAllowed = self.nagramiXNativePlaybackWithoutHierarchy || !self.nagramiXBackgroundPlaybackOwners.isEmpty
+        if isAllowed != wasAllowed {
+            self.playerNode.setCanPlaybackWithoutHierarchy(isAllowed)
+        }
+    }
+""", "Combine native PiP and gallery background requests; removing one must not stop the other")
+
+    replace_unique(gallery,
+        "    private let nagramiXBackgroundVideoId = UUID()\n",
+        """    private let nagramiXBackgroundVideoId = UUID()
+    private weak var nagramiXBackgroundPlaybackVideoNode: UniversalVideoNode?
+    private var nagramiXBackgroundPlaybackObserver: NSObjectProtocol?
+""", "Observe live settings and remember the current decoder without retaining it")
+    replace_unique(gallery,
+        """    deinit {
+        self.context.sharedContext.mediaManager.setNagramiXBackgroundVideoPlayback(id: self.nagramiXBackgroundVideoId, active: false)
+""",
+        """    deinit {
+        if let observer = self.nagramiXBackgroundPlaybackObserver {
+            NotificationCenter.default.removeObserver(observer)
+        }
+        self.nagramiXBackgroundPlaybackVideoNode?.setNagramiXBackgroundPlayback(id: self.nagramiXBackgroundVideoId, active: false)
+        self.context.sharedContext.mediaManager.setNagramiXBackgroundVideoPlayback(id: self.nagramiXBackgroundVideoId, active: false)
+""", "Remove only this gallery's claim and observer when it closes")
+    replace_unique(gallery,
+        """    private func nagramiXUpdateBackgroundVideoPlayback() {
+        var active = false
+""",
+        """    private func nagramiXUpdateBackgroundVideoPlayback() {
+        if self.nagramiXBackgroundPlaybackObserver == nil {
+            self.nagramiXBackgroundPlaybackObserver = NotificationCenter.default.addObserver(forName: NagramiXTabSettings.changedNotification, object: nil, queue: .main, using: { [weak self] _ in
+                self?.nagramiXUpdateBackgroundVideoPlayback()
+            })
+        }
+        if self.nagramiXBackgroundPlaybackVideoNode !== self.videoNode {
+            self.nagramiXBackgroundPlaybackVideoNode?.setNagramiXBackgroundPlayback(id: self.nagramiXBackgroundVideoId, active: false)
+            self.nagramiXBackgroundPlaybackVideoNode = self.videoNode
+        }
+        var active = false
+""", "Release the previous decoder on replacement and apply preferences without restarting playback")
+    replace_unique(gallery,
+        "        self.context.sharedContext.mediaManager.setNagramiXBackgroundVideoPlayback(id: self.nagramiXBackgroundVideoId, active: active)\n",
+        """        // Keeping the audio session alone does not keep the native video renderer
+        // requesting frames outside UIKit hierarchy. PiP's permission is independent.
+        self.videoNode?.setNagramiXBackgroundPlayback(id: self.nagramiXBackgroundVideoId, active: active && NagramiXTabSettings.backgroundVideoPlaybackEnabled)
+        self.context.sharedContext.mediaManager.setNagramiXBackgroundVideoPlayback(id: self.nagramiXBackgroundVideoId, active: active)
+""", "Keep ordinary audible playing/buffering videos running outside the visible hierarchy")
 
 
 def apply_video_playback_options(source: Path) -> None:
@@ -1528,15 +2650,28 @@ private func currentDateTimeFormat()""",
         '#import "MTDNS.h"\n#import "NagramiXDNSResolver.h"\n',
         "NagramiX real DoH resolver import",
     )
-    replace_once(
+    replace_unique(
         mt_dns,
         """+ (MTSignal *)resolveHostnameUniversal:(NSString *)hostname port:(int32_t)port {
-    return [[self resolveHostname:hostname] timeout:10.0 onQueue:[MTQueue concurrentDefaultQueue] orSignal:[self resolveHostnameNative:hostname port:port]];
+    // This used to race the native lookup against an HTTPS query to
+    // https://google.com/resolve, Google's DNS-over-HTTPS reached through a spoofed Host
+    // header. That endpoint answers 404 today (verified 2026-09), the status code was
+    // never checked, and only successes were cached - so every connection through a
+    // hostname proxy paid one dead HTTPS round trip, and an unreachable proxy turned that
+    // into hundreds per push in the notification extension (bugs.telegram.org/c/64534).
+    // The native lookup below coalesces concurrent callers and retries every 2 s until
+    // it succeeds; the 10 s bound keeps the old fallback of eventually handing the socket
+    // the bare hostname, so an unresolvable name still fails within the transport's 20 s
+    // watchdog rather than stalling it. `take:1` closes a narrow window: `single:` emits
+    // its next and its completion as two steps, and a native answer landing in between
+    // would reach MTTcpConnection as a second address and make it call connectToHost:
+    // again on a socket that is already connecting.
+    return [[[self resolveHostnameNative:hostname port:port] timeout:10.0 onQueue:[MTQueue concurrentDefaultQueue] orSignal:[MTSignal single:hostname]] take:1];
 }
 """,
         """+ (MTSignal *)resolveHostnameUniversal:(NSString *)hostname port:(int32_t)port {
     if ([NagramiXDNSResolver usesSystemResolver]) {
-        return [self resolveHostnameNative:hostname port:port];
+        return [[[self resolveHostnameNative:hostname port:port] timeout:10.0 onQueue:[MTQueue concurrentDefaultQueue] orSignal:[MTSignal single:hostname]] take:1];
     }
     MTSignal *doh = [[NagramiXDNSResolver resolveHostname:hostname] timeout:12.0 onQueue:[MTQueue concurrentDefaultQueue] orSignal:[MTSignal fail:[NSError errorWithDomain:@"org.nagramix.dns" code:5 userInfo:nil]]];
     return [doh catch:^MTSignal *(__unused id error) {
@@ -1545,7 +2680,7 @@ private func currentDateTimeFormat()""",
         if (MTLogEnabled()) {
             MTLog(@"[NagramiXDNS DoH unavailable; falling back to native resolver]");
         }
-        return [self resolveHostnameNative:hostname port:port];
+        return [[[self resolveHostnameNative:hostname port:port] timeout:10.0 onQueue:[MTQueue concurrentDefaultQueue] orSignal:[MTSignal single:hostname]] take:1];
     }];
 }
 
@@ -1591,7 +2726,7 @@ private func currentDateTimeFormat()""",
         'apiEnvironment = apiEnvironment.withUpdatedLangPackCode(languageCode ?? "ru")',
         "Use Russian for the network language pack only when no language was selected",
     )
-    replace_once(
+    replace_unique(
         network_source,
         """    public func dropConnectionStatus() {
         _connectionStatus.set(.single(.waitingForNetwork))
@@ -1602,24 +2737,24 @@ private func currentDateTimeFormat()""",
     }
 
     public func reconnectForNagramiXDnsChange() {
-        self.mtProto.simulateDisconnection()
-        self.dropConnectionStatus()
+        let _ = (self.shouldKeepConnection.get()
+        |> take(1)
+        |> deliverOn(self.queue)).start(next: { [weak self] keepConnection in
+            guard let self else { return }
+            self.mainSession.setPaused(true)
+            self.dropConnectionStatus()
+            self.mainSession.setPaused(!keepConnection)
+        })
     }
 """,
         "Reconnect MTProto after a runtime DNS resolver change",
     )
 
     account_source = source / "submodules" / "TelegramCore" / "Sources" / "Account" / "Account.swift"
-    replace_once(
+    replace_unique(
         account_source,
-        """        }))
-
-        if !supplementary {
-            let mediaBox = postbox.mediaBox
-""",
-        """        }))
-
-        let nagramiXDnsObserver = NotificationCenter.default.addObserver(forName: Notification.Name("NagramiXDnsSettingsChanged"), object: nil, queue: nil, using: { _ in
+        '        if !supplementary {\n            let mediaBox = postbox.mediaBox\n',
+        """        let nagramiXDnsObserver = NotificationCenter.default.addObserver(forName: Notification.Name("NagramiXDnsSettingsChanged"), object: nil, queue: nil, using: { _ in
             network.reconnectForNagramiXDnsChange()
         })
         self.managedOperationsDisposable.add(ActionDisposable {
@@ -1658,8 +2793,8 @@ private func currentDateTimeFormat()""",
 
     replace_unique(
         network_source,
-        "public final class Network: NSObject, MTRequestMessageServiceDelegate {\n",
-        "public final class Network: NSObject, MTRequestMessageServiceDelegate {\n    public let nagramiXProxyStatuses = Atomic<ProxyServersStatuses?>(value: nil)\n",
+        'public final class Network: NSObject {\n',
+        'public final class Network: NSObject {\n    public let nagramiXProxyStatuses = Atomic<ProxyServersStatuses?>(value: nil)\n',
         "Share proxy health checks safely between the account and its settings UI",
     )
 
@@ -1851,22 +2986,29 @@ private func currentDateTimeFormat()""",
         "                let font = title.isBold ? Font.bold(15.0) : Font.medium(15.0)\n",
         "Render NagramiX settings category titles in bold",
     )
-    replace_once(
+    replace_unique(
         horizontal_tabs,
-        """            let scrollContentWidth: CGFloat
-            if case .fill = component.layout, totalContentWidth < availableSize.width {
-""",
-        """            let scrollContentWidth: CGFloat
-            let usesEqualItemWidths: Bool
-            switch component.layout {
-            case .fit:
-                usesEqualItemWidths = false
-            case .fill:
-                usesEqualItemWidths = totalContentWidth < availableSize.width
-            case .equal:
-                usesEqualItemWidths = true
+        """            let fillSlotWidths: [CGFloat]?
+            if case .fill = component.layout {
+                // A row up to the border on each side wider than the lens still fills the bar, as it did
+                // while the fit was measured against the whole bar.
+                fillSlotWidths = horizontalTabsFillSlotWidths(itemWidths: items.map(\\.size.width), availableWidth: availableSize.width - lensInset * 2.0 - sideInset * 2.0, paddingAllowance: lensInset * 2.0)
+            } else {
+                fillSlotWidths = nil
             }
-            if usesEqualItemWidths {
+\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20
+""",
+        """            let fillSlotWidths: [CGFloat]?
+            switch component.layout {
+            case .fill:
+                fillSlotWidths = horizontalTabsFillSlotWidths(itemWidths: items.map(\\.size.width), availableWidth: availableSize.width - lensInset * 2.0 - sideInset * 2.0, paddingAllowance: lensInset * 2.0)
+            case .equal:
+                let width = max(0.0, availableSize.width - lensInset * 2.0 - sideInset * 2.0)
+                fillSlotWidths = Array(repeating: width / CGFloat(max(1, items.count)), count: items.count)
+            case .fit:
+                fillSlotWidths = nil
+            }
+\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20
 """,
         "Always divide NagramiX settings categories equally",
     )
@@ -1918,15 +3060,13 @@ private func currentDateTimeFormat()""",
         "                var allowP2P = allowP2P\n                let forceTcpCalls = NagramiXTabSettings.current.forceTcpCalls\n",
         "Snapshot Force TCP for the newly created call",
     )
-    replace_once(
+    replace_unique(
         ongoing_call_context,
-        """                #if DEBUG && true
-                var customParameters = customParameters
-""",
+        '                #if DEBUG && true\n                if let initialCustomParameters =',
         """                var customParameters = customParameters
 
                 #if DEBUG && true
-""",
+                if let initialCustomParameters =""",
         "Make VoIP custom parameters mutable in release builds",
     )
     replace_once(
@@ -2454,14 +3594,10 @@ private func currentDateTimeFormat()""",
 """,
         "Deleted-message status node state",
     )
-    replace_once(
+    replace_unique(
         chat_bubble_source,
-        "        /*if isInlinePage {\n            needsShareButton = false\n        }*/\n                        \n        var tmpWidth: CGFloat\n",
-        """        /*if isInlinePage {
-            needsShareButton = false
-        }*/
-
-        if nagramiXWideChannelPost {
+        '        var tmpWidth: CGFloat\n',
+        """        if nagramiXWideChannelPost {
             needsShareButton = false
             needsSummarizeButton = false
             allowFullWidth = true
@@ -3067,18 +4203,17 @@ private func currentDateTimeFormat()""",
         "import TelegramPresentationData\nimport NagramiXCore\n",
         "NagramiX settings localization import",
     )
-    replace_once(
+    replace_unique(
         settings_items,
-        "    case myProfile\n    case proxy\n",
-        "    case nagramix\n    case myProfile\n    case proxy\n",
+        '    case myProfile\n    case wallet\n',
+        '    case nagramix\n    case myProfile\n    case wallet\n',
         "NagramiX settings group order",
     )
-    replace_once(
+    replace_unique(
         settings_items,
         """        items[.myProfile]!.append(PeerInfoScreenDisclosureItem(id: 0, text: presentationData.strings.Settings_MyProfile, icon: PresentationResourcesSettings.myProfile, action: {
             interaction.openSettings(.profile)
         }))
-""" + "        \n" + """        if !settings.proxySettings.servers.isEmpty {
 """,
         """        items[.nagramix]!.append(PeerInfoScreenDisclosureItem(id: 0, text: presentationData.strings.nagramiXSettingsTitle, icon: PresentationResourcesSettings.nagramiXSettings, action: {
             interaction.openSettings(.nagramix)
@@ -3087,7 +4222,6 @@ private func currentDateTimeFormat()""",
         items[.myProfile]!.append(PeerInfoScreenDisclosureItem(id: 0, text: presentationData.strings.Settings_MyProfile, icon: PresentationResourcesSettings.myProfile, action: {
             interaction.openSettings(.profile)
         }))
-""" + "        \n" + """        if !settings.proxySettings.servers.isEmpty {
 """,
         "NagramiX settings row",
     )
@@ -3461,8 +4595,8 @@ private func currentDateTimeFormat()""",
         "Use interruption cancellation only for round-video recording",
     )
 
-    camera_output = source / "submodules" / "Camera" / "Sources" / "CameraOutput.swift"
-    replace_once(
+    camera_output = source / "submodules" / "Camera" / "CameraLegacy" / "Sources" / "CameraOutput.swift"
+    replace_unique(
         camera_output,
         """    private var currentPosition: Camera.Position = .front
     private var lastSwitchTimestamp: Double = 0.0
@@ -3478,8 +4612,8 @@ private func currentDateTimeFormat()""",
         "Allow the native round-video recorder to start from its configured position",
     )
 
-    camera_context = source / "submodules" / "Camera" / "Sources" / "Camera.swift"
-    replace_once(
+    camera_context = source / "submodules" / "Camera" / "CameraLegacy" / "Sources" / "LegacyCamera.swift"
+    replace_unique(
         camera_context,
         """            self.mainDeviceContext?.output.processCodes = { [weak self] codes in
                 self?.detectedCodesPipe.putNext(codes)
@@ -5891,6 +7025,14 @@ private func nagramiXCopyProfileId(_ value: Int64, presentationData: Presentatio
     apply_archived_media_playback(source)
     apply_copy_send_options(source)
     apply_video_playback_options(source)
+    apply_channel_bottom_panel(source)
+    apply_message_interaction_options(source)
+    apply_download_acceleration(source)
+    apply_chat_actions_readonly_fix(source)
+    apply_copy_broadcast_split(source)
+    apply_background_video_hierarchy_fix(source)
+    apply_photo_jpeg_compatibility_fix(source)
+    apply_archived_round_video_fix(source)
 
     if stock_section not in item_list_controller.read_text(encoding="utf-8"):
         raise SystemExit("NagramiX overlay modified Telegram's stock sectionControl branch")
@@ -5907,6 +7049,6 @@ if __name__ == "__main__":
     import argparse
 
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--telegram-dir", required=True, type=Path, help="Path to a clean Telegram-iOS 12.9.2 checkout")
+    parser.add_argument("--telegram-dir", required=True, type=Path, help="Path to a clean Telegram-iOS 13.0 checkout")
     arguments = parser.parse_args()
     apply_features(arguments.telegram_dir.resolve())

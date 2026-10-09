@@ -19058,3 +19058,25 @@ Error: %8$@";
 "Watch.UserInfo.Mute_2" = "Не беспокоить %@ часов";
 "Widget.GalleryDescription" = "Выберите чаты";
 "Widget.GalleryTitle" = "Telegram";
+
+// Telegram 13.0
+"SocksProxySetup.ProxyWeb" = "WEB";
+"RichText.Menu.Table.AddColumnLeft" = "Добавить столбец слева";
+"RichText.Menu.Table.AddColumnRight" = "Добавить столбец справа";
+"RichText.Menu.Table.DeleteColumn" = "Удалить столбец";
+"RichText.Menu.Table.AddRowAbove" = "Добавить строку выше";
+"RichText.Menu.Table.AddRowBelow" = "Добавить строку ниже";
+"RichText.Menu.Table.DeleteRow" = "Удалить строку";
+"RichText.Menu.Table.MergeCells" = "Объединить ячейки";
+"RichText.Menu.Table.SplitCell" = "Разделить ячейку";
+"RichText.PlaceholderQuoteAuthor" = "Добавить автора";
+"RichText.PlaceholderCaption" = "Добавить подпись";
+"REACT_GRAM_TRANSFER" = "%1$@|отреагировал(а) %2$@ на Ваш перевод %3$@";
+"REACT_GRAM_TRANSFER_COMMENT" = "%1$@|отреагировал(а) %2$@ на Ваш перевод %3$@: %4$@";
+"Notification.GramTransfer.Compact" = "отправил(а) Вам %@";
+"Wallet.Receive.BuyShort" = "Купить за деньги или криптовалюту";
+"Wallet.Transfer.CollectibleTopUpText" = "Для передачи NFT в кошельке должно быть не менее 0,1 Gram. Пополните баланс и попробуйте снова.";
+"Wallet.HiddenTransactions" = "Транзакции меньше %@ скрыты.";
+"Wallet.Transaction.ItemCount_1" = "%@ предмет";
+"Wallet.Transaction.ItemCount_any" = "%@ предметов";
+"Chat.ViewStyle" = "СТИЛЬ ПРОСМОТРА";
