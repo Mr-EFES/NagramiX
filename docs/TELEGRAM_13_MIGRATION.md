@@ -1,6 +1,6 @@
 # Миграция тестового выпуска на Telegram 13.0
 
-Пользователь выбрал актуальную официальную базу для NagramiX 0.4.9. Закреплён Telegram-iOS 13.0, commit `f1dd7a2dbd02cbbf513e75d5695d8d36d1cf5838`. Проверка актуальности CURRENT; moving branch и исключения из проверки не используются. Нативная компиляция пока ожидается.
+Пользователь выбрал актуальную официальную базу для NagramiX 0.4.9. Закреплён Telegram-iOS 13.0, commit `f1dd7a2dbd02cbbf513e75d5695d8d36d1cf5838`. Проверка актуальности CURRENT; moving branch и исключения из проверки не используются. Чистая нативная сборка №82 и тестовая публикация успешно завершены.
 
 ## Совместимость
 
@@ -26,10 +26,10 @@
 
 295 Swift-файла разобраны tree-sitter без новых ошибок; восемь ограничений parser также воспроизводятся на stock raw. Полная apply_overlay, Make anchor, branding, все восемь иконок, 13 RU intro строк, Python syntax, metadata и diff checks проходят. Локальная проверка конфигурации использовала фиктивные значения только в /tmp; секреты репозитория используются исключительно нативным CI workflow.
 
-Swift type checking, реальные жесты/декодер/MTProto и отсутствие крашей подтверждаются только новой macOS-сборкой и физическим тестом. Текущие изменённые функции compile_pending/device_pending. План приёмки — [iPhone](IPHONE_TEST_0.4.9.md); результат сборки — [статус](RELEASE_STATUS.md).
+Swift type checking и линковка подтверждены macOS-сборкой №82. Реальные жесты, декодер, MTProto и устойчивость требуют физического теста. Текущие изменённые функции compile_passed/device_pending. План приёмки — [iPhone](IPHONE_TEST_0.4.9.md); результат сборки — [статус](RELEASE_STATUS.md).
 
 ## Совместимость custom строк SettingsUI после нативной проверки
 
 Сборка №81 обнаружила переход базового ListViewItem с previousItem/nextItem на ListViewItemNeighbors. NagramiXPercentageItem и NagramiXSettingsSearchItem переведены на новые точные сигнатуры; itemListNeighbors получает topFacet/bottomFacet из descriptors по штатному образцу ItemListTextItem. Neighbor descriptor предоставляет общий native ItemListItem extension. Это адаптация интерфейса, без изменения геометрии, значений, callbacks и поиска.
 
-Дополнительно проверены по Git blob SHA четыре файла Display/ItemListUI (всего330 references). Fresh full overlay меняет только два custom settings files относительно №81; остальные generated files совпадают, четыре references сохраняются исходными. Обе Swift-функции в каждом классе совпадают с native protocol signatures, синтаксис проходит. Нативный результат приложения ещё ожидается; №81 failed, публикация skipped.
+Дополнительно проверены по Git blob SHA четыре файла Display/ItemListUI (всего 330 references). Fresh full overlay меняет только два custom settings files относительно №81; остальные generated files совпадают, четыре references сохраняются исходными. Обе Swift-функции в каждом классе совпадают с native protocol signatures, синтаксис проходит. После этой адаптации №82 выполнила все 7696 действий без ошибок и успешно опубликовала новый IPA. Нативная компиляция и независимая проверка пакета подтверждены; физическая приёмка ожидается.

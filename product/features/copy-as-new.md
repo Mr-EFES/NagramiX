@@ -1,6 +1,6 @@
 # Копирование сообщений без источника
 
-Текущая доработка **compile_pending/device_pending**, не входит в опубликованный IPA №79.
+Текущая доработка **compile_passed/device_pending**, не входит в опубликованный IPA №79.
 
 Прежний режим copyAsNew теперь называется в меню **«Рассылка»**: отправка новых копий без автора одному или нескольким адресатам через прежнюю панель выбора/отправки Telegram. Содержимое, порядок, альбомная группировка, media references и native quiet/schedule/payment/topic handlers сохранены. Исходные reply/thread/send-as/paid/suggested-post defaults не переносятся в копии.
 
