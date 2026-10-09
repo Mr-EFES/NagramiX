@@ -26,7 +26,7 @@ Native encoder проверяет CGImage, нулевые/предельные �
 - Воспроизведение ошибки на синтетическом JPEG: отрезание полного последовательного JPEG по смещению из другого progressive JPEG оставляет 95% серых пикселей; чтение полного файла — менее 1%. Reference libjpeg через Pillow декодирует progressive JPEG при 0/25/50/75/100 с исходными размерами. Это проверка формата и причины, не выполнение iOS encoder/MediaBox/Photos.
 - Python syntax, release metadata, встроенная русская intro-локализация (13 строк) и git diff прошли проверки. Workflow, версия и опубликованные файлы не менялись.
 
-Linux не имеет Xcode и UIKit: новый native encoder не скомпилирован и не выполнен, recovery при реальном OOM/ENOSPC не испытан. Проверка crashes, leaks, watchdog, Photos/iCloud, загрузки и отображения на физическом iPhone ожидает отдельной команды на сборку.
+Linux не имеет Xcode и UIKit: новый native encoder не скомпилирован и не выполнен, recovery при реальном OOM/ENOSPC не испытан. Проверка crashes, leaks, watchdog, Photos/iCloud, загрузки и отображения на физическом iPhone остаётся обязательной после установки нового IPA; пользователь уже разрешил сборку, повторный чистый запуск подготовлен после адаптации двух элементов SettingsUI.
 
 ## Приёмка следующего IPA
 
