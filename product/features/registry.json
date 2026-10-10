@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "product": "NagramiX",
-  "release": "0.5.0",
+  "release": "0.5.1",
   "platformPriority": [
     "ios"
   ],
@@ -42,7 +42,7 @@
       "specification": "specified",
       "ios": {
         "implementation": "implemented",
-        "compile": "compile_passed",
+        "compile": "compile_pending",
         "device": "device_pending"
       }
     },
@@ -52,7 +52,7 @@
       "specification": "specified",
       "ios": {
         "implementation": "implemented",
-        "compile": "compile_passed",
+        "compile": "compile_pending",
         "device": "device_pending"
       }
     },
@@ -62,7 +62,7 @@
       "specification": "specified",
       "ios": {
         "implementation": "implemented",
-        "compile": "compile_passed",
+        "compile": "compile_pending",
         "device": "device_pending"
       }
     },
@@ -72,7 +72,7 @@
       "specification": "specified",
       "ios": {
         "implementation": "implemented",
-        "compile": "compile_passed",
+        "compile": "compile_pending",
         "device": "device_pending"
       }
     },
@@ -122,7 +122,17 @@
       "specification": "specified",
       "ios": {
         "implementation": "implemented",
-        "compile": "compile_passed",
+        "compile": "compile_pending",
+        "device": "device_pending"
+      }
+    },
+    {
+      "id": "proxy_vpn_bypass",
+      "title": "Не использовать прокси с VPN",
+      "specification": "specified",
+      "ios": {
+        "implementation": "implemented",
+        "compile": "compile_pending",
         "device": "device_pending"
       }
     },
@@ -208,11 +218,11 @@
     },
     {
       "id": "chat_actions_on_hold",
-      "title": "Опции чатов по тапу: штатный архив, меню вне аватарки, полный чат только для просмотра по аватарке",
+      "title": "Опции чатов по тапу: архив, просмотр по аватарке, локальные реакции до активного открытия и переход по Ответить",
       "specification": "specified",
       "ios": {
         "implementation": "implemented",
-        "compile": "compile_passed",
+        "compile": "compile_pending",
         "device": "device_pending"
       }
     },
@@ -292,7 +302,7 @@
       "specification": "specified",
       "ios": {
         "implementation": "implemented",
-        "compile": "compile_passed",
+        "compile": "compile_pending",
         "device": "device_pending"
       }
     },
@@ -302,17 +312,17 @@
       "specification": "specified",
       "ios": {
         "implementation": "implemented",
-        "compile": "compile_passed",
+        "compile": "compile_pending",
         "device": "device_pending"
       }
     },
     {
       "id": "notification_sounds",
-      "title": "Полный системный и классический каталог звуков уведомлений",
+      "title": "Полный системный и классический каталог звуков; звук в приложении по умолчанию выключен",
       "specification": "specified",
       "ios": {
         "implementation": "implemented",
-        "compile": "compile_passed",
+        "compile": "compile_pending",
         "device": "device_pending"
       }
     },
@@ -333,6 +343,56 @@
       "ios": {
         "implementation": "implemented",
         "compile": "compile_passed",
+        "device": "device_pending"
+      }
+    },
+    {
+      "id": "hide_greeting_sticker",
+      "title": "Скрывать приветственный стикер",
+      "specification": "specified",
+      "ios": {
+        "implementation": "implemented",
+        "compile": "compile_pending",
+        "device": "device_pending"
+      }
+    },
+    {
+      "id": "recorder_keep_music",
+      "title": "Не останавливать музыку при записи кружка",
+      "specification": "specified",
+      "ios": {
+        "implementation": "implemented",
+        "compile": "compile_pending",
+        "device": "device_pending"
+      }
+    },
+    {
+      "id": "voice_autoplay_control",
+      "title": "Отключить автовоспроизведение голосовых",
+      "specification": "specified",
+      "ios": {
+        "implementation": "implemented",
+        "compile": "compile_pending",
+        "device": "device_pending"
+      }
+    },
+    {
+      "id": "auto_mute_new_channels",
+      "title": "Авто-мьют новых каналов",
+      "specification": "specified",
+      "ios": {
+        "implementation": "implemented",
+        "compile": "compile_pending",
+        "device": "device_pending"
+      }
+    },
+    {
+      "id": "exact_last_seen",
+      "title": "Показывать точное время",
+      "specification": "specified",
+      "ios": {
+        "implementation": "implemented",
+        "compile": "compile_pending",
         "device": "device_pending"
       }
     }

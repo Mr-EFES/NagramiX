@@ -41,6 +41,7 @@ final class NagramiXProxyFailoverController {
     private var configuredTimeout = NagramiXNetworkSettingsBridge.proxyAutoSwitchTimeout
     private var settingsDisposable: Disposable?
     private var statusDisposable: Disposable?
+    private var vpnDisposable: Disposable?
     private var applyDisposable: Disposable?
     private var observer: NSObjectProtocol?
     private var lifecycleObservers: [NSObjectProtocol] = []
@@ -77,7 +78,8 @@ final class NagramiXProxyFailoverController {
             }
             let proxySettings = accountManager.sharedData(keys: [SharedDataKeys.proxySettings])
             |> map { $0.entries[SharedDataKeys.proxySettings]?.get(ProxySettings.self) ?? .defaultSettings }
-            let monitor = ProxyServersStatuses(network: network, servers: proxySettings |> map { $0.servers }, refreshEnabled: proxySettings |> map { $0.enabled }, activeServer: proxySettings |> map { $0.activeServer })
+            let refreshEnabled = combineLatest(proxySettings, NagramiXProxyVPNPolicy.bypassedSignal()) |> map { settings, bypassed in settings.enabled && !bypassed }
+            let monitor = ProxyServersStatuses(network: network, servers: proxySettings |> map { $0.servers }, refreshEnabled: refreshEnabled, activeServer: proxySettings |> map { $0.activeServer })
             self.healthMonitor = monitor
             _ = network.nagramiXProxyStatuses.swap(monitor)
             self.healthDisposable = (monitor.statuses() |> deliverOn(self.queue)).start(next: { [weak self] statuses in
@@ -96,6 +98,10 @@ final class NagramiXProxyFailoverController {
             })
             self.statusDisposable = (network.connectionStatus |> deliverOn(self.queue)).start(next: { [weak self] value in
                 self?.updateStatus(value)
+            })
+            self.vpnDisposable = (NagramiXProxyVPNPolicy.bypassedSignal() |> deliverOn(self.queue)).start(next: { [weak self] _ in
+                self?.invalidate()
+                self?.reevaluate()
             })
             self.observer = NotificationCenter.default.addObserver(forName: NagramiXNetworkSettingsBridge.changedNotification, object: nil, queue: nil, using: { [weak self] _ in
                 self?.queue.async {
@@ -128,6 +134,8 @@ final class NagramiXProxyFailoverController {
         self.settingsDisposable = nil
         self.statusDisposable?.dispose()
         self.statusDisposable = nil
+        self.vpnDisposable?.dispose()
+        self.vpnDisposable = nil
         if let observer = self.observer { NotificationCenter.default.removeObserver(observer) }
         self.observer = nil
         for observer in self.lifecycleObservers { NotificationCenter.default.removeObserver(observer) }
@@ -153,7 +161,7 @@ final class NagramiXProxyFailoverController {
     }
 
     private var enabled: Bool {
-        return self.inForeground && self.settings.enabled && NagramiXNetworkSettingsBridge.proxyAutoSwitchEnabled
+        return self.inForeground && self.settings.enabled && NagramiXNetworkSettingsBridge.proxyAutoSwitchEnabled && !NagramiXProxyVPNPolicy.bypassed
     }
 
     private func updateSettings(_ value: ProxySettings) {
@@ -245,7 +253,7 @@ final class NagramiXProxyFailoverController {
         self.applyDisposable?.dispose()
         let cancellation = self.cancellation
         self.applyDisposable = (updateProxySettingsInteractively(accountManager: accountManager, { current in
-            guard !cancellation.with({ $0 }), NagramiXNetworkSettingsBridge.proxyAutoSwitchEnabled, current.enabled,
+            guard !cancellation.with({ $0 }), !NagramiXProxyVPNPolicy.bypassed, NagramiXNetworkSettingsBridge.proxyAutoSwitchEnabled, current.enabled,
                   current.activeServer == expected, current.servers.contains(candidate) else { return current }
             var current = current
             current.activeServer = candidate

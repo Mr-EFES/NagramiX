@@ -35,7 +35,7 @@
 "NagramiX.Icon.Neon" = "Neon";
 "NagramiX.Icon.Lime" = "Lime";
 "NagramiX.Icon.Ruby" = "Ruby";
-"NagramiX.Network.DNS" = "DNS";
+"NagramiX.Network.DNS" = "DNS server";
 "NagramiX.Network.DNS.System" = "System DNS";
 "NagramiX.Network.DNS.Google" = "Google DNS";
 "NagramiX.Network.DNS.Quad9" = "Quad9";
@@ -49,7 +49,7 @@
 "NagramiX.Network.DNS.CustomUnavailable" = "The DoH server did not return a valid response. Check the URL and connection.";
 "NagramiX.Network.Proxy.AutoSwitch" = "Automatic Proxy Switching";
 "NagramiX.Network.Proxy.SwitchAfter" = "Switch After";
-"NagramiX.Network.Proxy.CheckAll" = "Check all proxies";
+"NagramiX.Network.Proxy.CheckAll" = "Check proxy list";
 "NagramiX.Network.Proxy.Checking" = "Checking…";
 "NagramiX.Network.Proxy.NoneToCheck" = "No saved proxies to check";
 "NagramiX.Network.Proxy.CheckSummary" = "Checked: %1$d · Available: %2$d · Unavailable: %3$d";
@@ -159,3 +159,29 @@
 "NagramiX.Stories.Anonymous.Warning.Title" = "Your Identity Will Be Visible";
 "NagramiX.Stories.Anonymous.Warning.Text" = "A reply or reaction will show the author that you interacted with this story, even while incognito viewing is enabled. Continue?";
 "NagramiX.Stories.Anonymous.Continue" = "Continue";
+"NagramiX.Stories.Anonymous.Preview.Title" = "Incognito viewing";
+"NagramiX.Stories.Anonymous.Preview.Text" = "You will view stories in incognito mode. NagramiX will not send a view receipt to the author.";
+"NagramiX.Stories.Anonymous.Preview.Action" = "View incognito";
+"NagramiX.Settings.Downloads.Medium.Info" = "Moderate network load";
+"NagramiX.Settings.Downloads.Maximum.Info" = "Higher network load";
+"NagramiX.Settings.Downloads.Mode.Footnote" = "New settings apply to subsequent downloads.";
+"NagramiX.Network.Proxy.Timeout.Info" = "How long to wait for a connection before switching to another available proxy.";
+"NagramiX.Common.Close" = "Close";
+"NagramiX.Network.Proxy.AvoidVPN" = "Don't use proxy with VPN";
+"NagramiX.Network.Proxy.AvoidVPN.Info" = "Temporarily bypass the proxy when an active VPN is detected. The selected proxy is used again after the VPN disconnects.";
+"NagramiX.Network.Proxy.AvoidVPN.Active" = "Proxy temporarily bypassed: VPN detected.";
+"NagramiX.Preview.PaidReactions" = "Paid reactions are available in the regular chat.";
+
+"NagramiX.Settings.Chats.HideGreetingSticker" = "Hide greeting sticker";
+"NagramiX.Settings.Chats.HideGreetingSticker.Info" = "Show the empty-chat message instead of the greeting sticker or the other person’s introduction. The greeting sticker is not downloaded.";
+
+"NagramiX.Settings.VideoMessages.KeepMusicPlaying" = "Keep music playing while recording video messages";
+"NagramiX.Settings.VideoMessages.KeepMusicPlaying.Info" = "Music in other apps keeps playing while you record a video or voice message. The microphone may pick up sound from the speaker — use headphones.";
+
+"NagramiX.Settings.Messages.DisableVoiceAutoplay" = "Disable automatic voice message playback";
+"NagramiX.Settings.Messages.DisableVoiceAutoplay.Info" = "The next voice or video message does not start automatically when the current one finishes.";
+
+"NagramiX.Settings.Messages.AutoMuteNewChannels" = "Auto-mute new channels";
+"NagramiX.Settings.Messages.AutoMuteNewChannels.Info" = "Automatically mute notifications when joining a new channel. Existing channels and groups keep their settings.";
+"NagramiX.Settings.Profiles.ShowExactLastSeen" = "Show exact last seen time";
+"NagramiX.Settings.Profiles.ShowExactLastSeen.Info" = "Append the last seen time as (HH:mm:ss) when it is available. Hidden statuses remain unchanged.";

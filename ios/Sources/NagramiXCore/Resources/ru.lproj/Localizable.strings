@@ -35,7 +35,7 @@
 "NagramiX.Icon.Neon" = "Неон";
 "NagramiX.Icon.Lime" = "Лайм";
 "NagramiX.Icon.Ruby" = "Рубин";
-"NagramiX.Network.DNS" = "DNS";
+"NagramiX.Network.DNS" = "DNS-сервер";
 "NagramiX.Network.DNS.System" = "Системный DNS";
 "NagramiX.Network.DNS.Google" = "Google DNS";
 "NagramiX.Network.DNS.Quad9" = "Quad9";
@@ -49,7 +49,7 @@
 "NagramiX.Network.DNS.CustomUnavailable" = "DoH-сервер не ответил корректно. Проверьте адрес и подключение.";
 "NagramiX.Network.Proxy.AutoSwitch" = "Автопереключение прокси";
 "NagramiX.Network.Proxy.SwitchAfter" = "Переключить через";
-"NagramiX.Network.Proxy.CheckAll" = "Проверить все прокси";
+"NagramiX.Network.Proxy.CheckAll" = "Проверить список прокси";
 "NagramiX.Network.Proxy.Checking" = "Проверяем…";
 "NagramiX.Network.Proxy.NoneToCheck" = "Нет сохранённых прокси для проверки";
 "NagramiX.Network.Proxy.CheckSummary" = "Проверено: %1$d · Доступно: %2$d · Недоступно: %3$d";
@@ -233,3 +233,29 @@
 "NagramiX.Stories.Anonymous.Warning.Title" = "Вы раскроете свою личность";
 "NagramiX.Stories.Anonymous.Warning.Text" = "Ответ или реакция покажет автору, что вы взаимодействовали с этой историей, даже при включённом режиме инкогнито. Продолжить?";
 "NagramiX.Stories.Anonymous.Continue" = "Продолжить";
+"NagramiX.Stories.Anonymous.Preview.Title" = "Просмотр инкогнито";
+"NagramiX.Stories.Anonymous.Preview.Text" = "Вы будете смотреть истории в режиме инкогнито. NagramiX не отправит автору отметку просмотра.";
+"NagramiX.Stories.Anonymous.Preview.Action" = "Смотреть инкогнито";
+"NagramiX.Settings.Downloads.Medium.Info" = "Умеренная нагрузка на сеть";
+"NagramiX.Settings.Downloads.Maximum.Info" = "Повышенная нагрузка на сеть";
+"NagramiX.Settings.Downloads.Mode.Footnote" = "Новые параметры применяются к следующим загрузкам.";
+"NagramiX.Network.Proxy.Timeout.Info" = "Время ожидания подключения перед переключением на другой доступный прокси.";
+"NagramiX.Common.Close" = "Закрыть";
+"NagramiX.Network.Proxy.AvoidVPN" = "Не использовать прокси с VPN";
+"NagramiX.Network.Proxy.AvoidVPN.Info" = "При обнаружении активного VPN прокси временно не применяется. После отключения VPN выбранный прокси используется снова.";
+"NagramiX.Network.Proxy.AvoidVPN.Active" = "Прокси временно не используется: обнаружен VPN.";
+"NagramiX.Preview.PaidReactions" = "Платные реакции доступны в обычном чате.";
+
+"NagramiX.Settings.Chats.HideGreetingSticker" = "Скрывать приветственный стикер";
+"NagramiX.Settings.Chats.HideGreetingSticker.Info" = "В пустом личном чате показывать «Здесь пока нет сообщений» вместо приветственного стикера или приветствия собеседника. Приветственный стикер не загружается.";
+
+"NagramiX.Settings.VideoMessages.KeepMusicPlaying" = "Не останавливать музыку при записи кружка";
+"NagramiX.Settings.VideoMessages.KeepMusicPlaying.Info" = "Музыка в других приложениях продолжает играть при записи кружка или голосового сообщения. Микрофон может записать звук из динамика — используйте наушники.";
+
+"NagramiX.Settings.Messages.DisableVoiceAutoplay" = "Отключить автовоспроизведение голосовых";
+"NagramiX.Settings.Messages.DisableVoiceAutoplay.Info" = "После окончания голосового сообщения или кружка следующее не запускается автоматически.";
+
+"NagramiX.Settings.Messages.AutoMuteNewChannels" = "Авто-мьют новых каналов";
+"NagramiX.Settings.Messages.AutoMuteNewChannels.Info" = "Автоматически отключать уведомления при подписке на новый канал. Настройки уже добавленных каналов и групп не меняются.";
+"NagramiX.Settings.Profiles.ShowExactLastSeen" = "Показывать точное время";
+"NagramiX.Settings.Profiles.ShowExactLastSeen.Info" = "Добавлять к статусу последнее время посещения в формате (ЧЧ:ММ:СС), если оно доступно. Скрытые статусы остаются без изменений.";

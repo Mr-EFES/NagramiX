@@ -2868,6 +2868,1088 @@ def apply_compact_chat_list(source: Path) -> None:
         self.chatListDisposable.dispose()""", "Remove compact list notification observer")
 
 
+def apply_voice_recording_cancellation_fix(source: Path) -> None:
+    # Audited integrated inputs after the existing round-video and chat patches.
+    # Validate every file before mutation: recording lifecycle drift needs review.
+    inputs = {
+        "submodules/TelegramUI/Components/ChatTextInputMediaRecordingButton/Sources/ChatTextInputMediaRecordingButton.swift": "eddc296233905fb8466d99becd428d276b56bf21d24972ebf0bc6d5147893221",
+        "submodules/TelegramUI/Components/Chat/ChatTextInputPanelNode/Sources/ChatTextInputPanelNode.swift": "4f784e6d8452a6c9b25d45ce999a203bf9fd319d8ae7167609437fdab67faf8b",
+        "submodules/TelegramUI/Sources/Chat/ChatControllerLoadDisplayNode.swift": "4f47bfe8fdcd689eacebc86e9961a0696eb2a7d515bb38952318a26a9afac6f8",
+        "submodules/TelegramUI/Sources/Chat/ChatControllerMediaRecording.swift": "98cbe0e944c98f3222a013d95243808c1e01a250f8594a1b0d91d29ec60e48e1",
+    }
+    for name, expected_sha in inputs.items():
+        if hashlib.sha256((source / name).read_bytes()).hexdigest() != expected_sha:
+            raise SystemExit(f"Voice recording lifecycle input changed; audit required: {name}")
+
+    button = source / next(iter(inputs))
+    replace_unique(
+        button,
+        "            self.cancelOnTrackingInterruption = mode == .video\n",
+        """            // A system interruption ends the held gesture in either mode.
+            // Never turn a cancelled first audio touch into a delayed lock.
+            self.cancelOnTrackingInterruption = true
+""",
+        "Cancel interrupted voice holds using the existing video cancellation path",
+    )
+    replace_unique(
+        button,
+        """        self.modeTimeoutTimer?.invalidate()
+        self.endRecording(false)
+""",
+        """        self.modeTimeoutTimer?.invalidate()
+        self.modeTimeoutTimer = nil
+        self.endRecording(false)
+""",
+        "Clear the cancelled recording-mode timer",
+    )
+    panel = source / "submodules/TelegramUI/Components/Chat/ChatTextInputPanelNode/Sources/ChatTextInputPanelNode.swift"
+    replace_unique(
+        panel,
+        """                    // A released or interrupted gesture must invalidate the
+                    // pending video start, including permission callbacks.
+                    if case .video = interfaceState.interfaceState.mediaRecordingMode {
+                        interfaceInteraction.finishMediaRecording(.dismiss)
+                    }
+""",
+        """                    // Invalidate audio/video startup even before a recorder
+                    // exists. Permission/readiness callbacks must not restart it.
+                    interfaceInteraction.finishMediaRecording(.dismiss)
+""",
+        "Cancel voice startup before its recording UI exists",
+    )
+    interaction = source / "submodules/TelegramUI/Sources/Chat/ChatControllerLoadDisplayNode.swift"
+    replace_unique(
+        interaction,
+        """            strongSelf.beginMediaRecordingRequestId += 1
+            strongSelf.dismissMediaRecorder(action)
+""",
+        """            strongSelf.beginMediaRecordingRequestId += 1
+            if strongSelf.audioRecorderValue == nil {
+                // Dispose a cold-start producer before it supplies a recorder.
+                strongSelf.audioRecorder.set(.single(nil))
+            }
+            strongSelf.dismissMediaRecorder(action)
+""",
+        "Dispose pending audio initialization when the held gesture finishes",
+    )
+    controller = source / "submodules/TelegramUI/Sources/Chat/ChatControllerMediaRecording.swift"
+    replace_unique(
+        controller,
+        """            self.audioRecorder.set(
+                self.context.sharedContext.mediaManager.audioRecorder(
+""",
+        """            let requestId = self.beginMediaRecordingRequestId
+            self.audioRecorder.set(
+                self.context.sharedContext.mediaManager.audioRecorder(
+""",
+        "Capture the audio startup request generation",
+    )
+    replace_unique(
+        controller,
+        """                    beganWithTone: { _ in
+                    }
+                )
+            )
+""",
+        """                    beganWithTone: { _ in
+                    }
+                )
+                |> deliverOnMainQueue
+                |> map { [weak self] recorder -> ManagedAudioRecorder? in
+                    guard let self, self.beginMediaRecordingRequestId == requestId else {
+                        return nil
+                    }
+                    return recorder
+                }
+            )
+""",
+        "Reject late cold-start audio callbacks after cancellation on the UI queue",
+    )
+
+
+def apply_message_selection_transfer_actions(source: Path, overlay: Path) -> None:
+    paths = {
+        "panel": "submodules/TelegramUI/Components/Chat/ChatMessageSelectionInputPanelNode/Sources/ChatMessageSelectionInputPanelNode.swift",
+        "build": "submodules/TelegramUI/Components/Chat/ChatMessageSelectionInputPanelNode/BUILD",
+        "interaction": "submodules/ChatPresentationInterfaceState/Sources/ChatPanelInterfaceInteraction.swift",
+        "load": "submodules/TelegramUI/Sources/Chat/ChatControllerLoadDisplayNode.swift",
+        "menus": "submodules/TelegramUI/Sources/ChatInterfaceStateContextMenus.swift",
+    }
+    hashes = {
+        "panel": "13b3e7d619a8198a4b985256df045e8677502d1e304d337a8d811ac6a8c574e8",
+        "build": "92174f4a6dbcabb2e6ce9423e512f46d728a27d5edbbda8a83b8d0e4b25956ec",
+        "interaction": "2a814c3af714f86138a2562ccc4155e407c5645da0cf6fd737e76ca0e58673c3",
+        "load": "969dcf72d567ed4aa72d7695cb49debddf79003705f3e22c547a59a41b6ca394",
+        "menus": "0dd3c89b89a6e762a8306596610784d4cf309a0aa0ec92204bd3b734f496446d",
+    }
+    for key, name in paths.items():
+        if hashlib.sha256((source / name).read_bytes()).hexdigest() != hashes[key]:
+            raise SystemExit(f"Изменилась проверенная интеграция панели выделения: {name}")
+
+    panel = source / paths["panel"]
+    replace_unique(source / paths["build"], '        "//submodules/TelegramPresentationData",\n', '        "//submodules/TelegramPresentationData",\n        "//submodules/NagramiXCore:NagramiXCore",\n', "Настройки и подписи панели выделения")
+    replace_unique(panel, "import TelegramPresentationData\n", "import TelegramPresentationData\nimport NagramiXCore\n", "Читать настройки действий в панели выделения")
+    replace_unique(panel, "    private let shareButton: GlassButtonView\n", """    private let shareButton: GlassButtonView
+    private let forwardWithoutSourceButton: GlassButtonView
+    private let broadcastButton: GlassButtonView
+    private let buttonScrollView = UIScrollView()
+    private let nagramiXTransferDisposable = MetaDisposable()
+    private var nagramiXCanCopySelection = false
+""", "Отдельные кнопки пересылки без автора и рассылки")
+    replace_unique(panel, "    override init(frame: CGRect) {\n        self.backgroundView = GlassBackgroundView()\n", """    var systemIcon: String? {
+        didSet {
+            if self.systemIcon == oldValue { return }
+            self.iconView.image = self.systemIcon.flatMap {
+                UIImage(systemName: $0, withConfiguration: UIImage.SymbolConfiguration(pointSize: 24.0, weight: .regular))
+            }?.withRenderingMode(.alwaysTemplate)
+            if let params = self.params {
+                self.updateImpl(params: params, transition: .immediate)
+            }
+        }
+    }
+
+    override init(frame: CGRect) {
+        self.backgroundView = GlassBackgroundView()
+""", "Штатный SF Symbol для пересылки без автора")
+    replace_unique(panel, "        self.forwardButton.accessibilityLabel = strings.VoiceOver_MessageContextForward\n", """        self.forwardButton.accessibilityLabel = strings.nagramiXForwardWithAuthor
+
+        self.forwardWithoutSourceButton = GlassButtonView()
+        self.forwardWithoutSourceButton.systemIcon = "person.crop.circle.badge.xmark"
+        self.forwardWithoutSourceButton.isImplicitlyDisabled = true
+        self.forwardWithoutSourceButton.isAccessibilityElement = true
+        self.forwardWithoutSourceButton.accessibilityLabel = strings.nagramiXForwardWithoutAuthor
+
+        self.broadcastButton = GlassButtonView()
+        self.broadcastButton.icon = "Chat/Context Menu/Groups"
+        self.broadcastButton.isImplicitlyDisabled = true
+        self.broadcastButton.isAccessibilityElement = true
+        self.broadcastButton.accessibilityLabel = strings.nagramiXBroadcastMessages
+""", "Различимые иконки и полные подписи действий")
+    replace_unique(panel, """        self.view.addSubview(self.deleteButton)
+        self.view.addSubview(self.reportButton)
+        self.view.addSubview(self.forwardButton)
+        self.view.addSubview(self.shareButton)
+        self.view.addSubview(self.tagButton)
+        self.view.addSubview(self.tagEditButton)
+""", """        self.buttonScrollView.contentInsetAdjustmentBehavior = .never
+        self.buttonScrollView.showsHorizontalScrollIndicator = false
+        self.buttonScrollView.showsVerticalScrollIndicator = false
+        self.buttonScrollView.delaysContentTouches = false
+        self.buttonScrollView.bounces = false
+        self.view.addSubview(self.buttonScrollView)
+        for button in [self.deleteButton, self.reportButton, self.forwardButton, self.shareButton, self.tagButton, self.tagEditButton, self.forwardWithoutSourceButton, self.broadcastButton] {
+            self.buttonScrollView.addSubview(button)
+        }
+""", "Предотвратить наложение кнопок на узких экранах")
+    replace_unique(panel, "        self.shareButton.button.addTarget(self, action: #selector(self.shareButtonPressed), for: .touchUpInside)\n", """        self.shareButton.button.addTarget(self, action: #selector(self.shareButtonPressed), for: .touchUpInside)
+        self.forwardWithoutSourceButton.button.addTarget(self, action: #selector(self.forwardWithoutSourceButtonPressed), for: .touchUpInside)
+        self.broadcastButton.button.addTarget(self, action: #selector(self.broadcastButtonPressed), for: .touchUpInside)
+""", "Подключить отдельные кнопки к штатным обработчикам")
+    replace_unique(panel, "        self.canDeleteMessagesDisposable.dispose()\n", "        self.canDeleteMessagesDisposable.dispose()\n        self.nagramiXTransferDisposable.dispose()\n", "Отменить загрузку выделения при закрытии панели")
+    replace_unique(panel, """    private func updateActions() {
+        self.forwardButton.isEnabled = self.selectedMessages.count != 0
+""", """    private func updateActions() {
+        self.forwardButton.isEnabled = self.selectedMessages.count != 0
+        self.nagramiXCanCopySelection = false
+        self.forwardWithoutSourceButton.isImplicitlyDisabled = true
+        self.broadcastButton.isImplicitlyDisabled = true
+        self.nagramiXTransferDisposable.set(nil)
+""", "Сбросить доступность и старую отправку при изменении выделения")
+    replace_unique(panel, """        } else if let context = self.context {
+            self.canDeleteMessagesDisposable.set((context.sharedContext.chatAvailableMessageActions(engine: context.engine, accountPeerId: context.account.peerId, messageIds: self.selectedMessages, keepUpdated: true)
+            |> deliverOnMainQueue).startStrict(next: { [weak self] actions in
+                if let strongSelf = self {
+                    strongSelf.actions = actions
+""", """        } else if let context = self.context {
+            let selectedIds = self.selectedMessages
+            self.canDeleteMessagesDisposable.set((context.sharedContext.chatAvailableMessageActions(engine: context.engine, accountPeerId: context.account.peerId, messageIds: selectedIds, keepUpdated: true)
+            |> deliverOnMainQueue
+            |> mapToSignal { [weak self] actions -> Signal<(ChatAvailableMessageActions, Bool), NoError> in
+                guard let self else { return .single((actions, false)) }
+                return self.nagramiXSelectedMessagesSignal(context: context, ids: selectedIds)
+                |> deliverOnMainQueue
+                |> map { [weak self] messages in
+                    let canCopy = messages.count == selectedIds.count && self?.interfaceInteraction?.canCopyMessagesWithoutSource?(messages) == true
+                    return (actions, canCopy)
+                }
+            }
+            |> deliverOnMainQueue).startStrict(next: { [weak self] result in
+                if let strongSelf = self, strongSelf.selectedMessages == selectedIds {
+                    let (actions, canCopy) = result
+                    strongSelf.actions = actions
+                    strongSelf.nagramiXCanCopySelection = canCopy
+""", "Проверять всё выделение тем же валидатором копирования")
+    methods = (overlay / "Sources/ChatMessageSelectionInputPanelNode/NagramiXSelectionTransferMethods.swift.inc").read_text(encoding="utf-8")
+    replace_unique(panel, "    private func update(transition: ContainedViewLayoutTransition) {\n", methods + "    private func update(transition: ContainedViewLayoutTransition) {\n", "Пересылать свежее выделение существующими single и broadcast callbacks")
+    replace_unique(panel, """        if self.reportButton.isHidden || (self.peerMedia && self.deleteButton.isHidden && self.reportButton.isHidden) {
+""", """        let transferSettings = NagramiXTabSettings.current
+        let isSecretChat = interfaceState.renderedPeer?.peer is TelegramSecretChat
+        self.forwardWithoutSourceButton.isHidden = !transferSettings.showForwardWithoutAuthor || self.interfaceInteraction?.forwardMessagesWithoutSource == nil || isSecretChat
+        self.broadcastButton.isHidden = !transferSettings.showBroadcastMessages || self.interfaceInteraction?.copyMessagesWithoutSource == nil || isSecretChat
+        let canCopySelection = self.nagramiXCanCopySelection && self.actions?.isCopyProtected != true
+        self.forwardWithoutSourceButton.isEnabled = !self.selectedMessages.isEmpty
+        self.broadcastButton.isEnabled = !self.selectedMessages.isEmpty
+        self.forwardWithoutSourceButton.isImplicitlyDisabled = !canCopySelection
+        self.broadcastButton.isImplicitlyDisabled = !canCopySelection
+
+        if self.reportButton.isHidden || (self.peerMedia && self.deleteButton.isHidden && self.reportButton.isHidden) {
+""", "Сохранить настройки видимости и запреты секретных и защищённых сообщений")
+    replace_unique(panel, "        let buttons: [GlassButtonView]\n", "        var buttons: [GlassButtonView]\n", "Добавить действия к существующей панели")
+    replace_unique(panel, """        let buttonSize = CGSize(width: 40.0, height: 40.0)
+""", """        if !self.forwardWithoutSourceButton.isHidden {
+            buttons.append(self.forwardWithoutSourceButton)
+        }
+        if !self.broadcastButton.isHidden {
+            buttons.append(self.broadcastButton)
+        }
+
+        let buttonSize = CGSize(width: 40.0, height: 40.0)
+""", "Сохранить удаление, экспорт, жалобу и метки рядом с тремя пересылками")
+    replace_unique(panel, """        let availableWidth = width - leftInset - rightInset
+        let spacing: CGFloat = floor((availableWidth - buttonSize.width * CGFloat(buttons.count)) / CGFloat(buttons.count - 1))
+        var offset: CGFloat = leftInset
+""", """        let availableWidth = max(0.0, width - leftInset - rightInset)
+        let minimumContentWidth = buttonSize.width * CGFloat(buttons.count) + 8.0 * CGFloat(buttons.count - 1)
+        let contentWidth = max(availableWidth, minimumContentWidth)
+        transition.updateFrame(view: self.buttonScrollView, frame: CGRect(x: leftInset, y: 0.0, width: availableWidth, height: panelHeight))
+        self.buttonScrollView.contentSize = CGSize(width: contentWidth, height: panelHeight)
+        self.buttonScrollView.isScrollEnabled = contentWidth > availableWidth
+        let maximumOffset = max(0.0, contentWidth - availableWidth)
+        if self.buttonScrollView.contentOffset.x > maximumOffset {
+            self.buttonScrollView.setContentOffset(CGPoint(x: maximumOffset, y: 0.0), animated: false)
+        }
+        let spacing: CGFloat = max(8.0, floor((contentWidth - buttonSize.width * CGFloat(buttons.count)) / CGFloat(buttons.count - 1)))
+        var offset: CGFloat = 0.0
+""", "Равномерные интервалы и прокрутка вместо отрицательных отступов")
+    replace_unique(panel, "CGPoint(x: width - rightInset - buttonSize.width, y: 0.0)", "CGPoint(x: contentWidth - buttonSize.width, y: 0.0)", "Правый край последней кнопки в прокручиваемой панели")
+    replace_unique(panel, "            let reactionsAnchorRect = tagButton.frame.offsetBy(dx: -54.0, dy: -(panelHeight - size.height) + 14.0)\n", "            let reactionsAnchorRect = self.buttonScrollView.convert(tagButton.frame, to: self.view).offsetBy(dx: -54.0, dy: -(panelHeight - size.height) + 14.0)\n", "Сохранить привязку меток после переноса кнопок")
+
+    interaction = source / paths["interaction"]
+    replace_unique(interaction, "    public let copyMessagesWithoutSource: (([EngineRawMessage]) -> Void)?\n", "    public let canCopyMessagesWithoutSource: (([EngineRawMessage]) -> Bool)?\n    public let copyMessagesWithoutSource: (([EngineRawMessage]) -> Void)?\n", "Общий валидатор копирования для независимого модуля панели")
+    replace_unique(interaction, "        copyMessagesWithoutSource: (([EngineRawMessage]) -> Void)? = nil,\n", "        canCopyMessagesWithoutSource: (([EngineRawMessage]) -> Bool)? = nil,\n        copyMessagesWithoutSource: (([EngineRawMessage]) -> Void)? = nil,\n", "Совместимость существующих инициализаторов панели")
+    replace_unique(interaction, "        self.copyMessagesWithoutSource = copyMessagesWithoutSource\n", "        self.canCopyMessagesWithoutSource = canCopyMessagesWithoutSource\n        self.copyMessagesWithoutSource = copyMessagesWithoutSource\n", "Сохранить валидатор в интерфейсе панели")
+    replace_unique(source / paths["load"], "        }, copyMessagesWithoutSource: { [weak self] messages in\n", "        }, canCopyMessagesWithoutSource: nagramiXCanCopyMessagesAsNew, copyMessagesWithoutSource: { [weak self] messages in\n", "Передать прежний валидатор без новой реализации копирования")
+
+    menus = source / paths["menus"]
+    replace_unique(menus, """                    actions.append(.action(ContextMenuActionItem(text: chatPresentationInterfaceState.strings.nagramiXBroadcastMessages, textColor: canForwardWithoutAuthor ? .primary : .disabled, icon: { _ in
+                        return nil
+                    }, iconAnimation: ContextMenuActionItem.IconAnimation(name: "message_preview_person_off"), action: !canForwardWithoutAuthor ? nil : { _, f in
+""", """                    actions.append(.action(ContextMenuActionItem(text: chatPresentationInterfaceState.strings.nagramiXBroadcastMessages, textColor: canForwardWithoutAuthor ? .primary : .disabled, icon: { theme in
+                        return generateTintedImage(image: UIImage(bundleImageName: "Chat/Context Menu/Groups"), color: theme.actionSheet.primaryTextColor)
+                    }, action: !canForwardWithoutAuthor ? nil : { _, f in
+""", "Отдельная иконка группы людей у рассылки в обычном меню")
+    replace_unique(menus, """                actions.append(.action(ContextMenuActionItem(text: chatPresentationInterfaceState.strings.nagramiXBroadcastMessages, icon: { theme in
+                    return generateTintedImage(image: UIImage(bundleImageName: "Chat/Context Menu/Forward"), color: theme.actionSheet.primaryTextColor)
+""", """                actions.append(.action(ContextMenuActionItem(text: chatPresentationInterfaceState.strings.nagramiXBroadcastMessages, icon: { theme in
+                    return generateTintedImage(image: UIImage(bundleImageName: "Chat/Context Menu/Groups"), color: theme.actionSheet.primaryTextColor)
+""", "Та же иконка рассылки у архивных копий")
+
+
+def apply_deferred_preview_reactions(source: Path, overlay: Path) -> None:
+    hashes = {
+        "submodules/TelegramCore/Sources/State/MessageReactions.swift": "f4d551a74c7951843309fc472742360fce69348f0ffcf9082fb6ee31270a4cda",
+        "submodules/TelegramUI/Sources/NavigateToChatController.swift": "f4705477bf087d0b008227d1e09a1644339253cb320500bcabf56436df329ef9",
+        "submodules/TelegramUI/Sources/ChatController.swift": "1b3aab451e58512369aaa3489573e53ca68b19f2fae6d2a44a2a82528ae4aec0",
+        "submodules/TelegramUI/Sources/Chat/ChatControllerLoadDisplayNode.swift": "9c4cb68997799e6493b0cb8b6dc7b0dd0aa34fca6b9b920d30a2de061855e538",
+        "submodules/TelegramUI/Sources/Chat/ChatControllerOpenMessageContextMenu.swift": "d04da4daa28b940930c6da334deee233c85b0f9fb251896273491880f0450379",
+        "submodules/TelegramUI/Sources/ChatControllerOpenMessageReactionContextMenu.swift": "2c71470a1f15cb19602f121fa0a7f647c648fbb61892c9d566f4a887163514ff",
+        "submodules/TelegramUI/Sources/ChatHistoryListNode.swift": "de2554c1823d6885dfeba4f1c8cb291b8c8095d550272e61af4c057b6cc6354a",
+        "submodules/TelegramUI/Sources/ChatHistoryEntriesForView.swift": "a1bc12e62b07447ba2944fd85fea2f7c6572ac110e5dfc97cffb5940f0c9ed05",
+    }
+    for name, expected in hashes.items():
+        if hashlib.sha256((source / name).read_bytes()).hexdigest() != expected:
+            raise SystemExit(f"Изменилась проверенная интеграция реакций предпросмотра: {name}")
+
+    replace_unique(source / "submodules/TelegramCore/Sources/State/MessageReactions.swift", """public func updateMessageReactionsInteractively(account: Account, messageIds: [MessageId], reactions: [UpdateMessageReaction], isLarge: Bool, storeAsRecentlyUsed: Bool, add: Bool = false) -> Signal<Never, NoError> {
+    return account.postbox.transaction { transaction -> Void in
+""", """public func updateMessageReactionsInteractively(account: Account, messageIds: [MessageId], reactions: [UpdateMessageReaction], isLarge: Bool, storeAsRecentlyUsed: Bool, add: Bool = false, shouldApply: (() -> Bool)? = nil) -> Signal<Never, NoError> {
+    return account.postbox.transaction { transaction -> Void in
+        if let shouldApply, !shouldApply() { return }
+""", "Не записывать устаревшую отложенную реакцию в штатную очередь")
+    ui = source / "submodules/TelegramUI/Sources"
+    controller = ui / "ChatController.swift"
+    menu = ui / "Chat/ChatControllerOpenMessageContextMenu.swift"
+    replace_unique(controller, "    let nagramiXReadHistoryDisabled: Bool\n", "    let nagramiXReadHistoryDisabled: Bool\n    var nagramiXVisibleForDeferredReactions = false\n    var nagramiXKeepFullChatForPreviewReply = false\n", "Видимость обычного чата для отправки реакций")
+    replace_unique(controller, """            self.hasBrowserOrAppInFront.get()
+        ) |> map { inForeground, globallyEnabled, hasBrowserOrWebAppInFront in
+""", """            self.hasBrowserOrAppInFront.get(),
+            context.account.nagramiXMessageArchive.deferredReactions.updates
+        ) |> map { inForeground, globallyEnabled, hasBrowserOrWebAppInFront, _ in
+""", "Загрузка очереди и повторная активация обычного чата")
+    replace_unique(controller, """                    strongSelf.raiseToListen?.enabled = effectiveValue
+                }
+""", """                    strongSelf.raiseToListen?.enabled = effectiveValue
+                }
+                strongSelf.nagramiXFlushDeferredReactionsIfActive()
+""", "Отправлять только при foreground/read/visibility gate")
+    replace_unique(ui / "NavigateToChatController.swift", "        if (params.chatController as? ChatControllerImpl)?.nagramiXReadHistoryDisabled != true, case let .peer(peer) = params.chatLocation, case let .channel(channel) = peer, channel.flags.contains(.isForum), !viewForumAsMessages {\n", "        if (params.chatController as? ChatControllerImpl)?.nagramiXReadHistoryDisabled != true, (params.chatController as? ChatControllerImpl)?.nagramiXKeepFullChatForPreviewReply != true, case let .peer(peer) = params.chatLocation, case let .channel(channel) = peer, channel.flags.contains(.isForum), !viewForumAsMessages {\n", "Ответ из полного предпросмотра сохраняет полный форум и штатную проверку возраста")
+    methods = (overlay / "Sources/TelegramUI/NagramiXDeferredReactionMethods.swift.inc").read_text(encoding="utf-8")
+    replace_unique(controller, "    override public func viewDidAppear(_ animated: Bool) {\n", methods + "\n    override public func viewDidAppear(_ animated: Bool) {\n", "Методы локальных реакций")
+    replace_unique(controller, "        self.didAppear = true\n", "        self.didAppear = true\n        self.nagramiXVisibleForDeferredReactions = true\n        self.nagramiXFlushDeferredReactionsIfActive()\n", "Обычное появление чата отправляет отложенные реакции")
+    replace_unique(controller, """    override public func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+""", """    override public func viewWillDisappear(_ animated: Bool) {
+        self.nagramiXVisibleForDeferredReactions = false
+        super.viewWillDisappear(animated)
+""", "Скрытый чат не отправляет локальную очередь")
+    replace_unique(controller, """            guard let messages = strongSelf.chatDisplayNode.historyNode.messageGroupInCurrentHistoryView(initialMessage.id) else {
+                return
+            }
+            guard let message = messages.first else {
+                return
+            }
+""", """            guard let messages = strongSelf.chatDisplayNode.historyNode.messageGroupInCurrentHistoryView(initialMessage.id) else {
+                return
+            }
+            guard let sourceMessage = messages.first else {
+                return
+            }
+            let message = strongSelf.context.account.nagramiXMessageArchive.deferredReactions.displayMessage(sourceMessage)
+""", "Quick reaction учитывает локальный выбор")
+    replace_unique(controller, """                    if case .stars = chosenReaction {
+                        if !canSendReactionsToChat(strongSelf.presentationInterfaceState) {
+""", """                    if case .stars = chosenReaction {
+                        if strongSelf.nagramiXReadHistoryDisabled {
+                            strongSelf.nagramiXExplainPreviewPaidReactions()
+                            return
+                        }
+                        if !canSendReactionsToChat(strongSelf.presentationInterfaceState) {
+""", "Не отправлять платную реакцию из предпросмотра")
+    replace_unique(controller, "                        let _ = updateMessageReactionsInteractively(account: strongSelf.context.account, messageIds: [message.id], reactions: mappedUpdatedReactions, isLarge: false, storeAsRecentlyUsed: false).startStandalone()\n", "                        strongSelf.nagramiXUpdateMessageReactions(message: message, reactions: mappedUpdatedReactions, isLarge: false, storeAsRecentlyUsed: false)\n", "Quick reaction локальна только в предпросмотре")
+    replace_unique(menu, "            var updatedMessages = messages\n", "            var updatedMessages = messages.map { self.context.account.nagramiXMessageArchive.deferredReactions.displayMessage($0) }\n", "Штатная панель выбора показывает локальные реакции")
+    replace_unique(menu, """                    guard let message = messages.first else {
+                        return
+                    }
+""", """                    guard let sourceMessage = messages.first else {
+                        return
+                    }
+                    let message = self.context.account.nagramiXMessageArchive.deferredReactions.displayMessage(sourceMessage)
+""", "Меню учитывает последнее локальное состояние реакции")
+    replace_unique(menu, """                    if case .stars = chosenUpdatedReaction.reaction {
+                        if !canSendReactionsToChat(self.presentationInterfaceState) {
+""", """                    if case .stars = chosenUpdatedReaction.reaction {
+                        if self.nagramiXReadHistoryDisabled {
+                            controller?.dismiss(completion: { [weak self] in
+                                self?.nagramiXExplainPreviewPaidReactions()
+                            })
+                            return
+                        }
+                        if !canSendReactionsToChat(self.presentationInterfaceState) {
+""", "Платное меню не отправляет Stars в предпросмотре")
+    replace_unique(menu, "                        let _ = updateMessageReactionsInteractively(account: self.context.account, messageIds: [message.id], reactions: mappedUpdatedReactions, isLarge: isLarge, storeAsRecentlyUsed: true).startStandalone()\n", "                        self.nagramiXUpdateMessageReactions(message: message, reactions: mappedUpdatedReactions, isLarge: isLarge, storeAsRecentlyUsed: true)\n", "Реакция меню сохраняется без сетевой операции")
+    replace_unique(ui / "ChatControllerOpenMessageReactionContextMenu.swift", """    func openMessageSendStarsScreen(message: EngineMessage) {
+        guard canSendReactionsToChat(self.presentationInterfaceState) else {
+""", """    func openMessageSendStarsScreen(message: EngineMessage) {
+        if self.nagramiXReadHistoryDisabled {
+            self.nagramiXExplainPreviewPaidReactions()
+            return
+        }
+        guard canSendReactionsToChat(self.presentationInterfaceState) else {
+""", "Прямой вход Stars тоже защищён до forceSend/purchase")
+    replace_unique(ui / "ChatHistoryListNode.swift", "        historyViewUpdate = combineLatest(historyViewUpdate, context.account.nagramiXMessageArchive.updates)\n", "        historyViewUpdate = combineLatest(historyViewUpdate, context.account.nagramiXMessageArchive.updates, context.account.nagramiXMessageArchive.deferredReactions.updates)\n", "Перерисовка локального выбора без Postbox pending action")
+    replace_unique(ui / "ChatHistoryListNode.swift", """        |> map { update, _ in
+            return update
+        }
+
+        let previousView = self.previousView
+""", """        |> map { update, _, _ in
+            return update
+        }
+
+        let previousView = self.previousView
+""", "Обновление представления при загрузке или изменении реакции")
+    replace_unique(ui / "ChatHistoryEntriesForView.swift", "        var message = entry.message.withAppliedEphemeralReplacementMessage()\n", "        var message = entry.message.withAppliedEphemeralReplacementMessage()\n        message = context.account.nagramiXMessageArchive.deferredReactions.displayMessage(message)\n", "Синтетическая реакция только в отображаемом Message")
+
+    load = ui / "Chat/ChatControllerLoadDisplayNode.swift"
+    replace_unique(load, """        let interfaceInteraction = ChatPanelInterfaceInteraction(setupReplyMessage: { [weak self] messageId, innerSubject, completion in
+            guard let strongSelf = self, strongSelf.isNodeLoaded else {
+                return
+            }
+            if strongSelf.nagramiXReadHistoryDisabled {
+                completion(.immediate, {})
+                return
+            }
+""", """        let interfaceInteraction = ChatPanelInterfaceInteraction(setupReplyMessage: { [weak self] messageId, innerSubject, completion in
+            guard let strongSelf = self, strongSelf.isNodeLoaded else {
+                return
+            }
+            if strongSelf.nagramiXReadHistoryDisabled {
+                guard let messageId,
+                      canSendMessagesToChat(strongSelf.presentationInterfaceState),
+                      !strongSelf.presentAccountFrozenInfoIfNeeded(delay: true),
+                      let message = strongSelf.chatDisplayNode.historyNode.messageInCurrentHistoryView(messageId)?._asMessage(),
+                      let navigationController = strongSelf.navigationController as? NavigationController else {
+                    completion(.immediate, {})
+                    return
+                }
+                let location: NavigateToChatControllerParams.Location
+                switch strongSelf.chatLocation {
+                case let .peer(peerId):
+                    guard let peer = strongSelf.presentationInterfaceState.renderedPeer?.peer, peer.id == peerId else {
+                        completion(.immediate, {})
+                        return
+                    }
+                    location = .peer(EnginePeer(peer))
+                case let .replyThread(thread):
+                    location = .replyThread(thread)
+                case .customChatContents:
+                    completion(.immediate, {})
+                    return
+                }
+                // Wait for native context-menu dismissal before normal navigation.
+                // The readonly controller's immutable policy is never weakened.
+                completion(.immediate, { [weak self] in
+                    guard let self else { return }
+                    let active = ChatControllerImpl(context: self.context, chatLocation: location.asChatLocation,
+                        chatLocationContextHolder: self.chatLocationContextHolder, chatListFilter: self.currentChatListFilter)
+                    active.nagramiXKeepFullChatForPreviewReply = true
+                    self.context.sharedContext.navigateToChatController(NavigateToChatControllerParams(
+                        navigationController: navigationController, chatController: active, context: self.context, chatLocation: location,
+                        chatLocationContextHolder: self.chatLocationContextHolder,
+                        activateInput: .text, keepStack: .always, useExisting: false,
+                        chatListFilter: self.currentChatListFilter,
+                        completion: { controller in
+                            guard let active = controller as? ChatControllerImpl, !active.nagramiXReadHistoryDisabled else { return }
+                            _ = active.displayNode
+                            active.updateChatPresentationInterfaceState(animated: false, interactive: true, saveInterfaceState: true, {
+                                $0.updatedInterfaceState {
+                                    $0.withUpdatedReplyMessageSubject(ChatInterfaceState.ReplyMessageSubject(
+                                        messageId: message.id, quote: nil, innerSubject: innerSubject
+                                    ))
+                                }.updatedReplyMessage(message).updatedSearch(nil).updatedShowCommands(false)
+                            })
+                            active.chatDisplayNode.ensureInputViewFocused()
+                        }, forceOpenChat: true
+                    ))
+                })
+                return
+            }
+""", "Только Ответить открывает новое обычное окно с выбранным сообщением")
+    replace_unique(controller, """            apply(self.didAppear ? .animated(duration: 0.4, curve: .spring) : .immediate)
+\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20
+            self.currentChatSwitchDirection = nil
+            self.isUpdatingChatLocationThread = false
+""", """            apply(self.didAppear ? .animated(duration: 0.4, curve: .spring) : .immediate)
+\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20
+            self.currentChatSwitchDirection = nil
+            self.isUpdatingChatLocationThread = false
+            self.nagramiXFlushDeferredReactionsIfActive()
+""", "Новая обычная локация отправляет только свою очередь")
+    replace_unique(controller, """            apply(.animated(duration: 0.4, curve: .spring))
+\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20
+            self.currentChatSwitchDirection = nil
+            self.isUpdatingChatLocationThread = false
+""", """            apply(.animated(duration: 0.4, curve: .spring))
+\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20
+            self.currentChatSwitchDirection = nil
+            self.isUpdatingChatLocationThread = false
+            self.nagramiXFlushDeferredReactionsIfActive()
+""", "Отдельный переход в тему отправляет её отложенные реакции")
+    replace_unique(controller, """                self.isUpdatingChatLocationThread = false
+\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20
+                self.chatDisplayNode.textInputPanelNode?.ignoreInputStateUpdates = false
+""", """                self.isUpdatingChatLocationThread = false
+                self.nagramiXFlushDeferredReactionsIfActive()
+\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20
+                self.chatDisplayNode.textInputPanelNode?.ignoreInputStateUpdates = false
+""", "Активная вкладка форума отправляет очередь после замены истории")
+    core = overlay / "Sources/TelegramCore/NagramiXDeferredReactionsStore.swift"
+    shutil.copy2(core, source / "submodules/TelegramCore/Sources/Utils" / core.name)
+
+
+def apply_in_app_notification_sound_default(source: Path) -> None:
+    path = source / "submodules/TelegramUIPreferences/Sources/InAppNotificationSettings.swift"
+    if hashlib.sha256(path.read_bytes()).hexdigest() != "00fc3fbe70340ed770e091a2c12e60363347992e850e16321e87310741a2d557":
+        raise SystemExit(f"Изменился проверенный источник настроек звука в приложении: {path}")
+    replace_unique(
+        path,
+        "return InAppNotificationSettings(playSounds: true, vibrate: false, displayPreviews: true,",
+        "return InAppNotificationSettings(playSounds: false, vibrate: false, displayPreviews: true,",
+        "Звук в приложении выключен только при отсутствии сохранённых настроек",
+    )
+
+
+def apply_story_viewing_mode_confirmation(source: Path) -> None:
+    """Один pre-view экран по фактическому режиму текущей сессии историй."""
+    path = source / "submodules/TelegramUI/Components/Stories/StoryContainerScreen/Sources/StoryContainerScreen.swift"
+    original = path.read_text(encoding="utf-8")
+    if hashlib.sha256(path.read_bytes()).hexdigest() != "a5372c0d82317ed53197d9801712133888d7e89b7a52f96bde64cdc465a4c6a5":
+        raise SystemExit("Изменилась проверенная интеграция подтверждения историй или правка уже применена")
+    changes = [
+        ("    private var nagramiXApprovedStoryId: EngineStoryId?\n",
+         "    private var nagramiXApprovedStoryId: EngineStoryId?\n    private var nagramiXAcknowledgedAnonymousViewing = false\n"),
+        ("    fileprivate func nagramiXConfirmNavigation(peer: EnginePeer, item: StoryContentItem, action: @escaping () -> Void) {\n        guard NagramiXTabSettings.current.confirmStoryViewing, peer.id != self.context.account.peerId else {\n",
+         """    private func nagramiXUsesAnonymousViewing(peer: EnginePeer, item: StoryContentItem) -> Bool {
+        if case .liveStream = item.storyItem.media { return false }
+        return self.nagramiXContent.nagramiXAnonymousViewing && (item.itemPeer ?? peer).id != self.context.account.peerId
+    }
+
+    fileprivate func nagramiXConfirmNavigation(peer: EnginePeer, item: StoryContentItem, action: @escaping () -> Void) {
+        let anonymousViewing = self.nagramiXUsesAnonymousViewing(peer: peer, item: item)
+        let needsConfirmation = anonymousViewing ? !self.nagramiXAcknowledgedAnonymousViewing : NagramiXTabSettings.current.confirmStoryViewing
+        guard needsConfirmation, peer.id != self.context.account.peerId else {
+"""),
+        ("    public func nagramiXPresent(from parentController: ViewController, action: @escaping () -> Void) {\n        guard NagramiXTabSettings.current.confirmStoryViewing else {\n",
+         "    public func nagramiXPresent(from parentController: ViewController, action: @escaping () -> Void) {\n        guard NagramiXTabSettings.current.confirmStoryViewing || self.nagramiXContent.nagramiXAnonymousViewing else {\n"),
+        ("            if slice.effectivePeer.id == self.context.account.peerId {\n                action()\n                return\n            }\n\n            self.nagramiXIsPresentingConfirmation = true\n",
+         """            let anonymousViewing = self.nagramiXUsesAnonymousViewing(peer: slice.effectivePeer, item: slice.item)
+            let needsConfirmation = anonymousViewing ? !self.nagramiXAcknowledgedAnonymousViewing : NagramiXTabSettings.current.confirmStoryViewing
+            if slice.effectivePeer.id == self.context.account.peerId || !needsConfirmation {
+                action()
+                return
+            }
+
+            self.nagramiXIsPresentingConfirmation = true
+"""),
+        ("                self.nagramiXApprovedStoryId = item.id\n",
+         "                if anonymousViewing { self.nagramiXAcknowledgedAnonymousViewing = true }\n                self.nagramiXApprovedStoryId = item.id\n"),
+        ("                    self?.nagramiXApprovedStoryId = slice.item.id\n",
+         "                    if anonymousViewing { self?.nagramiXAcknowledgedAnonymousViewing = true }\n                    self?.nagramiXApprovedStoryId = slice.item.id\n"),
+        ("        self.titleLabel.textAlignment = .center\n        self.bodyLabel.textColor",
+         "        self.titleLabel.textAlignment = .center\n        self.titleLabel.numberOfLines = 0\n        self.bodyLabel.textColor"),
+    ]
+    for indent in ("            ", "                "):
+        changes.append((
+            indent + "title: presentationData.strings.nagramiXStoryConfirmationTitle,\n" +
+            indent + "body: presentationData.strings.nagramiXStoryConfirmationText(owner: owner),\n" +
+            indent + "action: presentationData.strings.nagramiXViewStoryAction,\n",
+            indent + "title: anonymousViewing ? presentationData.strings.nagramiXAnonymousStoryPreviewTitle : presentationData.strings.nagramiXStoryConfirmationTitle,\n" +
+            indent + "body: anonymousViewing ? presentationData.strings.nagramiXAnonymousStoryPreviewText : presentationData.strings.nagramiXStoryConfirmationText(owner: owner),\n" +
+            indent + "action: anonymousViewing ? presentationData.strings.nagramiXAnonymousStoryPreviewAction : presentationData.strings.nagramiXViewStoryAction,\n",
+        ))
+    result = original
+    for old, new in changes:
+        if result.count(old) != 1:
+            raise SystemExit("Изменился точный якорь выбора режима подтверждения историй")
+        result = result.replace(old, new, 1)
+    # Approval/read gate, cancellation, preview fetch and all receipt policies
+    # intentionally stay unchanged. Only the pre-view presentation is selected.
+    path.write_text(result, encoding="utf-8")
+
+
+def apply_option_selection_sheets(source: Path, overlay: Path) -> None:
+    """Общий штатный sheet для выбора режима загрузки и таймера прокси."""
+    proxy = source / "submodules/SettingsUI/Sources/Data and Storage/ProxyListSettingsController.swift"
+    if hashlib.sha256(proxy.read_bytes()).hexdigest() != "df0d21843e665276dcdc4da23584ce69df24aa629267234e93c611afdfabe77f":
+        raise SystemExit("Изменилась проверенная интеграция таймера прокси или панель уже применена")
+    old = """    selectTimeoutImpl = {
+        let presentationData = sharedContext.currentPresentationData.with { $0 }
+        let actionSheet = ActionSheetController(presentationData: presentationData)
+        let currentTimeout = NagramiXTabSettings.current.proxyAutoSwitchTimeout
+        let values = [15, 30, 60]
+        let items: [ActionSheetItem] = values.map { value in
+            ActionSheetButtonItem(title: (currentTimeout == value ? "✓ " : "") + nagramiXTimeoutTitle(value, strings: presentationData.strings), color: .accent, action: { [weak actionSheet] in
+                actionSheet?.dismissAnimated()
+                updateNagramiXSettings { $0.proxyAutoSwitchTimeout = value }
+            })
+        }
+        var timeoutItems: [ActionSheetItem] = [ActionSheetTextItem(title: presentationData.strings.nagramiXProxySwitchAfter)]
+        timeoutItems.append(contentsOf: items)
+        actionSheet.setItemGroups([
+            ActionSheetItemGroup(items: timeoutItems),
+            ActionSheetItemGroup(items: [ActionSheetButtonItem(title: presentationData.strings.Common_Cancel, color: .accent, font: .bold, action: { [weak actionSheet] in actionSheet?.dismissAnimated() })])
+        ])
+        presentControllerImpl?(actionSheet)
+    }
+"""
+    new = """    selectTimeoutImpl = {
+        let presentationData = sharedContext.currentPresentationData.with { $0 }
+        let currentTimeout = NagramiXTabSettings.current.proxyAutoSwitchTimeout
+        let values = [15, 30, 60]
+        let options = values.map { value in
+            NagramiXOptionSheetOption(id: value, title: nagramiXTimeoutTitle(value, strings: presentationData.strings), subtitle: "")
+        }
+        let actionSheet = nagramiXOptionSheet(presentationData: presentationData, title: presentationData.strings.nagramiXProxySwitchAfter, options: options, selectedId: currentTimeout, footnote: presentationData.strings.nagramiXProxyTimeoutInfo, selected: { value in
+            guard values.contains(value) else { return }
+            updateNagramiXSettings { $0.proxyAutoSwitchTimeout = value }
+        })
+        presentControllerImpl?(actionSheet)
+    }
+"""
+    # Validate the durable component before mutating the audited native input.
+    component = overlay / "Sources/SettingsUI/NagramiXOptionSheet.swift"
+    if not component.is_file():
+        raise SystemExit("Отсутствует общий компонент панели выбора")
+    replace_unique(proxy, old, new, "Современная панель 15/30/60 с отдельной галочкой")
+    shutil.copy2(component, source / "submodules/SettingsUI/Sources/NagramiXOptionSheet.swift")
+
+
+def apply_proxy_vpn_policy_and_layout(source: Path, overlay: Path) -> None:
+    """VPN-политика поверх сохранённого прокси и порядок блоков интерфейса."""
+    inputs = {
+        "submodules/TelegramCore/Sources/Account/Account.swift": "c79fccdd30ab820d3197f92d248d0d4d91d3c89e3443fd6bf6c548c65a7f2ac5",
+        "submodules/TelegramCore/Sources/Network/Network.swift": "28896b98a801591c59af3f5aa234ae56153eaa2635826a5a4ebe3925f1fe9323",
+        "submodules/TelegramCore/Sources/SyncCore/SyncCore_ProxySettings.swift": "98c12349e1feaed3072d125cdb114bbc4d8ce241a38fdc559dfdcb133efe11ff",
+        "submodules/SettingsUI/Sources/Data and Storage/ProxyListSettingsController.swift": "54f600977ba21fdff4c4d48bf69e2b2d52a4dabf1674c1264f229744716e8e68",
+        "submodules/SettingsUI/Sources/Data and Storage/ProxySettingsActionItem.swift": "2d8546b017e137f5f331ac80b83fca79e2918f42eb94e92a41956af35925cb98",
+    }
+    for name, expected in inputs.items():
+        if hashlib.sha256((source / name).read_bytes()).hexdigest() != expected:
+            raise SystemExit(f"Изменилась проверенная VPN/proxy интеграция или правка уже применена: {name}")
+    policy = overlay / "Sources/TelegramCore/NagramiXProxyVPNPolicy.swift"
+    if not policy.is_file():
+        raise SystemExit("Отсутствует компонент политики VPN")
+    account, network, settings, proxy, action_item = [source / name for name in inputs]
+    changes: list[tuple[Path, str, str]] = []
+
+    def patch(path: Path, old: str, new: str) -> None:
+        changes.append((path, old, new))
+
+    patch(settings,
+        "    public var effectiveActiveServer: ProxyServerSettings? {\n",
+        "    public var effectiveActiveServer: ProxyServerSettings? {\n        guard !NagramiXProxyVPNPolicy.bypassed else { return nil }\n")
+    patch(account,
+        "        self.proxySettingsDisposable.set((accountManager.sharedData(keys: [SharedDataKeys.proxySettings])\n        |> map { sharedData -> ProxyServerSettings? in\n",
+        "        self.proxySettingsDisposable.set((combineLatest(accountManager.sharedData(keys: [SharedDataKeys.proxySettings]), NagramiXProxyVPNPolicy.bypassedSignal())\n        |> map { sharedData, _ -> ProxyServerSettings? in\n")
+    patch(account,
+        "        self.managedOperationsDisposable.add((accountManager.sharedData(keys: [SharedDataKeys.proxySettings])\n        |> map { sharedData -> ProxyServerSettings? in\n",
+        "        self.managedOperationsDisposable.add((combineLatest(accountManager.sharedData(keys: [SharedDataKeys.proxySettings]), NagramiXProxyVPNPolicy.bypassedSignal())\n        |> map { sharedData, _ -> ProxyServerSettings? in\n")
+    patch(network,
+        "    func updateProxySettings(_ activeServer: ProxyServerSettings?) {\n",
+        "    func updateProxySettings(_ activeServer: ProxyServerSettings?) {\n        let activeServer = NagramiXProxyVPNPolicy.bypassed ? nil : activeServer\n")
+    patch(action_item,
+        "textColor: item.presentationData.theme.list.itemAccentColor), backgroundColor: nil, maximumNumberOfLines: 1,",
+        "textColor: item.presentationData.theme.list.itemAccentColor), backgroundColor: nil, maximumNumberOfLines: 0,")
+
+    old_block = (overlay / "Sources/SettingsUI/ProxyListNagramiXBlock.swift.inc").read_text(encoding="utf-8")
+    block = old_block
+
+    def edit(old: str, new: str) -> None:
+        nonlocal block
+        if block.count(old) != 1:
+            raise SystemExit("Изменился точный якорь интерфейса VPN/списка прокси")
+        block = block.replace(old, new, 1)
+
+    edit("    let toggleAutoSwitch: (Bool) -> Void\n",
+         "    let toggleAutoSwitch: (Bool) -> Void\n    let toggleAvoidProxyWithVPN: (Bool) -> Void = { value in NagramiXTabSettings.update { $0.avoidProxyWithVPN = value } }\n")
+    # Existing section values and stable IDs survive; ordering is explicit below.
+    edit("    case share\n}", "    case share\n    case check\n}")
+    edit("    case checkAllProxies(PresentationTheme, String, Bool)\n",
+         "    case checkAllProxies(PresentationTheme, String, Bool)\n    case avoidProxyWithVPN(PresentationTheme, String, Bool)\n    case avoidProxyWithVPNInfo(PresentationTheme, String)\n")
+    edit("        case .enabled, .dns, .customDoh, .autoSwitch, .autoSwitchTimeout, .checkAllProxies:\n",
+         "        case .enabled, .dns, .customDoh, .autoSwitch, .autoSwitchTimeout, .avoidProxyWithVPN, .avoidProxyWithVPNInfo:\n")
+    edit("        case .shareProxyList:\n            return ProxySettingsControllerSection.share.rawValue\n",
+         "        case .shareProxyList:\n            return ProxySettingsControllerSection.share.rawValue\n        case .checkAllProxies:\n            return ProxySettingsControllerSection.check.rawValue\n")
+    edit("        case .checkAllProxies: return 5\n",
+         "        case .avoidProxyWithVPN: return 5\n        case .avoidProxyWithVPNInfo: return 6\n        case .checkAllProxies: return 7\n")
+    edit("        case .shareProxyList: return 10_000\n", "        case .shareProxyList: return 8\n")
+    edit("        case .checkAllProxies: return .index(5)\n",
+         "        case .checkAllProxies: return .index(5)\n        case .avoidProxyWithVPN: return .index(15)\n        case .avoidProxyWithVPNInfo: return .index(16)\n")
+    edit("        case let (.autoSwitch(lt, ls, lv), .autoSwitch(rt, rs, rv)):\n",
+         "        case let (.autoSwitch(lt, ls, lv), .autoSwitch(rt, rs, rv)), let (.avoidProxyWithVPN(lt, ls, lv), .avoidProxyWithVPN(rt, rs, rv)):\n")
+    edit("        case let (.serversHeader(lt, ls), .serversHeader(rt, rs)),",
+         "        case let (.avoidProxyWithVPNInfo(lt, ls), .avoidProxyWithVPNInfo(rt, rs)), let (.serversHeader(lt, ls), .serversHeader(rt, rs)),")
+    edit("        case let .autoSwitchTimeout(_, title, value):\n",
+         "        case let .avoidProxyWithVPN(_, title, value):\n            return ItemListSwitchItem(presentationData: presentationData, systemStyle: .glass, title: title, value: value, maximumNumberOfLines: 0, sectionId: self.section, style: .blocks, updated: arguments.toggleAvoidProxyWithVPN)\n        case let .avoidProxyWithVPNInfo(_, text):\n            return ItemListTextItem(presentationData: presentationData, text: .plain(text), sectionId: self.section)\n        case let .autoSwitchTimeout(_, title, value):\n")
+    edit("title: title, icon: .refresh, sectionId: self.section", "title: title, sectionId: self.section")
+    edit("statuses: [ProxyServerSettings: ProxyServerStatus], connectionStatus: ConnectionStatus) -> [ProxySettingsControllerEntry] {",
+         "statuses: [ProxyServerSettings: ProxyServerStatus], connectionStatus: ConnectionStatus, vpnBypassed: Bool) -> [ProxySettingsControllerEntry] {")
+    edit("    entries.append(.checkAllProxies(theme,",
+         "    entries.append(.avoidProxyWithVPN(theme, strings.nagramiXAvoidProxyWithVPN, nagramiXSettings.avoidProxyWithVPN))\n    entries.append(.avoidProxyWithVPNInfo(theme, vpnBypassed ? strings.nagramiXProxyBypassedForVPN + \"\\n\" + strings.nagramiXAvoidProxyWithVPNInfo : strings.nagramiXAvoidProxyWithVPNInfo))\n    entries.append(.shareProxyList(theme, strings.SocksProxySetup_ShareProxyList))\n    entries.append(.checkAllProxies(theme,")
+    # ItemList entries must already follow the same order as their comparator.
+    edit("    entries.append(.shareProxyList(theme, strings.SocksProxySetup_ShareProxyList))\n    entries.append(.checkAllProxies(theme, state.checkingAllProxies ? strings.nagramiXProxyChecking : strings.nagramiXProxyCheckAll, state.checkingAllProxies))\n",
+         "    entries.append(.checkAllProxies(theme, state.checkingAllProxies ? strings.nagramiXProxyChecking : strings.nagramiXProxyCheckAll, state.checkingAllProxies))\n    entries.append(.shareProxyList(theme, strings.SocksProxySetup_ShareProxyList))\n")
+    edit("    }\n    entries.append(.shareProxyList(theme, strings.SocksProxySetup_ShareProxyList))\n    return entries\n",
+         "    }\n    return entries\n")
+    edit("        if proxySettings.enabled && server == proxySettings.activeServer {\n",
+         "        if proxySettings.enabled && !vpnBypassed && server == proxySettings.activeServer {\n")
+    edit("revealed: state.revealedServer == server), proxySettings.enabled))\n",
+         "revealed: state.revealedServer == server), proxySettings.enabled && !vpnBypassed))\n")
+    patch(proxy, old_block, block)
+    patch(proxy,
+        "    let signal = combineLatest(updatedPresentationData, statePromise.get(), proxySettings.get(), statusesContext.statuses(), network.connectionStatus, nagramiXSettingsPromise.get())\n    |> map { presentationData, state, proxySettings, statuses, connectionStatus, nagramiXSettings ->",
+        "    let signal = combineLatest(updatedPresentationData, statePromise.get(), proxySettings.get(), statusesContext.statuses(), network.connectionStatus, nagramiXSettingsPromise.get(), NagramiXProxyVPNPolicy.bypassedSignal())\n    |> map { presentationData, state, proxySettings, statuses, connectionStatus, nagramiXSettings, vpnBypassed ->")
+    patch(proxy,
+        "nagramiXSettings: nagramiXSettings, statuses: statuses, connectionStatus: connectionStatus)",
+        "nagramiXSettings: nagramiXSettings, statuses: statuses, connectionStatus: connectionStatus, vpnBypassed: vpnBypassed)")
+    # All hashes/anchors are checked in memory before any native file is written.
+    outputs: dict[Path, str] = {}
+    for path, old, new in changes:
+        text = outputs.get(path, path.read_text(encoding="utf-8"))
+        if text.count(old) != 1:
+            raise SystemExit(f"Изменился точный якорь VPN/proxy интеграции: {path.name}")
+        outputs[path] = text.replace(old, new, 1)
+    for path, text in outputs.items():
+        path.write_text(text, encoding="utf-8")
+    shutil.copy2(policy, source / "submodules/TelegramCore/Sources/NagramiXProxyVPNPolicy.swift")
+
+
+def apply_hide_greeting_sticker(source: Path, overlay: Path) -> None:
+    """Штатная пустая надпись без приветствия и его фоновой загрузки."""
+    inputs = {
+        "submodules/TelegramUI/Components/Chat/ChatEmptyNode/Sources/ChatEmptyNode.swift": "18aca355e109943db9dbb3c4aae62ae7c7f90be29d5ebadbc962db3e492617a2",
+        "submodules/TelegramUI/Components/Chat/ChatEmptyNode/BUILD": "42162ecc1707943026008208145cc087f6286638eab45c2828a3344cc450173e",
+        "submodules/TelegramUI/Sources/PrefetchManager.swift": "b09db66ae957cab8e1d48738c16f72a0dfb7e5c67a1c38d84828e918604d5dfb",
+    }
+    for name, expected in inputs.items():
+        if hashlib.sha256((source / name).read_bytes()).hexdigest() != expected:
+            raise SystemExit(f"Изменилась проверенная интеграция приветствий или правка уже применена: {name}")
+    node, build, prefetch = [source / name for name in inputs]
+    changes: list[tuple[Path, str, str]] = []
+
+    def patch(path: Path, old: str, new: str) -> None:
+        changes.append((path, old, new))
+
+    patch(build, '        "//submodules/TelegramPresentationData",\n',
+          '        "//submodules/TelegramPresentationData",\n        "//submodules/NagramiXCore:NagramiXCore",\n')
+    patch(node, "import Foundation\n", "import Foundation\nimport NagramiXCore\n")
+    patch(node, "                sticker = preloadedSticker\n",
+          """                // A greeting hidden earlier may have a nil preload. Restore
+                // the native random sticker path when the user enables greetings.
+                sticker = preloadedSticker
+                |> mapToSignal { [weak self] file -> Signal<TelegramMediaFile?, NoError> in
+                    if let file { return .single(file) }
+                    guard let self else { return .single(nil) }
+                    return self.context.engine.stickers.randomGreetingSticker()
+                    |> map { $0?.file }
+                }
+""")
+    patch(node, "    private var attachedDescriptionNode: EmptyAttachedDescriptionNode?\n",
+          "    private var attachedDescriptionNode: EmptyAttachedDescriptionNode?\n    private var nagramiXSettingsObserver: NSObjectProtocol?\n    private var nagramiXRefreshGreeting: (() -> Void)?\n")
+    patch(node, "        self.addSubnode(self.backgroundNode)\n    }\n    \n    override public func hitTest",
+          """        self.addSubnode(self.backgroundNode)
+        self.nagramiXSettingsObserver = NotificationCenter.default.addObserver(forName: NagramiXTabSettings.changedNotification, object: nil, queue: .main, using: { [weak self] _ in
+            self?.nagramiXRefreshGreeting?()
+        })
+    }
+
+    deinit {
+        if let observer = self.nagramiXSettingsObserver { NotificationCenter.default.removeObserver(observer) }
+    }
+
+    override public func hitTest""")
+    patch(node, "        self.wallpaperBackgroundNode = backgroundNode\n",
+          """        self.wallpaperBackgroundNode = backgroundNode
+        self.nagramiXRefreshGreeting = { [weak self, weak backgroundNode] in
+            self?.updateLayout(interfaceState: interfaceState, subject: subject, loadingNode: nil, backgroundNode: backgroundNode, size: size, insets: insets, leftInset: leftInset, rightInset: rightInset, transition: .immediate)
+        }
+""")
+    patch(node, "        var updateGreetingSticker = false\n",
+          """        // Preserve the explicit business-intro editor preview. Only replace
+        // the greeting selected for an actual empty peer conversation.
+        if case .greeting = contentType, NagramiXTabSettings.hideGreetingStickerEnabled {
+            if case .emptyChat(.customGreeting) = subject {
+                // This subject is an explicitly requested editor preview.
+            } else {
+                contentType = .regular
+                displayAttachedDescription = false
+            }
+        }
+
+        var updateGreetingSticker = false
+""")
+    patch(prefetch, "import Foundation\n", "import Foundation\nimport NagramiXCore\n")
+    patch(prefetch, "    private let preloadGreetingStickerDisposable = MetaDisposable()\n",
+          "    private let preloadGreetingStickerDisposable = MetaDisposable()\n    private var nagramiXSettingsObserver: NSObjectProtocol?\n    private var hideGreetingSticker = NagramiXTabSettings.hideGreetingStickerEnabled\n")
+    patch(prefetch, "        self.fetchManager = fetchManager\n",
+          """        self.fetchManager = fetchManager
+        self.nagramiXSettingsObserver = NotificationCenter.default.addObserver(forName: NagramiXTabSettings.changedNotification, object: nil, queue: nil, using: { [weak self] _ in
+            self?.queue.async { self?.updateGreetingVisibility() }
+        })
+""")
+    patch(prefetch, "        self.listDisposable?.dispose()\n",
+          """        self.listDisposable?.dispose()
+        self.preloadGreetingStickerDisposable.dispose()
+        if let observer = self.nagramiXSettingsObserver { NotificationCenter.default.removeObserver(observer) }
+""")
+    patch(prefetch, "    fileprivate func prepareNextGreetingSticker() {\n",
+          """    private func updateGreetingVisibility() {
+        let hidden = NagramiXTabSettings.hideGreetingStickerEnabled
+        guard hidden != self.hideGreetingSticker else { return }
+        self.hideGreetingSticker = hidden
+        if hidden {
+            self.preloadGreetingStickerDisposable.set(nil)
+            self.preloadedGreetingStickerPromise.set(.single(nil))
+        } else {
+            self.prepareNextGreetingSticker()
+        }
+    }
+
+    fileprivate func prepareNextGreetingSticker() {
+        guard !NagramiXTabSettings.hideGreetingStickerEnabled else {
+            self.preloadGreetingStickerDisposable.set(nil)
+            self.preloadedGreetingStickerPromise.set(.single(nil))
+            return
+        }
+""")
+    patch(prefetch, "            if let sticker = sticker {\n",
+          "            if let sticker = sticker, !NagramiXTabSettings.hideGreetingStickerEnabled {\n")
+    outputs: dict[Path, str] = {}
+    for path, old, new in changes:
+        text = outputs.get(path, path.read_text(encoding="utf-8"))
+        if text.count(old) != 1:
+            raise SystemExit(f"Изменился точный якорь приветствий: {path.name}")
+        outputs[path] = text.replace(old, new, 1)
+    for path, text in outputs.items():
+        path.write_text(text, encoding="utf-8")
+
+
+def apply_recording_music_default(source: Path) -> None:
+    """Разрешить штатное смешивание музыки при отсутствии сохранённого выбора."""
+    path = source / "submodules/TelegramUIPreferences/Sources/MediaInputSettings.swift"
+    text = path.read_text(encoding="utf-8")
+    if hashlib.sha256(path.read_bytes()).hexdigest() != "6c6d8c1d137b8408a460816f50666fc104369466fedda18ea36ec933fe9629e1":
+        raise SystemExit("Изменились проверенные настройки записи или правка уже применена")
+    changes = [
+        ("return MediaInputSettings(enableRaiseToSpeak: true, pauseMusicOnRecording: true)",
+         "return MediaInputSettings(enableRaiseToSpeak: true, pauseMusicOnRecording: false)"),
+        ('forKey: "pauseMusicOnRecording_v2") ?? 1) != 0',
+         'forKey: "pauseMusicOnRecording_v2") ?? 0) != 0'),
+    ]
+    for old, new in changes:
+        if text.count(old) != 1:
+            raise SystemExit("Изменился точный якорь начального режима записи")
+        text = text.replace(old, new, 1)
+    path.write_text(text, encoding="utf-8")
+
+
+def apply_voice_autoplay_policy(source: Path) -> None:
+    """Останавливать голосовые и кружки в штатном end callback без auto-next."""
+    path = source / "submodules/TelegramUI/Sources/SharedMediaPlayer.swift"
+    text = path.read_text(encoding="utf-8")
+    if hashlib.sha256(path.read_bytes()).hexdigest() != "73fe67e9d89c15d0789e6f2f28041d63c4f10d0e7e759e29e6969502841b2621":
+        raise SystemExit("Изменился проверенный общий плеер или правка уже применена")
+    changes = [
+        ("import Foundation\n", "import Foundation\nimport NagramiXCore\n"),
+        ("    private var playbackItem: SharedMediaPlaybackItem? {\n",
+         "    private var nagramiXPlaybackGeneration: UInt64 = 0\n    private var playbackItem: SharedMediaPlaybackItem? {\n"),
+        ("            if playbackItem != oldValue {\n",
+         "            if playbackItem != oldValue {\n                self.nagramiXPlaybackGeneration &+= 1\n"),
+        ("                        playbackItem.setActionAtEnd({\n",
+         "                        let completedPlaybackGeneration = strongSelf.nagramiXPlaybackGeneration\n                        playbackItem.setActionAtEnd({\n"),
+        ("                                if let strongSelf = self {\n                                    switch strongSelf.playlist.looping {\n",
+         """                                if let strongSelf = self {
+                                    if case .voice = type, NagramiXTabSettings.voiceAutoplayDisabled {
+                                        // Capture only a value, never the player owned by this callback.
+                                        // A late completion cannot pause a newly selected message.
+                                        guard strongSelf.nagramiXPlaybackGeneration == completedPlaybackGeneration else { return }
+                                        strongSelf.scheduledPlaybackAction = nil
+                                        strongSelf.playbackItem?.pause()
+                                        strongSelf.playbackItem?.seek(0.0)
+                                        return
+                                    }
+                                    switch strongSelf.playlist.looping {
+"""),
+    ]
+    for old, new in changes:
+        if text.count(old) != 1:
+            raise SystemExit("Изменился точный якорь автовоспроизведения")
+        text = text.replace(old, new, 1)
+    path.write_text(text, encoding="utf-8")
+
+
+def apply_channel_mute_and_exact_time(source: Path) -> None:
+    """Две независимые настройки: новые подписки и точный доступный last seen."""
+    hashes = {
+        'submodules/TelegramCore/Sources/UpdatePeers.swift': '7d696e770cc3baeaa2dfb079315599c570e900f03fc15ab15778400e8fc3b76f',
+        'submodules/TelegramCore/Sources/TelegramEngine/Peers/JoinChannel.swift': '3f1448e540eabb61bbc1fe7ec70074c54a131d06c53170abb3a0032d2a4d3cad',
+        'submodules/TelegramCore/Sources/TelegramEngine/Peers/JoinLink.swift': 'c0f570dc3c5089e84cd7c98658200ffdc8f5b3d051a6301bf659e8779928cc6b',
+        'submodules/TelegramStringFormatting/Sources/PresenceStrings.swift': '64d55383decfa354a7e93a98c1df339fbe350048c2113e4cff71533f6d94fa82',
+        'submodules/TelegramUI/Components/ChatTitleView/Sources/ChatTitleView.swift': '043e8da6f2f626ce913351052f77f5b91f40818cd50bba96e4a13afa48b437fd',
+        'submodules/TelegramUI/Components/PeerInfo/PeerInfoScreen/Sources/PeerInfoData.swift': 'a07efec78ca3078ab96ad46f48517f45975bc783935d58e22d258900decca27a',
+    }
+    changes = {
+        'submodules/TelegramCore/Sources/UpdatePeers.swift': [
+            (
+                'public func updatePeersCustom(transaction: Transaction, peers: [Peer], update: (Peer?, Peer) -> Peer?) {',
+                """// Only confirmed new membership invokes this policy; existing dialogs are untouched.
+func _internal_nagramiXAutoMuteJoinedChannel(transaction: Transaction, channel: TelegramChannel) {
+    guard UserDefaults.standard.object(forKey: "nagramix.messages.autoMuteNewChannels") as? Bool ?? true,
+          channel.participationStatus == .member,
+          case .broadcast = channel.info,
+          !channel.flags.contains(.isCreator) else { return }
+    let settings = transaction.getPendingPeerNotificationSettings(channel.id) as? TelegramPeerNotificationSettings
+        ?? transaction.getPeerNotificationSettings(id: channel.id) as? TelegramPeerNotificationSettings
+        ?? .defaultSettings
+    if case let .muted(until) = settings.muteState, until == Int32.max { return }
+    // Keep sound, previews and story settings; use Telegram's pending server update.
+    transaction.updatePendingPeerNotificationSettings(peerId: channel.id, settings: settings.withUpdatedMuteState(.muted(until: Int32.max)))
+}
+
+public func updatePeersCustom(transaction: Transaction, peers: [Peer], update: (Peer?, Peer) -> Peer?) {""",
+            ),
+            (
+                """                let isMember = updated.participationStatus == .member
+""",
+                """                let isMember = updated.participationStatus == .member
+                if previous is TelegramChannel, !wasMember && isMember {
+                    _internal_nagramiXAutoMuteJoinedChannel(transaction: transaction, channel: updated)
+                }
+""",
+            ),
+        ],
+        'submodules/TelegramCore/Sources/TelegramEngine/Peers/JoinChannel.swift': [
+            (
+                'func _internal_joinChannel(account: Account, peerId: PeerId, hash: String?)',
+                """// An imported private channel may not exist in Postbox yet. Initial synchronization
+// must never be treated as a new subscription, so only a successful explicit join
+// may apply the policy to a previously unknown channel.
+func _internal_nagramiXPrepareChannelJoin(account: Account, result: Api.messages.ChatInviteJoinResult) -> Signal<Api.messages.ChatInviteJoinResult, NoError> {
+    guard UserDefaults.standard.object(forKey: "nagramix.messages.autoMuteNewChannels") as? Bool ?? true,
+          case let .chatInviteJoinResultOk(data) = result else { return .single(result) }
+    return account.postbox.transaction { transaction -> Api.messages.ChatInviteJoinResult in
+        for chat in data.updates.chats {
+            if let channel = parseTelegramGroupOrChannel(chat: chat) as? TelegramChannel,
+               transaction.getPeer(channel.id) == nil,
+               channel.participationStatus == .member, case .broadcast = channel.info,
+               !channel.flags.contains(.isCreator) {
+                // Store the input peer in the same transaction as the pending setting.
+                // Otherwise the native pending worker could clear it before addUpdates.
+                updatePeers(transaction: transaction, accountPeerId: account.peerId, peers: AccumulatedPeers(transaction: transaction, chats: [chat], users: []))
+                _internal_nagramiXAutoMuteJoinedChannel(transaction: transaction, channel: channel)
+            }
+        }
+        return result
+    }
+}
+
+func _internal_joinChannel(account: Account, peerId: PeerId, hash: String?)""",
+            ),
+            (
+                """        return request
+        |> mapError""",
+                """        return request
+        |> mapToSignal { result -> Signal<Api.messages.ChatInviteJoinResult, MTRpcError> in
+            return _internal_nagramiXPrepareChannelJoin(account: account, result: result) |> castError(MTRpcError.self)
+        }
+        |> mapError""",
+            ),
+        ],
+        'submodules/TelegramCore/Sources/TelegramEngine/Peers/JoinLink.swift': [
+            (
+                """    return account.network.request(Api.functions.messages.importChatInvite(hash: hash), automaticFloodWait: false)
+    |> mapError""",
+                """    return account.network.request(Api.functions.messages.importChatInvite(hash: hash), automaticFloodWait: false)
+    |> mapToSignal { result -> Signal<Api.messages.ChatInviteJoinResult, MTRpcError> in
+        return _internal_nagramiXPrepareChannelJoin(account: account, result: result) |> castError(MTRpcError.self)
+    }
+    |> mapError""",
+            ),
+        ],
+        'submodules/TelegramStringFormatting/Sources/PresenceStrings.swift': [
+            (
+                'public func stringAndActivityForUserPresence(strings: PresentationStrings, dateTimeFormat: PresentationDateTimeFormat, presence: EnginePeer.Presence, relativeTo timestamp: Int32, expanded: Bool = false) -> (String, Bool) {',
+                """public func stringAndActivityForUserPresence(strings: PresentationStrings, dateTimeFormat: PresentationDateTimeFormat, presence: EnginePeer.Presence, relativeTo timestamp: Int32, expanded: Bool = false) -> (String, Bool) {
+    let result = nagramiXStockStringAndActivityForUserPresence(strings: strings, dateTimeFormat: dateTimeFormat, presence: presence, relativeTo: timestamp, expanded: expanded)
+    guard UserDefaults.standard.object(forKey: "nagramix.profiles.showExactLastSeen") as? Bool ?? false,
+          !result.1, case let .present(lastSeen) = presence.status,
+          lastSeen > 0, lastSeen < timestamp else { return result }
+    var t: time_t = time_t(lastSeen)
+    var timeinfo = tm()
+    guard localtime_r(&t, &timeinfo) != nil else { return result }
+    let time = String(format: "%02d:%02d:%02d", timeinfo.tm_hour, timeinfo.tm_min, timeinfo.tm_sec)
+    return (result.0 + " (" + time + ")", result.1)
+}
+
+private func nagramiXStockStringAndActivityForUserPresence(strings: PresentationStrings, dateTimeFormat: PresentationDateTimeFormat, presence: EnginePeer.Presence, relativeTo timestamp: Int32, expanded: Bool = false) -> (String, Bool) {""",
+            ),
+        ],
+        'submodules/TelegramUI/Components/ChatTitleView/Sources/ChatTitleView.swift': [
+            (
+                """    private var presenceManager: PeerPresenceStatusManager?
+""",
+                """    private var presenceManager: PeerPresenceStatusManager?
+    private var nagramiXSettingsObserver: NSObjectProtocol?
+    private var nagramiXExactLastSeen = UserDefaults.standard.object(forKey: "nagramix.profiles.showExactLastSeen") as? Bool ?? false
+""",
+            ),
+            (
+                """        self.presenceManager = PeerPresenceStatusManager(update: { [weak self] in
+            let _ = self?.updateStatus()
+        })
+""",
+                """        self.presenceManager = PeerPresenceStatusManager(update: { [weak self] in
+            let _ = self?.updateStatus()
+        })
+        self.nagramiXSettingsObserver = NotificationCenter.default.addObserver(forName: Notification.Name("NagramiXSettingsChanged"), object: nil, queue: .main, using: { [weak self] _ in
+            guard let self else { return }
+            let enabled = UserDefaults.standard.object(forKey: "nagramix.profiles.showExactLastSeen") as? Bool ?? false
+            guard self.nagramiXExactLastSeen != enabled else { return }
+            self.nagramiXExactLastSeen = enabled
+            let _ = self.updateStatus(enableAnimation: false)
+        })
+""",
+            ),
+            (
+                """    required public init?(coder aDecoder: NSCoder) {
+""",
+                """    deinit {
+        if let observer = self.nagramiXSettingsObserver {
+            NotificationCenter.default.removeObserver(observer)
+        }
+    }
+
+    required public init?(coder aDecoder: NSCoder) {
+""",
+            ),
+        ],
+        'submodules/TelegramUI/Components/PeerInfo/PeerInfoScreen/Sources/PeerInfoData.swift': [
+            (
+                """                    var currentValue: TelegramUserPresence? = nil
+""",
+                """                    var currentValue: TelegramUserPresence? = nil
+                    var nagramiXHasPresence = false
+                    var nagramiXExactLastSeen = UserDefaults.standard.object(forKey: "nagramix.profiles.showExactLastSeen") as? Bool ?? false
+""",
+            ),
+            (
+                """                let disposable = (context.account.viewTracker.peerView(userPeerId, updateData: false)
+""",
+                """                let settingsObserver = NotificationCenter.default.addObserver(forName: Notification.Name("NagramiXSettingsChanged"), object: nil, queue: .main, using: { _ in
+                    let enabled = UserDefaults.standard.object(forKey: "nagramix.profiles.showExactLastSeen") as? Bool ?? false
+                    let refresh = manager.with { manager -> Bool in
+                        guard manager.nagramiXExactLastSeen != enabled else { return false }
+                        manager.nagramiXExactLastSeen = enabled
+                        return manager.nagramiXHasPresence
+                    }
+                    if refresh { notify() }
+                })
+                let disposable = (context.account.viewTracker.peerView(userPeerId, updateData: false)
+""",
+            ),
+            (
+                """                |> distinctUntilChanged).start(next: { inputData in
+                    switch inputData {
+""",
+                """                |> distinctUntilChanged).start(next: { inputData in
+                    let _ = manager.with { manager -> Void in
+                        if case .presence = inputData { manager.nagramiXHasPresence = true }
+                        else { manager.nagramiXHasPresence = false }
+                    }
+                    switch inputData {
+""",
+            ),
+            (
+                """                return disposable
+            }
+            |> distinctUntilChanged
+""",
+                """                return ActionDisposable {
+                    NotificationCenter.default.removeObserver(settingsObserver)
+                    disposable.dispose()
+                }
+            }
+            |> distinctUntilChanged
+""",
+            ),
+        ],
+    }
+    prepared = {}
+    # Validate the complete audited pin and every unique anchor before any write.
+    for name, expected in hashes.items():
+        path = source / name
+        if hashlib.sha256(path.read_bytes()).hexdigest() != expected:
+            raise SystemExit(f"Изменился проверенный источник каналов/статуса или правка уже применена: {name}")
+        text = path.read_text(encoding="utf-8")
+        for old, new in changes[name]:
+            if text.count(old) != 1:
+                raise SystemExit(f"Неоднозначный якорь каналов/статуса: {name}")
+            text = text.replace(old, new, 1)
+        prepared[path] = text
+    for path, text in prepared.items():
+        path.write_text(text, encoding="utf-8")
+
+
 def apply_features(source: Path) -> None:
     overlay = Path(__file__).resolve().parent
 
@@ -7639,6 +8721,17 @@ private func nagramiXCopyProfileId(_ value: Int64, presentationData: Presentatio
     apply_qr_brightness_restore(source)
     apply_anonymous_story_viewing(source)
     apply_separate_profile_navigation_buttons(source)
+    apply_voice_recording_cancellation_fix(source)
+    apply_message_selection_transfer_actions(source, overlay)
+    apply_deferred_preview_reactions(source, overlay)
+    apply_in_app_notification_sound_default(source)
+    apply_story_viewing_mode_confirmation(source)
+    apply_option_selection_sheets(source, overlay)
+    apply_proxy_vpn_policy_and_layout(source, overlay)
+    apply_hide_greeting_sticker(source, overlay)
+    apply_recording_music_default(source)
+    apply_voice_autoplay_policy(source)
+    apply_channel_mute_and_exact_time(source)
 
     if stock_section not in item_list_controller.read_text(encoding="utf-8"):
         raise SystemExit("NagramiX overlay modified Telegram's stock sectionControl branch")

@@ -1,35 +1,9 @@
-# NagramiX 0.5.0: чистая сборка и тестовый релиз готовы
+# NagramiX 0.5.1: подготовка чистой сборки
 
-[Скачать IPA](https://github.com/Mr-EFES/NagramiX/releases/download/v0.5.0/NagramiX-0.5.0-unsigned.ipa) · [Релиз](https://github.com/Mr-EFES/NagramiX/releases/tag/v0.5.0) · [Описание возможностей](../product/releases/0.5.0.md).
+Пользователь разрешил новую тестовую ARM64-сборку для физического iPhone с релизом в репозитории. В выпуск входят все подготовленные изменения после предыдущей успешной сборки №83. Прежние релизы, теги и файлы сохраняются.
 
-Чистая [сборка №83](https://github.com/Mr-EFES/NagramiX/actions/runs/38036214917) прошла успешно 2026-10-10. Нативная ARM64-компиляция на macOS26/Xcode26.6 выполнила 7696 действий. Восстановление и сохранение кеша Bazel пропущены. Получен новый пакет из нового исходного коммита; прежние релизы, теги и IPA сохранены.
+Официальная база повторно проверена: Telegram-iOS 13.0, `f1dd7a2dbd02cbbf513e75d5695d8d36d1cf5838`, CURRENT, minimum iOS15.0. Workflow — `.github/workflows/build-unsigned-ipa.yml`, macOS26/Xcode26.6, release_arm64. Планируются clean_build=true, publish_release=true, prerelease=true, пустой artifact_run_id. Восстановление/сохранение кеша пропускаются.
 
-| Параметр | Значение |
-| --- | --- |
-| Версия / номер | 0.5.0 / 83 |
-| Исходный коммит и тег v0.5.0 | `132ddc364706d63cc31746be343627419c36c85f` |
-| Workflow run | `38036214917` |
-| Telegram-iOS | 13.0 / `f1dd7a2dbd02cbbf513e75d5695d8d36d1cf5838`, CURRENT перед сборкой |
-| Минимальная iOS | 15.0 |
-| Bundle ID | `com.mr-efes.nagramix` |
-| Размер IPA | 80 822 420 байт |
-| SHA256 | `2f2df666b71b078cf26c6fb8811657424b4e19c7d7c77de70eca9bf0e213347b` |
-| Публикация | Тестовый публичный релиз, не draft |
+Новый исходный SHA и run будут записаны после commit/dispatch. Новый IPA пока не получен и не опубликован. Подготовленные функции compile_pending/device_pending. Физическая проверка ещё не выполнена.
 
-## Проверка нового пакета
-
-Из нового релиза скачаны IPA, BUILD-PROVENANCE.txt и SHA256SUMS. Независимо проверены checksum, соответствие version/build/source/run, тег исходному SHA и русское описание tracked аннотации. ZIP CRC пройден; все шесть Mach-O — ARM64/iOS. Установочных профилей и каталогов _CodeSignature нет. Шесть оставшихся LC_CODE_SIGNATURE записей не дают установочной подписи: IPA требует внешней подписи, например SideStore.
-
-Основной русский ресурс содержит 14863 ключа, все46 полных подписей совпадают с реестром. Проверены224 русских ключа NagramiX и требуемые английские ключи. Встроенные31 мелодии соответствуют manifest SHA256. MinimumOSVersion15.0 и фоновый audio mode подтверждены. Результат независимой проверки: `/tmp/nagramix-release-050/VERIFIED-RELEASE.json`.
-
-## Возможности для физической проверки
-
-Все накопленные функции и новые доработки включены и скомпилированы:
-
-- [системные и классические звуки](NOTIFICATION_SOUNDS_FIX.md);
-- [возврат яркости после QR-кода](PROXY_QR_BRIGHTNESS_FIX.md);
-- [клиентское инкогнито историй](../product/features/story-incognito.md);
-- [два режима ускорения](../product/features/download-acceleration.md);
-- [раздельные поиск и редактирование](PROFILE_NAVIGATION_LAYOUT_FIX.md).
-
-В registry — compile_passed/device_pending. Физическая проверка на iPhone ещё не выполнена: воспроизведение, жесты, реальные размеры кнопок, яркость, уведомления, сеть и список зрителей второго аккаунта проверяются по [плану](IPHONE_TEST_0.5.0.md) и контрактам функций. Компиляция и проверка упаковки не подтверждают отсутствие всех runtime-ошибок.
+[Аннотация по функциям](../product/releases/0.5.1.md) · [Приёмка на iPhone](IPHONE_TEST_0.5.1.md).

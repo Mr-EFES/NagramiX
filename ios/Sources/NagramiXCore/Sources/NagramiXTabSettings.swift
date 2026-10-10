@@ -52,6 +52,10 @@ public struct NagramiXTabSettings: Equatable {
         static let showChannelBottomPanel = "nagramix.interface.showChannelBottomPanel"
         static let doubleTapEdit = "nagramix.features.doubleTapEdit"
         static let hideReactions = "nagramix.interface.hideReactions"
+        static let hideGreetingSticker = "nagramix.interface.hideGreetingSticker"
+        static let disableVoiceAutoplay = "nagramix.messages.disableVoiceAutoplay"
+        static let autoMuteNewChannels = "nagramix.messages.autoMuteNewChannels"
+        static let showExactLastSeen = "nagramix.profiles.showExactLastSeen"
         static let chatActionsOnHold = "nagramix.interface.chatActionsOnHold"
         static let showForwardWithoutAuthor = "nagramix.contextMenu.showForwardWithoutAuthor"
         static let showBroadcastMessages = "nagramix.contextMenu.showBroadcastMessages"
@@ -65,6 +69,7 @@ public struct NagramiXTabSettings: Equatable {
         static let customDohUrl = "nagramix.network.customDohUrl"
         static let proxyAutoSwitchEnabled = "nagramix.network.proxyAutoSwitchEnabled"
         static let proxyAutoSwitchTimeout = "nagramix.network.proxyAutoSwitchTimeout"
+        static let avoidProxyWithVPN = "nagramix.network.avoidProxyWithVPN"
         static let showProxyButton = "nagramix.interface.showProxyButton"
         static let hideProxySponsorChannel = "nagramix.interface.hideProxySponsorChannel"
         static let legacyShowProxySponsorChannel = "nagramix.interface.showProxySponsorChannel"
@@ -89,6 +94,10 @@ public struct NagramiXTabSettings: Equatable {
     public var showChannelBottomPanel: Bool
     public var doubleTapEdit: Bool
     public var hideReactions: Bool
+    public var hideGreetingSticker: Bool
+    public var disableVoiceAutoplay: Bool
+    public var autoMuteNewChannels: Bool
+    public var showExactLastSeen: Bool
     public var downloads: NagramiXDownloadSettings
     public var chatActionsOnHold: Bool
     public var showForwardWithoutAuthor: Bool
@@ -104,6 +113,7 @@ public struct NagramiXTabSettings: Equatable {
     public var customDohUrl: String
     public var proxyAutoSwitchEnabled: Bool
     public var proxyAutoSwitchTimeout: Int
+    public var avoidProxyWithVPN: Bool
     public var showProxyButton: Bool
     public var hideProxySponsorChannel: Bool
     public var showProfileIds: Bool
@@ -154,7 +164,12 @@ public struct NagramiXTabSettings: Equatable {
         hideReactions: Bool = false,
         downloads: NagramiXDownloadSettings = .default,
         showBroadcastMessages: Bool = true,
-        anonymousStoryViewing: Bool = false
+        anonymousStoryViewing: Bool = false,
+        avoidProxyWithVPN: Bool = false,
+        hideGreetingSticker: Bool = true,
+        disableVoiceAutoplay: Bool = true,
+        autoMuteNewChannels: Bool = true,
+        showExactLastSeen: Bool = false
     ) {
         self.hideContacts = hideContacts
         self.hideCalls = hideCalls
@@ -166,6 +181,10 @@ public struct NagramiXTabSettings: Equatable {
         self.showChannelBottomPanel = showChannelBottomPanel
         self.doubleTapEdit = doubleTapEdit
         self.hideReactions = hideReactions
+        self.hideGreetingSticker = hideGreetingSticker
+        self.disableVoiceAutoplay = disableVoiceAutoplay
+        self.autoMuteNewChannels = autoMuteNewChannels
+        self.showExactLastSeen = showExactLastSeen
         self.downloads = downloads
         self.chatActionsOnHold = chatActionsOnHold
         self.media = media
@@ -179,6 +198,7 @@ public struct NagramiXTabSettings: Equatable {
         self.customDohUrl = customDohUrl
         self.proxyAutoSwitchEnabled = proxyAutoSwitchEnabled
         self.proxyAutoSwitchTimeout = proxyAutoSwitchTimeout
+        self.avoidProxyWithVPN = avoidProxyWithVPN
         self.showProxyButton = showProxyButton
         self.hideProxySponsorChannel = hideProxySponsorChannel
         self.showProfileIds = showProfileIds
@@ -209,6 +229,22 @@ public struct NagramiXTabSettings: Equatable {
 
     public static var doubleTapEditEnabled: Bool {
         return UserDefaults.standard.object(forKey: Key.doubleTapEdit) as? Bool ?? false
+    }
+
+    public static var autoMuteNewChannelsEnabled: Bool {
+        return UserDefaults.standard.object(forKey: Key.autoMuteNewChannels) as? Bool ?? true
+    }
+
+    public static var exactLastSeenEnabled: Bool {
+        return UserDefaults.standard.object(forKey: Key.showExactLastSeen) as? Bool ?? false
+    }
+
+    public static var voiceAutoplayDisabled: Bool {
+        return UserDefaults.standard.object(forKey: Key.disableVoiceAutoplay) as? Bool ?? true
+    }
+
+    public static var hideGreetingStickerEnabled: Bool {
+        return UserDefaults.standard.object(forKey: Key.hideGreetingSticker) as? Bool ?? true
     }
 
     public static var hideReactionsEnabled: Bool {
@@ -273,7 +309,12 @@ public struct NagramiXTabSettings: Equatable {
             downloads: .current,
             // Preserve the previous copy-action visibility until explicitly changed.
             showBroadcastMessages: defaults.object(forKey: Key.showBroadcastMessages) as? Bool ?? (defaults.object(forKey: Key.showForwardWithoutAuthor) as? Bool ?? true),
-            anonymousStoryViewing: self.anonymousStoryViewingEnabled
+            anonymousStoryViewing: self.anonymousStoryViewingEnabled,
+            avoidProxyWithVPN: defaults.object(forKey: Key.avoidProxyWithVPN) as? Bool ?? false,
+            hideGreetingSticker: self.hideGreetingStickerEnabled,
+            disableVoiceAutoplay: self.voiceAutoplayDisabled,
+            autoMuteNewChannels: self.autoMuteNewChannelsEnabled,
+            showExactLastSeen: self.exactLastSeenEnabled
         )
     }
 
@@ -299,6 +340,10 @@ public struct NagramiXTabSettings: Equatable {
         defaults.set(value.showChannelBottomPanel, forKey: Key.showChannelBottomPanel)
         defaults.set(value.doubleTapEdit, forKey: Key.doubleTapEdit)
         defaults.set(value.hideReactions, forKey: Key.hideReactions)
+        defaults.set(value.hideGreetingSticker, forKey: Key.hideGreetingSticker)
+        defaults.set(value.disableVoiceAutoplay, forKey: Key.disableVoiceAutoplay)
+        defaults.set(value.autoMuteNewChannels, forKey: Key.autoMuteNewChannels)
+        defaults.set(value.showExactLastSeen, forKey: Key.showExactLastSeen)
         defaults.set(value.chatActionsOnHold, forKey: Key.chatActionsOnHold)
         defaults.set(value.useRearCameraForVideoMessages, forKey: Key.useRearCameraForVideoMessages)
         defaults.set(value.hideStories, forKey: Key.hideStories)
@@ -310,6 +355,7 @@ public struct NagramiXTabSettings: Equatable {
         defaults.set(value.customDohUrl, forKey: Key.customDohUrl)
         defaults.set(value.proxyAutoSwitchEnabled, forKey: Key.proxyAutoSwitchEnabled)
         defaults.set([15, 30, 60].contains(value.proxyAutoSwitchTimeout) ? value.proxyAutoSwitchTimeout : 15, forKey: Key.proxyAutoSwitchTimeout)
+        defaults.set(value.avoidProxyWithVPN, forKey: Key.avoidProxyWithVPN)
         defaults.set(value.showProxyButton, forKey: Key.showProxyButton)
         defaults.set(value.hideProxySponsorChannel, forKey: Key.hideProxySponsorChannel)
         defaults.set(value.showProfileIds, forKey: Key.showProfileIds)

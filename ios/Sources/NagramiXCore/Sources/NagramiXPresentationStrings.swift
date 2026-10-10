@@ -48,12 +48,19 @@ public extension PresentationStrings {
     var nagramiXDownloadAcceleration: String { self.nagramiXLocalized("NagramiX.Settings.Downloads.Enabled") }
     var nagramiXDownloadAccelerationMode: String { self.nagramiXLocalized("NagramiX.Settings.Downloads.Mode") }
     var nagramiXDownloadAccelerationInfo: String { self.nagramiXLocalized("NagramiX.Settings.Downloads.Info") }
+    var nagramiXDownloadMediumInfo: String { self.nagramiXLocalized("NagramiX.Settings.Downloads.Medium.Info") }
+    var nagramiXDownloadMaximumInfo: String { self.nagramiXLocalized("NagramiX.Settings.Downloads.Maximum.Info") }
+    var nagramiXDownloadModeFootnote: String { self.nagramiXLocalized("NagramiX.Settings.Downloads.Mode.Footnote") }
+    var nagramiXProxyTimeoutInfo: String { self.nagramiXLocalized("NagramiX.Network.Proxy.Timeout.Info") }
+    var nagramiXOptionSheetClose: String { self.nagramiXLocalized("NagramiX.Common.Close") }
     var nagramiXDownloadStandard: String { self.nagramiXLocalized("NagramiX.Settings.Downloads.Standard") }
     var nagramiXDownloadMedium: String { self.nagramiXLocalized("NagramiX.Settings.Downloads.Medium") }
     var nagramiXDownloadMaximum: String { self.nagramiXLocalized("NagramiX.Settings.Downloads.Maximum") }
     var nagramiXDownloadDisable: String { self.nagramiXLocalized("NagramiX.Settings.Downloads.Disable") }
     var nagramiXDoubleTapEdit: String { self.nagramiXLocalized("NagramiX.Settings.Messages.DoubleTapEdit") }
     var nagramiXDoubleTapEditInfo: String { self.nagramiXLocalized("NagramiX.Settings.Messages.DoubleTapEdit.Info") }
+    var nagramiXHideGreetingSticker: String { self.nagramiXLocalized("NagramiX.Settings.Chats.HideGreetingSticker") }
+    var nagramiXHideGreetingStickerInfo: String { self.nagramiXLocalized("NagramiX.Settings.Chats.HideGreetingSticker.Info") }
     var nagramiXHideReactions: String { self.nagramiXLocalized("NagramiX.Settings.Chats.HideReactions") }
     var nagramiXHideReactionsInfo: String { self.nagramiXLocalized("NagramiX.Settings.Chats.HideReactions.Info") }
     var nagramiXChannelBottomPanel: String { self.nagramiXLocalized("NagramiX.Settings.Chats.ChannelBottomPanel") }
@@ -78,6 +85,8 @@ public extension PresentationStrings {
     var nagramiXBackgroundVideoPlayback: String { self.nagramiXLocalized("NagramiX.Settings.Video.BackgroundPlayback") }
     var nagramiXBackgroundVideoPlaybackInfo: String { self.nagramiXLocalized("NagramiX.Settings.Video.BackgroundPlayback.Info") }
     var nagramiXVideoMessagesHeader: String { self.nagramiXLocalized("NagramiX.Settings.VideoMessages.Header") }
+    var nagramiXKeepMusicPlayingWhileRecording: String { self.nagramiXLocalized("NagramiX.Settings.VideoMessages.KeepMusicPlaying") }
+    var nagramiXKeepMusicPlayingWhileRecordingInfo: String { self.nagramiXLocalized("NagramiX.Settings.VideoMessages.KeepMusicPlaying.Info") }
     var nagramiXUseRearCamera: String { self.nagramiXLocalized("NagramiX.Settings.VideoMessages.UseRearCamera") }
     var nagramiXStoriesHeader: String { self.nagramiXLocalized("NagramiX.Settings.Stories.Header") }
     var nagramiXHideStories: String { self.nagramiXLocalized("NagramiX.Settings.Stories.Hide") }
@@ -88,6 +97,9 @@ public extension PresentationStrings {
     var nagramiXAnonymousStoryWarningTitle: String { self.nagramiXLocalized("NagramiX.Stories.Anonymous.Warning.Title") }
     var nagramiXAnonymousStoryWarningText: String { self.nagramiXLocalized("NagramiX.Stories.Anonymous.Warning.Text") }
     var nagramiXAnonymousStoryContinue: String { self.nagramiXLocalized("NagramiX.Stories.Anonymous.Continue") }
+    var nagramiXAnonymousStoryPreviewTitle: String { self.nagramiXLocalized("NagramiX.Stories.Anonymous.Preview.Title") }
+    var nagramiXAnonymousStoryPreviewText: String { self.nagramiXLocalized("NagramiX.Stories.Anonymous.Preview.Text") }
+    var nagramiXAnonymousStoryPreviewAction: String { self.nagramiXLocalized("NagramiX.Stories.Anonymous.Preview.Action") }
     var nagramiXEnableStoryRepost: String { self.nagramiXLocalized("NagramiX.Settings.Stories.Repost") }
     var nagramiXRestartRequiredTitle: String { self.nagramiXLocalized("NagramiX.Restart.Title") }
     var nagramiXRestartRequiredText: String { self.nagramiXLocalized("NagramiX.Restart.Text") }
@@ -120,6 +132,9 @@ public extension PresentationStrings {
     var nagramiXCustomDohUnavailable: String { self.nagramiXLocalized("NagramiX.Network.DNS.CustomUnavailable") }
     var nagramiXProxyAutoSwitch: String { self.nagramiXLocalized("NagramiX.Network.Proxy.AutoSwitch") }
     var nagramiXProxySwitchAfter: String { self.nagramiXLocalized("NagramiX.Network.Proxy.SwitchAfter") }
+    var nagramiXAvoidProxyWithVPN: String { self.nagramiXLocalized("NagramiX.Network.Proxy.AvoidVPN") }
+    var nagramiXAvoidProxyWithVPNInfo: String { self.nagramiXLocalized("NagramiX.Network.Proxy.AvoidVPN.Info") }
+    var nagramiXProxyBypassedForVPN: String { self.nagramiXLocalized("NagramiX.Network.Proxy.AvoidVPN.Active") }
     var nagramiXProxyCheckAll: String { self.nagramiXLocalized("NagramiX.Network.Proxy.CheckAll") }
     var nagramiXProxyChecking: String { self.nagramiXLocalized("NagramiX.Network.Proxy.Checking") }
     var nagramiXProxyNoneToCheck: String { self.nagramiXLocalized("NagramiX.Network.Proxy.NoneToCheck") }
@@ -145,6 +160,8 @@ public extension PresentationStrings {
     var nagramiXConfirmOutgoingCalls: String { self.nagramiXLocalized("NagramiX.Settings.Calls.ConfirmOutgoing") }
     var nagramiXForceTcpCalls: String { self.nagramiXLocalized("NagramiX.Settings.Calls.ForceTcp") }
     var nagramiXForceTcpCallsInfo: String { self.nagramiXLocalized("NagramiX.Settings.Calls.ForceTcpInfo") }
+    var nagramiXDisableVoiceAutoplay: String { self.nagramiXLocalized("NagramiX.Settings.Messages.DisableVoiceAutoplay") }
+    var nagramiXDisableVoiceAutoplayInfo: String { self.nagramiXLocalized("NagramiX.Settings.Messages.DisableVoiceAutoplay.Info") }
     var nagramiXMessagesHeader: String { self.nagramiXLocalized("NagramiX.Settings.Messages.Header") }
     var nagramiXDeletedMessages: String { self.nagramiXLocalized("NagramiX.Settings.Messages.Deleted") }
     var nagramiXDeletedMessagesInfo: String { self.nagramiXLocalized("NagramiX.Settings.Messages.DeletedInfo") }
@@ -170,6 +187,7 @@ public extension PresentationStrings {
     var nagramiXCallConfirmationText: String { self.nagramiXLocalized("NagramiX.CallConfirmation.Text") }
     var nagramiXCallAction: String { self.nagramiXLocalized("NagramiX.CallConfirmation.Action") }
     var nagramiXForwardWithAuthor: String { self.nagramiXLocalized("NagramiX.Context.ForwardWithAuthor") }
+    var nagramiXPreviewPaidReactions: String { self.nagramiXLocalized("NagramiX.Preview.PaidReactions") }
     var nagramiXForwardWithoutAuthor: String { self.nagramiXLocalized("NagramiX.Context.ForwardWithoutAuthor") }
     var nagramiXBroadcastMessages: String { self.nagramiXLocalized("NagramiX.Context.BroadcastMessages") }
     var nagramiXBroadcastMessagesInfo: String { self.nagramiXLocalized("NagramiX.Settings.ContextMenu.BroadcastMessages.Info") }
@@ -185,4 +203,8 @@ public extension PresentationStrings {
         return self.nagramiXLocalized("NagramiX.Profile.RegistrationApproximate").replacingOccurrences(of: "%@", with: "\(year)")
     }
     var nagramiXUnknown: String { self.nagramiXLocalized("NagramiX.Common.Unknown") }
+    var nagramiXAutoMuteNewChannels: String { self.nagramiXLocalized("NagramiX.Settings.Messages.AutoMuteNewChannels") }
+    var nagramiXAutoMuteNewChannelsInfo: String { self.nagramiXLocalized("NagramiX.Settings.Messages.AutoMuteNewChannels.Info") }
+    var nagramiXShowExactLastSeen: String { self.nagramiXLocalized("NagramiX.Settings.Profiles.ShowExactLastSeen") }
+    var nagramiXShowExactLastSeenInfo: String { self.nagramiXLocalized("NagramiX.Settings.Profiles.ShowExactLastSeen.Info") }
 }

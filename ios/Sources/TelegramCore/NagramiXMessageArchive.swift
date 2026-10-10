@@ -104,6 +104,7 @@ public final class NagramiXMessageArchive {
 
     private let postbox: Postbox
     private let accountPeerId: PeerId
+    public let deferredReactions: NagramiXDeferredReactionsStore
     private let path: String
     private let basePath: String
     private let queue: Queue
@@ -127,6 +128,7 @@ public final class NagramiXMessageArchive {
     public init(postbox: Postbox, accountPeerId: PeerId, basePath: String) {
         self.postbox = postbox
         self.accountPeerId = accountPeerId
+        self.deferredReactions = NagramiXDeferredReactionsStore(accountPeerId: accountPeerId, basePath: basePath)
         self.path = basePath + "/nagramix-message-archive.json"
         self.basePath = basePath
         self.queue = Queue(name: "org.nagramix.message-archive", qos: .utility)

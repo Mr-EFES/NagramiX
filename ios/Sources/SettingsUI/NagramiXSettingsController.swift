@@ -3,6 +3,7 @@ import UIKit
 import Display
 import SwiftSignalKit
 import TelegramPresentationData
+import TelegramUIPreferences
 import PresentationDataUtils
 import ItemListUI
 import AccountContext
@@ -28,6 +29,7 @@ private struct NagramiXSettingsControllerArguments {
     let updateShowChannelBottomPanel: (Bool) -> Void
     let updateDoubleTapEdit: (Bool) -> Void
     let updateHideReactions: (Bool) -> Void
+    let updateHideGreetingSticker: (Bool) -> Void
     let updateCompactChatList: (Bool) -> Void
     let updateChatActionsOnHold: (Bool) -> Void
     let updateShowForwardWithoutAuthor: (Bool) -> Void
@@ -38,17 +40,21 @@ private struct NagramiXSettingsControllerArguments {
     let updateVideoPiPSwipe: (Bool) -> Void
     let updateBackgroundVideoPlayback: (Bool) -> Void
     let updateUseRearCameraForVideoMessages: (Bool) -> Void
+    let updateKeepMusicPlayingWhileRecording: (Bool) -> Void
     let updateHideStories: (Bool) -> Void
     let updateDisableStoryCameraSwipe: (Bool) -> Void
     let updateConfirmStoryViewing: (Bool) -> Void
     let updateEnableStoryRepost: (Bool) -> Void
     let updateAnonymousStoryViewing: (Bool) -> Void
     let updateShowProfileIds: (Bool) -> Void
+    let updateShowExactLastSeen: (Bool) -> Void
     let updateShowRegistrationDate: (Bool) -> Void
     let updateShowMutualContactIcon: (Bool) -> Void
     let updateConfirmOutgoingCalls: (Bool) -> Void
     let updateForceTcpCalls: (Bool) -> Void
     let updateShowDeletedMessages: (Bool) -> Void
+    let updateDisableVoiceAutoplay: (Bool) -> Void
+    let updateAutoMuteNewChannels: (Bool) -> Void
     let updateSaveTemporaryMessages: (Bool) -> Void
     let editDeletedMessageLabel: () -> Void
     let updateMessageEditHistory: (Bool) -> Void
@@ -98,6 +104,8 @@ private enum NagramiXSettingsEntry: ItemListNodeEntry {
     case doubleTapEditInfo
     case hideReactions(Bool)
     case hideReactionsInfo
+    case hideGreetingSticker(Bool)
+    case hideGreetingStickerInfo
     case chatActionsOnHold(Bool)
     case chatActionsOnHoldInfo
     case compactChatList(Bool)
@@ -111,6 +119,8 @@ private enum NagramiXSettingsEntry: ItemListNodeEntry {
     case selectByAuthorInfo
     case videoMessagesHeader
     case useRearCameraForVideoMessages(Bool)
+    case keepMusicPlayingWhileRecording(Bool)
+    case keepMusicPlayingWhileRecordingInfo
     case videoPlaybackHeader
     case backgroundVideoPlayback(Bool)
     case backgroundVideoPlaybackInfo
@@ -130,6 +140,8 @@ private enum NagramiXSettingsEntry: ItemListNodeEntry {
     case anonymousStoryViewingInfo
     case profilesHeader
     case showProfileIds(Bool)
+    case showExactLastSeen(Bool)
+    case showExactLastSeenInfo
     case showRegistrationDate(Bool)
     case showMutualContactIcon(Bool)
     case callsHeader
@@ -138,6 +150,10 @@ private enum NagramiXSettingsEntry: ItemListNodeEntry {
     case forceTcpCalls(Bool)
     case forceTcpCallsInfo
     case messagesHeader
+    case disableVoiceAutoplay(Bool)
+    case autoMuteNewChannels(Bool)
+    case autoMuteNewChannelsInfo
+    case disableVoiceAutoplayInfo
     case showDeletedMessages(Bool)
     case showDeletedMessagesInfo
     case saveTemporaryMessages(Bool)
@@ -151,6 +167,7 @@ private enum NagramiXSettingsEntry: ItemListNodeEntry {
     case proxyDns
     case proxyAutoSwitch
     case proxyCheckAll
+    case proxyAvoidVPN
     case photosHeader
     case photoQualityHeader
     case photoQuality(Int)
@@ -167,21 +184,21 @@ private enum NagramiXSettingsEntry: ItemListNodeEntry {
         switch self {
         case .search, .noSearchResults, .searchHeader:
             return .interface
-        case .tabsHeader, .hideContacts, .hideCalls, .showSearchButton, .showProxyButton, .hideProxySponsorChannel, .chatsHeader, .wideChannelPosts, .showChannelBottomPanel, .channelBottomPanelInfo, .hideReactions, .hideReactionsInfo, .chatActionsOnHold, .chatActionsOnHoldInfo, .compactChatList, .compactChatListInfo,
-                .profilesHeader, .showProfileIds, .showRegistrationDate, .showMutualContactIcon,
+        case .tabsHeader, .hideContacts, .hideCalls, .showSearchButton, .showProxyButton, .hideProxySponsorChannel, .chatsHeader, .wideChannelPosts, .showChannelBottomPanel, .channelBottomPanelInfo, .hideReactions, .hideReactionsInfo, .hideGreetingSticker, .hideGreetingStickerInfo, .chatActionsOnHold, .chatActionsOnHoldInfo, .compactChatList, .compactChatListInfo,
+                .profilesHeader, .showExactLastSeen, .showExactLastSeenInfo, .showProfileIds, .showRegistrationDate, .showMutualContactIcon,
                 .contextMenuHeader, .showForwardWithoutAuthor, .forwardWithoutAuthorInfo, .showBroadcastMessages, .broadcastMessagesInfo, .showSelectByAuthor, .selectByAuthorInfo:
             return .interface
-        case .videoMessagesHeader, .useRearCameraForVideoMessages, .featureStoriesHeader, .hideStories, .disableStoryCameraSwipe,
+        case .videoMessagesHeader, .useRearCameraForVideoMessages, .keepMusicPlayingWhileRecording, .keepMusicPlayingWhileRecordingInfo, .featureStoriesHeader, .hideStories, .disableStoryCameraSwipe,
                 .confirmStoryViewing, .enableStoryRepost, .anonymousStoryViewing, .anonymousStoryViewingInfo, .callsHeader, .confirmOutgoingCalls:
             return .features
         case .photosHeader, .photoQualityHeader, .photoQuality, .photoQualityInfo, .sendLargePhotos, .sendLargePhotosInfo,
                 .stickersHeader, .stickerSizeHeader, .stickerSize, .showStickerTime, .stickerSizeInfo:
             return .features
-        case .doubleTapEdit, .doubleTapEditInfo, .messagesHeader, .showDeletedMessages, .showDeletedMessagesInfo, .saveTemporaryMessages, .saveTemporaryMessagesInfo, .deletedMessageLabel, .messageEditHistory, .messageEditHistoryInfo, .clearMessageArchive, .messageArchiveInfo:
+        case .doubleTapEdit, .doubleTapEditInfo, .messagesHeader, .autoMuteNewChannels, .autoMuteNewChannelsInfo, .disableVoiceAutoplay, .disableVoiceAutoplayInfo, .showDeletedMessages, .showDeletedMessagesInfo, .saveTemporaryMessages, .saveTemporaryMessagesInfo, .deletedMessageLabel, .messageEditHistory, .messageEditHistoryInfo, .clearMessageArchive, .messageArchiveInfo:
             return .features
         case .videoPlaybackHeader, .backgroundVideoPlayback, .backgroundVideoPlaybackInfo:
             return .features
-        case .downloadsHeader, .downloadAcceleration, .downloadAccelerationMode, .downloadAccelerationInfo, .otherVideoHeader, .videoPiPSwipe, .videoPiPSwipeInfo, .otherCallsHeader, .forceTcpCalls, .forceTcpCallsInfo, .proxySettings, .proxyDns, .proxyAutoSwitch, .proxyCheckAll:
+        case .downloadsHeader, .downloadAcceleration, .downloadAccelerationMode, .downloadAccelerationInfo, .otherVideoHeader, .videoPiPSwipe, .videoPiPSwipeInfo, .otherCallsHeader, .forceTcpCalls, .forceTcpCallsInfo, .proxySettings, .proxyDns, .proxyAutoSwitch, .proxyCheckAll, .proxyAvoidVPN:
             return .other
         }
     }
@@ -196,19 +213,19 @@ private enum NagramiXSettingsEntry: ItemListNodeEntry {
             return sectionId
         case .tabsHeader, .hideContacts, .hideCalls, .showSearchButton, .showProxyButton, .hideProxySponsorChannel:
             return NagramiXSettingsSection.tabs.rawValue
-        case .chatsHeader, .wideChannelPosts, .showChannelBottomPanel, .channelBottomPanelInfo, .hideReactions, .hideReactionsInfo, .chatActionsOnHold, .chatActionsOnHoldInfo, .compactChatList, .compactChatListInfo:
+        case .chatsHeader, .wideChannelPosts, .showChannelBottomPanel, .channelBottomPanelInfo, .hideReactions, .hideReactionsInfo, .hideGreetingSticker, .hideGreetingStickerInfo, .chatActionsOnHold, .chatActionsOnHoldInfo, .compactChatList, .compactChatListInfo:
             return NagramiXSettingsSection.chats.rawValue
         case .contextMenuHeader, .showForwardWithoutAuthor, .forwardWithoutAuthorInfo, .showBroadcastMessages, .broadcastMessagesInfo, .showSelectByAuthor, .selectByAuthorInfo:
             return NagramiXSettingsSection.contextMenu.rawValue
-        case .videoMessagesHeader, .useRearCameraForVideoMessages:
+        case .videoMessagesHeader, .useRearCameraForVideoMessages, .keepMusicPlayingWhileRecording, .keepMusicPlayingWhileRecordingInfo:
             return NagramiXSettingsSection.videoMessages.rawValue
         case .featureStoriesHeader, .hideStories, .disableStoryCameraSwipe, .confirmStoryViewing, .enableStoryRepost, .anonymousStoryViewing, .anonymousStoryViewingInfo:
             return NagramiXSettingsSection.stories.rawValue
-        case .profilesHeader, .showProfileIds, .showRegistrationDate, .showMutualContactIcon:
+        case .profilesHeader, .showExactLastSeen, .showExactLastSeenInfo, .showProfileIds, .showRegistrationDate, .showMutualContactIcon:
             return NagramiXSettingsSection.profiles.rawValue
         case .callsHeader, .otherCallsHeader, .confirmOutgoingCalls, .forceTcpCalls, .forceTcpCallsInfo:
             return NagramiXSettingsSection.calls.rawValue
-        case .doubleTapEdit, .doubleTapEditInfo, .messagesHeader, .showDeletedMessages, .showDeletedMessagesInfo, .saveTemporaryMessages, .saveTemporaryMessagesInfo, .deletedMessageLabel, .messageEditHistory, .messageEditHistoryInfo, .clearMessageArchive, .messageArchiveInfo:
+        case .doubleTapEdit, .doubleTapEditInfo, .messagesHeader, .autoMuteNewChannels, .autoMuteNewChannelsInfo, .disableVoiceAutoplay, .disableVoiceAutoplayInfo, .showDeletedMessages, .showDeletedMessagesInfo, .saveTemporaryMessages, .saveTemporaryMessagesInfo, .deletedMessageLabel, .messageEditHistory, .messageEditHistoryInfo, .clearMessageArchive, .messageArchiveInfo:
             return NagramiXSettingsSection.messages.rawValue
         case .photosHeader, .photoQualityHeader, .photoQuality, .photoQualityInfo, .sendLargePhotos, .sendLargePhotosInfo:
             return NagramiXSettingsSection.photos.rawValue
@@ -220,7 +237,7 @@ private enum NagramiXSettingsEntry: ItemListNodeEntry {
             return NagramiXSettingsSection.otherVideo.rawValue
         case .downloadsHeader, .downloadAcceleration, .downloadAccelerationMode, .downloadAccelerationInfo:
             return NagramiXSettingsSection.downloads.rawValue
-        case .proxySettings, .proxyDns, .proxyAutoSwitch, .proxyCheckAll:
+        case .proxySettings, .proxyDns, .proxyAutoSwitch, .proxyCheckAll, .proxyAvoidVPN:
             return NagramiXSettingsSection.other.rawValue
         }
     }
@@ -244,6 +261,8 @@ private enum NagramiXSettingsEntry: ItemListNodeEntry {
         case .doubleTapEditInfo: return 114
         case .hideReactions: return 115
         case .hideReactionsInfo: return 116
+        case .hideGreetingSticker: return 126
+        case .hideGreetingStickerInfo: return 127
         case .downloadsHeader: return 117
         case .downloadAcceleration: return 118
         case .downloadAccelerationMode: return 119
@@ -267,6 +286,8 @@ private enum NagramiXSettingsEntry: ItemListNodeEntry {
         case .videoPiPSwipeInfo: return 110
         case .videoMessagesHeader: return 10
         case .useRearCameraForVideoMessages: return 11
+        case .keepMusicPlayingWhileRecording: return 128
+        case .keepMusicPlayingWhileRecordingInfo: return 129
         case .hideStories: return 21
         case .featureStoriesHeader: return 25
         case .disableStoryCameraSwipe: return 26
@@ -276,9 +297,15 @@ private enum NagramiXSettingsEntry: ItemListNodeEntry {
         case .anonymousStoryViewingInfo: return 124
         case .profilesHeader: return 30
         case .showProfileIds: return 31
+        case .showExactLastSeen: return 134
+        case .showExactLastSeenInfo: return 135
         case .showRegistrationDate: return 32
         case .showMutualContactIcon: return 33
         case .messagesHeader: return 34
+        case .disableVoiceAutoplay: return 130
+        case .autoMuteNewChannels: return 132
+        case .autoMuteNewChannelsInfo: return 133
+        case .disableVoiceAutoplayInfo: return 131
         case .showDeletedMessages: return 35
         case .showDeletedMessagesInfo: return 36
         case .saveTemporaryMessages: return 103
@@ -297,6 +324,7 @@ private enum NagramiXSettingsEntry: ItemListNodeEntry {
         case .proxyDns: return 61
         case .proxyAutoSwitch: return 62
         case .proxyCheckAll: return 63
+        case .proxyAvoidVPN: return 125
         case .photosHeader: return 90
         case .photoQualityHeader: return 91
         case .photoQuality: return 92
@@ -320,11 +348,21 @@ private enum NagramiXSettingsEntry: ItemListNodeEntry {
             case .channelBottomPanelInfo: return 72
             case .hideReactions: return 73
             case .hideReactionsInfo: return 74
+            case .hideGreetingSticker: return 75
+            case .showExactLastSeen: return 301
+            case .showExactLastSeenInfo: return 302
+            case .hideGreetingStickerInfo: return 76
             case .doubleTapEdit: return 341
             case .doubleTapEditInfo: return 342
-            case .videoPlaybackHeader: return 111
-            case .backgroundVideoPlayback: return 112
-            case .backgroundVideoPlaybackInfo: return 113
+            case .disableVoiceAutoplay: return 343
+            case .autoMuteNewChannels: return 345
+            case .autoMuteNewChannelsInfo: return 346
+            case .disableVoiceAutoplayInfo: return 344
+            case .keepMusicPlayingWhileRecording: return 111
+            case .keepMusicPlayingWhileRecordingInfo: return 112
+            case .videoPlaybackHeader: return 113
+            case .backgroundVideoPlayback: return 114
+            case .backgroundVideoPlaybackInfo: return 115
             case .otherVideoHeader: return 540
             case .videoPiPSwipe: return 550
             case .videoPiPSwipeInfo: return 560
@@ -375,6 +413,10 @@ private enum NagramiXSettingsEntry: ItemListNodeEntry {
             return ItemListSwitchItem(presentationData: presentationData, systemStyle: .glass, title: presentationData.strings.nagramiXHideReactions, value: value, maximumNumberOfLines: 0, sectionId: self.section, style: .blocks, updated: arguments.updateHideReactions)
         case .hideReactionsInfo:
             return ItemListTextItem(presentationData: presentationData, text: .plain(presentationData.strings.nagramiXHideReactionsInfo), sectionId: self.section)
+        case let .hideGreetingSticker(value):
+            return ItemListSwitchItem(presentationData: presentationData, systemStyle: .glass, title: presentationData.strings.nagramiXHideGreetingSticker, value: value, maximumNumberOfLines: 0, sectionId: self.section, style: .blocks, updated: arguments.updateHideGreetingSticker)
+        case .hideGreetingStickerInfo:
+            return ItemListTextItem(presentationData: presentationData, text: .plain(presentationData.strings.nagramiXHideGreetingStickerInfo), sectionId: self.section)
         case let .chatActionsOnHold(value):
             return ItemListSwitchItem(presentationData: presentationData, systemStyle: .glass, title: presentationData.strings.nagramiXChatActionsOnHold, value: value, maximumNumberOfLines: 0, sectionId: self.section, style: .blocks, updated: arguments.updateChatActionsOnHold)
         case .chatActionsOnHoldInfo:
@@ -401,6 +443,10 @@ private enum NagramiXSettingsEntry: ItemListNodeEntry {
             return ItemListSectionHeaderItem(presentationData: presentationData, text: presentationData.strings.nagramiXVideoMessagesHeader.uppercased(), sectionId: self.section)
         case let .useRearCameraForVideoMessages(value):
             return ItemListSwitchItem(presentationData: presentationData, systemStyle: .glass, title: presentationData.strings.nagramiXUseRearCamera, value: value, sectionId: self.section, style: .blocks, updated: arguments.updateUseRearCameraForVideoMessages)
+        case let .keepMusicPlayingWhileRecording(value):
+            return ItemListSwitchItem(presentationData: presentationData, systemStyle: .glass, title: presentationData.strings.nagramiXKeepMusicPlayingWhileRecording, value: value, maximumNumberOfLines: 0, sectionId: self.section, style: .blocks, updated: arguments.updateKeepMusicPlayingWhileRecording)
+        case .keepMusicPlayingWhileRecordingInfo:
+            return ItemListTextItem(presentationData: presentationData, text: .plain(presentationData.strings.nagramiXKeepMusicPlayingWhileRecordingInfo), sectionId: self.section)
         case .videoPlaybackHeader:
             return ItemListSectionHeaderItem(presentationData: presentationData, text: presentationData.strings.nagramiXVideoPlaybackHeader.uppercased(), sectionId: self.section)
         case let .backgroundVideoPlayback(value):
@@ -437,6 +483,10 @@ private enum NagramiXSettingsEntry: ItemListNodeEntry {
             return ItemListSwitchItem(presentationData: presentationData, systemStyle: .glass, title: presentationData.strings.nagramiXEnableStoryRepost, value: value, sectionId: self.section, style: .blocks, updated: arguments.updateEnableStoryRepost)
         case .profilesHeader:
             return ItemListSectionHeaderItem(presentationData: presentationData, text: presentationData.strings.nagramiXProfilesHeader.uppercased(), sectionId: self.section)
+        case let .showExactLastSeen(value):
+            return ItemListSwitchItem(presentationData: presentationData, systemStyle: .glass, title: presentationData.strings.nagramiXShowExactLastSeen, value: value, maximumNumberOfLines: 0, sectionId: self.section, style: .blocks, updated: arguments.updateShowExactLastSeen)
+        case .showExactLastSeenInfo:
+            return ItemListTextItem(presentationData: presentationData, text: .plain(presentationData.strings.nagramiXShowExactLastSeenInfo), sectionId: self.section)
         case let .showProfileIds(value):
             return ItemListSwitchItem(presentationData: presentationData, systemStyle: .glass, title: presentationData.strings.nagramiXShowProfileIds, value: value, sectionId: self.section, style: .blocks, updated: arguments.updateShowProfileIds)
         case let .showRegistrationDate(value):
@@ -453,6 +503,14 @@ private enum NagramiXSettingsEntry: ItemListNodeEntry {
             return ItemListTextItem(presentationData: presentationData, text: .plain(presentationData.strings.nagramiXForceTcpCallsInfo), sectionId: self.section)
         case .messagesHeader:
             return ItemListSectionHeaderItem(presentationData: presentationData, text: presentationData.strings.nagramiXMessagesHeader.uppercased(), sectionId: self.section)
+        case let .autoMuteNewChannels(value):
+            return ItemListSwitchItem(presentationData: presentationData, systemStyle: .glass, title: presentationData.strings.nagramiXAutoMuteNewChannels, value: value, maximumNumberOfLines: 0, sectionId: self.section, style: .blocks, updated: arguments.updateAutoMuteNewChannels)
+        case .autoMuteNewChannelsInfo:
+            return ItemListTextItem(presentationData: presentationData, text: .plain(presentationData.strings.nagramiXAutoMuteNewChannelsInfo), sectionId: self.section)
+        case let .disableVoiceAutoplay(value):
+            return ItemListSwitchItem(presentationData: presentationData, systemStyle: .glass, title: presentationData.strings.nagramiXDisableVoiceAutoplay, value: value, maximumNumberOfLines: 0, sectionId: self.section, style: .blocks, updated: arguments.updateDisableVoiceAutoplay)
+        case .disableVoiceAutoplayInfo:
+            return ItemListTextItem(presentationData: presentationData, text: .plain(presentationData.strings.nagramiXDisableVoiceAutoplayInfo), sectionId: self.section)
         case let .showDeletedMessages(value):
             return ItemListSwitchItem(presentationData: presentationData, systemStyle: .glass, title: presentationData.strings.nagramiXDeletedMessages, value: value, sectionId: self.section, style: .blocks, updated: arguments.updateShowDeletedMessages)
         case .showDeletedMessagesInfo:
@@ -501,6 +559,8 @@ private enum NagramiXSettingsEntry: ItemListNodeEntry {
             return ItemListDisclosureItem(presentationData: presentationData, systemStyle: .glass, title: presentationData.strings.nagramiXProxyAutoSwitch, label: "", sectionId: self.section, style: .blocks, action: arguments.openProxySettings)
         case .proxyCheckAll:
             return ItemListDisclosureItem(presentationData: presentationData, systemStyle: .glass, title: presentationData.strings.nagramiXProxyCheckAll, label: "", sectionId: self.section, style: .blocks, action: arguments.openProxySettings)
+        case .proxyAvoidVPN:
+            return ItemListDisclosureItem(presentationData: presentationData, systemStyle: .glass, title: presentationData.strings.nagramiXAvoidProxyWithVPN, attributedTitle: NSAttributedString(string: presentationData.strings.nagramiXAvoidProxyWithVPN, font: Font.regular(presentationData.fontSize.itemListBaseFontSize), textColor: presentationData.theme.list.itemPrimaryTextColor), label: "", sectionId: self.section, style: .blocks, action: arguments.openProxySettings)
         }
     }
 }
@@ -521,7 +581,7 @@ private extension NagramiXSettingsCategory {
 private extension NagramiXSettingsEntry {
     var isSearchOnly: Bool {
         switch self {
-        case .search, .noSearchResults, .searchHeader, .proxyDns, .proxyAutoSwitch, .proxyCheckAll:
+        case .search, .noSearchResults, .searchHeader, .proxyDns, .proxyAutoSwitch, .proxyCheckAll, .proxyAvoidVPN:
             return true
         default:
             return false
@@ -531,11 +591,11 @@ private extension NagramiXSettingsEntry {
     var isSearchableSetting: Bool {
         switch self {
         case .search, .noSearchResults, .searchHeader, .tabsHeader, .chatsHeader, .videoMessagesHeader, .featureStoriesHeader, .profilesHeader, .callsHeader, .otherCallsHeader, .messagesHeader,
-                .anonymousStoryViewingInfo, .forceTcpCallsInfo, .showDeletedMessagesInfo, .saveTemporaryMessagesInfo, .messageEditHistoryInfo, .messageArchiveInfo,
-                .doubleTapEditInfo, .hideReactionsInfo, .channelBottomPanelInfo, .contextMenuHeader, .forwardWithoutAuthorInfo, .broadcastMessagesInfo, .selectByAuthorInfo, .chatActionsOnHoldInfo, .compactChatListInfo,
+                .anonymousStoryViewingInfo, .forceTcpCallsInfo, .disableVoiceAutoplayInfo, .autoMuteNewChannelsInfo, .showExactLastSeenInfo, .showDeletedMessagesInfo, .saveTemporaryMessagesInfo, .messageEditHistoryInfo, .messageArchiveInfo,
+                .doubleTapEditInfo, .hideReactionsInfo, .hideGreetingStickerInfo, .channelBottomPanelInfo, .contextMenuHeader, .forwardWithoutAuthorInfo, .broadcastMessagesInfo, .selectByAuthorInfo, .chatActionsOnHoldInfo, .compactChatListInfo,
                 .photosHeader, .photoQualityHeader, .photoQualityInfo, .sendLargePhotosInfo,
                 .stickersHeader, .stickerSizeHeader, .stickerSizeInfo,
-                .downloadsHeader, .downloadAccelerationInfo, .videoPlaybackHeader, .backgroundVideoPlaybackInfo, .otherVideoHeader, .videoPiPSwipeInfo:
+                .downloadsHeader, .downloadAccelerationInfo, .keepMusicPlayingWhileRecordingInfo, .videoPlaybackHeader, .backgroundVideoPlaybackInfo, .otherVideoHeader, .videoPiPSwipeInfo:
             return false
         default:
             return true
@@ -561,6 +621,8 @@ private extension NagramiXSettingsEntry {
         case .doubleTapEditInfo: return strings.nagramiXDoubleTapEditInfo
         case .hideReactions: return strings.nagramiXHideReactions
         case .hideReactionsInfo: return strings.nagramiXHideReactionsInfo
+        case .hideGreetingSticker: return strings.nagramiXHideGreetingSticker
+        case .hideGreetingStickerInfo: return strings.nagramiXHideGreetingStickerInfo
         case .downloadsHeader: return strings.nagramiXDownloadsHeader
         case .downloadAcceleration: return strings.nagramiXDownloadAcceleration
         case .downloadAccelerationMode: return strings.nagramiXDownloadAccelerationMode
@@ -578,6 +640,8 @@ private extension NagramiXSettingsEntry {
         case .selectByAuthorInfo: return strings.nagramiXSelectByAuthorInfo
         case .videoMessagesHeader: return strings.nagramiXVideoMessagesHeader
         case .useRearCameraForVideoMessages: return strings.nagramiXUseRearCamera
+        case .keepMusicPlayingWhileRecording: return strings.nagramiXKeepMusicPlayingWhileRecording
+        case .keepMusicPlayingWhileRecordingInfo: return strings.nagramiXKeepMusicPlayingWhileRecordingInfo
         case .videoPlaybackHeader: return strings.nagramiXVideoPlaybackHeader
         case .backgroundVideoPlayback: return strings.nagramiXBackgroundVideoPlayback
         case .backgroundVideoPlaybackInfo: return strings.nagramiXBackgroundVideoPlaybackInfo
@@ -593,6 +657,8 @@ private extension NagramiXSettingsEntry {
         case .anonymousStoryViewingInfo: return strings.nagramiXAnonymousStoryViewingInfo
         case .profilesHeader: return strings.nagramiXProfilesHeader
         case .showProfileIds: return strings.nagramiXShowProfileIds
+        case .showExactLastSeen: return strings.nagramiXShowExactLastSeen
+        case .showExactLastSeenInfo: return strings.nagramiXShowExactLastSeenInfo
         case .showRegistrationDate: return strings.nagramiXShowRegistrationDate
         case .showMutualContactIcon: return strings.nagramiXShowMutualContactIcon
         case .callsHeader, .otherCallsHeader: return strings.nagramiXCallsHeader
@@ -600,6 +666,10 @@ private extension NagramiXSettingsEntry {
         case .forceTcpCalls: return strings.nagramiXForceTcpCalls
         case .forceTcpCallsInfo: return strings.nagramiXForceTcpCallsInfo
         case .messagesHeader: return strings.nagramiXMessagesHeader
+        case .disableVoiceAutoplay: return strings.nagramiXDisableVoiceAutoplay
+        case .autoMuteNewChannels: return strings.nagramiXAutoMuteNewChannels
+        case .autoMuteNewChannelsInfo: return strings.nagramiXAutoMuteNewChannelsInfo
+        case .disableVoiceAutoplayInfo: return strings.nagramiXDisableVoiceAutoplayInfo
         case .showDeletedMessages: return strings.nagramiXDeletedMessages
         case .showDeletedMessagesInfo: return strings.nagramiXDeletedMessagesInfo
         case .saveTemporaryMessages: return strings.nagramiXTemporaryMessages
@@ -613,6 +683,7 @@ private extension NagramiXSettingsEntry {
         case .proxyDns: return strings.nagramiXDns
         case .proxyAutoSwitch: return strings.nagramiXProxyAutoSwitch
         case .proxyCheckAll: return strings.nagramiXProxyCheckAll
+        case .proxyAvoidVPN: return strings.nagramiXAvoidProxyWithVPN
         case .photosHeader: return strings.nagramiXPhotosHeader
         case .photoQualityHeader: return strings.nagramiXPhotoQuality
         case .photoQuality: return strings.nagramiXPhotoQuality
@@ -631,12 +702,22 @@ private extension NagramiXSettingsEntry {
         switch self {
         case .downloadAcceleration, .downloadAccelerationMode:
             return strings.nagramiXDownloadAccelerationInfo
+        case .disableVoiceAutoplay:
+            return strings.nagramiXDisableVoiceAutoplayInfo
+        case .autoMuteNewChannels:
+            return strings.nagramiXAutoMuteNewChannelsInfo
         case .doubleTapEdit:
             return strings.nagramiXDoubleTapEditInfo
         case .hideReactions:
             return strings.nagramiXHideReactionsInfo
+        case .hideGreetingSticker:
+            return strings.nagramiXHideGreetingStickerInfo
+        case .showExactLastSeen:
+            return strings.nagramiXShowExactLastSeenInfo
         case .showChannelBottomPanel:
             return strings.nagramiXChannelBottomPanelInfo
+        case .keepMusicPlayingWhileRecording:
+            return strings.nagramiXKeepMusicPlayingWhileRecordingInfo
         case .backgroundVideoPlayback:
             return strings.nagramiXBackgroundVideoPlaybackInfo
         case .videoPiPSwipe:
@@ -670,8 +751,8 @@ private extension NagramiXSettingsEntry {
         case .clearMessageArchive:
             return strings.nagramiXLocalArchiveInfo
         case .proxySettings:
-            return [strings.nagramiXDns, strings.nagramiXProxyAutoSwitch, strings.nagramiXProxyCheckAll].joined(separator: " ")
-        case .proxyDns, .proxyAutoSwitch, .proxyCheckAll:
+            return [strings.nagramiXDns, strings.nagramiXProxyAutoSwitch, strings.nagramiXProxyCheckAll, strings.nagramiXAvoidProxyWithVPN].joined(separator: " ")
+        case .proxyDns, .proxyAutoSwitch, .proxyCheckAll, .proxyAvoidVPN:
             return strings.nagramiXProxySettings
         default:
             return ""
@@ -702,13 +783,13 @@ private func nagramiXNormalizedSearchText(_ value: String) -> String {
         .trimmingCharacters(in: .whitespacesAndNewlines)
 }
 
-private func nagramiXSearchEntries(settings: NagramiXTabSettings, strings: PresentationStrings, query: String) -> [NagramiXSettingsEntry] {
+private func nagramiXSearchEntries(settings: NagramiXTabSettings, keepMusicPlaying: Bool, strings: PresentationStrings, query: String) -> [NagramiXSettingsEntry] {
     let normalizedQuery = nagramiXNormalizedSearchText(query)
     guard !normalizedQuery.isEmpty else {
         return []
     }
 
-    let matches = nagramiXAllSettingsEntries(settings: settings).filter { entry in
+    let matches = nagramiXAllSettingsEntries(settings: settings, keepMusicPlaying: keepMusicPlaying).filter { entry in
         guard entry.isSearchableSetting else {
             return false
         }
@@ -741,7 +822,7 @@ private func nagramiXDownloadModeTitle(_ mode: NagramiXDownloadAcceleration, str
     }
 }
 
-private func nagramiXAllSettingsEntries(settings: NagramiXTabSettings) -> [NagramiXSettingsEntry] {
+private func nagramiXAllSettingsEntries(settings: NagramiXTabSettings, keepMusicPlaying: Bool) -> [NagramiXSettingsEntry] {
     var downloadEntries: [NagramiXSettingsEntry] = [.downloadsHeader, .downloadAcceleration(settings.downloads.enabled)]
     if settings.downloads.enabled {
         downloadEntries.append(.downloadAccelerationMode(settings.downloads.mode))
@@ -754,21 +835,25 @@ private func nagramiXAllSettingsEntries(settings: NagramiXTabSettings) -> [Nagra
         .chatsHeader, .wideChannelPosts(settings.wideChannelPosts),
         .showChannelBottomPanel(settings.showChannelBottomPanel), .channelBottomPanelInfo,
         .hideReactions(settings.hideReactions), .hideReactionsInfo,
+        .hideGreetingSticker(settings.hideGreetingSticker), .hideGreetingStickerInfo,
         .chatActionsOnHold(settings.chatActionsOnHold), .chatActionsOnHoldInfo,
         .compactChatList(settings.compactChatList), .compactChatListInfo,
         .videoMessagesHeader, .useRearCameraForVideoMessages(settings.useRearCameraForVideoMessages),
+        .keepMusicPlayingWhileRecording(keepMusicPlaying), .keepMusicPlayingWhileRecordingInfo,
         .videoPlaybackHeader, .backgroundVideoPlayback(settings.backgroundVideoPlayback), .backgroundVideoPlaybackInfo,
         .featureStoriesHeader, .hideStories(settings.hideStories),
         .disableStoryCameraSwipe(settings.disableStoryCameraSwipe),
         .confirmStoryViewing(settings.confirmStoryViewing), .enableStoryRepost(settings.enableStoryRepost),
         .anonymousStoryViewing(settings.anonymousStoryViewing), .anonymousStoryViewingInfo,
-        .profilesHeader, .showProfileIds(settings.showProfileIds),
+        .profilesHeader, .showExactLastSeen(settings.showExactLastSeen), .showExactLastSeenInfo, .showProfileIds(settings.showProfileIds),
         .showRegistrationDate(settings.showRegistrationDate),
         .showMutualContactIcon(settings.showMutualContactIcon),
         .contextMenuHeader, .showForwardWithoutAuthor(settings.showForwardWithoutAuthor), .forwardWithoutAuthorInfo,
         .showBroadcastMessages(settings.showBroadcastMessages), .broadcastMessagesInfo,
         .showSelectByAuthor(settings.showSelectByAuthor), .selectByAuthorInfo,
         .messagesHeader, .doubleTapEdit(settings.doubleTapEdit), .doubleTapEditInfo,
+        .disableVoiceAutoplay(settings.disableVoiceAutoplay), .disableVoiceAutoplayInfo,
+        .autoMuteNewChannels(settings.autoMuteNewChannels), .autoMuteNewChannelsInfo,
         .showDeletedMessages(settings.showDeletedMessages), .showDeletedMessagesInfo,
         .saveTemporaryMessages(settings.saveTemporaryMessages), .saveTemporaryMessagesInfo,
         .deletedMessageLabel(settings.deletedMessageLabel),
@@ -781,12 +866,12 @@ private func nagramiXAllSettingsEntries(settings: NagramiXTabSettings) -> [Nagra
         .showStickerTime(settings.media.showStickerTime), .stickerSizeInfo,
         .otherCallsHeader, .forceTcpCalls(settings.forceTcpCalls), .forceTcpCallsInfo,
         .otherVideoHeader, .videoPiPSwipe(settings.videoPiPSwipe), .videoPiPSwipeInfo,
-        .proxySettings, .proxyDns, .proxyAutoSwitch, .proxyCheckAll,
+        .proxySettings, .proxyDns, .proxyAutoSwitch, .proxyCheckAll, .proxyAvoidVPN,
     ] + downloadEntries
 }
 
-private func nagramiXSettingsEntries(settings: NagramiXTabSettings, category: NagramiXSettingsCategory) -> [NagramiXSettingsEntry] {
-    return nagramiXAllSettingsEntries(settings: settings).filter { $0.category == category && !$0.isSearchOnly }
+private func nagramiXSettingsEntries(settings: NagramiXTabSettings, keepMusicPlaying: Bool, category: NagramiXSettingsCategory) -> [NagramiXSettingsEntry] {
+    return nagramiXAllSettingsEntries(settings: settings, keepMusicPlaying: keepMusicPlaying).filter { $0.category == category && !$0.isSearchOnly }
 }
 
 public func nagramiXSettingsController(context: AccountContext) -> ViewController {
@@ -819,6 +904,7 @@ public func nagramiXSettingsController(context: AccountContext) -> ViewControlle
         updateShowChannelBottomPanel: { value in update { $0.showChannelBottomPanel = value } },
         updateDoubleTapEdit: { value in update { $0.doubleTapEdit = value } },
         updateHideReactions: { value in update { $0.hideReactions = value } },
+        updateHideGreetingSticker: { value in update { $0.hideGreetingSticker = value } },
         updateCompactChatList: { value in update { $0.compactChatList = value } },
         updateChatActionsOnHold: { value in update { $0.chatActionsOnHold = value } },
         updateShowForwardWithoutAuthor: { value in update { $0.showForwardWithoutAuthor = value } },
@@ -829,17 +915,25 @@ public func nagramiXSettingsController(context: AccountContext) -> ViewControlle
         updateVideoPiPSwipe: { value in update { $0.videoPiPSwipe = value } },
         updateBackgroundVideoPlayback: { value in update { $0.backgroundVideoPlayback = value } },
         updateUseRearCameraForVideoMessages: { value in update { $0.useRearCameraForVideoMessages = value } },
+        updateKeepMusicPlayingWhileRecording: { value in
+            let _ = updateMediaInputSettingsInteractively(accountManager: context.sharedContext.accountManager, { current in
+                return current.withUpdatedPauseMusicOnRecording(!value)
+            }).start()
+        },
         updateHideStories: { value in update { $0.hideStories = value } },
         updateDisableStoryCameraSwipe: { value in update { $0.disableStoryCameraSwipe = value } },
         updateConfirmStoryViewing: { value in update { $0.confirmStoryViewing = value } },
         updateEnableStoryRepost: { value in update { $0.enableStoryRepost = value } },
         updateAnonymousStoryViewing: { value in update { $0.anonymousStoryViewing = value } },
         updateShowProfileIds: { value in update { $0.showProfileIds = value } },
+        updateShowExactLastSeen: { value in update { $0.showExactLastSeen = value } },
         updateShowRegistrationDate: { value in update { $0.showRegistrationDate = value } },
         updateShowMutualContactIcon: { value in update { $0.showMutualContactIcon = value } },
         updateConfirmOutgoingCalls: { value in update { $0.confirmOutgoingCalls = value } },
         updateForceTcpCalls: { value in update { $0.forceTcpCalls = value } },
         updateShowDeletedMessages: { value in update { $0.showDeletedMessages = value } },
+        updateDisableVoiceAutoplay: { value in update { $0.disableVoiceAutoplay = value } },
+        updateAutoMuteNewChannels: { value in update { $0.autoMuteNewChannels = value } },
         updateSaveTemporaryMessages: { value in update { $0.saveTemporaryMessages = value } },
         editDeletedMessageLabel: {
             let presentationData = context.sharedContext.currentPresentationData.with { $0 }
@@ -894,15 +988,14 @@ public func nagramiXSettingsController(context: AccountContext) -> ViewControlle
                 return
             }
             let presentationData = context.sharedContext.currentPresentationData.with { $0 }
-            let actionSheet = ActionSheetController(presentationData: presentationData)
             let modes: [NagramiXDownloadAcceleration] = [.medium, .maximum]
-            let items: [ActionSheetItem] = modes.map { mode in
-                ActionSheetCheckboxItem(title: nagramiXDownloadModeTitle(mode, strings: presentationData.strings), label: "", value: current.mode == mode, style: .alignRight, action: { [weak actionSheet] _ in
-                    actionSheet?.dismissAnimated()
-                    update { $0.downloads.mode = mode }
-                })
+            let options = modes.map { mode in
+                NagramiXOptionSheetOption(id: mode.rawValue, title: nagramiXDownloadModeTitle(mode, strings: presentationData.strings), subtitle: mode == .maximum ? presentationData.strings.nagramiXDownloadMaximumInfo : presentationData.strings.nagramiXDownloadMediumInfo)
             }
-            actionSheet.setItemGroups([ActionSheetItemGroup(items: items)])
+            let actionSheet = nagramiXOptionSheet(presentationData: presentationData, title: presentationData.strings.nagramiXDownloadAccelerationMode, options: options, selectedId: current.mode.rawValue, footnote: presentationData.strings.nagramiXDownloadModeFootnote, selected: { id in
+                guard let mode = NagramiXDownloadAcceleration(rawValue: id), modes.contains(mode), NagramiXTabSettings.current.downloads.enabled else { return }
+                update { $0.downloads.mode = mode }
+            })
             presentControllerImpl?(actionSheet)
         },
         clearMessageArchive: {
@@ -920,14 +1013,19 @@ public func nagramiXSettingsController(context: AccountContext) -> ViewControlle
             ))
         }
     )
-    let signal = combineLatest(queue: .mainQueue(), context.sharedContext.presentationData, settingsPromise.get(), categoryPromise.get(), searchQueryPromise.get())
-    |> map { presentationData, settings, category, searchQuery -> (ItemListControllerState, (ItemListNodeState, Any)) in
+    let mediaInputSettings = context.sharedContext.accountManager.sharedData(keys: [ApplicationSpecificSharedDataKeys.mediaInputSettings])
+    |> map { sharedData in
+        return sharedData.entries[ApplicationSpecificSharedDataKeys.mediaInputSettings]?.get(MediaInputSettings.self) ?? .defaultSettings
+    }
+    |> distinctUntilChanged
+    let signal = combineLatest(queue: .mainQueue(), context.sharedContext.presentationData, settingsPromise.get(), categoryPromise.get(), searchQueryPromise.get(), mediaInputSettings)
+    |> map { presentationData, settings, category, searchQuery, mediaInputSettings -> (ItemListControllerState, (ItemListNodeState, Any)) in
         let normalizedQuery = nagramiXNormalizedSearchText(searchQuery)
         var resultEntries: [NagramiXSettingsEntry]
         if normalizedQuery.isEmpty {
-            resultEntries = nagramiXSettingsEntries(settings: settings, category: category)
+            resultEntries = nagramiXSettingsEntries(settings: settings, keepMusicPlaying: !mediaInputSettings.pauseMusicOnRecording, category: category)
         } else {
-            resultEntries = nagramiXSearchEntries(settings: settings, strings: presentationData.strings, query: normalizedQuery)
+            resultEntries = nagramiXSearchEntries(settings: settings, keepMusicPlaying: !mediaInputSettings.pauseMusicOnRecording, strings: presentationData.strings, query: normalizedQuery)
             if resultEntries.isEmpty {
                 resultEntries = [.noSearchResults]
             }
