@@ -1,12 +1,12 @@
 # Текущий контекст NagramiX 0.5.0
 
-## Активная задача: новая чистая сборка для iPhone
+## Задача завершена: чистая сборка №83 и новый IPA проверены
 
 Пользователь 2026-10-10 разрешил новую сборку 0.5.0 для физического теста. Сохраняется ранее согласованный процесс тестовой публикации: единственный build-unsigned-ipa.yml на main, artifact_run_id пустой, clean_build=true, publish_release=true, prerelease=true. Новое согласование на уже разрешённые push/build/release не нужно. Старые релизы/теги/IPA сохранять. Источник должен быть новым commit со всеми накопленными правками, прежний пакет не переиздавать.
 
 База Telegram13.0 / f1dd7a2dbd02cbbf513e75d5695d8d36d1cf5838 повторно CURRENT. Минимум iOS15.0, ARM64 unsigned, bundle com.mr-efes.nagramix. Linux без Xcode: build только macOS workflow. Credentials не выводить и не коммитить. Номер build=GITHUB_RUN_NUMBER.
 
-Версия workflow/README/AGENTS/LICENSE/gitignore/product registry/releases и план iPhone обновлены согласованно. Только текущая аннотация product/releases/0.5.0.md, русский функциональный текст. docs/RELEASE_STATUS.md фиксирует актуальный результат, сейчас подготовка. В registry новые доработки compile_pending/device_pending; после native success сменить compile_pending на compile_passed, физическую приёмку не объявлять.
+Версия workflow/README/AGENTS/LICENSE/gitignore/product registry/releases и план iPhone обновлены согласованно. Только текущая аннотация product/releases/0.5.0.md, русский функциональный текст. docs/RELEASE_STATUS.md фиксирует успешную сборку и независимую проверку нового IPA. Все реализованные записи registry имеют compile_passed/device_pending; физическую приёмку не объявлять.
 
 ## Состав и ограничения новых изменений
 
@@ -30,6 +30,12 @@
 
 Меню chatsON: folder pans везде, hold неavatar stock actionsArchive/Unarchive; avatar tap/hold в обоих режимах полноэкранный отдельный readonly chat без read/input. ForwardWithout single native destination draft/quiet/schedule; Broadcast multi; deleted snapshots copy native, не server forward deletedID, подпись автора не согласована. Архив: независимое хранениеполученных файлов/TTL optin, late callbacks/clear guards, alpha0.5, штатный shared decoder одного полного MessageId/fileId/resourceId без второго moving renderer. JPEG progressive contract/quality0–100/native legacy72/full-cache decode and heap errors; фон decoder UUID ownersORnativePiP. Не упрощать эти пути.
 
-## Следующий шаг
+## Подтверждённый результат и следующий шаг
 
-Завершить подготовку, отправить main и запустить чистую нативную сборку. Затем дождаться результата, проверить новый пакет и дать пользователю прямую ссылку. Физическая приёмка по docs/IPHONE_TEST_0.5.0.md и пяти текущим контрактам ещё не выполнена.
+Чистая сборка №83/run38036214917/source132ddc364706d63cc31746be343627419c36c85f прошла успешно, 7696 actions; cache restore/save оба skipped. Новый тестовый релиз v0.5.0 опубликован 2026-10-10T09:16:49Z; tag==source, body==tracked functional RU annotation, non-draft/prerelease. Независимо проверены новые IPA/provenance/checksum/ZIP CRC, version/build/source/run,6ARM64 iOSMachO, no profiles/_CodeSignature,46полныхRUlabels,14863основныхRU/224customRU и EN keys,31tones SHA256,minimumiOS15/audio mode. IPA 80822420bytes, SHA2562f2df666b71b078cf26c6fb8811657424b4e19c7d7c77de70eca9bf0e213347b. /tmp/nagramix-release-050/VERIFIED-RELEASE.json и build.log; отчёт docs/RELEASE_STATUS.md.
+
+Прямой IPA: https://github.com/Mr-EFES/NagramiX/releases/download/v0.5.0/NagramiX-0.5.0-unsigned.ipa
+Релиз: https://github.com/Mr-EFES/NagramiX/releases/tag/v0.5.0
+Пакет unsigned требует внешней подписи SideStore. Шесть LC_CODE_SIGNATURE load records не дают установочную подпись. Новый пакет не является прежним переизданным IPA. Последующий documentation checkpoint не менять/не выдавать за собранный source132ddc3.
+
+Следующий шаг — физический тест пользователя по docs/IPHONE_TEST_0.5.0.md и пяти текущим контрактам. Инкогнито проверить двумя аккаунтами; реальный UI/яркость/звук/network/playback/crash-free не объявлять проверенными. Новые правки в следующей сборке только по новой команде пользователя; новые релизы не запускать автоматически. Все прежние releases/tags/history сохранить.
