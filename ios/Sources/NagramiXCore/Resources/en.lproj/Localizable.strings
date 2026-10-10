@@ -153,3 +153,9 @@
 
 "NagramiX.Context.BroadcastMessages" = "Broadcast";
 "NagramiX.Settings.ContextMenu.BroadcastMessages.Info" = "Show Broadcast to send copies without the author to multiple recipients.";
+
+"NagramiX.Settings.Stories.AnonymousViewing" = "View Stories Incognito";
+"NagramiX.Settings.Stories.AnonymousViewing.Info" = "Do not send story view receipts from NagramiX. Previously reported views remain visible. Viewing a newer story from the same author normally, or using another app, may mark earlier stories as viewed.";
+"NagramiX.Stories.Anonymous.Warning.Title" = "Your Identity Will Be Visible";
+"NagramiX.Stories.Anonymous.Warning.Text" = "A reply or reaction will show the author that you interacted with this story, even while incognito viewing is enabled. Continue?";
+"NagramiX.Stories.Anonymous.Continue" = "Continue";

@@ -44,6 +44,597 @@ def localize_debug_titles(path: Path) -> None:
     path.write_text(text, encoding="utf-8")
 
 
+def apply_separate_profile_navigation_buttons(source: Path) -> None:
+    path = source / "submodules/TelegramUI/Components/PeerInfo/PeerInfoScreen/Sources/PeerInfoHeaderNavigationButtonContainerNode.swift"
+    data = path.read_bytes()
+    expected = "ffe35bf77b9099b5fa835a11e2c7a3327594fcb3"
+    if hashlib.sha1(b"blob " + str(len(data)).encode() + b"\0" + data).hexdigest() != expected:
+        raise SystemExit("Изменилась проверенная шапка профиля или разделение кнопок уже применено")
+    replace_unique(path, "    private let rightButtonsContainer: UIView\n", """    private let rightButtonsContainer: UIView
+    private var nagramiXSeparateRightButtons = false
+    private var nagramiXRightButtonBackgrounds: [PeerInfoHeaderNavigationButtonSpec: GlassContextExtractableContainer] = [:]
+
+    // Text actions must remain distinct from search and other adjacent actions.
+    // Icon-only groups keep Telegram's original capsule.
+    private func nagramiXNeedsSeparateButtons(_ buttons: [PeerInfoHeaderNavigationButtonSpec]) -> Bool {
+        for expanded in [false, true] {
+            let group = buttons.filter { $0.isForExpandedView == expanded }
+            if group.count > 1 && group.contains(where: { spec in
+                switch spec.key {
+                case .edit, .done, .cancel, .select, .selectionDone, .editPhoto, .editVideo:
+                    return true
+                default:
+                    return false
+                }
+            }) {
+                return true
+            }
+        }
+        return false
+    }
+
+    private func nagramiXUpdateRightButtonFrame(spec: PeerInfoHeaderNavigationButtonSpec, button: PeerInfoHeaderNavigationButton, frame: CGRect, transition: ContainedViewLayoutTransition) {
+        if self.nagramiXSeparateRightButtons {
+            let background: GlassContextExtractableContainer
+            var backgroundTransition = transition
+            if let current = self.nagramiXRightButtonBackgrounds[spec] {
+                background = current
+            } else {
+                background = GlassContextExtractableContainer()
+                background.morphsIntoContextMenu = true
+                self.nagramiXRightButtonBackgrounds[spec] = background
+                self.rightButtonsContainer.addSubview(background)
+                background.contentView.addSubview(button.view)
+                backgroundTransition = .immediate
+            }
+            transition.updateFrame(node: button, frame: CGRect(origin: CGPoint(), size: frame.size))
+            backgroundTransition.updateFrame(view: background, frame: frame)
+        } else {
+            if let background = self.nagramiXRightButtonBackgrounds.removeValue(forKey: spec) {
+                let previousFrame = background.contentView.convert(button.frame, to: self.rightButtonsContainer)
+                button.alpha = background.alpha
+                self.rightButtonsContainer.addSubview(button.view)
+                button.frame = previousFrame
+                background.removeFromSuperview()
+            }
+            transition.updateFrameAdditiveToCenter(node: button, frame: frame)
+        }
+    }
+
+    private func nagramiXUpdateRightButtonAlpha(spec: PeerInfoHeaderNavigationButtonSpec, button: PeerInfoHeaderNavigationButton, alpha: CGFloat, transition: ContainedViewLayoutTransition) {
+        if let background = self.nagramiXRightButtonBackgrounds[spec] {
+            // Fade the whole control once, including its glass and hit area.
+            button.alpha = 1.0
+            ComponentTransition(transition).setAlpha(view: background, alpha: alpha)
+        } else {
+            transition.updateAlpha(node: button, alpha: alpha)
+        }
+    }
+""", "Отдельные штатные стеклянные контейнеры для текста и поиска в общей шапке профиля")
+    replace_unique(path, """        let sideInset: CGFloat = 16.0
+""", """        let sideInset: CGFloat = 16.0
+        let separateRightButtons = self.nagramiXNeedsSeparateButtons(rightButtons)
+        if self.nagramiXSeparateRightButtons != separateRightButtons {
+            self.nagramiXSeparateRightButtons = separateRightButtons
+            let targetContainer = separateRightButtons ? self.backgroundContainer.contentView : self.rightButtonsBackground.contentView
+            let previousFrame = self.rightButtonsContainer.convert(self.rightButtonsContainer.bounds, to: targetContainer)
+            if separateRightButtons {
+                self.backgroundContainer.contentView.addSubview(self.rightButtonsContainer)
+            } else {
+                self.rightButtonsBackground.contentView.addSubview(self.rightButtonsContainer)
+            }
+            self.rightButtonsContainer.frame = previousFrame
+        }
+        self.rightButtonsBackground.isHidden = separateRightButtons
+        self.rightButtonsContainer.clipsToBounds = !separateRightButtons
+        let rightButtonSpacing: CGFloat = separateRightButtons ? 8.0 : 0.0
+""", "Разделить фон и области нажатия смешанных групп без изменения иконных групп")
+    # Both the creation and cached-layout branches need the same spacing and
+    # wrapper coordinates; otherwise scrolling/rotation brings the join back.
+    text = path.read_text(encoding="utf-8")
+    start = text.index("        var expandedRightButtonsWidth: CGFloat = 0.0")
+    end = text.index("        self.presentationData = presentationData", start)
+    old = text[start:end]
+    new = old
+    frame_line = "let buttonFrame = CGRect(origin: CGPoint(x: spec.isForExpandedView ? expandedRightButtonsWidth : normalRightButtonsWidth, y: 0.0), size: buttonSize)"
+    assert new.count(frame_line) == 2
+    # A gap only precedes an existing button in that presentation set.
+    def add_spacing(match: re.Match[str]) -> str:
+        indent = match.group(1)
+        return "\n".join(indent + line for line in (
+            "if spec.isForExpandedView {",
+            "    if expandedRightButtonsWidth > 0.0 { expandedRightButtonsWidth += rightButtonSpacing }",
+            "} else {",
+            "    if normalRightButtonsWidth > 0.0 { normalRightButtonsWidth += rightButtonSpacing }",
+            "}",
+            frame_line,
+        ))
+    new = re.sub(r"(?m)^([ \t]*)" + re.escape(frame_line), add_spacing, new)
+    assert new.count("buttonNode.frame = buttonFrame") == 1
+    new = new.replace("buttonNode.frame = buttonFrame", "self.nagramiXUpdateRightButtonFrame(spec: spec, button: buttonNode, frame: buttonFrame, transition: .immediate)")
+    assert new.count("buttonNode.alpha = 0.0") == 1
+    new = new.replace("buttonNode.alpha = 0.0", "self.nagramiXUpdateRightButtonAlpha(spec: spec, button: buttonNode, alpha: 0.0, transition: .immediate)")
+    assert new.count("transition.updateFrameAdditiveToCenter(node: buttonNode, frame: buttonFrame)") == 2
+    new = new.replace("transition.updateFrameAdditiveToCenter(node: buttonNode, frame: buttonFrame)", "self.nagramiXUpdateRightButtonFrame(spec: spec, button: buttonNode, frame: buttonFrame, transition: transition)")
+    assert new.count("transition.updateAlpha(node: buttonNode, alpha: alphaFactor * alphaFactor)") == 2
+    new = new.replace("transition.updateAlpha(node: buttonNode, alpha: alphaFactor * alphaFactor)", "self.nagramiXUpdateRightButtonAlpha(spec: spec, button: buttonNode, alpha: alphaFactor * alphaFactor, transition: transition)")
+    assert new.count("buttonTransition.updateAlpha(node: buttonNode, alpha: alphaFactor * alphaFactor)") == 1
+    new = new.replace("buttonTransition.updateAlpha(node: buttonNode, alpha: alphaFactor * alphaFactor)", "self.nagramiXUpdateRightButtonAlpha(spec: spec, button: buttonNode, alpha: alphaFactor * alphaFactor, transition: buttonTransition)")
+    remove_anchor = """                if let buttonNode = self.rightButtonNodes.removeValue(forKey: spec) {
+"""
+    assert new.count(remove_anchor) == 1
+    new = new.replace(remove_anchor, remove_anchor + """                    if let background = self.nagramiXRightButtonBackgrounds.removeValue(forKey: spec) {
+                        background.layer.animateAlpha(from: background.alpha, to: 0.0, duration: 0.2, removeOnCompletion: false, completion: { [weak background] _ in
+                            background?.removeFromSuperview()
+                        })
+                        background.layer.animateScale(from: 1.0, to: 0.001, duration: 0.2, removeOnCompletion: false)
+                        continue
+                    }
+""")
+    replace_unique(path, old, new, "Одинаковые интервалы и независимые переходы кнопок при создании и повторном layout")
+    replace_unique(path, "        self.rightButtonsContainer = UIView()", "        self.rightButtonsContainer = SparseContainerView()", "Промежутки между кнопками не перехватывают нажатия")
+    replace_unique(path, """        transition.updateFrame(view: self.rightButtonsContainer, frame: CGRect(origin: CGPoint(), size: rightButtonsFrame.size))
+        self.rightButtonsContainer.layer.cornerRadius = rightButtonsFrame.height * 0.5
+""", """        transition.updateFrame(view: self.rightButtonsContainer, frame: CGRect(origin: self.nagramiXSeparateRightButtons ? rightButtonsFrame.origin : CGPoint(), size: rightButtonsFrame.size))
+        self.rightButtonsContainer.layer.cornerRadius = self.nagramiXSeparateRightButtons ? 0.0 : rightButtonsFrame.height * 0.5
+""", "Сохранить абсолютное положение и не обрезать самостоятельные круглые кнопки")
+    replace_unique(path, """        self.leftButtonsBackground.update(size: leftButtonsSize, cornerRadius: leftButtonsSize.height * 0.5, isDark: tintIsDark, tintColor: tintColor, isInteractive: true, transition: transition)
+""", """        self.leftButtonsBackground.update(size: leftButtonsSize, cornerRadius: leftButtonsSize.height * 0.5, isDark: tintIsDark, tintColor: tintColor, isInteractive: true, transition: transition)
+        for background in self.nagramiXRightButtonBackgrounds.values {
+            let size = background.bounds.size
+            background.update(size: size, cornerRadius: size.height * 0.5, isDark: tintIsDark, tintColor: tintColor, isInteractive: true, transition: transition)
+        }
+""", "Штатная тема, tint и context extraction каждой самостоятельной кнопки")
+
+
+def apply_anonymous_story_viewing(source: Path) -> None:
+    core = source / "submodules/TelegramCore/Sources/TelegramEngine/Messages/Stories.swift"
+    data = core.read_bytes()
+    expected = "fc104f5fb905819df5bdd013e42756fd4a00c4f4"
+    if hashlib.sha1(b"blob " + str(len(data)).encode() + b"\0" + data).hexdigest() != expected:
+        raise SystemExit("Изменилась проверенная база регистрации просмотра историй или режим уже применён")
+    ui = source / "submodules/TelegramUI/Components/Stories/StoryContainerScreen/Sources"
+    content = ui / "StoryContent.swift"
+    contexts = ui / "StoryChatContent.swift"
+    screen = ui / "StoryContainerScreen.swift"
+    item = ui / "StoryItemSetContainerComponent.swift"
+    send = ui / "StoryItemSetContainerViewSendMessage.swift"
+    # These are the audited inputs after existing NagramiX patches, including
+    # the protected per-story approval gate. Changes require an explicit audit.
+    integrated_inputs = {
+        "StoryContent.swift": "a93b06994cecef825e5b5aad02c2a7c8d461df22a1bbdd576319d29db5b11f9b",
+        "StoryChatContent.swift": "513e3ff8012d5aba9aa2c73580304345ae1f6859ba1950692eb5980a007582f9",
+        "StoryContainerScreen.swift": "8b8d55b3dfffbd60153a0b7e601076e43c45c0f986a40ae1c6ac0bebffee792c",
+        "StoryItemSetContainerComponent.swift": "97f64d0daa4d196f06244bfd9fedd0a654938632b54ae84af0b1d8320b194a38",
+        "StoryItemSetContainerViewSendMessage.swift": "18d124e507259ea409bcb48ea5ab9b001f60ccd80cfe65b55502ca41e54892b7",
+    }
+    for name, expected_sha in integrated_inputs.items():
+        if hashlib.sha256((ui / name).read_bytes()).hexdigest() != expected_sha:
+            raise SystemExit(f"Изменилась проверенная интеграция историй или режим уже применён: {name}")
+    patches: list[tuple[Path, str, str, str]] = []
+
+    def patch(path: Path, old: str, new: str, label: str) -> None:
+        patches.append((path, old, new, label))
+
+    patch(core, "import Foundation\n", "import Foundation\nimport NagramiXMediaSettings\n", "Независимые от UI настройки просмотра историй")
+    patch(core,
+        "func _internal_markStoryAsSeen(account: Account, peerId: PeerId, id: Int32, asPinned: Bool) -> Signal<Never, NoError> {\n",
+        """func _internal_markStoryAsSeen(account: Account, peerId: PeerId, id: Int32, asPinned: Bool) -> Signal<Never, NoError> {
+    guard !NagramiXStorySettings.anonymousViewingEnabled || peerId == account.peerId else {
+        return .complete()
+    }
+""", "Остановить регистрацию до изменения локального состояния и создания очереди")
+    patch(core,
+        """    if asPinned {
+        return account.postbox.transaction { transaction -> Api.InputPeer? in
+            return transaction.getPeer(peerId).flatMap(apiInputPeer)
+""",
+        """    if asPinned {
+        return account.postbox.transaction { transaction -> Api.InputPeer? in
+            guard !NagramiXStorySettings.anonymousViewingEnabled || peerId == account.peerId else {
+                return nil
+            }
+            return transaction.getPeer(peerId).flatMap(apiInputPeer)
+""", "Повторно проверить режим при выполнении отложенной транзакции закреплённой истории")
+    patch(core,
+        """            return account.network.request(Api.functions.stories.incrementStoryViews(peer: inputPeer, id: [id]))
+""",
+        """            guard !NagramiXStorySettings.anonymousViewingEnabled || peerId == account.peerId else {
+                return .complete()
+            }
+            return account.network.request(Api.functions.stories.incrementStoryViews(peer: inputPeer, id: [id]))
+""", "Не увеличивать серверный счётчик закреплённой истории в инкогнито")
+    patch(core,
+        """    } else {
+        return account.postbox.transaction { transaction -> Api.InputUser? in
+            if let peerStoryState = transaction.getPeerStoryState(peerId: peerId)?.entry.get(Stories.PeerState.self) {
+""",
+        """    } else {
+        return account.postbox.transaction { transaction -> Bool in
+            guard !NagramiXStorySettings.anonymousViewingEnabled || peerId == account.peerId else {
+                return false
+            }
+            if let peerStoryState = transaction.getPeerStoryState(peerId: peerId)?.entry.get(Stories.PeerState.self) {
+""", "Блокировать maxReadId и operation log при включённом режиме")
+    patch(core,
+        """            return transaction.getPeer(peerId).flatMap(apiInputUser)
+        }
+        |> mapToSignal { _ -> Signal<Never, NoError> in
+            account.stateManager.injectStoryUpdates(updates: [.read(peerId: peerId, maxId: id)])
+""",
+        """            return true
+        }
+        |> mapToSignal { didMark -> Signal<Never, NoError> in
+            guard didMark else {
+                return .complete()
+            }
+            account.stateManager.injectStoryUpdates(updates: [.read(peerId: peerId, maxId: id)])
+""", "Не публиковать read update после отклонённой транзакции")
+    patch(content,
+        "public protocol StoryContentContext: AnyObject {\n",
+        "public protocol StoryContentContext: AnyObject {\n    var nagramiXAnonymousViewing: Bool { get }\n",
+        "Передать неизменяемую политику сессии просмотрщика")
+    patch(contexts, "import Foundation\n", "import Foundation\nimport NagramiXCore\n", "Читать настройку при создании контекста историй")
+    for name in ["StoryContentContextImpl", "SingleStoryContentContextImpl", "PeerStoryListContentContextImpl", "RepostStoriesContentContextImpl"]:
+        anchor = f"public final class {name}: StoryContentContext {{\n"
+        patch(contexts, anchor, anchor + "    public let nagramiXAnonymousViewing = NagramiXTabSettings.anonymousStoryViewingEnabled\n", "Зафиксировать политику сессии " + name)
+    # All four native contexts use the same public entry point. Validate the
+    # exact count before modifying any file, then replace within each class.
+    context_text = contexts.read_text(encoding="utf-8")
+    mark = "    public func markAsSeen(id: StoryId) {\n"
+    if context_text.count(mark) != 4 or "guard !self.nagramiXAnonymousViewing" in context_text:
+        raise SystemExit("Изменились четыре штатных контекста регистрации просмотра или режим уже применён")
+    guarded_mark = mark + """        guard !self.nagramiXAnonymousViewing || id.peerId == self.context.account.peerId else {
+            return
+        }
+"""
+    patch(contexts, context_text, context_text.replace(mark, guarded_mark), "Сохранить инкогнито текущей сессии даже после выключения настройки")
+    patch(item,
+        "    let stealthModeTimeout: Int32?\n",
+        """    let stealthModeTimeout: Int32?
+    let nagramiXAnonymousViewing: Bool
+
+    var nagramiXUsesAnonymousViewing: Bool {
+        if case .liveStream = self.slice.item.storyItem.media {
+            return false
+        }
+        return self.nagramiXAnonymousViewing && self.slice.effectivePeer.id != self.context.account.peerId
+    }
+""", "Отделить инкогнито историй от собственных историй и прямых эфиров")
+    patch(item,
+        "        stealthModeTimeout: Int32?,\n",
+        "        stealthModeTimeout: Int32?,\n        nagramiXAnonymousViewing: Bool = false,\n",
+        "Передать политику в компонент штатного плеера")
+    patch(item,
+        "        self.stealthModeTimeout = stealthModeTimeout\n",
+        "        self.stealthModeTimeout = stealthModeTimeout\n        self.nagramiXAnonymousViewing = nagramiXAnonymousViewing\n",
+        "Сохранить политику компонента")
+    patch(item,
+        "        if lhs.stealthModeTimeout != rhs.stealthModeTimeout {\n",
+        "        if lhs.nagramiXAnonymousViewing != rhs.nagramiXAnonymousViewing {\n            return false\n        }\n        if lhs.stealthModeTimeout != rhs.stealthModeTimeout {\n",
+        "Учитывать инкогнито при обновлении компонента")
+    patch(screen,
+        "                                stealthModeTimeout: stealthModeTimeout,\n",
+        "                                stealthModeTimeout: stealthModeTimeout,\n                                nagramiXAnonymousViewing: component.content.nagramiXAnonymousViewing,\n",
+        "Передать политику существующего content context без изменения confirmation gate")
+    patch(item,
+        "        let moreButton = ComponentView<Empty>()\n",
+        "        let moreButton = ComponentView<Empty>()\n        private let nagramiXAnonymousIcon = UIImageView()\n",
+        "Добавить индикатор в штатный контейнер верхних элементов управления")
+    patch(item,
+        "            var isSilentVideo = false\n            var isVideo = false\n",
+        """            if component.nagramiXUsesAnonymousViewing {
+                if self.nagramiXAnonymousIcon.superview == nil {
+                    self.nagramiXAnonymousIcon.image = UIImage(systemName: "eye.slash")
+                    self.nagramiXAnonymousIcon.tintColor = .white
+                    self.nagramiXAnonymousIcon.contentMode = .scaleAspectFit
+                    self.nagramiXAnonymousIcon.isUserInteractionEnabled = false
+                    self.nagramiXAnonymousIcon.isAccessibilityElement = true
+                    self.controlsClippingView.addSubview(self.nagramiXAnonymousIcon)
+                }
+                self.nagramiXAnonymousIcon.accessibilityLabel = component.strings.nagramiXAnonymousStoryViewing
+                transition.setFrame(view: self.nagramiXAnonymousIcon, frame: CGRect(x: headerRightOffset - 22.0, y: 23.0, width: 22.0, height: 22.0))
+                headerRightOffset -= 34.0
+            } else {
+                self.nagramiXAnonymousIcon.removeFromSuperview()
+            }
+
+            var isSilentVideo = false
+            var isVideo = false
+""", "Показать перечёркнутый глаз без перекрытия кнопок и имени автора")
+    patch(send,
+        "    weak var actionSheet: ViewController?\n",
+        "    weak var actionSheet: ViewController?\n    weak var nagramiXAnonymousConfirmation: AlertScreen?\n",
+        "Отслеживать отдельное предупреждение без блокировки отложенной отправки")
+    patch(item,
+        "self.sendMessageContext.actionSheet != nil || self.sendMessageContext.isViewingAttachedStickers",
+        "self.sendMessageContext.actionSheet != nil || self.sendMessageContext.nagramiXAnonymousConfirmation != nil || self.sendMessageContext.isViewingAttachedStickers",
+        "Приостановить историю до выбора в предупреждении, включая переход из выбора даты")
+    patch(send,
+        "    func performWithPossibleStealthModeConfirmation(view: StoryItemSetContainerComponent.View, action: @escaping () -> Void) {\n",
+        """    func performWithPossibleStealthModeConfirmation(view: StoryItemSetContainerComponent.View, action: @escaping () -> Void) {
+        if let component = view.component, component.nagramiXUsesAnonymousViewing {
+            guard self.nagramiXAnonymousConfirmation == nil else {
+                return
+            }
+            let storyId = component.slice.item.id
+            let updatedPresentationData: (initial: PresentationData, signal: Signal<PresentationData, NoError>) = (component.context.sharedContext.currentPresentationData.with({ $0 }).withUpdated(theme: component.theme), component.context.sharedContext.presentationData |> map { $0.withUpdated(theme: component.theme) })
+            let alertController = AlertScreen(
+                title: component.strings.nagramiXAnonymousStoryWarningTitle,
+                text: component.strings.nagramiXAnonymousStoryWarningText,
+                actions: [
+                    .init(title: component.strings.Common_Cancel, type: .default),
+                    .init(title: component.strings.nagramiXAnonymousStoryContinue, type: .generic, action: { [weak view] in
+                        guard let view, view.component?.slice.item.id == storyId else {
+                            return
+                        }
+                        action()
+                    })
+                ],
+                updatedPresentationData: updatedPresentationData
+            )
+            alertController.dismissed = { [weak self, weak view, weak alertController] _ in
+                guard let self else {
+                    return
+                }
+                if self.nagramiXAnonymousConfirmation === alertController {
+                    self.nagramiXAnonymousConfirmation = nil
+                }
+                if self.actionSheet === alertController {
+                    self.actionSheet = nil
+                }
+                view?.updateIsProgressPaused()
+            }
+            self.nagramiXAnonymousConfirmation = alertController
+            self.actionSheet = alertController
+            view.updateIsProgressPaused()
+            component.controller()?.presentInGlobalOverlay(alertController)
+            return
+        }
+""", "Предупредить перед раскрывающим личность ответом или новой реакцией независимо от Premium")
+
+    # Validate anchors against the same input, including the whole-context
+    # replacement. Apply that replacement first so it cannot discard imports.
+    for path, old, _, label in patches:
+        count = path.read_text(encoding="utf-8").count(old)
+        if count != 1:
+            raise SystemExit(f"Изменился строгий якорь инкогнито ({label}): {path}, count={count}")
+    patches.sort(key=lambda entry: 0 if entry[1] == context_text else 1)
+    for path, old, new, label in patches:
+        replace_unique(path, old, new, label)
+
+
+def apply_qr_brightness_restore(source: Path) -> None:
+    path = source / "submodules/QrCodeUI/Sources/QrCodeScreen.swift"
+    data = path.read_bytes()
+    expected = "796e12bfffedb838c2a201f6bfae5df227258a7d"
+    if hashlib.sha1(b"blob " + str(len(data)).encode() + b"\0" + data).hexdigest() != expected:
+        raise SystemExit("Изменился проверенный stock-экран QR или правка яркости уже применена")
+    replace_unique(path,
+        "private func shareQrCode(sharedContext: SharedAccountContext, subject: QrCodeScreen.Subject, asImage: Bool, view: UIView) {",
+        """private func shareQrCode(sharedContext: SharedAccountContext, subject: QrCodeScreen.Subject, asImage: Bool, view: UIView, restoreBrightness: () -> Void) {
+    restoreBrightness()""",
+        "Восстановить яркость до открытия отправки QR или ссылки")
+    text = path.read_text(encoding="utf-8")
+    suffix = "view: view)"
+    if text.count(suffix) != 3:
+        raise SystemExit("Изменились три штатных действия отправки QR")
+    path.write_text(text.replace(suffix, "view: view, restoreBrightness: state.finishBrightness)"), encoding="utf-8")
+    replace_unique(path,
+        "        private var animator: ConstantDisplayLinkAnimator?\n",
+        """        private var animator: ConstantDisplayLinkAnimator?
+        private let brightnessActivityDisposable = MetaDisposable()
+        private var brightnessIsVisible = false
+        private var brightnessApplicationIsActive = false
+        private var brightnessFinished = false
+""", "Состояние временного повышения яркости принадлежит QR-экрану")
+    replace_unique(path,
+        """            self.initialBrightness = UIScreen.main.brightness
+            self.brightnessArguments = (CACurrentMediaTime(), 0.3, UIScreen.main.brightness, 1.0)
+            self.updateBrightness()
+""",
+        """            self.brightnessActivityDisposable.set((sharedContext.applicationBindings.applicationIsActive
+            |> distinctUntilChanged
+            |> deliverOnMainQueue).start(next: { [weak self] isActive in
+                guard let self else { return }
+                self.brightnessApplicationIsActive = isActive
+                self.updateBrightnessVisibility(self.brightnessIsVisible)
+            }))
+""", "Повышать яркость только при видимом QR в активном приложении")
+    replace_unique(path,
+        """        deinit {
+            self.idleTimerExtensionDisposable.dispose()
+            self.animator?.invalidate()\n            \n            if UIScreen.main.brightness > 0.99, let initialBrightness = self.initialBrightness {
+                self.brightnessArguments = (CACurrentMediaTime(), 0.3, UIScreen.main.brightness, initialBrightness)
+                self.updateBrightness()
+            }
+        }
+""",
+        """        deinit {
+            self.brightnessActivityDisposable.dispose()
+            self.restoreBrightness()
+            self.idleTimerExtensionDisposable.dispose()
+            self.animator?.invalidate()
+        }
+
+        func updateBrightnessVisibility(_ isVisible: Bool) {
+            self.brightnessIsVisible = isVisible
+            guard isVisible, self.brightnessApplicationIsActive, !self.brightnessFinished else {
+                self.restoreBrightness()
+                return
+            }
+            if self.initialBrightness == nil {
+                let initial = UIScreen.main.brightness
+                self.initialBrightness = initial
+                self.brightnessArguments = (CACurrentMediaTime(), 0.3, initial, 1.0)
+                self.updateBrightness()
+            }
+        }
+
+        func finishBrightness() {
+            self.brightnessFinished = true
+            self.restoreBrightness()
+        }
+
+        private func restoreBrightness() {
+            // Остановить повышение до возврата значения: поздний кадр его не перезапишет.
+            self.brightnessArguments = nil
+            self.animator?.isPaused = true
+            if let initialBrightness = self.initialBrightness {
+                self.initialBrightness = nil
+                UIScreen.main.brightness = initialBrightness
+            }
+        }
+""", "Точный однократный возврат яркости без анимации на уничтоженном display link")
+    replace_unique(path,
+        """            let state = context.state
+
+            let effectiveSubject:""",
+        """            let state = context.state
+            state.updateBrightnessVisibility(environment.value.isVisible)
+            if let controller = controller as? QrCodeScreen {
+                controller.restoreQrBrightness = { [weak state] in
+                    state?.finishBrightness()
+                }
+            }
+
+            let effectiveSubject:""", "Связать яркость с фактической видимостью и закрытием QR")
+    replace_unique(path,
+        """                    action: { _ in
+                        component.dismiss()
+""",
+        """                    action: { _ in
+                        state.finishBrightness()
+                        component.dismiss()
+""", "Вернуть исходную яркость при закрытии крестиком")
+    replace_unique(path,
+        "public final class QrCodeScreen: ViewControllerComponentContainer {\n",
+        "public final class QrCodeScreen: ViewControllerComponentContainer {\n    fileprivate var restoreQrBrightness: (() -> Void)?\n",
+        "Слабый callback восстановления при закрытии контейнера")
+    replace_unique(path,
+        """    public func dismissAnimated() {
+        if let view = self.node.hostView.findTaggedView""",
+        """    override public func dismiss(completion: (() -> Void)? = nil) {
+        self.restoreQrBrightness?()
+        super.dismiss(completion: completion)
+    }
+
+    override public func dismiss(animated flag: Bool, completion: (() -> Void)? = nil) {
+        self.restoreQrBrightness?()
+        super.dismiss(animated: flag, completion: completion)
+    }
+
+    public func dismissAnimated() {
+        self.restoreQrBrightness?()
+        if let view = self.node.hostView.findTaggedView""",
+        "Возврат яркости при свайпе, закрытии вне окна и программном dismiss")
+
+
+def apply_notification_sound_catalog(source: Path, overlay: Path) -> None:
+    settings = source / "submodules/TelegramCore/Sources/SyncCore/SyncCore_TelegramPeerNotificationSettings.swift"
+    sounds = source / "submodules/TelegramCore/Sources/TelegramEngine/Peers/NotificationSoundList.swift"
+    picker = source / "submodules/NotificationSoundSelectionUI/Sources/NotificationSoundSelection.swift"
+    extension = source / "Telegram/NotificationService/Sources/NotificationService.swift"
+    if "builtinNotificationSounds" in settings.read_text(encoding="utf-8"):
+        raise SystemExit("Каталог встроенных звуков уже применён")
+    for path, expected in (
+        (settings, "78df24b4f2fdcb5edb92f8ec3f993d9725b2c82b"),
+        (sounds, "1dd9c607bc3879f0a9394926323df88dcc0cd08c"),
+        (picker, "656f3c79387b4c11745fbda83b8af75e6aa6d4da"),
+        (extension, "7a7c87bd4815e7ddf964a28e45289d65196f1a51"),
+    ):
+        data = path.read_bytes()
+        if hashlib.sha1(b"blob " + str(len(data)).encode() + b"\0" + data).hexdigest() != expected:
+            raise SystemExit(f"Изменился проверенный источник каталога звуков: {path}")
+
+    replace_unique(settings, "public let defaultCloudPeerNotificationSound:", """// Каталог не зависит от набора сохранённых серверных мелодий аккаунта.
+public let builtinNotificationSounds: [PeerMessageSound] = (
+    Array(Int32(200)...Int32(210)) + Array(Int32(100)...Int32(111)) + Array(Int32(2)...Int32(9))
+).compactMap { key in
+    cloudSoundMapping[key].map { PeerMessageSound.cloud(fileId: $0) }
+}
+
+public func builtinNotificationSoundFileName(id: Int64) -> String? {
+    guard let key = cloudSoundMapping.first(where: { $0.value == id })?.key else {
+        return nil
+    }
+    return "\\(key).m4a"
+}
+
+public let defaultCloudPeerNotificationSound:""", "Независимый встроенный каталог со штатными серверными ID")
+    replace_unique(settings, "return (key - 100, .modern)", "return (key >= 200 ? key - 200 + 12 : key - 100, .modern)", "Названия новых системных мелодий по штатным локализованным ключам")
+    replace_unique(sounds, "private func pollNotificationSoundList(postbox: Postbox, network: Network)", "private func pollNotificationSoundList(postbox: Postbox, network: Network, force: Bool = false)", "Принудительное обновление каталога при открытии")
+    replace_unique(sounds, "getSavedRingtones(hash: current?.hash ?? 0)", "getSavedRingtones(hash: force ? 0 : (current?.hash ?? 0))", "Свежий список вместо ответа NotModified для неполного кеша")
+    replace_unique(sounds, "func managedSynchronizeNotificationSoundList(", """public func refreshNotificationSoundList(postbox: Postbox, network: Network) -> Signal<Never, NoError> {
+    return pollNotificationSoundList(postbox: postbox, network: network, force: true)
+}
+
+func managedSynchronizeNotificationSoundList(""", "Обновление и штатная загрузка пользовательских мелодий")
+    replace_unique(sounds, """    case let .cloud(fileId):
+        if let notificationSoundList = notificationSoundList {
+""", """    case let .cloud(fileId):
+        if builtinNotificationSoundFileName(id: fileId) != nil {
+            return sound
+        }
+        if let notificationSoundList = notificationSoundList {
+""", "Сохранить выбранную встроенную мелодию при неполном серверном списке")
+
+    old_entries = picker.read_text(encoding="utf-8").split("    if let notificationSoundList = notificationSoundList {", 1)[1].split("\n    return entries", 1)[0]
+    # Проверяем точную stock-структуру до отделения облачного раздела от builtins.
+    cloud_end = "        entries.append(.uploadSound(presentationData.strings.Notifications_UploadSound))"
+    prefix, tail = old_entries.split(cloud_end, 1)
+    expected_filters = """
+        let cloudSounds = notificationSoundList.sounds.filter({ CloudSoundBuiltinCategory(id: $0.file.fileId.id) == nil })
+        let modernSounds = notificationSoundList.sounds.filter({ CloudSoundBuiltinCategory(id: $0.file.fileId.id) == .modern })
+        let classicSounds = notificationSoundList.sounds.filter({ CloudSoundBuiltinCategory(id: $0.file.fileId.id) == .classic })
+"""
+    if not prefix.startswith(expected_filters) or not tail.endswith("    }\n    "):
+        raise SystemExit("Изменилась stock-структура списка звуков")
+    prefix = prefix.replace(expected_filters, "\n        let cloudSounds = notificationSoundList.sounds.filter({ CloudSoundBuiltinCategory(id: $0.file.fileId.id) == nil })\n", 1)
+    tail = (cloud_end + tail).removesuffix("    }\n    ")
+    tail = "\n".join(line[4:] if line.startswith("    ") else line for line in tail.split("\n"))
+    tail = tail.replace(".cloud(fileId: modernSounds[i].file.fileId.id)", "modernSounds[i]").replace(".cloud(fileId: classicSounds[i].file.fileId.id)", "classicSounds[i]")
+    new_entries = """    let modernSounds = builtinNotificationSounds.filter {
+        if case let .cloud(fileId) = $0 { return CloudSoundBuiltinCategory(id: fileId) == .modern }
+        return false
+    }
+    let classicSounds = builtinNotificationSounds.filter {
+        if case let .cloud(fileId) = $0 { return CloudSoundBuiltinCategory(id: fileId) == .classic }
+        return false
+    }
+    if let notificationSoundList = notificationSoundList {""" + prefix + "    }\n\n" + tail
+    replace_unique(picker, "    if let notificationSoundList = notificationSoundList {" + old_entries, new_entries, "Встроенные разделы и загрузка доступны даже без кеша")
+    replace_unique(picker, """    case let .cloud(fileId):
+        guard let notificationSoundList = notificationSoundList else {
+""", """    case let .cloud(fileId):
+        if let fileName = builtinNotificationSoundFileName(id: fileId) {
+            return String(fileName.dropLast(4))
+        }
+        guard let notificationSoundList = notificationSoundList else {
+""", "Локальное штатное прослушивание встроенных звуков")
+    replace_unique(picker, "    let fetchedSoundsDisposable = ensureDownloadedNotificationSoundList(postbox: context.account.postbox).start()", """    let fetchedSoundsDisposable = ensureDownloadedNotificationSoundList(postbox: context.account.postbox).start()
+    let refreshedSoundsDisposable = refreshNotificationSoundList(postbox: context.account.postbox, network: context.account.network).start()""", "Экран обновляет пользовательский каталог без часового ожидания")
+    replace_unique(picker, "        fetchedSoundsDisposable.dispose()", "        fetchedSoundsDisposable.dispose()\n        refreshedSoundsDisposable.dispose()", "Отменить загрузку при закрытии экрана")
+    replace_unique(extension, """                                content.sound = "0.m4a"
+                                if let notificationSoundList = notificationSoundList {""", """                                content.sound = builtinNotificationSoundFileName(id: fileId) ?? "0.m4a"
+                                if builtinNotificationSoundFileName(id: fileId) == nil, let notificationSoundList = notificationSoundList {""", "Уведомление воспроизводит выбранную встроенную мелодию без серверного кеша")
+
+    resources = overlay / "Resources/NotificationSounds"
+    manifest = json.loads((resources / "manifest.json").read_text(encoding="utf-8"))
+    expected_keys = set(range(200, 211)) | set(range(100, 112)) | set(range(2, 10))
+    if len(manifest) != 31 or {row["key"] for row in manifest} != expected_keys:
+        raise SystemExit("Неполный встроенный каталог звуков")
+    destination = source / "Telegram/Telegram-iOS/Resources/notifications"
+    destination.mkdir(parents=True, exist_ok=True)
+    for row in manifest:
+        path = resources / row["file"]
+        if row["file"] != f'{row["key"]}.m4a' or hashlib.sha256(path.read_bytes()).hexdigest() != row["sha256"]:
+            raise SystemExit(f"Повреждена встроенная мелодия: {row['file']}")
+        if (destination / path.name).exists():
+            raise SystemExit(f"Конфликт встроенной мелодии с pin: {path.name}")
+        shutil.copy2(path, destination / path.name)
+
+
 def apply_channel_bottom_panel(source: Path) -> None:
     # Hide only the ordinary subscribed broadcast-reader panel. Keep the
     # native join, composer, search, selection and pinned-message actions.
@@ -7044,6 +7635,10 @@ private func nagramiXCopyProfileId(_ value: Int64, presentationData: Presentatio
     apply_background_video_hierarchy_fix(source)
     apply_photo_jpeg_compatibility_fix(source)
     apply_archived_round_video_fix(source)
+    apply_notification_sound_catalog(source, overlay)
+    apply_qr_brightness_restore(source)
+    apply_anonymous_story_viewing(source)
+    apply_separate_profile_navigation_buttons(source)
 
     if stock_section not in item_list_controller.read_text(encoding="utf-8"):
         raise SystemExit("NagramiX overlay modified Telegram's stock sectionControl branch")

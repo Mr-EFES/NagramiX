@@ -83,6 +83,11 @@ public extension PresentationStrings {
     var nagramiXHideStories: String { self.nagramiXLocalized("NagramiX.Settings.Stories.Hide") }
     var nagramiXDisableStoryCameraSwipe: String { self.nagramiXLocalized("NagramiX.Settings.Stories.DisableSwipe") }
     var nagramiXConfirmStoryViewing: String { self.nagramiXLocalized("NagramiX.Settings.Stories.ConfirmViewing") }
+    var nagramiXAnonymousStoryViewing: String { self.nagramiXLocalized("NagramiX.Settings.Stories.AnonymousViewing") }
+    var nagramiXAnonymousStoryViewingInfo: String { self.nagramiXLocalized("NagramiX.Settings.Stories.AnonymousViewing.Info") }
+    var nagramiXAnonymousStoryWarningTitle: String { self.nagramiXLocalized("NagramiX.Stories.Anonymous.Warning.Title") }
+    var nagramiXAnonymousStoryWarningText: String { self.nagramiXLocalized("NagramiX.Stories.Anonymous.Warning.Text") }
+    var nagramiXAnonymousStoryContinue: String { self.nagramiXLocalized("NagramiX.Stories.Anonymous.Continue") }
     var nagramiXEnableStoryRepost: String { self.nagramiXLocalized("NagramiX.Settings.Stories.Repost") }
     var nagramiXRestartRequiredTitle: String { self.nagramiXLocalized("NagramiX.Restart.Title") }
     var nagramiXRestartRequiredText: String { self.nagramiXLocalized("NagramiX.Restart.Text") }

@@ -99,6 +99,7 @@ public struct NagramiXTabSettings: Equatable {
     public var disableStoryCameraSwipe: Bool
     public var confirmStoryViewing: Bool
     public var enableStoryRepost: Bool
+    public var anonymousStoryViewing: Bool
     public var dnsProvider: NagramiXDnsProvider
     public var customDohUrl: String
     public var proxyAutoSwitchEnabled: Bool
@@ -152,7 +153,8 @@ public struct NagramiXTabSettings: Equatable {
         doubleTapEdit: Bool = false,
         hideReactions: Bool = false,
         downloads: NagramiXDownloadSettings = .default,
-        showBroadcastMessages: Bool = true
+        showBroadcastMessages: Bool = true,
+        anonymousStoryViewing: Bool = false
     ) {
         self.hideContacts = hideContacts
         self.hideCalls = hideCalls
@@ -172,6 +174,7 @@ public struct NagramiXTabSettings: Equatable {
         self.disableStoryCameraSwipe = disableStoryCameraSwipe
         self.confirmStoryViewing = confirmStoryViewing
         self.enableStoryRepost = enableStoryRepost
+        self.anonymousStoryViewing = anonymousStoryViewing
         self.dnsProvider = dnsProvider
         self.customDohUrl = customDohUrl
         self.proxyAutoSwitchEnabled = proxyAutoSwitchEnabled
@@ -214,6 +217,10 @@ public struct NagramiXTabSettings: Equatable {
 
     public static var channelBottomPanelEnabled: Bool {
         return UserDefaults.standard.object(forKey: Key.showChannelBottomPanel) as? Bool ?? false
+    }
+
+    public static var anonymousStoryViewingEnabled: Bool {
+        return NagramiXStorySettings.anonymousViewingEnabled
     }
 
     public static var current: NagramiXTabSettings {
@@ -265,7 +272,8 @@ public struct NagramiXTabSettings: Equatable {
             hideReactions: self.hideReactionsEnabled,
             downloads: .current,
             // Preserve the previous copy-action visibility until explicitly changed.
-            showBroadcastMessages: defaults.object(forKey: Key.showBroadcastMessages) as? Bool ?? (defaults.object(forKey: Key.showForwardWithoutAuthor) as? Bool ?? true)
+            showBroadcastMessages: defaults.object(forKey: Key.showBroadcastMessages) as? Bool ?? (defaults.object(forKey: Key.showForwardWithoutAuthor) as? Bool ?? true),
+            anonymousStoryViewing: self.anonymousStoryViewingEnabled
         )
     }
 
@@ -297,6 +305,7 @@ public struct NagramiXTabSettings: Equatable {
         defaults.set(value.disableStoryCameraSwipe, forKey: Key.disableStoryCameraSwipe)
         defaults.set(value.confirmStoryViewing, forKey: Key.confirmStoryViewing)
         defaults.set(value.enableStoryRepost, forKey: Key.enableStoryRepost)
+        NagramiXStorySettings.update(anonymousViewing: value.anonymousStoryViewing)
         defaults.set(value.dnsProvider.rawValue, forKey: Key.dnsProvider)
         defaults.set(value.customDohUrl, forKey: Key.customDohUrl)
         defaults.set(value.proxyAutoSwitchEnabled, forKey: Key.proxyAutoSwitchEnabled)

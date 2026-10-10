@@ -42,6 +42,7 @@ private struct NagramiXSettingsControllerArguments {
     let updateDisableStoryCameraSwipe: (Bool) -> Void
     let updateConfirmStoryViewing: (Bool) -> Void
     let updateEnableStoryRepost: (Bool) -> Void
+    let updateAnonymousStoryViewing: (Bool) -> Void
     let updateShowProfileIds: (Bool) -> Void
     let updateShowRegistrationDate: (Bool) -> Void
     let updateShowMutualContactIcon: (Bool) -> Void
@@ -125,6 +126,8 @@ private enum NagramiXSettingsEntry: ItemListNodeEntry {
     case disableStoryCameraSwipe(Bool)
     case confirmStoryViewing(Bool)
     case enableStoryRepost(Bool)
+    case anonymousStoryViewing(Bool)
+    case anonymousStoryViewingInfo
     case profilesHeader
     case showProfileIds(Bool)
     case showRegistrationDate(Bool)
@@ -169,7 +172,7 @@ private enum NagramiXSettingsEntry: ItemListNodeEntry {
                 .contextMenuHeader, .showForwardWithoutAuthor, .forwardWithoutAuthorInfo, .showBroadcastMessages, .broadcastMessagesInfo, .showSelectByAuthor, .selectByAuthorInfo:
             return .interface
         case .videoMessagesHeader, .useRearCameraForVideoMessages, .featureStoriesHeader, .hideStories, .disableStoryCameraSwipe,
-                .confirmStoryViewing, .enableStoryRepost, .callsHeader, .confirmOutgoingCalls:
+                .confirmStoryViewing, .enableStoryRepost, .anonymousStoryViewing, .anonymousStoryViewingInfo, .callsHeader, .confirmOutgoingCalls:
             return .features
         case .photosHeader, .photoQualityHeader, .photoQuality, .photoQualityInfo, .sendLargePhotos, .sendLargePhotosInfo,
                 .stickersHeader, .stickerSizeHeader, .stickerSize, .showStickerTime, .stickerSizeInfo:
@@ -199,7 +202,7 @@ private enum NagramiXSettingsEntry: ItemListNodeEntry {
             return NagramiXSettingsSection.contextMenu.rawValue
         case .videoMessagesHeader, .useRearCameraForVideoMessages:
             return NagramiXSettingsSection.videoMessages.rawValue
-        case .featureStoriesHeader, .hideStories, .disableStoryCameraSwipe, .confirmStoryViewing, .enableStoryRepost:
+        case .featureStoriesHeader, .hideStories, .disableStoryCameraSwipe, .confirmStoryViewing, .enableStoryRepost, .anonymousStoryViewing, .anonymousStoryViewingInfo:
             return NagramiXSettingsSection.stories.rawValue
         case .profilesHeader, .showProfileIds, .showRegistrationDate, .showMutualContactIcon:
             return NagramiXSettingsSection.profiles.rawValue
@@ -269,6 +272,8 @@ private enum NagramiXSettingsEntry: ItemListNodeEntry {
         case .disableStoryCameraSwipe: return 26
         case .confirmStoryViewing: return 27
         case .enableStoryRepost: return 28
+        case .anonymousStoryViewing: return 123
+        case .anonymousStoryViewingInfo: return 124
         case .profilesHeader: return 30
         case .showProfileIds: return 31
         case .showRegistrationDate: return 32
@@ -323,6 +328,8 @@ private enum NagramiXSettingsEntry: ItemListNodeEntry {
             case .otherVideoHeader: return 540
             case .videoPiPSwipe: return 550
             case .videoPiPSwipeInfo: return 560
+            case .anonymousStoryViewing: return 281
+            case .anonymousStoryViewingInfo: return 282
             case .saveTemporaryMessages: return 365
             case .saveTemporaryMessagesInfo: return 366
             default: return entry.stableId * 10
@@ -414,6 +421,10 @@ private enum NagramiXSettingsEntry: ItemListNodeEntry {
             return ItemListSwitchItem(presentationData: presentationData, systemStyle: .glass, title: presentationData.strings.nagramiXVideoPiPSwipe, value: value, sectionId: self.section, style: .blocks, updated: arguments.updateVideoPiPSwipe)
         case .videoPiPSwipeInfo:
             return ItemListTextItem(presentationData: presentationData, text: .plain(presentationData.strings.nagramiXVideoPiPSwipeInfo), sectionId: self.section)
+        case let .anonymousStoryViewing(value):
+            return ItemListSwitchItem(presentationData: presentationData, systemStyle: .glass, title: presentationData.strings.nagramiXAnonymousStoryViewing, value: value, maximumNumberOfLines: 0, sectionId: self.section, style: .blocks, updated: arguments.updateAnonymousStoryViewing)
+        case .anonymousStoryViewingInfo:
+            return ItemListTextItem(presentationData: presentationData, text: .plain(presentationData.strings.nagramiXAnonymousStoryViewingInfo), sectionId: self.section)
         case .featureStoriesHeader:
             return ItemListSectionHeaderItem(presentationData: presentationData, text: presentationData.strings.nagramiXStoriesHeader.uppercased(), sectionId: self.section)
         case let .hideStories(value):
@@ -520,7 +531,7 @@ private extension NagramiXSettingsEntry {
     var isSearchableSetting: Bool {
         switch self {
         case .search, .noSearchResults, .searchHeader, .tabsHeader, .chatsHeader, .videoMessagesHeader, .featureStoriesHeader, .profilesHeader, .callsHeader, .otherCallsHeader, .messagesHeader,
-                .forceTcpCallsInfo, .showDeletedMessagesInfo, .saveTemporaryMessagesInfo, .messageEditHistoryInfo, .messageArchiveInfo,
+                .anonymousStoryViewingInfo, .forceTcpCallsInfo, .showDeletedMessagesInfo, .saveTemporaryMessagesInfo, .messageEditHistoryInfo, .messageArchiveInfo,
                 .doubleTapEditInfo, .hideReactionsInfo, .channelBottomPanelInfo, .contextMenuHeader, .forwardWithoutAuthorInfo, .broadcastMessagesInfo, .selectByAuthorInfo, .chatActionsOnHoldInfo, .compactChatListInfo,
                 .photosHeader, .photoQualityHeader, .photoQualityInfo, .sendLargePhotosInfo,
                 .stickersHeader, .stickerSizeHeader, .stickerSizeInfo,
@@ -578,6 +589,8 @@ private extension NagramiXSettingsEntry {
         case .disableStoryCameraSwipe: return strings.nagramiXDisableStoryCameraSwipe
         case .confirmStoryViewing: return strings.nagramiXConfirmStoryViewing
         case .enableStoryRepost: return strings.nagramiXEnableStoryRepost
+        case .anonymousStoryViewing: return strings.nagramiXAnonymousStoryViewing
+        case .anonymousStoryViewingInfo: return strings.nagramiXAnonymousStoryViewingInfo
         case .profilesHeader: return strings.nagramiXProfilesHeader
         case .showProfileIds: return strings.nagramiXShowProfileIds
         case .showRegistrationDate: return strings.nagramiXShowRegistrationDate
@@ -644,6 +657,8 @@ private extension NagramiXSettingsEntry {
             return strings.nagramiXBroadcastMessagesInfo
         case .showSelectByAuthor:
             return strings.nagramiXSelectByAuthorInfo
+        case .anonymousStoryViewing:
+            return strings.nagramiXAnonymousStoryViewingInfo
         case .forceTcpCalls:
             return strings.nagramiXForceTcpCallsInfo
         case .showDeletedMessages:
@@ -721,8 +736,7 @@ private func nagramiXSearchEntries(settings: NagramiXTabSettings, strings: Prese
 
 private func nagramiXDownloadModeTitle(_ mode: NagramiXDownloadAcceleration, strings: PresentationStrings) -> String {
     switch mode {
-    case .standard: return strings.nagramiXDownloadStandard
-    case .medium: return strings.nagramiXDownloadMedium
+    case .standard, .medium: return strings.nagramiXDownloadMedium
     case .maximum: return strings.nagramiXDownloadMaximum
     }
 }
@@ -747,6 +761,7 @@ private func nagramiXAllSettingsEntries(settings: NagramiXTabSettings) -> [Nagra
         .featureStoriesHeader, .hideStories(settings.hideStories),
         .disableStoryCameraSwipe(settings.disableStoryCameraSwipe),
         .confirmStoryViewing(settings.confirmStoryViewing), .enableStoryRepost(settings.enableStoryRepost),
+        .anonymousStoryViewing(settings.anonymousStoryViewing), .anonymousStoryViewingInfo,
         .profilesHeader, .showProfileIds(settings.showProfileIds),
         .showRegistrationDate(settings.showRegistrationDate),
         .showMutualContactIcon(settings.showMutualContactIcon),
@@ -818,6 +833,7 @@ public func nagramiXSettingsController(context: AccountContext) -> ViewControlle
         updateDisableStoryCameraSwipe: { value in update { $0.disableStoryCameraSwipe = value } },
         updateConfirmStoryViewing: { value in update { $0.confirmStoryViewing = value } },
         updateEnableStoryRepost: { value in update { $0.enableStoryRepost = value } },
+        updateAnonymousStoryViewing: { value in update { $0.anonymousStoryViewing = value } },
         updateShowProfileIds: { value in update { $0.showProfileIds = value } },
         updateShowRegistrationDate: { value in update { $0.showRegistrationDate = value } },
         updateShowMutualContactIcon: { value in update { $0.showMutualContactIcon = value } },
@@ -879,19 +895,14 @@ public func nagramiXSettingsController(context: AccountContext) -> ViewControlle
             }
             let presentationData = context.sharedContext.currentPresentationData.with { $0 }
             let actionSheet = ActionSheetController(presentationData: presentationData)
-            let items: [ActionSheetItem] = NagramiXDownloadAcceleration.allCases.map { mode in
-                ActionSheetButtonItem(title: (current.mode == mode ? "✓ " : "") + nagramiXDownloadModeTitle(mode, strings: presentationData.strings), color: .accent, action: { [weak actionSheet] in
+            let modes: [NagramiXDownloadAcceleration] = [.medium, .maximum]
+            let items: [ActionSheetItem] = modes.map { mode in
+                ActionSheetCheckboxItem(title: nagramiXDownloadModeTitle(mode, strings: presentationData.strings), label: "", value: current.mode == mode, style: .alignRight, action: { [weak actionSheet] _ in
                     actionSheet?.dismissAnimated()
                     update { $0.downloads.mode = mode }
                 })
             }
-            actionSheet.setItemGroups([
-                ActionSheetItemGroup(items: items),
-                ActionSheetItemGroup(items: [ActionSheetButtonItem(title: presentationData.strings.nagramiXDownloadDisable, color: .accent, font: .bold, action: { [weak actionSheet] in
-                    actionSheet?.dismissAnimated()
-                    update { $0.downloads.enabled = false }
-                })])
-            ])
+            actionSheet.setItemGroups([ActionSheetItemGroup(items: items)])
             presentControllerImpl?(actionSheet)
         },
         clearMessageArchive: {

@@ -227,3 +227,9 @@
 
 "NagramiX.Context.BroadcastMessages" = "Рассылка";
 "NagramiX.Settings.ContextMenu.BroadcastMessages.Info" = "Показывать действие «Рассылка»: отправка копии без автора нескольким адресатам.";
+
+"NagramiX.Settings.Stories.AnonymousViewing" = "Просмотр историй инкогнито";
+"NagramiX.Settings.Stories.AnonymousViewing.Info" = "Не отправлять отметку просмотра историй из NagramiX. Уже отправленные просмотры не скрываются. Обычный просмотр более новой истории того же автора или просмотр в другом приложении может отметить предыдущие истории просмотренными.";
+"NagramiX.Stories.Anonymous.Warning.Title" = "Вы раскроете свою личность";
+"NagramiX.Stories.Anonymous.Warning.Text" = "Ответ или реакция покажет автору, что вы взаимодействовали с этой историей, даже при включённом режиме инкогнито. Продолжить?";
+"NagramiX.Stories.Anonymous.Continue" = "Продолжить";

@@ -5,6 +5,7 @@ from __future__ import annotations
 
 import argparse
 import hashlib
+import json
 import plistlib
 import re
 import struct
@@ -17,6 +18,20 @@ ROOT = Path(__file__).resolve().parents[1]
 def require(condition: bool, message: str) -> None:
     if not condition:
         raise SystemExit(message)
+
+
+def validate_notification_sound_resources(archive: zipfile.ZipFile, prefix: str) -> int:
+    manifest = json.loads((ROOT / "ios/Resources/NotificationSounds/manifest.json").read_text())
+    expected_keys = set(range(200, 211)) | set(range(100, 112)) | set(range(2, 10))
+    require(len(manifest) == 31 and {row["key"] for row in manifest} == expected_keys, "Неполный исходный каталог мелодий")
+    names = set(archive.namelist())
+    for row in manifest:
+        require(row["file"] == f'{row["key"]}.m4a', "Неверное имя встроенной мелодии")
+        name = prefix + row["file"]
+        require(name in names, f"В IPA отсутствует встроенная мелодия: {row['file']}")
+        data = archive.read(name)
+        require(hashlib.sha256(data).hexdigest() == row["sha256"], f"В IPA повреждена встроенная мелодия: {row['file']}")
+    return len(manifest)
 
 
 def main() -> None:
@@ -61,6 +76,7 @@ def main() -> None:
         with archive.open(prefix + info["CFBundleExecutable"]) as executable:
             magic, cpu = struct.unpack("<II", executable.read(8))
         require(magic == 0xfeedfacf and cpu == 0x100000c, "Основной executable не является ARM64 Mach-O")
+        sound_count = validate_notification_sound_resources(archive, prefix)
 
         russian = plistlib.loads(archive.read(prefix + "ru.lproj/Localizable.strings"))
         required_keys = set(re.findall(r'^"([^"\n]+)"\s*=', (ROOT / "ios/Resources/ru.lproj/Localizable.strings").read_text(), re.MULTILINE))
@@ -74,7 +90,7 @@ def main() -> None:
         require(custom_keys.issubset(custom), "В RU ресурсе NagramiX отсутствуют ключи")
         require(custom.get("NagramiX.Profiles.MutualContact") == "Взаимный контакт", "Нет русской метки взаимного контакта")
 
-    print(f"IPA проверен: {args.version}, build {args.build_number}, ARM64, RU {len(russian)}/{len(custom)}, checksum/provenance, без профилей")
+    print(f"IPA проверен: {args.version}, build {args.build_number}, ARM64, RU {len(russian)}/{len(custom)}, мелодий {sound_count}, checksum/provenance, без профилей")
     print(f"SHA256: {digest}; размер: {args.ipa.stat().st_size} байт")
 
 

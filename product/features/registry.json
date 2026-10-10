@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "product": "NagramiX",
-  "release": "0.4.9",
+  "release": "0.5.0",
   "platformPriority": [
     "ios"
   ],
@@ -53,6 +53,16 @@
       "ios": {
         "implementation": "implemented",
         "compile": "compile_passed",
+        "device": "device_pending"
+      }
+    },
+    {
+      "id": "story_incognito",
+      "title": "Просмотр историй инкогнито без отправки новых отметок просмотра",
+      "specification": "specified",
+      "ios": {
+        "implementation": "implemented",
+        "compile": "compile_pending",
         "device": "device_pending"
       }
     },
@@ -278,11 +288,11 @@
     },
     {
       "id": "download_acceleration",
-      "title": "Ускорение загрузки с режимами Штатно / Среднее / Максимум, выключено по умолчанию",
+      "title": "Ускорение скачивания: Среднее или Максимум с отдельным чекбоксом",
       "specification": "specified",
       "ios": {
         "implementation": "implemented",
-        "compile": "compile_passed",
+        "compile": "compile_pending",
         "device": "device_pending"
       }
     },
@@ -293,6 +303,36 @@
       "ios": {
         "implementation": "implemented",
         "compile": "compile_passed",
+        "device": "device_pending"
+      }
+    },
+    {
+      "id": "notification_sounds",
+      "title": "Полный системный и классический каталог звуков уведомлений",
+      "specification": "specified",
+      "ios": {
+        "implementation": "implemented",
+        "compile": "compile_pending",
+        "device": "device_pending"
+      }
+    },
+    {
+      "id": "proxy_share_brightness",
+      "title": "Возврат исходной яркости после QR-кода прокси",
+      "specification": "specified",
+      "ios": {
+        "implementation": "implemented",
+        "compile": "compile_pending",
+        "device": "device_pending"
+      }
+    },
+    {
+      "id": "profile_navigation_layout",
+      "title": "Раздельные кнопки поиска и редактирования в настройках и профилях",
+      "specification": "specified",
+      "ios": {
+        "implementation": "implemented",
+        "compile": "compile_pending",
         "device": "device_pending"
       }
     }
