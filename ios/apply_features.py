@@ -3079,7 +3079,7 @@ def apply_message_selection_transfer_actions(source: Path, overlay: Path) -> Non
                     strongSelf.actions = actions
                     strongSelf.nagramiXCanCopySelection = canCopy
 """, "Проверять всё выделение тем же валидатором копирования")
-    methods = (overlay / "Sources/ChatMessageSelectionInputPanelNode/NagramiXSelectionTransferMethods.swift.inc").read_text(encoding="utf-8")
+    methods = (overlay / "Sources/ChatMessageSelectionInputPanelNode/NagramiXSelectionTransferMethods.swift.inc").read_text(encoding="utf-8").rstrip("\n") + "\n\n"
     replace_unique(panel, "    private func update(transition: ContainedViewLayoutTransition) {\n", methods + "    private func update(transition: ContainedViewLayoutTransition) {\n", "Пересылать свежее выделение существующими single и broadcast callbacks")
     replace_unique(panel, """        if self.reportButton.isHidden || (self.peerMedia && self.deleteButton.isHidden && self.reportButton.isHidden) {
 """, """        let transferSettings = NagramiXTabSettings.current
