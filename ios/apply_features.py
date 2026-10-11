@@ -3868,7 +3868,7 @@ def apply_authorization_alert_handling(source: Path) -> None:
             (
                 "    private var displayAlertsDisposable: Disposable?\n",
                 """    private var displayAlertsDisposable: Disposable?
-    private weak var nagramiXAuthorizationAlert: AlertController?
+    private weak var nagramiXAuthorizationAlert: ViewController?
     private var nagramiXLastAuthorizationAlertText: String?
     private var nagramiXLastAuthorizationAlertTime: TimeInterval = -.infinity
 """,

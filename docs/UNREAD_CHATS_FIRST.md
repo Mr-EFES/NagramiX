@@ -14,7 +14,7 @@
 
 Telegram13.0 pin `f1dd7a2dbd02cbbf513e75d5695d8d36d1cf5838`. `apply_unread_chats_first` применяется последним: full-SHA256 проверяет4входа перед изменениями, все16уникальных substitutions готовятся в памяти до записи. Два `.inc` — durable source; временные доказательные деревья не коммитить.
 
-`python scripts/validate_unread_chat_overlay.py --baseline /tmp/nagramix-051-preview-selection-toolbar-proof --audited-native /tmp/nagramix-unread-audit`:16обратных substitutions восстанавливают точные входы;4drift и rerun отклоняются до записи. Grammar7изменённых Swift sources, Pythoncompile, release metadata, JSON и diff check. Это проверки интеграции исходников, не runtime unit tests. Нативный compile/device — pending; версия0.5.2/опубликованный №84 прежние, нового IPA нет.
+`python scripts/validate_unread_chat_overlay.py --baseline /tmp/nagramix-051-preview-selection-toolbar-proof --audited-native /tmp/nagramix-unread-audit`:16обратных substitutions восстанавливают точные входы;4drift и rerun отклоняются до записи. Grammar7изменённых Swift sources, Pythoncompile, release metadata, JSON и diff check. Это проверки интеграции исходников, не runtime unit tests. Нативный compile/device — pending; версия0.5.3/опубликованный №84 прежние, нового IPA нет.
 
 ## Физическая проверка следующего пакета
 

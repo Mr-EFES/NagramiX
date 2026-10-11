@@ -1,6 +1,6 @@
 # Жизненный цикл функций
 
-Исходники опубликованного выпуска включены в чистую нативную сборку №84 и проверенный ранее IPA на Telegram13.0: compile_passed/device_pending. Включены [звуки](../../docs/NOTIFICATION_SOUNDS_FIX.md), [яркость QR](../../docs/PROXY_QR_BRIGHTNESS_FIX.md), [истории инкогнито](story-incognito.md), [два режима ускорения](download-acceleration.md) и [раздельные кнопки](../../docs/PROFILE_NAVIGATION_LAYOUT_FIX.md). Компиляция не заменяет испытания на устройстве. [Отчёт](../../docs/RELEASE_STATUS.md), [план iPhone](../../docs/IPHONE_TEST_0.5.2.md).
+Исходники опубликованного выпуска включены в чистую нативную сборку №84 и проверенный ранее IPA на Telegram13.0: compile_passed/device_pending. Включены [звуки](../../docs/NOTIFICATION_SOUNDS_FIX.md), [яркость QR](../../docs/PROXY_QR_BRIGHTNESS_FIX.md), [истории инкогнито](story-incognito.md), [два режима ускорения](download-acceleration.md) и [раздельные кнопки](../../docs/PROFILE_NAVIGATION_LAYOUT_FIX.md). Компиляция не заменяет испытания на устройстве. [Отчёт](../../docs/RELEASE_STATUS.md), [план iPhone](../../docs/IPHONE_TEST_0.5.3.md).
 
 После физической проверки подготовлено [исправление завершения голосовых и кружков](disable-voice-autoplay.md): compile_pending/device_pending. Оно пока не входит в опубликованный №84.
 

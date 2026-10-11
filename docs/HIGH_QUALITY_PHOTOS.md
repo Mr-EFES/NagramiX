@@ -20,7 +20,7 @@ ON выбирает JPEG quality100 и native HD cap2560 по большей с�
 
 ## Проверка
 
-**implemented / compile_pending / device_pending**. Native typecheck/build и фактическая отправка/серверная обработка на iPhone ещё не проверены. Опубликованный0.5.2/build84 эту доработку не содержит. Новый IPA/commit не создавался.
+**implemented / compile_pending / device_pending**. Native typecheck/build и фактическая отправка/серверная обработка на iPhone ещё не проверены. Опубликованный0.5.3/build84 эту доработку не содержит. Новый IPA/commit не создавался.
 
 Приёмка:
 
