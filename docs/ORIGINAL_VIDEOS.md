@@ -1,5 +1,7 @@
 # Видео без сжатия
 
+Проверка текущего выпуска: **compile_passed / device_pending**, нативная сборка№86 и независимая проверка опубликованного IPA успешны. [Результат и исходный SHA](RELEASE_STATUS.md). Физические сценарии остаются непроверенными.
+
 Пользователь подтвердил reference: **Nagram**, функция для видео; аналогичной реализации для фото он не встречал. Как reference поведения проверен [SendMessagesHelper.java](https://github.com/NextAlone/Nagram/blob/e09f49fa8c2dde6e81cfccd8eea6984d39d2e997/TMessagesProj/src/main/java/org/telegram/messenger/SendMessagesHelper.java#L11109): `sendMp4DocumentAsVideo` допускает video branch при forceDocument, а преобразование зависит от VideoEditedInfo. Код Android/reference не переносится в NagramiX.
 
 ## Настройка и транспорт
@@ -24,7 +26,7 @@ MP4 (`video/mp4`) и MOV (`video/quicktime`) получают стандартн
 
 ## Проверка
 
-Статус: **implemented / compile_pending / device_pending**. Нативная компиляция и серверный byte/hash round trip ещё не выполнялись, в предыдущем опубликованном пакете №84 функции нет. Новый IPA/commit не создавался.
+Статус: **implemented / compile_passed / device_pending**. Нативная компиляция№86 пройдена, функция включена в проверенный IPA. Серверный byte/hash round trip на устройстве ещё не проверен.
 
 Приёмка на iPhone:
 

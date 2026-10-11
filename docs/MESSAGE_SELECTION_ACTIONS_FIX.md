@@ -1,6 +1,8 @@
 # Пересылка выделения и отдельная иконка рассылки
 
-Базовая панель с тремя видами пересылки включена в опубликованный IPA предыдущей сборки №84: implemented / compile_passed / device_pending. Чистая нативная компиляция и независимая проверка пакета выполнены; физические сценарии проверяет пользователь. Новая правка просмотра через аватарку описана ниже и ещё не собрана. [Результаты сборки](RELEASE_STATUS.md).
+Проверка текущего выпуска: **compile_passed / device_pending**, нативная сборка№86 и независимая проверка опубликованного IPA успешны. [Результат и исходный SHA](RELEASE_STATUS.md). Физические сценарии остаются непроверенными.
+
+Базовая панель с тремя видами пересылки включена в опубликованный IPA предыдущей сборки №84: implemented / compile_passed / device_pending. Чистая нативная компиляция и независимая проверка пакета выполнены; физические сценарии проверяет пользователь. Новая правка просмотра через аватарку описана ниже и включена в проверенный№86. [Результаты сборки](RELEASE_STATUS.md).
 
 ## Новая правка после физического теста: просмотр через аватарку
 
@@ -10,7 +12,7 @@
 
 Immutable read flag, keyboard/media input, reply/edit/send guards и локальная очередь реакций сохранены. Удаление, экспорт и три пересылки не активируют исходный просмотр; только «Ответить» открывает отдельный обычный чат. Ограничения защищённых/секретных/недоступных сообщений сохраняются. Обычный factory при readonly=false ведёт себя прежним образом; factory поиска и embedded/access/frozen ограничения прежние.
 
-**implemented / compile_pending / device_pending** для этой новой правки; опубликованный №84 её не содержит. Clean proof `/tmp/nagramix-051-preview-selection-toolbar-proof`:434 outputs,433 побайтно прежних, единственное изменение — перестановка readonly gate в ChatInterfaceStateInputPanels. Swift grammar, обратимое сравнение, source-order/count checks и missing/duplicate/rerun rejection прошли. Нативная сборка и iPhone ещё не проверены.
+**implemented / compile_passed / device_pending** для этой новой правки; опубликованный №84 её не содержит. Clean proof `/tmp/nagramix-051-preview-selection-toolbar-proof`:434 outputs,433 побайтно прежних, единственное изменение — перестановка readonly gate в ChatInterfaceStateInputPanels. Swift grammar, обратимое сравнение, source-order/count checks и missing/duplicate/rerun rejection прошли. Нативная сборка№86 пройдена; физическая проверка на iPhone ожидается.
 
 ## Поведение
 

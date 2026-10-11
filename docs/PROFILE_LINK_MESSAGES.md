@@ -1,6 +1,8 @@
 # Ссылка на профиль в новых сообщениях
 
-Функция реализована по референсу пользователя, с отдельным штатным экраном настроек. **implemented / compile_pending / device_pending**. Новая сборка и публикация не запускались; версия остаётся NagramiX 0.5.3. [Спецификация](../product/features/profile-link-messages.md).
+Проверка текущего выпуска: **compile_passed / device_pending**, нативная сборка№86 и независимая проверка опубликованного IPA успешны. [Результат и исходный SHA](RELEASE_STATUS.md). Физические сценарии остаются непроверенными.
+
+Функция реализована по референсу пользователя, с отдельным штатным экраном настроек. **implemented / compile_passed / device_pending**. Нативная сборка№86 и публикация тестового релиза успешны. [Спецификация](../product/features/profile-link-messages.md).
 
 ## Экран и состояние
 
@@ -28,7 +30,7 @@ Audited pin Telegram13.0 / f1dd7a2dbd02cbbf513e75d5695d8d36d1cf5838: native enti
 
 В `ios/Tests/TelegramCore/NagramiXProfileLinkedMessagesTests.swift` добавлены8 XCTest сценариев: UTF-16/multiline, вложенность форматирования, сохранение ссылки/code/custom emoji, автоматические URL/mentions, некорректные и surrogate ranges, entity budget/whitespace, OFF/forward, SecretChat URL. Fixture копируется в штатный TelegramCoreTestsLib glob. **XCTest не запускались**: здесь нет Swift/Apple SDK. После macOS overlay можно выполнить `bazel test -c dbg //submodules/TelegramCore:TelegramCoreTests` с настройками закреплённой базы. Нативная компиляция нового кода и физическая проверка пока не выполнены.
 
-## Приёмка после следующей сборки
+## Приёмка build86
 
 1. Чистая установка: OFF, «Мой профиль» и корректный ID аккаунта; обычная отправка прежняя. ON → отправить текст и caption фотографии/видео/файла второму аккаунту, открыть профиль нажатием на текст в официальном Telegram.
 2. Указать доступный другой user ID, проверить показ имени/ID и «Открыть профиль», отправить текст. Проверить Cancel, пустой ввод, буквы, отрицательный/нулевой/слишком большой ID, неизвестный peer; неверный выбор не сохраняется. «Использовать мой профиль» возвращает fallback без отключения опции.
