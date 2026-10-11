@@ -4,9 +4,9 @@
 
 Пользователь запросил 0.5.1 для реального физического iPhone и релиз в GitHub с краткой русской аннотацией по функциям. Подготовлены версия workflow/registry и product/releases/0.5.1.md, актуальные ссылки/документы и план IPHONE_TEST_0.5.1.md. Commit и normal push main, clean workflow, публикация prerelease разрешены этой задачей. Предыдущие releases/tags/assets сохранять. Ветку main, единственный workflow и точные SHA/anchor guards сохранять.
 
-Telegram13.0 / f1dd7a2dbd02cbbf513e75d5695d8d36d1cf5838 повторно подтверждён CURRENT; minimum iOS15.0. До нового commit/dispatch новая нативная компиляция не началась. Последний опубликованный пакет принадлежит предыдущему source132ddc364706d63cc31746be343627419c36c85f/run38036214917/№83, не выдавать его за текущий. Публикация 0.5.1 должна использовать новый SHA и новый IPA, artifact_run_id пустой.
+Telegram13.0 / f1dd7a2dbd02cbbf513e75d5695d8d36d1cf5838 повторно подтверждён CURRENT; minimum iOS15.0. Чистая нативная сборка №84/run38093344854 из `7b8137a6d68554b1790322f8ab1f03460ff7823c` выполнена успешно: clean_build=true/publish_release=true/prerelease=true/artifact_run_id пустой, оба cache шага skipped. Новый IPA опубликован и независимо проверен. [Релиз](https://github.com/Mr-EFES/NagramiX/releases/tag/v0.5.1), [workflow](https://github.com/Mr-EFES/NagramiX/actions/runs/38093344854), [полный результат](RELEASE_STATUS.md). Предыдущие releases/tags/assets сохранены. Все изменения ниже включены в новый пакет; compile_passed/device_pending. Документационный checkpoint после сборки не считать собранным source.
 
-## Подготовленные изменения, все включить
+## Изменения, включённые в сборку №84
 
 - [Отмена первой записи](VOICE_RECORDING_CANCELLATION_FIX.md): cold-start voice/video cancellation и поздние callbacks; сохранить запись вверх и заднюю камеру кружков.
 - [Панель выделения](MESSAGE_SELECTION_ACTIONS_FIX.md): delete/export и три способа пересылки; отдельная иконка Groups для массовой рассылки, native single/multi/quiet/schedule.
@@ -22,18 +22,14 @@ Telegram13.0 / f1dd7a2dbd02cbbf513e75d5695d8d36d1cf5838 повторно под�
 
 Все исходные keys/defaults/IDs и сохранённый выбор предыдущих функций остаются. Новые durable файлы — option sheet, deferred reaction store/methods, selection methods и proxy VPN policy. Нативные изменения выражены в ios/apply_features.py; temporary upstream/proof деревья не коммитить.
 
-## Проверки перед публикацией исходников
+## Выполненные проверки
 
-Последний полный feature proof `/tmp/nagramix-channel-time-proof` на `/tmp/nagramix-channel-time-full-raw`:427 выходов,416 прежние,11 новых относительно предыдущего voice-autoplay proof с6 дополнительными stock inputs;13 обратных substitutions,12 drift+rerun fail closed,9 Swift grammar trees, old RU/EN strings/IDs сохранены. Предыдущие отдельные proofs и контракты в документах выше. Это Linux без Apple SDK: до GitHub Actions новые функции compile_pending/device_pending.
+Перед push выполнены Python compile, metadata, RU intro, три audio resource tests и diff check. Полный clean feature proof `/tmp/nagramix-051-full-proof`: 427 outputs. Проверены 140 изменённых/новых Swift-файлов: 134 без grammar errors, у шести ошибки parser совпали с stock и предыдущим proof (современные Swift constructs). Нормализация окончания selection .inc не изменила ни один из 427 собранных файлов. macOS workflow успешно выполнил нативную компиляцию всех исходников.
 
-До push выполнить Python compile, metadata, RU intro, git diff --check, tests/test_notification_sound_resources.py; новый полный overlay на clean raw inputs и grammar всех изменённых Swift. Проверить staged paths, не включать секреты/временные логи/IPA. Commit с русским сообщением; normal push main, inspect remote SHA и dispatch inputs.
-
-При ошибке native compilation исправлять узко по точному логу, сохранять защищённые функции и full-hash preflight; повторить чистую сборку новым SHA. После success скачать именно новый IPA/provenance/checksum, validate_unsigned_ipa.py, ZIP CRC/ARM64/minOS/audio/RU/31tones, tag==source, release body==tracked notes. Записать run/build/source/checksum в RELEASE_STATUS.md; обновить registry compile status. Documentation checkpoint не считать собранным source.
-
-Проверки перед commit выполнены: Python compile, metadata, RU intro,3 audio resource tests, diff check. Новый clean feature proof `/tmp/nagramix-051-full-proof` содержит427 outputs. Проверены140 изменённых/новых Swift-файлов:134 без grammar errors, у6 ошибки parser побайтно совпадают с stock и предыдущим proof (современные Swift constructs, включая nonisolated(unsafe)); новых syntax errors нет. Нативный type checking выполняет только macOS workflow.
+После публикации новый IPA, provenance и checksum скачаны в `/tmp/nagramix-release-051/`. Независимая проверка `/tmp/nagramix-verify-release-051.py` прошла; результат `VERIFIED-RELEASE.json`. Размер 80 866 565 байт; SHA256 `e7c0ead5c4f8ba7772027a0bf9617d1516c1fbe2ceafa2e7e611b03367dadb23`. Версия 0.5.1/build84; ZIP CRC, шесть ARM64/iOS Mach-O, iOS15+, bundle/background audio, русские и пользовательские RU/EN ресурсы, все 31 мелодия подтверждены. Tag/release target/provenance совпадают с исходным SHA, аннотация совпадает с tracked notes. Устройство ещё не проверено.
 
 ## Защищённые прежние функции и следующий шаг
 
 Камера кружков сзади, story confirmation/cancel/seen gate, запрет story camera swipe/скрытие/repost, ID/дата/контакты, wide posts/mosaics, hiddenContacts/Calls, Proxy/sponsor и stock theme/font сохраняются. Archive: независимое хранение полученных media/TTL opt-in, late callbacks/clear guards, alpha0.5, shared decoder одного полного MessageId/fileId/resourceId. JPEG compatibility contract/quality0–100/native legacy72/full-cache decoding и decoder background UUID owners/nativePiP не упрощать.
 
-После проверенной публикации следующий шаг — физический тест пользователя по [плану](IPHONE_TEST_0.5.1.md). Runtime/UI/яркость/звук/network/список зрителей/отсутствие всех crashes не объявлять проверенными по компиляции. IPA unsigned требует внешней подписи SideStore. После текущей задачи новую сборку без новой команды не запускать.
+Публикация проверена; следующий шаг — физический тест пользователя по [плану](IPHONE_TEST_0.5.1.md). Runtime/UI/яркость/звук/network/список зрителей/отсутствие всех crashes не объявлять проверенными по компиляции. IPA unsigned требует внешней подписи SideStore. После текущей задачи новую сборку без новой команды не запускать.
