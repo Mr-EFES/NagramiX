@@ -44,6 +44,50 @@ def localize_debug_titles(path: Path) -> None:
     path.write_text(text, encoding="utf-8")
 
 
+
+def apply_unread_chats_first(source: Path, overlay: Path) -> None:
+    # Telegram 13.0 plus all preceding audited overlays. Validate all inputs
+    # and anchors before writing any of this feature's native changes.
+    expected = {'submodules/ChatListUI/Sources/Node/ChatListNode.swift': 'daef211e884e4d9528c87915c4ecf6ecfe3966ad7f608322c21cae424dcc46aa', 'submodules/ChatListUI/Sources/Node/ChatListNodeEntries.swift': '8a3a081940b253796b6d5676ab57b97a1ca32ebb22c6edc723c6a14f69604a98', 'submodules/ChatListUI/Sources/Node/ChatListNodeLocation.swift': '2a4c733b9647c28672e0d81a8d2e80ab6ae3b2fb3a69bac9d478c3d959c76204', 'submodules/ChatListUI/Sources/Node/ChatListViewTransition.swift': '0fd12bfb3b5460f80e623c79dbd7bebb2e788cef8baa8b5f6c65a5b3c45ec561'}
+    texts = {}
+    for name, digest in expected.items():
+        path = source / name
+        data = path.read_bytes()
+        if hashlib.sha256(data).hexdigest() != digest:
+            raise SystemExit(f"Changed unread-chat sorting input or already patched: {name}")
+        texts[name] = data.decode("utf-8")
+
+    def patch(name: str, old: str, new: str) -> None:
+        if texts[name].count(old) != 1:
+            raise SystemExit(f"Unread-chat sorting anchor drift: {name}: {old!r}")
+        texts[name] = texts[name].replace(old, new)
+
+    node = "submodules/ChatListUI/Sources/Node/ChatListNode.swift"
+    entries = "submodules/ChatListUI/Sources/Node/ChatListNodeEntries.swift"
+    location = "submodules/ChatListUI/Sources/Node/ChatListNodeLocation.swift"
+    transition = "submodules/ChatListUI/Sources/Node/ChatListViewTransition.swift"
+    patch(location, '    public let list: EngineChatList\n', '    public let nagramiXUnreadChatsFirst: Bool\n    public let list: EngineChatList\n')
+    patch(location, 'scrollPosition: ChatListNodeViewScrollPosition?) {', 'scrollPosition: ChatListNodeViewScrollPosition?, nagramiXUnreadChatsFirst: Bool = false) {')
+    patch(location, '        self.list = list\n', '        self.nagramiXUnreadChatsFirst = nagramiXUnreadChatsFirst\n        self.list = list\n')
+    patch(entries, '    struct PeerEntryData: Equatable {\n        var index: EngineChatList.Item.Index\n', '    struct PeerEntryData: Equatable {\n        var nagramiXUnreadCount: Int? = nil\n        var index: EngineChatList.Item.Index\n')
+    patch(entries, '            if lhs.readState != rhs.readState {', '            if lhs.nagramiXUnreadCount != rhs.nagramiXUnreadCount {\n                return false\n            }\n            if lhs.readState != rhs.readState {')
+    patch(entries, '        return lhs.sortIndex < rhs.sortIndex\n', '        if case let .PeerEntry(left) = lhs, case let .PeerEntry(right) = rhs,\n           case let .chatList(leftIndex) = left.index, case let .chatList(rightIndex) = right.index,\n           leftIndex.pinningIndex == nil, rightIndex.pinningIndex == nil,\n           left.promoInfo == nil, right.promoInfo == nil {\n            let leftCount = left.nagramiXUnreadCount ?? 0\n            let rightCount = right.nagramiXUnreadCount ?? 0\n            if leftCount != rightCount {\n                return leftCount < rightCount // UI displays this ascending list in reverse.\n            }\n        }\n        return lhs.sortIndex < rhs.sortIndex\n')
+    patch(node, '    private var nagramiXCompactObserver: NSObjectProtocol?\n', '    private var nagramiXUnreadObserver: NSObjectProtocol?\n    private let nagramiXUnreadChatsFirst = ValuePromise<Bool>(NagramiXTabSettings.unreadChatsFirstEnabled, ignoreRepeated: true)\n    private var nagramiXCompactObserver: NSObjectProtocol?\n')
+    patch(node, '        self.nagramiXCompactObserver = NotificationCenter.default.addObserver', '        self.nagramiXUnreadObserver = NotificationCenter.default.addObserver(forName: NagramiXTabSettings.unreadChatsFirstChangedNotification, object: nil, queue: .main, using: { [weak self] _ in\n            self?.nagramiXRefreshSettings()\n        })\n        self.nagramiXCompactObserver = NotificationCenter.default.addObserver')
+    patch(node, '    public func nagramiXRefreshSettings() {\n', '    public func nagramiXRefreshSettings() {\n        self.nagramiXUnreadChatsFirst.set(NagramiXTabSettings.unreadChatsFirstEnabled)\n')
+    patch(node, '        if let observer = self.nagramiXCompactObserver {', '        if let observer = self.nagramiXUnreadObserver {\n            NotificationCenter.default.removeObserver(observer)\n        }\n        if let observer = self.nagramiXCompactObserver {')
+    patch(node, '        let chatListViewUpdate = self.chatListLocation.get()\n        |> distinctUntilChanged\n        |> mapToSignal { listLocation -> Signal<(ChatListNodeViewUpdate, ChatListFilter?), NoError> in\n            return chatListViewForLocation(chatListLocation: location, location: listLocation, account: context.account, shouldLoadCanMessagePeer: shouldLoadCanMessagePeer)\n', '        let chatListViewUpdate = combineLatest(self.chatListLocation.get() |> distinctUntilChanged, self.nagramiXUnreadChatsFirst.get())\n        |> mapToSignal { listLocation, unreadFirst -> Signal<(ChatListNodeViewUpdate, ChatListFilter?), NoError> in\n            let signal: Signal<ChatListNodeViewUpdate, NoError>\n            if unreadFirst, case .chatList = mode, case .chatList = location {\n                signal = nagramiXUnreadChatListView(chatListLocation: location, location: listLocation, account: context.account)\n            } else {\n                signal = chatListViewForLocation(chatListLocation: location, location: listLocation, account: context.account, shouldLoadCanMessagePeer: shouldLoadCanMessagePeer)\n            }\n            return signal\n')
+    patch(transition, 'struct ChatListNodeView {\n', 'struct ChatListNodeView {\n    var nagramiXUnreadChatsFirst: Bool = false\n')
+    patch(node, '            let processedView = ChatListNodeView(originalList:', '            if update.nagramiXUnreadChatsFirst {\n                nagramiXSortUnreadChatListEntries(&entries)\n            }\n            let processedView = ChatListNodeView(originalList:')
+    patch(node, 'ChatListNodeView(originalList: update.list, filteredEntries: entries, isLoading: isLoading, filter: filter)', 'ChatListNodeView(nagramiXUnreadChatsFirst: update.nagramiXUnreadChatsFirst, originalList: update.list, filteredEntries: entries, isLoading: isLoading, filter: filter)')
+    patch(node, '                    if let location = location, location != strongSelf.currentLocation {', '                    if let location = location, location != strongSelf.currentLocation, !chatListView.nagramiXUnreadChatsFirst {')
+    patch(transition, '                var index = toView.filteredEntries.count - 1\n                for entry in toView.filteredEntries {\n                    if entry.sortIndex >= .index(.chatList(scrollIndex)) {', '                if toView.nagramiXUnreadChatsFirst, let exactIndex = toView.filteredEntries.firstIndex(where: { $0.sortIndex == .index(.chatList(scrollIndex)) }) {\n                    scrollToItem = ListViewScrollToItem(index: toView.filteredEntries.count - 1 - exactIndex, position: position, animated: animated, curve: .Default(duration: nil), directionHint: directionHint)\n                }\n                var index = toView.filteredEntries.count - 1\n                for entry in toView.filteredEntries {\n                    if scrollToItem == nil && entry.sortIndex >= .index(.chatList(scrollIndex)) {')
+
+    texts[location] += "\n" + (overlay / "Sources/ChatListUI/NagramiXUnreadChatListView.swift.inc").read_text(encoding="utf-8")
+    texts[entries] += "\n" + (overlay / "Sources/ChatListUI/NagramiXUnreadChatListEntries.swift.inc").read_text(encoding="utf-8")
+    for name, text in texts.items():
+        (source / name).write_text(text, encoding="utf-8")
+
 def apply_separate_profile_navigation_buttons(source: Path) -> None:
     path = source / "submodules/TelegramUI/Components/PeerInfo/PeerInfoScreen/Sources/PeerInfoHeaderNavigationButtonContainerNode.swift"
     data = path.read_bytes()
@@ -1767,16 +1811,16 @@ def apply_chat_actions_readonly_fix(source: Path) -> None:
         "interfaceInteraction: ChatPanelInterfaceInteraction?, nagramiXReadOnly: Bool = false) -> (primary: ChatInputPanelNode?, secondary: ChatInputPanelNode?) {\n",
         "Carry the per-controller read-only policy into the native panel factory")
     replace_unique(panels,
-        "    if case .standard(.embedded) = chatPresentationInterfaceState.mode {\n",
-        """    // Preserve the native search panel above; never create a composer,
-    // subscriber action panel or selection/send panel for an avatar-only visit.
+        "    if case .pinnedMessages = chatPresentationInterfaceState.subject {\n",
+        """    // Selection above uses the same native toolbar for one or many messages.
+    // Avatar viewing still cannot create a composer or subscriber action panel.
     if nagramiXReadOnly {
         return (nil, nil)
     }
 
-    if case .standard(.embedded) = chatPresentationInterfaceState.mode {
+    if case .pinnedMessages = chatPresentationInterfaceState.subject {
 """,
-        "Remove native composing panels through layout rather than hiding their views")
+        "Allow selection actions without enabling composition or read receipts in avatar viewing")
     replace_unique(node,
         "        let inputPanelNodes = inputPanelForChatPresentationIntefaceState(self.chatPresentationInterfaceState, context: self.context, currentPanel: self.inputPanelNode, currentSecondaryPanel: self.secondaryInputPanelNode, textInputPanelNode: self.textInputPanelNode, chatControllerInteraction: self.controllerInteraction, interfaceInteraction: self.interfaceInteraction)\n",
         "        let inputPanelNodes = inputPanelForChatPresentationIntefaceState(self.chatPresentationInterfaceState, context: self.context, currentPanel: self.inputPanelNode, currentSecondaryPanel: self.secondaryInputPanelNode, textInputPanelNode: self.textInputPanelNode, chatControllerInteraction: self.controllerInteraction, interfaceInteraction: self.interfaceInteraction, nagramiXReadOnly: self.controller?.nagramiXReadHistoryDisabled == true)\n",
@@ -3545,7 +3589,9 @@ def apply_proxy_vpn_policy_and_layout(source: Path, overlay: Path) -> None:
     edit("statuses: [ProxyServerSettings: ProxyServerStatus], connectionStatus: ConnectionStatus) -> [ProxySettingsControllerEntry] {",
          "statuses: [ProxyServerSettings: ProxyServerStatus], connectionStatus: ConnectionStatus, vpnBypassed: Bool) -> [ProxySettingsControllerEntry] {")
     edit("    entries.append(.checkAllProxies(theme,",
-         "    entries.append(.avoidProxyWithVPN(theme, strings.nagramiXAvoidProxyWithVPN, nagramiXSettings.avoidProxyWithVPN))\n    entries.append(.avoidProxyWithVPNInfo(theme, vpnBypassed ? strings.nagramiXProxyBypassedForVPN + \"\\n\" + strings.nagramiXAvoidProxyWithVPNInfo : strings.nagramiXAvoidProxyWithVPNInfo))\n    entries.append(.shareProxyList(theme, strings.SocksProxySetup_ShareProxyList))\n    entries.append(.checkAllProxies(theme,")
+         "    entries.append(.avoidProxyWithVPN(theme, strings.nagramiXAvoidProxyWithVPN, nagramiXSettings.avoidProxyWithVPN))\n    entries.append(.shareProxyList(theme, strings.SocksProxySetup_ShareProxyList))\n    entries.append(.checkAllProxies(theme,")
+    # Settings are concise: omit help footers while retaining the native controls.
+    edit("        entries.append(.useForCallsInfo(theme, strings.SocksProxySetup_UseForCallsHelp))\n", "")
     # ItemList entries must already follow the same order as their comparator.
     edit("    entries.append(.shareProxyList(theme, strings.SocksProxySetup_ShareProxyList))\n    entries.append(.checkAllProxies(theme, state.checkingAllProxies ? strings.nagramiXProxyChecking : strings.nagramiXProxyCheckAll, state.checkingAllProxies))\n",
          "    entries.append(.checkAllProxies(theme, state.checkingAllProxies ? strings.nagramiXProxyChecking : strings.nagramiXProxyCheckAll, state.checkingAllProxies))\n    entries.append(.shareProxyList(theme, strings.SocksProxySetup_ShareProxyList))\n")
@@ -3704,11 +3750,15 @@ def apply_recording_music_default(source: Path) -> None:
 
 
 def apply_voice_autoplay_policy(source: Path) -> None:
-    """Останавливать голосовые и кружки в штатном end callback без auto-next."""
+    """Завершать голосовые и кружки штатно, не открывая следующий элемент."""
     path = source / "submodules/TelegramUI/Sources/SharedMediaPlayer.swift"
+    context_source = source / "submodules/TelegramUI/Sources/ChatMessageContextControllerContentSource.swift"
     text = path.read_text(encoding="utf-8")
     if hashlib.sha256(path.read_bytes()).hexdigest() != "73fe67e9d89c15d0789e6f2f28041d63c4f10d0e7e759e29e6969502841b2621":
         raise SystemExit("Изменился проверенный общий плеер или правка уже применена")
+    context_text = context_source.read_text(encoding="utf-8")
+    if hashlib.sha256(context_source.read_bytes()).hexdigest() != "b849313d4e07fb6baca0b918499d5f1e393be5be24f42ea1001805599e1d8020":
+        raise SystemExit("Изменился проверенный экран одноразового сообщения или правка уже применена")
     changes = [
         ("import Foundation\n", "import Foundation\nimport NagramiXCore\n"),
         ("    private var playbackItem: SharedMediaPlaybackItem? {\n",
@@ -3719,13 +3769,18 @@ def apply_voice_autoplay_policy(source: Path) -> None:
          "                        let completedPlaybackGeneration = strongSelf.nagramiXPlaybackGeneration\n                        playbackItem.setActionAtEnd({\n"),
         ("                                if let strongSelf = self {\n                                    switch strongSelf.playlist.looping {\n",
          """                                if let strongSelf = self {
-                                    if case .voice = type, NagramiXTabSettings.voiceAutoplayDisabled {
+                                    if case .voice = type, !NagramiXTabSettings.voiceAutoplayEnabled {
                                         // Capture only a value, never the player owned by this callback.
-                                        // A late completion cannot pause a newly selected message.
-                                        guard strongSelf.nagramiXPlaybackGeneration == completedPlaybackGeneration else { return }
+                                        // Finish once; a late callback cannot close a newly selected message.
+                                        guard strongSelf.nagramiXPlaybackGeneration == completedPlaybackGeneration,
+                                              !strongSelf.currentPlayedToEnd else { return }
+                                        strongSelf.currentPlayedToEnd = true
                                         strongSelf.scheduledPlaybackAction = nil
+                                        strongSelf.scheduledStartTime = nil
                                         strongSelf.playbackItem?.pause()
-                                        strongSelf.playbackItem?.seek(0.0)
+                                        // The native manager clears this player, its panel and video overlay.
+                                        // View-once content observes the matching voice player's disappearance.
+                                        strongSelf.playedToEnd?()
                                         return
                                     }
                                     switch strongSelf.playlist.looping {
@@ -3735,7 +3790,575 @@ def apply_voice_autoplay_policy(source: Path) -> None:
         if text.count(old) != 1:
             raise SystemExit("Изменился точный якорь автовоспроизведения")
         text = text.replace(old, new, 1)
+    old_context = """        return self.context.sharedContext.mediaManager.globalMediaPlayerState
+        |> filter { playlistStateAndType in
+            if let (_, state, _) = playlistStateAndType, case .state = state {
+                return true
+            } else {
+                return false
+            }
+        }
+        |> take(1)
+        |> map { _ in
+            return false
+        }
+        |> then(
+            self.context.sharedContext.mediaManager.globalMediaPlayerState
+            |> filter { playlistStateAndType in
+                return playlistStateAndType == nil
+            }
+            |> take(1)
+            |> map { _ in
+                return true
+            }
+        )
+"""
+    new_context = """        // Observe this voice item, not the global player which may fall back to music.
+        let playbackState = self.context.sharedContext.mediaManager.filteredPlaylistState(
+            accountId: self.context.account.id,
+            playlistId: PeerMessagesPlaylistLocation.singleMessage(self.message.id).playlistId,
+            itemId: PeerMessagesMediaPlaylistItemId(messageId: self.message.id, messageIndex: self.message.index),
+            type: .voice
+        )
+        return playbackState
+        |> filter { $0 != nil }
+        |> take(1)
+        |> map { _ in false }
+        |> then(
+            playbackState
+            |> filter { $0 == nil }
+            |> take(1)
+            |> map { _ in true }
+        )
+"""
+    if context_text.count(old_context) != 1:
+        raise SystemExit("Изменился точный якорь закрытия одноразового сообщения")
+    context_text = context_text.replace(old_context, new_context, 1)
     path.write_text(text, encoding="utf-8")
+    context_source.write_text(context_text, encoding="utf-8")
+
+
+def apply_authorization_alert_handling(source: Path) -> None:
+    """Сохранить серверную причину и не наслаивать предупреждения о сессии."""
+    hashes = {
+        "submodules/TelegramUI/Sources/ApplicationContext.swift": "09b0c06a1115f5d50b504d21ec5d45bbdc7c1850087509e196a40e288bcee33d",
+        "submodules/TelegramCore/Sources/State/AccountStateManagementUtils.swift": "3891a1cefcd4590cc77d89e71aca9e1ed2add1ae8ffacda625987c6fe73aa4ee",
+    }
+    for name, expected in hashes.items():
+        if hashlib.sha256((source / name).read_bytes()).hexdigest() != expected:
+            raise SystemExit(f"Изменилась проверенная обработка авторизации или правка уже применена: {name}")
+    changes = {
+        "submodules/TelegramCore/Sources/State/AccountStateManagementUtils.swift": [
+            (
+                '                    updatedState.addDisplayAlert(text, isDropAuth: type.hasPrefix("AUTH_KEY_DROP_"))\n',
+                """                    let isDropAuth = type.hasPrefix("AUTH_KEY_DROP_")
+                    if isDropAuth {
+                        // Log only a bounded server reason, never the body, account or auth key.
+                        let safeType = type.utf8.count <= 80 && type.utf8.allSatisfy { byte in
+                            (byte >= 65 && byte <= 90) || (byte >= 48 && byte <= 57) || byte == 95
+                        } ? type : "AUTH_KEY_DROP_UNSPECIFIED"
+                        Logger.shared.log("State", "authorization service notification: \\(safeType)")
+                    }
+                    updatedState.addDisplayAlert(text, isDropAuth: isDropAuth)
+""",
+            ),
+        ],
+        "submodules/TelegramUI/Sources/ApplicationContext.swift": [
+            ("import Foundation\n", "import Foundation\nimport NagramiXCore\n"),
+            (
+                "    private var displayAlertsDisposable: Disposable?\n",
+                """    private var displayAlertsDisposable: Disposable?
+    private weak var nagramiXAuthorizationAlert: AlertController?
+    private var nagramiXLastAuthorizationAlertText: String?
+    private var nagramiXLastAuthorizationAlertTime: TimeInterval = -.infinity
+""",
+            ),
+            (
+                """                for (text, isDropAuth) in alerts {
+                    let presentationData = strongSelf.context.sharedContext.currentPresentationData.with { $0 }
+""",
+                """                for (text, isDropAuth) in alerts {
+                    guard let presenter = strongSelf.rootController.viewControllers.last as? ViewController else { continue }
+                    let now = ProcessInfo.processInfo.systemUptime
+                    if isDropAuth {
+                        let repeatedRecently = strongSelf.nagramiXLastAuthorizationAlertText == text
+                            && now - strongSelf.nagramiXLastAuthorizationAlertTime < 60.0
+                        if strongSelf.nagramiXAuthorizationAlert != nil || repeatedRecently {
+                            Logger.shared.log("ApplicationContext", "duplicate authorization alert deferred")
+                            continue
+                        }
+                    }
+                    let presentationData = strongSelf.context.sharedContext.currentPresentationData.with { $0 }
+                    // Translate the known stock notice only; preserve other server instructions.
+                    let displayText: String
+                    if isDropAuth && text.hasPrefix("Authorization error. Use the \\"Log out\\" button to log out, then log in again with your phone number.") {
+                        displayText = presentationData.strings.nagramiXAuthorizationError
+                    } else {
+                        displayText = text
+                    }
+""",
+            ),
+            (
+                """                        actions = [TextAlertAction(type: .genericAction, title: presentationData.strings.Common_Cancel, action: {}), TextAlertAction(type: .genericAction, title: presentationData.strings.LogoutOptions_LogOut, action: {
+                            if let strongSelf = self {
+                                let _ = logoutFromAccount(id: strongSelf.context.account.id, accountManager: strongSelf.context.sharedContext.accountManager, alreadyLoggedOutRemotely: false).start()
+""",
+                """                        actions = [TextAlertAction(type: .genericAction, title: presentationData.strings.Common_Cancel, action: { [weak self] in
+                            self?.nagramiXAuthorizationAlert = nil
+                        }), TextAlertAction(type: .genericAction, title: presentationData.strings.LogoutOptions_LogOut, action: { [weak self] in
+                            if let strongSelf = self {
+                                strongSelf.nagramiXAuthorizationAlert = nil
+                                let _ = logoutFromAccount(id: strongSelf.context.account.id, accountManager: strongSelf.context.sharedContext.accountManager, alreadyLoggedOutRemotely: false).start()
+""",
+            ),
+            (
+                """                    let controller = textAlertController(context: strongSelf.context, title: nil, text: text, actions: actions)
+                    (strongSelf.rootController.viewControllers.last as? ViewController)?.present(controller, in: .window(.root))
+""",
+                """                    let controller = textAlertController(context: strongSelf.context, title: nil, text: displayText, actions: actions)
+                    if isDropAuth {
+                        strongSelf.nagramiXAuthorizationAlert = controller
+                        strongSelf.nagramiXLastAuthorizationAlertText = text
+                        strongSelf.nagramiXLastAuthorizationAlertTime = now
+                    }
+                    presenter.present(controller, in: .window(.root))
+""",
+            ),
+        ],
+    }
+    outputs: dict[Path, str] = {}
+    for name, substitutions in changes.items():
+        path = source / name
+        text = path.read_text(encoding="utf-8")
+        for old, new in substitutions:
+            if text.count(old) != 1:
+                raise SystemExit(f"Изменился точный якорь предупреждения авторизации: {name}")
+            text = text.replace(old, new, 1)
+        outputs[path] = text
+    for path, text in outputs.items():
+        path.write_text(text, encoding="utf-8")
+
+
+def apply_profile_link_messages(source: Path) -> None:
+    """Нативная ссылка на проверенный профиль в новых исходящих сообщениях."""
+    path = source / "submodules/TelegramCore/Sources/PendingMessages/EnqueueMessage.swift"
+    expected = "06b68a873785be5ff84d38e524e186313150d5d6cf8456b5f95efe38ffb6c33c"
+    if hashlib.sha256(path.read_bytes()).hexdigest() != expected:
+        raise SystemExit("Изменился проверенный enqueue или ссылка на профиль уже применена")
+    changes = [
+        (
+            "            var normalMessageIndices: [Int] = []\n\n            for i in 0 ..< messages.count {\n                let (transformedMedia, message) = messages[i]\n",
+            "            var normalMessageIndices: [Int] = []\n            let profileLinkTarget = nagramiXProfileLinkTarget(transaction: transaction, accountPeerId: account.peerId)\n\n            for i in 0 ..< messages.count {\n                let (transformedMedia, originalMessage) = messages[i]\n                let message = nagramiXProfileLinkedMessage(originalMessage, targetPeerId: profileLinkTarget, isSecretChat: peerId.namespace == Namespaces.Peer.SecretChat)\n",
+        ),
+    ]
+    overlay = Path(__file__).resolve().parent
+    copies = {
+        source / "submodules/TelegramCore/Sources/NagramiXProfileLinkedMessages.swift": overlay / "Sources/TelegramCore/NagramiXProfileLinkedMessages.swift",
+        source / "submodules/SettingsUI/Sources/NagramiXProfileLinkSettingsController.swift": overlay / "Sources/SettingsUI/NagramiXProfileLinkSettingsController.swift",
+        source / "submodules/TelegramCore/Tests/NagramiXProfileLinkedMessagesTests.swift": overlay / "Tests/TelegramCore/NagramiXProfileLinkedMessagesTests.swift",
+    }
+    for target, original in copies.items():
+        if target.exists() or not original.is_file():
+            raise SystemExit(f"Изменился состав файлов ссылок на профиль: {target.name}")
+    text = path.read_text(encoding="utf-8")
+    for old, new in changes:
+        if text.count(old) != 1:
+            raise SystemExit("Изменился точный якорь исходящих ссылок на профиль")
+        text = text.replace(old, new, 1)
+    for target, original in copies.items():
+        target.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copy2(original, target)
+    path.write_text(text, encoding="utf-8")
+
+
+def apply_recording_session_continuity(source: Path) -> None:
+    """Смешивание без лишней смены маршрута и завершение повторных записей."""
+    hashes = {
+        "submodules/TelegramAudio/Sources/ManagedAudioSession.swift": "f12f5701d8951d8eb1e148aecd6081320e59b8d500d2f3c88909cc45699c1296",
+        "submodules/TelegramUI/Sources/ManagedAudioRecorder.swift": "1ad674a5a2e39d625ad8683b2050f58e5c92ea19749ad86551609248b5729e7a",
+        "submodules/Camera/CameraLegacy/Sources/CameraOutput.swift": "8421579cb7b047b43da249d42252b3f12688b51aeeaa9dcd7423b1b9fd6e621b",
+        "submodules/Camera/CameraLegacy/Sources/VideoRecorder.swift": "d83cad4d7bfa090fc679d10962ecd7216231da5c1c6f9af5713e33814f342a8f",
+        "submodules/TelegramUI/Components/VideoMessageCameraScreen/Sources/VideoMessageCameraScreen.swift": "57f469b3e126a36563402d57b8e0752863895ecf86beb30943a48f1bdd9e4e6d",
+        "submodules/Camera/CameraLegacy/Sources/LegacyCamera.swift": "d98cb8c945e743e6fa9e34c6fd5ea977481b270d39a358d4304ecc49925dc8a6",
+        "submodules/TelegramUI/Sources/Chat/ChatControllerMediaRecording.swift": "fbecdeee7c14632280ff3e09f3a229eaf94d2ea95e8b96865db072b0c06bb53b",
+    }
+    for name, expected in hashes.items():
+        if hashlib.sha256((source / name).read_bytes()).hexdigest() != expected:
+            raise SystemExit(f"Изменился проверенный рекордер или правка уже применена: {name}")
+    changes = {
+        "submodules/TelegramUI/Sources/Chat/ChatControllerMediaRecording.swift": [
+            (
+                "                let controller = VideoMessageCameraScreen(\n",
+                "                weak var nagramiXRecordingController: VideoMessageCameraScreen?\n                let controller = VideoMessageCameraScreen(\n",
+            ),
+            (
+                "                        guard let self, let videoController = self.videoRecorderValue else {\n",
+                "                        guard let self, let videoController = self.videoRecorderValue, videoController === nagramiXRecordingController else {\n",
+            ),
+            (
+                """                                guard let self else {
+                                    return
+                                }
+                                self.videoRecorder.set(.single(nil))
+""",
+                """                                guard let self, let videoController, self.videoRecorderValue === videoController else {
+                                    return
+                                }
+                                self.videoRecorder.set(.single(nil))
+""",
+            ),
+            (
+                """                controller.onResume = { [weak self] in
+                    guard let self else {
+""",
+                """                nagramiXRecordingController = controller
+                controller.onResume = { [weak self, weak controller] in
+                    guard let self, let controller, self.videoRecorderValue === controller else {
+""",
+            ),
+        ],
+        "submodules/TelegramAudio/Sources/ManagedAudioSession.swift": [
+            (
+                """                case let .record(_, video, mixWithOthers):
+                    #if canImport(AlarmKit) //Xcode 26
+                    options.insert(.allowBluetoothHFP)
+                    #else
+                    options.insert(.allowBluetooth)
+                    #endif
+                    if video {
+                        options.insert(.allowBluetoothA2DP)
+                    }
+                    if mixWithOthers {
+                        options.insert(.mixWithOthers)
+                    }
+""",
+                """                case let .record(speaker, video, mixWithOthers):
+                    let session = AVAudioSession.sharedInstance()
+                    let keepStereoOutput = mixWithOthers
+                        && session.currentRoute.outputs.contains(where: { $0.portType == .bluetoothA2DP })
+                        && session.preferredInput?.portType != .bluetoothHFP
+                    // A2DP playback uses the iPhone mic instead of switching to a telephone route.
+                    // Keep an explicitly selected HFP input and already active HFP routes available.
+                    if !keepStereoOutput {
+                        #if canImport(AlarmKit) //Xcode 26
+                        options.insert(.allowBluetoothHFP)
+                        #else
+                        options.insert(.allowBluetooth)
+                        #endif
+                    }
+                    if video || mixWithOthers {
+                        options.insert(.allowBluetoothA2DP)
+                    }
+                    if mixWithOthers {
+                        options.insert(.mixWithOthers)
+                        if !speaker, !self.isHeadsetPluggedInValue, case .system = outputMode {
+                            options.insert(.defaultToSpeaker)
+                        }
+                    }
+""",
+            ),
+            (
+                """                    #else
+                    try AVAudioSession.sharedInstance().setCategory(nativeCategory, options: options)
+                    try AVAudioSession.sharedInstance().setMode(mode)
+                    #endif
+""",
+                """                    #else
+                    if case .record(_, _, true) = type {
+                        // Apply mixing/category/mode together, without an intermediate configuration.
+                        try AVAudioSession.sharedInstance().setCategory(nativeCategory, mode: mode, options: options)
+                    } else {
+                        try AVAudioSession.sharedInstance().setCategory(nativeCategory, options: options)
+                        try AVAudioSession.sharedInstance().setMode(mode)
+                    }
+                    #endif
+""",
+            ),
+            (
+                """        var resetToBuiltin = false
+        switch outputMode {
+""",
+                """        if case .record(false, false, true) = type, case .system = outputMode {
+            // defaultToSpeaker/A2DP follows the existing route; avoid a second port override.
+            if ManagedAudioSessionImpl.respectsSystemRecordingInput,
+               AVAudioSession.sharedInstance().preferredInput != nil {
+                try AVAudioSession.sharedInstance().setPreferredInput(nil)
+            }
+            return
+        }
+        var resetToBuiltin = false
+        switch outputMode {
+""",
+            ),
+        ],
+        "submodules/TelegramUI/Sources/ManagedAudioRecorder.swift": [
+            (
+                "    private var audioSessionDisposable: Disposable?\n",
+                "    private var audioSessionDisposable: Disposable?\n    private var nagramiXAudioSessionGeneration: UInt64 = 0\n",
+            ),
+            (
+                """        if self.audioSessionDisposable == nil {
+            let queue = self.queue
+""",
+                """        if self.audioSessionDisposable == nil {
+            self.nagramiXAudioSessionGeneration &+= 1
+            let generation = self.nagramiXAudioSessionGeneration
+            let queue = self.queue
+""",
+            ),
+            (
+                "                    if let strongSelf = self, !strongSelf.paused {\n",
+                "                    if let strongSelf = self, !strongSelf.paused, strongSelf.nagramiXAudioSessionGeneration == generation {\n",
+            ),
+            (
+                """                        if let strongSelf = self {
+                            strongSelf.hasAudioSession = false
+                            strongSelf.stop()
+                            strongSelf.recordingState.set(.stopped)
+                            subscriber.putCompletion()
+                        }
+""",
+                """                        if let strongSelf = self, strongSelf.nagramiXAudioSessionGeneration == generation {
+                            strongSelf.hasAudioSession = false
+                            strongSelf.stop()
+                            strongSelf.recordingState.set(.stopped)
+                        }
+                        // A released/stale recorder must still release the managed session holder.
+                        subscriber.putCompletion()
+""",
+            ),
+            (
+                """        self.paused = true
+       \x20
+        if let audioUnit = self.audioUnit.swap(nil) {
+""",
+                """        self.paused = true
+        self.hasAudioSession = false
+        self.nagramiXAudioSessionGeneration &+= 1
+       \x20
+        if let audioUnit = self.audioUnit.swap(nil) {
+""",
+            ),
+            (
+                """            guard AudioOutputUnitStart(audioUnit) == noErr else {
+                self.stop()
+                return
+            }
+        }
+""",
+                """            guard AudioOutputUnitStart(audioUnit) == noErr else {
+                self.stop()
+                self.recordingState.set(.stopped)
+                return
+            }
+        } else {
+            self.stop()
+            self.recordingState.set(.stopped)
+        }
+""",
+            ),
+        ],
+        "submodules/Camera/CameraLegacy/Sources/CameraOutput.swift": [
+            (
+                "        let videoRecorder = VideoRecorder(\n",
+                "        let recordingCompletionPipe = ValuePipe<VideoCaptureResult>()\n        self.recordingCompletionPipe = recordingCompletionPipe\n        let videoRecorder = VideoRecorder(\n",
+            ),
+            (
+                """            completion: { [weak self] result in
+                guard let self else {
+                    return
+                }
+                if case let .success(transitionImage, duration, positionChangeTimestamps) = result {
+                    self.recordingCompletionPipe.putNext(
+""",
+                """            completion: { [recordingCompletionPipe] result in
+                if case let .success(transitionImage, duration, positionChangeTimestamps) = result {
+                    recordingCompletionPipe.putNext(
+""",
+            ),
+            (
+                "                    self.recordingCompletionPipe.putNext(.failed)\n",
+                "                    recordingCompletionPipe.putNext(.failed)\n",
+            ),
+            (
+                """        videoRecorder.stop()
+       \x20
+        return self.recordingCompletionPipe.signal()
+        |> take(1)
+        |> afterDisposed {
+            self.videoRecorder = nil
+        }
+""",
+                """        let recordingCompletionPipe = self.recordingCompletionPipe
+        return Signal { subscriber in
+            // The completion pipe is hot: subscribe before stopping even on an immediate failure.
+            let disposable = (recordingCompletionPipe.signal()
+            |> take(1)).start(next: { result in
+                subscriber.putNext(result)
+                subscriber.putCompletion()
+            })
+            videoRecorder.stop()
+            return ActionDisposable {
+                disposable.dispose()
+                if self.videoRecorder === videoRecorder {
+                    self.videoRecorder = nil
+                }
+            }
+        }
+""",
+            ),
+        ],
+        "submodules/Camera/CameraLegacy/Sources/VideoRecorder.swift": [
+            (
+                """            self.recordingStopSampleTime = stopTime
+        }
+    }
+""",
+                """            self.recordingStopSampleTime = stopTime
+            // Interrupted capture may never deliver another audio/video buffer past stopTime.
+            // Drain the data already recorded instead of waiting for absent buffers forever.
+            self.queue.asyncAfter(deadline: .now() + 3.0) { [weak self] in
+                guard let self, !self.stopped else { return }
+                Logger.shared.log("VideoRecorder", "finishing buffered recording after capture drain timeout")
+                let _ = self._stopped.modify { _ in true }
+                self.finish()
+            }
+        }
+    }
+""",
+            ),
+        ],
+        "submodules/Camera/CameraLegacy/Sources/LegacyCamera.swift": [
+            (
+                """                    disposable.set(context.stopRecording().start(next: { value in
+                        subscriber.putNext(value)
+                    }, completed: {
+                        subscriber.putCompletion()
+                    }))
+                }
+""",
+                """                    disposable.set(context.stopRecording().start(next: { value in
+                        subscriber.putNext(value)
+                    }, completed: {
+                        subscriber.putCompletion()
+                    }))
+                } else {
+                    subscriber.putCompletion()
+                }
+""",
+            ),
+        ],
+        "submodules/TelegramUI/Components/VideoMessageCameraScreen/Sources/VideoMessageCameraScreen.swift": [
+            (
+                "        func startVideoRecording(pressing: Bool) {\n",
+                """        func startVideoRecording(pressing: Bool) {
+            guard !self.nagramiXStoppingRecording else { return }
+""",
+            ),
+            (
+                """            let initialDuration = controller.node.previewState?.composition.duration.seconds ?? 0.0
+""",
+                """            self.nagramiXRecordingGeneration &+= 1
+            let generation = self.nagramiXRecordingGeneration
+            let initialDuration = controller.node.previewState?.composition.duration.seconds ?? 0.0
+""",
+            ),
+            (
+                """                    guard let self else {
+                        return
+                    }
+                    self.resultDisposable.set((camera.startRecording()
+""",
+                """                    guard let self, let controller = self.getController(), !controller.isDismissed,
+                          !self.nagramiXStoppingRecording, self.nagramiXRecordingGeneration == generation else {
+                        return
+                    }
+                    self.resultDisposable.set((camera.startRecording()
+""",
+            ),
+            (
+                "        func stopVideoRecording() {\n",
+                "        private var nagramiXStoppingRecording = false\n        private var nagramiXRecordingGeneration: UInt64 = 0\n\n        func stopVideoRecording() {\n",
+            ),
+            (
+                "    private var isDismissed = false\n",
+                "    fileprivate var isDismissed = false\n",
+            ),
+            (
+                """            let currentTimestamp = CACurrentMediaTime()
+            if let lastActionTimestamp = controller.lastActionTimestamp, currentTimestamp - lastActionTimestamp < 0.5 {
+                return
+            }
+            controller.lastActionTimestamp = currentTimestamp
+           \x20
+            self.resultDisposable.set((camera.stopRecording()
+            |> deliverOnMainQueue).startStrict(next: { [weak self] result in
+                if let self, let controller = self.getController(), case let .finished(mainResult, _, duration, _, _) = result {
+""",
+                """            guard !self.nagramiXStoppingRecording else { return }
+            self.nagramiXStoppingRecording = true
+            self.nagramiXRecordingGeneration &+= 1
+            controller.lastActionTimestamp = CACurrentMediaTime()
+            var receivedStopResult = false
+            self.resultDisposable.set((camera.stopRecording()
+            |> timeout(30.0, queue: .mainQueue(), alternate: .single(.failed))
+            |> deliverOnMainQueue).startStrict(next: { [weak self] result in
+                receivedStopResult = true
+                guard let self, let controller = self.getController() else { return }
+                self.nagramiXStoppingRecording = false
+                if case let .finished(mainResult, _, duration, _, _) = result {
+""",
+            ),
+            (
+                """                    controller.updateCameraState({ $0.updatedRecording(.none) }, transition: .spring(duration: 0.4))
+                }
+            }))
+""",
+                """                    controller.updateCameraState({ $0.updatedRecording(.none) }, transition: .spring(duration: 0.4))
+                } else {
+                    controller.completion(nil, nil, nil, nil)
+                }
+            }, completed: { [weak self] in
+                guard !receivedStopResult, let self else { return }
+                self.nagramiXStoppingRecording = false
+                self.getController()?.completion(nil, nil, nil, nil)
+            }))
+""",
+            ),
+            (
+                """                Queue.mainQueue().after(0.05) {
+                    self.node.setupCamera()
+                }
+""",
+                """                Queue.mainQueue().after(0.05) { [weak self] in
+                    guard let self, !self.isDismissed else { return }
+                    self.node.setupCamera()
+                }
+""",
+            ),
+            (
+                """        self.node.camera?.stopCapture(invalidate: true)
+        self.isDismissed = true
+""",
+                """        self.isDismissed = true
+        self.node.camera?.stopCapture(invalidate: true)
+        self.audioSessionDisposable?.dispose()
+        self.audioSessionDisposable = nil
+""",
+            ),
+        ],
+    }
+    outputs: dict[Path, str] = {}
+    for name, substitutions in changes.items():
+        path = source / name
+        text = path.read_text(encoding="utf-8")
+        for old, new in substitutions:
+            if text.count(old) != 1:
+                raise SystemExit(f"Изменился точный якорь повторной записи: {name}")
+            text = text.replace(old, new, 1)
+        outputs[path] = text
+    for path, text in outputs.items():
+        path.write_text(text, encoding="utf-8")
 
 
 def apply_channel_mute_and_exact_time(source: Path) -> None:
@@ -3947,6 +4570,54 @@ private func nagramiXStockStringAndActivityForUserPresence(strings: Presentation
             text = text.replace(old, new, 1)
         prepared[path] = text
     for path, text in prepared.items():
+        path.write_text(text, encoding="utf-8")
+
+
+def apply_gallery_media_modes(source: Path, overlay: Path) -> None:
+    """Standard high-quality photos and original video, with native transport/UI."""
+    inputs = {
+        "submodules/LegacyMediaPickerUI/Sources/LegacyMediaPickers.swift": "40fbb0e9b61397a343ec0fd95ea989a2f283a8f47e7e9b8fc84f432ae0a73abc",
+        "submodules/LocalMediaResources/Sources/FetchPhotoLibraryImageResource.swift": "28cc4c366bac47555af73dd6e9ed7ac6854c19f7617b76d00f290a109592a81b",
+    }
+    for name, expected in inputs.items():
+        path = source / name
+        if not path.is_file() or hashlib.sha256(path.read_bytes()).hexdigest() != expected:
+            raise SystemExit(f"Изменилась проверенная gallery-media интеграция или правка уже применена: {name}")
+    include = overlay / "Sources/LegacyMediaPickerUI/NagramiXOriginalVideos.swift.inc"
+    enqueue = overlay / "Sources/LegacyMediaPickerUI/NagramiXOriginalVideoEnqueue.swift.inc"
+    if not all(path.is_file() for path in (include, enqueue)):
+        raise SystemExit("Отсутствует original-video компонент")
+    picker, fetch = [source / name for name in inputs]
+    changes = {
+        picker: [
+            ("import Photos\n", "import Photos\nimport UniformTypeIdentifiers\n"),
+            ("private enum LegacyAssetItem {\n", "private enum LegacyAssetItem {\n    case originalVideo(file: TelegramMediaFile, caption: NSAttributedString?)\n"),
+            ("        let mediaSettings = NagramiXMediaSettings.current\n", "        let mediaSettings = NagramiXMediaSettings.current\n        let outgoingPhotoQuality = Float(mediaSettings.highQualityPhotos ? 100 : mediaSettings.photoQuality) / 100.0\n        let outgoingPhotoHD = mediaSettings.highQualityPhotos || mediaSettings.sendLargePhotos\n"),
+            ("        let disposable = SSignal.combineSignals(signals).start(next: { anyValues in\n", "        let disposable = nagramiXOriginalVideoPickerValues(account: account, signals: signals, enabled: mediaSettings.originalVideos && originalMediaReference == nil).start(next: { anyValues in\n"),
+            ("            outer: for item in (anyValues as! NSArray) {\n", "            outer: for item in anyValues {\n"),
+            ("                        case let .file(data, thumbnail, mimeType, name, caption):\n", enqueue.read_text(encoding="utf-8") + "                        case let .file(data, thumbnail, mimeType, name, caption):\n"),
+            ("            disposable?.dispose()\n        }\n    }\n}\n", "            disposable.dispose()\n        }\n    }\n}\n"),
+            ("let maxSize = (item.forceHd || mediaSettings.sendLargePhotos) ?", "let maxSize = (item.forceHd || outgoingPhotoHD) ?"),
+            ("let maxSide: CGFloat = (item.forceHd || mediaSettings.sendLargePhotos) ?", "let maxSide: CGFloat = (item.forceHd || outgoingPhotoHD) ?"),
+            ("forceHd: item.forceHd || mediaSettings.sendLargePhotos)", "quality: Int32((outgoingPhotoQuality * 100.0).rounded()), forceHd: item.forceHd || outgoingPhotoHD)"),
+            ("nagramiXCompressImageToJPEG(scaledImage, quality: Float(mediaSettings.jpegQuality), tempFilePath: tempFile.path)", "nagramiXCompressImageToJPEG(scaledImage, quality: outgoingPhotoQuality, tempFilePath: tempFile.path)"),
+        ],
+        fetch: [
+            ("        let mediaSettings = NagramiXMediaSettings.current\n", "        let mediaSettings = NagramiXMediaSettings.current\n        // New photo resources persist the enqueue-time JPEG quality; old nil-q\n        // resources retain their previous preference fallback. Explicit exports\n        // and JPEG XL continue using their native format-specific paths.\n        let outgoingPhotoQuality = quality.map { Float(min(100, max(0, $0))) / 100.0 } ?? Float(mediaSettings.jpegQuality)\n"),
+            ("nagramiXCompressImageToJPEG(scaledImage, quality: Float(mediaSettings.jpegQuality), tempFilePath: tempFile.path)", "nagramiXCompressImageToJPEG(scaledImage, quality: outgoingPhotoQuality, tempFilePath: tempFile.path)"),
+        ],
+    }
+    outputs = {}
+    for path, substitutions in changes.items():
+        text = path.read_text(encoding="utf-8")
+        for old, new in substitutions:
+            if text.count(old) != 1:
+                raise SystemExit(f"Изменился точный якорь gallery-media интеграции: {path.name}")
+            text = text.replace(old, new, 1)
+        if path == picker:
+            text += "\n" + include.read_text(encoding="utf-8")
+        outputs[path] = text
+    for path, text in outputs.items():
         path.write_text(text, encoding="utf-8")
 
 
@@ -8732,6 +9403,11 @@ private func nagramiXCopyProfileId(_ value: Int64, presentationData: Presentatio
     apply_recording_music_default(source)
     apply_voice_autoplay_policy(source)
     apply_channel_mute_and_exact_time(source)
+    apply_authorization_alert_handling(source)
+    apply_recording_session_continuity(source)
+    apply_profile_link_messages(source)
+    apply_gallery_media_modes(source, overlay)
+    apply_unread_chats_first(source, overlay)
 
     if stock_section not in item_list_controller.read_text(encoding="utf-8"):
         raise SystemExit("NagramiX overlay modified Telegram's stock sectionControl branch")

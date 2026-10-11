@@ -12,7 +12,7 @@
 "NagramiX.Settings.Tabs.ShowSearch" = "Показывать кнопку поиска";
 "NagramiX.Settings.Chats.Header" = "ЧАТЫ";
 "NagramiX.Settings.Chats.WideChannelPosts" = "Широкие посты в каналах";
-"NagramiX.Settings.Chats.ActionsOnHold" = "Опции чатов по тапу";
+"NagramiX.Settings.Chats.ActionsOnHold" = "Меню чата по тапу";
 "NagramiX.Settings.Chats.ActionsOnHold.Info" = "Удерживайте любую область строки, кроме аватарки, для штатного меню действий.";
 "NagramiX.Settings.VideoMessages.Header" = "КРУГЛЫЕ ВИДЕО";
 "NagramiX.Settings.VideoMessages.UseRearCamera" = "На заднюю камеру";
@@ -192,8 +192,6 @@
 "NagramiX.Settings.Photos.Header" = "ФОТОГРАФИИ";
 "NagramiX.Settings.Photos.Quality" = "КАЧЕСТВО";
 "NagramiX.Settings.Photos.Quality.Info" = "Качество исходящих фото и фотоисторий. 100% — максимальное качество JPEG, а не отправка оригинала файлом.";
-"NagramiX.Settings.Photos.SendLarge" = "Отправлять большие фото";
-"NagramiX.Settings.Photos.SendLarge.Info" = "Увеличить предел стороны сжатых фото до 2560 пикселей. Маленькие фото не увеличиваются.";
 "NagramiX.Settings.Stickers.Header" = "СТИКЕРЫ И ЭМОДЗИ";
 "NagramiX.Settings.Stickers.Size" = "РАЗМЕР";
 "NagramiX.Settings.Stickers.ShowTime" = "Показывать время";
@@ -203,12 +201,12 @@
 "NagramiX.Settings.Chats.Compact.Info" = "Меньшие аватары и одна строка последнего сообщения. Дополнительные сведения и увеличенный текст учитываются при расчёте высоты. Выключите, чтобы вернуть стандартный вид Telegram.";
 
 "NagramiX.Settings.Video.Header" = "Видео";
-"NagramiX.Settings.Video.PiPSwipe" = "Видео PiP свайпом";
+"NagramiX.Settings.Video.PiPSwipe" = "PiP видео свайпом";
 "NagramiX.Settings.Video.PiPSwipe.Info" = "Свайп вверх или вниз по открытому видео включает режим «Картинка в картинке», если он доступен.";
 "NagramiX.Settings.Video.BackgroundPlayback" = "Воспроизводить видео в фоне";
 "NagramiX.Settings.Video.BackgroundPlayback.Info" = "Продолжать звук запущенного видео при сворачивании приложения и блокировке экрана.";
 
-"NagramiX.Settings.Chats.ChannelBottomPanel" = "Нижняя панель канала";
+"NagramiX.Settings.Chats.ChannelBottomPanel" = "Показывать панель канала";
 "NagramiX.Settings.Chats.ChannelBottomPanel.Info" = "Показывать штатную нижнюю панель подписанного канала: уведомления, поиск и доступные действия. При выключении панель скрыта. Кнопка подписки и поле публикации постов сохраняются.";
 
 "NagramiX.Settings.Messages.DoubleTapEdit" = "Редактирование двойным тапом";
@@ -249,13 +247,41 @@
 "NagramiX.Settings.Chats.HideGreetingSticker" = "Скрывать приветственный стикер";
 "NagramiX.Settings.Chats.HideGreetingSticker.Info" = "В пустом личном чате показывать «Здесь пока нет сообщений» вместо приветственного стикера или приветствия собеседника. Приветственный стикер не загружается.";
 
-"NagramiX.Settings.VideoMessages.KeepMusicPlaying" = "Не останавливать музыку при записи кружка";
+"NagramiX.Settings.VideoMessages.KeepMusicPlaying" = "Музыка при записи";
 "NagramiX.Settings.VideoMessages.KeepMusicPlaying.Info" = "Музыка в других приложениях продолжает играть при записи кружка или голосового сообщения. Микрофон может записать звук из динамика — используйте наушники.";
 
-"NagramiX.Settings.Messages.DisableVoiceAutoplay" = "Отключить автовоспроизведение голосовых";
-"NagramiX.Settings.Messages.DisableVoiceAutoplay.Info" = "После окончания голосового сообщения или кружка следующее не запускается автоматически.";
+"NagramiX.Settings.Messages.VoiceAutoplay" = "Автопереход голосовых";
+"NagramiX.Settings.Messages.VoiceAutoplay.Info" = "Автоматически включать следующее голосовое сообщение или кружок после окончания текущего.";
 
 "NagramiX.Settings.Messages.AutoMuteNewChannels" = "Авто-мьют новых каналов";
 "NagramiX.Settings.Messages.AutoMuteNewChannels.Info" = "Автоматически отключать уведомления при подписке на новый канал. Настройки уже добавленных каналов и групп не меняются.";
-"NagramiX.Settings.Profiles.ShowExactLastSeen" = "Показывать точное время";
+"NagramiX.Settings.Profiles.ShowExactLastSeen" = "Точное время статуса";
 "NagramiX.Settings.Profiles.ShowExactLastSeen.Info" = "Добавлять к статусу последнее время посещения в формате (ЧЧ:ММ:СС), если оно доступно. Скрытые статусы остаются без изменений.";
+
+"NagramiX.Authorization.Error" = "Ошибка авторизации. Нажмите «Выйти», затем снова войдите по своему номеру телефона.\n\nВажно: выход из аккаунта удалит секретные чаты на этом устройстве. Если нужно сохранить данные из них, нажмите «Отмена» и сохраните их перед выходом.";
+
+"NagramiX.ProfileLink.Title" = "Ссылка на профиль";
+"NagramiX.ProfileLink.Enabled" = "Ссылка в сообщениях";
+"NagramiX.ProfileLink.On" = "Включено";
+"NagramiX.ProfileLink.Off" = "Выключено";
+"NagramiX.ProfileLink.Info" = "При включении текст новых сообщений и подписи к медиа будут вести на выбранный профиль. Существующие ссылки, упоминания и код сохраняются. Старые сообщения не изменяются.";
+"NagramiX.ProfileLink.TargetHeader" = "Профиль для ссылки";
+"NagramiX.ProfileLink.Target" = "Профиль";
+"NagramiX.ProfileLink.Mine" = "Мой профиль";
+"NagramiX.ProfileLink.UseMine" = "Использовать мой профиль";
+"NagramiX.ProfileLink.Open" = "Открыть профиль";
+"NagramiX.ProfileLink.Id" = "ID профиля";
+"NagramiX.ProfileLink.Editor" = "Выбрать профиль по ID";
+"NagramiX.ProfileLink.IdHint" = "Введите числовой ID пользователя. Его можно скопировать из профиля. Чтобы выбрать другого пользователя, сначала откройте его профиль в этом аккаунте NagramiX.";
+"NagramiX.ProfileLink.InvalidId" = "Введите корректный числовой ID пользователя без знака минус, букв и ссылок.";
+"NagramiX.ProfileLink.Unavailable" = "Профиль недоступен";
+"NagramiX.ProfileLink.NotFound" = "Этот профиль пока недоступен в текущем аккаунте. Откройте его через поиск или переписку, затем повторите выбор ID. Пока профиль недоступен, сообщения отправляются без этой ссылки.";
+"NagramiX.ProfileLink.PreviewInfo" = "Кнопка «Открыть профиль» помогает проверить, куда будет вести ссылка. Автор сообщения остаётся прежним.";
+
+"NagramiX.Settings.Photos.HighQuality" = "Фото без сжатия";
+"NagramiX.Settings.Videos.Original" = "Видео без сжатия";
+"NagramiX.Settings.Videos.Original.Search" = "Оригинальное видео из галереи без сжатия, MP4 MOV, качество, видеоплеер.";
+"NagramiX.Settings.Photos.HighQuality.Search" = "Фотографии максимального качества, обычное фото во всех клиентах, JPEG 100%, HD 2560. Фото без сжатия: сохранение оригинальных байтов не гарантируется.";
+
+"NagramiX.Settings.Chats.UnreadFirst" = "Непрочитанные сверху";
+"NagramiX.Settings.Chats.UnreadFirst.Search" = "Сортировка чатов, групп и каналов во всех папках по числу непрочитанных. Закреплённые сохраняют порядок. Без звука и уведомлений.";

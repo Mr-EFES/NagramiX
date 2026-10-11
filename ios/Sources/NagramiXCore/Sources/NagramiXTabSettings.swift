@@ -37,6 +37,7 @@ public struct NagramiXTabSettings: Equatable {
     public static let dnsChangedNotification = Notification.Name("NagramiXDnsSettingsChanged")
     public static let softRestartRequestedNotification = Notification.Name("NagramiXTabInterfaceSoftRestartRequested")
 
+    public static let unreadChatsFirstChangedNotification = Notification.Name("NagramiXUnreadChatsFirstChanged")
     public static let compactChatListChangedNotification = Notification.Name("NagramiXCompactChatListChanged")
     public static let channelBottomPanelChangedNotification = Notification.Name("NagramiXChannelBottomPanelChanged")
     public static let hideReactionsChangedNotification = Notification.Name("NagramiXHideReactionsChanged")
@@ -48,13 +49,17 @@ public struct NagramiXTabSettings: Equatable {
         static let wideChannelPosts = "nagramix.interface.wideChannelPosts"
         static let videoPiPSwipe = "nagramix.video.pipSwipe"
         static let backgroundVideoPlayback = "nagramix.video.backgroundPlayback"
+        static let unreadChatsFirst = "nagramix.interface.unreadChatsFirst"
         static let compactChatList = "nagramix.interface.compactChatList"
         static let showChannelBottomPanel = "nagramix.interface.showChannelBottomPanel"
         static let doubleTapEdit = "nagramix.features.doubleTapEdit"
         static let hideReactions = "nagramix.interface.hideReactions"
         static let hideGreetingSticker = "nagramix.interface.hideGreetingSticker"
-        static let disableVoiceAutoplay = "nagramix.messages.disableVoiceAutoplay"
+        // Keep the existing inverse storage key so updates preserve the user's behavior.
+        static let legacyDisableVoiceAutoplay = "nagramix.messages.disableVoiceAutoplay"
         static let autoMuteNewChannels = "nagramix.messages.autoMuteNewChannels"
+        static let profileLinkEnabled = "nagramix.messages.profileLinkEnabled"
+        static let profileLinkUserId = "nagramix.messages.profileLinkUserId"
         static let showExactLastSeen = "nagramix.profiles.showExactLastSeen"
         static let chatActionsOnHold = "nagramix.interface.chatActionsOnHold"
         static let showForwardWithoutAuthor = "nagramix.contextMenu.showForwardWithoutAuthor"
@@ -90,13 +95,16 @@ public struct NagramiXTabSettings: Equatable {
     public var wideChannelPosts: Bool
     public var videoPiPSwipe: Bool
     public var backgroundVideoPlayback: Bool
+    public var unreadChatsFirst: Bool
     public var compactChatList: Bool
     public var showChannelBottomPanel: Bool
     public var doubleTapEdit: Bool
     public var hideReactions: Bool
     public var hideGreetingSticker: Bool
-    public var disableVoiceAutoplay: Bool
+    public var voiceAutoplay: Bool
     public var autoMuteNewChannels: Bool
+    public var profileLinkEnabled: Bool
+    public var profileLinkUserId: String
     public var showExactLastSeen: Bool
     public var downloads: NagramiXDownloadSettings
     public var chatActionsOnHold: Bool
@@ -167,9 +175,12 @@ public struct NagramiXTabSettings: Equatable {
         anonymousStoryViewing: Bool = false,
         avoidProxyWithVPN: Bool = false,
         hideGreetingSticker: Bool = true,
-        disableVoiceAutoplay: Bool = true,
+        voiceAutoplay: Bool = false,
         autoMuteNewChannels: Bool = true,
-        showExactLastSeen: Bool = false
+        showExactLastSeen: Bool = false,
+        profileLinkEnabled: Bool = false,
+        profileLinkUserId: String = "",
+        unreadChatsFirst: Bool = true
     ) {
         self.hideContacts = hideContacts
         self.hideCalls = hideCalls
@@ -177,13 +188,16 @@ public struct NagramiXTabSettings: Equatable {
         self.wideChannelPosts = wideChannelPosts
         self.videoPiPSwipe = videoPiPSwipe
         self.backgroundVideoPlayback = backgroundVideoPlayback
+        self.unreadChatsFirst = unreadChatsFirst
         self.compactChatList = compactChatList
         self.showChannelBottomPanel = showChannelBottomPanel
         self.doubleTapEdit = doubleTapEdit
         self.hideReactions = hideReactions
         self.hideGreetingSticker = hideGreetingSticker
-        self.disableVoiceAutoplay = disableVoiceAutoplay
+        self.voiceAutoplay = voiceAutoplay
         self.autoMuteNewChannels = autoMuteNewChannels
+        self.profileLinkEnabled = profileLinkEnabled
+        self.profileLinkUserId = profileLinkUserId
         self.showExactLastSeen = showExactLastSeen
         self.downloads = downloads
         self.chatActionsOnHold = chatActionsOnHold
@@ -223,12 +237,23 @@ public struct NagramiXTabSettings: Equatable {
         return UserDefaults.standard.object(forKey: Key.backgroundVideoPlayback) as? Bool ?? true
     }
 
+    public static var unreadChatsFirstEnabled: Bool {
+        return UserDefaults.standard.object(forKey: Key.unreadChatsFirst) as? Bool ?? true
+    }
+
     public static var compactChatListEnabled: Bool {
         return UserDefaults.standard.object(forKey: Key.compactChatList) as? Bool ?? false
     }
 
     public static var doubleTapEditEnabled: Bool {
         return UserDefaults.standard.object(forKey: Key.doubleTapEdit) as? Bool ?? false
+    }
+
+    public static func normalizedProfileLinkUserId(_ value: String) -> String? {
+        let value = value.trimmingCharacters(in: .whitespacesAndNewlines)
+        guard !value.isEmpty, value.utf8.allSatisfy({ $0 >= 48 && $0 <= 57 }),
+              let id = Int64(value), id > 0, id <= 0x00ff_ffff_ffff_ffff else { return nil }
+        return String(id)
     }
 
     public static var autoMuteNewChannelsEnabled: Bool {
@@ -239,8 +264,8 @@ public struct NagramiXTabSettings: Equatable {
         return UserDefaults.standard.object(forKey: Key.showExactLastSeen) as? Bool ?? false
     }
 
-    public static var voiceAutoplayDisabled: Bool {
-        return UserDefaults.standard.object(forKey: Key.disableVoiceAutoplay) as? Bool ?? true
+    public static var voiceAutoplayEnabled: Bool {
+        return !(UserDefaults.standard.object(forKey: Key.legacyDisableVoiceAutoplay) as? Bool ?? true)
     }
 
     public static var hideGreetingStickerEnabled: Bool {
@@ -312,14 +337,18 @@ public struct NagramiXTabSettings: Equatable {
             anonymousStoryViewing: self.anonymousStoryViewingEnabled,
             avoidProxyWithVPN: defaults.object(forKey: Key.avoidProxyWithVPN) as? Bool ?? false,
             hideGreetingSticker: self.hideGreetingStickerEnabled,
-            disableVoiceAutoplay: self.voiceAutoplayDisabled,
+            voiceAutoplay: self.voiceAutoplayEnabled,
             autoMuteNewChannels: self.autoMuteNewChannelsEnabled,
-            showExactLastSeen: self.exactLastSeenEnabled
+            showExactLastSeen: self.exactLastSeenEnabled,
+            profileLinkEnabled: defaults.object(forKey: Key.profileLinkEnabled) as? Bool ?? false,
+            profileLinkUserId: defaults.string(forKey: Key.profileLinkUserId) ?? "",
+            unreadChatsFirst: self.unreadChatsFirstEnabled
         )
     }
 
     public static func update(_ transform: (inout NagramiXTabSettings) -> Void) {
         var value = self.current
+        let previousUnreadChatsFirst = value.unreadChatsFirst
         let previousCompactChatList = value.compactChatList
         let previousChannelBottomPanel = value.showChannelBottomPanel
         let previousHideReactions = value.hideReactions
@@ -336,13 +365,16 @@ public struct NagramiXTabSettings: Equatable {
         defaults.set(value.wideChannelPosts, forKey: Key.wideChannelPosts)
         defaults.set(value.videoPiPSwipe, forKey: Key.videoPiPSwipe)
         defaults.set(value.backgroundVideoPlayback, forKey: Key.backgroundVideoPlayback)
+        defaults.set(value.unreadChatsFirst, forKey: Key.unreadChatsFirst)
         defaults.set(value.compactChatList, forKey: Key.compactChatList)
         defaults.set(value.showChannelBottomPanel, forKey: Key.showChannelBottomPanel)
         defaults.set(value.doubleTapEdit, forKey: Key.doubleTapEdit)
         defaults.set(value.hideReactions, forKey: Key.hideReactions)
         defaults.set(value.hideGreetingSticker, forKey: Key.hideGreetingSticker)
-        defaults.set(value.disableVoiceAutoplay, forKey: Key.disableVoiceAutoplay)
+        defaults.set(!value.voiceAutoplay, forKey: Key.legacyDisableVoiceAutoplay)
         defaults.set(value.autoMuteNewChannels, forKey: Key.autoMuteNewChannels)
+        defaults.set(value.profileLinkEnabled, forKey: Key.profileLinkEnabled)
+        defaults.set(value.profileLinkUserId, forKey: Key.profileLinkUserId)
         defaults.set(value.showExactLastSeen, forKey: Key.showExactLastSeen)
         defaults.set(value.chatActionsOnHold, forKey: Key.chatActionsOnHold)
         defaults.set(value.useRearCameraForVideoMessages, forKey: Key.useRearCameraForVideoMessages)
@@ -382,6 +414,9 @@ public struct NagramiXTabSettings: Equatable {
         }
         if previousChannelBottomPanel != value.showChannelBottomPanel {
             NotificationCenter.default.post(name: self.channelBottomPanelChangedNotification, object: nil)
+        }
+        if previousUnreadChatsFirst != value.unreadChatsFirst {
+            NotificationCenter.default.post(name: self.unreadChatsFirstChangedNotification, object: nil)
         }
         if previousCompactChatList != value.compactChatList {
             NotificationCenter.default.post(name: self.compactChatListChangedNotification, object: nil)

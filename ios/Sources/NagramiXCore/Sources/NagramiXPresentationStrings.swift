@@ -23,6 +23,24 @@ private extension PresentationStrings {
 }
 
 public extension PresentationStrings {
+    var nagramiXProfileLinkTitle: String { self.nagramiXLocalized("NagramiX.ProfileLink.Title") }
+    var nagramiXProfileLinkEnabled: String { self.nagramiXLocalized("NagramiX.ProfileLink.Enabled") }
+    var nagramiXProfileLinkOn: String { self.nagramiXLocalized("NagramiX.ProfileLink.On") }
+    var nagramiXProfileLinkOff: String { self.nagramiXLocalized("NagramiX.ProfileLink.Off") }
+    var nagramiXProfileLinkInfo: String { self.nagramiXLocalized("NagramiX.ProfileLink.Info") }
+    var nagramiXProfileLinkTargetHeader: String { self.nagramiXLocalized("NagramiX.ProfileLink.TargetHeader") }
+    var nagramiXProfileLinkTarget: String { self.nagramiXLocalized("NagramiX.ProfileLink.Target") }
+    var nagramiXProfileLinkMine: String { self.nagramiXLocalized("NagramiX.ProfileLink.Mine") }
+    var nagramiXProfileLinkUseMine: String { self.nagramiXLocalized("NagramiX.ProfileLink.UseMine") }
+    var nagramiXProfileLinkOpen: String { self.nagramiXLocalized("NagramiX.ProfileLink.Open") }
+    var nagramiXProfileLinkId: String { self.nagramiXLocalized("NagramiX.ProfileLink.Id") }
+    var nagramiXProfileLinkEditor: String { self.nagramiXLocalized("NagramiX.ProfileLink.Editor") }
+    var nagramiXProfileLinkIdHint: String { self.nagramiXLocalized("NagramiX.ProfileLink.IdHint") }
+    var nagramiXProfileLinkInvalidId: String { self.nagramiXLocalized("NagramiX.ProfileLink.InvalidId") }
+    var nagramiXProfileLinkUnavailable: String { self.nagramiXLocalized("NagramiX.ProfileLink.Unavailable") }
+    var nagramiXProfileLinkNotFound: String { self.nagramiXLocalized("NagramiX.ProfileLink.NotFound") }
+    var nagramiXProfileLinkPreviewInfo: String { self.nagramiXLocalized("NagramiX.ProfileLink.PreviewInfo") }
+
     func nagramiXDebugLocalized(_ english: String) -> String {
         let key = "NagramiX.Debug." + english
         let value = self.nagramiXLocalized(key)
@@ -67,14 +85,18 @@ public extension PresentationStrings {
     var nagramiXChannelBottomPanelInfo: String { self.nagramiXLocalized("NagramiX.Settings.Chats.ChannelBottomPanel.Info") }
     var nagramiXWideChannelPosts: String { self.nagramiXLocalized("NagramiX.Settings.Chats.WideChannelPosts") }
     var nagramiXChatActionsOnHold: String { self.nagramiXLocalized("NagramiX.Settings.Chats.ActionsOnHold") }
+    var nagramiXUnreadChatsFirst: String { self.nagramiXLocalized("NagramiX.Settings.Chats.UnreadFirst") }
+    var nagramiXUnreadChatsFirstSearch: String { self.nagramiXLocalized("NagramiX.Settings.Chats.UnreadFirst.Search") }
     var nagramiXCompactChatList: String { self.nagramiXLocalized("NagramiX.Settings.Chats.Compact") }
     var nagramiXCompactChatListInfo: String { self.nagramiXLocalized("NagramiX.Settings.Chats.Compact.Info") }
     var nagramiXChatActionsOnHoldInfo: String { self.nagramiXLocalized("NagramiX.Settings.Chats.ActionsOnHold.Info") }
     var nagramiXPhotosHeader: String { self.nagramiXLocalized("NagramiX.Settings.Photos.Header") }
     var nagramiXPhotoQuality: String { self.nagramiXLocalized("NagramiX.Settings.Photos.Quality") }
     var nagramiXPhotoQualityInfo: String { self.nagramiXLocalized("NagramiX.Settings.Photos.Quality.Info") }
-    var nagramiXSendLargePhotos: String { self.nagramiXLocalized("NagramiX.Settings.Photos.SendLarge") }
-    var nagramiXSendLargePhotosInfo: String { self.nagramiXLocalized("NagramiX.Settings.Photos.SendLarge.Info") }
+    var nagramiXHighQualityPhotos: String { self.nagramiXLocalized("NagramiX.Settings.Photos.HighQuality") }
+    var nagramiXHighQualityPhotosSearch: String { self.nagramiXLocalized("NagramiX.Settings.Photos.HighQuality.Search") }
+    var nagramiXOriginalVideos: String { self.nagramiXLocalized("NagramiX.Settings.Videos.Original") }
+    var nagramiXOriginalVideosSearch: String { self.nagramiXLocalized("NagramiX.Settings.Videos.Original.Search") }
     var nagramiXStickersHeader: String { self.nagramiXLocalized("NagramiX.Settings.Stickers.Header") }
     var nagramiXStickerSize: String { self.nagramiXLocalized("NagramiX.Settings.Stickers.Size") }
     var nagramiXShowStickerTime: String { self.nagramiXLocalized("NagramiX.Settings.Stickers.ShowTime") }
@@ -160,8 +182,8 @@ public extension PresentationStrings {
     var nagramiXConfirmOutgoingCalls: String { self.nagramiXLocalized("NagramiX.Settings.Calls.ConfirmOutgoing") }
     var nagramiXForceTcpCalls: String { self.nagramiXLocalized("NagramiX.Settings.Calls.ForceTcp") }
     var nagramiXForceTcpCallsInfo: String { self.nagramiXLocalized("NagramiX.Settings.Calls.ForceTcpInfo") }
-    var nagramiXDisableVoiceAutoplay: String { self.nagramiXLocalized("NagramiX.Settings.Messages.DisableVoiceAutoplay") }
-    var nagramiXDisableVoiceAutoplayInfo: String { self.nagramiXLocalized("NagramiX.Settings.Messages.DisableVoiceAutoplay.Info") }
+    var nagramiXVoiceAutoplay: String { self.nagramiXLocalized("NagramiX.Settings.Messages.VoiceAutoplay") }
+    var nagramiXVoiceAutoplayInfo: String { self.nagramiXLocalized("NagramiX.Settings.Messages.VoiceAutoplay.Info") }
     var nagramiXMessagesHeader: String { self.nagramiXLocalized("NagramiX.Settings.Messages.Header") }
     var nagramiXDeletedMessages: String { self.nagramiXLocalized("NagramiX.Settings.Messages.Deleted") }
     var nagramiXDeletedMessagesInfo: String { self.nagramiXLocalized("NagramiX.Settings.Messages.DeletedInfo") }
@@ -207,4 +229,6 @@ public extension PresentationStrings {
     var nagramiXAutoMuteNewChannelsInfo: String { self.nagramiXLocalized("NagramiX.Settings.Messages.AutoMuteNewChannels.Info") }
     var nagramiXShowExactLastSeen: String { self.nagramiXLocalized("NagramiX.Settings.Profiles.ShowExactLastSeen") }
     var nagramiXShowExactLastSeenInfo: String { self.nagramiXLocalized("NagramiX.Settings.Profiles.ShowExactLastSeen.Info") }
+    var nagramiXAuthorizationError: String { self.nagramiXLocalized("NagramiX.Authorization.Error") }
+
 }

@@ -12,7 +12,7 @@
 "NagramiX.Settings.Tabs.ShowSearch" = "Show Search Button";
 "NagramiX.Settings.Chats.Header" = "CHATS";
 "NagramiX.Settings.Chats.WideChannelPosts" = "Wide Channel Posts";
-"NagramiX.Settings.Chats.ActionsOnHold" = "Chat Options on Long Press";
+"NagramiX.Settings.Chats.ActionsOnHold" = "Chat Menu on Hold";
 "NagramiX.Settings.Chats.ActionsOnHold.Info" = "Long press any area of a row except the avatar for the standard actions menu.";
 "NagramiX.Settings.VideoMessages.Header" = "VIDEO MESSAGES";
 "NagramiX.Settings.VideoMessages.UseRearCamera" = "Use Rear Camera";
@@ -118,8 +118,6 @@
 "NagramiX.Settings.Photos.Header" = "PHOTOS";
 "NagramiX.Settings.Photos.Quality" = "QUALITY";
 "NagramiX.Settings.Photos.Quality.Info" = "Quality of outgoing photos and photo stories. 100% is maximum JPEG quality, not an original file.";
-"NagramiX.Settings.Photos.SendLarge" = "Send Large Photos";
-"NagramiX.Settings.Photos.SendLarge.Info" = "Increase the compressed photo side limit to 2560 pixels. Small photos are not upscaled.";
 "NagramiX.Settings.Stickers.Header" = "STICKERS AND EMOJI";
 "NagramiX.Settings.Stickers.Size" = "SIZE";
 "NagramiX.Settings.Stickers.ShowTime" = "Show Time";
@@ -129,12 +127,12 @@
 "NagramiX.Settings.Chats.Compact.Info" = "Smaller avatars and one line for the last message. Additional details and larger text are included in the row height. Turn off to restore the standard Telegram layout.";
 
 "NagramiX.Settings.Video.Header" = "Video";
-"NagramiX.Settings.Video.PiPSwipe" = "Video PiP by swipe";
+"NagramiX.Settings.Video.PiPSwipe" = "Video PiP by Swipe";
 "NagramiX.Settings.Video.PiPSwipe.Info" = "Swiping up or down on an open video starts Picture in Picture when available.";
 "NagramiX.Settings.Video.BackgroundPlayback" = "Play video in background";
 "NagramiX.Settings.Video.BackgroundPlayback.Info" = "Continue audio from a playing video when the app is minimized or the screen is locked.";
 
-"NagramiX.Settings.Chats.ChannelBottomPanel" = "Channel Bottom Panel";
+"NagramiX.Settings.Chats.ChannelBottomPanel" = "Show Channel Panel";
 "NagramiX.Settings.Chats.ChannelBottomPanel.Info" = "Show the standard bottom panel in subscribed channels: notifications, search and available actions. Turn off to hide the panel. Join buttons and the post composer remain available.";
 
 "NagramiX.Settings.Messages.DoubleTapEdit" = "Edit on Double Tap";
@@ -175,13 +173,41 @@
 "NagramiX.Settings.Chats.HideGreetingSticker" = "Hide greeting sticker";
 "NagramiX.Settings.Chats.HideGreetingSticker.Info" = "Show the empty-chat message instead of the greeting sticker or the other person’s introduction. The greeting sticker is not downloaded.";
 
-"NagramiX.Settings.VideoMessages.KeepMusicPlaying" = "Keep music playing while recording video messages";
+"NagramiX.Settings.VideoMessages.KeepMusicPlaying" = "Music While Recording";
 "NagramiX.Settings.VideoMessages.KeepMusicPlaying.Info" = "Music in other apps keeps playing while you record a video or voice message. The microphone may pick up sound from the speaker — use headphones.";
 
-"NagramiX.Settings.Messages.DisableVoiceAutoplay" = "Disable automatic voice message playback";
-"NagramiX.Settings.Messages.DisableVoiceAutoplay.Info" = "The next voice or video message does not start automatically when the current one finishes.";
+"NagramiX.Settings.Messages.VoiceAutoplay" = "Voice Auto-Next";
+"NagramiX.Settings.Messages.VoiceAutoplay.Info" = "Automatically play the next voice or video message when the current one finishes.";
 
 "NagramiX.Settings.Messages.AutoMuteNewChannels" = "Auto-mute new channels";
 "NagramiX.Settings.Messages.AutoMuteNewChannels.Info" = "Automatically mute notifications when joining a new channel. Existing channels and groups keep their settings.";
-"NagramiX.Settings.Profiles.ShowExactLastSeen" = "Show exact last seen time";
+"NagramiX.Settings.Profiles.ShowExactLastSeen" = "Exact Last Seen Time";
 "NagramiX.Settings.Profiles.ShowExactLastSeen.Info" = "Append the last seen time as (HH:mm:ss) when it is available. Hidden statuses remain unchanged.";
+
+"NagramiX.Authorization.Error" = "Authorization error. Use the \"Log out\" button to log out, then log in again with your phone number.\n\nNote: Logging out will remove your Secret Chats on this device. Use the \"Cancel\" button to save any needed data from your secret chats before proceeding.";
+
+"NagramiX.ProfileLink.Title" = "Profile link";
+"NagramiX.ProfileLink.Enabled" = "Link in messages";
+"NagramiX.ProfileLink.On" = "On";
+"NagramiX.ProfileLink.Off" = "Off";
+"NagramiX.ProfileLink.Info" = "When enabled, new message text and media captions link to the selected profile. Existing links, mentions and code stay intact. Previously sent messages are unchanged.";
+"NagramiX.ProfileLink.TargetHeader" = "Link destination";
+"NagramiX.ProfileLink.Target" = "Profile";
+"NagramiX.ProfileLink.Mine" = "My profile";
+"NagramiX.ProfileLink.UseMine" = "Use my profile";
+"NagramiX.ProfileLink.Open" = "Open profile";
+"NagramiX.ProfileLink.Id" = "Profile ID";
+"NagramiX.ProfileLink.Editor" = "Choose profile by ID";
+"NagramiX.ProfileLink.IdHint" = "Enter a numeric user ID. You can copy it from a profile. To select another user, first open their profile in this NagramiX account.";
+"NagramiX.ProfileLink.InvalidId" = "Enter a valid numeric user ID without a minus sign, letters or links.";
+"NagramiX.ProfileLink.Unavailable" = "Profile unavailable";
+"NagramiX.ProfileLink.NotFound" = "This profile is not yet available in the current account. Open it through search or a conversation, then try its ID again. Messages are sent without this link while the profile is unavailable.";
+"NagramiX.ProfileLink.PreviewInfo" = "Use Open profile to check the link destination. The message sender stays the same.";
+
+"NagramiX.Settings.Photos.HighQuality" = "Photos Without Compression";
+"NagramiX.Settings.Videos.Original" = "Videos Without Compression";
+"NagramiX.Settings.Videos.Original.Search" = "Original gallery video without compression, MP4 MOV, quality, video player.";
+"NagramiX.Settings.Photos.HighQuality.Search" = "Maximum quality photos, standard photo in Telegram clients, JPEG 100%, HD 2560. Original file bytes are not guaranteed.";
+
+"NagramiX.Settings.Chats.UnreadFirst" = "Unread Chats First";
+"NagramiX.Settings.Chats.UnreadFirst.Search" = "Sort chats, groups and channels in every folder by unread count. Keep pinned order. Muted chats and notifications.";

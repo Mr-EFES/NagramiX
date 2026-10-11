@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "product": "NagramiX",
-  "release": "0.5.1",
+  "release": "0.5.2",
   "platformPriority": [
     "ios"
   ],
@@ -222,17 +222,17 @@
       "specification": "specified",
       "ios": {
         "implementation": "implemented",
-        "compile": "compile_passed",
+        "compile": "compile_pending",
         "device": "device_pending"
       }
     },
     {
       "id": "media_controls",
-      "title": "Качество фото и фотоисторий, большие фото, размер стикеров/эмодзи и время",
+      "title": "Качество фото и фотоисторий, размер стикеров/эмодзи и время",
       "specification": "specified",
       "ios": {
         "implementation": "implemented",
-        "compile": "compile_passed",
+        "compile": "compile_pending",
         "device": "device_pending"
       }
     },
@@ -362,17 +362,17 @@
       "specification": "specified",
       "ios": {
         "implementation": "implemented",
-        "compile": "compile_passed",
+        "compile": "compile_pending",
         "device": "device_pending"
       }
     },
     {
       "id": "voice_autoplay_control",
-      "title": "Отключить автовоспроизведение голосовых",
+      "title": "Автовоспроизведение голосовых",
       "specification": "specified",
       "ios": {
         "implementation": "implemented",
-        "compile": "compile_passed",
+        "compile": "compile_pending",
         "device": "device_pending"
       }
     },
@@ -393,6 +393,56 @@
       "ios": {
         "implementation": "implemented",
         "compile": "compile_passed",
+        "device": "device_pending"
+      }
+    },
+    {
+      "id": "authorization_alert_handling",
+      "title": "Обработка и диагностика предупреждений авторизации",
+      "specification": "specified",
+      "ios": {
+        "implementation": "implemented",
+        "compile": "compile_pending",
+        "device": "device_pending"
+      }
+    },
+    {
+      "id": "profile_link_messages",
+      "title": "Ссылка на профиль в сообщениях",
+      "specification": "specified",
+      "ios": {
+        "implementation": "implemented",
+        "compile": "compile_pending",
+        "device": "device_pending"
+      }
+    },
+    {
+      "id": "high_quality_photos",
+      "title": "Фото максимального качества со штатным просмотрщиком Telegram",
+      "specification": "specified",
+      "ios": {
+        "implementation": "implemented",
+        "compile": "compile_pending",
+        "device": "device_pending"
+      }
+    },
+    {
+      "id": "original_videos",
+      "title": "Видео без сжатия: оригинал галереи со штатным видеоплеером",
+      "specification": "specified",
+      "ios": {
+        "implementation": "implemented",
+        "compile": "compile_pending",
+        "device": "device_pending"
+      }
+    },
+    {
+      "id": "unread_chats_first",
+      "title": "Непрочитанные сверху во всех папках",
+      "specification": "specified",
+      "ios": {
+        "implementation": "implemented",
+        "compile": "compile_pending",
         "device": "device_pending"
       }
     }
