@@ -4,13 +4,13 @@
 
 Точный диагноз Apple Swift compiler: `ApplicationContext.swift:791:65: cannot assign value of type 'ViewController' to type 'AlertController'`. Factory `textAlertController(context:...)` возвращает `ViewController`; добавленная weak property ошибочно имела более узкий тип. В durable overlay исправлен только тип `nagramiXAuthorizationAlert` на `ViewController?`, без force casts. Weak ownership, Cancel/Logout, localization, dedupe/cooldown и native auth/logout paths прежние.
 
-По постоянному правилу пользователя новую компиляцию нельзя повторять той же версии: готовится0.5.3. Предыдущие releases/tags/assets сохранены.
+По уточнённому правилу пользователя исправления и повторные попытки до успешного выпуска сохраняют0.5.3. Версия повышается только для следующего рабочего выпуска. Отслеживание и необходимые повторы разрешены до готового проверенного IPA. Предыдущие releases/tags/assets сохранены.
 
 | Параметр | Состояние |
 | --- | --- |
 | Версия | 0.5.3 |
 | База | Telegram-iOS13.0, `f1dd7a2dbd02cbbf513e75d5695d8d36d1cf5838` |
-| Сборка | №86, [workflow](https://github.com/Mr-EFES/NagramiX/actions/runs/38176187919), queued/in_progress, clean_build=true |
+| Сборка | №86, [workflow](https://github.com/Mr-EFES/NagramiX/actions/runs/38176187919), in_progress: нативная компиляция, clean_build=true |
 | Публикация | Новый тестовый релиз, publish_release=true/prerelease=true |
 | Повторное использование IPA | Нет, artifact_run_id пустой |
 | Совместимость | iPhone ARM64, iOS15.0+; внешняя подпись |
