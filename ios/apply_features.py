@@ -5045,7 +5045,11 @@ def apply_nagramix_onboarding(source: Path, overlay: Path) -> None:
     artwork_path = source / "submodules/RMIntro/Sources/platform/ios/NagramiXOnboardingArtwork.m"
     if artwork_path.exists():
         raise SystemExit("Onboarding source conflict")
-    patch(build, '    resources = [\n        ":LaunchScreen",\n', '    resources = [\n        ":LaunchScreen",\n        "Telegram-iOS/Resources/NagramiXOnboarding/NagramiXOnboardingLogo.png",\n        "Telegram-iOS/Resources/NagramiXOnboarding/NagramiXOnboardingAtlas.png",\n')
+    # AppResources already supplies this directory through Lib.data. Adding
+    # the same PNGs to ios_application.resources duplicates their bundle paths.
+    resource_group = '    name = "AppResources",\n    srcs = glob([\n        "Telegram-iOS/Resources/**/*",\n    ], exclude = ["Telegram-iOS/Resources/**/.*"]),\n'
+    if texts[build].count(resource_group) != 1 or texts[build].count('        ":AppResources",\n') != 1:
+        raise SystemExit("Onboarding native resource ownership drift")
     for name, text in texts.items():
         (source / name).write_text(text, encoding="utf-8")
     shutil.copy2(overlay / "Sources/RMIntro/NagramiXOnboardingArtwork.m", artwork_path)
