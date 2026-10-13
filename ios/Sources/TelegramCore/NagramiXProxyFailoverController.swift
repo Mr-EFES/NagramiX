@@ -1,4 +1,5 @@
 import Foundation
+import NagramiXMediaSettings
 import SwiftSignalKit
 
 private enum NagramiXNetworkSettingsBridge {
@@ -165,6 +166,7 @@ final class NagramiXProxyFailoverController {
     }
 
     private func updateSettings(_ value: ProxySettings) {
+        NagramiXProxyPreferences.initializeIfNeeded(proxyEnabled: value.enabled && value.activeServer != nil, serverCount: Set(value.servers).count)
         let previous = self.settings
         self.settings = value
         let activeChanged = previous.activeServer != value.activeServer

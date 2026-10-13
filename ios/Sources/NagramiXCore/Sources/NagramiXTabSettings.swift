@@ -3,6 +3,7 @@ import NagramiXMediaSettings
 
 public enum NagramiXDnsProvider: Int, CaseIterable, Equatable {
     case system = 0
+    case telegram = 7
     case google = 1
     case quad9 = 2
     case adGuard = 3
@@ -12,7 +13,7 @@ public enum NagramiXDnsProvider: Int, CaseIterable, Equatable {
 
     public var dohEndpoint: String? {
         switch self {
-        case .system:
+        case .system, .telegram:
             return nil
         case .google:
             return "https://dns.google/dns-query"
@@ -82,6 +83,7 @@ public struct NagramiXTabSettings: Equatable {
         static let showRegistrationDate = "nagramix.profiles.showRegistrationDate"
         static let showMutualContactIcon = "nagramix.profiles.showMutualContactIcon"
         static let confirmOutgoingCalls = "nagramix.calls.confirmOutgoing"
+        static let skipCallRating = NagramiXCallSettings.skipRatingKey
         static let forceTcpCalls = "nagramix.calls.forceTcp"
         static let showDeletedMessages = "nagramix.messages.showDeletedMessages"
         static let saveTemporaryMessages = "nagramix.messages.saveTemporaryMessages"
@@ -128,6 +130,7 @@ public struct NagramiXTabSettings: Equatable {
     public var showRegistrationDate: Bool
     public var showMutualContactIcon: Bool
     public var confirmOutgoingCalls: Bool
+    public var skipCallRating: Bool
     public var forceTcpCalls: Bool
     public var showDeletedMessages: Bool
     public var saveTemporaryMessages: Bool
@@ -155,6 +158,7 @@ public struct NagramiXTabSettings: Equatable {
         showRegistrationDate: Bool,
         showMutualContactIcon: Bool,
         confirmOutgoingCalls: Bool,
+        skipCallRating: Bool = true,
         forceTcpCalls: Bool,
         showDeletedMessages: Bool,
         deletedMessageLabel: String,
@@ -219,6 +223,7 @@ public struct NagramiXTabSettings: Equatable {
         self.showRegistrationDate = showRegistrationDate
         self.showMutualContactIcon = showMutualContactIcon
         self.confirmOutgoingCalls = confirmOutgoingCalls
+        self.skipCallRating = skipCallRating
         self.forceTcpCalls = forceTcpCalls
         self.showDeletedMessages = showDeletedMessages
         self.saveTemporaryMessages = saveTemporaryMessages
@@ -316,6 +321,7 @@ public struct NagramiXTabSettings: Equatable {
             showRegistrationDate: defaults.object(forKey: Key.showRegistrationDate) as? Bool ?? true,
             showMutualContactIcon: defaults.object(forKey: Key.showMutualContactIcon) as? Bool ?? true,
             confirmOutgoingCalls: defaults.object(forKey: Key.confirmOutgoingCalls) as? Bool ?? true,
+            skipCallRating: NagramiXCallSettings.skipRating,
             forceTcpCalls: defaults.object(forKey: Key.forceTcpCalls) as? Bool ?? false,
             showDeletedMessages: defaults.object(forKey: Key.showDeletedMessages) as? Bool ?? false,
             deletedMessageLabel: self.normalizedDeletedMessageLabel(defaults.string(forKey: Key.deletedMessageLabel) ?? ""),
@@ -356,6 +362,10 @@ public struct NagramiXTabSettings: Equatable {
         let previousDeletedMessageLabel = value.deletedMessageLabel
         let previousDnsProvider = value.dnsProvider
         let previousCustomDohUrl = value.customDohUrl
+        let previousProxyAutoSwitchEnabled = value.proxyAutoSwitchEnabled
+        let previousProxyAutoSwitchTimeout = value.proxyAutoSwitchTimeout
+        let previousAvoidProxyWithVPN = value.avoidProxyWithVPN
+        let previousSkipCallRating = value.skipCallRating
         transform(&value)
 
         let defaults = UserDefaults.standard
@@ -385,15 +395,26 @@ public struct NagramiXTabSettings: Equatable {
         NagramiXStorySettings.update(anonymousViewing: value.anonymousStoryViewing)
         defaults.set(value.dnsProvider.rawValue, forKey: Key.dnsProvider)
         defaults.set(value.customDohUrl, forKey: Key.customDohUrl)
-        defaults.set(value.proxyAutoSwitchEnabled, forKey: Key.proxyAutoSwitchEnabled)
-        defaults.set([15, 30, 60].contains(value.proxyAutoSwitchTimeout) ? value.proxyAutoSwitchTimeout : 15, forKey: Key.proxyAutoSwitchTimeout)
-        defaults.set(value.avoidProxyWithVPN, forKey: Key.avoidProxyWithVPN)
+        // Unrelated settings must not persist absent proxy defaults or overwrite
+        // preferences initialized concurrently when proxy usage begins.
+        if previousProxyAutoSwitchEnabled != value.proxyAutoSwitchEnabled {
+            NagramiXProxyPreferences.setAutoSwitch(value.proxyAutoSwitchEnabled)
+        }
+        if previousProxyAutoSwitchTimeout != value.proxyAutoSwitchTimeout {
+            defaults.set([15, 30, 60].contains(value.proxyAutoSwitchTimeout) ? value.proxyAutoSwitchTimeout : 15, forKey: Key.proxyAutoSwitchTimeout)
+        }
+        if previousAvoidProxyWithVPN != value.avoidProxyWithVPN {
+            NagramiXProxyPreferences.setAvoidVPN(value.avoidProxyWithVPN)
+        }
         defaults.set(value.showProxyButton, forKey: Key.showProxyButton)
         defaults.set(value.hideProxySponsorChannel, forKey: Key.hideProxySponsorChannel)
         defaults.set(value.showProfileIds, forKey: Key.showProfileIds)
         defaults.set(value.showRegistrationDate, forKey: Key.showRegistrationDate)
         defaults.set(value.showMutualContactIcon, forKey: Key.showMutualContactIcon)
         defaults.set(value.confirmOutgoingCalls, forKey: Key.confirmOutgoingCalls)
+        if previousSkipCallRating != value.skipCallRating {
+            defaults.set(value.skipCallRating, forKey: Key.skipCallRating)
+        }
         defaults.set(value.forceTcpCalls, forKey: Key.forceTcpCalls)
         defaults.set(value.showDeletedMessages, forKey: Key.showDeletedMessages)
         defaults.set(value.saveTemporaryMessages, forKey: Key.saveTemporaryMessages)

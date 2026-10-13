@@ -1,0 +1,10 @@
+{
+  "NagramiXOnboardingAtlas.png": {
+    "source": "Resources/Onboarding/NagramiXOnboardingAtlas.png",
+    "sha256": "bd630e22cfc6ebd14f133725fcedf9669498cd2f642c33805ce5015ebe2c4939"
+  },
+  "NagramiXOnboardingLogo.png": {
+    "source": "branding/AppIcons/1.png",
+    "sha256": "51cc8185ff565e4099b859fbcca919aa16e0edb9b89513d1bc7dd676ef8b84b6"
+  }
+}

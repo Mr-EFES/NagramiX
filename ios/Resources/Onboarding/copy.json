@@ -1,0 +1,32 @@
+{
+  "ru": {
+    "Tour.Title1": "NagramiX",
+    "Tour.Text1": "Ваше общение. Ваши правила.\nЗнакомые чаты и больше возможностей.",
+    "Tour.Title2": "На связи",
+    "Tour.Text2": "Сообщения, звонки и кружки.\nОбщайтесь в своём ритме.",
+    "Tour.Title6": "Бесплатно",
+    "Tour.Text6": "NagramiX — бесплатный клиент.\nНаши дополнительные функции — без подписки.",
+    "Tour.Title3": "Под вас",
+    "Tour.Text3": "Настройте чаты, медиа и интерфейс.\nОставьте то, что удобно именно вам.",
+    "Tour.Title4": "Приватность",
+    "Tour.Text4": "Предпросмотр чатов и инкогнито историй.\nВы решаете, когда отмечать просмотр.",
+    "Tour.Title5": "Всегда рядом",
+    "Tour.Text5": "Облачные чаты всегда под рукой.\nПродолжайте общение на других устройствах.",
+    "Tour.StartButton": "Начать общение"
+  },
+  "en": {
+    "Tour.Title1": "NagramiX",
+    "Tour.Text1": "Your conversations. Your rules.\nFamiliar chats with more possibilities.",
+    "Tour.Title2": "Stay in touch",
+    "Tour.Text2": "Messages, calls and video messages.\nConnect at your own pace.",
+    "Tour.Title6": "Free to use",
+    "Tour.Text6": "NagramiX is a free client.\nOur extra features need no subscription.",
+    "Tour.Title3": "Make it yours",
+    "Tour.Text3": "Customize chats, media and the interface.\nKeep what works for you.",
+    "Tour.Title4": "Privacy",
+    "Tour.Text4": "Chat previews and incognito stories.\nChoose when to mark them as viewed.",
+    "Tour.Title5": "Always nearby",
+    "Tour.Text5": "Your cloud chats, close at hand.\nContinue talking on your other devices.",
+    "Tour.StartButton": "Start Messaging"
+  }
+}

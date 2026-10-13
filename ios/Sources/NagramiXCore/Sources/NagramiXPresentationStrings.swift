@@ -23,6 +23,9 @@ private extension PresentationStrings {
 }
 
 public extension PresentationStrings {
+    var nagramiXArchivedCopyUnavailable: String { self.nagramiXLocalized("NagramiX.Archive.CopyUnavailable") }
+    var nagramiXArchiveSaveUnavailable: String { self.nagramiXLocalized("NagramiX.Archive.SaveUnavailable") }
+    var nagramiXArchiveSaveFailed: String { self.nagramiXLocalized("NagramiX.Archive.SaveFailed") }
     var nagramiXProfileLinkTitle: String { self.nagramiXLocalized("NagramiX.ProfileLink.Title") }
     var nagramiXProfileLinkEnabled: String { self.nagramiXLocalized("NagramiX.ProfileLink.Enabled") }
     var nagramiXProfileLinkOn: String { self.nagramiXLocalized("NagramiX.ProfileLink.On") }
@@ -142,6 +145,7 @@ public extension PresentationStrings {
     var nagramiXIconRuby: String { self.nagramiXLocalized("NagramiX.Icon.Ruby") }
     var nagramiXDns: String { self.nagramiXLocalized("NagramiX.Network.DNS") }
     var nagramiXDnsSystem: String { self.nagramiXLocalized("NagramiX.Network.DNS.System") }
+    var nagramiXDnsTelegram: String { self.nagramiXLocalized("NagramiX.Network.DNS.Telegram") }
     var nagramiXDnsGoogle: String { self.nagramiXLocalized("NagramiX.Network.DNS.Google") }
     var nagramiXDnsQuad9: String { self.nagramiXLocalized("NagramiX.Network.DNS.Quad9") }
     var nagramiXDnsAdGuard: String { self.nagramiXLocalized("NagramiX.Network.DNS.AdGuard") }
@@ -180,6 +184,8 @@ public extension PresentationStrings {
     var nagramiXShowMutualContactIcon: String { self.nagramiXLocalized("NagramiX.Settings.Profiles.ShowMutualContactIcon") }
     var nagramiXCallsHeader: String { self.nagramiXLocalized("NagramiX.Settings.Calls.Header") }
     var nagramiXConfirmOutgoingCalls: String { self.nagramiXLocalized("NagramiX.Settings.Calls.ConfirmOutgoing") }
+    var nagramiXSkipCallRating: String { self.nagramiXLocalized("NagramiX.Settings.Calls.SkipRating") }
+    var nagramiXCallRatingSearchTerms: String { self.nagramiXLocalized("NagramiX.Settings.Calls.SkipRating.Search") }
     var nagramiXForceTcpCalls: String { self.nagramiXLocalized("NagramiX.Settings.Calls.ForceTcp") }
     var nagramiXForceTcpCallsInfo: String { self.nagramiXLocalized("NagramiX.Settings.Calls.ForceTcpInfo") }
     var nagramiXVoiceAutoplay: String { self.nagramiXLocalized("NagramiX.Settings.Messages.VoiceAutoplay") }

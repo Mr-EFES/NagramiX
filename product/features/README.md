@@ -1,8 +1,8 @@
 # Жизненный цикл функций
 
-Проверка текущего выпуска: **compile_passed / device_pending**, нативная сборка№86 и независимая проверка опубликованного IPA успешны. [Результат и исходный SHA](../../docs/RELEASE_STATUS.md). Физические сценарии остаются непроверенными.
+Предыдущая реализация прошла нативную сборку№86; новая версия0.5.4 проходит отдельную сборку, физическая проверка ожидается. [Текущий статус](../../docs/RELEASE_STATUS.md). Физические сценарии остаются непроверенными.
 
-Исходники опубликованного выпуска включены в чистую нативную сборку №84 и проверенный ранее IPA на Telegram13.0: compile_passed/device_pending. Включены [звуки](../../docs/NOTIFICATION_SOUNDS_FIX.md), [яркость QR](../../docs/PROXY_QR_BRIGHTNESS_FIX.md), [истории инкогнито](story-incognito.md), [два режима ускорения](download-acceleration.md) и [раздельные кнопки](../../docs/PROFILE_NAVIGATION_LAYOUT_FIX.md). Компиляция не заменяет испытания на устройстве. [Отчёт](../../docs/RELEASE_STATUS.md), [план iPhone](../../docs/IPHONE_TEST_0.5.3.md).
+Исходники опубликованного выпуска включены в чистую нативную сборку №84 и проверенный ранее IPA на Telegram13.0: compile_passed/device_pending. Включены [звуки](../../docs/NOTIFICATION_SOUNDS_FIX.md), [яркость QR](../../docs/PROXY_QR_BRIGHTNESS_FIX.md), [истории инкогнито](story-incognito.md), [два режима ускорения](download-acceleration.md) и [раздельные кнопки](../../docs/PROFILE_NAVIGATION_LAYOUT_FIX.md). Компиляция не заменяет испытания на устройстве. [Отчёт](../../docs/RELEASE_STATUS.md), [план iPhone](../../docs/IPHONE_TEST_0.5.4.md).
 
 После физической проверки подготовлено [исправление завершения голосовых и кружков](disable-voice-autoplay.md): compile_passed/device_pending. Оно пока не входит в опубликованный №84.
 
@@ -33,3 +33,11 @@
 Подготовлено [«Видео без сжатия»](original-videos.md): default ON, исходный ресурс галереи; MP4/MOV со стандартным video player, без локального перекодирования. Правки и специальные media paths сохраняются, совместимость кодека проверяется отдельно. compile_passed/device_pending, в№84 не включено; включено в№86.
 
 - [Непрочитанные сверху](unread-chats-first.md): глобальная сортировка незакреплённых чатов во всех папках; default ON, compile_passed/device_pending.
+
+- [Свайпы между категориями настроек](settings-category-swipe.md): горизонтальное переключение со штатной прокруткой и синхронизацией сегментов; новая правка после build86, compile_pending/device_pending.
+
+- [Приветственные экраны NagramiX](branded-onboarding.md): название, основной логотип, новые иллюстрации и короткие RU/EN тексты; compile_pending/device_pending после build86.
+
+- [Сохранение удалённых голосовых и кружков](archived-media-save.md): звуки уведомлений и галерея из сохранённых bytes; compile_pending/device_pending после build86.
+
+- [Не спрашивать оценку звонка](skip-call-rating.md): автоматический запрос скрыт по умолчанию, ручная оценка доступна; compile_pending/device_pending после build86.

@@ -103,11 +103,35 @@ private func nagramiXOriginalVideoFile(account: Account, asset: PHAsset, thumbna
                     let representation = TelegramMediaImageRepresentation(dimensions: PixelDimensions(coverSize), resource: coverResource, progressiveSizes: [], immediateThumbnailData: nil, hasVideo: false, isPersonal: false)
                     videoCover = TelegramMediaImage(imageId: EngineMedia.Id(namespace: 0, id: 0), representations: [representation], immediateThumbnailData: nil, reference: nil, partialReference: nil, flags: [])
                 }
+                let uploadPath = NSTemporaryDirectory() + "nagramix-original-video-" + UUID().uuidString
+                var uploadPathHandedOff = false
+                defer {
+                    if !uploadPathHandedOff {
+                        try? FileManager.default.removeItem(atPath: uploadPath)
+                    }
+                }
                 let resource = LocalFileMediaResource(fileId: Int64.random(in: Int64.min ... Int64.max), size: size)
                 let previewResource = LocalFileMediaResource(fileId: Int64.random(in: Int64.min ... Int64.max))
+                // MediaBox.moveResourceData is asynchronous. Disposing tempFile
+                // immediately could delete it before the queued move executes.
+                // Pin a separate complete path synchronously; the queued native
+                // cache move owns it independently of the Photos temp file.
+                // Do not hold the cancellation lock during a potentially large
+                // fallback copy. This worker already owns finishing/cleanup.
+                do {
+                    do {
+                        try FileManager.default.linkItem(atPath: tempFile.path, toPath: uploadPath)
+                    } catch {
+                        try FileManager.default.copyItem(atPath: tempFile.path, toPath: uploadPath)
+                    }
+                } catch {
+                    subscriber.putError(Void())
+                    return
+                }
                 lock.lock()
                 guard !disposed else { lock.unlock(); return }
-                account.postbox.mediaBox.moveResourceData(resource.id, fromTempPath: tempFile.path)
+                account.postbox.mediaBox.moveResourceData(resource.id, fromTempPath: uploadPath)
+                uploadPathHandedOff = true
                 account.postbox.mediaBox.storeResourceData(previewResource.id, data: thumbnailData)
                 lock.unlock()
                 let preview = TelegramMediaImageRepresentation(dimensions: PixelDimensions(thumbnailSize), resource: previewResource, progressiveSizes: [], immediateThumbnailData: nil, hasVideo: false, isPersonal: false)

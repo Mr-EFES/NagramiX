@@ -37,6 +37,7 @@
 "NagramiX.Icon.Ruby" = "Рубин";
 "NagramiX.Network.DNS" = "DNS-сервер";
 "NagramiX.Network.DNS.System" = "Системный DNS";
+"NagramiX.Network.DNS.Telegram" = "DNS Telegram";
 "NagramiX.Network.DNS.Google" = "Google DNS";
 "NagramiX.Network.DNS.Quad9" = "Quad9";
 "NagramiX.Network.DNS.AdGuard" = "AdGuard DNS";
@@ -142,6 +143,8 @@
 "NagramiX.Settings.Profiles.ShowRegistrationDate" = "Показывать дату регистрации";
 "NagramiX.Settings.Profiles.ShowMutualContactIcon" = "Значок взаимного контакта";
 "NagramiX.Settings.Calls.Header" = "ЗВОНКИ";
+"NagramiX.Settings.Calls.SkipRating" = "Не спрашивать оценку звонка";
+"NagramiX.Settings.Calls.SkipRating.Search" = "Оценка звонка, качество связи, звёзды";
 "NagramiX.Settings.Calls.ConfirmOutgoing" = "Подтверждение вызова";
 "NagramiX.Settings.Calls.ForceTcp" = "Force TCP";
 "NagramiX.Settings.Calls.ForceTcpInfo" = "Пожалуйста, меняйте эту настройку только если вы знаете, что она делает.";
@@ -285,3 +288,6 @@
 
 "NagramiX.Settings.Chats.UnreadFirst" = "Непрочитанные сверху";
 "NagramiX.Settings.Chats.UnreadFirst.Search" = "Сортировка чатов, групп и каналов во всех папках по числу непрочитанных. Закреплённые сохраняют порядок. Без звука и уведомлений.";
+"NagramiX.Archive.CopyUnavailable" = "Не удалось подготовить сохранённое вложение. Возможно, файл сохранён не полностью или не хватает места. Сообщение не отправлено.";
+"NagramiX.Archive.SaveUnavailable" = "Не удалось подготовить сохранённый файл. Возможно, он недоступен, сохранён не полностью или не хватает места.";
+"NagramiX.Archive.SaveFailed" = "Не удалось сохранить. Повторите попытку.";

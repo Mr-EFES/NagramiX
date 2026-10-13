@@ -34,6 +34,35 @@ def validate_notification_sound_resources(archive: zipfile.ZipFile, prefix: str)
     return len(manifest)
 
 
+def validate_onboarding_resources(archive: zipfile.ZipFile, prefix: str, russian: dict, english: dict) -> int:
+    copy = json.loads((ROOT / "ios/Resources/Onboarding/copy.json").read_text())
+    for language, actual in (("ru", russian), ("en", english)):
+        for key, expected in copy[language].items():
+            require(actual.get(key) == expected, f"Неверная строка приветствия {language}/{key}")
+    manifest = json.loads((ROOT / "ios/Resources/Onboarding/manifest.json").read_text())
+    names = set(archive.namelist())
+    for name, entry in manifest.items():
+        require(prefix + name in names, f"В IPA нет иллюстрации приветствия: {name}")
+        source = (ROOT / "ios" / entry["source"]).read_bytes()
+        require(hashlib.sha256(source).hexdigest() == entry["sha256"], f"Повреждён исходник иллюстрации: {name}")
+        packed = archive.read(prefix + name)
+        # Apple may optimize/recompress PNGs, including inserting a CgBI chunk.
+        # Verify the PNG and dimensions rather than requiring identical bytes.
+        def dimensions(data: bytes) -> tuple[int, int]:
+            require(data.startswith(b"\x89PNG\r\n\x1a\n"), f"Неверный PNG: {name}")
+            offset = 8
+            while offset + 12 <= len(data):
+                length = struct.unpack_from(">I", data, offset)[0]
+                require(offset + length + 12 <= len(data), f"Обрезанный PNG: {name}")
+                if data[offset + 4:offset + 8] == b"IHDR":
+                    require(length == 13, f"Неверный IHDR: {name}")
+                    return struct.unpack_from(">II", data, offset + 8)
+                offset += length + 12
+            raise SystemExit(f"Нет IHDR: {name}")
+        require(dimensions(packed) == dimensions(source), f"Неверный размер иллюстрации: {name}")
+    return len(manifest)
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--ipa", required=True, type=Path)
@@ -84,6 +113,9 @@ def main() -> None:
         require(russian.get("Common.Edit") == "Изменить" and russian.get("Tour.StartButton") == "Начать общение", "Неверные русские строки первого запуска")
         for index in range(1, 7):
             require(bool(russian.get(f"Tour.Title{index}")) and bool(russian.get(f"Tour.Text{index}")), "Нет русского приветствия")
+        if tuple(int(part) for part in args.version.split(".")) >= (0, 5, 4):
+            english = plistlib.loads(archive.read(prefix + "en.lproj/Localizable.strings"))
+            validate_onboarding_resources(archive, prefix, russian, english)
 
         custom = plistlib.loads(archive.read(prefix + "Frameworks/TelegramUIFramework.framework/NagramiXLocalization.bundle/ru.lproj/Localizable.strings"))
         custom_keys = set(re.findall(r'^"([^"\n]+)"\s*=', (ROOT / "ios/Sources/NagramiXCore/Resources/ru.lproj/Localizable.strings").read_text(), re.MULTILINE))

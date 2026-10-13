@@ -37,6 +37,7 @@
 "NagramiX.Icon.Ruby" = "Ruby";
 "NagramiX.Network.DNS" = "DNS server";
 "NagramiX.Network.DNS.System" = "System DNS";
+"NagramiX.Network.DNS.Telegram" = "Telegram DNS";
 "NagramiX.Network.DNS.Google" = "Google DNS";
 "NagramiX.Network.DNS.Quad9" = "Quad9";
 "NagramiX.Network.DNS.AdGuard" = "AdGuard DNS";
@@ -68,6 +69,8 @@
 "NagramiX.Settings.Profiles.ShowRegistrationDate" = "Show Registration Date";
 "NagramiX.Settings.Profiles.ShowMutualContactIcon" = "Mutual Contact Badge";
 "NagramiX.Settings.Calls.Header" = "CALLS";
+"NagramiX.Settings.Calls.SkipRating" = "Don't Ask for Call Rating";
+"NagramiX.Settings.Calls.SkipRating.Search" = "Call quality, rating, stars";
 "NagramiX.Settings.Calls.ConfirmOutgoing" = "Confirm Outgoing Calls";
 "NagramiX.Settings.Calls.ForceTcp" = "Force TCP";
 "NagramiX.Settings.Calls.ForceTcpInfo" = "Please change this setting only if you know what it does.";
@@ -211,3 +214,6 @@
 
 "NagramiX.Settings.Chats.UnreadFirst" = "Unread Chats First";
 "NagramiX.Settings.Chats.UnreadFirst.Search" = "Sort chats, groups and channels in every folder by unread count. Keep pinned order. Muted chats and notifications.";
+"NagramiX.Archive.CopyUnavailable" = "Could not prepare the saved attachment. The file may be incomplete or storage may be full. The message was not sent.";
+"NagramiX.Archive.SaveUnavailable" = "Could not prepare the saved file. It may be unavailable, incomplete, or storage may be full.";
+"NagramiX.Archive.SaveFailed" = "Could not save. Please try again.";

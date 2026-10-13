@@ -53,6 +53,7 @@ private struct NagramiXSettingsControllerArguments {
     let updateShowRegistrationDate: (Bool) -> Void
     let updateShowMutualContactIcon: (Bool) -> Void
     let updateConfirmOutgoingCalls: (Bool) -> Void
+    let updateSkipCallRating: (Bool) -> Void
     let updateForceTcpCalls: (Bool) -> Void
     let updateShowDeletedMessages: (Bool) -> Void
     let updateVoiceAutoplay: (Bool) -> Void
@@ -70,6 +71,69 @@ private enum NagramiXSettingsCategory: Int, CaseIterable {
     case interface
     case features
     case other
+
+    func adjacent(isNext: Bool) -> NagramiXSettingsCategory? {
+        return NagramiXSettingsCategory(rawValue: self.rawValue + (isNext ? 1 : -1))
+    }
+}
+
+private final class NagramiXSettingsSwipeController: ItemListController, UIGestureRecognizerDelegate {
+    var categorySwipeAllowedDirections: (() -> InteractiveTransitionGestureRecognizerDirections)?
+    var categorySwiped: ((Bool) -> Void)?
+
+    override func loadDisplayNode() {
+        super.loadDisplayNode()
+
+        // Use the same directional filtering and horizontal-control exclusions
+        // as Telegram's interactive transitions, scoped to this settings screen.
+        let gesture = InteractiveTransitionGestureRecognizer(target: self, action: #selector(self.categorySwipe(_:)), allowedDirections: { [weak self] point in
+            guard let self, point.x >= 24.0 else {
+                return []
+            }
+            return self.categorySwipeAllowedDirections?() ?? []
+        }, edgeWidth: .constant(24.0))
+        gesture.delegate = self
+        gesture.cancelsTouchesInView = true
+        self.displayNode.view.addGestureRecognizer(gesture)
+    }
+
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {
+        // Switches, sliders and editable search text keep their own gestures.
+        var view = touch.view
+        while let current = view {
+            if current is UIControl || current is UITextView {
+                return false
+            }
+            if current === self.displayNode.view {
+                break
+            }
+            view = current.superview
+        }
+        return true
+    }
+
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldBeRequiredToFailBy otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+        // Central swipes belong to categories. At the left edge this recognizer
+        // fails immediately, leaving the native back gesture available.
+        return otherGestureRecognizer is InteractiveTransitionGestureRecognizer
+    }
+
+    @objc private func categorySwipe(_ gesture: UIPanGestureRecognizer) {
+        guard gesture.state == .ended else {
+            return
+        }
+        let translation = gesture.translation(in: self.displayNode.view)
+        guard abs(translation.x) > abs(translation.y) * 1.5 else {
+            return
+        }
+        let velocity = gesture.velocity(in: self.displayNode.view).x
+        let distance = max(44.0, min(80.0, self.displayNode.bounds.width * 0.16))
+        let isQuickSwipe = abs(translation.x) >= 16.0 && abs(velocity) >= 550.0 && translation.x * velocity > 0.0
+        guard abs(translation.x) >= distance || isQuickSwipe else {
+            return
+        }
+        self.categorySwiped?(translation.x < 0.0)
+    }
 }
 
 private enum NagramiXSettingsSection: Int32 {
@@ -150,6 +214,7 @@ private enum NagramiXSettingsEntry: ItemListNodeEntry {
     case showMutualContactIcon(Bool)
     case callsHeader
     case confirmOutgoingCalls(Bool)
+    case skipCallRating(Bool)
     case otherCallsHeader
     case forceTcpCalls(Bool)
     case forceTcpCallsInfo
@@ -194,7 +259,7 @@ private enum NagramiXSettingsEntry: ItemListNodeEntry {
                 .contextMenuHeader, .showForwardWithoutAuthor, .forwardWithoutAuthorInfo, .showBroadcastMessages, .broadcastMessagesInfo, .showSelectByAuthor, .selectByAuthorInfo:
             return .interface
         case .videoMessagesHeader, .useRearCameraForVideoMessages, .keepMusicPlayingWhileRecording, .keepMusicPlayingWhileRecordingInfo, .featureStoriesHeader, .hideStories, .disableStoryCameraSwipe,
-                .confirmStoryViewing, .enableStoryRepost, .anonymousStoryViewing, .anonymousStoryViewingInfo, .callsHeader, .confirmOutgoingCalls:
+                .confirmStoryViewing, .enableStoryRepost, .anonymousStoryViewing, .anonymousStoryViewingInfo, .callsHeader, .confirmOutgoingCalls, .skipCallRating:
             return .features
         case .photosHeader, .highQualityPhotos, .photoQualityHeader, .photoQuality, .photoQualityInfo,
                 .stickersHeader, .stickerSizeHeader, .stickerSize, .showStickerTime, .stickerSizeInfo:
@@ -228,7 +293,7 @@ private enum NagramiXSettingsEntry: ItemListNodeEntry {
             return NagramiXSettingsSection.stories.rawValue
         case .profilesHeader, .showExactLastSeen, .showExactLastSeenInfo, .showProfileIds, .showRegistrationDate, .showMutualContactIcon:
             return NagramiXSettingsSection.profiles.rawValue
-        case .callsHeader, .otherCallsHeader, .confirmOutgoingCalls, .forceTcpCalls, .forceTcpCallsInfo:
+        case .callsHeader, .otherCallsHeader, .confirmOutgoingCalls, .skipCallRating, .forceTcpCalls, .forceTcpCallsInfo:
             return NagramiXSettingsSection.calls.rawValue
         case .doubleTapEdit, .doubleTapEditInfo, .messagesHeader, .profileLinkSettings, .autoMuteNewChannels, .autoMuteNewChannelsInfo, .voiceAutoplay, .voiceAutoplayInfo, .showDeletedMessages, .showDeletedMessagesInfo, .saveTemporaryMessages, .saveTemporaryMessagesInfo, .deletedMessageLabel, .messageEditHistory, .messageEditHistoryInfo, .clearMessageArchive, .messageArchiveInfo:
             return NagramiXSettingsSection.messages.rawValue
@@ -325,6 +390,7 @@ private enum NagramiXSettingsEntry: ItemListNodeEntry {
         case .otherCallsHeader: return 49
         case .callsHeader: return 50
         case .confirmOutgoingCalls: return 51
+        case .skipCallRating: return 140
         case .forceTcpCalls: return 52
         case .forceTcpCallsInfo: return 53
         case .proxySettings: return 60
@@ -351,6 +417,7 @@ private enum NagramiXSettingsEntry: ItemListNodeEntry {
         // immediately after the deleted-message option in native list diffs.
         func position(_ entry: NagramiXSettingsEntry) -> Int32 {
             switch entry {
+            case .skipCallRating: return 515
             case .showChannelBottomPanel: return 71
             case .highQualityPhotos: return 901
             case .originalVideos: return 116
@@ -512,6 +579,8 @@ private enum NagramiXSettingsEntry: ItemListNodeEntry {
             return ItemListSectionHeaderItem(presentationData: presentationData, text: presentationData.strings.nagramiXCallsHeader.uppercased(), sectionId: self.section)
         case let .confirmOutgoingCalls(value):
             return ItemListSwitchItem(presentationData: presentationData, systemStyle: .glass, title: presentationData.strings.nagramiXConfirmOutgoingCalls, value: value, sectionId: self.section, style: .blocks, updated: arguments.updateConfirmOutgoingCalls)
+        case let .skipCallRating(value):
+            return ItemListSwitchItem(presentationData: presentationData, systemStyle: .glass, title: presentationData.strings.nagramiXSkipCallRating, value: value, maximumNumberOfLines: 0, sectionId: self.section, style: .blocks, updated: arguments.updateSkipCallRating)
         case let .forceTcpCalls(value):
             return ItemListSwitchItem(presentationData: presentationData, systemStyle: .glass, title: presentationData.strings.nagramiXForceTcpCalls, value: value, sectionId: self.section, style: .blocks, updated: arguments.updateForceTcpCalls)
         case .forceTcpCallsInfo:
@@ -679,6 +748,7 @@ private extension NagramiXSettingsEntry {
         case .showMutualContactIcon: return strings.nagramiXShowMutualContactIcon
         case .callsHeader, .otherCallsHeader: return strings.nagramiXCallsHeader
         case .confirmOutgoingCalls: return strings.nagramiXConfirmOutgoingCalls
+        case .skipCallRating: return strings.nagramiXSkipCallRating
         case .forceTcpCalls: return strings.nagramiXForceTcpCalls
         case .forceTcpCallsInfo: return strings.nagramiXForceTcpCallsInfo
         case .messagesHeader: return strings.nagramiXMessagesHeader
@@ -717,6 +787,8 @@ private extension NagramiXSettingsEntry {
 
     func description(strings: PresentationStrings) -> String {
         switch self {
+        case .skipCallRating:
+            return strings.nagramiXCallRatingSearchTerms
         case .downloadAcceleration, .downloadAccelerationMode:
             return strings.nagramiXDownloadAccelerationInfo
         case .voiceAutoplay:
@@ -889,6 +961,7 @@ private func nagramiXAllSettingsEntries(settings: NagramiXTabSettings, keepMusic
         .messageEditHistory(settings.messageEditHistory),
         .clearMessageArchive,
         .callsHeader, .confirmOutgoingCalls(settings.confirmOutgoingCalls),
+        .skipCallRating(settings.skipCallRating),
     ] + photoEntries + [
         .stickersHeader, .stickerSizeHeader, .stickerSize(settings.media.stickerSize),
         .showStickerTime(settings.media.showStickerTime),
@@ -905,8 +978,13 @@ private func nagramiXSettingsEntries(settings: NagramiXTabSettings, keepMusicPla
 public func nagramiXSettingsController(context: AccountContext) -> ViewController {
     let settingsPromise = ValuePromise(NagramiXTabSettings.current, ignoreRepeated: false)
     let categoryPromise = ValuePromise<NagramiXSettingsCategory>(.interface, ignoreRepeated: true)
+    let categoryValue = Atomic<NagramiXSettingsCategory>(value: .interface)
     let searchQueryPromise = ValuePromise<String>("", ignoreRepeated: true)
     let searchQueryValue = Atomic<String>(value: "")
+    let selectCategory: (NagramiXSettingsCategory) -> Void = { category in
+        let _ = categoryValue.swap(category)
+        categoryPromise.set(category)
+    }
     let update: ((inout NagramiXTabSettings) -> Void) -> Void = { transform in
         NagramiXTabSettings.update(transform)
         settingsPromise.set(NagramiXTabSettings.current)
@@ -960,6 +1038,7 @@ public func nagramiXSettingsController(context: AccountContext) -> ViewControlle
         updateShowRegistrationDate: { value in update { $0.showRegistrationDate = value } },
         updateShowMutualContactIcon: { value in update { $0.showMutualContactIcon = value } },
         updateConfirmOutgoingCalls: { value in update { $0.confirmOutgoingCalls = value } },
+        updateSkipCallRating: { value in update { $0.skipCallRating = value } },
         updateForceTcpCalls: { value in update { $0.forceTcpCalls = value } },
         updateShowDeletedMessages: { value in update { $0.showDeletedMessages = value } },
         updateVoiceAutoplay: { value in update { $0.voiceAutoplay = value } },
@@ -1089,7 +1168,7 @@ public func nagramiXSettingsController(context: AccountContext) -> ViewControlle
         )
         return (controllerState, (listState, arguments))
     }
-    let controller = ItemListController(context: context, state: signal)
+    let controller = NagramiXSettingsSwipeController(context: context, state: signal)
     pushControllerImpl = { [weak controller] pushedController in
         (controller?.navigationController as? NavigationController)?.pushViewController(pushedController)
     }
@@ -1107,8 +1186,24 @@ public func nagramiXSettingsController(context: AccountContext) -> ViewControlle
     }
     controller.titleControlValueChanged = { index in
         if let category = NagramiXSettingsCategory(rawValue: index) {
-            categoryPromise.set(category)
+            selectCategory(category)
         }
+    }
+    controller.categorySwipeAllowedDirections = {
+        guard nagramiXNormalizedSearchText(searchQueryValue.with { $0 }).isEmpty else {
+            return []
+        }
+        // Consume central swipes even at a category boundary: a right swipe on
+        // Interface should stay here, rather than become navigation back.
+        return [.leftCenter, .rightCenter]
+    }
+    controller.categorySwiped = { [weak controller] isNext in
+        guard nagramiXNormalizedSearchText(searchQueryValue.with { $0 }).isEmpty,
+              let category = categoryValue.with({ $0 }).adjacent(isNext: isNext) else {
+            return
+        }
+        controller?.view.endEditing(true)
+        selectCategory(category)
     }
     return controller
 }

@@ -20,7 +20,8 @@ typedef NS_ENUM(NSInteger, NagramiXDnsProvider) {
     NagramiXDnsProviderAdGuard = 3,
     NagramiXDnsProviderMullvad = 4,
     NagramiXDnsProviderCloudflare = 5,
-    NagramiXDnsProviderCustom = 6
+    NagramiXDnsProviderCustom = 6,
+    NagramiXDnsProviderTelegram = 7
 };
 
 static void NagramiXAppendUInt16(NSMutableData *data, uint16_t value) {
@@ -157,19 +158,21 @@ static NSString * _Nullable NagramiXParseDnsResponse(NSData *data, uint16_t iden
 
 + (NagramiXDnsProvider)provider {
     NSInteger rawValue = [[NSUserDefaults standardUserDefaults] integerForKey:NagramiXDnsProviderKey];
-    if (rawValue < NagramiXDnsProviderSystem || rawValue > NagramiXDnsProviderCustom) {
+    if (rawValue < NagramiXDnsProviderSystem || rawValue > NagramiXDnsProviderTelegram) {
         return NagramiXDnsProviderSystem;
     }
     return (NagramiXDnsProvider)rawValue;
 }
 
 + (BOOL)usesSystemResolver {
-    return [self provider] == NagramiXDnsProviderSystem;
+    NagramiXDnsProvider provider = [self provider];
+    return provider == NagramiXDnsProviderSystem || provider == NagramiXDnsProviderTelegram;
 }
 
 + (NSString * _Nullable)configuredEndpoint {
     switch ([self provider]) {
         case NagramiXDnsProviderSystem:
+        case NagramiXDnsProviderTelegram:
             return nil;
         case NagramiXDnsProviderGoogle:
             return @"https://dns.google/dns-query";

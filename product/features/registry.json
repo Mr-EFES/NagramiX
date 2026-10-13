@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "product": "NagramiX",
-  "release": "0.5.3",
+  "release": "0.5.4",
   "platformPriority": [
     "ios"
   ],
@@ -72,7 +72,7 @@
       "specification": "specified",
       "ios": {
         "implementation": "implemented",
-        "compile": "compile_passed",
+        "compile": "compile_pending",
         "device": "device_pending"
       }
     },
@@ -108,11 +108,11 @@
     },
     {
       "id": "dns_doh",
-      "title": "Системный DNS и DNS-over-HTTPS",
+      "title": "Системный DNS, DNS Telegram и DNS-over-HTTPS",
       "specification": "specified",
       "ios": {
         "implementation": "implemented",
-        "compile": "compile_passed",
+        "compile": "compile_pending",
         "device": "device_pending"
       }
     },
@@ -122,7 +122,7 @@
       "specification": "specified",
       "ios": {
         "implementation": "implemented",
-        "compile": "compile_passed",
+        "compile": "compile_pending",
         "device": "device_pending"
       }
     },
@@ -132,7 +132,7 @@
       "specification": "specified",
       "ios": {
         "implementation": "implemented",
-        "compile": "compile_passed",
+        "compile": "compile_pending",
         "device": "device_pending"
       }
     },
@@ -193,6 +193,16 @@
       "ios": {
         "implementation": "implemented",
         "compile": "compile_passed",
+        "device": "device_pending"
+      }
+    },
+    {
+      "id": "settings_category_swipe",
+      "title": "Свайпы между категориями настроек",
+      "specification": "specified",
+      "ios": {
+        "implementation": "implemented",
+        "compile": "compile_pending",
         "device": "device_pending"
       }
     },
@@ -362,7 +372,7 @@
       "specification": "specified",
       "ios": {
         "implementation": "implemented",
-        "compile": "compile_passed",
+        "compile": "compile_pending",
         "device": "device_pending"
       }
     },
@@ -432,7 +442,7 @@
       "specification": "specified",
       "ios": {
         "implementation": "implemented",
-        "compile": "compile_passed",
+        "compile": "compile_pending",
         "device": "device_pending"
       }
     },
@@ -443,6 +453,36 @@
       "ios": {
         "implementation": "implemented",
         "compile": "compile_passed",
+        "device": "device_pending"
+      }
+    },
+    {
+      "id": "branded_onboarding",
+      "title": "Приветственные экраны NagramiX",
+      "specification": "specified",
+      "ios": {
+        "implementation": "implemented",
+        "compile": "compile_pending",
+        "device": "device_pending"
+      }
+    },
+    {
+      "id": "archived_media_save",
+      "title": "Сохранение удалённых голосовых и кружков",
+      "specification": "specified",
+      "ios": {
+        "implementation": "implemented",
+        "compile": "compile_pending",
+        "device": "device_pending"
+      }
+    },
+    {
+      "id": "skip_call_rating",
+      "title": "Не спрашивать оценку звонка",
+      "specification": "specified",
+      "ios": {
+        "implementation": "implemented",
+        "compile": "compile_pending",
         "device": "device_pending"
       }
     }

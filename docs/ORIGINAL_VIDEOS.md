@@ -1,6 +1,8 @@
 # Видео без сжатия
 
-Проверка текущего выпуска: **compile_passed / device_pending**, нативная сборка№86 и независимая проверка опубликованного IPA успешны. [Результат и исходный SHA](RELEASE_STATUS.md). Физические сценарии остаются непроверенными.
+После build86 подготовлено [исправление владения временным видео](STABILITY_AUDIT.md): синхронный hardlink/copy pin перед асинхронным native MediaBox move. Photos temp освобождается отдельно; LocalFileMediaResource и bytes/метаданные прежние. Эта новая правка **compile_pending / device_pending**, в опубликованный IPA не входит.
+
+Предыдущая реализация прошла нативную сборку№86; новая версия0.5.4 проходит отдельную сборку, физическая проверка ожидается. [Текущий статус](RELEASE_STATUS.md). Физические сценарии остаются непроверенными.
 
 Пользователь подтвердил reference: **Nagram**, функция для видео; аналогичной реализации для фото он не встречал. Как reference поведения проверен [SendMessagesHelper.java](https://github.com/NextAlone/Nagram/blob/e09f49fa8c2dde6e81cfccd8eea6984d39d2e997/TMessagesProj/src/main/java/org/telegram/messenger/SendMessagesHelper.java#L11109): `sendMp4DocumentAsVideo` допускает video branch при forceDocument, а преобразование зависит от VideoEditedInfo. Код Android/reference не переносится в NagramiX.
 

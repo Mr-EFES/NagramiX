@@ -4621,6 +4621,621 @@ def apply_gallery_media_modes(source: Path, overlay: Path) -> None:
         path.write_text(text, encoding="utf-8")
 
 
+def apply_archived_copy_send_fix(source: Path, overlay: Path) -> None:
+    """Stage archived anonymous forwards in the destination; upload retained bytes."""
+    paths = {
+        "forward": "submodules/TelegramUI/Sources/ChatControllerForwardMessages.swift",
+        "node": "submodules/TelegramUI/Sources/ChatControllerNode.swift",
+        "options": "submodules/TelegramUI/Sources/Chat/ChatMessageActionOptions.swift",
+        "load": "submodules/TelegramUI/Sources/Chat/ChatControllerLoadDisplayNode.swift",
+        "accessory": "submodules/TelegramUI/Sources/ChatInterfaceStateAccessoryPanels.swift",
+        "component": "submodules/TelegramUI/Components/Chat/ChatInputMessageAccessoryPanel/Sources/ChatInputMessageAccessoryPanel.swift",
+    }
+    expected = {
+        "forward": "dfb136685d5bd60668fd14d0d5a3ff9b8c5bf46fe1be3b0355a15dac31bfb9ea",
+        "node": "862b2de520ef01d702cffb8bad7a08b9806497fee6e6d289350f2dd7fd3a65b8",
+        "options": "b0400faa09472f7d5d3f661a056f7ea0e48017397abe45775494cb85a77d5015",
+        "load": "fe3bdae315a1d1af2c744ef280aae3e70ce5296a59f6086aaa2c660fa306cb0b",
+        "accessory": "3e1894a59faebb4a91ca4bb2444197a695410fb0bd026742ebbfd7a7c3463d16",
+        "component": "addad9a8e8eaf32921d3350b1d3b486326e6436874345ee523ec7400fc69d70d",
+    }
+    values = {}
+    for key, relative in paths.items():
+        raw = (source / relative).read_bytes()
+        if hashlib.sha256(raw).hexdigest() != expected[key]:
+            raise SystemExit(f"Archived copy input drift: {relative}")
+        values[key] = raw.decode("utf-8")
+    target = source / "submodules/TelegramCore/Sources/Utils/NagramiXArchivedMediaCopy.swift"
+    if target.exists():
+        raise SystemExit("Archived media copy helper already exists")
+    helper = (overlay / "Sources/TelegramCore/NagramiXArchivedMediaCopy.swift").read_bytes()
+
+    def change(key: str, old: str, new: str) -> None:
+        if values[key].count(old) != 1:
+            raise SystemExit(f"Archived copy anchor drift: {key}: {old[:80]!r}")
+        values[key] = values[key].replace(old, new, 1)
+
+    change("forward", "import Foundation\n", "import Foundation\nimport Postbox\nimport NagramiXCore\n")
+    change("forward",
+        "private func nagramiXCopyMessagesAsNew(_ messages: [EngineRawMessage]) -> [EnqueueMessage]? {",
+        "func nagramiXCopyMessagesAsNew(_ messages: [EngineRawMessage], mediaBox: MediaBox? = nil, hideCaptions: Bool = false) -> [EnqueueMessage]? {")
+    change("forward",
+        "    var result: [EnqueueMessage] = []\n    var copiedGroupingKeys:",
+        "    let archivedMediaCopy = mediaBox.map { NagramiXArchivedMediaCopy(mediaBox: $0) }\n    var result: [EnqueueMessage] = []\n    var copiedGroupingKeys:")
+    change("forward",
+        """                    mediaReference = .standalone(media: media)
+""",
+        """                    if let archivedMediaCopy {
+                        guard let copiedMedia = archivedMediaCopy.prepare(media) else {
+                            return nil
+                        }
+                        mediaReference = .standalone(media: copiedMedia)
+                    } else {
+                        // Capability checks do not stage files or mutate the archive.
+                        mediaReference = .standalone(media: media)
+                    }
+""")
+    change("forward",
+        "        result.append(.message(text: message.text, attributes: attributes,",
+        """        let hidesCaption = hideCaptions && mediaReference != nil
+        if hidesCaption {
+            attributes.removeAll(where: { $0 is TextEntitiesMessageAttribute })
+            inlineStickers = [:]
+        }
+        result.append(.message(text: hidesCaption ? "" : message.text, attributes: attributes,""")
+    change("forward",
+        """    return result
+}
+
+extension ChatControllerImpl {""",
+        """    archivedMediaCopy?.commit()
+    return result
+}
+
+func nagramiXArchivedCopyAlert(context: AccountContext) -> ViewController {
+    let strings = context.sharedContext.currentPresentationData.with { $0 }.strings
+    return textAlertController(context: context, title: nil, text: strings.nagramiXArchivedCopyUnavailable, actions: [TextAlertAction(type: .defaultAction, title: strings.Common_OK, action: {})])
+}
+
+extension ChatControllerImpl {""")
+    change("forward", "hasFilters: transferMode != .copyToSingleRecipient,", "hasFilters: true,")
+    change("forward",
+        "multipleSelectionLimit: transferMode == .copyToSingleRecipient ? 1 : nil, forwardedMessageIds: transferMode.copiesAsNew ? [] : messages.map { $0.id }",
+        "multipleSelectionLimit: nil, forwardedMessageIds: transferMode == .copyAsNew ? [] : messages.map { $0.id }")
+    change("forward",
+        """                if transferMode.copiesAsNew {
+                    if let threadId {""",
+        """                if transferMode == .copyAsNew {
+                    if let threadId {""")
+    change("forward",
+        "guard let copiedMessages = nagramiXCopyMessagesAsNew(messages) else {\n                                return",
+        """guard let copiedMessages = nagramiXCopyMessagesAsNew(messages, mediaBox: strongSelf.context.account.postbox.mediaBox, hideCaptions: forwardOptions?.hideCaptions == true) else {
+                                strongSelf.present(nagramiXArchivedCopyAlert(context: strongSelf.context), in: .window(.root))
+                                return""")
+    # Both anonymous modes now share stock single-recipient preparation.
+    for old, new in [
+        ("(transferMode != .forwardWithoutSource || threadId == nil)", "(!transferMode.singleRecipient || strongSelf.chatLocation.threadId == threadId)"),
+        ("peerId == strongSelf.context.account.peerId && transferMode != .forwardWithoutSource", "peerId == strongSelf.context.account.peerId && !transferMode.singleRecipient"),
+        ("(transferMode != .forwardWithoutSource || maybeChat.chatLocation.threadId == threadId)", "(!transferMode.singleRecipient || maybeChat.chatLocation.threadId == threadId)"),
+        ("if transferMode == .forwardWithoutSource {", "if transferMode.singleRecipient {"),
+    ]:
+        change("forward", old, new)
+    # Two destination-state writers, plus the immediate enqueue options.
+    old = "hideNames: transferMode == .forwardWithoutSource ||"
+    if values["forward"].count(old) != 3:
+        raise SystemExit("Archived copy forward-option writer count drift")
+    values["forward"] = values["forward"].replace(old, "hideNames: transferMode.singleRecipient ||")
+
+    change("load",
+        "                    strongSelf.forwardMessages(messageIds: forwardMessageIds, options: strongSelf.presentationInterfaceState.interfaceState.forwardOptionsState, resetCurrent: true)",
+        """                    let hasArchivedDraft = forwardMessageIds.contains { strongSelf.context.account.nagramiXMessageArchive.deletedMessage(id: $0) != nil }
+                    strongSelf.forwardMessages(messageIds: forwardMessageIds, options: strongSelf.presentationInterfaceState.interfaceState.forwardOptionsState, resetCurrent: true, transferMode: hasArchivedDraft ? .copyToSingleRecipient : .forwardWithSource)""")
+
+    change("node",
+        """                |> map { messages, accountPeer, options -> ([Message], Int32, Bool) in
+                    var messages = messages
+""",
+        """                |> map { messages, accountPeer, options -> ([Message], Int32, Bool) in
+                    let messagesById = Dictionary(uniqueKeysWithValues: messages.map { ($0.id, $0) })
+                    var messages = messageIds.compactMap { messagesById[$0] ?? context.account.nagramiXMessageArchive.deletedMessage(id: $0) }
+""")
+    change("node",
+        """                        var hideNames = options.hideNames
+                        if message.id.peerId == accountPeer.id""",
+        """                        var hideNames = options.hideNames || message.attributes.contains(where: { $0 is NagramiXArchivedMessageAttribute })
+                        if message.id.peerId == accountPeer.id""")
+    change("node",
+        """                        attributes = attributes.filter({ attribute in
+                            if attribute is EditedMessageAttribute {""",
+        """                        attributes = attributes.filter({ attribute in
+                            if attribute is NagramiXArchivedMessageAttribute {
+                                return false
+                            }
+                            if attribute is EditedMessageAttribute {""")
+    change("node",
+        """                    for id in forwardMessageIds.sorted() {
+                        messages.append(.forward(source: id, threadId: replyThreadId, grouping: .auto, attributes: attributes, correlationId: nil))
+                    }
+""",
+        """                    let archivedMessages = forwardMessageIds.sorted().compactMap { self.context.account.nagramiXMessageArchive.deletedMessage(id: $0) }
+                    var archivedCopies: [MessageId: EnqueueMessage] = [:]
+                    if !archivedMessages.isEmpty {
+                        guard let copies = nagramiXCopyMessagesAsNew(archivedMessages, mediaBox: self.context.account.postbox.mediaBox, hideCaptions: self.chatPresentationInterfaceState.interfaceState.forwardOptionsState?.hideCaptions == true) else {
+                            self.interfaceInteraction?.presentController(nagramiXArchivedCopyAlert(context: self.context), nil)
+                            return
+                        }
+                        archivedCopies = Dictionary(uniqueKeysWithValues: zip(archivedMessages.map { $0.id }, copies))
+                    }
+                    for id in forwardMessageIds.sorted() {
+                        if let copy = archivedCopies[id] {
+                            // The retained snapshot is a new outgoing message, never
+                            // a server forward of a deleted source ID.
+                            messages.append(copy.withUpdatedThreadId(replyThreadId))
+                        } else {
+                            messages.append(.forward(source: id, threadId: replyThreadId, grouping: .auto, attributes: attributes, correlationId: nil))
+                        }
+                    }
+""")
+    change("options",
+        "        var items: [ContextMenuItem] = []\n        \n        var hasCaptions = false",
+        "        let messagesById = Dictionary(uniqueKeysWithValues: messages.map { ($0.id, $0) })\n"
+        "        let messages = messageIds.compactMap { messagesById[$0] ?? selfController.context.account.nagramiXMessageArchive.deletedMessage(id: $0) }\n"
+        "        var items: [ContextMenuItem] = []\n        \n        var hasCaptions = false")
+    change("options",
+        "        var canHideNames = hasNotOwnMessages && hasOther",
+        "        var canHideNames = hasNotOwnMessages && hasOther && !messages.contains(where: { $0.attributes.contains(where: { $0 is NagramiXArchivedMessageAttribute }) })")
+
+    change("component",
+        "                        self.messages = messages.compactMap { $0 }\n",
+        """                        if case .forward = component.contents {
+                            self.messages = zip(messageIds, messages).compactMap { id, message -> EngineMessage? in
+                                return message ?? component.context.account.nagramiXMessageArchive.deletedMessage(id: id).map { EngineMessage($0) }
+                            }
+                        } else {
+                            self.messages = messages.compactMap { $0 }
+                        }
+""")
+    change("accessory",
+        """                        guard let message = await context.engine.data.get(
+                            TelegramEngine.EngineData.Item.Messages.Message(id: messageId)
+                        ).get() else {
+                            return
+                        }
+""",
+        """                        let currentMessage = await context.engine.data.get(
+                            TelegramEngine.EngineData.Item.Messages.Message(id: messageId)
+                        ).get()
+                        guard let message = currentMessage ?? context.account.nagramiXMessageArchive.deletedMessage(id: messageId).map({ EngineMessage($0) }) else {
+                            interfaceInteraction?.dismissForwardMessages()
+                            return
+                        }
+""")
+    # All exact hashes and anchors are checked before the first mutation.
+    for key, relative in paths.items():
+        (source / relative).write_text(values[key], encoding="utf-8")
+    target.parent.mkdir(parents=True, exist_ok=True)
+    target.write_bytes(helper)
+
+def apply_proxy_settings_sync_fix(source: Path) -> None:
+    """Keep proxy switches synchronized and preserve saved manual choices."""
+    path = source / "submodules/SettingsUI/Sources/Data and Storage/ProxyListSettingsController.swift"
+    raw = path.read_bytes()
+    if hashlib.sha256(raw).hexdigest() != "92e295d3eafd75092bc29ce083175b81231d305853e59d689706afd2001542c4":
+        raise SystemExit("Proxy preference synchronization input drift")
+    text = raw.decode("utf-8")
+
+    def change(old: str, new: str) -> None:
+        nonlocal text
+        if text.count(old) != 1:
+            raise SystemExit(f"Proxy preference synchronization anchor drift: {old[:80]!r}")
+        text = text.replace(old, new, 1)
+
+    change("import NagramiXCore\n", "import NagramiXCore\nimport NagramiXMediaSettings\n")
+    change(
+        "    case .system: return strings.nagramiXDnsSystem\n",
+        "    case .system: return strings.nagramiXDnsSystem\n    case .telegram: return strings.nagramiXDnsTelegram\n")
+    change(
+        "        let providers: [NagramiXDnsProvider] = [.system, .google, .quad9, .adGuard, .mullvad, .cloudflare, .customDoh]\n",
+        "        let providers: [NagramiXDnsProvider] = [.system, .telegram, .google, .quad9, .adGuard, .mullvad, .cloudflare, .customDoh]\n")
+    change(
+        "    let toggleAvoidProxyWithVPN: (Bool) -> Void = { value in NagramiXTabSettings.update { $0.avoidProxyWithVPN = value } }\n",
+        "    let toggleAvoidProxyWithVPN: (Bool) -> Void\n")
+    change(
+        "toggleAutoSwitch: @escaping (Bool) -> Void, selectAutoSwitchTimeout:",
+        "toggleAutoSwitch: @escaping (Bool) -> Void, toggleAvoidProxyWithVPN: @escaping (Bool) -> Void, selectAutoSwitchTimeout:")
+    change(
+        "        self.toggleAutoSwitch = toggleAutoSwitch\n",
+        "        self.toggleAutoSwitch = toggleAutoSwitch\n        self.toggleAvoidProxyWithVPN = toggleAvoidProxyWithVPN\n")
+    change(
+        "    var selectDnsImpl: (() -> Void)?\n",
+        """    // Observe external changes only while the controller's state is
+    // subscribed. An unpresented controller never installs an observer.
+    let nagramiXSettingsSignal = Signal<NagramiXTabSettings, NoError> { subscriber in
+        let observer = NotificationCenter.default.addObserver(forName: NagramiXTabSettings.changedNotification, object: nil, queue: .main, using: { _ in
+            nagramiXSettingsPromise.set(NagramiXTabSettings.current)
+        })
+        let disposable = nagramiXSettingsPromise.get().start(next: { value in
+            subscriber.putNext(value)
+        })
+        nagramiXSettingsPromise.set(NagramiXTabSettings.current)
+        return ActionDisposable {
+            disposable.dispose()
+            NotificationCenter.default.removeObserver(observer)
+        }
+    }
+    var selectDnsImpl: (() -> Void)?
+""")
+    change(
+        """        if value {
+            updateNagramiXSettings { $0.proxyAutoSwitchEnabled = true }
+        }
+        let _ = updateProxySettingsInteractively""",
+        "        let _ = updateProxySettingsInteractively")
+    change(
+        """            if value && current.activeServer == nil {
+                current.activeServer = current.servers.first
+            }
+            return current
+""",
+        """            if value && current.activeServer == nil {
+                current.activeServer = current.servers.first
+            }
+            NagramiXProxyPreferences.initializeIfNeeded(proxyEnabled: current.enabled && current.activeServer != nil, serverCount: Set(current.servers).count)
+            return current
+""")
+    change(
+        """    }, toggleAutoSwitch: { value in
+        updateNagramiXSettings { $0.proxyAutoSwitchEnabled = value }
+    }, selectAutoSwitchTimeout:""",
+        """    }, toggleAutoSwitch: { value in
+        // Persist even an explicit false matching the absent default.
+        NagramiXProxyPreferences.setAutoSwitch(value)
+        updateNagramiXSettings { $0.proxyAutoSwitchEnabled = value }
+    }, toggleAvoidProxyWithVPN: { value in
+        NagramiXProxyPreferences.setAvoidVPN(value)
+        updateNagramiXSettings { $0.avoidProxyWithVPN = value }
+    }, selectAutoSwitchTimeout:""")
+    change(
+        "            updateNagramiXSettings { $0.proxyAutoSwitchEnabled = true }\n",
+        "")
+    change(
+        """                    current.activeServer = server
+                    current.enabled = true
+                }
+                return current
+""",
+        """                    current.activeServer = server
+                    current.enabled = true
+                    NagramiXProxyPreferences.initializeIfNeeded(proxyEnabled: true, serverCount: Set(current.servers).count)
+                }
+                return current
+""")
+    change(
+        "network.connectionStatus, nagramiXSettingsPromise.get(), NagramiXProxyVPNPolicy.bypassedSignal()",
+        "network.connectionStatus, nagramiXSettingsSignal, NagramiXProxyVPNPolicy.bypassedSignal()")
+    path.write_text(text, encoding="utf-8")
+
+def apply_nagramix_onboarding(source: Path, overlay: Path) -> None:
+    """Brand only the welcome artwork/copy; preserve native authorization."""
+    intro = "submodules/RMIntro/Sources/platform/ios/RMIntroViewController.m"
+    header = "submodules/RMIntro/PublicHeaders/RMIntro/RMIntroViewController.h"
+    phone = "submodules/AuthorizationUI/Sources/AuthorizationSequencePhoneEntryControllerNode.swift"
+    build = "Telegram/BUILD"
+    expected = {
+        intro: "08fe2f3b8c9eb6caefc17b52b820828fc758706ef72b2f5087e7af5830be9c21",
+        header: "1bf4b89a18e8a2db1688c5e7fc4e1652dd030eb35ea5507b74ce0f8cfd30f2c9",
+        phone: "24ecdf7b0ed17e157c18d5f27ad269d9f65fb9b6646b04703fcc38dbbeafd944",
+        build: "ccaa94f6a450c4943090b863de69101cd682257271507072f2b71276ded2e852",
+    }
+    texts = {}
+    for name, digest in expected.items():
+        raw = (source / name).read_bytes()
+        guarded = raw
+        if name == build:
+            # apply_overlay changes exactly these two branding fragments before
+            # apply_features; allow both the fixture and the real CI entrypoint.
+            guarded = guarded.replace(b"<key>CFBundleDisplayName</key>\n    <string>NagramiX</string>", b"<key>CFBundleDisplayName</key>\n    <string>Telegram</string>")
+            guarded = guarded.replace(b"<key>CFBundleAllowMixedLocalizations</key>\n    <true/>\n    <key>CFBundleDevelopmentRegion</key>\n    <string>ru</string>", b"<key>CFBundleAllowMixedLocalizations</key>\n    <true/>\n    <key>CFBundleDevelopmentRegion</key>\n    <string>en</string>")
+        if hashlib.sha256(guarded).hexdigest() != digest:
+            raise SystemExit(f"NagramiX onboarding input drift: {name}")
+        texts[name] = raw.decode("utf-8")
+
+    def patch(name: str, old: str, new: str) -> None:
+        if texts[name].count(old) != 1:
+            raise SystemExit(f"NagramiX onboarding anchor drift: {name}: {old[:80]!r}")
+        texts[name] = texts[name].replace(old, new, 1)
+
+    def block(name: str, start: str, end: str, new: str) -> None:
+        if texts[name].count(start) != 1 or texts[name].count(end) != 1:
+            raise SystemExit(f"NagramiX onboarding range drift: {name}: {start!r}")
+        begin = texts[name].index(start)
+        finish = texts[name].index(end, begin)
+        patch(name, texts[name][begin:finish], new)
+
+    patch(header, "@interface RMIntroViewController : UIViewController<UIScrollViewDelegate, GLKViewDelegate>", "FOUNDATION_EXPORT UIImage *NagramiXOnboardingImage(NSInteger index);\n\n@interface RMIntroViewController : UIViewController<UIScrollViewDelegate, GLKViewDelegate>")
+    patch(intro, '#include "animations.h"\n#include "objects.h"\n#include "texture_helper.h"\n', "")
+    patch(intro, "    UIView *_startButton;\n", "    UIView *_startButton;\n    UIView *_nagramiXArtworkView;\n    NSArray<UIImageView *> *_nagramiXArtworkImages;\n")
+    block(intro, "- (void)startTimer\n", "- (void)stopTimer\n", "- (void)startTimer {\n    // Artwork follows the native scroll offset; no continuous render timer.\n}\n\n")
+    block(intro, "- (void)loadGL\n", "- (void)loadView {", (overlay / "Sources/RMIntro/OnboardingViewMethods.m.inc").read_text(encoding="utf-8").rstrip("\n") + "\n\n")
+    patch(intro, "- (void)animateIn {\n", "- (void)animateIn {\n    if (UIAccessibilityIsReduceMotionEnabled()) {\n        return;\n    }\n")
+    patch(intro, """    UIImage *image = _glkView.snapshot;
+    UIImageView *imageView = [[UIImageView alloc] initWithFrame:_glkView.frame];
+    imageView.image = image;
+    return imageView;
+""", """    UIView *snapshot = [_nagramiXArtworkView snapshotViewAfterScreenUpdates:YES];
+    if (snapshot == nil) {
+        snapshot = [[UIView alloc] initWithFrame:_nagramiXArtworkView.frame];
+    }
+    snapshot.frame = _nagramiXArtworkView.frame;
+    return snapshot;
+""")
+    block(intro, "- (void)updateAndRender\n", "- (void)dealloc\n", "")
+    block(intro, "- (void)setupGL\n", "static CGFloat x;", """// Preserve GLKViewDelegate conformance for the existing public header.
+- (void)glkView:(GLKView *)__unused view drawInRect:(CGRect)__unused rect {
+}
+
+""")
+    block(intro, "static CGFloat x;", "- (void)alternativeLanguageButtonPressed {", """- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+    CGFloat width = scrollView.bounds.size.width;
+    if (width <= 0.0) {
+        return;
+    }
+    CGFloat progress = MAX(0.0, MIN(5.0, scrollView.contentOffset.x / width));
+    _currentPage = (NSInteger)floor(progress + 0.5);
+    [_pageControl setCurrentPage:_currentPage];
+    [self nagramiXUpdateArtwork];
+}
+
+""")
+    # Preserve the native entrance and layout with the replacement UIView.
+    begin = texts[intro].index("- (void)animateIn {\n")
+    finish = texts[intro].index("- (void)loadGL {", begin)
+    animation = texts[intro][begin:finish]
+    patch(intro, animation, animation.replace("_glkView", "_nagramiXArtworkView"))
+    patch(intro, "    _glkView.frame = CGRectChangedOriginY(_glkView.frame, glViewY - statusBarHeight);\n", "    _nagramiXArtworkView.frame = CGRectChangedOriginY(_nagramiXArtworkView.frame, glViewY - statusBarHeight);\n")
+    if any(value in texts[intro] for value in ["_glkView", "setup_texture(", "on_draw_frame("]):
+        raise SystemExit("Unexpected legacy onboarding render path")
+
+    patch(phone, "import UIKit\n", "import UIKit\nimport RMIntro\n")
+    patch(phone, "    private let animationNode: AnimatedStickerNode\n    private let managedAnimationNode: ManagedPhoneAnimationNode\n", "    private let animationNode: ASImageNode\n")
+    patch(phone, """        self.animationNode = DefaultAnimatedStickerNodeImpl(lottieSettings: .noAccountFallback)
+        self.animationNode.setup(source: AnimatedStickerNodeLocalFileSource(name: "IntroPhone"), width: 256, height: 256, playbackMode: .once, mode: .direct(cachePathPrefix: nil))
+
+        self.managedAnimationNode = ManagedPhoneAnimationNode(lottieSettings: .noAccountFallback)
+        self.managedAnimationNode.isHidden = true
+""".replace("\n\n", "\n        \n"), """        self.animationNode = ASImageNode()
+        self.animationNode.image = NagramiXOnboardingImage(6)
+        self.animationNode.contentMode = .scaleAspectFit
+        self.animationNode.displaysAsynchronously = false
+        self.animationNode.displayWithoutProcessing = true
+        self.animationNode.isAccessibilityElement = false
+""")
+    patch(phone, "        self.addSubnode(self.managedAnimationNode)\n", "")
+    patch(phone, """        self.phoneAndCountryNode.keyPressed = { [weak self] num in
+            if let strongSelf = self, !strongSelf.managedAnimationNode.isHidden {
+                strongSelf.managedAnimationNode.animate(num: num)
+            }
+        }
+""", "")
+    patch(phone, """        self.animationNode.completed = { [weak self] _ in
+            self?.animationNode.removeFromSupernode()
+            self?.managedAnimationNode.isHidden = false
+        }
+""", "")
+    patch(phone, "        self.animationNode.layer.animateScale(from: 0.3, to: 1.0, duration: 0.3)\n", "        if !UIAccessibility.isReduceMotionEnabled {\n            self.animationNode.layer.animateScale(from: 0.3, to: 1.0, duration: 0.3)\n        }\n")
+    patch(phone, "            self.animationNode.visibility = true\n", "")
+    patch(phone, "            self.managedAnimationNode.isHidden = true\n", "")
+    patch(phone, "        self.animationNode.updateLayout(size: animationSize)\n", "")
+    patch(phone, "        transition.updateFrame(node: self.managedAnimationNode, frame: self.animationNode.frame)\n", "")
+    if "managedAnimationNode" in texts[phone] or 'name: "IntroPhone"' in texts[phone]:
+        raise SystemExit("Unexpected legacy phone artwork path")
+
+    manifest = json.loads((overlay / "Resources/Onboarding/manifest.json").read_text(encoding="utf-8"))
+    if set(manifest) != {"NagramiXOnboardingLogo.png", "NagramiXOnboardingAtlas.png"}:
+        raise SystemExit("Unexpected onboarding asset manifest")
+    destination = source / "Telegram/Telegram-iOS/Resources/NagramiXOnboarding"
+    assets = {}
+    for name, entry in manifest.items():
+        path = overlay / entry["source"]
+        if hashlib.sha256(path.read_bytes()).hexdigest() != entry["sha256"]:
+            raise SystemExit(f"Onboarding asset drift: {name}")
+        if (destination / name).exists():
+            raise SystemExit(f"Onboarding asset conflict: {name}")
+        assets[name] = path
+    artwork_path = source / "submodules/RMIntro/Sources/platform/ios/NagramiXOnboardingArtwork.m"
+    if artwork_path.exists():
+        raise SystemExit("Onboarding source conflict")
+    patch(build, '    resources = [\n        ":LaunchScreen",\n', '    resources = [\n        ":LaunchScreen",\n        "Telegram-iOS/Resources/NagramiXOnboarding/NagramiXOnboardingLogo.png",\n        "Telegram-iOS/Resources/NagramiXOnboarding/NagramiXOnboardingAtlas.png",\n')
+    for name, text in texts.items():
+        (source / name).write_text(text, encoding="utf-8")
+    shutil.copy2(overlay / "Sources/RMIntro/NagramiXOnboardingArtwork.m", artwork_path)
+    destination.mkdir(parents=True, exist_ok=True)
+    for name, path in assets.items():
+        shutil.copy2(path, destination / name)
+
+
+def apply_archived_media_save(source: Path, overlay: Path) -> None:
+    """Restore local export actions without reviving deleted cloud references."""
+    menu = "submodules/TelegramUI/Sources/ChatInterfaceStateContextMenus.swift"
+    sounds = "submodules/TelegramCore/Sources/TelegramEngine/Peers/NotificationSoundList.swift"
+    expected = {
+        menu: "d4b7e9ed1174c77750c7f3bb485cc60431c6d0a1e0b5bdf02ba6ce75e93cec83",
+        sounds: "ea7d91461444f8b1e3b64783d29ae02c4a956b9845d138a393d02156419793b4",
+    }
+    texts = {}
+    for name, digest in expected.items():
+        raw = (source / name).read_bytes()
+        if hashlib.sha256(raw).hexdigest() != digest:
+            raise SystemExit(f"Archived media save input drift: {name}")
+        texts[name] = raw.decode("utf-8")
+
+    def patch(name: str, old: str, new: str) -> None:
+        if texts[name].count(old) != 1:
+            raise SystemExit(f"Archived media save anchor drift: {name}: {old[:80]!r}")
+        texts[name] = texts[name].replace(old, new, 1)
+
+    patch(menu, """        if archivedAttribute != nil {
+            actions.removeAll()
+""", """        if archivedAttribute != nil {
+            actions.removeAll()
+            actions.append(contentsOf: nagramiXArchivedSaveMediaActions(context: context, message: message, isCopyProtected: isCopyProtected, notificationSoundList: notificationSoundList, controllerInteraction: controllerInteraction, strings: chatPresentationInterfaceState.strings))
+""")
+    # The existing importer keeps its native default. Only the new local-archive
+    # upload supplies OGG explicitly; saved voices must not be labelled as MP3.
+    patch(sounds,
+          "func _internal_uploadNotificationSound(account: Account, title: String, data: Data) -> Signal<NotificationSoundList.NotificationSound, UploadNotificationSoundError> {",
+          "func _internal_uploadNotificationSound(account: Account, title: String, data: Data, mimeType: String = \"audio/mpeg\") -> Signal<NotificationSoundList.NotificationSound, UploadNotificationSoundError> {")
+    patch(sounds,
+          "Api.functions.account.uploadRingtone(file: file, fileName: title, mimeType: \"audio/mpeg\")",
+          "Api.functions.account.uploadRingtone(file: file, fileName: title, mimeType: mimeType)")
+    helpers = {
+        "submodules/TelegramCore/Sources/Utils/NagramiXArchivedSoundSave.swift": "Sources/TelegramCore/NagramiXArchivedSoundSave.swift",
+        "submodules/TelegramUI/Sources/Chat/NagramiXArchivedMediaSave.swift": "Sources/TelegramUI/NagramiXArchivedMediaSave.swift",
+    }
+    for target, origin in helpers.items():
+        if (source / target).exists() or not (overlay / origin).is_file():
+            raise SystemExit(f"Archived media save helper conflict or missing source: {target}")
+    for name, text in texts.items():
+        (source / name).write_text(text, encoding="utf-8")
+    for target, origin in helpers.items():
+        path = source / target
+        path.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copy2(overlay / origin, path)
+
+
+def apply_skip_call_rating(source: Path) -> None:
+    """Gate automatic rating presentation; leave call state and manual rating native."""
+    controller = "submodules/TelegramCallsUI/Sources/CallController.swift"
+    node = "submodules/TelegramCallsUI/Sources/CallControllerNodeV2.swift"
+    build = "submodules/TelegramCallsUI/BUILD"
+    expected = {
+        controller: "9c97d83352e6f93dcab4fc769951f54f568cd966b71efe7219f73c3fd10e6ba6",
+        node: "a57a5b0b7297d1fefcdd35cbcc632724f262bf922a951d652637fd45521d013e",
+        build: "b400ba1e1f8484513d69bc7a1203be34beab7a07d0a24947b41e49a7848f2830",
+    }
+    texts = {}
+    for name, digest in expected.items():
+        raw = (source / name).read_bytes()
+        if hashlib.sha256(raw).hexdigest() != digest:
+            raise SystemExit(f"Call rating preference input drift: {name}")
+        texts[name] = raw.decode("utf-8")
+
+    def patch(name: str, old: str, new: str) -> None:
+        if texts[name].count(old) != 1:
+            raise SystemExit(f"Call rating preference anchor drift: {name}: {old[:80]!r}")
+        texts[name] = texts[name].replace(old, new, 1)
+
+    patch(controller, "import Foundation\n", "import Foundation\nimport NagramiXMediaSettings\n")
+    patch(controller,
+          "            if let strongSelf = self, !strongSelf.presentedCallRating {\n",
+          "            if let strongSelf = self, !NagramiXCallSettings.skipRating, !strongSelf.presentedCallRating {\n")
+    patch(controller,
+          "                Queue.mainQueue().after(0.5, {\n                    let window = strongSelf.window\n",
+          "                Queue.mainQueue().after(0.5, {\n                    guard !NagramiXCallSettings.skipRating else { return }\n                    let window = strongSelf.window\n")
+    patch(node,
+          """        if case let .terminated(_, _, reportRating) = callState.state {
+            self.callEnded?(reportRating)
+        }
+""",
+          """        if case let .terminated(callId, _, reportRating) = callState.state {
+            self.callEnded?(reportRating)
+            if reportRating, let callId {
+                self.presentCallRating?(callId, self.call.isVideo)
+            }
+        }
+""")
+    patch(build,
+          "        \"//submodules/TelegramUIPreferences:TelegramUIPreferences\",\n",
+          "        \"//submodules/TelegramUIPreferences:TelegramUIPreferences\",\n        \"//submodules/NagramiXMediaSettings:NagramiXMediaSettings\",\n")
+    for name, text in texts.items():
+        (source / name).write_text(text, encoding="utf-8")
+
+
+def apply_recorder_backpressure_fix(source: Path) -> None:
+    """Не удерживать очередь рекордера бесконечным ожиданием writer input."""
+    path = source / "submodules/Camera/CameraLegacy/Sources/VideoRecorder.swift"
+    raw = path.read_bytes()
+    if hashlib.sha256(raw).hexdigest() != "e0423c8b29486640fec45a21c02e61f0e321ce8f101ab429937a4da7f17def76":
+        raise SystemExit("Изменился проверенный рекордер перед исправлением backpressure")
+    text = raw.decode("utf-8")
+    substitutions = [
+        (
+            """                    while (!videoInput.isReadyForMoreMediaData)
+                    {
+                        let maxDate = Date(timeIntervalSinceNow: 0.05)
+                        RunLoop.current.run(until: maxDate)
+                    }
+""",
+            """                    guard self.nagramiXWaitUntilReady(videoInput) else {
+                        return
+                    }
+""",
+        ),
+        (
+            """                        let _ = self._duration.modify { _ in return duration }
+                    }
+""",
+            """                        let _ = self._duration.modify { _ in return duration }
+                    } else {
+                        self.transitionToFailedStatus(error: .generic)
+                        return
+                    }
+""",
+        ),
+        (
+            """            while (!audioInput.isReadyForMoreMediaData)
+            {
+                let maxDate = Date(timeIntervalSinceNow: 0.05)
+                RunLoop.current.run(until: maxDate)
+            }
+""",
+            """            guard self.nagramiXWaitUntilReady(audioInput) else {
+                return false
+            }
+""",
+        ),
+        (
+            """    private func transitionToFailedStatus(error: RecorderError) {
+        let _ = self.error.modify({ _ in return error })
+    }
+""",
+            """    private func nagramiXWaitUntilReady(_ input: AVAssetWriterInput) -> Bool {
+        dispatchPrecondition(condition: .onQueue(self.queue))
+        let deadline = CACurrentMediaTime() + 2.0
+        while true {
+            guard self.assetWriter.status == .writing, self.hasError() == nil else {
+                self.transitionToFailedStatus(error: .generic)
+                return false
+            }
+            if input.isReadyForMoreMediaData {
+                return true
+            }
+            guard CACurrentMediaTime() < deadline else {
+                Logger.shared.log("VideoRecorder", "writer input readiness timeout")
+                self.transitionToFailedStatus(error: .generic)
+                return false
+            }
+            RunLoop.current.run(until: Date(timeIntervalSinceNow: 0.01))
+        }
+    }
+
+    private func transitionToFailedStatus(error: RecorderError) {
+        let _ = self.error.modify({ _ in return error })
+        self.pendingAudioSampleBuffers.removeAll()
+        if self.assetWriter.status == .writing {
+            self.assetWriter.cancelWriting()
+        }
+    }
+""",
+        ),
+    ]
+    for old, new in substitutions:
+        if text.count(old) != 1:
+            raise SystemExit("Изменился точный якорь ожидания рекордера")
+        text = text.replace(old, new, 1)
+    path.write_text(text, encoding="utf-8")
+
+
 def apply_features(source: Path) -> None:
     overlay = Path(__file__).resolve().parent
 
@@ -4676,21 +5291,12 @@ def apply_features(source: Path) -> None:
     missing_keys = set(key_pattern.findall(english_app_strings.read_text(encoding="utf-8"))) - set(key_pattern.findall(russian_strings_text))
     if missing_keys:
         raise SystemExit(f"Russian localization is missing upstream keys: {sorted(missing_keys)}")
-    russian_tour_strings = {
-        "Tour.Title1": "Telegram",
-        "Tour.Text1": "Самый **быстрый** мессенджер в мире.\\nОн **бесплатный** и **безопасный**.",
-        "Tour.Title2": "Быстрый",
-        "Tour.Text2": "**Telegram** доставляет сообщения\\nбыстрее других приложений.",
-        "Tour.Title3": "Мощный",
-        "Tour.Text3": "В **Telegram** нет ограничений\\nна размер медиафайлов и чатов.",
-        "Tour.Title4": "Безопасный",
-        "Tour.Text4": "**Telegram** защищает ваши сообщения\\nот атак злоумышленников.",
-        "Tour.Title5": "Облачный",
-        "Tour.Text5": "**Telegram** даёт доступ к сообщениям\\nс нескольких устройств.",
-        "Tour.Title6": "Бесплатный",
-        "Tour.Text6": "**Telegram** предоставляет бесплатное\\nоблачное хранилище для чатов и медиа.",
-        "Tour.StartButton": "Начать общение",
-    }
+    onboarding_copy = json.loads((overlay / "Resources/Onboarding/copy.json").read_text(encoding="utf-8"))
+    expected_tour_keys = {"Tour.StartButton"} | {f"Tour.{kind}{index}" for kind in ("Title", "Text") for index in range(1, 7)}
+    if set(onboarding_copy) != {"ru", "en"} or any(set(values) != expected_tour_keys for values in onboarding_copy.values()):
+        raise SystemExit("Incomplete NagramiX welcome localization")
+    # .strings resources contain escaped newlines, not JSON's actual newlines.
+    russian_tour_strings = {key: value.replace("\n", "\\n") for key, value in onboarding_copy["ru"].items()}
     for key, value in russian_tour_strings.items():
         pattern = re.compile(rf'("{re.escape(key)}"\s*=\s*")([^"\\]*(?:\\.[^"\\]*)*)(";)')
         russian_strings_text, replacement_count = pattern.subn(
@@ -4702,6 +5308,16 @@ def apply_features(source: Path) -> None:
             raise SystemExit(f"Pinned Russian welcome string anchor must occur exactly once ({key})")
     russian_app_strings.parent.mkdir(parents=True, exist_ok=True)
     russian_app_strings.write_text(russian_strings_text, encoding="utf-8")
+
+    english_strings_text = english_app_strings.read_text(encoding="utf-8")
+    for key, value in onboarding_copy["en"].items():
+        pattern = re.compile(rf'("{re.escape(key)}"\s*=\s*")([^"\\]*(?:\\.[^"\\]*)*)(";)')
+        escaped_value = value.replace("\n", "\\n")
+        english_strings_text, replacement_count = pattern.subn(
+            lambda match, value=escaped_value: match.group(1) + value + match.group(3), english_strings_text, count=1)
+        if replacement_count != 1:
+            raise SystemExit(f"Pinned English welcome string anchor must occur exactly once ({key})")
+    english_app_strings.write_text(english_strings_text, encoding="utf-8")
 
     data_storage_controller = source / "submodules/SettingsUI/Sources/Data and Storage/DataAndStorageSettingsController.swift"
     replace_unique(
@@ -9408,6 +10024,12 @@ private func nagramiXCopyProfileId(_ value: Int64, presentationData: Presentatio
     apply_profile_link_messages(source)
     apply_gallery_media_modes(source, overlay)
     apply_unread_chats_first(source, overlay)
+    apply_archived_copy_send_fix(source, overlay)
+    apply_proxy_settings_sync_fix(source)
+    apply_nagramix_onboarding(source, overlay)
+    apply_archived_media_save(source, overlay)
+    apply_skip_call_rating(source)
+    apply_recorder_backpressure_fix(source)
 
     if stock_section not in item_list_controller.read_text(encoding="utf-8"):
         raise SystemExit("NagramiX overlay modified Telegram's stock sectionControl branch")
