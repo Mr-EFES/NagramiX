@@ -1,6 +1,8 @@
 # Видео без сжатия
 
-После build86 подготовлено [исправление владения временным видео](STABILITY_AUDIT.md): синхронный hardlink/copy pin перед асинхронным native MediaBox move. Photos temp освобождается отдельно; LocalFileMediaResource и bytes/метаданные прежние. Эта новая правка **compile_pending / device_pending**, в опубликованный IPA не входит.
+Текущее состояние: включено в проверенный IPA0.5.4/build88, **compile_passed / device_pending**. [Сборка, source SHA и пакет](RELEASE_STATUS.md). Записи о локальных проверках ниже описывают подготовку до этой нативной сборки; физическая проверка остаётся отдельной.
+
+После build86 подготовлено [исправление владения временным видео](STABILITY_AUDIT.md): синхронный hardlink/copy pin перед асинхронным native MediaBox move. Photos temp освобождается отдельно; LocalFileMediaResource и bytes/метаданные прежние. Эта новая правка **compile_passed / device_pending**, включена в проверенный IPA0.5.4/build88.
 
 Предыдущая реализация прошла нативную сборку№86; новая версия0.5.4 проходит отдельную сборку, физическая проверка ожидается. [Текущий статус](RELEASE_STATUS.md). Физические сценарии остаются непроверенными.
 

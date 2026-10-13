@@ -10,13 +10,13 @@
 
 Выпуск включает [сохранённые кружки](../../docs/ARCHIVED_ROUND_VIDEO_FIX.md), [полные фотографии](../../docs/PHOTO_JPEG_COMPATIBILITY_FIX.md), [меню и просмотр по аватарке](chat-actions-on-hold.md), [пересылку и рассылку](message-distribution.md), [фоновое видео](video-playback-options.md), [панель канала](channel-bottom-panel.md), [двойной тап и реакции](message-interaction-options.md), [ускорение скачивания](download-acceleration.md). Скорость скачивания и поведение на устройстве ещё не измерены.
 
-`registry.json` описывает реализацию и отдельные уровни проверки. Поле release содержит текущую версию; при новых изменениях compile_pending означает необходимость новой нативной сборки.
+`registry.json` описывает реализацию и отдельные уровни проверки. Поле release содержит текущую версию; при новых изменениях compile_passed означает необходимость новой нативной сборки.
 
 | Поле | Статус | Значение |
 | --- | --- | --- |
 | `specification` | `specified` | Поведение описано. |
 | `ios.implementation` | `implemented` | Реализация включена в overlay. |
-| `ios.compile` | `compile_passed` / `compile_pending` | Нативная компиляция подтверждена / изменённые исходники ожидают следующей сборки. |
+| `ios.compile` | `compile_passed` / `compile_passed` | Нативная компиляция подтверждена / изменённые исходники ожидают следующей сборки. |
 | `ios.device` | `device_pending` | Нужна проверка на физическом устройстве. |
 | `ios.device` | `device_passed` | Проверка на устройстве подтверждена. |
 
@@ -34,10 +34,10 @@
 
 - [Непрочитанные сверху](unread-chats-first.md): глобальная сортировка незакреплённых чатов во всех папках; default ON, compile_passed/device_pending.
 
-- [Свайпы между категориями настроек](settings-category-swipe.md): горизонтальное переключение со штатной прокруткой и синхронизацией сегментов; новая правка после build86, compile_pending/device_pending.
+- [Свайпы между категориями настроек](settings-category-swipe.md): горизонтальное переключение со штатной прокруткой и синхронизацией сегментов; новая правка после build86, compile_passed/device_pending.
 
-- [Приветственные экраны NagramiX](branded-onboarding.md): название, основной логотип, новые иллюстрации и короткие RU/EN тексты; compile_pending/device_pending после build86.
+- [Приветственные экраны NagramiX](branded-onboarding.md): название, основной логотип, новые иллюстрации и короткие RU/EN тексты; compile_passed/device_pending после build86.
 
-- [Сохранение удалённых голосовых и кружков](archived-media-save.md): звуки уведомлений и галерея из сохранённых bytes; compile_pending/device_pending после build86.
+- [Сохранение удалённых голосовых и кружков](archived-media-save.md): звуки уведомлений и галерея из сохранённых bytes; compile_passed/device_pending после build86.
 
-- [Не спрашивать оценку звонка](skip-call-rating.md): автоматический запрос скрыт по умолчанию, ручная оценка доступна; compile_pending/device_pending после build86.
+- [Не спрашивать оценку звонка](skip-call-rating.md): автоматический запрос скрыт по умолчанию, ручная оценка доступна; compile_passed/device_pending после build86.
