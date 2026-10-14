@@ -1,8 +1,17 @@
-# NagramiX 0.5.5: подготовка чистой сборки
+# NagramiX 0.5.5: сборка запущена
 
-Пользователь разрешил сборку для физического iPhone 17 Pro Max с iOS27.0. Готовность нового IPA пока не подтверждена. ARM64, минимум iOS15.0, внешняя подпись; [изменения](../product/releases/0.5.5.md), [приёмка](IPHONE_TEST_0.5.5.md).
+Запущена чистая ARM64-сборка для физического iPhone 17 Pro Max с iOS27.0. Новый IPA пока не готов; [изменения](../product/releases/0.5.5.md), [приёмка](IPHONE_TEST_0.5.5.md).
 
-Версия metadata/workflow0.5.5. План: clean_build=true, publish_release=true, prerelease=true, artifact_run_id пустой. Source SHA/run/build и контрольная сумма будут заполнены по фактическому результату. Старые публикации не заменять. Preflight: Telegram pin CURRENT; full overlay460/460 совпал с проверенным source,7targeted validators и3resource tests PASS. Нативная компиляция новых изменений ещё не подтверждена. Требуется native compile и проверка нового пакета; физический тест выполняет пользователь.
+| Параметр | Значение |
+| --- | --- |
+| Версия / build | 0.5.5 / 89 |
+| Source SHA | 34bb327c9af011a7916c0bca737ae6fcdffdec9e |
+| Workflow | [№89](https://github.com/Mr-EFES/NagramiX/actions/runs/38554657344), нативная компиляция выполняется |
+| Входные параметры | clean_build=true, publish_release=true, prerelease=true, artifact_run_id пустой |
+| Preflight | full overlay460/460 совпал;7targeted validators,3resource tests,metadata PASS |
+| Нативная компиляция / пакет / iPhone | ожидаются / ожидается / не проверено |
+
+Пользователь явно подтвердил push в main и тестовую публикацию после auto-review rejection первой попытки. Исходники отправлены, head SHA проверен перед dispatch. Старые releases/tags/assets сохраняются, retry остаётся0.5.5. После успеха требуется независимая проверка скачанного IPA и происхождения пакета; устройство тестирует пользователь.
 
 # Предыдущий выпуск0.5.4: проверенный IPA опубликован
 
