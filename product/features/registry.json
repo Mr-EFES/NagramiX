@@ -482,7 +482,7 @@
       "specification": "specified",
       "ios": {
         "implementation": "implemented",
-        "compile": "compile_pending",
+        "compile": "compile_passed",
         "device": "device_pending"
       }
     },
@@ -492,7 +492,7 @@
       "specification": "specified",
       "ios": {
         "implementation": "implemented",
-        "compile": "compile_pending",
+        "compile": "compile_passed",
         "device": "device_pending"
       }
     },
@@ -502,7 +502,7 @@
       "specification": "specified",
       "ios": {
         "implementation": "implemented",
-        "compile": "compile_pending",
+        "compile": "compile_passed",
         "device": "device_pending"
       }
     },
@@ -512,7 +512,7 @@
       "specification": "specified",
       "ios": {
         "implementation": "implemented",
-        "compile": "compile_pending",
+        "compile": "compile_passed",
         "device": "device_pending"
       }
     }

@@ -1,17 +1,27 @@
-# NagramiX 0.5.5: сборка запущена
+# NagramiX 0.5.5: проверенный IPA опубликован
 
-Запущена чистая ARM64-сборка для физического iPhone 17 Pro Max с iOS27.0. Новый IPA пока не готов; [изменения](../product/releases/0.5.5.md), [приёмка](IPHONE_TEST_0.5.5.md).
+Чистая нативная ARM64-сборка, упаковка и тестовая публикация завершились успешно. Опубликованный пакет независимо скачан и проверен. Физический тест на iPhone 17 Pro Max / iOS27.0 ещё не выполнен; [изменения](../product/releases/0.5.5.md), [приёмка](IPHONE_TEST_0.5.5.md).
 
 | Параметр | Значение |
 | --- | --- |
 | Версия / build | 0.5.5 / 89 |
-| Source SHA | 34bb327c9af011a7916c0bca737ae6fcdffdec9e |
-| Workflow | [№89](https://github.com/Mr-EFES/NagramiX/actions/runs/38554657344), нативная компиляция выполняется |
+| Source SHA / tag target | 34bb327c9af011a7916c0bca737ae6fcdffdec9e |
+| Workflow | [№89](https://github.com/Mr-EFES/NagramiX/actions/runs/38554657344), build и release success |
+| Релиз | [v0.5.5](https://github.com/Mr-EFES/NagramiX/releases/tag/v0.5.5), prerelease, не draft |
+| IPA | [NagramiX-0.5.5-unsigned.ipa](https://github.com/Mr-EFES/NagramiX/releases/download/v0.5.5/NagramiX-0.5.5-unsigned.ipa) |
+| Размер | 85 430 772 байта |
+| SHA256 | 923cbd8c468125d8f69480c8c02940dbf4f71fe32136aaf5e29bd81043f858be |
+| Платформа | ARM64, iOS15.0+, bundle com.mr-efes.nagramix, RU region, background audio |
+| База | Telegram13.0, f1dd7a2dbd02cbbf513e75d5695d8d36d1cf5838, CURRENT при сборке |
 | Входные параметры | clean_build=true, publish_release=true, prerelease=true, artifact_run_id пустой |
 | Preflight | full overlay460/460 совпал;7targeted validators,3resource tests,metadata PASS |
-| Нативная компиляция / пакет / iPhone | ожидаются / ожидается / не проверено |
+| Нативная компиляция / пакет / iPhone | пройдена / проверен / не проверено |
 
-Пользователь явно подтвердил push в main и тестовую публикацию после auto-review rejection первой попытки. Исходники отправлены, head SHA проверен перед dispatch. Старые releases/tags/assets сохраняются, retry остаётся0.5.5. После успеха требуется независимая проверка скачанного IPA и происхождения пакета; устройство тестирует пользователь.
+Независимая проверка `/workspace/.codex-validation-nagramix-055-build89/release`: SHA256SUMS и BUILD-PROVENANCE совпали с файлом, source SHA/pin/run; tag указывает на тот же commit; тело релиза совпало с аннотацией0.5.5. ZIP CRC цел. Все6Mach-O ARM64, minimum15.0/background audio подтверждены. Временных _CodeSignature/embedded profiles нет. Основной RU ресурс14863ключа; все265RU/191EN значения NagramiX совпали с исходниками, удалённых ProfileLink ключей нет. Все31мелодии, два onboarding PNG и26RU/EN Tour значений прошли validator.
+
+В build89 включены first-login Postbox handoff, выбор автора/смешанное удаление, действия архивного выделения/один пункт «Избранное», шесть коротких DNS, переход к записи с музыкой, анти-капс, анонимные стикеры/скрытие заблокированных, таймер селфи3–2–1 defaultON и удаление «Подмены профиля». Native compile подтверждён; выполнение XCTest и физические вход/AVFoundation/Photos/доставка/получатель стикеров не проверялись. Все соответствующие сценарии остаются device_pending.
+
+Пользователь явно подтвердил push/main, сборку и тестовую публикацию после отказа автоматического reviewer первой попытки. Старые releases/tags/assets операции этого выпуска не изменяли. Source SHA относится к коду IPA; последующие commits документации и статусов не меняют происхождение пакета. Следующий рабочий выпуск0.5.6 только по новой команде. Для установки нужна внешняя подпись привычным способом.
 
 # Предыдущий выпуск0.5.4: проверенный IPA опубликован
 
