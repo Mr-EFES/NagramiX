@@ -642,6 +642,26 @@ public final class NagramiXMessageArchive {
         return result.count > 1 ? result : []
     }
 
+    /// Обработчики выделения должны получать тот же объект, который виден в ленте,
+    /// когда вместо истёкшей записи Postbox показано сохранённое вложение.
+    public func interactionMessage(id: MessageId, liveMessage: Message?) -> Message? {
+        if let liveMessage, !liveMessage.media.contains(where: { $0 is TelegramMediaExpiredContent }) {
+            return liveMessage.id == id ? liveMessage : nil
+        }
+        let retained = self.deletedMessage(id: id) ?? (liveMessage == nil ? nil : self.snapshotForExpiredMessage(id: id))
+        return Self.interactionMessage(id: id, liveMessage: liveMessage, retainedMessage: retained)
+    }
+
+    public static func interactionMessage(id: MessageId, liveMessage: Message?, retainedMessage: Message?) -> Message? {
+        guard liveMessage == nil || liveMessage?.id == id else { return nil }
+        if let liveMessage, !liveMessage.media.contains(where: { $0 is TelegramMediaExpiredContent }) { return liveMessage }
+        if let retainedMessage, retainedMessage.id == id,
+           retainedMessage.attributes.contains(where: { $0 is NagramiXArchivedMessageAttribute }) {
+            return retainedMessage
+        }
+        return liveMessage
+    }
+
     public func deletedMessage(id: MessageId) -> Message? {
         guard NagramiXMessageArchiveSettings.current.showDeletedMessages,
               let record = self.state.with({ $0.records[Self.key(id)] }), record.deletedAt != nil else { return nil }
@@ -661,6 +681,12 @@ public final class NagramiXMessageArchive {
             guard let record = state.records[Self.key(id)] else { return false }
             return record.deletedAt != nil || record.temporary == true
         }
+    }
+
+    /// Deletion ownership must survive switching archive visibility off while a
+    /// confirmation or undo is open. Unexpired/live temporary messages stay native.
+    public func isLocallyDeletedMessage(id: MessageId) -> Bool {
+        return self.state.with { $0.records[Self.key(id)]?.deletedAt != nil }
     }
 
     public func updateDeletedMessageText(id: MessageId, text: String) {

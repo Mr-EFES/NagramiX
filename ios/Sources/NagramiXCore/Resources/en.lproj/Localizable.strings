@@ -36,13 +36,11 @@
 "NagramiX.Icon.Lime" = "Lime";
 "NagramiX.Icon.Ruby" = "Ruby";
 "NagramiX.Network.DNS" = "DNS server";
-"NagramiX.Network.DNS.System" = "System DNS";
-"NagramiX.Network.DNS.Telegram" = "Telegram DNS";
-"NagramiX.Network.DNS.Google" = "Google DNS";
-"NagramiX.Network.DNS.Quad9" = "Quad9";
-"NagramiX.Network.DNS.AdGuard" = "AdGuard DNS";
-"NagramiX.Network.DNS.Mullvad" = "Mullvad DNS";
-"NagramiX.Network.DNS.Cloudflare" = "Cloudflare DNS";
+"NagramiX.Network.DNS.System" = "System";
+"NagramiX.Network.DNS.Telegram" = "Telegram";
+"NagramiX.Network.DNS.Google" = "Google";
+"NagramiX.Network.DNS.AdGuard" = "AdGuard";
+"NagramiX.Network.DNS.Cloudflare" = "Cloudflare";
 "NagramiX.Network.DNS.Custom" = "Custom DoH";
 "NagramiX.Network.DNS.CustomURL" = "DoH Server URL";
 "NagramiX.Network.DNS.CustomPlaceholder" = "https://example.com/dns-query";
@@ -101,7 +99,9 @@
 "NagramiX.Context.SelectFromAuthor" = "Select From Author";
 "NagramiX.Context.AuthorSelectionEmpty" = "No accessible messages from this author were found.";
 "NagramiX.Context.AuthorSelectionFailed" = "Unable to load all messages from this author. Check your connection and try again. No partial selection was applied.";
-"NagramiX.Context.AuthorDeleteUnavailable" = "Telegram does not allow deleting this selection. Deleting other members’ messages in a supergroup requires administrator permissions. Archived messages can only be removed locally. Clearing the cache frees storage without deleting the conversation.";
+"NagramiX.Context.AuthorDeleteUnavailable" = "Telegram does not allow deleting the selected messages in this chat. Deleting other members’ messages in a supergroup requires administrator permissions.";
+"NagramiX.Context.SelectedDeletionWarning" = "Selected messages to delete: %@. The rest of the conversation will remain.";
+"NagramiX.Context.LocalCopiesDeletionWarning" = "Local copies (%@) will only be removed from this device.";
 "NagramiX.Network.DataCenters" = "Data Centers";
 "NagramiX.Profile.Id" = "Profile ID";
 "NagramiX.Profile.IdCopied" = "ID copied";
@@ -189,23 +189,6 @@
 
 "NagramiX.Authorization.Error" = "Authorization error. Use the \"Log out\" button to log out, then log in again with your phone number.\n\nNote: Logging out will remove your Secret Chats on this device. Use the \"Cancel\" button to save any needed data from your secret chats before proceeding.";
 
-"NagramiX.ProfileLink.Title" = "Profile link";
-"NagramiX.ProfileLink.Enabled" = "Link in messages";
-"NagramiX.ProfileLink.On" = "On";
-"NagramiX.ProfileLink.Off" = "Off";
-"NagramiX.ProfileLink.Info" = "When enabled, new message text and media captions link to the selected profile. Existing links, mentions and code stay intact. Previously sent messages are unchanged.";
-"NagramiX.ProfileLink.TargetHeader" = "Link destination";
-"NagramiX.ProfileLink.Target" = "Profile";
-"NagramiX.ProfileLink.Mine" = "My profile";
-"NagramiX.ProfileLink.UseMine" = "Use my profile";
-"NagramiX.ProfileLink.Open" = "Open profile";
-"NagramiX.ProfileLink.Id" = "Profile ID";
-"NagramiX.ProfileLink.Editor" = "Choose profile by ID";
-"NagramiX.ProfileLink.IdHint" = "Enter a numeric user ID. You can copy it from a profile. To select another user, first open their profile in this NagramiX account.";
-"NagramiX.ProfileLink.InvalidId" = "Enter a valid numeric user ID without a minus sign, letters or links.";
-"NagramiX.ProfileLink.Unavailable" = "Profile unavailable";
-"NagramiX.ProfileLink.NotFound" = "This profile is not yet available in the current account. Open it through search or a conversation, then try its ID again. Messages are sent without this link while the profile is unavailable.";
-"NagramiX.ProfileLink.PreviewInfo" = "Use Open profile to check the link destination. The message sender stays the same.";
 
 "NagramiX.Settings.Photos.HighQuality" = "Photos Without Compression";
 "NagramiX.Settings.Videos.Original" = "Videos Without Compression";
@@ -217,3 +200,14 @@
 "NagramiX.Archive.CopyUnavailable" = "Could not prepare the saved attachment. The file may be incomplete or storage may be full. The message was not sent.";
 "NagramiX.Archive.SaveUnavailable" = "Could not prepare the saved file. It may be unavailable, incomplete, or storage may be full.";
 "NagramiX.Archive.SaveFailed" = "Could not save. Please try again.";
+
+"NagramiX.Settings.Messages.AntiCaps" = "Anti-Caps";
+"NagramiX.Settings.Messages.AntiCaps.SearchTerms" = "Uppercase capital letters caps from 4 letters HELLO EVERYONE → Hello everyone";
+
+"NagramiX.Settings.Stickers.Anonymous" = "Anonymous Stickers";
+"NagramiX.Settings.Stickers.Anonymous.SearchTerms" = "Send stickers without a sticker pack link anonymous sending";
+"NagramiX.Settings.Messages.HideBlocked" = "Hide Blocked Users";
+"NagramiX.Settings.Messages.HideBlocked.SearchTerms" = "Hide messages from blocked users blacklist group chat";
+
+"NagramiX.SelfieCountdown.Title" = "3–2–1 countdown";
+"NagramiX.SelfieCountdown.SearchTerms" = "Selfie camera timer. Three seconds before recording a front-camera video message. Countdown timer selfie round video.";

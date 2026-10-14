@@ -3939,38 +3939,6 @@ def apply_authorization_alert_handling(source: Path) -> None:
         path.write_text(text, encoding="utf-8")
 
 
-def apply_profile_link_messages(source: Path) -> None:
-    """Нативная ссылка на проверенный профиль в новых исходящих сообщениях."""
-    path = source / "submodules/TelegramCore/Sources/PendingMessages/EnqueueMessage.swift"
-    expected = "06b68a873785be5ff84d38e524e186313150d5d6cf8456b5f95efe38ffb6c33c"
-    if hashlib.sha256(path.read_bytes()).hexdigest() != expected:
-        raise SystemExit("Изменился проверенный enqueue или ссылка на профиль уже применена")
-    changes = [
-        (
-            "            var normalMessageIndices: [Int] = []\n\n            for i in 0 ..< messages.count {\n                let (transformedMedia, message) = messages[i]\n",
-            "            var normalMessageIndices: [Int] = []\n            let profileLinkTarget = nagramiXProfileLinkTarget(transaction: transaction, accountPeerId: account.peerId)\n\n            for i in 0 ..< messages.count {\n                let (transformedMedia, originalMessage) = messages[i]\n                let message = nagramiXProfileLinkedMessage(originalMessage, targetPeerId: profileLinkTarget, isSecretChat: peerId.namespace == Namespaces.Peer.SecretChat)\n",
-        ),
-    ]
-    overlay = Path(__file__).resolve().parent
-    copies = {
-        source / "submodules/TelegramCore/Sources/NagramiXProfileLinkedMessages.swift": overlay / "Sources/TelegramCore/NagramiXProfileLinkedMessages.swift",
-        source / "submodules/SettingsUI/Sources/NagramiXProfileLinkSettingsController.swift": overlay / "Sources/SettingsUI/NagramiXProfileLinkSettingsController.swift",
-        source / "submodules/TelegramCore/Tests/NagramiXProfileLinkedMessagesTests.swift": overlay / "Tests/TelegramCore/NagramiXProfileLinkedMessagesTests.swift",
-    }
-    for target, original in copies.items():
-        if target.exists() or not original.is_file():
-            raise SystemExit(f"Изменился состав файлов ссылок на профиль: {target.name}")
-    text = path.read_text(encoding="utf-8")
-    for old, new in changes:
-        if text.count(old) != 1:
-            raise SystemExit("Изменился точный якорь исходящих ссылок на профиль")
-        text = text.replace(old, new, 1)
-    for target, original in copies.items():
-        target.parent.mkdir(parents=True, exist_ok=True)
-        shutil.copy2(original, target)
-    path.write_text(text, encoding="utf-8")
-
-
 def apply_recording_session_continuity(source: Path) -> None:
     """Смешивание без лишней смены маршрута и завершение повторных записей."""
     hashes = {
@@ -5238,6 +5206,1070 @@ def apply_recorder_backpressure_fix(source: Path) -> None:
             raise SystemExit("Изменился точный якорь ожидания рекордера")
         text = text.replace(old, new, 1)
     path.write_text(text, encoding="utf-8")
+
+
+def apply_login_postbox_handoff(source: Path) -> None:
+    """Promote the live login Postbox instead of opening its database a second time."""
+    account = "submodules/TelegramCore/Sources/Account/Account.swift"
+    context = "submodules/TelegramUI/Sources/SharedAccountContext.swift"
+    expected = {
+        account: "40237996ae8b1c3eac1b4537a7d7fdb4dbfc26cd0d20b873c69cbf87d993edba",
+        context: "c6f74ebc29770a3d6a054d025cf0c48b086f693a6c75d4e237ba2f455bc41109",
+    }
+    texts = {}
+    for name, digest in expected.items():
+        raw = (source / name).read_bytes()
+        if hashlib.sha256(raw).hexdigest() != digest:
+            raise SystemExit(f"Login Postbox handoff input drift: {name}")
+        texts[name] = raw.decode("utf-8")
+
+    substitutions = [
+        (account,
+         "public func accountWithId(accountManager: AccountManager<TelegramAccountManagerTypes>, networkArguments: NetworkInitializationArguments, id: AccountRecordId, encryptionParameters: ValueBoxEncryptionParameters, supplementary: Bool, isSupportUser: Bool, rootPath: String, beginWithTestingEnvironment: Bool, backupData: AccountBackupData?, auxiliaryMethods: AccountAuxiliaryMethods, shouldKeepAutoConnection: Bool = true) -> Signal<AccountResult, NoError> {",
+         "public func accountWithId(accountManager: AccountManager<TelegramAccountManagerTypes>, networkArguments: NetworkInitializationArguments, id: AccountRecordId, encryptionParameters: ValueBoxEncryptionParameters, supplementary: Bool, isSupportUser: Bool, rootPath: String, beginWithTestingEnvironment: Bool, backupData: AccountBackupData?, auxiliaryMethods: AccountAuxiliaryMethods, shouldKeepAutoConnection: Bool = true, existingUnauthorizedAccount: UnauthorizedAccount? = nil) -> Signal<AccountResult, NoError> {"),
+        (account,
+         """    let postbox = openPostbox(
+        basePath: path + "/postbox",
+        seedConfiguration: telegramPostboxSeedConfiguration,
+        encryptionParameters: encryptionParameters,
+        timestampForAbsoluteTimeBasedOperations: Int32(CFAbsoluteTimeGetCurrent() + NSTimeIntervalSince1970),
+        isMainProcess: !supplementary,
+        isTemporary: false,
+        isReadOnly: false,
+        useCopy: false,
+        useCaches: !supplementary,
+        removeDatabaseOnError: !supplementary
+    )
+""",
+         """    let postbox: Signal<PostboxResult, NoError>
+    if !supplementary, let existingUnauthorizedAccount,
+       existingUnauthorizedAccount.id == id,
+       existingUnauthorizedAccount.rootPath == rootPath,
+       existingUnauthorizedAccount.basePath == path,
+       existingUnauthorizedAccount.testingEnvironment == beginWithTestingEnvironment {
+        // Authorization has already committed to this Postbox. Keep the same database
+        // owner during promotion; opening another connection here races its lifecycle.
+        // The native transaction below still reads and validates the account state.
+        Logger.shared.log("Account", "Promoting the existing login Postbox")
+        postbox = .single(.postbox(existingUnauthorizedAccount.postbox))
+    } else {
+        postbox = openPostbox(
+            basePath: path + "/postbox",
+            seedConfiguration: telegramPostboxSeedConfiguration,
+            encryptionParameters: encryptionParameters,
+            timestampForAbsoluteTimeBasedOperations: Int32(CFAbsoluteTimeGetCurrent() + NSTimeIntervalSince1970),
+            isMainProcess: !supplementary,
+            isTemporary: false,
+            isReadOnly: false,
+            useCopy: false,
+            useCaches: !supplementary,
+            removeDatabaseOnError: !supplementary
+        )
+    }
+"""),
+        (context,
+         """                    addedSignals.append(accountWithId(accountManager: accountManager, networkArguments: networkArguments, id: id, encryptionParameters: encryptionParameters, supplementary: !applicationBindings.isMainApp, isSupportUser: attributes.isSupportUser, rootPath: rootPath, beginWithTestingEnvironment: attributes.isTestingEnvironment, backupData: attributes.backupData, auxiliaryMethods: makeTelegramAccountAuxiliaryMethods(uploadInBackground: appDelegate?.uploadInBackround))
+""",
+         """                    // Reuse only the login account that has just left the auth record.
+                    // Other accounts, environments and extension processes open normally.
+                    let existingUnauthorizedAccount: UnauthorizedAccount?
+                    if applicationBindings.isMainApp, authRecord?.0 != id,
+                       let currentAuth = self.activeAccountsValue?.currentAuth,
+                       currentAuth.id == id {
+                        existingUnauthorizedAccount = currentAuth
+                    } else {
+                        existingUnauthorizedAccount = nil
+                    }
+                    addedSignals.append(accountWithId(accountManager: accountManager, networkArguments: networkArguments, id: id, encryptionParameters: encryptionParameters, supplementary: !applicationBindings.isMainApp, isSupportUser: attributes.isSupportUser, rootPath: rootPath, beginWithTestingEnvironment: attributes.isTestingEnvironment, backupData: attributes.backupData, auxiliaryMethods: makeTelegramAccountAuxiliaryMethods(uploadInBackground: appDelegate?.uploadInBackround), existingUnauthorizedAccount: existingUnauthorizedAccount)
+"""),
+    ]
+    for name, old, new in substitutions:
+        if texts[name].count(old) != 1:
+            raise SystemExit(f"Login Postbox handoff anchor drift: {name}")
+        texts[name] = texts[name].replace(old, new, 1)
+    # Validate both complete inputs and every anchor before changing either file.
+    for name, text in texts.items():
+        (source / name).write_text(text, encoding="utf-8")
+
+
+def apply_author_selection_archive_deletion(source: Path) -> None:
+    """Separate local snapshots from native permission checks and cloud deletion."""
+    load = "submodules/TelegramUI/Sources/Chat/ChatControllerLoadDisplayNode.swift"
+    admin = "submodules/TelegramUI/Sources/ChatControllerAdminBanUsers.swift"
+    delete = "submodules/TelegramCore/Sources/TelegramEngine/Messages/DeleteMessagesInteractively.swift"
+    history = "submodules/TelegramUI/Sources/ChatHistoryListNode.swift"
+    expected = {
+        load: "03c4bfb58ced48fc945606abd02eab2c93c770abeed4424b9d756b38a647a98c",
+        admin: "78dac17422edb37141758646ed55005fba0ad1f43fe99ce9d2b4282a0eae7241",
+        delete: "32f3e09a5b8f689d4f3a39339480531b24a265d913ec4916724f14057b1825a9",
+        history: "f46f5d505e53048eb573206b4bccc4da409f9a5c33d8f312309ec13f541fa92d",
+    }
+    texts = {}
+    for name, digest in expected.items():
+        raw = (source / name).read_bytes()
+        if hashlib.sha256(raw).hexdigest() != digest:
+            raise SystemExit(f"Author selection deletion input drift: {name}")
+        texts[name] = raw.decode("utf-8")
+
+    def patch(name: str, old: str, new: str) -> None:
+        if texts[name].count(old) != 1:
+            raise SystemExit(f"Author selection deletion anchor drift: {name}: {old[:80]!r}")
+        texts[name] = texts[name].replace(old, new, 1)
+
+    start = "        }, deleteSelectedMessages: { [weak self] sourceView in\n"
+    end = "        }, reportSelectedMessages: { [weak self] in\n"
+    if texts[load].count(start) != 1 or texts[load].count(end) != 1:
+        raise SystemExit("Author selection deletion callback drift")
+    begin = texts[load].index(start)
+    finish = texts[load].index(end, begin)
+    block = texts[load][begin:finish]
+
+    def callback_patch(old: str, new: str) -> None:
+        nonlocal block
+        if block.count(old) != 1:
+            raise SystemExit(f"Author selection deletion callback anchor drift: {old[:80]!r}")
+        block = block.replace(old, new, 1)
+
+    callback_patch(
+        """                    if messageIds.allSatisfy({ strongSelf.context.account.nagramiXMessageArchive.deletedMessage(id: $0) != nil }) {
+                        strongSelf.context.account.nagramiXMessageArchive.removeLocal(messageIds: Array(messageIds))
+                        strongSelf.updateChatPresentationInterfaceState(animated: true, interactive: true, { $0.updatedInterfaceState { $0.withoutSelectionState() } })
+                        return
+                    }
+""",
+        """                    let archivedIds = Set(messageIds.filter { strongSelf.context.account.nagramiXMessageArchive.isLocallyDeletedMessage(id: $0) })
+""")
+    callback_patch(
+        """                    strongSelf.messageContextDisposable.set((strongSelf.context.sharedContext.chatAvailableMessageActions(engine: strongSelf.context.engine, accountPeerId: strongSelf.context.account.peerId, messageIds: messageIds, keepUpdated: false)
+                    |> deliverOnMainQueue).startStrict(next: { actions in
+""",
+        """                    strongSelf.messageContextDisposable.set((strongSelf.context.account.postbox.transaction { transaction -> Set<MessageId> in
+                        // An expired media placeholder can still be a real server message.
+                        // Only snapshots absent from Postbox are excluded from permissions.
+                        return Set(messageIds.filter { !archivedIds.contains($0) || transaction.getMessage($0) != nil })
+                    }
+                    |> deliverOnMainQueue
+                    |> mapToSignal { [weak self] liveIds -> Signal<ChatAvailableMessageActions, NoError> in
+                        guard let strongSelf = self, strongSelf.presentationInterfaceState.interfaceState.selectionState?.selectedIds == messageIds else { return .complete() }
+                        if liveIds.isEmpty {
+                            strongSelf.presentDeleteMessageOptions(messageIds: messageIds, options: [.deleteLocally], contextController: nil, sourceView: sourceView, completion: { _ in })
+                            return .complete()
+                        }
+                        return strongSelf.context.sharedContext.chatAvailableMessageActions(engine: strongSelf.context.engine, accountPeerId: strongSelf.context.account.peerId, messageIds: liveIds, keepUpdated: false)
+                    }
+                    |> deliverOnMainQueue).startStrict(next: { actions in
+""")
+    callback_patch("if let strongSelf = self, !actions.options.isEmpty {", """if let strongSelf = self {
+                            guard strongSelf.presentationInterfaceState.interfaceState.selectionState?.selectedIds == messageIds else { return }""")
+    callback_patch("if let banAuthor = actions.banAuthor {", "if archivedIds.isEmpty, let banAuthor = actions.banAuthor {")
+    callback_patch("} else if !actions.banAuthors.isEmpty {", "} else if archivedIds.isEmpty, !actions.banAuthors.isEmpty {")
+    callback_patch("if strongSelf.nagramiXSelectedAuthorMessageIds == messageIds {", "if strongSelf.nagramiXSelectedAuthorMessageIds == messageIds || !archivedIds.isEmpty {")
+    callback_patch(
+        """                                            TextAlertAction(type: .defaultAction, title: strongSelf.presentationData.strings.Common_OK, action: {}),
+                                            TextAlertAction(type: .genericAction, title: strongSelf.presentationData.strings.ClearCache_FreeSpace, action: { [weak strongSelf] in
+                                                strongSelf?.presentClearCacheSuggestion()
+                                            })
+""",
+        """                                            TextAlertAction(type: .defaultAction, title: strongSelf.presentationData.strings.Common_OK, action: {})
+""")
+    texts[load] = texts[load][:begin] + block + texts[load][finish:]
+
+    patch(admin, "import Foundation\n", "import Foundation\nimport NagramiXCore\n")
+    patch(admin,
+        """            var canDisplayContextMenu = true
+
+            if options.contains(.cancelSending) {
+""",
+        """            var canDisplayContextMenu = true
+            let archivedCount = messageIds.filter { self.context.account.nagramiXMessageArchive.isLocallyDeletedMessage(id: $0) }.count
+            if archivedCount > 0 || self.nagramiXSelectedAuthorMessageIds == messageIds {
+                // Use the native confirmation sheet and choices, with an exact scope.
+                // Cancellation and local undo must not remove archive records early.
+                canDisplayContextMenu = false
+                var warning = self.presentationData.strings.nagramiXSelectedDeletionWarning(messageIds.count)
+                if archivedCount > 0 {
+                    warning += "\\n" + self.presentationData.strings.nagramiXLocalCopiesDeletionWarning(archivedCount)
+                }
+                items.append(ActionSheetTextItem(title: warning))
+            }
+
+            if options.contains(.cancelSending) {
+""")
+    patch(delete,
+        """    var uniqueIds: [Int64: PeerId] = [:]
+""",
+        """    // Partition after native album expansion, before creating cloud/secret operations.
+    // An archived ID is a local snapshot, not an available server message to revoke.
+    if let archive = NagramiXMessageArchive.forPostbox(postbox) {
+        let localIds = Set(messageIds.filter { archive.isLocallyDeletedMessage(id: $0.messageId) && transaction.getMessage($0.messageId) == nil }.map { $0.messageId })
+        if !localIds.isEmpty {
+            archive.removeLocal(messageIds: Array(localIds))
+            _internal_deleteMessages(transaction: transaction, mediaBox: postbox.mediaBox, ids: Array(localIds))
+            messageIds.removeAll { localIds.contains($0.messageId) }
+        }
+    }
+    var uniqueIds: [Int64: PeerId] = [:]
+""")
+    patch(history,
+        "                    pendingRemovedMessages: pendingRemovedMessages,\n",
+        "                    pendingRemovedMessages: pendingRemovedMessages.union(update.4),\n")
+    for name, text in texts.items():
+        (source / name).write_text(text, encoding="utf-8")
+
+
+def apply_dns_provider_list(source: Path) -> None:
+    """Prune the final picker without weakening previous proxy-stage guards."""
+    path = source / "submodules/SettingsUI/Sources/Data and Storage/ProxyListSettingsController.swift"
+    raw = path.read_bytes()
+    if hashlib.sha256(raw).hexdigest() != "fd93383a35ec83929a5b9a59b55c0c0179384307f6e866e17290133c55dc25ec":
+        raise SystemExit("DNS provider list input drift")
+    text = raw.decode("utf-8")
+    replacements = [
+        ("    case .quad9: return strings.nagramiXDnsQuad9\n", ""),
+        ("    case .mullvad: return strings.nagramiXDnsMullvad\n", ""),
+        ("        let providers: [NagramiXDnsProvider] = [.system, .telegram, .google, .quad9, .adGuard, .mullvad, .cloudflare, .customDoh]\n",
+         "        let providers = NagramiXDnsProvider.allCases\n"),
+    ]
+    for old, new in replacements:
+        if text.count(old) != 1:
+            raise SystemExit(f"DNS provider list anchor drift: {old!r}")
+        text = text.replace(old, new, 1)
+    path.write_text(text, encoding="utf-8")
+
+
+def apply_selfie_countdown(source: Path) -> None:
+    """Отсчёт только перед первой записью на селфи-камеру, до writer/live upload."""
+    hashes = {'submodules/TelegramUI/Components/VideoMessageCameraScreen/Sources/VideoMessageCameraScreen.swift': 'f51f785c1c8662f7453657d63eb14531314f67d9201c35d7b955b6746bd53081'}
+    substitutions = [('submodules/TelegramUI/Components/VideoMessageCameraScreen/Sources/VideoMessageCameraScreen.swift',
+      '                    if controller.recordingStartTime == nil {\n'
+      '                        controller.recordingStartTime = CACurrentMediaTime()\n'
+      '                    }\n',
+      '                    // Timestamp is set when the writer starts, after any countdown.\n'),
+     ('submodules/TelegramUI/Components/VideoMessageCameraScreen/Sources/VideoMessageCameraScreen.swift',
+      '        deinit {\n            self.resultDisposable.dispose()\n        }\n',
+      '        deinit {\n'
+      '            self.nagramiXCountdownTimer?.invalidate()\n'
+      '            self.nagramiXCountdownPositionDisposable?.dispose()\n'
+      '            if let observer = self.nagramiXCountdownBackgroundObserver {\n'
+      '                NotificationCenter.default.removeObserver(observer)\n'
+      '            }\n'
+      '            self.resultDisposable.dispose()\n'
+      '        }\n'),
+     ('submodules/TelegramUI/Components/VideoMessageCameraScreen/Sources/VideoMessageCameraScreen.swift',
+      '            self.nagramiXRecordingGeneration &+= 1\n'
+      '            let generation = self.nagramiXRecordingGeneration\n'
+      '            let initialDuration',
+      '            self.nagramiXRecordingGeneration &+= 1\n'
+      '            let generation = self.nagramiXRecordingGeneration\n'
+      '            let shouldCountdown = !self.nagramiXDidRequestInitialRecording && controller.cameraState.position == .front && '
+      'NagramiXTabSettings.current.selfieCountdown\n'
+      '            self.nagramiXDidRequestInitialRecording = true\n'
+      '            if shouldCountdown {\n'
+      '                self.nagramiXArmCountdown(controller: controller)\n'
+      '            }\n'
+      '            let initialDuration'),
+     ('submodules/TelegramUI/Components/VideoMessageCameraScreen/Sources/VideoMessageCameraScreen.swift',
+      '            controller.node.withReadyCamera(isFirstTime: !controller.node.cameraIsActive) { [weak self] in\n'
+      '                Queue.mainQueue().after(0.15) {\n',
+      '            controller.node.withReadyCamera(isFirstTime: !controller.node.cameraIsActive) { [weak self] in\n'
+      '                let start: () -> Void = { [weak self] in\n'),
+     ('submodules/TelegramUI/Components/VideoMessageCameraScreen/Sources/VideoMessageCameraScreen.swift',
+      '                    self.resultDisposable.set((camera.startRecording()\n',
+      '                    if shouldCountdown && UIApplication.shared.applicationState != .active { return }\n'
+      '                    if controller.recordingStartTime == nil {\n'
+      '                        controller.recordingStartTime = CACurrentMediaTime()\n'
+      '                    }\n'
+      '                    self.resultDisposable.set((camera.startRecording()\n'),
+     ('submodules/TelegramUI/Components/VideoMessageCameraScreen/Sources/VideoMessageCameraScreen.swift',
+      '                    }))\n                }\n            }\n            \n            if initialDuration > 0.0 {',
+      '                    }))\n'
+      '                }\n'
+      '                if shouldCountdown {\n'
+      '                    self?.nagramiXBeginCountdown(generation: generation, start: start)\n'
+      '                } else {\n'
+      '                    Queue.mainQueue().after(0.15, start)\n'
+      '                }\n'
+      '            }\n'
+      '            \n'
+      '            if initialDuration > 0.0 {'),
+     ('submodules/TelegramUI/Components/VideoMessageCameraScreen/Sources/VideoMessageCameraScreen.swift',
+      '        private var nagramiXStoppingRecording = false\n',
+      '__NAGRAMIX_SELFIE_COUNTDOWN_STATE__'),
+     ('submodules/TelegramUI/Components/VideoMessageCameraScreen/Sources/VideoMessageCameraScreen.swift',
+      '        func cancelVideoRecording() {\n            if let initialBrightness',
+      '        func cancelVideoRecording() {\n'
+      '            self.nagramiXRecordingGeneration &+= 1\n'
+      '            self.nagramiXClearCountdown()\n'
+      '            if let initialBrightness'),
+     ('submodules/TelegramUI/Components/VideoMessageCameraScreen/Sources/VideoMessageCameraScreen.swift',
+      '        private var progressView: RecordingProgressView\n',
+      '        private var progressView: RecordingProgressView\n'
+      '        fileprivate var nagramiXCountdownPending = false\n'
+      '        private let nagramiXCountdownLabel = UILabel()\n'
+      '\n'
+      '        fileprivate func nagramiXUpdateCountdown(_ value: Int?) {\n'
+      '            let changed = self.nagramiXCountdownLabel.text != value.map(String.init)\n'
+      '            self.nagramiXCountdownLabel.text = value.map(String.init)\n'
+      '            self.nagramiXCountdownLabel.isHidden = value == nil\n'
+      '            if changed, value != nil {\n'
+      '                self.nagramiXCountdownLabel.layer.removeAllAnimations()\n'
+      '                if !UIAccessibility.isReduceMotionEnabled {\n'
+      '                    self.nagramiXCountdownLabel.layer.animateScale(from: 1.12, to: 1.0, duration: 0.2)\n'
+      '                }\n'
+      '                UIAccessibility.post(notification: .announcement, argument: value.map(String.init))\n'
+      '            }\n'
+      '        }\n'),
+     ('submodules/TelegramUI/Components/VideoMessageCameraScreen/Sources/VideoMessageCameraScreen.swift',
+      '            self.previewContainerContentView.addSubview(self.loadingView)\n',
+      '            self.previewContainerContentView.addSubview(self.loadingView)\n'
+      '            self.nagramiXCountdownLabel.font = Font.semibold(88.0)\n'
+      '            self.nagramiXCountdownLabel.textColor = .white\n'
+      '            self.nagramiXCountdownLabel.textAlignment = .center\n'
+      '            self.nagramiXCountdownLabel.isUserInteractionEnabled = false\n'
+      '            self.nagramiXCountdownLabel.isHidden = true\n'
+      '            self.nagramiXCountdownLabel.layer.shadowColor = UIColor.black.cgColor\n'
+      '            self.nagramiXCountdownLabel.layer.shadowOpacity = 0.2\n'
+      '            self.nagramiXCountdownLabel.layer.shadowRadius = 3.0\n'
+      '            self.nagramiXCountdownLabel.layer.shadowOffset = CGSize(width: 0.0, height: 1.0)\n'
+      '            self.previewContainerContentView.addSubview(self.nagramiXCountdownLabel)\n'),
+     ('submodules/TelegramUI/Components/VideoMessageCameraScreen/Sources/VideoMessageCameraScreen.swift',
+      '            self.previewBlurView.frame = previewBounds\n',
+      '            self.nagramiXCountdownLabel.frame = previewBounds\n            self.previewBlurView.frame = previewBounds\n'),
+     ('submodules/TelegramUI/Components/VideoMessageCameraScreen/Sources/VideoMessageCameraScreen.swift',
+      '        var skipAction = false\n',
+      '        if self.node.nagramiXCountdownPending {\n'
+      '            self.node.cancelRecording.invoke(Void())\n'
+      '            self.completion(nil, nil, nil, nil)\n'
+      '            return\n'
+      '        }\n'
+      '        var skipAction = false\n'),
+     ('submodules/TelegramUI/Components/VideoMessageCameraScreen/Sources/VideoMessageCameraScreen.swift',
+      '        self.waitingForNextResult = true\n        self.node.transitioningToPreview = true\n',
+      '        if self.node.nagramiXCountdownPending {\n'
+      '            self.discardVideo()\n'
+      '            self.completion(nil, nil, nil, nil)\n'
+      '            return false\n'
+      '        }\n'
+      '        self.waitingForNextResult = true\n'
+      '        self.node.transitioningToPreview = true\n'),
+     ('submodules/TelegramUI/Components/VideoMessageCameraScreen/Sources/VideoMessageCameraScreen.swift',
+      '        self.isDismissed = true\n        self.node.camera?.stopCapture(invalidate: true)',
+      '        self.isDismissed = true\n'
+      '        self.node.cancelRecording.invoke(Void())\n'
+      '        self.node.camera?.stopCapture(invalidate: true)'),
+     ('submodules/TelegramUI/Components/VideoMessageCameraScreen/Sources/VideoMessageCameraScreen.swift',
+      '            guard !self.nagramiXStoppingRecording else { return }\n            self.nagramiXStoppingRecording = true',
+      '            if controller.node.nagramiXCountdownPending {\n'
+      '                self.cancelVideoRecording()\n'
+      '                controller.completion(nil, nil, nil, nil)\n'
+      '                return\n'
+      '            }\n'
+      '            guard !self.nagramiXStoppingRecording else { return }\n'
+      '            self.nagramiXStoppingRecording = true')]
+    methods = (Path(__file__).resolve().parent / "Sources/VideoMessageCameraScreen/NagramiXSelfieCountdown.swift.inc").read_text(encoding="utf-8").rstrip("\n") + "\n\n        private var nagramiXStoppingRecording = false\n"
+    texts = {}
+    for name, expected in hashes.items():
+        raw = (source / name).read_bytes()
+        if hashlib.sha256(raw).hexdigest() != expected:
+            raise SystemExit(f"Изменился вход таймера селфи-камеры: {name}")
+        texts[name] = raw.decode("utf-8")
+    for name, old, new in substitutions:
+        if texts[name].count(old) != 1:
+            raise SystemExit(f"Изменился якорь таймера селфи-камеры: {name}")
+        if new == "__NAGRAMIX_SELFIE_COUNTDOWN_STATE__":
+            new = methods
+        texts[name] = texts[name].replace(old, new, 1)
+    for name, text in texts.items():
+        (source / name).write_text(text, encoding="utf-8")
+
+
+def apply_archived_selection_actions_fix(source: Path) -> None:
+    """Полные архивные объекты для панели, экспорта и пересылки; один адресат один раз."""
+    hashes = {'submodules/ChatListUI/Sources/Node/ChatListNodeEntries.swift': 'a3d6c137db9599a0c1f8fc4457ec25b39c7bb65623a78c8c9561d8e96630dd82',
+ 'submodules/TelegramUI/Components/Chat/ChatMessageSelectionInputPanelNode/Sources/ChatMessageSelectionInputPanelNode.swift': 'afd475d35658af538b77bc7ca1da86c3bc3a2188f9429a18c4879e41045ffd72',
+ 'submodules/TelegramUI/Sources/Chat/ChatControllerLoadDisplayNode.swift': '7eecff949e8eec5731e3253d6283fbfecbd40697ec4a9e73dc644145e724ed2c',
+ 'submodules/TelegramUI/Sources/ChatControllerForwardMessages.swift': 'e92b60aea1c36429841f57b79f2567402f0510e56999564a51f207b9b7d33d30',
+ 'submodules/TelegramUI/Sources/ChatControllerNode.swift': '6a24070bcafb53f03bea1694d93e55d544a058b6572bf3741ceb11435c05d9e7',
+ 'submodules/TelegramUI/Sources/ChatInterfaceStateContextMenus.swift': '1dd1b6b865cac3bdb1b34290f62198610393b1ea5dc20a361b64c8db2400c7fc'}
+    substitutions = [('submodules/ChatListUI/Sources/Node/ChatListNodeEntries.swift',
+      '    var foundPeerIds = Set<EnginePeer.Id>()\n',
+      '    // «Избранное» уже представлено отдельной закреплённой строкой picker.\n'
+      '    let foundPeers = foundPeers.filter { $0.0.id != savedMessagesPeer?.id }\n'
+      '    var foundPeerIds = Set<EnginePeer.Id>()\n'),
+     ('submodules/TelegramUI/Sources/ChatControllerForwardMessages.swift',
+      '                // Enforce the recipient contract before payments, scheduling or enqueue.\n',
+      '                var recipientIds = Set<EnginePeer.Id>()\n'
+      '                let peers = peers.filter { recipientIds.insert($0.id).inserted }\n'
+      '                // Enforce the recipient contract before payments, scheduling or enqueue.\n'),
+     ('submodules/TelegramUI/Sources/ChatControllerForwardMessages.swift',
+      '                let peerIds = peers.map { $0.id }',
+      '                guard !peers.isEmpty else { return }\n                let peerIds = peers.map { $0.id }'),
+     ('submodules/TelegramUI/Sources/ChatControllerForwardMessages.swift',
+      '                return (messages[id] ?? nil)?._asMessage() ?? '
+      'self.context.account.nagramiXMessageArchive.deletedMessage(id: id)',
+      '                return self.context.account.nagramiXMessageArchive.interactionMessage(id: id, liveMessage: (messages[id] '
+      '?? nil)?._asMessage())'),
+     ('submodules/TelegramUI/Sources/ChatControllerForwardMessages.swift',
+      '            let hasArchivedMessages = sortedMessages.contains',
+      '            guard sortedMessages.count == Set(messageIds).count, !sortedMessages.isEmpty else {\n'
+      '                self.present(nagramiXArchivedCopyAlert(context: self.context), in: .window(.root))\n'
+      '                return\n'
+      '            }\n'
+      '            let hasArchivedMessages = sortedMessages.contains'),
+     ('submodules/TelegramUI/Sources/ChatControllerForwardMessages.swift',
+      'hasArchivedMessages ? (transferMode.singleRecipient ? .copyToSingleRecipient : .copyAsNew) : transferMode',
+      'hasArchivedMessages ? (transferMode == .copyAsNew ? .copyAsNew : .copyToSingleRecipient) : transferMode'),
+     ('submodules/TelegramUI/Components/Chat/ChatMessageSelectionInputPanelNode/Sources/ChatMessageSelectionInputPanelNode.swift',
+      '    private var nagramiXCanCopySelection = false\n',
+      '    private var nagramiXCanCopySelection = false\n    private var nagramiXSelectionGeneration: UInt64 = 0\n'),
+     ('submodules/TelegramUI/Components/Chat/ChatMessageSelectionInputPanelNode/Sources/ChatMessageSelectionInputPanelNode.swift',
+      '    private func updateActions() {\n'
+      '        self.forwardButton.isEnabled = self.selectedMessages.count != 0\n'
+      '        self.nagramiXCanCopySelection = false\n'
+      '        self.forwardWithoutSourceButton.isImplicitlyDisabled = true\n'
+      '        self.broadcastButton.isImplicitlyDisabled = true\n'
+      '        self.nagramiXTransferDisposable.set(nil)\n'
+      '        \n'
+      '        if self.selectedMessages.isEmpty {\n'
+      '            self.actions = nil\n'
+      '            if let (width, leftInset, rightInset, bottomInset, additionalSideInsets, maxHeight, maxOverlayHeight, '
+      'metrics, isSecondary, isMediaInputExpanded, deviceMetrics) = self.validLayout, let interfaceState = '
+      'self.presentationInterfaceState {\n'
+      '                let _ = self.updateLayout(width: width, leftInset: leftInset, rightInset: rightInset, bottomInset: '
+      'bottomInset, additionalSideInsets: additionalSideInsets, maxHeight: maxHeight, maxOverlayHeight: maxOverlayHeight, '
+      'isSecondary: isSecondary, transition: .immediate, interfaceState: interfaceState, metrics: metrics, deviceMetrics: '
+      'deviceMetrics, isMediaInputExpanded: isMediaInputExpanded)\n'
+      '            }\n'
+      '            self.canDeleteMessagesDisposable.set(nil)\n'
+      '        } else if let context = self.context {\n'
+      '            let selectedIds = self.selectedMessages\n'
+      '            self.canDeleteMessagesDisposable.set((context.sharedContext.chatAvailableMessageActions(engine: '
+      'context.engine, accountPeerId: context.account.peerId, messageIds: selectedIds, keepUpdated: true)\n'
+      '            |> deliverOnMainQueue\n'
+      '            |> mapToSignal { [weak self] actions -> Signal<(ChatAvailableMessageActions, Bool), NoError> in\n'
+      '                guard let self else { return .single((actions, false)) }\n'
+      '                return self.nagramiXSelectedMessagesSignal(context: context, ids: selectedIds)\n'
+      '                |> deliverOnMainQueue\n'
+      '                |> map { [weak self] messages in\n'
+      '                    let canCopy = messages.count == selectedIds.count && '
+      'self?.interfaceInteraction?.canCopyMessagesWithoutSource?(messages) == true\n'
+      '                    return (actions, canCopy)\n'
+      '                }\n'
+      '            }\n'
+      '            |> deliverOnMainQueue).startStrict(next: { [weak self] result in\n'
+      '                if let strongSelf = self, strongSelf.selectedMessages == selectedIds {\n'
+      '                    let (actions, canCopy) = result\n'
+      '                    strongSelf.actions = actions\n'
+      '                    strongSelf.nagramiXCanCopySelection = canCopy\n'
+      '                    if let (width, leftInset, rightInset, bottomInset, additionalSideInsets, maxHeight, '
+      'maxOverlayHeight: maxOverlayHeight, metrics, isSecondary, isMediaInputExpanded, deviceMetrics) = strongSelf.validLayout, '
+      'let interfaceState = strongSelf.presentationInterfaceState {\n'
+      '                        let _ = strongSelf.updateLayout(width: width, leftInset: leftInset, rightInset: rightInset, '
+      'bottomInset: bottomInset, additionalSideInsets: additionalSideInsets, maxHeight: maxHeight, maxOverlayHeight: '
+      'maxOverlayHeight, isSecondary: isSecondary, transition: .immediate, interfaceState: interfaceState, metrics: metrics, '
+      'deviceMetrics: deviceMetrics, isMediaInputExpanded: isMediaInputExpanded)\n'
+      '                    }\n'
+      '                }\n'
+      '            }))\n'
+      '        }\n'
+      '    }\n'
+      '    \n',
+      '__NAGRAMIX_ARCHIVE_SELECTION_ACTIONS__'),
+     ('submodules/TelegramUI/Components/Chat/ChatMessageSelectionInputPanelNode/Sources/ChatMessageSelectionInputPanelNode.swift',
+      '    private func nagramiXSelectedMessagesSignal(context: AccountContext, ids: Set<EngineMessage.Id>) -> '
+      'Signal<[EngineRawMessage], NoError> {\n'
+      '        let messageIds = ids.sorted()\n'
+      '        return context.engine.data.get(EngineDataMap(\n'
+      '            messageIds.map(TelegramEngine.EngineData.Item.Messages.Message.init)\n'
+      '        ))\n'
+      '        |> deliverOnMainQueue\n'
+      '        |> map { messages in\n'
+      '            return messageIds.compactMap { id -> EngineRawMessage? in\n'
+      '                return (messages[id] ?? nil)?._asMessage() ?? context.account.nagramiXMessageArchive.deletedMessage(id: '
+      'id)\n'
+      '            }\n'
+      '        }\n'
+      '    }\n',
+      '    private func nagramiXSelectedMessagesSignal(context: AccountContext, ids: Set<EngineMessage.Id>, keepUpdated: Bool = '
+      'false) -> Signal<[EngineRawMessage], NoError> {\n'
+      '        let messageIds = ids.sorted()\n'
+      '        return combineLatest(\n'
+      '            '
+      'context.engine.data.subscribe(EngineDataMap(messageIds.map(TelegramEngine.EngineData.Item.Messages.Message.init))),\n'
+      '            context.account.nagramiXMessageArchive.updates\n'
+      '        )\n'
+      '        |> take(keepUpdated ? Int.max : 1)\n'
+      '        |> deliverOnMainQueue\n'
+      '        |> map { messages, _ in\n'
+      '            return messageIds.compactMap { id -> EngineRawMessage? in\n'
+      '                return context.account.nagramiXMessageArchive.interactionMessage(id: id, liveMessage: (messages[id] ?? '
+      'nil)?._asMessage())\n'
+      '            }\n'
+      '        }\n'
+      '    }\n'),
+     ('submodules/TelegramUI/Components/Chat/ChatMessageSelectionInputPanelNode/Sources/ChatMessageSelectionInputPanelNode.swift',
+      '        let selectedIds = self.selectedMessages\n        self.nagramiXTransferDisposable.set(',
+      '        let selectedIds = self.selectedMessages\n'
+      '        let generation = self.nagramiXSelectionGeneration\n'
+      '        self.nagramiXTransferDisposable.set('),
+     ('submodules/TelegramUI/Components/Chat/ChatMessageSelectionInputPanelNode/Sources/ChatMessageSelectionInputPanelNode.swift',
+      'guard let self, let button, self.selectedMessages == selectedIds,',
+      'guard let self, let button, self.nagramiXSelectionGeneration == generation, self.selectedMessages == selectedIds,'),
+     ('submodules/TelegramUI/Sources/ChatInterfaceStateContextMenus.swift',
+      '        func getMessage(_ messageId: EngineMessage.Id) -> EngineRawMessage? {\n'
+      '            if let maybeMessage = messageMap[messageId], let message = maybeMessage {\n'
+      '                return message._asMessage()\n'
+      '            } else if let message = messages[messageId] {\n'
+      '                return message\n'
+      '            } else {\n'
+      '                return nil\n'
+      '            }\n'
+      '        }\n',
+      '        func getMessage(_ messageId: EngineMessage.Id) -> EngineRawMessage? {\n'
+      '            let live = (messageMap[messageId] ?? nil)?._asMessage()\n'
+      '            if let retained = messages[messageId], retained.attributes.contains(where: { $0 is '
+      'NagramiXArchivedMessageAttribute }) {\n'
+      '                return NagramiXMessageArchive.interactionMessage(id: messageId, liveMessage: live, retainedMessage: '
+      'retained)\n'
+      '            }\n'
+      '            return live ?? messages[messageId]\n'
+      '        }\n'),
+     ('submodules/TelegramUI/Sources/Chat/ChatControllerLoadDisplayNode.swift',
+      '                |> map { messages -> [EngineMessage] in\n'
+      '                    return messages.values.compactMap { $0 }\n'
+      '                }\n'
+      '                |> deliverOnMainQueue).startStandalone(next: { messages in\n'
+      '                    if let strongSelf = self, !messages.isEmpty {',
+      '                |> map { messages -> [EngineRawMessage] in\n'
+      '                    return selectedIds.sorted().compactMap { id in\n'
+      '                        return strongSelf.context.account.nagramiXMessageArchive.interactionMessage(id: id, liveMessage: '
+      '(messages[id] ?? nil)?._asMessage())\n'
+      '                    }\n'
+      '                }\n'
+      '                |> deliverOnMainQueue).startStandalone(next: { messages in\n'
+      '                    if let strongSelf = self, messages.count == selectedIds.count,\n'
+      '                       strongSelf.presentationInterfaceState.interfaceState.selectionState?.selectedIds == selectedIds '
+      '{'),
+     ('submodules/TelegramUI/Sources/Chat/ChatControllerLoadDisplayNode.swift',
+      '}).map { $0._asMessage() }), externalShare: true, immediateExternalShare: true,',
+      '})), externalShare: true, immediateExternalShare: true,'),
+     ('submodules/TelegramUI/Sources/ChatControllerNode.swift',
+      '                    var messages = messageIds.compactMap { messagesById[$0] ?? '
+      'context.account.nagramiXMessageArchive.deletedMessage(id: $0) }',
+      '                    var messages = messageIds.compactMap { context.account.nagramiXMessageArchive.interactionMessage(id: '
+      '$0, liveMessage: messagesById[$0]) }')]
+    overlay = Path(__file__).resolve().parent
+    methods = (overlay / "Sources/ChatMessageSelectionInputPanelNode/NagramiXArchiveSelectionActions.swift.inc").read_text(encoding="utf-8").rstrip("\n") + "\n\n"
+    texts = {}
+    for name, expected in hashes.items():
+        raw = (source / name).read_bytes()
+        if hashlib.sha256(raw).hexdigest() != expected:
+            raise SystemExit(f"Изменился вход архивных действий/получателей: {name}")
+        texts[name] = raw.decode("utf-8")
+    copies = {"submodules/TelegramCore/Tests/NagramiXArchiveInteractionTests.swift": "Tests/TelegramCore/NagramiXArchiveInteractionTests.swift"}
+    for target, original in copies.items():
+        if (source / target).exists() or not (overlay / original).is_file():
+            raise SystemExit(f"Изменился состав проверки архивного выделения: {target}")
+    for name, old, new in substitutions:
+        if texts[name].count(old) != 1:
+            raise SystemExit(f"Изменился якорь архивного выделения: {name}")
+        if new == "__NAGRAMIX_ARCHIVE_SELECTION_ACTIONS__":
+            new = methods
+        texts[name] = texts[name].replace(old, new, 1)
+    for name, text in texts.items():
+        (source / name).write_text(text, encoding="utf-8")
+    for target, original in copies.items():
+        (source / target).parent.mkdir(parents=True, exist_ok=True)
+        shutil.copy2(overlay / original, source / target)
+
+
+def apply_anonymous_stickers_and_blocked_filter(source: Path) -> None:
+    """Пак-независимые стикеры и локальное скрытие авторов из чёрного списка."""
+    hashes = {
+        'submodules/TelegramCore/Sources/Account/Account.swift': '1d952943706f87d70f97a79fba9d2fc6b3b0524a7f6c7d83de0743b332af1ffc',
+        'submodules/TelegramCore/Sources/Account/AccountManager.swift': '0bff96b166e668834bc82f5001d83189913749633dad626f20dab13c154a1f7d',
+        'submodules/TelegramCore/Sources/PendingMessages/EnqueueMessage.swift': 'a0e914dde976f40d7177da7a2a8e5f4c6566d0e884cae6c258244cd5bceab2b8',
+        'submodules/TelegramCore/Sources/PendingMessages/PendingMessageUploadedContent.swift': '74d01ef7ea181c11fcf4e22b8b007eeb9b065333e7100f631b3b5d3e4b36cd2a',
+        'submodules/TelegramCore/Sources/State/AccountStateManagementUtils.swift': 'b7e11a5c6649c3a2b0afde394d3a8766b1bdb382e4ec0fa85e6bf5bff5641bda',
+        'submodules/TelegramCore/Sources/TelegramEngine/Privacy/BlockedPeers.swift': '0d8591a16fb67b0bde461c8ce4854911f78d9d372221f1c15ed4baec042da920',
+        'submodules/TelegramCore/Sources/TelegramEngine/Privacy/BlockedPeersContext.swift': '40fa65c5ebd83df4486dddfe07e7ff5707c2cb61381eb22e1c34f1c7e0fe8492',
+        'submodules/TelegramUI/Sources/ChatHistoryEntriesForView.swift': '5efb0930531c04b74ad8245fe7fe82275db925a3cb25ad263ea63c8054c651bd',
+        'submodules/TelegramUI/Sources/ChatHistoryListNode.swift': 'ce569c9e73172b80a5ad15fbe039c6cfdc2a9150572561a7d6b7cff165f80579',
+    }
+    substitutions = [('submodules/TelegramCore/Sources/Account/AccountManager.swift',
+      '    declareEncodable(OutgoingMessageInfoAttribute.self, f: { OutgoingMessageInfoAttribute(decoder: $0) })\n',
+      '    declareEncodable(NagramiXAnonymousStickerMessageAttribute.self, f: { NagramiXAnonymousStickerMessageAttribute(decoder: '
+      '$0) })\n'
+      '    declareEncodable(OutgoingMessageInfoAttribute.self, f: { OutgoingMessageInfoAttribute(decoder: $0) })\n'),
+     ('submodules/TelegramCore/Sources/PendingMessages/EnqueueMessage.swift',
+      'private func filterMessageAttributesForOutgoingMessage(_ attributes: [MessageAttribute]) -> [MessageAttribute] {\n'
+      '    return attributes.filter { attribute in\n'
+      '        switch attribute {\n'
+      '        case _ as TextEntitiesMessageAttribute:\n'
+      '            return true\n'
+      '        case _ as RichTextMessageAttribute:',
+      'private func filterMessageAttributesForOutgoingMessage(_ attributes: [MessageAttribute]) -> [MessageAttribute] {\n'
+      '    return attributes.filter { attribute in\n'
+      '        switch attribute {\n'
+      '        case _ as NagramiXAnonymousStickerMessageAttribute:\n'
+      '            return true\n'
+      '        case _ as TextEntitiesMessageAttribute:\n'
+      '            return true\n'
+      '        case _ as RichTextMessageAttribute:'),
+     ('submodules/TelegramCore/Sources/PendingMessages/EnqueueMessage.swift',
+      '            let antiCapsEnabled =',
+      '            let anonymousStickersEnabled = UserDefaults.standard.object(forKey: "nagramix.stickers.anonymous") as? Bool ?? '
+      'true\n'
+      '            let antiCapsEnabled ='),
+     ('submodules/TelegramCore/Sources/PendingMessages/EnqueueMessage.swift',
+      '                let message = nagramiXAntiCapsMessage(originalMessage, enabled: antiCapsEnabled, limits: antiCapsLimits)\n',
+      '                let anonymousMessage = nagramiXAnonymousStickerMessage(originalMessage, enabled: anonymousStickersEnabled)\n'
+      '                let message = nagramiXAntiCapsMessage(anonymousMessage, enabled: antiCapsEnabled, limits: antiCapsLimits)\n'),
+     ('submodules/TelegramCore/Sources/PendingMessages/PendingMessageUploadedContent.swift',
+      '    } else if let file = media as? TelegramMediaFile {\n'
+      '        if let resource = file.resource as? CloudDocumentMediaResource {',
+      '    } else if let file = media as? TelegramMediaFile {\n'
+      '        if let anonymous = attributes.first(where: { $0 is NagramiXAnonymousStickerMessageAttribute }) as? '
+      'NagramiXAnonymousStickerMessageAttribute, file.isSticker {\n'
+      '            guard let source = anonymous.source else { return .fail(.generic) }\n'
+      '            return uploadedMediaFileContent(network: network, postbox: postbox, auxiliaryMethods: auxiliaryMethods, '
+      'transformOutgoingMessageMedia: nil, messageMediaPreuploadManager: messageMediaPreuploadManager, forceReupload: true, '
+      'isGrouped: isGrouped, isPaid: false, passFetchProgress: passFetchProgress, forceNoBigParts: forceNoBigParts, peerId: peerId, '
+      'messageId: messageId, text: text, attributes: attributes, autoremoveMessageAttribute: autoremoveMessageAttribute, '
+      'autoclearMessageAttribute: autoclearMessageAttribute, file: file, anonymousStickerSource: source)\n'
+      '        }\n'
+      '        if let resource = file.resource as? CloudDocumentMediaResource {'),
+     ('submodules/TelegramCore/Sources/PendingMessages/PendingMessageUploadedContent.swift',
+      'private func uploadedMediaFileContent(network: Network, postbox: Postbox, auxiliaryMethods: AccountAuxiliaryMethods, '
+      'transformOutgoingMessageMedia: TransformOutgoingMessageMedia?, messageMediaPreuploadManager: MessageMediaPreuploadManager, '
+      'forceReupload: Bool, isGrouped: Bool, isPaid: Bool, passFetchProgress: Bool, forceNoBigParts: Bool, peerId: PeerId, '
+      'messageId: MessageId?, text: String, attributes: [MessageAttribute], autoremoveMessageAttribute: '
+      'AutoremoveTimeoutMessageAttribute?, autoclearMessageAttribute: AutoclearTimeoutMessageAttribute?, file: TelegramMediaFile) -> '
+      'Signal<PendingMessageUploadedContentResult, PendingMessageUploadError> {\n'
+      '    return maybePredownloadedFileResource(postbox: postbox, auxiliaryMethods: auxiliaryMethods, peerId: peerId, resource: '
+      'file.resource, autoRemove: autoremoveMessageAttribute != nil || autoclearMessageAttribute != nil, forceRefresh: '
+      'forceReupload)',
+      'private func uploadedMediaFileContent(network: Network, postbox: Postbox, auxiliaryMethods: AccountAuxiliaryMethods, '
+      'transformOutgoingMessageMedia: TransformOutgoingMessageMedia?, messageMediaPreuploadManager: MessageMediaPreuploadManager, '
+      'forceReupload: Bool, isGrouped: Bool, isPaid: Bool, passFetchProgress: Bool, forceNoBigParts: Bool, peerId: PeerId, '
+      'messageId: MessageId?, text: String, attributes: [MessageAttribute], autoremoveMessageAttribute: '
+      'AutoremoveTimeoutMessageAttribute?, autoclearMessageAttribute: AutoclearTimeoutMessageAttribute?, file: TelegramMediaFile, '
+      'anonymousStickerSource: TelegramMediaFile? = nil) -> Signal<PendingMessageUploadedContentResult, PendingMessageUploadError> '
+      '{\n'
+      '    let cached: Signal<PredownloadedResource, PendingMessageUploadError> = anonymousStickerSource == nil ? '
+      'maybePredownloadedFileResource(postbox: postbox, auxiliaryMethods: auxiliaryMethods, peerId: peerId, resource: file.resource, '
+      'autoRemove: autoremoveMessageAttribute != nil || autoclearMessageAttribute != nil, forceRefresh: forceReupload) : '
+      '.single(.none)\n'
+      '    return cached'),
+     ('submodules/TelegramCore/Sources/PendingMessages/PendingMessageUploadedContent.swift',
+      '        let fileReference: AnyMediaReference\n'
+      '        if let partialReference = file.partialReference {\n'
+      '            fileReference = partialReference.mediaReference(file)\n'
+      '        } else {\n'
+      '            fileReference = .standalone(media: file)\n'
+      '        }\n'
+      '        let upload: Signal<MultipartUploadResult?, PendingMessageUploadError> = .single(nil)\n'
+      '        |> then(\n'
+      '            messageMediaPreuploadManager.upload(network: network, postbox: postbox, source: '
+      '.resource(fileReference.resourceReference(file.resource)), encrypt: peerId.namespace == Namespaces.Peer.SecretChat, tag: '
+      'TelegramMediaResourceFetchTag(statsCategory: statsCategoryForFileWithAttributes(file.attributes), userContentType: nil), '
+      'hintFileSize: hintSize, hintFileIsLarge: hintFileIsLarge, forceNoBigParts: forceNoBigParts)',
+      '        let fileReference: AnyMediaReference\n'
+      '        if let source = anonymousStickerSource {\n'
+      '            if let partialReference = source.partialReference {\n'
+      '                fileReference = partialReference.mediaReference(source)\n'
+      '            } else {\n'
+      '                fileReference = .standalone(media: source)\n'
+      '            }\n'
+      '        } else if let partialReference = file.partialReference {\n'
+      '            fileReference = partialReference.mediaReference(file)\n'
+      '        } else {\n'
+      '            fileReference = .standalone(media: file)\n'
+      '        }\n'
+      '        let fileUpload: Signal<MultipartUploadResult, MultipartUploadError>\n'
+      '        if anonymousStickerSource != nil {\n'
+      '            fileUpload = multipartUpload(network: network, postbox: postbox, source: '
+      '.resource(fileReference.resourceReference(file.resource)), encrypt: peerId.namespace == Namespaces.Peer.SecretChat, tag: '
+      'TelegramMediaResourceFetchTag(statsCategory: statsCategoryForFileWithAttributes(file.attributes), userContentType: nil), '
+      'hintFileSize: hintSize, hintFileIsLarge: hintFileIsLarge, forceNoBigParts: forceNoBigParts)\n'
+      '        } else {\n'
+      '            fileUpload = messageMediaPreuploadManager.upload(network: network, postbox: postbox, source: '
+      '.resource(fileReference.resourceReference(file.resource)), encrypt: peerId.namespace == Namespaces.Peer.SecretChat, tag: '
+      'TelegramMediaResourceFetchTag(statsCategory: statsCategoryForFileWithAttributes(file.attributes), userContentType: nil), '
+      'hintFileSize: hintSize, hintFileIsLarge: hintFileIsLarge, forceNoBigParts: forceNoBigParts)\n'
+      '        }\n'
+      '        let upload: Signal<MultipartUploadResult?, PendingMessageUploadError> = .single(nil)\n'
+      '        |> then(\n'
+      '            fileUpload'),
+     ('submodules/TelegramCore/Sources/Account/Account.swift',
+      '    public let nagramiXMessageArchive: NagramiXMessageArchive\n',
+      '    public let nagramiXMessageArchive: NagramiXMessageArchive\n'
+      '    public let nagramiXBlockedMessageFilter: NagramiXBlockedMessageFilter\n'),
+     ('submodules/TelegramCore/Sources/Account/Account.swift',
+      '        self.nagramiXMessageArchive = NagramiXMessageArchive(postbox: postbox, accountPeerId: peerId, basePath: basePath)\n',
+      '        self.nagramiXMessageArchive = NagramiXMessageArchive(postbox: postbox, accountPeerId: peerId, basePath: basePath)\n'
+      '        self.nagramiXBlockedMessageFilter = NagramiXBlockedMessageFilter(postbox: postbox, network: network, peerId: peerId, '
+      'basePath: basePath)\n'),
+     ('submodules/TelegramCore/Sources/TelegramEngine/Privacy/BlockedPeers.swift',
+      '                                return previous.withUpdatedIsBlocked(isBlocked)',
+      '                                account.nagramiXBlockedMessageFilter.setBlocked(peerId, isBlocked)\n'
+      '                                return previous.withUpdatedIsBlocked(isBlocked)'),
+     ('submodules/TelegramCore/Sources/TelegramEngine/Privacy/BlockedPeersContext.swift',
+      '        let currentPeers = self._state.peers\n',
+      '        let currentPeers = self._state.peers\n        let nagramiXFilter = self.account.nagramiXBlockedMessageFilter\n'),
+     ('submodules/TelegramCore/Sources/TelegramEngine/Privacy/BlockedPeersContext.swift',
+      '            |> mapToSignal { _ -> Signal<Never, BlockedPeersContextAddError> in\n'
+      '                return .complete()\n'
+      '            }\n',
+      '            |> mapToSignal { _ -> Signal<Never, BlockedPeersContextAddError> in\n'
+      '                if case .blocked = subject {\n'
+      '                    let validIds = Set(peerIds)\n'
+      '                    for peer in currentPeers where !validIds.contains(peer.peerId) { nagramiXFilter.setBlocked(peer.peerId, '
+      'false) }\n'
+      '                    for peerId in validIds { nagramiXFilter.setBlocked(peerId, true) }\n'
+      '                }\n'
+      '                return .complete()\n'
+      '            }\n'),
+     ('submodules/TelegramCore/Sources/TelegramEngine/Privacy/BlockedPeersContext.swift',
+      '            |> mapToSignal { _ -> Signal<Peer?, BlockedPeersContextAddError> in\n'
+      '                return postbox.transaction { transaction -> Peer? in',
+      '            |> mapToSignal { _ -> Signal<Peer?, BlockedPeersContextAddError> in\n'
+      '                if case .blocked = subject { NagramiXBlockedMessageFilter.forPostbox(postbox)?.setBlocked(peerId, true) }\n'
+      '                return postbox.transaction { transaction -> Peer? in'),
+     ('submodules/TelegramCore/Sources/TelegramEngine/Privacy/BlockedPeersContext.swift',
+      '            |> mapToSignal { value in\n                return postbox.transaction { transaction -> Peer? in',
+      '            |> mapToSignal { value in\n'
+      '                if case .blocked = subject { NagramiXBlockedMessageFilter.forPostbox(postbox)?.setBlocked(peerId, false) }\n'
+      '                return postbox.transaction { transaction -> Peer? in'),
+     ('submodules/TelegramCore/Sources/State/AccountStateManagementUtils.swift',
+      '                updatedState.updateCachedPeerData(userPeerId, { current in\n                    let previous: CachedUserData',
+      '                updatedState.updateCachedPeerData(userPeerId, { current in\n'
+      '                    NagramiXBlockedMessageFilter.forPostbox(postbox)?.setBlocked(userPeerId, (updatePeerBlockedData.flags & '
+      '(1 << 0)) != 0)\n'
+      '                    let previous: CachedUserData'),
+     ('submodules/TelegramUI/Sources/ChatHistoryListNode.swift',
+      '        historyViewUpdate = combineLatest(historyViewUpdate, context.account.nagramiXMessageArchive.updates, '
+      'context.account.nagramiXMessageArchive.deferredReactions.updates)\n'
+      '        |> map { update, _, _ in',
+      '        historyViewUpdate = combineLatest(historyViewUpdate, context.account.nagramiXMessageArchive.updates, '
+      'context.account.nagramiXMessageArchive.deferredReactions.updates, context.account.nagramiXBlockedMessageFilter.updates)\n'
+      '        |> map { update, _, _, _ in'),
+     ('submodules/TelegramUI/Sources/ChatHistoryEntriesForView.swift',
+      '    var count = 0\n    loop: for entry in sourceEntries {',
+      '    let hideBlockedMessages = NagramiXBlockedMessageFilter.enabled\n'
+      '    var count = 0\n'
+      '    loop: for entry in sourceEntries {'),
+     ('submodules/TelegramUI/Sources/ChatHistoryEntriesForView.swift',
+      '        message = context.account.nagramiXMessageArchive.deferredReactions.displayMessage(message)\n        var isRead',
+      '        message = context.account.nagramiXMessageArchive.deferredReactions.displayMessage(message)\n'
+      '        if context.account.nagramiXBlockedMessageFilter.shouldHide(message, enabled: hideBlockedMessages) { continue loop }\n'
+      '        var isRead'),
+     ('submodules/TelegramUI/Sources/ChatHistoryListNode.swift',
+      '                let lastHeaderId = filteredEntries.last.flatMap { listMessageDateHeaderId(timestamp: $0.index.timestamp) } ?? '
+      '0\n',
+      '                // Пропускаем целиком скрытое окно, чтобы не застрять перед более старой видимой историей.\n'
+      '                if case .default = source, mode == .bubbles, NagramiXBlockedMessageFilter.enabled,\n'
+      '                   view.earlierId != nil, !view.entries.isEmpty,\n'
+      '                   view.entries.allSatisfy({ context.account.nagramiXBlockedMessageFilter.shouldHide($0.message, enabled: '
+      'true) }),\n'
+      '                   !filteredEntries.contains(where: { entry in\n'
+      '                       switch entry { case .MessageEntry, .MessageGroupEntry: return true; default: return false }\n'
+      '                   }), let firstEntry = view.entries.first {\n'
+      '                    Queue.mainQueue().async { [weak self] in\n'
+      '                        guard let self, self.chatHistoryLocationValue == update.2, NagramiXBlockedMessageFilter.enabled else '
+      '{ return }\n'
+      '                        let location: ChatHistoryLocation = .Navigation(index: .message(firstEntry.message.index), '
+      'anchorIndex: .message(firstEntry.message.index), count: historyMessageCount, highlight: false)\n'
+      '                        if self.chatHistoryLocationValue?.content != location {\n'
+      '                            self.chatHistoryLocationValue = ChatHistoryLocationInput(content: location, id: '
+      'self.takeNextHistoryLocationId())\n'
+      '                        }\n'
+      '                    }\n'
+      '                }\n'
+      '                let lastHeaderId = filteredEntries.last.flatMap { listMessageDateHeaderId(timestamp: $0.index.timestamp) } ?? '
+      '0\n')]
+    overlay = Path(__file__).resolve().parent
+    texts = {}
+    for name, expected in hashes.items():
+        raw = (source / name).read_bytes()
+        if hashlib.sha256(raw).hexdigest() != expected:
+            raise SystemExit(f"Изменился проверенный вход приватности: {name}")
+        texts[name] = raw.decode("utf-8")
+    copies = {
+        "submodules/TelegramCore/Sources/NagramiXAnonymousStickers.swift": "Sources/TelegramCore/NagramiXAnonymousStickers.swift",
+        "submodules/TelegramCore/Sources/NagramiXBlockedMessageFilter.swift": "Sources/TelegramCore/NagramiXBlockedMessageFilter.swift",
+        "submodules/TelegramCore/Tests/NagramiXPrivateMessagesTests.swift": "Tests/TelegramCore/NagramiXPrivateMessagesTests.swift",
+    }
+    for target, original in copies.items():
+        if (source / target).exists() or not (overlay / original).is_file():
+            raise SystemExit(f"Изменился состав новых файлов приватности: {target}")
+    for name, old, new in substitutions:
+        if texts[name].count(old) != 1:
+            raise SystemExit(f"Изменился точный якорь приватности: {name}")
+        texts[name] = texts[name].replace(old, new, 1)
+    for name, text in texts.items():
+        (source / name).write_text(text, encoding="utf-8")
+    for target, original in copies.items():
+        (source / target).parent.mkdir(parents=True, exist_ok=True)
+        shutil.copy2(overlay / original, source / target)
+
+
+def apply_anti_caps(source: Path) -> None:
+    """Анти-капс для новых .message перед штатным enqueue."""
+    path = source / "submodules/TelegramCore/Sources/PendingMessages/EnqueueMessage.swift"
+    expected = "06b68a873785be5ff84d38e524e186313150d5d6cf8456b5f95efe38ffb6c33c"
+    if hashlib.sha256(path.read_bytes()).hexdigest() != expected:
+        raise SystemExit("Изменился проверенный enqueue или анти-капс уже применён")
+    substitutions = [('            var normalMessageIndices: [Int] = []\n'
+      '\n'
+      '            for i in 0 ..< messages.count {\n'
+      '                let (transformedMedia, message) = messages[i]\n',
+      '            var normalMessageIndices: [Int] = []\n'
+      '            let antiCapsEnabled = UserDefaults.standard.object(forKey: "nagramix.messages.antiCaps") as? Bool ?? false\n'
+      '            let antiCapsLimits = antiCapsEnabled ? UserLimitsConfiguration(appConfiguration: '
+      'transaction.getPreferencesEntry(key: PreferencesKeys.appConfiguration)?.get(AppConfiguration.self) ?? .defaultValue, '
+      'isPremium: (transaction.getPeer(account.peerId) as? TelegramUser)?.isPremium ?? false) : '
+      'UserLimitsConfiguration.defaultValue\n'
+      '\n'
+      '            for i in 0 ..< messages.count {\n'
+      '                let (transformedMedia, originalMessage) = messages[i]\n'
+      '                let message = nagramiXAntiCapsMessage(originalMessage, enabled: antiCapsEnabled, limits: antiCapsLimits)\n')]
+    overlay = Path(__file__).resolve().parent
+    copies = {
+        source / "submodules/TelegramCore/Sources/NagramiXAntiCaps.swift": overlay / "Sources/TelegramCore/NagramiXAntiCaps.swift",
+        source / "submodules/TelegramCore/Tests/NagramiXAntiCapsTests.swift": overlay / "Tests/TelegramCore/NagramiXAntiCapsTests.swift",
+    }
+    text = path.read_text(encoding="utf-8")
+    for target, original in copies.items():
+        if target.exists() or not original.is_file():
+            raise SystemExit(f"Изменился состав файлов анти-капса: {target.name}")
+    for old, new in substitutions:
+        if text.count(old) != 1:
+            raise SystemExit("Изменился точный якорь анти-капса")
+        text = text.replace(old, new, 1)
+    for target, original in copies.items():
+        target.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copy2(original, target)
+    path.write_text(text, encoding="utf-8")
+
+
+def apply_mixed_recording_transition(source: Path) -> None:
+    """Reduce graph/routing churn on mixed voice/round recording, without prewarming a mic."""
+    session = "submodules/TelegramAudio/Sources/ManagedAudioSession.swift"
+    recorder = "submodules/TelegramUI/Sources/ManagedAudioRecorder.swift"
+    camera = "submodules/TelegramUI/Components/VideoMessageCameraScreen/Sources/VideoMessageCameraScreen.swift"
+    hashes = {
+        session: "29c6f4c05cb8accffea8810400e1aee2a74bde8b78e5339898c8c8bda565f55b",
+        recorder: "47dd9b4fa58c7371a27f33990d6b20f2345aa888c7cf697b2102da1931df75ad",
+        camera: "8adc05fdd3597eecf0daa5f9a5d2dd63b2ea9ed9e66f2a1b3489de31f7a7d78c",
+    }
+    texts = {}
+    for name, digest in hashes.items():
+        raw = (source / name).read_bytes()
+        if hashlib.sha256(raw).hexdigest() != digest:
+            raise SystemExit(f"Mixed recording transition input drift: {name}")
+        texts[name] = raw.decode("utf-8")
+
+    substitutions = [
+        (session,
+         "    private var isActiveValue: Bool = false\n",
+         "    private var isActiveValue: Bool = false\n    private var nagramiXMixedReleaseGeneration: UInt64 = 0\n    private var nagramiXMixedReleasePending = false\n"),
+        (session,
+         """                    let keepStereoOutput = mixWithOthers
+                        && session.currentRoute.outputs.contains(where: { $0.portType == .bluetoothA2DP })
+                        && session.preferredInput?.portType != .bluetoothHFP
+""",
+         """                    let hasSelectedHFP = session.preferredInput?.portType == .bluetoothHFP
+                        || session.currentRoute.inputs.contains(where: { $0.portType == .bluetoothHFP })
+                        || session.currentRoute.outputs.contains(where: { $0.portType == .bluetoothHFP })
+                    let keepStereoOutput = mixWithOthers && (video
+                        ? session.currentRoute.outputs.contains(where: { $0.portType == .bluetoothA2DP }) && session.preferredInput?.portType != .bluetoothHFP
+                        : !hasSelectedHFP)
+                    // An inactive app session may not yet report the other app's A2DP
+                    // output. Do not opt voice/round recording into HFP opportunistically.
+"""),
+        (session,
+         """                        // Apply mixing/category/mode together, without an intermediate configuration.
+                        try AVAudioSession.sharedInstance().setCategory(nativeCategory, mode: mode, options: options)
+""",
+         """                        // Avoid rebuilding an identical mixed configuration on the next take.
+                        let session = AVAudioSession.sharedInstance()
+                        if session.category != nativeCategory || session.mode != mode || session.categoryOptions != options {
+                            try session.setCategory(nativeCategory, mode: mode, options: options)
+                        }
+"""),
+        (session,
+         """    private func setup(type: ManagedAudioSessionType, outputMode: AudioSessionOutputMode, activateNow: Bool) {
+        self.deactivateTimer?.invalidate()
+""",
+         """    private func setup(type: ManagedAudioSessionType, outputMode: AudioSessionOutputMode, activateNow: Bool) {
+        // A pending release retry must never deactivate a newly acquired session.
+        self.nagramiXMixedReleaseGeneration &+= 1
+        self.nagramiXMixedReleasePending = false
+        self.deactivateTimer?.invalidate()
+"""),
+        (session,
+         """                try AVAudioSession.sharedInstance().setActive(true, options: [.notifyOthersOnDeactivation])
+""",
+         """                if case .record(_, false, true) = type {
+                    try AVAudioSession.sharedInstance().setActive(true)
+                } else {
+                    try AVAudioSession.sharedInstance().setActive(true, options: [.notifyOthersOnDeactivation])
+                }
+"""),
+        (session,
+         """        let wasPlaybackActive = self.currentTypeAndOutputMode?.0.isPlay ?? false
+        self.currentTypeAndOutputMode = nil
+""",
+         """        let wasPlaybackActive = self.currentTypeAndOutputMode?.0.isPlay ?? false
+        if self.currentTypeAndOutputMode == nil && self.nagramiXMixedReleasePending {
+            return
+        }
+        let wasMixedRecording: Bool
+        let preserveSystemRoute: Bool
+        if let (type, outputMode) = self.currentTypeAndOutputMode, case .record(_, false, true) = type {
+            wasMixedRecording = true
+            if case .system = outputMode, case .record(false, false, true) = type {
+                preserveSystemRoute = true
+            } else {
+                preserveSystemRoute = false
+            }
+        } else {
+            wasMixedRecording = false
+            preserveSystemRoute = false
+        }
+        self.nagramiXMixedReleaseGeneration &+= 1
+        let releaseGeneration = self.nagramiXMixedReleaseGeneration
+        self.currentTypeAndOutputMode = nil
+        func releaseSession() throws {
+            let session = AVAudioSession.sharedInstance()
+            // Mixed recording did not interrupt other apps; do not send a resume hint
+            // or clear a system route that this recording never explicitly overrode.
+            try session.setActive(false, options: wasMixedRecording ? [] : [.notifyOthersOnDeactivation])
+            if !preserveSystemRoute {
+                try session.overrideOutputAudioPort(.none)
+                try session.setPreferredInput(nil)
+            }
+        }
+"""),
+        (session,
+         """        do {
+            try AVAudioSession.sharedInstance().setActive(false, options: [.notifyOthersOnDeactivation])
+            try AVAudioSession.sharedInstance().overrideOutputAudioPort(.none)
+            try AVAudioSession.sharedInstance().setPreferredInput(nil)
+        } catch let error {
+            managedAudioSessionLog("ManagedAudioSession applyNone error \\(error), waiting")
+
+            Thread.sleep(forTimeInterval: 2.0)
+
+            do {
+                try AVAudioSession.sharedInstance().setActive(false, options: [.notifyOthersOnDeactivation])
+                try AVAudioSession.sharedInstance().overrideOutputAudioPort(.none)
+                try AVAudioSession.sharedInstance().setPreferredInput(nil)
+            } catch let error {
+                managedAudioSessionLog("ManagedAudioSession applyNone repeated error \\(error), giving up")
+            }
+        }
+""",
+         """        do {
+            try releaseSession()
+        } catch let error {
+            managedAudioSessionLog("ManagedAudioSession applyNone error \\(error), waiting")
+            if wasMixedRecording {
+                // Camera/audio units may still be draining. Keep the native retry delay,
+                // but let the next holder acquire the queue immediately.
+                self.nagramiXMixedReleasePending = true
+                self.queue.after(2.0, { [weak self] in
+                    guard let self, self.nagramiXMixedReleaseGeneration == releaseGeneration else { return }
+                    self.nagramiXMixedReleasePending = false
+                    guard self.currentTypeAndOutputMode == nil, self.holders.isEmpty,
+                          !self.callKitAudioSessionIsActive else { return }
+                    do {
+                        try releaseSession()
+                    } catch let error {
+                        managedAudioSessionLog("ManagedAudioSession applyNone repeated error \\(error), giving up")
+                    }
+                })
+            } else {
+                Thread.sleep(forTimeInterval: 2.0)
+                do {
+                    try releaseSession()
+                } catch let error {
+                    managedAudioSessionLog("ManagedAudioSession applyNone repeated error \\(error), giving up")
+                }
+            }
+        }
+"""),
+        (recorder,
+         """        var one: UInt32 = 1
+        guard AudioUnitSetProperty(audioUnit, kAudioOutputUnitProperty_EnableIO, kAudioUnitScope_Input, 1, &one, 4) == noErr else {
+""",
+         """        let inputOnly = !self.pauseMusicOnRecording && !self.beginWithTone
+        if inputOnly {
+            // RemoteIO enables its output bus by default. A mic-only take must not
+            // add a silent mono playback graph alongside another app's music.
+            var outputEnabled: UInt32 = 0
+            guard AudioUnitSetProperty(audioUnit, kAudioOutputUnitProperty_EnableIO, kAudioUnitScope_Output, 0, &outputEnabled, 4) == noErr else {
+                AudioComponentInstanceDispose(audioUnit)
+                return
+            }
+        }
+        var one: UInt32 = 1
+        guard AudioUnitSetProperty(audioUnit, kAudioOutputUnitProperty_EnableIO, kAudioUnitScope_Input, 1, &one, 4) == noErr else {
+"""),
+        (recorder,
+         """        guard AudioUnitSetProperty(audioUnit, kAudioUnitProperty_StreamFormat, kAudioUnitScope_Input, 0, &audioStreamDescription, UInt32(MemoryLayout<AudioStreamBasicDescription>.size)) == noErr else {
+            AudioComponentInstanceDispose(audioUnit)
+            return
+        }
+""",
+         """        if !inputOnly {
+            guard AudioUnitSetProperty(audioUnit, kAudioUnitProperty_StreamFormat, kAudioUnitScope_Input, 0, &audioStreamDescription, UInt32(MemoryLayout<AudioStreamBasicDescription>.size)) == noErr else {
+                AudioComponentInstanceDispose(audioUnit)
+                return
+            }
+        }
+"""),
+        (recorder,
+         """        var zero: UInt32 = 1
+        guard AudioUnitSetProperty(audioUnit, kAudioUnitProperty_ShouldAllocateBuffer, kAudioUnitScope_Output, 0, &zero, 4) == noErr else {
+            AudioComponentInstanceDispose(audioUnit)
+            return
+        }
+""" + "        \n" + """        let _ = AudioUnitSetProperty(audioUnit, kAUVoiceIOProperty_MuteOutput, kAudioUnitScope_Global, 0, &zero, 4)
+""",
+         """        if !inputOnly {
+            var zero: UInt32 = 1
+            guard AudioUnitSetProperty(audioUnit, kAudioUnitProperty_ShouldAllocateBuffer, kAudioUnitScope_Output, 0, &zero, 4) == noErr else {
+                AudioComponentInstanceDispose(audioUnit)
+                return
+            }
+            let _ = AudioUnitSetProperty(audioUnit, kAUVoiceIOProperty_MuteOutput, kAudioUnitScope_Global, 0, &zero, 4)
+        }
+"""),
+        (camera,
+         """                Queue.mainQueue().after(0.05) { [weak self] in
+                    guard let self, !self.isDismissed else { return }
+                    self.node.setupCamera()
+                }
+""",
+         """                let setupCamera = { [weak self] in
+                    guard let self, !self.isDismissed else { return }
+                    self.node.setupCamera()
+                }
+                if case .record(_, _, true) = audioSessionType {
+                    Queue.mainQueue().async(setupCamera)
+                } else {
+                    Queue.mainQueue().after(0.05, setupCamera)
+                }
+"""),
+    ]
+    for name, old, new in substitutions:
+        if texts[name].count(old) != 1:
+            raise SystemExit(f"Mixed recording transition anchor drift: {name}: {old[:80]!r}")
+        texts[name] = texts[name].replace(old, new, 1)
+    for name, text in texts.items():
+        (source / name).write_text(text, encoding="utf-8")
 
 
 def apply_features(source: Path) -> None:
@@ -10025,7 +11057,6 @@ private func nagramiXCopyProfileId(_ value: Int64, presentationData: Presentatio
     apply_channel_mute_and_exact_time(source)
     apply_authorization_alert_handling(source)
     apply_recording_session_continuity(source)
-    apply_profile_link_messages(source)
     apply_gallery_media_modes(source, overlay)
     apply_unread_chats_first(source, overlay)
     apply_archived_copy_send_fix(source, overlay)
@@ -10034,6 +11065,14 @@ private func nagramiXCopyProfileId(_ value: Int64, presentationData: Presentatio
     apply_archived_media_save(source, overlay)
     apply_skip_call_rating(source)
     apply_recorder_backpressure_fix(source)
+    apply_login_postbox_handoff(source)
+    apply_author_selection_archive_deletion(source)
+    apply_dns_provider_list(source)
+    apply_mixed_recording_transition(source)
+    apply_anti_caps(source)
+    apply_anonymous_stickers_and_blocked_filter(source)
+    apply_archived_selection_actions_fix(source)
+    apply_selfie_countdown(source)
 
     if stock_section not in item_list_controller.read_text(encoding="utf-8"):
         raise SystemExit("NagramiX overlay modified Telegram's stock sectionControl branch")

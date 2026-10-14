@@ -1,4 +1,10 @@
-# NagramiX 0.5.4: проверенный IPA опубликован
+# NagramiX 0.5.5: подготовка чистой сборки
+
+Пользователь разрешил сборку для физического iPhone 17 Pro Max с iOS27.0. Готовность нового IPA пока не подтверждена. ARM64, минимум iOS15.0, внешняя подпись; [изменения](../product/releases/0.5.5.md), [приёмка](IPHONE_TEST_0.5.5.md).
+
+Версия metadata/workflow0.5.5. План: clean_build=true, publish_release=true, prerelease=true, artifact_run_id пустой. Source SHA/run/build и контрольная сумма будут заполнены по фактическому результату. Старые публикации не заменять. Preflight: Telegram pin CURRENT; full overlay460/460 совпал с проверенным source,7targeted validators и3resource tests PASS. Нативная компиляция новых изменений ещё не подтверждена. Требуется native compile и проверка нового пакета; физический тест выполняет пользователь.
+
+# Предыдущий выпуск0.5.4: проверенный IPA опубликован
 
 Нативная сборка, упаковка и тестовая публикация завершились успешно. Пакет независимо скачан и проверен; физическая приёмка на iPhone ожидается.
 
@@ -15,7 +21,7 @@
 | База | Telegram13.0, f1dd7a2dbd02cbbf513e75d5695d8d36d1cf5838, CURRENT |
 | Входные параметры | clean_build=true, publish_release=true, prerelease=true, artifact_run_id пустой |
 
-Независимая проверка `/workspace/.codex-validation-nagramix-054-build88-release`: SHA256SUMS и BUILD-PROVENANCE совпали с файлом, source SHA/pin/run; tag указывает на тот же commit; ZIP CRC цел. Все6Mach-O ARM64, minimum15.0/background audio подтверждены. Нет временных _CodeSignature/embedded profiles. Основной RU ресурс14863ключа; все274RU/200EN значений NagramiX побайтно по значению совпали с исходниками. Все31мелодии проверены; два новых onboarding PNG и26RU/EN Tour значений прошли штатный validator. Тело релиза совпадает с [русской аннотацией](../product/releases/0.5.4.md).
+Независимая проверка `/workspace/.codex-validation-nagramix-054-build88-release`: SHA256SUMS и BUILD-PROVENANCE совпали с файлом, source SHA/pin/run; tag указывает на тот же commit; ZIP CRC цел. Все6Mach-O ARM64, minimum15.0/background audio подтверждены. Нет временных _CodeSignature/embedded profiles. Основной RU ресурс14863ключа; все274RU/200EN значений NagramiX побайтно по значению совпали с исходниками. Все31мелодии проверены; два новых onboarding PNG и26RU/EN Tour значений прошли штатный validator. Тело релиза совпадает с [русской аннотацией](releases/0.5.4.md).
 
 Попытка[№87](https://github.com/Mr-EFES/NagramiX/actions/runs/38393039193) завершилась до компиляции из-за повторного включения PNG в AppResources/Lib.data и ios_application.resources. Удалён второй владелец, добавлена точная проверка native glob/единственного AppResources. Assets/manifest/loader прежние; чистый proof453файла,452прежних относительно87, только BUILD изменён. Исправление проверено успешным Bazel analysis/compile/package№88 и наличием PNG в IPA. Версия обеих попыток0.5.4.
 

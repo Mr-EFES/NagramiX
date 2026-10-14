@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "product": "NagramiX",
-  "release": "0.5.4",
+  "release": "0.5.5",
   "platformPriority": [
     "ios"
   ],
@@ -417,16 +417,6 @@
       }
     },
     {
-      "id": "profile_link_messages",
-      "title": "Ссылка на профиль в сообщениях",
-      "specification": "specified",
-      "ios": {
-        "implementation": "implemented",
-        "compile": "compile_passed",
-        "device": "device_pending"
-      }
-    },
-    {
       "id": "high_quality_photos",
       "title": "Фото максимального качества со штатным просмотрщиком Telegram",
       "specification": "specified",
@@ -483,6 +473,46 @@
       "ios": {
         "implementation": "implemented",
         "compile": "compile_passed",
+        "device": "device_pending"
+      }
+    },
+    {
+      "id": "anti_caps",
+      "title": "Анти-капс",
+      "specification": "specified",
+      "ios": {
+        "implementation": "implemented",
+        "compile": "compile_pending",
+        "device": "device_pending"
+      }
+    },
+    {
+      "id": "anonymous_stickers",
+      "title": "Анонимные стикеры",
+      "specification": "specified",
+      "ios": {
+        "implementation": "implemented",
+        "compile": "compile_pending",
+        "device": "device_pending"
+      }
+    },
+    {
+      "id": "hide_blocked_messages",
+      "title": "Скрывать сообщения заблокированных",
+      "specification": "specified",
+      "ios": {
+        "implementation": "implemented",
+        "compile": "compile_pending",
+        "device": "device_pending"
+      }
+    },
+    {
+      "id": "selfie_countdown",
+      "title": "Отсчёт 3–2–1",
+      "specification": "specified",
+      "ios": {
+        "implementation": "implemented",
+        "compile": "compile_pending",
         "device": "device_pending"
       }
     }

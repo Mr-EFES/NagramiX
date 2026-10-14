@@ -77,9 +77,9 @@ def check(endpoint):
 def main():
     source = (Path(__file__).resolve().parents[1] / 'ios/Sources/MtProtoKit/NagramiXDNSResolver.m').read_text()
     endpoints = re.findall(r'return @"(https://[^"\n]+/dns-query)";', source)
-    if len(endpoints) != 5:
-        raise SystemExit('Ожидались пять штатных DoH endpoint; проверьте список провайдеров')
-    with concurrent.futures.ThreadPoolExecutor(max_workers=5) as pool:
+    if len(endpoints) != 3:
+        raise SystemExit('Ожидались три штатных DoH endpoint; проверьте список провайдеров')
+    with concurrent.futures.ThreadPoolExecutor(max_workers=3) as pool:
         for result in pool.map(check, endpoints):
             print(result)
     print('Системный DNS и сеть iPhone этим скриптом не проверяются.')

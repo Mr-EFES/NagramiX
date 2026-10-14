@@ -31,7 +31,44 @@ public func nagramiXMessagesByAuthor(account: Account, peerId: PeerId, authorId:
         }
         // Each subscription owns its accumulator; requests are strictly serial.
         var selectedIds = Set<MessageId>()
+        // Server history/search is not the only source of selectable messages. Cached
+        // history, pending outgoing messages and Secret Chats are real local history.
+        // Page it on the Postbox queue, without importing any cleared remote history.
+        let localNamespaces = [Namespaces.Message.Cloud, Namespaces.Message.Local, Namespaces.Message.SecretIncoming, Namespaces.Message.EphemeralLocal]
+        func collectLocal(peer: Peer, namespaceIndex: Int = 0, from: MessageIndex? = nil) -> Signal<Void, NagramiXAuthorSelectionError> {
+            guard namespaceIndex < localNamespaces.count else {
+                return .single(Void())
+            }
+            let namespace = localNamespaces[namespaceIndex]
+            let upper = from ?? MessageIndex.upperBound(peerId: peer.id, namespace: namespace)
+            return account.postbox.transaction { transaction -> MessageIndex? in
+                let lower = MessageIndex.lowerBound(peerId: peer.id, namespace: namespace)
+                let messages: [Message]
+                if let threadId {
+                    messages = transaction.getMessagesWithThreadId(peerId: peer.id, namespace: namespace, threadId: threadId, from: upper, includeFrom: false, to: lower, limit: 200)
+                } else {
+                    messages = transaction.getMessages(peerId: peer.id, namespace: namespace, from: upper, includeFrom: false, to: lower, limit: 200)
+                }
+                for message in messages where message.id.peerId == peer.id && message.author?.id == authorId {
+                    selectedIds.insert(message.id)
+                }
+                return messages.map { $0.index }.min()
+            }
+            |> castError(NagramiXAuthorSelectionError.self)
+            |> mapToSignal { next -> Signal<Void, NagramiXAuthorSelectionError> in
+                guard let next else {
+                    return collectLocal(peer: peer, namespaceIndex: namespaceIndex + 1)
+                }
+                guard next < upper else {
+                    return .fail(.stalled)
+                }
+                return collectLocal(peer: peer, namespaceIndex: namespaceIndex, from: next)
+            }
+        }
         func collect(peer: Peer, offset: Int32) -> Signal<Void, NagramiXAuthorSelectionError> {
+            if peer.id.namespace == Namespaces.Peer.SecretChat {
+                return .single(Void())
+            }
             guard let inputPeer = apiInputPeer(peer) else {
                 return .fail(.unavailable)
             }
@@ -118,10 +155,16 @@ public func nagramiXMessagesByAuthor(account: Account, peerId: PeerId, authorId:
                 return collect(peer: peer, offset: nextOffset)
             }
         }
-        return collect(peer: peer, offset: 0)
+        return collectLocal(peer: peer)
+        |> mapToSignal { _ -> Signal<Void, NagramiXAuthorSelectionError> in
+            return collect(peer: peer, offset: 0)
+        }
         |> mapToSignal { _ -> Signal<Void, NagramiXAuthorSelectionError> in
             if let previousPeer {
-                return collect(peer: previousPeer, offset: 0)
+                return collectLocal(peer: previousPeer)
+                |> mapToSignal { _ -> Signal<Void, NagramiXAuthorSelectionError> in
+                    return collect(peer: previousPeer, offset: 0)
+                }
             }
             return .single(Void())
         }

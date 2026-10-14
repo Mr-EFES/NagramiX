@@ -36,13 +36,11 @@
 "NagramiX.Icon.Lime" = "Лайм";
 "NagramiX.Icon.Ruby" = "Рубин";
 "NagramiX.Network.DNS" = "DNS-сервер";
-"NagramiX.Network.DNS.System" = "Системный DNS";
-"NagramiX.Network.DNS.Telegram" = "DNS Telegram";
-"NagramiX.Network.DNS.Google" = "Google DNS";
-"NagramiX.Network.DNS.Quad9" = "Quad9";
-"NagramiX.Network.DNS.AdGuard" = "AdGuard DNS";
-"NagramiX.Network.DNS.Mullvad" = "Mullvad DNS";
-"NagramiX.Network.DNS.Cloudflare" = "Cloudflare DNS";
+"NagramiX.Network.DNS.System" = "Системный";
+"NagramiX.Network.DNS.Telegram" = "Telegram";
+"NagramiX.Network.DNS.Google" = "Google";
+"NagramiX.Network.DNS.AdGuard" = "AdGuard";
+"NagramiX.Network.DNS.Cloudflare" = "Cloudflare";
 "NagramiX.Network.DNS.Custom" = "Пользовательский DoH";
 "NagramiX.Network.DNS.CustomURL" = "URL DoH-сервера";
 "NagramiX.Network.DNS.CustomPlaceholder" = "https://example.com/dns-query";
@@ -175,7 +173,9 @@
 "NagramiX.Context.SelectFromAuthor" = "Выделить от автора";
 "NagramiX.Context.AuthorSelectionEmpty" = "Доступных сообщений этого автора не найдено.";
 "NagramiX.Context.AuthorSelectionFailed" = "Не удалось загрузить все сообщения автора. Проверьте подключение и повторите попытку. Неполный набор не выбран.";
-"NagramiX.Context.AuthorDeleteUnavailable" = "Удаление выбранного набора недоступно по правилам Telegram. В супергруппе для удаления чужих сообщений нужны права администратора. Архивные сообщения удаляются только локально. Очистка кэша освобождает место, но не удаляет переписку.";
+"NagramiX.Context.AuthorDeleteUnavailable" = "Telegram не разрешает удалить выбранные сообщения в этом чате. Для удаления чужих сообщений в супергруппе нужны права администратора.";
+"NagramiX.Context.SelectedDeletionWarning" = "Будут удалены выбранные сообщения: %@. Остальная переписка останется.";
+"NagramiX.Context.LocalCopiesDeletionWarning" = "Локальные копии (%@) удалятся только с этого устройства.";
 "NagramiX.Network.DataCenters" = "Дата-центры";
 "NagramiX.Profile.Id" = "ID профиля";
 "NagramiX.Profile.IdCopied" = "ID скопирован";
@@ -263,23 +263,6 @@
 
 "NagramiX.Authorization.Error" = "Ошибка авторизации. Нажмите «Выйти», затем снова войдите по своему номеру телефона.\n\nВажно: выход из аккаунта удалит секретные чаты на этом устройстве. Если нужно сохранить данные из них, нажмите «Отмена» и сохраните их перед выходом.";
 
-"NagramiX.ProfileLink.Title" = "Ссылка на профиль";
-"NagramiX.ProfileLink.Enabled" = "Ссылка в сообщениях";
-"NagramiX.ProfileLink.On" = "Включено";
-"NagramiX.ProfileLink.Off" = "Выключено";
-"NagramiX.ProfileLink.Info" = "При включении текст новых сообщений и подписи к медиа будут вести на выбранный профиль. Существующие ссылки, упоминания и код сохраняются. Старые сообщения не изменяются.";
-"NagramiX.ProfileLink.TargetHeader" = "Профиль для ссылки";
-"NagramiX.ProfileLink.Target" = "Профиль";
-"NagramiX.ProfileLink.Mine" = "Мой профиль";
-"NagramiX.ProfileLink.UseMine" = "Использовать мой профиль";
-"NagramiX.ProfileLink.Open" = "Открыть профиль";
-"NagramiX.ProfileLink.Id" = "ID профиля";
-"NagramiX.ProfileLink.Editor" = "Выбрать профиль по ID";
-"NagramiX.ProfileLink.IdHint" = "Введите числовой ID пользователя. Его можно скопировать из профиля. Чтобы выбрать другого пользователя, сначала откройте его профиль в этом аккаунте NagramiX.";
-"NagramiX.ProfileLink.InvalidId" = "Введите корректный числовой ID пользователя без знака минус, букв и ссылок.";
-"NagramiX.ProfileLink.Unavailable" = "Профиль недоступен";
-"NagramiX.ProfileLink.NotFound" = "Этот профиль пока недоступен в текущем аккаунте. Откройте его через поиск или переписку, затем повторите выбор ID. Пока профиль недоступен, сообщения отправляются без этой ссылки.";
-"NagramiX.ProfileLink.PreviewInfo" = "Кнопка «Открыть профиль» помогает проверить, куда будет вести ссылка. Автор сообщения остаётся прежним.";
 
 "NagramiX.Settings.Photos.HighQuality" = "Фото без сжатия";
 "NagramiX.Settings.Videos.Original" = "Видео без сжатия";
@@ -291,3 +274,14 @@
 "NagramiX.Archive.CopyUnavailable" = "Не удалось подготовить сохранённое вложение. Возможно, файл сохранён не полностью или не хватает места. Сообщение не отправлено.";
 "NagramiX.Archive.SaveUnavailable" = "Не удалось подготовить сохранённый файл. Возможно, он недоступен, сохранён не полностью или не хватает места.";
 "NagramiX.Archive.SaveFailed" = "Не удалось сохранить. Повторите попытку.";
+
+"NagramiX.Settings.Messages.AntiCaps" = "Анти-капс";
+"NagramiX.Settings.Messages.AntiCaps.SearchTerms" = "Верхний регистр заглавные буквы капс от 4 букв ПРИВЕТ ВСЕМ → Привет всем";
+
+"NagramiX.Settings.Stickers.Anonymous" = "Анонимные стикеры";
+"NagramiX.Settings.Stickers.Anonymous.SearchTerms" = "Отправка стикеров без привязки к стикерпаку набор пак анонимная отправка";
+"NagramiX.Settings.Messages.HideBlocked" = "Скрывать заблокированных";
+"NagramiX.Settings.Messages.HideBlocked.SearchTerms" = "Скрыть сообщения заблокированного пользователя юзера чёрный список группа чат";
+
+"NagramiX.SelfieCountdown.Title" = "Отсчёт 3–2–1";
+"NagramiX.SelfieCountdown.SearchTerms" = "Таймер селфи-камеры. Три секунды перед записью кружка на переднюю камеру. Селфи таймер отсчет отсчёт 3 2 1.";

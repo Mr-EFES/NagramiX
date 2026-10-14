@@ -2,12 +2,11 @@ import Foundation
 import NagramiXMediaSettings
 
 public enum NagramiXDnsProvider: Int, CaseIterable, Equatable {
+    // Keep persisted IDs stable. Former providers 2 and 4 decode as System.
     case system = 0
     case telegram = 7
     case google = 1
-    case quad9 = 2
     case adGuard = 3
-    case mullvad = 4
     case cloudflare = 5
     case customDoh = 6
 
@@ -17,12 +16,8 @@ public enum NagramiXDnsProvider: Int, CaseIterable, Equatable {
             return nil
         case .google:
             return "https://dns.google/dns-query"
-        case .quad9:
-            return "https://dns.quad9.net/dns-query"
         case .adGuard:
             return "https://dns.adguard-dns.com/dns-query"
-        case .mullvad:
-            return "https://dns.mullvad.net/dns-query"
         case .cloudflare:
             return "https://cloudflare-dns.com/dns-query"
         case .customDoh:
@@ -59,13 +54,15 @@ public struct NagramiXTabSettings: Equatable {
         // Keep the existing inverse storage key so updates preserve the user's behavior.
         static let legacyDisableVoiceAutoplay = "nagramix.messages.disableVoiceAutoplay"
         static let autoMuteNewChannels = "nagramix.messages.autoMuteNewChannels"
-        static let profileLinkEnabled = "nagramix.messages.profileLinkEnabled"
-        static let profileLinkUserId = "nagramix.messages.profileLinkUserId"
+        static let anonymousStickers = "nagramix.stickers.anonymous"
+        static let hideBlockedMessages = "nagramix.messages.hideBlocked"
+        static let antiCaps = "nagramix.messages.antiCaps"
         static let showExactLastSeen = "nagramix.profiles.showExactLastSeen"
         static let chatActionsOnHold = "nagramix.interface.chatActionsOnHold"
         static let showForwardWithoutAuthor = "nagramix.contextMenu.showForwardWithoutAuthor"
         static let showBroadcastMessages = "nagramix.contextMenu.showBroadcastMessages"
         static let showSelectByAuthor = "nagramix.contextMenu.showSelectByAuthor"
+        static let selfieCountdown = "nagramix.videoMessages.selfieCountdown"
         static let useRearCameraForVideoMessages = "nagramix.videoMessages.useRearCamera"
         static let hideStories = "nagramix.stories.hide"
         static let disableStoryCameraSwipe = "nagramix.stories.disableCameraSwipe"
@@ -103,16 +100,18 @@ public struct NagramiXTabSettings: Equatable {
     public var doubleTapEdit: Bool
     public var hideReactions: Bool
     public var hideGreetingSticker: Bool
+    public var anonymousStickers: Bool
+    public var hideBlockedMessages: Bool
+    public var antiCaps: Bool
     public var voiceAutoplay: Bool
     public var autoMuteNewChannels: Bool
-    public var profileLinkEnabled: Bool
-    public var profileLinkUserId: String
     public var showExactLastSeen: Bool
     public var downloads: NagramiXDownloadSettings
     public var chatActionsOnHold: Bool
     public var showForwardWithoutAuthor: Bool
     public var showBroadcastMessages: Bool
     public var showSelectByAuthor: Bool
+    public var selfieCountdown: Bool
     public var useRearCameraForVideoMessages: Bool
     public var hideStories: Bool
     public var disableStoryCameraSwipe: Bool
@@ -179,11 +178,13 @@ public struct NagramiXTabSettings: Equatable {
         anonymousStoryViewing: Bool = false,
         avoidProxyWithVPN: Bool = false,
         hideGreetingSticker: Bool = true,
+        anonymousStickers: Bool = true,
+        hideBlockedMessages: Bool = true,
+        antiCaps: Bool = false,
+        selfieCountdown: Bool = true,
         voiceAutoplay: Bool = false,
         autoMuteNewChannels: Bool = true,
         showExactLastSeen: Bool = false,
-        profileLinkEnabled: Bool = false,
-        profileLinkUserId: String = "",
         unreadChatsFirst: Bool = true
     ) {
         self.hideContacts = hideContacts
@@ -198,10 +199,12 @@ public struct NagramiXTabSettings: Equatable {
         self.doubleTapEdit = doubleTapEdit
         self.hideReactions = hideReactions
         self.hideGreetingSticker = hideGreetingSticker
+        self.anonymousStickers = anonymousStickers
+        self.hideBlockedMessages = hideBlockedMessages
+        self.antiCaps = antiCaps
+        self.selfieCountdown = selfieCountdown
         self.voiceAutoplay = voiceAutoplay
         self.autoMuteNewChannels = autoMuteNewChannels
-        self.profileLinkEnabled = profileLinkEnabled
-        self.profileLinkUserId = profileLinkUserId
         self.showExactLastSeen = showExactLastSeen
         self.downloads = downloads
         self.chatActionsOnHold = chatActionsOnHold
@@ -252,13 +255,6 @@ public struct NagramiXTabSettings: Equatable {
 
     public static var doubleTapEditEnabled: Bool {
         return UserDefaults.standard.object(forKey: Key.doubleTapEdit) as? Bool ?? false
-    }
-
-    public static func normalizedProfileLinkUserId(_ value: String) -> String? {
-        let value = value.trimmingCharacters(in: .whitespacesAndNewlines)
-        guard !value.isEmpty, value.utf8.allSatisfy({ $0 >= 48 && $0 <= 57 }),
-              let id = Int64(value), id > 0, id <= 0x00ff_ffff_ffff_ffff else { return nil }
-        return String(id)
     }
 
     public static var autoMuteNewChannelsEnabled: Bool {
@@ -343,17 +339,20 @@ public struct NagramiXTabSettings: Equatable {
             anonymousStoryViewing: self.anonymousStoryViewingEnabled,
             avoidProxyWithVPN: defaults.object(forKey: Key.avoidProxyWithVPN) as? Bool ?? false,
             hideGreetingSticker: self.hideGreetingStickerEnabled,
+            anonymousStickers: defaults.object(forKey: Key.anonymousStickers) as? Bool ?? true,
+            hideBlockedMessages: defaults.object(forKey: Key.hideBlockedMessages) as? Bool ?? true,
+            antiCaps: defaults.object(forKey: Key.antiCaps) as? Bool ?? false,
+            selfieCountdown: defaults.object(forKey: Key.selfieCountdown) as? Bool ?? true,
             voiceAutoplay: self.voiceAutoplayEnabled,
             autoMuteNewChannels: self.autoMuteNewChannelsEnabled,
             showExactLastSeen: self.exactLastSeenEnabled,
-            profileLinkEnabled: defaults.object(forKey: Key.profileLinkEnabled) as? Bool ?? false,
-            profileLinkUserId: defaults.string(forKey: Key.profileLinkUserId) ?? "",
             unreadChatsFirst: self.unreadChatsFirstEnabled
         )
     }
 
     public static func update(_ transform: (inout NagramiXTabSettings) -> Void) {
         var value = self.current
+        let previousHideBlockedMessages = value.hideBlockedMessages
         let previousUnreadChatsFirst = value.unreadChatsFirst
         let previousCompactChatList = value.compactChatList
         let previousChannelBottomPanel = value.showChannelBottomPanel
@@ -381,10 +380,12 @@ public struct NagramiXTabSettings: Equatable {
         defaults.set(value.doubleTapEdit, forKey: Key.doubleTapEdit)
         defaults.set(value.hideReactions, forKey: Key.hideReactions)
         defaults.set(value.hideGreetingSticker, forKey: Key.hideGreetingSticker)
+        defaults.set(value.anonymousStickers, forKey: Key.anonymousStickers)
+        defaults.set(value.hideBlockedMessages, forKey: Key.hideBlockedMessages)
+        defaults.set(value.antiCaps, forKey: Key.antiCaps)
+        defaults.set(value.selfieCountdown, forKey: Key.selfieCountdown)
         defaults.set(!value.voiceAutoplay, forKey: Key.legacyDisableVoiceAutoplay)
         defaults.set(value.autoMuteNewChannels, forKey: Key.autoMuteNewChannels)
-        defaults.set(value.profileLinkEnabled, forKey: Key.profileLinkEnabled)
-        defaults.set(value.profileLinkUserId, forKey: Key.profileLinkUserId)
         defaults.set(value.showExactLastSeen, forKey: Key.showExactLastSeen)
         defaults.set(value.chatActionsOnHold, forKey: Key.chatActionsOnHold)
         defaults.set(value.useRearCameraForVideoMessages, forKey: Key.useRearCameraForVideoMessages)
@@ -435,6 +436,9 @@ public struct NagramiXTabSettings: Equatable {
         }
         if previousChannelBottomPanel != value.showChannelBottomPanel {
             NotificationCenter.default.post(name: self.channelBottomPanelChangedNotification, object: nil)
+        }
+        if previousHideBlockedMessages != value.hideBlockedMessages {
+            NotificationCenter.default.post(name: Notification.Name("NagramiXBlockedMessagesSettingsChanged"), object: nil)
         }
         if previousUnreadChatsFirst != value.unreadChatsFirst {
             NotificationCenter.default.post(name: self.unreadChatsFirstChangedNotification, object: nil)

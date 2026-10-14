@@ -16,9 +16,7 @@ static NSError *NagramiXDnsError(NSInteger code) {
 typedef NS_ENUM(NSInteger, NagramiXDnsProvider) {
     NagramiXDnsProviderSystem = 0,
     NagramiXDnsProviderGoogle = 1,
-    NagramiXDnsProviderQuad9 = 2,
     NagramiXDnsProviderAdGuard = 3,
-    NagramiXDnsProviderMullvad = 4,
     NagramiXDnsProviderCloudflare = 5,
     NagramiXDnsProviderCustom = 6,
     NagramiXDnsProviderTelegram = 7
@@ -158,10 +156,19 @@ static NSString * _Nullable NagramiXParseDnsResponse(NSData *data, uint16_t iden
 
 + (NagramiXDnsProvider)provider {
     NSInteger rawValue = [[NSUserDefaults standardUserDefaults] integerForKey:NagramiXDnsProviderKey];
-    if (rawValue < NagramiXDnsProviderSystem || rawValue > NagramiXDnsProviderTelegram) {
-        return NagramiXDnsProviderSystem;
+    // Whitelist persisted IDs: removed providers (2/4) and unknown values use
+    // the same System fallback as NagramiXDnsProvider(rawValue:) in Swift.
+    switch (rawValue) {
+        case NagramiXDnsProviderSystem:
+        case NagramiXDnsProviderTelegram:
+        case NagramiXDnsProviderGoogle:
+        case NagramiXDnsProviderAdGuard:
+        case NagramiXDnsProviderCloudflare:
+        case NagramiXDnsProviderCustom:
+            return (NagramiXDnsProvider)rawValue;
+        default:
+            return NagramiXDnsProviderSystem;
     }
-    return (NagramiXDnsProvider)rawValue;
 }
 
 + (BOOL)usesSystemResolver {
@@ -176,12 +183,8 @@ static NSString * _Nullable NagramiXParseDnsResponse(NSData *data, uint16_t iden
             return nil;
         case NagramiXDnsProviderGoogle:
             return @"https://dns.google/dns-query";
-        case NagramiXDnsProviderQuad9:
-            return @"https://dns.quad9.net/dns-query";
         case NagramiXDnsProviderAdGuard:
             return @"https://dns.adguard-dns.com/dns-query";
-        case NagramiXDnsProviderMullvad:
-            return @"https://dns.mullvad.net/dns-query";
         case NagramiXDnsProviderCloudflare:
             return @"https://cloudflare-dns.com/dns-query";
         case NagramiXDnsProviderCustom:

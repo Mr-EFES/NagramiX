@@ -23,26 +23,11 @@ private extension PresentationStrings {
 }
 
 public extension PresentationStrings {
+    var nagramiXSelfieCountdown: String { self.nagramiXLocalized("NagramiX.SelfieCountdown.Title") }
+    var nagramiXSelfieCountdownSearchTerms: String { self.nagramiXLocalized("NagramiX.SelfieCountdown.SearchTerms") }
     var nagramiXArchivedCopyUnavailable: String { self.nagramiXLocalized("NagramiX.Archive.CopyUnavailable") }
     var nagramiXArchiveSaveUnavailable: String { self.nagramiXLocalized("NagramiX.Archive.SaveUnavailable") }
     var nagramiXArchiveSaveFailed: String { self.nagramiXLocalized("NagramiX.Archive.SaveFailed") }
-    var nagramiXProfileLinkTitle: String { self.nagramiXLocalized("NagramiX.ProfileLink.Title") }
-    var nagramiXProfileLinkEnabled: String { self.nagramiXLocalized("NagramiX.ProfileLink.Enabled") }
-    var nagramiXProfileLinkOn: String { self.nagramiXLocalized("NagramiX.ProfileLink.On") }
-    var nagramiXProfileLinkOff: String { self.nagramiXLocalized("NagramiX.ProfileLink.Off") }
-    var nagramiXProfileLinkInfo: String { self.nagramiXLocalized("NagramiX.ProfileLink.Info") }
-    var nagramiXProfileLinkTargetHeader: String { self.nagramiXLocalized("NagramiX.ProfileLink.TargetHeader") }
-    var nagramiXProfileLinkTarget: String { self.nagramiXLocalized("NagramiX.ProfileLink.Target") }
-    var nagramiXProfileLinkMine: String { self.nagramiXLocalized("NagramiX.ProfileLink.Mine") }
-    var nagramiXProfileLinkUseMine: String { self.nagramiXLocalized("NagramiX.ProfileLink.UseMine") }
-    var nagramiXProfileLinkOpen: String { self.nagramiXLocalized("NagramiX.ProfileLink.Open") }
-    var nagramiXProfileLinkId: String { self.nagramiXLocalized("NagramiX.ProfileLink.Id") }
-    var nagramiXProfileLinkEditor: String { self.nagramiXLocalized("NagramiX.ProfileLink.Editor") }
-    var nagramiXProfileLinkIdHint: String { self.nagramiXLocalized("NagramiX.ProfileLink.IdHint") }
-    var nagramiXProfileLinkInvalidId: String { self.nagramiXLocalized("NagramiX.ProfileLink.InvalidId") }
-    var nagramiXProfileLinkUnavailable: String { self.nagramiXLocalized("NagramiX.ProfileLink.Unavailable") }
-    var nagramiXProfileLinkNotFound: String { self.nagramiXLocalized("NagramiX.ProfileLink.NotFound") }
-    var nagramiXProfileLinkPreviewInfo: String { self.nagramiXLocalized("NagramiX.ProfileLink.PreviewInfo") }
 
     func nagramiXDebugLocalized(_ english: String) -> String {
         let key = "NagramiX.Debug." + english
@@ -147,9 +132,7 @@ public extension PresentationStrings {
     var nagramiXDnsSystem: String { self.nagramiXLocalized("NagramiX.Network.DNS.System") }
     var nagramiXDnsTelegram: String { self.nagramiXLocalized("NagramiX.Network.DNS.Telegram") }
     var nagramiXDnsGoogle: String { self.nagramiXLocalized("NagramiX.Network.DNS.Google") }
-    var nagramiXDnsQuad9: String { self.nagramiXLocalized("NagramiX.Network.DNS.Quad9") }
     var nagramiXDnsAdGuard: String { self.nagramiXLocalized("NagramiX.Network.DNS.AdGuard") }
-    var nagramiXDnsMullvad: String { self.nagramiXLocalized("NagramiX.Network.DNS.Mullvad") }
     var nagramiXDnsCloudflare: String { self.nagramiXLocalized("NagramiX.Network.DNS.Cloudflare") }
     var nagramiXDnsCustom: String { self.nagramiXLocalized("NagramiX.Network.DNS.Custom") }
     var nagramiXCustomDohUrl: String { self.nagramiXLocalized("NagramiX.Network.DNS.CustomURL") }
@@ -188,6 +171,12 @@ public extension PresentationStrings {
     var nagramiXCallRatingSearchTerms: String { self.nagramiXLocalized("NagramiX.Settings.Calls.SkipRating.Search") }
     var nagramiXForceTcpCalls: String { self.nagramiXLocalized("NagramiX.Settings.Calls.ForceTcp") }
     var nagramiXForceTcpCallsInfo: String { self.nagramiXLocalized("NagramiX.Settings.Calls.ForceTcpInfo") }
+    var nagramiXAnonymousStickers: String { self.nagramiXLocalized("NagramiX.Settings.Stickers.Anonymous") }
+    var nagramiXAnonymousStickersSearchTerms: String { self.nagramiXLocalized("NagramiX.Settings.Stickers.Anonymous.SearchTerms") }
+    var nagramiXHideBlockedMessages: String { self.nagramiXLocalized("NagramiX.Settings.Messages.HideBlocked") }
+    var nagramiXHideBlockedMessagesSearchTerms: String { self.nagramiXLocalized("NagramiX.Settings.Messages.HideBlocked.SearchTerms") }
+    var nagramiXAntiCaps: String { self.nagramiXLocalized("NagramiX.Settings.Messages.AntiCaps") }
+    var nagramiXAntiCapsSearchTerms: String { self.nagramiXLocalized("NagramiX.Settings.Messages.AntiCaps.SearchTerms") }
     var nagramiXVoiceAutoplay: String { self.nagramiXLocalized("NagramiX.Settings.Messages.VoiceAutoplay") }
     var nagramiXVoiceAutoplayInfo: String { self.nagramiXLocalized("NagramiX.Settings.Messages.VoiceAutoplay.Info") }
     var nagramiXMessagesHeader: String { self.nagramiXLocalized("NagramiX.Settings.Messages.Header") }
@@ -223,6 +212,12 @@ public extension PresentationStrings {
     var nagramiXAuthorSelectionEmpty: String { self.nagramiXLocalized("NagramiX.Context.AuthorSelectionEmpty") }
     var nagramiXAuthorSelectionFailed: String { self.nagramiXLocalized("NagramiX.Context.AuthorSelectionFailed") }
     var nagramiXAuthorDeleteUnavailable: String { self.nagramiXLocalized("NagramiX.Context.AuthorDeleteUnavailable") }
+    func nagramiXSelectedDeletionWarning(_ count: Int) -> String {
+        return self.nagramiXLocalized("NagramiX.Context.SelectedDeletionWarning").replacingOccurrences(of: "%@", with: String(count))
+    }
+    func nagramiXLocalCopiesDeletionWarning(_ count: Int) -> String {
+        return self.nagramiXLocalized("NagramiX.Context.LocalCopiesDeletionWarning").replacingOccurrences(of: "%@", with: String(count))
+    }
     var nagramiXDataCenters: String { self.nagramiXLocalized("NagramiX.Network.DataCenters") }
     var nagramiXProfileId: String { self.nagramiXLocalized("NagramiX.Profile.Id") }
     var nagramiXProfileIdCopied: String { self.nagramiXLocalized("NagramiX.Profile.IdCopied") }

@@ -1,6 +1,27 @@
 # Музыка при записи кружков и голосовых
 
-Текущее состояние: включено в проверенный IPA0.5.4/build88, **compile_passed / device_pending**. [Сборка, source SHA и пакет](RELEASE_STATUS.md). Записи о локальных проверках ниже описывают подготовку до этой нативной сборки; физическая проверка остаётся отдельной.
+Опубликованный0.5.4/build88 содержит прежние правки (**compile_passed**), но пользователь повторно сообщил микролаг при переходе к записи. Новая правка ниже: **source_checked / native_compile_pending / device_pending**. [Сборка, source SHA и пакет](RELEASE_STATUS.md); опубликованный IPA не менялся.
+
+## Повторное исправление перехода к записи13октября
+
+Пользователь просит максимально бесшовную музыку при старте голосового/кружка. Ранее проверял динамик iPhone, просил учитывать Bluetooth; в этом уточнении ещё не ответил, речь о провале звука, интерфейсе или обоих. Исследован общий путь обоих рекордеров; точная длительность/аудиозапись дефекта и runtime trace отсутствуют.
+
+Подтверждены лишние действия в коде:
+
+- RemoteIO голосового оставлял включённый по умолчанию выход и настраивал его mono48k, хотя обычный голосовой не воспроизводит звук. При Music ON и beginWithTone=false теперь явно выключен Output bus0 до Initialize; входной bus1, callback,48k PCM/Opus и захват прежние. Output stream/allocate/mute свойства применяются только если выход нужен. OFF и режим стартового тона сохраняют прежний граф.
+- HFP разрешался при смешанной записи, если неактивная собственная сессия ещё не показывала A2DP другого приложения. Для voice/round (video=false) HFP допускается только при preferred/уже активном HFP; иначе остаётся A2DP + микрофон телефона. Video=true сохраняет прежнюю политику, явные маршруты не подменяются.
+- Повторная установка идентичных category/mode/options для mixed sessions теперь пропускается по фактическим AVAudioSession properties. Требуемая конфигурация по-прежнему применяется атомарно при изменении. Mixed voice/round activation не передаёт notifyOthersOnDeactivation, который предназначен для выключения сессии.
+- При release mixed voice/round не посылается resume hint для не прерывавшейся музыки. Только default system route обычного recording(speaker=false,video=false,withOthers=true) не получает ненужные override-none/preferred-input-nil; tone/custom routes и звонки сохраняют очистку. Микрофонные AudioUnit/камера останавливаются штатно; idle-сессия намеренно не удерживается ради следующей записи.
+- Ошибка release блокировала serial audio queue на2s. Только mixed voice/round повторный release теперь асинхронный с прежним2s интервалом и одной попыткой. Generation, current type, holders и CallKit guards запрещают старому retry выключить новую запись/звонок. Pending guard не допускает повторного блокирующего release того же nil state. Все изменения проходят на той же очереди, weak capture без нового жизненного цикла recorder.
+- После подтверждённой активации mixed session кружок запускает setupCamera на main.async без фиксированных50ms. OFF сохраняет прежнюю50ms задержку. isDismissed/weak/ready guards прежние; native preview readiness delay, камера, fps/preset/экспозиция, writer/финализация/отправка не менялись.
+
+Проверены оба camera pipeline: Legacy и используемый по умолчанию Neo уже имеют automaticallyConfiguresApplicationAudioSession=false и usesApplicationAudioSession=true. Дополнительно прочитаны pinned NeoCameraImpl/CameraNeo и MediaPlayerAudioRenderer (Git blob SHA проверены); tone играет отдельным renderer с custom session. Их исходники не изменялись.
+
+Durable helper `apply_mixed_recording_transition` применён последним;3full SHA256 и11уникальных замен проверяются до записи. Native full/scoped proof `/workspace/.codex-validation-nagramix-recording-transition/{full-proof,scoped-proof}` совпадают453/453. Относительно предыдущего DNS proof:450byte-identical, только ManagedAudioSession/ManagedAudioRecorder/VideoMessageCameraScreen изменены. Предыдущие auth, deletion, DNS, writer/pipes/generation fixes сохранены.
+
+`scripts/validate_recording_transition.py`: exact11reverse,3drift/rerun отказа без частичной записи, mixed vs OFF/tone, unchanged input/Opus/acquired/stop bodies, async retry guards — PASS. Full overlay,3Swift grammar,Python compile,metadata/diff PASS. Это интеграционные/статические проверки, **не исполнение AVAudioSession/AudioUnit на устройстве**. Apple SDK здесь отсутствует, новой native сборки не было. Нельзя обещать нулевую физическую паузу по этим проверкам: переход iOS между A2DP/HFP, разрешения и холодная инициализация устройства требуют реального теста. Новую IPA0.5.5 запускать только по новой команде пользователя.
+
+Дополнительная приёмка: первый cold-start voice/round с музыкой через динамик;10быстрых start/send/cancel/pause/resume; A2DP с phone mic, явно выбранный HFP/проводной микрофон, отключение гарнитуры; OFF и стартовый тон; отказ разрешений/звонок/service reset. Проверить отсутствие провала именно музыки, действительную микрофонную дорожку и аудио/видео синхронность, а не только анимацию. При повторе — длительность/время события и safe stage/route/error logs, без содержимого сообщений.
 
 После build86 [аудит стабильности](STABILITY_AUDIT.md) выявил бесконечное ожидание AVAssetWriterInput. Новая правка ограничивает ожидание2секундами и возвращает штатную ошибку при неисправном writer; mixing/routes/codec и прежние completion guards сохранены. Новая правка **compile_passed / device_pending**, опубликованный IPA0.5.4/build88 её содержит.
 
