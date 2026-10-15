@@ -12314,7 +12314,7 @@ private func nagramiXCopyProfileId(_ value: Int64, presentationData: Presentatio
     replace_unique(
         source / "submodules/SettingsUI/Sources/Data and Storage/ProxyListSettingsController.swift",
         "title: text, value: value, enableInteractiveChanges: true, enabled: true, sectionId: self.section, style: .blocks, updated: arguments.toggleUseForCalls, tag: ProxySettingsEntryTag.useForCalls)",
-        "title: text, value: value, maximumNumberOfLines: 0, enableInteractiveChanges: true, enabled: true, sectionId: self.section, style: .blocks, updated: arguments.toggleUseForCalls, tag: ProxySettingsEntryTag.useForCalls)",
+        "title: text, value: value, enableInteractiveChanges: true, enabled: true, maximumNumberOfLines: 0, sectionId: self.section, style: .blocks, updated: arguments.toggleUseForCalls, tag: ProxySettingsEntryTag.useForCalls)",
         "Перенос полного названия настройки прокси для звонков",
     )
 
