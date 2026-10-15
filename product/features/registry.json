@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "product": "NagramiX",
-  "release": "0.5.5",
+  "release": "0.5.6",
   "platformPriority": [
     "ios"
   ],
@@ -22,7 +22,7 @@
       "specification": "specified",
       "ios": {
         "implementation": "implemented",
-        "compile": "compile_passed",
+        "compile": "compile_pending",
         "device": "device_pending"
       }
     },
@@ -32,7 +32,7 @@
       "specification": "specified",
       "ios": {
         "implementation": "implemented",
-        "compile": "compile_passed",
+        "compile": "compile_pending",
         "device": "device_pending"
       }
     },
@@ -42,7 +42,7 @@
       "specification": "specified",
       "ios": {
         "implementation": "implemented",
-        "compile": "compile_passed",
+        "compile": "compile_pending",
         "device": "device_pending"
       }
     },
@@ -72,7 +72,7 @@
       "specification": "specified",
       "ios": {
         "implementation": "implemented",
-        "compile": "compile_passed",
+        "compile": "compile_pending",
         "device": "device_pending"
       }
     },
@@ -82,7 +82,7 @@
       "specification": "specified",
       "ios": {
         "implementation": "implemented",
-        "compile": "compile_passed",
+        "compile": "compile_pending",
         "device": "device_pending"
       }
     },
@@ -92,7 +92,7 @@
       "specification": "specified",
       "ios": {
         "implementation": "implemented",
-        "compile": "compile_passed",
+        "compile": "compile_pending",
         "device": "device_pending"
       }
     },
@@ -102,7 +102,7 @@
       "specification": "specified",
       "ios": {
         "implementation": "implemented",
-        "compile": "compile_passed",
+        "compile": "compile_pending",
         "device": "device_pending"
       }
     },
@@ -182,7 +182,7 @@
       "specification": "specified",
       "ios": {
         "implementation": "implemented",
-        "compile": "compile_passed",
+        "compile": "compile_pending",
         "device": "device_pending"
       }
     },
@@ -262,7 +262,7 @@
       "specification": "specified",
       "ios": {
         "implementation": "implemented",
-        "compile": "compile_passed",
+        "compile": "compile_pending",
         "device": "device_pending"
       }
     },
@@ -322,7 +322,7 @@
       "specification": "specified",
       "ios": {
         "implementation": "implemented",
-        "compile": "compile_passed",
+        "compile": "compile_pending",
         "device": "device_pending"
       }
     },
@@ -372,7 +372,7 @@
       "specification": "specified",
       "ios": {
         "implementation": "implemented",
-        "compile": "compile_passed",
+        "compile": "compile_pending",
         "device": "device_pending"
       }
     },
@@ -452,7 +452,7 @@
       "specification": "specified",
       "ios": {
         "implementation": "implemented",
-        "compile": "compile_passed",
+        "compile": "compile_pending",
         "device": "device_pending"
       }
     },
@@ -508,11 +508,11 @@
     },
     {
       "id": "selfie_countdown",
-      "title": "Отсчёт 3–2–1",
+      "title": "Таймер селфи-камеры",
       "specification": "specified",
       "ios": {
         "implementation": "implemented",
-        "compile": "compile_passed",
+        "compile": "compile_pending",
         "device": "device_pending"
       }
     }

@@ -209,5 +209,8 @@
 "NagramiX.Settings.Messages.HideBlocked" = "Hide Blocked Users";
 "NagramiX.Settings.Messages.HideBlocked.SearchTerms" = "Hide messages from blocked users blacklist group chat";
 
-"NagramiX.SelfieCountdown.Title" = "3–2–1 countdown";
-"NagramiX.SelfieCountdown.SearchTerms" = "Selfie camera timer. Three seconds before recording a front-camera video message. Countdown timer selfie round video.";
+"NagramiX.SelfieCountdown.Title" = "Selfie camera timer";
+"NagramiX.SelfieCountdown.SearchTerms" = "Selfie camera timer. Three seconds before starting or switching a video message to the front camera. Countdown timer selfie round video.";
+"NagramiX.Settings.ContextMenu.ForwardWithoutAuthor" = "Forward Without Author";
+"NagramiX.Settings.ContextMenu.BroadcastMessages" = "Broadcast";
+"NagramiX.Settings.ContextMenu.SelectByAuthor" = "Select From Author";

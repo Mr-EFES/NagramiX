@@ -1,10 +1,14 @@
 {
   "NagramiXOnboardingAtlas.png": {
     "source": "Resources/Onboarding/NagramiXOnboardingAtlas.png",
-    "sha256": "bd630e22cfc6ebd14f133725fcedf9669498cd2f642c33805ce5015ebe2c4939"
+    "sha256": "6b59c089c0c7c5a41facc9b5326e86fc0ebbbe0fc6ccc2af9fc790982a2ef0b9"
   },
   "NagramiXOnboardingLogo.png": {
-    "source": "branding/AppIcons/1.png",
-    "sha256": "51cc8185ff565e4099b859fbcca919aa16e0edb9b89513d1bc7dd676ef8b84b6"
+    "source": "Resources/Onboarding/NagramiXOnboardingLogo.png",
+    "sha256": "34fb2f0804a95077c817004d1877040c042ff8c04a90bb0761cde5100a40eedb"
+  },
+  "NagramiXOnboardingPhone.png": {
+    "source": "Resources/Onboarding/NagramiXOnboardingPhone.png",
+    "sha256": "b1a033b8d35fde873cb304112db606a8b6ed18cba404d54bef8b0ef07cc88c60"
   }
 }

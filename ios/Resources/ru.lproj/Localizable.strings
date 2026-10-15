@@ -2906,7 +2906,7 @@ Unused sets are archived when you add more.";
 
 "Conversation.ContextMenuBan" = "Ограничить права";
 
-"SocksProxySetup.UseForCalls" = "Использовать для звонков";
+"SocksProxySetup.UseForCalls" = "Использовать прокси для звонков";
 "SocksProxySetup.UseForCallsHelp" = "Использование прокси может ухудшить качество звонков.";
 
 "InviteText.URL" = "https://telegram.org/dl";

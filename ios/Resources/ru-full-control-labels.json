@@ -44,5 +44,6 @@
   "PrivacySettings.PasscodeOn": "Включён",
   "Contacts.AccessDeniedHelpON": "ВКЛЮЧЕНО",
   "Watch.UserInfo.Unmute": "Включить звук",
-  "Camera.FlashAuto": "Автоматически"
+  "Camera.FlashAuto": "Автоматически",
+  "SocksProxySetup.UseForCalls": "Использовать прокси для звонков"
 }

@@ -46,6 +46,9 @@ public extension PresentationStrings {
     var nagramiXHideCallsTab: String { self.nagramiXLocalized("NagramiX.Settings.Tabs.HideCalls") }
     var nagramiXHideTabTitles: String { self.nagramiXLocalized("NagramiX.Settings.Tabs.HideTitles") }
     var nagramiXShowSearchButton: String { self.nagramiXLocalized("NagramiX.Settings.Tabs.ShowSearch") }
+    var nagramiXForwardWithoutAuthorSetting: String { self.nagramiXLocalized("NagramiX.Settings.ContextMenu.ForwardWithoutAuthor") }
+    var nagramiXBroadcastMessagesSetting: String { self.nagramiXLocalized("NagramiX.Settings.ContextMenu.BroadcastMessages") }
+    var nagramiXSelectFromAuthorSetting: String { self.nagramiXLocalized("NagramiX.Settings.ContextMenu.SelectByAuthor") }
     var nagramiXContextMenuHeader: String { self.nagramiXLocalized("NagramiX.Settings.ContextMenu.Header") }
     var nagramiXForwardWithoutAuthorInfo: String { self.nagramiXLocalized("NagramiX.Settings.ContextMenu.ForwardWithoutAuthor.Info") }
     var nagramiXSelectByAuthorInfo: String { self.nagramiXLocalized("NagramiX.Settings.ContextMenu.SelectByAuthor.Info") }

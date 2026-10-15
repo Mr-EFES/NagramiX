@@ -478,15 +478,15 @@ private enum NagramiXSettingsEntry: ItemListNodeEntry {
         case .tabsHeader:
             return ItemListSectionHeaderItem(presentationData: presentationData, text: presentationData.strings.nagramiXTabsHeader.uppercased(), sectionId: self.section)
         case let .hideContacts(value):
-            return ItemListSwitchItem(presentationData: presentationData, systemStyle: .glass, title: presentationData.strings.nagramiXHideContactsTab, value: value, sectionId: self.section, style: .blocks, updated: arguments.updateHideContacts)
+            return ItemListSwitchItem(presentationData: presentationData, systemStyle: .glass, title: presentationData.strings.nagramiXHideContactsTab, value: value, maximumNumberOfLines: 0, sectionId: self.section, style: .blocks, updated: arguments.updateHideContacts)
         case let .hideCalls(value):
-            return ItemListSwitchItem(presentationData: presentationData, systemStyle: .glass, title: presentationData.strings.nagramiXHideCallsTab, value: value, sectionId: self.section, style: .blocks, updated: arguments.updateHideCalls)
+            return ItemListSwitchItem(presentationData: presentationData, systemStyle: .glass, title: presentationData.strings.nagramiXHideCallsTab, value: value, maximumNumberOfLines: 0, sectionId: self.section, style: .blocks, updated: arguments.updateHideCalls)
         case let .showSearchButton(value):
             return ItemListSwitchItem(presentationData: presentationData, systemStyle: .glass, title: presentationData.strings.nagramiXShowSearchButton, value: value, sectionId: self.section, style: .blocks, updated: arguments.updateShowSearchButton)
         case let .showProxyButton(value):
             return ItemListSwitchItem(presentationData: presentationData, systemStyle: .glass, title: presentationData.strings.nagramiXShowProxyButton, value: value, sectionId: self.section, style: .blocks, updated: arguments.updateShowProxyButton)
         case let .hideProxySponsorChannel(value):
-            return ItemListSwitchItem(presentationData: presentationData, systemStyle: .glass, title: presentationData.strings.nagramiXHideProxySponsorChannel, value: value, sectionId: self.section, style: .blocks, updated: arguments.updateHideProxySponsorChannel)
+            return ItemListSwitchItem(presentationData: presentationData, systemStyle: .glass, title: presentationData.strings.nagramiXHideProxySponsorChannel, value: value, maximumNumberOfLines: 0, sectionId: self.section, style: .blocks, updated: arguments.updateHideProxySponsorChannel)
         case .chatsHeader:
             return ItemListSectionHeaderItem(presentationData: presentationData, text: presentationData.strings.nagramiXChatsHeader.uppercased(), sectionId: self.section)
         case let .wideChannelPosts(value):
@@ -512,7 +512,7 @@ private enum NagramiXSettingsEntry: ItemListNodeEntry {
         case .chatActionsOnHoldInfo:
             return ItemListTextItem(presentationData: presentationData, text: .plain(presentationData.strings.nagramiXChatActionsOnHoldInfo), sectionId: self.section)
         case let .unreadChatsFirst(value):
-            return ItemListSwitchItem(presentationData: presentationData, systemStyle: .glass, title: presentationData.strings.nagramiXUnreadChatsFirst, value: value, sectionId: self.section, style: .blocks, updated: arguments.updateUnreadChatsFirst)
+            return ItemListSwitchItem(presentationData: presentationData, systemStyle: .glass, title: presentationData.strings.nagramiXUnreadChatsFirst, value: value, maximumNumberOfLines: 0, sectionId: self.section, style: .blocks, updated: arguments.updateUnreadChatsFirst)
         case let .compactChatList(value):
             return ItemListSwitchItem(presentationData: presentationData, systemStyle: .glass, title: presentationData.strings.nagramiXCompactChatList, value: value, maximumNumberOfLines: 0, sectionId: self.section, style: .blocks, updated: arguments.updateCompactChatList)
         case .compactChatListInfo:
@@ -520,15 +520,15 @@ private enum NagramiXSettingsEntry: ItemListNodeEntry {
         case .contextMenuHeader:
             return ItemListSectionHeaderItem(presentationData: presentationData, text: presentationData.strings.nagramiXContextMenuHeader.uppercased(), sectionId: self.section)
         case let .showForwardWithoutAuthor(value):
-            return ItemListSwitchItem(presentationData: presentationData, systemStyle: .glass, title: presentationData.strings.nagramiXForwardWithoutAuthor, value: value, sectionId: self.section, style: .blocks, updated: arguments.updateShowForwardWithoutAuthor)
+            return ItemListSwitchItem(presentationData: presentationData, systemStyle: .glass, title: presentationData.strings.nagramiXForwardWithoutAuthorSetting, value: value, maximumNumberOfLines: 0, sectionId: self.section, style: .blocks, updated: arguments.updateShowForwardWithoutAuthor)
         case .forwardWithoutAuthorInfo:
             return ItemListTextItem(presentationData: presentationData, text: .plain(presentationData.strings.nagramiXForwardWithoutAuthorInfo), sectionId: self.section)
         case let .showBroadcastMessages(value):
-            return ItemListSwitchItem(presentationData: presentationData, systemStyle: .glass, title: presentationData.strings.nagramiXBroadcastMessages, value: value, sectionId: self.section, style: .blocks, updated: arguments.updateShowBroadcastMessages)
+            return ItemListSwitchItem(presentationData: presentationData, systemStyle: .glass, title: presentationData.strings.nagramiXBroadcastMessagesSetting, value: value, maximumNumberOfLines: 0, sectionId: self.section, style: .blocks, updated: arguments.updateShowBroadcastMessages)
         case .broadcastMessagesInfo:
             return ItemListTextItem(presentationData: presentationData, text: .plain(presentationData.strings.nagramiXBroadcastMessagesInfo), sectionId: self.section)
         case let .showSelectByAuthor(value):
-            return ItemListSwitchItem(presentationData: presentationData, systemStyle: .glass, title: presentationData.strings.nagramiXSelectFromAuthor, value: value, sectionId: self.section, style: .blocks, updated: arguments.updateShowSelectByAuthor)
+            return ItemListSwitchItem(presentationData: presentationData, systemStyle: .glass, title: presentationData.strings.nagramiXSelectFromAuthorSetting, value: value, maximumNumberOfLines: 0, sectionId: self.section, style: .blocks, updated: arguments.updateShowSelectByAuthor)
         case .selectByAuthorInfo:
             return ItemListTextItem(presentationData: presentationData, text: .plain(presentationData.strings.nagramiXSelectByAuthorInfo), sectionId: self.section)
         case .videoMessagesHeader:
@@ -536,7 +536,7 @@ private enum NagramiXSettingsEntry: ItemListNodeEntry {
         case let .selfieCountdown(value):
             return ItemListSwitchItem(presentationData: presentationData, systemStyle: .glass, title: presentationData.strings.nagramiXSelfieCountdown, value: value, sectionId: self.section, style: .blocks, updated: arguments.updateSelfieCountdown)
         case let .useRearCameraForVideoMessages(value):
-            return ItemListSwitchItem(presentationData: presentationData, systemStyle: .glass, title: presentationData.strings.nagramiXUseRearCamera, value: value, sectionId: self.section, style: .blocks, updated: arguments.updateUseRearCameraForVideoMessages)
+            return ItemListSwitchItem(presentationData: presentationData, systemStyle: .glass, title: presentationData.strings.nagramiXUseRearCamera, value: value, maximumNumberOfLines: 0, sectionId: self.section, style: .blocks, updated: arguments.updateUseRearCameraForVideoMessages)
         case let .keepMusicPlayingWhileRecording(value):
             return ItemListSwitchItem(presentationData: presentationData, systemStyle: .glass, title: presentationData.strings.nagramiXKeepMusicPlayingWhileRecording, value: value, maximumNumberOfLines: 0, sectionId: self.section, style: .blocks, updated: arguments.updateKeepMusicPlayingWhileRecording)
         case .keepMusicPlayingWhileRecordingInfo:
@@ -544,7 +544,7 @@ private enum NagramiXSettingsEntry: ItemListNodeEntry {
         case .videoPlaybackHeader:
             return ItemListSectionHeaderItem(presentationData: presentationData, text: presentationData.strings.nagramiXVideoPlaybackHeader.uppercased(), sectionId: self.section)
         case let .backgroundVideoPlayback(value):
-            return ItemListSwitchItem(presentationData: presentationData, systemStyle: .glass, title: presentationData.strings.nagramiXBackgroundVideoPlayback, value: value, sectionId: self.section, style: .blocks, updated: arguments.updateBackgroundVideoPlayback)
+            return ItemListSwitchItem(presentationData: presentationData, systemStyle: .glass, title: presentationData.strings.nagramiXBackgroundVideoPlayback, value: value, maximumNumberOfLines: 0, sectionId: self.section, style: .blocks, updated: arguments.updateBackgroundVideoPlayback)
         case let .originalVideos(value):
             return ItemListSwitchItem(presentationData: presentationData, systemStyle: .glass, title: presentationData.strings.nagramiXOriginalVideos, value: value, maximumNumberOfLines: 0, sectionId: self.section, style: .blocks, updated: arguments.updateOriginalVideos)
         case .backgroundVideoPlaybackInfo:
@@ -560,7 +560,7 @@ private enum NagramiXSettingsEntry: ItemListNodeEntry {
         case .otherVideoHeader:
             return ItemListSectionHeaderItem(presentationData: presentationData, text: presentationData.strings.nagramiXSettingsOther.uppercased(), sectionId: self.section)
         case let .videoPiPSwipe(value):
-            return ItemListSwitchItem(presentationData: presentationData, systemStyle: .glass, title: presentationData.strings.nagramiXVideoPiPSwipe, value: value, sectionId: self.section, style: .blocks, updated: arguments.updateVideoPiPSwipe)
+            return ItemListSwitchItem(presentationData: presentationData, systemStyle: .glass, title: presentationData.strings.nagramiXVideoPiPSwipe, value: value, maximumNumberOfLines: 0, sectionId: self.section, style: .blocks, updated: arguments.updateVideoPiPSwipe)
         case .videoPiPSwipeInfo:
             return ItemListTextItem(presentationData: presentationData, text: .plain(presentationData.strings.nagramiXVideoPiPSwipeInfo), sectionId: self.section)
         case let .anonymousStoryViewing(value):
@@ -570,13 +570,13 @@ private enum NagramiXSettingsEntry: ItemListNodeEntry {
         case .featureStoriesHeader:
             return ItemListSectionHeaderItem(presentationData: presentationData, text: presentationData.strings.nagramiXStoriesHeader.uppercased(), sectionId: self.section)
         case let .hideStories(value):
-            return ItemListSwitchItem(presentationData: presentationData, systemStyle: .glass, title: presentationData.strings.nagramiXHideStories, value: value, sectionId: self.section, style: .blocks, updated: arguments.updateHideStories)
+            return ItemListSwitchItem(presentationData: presentationData, systemStyle: .glass, title: presentationData.strings.nagramiXHideStories, value: value, maximumNumberOfLines: 0, sectionId: self.section, style: .blocks, updated: arguments.updateHideStories)
         case let .disableStoryCameraSwipe(value):
             return ItemListSwitchItem(presentationData: presentationData, systemStyle: .glass, title: presentationData.strings.nagramiXDisableStoryCameraSwipe, value: value, sectionId: self.section, style: .blocks, updated: arguments.updateDisableStoryCameraSwipe)
         case let .confirmStoryViewing(value):
-            return ItemListSwitchItem(presentationData: presentationData, systemStyle: .glass, title: presentationData.strings.nagramiXConfirmStoryViewing, value: value, sectionId: self.section, style: .blocks, updated: arguments.updateConfirmStoryViewing)
+            return ItemListSwitchItem(presentationData: presentationData, systemStyle: .glass, title: presentationData.strings.nagramiXConfirmStoryViewing, value: value, maximumNumberOfLines: 0, sectionId: self.section, style: .blocks, updated: arguments.updateConfirmStoryViewing)
         case let .enableStoryRepost(value):
-            return ItemListSwitchItem(presentationData: presentationData, systemStyle: .glass, title: presentationData.strings.nagramiXEnableStoryRepost, value: value, sectionId: self.section, style: .blocks, updated: arguments.updateEnableStoryRepost)
+            return ItemListSwitchItem(presentationData: presentationData, systemStyle: .glass, title: presentationData.strings.nagramiXEnableStoryRepost, value: value, maximumNumberOfLines: 0, sectionId: self.section, style: .blocks, updated: arguments.updateEnableStoryRepost)
         case .profilesHeader:
             return ItemListSectionHeaderItem(presentationData: presentationData, text: presentationData.strings.nagramiXProfilesHeader.uppercased(), sectionId: self.section)
         case let .showExactLastSeen(value):
@@ -584,19 +584,19 @@ private enum NagramiXSettingsEntry: ItemListNodeEntry {
         case .showExactLastSeenInfo:
             return ItemListTextItem(presentationData: presentationData, text: .plain(presentationData.strings.nagramiXShowExactLastSeenInfo), sectionId: self.section)
         case let .showProfileIds(value):
-            return ItemListSwitchItem(presentationData: presentationData, systemStyle: .glass, title: presentationData.strings.nagramiXShowProfileIds, value: value, sectionId: self.section, style: .blocks, updated: arguments.updateShowProfileIds)
+            return ItemListSwitchItem(presentationData: presentationData, systemStyle: .glass, title: presentationData.strings.nagramiXShowProfileIds, value: value, maximumNumberOfLines: 0, sectionId: self.section, style: .blocks, updated: arguments.updateShowProfileIds)
         case let .showRegistrationDate(value):
             return ItemListSwitchItem(presentationData: presentationData, systemStyle: .glass, title: presentationData.strings.nagramiXShowRegistrationDate, value: value, sectionId: self.section, style: .blocks, updated: arguments.updateShowRegistrationDate)
         case let .showMutualContactIcon(value):
-            return ItemListSwitchItem(presentationData: presentationData, systemStyle: .glass, title: presentationData.strings.nagramiXShowMutualContactIcon, value: value, sectionId: self.section, style: .blocks, updated: arguments.updateShowMutualContactIcon)
+            return ItemListSwitchItem(presentationData: presentationData, systemStyle: .glass, title: presentationData.strings.nagramiXShowMutualContactIcon, value: value, maximumNumberOfLines: 0, sectionId: self.section, style: .blocks, updated: arguments.updateShowMutualContactIcon)
         case .callsHeader, .otherCallsHeader:
             return ItemListSectionHeaderItem(presentationData: presentationData, text: presentationData.strings.nagramiXCallsHeader.uppercased(), sectionId: self.section)
         case let .confirmOutgoingCalls(value):
-            return ItemListSwitchItem(presentationData: presentationData, systemStyle: .glass, title: presentationData.strings.nagramiXConfirmOutgoingCalls, value: value, sectionId: self.section, style: .blocks, updated: arguments.updateConfirmOutgoingCalls)
+            return ItemListSwitchItem(presentationData: presentationData, systemStyle: .glass, title: presentationData.strings.nagramiXConfirmOutgoingCalls, value: value, maximumNumberOfLines: 0, sectionId: self.section, style: .blocks, updated: arguments.updateConfirmOutgoingCalls)
         case let .skipCallRating(value):
             return ItemListSwitchItem(presentationData: presentationData, systemStyle: .glass, title: presentationData.strings.nagramiXSkipCallRating, value: value, maximumNumberOfLines: 0, sectionId: self.section, style: .blocks, updated: arguments.updateSkipCallRating)
         case let .forceTcpCalls(value):
-            return ItemListSwitchItem(presentationData: presentationData, systemStyle: .glass, title: presentationData.strings.nagramiXForceTcpCalls, value: value, sectionId: self.section, style: .blocks, updated: arguments.updateForceTcpCalls)
+            return ItemListSwitchItem(presentationData: presentationData, systemStyle: .glass, title: presentationData.strings.nagramiXForceTcpCalls, value: value, maximumNumberOfLines: 0, sectionId: self.section, style: .blocks, updated: arguments.updateForceTcpCalls)
         case .forceTcpCallsInfo:
             return ItemListTextItem(presentationData: presentationData, text: .plain(presentationData.strings.nagramiXForceTcpCallsInfo), sectionId: self.section)
         case .messagesHeader:
@@ -606,9 +606,9 @@ private enum NagramiXSettingsEntry: ItemListNodeEntry {
         case .autoMuteNewChannelsInfo:
             return ItemListTextItem(presentationData: presentationData, text: .plain(presentationData.strings.nagramiXAutoMuteNewChannelsInfo), sectionId: self.section)
         case let .anonymousStickers(value):
-            return ItemListSwitchItem(presentationData: presentationData, systemStyle: .glass, title: presentationData.strings.nagramiXAnonymousStickers, value: value, sectionId: self.section, style: .blocks, updated: arguments.updateAnonymousStickers)
+            return ItemListSwitchItem(presentationData: presentationData, systemStyle: .glass, title: presentationData.strings.nagramiXAnonymousStickers, value: value, maximumNumberOfLines: 0, sectionId: self.section, style: .blocks, updated: arguments.updateAnonymousStickers)
         case let .hideBlockedMessages(value):
-            return ItemListSwitchItem(presentationData: presentationData, systemStyle: .glass, title: presentationData.strings.nagramiXHideBlockedMessages, value: value, sectionId: self.section, style: .blocks, updated: arguments.updateHideBlockedMessages)
+            return ItemListSwitchItem(presentationData: presentationData, systemStyle: .glass, title: presentationData.strings.nagramiXHideBlockedMessages, value: value, maximumNumberOfLines: 0, sectionId: self.section, style: .blocks, updated: arguments.updateHideBlockedMessages)
         case let .antiCaps(value):
             return ItemListSwitchItem(presentationData: presentationData, systemStyle: .glass, title: presentationData.strings.nagramiXAntiCaps, value: value, sectionId: self.section, style: .blocks, updated: arguments.updateAntiCaps)
         case let .voiceAutoplay(value):
@@ -626,7 +626,7 @@ private enum NagramiXSettingsEntry: ItemListNodeEntry {
         case let .deletedMessageLabel(label):
             return ItemListDisclosureItem(presentationData: presentationData, systemStyle: .glass, title: presentationData.strings.nagramiXDeletedMessageLabel, label: label.isEmpty ? presentationData.strings.nagramiXDeleted : label, sectionId: self.section, style: .blocks, action: arguments.editDeletedMessageLabel)
         case let .messageEditHistory(value):
-            return ItemListSwitchItem(presentationData: presentationData, systemStyle: .glass, title: presentationData.strings.nagramiXMessageEditHistory, value: value, sectionId: self.section, style: .blocks, updated: arguments.updateMessageEditHistory)
+            return ItemListSwitchItem(presentationData: presentationData, systemStyle: .glass, title: presentationData.strings.nagramiXMessageEditHistory, value: value, maximumNumberOfLines: 0, sectionId: self.section, style: .blocks, updated: arguments.updateMessageEditHistory)
         case .messageEditHistoryInfo:
             return ItemListTextItem(presentationData: presentationData, text: .plain(presentationData.strings.nagramiXMessageEditHistoryInfo), sectionId: self.section)
         case .clearMessageArchive:
@@ -735,11 +735,11 @@ private extension NagramiXSettingsEntry {
         case .compactChatList: return strings.nagramiXCompactChatList
         case .compactChatListInfo: return strings.nagramiXCompactChatListInfo
         case .contextMenuHeader: return strings.nagramiXContextMenuHeader
-        case .showForwardWithoutAuthor: return strings.nagramiXForwardWithoutAuthor
+        case .showForwardWithoutAuthor: return strings.nagramiXForwardWithoutAuthorSetting
         case .forwardWithoutAuthorInfo: return strings.nagramiXForwardWithoutAuthorInfo
-        case .showBroadcastMessages: return strings.nagramiXBroadcastMessages
+        case .showBroadcastMessages: return strings.nagramiXBroadcastMessagesSetting
         case .broadcastMessagesInfo: return strings.nagramiXBroadcastMessagesInfo
-        case .showSelectByAuthor: return strings.nagramiXSelectFromAuthor
+        case .showSelectByAuthor: return strings.nagramiXSelectFromAuthorSetting
         case .selectByAuthorInfo: return strings.nagramiXSelectByAuthorInfo
         case .videoMessagesHeader: return strings.nagramiXVideoMessagesHeader
         case .selfieCountdown: return strings.nagramiXSelfieCountdown

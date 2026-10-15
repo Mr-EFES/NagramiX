@@ -2629,6 +2629,1192 @@ public protocol UniversalVideoContent {
 """, "Keep ordinary audible playing/buffering videos running outside the visible hierarchy")
 
 
+def apply_archived_replay_and_upload_cache_fix(source: Path) -> None:
+    """Reconcile retained playback ownership and reuse newly uploaded copies."""
+    guards = {
+        "submodules/TelegramUI/Components/TelegramAccountAuxiliaryMethods/Sources/TelegramAccountAuxiliaryMethods.swift": "cc62afc1194c96e0f5ada73fcb929d1cd46cb977951451ad9116dc4342cd7154",
+        "submodules/TelegramUniversalVideoContent/Sources/NativeVideoContent.swift": "9be382e766609b3f87cb94fdb7776bb4d02086b94c957397399a83eb8f254ac2",
+        "submodules/TelegramUniversalVideoContent/Sources/ChatBubbleInstantVideoDecoration.swift": "d18a6377f6cdde228fb97f991ff86550be30416921c9f7c2ce4058e34343c956",
+        "submodules/TelegramUI/Components/Chat/ChatMessageInteractiveInstantVideoNode/Sources/ChatMessageInteractiveInstantVideoNode.swift": "56b715fc11bb4f9dc22b056d3a1261274642ccce8686d70a1b8a75248f04da4c",
+        "submodules/TelegramUI/Components/Chat/ChatMessageInteractiveFileNode/Sources/ChatMessageInteractiveFileNode.swift": "e92ace342bd0aba4532bd88682c14ecc641174b71e7cb00ceaa480500b82c78f",
+        "submodules/AccountContext/BUILD": "5f3668ee2377aa5ed6b17e1584b99110b7b9e84258b345a1ba886470aa4b3d65",
+        "submodules/TelegramUI/Components/Chat/ChatMessageInstantVideoBubbleContentNode/Sources/ChatMessageInstantVideoBubbleContentNode.swift": "33af54cb6ff6c8ac2b75797beee1c70296b66f885a89707d7a0469d4590bfd04",
+        "submodules/TelegramCore/Sources/State/Fetch.swift": "21d980292238115727ad078a4d3f1eba34f47432d207fe3e403a62fd924c2b2e",
+    }
+    texts = {}
+    for name, expected in guards.items():
+        data = (source / name).read_bytes()
+        if hashlib.sha256(data).hexdigest() != expected:
+            raise SystemExit(f"Изменилась проверенная архивная replay интеграция или правка уже применена: {name}")
+        texts[name] = data.decode("utf-8")
+    overlay = Path(__file__).resolve().parent
+    helper = overlay / "Sources/AccountContext/NagramiXArchivedPlaybackAction.swift"
+    target = source / "submodules/AccountContext/Sources/NagramiXArchivedPlaybackAction.swift"
+    if target.exists():
+        raise SystemExit("Archived playback helper collision")
+    helper_data = helper.read_bytes()
+    auxiliary, native, decoration, embedded, file, account_build, bubble, fetch = guards
+    if '"Sources/**/*.swift"' not in texts[account_build]:
+        raise SystemExit("Archived playback helper is outside the native source glob")
+    patches = [
+        (fetch,
+         """    func copyTo(url: URL) -> Bool {
+        do {
+            try FileManager.default.copyItem(at: URL(fileURLWithPath: self.path), to: url)
+""",
+         """    func copyTo(url: URL) -> Bool {
+        if URL(fileURLWithPath: self.path).deletingLastPathComponent().lastPathComponent == "nagramix-message-media" {
+            do {
+                // Retained files are immutable. Keep the archive's source alive
+                // and attach its bytes to MediaBox without a large disk copy.
+                try FileManager.default.linkItem(at: URL(fileURLWithPath: self.path), to: url)
+                return true
+            } catch {
+                let manager = FileManager.default
+                if let sourceInfo = try? manager.attributesOfItem(atPath: self.path),
+                   let targetInfo = try? manager.attributesOfItem(atPath: url.path),
+                   let sourceInode = sourceInfo[.systemFileNumber] as? NSNumber,
+                   let targetInode = targetInfo[.systemFileNumber] as? NSNumber,
+                   let sourceDevice = sourceInfo[.systemNumber] as? NSNumber,
+                   let targetDevice = targetInfo[.systemNumber] as? NSNumber,
+                   sourceInode == targetInode, sourceDevice == targetDevice {
+                    // A render-time prime may have won the same atomic link race.
+                    return true
+                }
+                // A cross-filesystem fallback publishes only a complete file,
+                // never a partially copied "complete" path visible to players.
+                let temporary = url.deletingLastPathComponent().appendingPathComponent(".nagramix-cache-" + UUID().uuidString)
+                defer { try? manager.removeItem(at: temporary) }
+                do {
+                    try manager.copyItem(at: URL(fileURLWithPath: self.path), to: temporary)
+                    try manager.moveItem(at: temporary, to: url)
+                    return true
+                } catch {
+                    return false
+                }
+            }
+        }
+        do {
+            try FileManager.default.copyItem(at: URL(fileURLWithPath: self.path), to: url)
+"""),
+        (bubble,
+         """                            strongSelf.bubbleBackgroundNode?.layer.mask = strongSelf.maskLayer
+""",
+         """                            let nagramiXArchivedMask = item.message.attributes.contains(where: { $0 is NagramiXArchivedMessageAttribute })
+                            let nagramiXMaskAnimator = nagramiXArchivedMask ? ListViewItemUpdateAnimation.None.animator : animation.animator
+                            if nagramiXArchivedMask {
+                                strongSelf.maskForeground.removeAllAnimations()
+                                strongSelf.backdropMaskForeground.removeAllAnimations()
+                            }
+                            strongSelf.bubbleBackgroundNode?.layer.mask = strongSelf.maskLayer
+"""),
+        (bubble,
+         "                            animation.animator.updateCornerRadius(layer: strongSelf.maskForeground, cornerRadius: maskCornerRadius, completion: nil)\n",
+         "                            nagramiXMaskAnimator.updateCornerRadius(layer: strongSelf.maskForeground, cornerRadius: maskCornerRadius, completion: nil)\n"),
+        (bubble,
+         "                            animation.animator.updateFrame(layer: strongSelf.maskForeground, frame: maskFrame, completion: nil)\n",
+         "                            nagramiXMaskAnimator.updateFrame(layer: strongSelf.maskForeground, frame: maskFrame, completion: nil)\n"),
+        (bubble,
+         """                                bottomRightCornerRadius: bottomRightCornerRadius,
+                                animator: animation.animator
+                            )
+""",
+         """                                bottomRightCornerRadius: bottomRightCornerRadius,
+                                animator: nagramiXMaskAnimator
+                            )
+"""),
+        (bubble,
+         "                            animation.animator.updateFrame(layer: strongSelf.backdropMaskForeground, frame: backdropMaskFrame, completion: nil)\n",
+         "                            nagramiXMaskAnimator.updateFrame(layer: strongSelf.backdropMaskForeground, frame: backdropMaskFrame, completion: nil)\n"),
+        (auxiliary,
+         """    }, fetchResourceMediaReferenceHash: { resource in
+        if let resource = resource as? VideoLibraryMediaResource {
+""",
+         """    }, fetchResourceMediaReferenceHash: { resource in
+        if let hash = NagramiXArchivedMediaCopy.uploadedReferenceHash(resource: resource) {
+            return .single(hash)
+        }
+        if let resource = resource as? VideoLibraryMediaResource {
+"""),
+        (native,
+         """                self.imageNode.layer.removeAnimation(forKey: key)
+            }
+        }
+        self.validLayout = (size, actualSize)
+""",
+         """                self.imageNode.layer.removeAnimation(forKey: key)
+            }
+            // An inner renderer may return from an overlay with a model scale,
+            // not just a running animation. Only the outer circle is scaled.
+            self.playerNode.transform = CATransform3DIdentity
+            self.imageNode.transform = CATransform3DIdentity
+        }
+        self.validLayout = (size, actualSize)
+"""),
+        (decoration,
+         """                self.contentNode?.layer.removeAnimation(forKey: key)
+            }
+        }
+        self.validLayout = (size, actualSize)
+""",
+         """                self.contentNode?.layer.removeAnimation(forKey: key)
+            }
+            self.contentContainerNode.transform = CATransform3DIdentity
+            self.contentNode?.transform = CATransform3DIdentity
+        }
+        self.validLayout = (size, actualSize)
+"""),
+        (embedded,
+         "    private var imageScale: CGFloat = 1.0\n",
+         "    private var imageScale: CGFloat = 1.0\n    private let nagramiXArchivedPlaybackAction = NagramiXArchivedPlaybackAction()\n"),
+        (embedded,
+         """                            strongSelf.videoNode = videoNode
+                            strongSelf.insertSubnode(videoNode, belowSubnode: previousVideoNode ?? strongSelf.dateAndStatusNode)
+""",
+         """                            strongSelf.videoNode = videoNode
+                            if nagramiXArchivedInstantVideo {
+                                videoNode.ownsContentNodeUpdated = { [weak strongSelf, weak videoNode] attached in
+                                    guard attached, let strongSelf, let videoNode,
+                                          strongSelf.videoNode === videoNode, strongSelf.nagramiXIsArchivedInstantVideo else {
+                                        return
+                                    }
+                                    for key in ["transform", "position", "bounds"] {
+                                        videoNode.layer.removeAnimation(forKey: key)
+                                    }
+                                    videoNode.transform = CATransform3DMakeScale(strongSelf.imageScale, strongSelf.imageScale, 1.0)
+                                    videoNode.alpha = 1.0
+                                }
+                            }
+                            strongSelf.insertSubnode(videoNode, belowSubnode: previousVideoNode ?? strongSelf.dateAndStatusNode)
+"""),
+        (embedded,
+         """        if self.nagramiXIsArchivedInstantVideo {
+            if let status = self.status, case .playbackStatus = status.mediaStatus {
+                item.context.sharedContext.mediaManager.playlistControl(.playback(.togglePlayPause), type: .voice)
+            } else {
+                // Open the supplied snapshot on the first action, even while the
+                // mute badge or local-file status is still updating.
+                let _ = item.controllerInteraction.openMessage(item.message, OpenMessageParams(mode: .default))
+            }
+            return
+        }
+""",
+         """        if self.nagramiXIsArchivedInstantVideo {
+            let messageId = item.message.id
+            let accountId = item.context.account.id
+            let resourceId = self.media?.resource.id
+            self.nagramiXArchivedPlaybackAction.activate(context: item.context, message: item.message, isCurrent: { [weak self] in
+                guard let self else { return false }
+                return self.nagramiXIsArchivedInstantVideo && self.item?.context.account.id == accountId && self.item?.message.id == messageId && self.media?.resource.id == resourceId
+            }, open: { [weak self] in
+                guard let self, let currentItem = self.item else { return }
+                let _ = currentItem.controllerInteraction.openMessage(currentItem.message, OpenMessageParams(mode: .default))
+            })
+            return
+        }
+"""),
+        (file,
+         "    private let statusDisposable = MetaDisposable()\n",
+         "    private let statusDisposable = MetaDisposable()\n    private let nagramiXArchivedPlaybackAction = NagramiXArchivedPlaybackAction()\n"),
+        (file,
+         """    @objc private func progressPressed() {
+        if let _ = self.arguments?.attributes.updatingMedia {
+""",
+         """    @objc private func progressPressed() {
+        if self.nagramiXIsArchivedVoice, self.arguments?.attributes.updatingMedia == nil,
+           let context = self.context, let message = self.message, !message.flags.isSending,
+           let file = self.file, file.resource is LocalFileReferenceMediaResource {
+            let messageId = message.id
+            let accountId = context.account.id
+            let resourceId = file.resource.id
+            self.nagramiXArchivedPlaybackAction.activate(context: context, message: message, isCurrent: { [weak self] in
+                guard let self else { return false }
+                return self.nagramiXIsArchivedVoice && self.context?.account.id == accountId && self.message?.id == messageId && self.file?.resource.id == resourceId
+            }, open: { [weak self] in
+                self?.activateLocalContent()
+            })
+            return
+        }
+        if let _ = self.arguments?.attributes.updatingMedia {
+"""),
+    ]
+    for name, before, after in patches:
+        if texts[name].count(before) != 1:
+            raise SystemExit(f"Изменился точный якорь архивного replay: {name}")
+        texts[name] = texts[name].replace(before, after, 1)
+    target.parent.mkdir(parents=True, exist_ok=True)
+    for name, text in texts.items():
+        (source / name).write_text(text, encoding="utf-8")
+    target.write_bytes(helper_data)
+
+
+def apply_global_tab_search_fix(source: Path) -> None:
+    """Keep the root search action visible on every configured tab.
+
+    Telegram 13's contextual search is nil on Calls, whose activation callback
+    begins a call. Bind NagramiX's button to the existing root chat search and
+    include its saved visibility in the native layout cache key.
+    """
+    guards = {
+        "submodules/TelegramUI/Sources/TelegramRootController.swift": "ecbbc6199782446a09d626f2b446aab9ed1d003b9c51ab1a18bbe94d3da483f8",
+        "submodules/TabBarUI/Sources/TabBarController.swift": "65c528ab7126dd1f84f547cd3173511a815c1988117c676bd31a06c65c874a74",
+        "submodules/TabBarUI/Sources/TabBarContollerNode.swift": "55350cd6d1015f137030d1eeaf4ad4761acdb6f698fd71a43b0ae82be8a08fc5",
+    }
+    texts = {}
+    for name, expected in guards.items():
+        data = (source / name).read_bytes()
+        if hashlib.sha256(data).hexdigest() != expected:
+            raise SystemExit(f"Изменилась проверенная интеграция кнопки поиска или правка уже применена: {name}")
+        texts[name] = data.decode("utf-8")
+    root, controller, node = guards
+    patches = [
+        (root,
+         """    private func nagramiXConfiguredControllers() -> [ViewController] {
+        let settings = NagramiXTabSettings.current
+""",
+         """    private func nagramiXConfiguredControllers() -> [ViewController] {
+        if let tabController = self.rootTabController as? TabBarControllerImpl {
+            tabController.nagramiXGlobalSearchController = self.chatListController
+            tabController.nagramiXActivateGlobalSearch = { [weak self] in
+                self?.openChatsController(activateSearch: true)
+            }
+        }
+        let settings = NagramiXTabSettings.current
+"""),
+        (controller,
+         "    public var currentController: ViewController?\n",
+         """    public var currentController: ViewController?
+    public weak var nagramiXGlobalSearchController: ViewController?
+    public var nagramiXActivateGlobalSearch: (() -> Void)?
+"""),
+        (controller,
+         """            self.currentController?.tabBarActivateSearch()
+        }, deactivateSearch: { [weak self] in
+""",
+         """            if self.nagramiXGlobalSearchController != nil, let activateGlobalSearch = self.nagramiXActivateGlobalSearch {
+                activateGlobalSearch()
+            } else {
+                self.currentController?.tabBarActivateSearch()
+            }
+        }, deactivateSearch: { [weak self] in
+"""),
+        (controller,
+         """            self.currentController?.tabBarDeactivateSearch()
+        })
+""",
+         """            self.currentController?.tabBarDeactivateSearch()
+        }, nagramiXGlobalSearchController: { [weak self] in
+            return self?.nagramiXGlobalSearchController
+        })
+"""),
+        (node,
+         "        let currentControllerSearchState: ViewController.TabBarSearchState?\n",
+         """        let currentControllerSearchState: ViewController.TabBarSearchState?
+        let nagramiXShowSearchButton: Bool
+        let nagramiXHasGlobalSearch: Bool
+        let nagramiXIsGlobalSearchController: Bool
+"""),
+        (node,
+         """            currentControllerSearchState: ViewController.TabBarSearchState?
+        ) {
+""",
+         """            currentControllerSearchState: ViewController.TabBarSearchState?,
+            nagramiXShowSearchButton: Bool,
+            nagramiXHasGlobalSearch: Bool,
+            nagramiXIsGlobalSearchController: Bool
+        ) {
+"""),
+        (node,
+         "            self.currentControllerSearchState = currentControllerSearchState\n",
+         """            self.currentControllerSearchState = currentControllerSearchState
+            self.nagramiXShowSearchButton = nagramiXShowSearchButton
+            self.nagramiXHasGlobalSearch = nagramiXHasGlobalSearch
+            self.nagramiXIsGlobalSearchController = nagramiXIsGlobalSearchController
+"""),
+        (node,
+         "    private let deactivateSearch: () -> Void\n",
+         "    private let deactivateSearch: () -> Void\n    private let nagramiXGlobalSearchController: () -> ViewController?\n"),
+        (node,
+         "deactivateSearch: @escaping () -> Void) {\n",
+         "deactivateSearch: @escaping () -> Void, nagramiXGlobalSearchController: @escaping () -> ViewController? = { nil }) {\n"),
+        (node,
+         "        self.deactivateSearch = deactivateSearch\n",
+         "        self.deactivateSearch = deactivateSearch\n        self.nagramiXGlobalSearchController = nagramiXGlobalSearchController\n"),
+        (node,
+         """        let params = Params(layout: layout, toolbar: toolbar, isTabBarHidden: self.tabBarHidden, currentControllerSearchState: self.currentController?.tabBarSearchState)
+""",
+         """        let globalSearchController = self.nagramiXGlobalSearchController()
+        let params = Params(layout: layout, toolbar: toolbar, isTabBarHidden: self.tabBarHidden, currentControllerSearchState: self.currentController?.tabBarSearchState, nagramiXShowSearchButton: NagramiXTabSettings.current.showSearchButton, nagramiXHasGlobalSearch: globalSearchController != nil, nagramiXIsGlobalSearchController: globalSearchController != nil && self.currentController === globalSearchController)
+"""),
+        (node,
+         """                search: self.currentController?.tabBarSearchState.flatMap { tabBarSearchState in
+                    guard NagramiXTabSettings.current.showSearchButton else {
+                        return nil
+                    }
+                    return TabBarComponent.Search(
+                        isActive: tabBarSearchState.isActive,
+""",
+         """                search: { () -> TabBarComponent.Search? in
+                    guard params.nagramiXShowSearchButton,
+                          params.nagramiXHasGlobalSearch || params.currentControllerSearchState != nil else {
+                        return nil
+                    }
+                    return TabBarComponent.Search(
+                        isActive: (params.currentControllerSearchState?.isActive ?? false) && (!params.nagramiXHasGlobalSearch || params.nagramiXIsGlobalSearchController),
+"""),
+        (node,
+         """                },
+                selectedId: selectedId,
+""",
+         """                }(),
+                selectedId: selectedId,
+"""),
+    ]
+    for name, before, after in patches:
+        if texts[name].count(before) != 1:
+            raise SystemExit(f"Изменился точный якорь кнопки поиска: {name}")
+        texts[name] = texts[name].replace(before, after, 1)
+    for name, text in texts.items():
+        (source / name).write_text(text, encoding="utf-8")
+
+
+def apply_mixed_playback_return(source: Path) -> None:
+    """Avoid an intermediate mode when restoring playback after mixed recording."""
+    name = 'submodules/TelegramAudio/Sources/ManagedAudioSession.swift'
+    digest = 'a611655822cdfe0bcf99477973ceae634047ab5e09f6a2256dfc0de462fe34f5'
+    path = source / name
+    raw = path.read_bytes()
+    if hashlib.sha256(raw).hexdigest() != digest:
+        raise SystemExit("Mixed playback return input drift")
+    text = raw.decode("utf-8")
+    patches = [
+        ("""        self.deactivateTimer = nil
+       \x20
+        let wasPlaybackActive = self.currentTypeAndOutputMode?.0.isPlay ?? false
+       \x20
+        if self.currentTypeAndOutputMode == nil || self.currentTypeAndOutputMode! != (type, outputMode) {
+""", """        self.deactivateTimer = nil
+
+        let nagramiXRestoringMixedPlayback: Bool
+        if let previousType = self.currentTypeAndOutputMode?.0, case .record(_, false, true) = previousType {
+            nagramiXRestoringMixedPlayback = type.isPlay
+        } else {
+            nagramiXRestoringMixedPlayback = false
+        }
+        let wasPlaybackActive = self.currentTypeAndOutputMode?.0.isPlay ?? false
+
+        if self.currentTypeAndOutputMode == nil || self.currentTypeAndOutputMode! != (type, outputMode) {
+"""),
+        ("""                    if case .record(_, _, true) = type {
+                        // Avoid rebuilding an identical mixed configuration on the next take.
+""", """                    let nagramiXConfigureAtomically: Bool
+                    if case .record(_, _, true) = type {
+                        nagramiXConfigureAtomically = true
+                    } else {
+                        nagramiXConfigureAtomically = nagramiXRestoringMixedPlayback
+                    }
+                    if nagramiXConfigureAtomically {
+                        // Configure the final category/mode/options together on both ends
+                        // of mixed voice/round recording, including restored in-app playback.
+"""),
+    ]
+    for old, new in patches:
+        if text.count(old) != 1:
+            raise SystemExit(f"Mixed playback return anchor drift: {old[:80]!r}")
+        text = text.replace(old, new, 1)
+    path.write_text(text, encoding="utf-8")
+
+
+def apply_selfie_recording_lifecycle(source: Path) -> None:
+    """Cancellable recording preparation, per-record stop, and selfie flip timer."""
+    screen = 'submodules/TelegramUI/Components/VideoMessageCameraScreen/Sources/VideoMessageCameraScreen.swift'
+    neo = 'submodules/Camera/CameraNeo/Sources/CameraNeo.swift'
+    guards = {
+        screen: '86c3b4adeab32ce1cb2a6ae8301d003eb881c2834bb79ab6695780b56fce50a0',
+        neo: '530ef2765c738550268489ff681106038b24a21e656b669c13736a3f33491ebe',
+    }
+    patches = [
+        (screen, """        func startVideoRecording(pressing: Bool) {
+            guard !self.nagramiXStoppingRecording else { return }
+            guard let controller = self.getController(), let camera = controller.camera else {
+                return
+            }
+            guard case .none = controller.cameraState.recording else {
+                return
+            }
+           \x20
+            let currentTimestamp = CACurrentMediaTime()
+            if let lastActionTimestamp = controller.lastActionTimestamp, currentTimestamp - lastActionTimestamp < 0.5 {
+                return
+            }
+            controller.lastActionTimestamp = currentTimestamp
+       \x20
+            self.nagramiXRecordingGeneration &+= 1
+            let generation = self.nagramiXRecordingGeneration
+            let shouldCountdown = !self.nagramiXDidRequestInitialRecording && controller.cameraState.position == .front && NagramiXTabSettings.current.selfieCountdown
+            self.nagramiXDidRequestInitialRecording = true
+            if shouldCountdown {
+                self.nagramiXArmCountdown(controller: controller)
+            }
+            let initialDuration = controller.node.previewState?.composition.duration.seconds ?? 0.0
+            let isFirstRecording = initialDuration.isZero
+            controller.node.resumeCameraCapture()
+           \x20
+            controller.node.dismissAllTooltips()
+            controller.updateCameraState({ $0.updatedRecording(pressing ? .holding : .handsFree).updatedDuration(initialDuration) }, transition: .spring(duration: 0.4))
+       \x20
+            controller.updatePreviewState({ _ in return nil }, transition: .spring(duration: 0.4))
+           \x20
+            controller.node.withReadyCamera(isFirstTime: !controller.node.cameraIsActive) { [weak self] in
+                let start: () -> Void = { [weak self] in
+                    guard let self, let controller = self.getController(), !controller.isDismissed,
+                          !self.nagramiXStoppingRecording, self.nagramiXRecordingGeneration == generation else {
+                        return
+                    }
+                    if shouldCountdown && UIApplication.shared.applicationState != .active { return }
+                    if controller.recordingStartTime == nil {
+                        controller.recordingStartTime = CACurrentMediaTime()
+                    }
+                    self.resultDisposable.set((camera.startRecording()
+                    |> deliverOnMainQueue).startStrict(next: { [weak self] recordingData in
+                        let duration = initialDuration + recordingData.duration
+                        if let self, let controller = self.getController() {
+                            controller.updateCameraState({ $0.updatedDuration(duration) }, transition: .easeInOut(duration: 0.1))
+                            if isFirstRecording {
+                                controller.node.setupLiveUpload(filePath: recordingData.filePath)
+                            }
+                            if duration > 59.5 {
+                                controller.onStop()
+                            }
+                        }
+                    }, error: { [weak self] _ in
+                        if let self, let controller = self.getController() {
+                            controller.completion(nil, nil, nil, nil)
+                        }
+                    }))
+                }
+                if shouldCountdown {
+                    self?.nagramiXBeginCountdown(generation: generation, start: start)
+                } else {
+                    Queue.mainQueue().after(0.15, start)
+                }
+            }
+           \x20
+            if initialDuration > 0.0 {
+                controller.onResume()
+            }
+           \x20
+            if controller.cameraState.position == .front && controller.cameraState.flashMode == .on {
+                self.updateScreenBrightness()
+            }
+        }
+       \x20
+        private var nagramiXDidRequestInitialRecording = false
+        private var nagramiXCountdownTimer: SwiftSignalKit.Timer?
+        private var nagramiXCountdownPositionDisposable: Disposable?
+        private var nagramiXCountdownBackgroundObserver: NSObjectProtocol?
+
+        private func nagramiXArmCountdown(controller: VideoMessageCameraScreen) {
+            controller.node.nagramiXCountdownPending = true
+            controller.node.nagramiXUpdateCountdown(3)
+            controller.camera?.focus(at: CGPoint(x: 0.5, y: 0.5), autoFocus: true)
+            self.nagramiXCountdownBackgroundObserver = NotificationCenter.default.addObserver(forName: UIApplication.willResignActiveNotification, object: nil, queue: .main) { [weak self] _ in
+                guard let controller = self?.getController(), controller.node.nagramiXCountdownPending else { return }
+                controller.discardVideo()
+                controller.completion(nil, nil, nil, nil)
+            }
+        }
+
+        private func nagramiXClearCountdown() {
+            self.nagramiXCountdownTimer?.invalidate()
+            self.nagramiXCountdownTimer = nil
+            self.nagramiXCountdownPositionDisposable?.dispose()
+            self.nagramiXCountdownPositionDisposable = nil
+            if let observer = self.nagramiXCountdownBackgroundObserver {
+                NotificationCenter.default.removeObserver(observer)
+                self.nagramiXCountdownBackgroundObserver = nil
+            }
+            if let controller = self.getController() {
+                controller.node.nagramiXCountdownPending = false
+                controller.node.nagramiXUpdateCountdown(nil)
+            }
+        }
+
+        private func nagramiXBeginCountdown(generation: UInt64, start: @escaping () -> Void) {
+            guard let controller = self.getController(), let camera = controller.camera,
+                  !controller.isDismissed, controller.node.nagramiXCountdownPending,
+                  self.nagramiXRecordingGeneration == generation else { return }
+            guard UIApplication.shared.applicationState == .active else {
+                controller.discardVideo()
+                controller.completion(nil, nil, nil, nil)
+                return
+            }
+            // Readiness was awaited before the clock starts. Preview/focus frames
+            // never reach the writer or live upload during these three seconds.
+            let deadline = CACurrentMediaTime() + 3.0
+            let finish: () -> Void = { [weak self] in
+                guard let self, let controller = self.getController(), !controller.isDismissed,
+                      controller.node.nagramiXCountdownPending,
+                      self.nagramiXRecordingGeneration == generation else { return }
+                self.nagramiXClearCountdown()
+                start()
+            }
+            if controller.cameraState.position != .front {
+                finish()
+                return
+            }
+            let timer = SwiftSignalKit.Timer(timeout: 0.05, repeat: true, completion: { [weak self] in
+                guard let self, let controller = self.getController(), !controller.isDismissed,
+                      controller.node.nagramiXCountdownPending,
+                      self.nagramiXRecordingGeneration == generation else { return }
+                let remaining = Int(ceil(max(0.0, deadline - CACurrentMediaTime())))
+                if remaining == 0 {
+                    finish()
+                } else {
+                    controller.node.nagramiXUpdateCountdown(min(3, remaining))
+                }
+            }, queue: .mainQueue())
+            self.nagramiXCountdownTimer = timer
+            timer.start()
+            self.nagramiXCountdownPositionDisposable = (camera.position
+            |> deliverOnMainQueue).startStrict(next: { position in
+                if position != .front { finish() }
+            })
+        }
+
+        private var nagramiXStoppingRecording = false
+        private var nagramiXRecordingGeneration: UInt64 = 0
+
+        func stopVideoRecording() {
+            guard let controller = self.getController(), let camera = controller.camera else {
+                return
+            }
+            if controller.node.nagramiXCountdownPending {
+                self.cancelVideoRecording()
+                controller.completion(nil, nil, nil, nil)
+                return
+            }
+            guard !self.nagramiXStoppingRecording else { return }
+            self.nagramiXStoppingRecording = true
+            self.nagramiXRecordingGeneration &+= 1
+            controller.lastActionTimestamp = CACurrentMediaTime()
+            var receivedStopResult = false
+            self.resultDisposable.set((camera.stopRecording()
+            |> timeout(30.0, queue: .mainQueue(), alternate: .single(.failed))
+            |> deliverOnMainQueue).startStrict(next: { [weak self] result in
+                receivedStopResult = true
+                guard let self, let controller = self.getController() else { return }
+                self.nagramiXStoppingRecording = false
+                if case let .finished(mainResult, _, duration, _, _) = result {
+                    self.completion.invoke(
+                        .video(VideoMessageCameraScreen.CaptureResult.Video(
+                            videoPath: mainResult.path,
+                            dimensions: PixelDimensions(mainResult.dimensions),
+                            duration: duration,
+                            thumbnail: mainResult.thumbnail
+                        ))
+                    )
+                    controller.updateCameraState({ $0.updatedRecording(.none) }, transition: .spring(duration: 0.4))
+                } else {
+                    controller.completion(nil, nil, nil, nil)
+                }
+            }, completed: { [weak self] in
+                guard !receivedStopResult, let self else { return }
+                self.nagramiXStoppingRecording = false
+                self.getController()?.completion(nil, nil, nil, nil)
+            }))
+           \x20
+            if let initialBrightness = self.initialBrightness {
+                self.initialBrightness = nil
+                self.brightnessArguments = (CACurrentMediaTime(), 0.2, UIScreen.main.brightness, initialBrightness)
+                self.animateBrightnessChange()
+            }
+        }
+       \x20
+        func lockVideoRecording() {
+            guard let controller = self.getController() else {
+                return
+            }
+            controller.updateCameraState({ $0.updatedRecording(.handsFree) }, transition: .spring(duration: 0.4))
+        }
+       \x20
+        func cancelVideoRecording() {
+            self.nagramiXRecordingGeneration &+= 1
+            self.nagramiXClearCountdown()
+            if let initialBrightness = self.initialBrightness {
+                self.initialBrightness = nil
+                self.brightnessArguments = (CACurrentMediaTime(), 0.2, UIScreen.main.brightness, initialBrightness)
+                self.animateBrightnessChange()
+            }
+        }
+       \x20
+""", """__NAGRAMIX_SELFIE_RECORDING_STATE__"""),
+        (screen, """        deinit {
+            self.nagramiXCountdownTimer?.invalidate()
+""", """        deinit {
+            self.nagramiXPreparationTimer?.invalidate()
+            self.nagramiXReadyDisposable.dispose()
+            self.nagramiXStopDisposable.dispose()
+            self.nagramiXCountdownTimer?.invalidate()
+"""),
+        (screen, """        func togglePosition() {
+            guard let controller = self.getController(), let camera = controller.camera else {
+""", """        func togglePosition() {
+            guard !self.nagramiXStoppingRecording, !self.nagramiXSwitchingCamera, !self.nagramiXCancelled,
+                  let controller = self.getController(), let camera = controller.camera, !controller.isDismissed else {
+"""),
+        (screen, """            let isFrontCamera = controller.cameraState.position == .back
+            camera.togglePosition()
+""", """            let isFrontCamera = controller.cameraState.position == .back
+            if isFrontCamera && NagramiXTabSettings.current.selfieCountdown && self.nagramiXWriterRequested {
+                self.nagramiXSwitchToSelfie()
+                return
+            }
+            camera.togglePosition()
+"""),
+        (screen, """        fileprivate var nagramiXCountdownPending = false
+""", """        fileprivate var nagramiXCountdownPending = false
+        fileprivate var nagramiXCameraSwitchPending = false
+        fileprivate let nagramiXPreviewReadyDisposables = DisposableSet()
+"""),
+        (screen, """        deinit {
+            self.cameraStateDisposable?.dispose()
+""", """        deinit {
+            self.nagramiXPreviewReadyDisposables.dispose()
+            self.cameraStateDisposable?.dispose()
+"""),
+        (screen, """            let _ = (previewReady
+            |> filter { $0 }
+            |> take(1)
+            |> deliverOnMainQueue).startStandalone(next: { _ in
+                f()
+            })
+""", """            self.nagramiXPreviewReadyDisposables.add((previewReady
+            |> filter { $0 }
+            |> take(1)
+            |> deliverOnMainQueue).start(next: { _ in
+                f()
+            }))
+"""),
+        (screen, """        func addCaptureResult(_ result: VideoMessageCameraScreen.CaptureResult) {
+""", """        fileprivate func nagramiXAppendSwitchResult(_ result: VideoMessageCameraScreen.CaptureResult) {
+            // A sealed fragment in the same outgoing message, without pausing preview.
+            if self.results.isEmpty { _ = self.liveUploadInterface?.fileUpdated(true) }
+            self.currentLiveUploadData = nil
+            self.results.append(result)
+        }
+
+        func addCaptureResult(_ result: VideoMessageCameraScreen.CaptureResult) {
+"""),
+        (screen, """        if self.node.nagramiXCountdownPending {
+            self.node.cancelRecording.invoke(Void())
+""", """        if self.node.nagramiXCountdownPending && !self.node.nagramiXCameraSwitchPending {
+            self.node.cancelRecording.invoke(Void())
+"""),
+        (screen, """        if self.node.nagramiXCountdownPending {
+            self.discardVideo()
+""", """        if self.node.nagramiXCountdownPending && !self.node.nagramiXCameraSwitchPending {
+            self.discardVideo()
+"""),
+        (screen, """        self.node.cancelRecording.invoke(Void())
+        self.node.camera?.stopCapture(invalidate: true)
+""", """        self.node.cancelRecording.invoke(Void())
+        self.node.nagramiXPreviewReadyDisposables.dispose()
+        self.node.camera?.stopCapture(invalidate: true)
+"""),
+        (screen, """        private func animatePositionChange() {
+            if let snapshotView = self.mainPreviewView.snapshotView(afterScreenUpdates: false) {
+                self.previewContainerContentView.insertSubview(snapshotView, belowSubview: self.progressView)
+                self.previewSnapshotView = snapshotView
+               \x20
+                let action = { [weak self] in
+                    guard let self else {
+                        return
+                    }
+                    UIView.animate(withDuration: 0.2, animations: {
+                        self.previewSnapshotView?.alpha = 0.0
+                    }, completion: { [weak self] _ in
+                        self?.previewSnapshotView?.removeFromSuperview()
+                        self?.previewSnapshotView = nil
+                    })
+                }
+               \x20
+                Queue.mainQueue().after(1.0) {
+                    action()
+                }
+               \x20
+                self.requestUpdateLayout(transition: .immediate)
+            }
+        }
+       \x20
+""", """        private func animatePositionChange() {
+            self.previewSnapshotView?.removeFromSuperview()
+            self.previewSnapshotView = nil
+            guard let snapshot = self.mainPreviewView.snapshotView(afterScreenUpdates: false) else { return }
+            self.previewContainerContentView.insertSubview(snapshot, belowSubview: self.progressView)
+            self.previewSnapshotView = snapshot
+            self.requestUpdateLayout(transition: .immediate)
+            Queue.mainQueue().after(0.35) { [weak self, weak snapshot] in
+                guard let self, let snapshot, self.previewSnapshotView === snapshot else { return }
+                UIView.animate(withDuration: 0.2, animations: {
+                    snapshot.alpha = 0.0
+                }, completion: { [weak self, weak snapshot] _ in
+                    snapshot?.removeFromSuperview()
+                    if self?.previewSnapshotView === snapshot { self?.previewSnapshotView = nil }
+                })
+            }
+        }
+
+"""),
+        (neo, """    deinit {
+        NotificationCenter.default.removeObserver(self)
+        let cleanUpSession = {
+            self.primaryVideoOutput?.setSampleBufferDelegate(nil, queue: nil)
+            self.secondaryVideoOutput?.setSampleBufferDelegate(nil, queue: nil)
+            self.audioOutput?.setSampleBufferDelegate(nil, queue: nil)
+            if self.session.isRunning {
+                self.session.stopRunning()
+            }
+            self.tearDownSession()
+        }
+        if DispatchQueue.getSpecific(key: self.sessionQueueKey) != nil {
+            cleanUpSession()
+        } else {
+            self.sessionQueue.sync(execute: cleanUpSession)
+        }
+        if DispatchQueue.getSpecific(key: self.mediaQueueKey) != nil {
+            self.recorder?.cancel()
+        } else {
+            self.mediaQueue.sync {
+                self.recorder?.cancel()
+            }
+        }
+    }
+
+""", """    deinit {
+        NotificationCenter.default.removeObserver(self)
+        let session = self.session
+        let primaryOutput = self.primaryVideoOutput
+        let secondaryOutput = self.secondaryVideoOutput
+        let audioOutput = self.audioOutput
+        let recorder = self.recorder
+        let processor = self.frameProcessor
+        let mediaQueue = self.mediaQueue
+        // AVCaptureSession.stopRunning and GPU/writer cleanup must not block main.
+        self.sessionQueue.async {
+            primaryOutput?.setSampleBufferDelegate(nil, queue: nil)
+            secondaryOutput?.setSampleBufferDelegate(nil, queue: nil)
+            audioOutput?.setSampleBufferDelegate(nil, queue: nil)
+            if session.isRunning { session.stopRunning() }
+            session.beginConfiguration()
+            for output in session.outputs { session.removeOutput(output) }
+            for input in session.inputs { session.removeInput(input) }
+            session.commitConfiguration()
+            mediaQueue.async {
+                recorder?.cancel()
+                withExtendedLifetime(processor) {}
+            }
+        }
+    }
+
+"""),
+        (neo, """    private let recordingCompletionPipe = ValuePipe<VideoCaptureResult>()
+""", """    private var recordingCompletionPipe = ValuePipe<VideoCaptureResult>()
+"""),
+        (neo, """        let _ = self.recordingStopRequested.modify { _ in false }
+
+        let outputUrl =""", """        let _ = self.recordingStopRequested.modify { _ in false }
+        let recordingCompletionPipe = ValuePipe<VideoCaptureResult>()
+        self.recordingCompletionPipe = recordingCompletionPipe
+
+        let outputUrl ="""),
+        (neo, """        return Signal { [weak self] subscriber in
+            guard let self else {
+                subscriber.putCompletion()
+                return EmptyDisposable
+            }
+
+            let subscriberActive""", """        return Signal { [weak self, recordingCompletionPipe] subscriber in
+            guard let self else {
+                subscriber.putCompletion()
+                return EmptyDisposable
+            }
+
+            let subscriberActive"""),
+        (neo, """                        let _ = self.recordingStopRequested.modify { _ in false }
+                        return
+                    }
+                    if case let .failed(error)""", """                        let _ = self.recordingStopRequested.modify { _ in false }
+                        recordingCompletionPipe.putNext(.failed)
+                        return
+                    }
+                    if case let .failed(error)"""),
+        (neo, """                        completion: { [weak self] result in
+""", """                        completion: { [weak self, recordingCompletionPipe] result in
+"""),
+        (neo, """                                self.recordingCompletionPipe.putNext(.finished(
+""", """                                recordingCompletionPipe.putNext(.finished(
+"""),
+        (neo, """                                self.recordingCompletionPipe.putNext(.failed)
+""", """                                recordingCompletionPipe.putNext(.failed)
+"""),
+        (neo, """    func stopRecording() -> Signal<VideoCaptureResult, NoError> {
+        guard self.recordingActive.with({ $0 }) else {
+            return .complete()
+        }
+        let _ = self.recordingStopRequested.modify { _ in true }
+        self.mediaQueue.async { [weak self] in
+            self?.recorder?.stop()
+        }
+        return self.recordingCompletionPipe.signal()
+        |> take(1)
+    }
+
+""", """    func stopRecording() -> Signal<VideoCaptureResult, NoError> {
+        guard self.recordingActive.with({ $0 }) else { return .complete() }
+        let recordingCompletionPipe = self.recordingCompletionPipe
+        return Signal { [weak self, recordingCompletionPipe] subscriber in
+            let disposable = (recordingCompletionPipe.signal()
+            |> take(1)).start(next: { result in
+                subscriber.putNext(result)
+                subscriber.putCompletion()
+            })
+            guard let self else {
+                subscriber.putNext(.failed)
+                subscriber.putCompletion()
+                return disposable
+            }
+            let _ = self.recordingStopRequested.modify { _ in true }
+            self.mediaQueue.async { [weak self] in
+                self?.recorder?.stop()
+            }
+            return disposable
+        }
+    }
+
+"""),
+    ]
+    methods = (Path(__file__).resolve().parent / "Sources/VideoMessageCameraScreen/NagramiXSelfieRecording.swift.inc").read_text(encoding="utf-8")
+    texts = {}
+    for name, digest in guards.items():
+        raw = (source / name).read_bytes()
+        if hashlib.sha256(raw).hexdigest() != digest:
+            raise SystemExit(f"Selfie recording lifecycle input drift: {name}")
+        texts[name] = raw.decode("utf-8")
+    for name, old, new in patches:
+        if texts[name].count(old) != 1:
+            raise SystemExit(f"Selfie recording lifecycle anchor drift: {name}: {old[:80]!r}")
+        if new == "__NAGRAMIX_SELFIE_RECORDING_STATE__":
+            new = methods
+        texts[name] = texts[name].replace(old, new, 1)
+    for name, text in texts.items():
+        (source / name).write_text(text, encoding="utf-8")
+
+
+def apply_full_name_deletion_menu(source: Path) -> None:
+    """Use native multiline context actions and full names for ordinary deletion."""
+    name = 'submodules/TelegramUI/Sources/ChatControllerAdminBanUsers.swift'
+    digest = 'c8ba128de1d40b78ef09c125621650a0ce23c7cd6aded0357286eb637496af81'
+    path = source / name
+    raw = path.read_bytes()
+    if hashlib.sha256(raw).hexdigest() != digest:
+        raise SystemExit("Full-name deletion menu input drift")
+    text = raw.decode("utf-8")
+    patches = [
+        ("""            let actionSheet = ActionSheetController(presentationData: self.presentationData)
+            var items: [ActionSheetItem] = []
+            var personalPeerName: String?
+""", """            var personalPeerName: String?
+"""),
+        ("""personalPeerName = EnginePeer(user).compactDisplayTitle
+            } else if let peer = self.presentationInterfaceState.renderedPeer?.peer as? TelegramSecretChat""", """personalPeerName = EnginePeer(user).displayTitle(strings: self.presentationData.strings, displayOrder: self.presentationData.nameDisplayOrder)
+            } else if let peer = self.presentationInterfaceState.renderedPeer?.peer as? TelegramSecretChat"""),
+        ("""personalPeerName = EnginePeer(user).compactDisplayTitle
+            } else if let channel = self.presentationInterfaceState.renderedPeer?.peer as? TelegramChannel""", """personalPeerName = EnginePeer(user).displayTitle(strings: self.presentationData.strings, displayOrder: self.presentationData.nameDisplayOrder)
+            } else if let channel = self.presentationInterfaceState.renderedPeer?.peer as? TelegramChannel"""),
+        ("""            var canDisplayContextMenu = true
+""", """"""),
+        ("""                // Use the native confirmation sheet and choices, with an exact scope.
+                // Cancellation and local undo must not remove archive records early.
+                canDisplayContextMenu = false
+""", """                // Keep the scope warning in the same rounded menu as ordinary deletion.
+                // Cancellation and local undo must not remove archive records early.
+"""),
+        ("""                items.append(ActionSheetTextItem(title: warning))
+""", """                contextItems.append(.action(ContextMenuActionItem(text: warning, textColor: .disabled, textLayout: .multiline, textFont: .small, icon: { _ in nil }, action: nil as ((ContextMenuActionItem.Action) -> Void)?)))
+                contextItems.append(.separator)
+"""),
+        ("""                items.append(ActionSheetButtonItem(title: self.presentationData.strings.Conversation_ContextMenuCancelSending, color: .destructive, action: { [weak self, weak actionSheet] in
+                    actionSheet?.dismissAnimated()
+                    if let strongSelf = self {
+                        strongSelf.updateChatPresentationInterfaceState(animated: true, interactive: true, { $0.updatedInterfaceState { $0.withoutSelectionState() } })
+                        strongSelf.beginDeleteMessagesWithUndo(messageIds: messageIds, type: .forEveryone)
+                    }
+                }))
+""", """"""),
+        ("""                items.append(ActionSheetButtonItem(title: globalTitle, color: .destructive, action: { [weak self, weak actionSheet] in
+                    actionSheet?.dismissAnimated()
+                    if let strongSelf = self {
+                        strongSelf.updateChatPresentationInterfaceState(animated: true, interactive: true, { $0.updatedInterfaceState { $0.withoutSelectionState() } })
+                       \x20
+                        strongSelf.beginDeleteMessagesWithUndo(messageIds: messageIds, type: .forEveryone)
+                    }
+                }))
+""", """"""),
+        ("""                items.append(ActionSheetButtonItem(title: localOptionText, color: .destructive, action: { [weak self, weak actionSheet] in
+                    actionSheet?.dismissAnimated()
+                    if let strongSelf = self {
+                        strongSelf.updateChatPresentationInterfaceState(animated: true, interactive: true, { $0.updatedInterfaceState { $0.withoutSelectionState() } })
+                       \x20
+                        strongSelf.beginDeleteMessagesWithUndo(messageIds: messageIds, type: unsendPersonalMessages ? .forEveryone : .forLocalPeer)
+                    }
+                }))
+""", """"""),
+        ("""            var unsendPersonalMessages = false
+            if options.contains(.unsendPersonal) {
+                canDisplayContextMenu = false
+                items.append(ActionSheetTextItem(title: self.presentationData.strings.Chat_UnsendMyMessagesAlertTitle(personalPeerName ?? "").string))
+                items.append(ActionSheetSwitchItem(title: self.presentationData.strings.Chat_UnsendMyMessages, isOn: false, action: { value in
+                    unsendPersonalMessages = value
+                }))
+            } else if options.contains(.deleteGlobally) {
+""", """            if options.contains(.unsendPersonal) {
+                // The native option revokes only eligible outgoing messages in a mixed set.
+                // Do not label it as revoking every selected message for both participants.
+                contextItems.append(.action(ContextMenuActionItem(text: self.presentationData.strings.Chat_UnsendMyMessagesAlertTitle(personalPeerName ?? "").string, textColor: .disabled, textLayout: .multiline, textFont: .small, icon: { _ in nil }, action: nil as ((ContextMenuActionItem.Action) -> Void)?)))
+                contextItems.append(.separator)
+                contextItems.append(.action(ContextMenuActionItem(text: self.presentationData.strings.Chat_UnsendMyMessages, textColor: .destructive, textLayout: .multiline, icon: { _ in nil }, action: { [weak self] _, f in
+                    f(.dismissWithoutContent)
+                    guard let self else { return }
+                    self.updateChatPresentationInterfaceState(animated: true, interactive: true, { $0.updatedInterfaceState { $0.withoutSelectionState() } })
+                    self.beginDeleteMessagesWithUndo(messageIds: messageIds, type: .forEveryone)
+                })))
+            } else if options.contains(.deleteGlobally) {
+"""),
+        ("""ContextMenuActionItem(text: self.presentationData.strings.Conversation_ContextMenuCancelSending, textColor: .destructive, icon:""", """ContextMenuActionItem(text: self.presentationData.strings.Conversation_ContextMenuCancelSending, textColor: .destructive, textLayout: .multiline, icon:"""),
+        ("""ContextMenuActionItem(text: globalTitle, textColor: .destructive, icon:""", """ContextMenuActionItem(text: globalTitle, textColor: .destructive, textLayout: .multiline, icon:"""),
+        ("""ContextMenuActionItem(text: localOptionText, textColor: .destructive, icon:""", """ContextMenuActionItem(text: localOptionText, textColor: .destructive, textLayout: .multiline, icon:"""),
+        ("""                            strongSelf.beginDeleteMessagesWithUndo(messageIds: messageIds, type: unsendPersonalMessages ? .forEveryone : .forLocalPeer)
+""", """                            strongSelf.beginDeleteMessagesWithUndo(messageIds: messageIds, type: .forLocalPeer)
+"""),
+        ("""            if canDisplayContextMenu, let contextController = contextController {
+""", """            if let contextController = contextController {
+"""),
+        ("""            } else if canDisplayContextMenu, let sourceView = sourceView {
+                let contextController = makeContextController(
+""", """            } else {
+                let sourceView = sourceView ?? self.chatDisplayNode.view
+                let contextController = makeContextController(
+"""),
+        ("""            } else {
+                actionSheet.setItemGroups([ActionSheetItemGroup(items: items), ActionSheetItemGroup(items: [
+                    ActionSheetButtonItem(title: self.presentationData.strings.Common_Cancel, color: .accent, font: .bold, action: { [weak actionSheet] in
+                        actionSheet?.dismissAnimated()
+                    })
+                ])])
+               \x20
+                if let contextController = contextController {
+                    contextController.dismiss(completion: { [weak self] in
+                        self?.present(actionSheet, in: .window(.root))
+                    })
+                } else {
+                    self.chatDisplayNode.dismissInput()
+                    self.present(actionSheet, in: .window(.root))
+                    completion(.default)
+                }
+""", """"""),
+        ("""                        localOptionText = self.presentationData.strings.Chat_DeleteMessagesConfirmation(Int32(messageIds.count))
+""", """                        localOptionText = self.presentationData.strings.Conversation_DeleteMessagesForMe
+"""),
+    ]
+    for old, new in patches:
+        if text.count(old) != 1:
+            raise SystemExit(f"Full-name deletion menu anchor drift: {old[:80]!r}")
+        text = text.replace(old, new, 1)
+    path.write_text(text, encoding="utf-8")
+
+
+def apply_video_rotation_pip_lifetime_fix(source: Path) -> None:
+    """Do not register dormant AVKit adapters during ordinary video playback.
+
+    iOS 27 crash in build 89: AVKit/Pegasus reads the sample-buffer layer's
+    player controller while processing a window rotation. Keep PiP lazy and
+    disconnect its public content source before releasing the retained layer.
+    """
+    path = source / "submodules/GalleryUI/Sources/Items/UniversalVideoGalleryItem.swift"
+    original = path.read_bytes()
+    if hashlib.sha256(original).hexdigest() != "f06ec98b6002eb52386eba27c2e756adcf4675d5ad9d357f1062ac0047412114":
+        raise SystemExit("Изменилась проверенная интеграция video/PiP или правка уже применена")
+    text = original.decode("utf-8")
+    patches = [
+        (
+            """                    if NagramiXTabSettings.videoPiPSwipeEnabled && strongSelf.item?.isSecret == false && strongSelf.hasPictureInPicture && strongSelf.nativePictureInPictureContent == nil {
+                        strongSelf.setupNativePictureInPicture()
+                    }
+""",
+            """                    // Prepare AVKit only for an explicit PiP action, not each
+                    // playing/paused update or a full-screen orientation change.
+""",
+        ),
+        (
+            "    private var pictureInPictureController: AVPictureInPictureController?\n    private var contentDelegate: PlaybackDelegate?\n",
+            "    private var pictureInPictureController: AVPictureInPictureController?\n    private var nagramiXPictureInPictureLayer: AVSampleBufferDisplayLayer?\n    private var nagramiXPendingPiPStart: UUID?\n    private var nagramiXPendingPiPStartTimer: SwiftSignalKit.Timer?\n    private var contentDelegate: PlaybackDelegate?\n",
+        ),
+        (
+            "        if let videoLayer = videoNode.getVideoLayer() {\n            let contentDelegate = PlaybackDelegate(node: self.node)\n",
+            "        if let videoLayer = videoNode.getVideoLayer() {\n            self.nagramiXPictureInPictureLayer = videoLayer\n            let contentDelegate = PlaybackDelegate(node: self.node)\n",
+        ),
+        (
+            """        self.pictureInPictureTimer?.invalidate()
+        self.node.setCanPlaybackWithoutHierarchy(false)
+""",
+            """        self.pictureInPictureTimer?.invalidate()
+        self.nagramiXCancelPendingPiPStart()
+        // Detach AVKit while both its playback delegate and display layer are
+        // still alive. A shared decoder can outlive this gallery's PiP owner.
+        if let controller = self.pictureInPictureController {
+            controller.canStartPictureInPictureAutomaticallyFromInline = false
+            controller.delegate = nil
+            controller.stopPictureInPicture()
+            controller.contentSource = nil
+        }
+        self.contentDelegate?.pictureInPictureController = nil
+        self.pictureInPictureController = nil
+        self.nagramiXPictureInPictureLayer = nil
+        self.node.setCanPlaybackWithoutHierarchy(false)
+""",
+        ),
+        (
+            """    var nagramiXCanStartPictureInPicture: Bool {
+        return self.pictureInPictureController?.isPictureInPicturePossible == true
+    }
+""",
+            """    var nagramiXCanStartPictureInPicture: Bool {
+        guard let sourceLayer = self.nagramiXPictureInPictureLayer,
+              self.node.getVideoLayer() === sourceLayer else {
+            return false
+        }
+        return self.pictureInPictureController?.isPictureInPicturePossible == true
+    }
+""",
+        ),
+        (
+            """    func beginPictureInPicture() {
+        guard let pictureInPictureController = self.pictureInPictureController else {
+            return
+        }
+        if pictureInPictureController.isPictureInPicturePossible {
+            pictureInPictureController.startPictureInPicture()
+        }
+    }
+""",
+            """    func beginPictureInPicture() {
+        let _ = self.nagramiXRequestPictureInPicture(unavailable: {})
+    }
+
+    private func nagramiXCancelPendingPiPStart() {
+        self.nagramiXPendingPiPStart = nil
+        self.nagramiXPendingPiPStartTimer?.invalidate()
+        self.nagramiXPendingPiPStartTimer = nil
+    }
+
+    func nagramiXRequestPictureInPicture(unavailable: @escaping () -> Void) -> Bool {
+        guard AVPictureInPictureController.isPictureInPictureSupported(),
+              let controller = self.pictureInPictureController,
+              let sourceLayer = self.nagramiXPictureInPictureLayer,
+              self.node.getVideoLayer() === sourceLayer,
+              UIApplication.shared.applicationState == .active else {
+            return false
+        }
+        if self.nagramiXPendingPiPStart != nil {
+            return true
+        }
+        if self.nagramiXCanStartPictureInPicture {
+            controller.startPictureInPicture()
+            return true
+        }
+        // AVKit readiness is asynchronous on a cold first request. Consume only
+        // this explicit action and wait without blocking the main queue.
+        let requestId = UUID()
+        let deadline = CACurrentMediaTime() + 2.0
+        self.nagramiXPendingPiPStart = requestId
+        let timer = SwiftSignalKit.Timer(timeout: 0.05, repeat: true, completion: { [weak self] in
+            guard let self, self.nagramiXPendingPiPStart == requestId else {
+                return
+            }
+            guard UIApplication.shared.applicationState == .active,
+                  self.node.getVideoLayer() === self.nagramiXPictureInPictureLayer else {
+                self.nagramiXCancelPendingPiPStart()
+                return
+            }
+            if self.nagramiXCanStartPictureInPicture {
+                self.nagramiXCancelPendingPiPStart()
+                self.pictureInPictureController?.startPictureInPicture()
+            } else if CACurrentMediaTime() >= deadline {
+                self.nagramiXCancelPendingPiPStart()
+                unavailable()
+            }
+        }, queue: Queue.mainQueue())
+        self.nagramiXPendingPiPStartTimer = timer
+        timer.start()
+        return true
+    }
+
+""",
+        ),
+        (
+            """    func updateIsCentral(isCentral: Bool) {
+        guard let pictureInPictureController = self.pictureInPictureController else {
+""",
+            """    func updateIsCentral(isCentral: Bool) {
+        if !isCentral {
+            self.nagramiXCancelPendingPiPStart()
+        }
+        guard let pictureInPictureController = self.pictureInPictureController else {
+""",
+        ),
+        (
+            """        if #available(iOS 15.0, *), let content = self.nativePictureInPictureContent as? NativePictureInPictureContentImpl, content.nagramiXCanStartPictureInPicture {
+            self.context.engine.accountData.addAppLogEvent(type: logEvent)
+            content.beginPictureInPicture()
+            return true
+        }
+""",
+            """        if #available(iOS 15.0, *), self.isCentral == true,
+           let content = self.nativePictureInPictureContent as? NativePictureInPictureContentImpl {
+            let handled = content.nagramiXRequestPictureInPicture(unavailable: { [weak self, weak content] in
+                guard let self, let content, self.nativePictureInPictureContent === content,
+                      self.isCentral == true, self.galleryController()?.view.window != nil,
+                      UIApplication.shared.applicationState == .active else {
+                    return
+                }
+                // A genuinely unavailable PiP keeps the native close fallback.
+                self.dismiss()
+            })
+            if handled {
+                self.context.engine.accountData.addAppLogEvent(type: logEvent)
+                return true
+            }
+        }
+""",
+        ),
+        (
+            """    private func setupNativePictureInPicture() {
+        guard let item = self.item, let videoNode = self.videoNode else {
+""",
+            """    private func setupNativePictureInPicture() {
+        guard self.nativePictureInPictureContent == nil,
+              let item = self.item, let videoNode = self.videoNode else {
+""",
+        ),
+    ]
+    for before, after in patches:
+        if text.count(before) != 1:
+            raise SystemExit("Изменился точный якорь video/PiP lifetime")
+        text = text.replace(before, after, 1)
+    path.write_text(text, encoding="utf-8")
+
+
 def apply_video_playback_options(source: Path) -> None:
     gallery = source / "submodules/GalleryUI/Sources/Items/UniversalVideoGalleryItem.swift"
     replace_unique(source / "submodules/GalleryUI/Sources/GalleryControllerNode.swift",
@@ -4998,8 +6184,54 @@ def apply_nagramix_onboarding(source: Path, overlay: Path) -> None:
     if "managedAnimationNode" in texts[phone] or 'name: "IntroPhone"' in texts[phone]:
         raise SystemExit("Unexpected legacy phone artwork path")
 
+    # Presentation-only production layout; every replacement is validated
+    # against the same pinned inputs before any native file is written.
+    patch(header, "FOUNDATION_EXPORT UIImage *NagramiXOnboardingImage(NSInteger index);", "FOUNDATION_EXPORT UIImage *NagramiXOnboardingImage(NSInteger index);\nFOUNDATION_EXPORT UIImage *NagramiXOnboardingSymbol(NSInteger index);")
+    patch(header, "FOUNDATION_EXPORT UIImage *NagramiXOnboardingSymbol(NSInteger index);", "FOUNDATION_EXPORT UIImage *NagramiXOnboardingSymbol(NSInteger index);\nFOUNDATION_EXPORT UIColor *NagramiXOnboardingBackground(UIColor *nativeColor);")
+    patch(intro, "        _backgroundColor = backgroundColor;", "        _backgroundColor = NagramiXOnboardingBackground(backgroundColor);")
+    patch(phone, "        self.backgroundColor = theme.list.plainBackgroundColor\n", "        self.backgroundColor = account != nil ? NagramiXOnboardingBackground(theme.list.plainBackgroundColor) : theme.list.plainBackgroundColor\n")
+    patch(intro, "NSArray<UIImageView *> *_nagramiXArtworkImages;", "NSArray<UIView *> *_nagramiXArtworkImages;")
+    patch(intro, "    bool _loadedView;\n}\n@end", "    bool _loadedView;\n}\n- (void)nagramiXLayoutArtwork;\n- (void)nagramiXUpdateArtwork;\n@end")
+    block(intro, "- (void)updateLayout\n", "- (void)viewWillAppear:", (overlay / "Sources/RMIntro/OnboardingLayout.m.inc").read_text(encoding="utf-8") + "\n")
+    patch(phone, "    private let animationNode: ASImageNode\n", "    private let animationNode: ASImageNode\n    private let nagramiXContentNode = ASScrollNode()\n    private var nagramiXHadKeyboard = false\n")
+    patch(phone, "private final class PhoneAndCountryNode: ASDisplayNode {\n", "private final class PhoneAndCountryNode: ASDisplayNode {\n    private let nagramiXBranded: Bool\n")
+    patch(phone, "    init(strings: PresentationStrings, theme: PresentationTheme) {\n        self.strings = strings", "    init(strings: PresentationStrings, theme: PresentationTheme, branded: Bool = false) {\n        self.nagramiXBranded = branded\n        self.strings = strings")
+    patch(phone, "        self.phoneAndCountryNode = PhoneAndCountryNode(strings: strings, theme: theme)", "        self.phoneAndCountryNode = PhoneAndCountryNode(strings: strings, theme: theme, branded: account != nil)")
+    patch(phone, "    override func layout() {\n        super.layout()\n", (overlay / "Sources/AuthorizationUI/OnboardingPhoneFields.swift.inc").read_text(encoding="utf-8") + "    override func layout() {\n        super.layout()\n        if self.nagramiXBranded {\n            self.nagramiXLayoutFields(self.bounds.size)\n            return\n        }\n")
+    patch(phone, "        self.countryButton.titleNode.maximumNumberOfLines = 1\n", "        self.countryButton.titleNode.maximumNumberOfLines = branded ? 0 : 1\n")
+    patch(phone, "        self.countryButton.setBackgroundImage(countryButtonHighlightedBackground, for: .highlighted)\n", "        self.countryButton.setBackgroundImage(countryButtonHighlightedBackground, for: .highlighted)\n        if branded {\n            self.countryButton.setBackgroundImage(nil, for: [])\n            self.countryButton.setBackgroundImage(nil, for: .highlighted)\n            self.countryButton.backgroundColor = theme.list.itemBlocksBackgroundColor\n            self.countryButton.cornerRadius = 14.0\n            self.countryButton.borderWidth = UIScreenPixel\n            self.countryButton.borderColor = theme.list.itemPlainSeparatorColor.cgColor\n            self.countryButton.contentEdgeInsets = UIEdgeInsets(top: 10.0, left: 16.0, bottom: 10.0, right: 40.0)\n        }\n")
+    patch(phone, "        self.phoneBackground.isLayerBacked = true\n", "        self.phoneBackground.isLayerBacked = true\n        if branded {\n            self.phoneBackground.image = nil\n            self.phoneBackground.backgroundColor = theme.list.itemBlocksBackgroundColor\n            self.phoneBackground.cornerRadius = 14.0\n            self.phoneBackground.borderWidth = UIScreenPixel\n            self.phoneBackground.borderColor = theme.list.itemPlainSeparatorColor.cgColor\n        }\n")
+    patch(phone, "        self.addSubnode(self.animationNode)\n", "        self.addSubnode(self.animationNode)\n        if account != nil {\n            self.addSubnode(self.nagramiXContentNode)\n            let contentNodes: [ASDisplayNode] = [self.animationNode, self.titleNode, self.noticeNode, self.titleActivateAreaNode, self.noticeActivateAreaNode, self.phoneAndCountryNode, self.contactSyncNode]\n            for node in contentNodes {\n                self.nagramiXContentNode.addSubnode(node)\n            }\n        }\n")
+    layout_anchor = "    func containerLayoutUpdated(_ layout: ContainerViewLayout, navigationBarHeight: CGFloat, transition: ContainedViewLayoutTransition) {\n"
+    patch(phone, layout_anchor, (overlay / "Sources/AuthorizationUI/OnboardingPhoneLayout.swift.inc").read_text(encoding="utf-8") + layout_anchor + "        if self.account != nil {\n            self.nagramiXLayoutPhone(layout, navigationBarHeight: navigationBarHeight, transition: transition)\n            return\n        }\n")
+
+    block(intro, "- (void)animateIn {\n", "- (void)loadGL {", """- (void)animateIn {
+    if (UIAccessibilityIsReduceMotionEnabled()) {
+        return;
+    }
+    _wrapperView.alpha = 0.0;
+    _startButton.alpha = 0.0;
+    [UIView animateWithDuration:0.25 animations:^{
+        self->_wrapperView.alpha = 1.0;
+        self->_startButton.alpha = self->_isEnabled ? 1.0 : 0.6;
+    }];
+}
+
+""")
+    patch(intro, "    snapshot.frame = _nagramiXArtworkView.frame;\n", "    snapshot.frame = [_nagramiXArtworkView convertRect:_nagramiXArtworkView.bounds toView:self.view];\n")
+    patch(intro, """    UIView *snapshotView = [_wrapperView snapshotViewAfterScreenUpdates:false];
+    snapshotView.frame = _wrapperView.frame;
+    return snapshotView;
+""", """    BOOL hidden = _nagramiXArtworkView.hidden;
+    _nagramiXArtworkView.hidden = YES;
+    UIView *snapshotView = [_wrapperView snapshotViewAfterScreenUpdates:YES];
+    _nagramiXArtworkView.hidden = hidden;
+    snapshotView.frame = _wrapperView.frame;
+    return snapshotView;
+""")
+
     manifest = json.loads((overlay / "Resources/Onboarding/manifest.json").read_text(encoding="utf-8"))
-    if set(manifest) != {"NagramiXOnboardingLogo.png", "NagramiXOnboardingAtlas.png"}:
+    if set(manifest) != {"NagramiXOnboardingLogo.png", "NagramiXOnboardingAtlas.png", "NagramiXOnboardingPhone.png"}:
         raise SystemExit("Unexpected onboarding asset manifest")
     destination = source / "Telegram/Telegram-iOS/Resources/NagramiXOnboarding"
     assets = {}
@@ -11073,6 +12305,18 @@ private func nagramiXCopyProfileId(_ value: Int64, presentationData: Presentatio
     apply_anonymous_stickers_and_blocked_filter(source)
     apply_archived_selection_actions_fix(source)
     apply_selfie_countdown(source)
+    apply_video_rotation_pip_lifetime_fix(source)
+    apply_global_tab_search_fix(source)
+    apply_archived_replay_and_upload_cache_fix(source)
+    apply_full_name_deletion_menu(source)
+    apply_selfie_recording_lifecycle(source)
+    apply_mixed_playback_return(source)
+    replace_unique(
+        source / "submodules/SettingsUI/Sources/Data and Storage/ProxyListSettingsController.swift",
+        "title: text, value: value, enableInteractiveChanges: true, enabled: true, sectionId: self.section, style: .blocks, updated: arguments.toggleUseForCalls, tag: ProxySettingsEntryTag.useForCalls)",
+        "title: text, value: value, maximumNumberOfLines: 0, enableInteractiveChanges: true, enabled: true, sectionId: self.section, style: .blocks, updated: arguments.toggleUseForCalls, tag: ProxySettingsEntryTag.useForCalls)",
+        "Перенос полного названия настройки прокси для звонков",
+    )
 
     if stock_section not in item_list_controller.read_text(encoding="utf-8"):
         raise SystemExit("NagramiX overlay modified Telegram's stock sectionControl branch")

@@ -25,6 +25,31 @@ public final class NagramiXArchivedMediaCopy {
         self.committed = true
     }
 
+    /// Native sent-media caching may reuse only a newly uploaded copy of this
+    /// immutable archive resource, never the deleted original's cloud reference.
+    public static func uploadedReferenceHash(resource: MediaResource) -> Data? {
+        guard let resource = resource as? LocalFileReferenceMediaResource,
+              resource.isUniquelyReferencedTemporaryFile else {
+            return nil
+        }
+        let name = URL(fileURLWithPath: resource.localFilePath).lastPathComponent
+        let prefix = "nagramix-archive-copy-"
+        guard name.hasPrefix(prefix), let separator = name.firstIndex(of: "."),
+              UUID(uuidString: String(name[name.index(name.startIndex, offsetBy: prefix.count) ..< separator])) != nil else {
+            return nil
+        }
+        let encoded = String(name[name.index(after: separator)...])
+            .replacingOccurrences(of: "-", with: "+")
+            .replacingOccurrences(of: "_", with: "/")
+        guard encoded.utf8.count <= 172, let key = Data(base64Encoded: encoded), key.count <= 128,
+              let identifier = String(data: key, encoding: .utf8),
+              identifier.hasPrefix("nagramix-retained-upload-v1:"),
+              identifier.utf8.count > "nagramix-retained-upload-v1:".utf8.count else {
+            return nil
+        }
+        return key
+    }
+
     private func resource(_ original: TelegramMediaResource) -> TelegramMediaResource? {
         if let resource = self.resources[original.id.stringRepresentation] {
             return resource
@@ -44,7 +69,17 @@ public final class NagramiXArchivedMediaCopy {
               size > 0, expectedSize == nil || expectedSize == size else {
             return nil
         }
-        let path = NSTemporaryDirectory() + "nagramix-archive-copy-" + UUID().uuidString
+        var cacheKeySuffix = ""
+        if let original = original as? LocalFileReferenceMediaResource,
+           URL(fileURLWithPath: original.localFilePath).deletingLastPathComponent().lastPathComponent == "nagramix-message-media" {
+            let key = Data(("nagramix-retained-upload-v1:" + original.id.stringRepresentation).utf8)
+            if key.count <= 128 {
+                cacheKeySuffix = "." + key.base64EncodedString()
+                    .replacingOccurrences(of: "+", with: "-")
+                    .replacingOccurrences(of: "/", with: "_")
+            }
+        }
+        let path = NSTemporaryDirectory() + "nagramix-archive-copy-" + UUID().uuidString + cacheKeySuffix
         do {
             do {
                 // A hard link pins the complete bytes even if the archive is

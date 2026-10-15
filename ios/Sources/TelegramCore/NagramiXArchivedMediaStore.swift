@@ -92,7 +92,25 @@ final class NagramiXArchivedMediaStore {
     func localResource(for resource: TelegramMediaResource) -> TelegramMediaResource {
         guard let file = self.files.with({ $0[resource.id.stringRepresentation] }),
               let path = self.existingPath(file) else { return resource }
-        return LocalFileReferenceMediaResource(localFilePath: path, randomId: file.localId, isUniquelyReferencedTemporaryFile: false, size: file.size)
+        let localResource = LocalFileReferenceMediaResource(localFilePath: path, randomId: file.localId, isUniquelyReferencedTemporaryFile: false, size: file.size)
+        // Publish complete retained bytes before a native row subscribes to its
+        // fetch status. Linking is O(1), never moves the archive and never loads
+        // a large video into memory. A failed link keeps the native fetch path.
+        if file.size > 0 {
+            let cachePath = self.mediaBox.storePathsForId(localResource.id).complete
+            let cacheInfo = try? FileManager.default.attributesOfItem(atPath: cachePath)
+            let validCache = cacheInfo?[.type] as? FileAttributeType == .typeRegular
+                && (cacheInfo?[.size] as? NSNumber)?.int64Value == file.size
+            if !validCache {
+                if cacheInfo?[.type] as? FileAttributeType == .typeRegular {
+                    // Repair a truncated legacy cache copy, never the archive.
+                    try? FileManager.default.removeItem(atPath: cachePath)
+                }
+                try? FileManager.default.linkItem(atPath: path, toPath: cachePath)
+            }
+            let _ = self.mediaBox.completedResourcePath(localResource)
+        }
+        return localResource
     }
 
     /// Reserve synchronously, before native deletion can remove a just-received

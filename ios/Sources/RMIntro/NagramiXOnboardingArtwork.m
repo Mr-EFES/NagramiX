@@ -1,28 +1,30 @@
 #import "RMIntroViewController.h"
 
-// Shared by the carousel and the phone entry screen. The atlas remains a
-// single production resource; UIKit slices its six square cells at runtime.
-UIImage *NagramiXOnboardingImage(NSInteger index) {
-    if (index < 0 || index > 6) {
+UIColor *NagramiXOnboardingBackground(UIColor *nativeColor) {
+    CGFloat red = 0.0, green = 0.0, blue = 0.0, alpha = 1.0;
+    UIColor *resolved = [nativeColor resolvedColorWithTraitCollection:UITraitCollection.currentTraitCollection];
+    if ([resolved getRed:&red green:&green blue:&blue alpha:&alpha] && red * 0.2126 + green * 0.7152 + blue * 0.0722 < 0.35) {
+        return [UIColor colorWithRed:8.0 / 255.0 green:25.0 / 255.0 blue:46.0 / 255.0 alpha:1.0];
+    }
+    return nativeColor;
+}
+
+UIImage *NagramiXOnboardingSymbol(NSInteger index) {
+    if (index < 0 || index >= 6) {
         return nil;
     }
     static NSArray *images;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        NSMutableArray *result = [[NSMutableArray alloc] initWithCapacity:7];
-        NSBundle *bundle = [NSBundle mainBundle];
-        UIImage *logo = [UIImage imageNamed:@"NagramiXOnboardingLogo" inBundle:bundle compatibleWithTraitCollection:nil];
-        UIImage *atlas = [UIImage imageNamed:@"NagramiXOnboardingAtlas" inBundle:bundle compatibleWithTraitCollection:nil];
-        NSArray<NSString *> *fallbackSymbols = @[@"bubble.left.fill", @"bolt.horizontal.circle.fill", @"gift.fill", @"slider.horizontal.3", @"hand.raised.fill", @"icloud.fill", @"iphone"];
-        for (NSInteger item = 0; item < 7; item++) {
-            UIImage *image = item == 0 ? logo : nil;
-            if (item > 0 && atlas.CGImage != NULL) {
+        UIImage *atlas = [UIImage imageNamed:@"NagramiXOnboardingAtlas" inBundle:[NSBundle mainBundle] compatibleWithTraitCollection:nil];
+        NSMutableArray *result = [[NSMutableArray alloc] initWithCapacity:6];
+        for (NSInteger item = 0; item < 6; item++) {
+            UIImage *image = nil;
+            if (atlas.CGImage != NULL) {
                 size_t width = CGImageGetWidth(atlas.CGImage);
                 size_t height = CGImageGetHeight(atlas.CGImage);
-                if (width % 3 == 0 && height % 2 == 0 && width / 3 == height / 2) {
-                    size_t side = width / 3;
-                    NSInteger cell = item - 1;
-                    CGRect rect = CGRectMake((cell % 3) * side, (cell / 3) * side, side, side);
+                if (width % 3 == 0 && height % 2 == 0) {
+                    CGRect rect = CGRectMake((item % 3) * (width / 3), (item / 3) * (height / 2), width / 3, height / 2);
                     CGImageRef cropped = CGImageCreateWithImageInRect(atlas.CGImage, rect);
                     if (cropped != NULL) {
                         image = [UIImage imageWithCGImage:cropped scale:2.0 orientation:UIImageOrientationUp];
@@ -30,14 +32,21 @@ UIImage *NagramiXOnboardingImage(NSInteger index) {
                     }
                 }
             }
-            if (image == nil) {
-                UIImageSymbolConfiguration *configuration = [UIImageSymbolConfiguration configurationWithPointSize:160.0 weight:UIImageSymbolWeightMedium];
-                image = [[UIImage systemImageNamed:fallbackSymbols[item] withConfiguration:configuration] imageWithTintColor:[UIColor colorWithRed:0.18 green:0.66 blue:1.0 alpha:1.0] renderingMode:UIImageRenderingModeAlwaysOriginal];
-            }
             [result addObject:image ?: (id)[NSNull null]];
         }
         images = [result copy];
     });
     id image = images[index];
     return [image isKindOfClass:[UIImage class]] ? image : nil;
+}
+
+UIImage *NagramiXOnboardingImage(NSInteger index) {
+    if (index < 0 || index > 6) {
+        return nil;
+    }
+    if (index == 0 || index == 6) {
+        NSString *name = index == 0 ? @"NagramiXOnboardingLogo" : @"NagramiXOnboardingPhone";
+        return [UIImage imageNamed:name inBundle:[NSBundle mainBundle] compatibleWithTraitCollection:nil];
+    }
+    return NagramiXOnboardingSymbol(index - 1);
 }
