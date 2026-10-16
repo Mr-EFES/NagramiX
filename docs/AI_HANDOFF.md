@@ -1,5 +1,16 @@
 # Текущий контекст NagramiX 0.5.8
 
+## Готовый релиз0.5.8/build94 — следующий шаг: физический тест
+
+Разрешённые пользователем сборка и публикация выполнены. Main fast-forward5a59266→ef50ed4; исходник IPA `ef50ed458cde450c235075a664d4194dc2dc9394`. Run [38955233725](https://github.com/Mr-EFES/NagramiX/actions/runs/38955233725), build94, clean_build=false/publish_release=true/prerelease=true; оба jobs success, run19:28:58→20:20:53UTC. [Релизv0.5.8](https://github.com/Mr-EFES/NagramiX/releases/tag/v0.5.8) опубликован как prerelease, tag и targetCommitish точно ef50ed4; прежний v0.4.5 не изменялся. Дополненное описание содержит функции, отличия от Telegram, границы локального архива, способ установки и факты проверки пакета.
+
+Скачанный и отдельно проверенный IPA `/workspace/outputs/NagramiX-0.5.8-build94-unsigned.ipa`,88507133bytes, SHA256 `daac7424d1e9db283c05d5c01f4a45f556a343f36277345644c4f8ff252b0018`. Сверены checksum/provenance/version/build/source/pin, ZIP CRC,6MachO ARM64/iOS15/audio/no profile/code signatures, primary+alternate2…8icons,31toneSHA,7PNG/dimensions/introcopy,270customRU/196EN exactvalues и14863mainRU keys. scripts/validate_unsigned_ipa.py и дополнительный check_package.py PASS. release.json/tag.json/run.json/package-verification.json/build.json и notes в `/workspace/.codex-validation-nagramix-058`. Пять целевых валидаторов,585/585 full overlay equality, Pythoncompile/metadata/diff до сборки PASS.
+
+Локальные6compile_pending→compile_passed: forward_copy/deleted_messages/temporary_messages/compact_chat_list/notification_sounds/auto_reveal_spoilers. Физическое устройство/камеры/PiP/APNs/UI/нажатия ещё device_pending; не выдавать компиляцию за этот тест. Новаякомандапокрылавыпуск0.5.8, теперь следующий рабочий0.5.9 только по новой команде. Не запускать новую IPA автоматически.
+
+Финальный документационный коммит после ef50ed4 меняет только статусы/описание/приёмку, без новых runtime правок; тег и IPA сохраняют исходный ef50ed4. Root diverged main не пушить/reset: прежние WIP и staged historical R1000.5.6 сохранены. Следующий шаг — передать IPA и ссылку на релиз пользователю для внешней подписи и теста по IPHONE_TEST_0.5.8.md, затем обрабатывать новые замечания. Все нижние pending-разделы отражают этап до этой успешной сборки.
+
+
 ## Разрешена сборка0.5.8 и GitHub Release — 16 октября
 
 Пользователь прямо разрешил сборку для физического iPhone и публикацию релиза с описанием функций и отличий от Telegram. Подготовлен изолированный worktree `/workspace/.codex-validation-nagramix-058/source` от origin/main5a59266, в него перенесено текущее содержимое263файлов root без его staging/reset. Исходный root и прежний stagedR100 сохранены snapshot root-before.json. Разрешение включает необходимый commit/push исходников и dispatch publish_release=true/prerelease=true; повторного вопроса не требуется. Текущий выпуск0.5.8; будущий0.5.9 только по новой команде, retry остаётся0.5.8.

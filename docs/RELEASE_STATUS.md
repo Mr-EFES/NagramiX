@@ -1,8 +1,21 @@
-# NagramiX 0.5.8: подготовка тестовой сборки и релиза
+# NagramiX 0.5.8: IPA build94 собран, проверен и опубликован
 
-Пользователь16октября разрешил новый IPA со всеми текущими правками и публикацию GitHub Release с описанием возможностей и отличий от стандартного Telegram. Версия0.5.8, native compile и пакет пока pending; физическая приёмка отдельно. Предыдущие releases/tags/assets не заменяются.
+Сборка и публикация завершились успешно16октября2026 в20:20UTC. Пользователь разрешил тестовый IPA для физического iPhone и GitHub Release с описанием функций и отличий от Telegram.
 
-[Изменения](../product/releases/0.5.8.md) · [План iPhone](IPHONE_TEST_0.5.8.md).
+| Параметр | Значение |
+| --- | --- |
+| Релиз | [v0.5.8, prerelease](https://github.com/Mr-EFES/NagramiX/releases/tag/v0.5.8) |
+| Run | [38955233725 / build94](https://github.com/Mr-EFES/NagramiX/actions/runs/38955233725) |
+| Исходный коммит IPA и тега | `ef50ed458cde450c235075a664d4194dc2dc9394` |
+| База | Telegram13.0, `f1dd7a2dbd02cbbf513e75d5695d8d36d1cf5838`, CURRENT перед сборкой |
+| Пакет | `/workspace/outputs/NagramiX-0.5.8-build94-unsigned.ipa` |
+| Размер | 88 507 133 байт |
+| SHA256 | `daac7424d1e9db283c05d5c01f4a45f556a343f36277345644c4f8ff252b0018` |
+| Состояние | native compile_passed / пакет проверен / device_pending |
+
+Проверены ZIP CRC, checksum/provenance, Info.plist0.5.8/build94, все6 Mach-O ARM64, минимальная iOS15.0 и фоновый audio, отсутствие временных подписей/профилей,7 альтернативных иконок,31 встроенная мелодия,7 PNG приветствия и его RU/EN строки. Все270custom RU и196EN значения совпали с исходниками; основной RU каталог14863ключа. Тег и targetCommitish релиза совпали с исходным коммитом IPA. В релизе3файла: IPA, SHA256SUMS, BUILD-PROVENANCE.txt. Новые6compile_pending переведены вcompile_passed, все device_pending сохранены. Это подтверждает компиляцию и целостность пакета, не физическое исполнение сценариев.
+
+[Функции и отличия](../product/releases/0.5.8.md) · [План iPhone](IPHONE_TEST_0.5.8.md). Ранее опубликованные релизы и локальные IPA сохранены. Финальное обновление документации после сборки не меняет исходники приложения и не требует ещё одной IPA.
 
 # История проверки0.5.7/build93
 

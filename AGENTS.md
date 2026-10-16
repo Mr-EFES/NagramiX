@@ -16,7 +16,7 @@
 
 # Инструкции для разработки NagramiX
 
-- «Автораскрытие спойлеров»: Функции/Сообщения, `nagramix.messages.autoRevealSpoilers` отсутствует → ON; сохранённые OFF/ON имеют приоритет при любом запуске. Использовать существующие NagramiXMediaSettings и displayChangedNotification, stable ID145. Только отображение текстовых и обычных медиа-спойлеров; не удалять entities/атрибуты и не раскрывать платный preview/одноразовое/чувствительное медиа вместо штатных действий. [Контракт](product/features/auto-reveal-spoilers.md), native compile/device pending; IPA по отдельной команде.
+- «Автораскрытие спойлеров»: Функции/Сообщения, `nagramix.messages.autoRevealSpoilers` отсутствует → ON; сохранённые OFF/ON имеют приоритет при любом запуске. Использовать существующие NagramiXMediaSettings и displayChangedNotification, stable ID145. Только отображение текстовых и обычных медиа-спойлеров; не удалять entities/атрибуты и не раскрывать платный preview/одноразовое/чувствительное медиа вместо штатных действий. [Контракт](product/features/auto-reveal-spoilers.md), native compile_passed/build94, device_pending; следующий IPA по новой команде.
 
 - Compact mini-app buttons: при compactON «Открыть» целиком внутристроки ицентрируетсявертикально; date/status/icon/title получаютобщийрезервсправа. Есликрупныйшрифт/узкаястрока неоставляютместазаголовку, native date-over-button с большейизмереннойвысотой. Не уменьшатьшрифт/кнопку, не менятьhasWebApp/unread/mention/editvisibility, native HighlightableButtonNode/touchUpInside/openWebApp/hitTest/жесты/defaultOFF. OFF истрокибезкнопки прежние. [Контракт](product/features/compact-chat-list.md), новаяправкаnative_compile_pending/device_pending; IPAпоотдельнойкоманде.
 
