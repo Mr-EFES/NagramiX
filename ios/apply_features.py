@@ -679,6 +679,61 @@ func managedSynchronizeNotificationSoundList(""", "Обновление и шт�
         shutil.copy2(path, destination / path.name)
 
 
+def apply_notification_exception_sound_catalog(source: Path) -> None:
+    """Use the existing offline catalog in the separate per-peer editor too."""
+    path = source / "submodules/TelegramUI/Components/NotificationPeerExceptionController/Sources/NotificationPeerExceptionController.swift"
+    data = path.read_bytes()
+    if hashlib.sha256(data).hexdigest() != "e3e97e015d98756bae7ae88aacc6354390ea4aa498afcaa052d0bb266bfb1809":
+        raise SystemExit("Изменился проверенный экран персональных уведомлений или правка уже применена")
+    picker = source / "submodules/NotificationSoundSelectionUI/Sources/NotificationSoundSelection.swift"
+    picker_data = picker.read_bytes()
+    if hashlib.sha256(picker_data).hexdigest() != "ebf38a2ba1138bad0c1fa9ea3a017bbca8eb6d5c2a2c7166ad8c625afa0ac347":
+        raise SystemExit("Изменилось проверенное предпрослушивание звука по умолчанию")
+    picker_text = picker_data.decode("utf-8")
+    fallback = 'return "\\(100)"'
+    if picker_text.count(fallback) != 2:
+        raise SystemExit("Изменилась резервная мелодия предпрослушивания")
+    picker_text = picker_text.replace(
+        fallback,
+        "return fileNameForNotificationSound(account: account, notificationSoundList: notificationSoundList, sound: defaultCloudPeerNotificationSound, defaultSound: nil)",
+    )
+    text = data.decode("utf-8")
+    start_anchor = "    if displaySounds {\n"
+    end_anchor = "    return entries\n"
+    if text.count(start_anchor) != 1 or text.count(end_anchor) != 1:
+        raise SystemExit("Изменилась структура персонального каталога звуков")
+    start = text.index(start_anchor)
+    end = text.index(end_anchor, start)
+    fragment = Path(__file__).resolve().parent / "Sources/NotificationPeerExceptionController/NagramiXExceptionSoundEntries.swift.inc"
+    entries = fragment.read_text(encoding="utf-8").rstrip("\n") + "\n\n"
+    text = text[:start] + entries + text[end:]
+    patches = [
+        (
+            "    let soundActionDisposable = MetaDisposable()\n",
+            """    let soundActionDisposable = MetaDisposable()
+    let fetchedSoundsDisposable = ensureDownloadedNotificationSoundList(postbox: context.account.postbox).start()
+    let refreshedSoundsDisposable = refreshNotificationSoundList(postbox: context.account.postbox, network: context.account.network).start()
+""",
+        ),
+        (
+            """        playSoundDisposable.dispose()
+        soundActionDisposable.dispose()
+""",
+            """        playSoundDisposable.dispose()
+        soundActionDisposable.dispose()
+        fetchedSoundsDisposable.dispose()
+        refreshedSoundsDisposable.dispose()
+""",
+        ),
+    ]
+    for old, new in patches:
+        if text.count(old) != 1:
+            raise SystemExit("Изменилась точка обновления персональных звуков уведомлений")
+        text = text.replace(old, new, 1)
+    path.write_text(text, encoding="utf-8")
+    picker.write_text(picker_text, encoding="utf-8")
+
+
 def apply_channel_bottom_panel(source: Path) -> None:
     # Hide only the ordinary subscribed broadcast-reader panel. Keep the
     # native join, composer, search, selection and pinned-message actions.
@@ -2268,6 +2323,152 @@ public final class NativeVideoContent: UniversalVideoContent {
         }
         if self.infoBackgroundNode.alpha.isZero {
 """, "Start or toggle archived video using the native playlist rather than a cosmetic alpha")
+
+
+def apply_archived_round_presentation_fix(source: Path) -> None:
+    """Keep the native circle silhouette behind 50% archived presentation."""
+    path = source / "submodules/TelegramUI/Components/Chat/ChatMessageInstantVideoBubbleContentNode/Sources/ChatMessageInstantVideoBubbleContentNode.swift"
+    data = path.read_bytes()
+    if hashlib.sha256(data).hexdigest() != "bec4719546fd26ade440bc2aab9bcb579620c6433e80a95ce28089822fb661e2":
+        raise SystemExit("Изменилась проверенная отрисовка архивного кружка или правка уже применена")
+    text = data.decode("utf-8")
+    patches = [
+        (
+            "            let contentProperties = ChatMessageBubbleContentProperties(hidesSimpleAuthorHeader: false, headerSpacing: 0.0, hidesBackground: .never,",
+            """            // Opaque stock video covers the bubble fill. A retained circle is
+            // composited at 50%, so that fill would show through the video and
+            // around its animated edge. Use the native background-free style;
+            // keep the bubble when the user expands the transcription text.
+            let nagramiXArchivedCircle = !isExpanded && item.message.attributes.contains(where: { $0 is NagramiXArchivedMessageAttribute })
+            let contentProperties = ChatMessageBubbleContentProperties(hidesSimpleAuthorHeader: false, headerSpacing: 0.0, hidesBackground: nagramiXArchivedCircle ? .always : .never,""",
+        ),
+        (
+            """                            let nagramiXArchivedMask = item.message.attributes.contains(where: { $0 is NagramiXArchivedMessageAttribute })
+                            let nagramiXMaskAnimator = nagramiXArchivedMask ? ListViewItemUpdateAnimation.None.animator : animation.animator
+                            if nagramiXArchivedMask {
+                                strongSelf.maskForeground.removeAllAnimations()
+                                strongSelf.backdropMaskForeground.removeAllAnimations()
+                            }
+""",
+            "",
+        ),
+        ("nagramiXMaskAnimator.updateCornerRadius(layer: strongSelf.maskForeground,", "animation.animator.updateCornerRadius(layer: strongSelf.maskForeground,"),
+        ("nagramiXMaskAnimator.updateFrame(layer: strongSelf.maskForeground,", "animation.animator.updateFrame(layer: strongSelf.maskForeground,"),
+        ("                                animator: nagramiXMaskAnimator\n", "                                animator: animation.animator\n"),
+        ("nagramiXMaskAnimator.updateFrame(layer: strongSelf.backdropMaskForeground,", "animation.animator.updateFrame(layer: strongSelf.backdropMaskForeground,"),
+    ]
+    # Stage every anchor before writing, including restoration of the stock
+    # mask timeline. Playback identity/ownership/decoder and parent alpha stay
+    # in their existing integrations.
+    for old, new in patches:
+        if text.count(old) != 1:
+            raise SystemExit("Изменилась точка интеграции отрисовки архивного кружка")
+        text = text.replace(old, new, 1)
+    path.write_text(text, encoding="utf-8")
+
+
+def apply_selection_panel_layout_fix(source: Path) -> None:
+    """Keep action visibility during permission refresh; place icons atomically."""
+    path = source / "submodules/TelegramUI/Components/Chat/ChatMessageSelectionInputPanelNode/Sources/ChatMessageSelectionInputPanelNode.swift"
+    data = path.read_bytes()
+    if hashlib.sha256(data).hexdigest() != "390295f0b5be7455bf92200491ad579a0adb6cd065bc5d302d862b4f59750882":
+        raise SystemExit("Изменилась проверенная геометрия панели выделения или правка уже применена")
+    text = data.decode("utf-8")
+    patches = [
+        (
+            "    private var actions: ChatAvailableMessageActions?\n",
+            """    private var actions: ChatAvailableMessageActions?
+    // Keep only the resolved visibility, never the previous selection's rights.
+    private var nagramiXHasActionLayout = false
+""",
+        ),
+        (
+            """        self.actions = nil
+        self.forwardButton.isEnabled = !self.selectedMessages.isEmpty
+""",
+            """        self.actions = nil
+        if self.selectedMessages.isEmpty {
+            self.nagramiXHasActionLayout = false
+        }
+        self.deleteButton.isEnabled = false
+        self.reportButton.isEnabled = false
+        self.tagButton.isEnabled = false
+        self.tagEditButton.isEnabled = false
+        self.forwardButton.isEnabled = !self.selectedMessages.isEmpty
+""",
+        ),
+        (
+            """        if let actions = self.actions {
+            self.deleteButton.isEnabled = false
+""",
+            """        if let actions = self.actions {
+            self.nagramiXHasActionLayout = true
+            self.tagButton.isEnabled = actions.setTag
+            self.tagEditButton.isEnabled = actions.setTag
+            self.deleteButton.isEnabled = false
+""",
+        ),
+        (
+            """        } else {
+            self.deleteButton.isEnabled = false
+            self.deleteButton.isHidden = self.peerMedia
+            self.reportButton.isEnabled = false
+            self.reportButton.isHidden = true
+            self.forwardButton.isImplicitlyDisabled = true
+            self.shareButton.isImplicitlyDisabled = true
+            self.tagButton.isHidden = true
+            self.tagEditButton.isHidden = true
+            self.tagButton.isHidden = true
+            self.tagEditButton.isHidden = true
+        }
+""",
+            """        } else {
+            self.deleteButton.isEnabled = false
+            self.reportButton.isEnabled = false
+            self.forwardButton.isImplicitlyDisabled = true
+            self.shareButton.isImplicitlyDisabled = true
+            self.tagButton.isEnabled = false
+            self.tagEditButton.isEnabled = false
+            // A new selection temporarily has no actions while its current
+            // permissions load. Do not remove/reinsert the visible slots.
+            if !self.nagramiXHasActionLayout || self.selectedMessages.isEmpty {
+                self.deleteButton.isHidden = self.peerMedia
+                self.reportButton.isHidden = true
+                self.tagButton.isHidden = true
+                self.tagEditButton.isHidden = true
+            }
+        }
+""",
+        ),
+        (
+            """        transition.updateFrame(view: self.buttonScrollView, frame: CGRect(x: leftInset, y: 0.0, width: availableWidth, height: panelHeight))
+""",
+            """        let viewportFrame = CGRect(x: leftInset, y: 0.0, width: availableWidth, height: panelHeight)
+        if self.buttonScrollView.frame != viewportFrame {
+            self.buttonScrollView.layer.removeAnimation(forKey: "position")
+            self.buttonScrollView.layer.removeAnimation(forKey: "bounds")
+        }
+        ContainedViewLayoutTransition.immediate.updateFrame(view: self.buttonScrollView, frame: viewportFrame)
+""",
+        ),
+        (
+            """            transition.updateFrame(view: button, frame: buttonFrame)
+            button.update(theme: interfaceState.theme, preferClearGlass: interfaceState.preferredGlassType == .clear, size: buttonFrame.size, transition: ComponentTransition(transition))
+""",
+            """            // The panel itself keeps its native entrance/exit transition.
+            // Its icons must not travel through neighbouring action slots.
+            button.layer.removeAnimation(forKey: "position")
+            button.layer.removeAnimation(forKey: "bounds")
+            ContainedViewLayoutTransition.immediate.updateFrame(view: button, frame: buttonFrame)
+            button.update(theme: interfaceState.theme, preferClearGlass: interfaceState.preferredGlassType == .clear, size: buttonFrame.size, transition: .immediate)
+""",
+        ),
+    ]
+    for old, new in patches:
+        if text.count(old) != 1:
+            raise SystemExit("Изменилась точка интеграции геометрии панели выделения")
+        text = text.replace(old, new, 1)
+    path.write_text(text, encoding="utf-8")
 
 
 def apply_photo_jpeg_compatibility_fix(source: Path) -> None:
@@ -4195,6 +4396,182 @@ def apply_voice_recording_cancellation_fix(source: Path) -> None:
 """,
         "Reject late cold-start audio callbacks after cancellation on the UI queue",
     )
+
+
+def apply_auto_reveal_spoilers(source: Path) -> None:
+    """Reveal presentation spoilers without rewriting message entities/media."""
+    text_module = "submodules/TelegramUI/Components/Chat/ChatMessageTextBubbleContentNode"
+    media_module = "submodules/TelegramUI/Components/Chat/ChatMessageInteractiveMediaNode"
+    patches = {
+        text_module + "/Sources/ChatMessageTextBubbleContentNode.swift": (
+            "c72d288ec729dcf56b29970cb388e17ae3694c1a8b63861d66021f312b8d8d28",
+            [
+                ("import Foundation\n", "import Foundation\nimport NagramiXMediaSettings\n"),
+                (
+                    "    private var displayContentsUnderSpoilers: (value: Bool, location: CGPoint?) = (false, nil)\n",
+                    "    private var displayContentsUnderSpoilers: (value: Bool, location: CGPoint?) = (false, nil)\n"
+                    "    private var nagramiXSpoilersRevealed: Bool {\n"
+                    "        return NagramiXMediaSettings.autoRevealSpoilersEnabled || self.displayContentsUnderSpoilers.value\n"
+                    "    }\n",
+                ),
+                (
+                    "        let displayContentsUnderSpoilers = self.displayContentsUnderSpoilers\n",
+                    "        let displayContentsUnderSpoilers = (value: self.nagramiXSpoilersRevealed, location: self.displayContentsUnderSpoilers.location)\n",
+                ),
+                (
+                    "[NSAttributedString.Key(rawValue: TelegramTextAttributes.Spoiler)], !self.displayContentsUnderSpoilers.value {",
+                    "[NSAttributedString.Key(rawValue: TelegramTextAttributes.Spoiler)], !self.nagramiXSpoilersRevealed {",
+                ),
+                (
+                    "!spoilerRects.isEmpty, !self.displayContentsUnderSpoilers.value {",
+                    "!spoilerRects.isEmpty, !self.nagramiXSpoilersRevealed {",
+                ),
+                (
+                    "if !strongSelf.displayContentsUnderSpoilers.value, let textLayout =",
+                    "if !strongSelf.nagramiXSpoilersRevealed, let textLayout =",
+                ),
+            ],
+        ),
+        media_module + "/Sources/ChatMessageInteractiveMediaNode.swift": (
+            "8da1a4e50c54ff525b0a2911002991dbeecd8bbe9d6be563de2a2a7577bd077d",
+            [
+                ("import Foundation\n", "import Foundation\nimport NagramiXMediaSettings\n"),
+                (
+                    "                            if message.attributes.contains(where: { $0 is MediaSpoilerMessageAttribute }), strongSelf.extendedMediaOverlayNode == nil {\n"
+                    "                                strongSelf.internallyVisible = false\n"
+                    "                            }\n",
+                    "                            if message.attributes.contains(where: { $0 is MediaSpoilerMessageAttribute }) {\n"
+                    "                                let wasInternallyVisible = strongSelf.internallyVisible\n"
+                    "                                if NagramiXMediaSettings.autoRevealSpoilersEnabled && !isSecretMedia && !isExtendedMediaPreview && !message.isSensitiveContent(platform: \"ios\") {\n"
+                    "                                    strongSelf.internallyVisible = true\n"
+                    "                                } else if strongSelf.extendedMediaOverlayNode == nil {\n"
+                    "                                    strongSelf.internallyVisible = false\n"
+                    "                                }\n"
+                    "                                if strongSelf.internallyVisible != wasInternallyVisible {\n"
+                    "                                    strongSelf.updateVisibility()\n"
+                    "                                }\n"
+                    "                            }\n",
+                ),
+                (
+                    "        } else if message.attributes.contains(where: { $0 is MediaSpoilerMessageAttribute }) {\n",
+                    "        } else if message.attributes.contains(where: { $0 is MediaSpoilerMessageAttribute }) && !NagramiXMediaSettings.autoRevealSpoilersEnabled {\n",
+                ),
+            ],
+        ),
+        text_module + "/BUILD": (
+            "313ea8ebcee0401be2e1ec60faed46dedd05f2b46cf7fa06948da61766943388",
+            [("    deps = [\n", "    deps = [\n        \"//submodules/NagramiXMediaSettings:NagramiXMediaSettings\",\n")],
+        ),
+        media_module + "/BUILD": (
+            "68772bdfa7a75083a859c944c555006bdeb409a4e9d215b4b4a24ec8fa759889",
+            [("    deps = [\n", "    deps = [\n        \"//submodules/NagramiXMediaSettings:NagramiXMediaSettings\",\n")],
+        ),
+    }
+    staged = {}
+    for name, (expected_hash, replacements) in patches.items():
+        path = source / name
+        data = path.read_bytes()
+        if hashlib.sha256(data).hexdigest() != expected_hash:
+            raise SystemExit(f"Изменился проверенный исходник спойлеров: {name}")
+        text = data.decode("utf-8")
+        for old, new in replacements:
+            if text.count(old) != 1:
+                raise SystemExit(f"Изменилась точка интеграции спойлеров: {name}")
+            text = text.replace(old, new, 1)
+        staged[path] = text
+    for path, text in staged.items():
+        path.write_text(text, encoding="utf-8")
+
+
+def apply_compact_webapp_button_layout(source: Path) -> None:
+    """Fit native mini-app launch buttons inside compact chat rows."""
+    path = source / "submodules/ChatListUI/Sources/Node/ChatListItem.swift"
+    data = path.read_bytes()
+    if hashlib.sha256(data).hexdigest() != "cdbb09d90bccb1311b248d4d036e8a7338599b4087266be2ef162f5c8ba9ffb4":
+        raise SystemExit("Изменилась проверенная геометрия кнопки мини-приложения")
+    text = data.decode("utf-8")
+    patches = [
+        (
+            "            var badgeSize: CGFloat = 0.0\n",
+            """            var nagramiXCompactActionSize: CGSize?
+            if nagramiXCompact, let (buttonTitleLayout, _) = actionButtonTitleNodeLayoutAndApply {
+                let fontSize = item.presentationData.fontSize.itemListBaseFontSize
+                nagramiXCompactActionSize = CGSize(
+                    width: buttonTitleLayout.size.width + floor(fontSize * 12.0 / 17.0) * 2.0,
+                    height: buttonTitleLayout.size.height + floor(fontSize * 5.0 / 17.0) + floor(fontSize * 4.0 / 17.0)
+                )
+            }
+
+            var badgeSize: CGFloat = 0.0
+""",
+        ),
+        (
+            "                badgeSize += actionButtonTitleNodeLayout.size.width + 12.0 * 2.0\n",
+            "                badgeSize += nagramiXCompactActionSize?.width ?? (actionButtonTitleNodeLayout.size.width + 12.0 * 2.0)\n",
+        ),
+        (
+            "            badgeSize = max(badgeSize, reorderInset)\n",
+            """            badgeSize = max(badgeSize, reorderInset)
+            // Share one reserved column between title/date/status and preview.
+            // If large text leaves too little room, retain the stock stacked
+            // date/button arrangement and measure a taller compact row below.
+            let nagramiXActionColumnWidth: CGFloat = nagramiXCompactActionSize != nil ? badgeSize + 4.0 : 0.0
+            let nagramiXActionTitleWidth = rawContentWidth - dateLayout.size.width - 10.0 - statusWidth - titleIconsWidth - nagramiXActionColumnWidth
+            let nagramiXCompactActionInline = nagramiXActionColumnWidth > 0.0 && nagramiXActionTitleWidth >= floor(40.0 * item.presentationData.fontSize.itemListBaseFontSize / 17.0)
+            let nagramiXActionDateInset: CGFloat = nagramiXCompactActionInline ? nagramiXActionColumnWidth : 0.0
+""",
+        ),
+        (
+            "            var titleRectWidth = rawContentWidth - dateLayout.size.width - 10.0 - statusWidth - titleIconsWidth\n",
+            """            var titleRectWidth = rawContentWidth - dateLayout.size.width - 10.0 - statusWidth - titleIconsWidth
+            titleRectWidth -= nagramiXActionDateInset
+""",
+        ),
+        (
+            """                itemHeight = compactHeight
+            }
+""",
+            """                if let buttonSize = nagramiXCompactActionSize {
+                    compactHeight = max(compactHeight, ceil(buttonSize.height + topPadding * 2.0))
+                    if !nagramiXCompactActionInline {
+                        let buttonBottom = topPadding + 2.0 + dateLayout.size.height + floor(item.presentationData.fontSize.itemListBaseFontSize * 4.0 / 17.0) + 4.0 + buttonSize.height
+                        compactHeight = max(compactHeight, ceil(buttonBottom + topPadding))
+                    }
+                }
+                itemHeight = compactHeight
+            }
+""",
+        ),
+        (
+            "var dateFrame = CGRect(origin: CGPoint(x: contentRect.maxX - dateLayout.size.width, y: contentRect.origin.y + 2.0), size: dateLayout.size)",
+            "var dateFrame = CGRect(origin: CGPoint(x: contentRect.maxX - dateLayout.size.width - nagramiXActionDateInset, y: contentRect.origin.y + 2.0), size: dateLayout.size)",
+        ),
+        (
+            "                        dateStatusX += -dateLayout.size.width - 4.0 - dateIconImage.size.width\n",
+            "                        dateStatusX += -dateLayout.size.width - 4.0 - dateIconImage.size.width - nagramiXActionDateInset\n",
+        ),
+        (
+            "                    statusX += -dateLayout.size.width - statusSize.width - statusOffset\n",
+            "                    statusX += -dateLayout.size.width - statusSize.width - statusOffset - nagramiXActionDateInset\n",
+        ),
+        (
+            """                        actionButtonFrame.origin.y = max(actionButtonFrame.origin.y, dateFrame.maxY + floor(item.presentationData.fontSize.itemListBaseFontSize * 4.0 / 17.0))
+                        actionButtonFrame.origin.y += 4.0
+""",
+            """                        if nagramiXCompactActionInline {
+                            actionButtonFrame.origin.y = layoutOffset + floorToScreenPixels((itemHeight - actionButtonSize.height) * 0.5)
+                        } else {
+                            actionButtonFrame.origin.y = max(actionButtonFrame.origin.y, dateFrame.maxY + floor(item.presentationData.fontSize.itemListBaseFontSize * 4.0 / 17.0))
+                            actionButtonFrame.origin.y += 4.0
+                        }
+""",
+        ),
+    ]
+    for old, new in patches:
+        if text.count(old) != 1:
+            raise SystemExit("Изменилась точка интеграции кнопки мини-приложения")
+        text = text.replace(old, new, 1)
+    path.write_text(text, encoding="utf-8")
 
 
 def apply_message_selection_transfer_actions(source: Path, overlay: Path) -> None:
@@ -12721,6 +13098,11 @@ private func nagramiXCopyProfileId(_ value: Int64, presentationData: Presentatio
     apply_advertising_controls(source)
     apply_responsive_swipe_picture_in_picture(source)
     apply_forward_action_labels(source)
+    apply_archived_round_presentation_fix(source)
+    apply_selection_panel_layout_fix(source)
+    apply_notification_exception_sound_catalog(source)
+    apply_compact_webapp_button_layout(source)
+    apply_auto_reveal_spoilers(source)
     replace_unique(
         source / "submodules/SettingsUI/Sources/Data and Storage/ProxyListSettingsController.swift",
         "title: text, value: value, enableInteractiveChanges: true, enabled: true, sectionId: self.section, style: .blocks, updated: arguments.toggleUseForCalls, tag: ProxySettingsEntryTag.useForCalls)",

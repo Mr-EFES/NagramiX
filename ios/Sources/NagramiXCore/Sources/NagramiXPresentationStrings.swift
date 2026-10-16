@@ -23,6 +23,8 @@ private extension PresentationStrings {
 }
 
 public extension PresentationStrings {
+    var nagramiXAutoRevealSpoilers: String { self.nagramiXLocalized("NagramiX.Settings.Messages.AutoRevealSpoilers") }
+    var nagramiXAutoRevealSpoilersSearchTerms: String { self.nagramiXLocalized("NagramiX.Settings.Messages.AutoRevealSpoilers.SearchTerms") }
     var nagramiXSelfieCountdown: String { self.nagramiXLocalized("NagramiX.SelfieCountdown.Title") }
     var nagramiXSelfieCountdownSearchTerms: String { self.nagramiXLocalized("NagramiX.SelfieCountdown.SearchTerms") }
     var nagramiXArchivedCopyUnavailable: String { self.nagramiXLocalized("NagramiX.Archive.CopyUnavailable") }

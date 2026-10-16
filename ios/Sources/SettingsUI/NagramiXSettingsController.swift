@@ -59,6 +59,7 @@ private struct NagramiXSettingsControllerArguments {
     let updateShowDeletedMessages: (Bool) -> Void
     let updateAnonymousStickers: (Bool) -> Void
     let updateHideBlockedMessages: (Bool) -> Void
+    let updateAutoRevealSpoilers: (Bool) -> Void
     let updateAntiCaps: (Bool) -> Void
     let updateVoiceAutoplay: (Bool) -> Void
     let updateAutoMuteNewChannels: (Bool) -> Void
@@ -225,6 +226,7 @@ private enum NagramiXSettingsEntry: ItemListNodeEntry {
     case messagesHeader
     case anonymousStickers(Bool)
     case hideBlockedMessages(Bool)
+    case autoRevealSpoilers(Bool)
     case antiCaps(Bool)
     case voiceAutoplay(Bool)
     case autoMuteNewChannels(Bool)
@@ -270,7 +272,7 @@ private enum NagramiXSettingsEntry: ItemListNodeEntry {
         case .photosHeader, .highQualityPhotos, .photoQualityHeader, .photoQuality, .photoQualityInfo,
                 .anonymousStickers, .stickersHeader, .stickerSizeHeader, .stickerSize, .showStickerTime, .stickerSizeInfo:
             return .features
-        case .hideBlockedMessages, .antiCaps, .doubleTapEdit, .doubleTapEditInfo, .messagesHeader, .autoMuteNewChannels, .autoMuteNewChannelsInfo, .voiceAutoplay, .voiceAutoplayInfo, .showDeletedMessages, .showDeletedMessagesInfo, .saveTemporaryMessages, .saveTemporaryMessagesInfo, .deletedMessageLabel, .messageEditHistory, .messageEditHistoryInfo, .clearMessageArchive, .messageArchiveInfo:
+        case .autoRevealSpoilers, .hideBlockedMessages, .antiCaps, .doubleTapEdit, .doubleTapEditInfo, .messagesHeader, .autoMuteNewChannels, .autoMuteNewChannelsInfo, .voiceAutoplay, .voiceAutoplayInfo, .showDeletedMessages, .showDeletedMessagesInfo, .saveTemporaryMessages, .saveTemporaryMessagesInfo, .deletedMessageLabel, .messageEditHistory, .messageEditHistoryInfo, .clearMessageArchive, .messageArchiveInfo:
             return .features
         case .videoPlaybackHeader, .backgroundVideoPlayback, .backgroundVideoPlaybackInfo, .originalVideos:
             return .features
@@ -301,7 +303,7 @@ private enum NagramiXSettingsEntry: ItemListNodeEntry {
             return NagramiXSettingsSection.profiles.rawValue
         case .callsHeader, .otherCallsHeader, .confirmOutgoingCalls, .skipCallRating, .forceTcpCalls, .forceTcpCallsInfo:
             return NagramiXSettingsSection.calls.rawValue
-        case .hideBlockedMessages, .antiCaps, .doubleTapEdit, .doubleTapEditInfo, .messagesHeader, .autoMuteNewChannels, .autoMuteNewChannelsInfo, .voiceAutoplay, .voiceAutoplayInfo, .showDeletedMessages, .showDeletedMessagesInfo, .saveTemporaryMessages, .saveTemporaryMessagesInfo, .deletedMessageLabel, .messageEditHistory, .messageEditHistoryInfo, .clearMessageArchive, .messageArchiveInfo:
+        case .autoRevealSpoilers, .hideBlockedMessages, .antiCaps, .doubleTapEdit, .doubleTapEditInfo, .messagesHeader, .autoMuteNewChannels, .autoMuteNewChannelsInfo, .voiceAutoplay, .voiceAutoplayInfo, .showDeletedMessages, .showDeletedMessagesInfo, .saveTemporaryMessages, .saveTemporaryMessagesInfo, .deletedMessageLabel, .messageEditHistory, .messageEditHistoryInfo, .clearMessageArchive, .messageArchiveInfo:
             return NagramiXSettingsSection.messages.rawValue
         case .photosHeader, .highQualityPhotos, .photoQualityHeader, .photoQuality, .photoQualityInfo:
             return NagramiXSettingsSection.photos.rawValue
@@ -382,6 +384,7 @@ private enum NagramiXSettingsEntry: ItemListNodeEntry {
         case .messagesHeader: return 34
         case .anonymousStickers: return 142
         case .hideBlockedMessages: return 143
+        case .autoRevealSpoilers: return 145
         case .antiCaps: return 141
         case .voiceAutoplay: return 130
         case .autoMuteNewChannels: return 132
@@ -442,6 +445,7 @@ private enum NagramiXSettingsEntry: ItemListNodeEntry {
             case .doubleTapEditInfo: return 342
             case .anonymousStickers: return 965
             case .hideBlockedMessages: return 349
+            case .autoRevealSpoilers: return 347
             case .antiCaps: return 348
             case .voiceAutoplay: return 343
             case .autoMuteNewChannels: return 345
@@ -609,6 +613,8 @@ private enum NagramiXSettingsEntry: ItemListNodeEntry {
             return ItemListSwitchItem(presentationData: presentationData, systemStyle: .glass, title: presentationData.strings.nagramiXAnonymousStickers, value: value, maximumNumberOfLines: 0, sectionId: self.section, style: .blocks, updated: arguments.updateAnonymousStickers)
         case let .hideBlockedMessages(value):
             return ItemListSwitchItem(presentationData: presentationData, systemStyle: .glass, title: presentationData.strings.nagramiXHideBlockedMessages, value: value, maximumNumberOfLines: 0, sectionId: self.section, style: .blocks, updated: arguments.updateHideBlockedMessages)
+        case let .autoRevealSpoilers(value):
+            return ItemListSwitchItem(presentationData: presentationData, systemStyle: .glass, title: presentationData.strings.nagramiXAutoRevealSpoilers, value: value, maximumNumberOfLines: 0, sectionId: self.section, style: .blocks, updated: arguments.updateAutoRevealSpoilers)
         case let .antiCaps(value):
             return ItemListSwitchItem(presentationData: presentationData, systemStyle: .glass, title: presentationData.strings.nagramiXAntiCaps, value: value, maximumNumberOfLines: 0, sectionId: self.section, style: .blocks, updated: arguments.updateAntiCaps)
         case let .voiceAutoplay(value):
@@ -773,6 +779,7 @@ private extension NagramiXSettingsEntry {
         case .messagesHeader: return strings.nagramiXMessagesHeader
         case .anonymousStickers: return strings.nagramiXAnonymousStickers
         case .hideBlockedMessages: return strings.nagramiXHideBlockedMessages
+        case .autoRevealSpoilers: return strings.nagramiXAutoRevealSpoilers
         case .antiCaps: return strings.nagramiXAntiCaps
         case .voiceAutoplay: return strings.nagramiXVoiceAutoplay
         case .autoMuteNewChannels: return strings.nagramiXAutoMuteNewChannels
@@ -818,6 +825,8 @@ private extension NagramiXSettingsEntry {
             return strings.nagramiXAnonymousStickersSearchTerms
         case .hideBlockedMessages:
             return strings.nagramiXHideBlockedMessagesSearchTerms
+        case .autoRevealSpoilers:
+            return strings.nagramiXAutoRevealSpoilersSearchTerms
         case .antiCaps:
             return strings.nagramiXAntiCapsSearchTerms
         case .voiceAutoplay:
@@ -981,6 +990,7 @@ private func nagramiXAllSettingsEntries(settings: NagramiXTabSettings, keepMusic
         .messagesHeader, .doubleTapEdit(settings.doubleTapEdit),
         .voiceAutoplay(settings.voiceAutoplay),
         .autoMuteNewChannels(settings.autoMuteNewChannels),
+        .autoRevealSpoilers(settings.media.autoRevealSpoilers),
         .antiCaps(settings.antiCaps),
         .hideBlockedMessages(settings.hideBlockedMessages),
         .showDeletedMessages(settings.showDeletedMessages),
@@ -1073,6 +1083,7 @@ public func nagramiXSettingsController(context: AccountContext) -> ViewControlle
         updateShowDeletedMessages: { value in update { $0.showDeletedMessages = value } },
         updateAnonymousStickers: { value in update { $0.anonymousStickers = value } },
         updateHideBlockedMessages: { value in update { $0.hideBlockedMessages = value } },
+        updateAutoRevealSpoilers: { value in update { $0.media.autoRevealSpoilers = value } },
         updateAntiCaps: { value in update { $0.antiCaps = value } },
         updateVoiceAutoplay: { value in update { $0.voiceAutoplay = value } },
         updateAutoMuteNewChannels: { value in update { $0.autoMuteNewChannels = value } },

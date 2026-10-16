@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "product": "NagramiX",
-  "release": "0.5.7",
+  "release": "0.5.8",
   "platformPriority": [
     "ios"
   ],
@@ -52,7 +52,7 @@
       "specification": "specified",
       "ios": {
         "implementation": "implemented",
-        "compile": "compile_pending",
+        "compile": "compile_passed",
         "device": "device_pending"
       }
     },
@@ -82,7 +82,7 @@
       "specification": "specified",
       "ios": {
         "implementation": "implemented",
-        "compile": "compile_passed",
+        "compile": "compile_pending",
         "device": "device_pending"
       }
     },
@@ -92,7 +92,7 @@
       "specification": "specified",
       "ios": {
         "implementation": "implemented",
-        "compile": "compile_passed",
+        "compile": "compile_pending",
         "device": "device_pending"
       }
     },
@@ -252,7 +252,7 @@
       "specification": "specified",
       "ios": {
         "implementation": "implemented",
-        "compile": "compile_passed",
+        "compile": "compile_pending",
         "device": "device_pending"
       }
     },
@@ -262,7 +262,7 @@
       "specification": "specified",
       "ios": {
         "implementation": "implemented",
-        "compile": "compile_pending",
+        "compile": "compile_passed",
         "device": "device_pending"
       }
     },
@@ -292,7 +292,7 @@
       "specification": "specified",
       "ios": {
         "implementation": "implemented",
-        "compile": "compile_pending",
+        "compile": "compile_passed",
         "device": "device_pending"
       }
     },
@@ -332,7 +332,7 @@
       "specification": "specified",
       "ios": {
         "implementation": "implemented",
-        "compile": "compile_passed",
+        "compile": "compile_pending",
         "device": "device_pending"
       }
     },
@@ -452,7 +452,7 @@
       "specification": "specified",
       "ios": {
         "implementation": "implemented",
-        "compile": "compile_pending",
+        "compile": "compile_passed",
         "device": "device_pending"
       }
     },
@@ -519,6 +519,16 @@
     {
       "id": "advertising_visibility",
       "title": "Показать рекламу: спонсор прокси и встроенная реклама Telegram, OFF по умолчанию",
+      "specification": "specified",
+      "ios": {
+        "implementation": "implemented",
+        "compile": "compile_passed",
+        "device": "device_pending"
+      }
+    },
+    {
+      "id": "auto_reveal_spoilers",
+      "title": "Автораскрытие спойлеров: текст и медиа, включено по умолчанию",
       "specification": "specified",
       "ios": {
         "implementation": "implemented",

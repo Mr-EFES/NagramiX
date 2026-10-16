@@ -1,8 +1,39 @@
-# NagramiX 0.5.7: подготовка тестового IPA
+# NagramiX 0.5.8: подготовка тестовой сборки и релиза
 
-Пользователь16октября отдельно разрешил сборку для физического iPhone. Все правки после build92 и согласованные экраны включены. Native build ещё не завершён. clean_build=false, publish_release=false, prerelease=true, artifact_run_id пустой. Старые релизы/теги/IPA сохраняются.
+Пользователь16октября разрешил новый IPA со всеми текущими правками и публикацию GitHub Release с описанием возможностей и отличий от стандартного Telegram. Версия0.5.8, native compile и пакет пока pending; физическая приёмка отдельно. Предыдущие releases/tags/assets не заменяются.
 
-[Изменения](../product/releases/0.5.7.md) · [Приёмка](IPHONE_TEST_0.5.7.md).
+[Изменения](../product/releases/0.5.8.md) · [План iPhone](IPHONE_TEST_0.5.8.md).
+
+# История проверки0.5.7/build93
+
+Добавлено [автораскрытие спойлеров](../product/features/auto-reveal-spoilers.md): Функции/Сообщения, по умолчанию ON, сохранённый выбор имеет приоритет при холодном запуске. Текст и обычные фото/видео раскрываются без нажатия. Новая функция послеbuild93: source_checked/compile_pending/device_pending; сборка и физический тест ещё не выполнены.
+
+После физического теста подготовлена [правка отрисовки архивного кружка](ARCHIVED_ROUND_VIDEO_FIX.md): убрать видимую цветную подложку под прозрачным видео и вернуть штатную анимацию масок. Source_checked/native_compile_pending/device_pending; **в переданный build93 не входит**, новая IPA не запрошена. Остальная работа локальных кружков по сообщению пользователя устраивает, визуальная приёмка пока не завершена.
+
+Следующая подготовленная правка — [нижняя панель выделения](MESSAGE_SELECTION_ACTIONS_FIX.md): сохранить состав во время actions=nil, отключить действия до текущего ответа и убрать перемещение внутренних иконок. Source_checked/native_compile_pending/device_pending; также не входит вbuild93. Callback-пути и предыдущая правка кружка сохранены, новая сборка не запрошена.
+
+Подготовлена [персональная страница уведомлений](NOTIFICATION_SOUNDS_FIX.md):23+8builtins внеcachegate, ownedrefresh/download и резервное defaultpreview по актуальномуdefaultCloud. Source_checked/native_compile_pending/device_pending; вbuild93 не входит. Реальная доставка/звук на iPhone не проверены, дополнительные симптомы запрошены у пользователя. Новая IPA не запрошена.
+
+Подготовлена [правка mini-app кнопки в компактном списке](../product/features/compact-chat-list.md): вертикальное центрирование/резерв даты и адаптивная высота для крупного текста; штатный запуск сохранён. Source_checked/native_compile_pending/device_pending, вbuild93 не входит. Реальный tap/рисунок на iPhone ещё не проверены, новая IPA не запрошена.
+
+Пользователь 16 октября отдельно разрешил push коммита 5a59266 в main и сборку для физического iPhone. Нативная компиляция, упаковка и загрузка завершились успешно 2026-10-16 в 14:27 UTC. Все правки после build92 и согласованные экраны включены. Пакет скачан и независимо проверен; физический тест ожидается. Публикация GitHub Release отключена, прежние релизы/теги/IPA сохранены.
+
+| Параметр | Значение |
+| --- | --- |
+| Run | [38909507273 / build93](https://github.com/Mr-EFES/NagramiX/actions/runs/38909507273) |
+| Source | `5a59266c9efd76e4b26c040159620894cf890a40` |
+| База | Telegram13.0, `f1dd7a2dbd02cbbf513e75d5695d8d36d1cf5838`, CURRENT при сборке |
+| Артефакт GitHub | `12051909165`, NagramiX-0.5.7-unsigned-arm64 |
+| IPA | `/workspace/outputs/NagramiX-0.5.7-build93-unsigned.ipa` |
+| Размер | 88 510 648 байт |
+| SHA256 IPA | `92f6de745bd3e2af6667907cd5ce6a81c375a55229e1bd38c5fd1f943a4125a8` |
+| Native / пакет / iPhone | compile_passed / проверен / device_pending |
+
+Проверка `/workspace/.codex-validation-nagramix-057/artifact93`: SHA256 архива совпал с GitHub digest `95ccfca4143c854e545fab76fcd9bec58e50067b91c50b876fca60666e1c1555`. ZIP CRC архива и IPA, SHA256SUMS, BUILD-PROVENANCE, source/pin/run/version/build совпали. Все 6 Mach-O ARM64, minimum iOS15.0, background audio, основной icon1 и альтернативы2–8 для iPhone/iPad подтверждены. Временных подписей/профилей нет. Проверены 31 мелодия, RU14863 и все custom значения RU268/EN194, 26 Tour значений и размеры всех семи PNG; старого runtime atlas нет. Копия IPA в outputs имеет тот же SHA256. Штатный validator и независимая проверка пройдены.
+
+Новые статусы story_controls, forward_copy, video_pip_swipe, double_tap_edit, branded_onboarding и advertising_visibility локально обновлены до compile_passed; device_pending сохранён. XCTest и реальный iPhone не проверялись. Итоговая документация изменена локально после сборки и не меняет source SHA пакета. clean_build=false, publish_release=false, prerelease=true; следующий рабочий выпуск0.5.8 только по отдельной команде. Для установки нужна внешняя подпись.
+
+[Изменения](../product/releases/0.5.8.md) · [Приёмка](IPHONE_TEST_0.5.8.md).
 
 # NagramiX0.5.6: IPA build92 собран и проверен
 

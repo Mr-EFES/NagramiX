@@ -11,6 +11,7 @@ public struct NagramiXMediaSettings: Equatable {
         static let originalVideos = "nagramix.videos.original"
         static let stickerSize = "nagramix.stickers.size"
         static let showStickerTime = "nagramix.stickers.showTime"
+        static let autoRevealSpoilers = "nagramix.messages.autoRevealSpoilers"
     }
 
     public var photoQuality: Int
@@ -20,16 +21,18 @@ public struct NagramiXMediaSettings: Equatable {
     public var originalVideos: Bool
     public var stickerSize: Int
     public var showStickerTime: Bool
+    public var autoRevealSpoilers: Bool
 
     public static let `default` = NagramiXMediaSettings(photoQuality: 100, sendLargePhotos: true, stickerSize: 100, showStickerTime: true)
 
-    public init(photoQuality: Int, sendLargePhotos: Bool, stickerSize: Int, showStickerTime: Bool, highQualityPhotos: Bool = true, originalVideos: Bool = true) {
+    public init(photoQuality: Int, sendLargePhotos: Bool, stickerSize: Int, showStickerTime: Bool, highQualityPhotos: Bool = true, originalVideos: Bool = true, autoRevealSpoilers: Bool = true) {
         self.photoQuality = Self.normalizedPercentage(photoQuality)
         self.sendLargePhotos = sendLargePhotos
         self.highQualityPhotos = highQualityPhotos
         self.originalVideos = originalVideos
         self.stickerSize = Self.normalizedPercentage(stickerSize)
         self.showStickerTime = showStickerTime
+        self.autoRevealSpoilers = autoRevealSpoilers
     }
 
     public static func normalizedPercentage(_ value: Int) -> Int {
@@ -45,6 +48,10 @@ public struct NagramiXMediaSettings: Equatable {
         return max(0.01, Double(Self.normalizedPercentage(self.stickerSize)) / 100.0)
     }
 
+    public static var autoRevealSpoilersEnabled: Bool {
+        return UserDefaults.standard.object(forKey: Key.autoRevealSpoilers) as? Bool ?? true
+    }
+
     public static var current: NagramiXMediaSettings {
         let defaults = UserDefaults.standard
         return NagramiXMediaSettings(
@@ -53,7 +60,8 @@ public struct NagramiXMediaSettings: Equatable {
             stickerSize: defaults.object(forKey: Key.stickerSize) as? Int ?? Self.default.stickerSize,
             showStickerTime: defaults.object(forKey: Key.showStickerTime) as? Bool ?? Self.default.showStickerTime,
             highQualityPhotos: defaults.object(forKey: Key.highQualityPhotos) as? Bool ?? defaults.object(forKey: Key.legacyOriginalPhotos) as? Bool ?? Self.default.highQualityPhotos,
-            originalVideos: defaults.object(forKey: Key.originalVideos) as? Bool ?? Self.default.originalVideos
+            originalVideos: defaults.object(forKey: Key.originalVideos) as? Bool ?? Self.default.originalVideos,
+            autoRevealSpoilers: Self.autoRevealSpoilersEnabled
         )
     }
 
@@ -67,7 +75,8 @@ public struct NagramiXMediaSettings: Equatable {
         defaults.set(value.originalVideos, forKey: Key.originalVideos)
         defaults.set(size, forKey: Key.stickerSize)
         defaults.set(value.showStickerTime, forKey: Key.showStickerTime)
-        if previous.stickerSize != size || previous.showStickerTime != value.showStickerTime {
+        defaults.set(value.autoRevealSpoilers, forKey: Key.autoRevealSpoilers)
+        if previous.stickerSize != size || previous.showStickerTime != value.showStickerTime || previous.autoRevealSpoilers != value.autoRevealSpoilers {
             NotificationCenter.default.post(name: Self.displayChangedNotification, object: nil)
         }
     }

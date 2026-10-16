@@ -56,7 +56,7 @@
 "NagramiX.Time.30Seconds" = "30 секунд";
 "NagramiX.Time.60Seconds" = "60 секунд";
 "NagramiX.Interface.ShowProxyButton" = "Показывать «Прокси»";
-"NagramiX.Interface.HideProxySponsorChannel" = "Показать рекламу";
+"NagramiX.Interface.HideProxySponsorChannel" = "Показывать «Рекламу»";
 "NagramiX.Debug.Debug" = "Отладка";
 "NagramiX.Debug.Simulate Stickers Import" = "Имитировать импорт стикеров";
 "NagramiX.Debug.Send Logs (Up to 40 MB)" = "Отправить логи (до 40 МБ)";
@@ -138,10 +138,10 @@
 "NagramiX.Info.Help" = "Помощь NagramiX";
 "NagramiX.Settings.Profiles.Header" = "ПРОФИЛИ";
 "NagramiX.Settings.Profiles.ShowIds" = "Идентификатор профиля";
-"NagramiX.Settings.Profiles.ShowRegistrationDate" = "Дату регистрации";
+"NagramiX.Settings.Profiles.ShowRegistrationDate" = "Регистрация аккаунта";
 "NagramiX.Settings.Profiles.ShowMutualContactIcon" = "Значок взаимного контакта";
 "NagramiX.Settings.Calls.Header" = "ЗВОНКИ";
-"NagramiX.Settings.Calls.SkipRating" = "Без оценки звонков";
+"NagramiX.Settings.Calls.SkipRating" = "Скрыть оценку звонков";
 "NagramiX.Settings.Calls.SkipRating.Search" = "Оценка звонка, качество связи, звёзды";
 "NagramiX.Settings.Calls.ConfirmOutgoing" = "Подтверждение вызова";
 "NagramiX.Settings.Calls.ForceTcp" = "Звонки через TCP";
@@ -170,7 +170,7 @@
 "NagramiX.CallConfirmation.Action" = "Позвонить";
 "NagramiX.Context.ForwardWithAuthor" = "Репост";
 "NagramiX.Context.ForwardWithoutAuthor" = "Переслать";
-"NagramiX.Context.SelectFromAuthor" = "Выделить от автора";
+"NagramiX.Context.SelectFromAuthor" = "Выделить";
 "NagramiX.Context.AuthorSelectionEmpty" = "Доступных сообщений этого автора не найдено.";
 "NagramiX.Context.AuthorSelectionFailed" = "Не удалось загрузить все сообщения автора. Проверьте подключение и повторите попытку. Неполный набор не выбран.";
 "NagramiX.Context.AuthorDeleteUnavailable" = "Telegram не разрешает удалить выбранные сообщения в этом чате. Для удаления чужих сообщений в супергруппе нужны права администратора.";
@@ -204,7 +204,7 @@
 "NagramiX.Settings.Chats.Compact.Info" = "Меньшие аватары и одна строка последнего сообщения. Дополнительные сведения и увеличенный текст учитываются при расчёте высоты. Выключите, чтобы вернуть стандартный вид Telegram.";
 
 "NagramiX.Settings.Video.Header" = "Видео";
-"NagramiX.Settings.Video.PiPSwipe" = "«Картинку в картинке» свайпом";
+"NagramiX.Settings.Video.PiPSwipe" = "«Картинка в Картинке» свайпом";
 "NagramiX.Settings.Video.PiPSwipe.Info" = "Свайп вверх или вниз по открытому видео включает режим «Картинка в картинке», если он доступен.";
 "NagramiX.Settings.Video.BackgroundPlayback" = "Звук видео в фоне";
 "NagramiX.Settings.Video.BackgroundPlayback.Info" = "Продолжать звук запущенного видео при сворачивании приложения и блокировке экрана.";
@@ -265,7 +265,7 @@
 
 
 "NagramiX.Settings.Photos.HighQuality" = "Фото без сжатия";
-"NagramiX.Settings.Videos.Original" = "Отправлять без сжатия";
+"NagramiX.Settings.Videos.Original" = "Видео без сжатия";
 "NagramiX.Settings.Videos.Original.Search" = "Оригинальное видео из галереи без сжатия, MP4 MOV, качество, видеоплеер.";
 "NagramiX.Settings.Photos.HighQuality.Search" = "Фотографии максимального качества, обычное фото во всех клиентах, JPEG 100%, HD 2560. Фото без сжатия: сохранение оригинальных байтов не гарантируется.";
 
@@ -288,3 +288,6 @@
 "NagramiX.Settings.ContextMenu.ForwardWithoutAuthor" = "Переслать без автора";
 "NagramiX.Settings.ContextMenu.BroadcastMessages" = "Возможность рассылки";
 "NagramiX.Settings.ContextMenu.SelectByAuthor" = "«Выделить от автора»";
+
+"NagramiX.Settings.Messages.AutoRevealSpoilers" = "Автораскрытие спойлеров";
+"NagramiX.Settings.Messages.AutoRevealSpoilers.SearchTerms" = "Текст, фото и видео под спойлером видны сразу, без нажатия. Анти-спойлер.";

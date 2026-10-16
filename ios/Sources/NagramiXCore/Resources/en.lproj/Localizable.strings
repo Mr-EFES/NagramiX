@@ -214,3 +214,6 @@
 "NagramiX.Settings.ContextMenu.ForwardWithoutAuthor" = "Forward Without Author";
 "NagramiX.Settings.ContextMenu.BroadcastMessages" = "Broadcast";
 "NagramiX.Settings.ContextMenu.SelectByAuthor" = "Select From Author";
+
+"NagramiX.Settings.Messages.AutoRevealSpoilers" = "Auto-reveal spoilers";
+"NagramiX.Settings.Messages.AutoRevealSpoilers.SearchTerms" = "Show text, photos and videos under spoilers without tapping. Anti-spoiler.";
