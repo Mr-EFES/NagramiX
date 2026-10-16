@@ -32,7 +32,7 @@
     }
     CGFloat referenceScale = MIN(1.3, MAX(0.9, width / 360.0));
     CGFloat extraHeight = MAX(0.0, size.height - 640.0 * referenceScale);
-    CGFloat artworkSide = MIN(460.0, width * 0.86);
+    CGFloat artworkSide = MIN(360.0, width * 0.82);
     CGFloat artworkY = MAX(0.0, 42.0 * referenceScale + extraHeight * 0.50 - top);
     CGFloat textWidth = MAX(1.0, MIN(540.0, width - 40.0));
     UIFont *bodyFont = [[UIFontMetrics metricsForTextStyle:UIFontTextStyleBody] scaledFontForFont:[UIFont systemFontOfSize:MAX(15.0, 15.0 * referenceScale)]];
@@ -42,7 +42,7 @@
     for (RMIntroPageView *page in _pageViews) {
         NSInteger index = pageIndex++;
         page.frame = CGRectMake(index * width, 0.0, width, page.bounds.size.height);
-        UIFont *headlineFont = [[UIFontMetrics metricsForTextStyle:UIFontTextStyleLargeTitle] scaledFontForFont:[UIFont boldSystemFontOfSize:(index == 0 ? 40.0 : 35.0) * referenceScale]];
+        UIFont *headlineFont = [[UIFontMetrics metricsForTextStyle:UIFontTextStyleLargeTitle] scaledFontForFont:[UIFont boldSystemFontOfSize:35.0 * referenceScale]];
         UILabel *title = page.headerLabel;
         UILabel *description = page.descriptionLabel;
         title.font = headlineFont;
@@ -55,9 +55,9 @@
         description.adjustsFontForContentSizeCategory = YES;
         CGFloat titleHeight = ceil([title sizeThatFits:CGSizeMake(textWidth, CGFLOAT_MAX)].height);
         CGFloat descriptionHeight = ceil([description sizeThatFits:CGSizeMake(textWidth, CGFLOAT_MAX)].height);
-        CGFloat preferredTextY = (index == 0 ? 326.0 : 358.0) * referenceScale + extraHeight * 0.50 - top;
-        CGFloat artBottom = artworkY + artworkSide * (index == 0 ? 0.90 : 0.98);
-        CGFloat textY = MAX(preferredTextY, artBottom + 16.0);
+        CGFloat preferredTextY = 358.0 * referenceScale + extraHeight * 0.50 - top;
+        CGFloat artBottom = artworkY + artworkSide * 0.90;
+        CGFloat textY = MAX(preferredTextY, artBottom + 20.0);
         title.frame = CGRectMake((width - textWidth) / 2.0, textY, textWidth, titleHeight);
         description.frame = CGRectMake((width - textWidth) / 2.0, textY + titleHeight + 12.0 * referenceScale, textWidth, descriptionHeight);
         CGFloat textBottom = CGRectGetMaxY(description.frame);

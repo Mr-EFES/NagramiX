@@ -28,6 +28,7 @@ public enum NagramiXDnsProvider: Int, CaseIterable, Equatable {
 
 public struct NagramiXTabSettings: Equatable {
     public static let changedNotification = Notification.Name("NagramiXSettingsChanged")
+    public static let advertisingChangedNotification = NagramiXAdvertisingSettings.changedNotification
     public static let wideChannelPostsChangedNotification = Notification.Name("NagramiXWideChannelPostsChanged")
     public static let deletedMessageLabelChangedNotification = Notification.Name("NagramiXDeletedMessageLabelChanged")
     public static let dnsChangedNotification = Notification.Name("NagramiXDnsSettingsChanged")
@@ -125,6 +126,10 @@ public struct NagramiXTabSettings: Equatable {
     public var avoidProxyWithVPN: Bool
     public var showProxyButton: Bool
     public var hideProxySponsorChannel: Bool
+    public var showAdvertising: Bool {
+        get { return !self.hideProxySponsorChannel }
+        set { self.hideProxySponsorChannel = !newValue }
+    }
     public var showProfileIds: Bool
     public var showRegistrationDate: Bool
     public var showMutualContactIcon: Bool
@@ -171,7 +176,7 @@ public struct NagramiXTabSettings: Equatable {
         videoPiPSwipe: Bool = true,
         backgroundVideoPlayback: Bool = true,
         showChannelBottomPanel: Bool = false,
-        doubleTapEdit: Bool = false,
+        doubleTapEdit: Bool = true,
         hideReactions: Bool = false,
         downloads: NagramiXDownloadSettings = .default,
         showBroadcastMessages: Bool = true,
@@ -254,7 +259,7 @@ public struct NagramiXTabSettings: Equatable {
     }
 
     public static var doubleTapEditEnabled: Bool {
-        return UserDefaults.standard.object(forKey: Key.doubleTapEdit) as? Bool ?? false
+        return UserDefaults.standard.object(forKey: Key.doubleTapEdit) as? Bool ?? true
     }
 
     public static var autoMuteNewChannelsEnabled: Bool {
@@ -287,16 +292,7 @@ public struct NagramiXTabSettings: Equatable {
 
     public static var current: NagramiXTabSettings {
         let defaults = UserDefaults.standard
-        let hideProxySponsorChannel: Bool
-        if let value = defaults.object(forKey: Key.hideProxySponsorChannel) as? Bool {
-            hideProxySponsorChannel = value
-        } else if let legacyShowValue = defaults.object(forKey: Key.legacyShowProxySponsorChannel) as? Bool {
-            // Legacy builds stored the opposite semantic. Preserve the user's visible
-            // result while migrating to the new "hide" setting.
-            hideProxySponsorChannel = !legacyShowValue
-        } else {
-            hideProxySponsorChannel = true
-        }
+        let hideProxySponsorChannel = !NagramiXAdvertisingSettings.showAdvertising
         return NagramiXTabSettings(
             hideContacts: defaults.object(forKey: Key.hideContacts) as? Bool ?? true,
             hideCalls: defaults.object(forKey: Key.hideCalls) as? Bool ?? true,
@@ -357,6 +353,7 @@ public struct NagramiXTabSettings: Equatable {
         let previousCompactChatList = value.compactChatList
         let previousChannelBottomPanel = value.showChannelBottomPanel
         let previousHideReactions = value.hideReactions
+        let previousShowAdvertising = value.showAdvertising
         let previousWideChannelPosts = value.wideChannelPosts
         let previousDeletedMessageLabel = value.deletedMessageLabel
         let previousDnsProvider = value.dnsProvider
@@ -430,6 +427,9 @@ public struct NagramiXTabSettings: Equatable {
         NagramiXMediaSettings.update(value.media)
         NagramiXDownloadSettings.update(value.downloads)
 
+        if previousShowAdvertising != value.showAdvertising {
+            NotificationCenter.default.post(name: self.advertisingChangedNotification, object: nil)
+        }
         NotificationCenter.default.post(name: self.changedNotification, object: nil)
         if previousHideReactions != value.hideReactions {
             NotificationCenter.default.post(name: self.hideReactionsChangedNotification, object: nil)

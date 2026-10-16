@@ -18,7 +18,7 @@
 "NagramiX.Settings.VideoMessages.UseRearCamera" = "Use Rear Camera";
 "NagramiX.Settings.Stories.Header" = "STORIES";
 "NagramiX.Settings.Stories.Hide" = "Hide Stories";
-"NagramiX.Settings.Stories.DisableSwipe" = "Disable Swipe to Record";
+"NagramiX.Settings.Stories.DisableSwipe" = "Swipe to record";
 "NagramiX.Settings.Stories.ConfirmViewing" = "Confirm Before Viewing";
 "NagramiX.Settings.Stories.Repost" = "Repost to Story";
 "NagramiX.Restart.Title" = "Restart Required";
@@ -28,13 +28,13 @@
 "NagramiX.StoryConfirmation.Text" = "%@ will be able to see that you viewed the story.";
 "NagramiX.StoryConfirmation.Action" = "View";
 "NagramiX.Icon.Main" = "NagramiX";
-"NagramiX.Icon.Sunset" = "Sunset";
-"NagramiX.Icon.Aurora" = "Aurora";
-"NagramiX.Icon.Graphite" = "Graphite";
-"NagramiX.Icon.Amber" = "Amber";
-"NagramiX.Icon.Neon" = "Neon";
-"NagramiX.Icon.Lime" = "Lime";
-"NagramiX.Icon.Ruby" = "Ruby";
+"NagramiX.Icon.Sunset" = "Amber";
+"NagramiX.Icon.Aurora" = "Lime";
+"NagramiX.Icon.Graphite" = "Ice";
+"NagramiX.Icon.Amber" = "Amethyst";
+"NagramiX.Icon.Neon" = "Ruby";
+"NagramiX.Icon.Lime" = "Sapphire";
+"NagramiX.Icon.Ruby" = "Turquoise";
 "NagramiX.Network.DNS" = "DNS server";
 "NagramiX.Network.DNS.System" = "System";
 "NagramiX.Network.DNS.Telegram" = "Telegram";
@@ -56,7 +56,7 @@
 "NagramiX.Time.30Seconds" = "30 seconds";
 "NagramiX.Time.60Seconds" = "60 seconds";
 "NagramiX.Interface.ShowProxyButton" = "Show Proxy Button";
-"NagramiX.Interface.HideProxySponsorChannel" = "Hide Proxy Sponsor Channel";
+"NagramiX.Interface.HideProxySponsorChannel" = "Show ads";
 "NagramiX.Common.Edit" = "Edit";
 "NagramiX.Common.Save" = "Save";
 "NagramiX.Info.Features" = "NagramiX Features";
@@ -94,8 +94,8 @@
 "NagramiX.CallConfirmation.Title" = "Start Call?";
 "NagramiX.CallConfirmation.Text" = "Confirm the outgoing call.";
 "NagramiX.CallConfirmation.Action" = "Call";
-"NagramiX.Context.ForwardWithAuthor" = "Forward With Author";
-"NagramiX.Context.ForwardWithoutAuthor" = "Forward Without Author";
+"NagramiX.Context.ForwardWithAuthor" = "Repost";
+"NagramiX.Context.ForwardWithoutAuthor" = "Forward";
 "NagramiX.Context.SelectFromAuthor" = "Select From Author";
 "NagramiX.Context.AuthorSelectionEmpty" = "No accessible messages from this author were found.";
 "NagramiX.Context.AuthorSelectionFailed" = "Unable to load all messages from this author. Check your connection and try again. No partial selection was applied.";
@@ -110,7 +110,7 @@
 "NagramiX.Common.Unknown" = "Unknown";
 
 "NagramiX.Settings.ContextMenu.Header" = "Context Menu";
-"NagramiX.Settings.ContextMenu.ForwardWithoutAuthor.Info" = "Show Forward Without Author for one recipient, with send options.";
+"NagramiX.Settings.ContextMenu.ForwardWithoutAuthor.Info" = "Show Forward for one recipient, without the author, with send options.";
 "NagramiX.Settings.ContextMenu.SelectByAuthor.Info" = "Show Select From Author in the message context menu.";
 
 "NagramiX.Messages.ReplyWithQuote" = "Reply with quote";

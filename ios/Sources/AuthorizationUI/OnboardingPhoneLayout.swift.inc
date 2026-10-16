@@ -1,17 +1,15 @@
     private func nagramiXLayoutPhone(_ layout: ContainerViewLayout, navigationBarHeight: CGFloat, transition: ContainedViewLayoutTransition) {
         var insets = layout.insets(options: [])
-        insets.top = max(layout.statusBarHeight ?? 20.0, navigationBarHeight)
         if let keyboard = layout.inputHeight, keyboard > 0.0 {
             insets.bottom = max(insets.bottom, keyboard)
         }
         let width = min(430.0, max(1.0, layout.size.width - 48.0))
-        let referenceScale = min(1.3, max(0.9, layout.size.width / 360.0))
-        let titleFont = UIFontMetrics(forTextStyle: .largeTitle).scaledFont(for: UIFont.systemFont(ofSize: 35.0 * referenceScale, weight: .bold))
+        let titleFont = UIFontMetrics(forTextStyle: .largeTitle).scaledFont(for: UIFont.systemFont(ofSize: 34.0, weight: .bold))
         self.titleNode.attributedText = NSAttributedString(string: self.strings.Login_PhoneTitle, attributes: [.font: titleFont, .foregroundColor: self.theme.list.itemPrimaryTextColor])
         let titleSize = self.titleNode.measure(CGSize(width: width, height: .greatestFiniteMagnitude))
         if let current = self.noticeNode.attributedText {
             let text = NSMutableAttributedString(attributedString: current)
-            text.addAttribute(.font, value: UIFontMetrics(forTextStyle: .body).scaledFont(for: UIFont.systemFont(ofSize: max(15.0, 15.0 * referenceScale))), range: NSRange(location: 0, length: text.length))
+            text.addAttribute(.font, value: UIFontMetrics(forTextStyle: .body).scaledFont(for: UIFont.systemFont(ofSize: 16.0)), range: NSRange(location: 0, length: text.length))
             self.noticeNode.attributedText = text
         }
         let noticeSize = self.noticeNode.updateLayout(CGSize(width: width, height: .greatestFiniteMagnitude))
@@ -27,16 +25,26 @@
         }
         self.proceedNode.isHidden = false
         transition.updateFrame(node: self.proceedNode, frame: buttonFrame)
-        let bodyTop = insets.top + 8.0
+        // The centered illustration can use the space beside the navigation
+        // controls; its visible bounds stay clear of the leading back button.
+        let bodyTop = max(layout.statusBarHeight ?? 20.0, 20.0) + 8.0
         let bodyHeight = max(0.0, buttonFrame.minY - 16.0 - bodyTop)
         transition.updateFrame(node: self.nagramiXContentNode, frame: CGRect(x: 0.0, y: bodyTop, width: layout.size.width, height: bodyHeight))
         let fixedHeight = titleSize.height + 12.0 + noticeSize.height + 20.0 + fieldsHeight + (self.hasOtherAccounts ? contactSize.height + 14.0 : 0.0)
-        let artworkSide = min(min(320.0, width), max(116.0, bodyHeight - fixedHeight - 24.0))
-        let contentHeight = artworkSide + 16.0 + fixedHeight + 8.0
+        let artworkRatio: CGFloat
+        if let image = self.animationNode.image, image.size.width > 0.0 {
+            artworkRatio = image.size.height / image.size.width
+        } else {
+            artworkRatio = 864.0 / 1024.0
+        }
+        let preferredArtworkWidth = min(280.0, min(width, layout.size.width * 0.60))
+        let artworkHeight = min(preferredArtworkWidth * artworkRatio, max(64.0, bodyHeight - fixedHeight - 24.0))
+        let artworkWidth = artworkHeight / artworkRatio
+        let contentHeight = artworkHeight + 16.0 + fixedHeight + 8.0
         var y = max(0.0, (bodyHeight - contentHeight) * 0.25)
         self.animationNode.isHidden = false
-        transition.updateFrame(node: self.animationNode, frame: CGRect(x: (layout.size.width - artworkSide) / 2.0, y: y, width: artworkSide, height: artworkSide))
-        y += artworkSide + 16.0
+        transition.updateFrame(node: self.animationNode, frame: CGRect(x: (layout.size.width - artworkWidth) / 2.0, y: y, width: artworkWidth, height: artworkHeight))
+        y += artworkHeight + 16.0
         transition.updateFrame(node: self.titleNode, frame: CGRect(x: (layout.size.width - titleSize.width) / 2.0, y: y, width: titleSize.width, height: titleSize.height))
         y += titleSize.height + 12.0
         transition.updateFrame(node: self.noticeNode, frame: CGRect(x: (layout.size.width - noticeSize.width) / 2.0, y: y, width: noticeSize.width, height: noticeSize.height))

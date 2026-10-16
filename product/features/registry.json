@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "product": "NagramiX",
-  "release": "0.5.6",
+  "release": "0.5.7",
   "platformPriority": [
     "ios"
   ],
@@ -22,7 +22,7 @@
       "specification": "specified",
       "ios": {
         "implementation": "implemented",
-        "compile": "compile_pending",
+        "compile": "compile_passed",
         "device": "device_pending"
       }
     },
@@ -32,7 +32,7 @@
       "specification": "specified",
       "ios": {
         "implementation": "implemented",
-        "compile": "compile_pending",
+        "compile": "compile_passed",
         "device": "device_pending"
       }
     },
@@ -42,7 +42,7 @@
       "specification": "specified",
       "ios": {
         "implementation": "implemented",
-        "compile": "compile_pending",
+        "compile": "compile_passed",
         "device": "device_pending"
       }
     },
@@ -52,7 +52,7 @@
       "specification": "specified",
       "ios": {
         "implementation": "implemented",
-        "compile": "compile_passed",
+        "compile": "compile_pending",
         "device": "device_pending"
       }
     },
@@ -68,7 +68,7 @@
     },
     {
       "id": "forward_copy",
-      "title": "Переслать от, Переслать без одному адресату и Рассылка копий нескольким адресатам",
+      "title": "Репост с автором, Переслать без автора одному адресату и Рассылка нескольким адресатам",
       "specification": "specified",
       "ios": {
         "implementation": "implemented",
@@ -82,7 +82,7 @@
       "specification": "specified",
       "ios": {
         "implementation": "implemented",
-        "compile": "compile_pending",
+        "compile": "compile_passed",
         "device": "device_pending"
       }
     },
@@ -92,7 +92,7 @@
       "specification": "specified",
       "ios": {
         "implementation": "implemented",
-        "compile": "compile_pending",
+        "compile": "compile_passed",
         "device": "device_pending"
       }
     },
@@ -102,7 +102,7 @@
       "specification": "specified",
       "ios": {
         "implementation": "implemented",
-        "compile": "compile_pending",
+        "compile": "compile_passed",
         "device": "device_pending"
       }
     },
@@ -182,7 +182,7 @@
       "specification": "specified",
       "ios": {
         "implementation": "implemented",
-        "compile": "compile_pending",
+        "compile": "compile_passed",
         "device": "device_pending"
       }
     },
@@ -258,7 +258,7 @@
     },
     {
       "id": "video_pip_swipe",
-      "title": "Видео PiP свайпом в Прочее, включено по умолчанию",
+      "title": "Короткий свайп для PiP без длинного перетаскивания и пустой области поста",
       "specification": "specified",
       "ios": {
         "implementation": "implemented",
@@ -288,11 +288,11 @@
     },
     {
       "id": "double_tap_edit",
-      "title": "Редактирование двойным тапом, выключенное по умолчанию",
+      "title": "Двойной тап для правки, включённый по умолчанию",
       "specification": "specified",
       "ios": {
         "implementation": "implemented",
-        "compile": "compile_passed",
+        "compile": "compile_pending",
         "device": "device_pending"
       }
     },
@@ -322,7 +322,7 @@
       "specification": "specified",
       "ios": {
         "implementation": "implemented",
-        "compile": "compile_pending",
+        "compile": "compile_passed",
         "device": "device_pending"
       }
     },
@@ -372,7 +372,7 @@
       "specification": "specified",
       "ios": {
         "implementation": "implemented",
-        "compile": "compile_pending",
+        "compile": "compile_passed",
         "device": "device_pending"
       }
     },
@@ -509,6 +509,16 @@
     {
       "id": "selfie_countdown",
       "title": "Таймер селфи-камеры",
+      "specification": "specified",
+      "ios": {
+        "implementation": "implemented",
+        "compile": "compile_passed",
+        "device": "device_pending"
+      }
+    },
+    {
+      "id": "advertising_visibility",
+      "title": "Показать рекламу: спонсор прокси и встроенная реклама Telegram, OFF по умолчанию",
       "specification": "specified",
       "ios": {
         "implementation": "implemented",

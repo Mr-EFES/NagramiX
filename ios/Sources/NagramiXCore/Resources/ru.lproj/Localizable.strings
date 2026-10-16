@@ -6,21 +6,21 @@
 "NagramiX.Settings.Search.NoResults" = "Ничего не найдено";
 "NagramiX.Settings.Proxy" = "Настройки прокси";
 "NagramiX.Settings.Tabs.Header" = "ПАНЕЛЬ ВКЛАДОК";
-"NagramiX.Settings.Tabs.HideContacts" = "Скрывать вкладку «Контакты»";
-"NagramiX.Settings.Tabs.HideCalls" = "Скрывать вкладку «Звонки»";
+"NagramiX.Settings.Tabs.HideContacts" = "Скрывать «Контакты»";
+"NagramiX.Settings.Tabs.HideCalls" = "Скрывать «Звонки»";
 "NagramiX.Settings.Tabs.HideTitles" = "Скрыть имена вкладок";
-"NagramiX.Settings.Tabs.ShowSearch" = "Показывать кнопку поиска";
+"NagramiX.Settings.Tabs.ShowSearch" = "Показывать «Поиск»";
 "NagramiX.Settings.Chats.Header" = "ЧАТЫ";
 "NagramiX.Settings.Chats.WideChannelPosts" = "Широкие посты в каналах";
 "NagramiX.Settings.Chats.ActionsOnHold" = "Меню чата по удержанию";
 "NagramiX.Settings.Chats.ActionsOnHold.Info" = "Удерживайте любую область строки, кроме аватарки, для штатного меню действий.";
 "NagramiX.Settings.VideoMessages.Header" = "КРУГЛЫЕ ВИДЕО";
-"NagramiX.Settings.VideoMessages.UseRearCamera" = "Начинать запись с основной камеры";
+"NagramiX.Settings.VideoMessages.UseRearCamera" = "Запись с основной камеры";
 "NagramiX.Settings.Stories.Header" = "ИСТОРИИ";
 "NagramiX.Settings.Stories.Hide" = "Скрывать истории";
-"NagramiX.Settings.Stories.DisableSwipe" = "Отключить свайп для записи";
-"NagramiX.Settings.Stories.ConfirmViewing" = "Спрашивать перед просмотром";
-"NagramiX.Settings.Stories.Repost" = "Показывать репост в историю";
+"NagramiX.Settings.Stories.DisableSwipe" = "Свайп для записи";
+"NagramiX.Settings.Stories.ConfirmViewing" = "Подтверждать просмотр";
+"NagramiX.Settings.Stories.Repost" = "Репост в истории";
 "NagramiX.Restart.Title" = "Требуется перезапуск";
 "NagramiX.Restart.Text" = "Чтобы применить это изменение, необходимо перезапустить NagramiX.";
 "NagramiX.Restart.Action" = "Перезапустить";
@@ -28,13 +28,13 @@
 "NagramiX.StoryConfirmation.Text" = "%@ сможет увидеть, что вы просмотрели историю.";
 "NagramiX.StoryConfirmation.Action" = "Просмотреть";
 "NagramiX.Icon.Main" = "NagramiX";
-"NagramiX.Icon.Sunset" = "Закат";
-"NagramiX.Icon.Aurora" = "Аврора";
-"NagramiX.Icon.Graphite" = "Графит";
-"NagramiX.Icon.Amber" = "Янтарь";
-"NagramiX.Icon.Neon" = "Неон";
-"NagramiX.Icon.Lime" = "Лайм";
-"NagramiX.Icon.Ruby" = "Рубин";
+"NagramiX.Icon.Sunset" = "Янтарь";
+"NagramiX.Icon.Aurora" = "Лайм";
+"NagramiX.Icon.Graphite" = "Лёд";
+"NagramiX.Icon.Amber" = "Аметист";
+"NagramiX.Icon.Neon" = "Рубин";
+"NagramiX.Icon.Lime" = "Сапфир";
+"NagramiX.Icon.Ruby" = "Бирюза";
 "NagramiX.Network.DNS" = "DNS-сервер";
 "NagramiX.Network.DNS.System" = "Системный";
 "NagramiX.Network.DNS.Telegram" = "Telegram";
@@ -55,8 +55,8 @@
 "NagramiX.Time.15Seconds" = "15 секунд";
 "NagramiX.Time.30Seconds" = "30 секунд";
 "NagramiX.Time.60Seconds" = "60 секунд";
-"NagramiX.Interface.ShowProxyButton" = "Показывать кнопку прокси";
-"NagramiX.Interface.HideProxySponsorChannel" = "Скрывать канал спонсора прокси";
+"NagramiX.Interface.ShowProxyButton" = "Показывать «Прокси»";
+"NagramiX.Interface.HideProxySponsorChannel" = "Показать рекламу";
 "NagramiX.Debug.Debug" = "Отладка";
 "NagramiX.Debug.Simulate Stickers Import" = "Имитировать импорт стикеров";
 "NagramiX.Debug.Send Logs (Up to 40 MB)" = "Отправить логи (до 40 МБ)";
@@ -137,23 +137,23 @@
 "NagramiX.Info.Updates" = "Обновления NagramiX";
 "NagramiX.Info.Help" = "Помощь NagramiX";
 "NagramiX.Settings.Profiles.Header" = "ПРОФИЛИ";
-"NagramiX.Settings.Profiles.ShowIds" = "Показывать идентификатор профиля";
-"NagramiX.Settings.Profiles.ShowRegistrationDate" = "Показывать дату регистрации";
-"NagramiX.Settings.Profiles.ShowMutualContactIcon" = "Показывать значок взаимного контакта";
+"NagramiX.Settings.Profiles.ShowIds" = "Идентификатор профиля";
+"NagramiX.Settings.Profiles.ShowRegistrationDate" = "Дату регистрации";
+"NagramiX.Settings.Profiles.ShowMutualContactIcon" = "Значок взаимного контакта";
 "NagramiX.Settings.Calls.Header" = "ЗВОНКИ";
-"NagramiX.Settings.Calls.SkipRating" = "Не предлагать оценить звонок";
+"NagramiX.Settings.Calls.SkipRating" = "Без оценки звонков";
 "NagramiX.Settings.Calls.SkipRating.Search" = "Оценка звонка, качество связи, звёзды";
-"NagramiX.Settings.Calls.ConfirmOutgoing" = "Спрашивать подтверждение вызова";
-"NagramiX.Settings.Calls.ForceTcp" = "Использовать TCP для звонков";
+"NagramiX.Settings.Calls.ConfirmOutgoing" = "Подтверждение вызова";
+"NagramiX.Settings.Calls.ForceTcp" = "Звонки через TCP";
 "NagramiX.Settings.Calls.ForceTcpInfo" = "Пожалуйста, меняйте эту настройку только если вы знаете, что она делает.";
 "NagramiX.Settings.Messages.Header" = "СООБЩЕНИЯ";
 "NagramiX.Settings.Messages.Deleted" = "Удалённые сообщения";
 "NagramiX.Settings.Messages.DeletedInfo" = "Сохраняет полученные сообщения и файлы вложений в локальном архиве и показывает их после удаления. Сохранение файлов требует загрузки и места на устройстве.";
-"NagramiX.Settings.Messages.Temporary" = "Сохранять временные сообщения";
+"NagramiX.Settings.Messages.Temporary" = "Временные сообщения";
 "NagramiX.Settings.Messages.TemporaryInfo" = "Вместе с «Удалёнными сообщениями» сохраняет временные и одноразовые фото, видео, кружки и голосовые сообщения. Полученные файлы остаются в локальном архиве до его очистки.";
 "NagramiX.Settings.Messages.DeletedLabel" = "Текст метки удаления";
 "NagramiX.Settings.Messages.DeletedLabelEditor" = "Текст удалённого сообщения";
-"NagramiX.Settings.Messages.EditHistory" = "Сохранять историю правок сообщений";
+"NagramiX.Settings.Messages.EditHistory" = "История правок";
 "NagramiX.Settings.Messages.EditHistoryInfo" = "Экспериментально · Показывает полученную этим клиентом историю изменений сообщений";
 "NagramiX.Messages.Deleted" = "Это сообщение было удалено";
 "NagramiX.Messages.EditHistory" = "История правок";
@@ -168,8 +168,8 @@
 "NagramiX.CallConfirmation.Title" = "Начать вызов?";
 "NagramiX.CallConfirmation.Text" = "Подтвердите исходящий вызов.";
 "NagramiX.CallConfirmation.Action" = "Позвонить";
-"NagramiX.Context.ForwardWithAuthor" = "Переслать от";
-"NagramiX.Context.ForwardWithoutAuthor" = "Переслать без";
+"NagramiX.Context.ForwardWithAuthor" = "Репост";
+"NagramiX.Context.ForwardWithoutAuthor" = "Переслать";
 "NagramiX.Context.SelectFromAuthor" = "Выделить от автора";
 "NagramiX.Context.AuthorSelectionEmpty" = "Доступных сообщений этого автора не найдено.";
 "NagramiX.Context.AuthorSelectionFailed" = "Не удалось загрузить все сообщения автора. Проверьте подключение и повторите попытку. Неполный набор не выбран.";
@@ -184,7 +184,7 @@
 "NagramiX.Common.Unknown" = "Неизвестно";
 
 "NagramiX.Settings.ContextMenu.Header" = "Контекстное меню";
-"NagramiX.Settings.ContextMenu.ForwardWithoutAuthor.Info" = "Показывать действие «Переслать без»: один адресат, без указания автора, с выбором способа отправки.";
+"NagramiX.Settings.ContextMenu.ForwardWithoutAuthor.Info" = "Показывать действие «Переслать»: один адресат, без указания автора, с выбором способа отправки.";
 "NagramiX.Settings.ContextMenu.SelectByAuthor.Info" = "Показывать действие «Выделить от автора» в контекстном меню сообщений.";
 
 "NagramiX.Messages.ReplyWithQuote" = "Ответить цитатой";
@@ -197,24 +197,24 @@
 "NagramiX.Settings.Photos.Quality.Info" = "Качество исходящих фото и фотоисторий. 100% — максимальное качество JPEG, а не отправка оригинала файлом.";
 "NagramiX.Settings.Stickers.Header" = "СТИКЕРЫ И ЭМОДЗИ";
 "NagramiX.Settings.Stickers.Size" = "РАЗМЕР";
-"NagramiX.Settings.Stickers.ShowTime" = "Показывать время у стикеров";
+"NagramiX.Settings.Stickers.ShowTime" = "Время стикеров";
 "NagramiX.Settings.Stickers.Size.Info" = "Размер стикеров и крупных отдельных эмодзи в сообщениях: 100% — штатный, 0% — минимальный. Скрытие времени сохраняет отметки доставки и реакции.";
 
 "NagramiX.Settings.Chats.Compact" = "Компактный список чатов";
 "NagramiX.Settings.Chats.Compact.Info" = "Меньшие аватары и одна строка последнего сообщения. Дополнительные сведения и увеличенный текст учитываются при расчёте высоты. Выключите, чтобы вернуть стандартный вид Telegram.";
 
 "NagramiX.Settings.Video.Header" = "Видео";
-"NagramiX.Settings.Video.PiPSwipe" = "Включать «Картинку в картинке» свайпом";
+"NagramiX.Settings.Video.PiPSwipe" = "«Картинку в картинке» свайпом";
 "NagramiX.Settings.Video.PiPSwipe.Info" = "Свайп вверх или вниз по открытому видео включает режим «Картинка в картинке», если он доступен.";
-"NagramiX.Settings.Video.BackgroundPlayback" = "Продолжать звук видео в фоне";
+"NagramiX.Settings.Video.BackgroundPlayback" = "Звук видео в фоне";
 "NagramiX.Settings.Video.BackgroundPlayback.Info" = "Продолжать звук запущенного видео при сворачивании приложения и блокировке экрана.";
 
-"NagramiX.Settings.Chats.ChannelBottomPanel" = "Показывать нижнюю панель канала";
+"NagramiX.Settings.Chats.ChannelBottomPanel" = "Показывать нижнюю панель";
 "NagramiX.Settings.Chats.ChannelBottomPanel.Info" = "Показывать штатную нижнюю панель подписанного канала: уведомления, поиск и доступные действия. При выключении панель скрыта. Кнопка подписки и поле публикации постов сохраняются.";
 
-"NagramiX.Settings.Messages.DoubleTapEdit" = "Редактирование двойным тапом";
+"NagramiX.Settings.Messages.DoubleTapEdit" = "Двойной тап для правки";
 "NagramiX.Settings.Messages.DoubleTapEdit.Info" = "Дважды нажмите на сообщение или пост, чтобы открыть штатное редактирование, если оно разрешено Telegram. При выключении двойной тап работает как обычно.";
-"NagramiX.Settings.Chats.HideReactions" = "Скрывать реакции под сообщениями";
+"NagramiX.Settings.Chats.HideReactions" = "Скрывать реакции сообщений";
 "NagramiX.Settings.Chats.HideReactions.Info" = "Скрывать реакции под сообщениями и постами. Сами реакции сохраняются; выключите настройку, чтобы снова их видеть.";
 
 "NagramiX.Settings.Downloads.Header" = "Загрузка";
@@ -229,7 +229,7 @@
 "NagramiX.Context.BroadcastMessages" = "Рассылка";
 "NagramiX.Settings.ContextMenu.BroadcastMessages.Info" = "Показывать действие «Рассылка»: отправка копии без автора нескольким адресатам.";
 
-"NagramiX.Settings.Stories.AnonymousViewing" = "Смотреть истории инкогнито";
+"NagramiX.Settings.Stories.AnonymousViewing" = "Анонимный просмотр";
 "NagramiX.Settings.Stories.AnonymousViewing.Info" = "Не отправлять отметку просмотра историй из NagramiX. Уже отправленные просмотры не скрываются. Обычный просмотр более новой истории того же автора или просмотр в другом приложении может отметить предыдущие истории просмотренными.";
 "NagramiX.Stories.Anonymous.Warning.Title" = "Вы раскроете свою личность";
 "NagramiX.Stories.Anonymous.Warning.Text" = "Ответ или реакция покажет автору, что вы взаимодействовали с этой историей, даже при включённом режиме инкогнито. Продолжить?";
@@ -247,7 +247,7 @@
 "NagramiX.Network.Proxy.AvoidVPN.Active" = "Прокси временно не используется: обнаружен VPN.";
 "NagramiX.Preview.PaidReactions" = "Платные реакции доступны в обычном чате.";
 
-"NagramiX.Settings.Chats.HideGreetingSticker" = "Скрывать приветствия в пустых чатах";
+"NagramiX.Settings.Chats.HideGreetingSticker" = "Скрывать приветствия в чатах";
 "NagramiX.Settings.Chats.HideGreetingSticker.Info" = "В пустом личном чате показывать «Здесь пока нет сообщений» вместо приветственного стикера или приветствия собеседника. Приветственный стикер не загружается.";
 
 "NagramiX.Settings.VideoMessages.KeepMusicPlaying" = "Музыка при записи";
@@ -256,16 +256,16 @@
 "NagramiX.Settings.Messages.VoiceAutoplay" = "Автопереход голосовых";
 "NagramiX.Settings.Messages.VoiceAutoplay.Info" = "Автоматически включать следующее голосовое сообщение или кружок после окончания текущего.";
 
-"NagramiX.Settings.Messages.AutoMuteNewChannels" = "Отключать уведомления новых каналов";
+"NagramiX.Settings.Messages.AutoMuteNewChannels" = "Заглушить новые каналы";
 "NagramiX.Settings.Messages.AutoMuteNewChannels.Info" = "Автоматически отключать уведомления при подписке на новый канал. Настройки уже добавленных каналов и групп не меняются.";
-"NagramiX.Settings.Profiles.ShowExactLastSeen" = "Показывать точное время посещения";
+"NagramiX.Settings.Profiles.ShowExactLastSeen" = "Точное время в сети";
 "NagramiX.Settings.Profiles.ShowExactLastSeen.Info" = "Добавлять к статусу последнее время посещения в формате (ЧЧ:ММ:СС), если оно доступно. Скрытые статусы остаются без изменений.";
 
 "NagramiX.Authorization.Error" = "Ошибка авторизации. Нажмите «Выйти», затем снова войдите по своему номеру телефона.\n\nВажно: выход из аккаунта удалит секретные чаты на этом устройстве. Если нужно сохранить данные из них, нажмите «Отмена» и сохраните их перед выходом.";
 
 
-"NagramiX.Settings.Photos.HighQuality" = "Отправлять фото без сжатия";
-"NagramiX.Settings.Videos.Original" = "Отправлять видео без сжатия";
+"NagramiX.Settings.Photos.HighQuality" = "Фото без сжатия";
+"NagramiX.Settings.Videos.Original" = "Отправлять без сжатия";
 "NagramiX.Settings.Videos.Original.Search" = "Оригинальное видео из галереи без сжатия, MP4 MOV, качество, видеоплеер.";
 "NagramiX.Settings.Photos.HighQuality.Search" = "Фотографии максимального качества, обычное фото во всех клиентах, JPEG 100%, HD 2560. Фото без сжатия: сохранение оригинальных байтов не гарантируется.";
 
@@ -278,13 +278,13 @@
 "NagramiX.Settings.Messages.AntiCaps" = "Анти-капс";
 "NagramiX.Settings.Messages.AntiCaps.SearchTerms" = "Верхний регистр заглавные буквы капс от 4 букв ПРИВЕТ ВСЕМ → Привет всем";
 
-"NagramiX.Settings.Stickers.Anonymous" = "Отправлять анонимные стикеры";
+"NagramiX.Settings.Stickers.Anonymous" = "Стикеры без автора";
 "NagramiX.Settings.Stickers.Anonymous.SearchTerms" = "Отправка стикеров без привязки к стикерпаку набор пак анонимная отправка";
-"NagramiX.Settings.Messages.HideBlocked" = "Скрывать сообщения заблокированных";
+"NagramiX.Settings.Messages.HideBlocked" = "Скрывать заблокированные";
 "NagramiX.Settings.Messages.HideBlocked.SearchTerms" = "Скрыть сообщения заблокированного пользователя юзера чёрный список группа чат";
 
 "NagramiX.SelfieCountdown.Title" = "Таймер селфи-камеры";
 "NagramiX.SelfieCountdown.SearchTerms" = "Таймер селфи-камеры. Три секунды перед началом и после переключения записи кружка на переднюю камеру. Селфи таймер отсчет отсчёт 3 2 1.";
 "NagramiX.Settings.ContextMenu.ForwardWithoutAuthor" = "Переслать без автора";
-"NagramiX.Settings.ContextMenu.BroadcastMessages" = "Включить возможность рассылки";
-"NagramiX.Settings.ContextMenu.SelectByAuthor" = "Включить «Выделить от автора»";
+"NagramiX.Settings.ContextMenu.BroadcastMessages" = "Возможность рассылки";
+"NagramiX.Settings.ContextMenu.SelectByAuthor" = "«Выделить от автора»";

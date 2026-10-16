@@ -1,0 +1,196 @@
+{
+  "method": "Original transparent masters matching selected JPEG previews; whitespace crop with removal of tiny adjacent-cell gutter fragments, proportional resize, transparent padding. No redraw, recolor or alpha matte replacement.",
+  "canvas": 1024,
+  "visibleLongestSide": 800,
+  "scenes": [
+    {
+      "name": "Logo",
+      "canvas": [
+        1024,
+        1024
+      ],
+      "master": "Logo.png",
+      "masterSha256": "34fb2f0804a95077c817004d1877040c042ff8c04a90bb0761cde5100a40eedb",
+      "crop": [
+        0,
+        0,
+        1254,
+        1254
+      ],
+      "sourceVisibleBounds": [
+        42,
+        268,
+        1212,
+        1084
+      ],
+      "scale": 0.6837606837606838,
+      "excludedAdjacentFragments": [],
+      "output": "NagramiXOnboardingLogo.png"
+    },
+    {
+      "name": "Communication",
+      "canvas": [
+        1024,
+        1024
+      ],
+      "master": "Sheet.png",
+      "masterSha256": "6b59c089c0c7c5a41facc9b5326e86fc0ebbbe0fc6ccc2af9fc790982a2ef0b9",
+      "crop": [
+        0,
+        0,
+        532,
+        540
+      ],
+      "sourceVisibleBounds": [
+        34,
+        63,
+        530,
+        503
+      ],
+      "scale": 1.6129032258064515,
+      "excludedAdjacentFragments": [],
+      "output": "NagramiXOnboardingCommunication.png"
+    },
+    {
+      "name": "Free",
+      "canvas": [
+        1024,
+        1024
+      ],
+      "master": "Sheet.png",
+      "masterSha256": "6b59c089c0c7c5a41facc9b5326e86fc0ebbbe0fc6ccc2af9fc790982a2ef0b9",
+      "crop": [
+        532,
+        0,
+        999,
+        540
+      ],
+      "sourceVisibleBounds": [
+        5,
+        103,
+        467,
+        460
+      ],
+      "scale": 1.7316017316017316,
+      "excludedAdjacentFragments": [
+        [
+          456,
+          430,
+          467,
+          490
+        ]
+      ],
+      "output": "NagramiXOnboardingFree.png"
+    },
+    {
+      "name": "Personal",
+      "canvas": [
+        1024,
+        1024
+      ],
+      "master": "Sheet.png",
+      "masterSha256": "6b59c089c0c7c5a41facc9b5326e86fc0ebbbe0fc6ccc2af9fc790982a2ef0b9",
+      "crop": [
+        999,
+        0,
+        1536,
+        540
+      ],
+      "sourceVisibleBounds": [
+        0,
+        69,
+        506,
+        519
+      ],
+      "scale": 1.5810276679841897,
+      "excludedAdjacentFragments": [
+        [
+          0,
+          170,
+          8,
+          225
+        ]
+      ],
+      "output": "NagramiXOnboardingPersonal.png"
+    },
+    {
+      "name": "Privacy",
+      "canvas": [
+        1024,
+        1024
+      ],
+      "master": "Sheet.png",
+      "masterSha256": "6b59c089c0c7c5a41facc9b5326e86fc0ebbbe0fc6ccc2af9fc790982a2ef0b9",
+      "crop": [
+        0,
+        540,
+        524,
+        1024
+      ],
+      "sourceVisibleBounds": [
+        31,
+        11,
+        524,
+        413
+      ],
+      "scale": 1.6227180527383367,
+      "excludedAdjacentFragments": [],
+      "output": "NagramiXOnboardingPrivacy.png"
+    },
+    {
+      "name": "Nearby",
+      "canvas": [
+        1024,
+        1024
+      ],
+      "master": "Sheet.png",
+      "masterSha256": "6b59c089c0c7c5a41facc9b5326e86fc0ebbbe0fc6ccc2af9fc790982a2ef0b9",
+      "crop": [
+        524,
+        540,
+        1018,
+        1024
+      ],
+      "sourceVisibleBounds": [
+        2,
+        58,
+        490,
+        386
+      ],
+      "scale": 1.639344262295082,
+      "excludedAdjacentFragments": [
+        [
+          0,
+          100,
+          8,
+          210
+        ]
+      ],
+      "output": "NagramiXOnboardingNearby.png"
+    },
+    {
+      "name": "Phone",
+      "canvas": [
+        1024,
+        864
+      ],
+      "master": "Phone.png",
+      "masterSha256": "e65e5791daf13c27a1246dc417f0cc71ae7abb32c145f8b960961a266c767e78",
+      "crop": [
+        0,
+        0,
+        1254,
+        1254
+      ],
+      "sourceVisibleBounds": [
+        154,
+        220,
+        1151,
+        1061
+      ],
+      "scale": 0.802407221664995,
+      "excludedAdjacentFragments": [],
+      "output": "NagramiXOnboardingPhone.png"
+    }
+  ]
+}

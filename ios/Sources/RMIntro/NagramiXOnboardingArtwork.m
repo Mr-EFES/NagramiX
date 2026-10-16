@@ -9,29 +9,24 @@ UIColor *NagramiXOnboardingBackground(UIColor *nativeColor) {
     return nativeColor;
 }
 
-UIImage *NagramiXOnboardingSymbol(NSInteger index) {
-    if (index < 0 || index >= 6) {
+// Each page owns a complete, equally padded image. No runtime sprite cuts:
+// the selected source sheet has unequal gutters and is not a uniform 3×2 grid.
+UIImage *NagramiXOnboardingImage(NSInteger index) {
+    if (index < 0 || index >= 7) {
         return nil;
     }
     static NSArray *images;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        UIImage *atlas = [UIImage imageNamed:@"NagramiXOnboardingAtlas" inBundle:[NSBundle mainBundle] compatibleWithTraitCollection:nil];
-        NSMutableArray *result = [[NSMutableArray alloc] initWithCapacity:6];
-        for (NSInteger item = 0; item < 6; item++) {
-            UIImage *image = nil;
-            if (atlas.CGImage != NULL) {
-                size_t width = CGImageGetWidth(atlas.CGImage);
-                size_t height = CGImageGetHeight(atlas.CGImage);
-                if (width % 3 == 0 && height % 2 == 0) {
-                    CGRect rect = CGRectMake((item % 3) * (width / 3), (item / 3) * (height / 2), width / 3, height / 2);
-                    CGImageRef cropped = CGImageCreateWithImageInRect(atlas.CGImage, rect);
-                    if (cropped != NULL) {
-                        image = [UIImage imageWithCGImage:cropped scale:2.0 orientation:UIImageOrientationUp];
-                        CGImageRelease(cropped);
-                    }
-                }
-            }
+        NSArray<NSString *> *names = @[
+            @"NagramiXOnboardingLogo", @"NagramiXOnboardingCommunication",
+            @"NagramiXOnboardingFree", @"NagramiXOnboardingPersonal",
+            @"NagramiXOnboardingPrivacy", @"NagramiXOnboardingNearby",
+            @"NagramiXOnboardingPhone"
+        ];
+        NSMutableArray *result = [[NSMutableArray alloc] initWithCapacity:names.count];
+        for (NSString *name in names) {
+            UIImage *image = [UIImage imageNamed:name inBundle:[NSBundle mainBundle] compatibleWithTraitCollection:nil];
             [result addObject:image ?: (id)[NSNull null]];
         }
         images = [result copy];
@@ -40,13 +35,6 @@ UIImage *NagramiXOnboardingSymbol(NSInteger index) {
     return [image isKindOfClass:[UIImage class]] ? image : nil;
 }
 
-UIImage *NagramiXOnboardingImage(NSInteger index) {
-    if (index < 0 || index > 6) {
-        return nil;
-    }
-    if (index == 0 || index == 6) {
-        NSString *name = index == 0 ? @"NagramiXOnboardingLogo" : @"NagramiXOnboardingPhone";
-        return [UIImage imageNamed:name inBundle:[NSBundle mainBundle] compatibleWithTraitCollection:nil];
-    }
-    return NagramiXOnboardingSymbol(index - 1);
+UIImage *NagramiXOnboardingSymbol(NSInteger index) {
+    return index >= 0 && index < 6 ? NagramiXOnboardingImage(index + 1) : nil;
 }

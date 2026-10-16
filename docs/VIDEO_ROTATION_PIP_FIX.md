@@ -1,6 +1,6 @@
 # Вылет полноэкранного видео при повторных поворотах
 
-Статус: **source_checked / native_compile_pending / device_pending**. Подготовлена правка после физического теста0.5.5/build89 на iPhone17ProMax/iOS27.0. Опубликованный IPA89 содержит прежний код; новая сборка не запускалась.
+Предыдущая lifetime-правка скомпилирована в build92. 16октября пользователь подтвердил: на том же видео повторные повороты больше не приводят к вылету. Это физическое подтверждение прежнего сценария, не всех возможных ошибок AVKit. По новому сообщению подготовлена отдельная [правка короткого PiP-свайпа и непрозрачного перехода](PIP_SWIPE_TRANSITION.md): source_checked/native_compile_pending/device_pending. Новая сборка не запускалась.
 
 ## Что подтверждено отчётом
 
@@ -10,7 +10,7 @@ UUID TelegramUIFramework `cebf66b4-6b9c-3d7f-b03a-83de5a607a4c` совпал с 
 
 ## Изменение интеграции
 
-Native UniversalVideoGalleryItem ранее создавал AVPictureInPictureController из каждого подходящего playback-status callback, даже если пользователь только смотрел видео. Поэтому обычный плеер регистрировал AVKit/Pegasus адаптер, который участвовал в оконных rotation notifications. Предварительная регистрация удалена: PiP создаётся только по штатной кнопке или явному вертикальному свайпу. Обычные layout/orientation callbacks больше не вызывают подготовку PiP.
+До lifetime-правки Native UniversalVideoGalleryItem создавал AVPictureInPictureController из каждого подходящего playback-status callback, даже если пользователь только смотрел видео. Поэтому обычный плеер регистрировал AVKit/Pegasus адаптер, который участвовал в оконных rotation notifications. Предварительная регистрация удалена: PiP создаётся только по штатной кнопке или явному вертикальному свайпу. По последующему уточнению короткого свайпа подготовка начинается после8пунктов явного движения и отменяется при небольшом несостоявшемся жесте; фон остаётся непрозрачным до передачи. Обычные просмотр/status/layout callbacks PiP не создают. Обычные layout/orientation callbacks больше не вызывают подготовку PiP.
 
 Подготовка одного владельца защищена от повторного создания. Владелец явно удерживает исходный AVSampleBufferDisplayLayer, старт проверяет его identity относительно текущего UniversalVideoNode. При освобождении отменяются pending request/timer, выключается automatic-inline, снимается delegate, вызывается stop, public contentSource устанавливается nil, затем освобождаются controller и retained layer. Playback delegate остаётся живым на время отсоединения. Используется публичный AVKit API iOS15+; глобальный notification hook/системные private selectors не изменяются.
 

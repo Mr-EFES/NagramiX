@@ -38,14 +38,14 @@ private struct NagramiXSettingsControllerArguments {
     let updateShowBroadcastMessages: (Bool) -> Void
     let updateShowSelectByAuthor: (Bool) -> Void
     let updateShowProxyButton: (Bool) -> Void
-    let updateHideProxySponsorChannel: (Bool) -> Void
+    let updateShowAdvertising: (Bool) -> Void
     let updateVideoPiPSwipe: (Bool) -> Void
     let updateBackgroundVideoPlayback: (Bool) -> Void
     let updateSelfieCountdown: (Bool) -> Void
     let updateUseRearCameraForVideoMessages: (Bool) -> Void
     let updateKeepMusicPlayingWhileRecording: (Bool) -> Void
     let updateHideStories: (Bool) -> Void
-    let updateDisableStoryCameraSwipe: (Bool) -> Void
+    let updateStoryCameraSwipeEnabled: (Bool) -> Void
     let updateConfirmStoryViewing: (Bool) -> Void
     let updateEnableStoryRepost: (Bool) -> Void
     let updateAnonymousStoryViewing: (Bool) -> Void
@@ -165,7 +165,7 @@ private enum NagramiXSettingsEntry: ItemListNodeEntry {
     case hideCalls(Bool)
     case showSearchButton(Bool)
     case showProxyButton(Bool)
-    case hideProxySponsorChannel(Bool)
+    case showAdvertising(Bool)
     case chatsHeader
     case wideChannelPosts(Bool)
     case showChannelBottomPanel(Bool)
@@ -205,7 +205,7 @@ private enum NagramiXSettingsEntry: ItemListNodeEntry {
     case downloadAccelerationInfo
     case featureStoriesHeader
     case hideStories(Bool)
-    case disableStoryCameraSwipe(Bool)
+    case storyCameraSwipeEnabled(Bool)
     case confirmStoryViewing(Bool)
     case enableStoryRepost(Bool)
     case anonymousStoryViewing(Bool)
@@ -260,11 +260,11 @@ private enum NagramiXSettingsEntry: ItemListNodeEntry {
         switch self {
         case .search, .noSearchResults, .searchHeader:
             return .interface
-        case .tabsHeader, .hideContacts, .hideCalls, .showSearchButton, .showProxyButton, .hideProxySponsorChannel, .chatsHeader, .wideChannelPosts, .showChannelBottomPanel, .channelBottomPanelInfo, .hideReactions, .hideReactionsInfo, .hideGreetingSticker, .hideGreetingStickerInfo, .chatActionsOnHold, .chatActionsOnHoldInfo, .unreadChatsFirst, .compactChatList, .compactChatListInfo,
+        case .tabsHeader, .hideContacts, .hideCalls, .showSearchButton, .showProxyButton, .showAdvertising, .chatsHeader, .wideChannelPosts, .showChannelBottomPanel, .channelBottomPanelInfo, .hideReactions, .hideReactionsInfo, .hideGreetingSticker, .hideGreetingStickerInfo, .chatActionsOnHold, .chatActionsOnHoldInfo, .unreadChatsFirst, .compactChatList, .compactChatListInfo,
                 .profilesHeader, .showExactLastSeen, .showExactLastSeenInfo, .showProfileIds, .showRegistrationDate, .showMutualContactIcon,
                 .contextMenuHeader, .showForwardWithoutAuthor, .forwardWithoutAuthorInfo, .showBroadcastMessages, .broadcastMessagesInfo, .showSelectByAuthor, .selectByAuthorInfo:
             return .interface
-        case .videoMessagesHeader, .selfieCountdown, .useRearCameraForVideoMessages, .keepMusicPlayingWhileRecording, .keepMusicPlayingWhileRecordingInfo, .featureStoriesHeader, .hideStories, .disableStoryCameraSwipe,
+        case .videoMessagesHeader, .selfieCountdown, .useRearCameraForVideoMessages, .keepMusicPlayingWhileRecording, .keepMusicPlayingWhileRecordingInfo, .featureStoriesHeader, .hideStories, .storyCameraSwipeEnabled,
                 .confirmStoryViewing, .enableStoryRepost, .anonymousStoryViewing, .anonymousStoryViewingInfo, .callsHeader, .confirmOutgoingCalls, .skipCallRating:
             return .features
         case .photosHeader, .highQualityPhotos, .photoQualityHeader, .photoQuality, .photoQualityInfo,
@@ -287,7 +287,7 @@ private enum NagramiXSettingsEntry: ItemListNodeEntry {
             return -1
         case let .searchHeader(sectionId, _):
             return sectionId
-        case .tabsHeader, .hideContacts, .hideCalls, .showSearchButton, .showProxyButton, .hideProxySponsorChannel:
+        case .tabsHeader, .hideContacts, .hideCalls, .showSearchButton, .showProxyButton, .showAdvertising:
             return NagramiXSettingsSection.tabs.rawValue
         case .chatsHeader, .wideChannelPosts, .showChannelBottomPanel, .channelBottomPanelInfo, .hideReactions, .hideReactionsInfo, .hideGreetingSticker, .hideGreetingStickerInfo, .chatActionsOnHold, .chatActionsOnHoldInfo, .unreadChatsFirst, .compactChatList, .compactChatListInfo:
             return NagramiXSettingsSection.chats.rawValue
@@ -295,7 +295,7 @@ private enum NagramiXSettingsEntry: ItemListNodeEntry {
             return NagramiXSettingsSection.contextMenu.rawValue
         case .videoMessagesHeader, .selfieCountdown, .useRearCameraForVideoMessages, .keepMusicPlayingWhileRecording, .keepMusicPlayingWhileRecordingInfo:
             return NagramiXSettingsSection.videoMessages.rawValue
-        case .featureStoriesHeader, .hideStories, .disableStoryCameraSwipe, .confirmStoryViewing, .enableStoryRepost, .anonymousStoryViewing, .anonymousStoryViewingInfo:
+        case .featureStoriesHeader, .hideStories, .storyCameraSwipeEnabled, .confirmStoryViewing, .enableStoryRepost, .anonymousStoryViewing, .anonymousStoryViewingInfo:
             return NagramiXSettingsSection.stories.rawValue
         case .profilesHeader, .showExactLastSeen, .showExactLastSeenInfo, .showProfileIds, .showRegistrationDate, .showMutualContactIcon:
             return NagramiXSettingsSection.profiles.rawValue
@@ -328,7 +328,7 @@ private enum NagramiXSettingsEntry: ItemListNodeEntry {
         case .hideCalls: return 2
         case .showSearchButton: return 3
         case .showProxyButton: return 4
-        case .hideProxySponsorChannel: return 5
+        case .showAdvertising: return 5
         case .chatsHeader: return 6
         case .wideChannelPosts: return 7
         case .showChannelBottomPanel: return 111
@@ -368,7 +368,7 @@ private enum NagramiXSettingsEntry: ItemListNodeEntry {
         case .keepMusicPlayingWhileRecordingInfo: return 129
         case .hideStories: return 21
         case .featureStoriesHeader: return 25
-        case .disableStoryCameraSwipe: return 26
+        case .storyCameraSwipeEnabled: return 26
         case .confirmStoryViewing: return 27
         case .enableStoryRepost: return 28
         case .anonymousStoryViewing: return 123
@@ -482,15 +482,15 @@ private enum NagramiXSettingsEntry: ItemListNodeEntry {
         case let .hideCalls(value):
             return ItemListSwitchItem(presentationData: presentationData, systemStyle: .glass, title: presentationData.strings.nagramiXHideCallsTab, value: value, maximumNumberOfLines: 0, sectionId: self.section, style: .blocks, updated: arguments.updateHideCalls)
         case let .showSearchButton(value):
-            return ItemListSwitchItem(presentationData: presentationData, systemStyle: .glass, title: presentationData.strings.nagramiXShowSearchButton, value: value, sectionId: self.section, style: .blocks, updated: arguments.updateShowSearchButton)
+            return ItemListSwitchItem(presentationData: presentationData, systemStyle: .glass, title: presentationData.strings.nagramiXShowSearchButton, value: value, maximumNumberOfLines: 0, sectionId: self.section, style: .blocks, updated: arguments.updateShowSearchButton)
         case let .showProxyButton(value):
-            return ItemListSwitchItem(presentationData: presentationData, systemStyle: .glass, title: presentationData.strings.nagramiXShowProxyButton, value: value, sectionId: self.section, style: .blocks, updated: arguments.updateShowProxyButton)
-        case let .hideProxySponsorChannel(value):
-            return ItemListSwitchItem(presentationData: presentationData, systemStyle: .glass, title: presentationData.strings.nagramiXHideProxySponsorChannel, value: value, maximumNumberOfLines: 0, sectionId: self.section, style: .blocks, updated: arguments.updateHideProxySponsorChannel)
+            return ItemListSwitchItem(presentationData: presentationData, systemStyle: .glass, title: presentationData.strings.nagramiXShowProxyButton, value: value, maximumNumberOfLines: 0, sectionId: self.section, style: .blocks, updated: arguments.updateShowProxyButton)
+        case let .showAdvertising(value):
+            return ItemListSwitchItem(presentationData: presentationData, systemStyle: .glass, title: presentationData.strings.nagramiXShowAdvertising, value: value, maximumNumberOfLines: 0, sectionId: self.section, style: .blocks, updated: arguments.updateShowAdvertising)
         case .chatsHeader:
             return ItemListSectionHeaderItem(presentationData: presentationData, text: presentationData.strings.nagramiXChatsHeader.uppercased(), sectionId: self.section)
         case let .wideChannelPosts(value):
-            return ItemListSwitchItem(presentationData: presentationData, systemStyle: .glass, title: presentationData.strings.nagramiXWideChannelPosts, value: value, sectionId: self.section, style: .blocks, updated: arguments.updateWideChannelPosts)
+            return ItemListSwitchItem(presentationData: presentationData, systemStyle: .glass, title: presentationData.strings.nagramiXWideChannelPosts, value: value, maximumNumberOfLines: 0, sectionId: self.section, style: .blocks, updated: arguments.updateWideChannelPosts)
         case let .showChannelBottomPanel(value):
             return ItemListSwitchItem(presentationData: presentationData, systemStyle: .glass, title: presentationData.strings.nagramiXChannelBottomPanel, value: value, maximumNumberOfLines: 0, sectionId: self.section, style: .blocks, updated: arguments.updateShowChannelBottomPanel)
         case .channelBottomPanelInfo:
@@ -534,7 +534,7 @@ private enum NagramiXSettingsEntry: ItemListNodeEntry {
         case .videoMessagesHeader:
             return ItemListSectionHeaderItem(presentationData: presentationData, text: presentationData.strings.nagramiXVideoMessagesHeader.uppercased(), sectionId: self.section)
         case let .selfieCountdown(value):
-            return ItemListSwitchItem(presentationData: presentationData, systemStyle: .glass, title: presentationData.strings.nagramiXSelfieCountdown, value: value, sectionId: self.section, style: .blocks, updated: arguments.updateSelfieCountdown)
+            return ItemListSwitchItem(presentationData: presentationData, systemStyle: .glass, title: presentationData.strings.nagramiXSelfieCountdown, value: value, maximumNumberOfLines: 0, sectionId: self.section, style: .blocks, updated: arguments.updateSelfieCountdown)
         case let .useRearCameraForVideoMessages(value):
             return ItemListSwitchItem(presentationData: presentationData, systemStyle: .glass, title: presentationData.strings.nagramiXUseRearCamera, value: value, maximumNumberOfLines: 0, sectionId: self.section, style: .blocks, updated: arguments.updateUseRearCameraForVideoMessages)
         case let .keepMusicPlayingWhileRecording(value):
@@ -571,8 +571,8 @@ private enum NagramiXSettingsEntry: ItemListNodeEntry {
             return ItemListSectionHeaderItem(presentationData: presentationData, text: presentationData.strings.nagramiXStoriesHeader.uppercased(), sectionId: self.section)
         case let .hideStories(value):
             return ItemListSwitchItem(presentationData: presentationData, systemStyle: .glass, title: presentationData.strings.nagramiXHideStories, value: value, maximumNumberOfLines: 0, sectionId: self.section, style: .blocks, updated: arguments.updateHideStories)
-        case let .disableStoryCameraSwipe(value):
-            return ItemListSwitchItem(presentationData: presentationData, systemStyle: .glass, title: presentationData.strings.nagramiXDisableStoryCameraSwipe, value: value, sectionId: self.section, style: .blocks, updated: arguments.updateDisableStoryCameraSwipe)
+        case let .storyCameraSwipeEnabled(value):
+            return ItemListSwitchItem(presentationData: presentationData, systemStyle: .glass, title: presentationData.strings.nagramiXStoryCameraSwipeEnabled, value: value, maximumNumberOfLines: 0, sectionId: self.section, style: .blocks, updated: arguments.updateStoryCameraSwipeEnabled)
         case let .confirmStoryViewing(value):
             return ItemListSwitchItem(presentationData: presentationData, systemStyle: .glass, title: presentationData.strings.nagramiXConfirmStoryViewing, value: value, maximumNumberOfLines: 0, sectionId: self.section, style: .blocks, updated: arguments.updateConfirmStoryViewing)
         case let .enableStoryRepost(value):
@@ -586,7 +586,7 @@ private enum NagramiXSettingsEntry: ItemListNodeEntry {
         case let .showProfileIds(value):
             return ItemListSwitchItem(presentationData: presentationData, systemStyle: .glass, title: presentationData.strings.nagramiXShowProfileIds, value: value, maximumNumberOfLines: 0, sectionId: self.section, style: .blocks, updated: arguments.updateShowProfileIds)
         case let .showRegistrationDate(value):
-            return ItemListSwitchItem(presentationData: presentationData, systemStyle: .glass, title: presentationData.strings.nagramiXShowRegistrationDate, value: value, sectionId: self.section, style: .blocks, updated: arguments.updateShowRegistrationDate)
+            return ItemListSwitchItem(presentationData: presentationData, systemStyle: .glass, title: presentationData.strings.nagramiXShowRegistrationDate, value: value, maximumNumberOfLines: 0, sectionId: self.section, style: .blocks, updated: arguments.updateShowRegistrationDate)
         case let .showMutualContactIcon(value):
             return ItemListSwitchItem(presentationData: presentationData, systemStyle: .glass, title: presentationData.strings.nagramiXShowMutualContactIcon, value: value, maximumNumberOfLines: 0, sectionId: self.section, style: .blocks, updated: arguments.updateShowMutualContactIcon)
         case .callsHeader, .otherCallsHeader:
@@ -610,13 +610,13 @@ private enum NagramiXSettingsEntry: ItemListNodeEntry {
         case let .hideBlockedMessages(value):
             return ItemListSwitchItem(presentationData: presentationData, systemStyle: .glass, title: presentationData.strings.nagramiXHideBlockedMessages, value: value, maximumNumberOfLines: 0, sectionId: self.section, style: .blocks, updated: arguments.updateHideBlockedMessages)
         case let .antiCaps(value):
-            return ItemListSwitchItem(presentationData: presentationData, systemStyle: .glass, title: presentationData.strings.nagramiXAntiCaps, value: value, sectionId: self.section, style: .blocks, updated: arguments.updateAntiCaps)
+            return ItemListSwitchItem(presentationData: presentationData, systemStyle: .glass, title: presentationData.strings.nagramiXAntiCaps, value: value, maximumNumberOfLines: 0, sectionId: self.section, style: .blocks, updated: arguments.updateAntiCaps)
         case let .voiceAutoplay(value):
             return ItemListSwitchItem(presentationData: presentationData, systemStyle: .glass, title: presentationData.strings.nagramiXVoiceAutoplay, value: value, maximumNumberOfLines: 0, sectionId: self.section, style: .blocks, updated: arguments.updateVoiceAutoplay)
         case .voiceAutoplayInfo:
             return ItemListTextItem(presentationData: presentationData, text: .plain(presentationData.strings.nagramiXVoiceAutoplayInfo), sectionId: self.section)
         case let .showDeletedMessages(value):
-            return ItemListSwitchItem(presentationData: presentationData, systemStyle: .glass, title: presentationData.strings.nagramiXDeletedMessages, value: value, sectionId: self.section, style: .blocks, updated: arguments.updateShowDeletedMessages)
+            return ItemListSwitchItem(presentationData: presentationData, systemStyle: .glass, title: presentationData.strings.nagramiXDeletedMessages, value: value, maximumNumberOfLines: 0, sectionId: self.section, style: .blocks, updated: arguments.updateShowDeletedMessages)
         case .showDeletedMessagesInfo:
             return ItemListTextItem(presentationData: presentationData, text: .plain(presentationData.strings.nagramiXDeletedMessagesInfo), sectionId: self.section)
         case let .saveTemporaryMessages(value):
@@ -714,7 +714,7 @@ private extension NagramiXSettingsEntry {
         case .hideCalls: return strings.nagramiXHideCallsTab
         case .showSearchButton: return strings.nagramiXShowSearchButton
         case .showProxyButton: return strings.nagramiXShowProxyButton
-        case .hideProxySponsorChannel: return strings.nagramiXHideProxySponsorChannel
+        case .showAdvertising: return strings.nagramiXShowAdvertising
         case .chatsHeader: return strings.nagramiXChatsHeader
         case .wideChannelPosts: return strings.nagramiXWideChannelPosts
         case .showChannelBottomPanel: return strings.nagramiXChannelBottomPanel
@@ -754,7 +754,7 @@ private extension NagramiXSettingsEntry {
         case .videoPiPSwipeInfo: return strings.nagramiXVideoPiPSwipeInfo
         case .featureStoriesHeader: return strings.nagramiXStoriesHeader
         case .hideStories: return strings.nagramiXHideStories
-        case .disableStoryCameraSwipe: return strings.nagramiXDisableStoryCameraSwipe
+        case .storyCameraSwipeEnabled: return strings.nagramiXStoryCameraSwipeEnabled
         case .confirmStoryViewing: return strings.nagramiXConfirmStoryViewing
         case .enableStoryRepost: return strings.nagramiXEnableStoryRepost
         case .anonymousStoryViewing: return strings.nagramiXAnonymousStoryViewing
@@ -957,7 +957,7 @@ private func nagramiXAllSettingsEntries(settings: NagramiXTabSettings, keepMusic
     return [
         .tabsHeader, .hideContacts(settings.hideContacts), .hideCalls(settings.hideCalls),
         .showSearchButton(settings.showSearchButton), .showProxyButton(settings.showProxyButton),
-        .hideProxySponsorChannel(settings.hideProxySponsorChannel),
+        .showAdvertising(settings.showAdvertising),
         .chatsHeader, .wideChannelPosts(settings.wideChannelPosts),
         .showChannelBottomPanel(settings.showChannelBottomPanel),
         .hideReactions(settings.hideReactions),
@@ -969,7 +969,7 @@ private func nagramiXAllSettingsEntries(settings: NagramiXTabSettings, keepMusic
         .keepMusicPlayingWhileRecording(keepMusicPlaying),
         .videoPlaybackHeader, .backgroundVideoPlayback(settings.backgroundVideoPlayback), .originalVideos(settings.media.originalVideos),
         .featureStoriesHeader, .hideStories(settings.hideStories),
-        .disableStoryCameraSwipe(settings.disableStoryCameraSwipe),
+        .storyCameraSwipeEnabled(!settings.disableStoryCameraSwipe),
         .confirmStoryViewing(settings.confirmStoryViewing), .enableStoryRepost(settings.enableStoryRepost),
         .anonymousStoryViewing(settings.anonymousStoryViewing),
         .profilesHeader, .showExactLastSeen(settings.showExactLastSeen), .showProfileIds(settings.showProfileIds),
@@ -1047,7 +1047,7 @@ public func nagramiXSettingsController(context: AccountContext) -> ViewControlle
         updateShowBroadcastMessages: { value in update { $0.showBroadcastMessages = value } },
         updateShowSelectByAuthor: { value in update { $0.showSelectByAuthor = value } },
         updateShowProxyButton: { value in update { $0.showProxyButton = value } },
-        updateHideProxySponsorChannel: { value in update { $0.hideProxySponsorChannel = value } },
+        updateShowAdvertising: { value in update { $0.showAdvertising = value } },
         updateVideoPiPSwipe: { value in update { $0.videoPiPSwipe = value } },
         updateBackgroundVideoPlayback: { value in update { $0.backgroundVideoPlayback = value } },
         updateSelfieCountdown: { value in update { $0.selfieCountdown = value } },
@@ -1058,7 +1058,8 @@ public func nagramiXSettingsController(context: AccountContext) -> ViewControlle
             }).start()
         },
         updateHideStories: { value in update { $0.hideStories = value } },
-        updateDisableStoryCameraSwipe: { value in update { $0.disableStoryCameraSwipe = value } },
+        // Legacy preference stores the inverse: enabled swipe means disableCameraSwipe=false.
+        updateStoryCameraSwipeEnabled: { value in update { $0.disableStoryCameraSwipe = !value } },
         updateConfirmStoryViewing: { value in update { $0.confirmStoryViewing = value } },
         updateEnableStoryRepost: { value in update { $0.enableStoryRepost = value } },
         updateAnonymousStoryViewing: { value in update { $0.anonymousStoryViewing = value } },

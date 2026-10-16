@@ -103,7 +103,7 @@ public extension PresentationStrings {
     var nagramiXUseRearCamera: String { self.nagramiXLocalized("NagramiX.Settings.VideoMessages.UseRearCamera") }
     var nagramiXStoriesHeader: String { self.nagramiXLocalized("NagramiX.Settings.Stories.Header") }
     var nagramiXHideStories: String { self.nagramiXLocalized("NagramiX.Settings.Stories.Hide") }
-    var nagramiXDisableStoryCameraSwipe: String { self.nagramiXLocalized("NagramiX.Settings.Stories.DisableSwipe") }
+    var nagramiXStoryCameraSwipeEnabled: String { self.nagramiXLocalized("NagramiX.Settings.Stories.DisableSwipe") }
     var nagramiXConfirmStoryViewing: String { self.nagramiXLocalized("NagramiX.Settings.Stories.ConfirmViewing") }
     var nagramiXAnonymousStoryViewing: String { self.nagramiXLocalized("NagramiX.Settings.Stories.AnonymousViewing") }
     var nagramiXAnonymousStoryViewingInfo: String { self.nagramiXLocalized("NagramiX.Settings.Stories.AnonymousViewing.Info") }
@@ -157,7 +157,7 @@ public extension PresentationStrings {
     var nagramiXSeconds30: String { self.nagramiXLocalized("NagramiX.Time.30Seconds") }
     var nagramiXSeconds60: String { self.nagramiXLocalized("NagramiX.Time.60Seconds") }
     var nagramiXShowProxyButton: String { self.nagramiXLocalized("NagramiX.Interface.ShowProxyButton") }
-    var nagramiXHideProxySponsorChannel: String { self.nagramiXLocalized("NagramiX.Interface.HideProxySponsorChannel") }
+    var nagramiXShowAdvertising: String { self.nagramiXLocalized("NagramiX.Interface.HideProxySponsorChannel") }
     var nagramiXEdit: String { self.nagramiXLocalized("NagramiX.Common.Edit") }
     var nagramiXSave: String { self.nagramiXLocalized("NagramiX.Common.Save") }
     var nagramiXFeatures: String { self.nagramiXLocalized("NagramiX.Info.Features") }

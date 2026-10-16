@@ -6231,7 +6231,12 @@ def apply_nagramix_onboarding(source: Path, overlay: Path) -> None:
 """)
 
     manifest = json.loads((overlay / "Resources/Onboarding/manifest.json").read_text(encoding="utf-8"))
-    if set(manifest) != {"NagramiXOnboardingLogo.png", "NagramiXOnboardingAtlas.png", "NagramiXOnboardingPhone.png"}:
+    if set(manifest) != {
+        "NagramiXOnboardingLogo.png", "NagramiXOnboardingCommunication.png",
+        "NagramiXOnboardingFree.png", "NagramiXOnboardingPersonal.png",
+        "NagramiXOnboardingPrivacy.png", "NagramiXOnboardingNearby.png",
+        "NagramiXOnboardingPhone.png",
+    }:
         raise SystemExit("Unexpected onboarding asset manifest")
     destination = source / "Telegram/Telegram-iOS/Resources/NagramiXOnboarding"
     assets = {}
@@ -7502,6 +7507,408 @@ def apply_mixed_recording_transition(source: Path) -> None:
         texts[name] = texts[name].replace(old, new, 1)
     for name, text in texts.items():
         (source / name).write_text(text, encoding="utf-8")
+
+
+def apply_advertising_controls(source: Path) -> None:
+    # All inputs are checked before writing any advertising patch.
+    guards = {
+        "submodules/TelegramCore/Sources/TelegramEngine/Messages/AdMessages.swift": "d19db290b22bb9b2590ddd419c5c72b440d5d7a38adb08931bb6aeef24f4b9ef",
+        "submodules/TelegramCore/Sources/TelegramEngine/Peers/AdPeers.swift": "dc0dc5d0461e8a192ec62e628428a9bf453612cbac0b0dc49756e7cffd0e80da",
+        "submodules/ChatListUI/Sources/ChatListSearchListPaneNode.swift": "1c84d2df5d23d93536c4d5bff4eaf665d536d2070c4438edb4c54753b3416d45",
+        "submodules/TelegramUI/Sources/ChatHistoryListNode.swift": "c0d81674dd488fdc1512b416cced19fe72f20603cac0f6fa174bd1e37539ccdb",
+        "submodules/ChatListUI/Sources/Node/ChatListNode.swift": "45818665a9500cdd30d727b7226898d0a34734ec44f0b19cb2160e9540caf856",
+    }
+    texts = {}
+    for name, digest in guards.items():
+        path = source / name
+        if not path.is_file() or hashlib.sha256(path.read_bytes()).hexdigest() != digest:
+            raise SystemExit(f"Advertising input no longer matches audited Telegram 13.0: {name}")
+        texts[name] = path.read_text(encoding="utf-8")
+
+    def patch(name: str, old: str, new: str) -> None:
+        if texts[name].count(old) != 1:
+            raise SystemExit(f"Advertising anchor must occur exactly once: {name}: {old[:80]}")
+        texts[name] = texts[name].replace(old, new, 1)
+
+    ads = "submodules/TelegramCore/Sources/TelegramEngine/Messages/AdMessages.swift"
+    patch(ads, "import TelegramApi\n", '''import TelegramApi
+import NagramiXMediaSettings
+
+public func nagramiXAdvertisingEnabledSignal() -> Signal<Bool, NoError> {
+    return Signal { subscriber in
+        let observer = NotificationCenter.default.addObserver(forName: NagramiXAdvertisingSettings.changedNotification, object: nil, queue: nil, using: { _ in
+            subscriber.putNext(NagramiXAdvertisingSettings.showAdvertising)
+        })
+        subscriber.putNext(NagramiXAdvertisingSettings.showAdvertising)
+        return ActionDisposable {
+            NotificationCenter.default.removeObserver(observer)
+        }
+    }
+    |> distinctUntilChanged
+}
+''')
+    patch(ads, "    private var isActivated: Bool = false\n", '''    private var isActivated: Bool = false
+    private var nagramiXActivationRequested = false
+    private var nagramiXAdvertisingEnabled = NagramiXAdvertisingSettings.showAdvertising
+    private var nagramiXAdvertisingGeneration = 0
+    private let nagramiXAdvertisingDisposable = MetaDisposable()
+''')
+    patch(ads, "        if messageId == nil {\n            self.state.set(CachedState.getCached", "        if messageId == nil && NagramiXAdvertisingSettings.showAdvertising {\n            self.state.set(CachedState.getCached")
+    patch(ads, "            |> mapToSignal { cachedState -> Signal<State, NoError> in\n", '''            |> mapToSignal { cachedState -> Signal<State, NoError> in
+                guard NagramiXAdvertisingSettings.showAdvertising else {
+                    return .single(State(interPostInterval: nil, messages: []))
+                }
+''')
+    patch(ads, "        if !activateManually {\n", '''        // Publish empty state even if the manually activated context never loads.
+        if !NagramiXAdvertisingSettings.showAdvertising {
+            self.state.set(.single(State(interPostInterval: nil, messages: [])))
+        }
+        self.nagramiXAdvertisingDisposable.set((nagramiXAdvertisingEnabledSignal()
+        |> deliverOn(queue)).start(next: { [weak self] enabled in
+            self?.nagramiXUpdateAdvertising(enabled)
+        }))
+
+        if !activateManually {
+''')
+    patch(ads, "    deinit {\n        self.disposable.dispose()", "    deinit {\n        self.nagramiXAdvertisingDisposable.dispose()\n        self.disposable.dispose()")
+    patch(ads, "    func activate() {\n        if self.isActivated {", '''    private func nagramiXUpdateAdvertising(_ enabled: Bool) {
+        guard enabled != self.nagramiXAdvertisingEnabled else { return }
+        self.nagramiXAdvertisingEnabled = enabled
+        if enabled {
+            if self.nagramiXActivationRequested {
+                self.activate()
+            }
+        } else {
+            self.nagramiXAdvertisingGeneration += 1
+            self.disposable.set(nil)
+            self.isActivated = false
+            self.stateValue = State(interPostInterval: nil, messages: [])
+            // Replace a pending cache signal even when stateValue was already empty.
+            self.state.set(.single(State(interPostInterval: nil, messages: [])))
+        }
+    }
+
+    func activate() {
+        self.nagramiXActivationRequested = true
+        guard NagramiXAdvertisingSettings.showAdvertising else { return }
+        if self.isActivated {''')
+    patch(ads, "        self.isActivated = true\n", "        self.isActivated = true\n        let advertisingGeneration = self.nagramiXAdvertisingGeneration\n")
+    patch(ads, "            guard let inputPeer else {\n", "            guard NagramiXAdvertisingSettings.showAdvertising, let inputPeer else {\n")
+    patch(ads, "            guard let strongSelf = self else {\n", "            guard let strongSelf = self, NagramiXAdvertisingSettings.showAdvertising, advertisingGeneration == strongSelf.nagramiXAdvertisingGeneration else {\n")
+    patch(ads, "    func markAsSeen(opaqueId: Data) {\n", "    func markAsSeen(opaqueId: Data) {\n        guard NagramiXAdvertisingSettings.showAdvertising else { return }\n")
+    patch(ads, "                    subscriber.putNext((state.interPostInterval, state.messages, state.startDelay, state.betweenDelay))", '''                    if NagramiXAdvertisingSettings.showAdvertising {
+                        subscriber.putNext((state.interPostInterval, state.messages, state.startDelay, state.betweenDelay))
+                    } else {
+                        subscriber.putNext((nil, [], nil, nil))
+                    }''')
+    patch(ads, "func _internal_markAdAction(account: Account, opaqueId: Data, media: Bool, fullscreen: Bool) {\n", "func _internal_markAdAction(account: Account, opaqueId: Data, media: Bool, fullscreen: Bool) {\n    guard NagramiXAdvertisingSettings.showAdvertising else { return }\n")
+    patch(ads, "func _internal_markAdAsSeen(account: Account, opaqueId: Data) {\n", "func _internal_markAdAsSeen(account: Account, opaqueId: Data) {\n    guard NagramiXAdvertisingSettings.showAdvertising else { return }\n")
+
+    peers = "submodules/TelegramCore/Sources/TelegramEngine/Peers/AdPeers.swift"
+    patch(peers, "import TelegramApi\n", "import TelegramApi\nimport NagramiXMediaSettings\n")
+    patch(peers, "    return account.network.request(Api.functions.contacts.getSponsoredPeers(q: query))", '''    return nagramiXAdvertisingEnabledSignal()
+    |> mapToSignal { enabled -> Signal<[AdPeer], NoError> in
+        guard enabled, NagramiXAdvertisingSettings.showAdvertising else { return .single([]) }
+        return account.network.request(Api.functions.contacts.getSponsoredPeers(q: query))''')
+    patch(peers, "        guard let result else {\n", "        guard NagramiXAdvertisingSettings.showAdvertising, let result else {\n")
+    # This is the final function in the audited file.
+    if not texts[peers].endswith("    }\n}\n"):
+        raise SystemExit("Advertising search function boundary changed")
+    texts[peers] = texts[peers][:-2] + "    }\n}\n"
+    nested_start = texts[peers].index("        return account.network.request(Api.functions.contacts.getSponsoredPeers")
+    nested_end = texts[peers].rindex("    }\n}\n")
+    nested_lines = texts[peers][nested_start:nested_end].splitlines(keepends=True)
+    texts[peers] = texts[peers][:nested_start] + nested_lines[0] + "".join("    " + line for line in nested_lines[1:]) + texts[peers][nested_end:]
+
+    search = "submodules/ChatListUI/Sources/ChatListSearchListPaneNode.swift"
+    patch(search, "                adsHiddenPromise.get()\n", '''                combineLatest(adsHiddenPromise.get(), nagramiXAdvertisingEnabledSignal())
+                |> map { hidden, enabled in hidden || !enabled }
+                |> deliverOnMainQueue
+''')
+
+    history = "submodules/TelegramUI/Sources/ChatHistoryListNode.swift"
+    patch(history, "import Foundation\n", "import Foundation\nimport NagramiXMediaSettings\n")
+    patch(history, "            if let interPostInterval = interPostInterval {\n                self.pendingDynamicAdMessages = messages", '''            if !NagramiXAdvertisingSettings.showAdvertising {
+                self.pendingDynamicAdMessages = []
+                self.pendingDynamicAdMessageInterval = nil
+                self.remainingDynamicAdMessageInterval = nil
+                self.remainingDynamicAdMessageDistance = nil
+                self.preloadAdPeerName = nil
+                self.preloadAdPeerDisposable.set(nil)
+                self.allAdMessages = (nil, [], self.allAdMessages.version + 1)
+                return
+            }
+            if let interPostInterval = interPostInterval {
+                self.pendingDynamicAdMessages = messages''')
+    patch(history, "    private func maybeInsertPendingAdMessage(historyView: ChatHistoryView, toLaterRange: (Int, Int), toEarlierRange: (Int, Int)) {\n", "    private func maybeInsertPendingAdMessage(historyView: ChatHistoryView, toLaterRange: (Int, Int), toEarlierRange: (Int, Int)) {\n        guard NagramiXAdvertisingSettings.showAdvertising else { return }\n")
+    patch(history, "                    adMessage: allAdMessages.fixed,\n                    dynamicAdMessages: allAdMessages.opportunistic,", "                    adMessage: NagramiXAdvertisingSettings.showAdvertising ? allAdMessages.fixed : nil,\n                    dynamicAdMessages: NagramiXAdvertisingSettings.showAdvertising ? allAdMessages.opportunistic : [],")
+
+    chat_list = "submodules/ChatListUI/Sources/Node/ChatListNode.swift"
+    patch(chat_list, "    private var nagramiXUnreadObserver: NSObjectProtocol?\n", "    private var nagramiXUnreadObserver: NSObjectProtocol?\n    private var nagramiXAdvertisingObserver: NSObjectProtocol?\n")
+    patch(chat_list, "        self.nagramiXUnreadObserver = NotificationCenter.default.addObserver", '''        self.nagramiXAdvertisingObserver = NotificationCenter.default.addObserver(forName: NagramiXTabSettings.advertisingChangedNotification, object: nil, queue: .main, using: { [weak self] _ in
+            self?.nagramiXRefreshSettings()
+        })
+        self.nagramiXUnreadObserver = NotificationCenter.default.addObserver''')
+    patch(chat_list, "        if let observer = self.nagramiXUnreadObserver {\n", '''        if let observer = self.nagramiXAdvertisingObserver {
+            NotificationCenter.default.removeObserver(observer)
+        }
+        if let observer = self.nagramiXUnreadObserver {
+''')
+    for name, text in texts.items():
+        (source / name).write_text(text, encoding="utf-8")
+
+
+def apply_responsive_swipe_picture_in_picture(source: Path) -> None:
+    guards = {
+        "submodules/GalleryUI/Sources/GalleryControllerNode.swift": "d678d926dd9ab20a7be2a8072ca439ec6dd5966c56a993873c2b8ed6a461bf5b",
+        "submodules/GalleryUI/Sources/GalleryItemNode.swift": "93c62f351aad2f2420a9737ec7e590bfecc9017e7e3770523051b6aa5d968117",
+        "submodules/GalleryUI/Sources/Items/UniversalVideoGalleryItem.swift": "02c6a21d146471cbd11e0308239c9ecb21ea8f45f0d201e7f3ebd2176762d60d",
+    }
+    texts = {}
+    for name, digest in guards.items():
+        path = source / name
+        if not path.is_file() or hashlib.sha256(path.read_bytes()).hexdigest() != digest:
+            raise SystemExit(f"Swipe PiP input no longer matches audited source: {name}")
+        texts[name] = path.read_text(encoding="utf-8")
+    controller = "submodules/GalleryUI/Sources/GalleryControllerNode.swift"
+    item = "submodules/GalleryUI/Sources/GalleryItemNode.swift"
+    video = "submodules/GalleryUI/Sources/Items/UniversalVideoGalleryItem.swift"
+    patches = [
+        (item, "    open func maybePerformActionForSwipeDismiss() -> Bool {", '''    // Only eligible video nodes opt into preparing AVKit during an explicit drag.
+    open func prepareForPictureInPictureSwipe() -> Bool {
+        return false
+    }
+
+    open func cancelPictureInPictureSwipePreparation() {
+    }
+
+    open func maybePerformActionForSwipeDismiss() -> Bool {'''),
+        (controller, "    private var isDismissed = false\n", '''    private var isDismissed = false
+    private weak var nagramiXPreparedSwipePiPItem: GalleryItemNode?
+    private var nagramiXSwipePiPCommitted = false
+    private var nagramiXOpaqueSwipeBackground = false
+    private var nagramiXSwipeApplicationObserver: NSObjectProtocol?
+'''),
+        (controller, "        super.init()\n", '''        super.init()
+
+        self.nagramiXSwipeApplicationObserver = NotificationCenter.default.addObserver(forName: UIApplication.willResignActiveNotification, object: nil, queue: .main, using: { [weak self] _ in
+            self?.nagramiXCancelSwipePreparation()
+        })
+'''),
+        (controller, "    override open func didLoad() {", '''    deinit {
+        if let observer = self.nagramiXSwipeApplicationObserver {
+            NotificationCenter.default.removeObserver(observer)
+        }
+    }
+
+    override open func didLoad() {'''),
+        (controller, "        self.containerLayout = (navigationBarHeight, layout)\n", '''        if let previousLayout = self.containerLayout?.1, previousLayout.size != layout.size {
+            self.nagramiXCancelSwipePreparation()
+        }
+        self.containerLayout = (navigationBarHeight, layout)
+'''),
+        (controller, "    open func scrollViewDidScroll(_ scrollView: UIScrollView) {", '''    private func nagramiXCancelSwipePreparation() {
+        let recenter = self.nagramiXSwipePiPCommitted
+        self.nagramiXPreparedSwipePiPItem?.cancelPictureInPictureSwipePreparation()
+        self.nagramiXPreparedSwipePiPItem = nil
+        self.nagramiXSwipePiPCommitted = false
+        self.nagramiXOpaqueSwipeBackground = false
+        if recenter {
+            self.scrollView.setContentOffset(CGPoint(x: 0.0, y: self.scrollView.contentSize.height / 3.0), animated: false)
+        }
+    }
+
+    open func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
+        self.nagramiXCancelSwipePreparation()
+    }
+
+    open func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+        if !self.nagramiXSwipePiPCommitted {
+            self.nagramiXPreparedSwipePiPItem?.cancelPictureInPictureSwipePreparation()
+        }
+    }
+
+    private func nagramiXCommitSwipePiP(item: GalleryItemNode, distance: CGFloat) {
+        // Latch before cancelling the recognizer: UIKit may synchronously end the drag.
+        self.nagramiXSwipePiPCommitted = true
+        self.nagramiXOpaqueSwipeBackground = true
+        self.backgroundNode.backgroundColor = self.backgroundNode.backgroundColor?.withAlphaComponent(1.0)
+        self.scrollView.panGestureRecognizer.isEnabled = false
+        self.scrollView.panGestureRecognizer.isEnabled = true
+        // Keep the transfer source close to its original rect, without a long slide.
+        let limitedDistance = min(48.0, max(-48.0, distance))
+        self.scrollView.setContentOffset(CGPoint(x: 0.0, y: self.scrollView.contentSize.height / 3.0 + limitedDistance), animated: false)
+        let handled = distance > 0.0 ? item.maybePerformActionForSwipeDismiss() : item.maybePerformActionForSwipeDownDismiss()
+        if !handled {
+            self.nagramiXSwipePiPCommitted = false
+            item.cancelPictureInPictureSwipePreparation()
+            self.scrollView.setContentOffset(CGPoint(x: 0.0, y: self.scrollView.contentSize.height / 3.0), animated: true)
+        }
+    }
+
+    open func scrollViewDidScroll(_ scrollView: UIScrollView) {'''),
+        (controller, '''        let transition = 1.0 - min(1.0, max(0.0, abs(distanceFromEquilibrium) / 50.0))
+        let backgroundTransition = 1.0 - min(1.0, max(0.0, abs(distanceFromEquilibrium) / 80.0))''', '''        if scrollView.isDragging, !self.nagramiXSwipePiPCommitted, abs(distanceFromEquilibrium) >= 8.0,
+           let item = self.pager.centralItemNode(), item.prepareForPictureInPictureSwipe() {
+            self.nagramiXPreparedSwipePiPItem = item
+            self.nagramiXOpaqueSwipeBackground = true
+            if abs(distanceFromEquilibrium) >= 48.0 {
+                self.nagramiXCommitSwipePiP(item: item, distance: distanceFromEquilibrium)
+                return
+            }
+        }
+        if !scrollView.isDragging, abs(distanceFromEquilibrium) < 0.5, !self.nagramiXSwipePiPCommitted {
+            self.nagramiXOpaqueSwipeBackground = false
+        }
+        let transition = 1.0 - min(1.0, max(0.0, abs(distanceFromEquilibrium) / 50.0))
+        let backgroundTransition = self.nagramiXOpaqueSwipeBackground ? 1.0 : 1.0 - min(1.0, max(0.0, abs(distanceFromEquilibrium) / 80.0))'''),
+        (controller, '''        let minimalDismissDistance = scrollView.contentSize.height / 12.0
+        if abs(velocity.y) > 1.0 || abs(distanceFromEquilibrium) > minimalDismissDistance {''', '''        if self.nagramiXSwipePiPCommitted {
+            return
+        }
+        if let item = self.nagramiXPreparedSwipePiPItem, item === self.pager.centralItemNode() {
+            if abs(distanceFromEquilibrium) > 1.0, abs(velocity.y) > 1.0 {
+                self.nagramiXCommitSwipePiP(item: item, distance: distanceFromEquilibrium)
+                targetContentOffset.pointee = scrollView.contentOffset
+                return
+            }
+            item.cancelPictureInPictureSwipePreparation()
+        }
+        let minimalDismissDistance = scrollView.contentSize.height / 12.0
+        if abs(velocity.y) > 1.0 || abs(distanceFromEquilibrium) > minimalDismissDistance {'''),
+        (video, "    private var nagramiXPendingPiPStartTimer: SwiftSignalKit.Timer?\n", '''    private var nagramiXPendingPiPStartTimer: SwiftSignalKit.Timer?
+    private var nagramiXPiPStartRequested = false
+    private var nagramiXPiPStartFailure: (() -> Void)?
+'''),
+        (video, "    func beginPictureInPicture() {\n        let _ = self.nagramiXRequestPictureInPicture(unavailable: {})\n    }", '''    func nagramiXCancelSwipePreparation() -> Bool {
+        guard !self.nagramiXPiPStartRequested, self.pictureInPictureController?.isPictureInPictureActive != true else {
+            return false
+        }
+        self.nagramiXCancelPendingPiPStart()
+        self.nagramiXPiPStartFailure = nil
+        return true
+    }
+
+    func beginPictureInPicture() {
+        let _ = self.nagramiXRequestPictureInPicture(unavailable: {})
+    }'''),
+        (video, '''        if self.nagramiXPendingPiPStart != nil {
+            return true
+        }
+        if self.nagramiXCanStartPictureInPicture {
+            controller.startPictureInPicture()''', '''        if self.nagramiXPendingPiPStart != nil || self.nagramiXPiPStartRequested || controller.isPictureInPictureActive {
+            return true
+        }
+        self.nagramiXPiPStartFailure = unavailable
+        if self.nagramiXCanStartPictureInPicture {
+            self.nagramiXPiPStartRequested = true
+            controller.startPictureInPicture()'''),
+        (video, '''                self.nagramiXCancelPendingPiPStart()
+                self.pictureInPictureController?.startPictureInPicture()''', '''                self.nagramiXCancelPendingPiPStart()
+                self.nagramiXPiPStartRequested = true
+                self.pictureInPictureController?.startPictureInPicture()'''),
+        (video, '''                self.nagramiXCancelPendingPiPStart()
+                unavailable()''', '''                self.nagramiXCancelPendingPiPStart()
+                self.nagramiXPiPStartFailure = nil
+                unavailable()'''),
+        (video, '''    public func pictureInPictureControllerWillStartPictureInPicture(_ pictureInPictureController: AVPictureInPictureController) {
+        self.node.setCanPlaybackWithoutHierarchy(true)''', '''    public func pictureInPictureControllerWillStartPictureInPicture(_ pictureInPictureController: AVPictureInPictureController) {
+        // Native custom dismissal takes over here; a later AVKit error must not dismiss twice.
+        self.nagramiXPiPStartFailure = nil
+        self.node.setCanPlaybackWithoutHierarchy(true)'''),
+        (video, '''    public func pictureInPictureController(_ pictureInPictureController: AVPictureInPictureController, failedToStartPictureInPictureWithError error: Error) {
+        print(error)
+    }''', '''    public func pictureInPictureController(_ pictureInPictureController: AVPictureInPictureController, failedToStartPictureInPictureWithError error: Error) {
+        self.nagramiXPiPStartRequested = false
+        let unavailable = self.nagramiXPiPStartFailure
+        self.nagramiXPiPStartFailure = nil
+        self.nagramiXCancelPendingPiPStart()
+        unavailable?()
+    }'''),
+        (video, '''    public func pictureInPictureControllerDidStopPictureInPicture(_ pictureInPictureController: AVPictureInPictureController) {
+        self.node.setCanPlaybackWithoutHierarchy(false)''', '''    public func pictureInPictureControllerDidStopPictureInPicture(_ pictureInPictureController: AVPictureInPictureController) {
+        self.nagramiXPiPStartRequested = false
+        self.node.setCanPlaybackWithoutHierarchy(false)'''),
+        (video, "    private var nativePictureInPictureContent: AnyObject?\n", "    private var nativePictureInPictureContent: AnyObject?\n    private var nagramiXOwnsSwipePiPPreparation = false\n"),
+        (video, '''                    nativePictureInPictureContent.updateIsCentral(isCentral: isCentral)
+                }
+            }
+        }
+    }''', '''                    nativePictureInPictureContent.updateIsCentral(isCentral: isCentral)
+                }
+            }
+            if !isCentral {
+                self.cancelPictureInPictureSwipePreparation()
+            }
+        }
+    }'''),
+        (video, "    override func maybePerformActionForSwipeDismiss() -> Bool {", '''    override func prepareForPictureInPictureSwipe() -> Bool {
+        guard #available(iOS 15.0, *), NagramiXTabSettings.videoPiPSwipeEnabled,
+              self.isCentral == true, self.hasPictureInPicture,
+              let item = self.item, !item.isSecret, self.videoNode?.getVideoLayer() != nil,
+              AVPictureInPictureController.isPictureInPictureSupported() else {
+            return false
+        }
+        if let data = self.context.currentAppConfiguration.with({ $0 }).data,
+           data["ios_killswitch_disable_swipe_pip"] != nil || data["ios_killswitch_disable_native_pip_v2"] != nil {
+            return false
+        }
+        if case let .message(message, _) = item.contentInfo, message.adAttribute != nil {
+            return false
+        }
+        if let content = item.content as? NativeVideoContent, content.fileReference.media.isAnimated {
+            return false
+        }
+        if self.nativePictureInPictureContent == nil {
+            self.setupNativePictureInPicture()
+            self.nagramiXOwnsSwipePiPPreparation = self.nativePictureInPictureContent != nil
+        }
+        return self.nativePictureInPictureContent is NativePictureInPictureContentImpl
+    }
+
+    override func cancelPictureInPictureSwipePreparation() {
+        guard self.nagramiXOwnsSwipePiPPreparation else { return }
+        if #available(iOS 15.0, *), let content = self.nativePictureInPictureContent as? NativePictureInPictureContentImpl,
+           !content.nagramiXCancelSwipePreparation() {
+            // Never release a source that AVKit has already started to transfer.
+            return
+        }
+        self.nativePictureInPictureContent = nil
+        self.nagramiXOwnsSwipePiPPreparation = false
+    }
+
+    override func maybePerformActionForSwipeDismiss() -> Bool {'''),
+    ]
+    patches.append((video,
+        "        guard NagramiXTabSettings.videoPiPSwipeEnabled, self.hasPictureInPicture, let item = self.item, !item.isSecret else {",
+        "        guard self.isCentral == true, NagramiXTabSettings.videoPiPSwipeEnabled, self.hasPictureInPicture, let item = self.item, !item.isSecret else {",
+    ))
+    for name, old, new in patches:
+        if texts[name].count(old) != 1:
+            raise SystemExit(f"Swipe PiP anchor must occur exactly once: {name}: {old[:80]}")
+        texts[name] = texts[name].replace(old, new, 1)
+    for name, text in texts.items():
+        (source / name).write_text(text, encoding="utf-8")
+
+
+def apply_forward_action_labels(source: Path) -> None:
+    path = source / "submodules/TelegramUI/Sources/ChatInterfaceStateContextMenus.swift"
+    if hashlib.sha256(path.read_bytes()).hexdigest() != "9f99122a9e4bba605b3c0023f4536387d6e7c287ccf1513de70d02101491e138":
+        raise SystemExit("Forward action labels input no longer matches audited source")
+    replace_unique(
+        path,
+        """                actions.append(.action(ContextMenuActionItem(text: chatPresentationInterfaceState.strings.Conversation_ContextMenuForward, icon: { theme in
+                    return generateTintedImage(image: UIImage(bundleImageName: "Chat/Context Menu/Forward"), color: theme.actionSheet.primaryTextColor)
+                }, action: { _, f in
+                    interfaceInteraction.forwardMessages([replacementMessage])
+""",
+        """                actions.append(.action(ContextMenuActionItem(text: chatPresentationInterfaceState.strings.nagramiXForwardWithAuthor, icon: { theme in
+                    return generateTintedImage(image: UIImage(bundleImageName: "Chat/Context Menu/Forward"), color: theme.actionSheet.primaryTextColor)
+                }, action: { _, f in
+                    interfaceInteraction.forwardMessages([replacementMessage])
+""",
+        "Use the same Repost title for native replacement-message forwarding",
+    )
 
 
 def apply_features(source: Path) -> None:
@@ -12311,6 +12718,9 @@ private func nagramiXCopyProfileId(_ value: Int64, presentationData: Presentatio
     apply_full_name_deletion_menu(source)
     apply_selfie_recording_lifecycle(source)
     apply_mixed_playback_return(source)
+    apply_advertising_controls(source)
+    apply_responsive_swipe_picture_in_picture(source)
+    apply_forward_action_labels(source)
     replace_unique(
         source / "submodules/SettingsUI/Sources/Data and Storage/ProxyListSettingsController.swift",
         "title: text, value: value, enableInteractiveChanges: true, enabled: true, sectionId: self.section, style: .blocks, updated: arguments.toggleUseForCalls, tag: ProxySettingsEntryTag.useForCalls)",

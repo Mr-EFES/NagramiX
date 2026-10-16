@@ -26,11 +26,10 @@
 }
 
 - (void)nagramiXLayoutArtwork {
-    CGFloat side = _nagramiXArtworkView.bounds.size.width;
     for (UIView *page in _nagramiXArtworkImages) {
         page.frame = _nagramiXArtworkView.bounds;
         UIView *main = [page viewWithTag:100];
-        main.frame = CGRectInset(page.bounds, side * 0.02, side * 0.02);
+        main.frame = page.bounds;
     }
 }
 

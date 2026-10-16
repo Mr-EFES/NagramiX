@@ -1,14 +1,30 @@
 {
-  "NagramiXOnboardingAtlas.png": {
-    "source": "Resources/Onboarding/NagramiXOnboardingAtlas.png",
-    "sha256": "6b59c089c0c7c5a41facc9b5326e86fc0ebbbe0fc6ccc2af9fc790982a2ef0b9"
-  },
   "NagramiXOnboardingLogo.png": {
     "source": "Resources/Onboarding/NagramiXOnboardingLogo.png",
-    "sha256": "34fb2f0804a95077c817004d1877040c042ff8c04a90bb0761cde5100a40eedb"
+    "sha256": "2e79a0a0f7b0be76042ca8300879f460aaf5446ec5cb309db25642a468eddcb7"
+  },
+  "NagramiXOnboardingCommunication.png": {
+    "source": "Resources/Onboarding/NagramiXOnboardingCommunication.png",
+    "sha256": "af4370665ef724c85deac0305f02d89f26de774b8a37d0a8fab89e47bb11c93a"
+  },
+  "NagramiXOnboardingFree.png": {
+    "source": "Resources/Onboarding/NagramiXOnboardingFree.png",
+    "sha256": "8b4c3449f984b5aedc1e9314e7175b68f2af6b9898eb74e07efc942f94521612"
+  },
+  "NagramiXOnboardingPersonal.png": {
+    "source": "Resources/Onboarding/NagramiXOnboardingPersonal.png",
+    "sha256": "0ca014a00df24ff124bd35dfc0fc510109e1d05f7cf341d7b5f271e525aec232"
+  },
+  "NagramiXOnboardingPrivacy.png": {
+    "source": "Resources/Onboarding/NagramiXOnboardingPrivacy.png",
+    "sha256": "2573c7ff4431cb50f7340fc61b96bf13eab1165d8cf919d122aed335e614440a"
+  },
+  "NagramiXOnboardingNearby.png": {
+    "source": "Resources/Onboarding/NagramiXOnboardingNearby.png",
+    "sha256": "3a1256500000f85a50997b5c5ad487d2ab0b52d7361b1985a76ae403275990c0"
   },
   "NagramiXOnboardingPhone.png": {
     "source": "Resources/Onboarding/NagramiXOnboardingPhone.png",
-    "sha256": "b1a033b8d35fde873cb304112db606a8b6ed18cba404d54bef8b0ef07cc88c60"
+    "sha256": "80a09be35a003a64419cc60f8e1fe229f4dfa30bb43287c9b127fffcb9443346"
   }
 }

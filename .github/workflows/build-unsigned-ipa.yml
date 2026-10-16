@@ -25,7 +25,7 @@ on:
         default: true
 
 env:
-  NAGRAMIX_VERSION: 0.5.6
+  NAGRAMIX_VERSION: 0.5.7
 
 permissions:
   contents: read
