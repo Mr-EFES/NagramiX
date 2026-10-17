@@ -1,5 +1,20 @@
 # Текущий контекст NagramiX 0.5.9
 
+## Готово:0.5.9/build97,17октября
+
+Пользовательская команда выполнена: перевод debug UI Telegram13.0, все накопленные правки, включая новые0xDEAD10CC, нативная сборка и полноценный [релиз](https://github.com/Mr-EFES/NagramiX/releases/tag/v0.5.9) с функциями/changelog. [Run39028343221](https://github.com/Mr-EFES/NagramiX/actions/runs/39028343221) success; runtime/tagv0.5.9 source `3ff65e9b7d72f4d78a105df47f734df73b9e3248`. IPA `88526724`байт, SHA-256 `41b812d937f63a1ee5b389a90eafd98db46082d3a9c5cffbd1b541463abad1ee`. Выданный локальный файл `/workspace/outputs/NagramiX-0.5.9-build97-unsigned.ipa`. Предыдущие IPA/releases сохранены.
+
+Фоновые отчёты94: RUNNINGBOARD0xDEAD10CC, main normalRunLoop, locked11–14sec; отличаются от camera0x8BADF00D. apply_background_transaction_lifetime2SHA/10exact: реальные grants, drain Postbox/StorageBox перед end UI task, `.invalid`→nil, launch callbacks/checkTasks, stale ID guard, новые wakeup только remainingTime>5s. Конкретный файл/transaction по strippedstack не доказан; String(format)/Swift release не объявлять причиной SIGKILL. [Разбор](BACKGROUND_TRANSACTION_LIFETIME.md).
+
+Debug:19RU/EN pairs (15labels+4templates),4exact UIpatches, coverage93staticlabels. IPA292RU/218EN значений проверены, escaped multiline key декодируется валидатором. Camera preview3SHA/21exact + cold-finalization1SHA/15exact сохранены. Overlay595outputs; прежние функции/настройки сохранены. Нативная компиляция пройдена,4camera XCTest подготовлены, НЕ исполнены, физический тест pending. Registry4implemented compile_pending→compile_passed, device_pending сохранён. ZIPCRC/provenance/SHA/6ARM64/iOS15/audio/icons/31sounds/7PNG/localization PASS.
+
+Proof `/workspace/.codex-validation-nagramix-059`: source isolated worktree; build/status/release/package-verification.json, artifacts, исходные guards/grammar/preflight. Root main/WIP и staged R100 product/releases/0.5.6.md→docs/releases/0.5.6.md сохранять. Все source commit/push выполнены из изолированного checkout.95/96 отменены до публикации;97 окончательный. Документальный checkpoint после выпуска не меняет runtime/tag и не требует новой сборки.
+
+Следующий шаг — физический тест по [плану](IPHONE_TEST_0.5.9.md), в первую очередь cold launch→lock/background и rear→front→send. Новый IPA0.5.10 только по отдельной команде. Не утверждать, что все возможные вылеты устранены, по одной компиляции. Не удалять/перезаписывать готовые релизы и файлы.
+
+## Исторические записи подготовки — до успешного build97
+
+
 Дополнение в ходе подготовки0.5.9: пользователь прислал ещё2SIGKILL/RUNNINGBOARD0xDEAD10CC при locked11–14s, main normalRunLoop, background Postbox/log active. Исходная команда build/release сохраняется; включить targeted background fix до dispatch. [Разбор](BACKGROUND_TRANSACTION_LIFETIME.md). apply_background_transaction_lifetime2SHA/9exact: grace timer не grant; submitted BGTask должен Launched; explicit должен realtask; .invalid→nil; expiration drains native Postbox+StorageBox barrier передend assertion; stale-task guard. Новых SQLite/SQL/recovery/data изменений нет. Конкретный transaction/sourceфайловая блокировка из strippedstack не доказана, не объявлять все вылеты устранёнными. Proof/reference в059/background-reference; реальные персональныеIDs/полные сырыеcrashнепубликовать.
 
 ## Разрешена сборка и публикация0.5.9 — 17 октября
