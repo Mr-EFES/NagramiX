@@ -217,3 +217,29 @@
 
 "NagramiX.Settings.Messages.AutoRevealSpoilers" = "Auto-reveal spoilers";
 "NagramiX.Settings.Messages.AutoRevealSpoilers.SearchTerms" = "Show text, photos and videos under spoilers without tapping. Anti-spoiler.";
+
+"NagramiX.Messages.SavedVersion" = "Saved Version";
+
+"NagramiX.Messages.RevisionWithoutText" = "This version has no text.";
+
+"NagramiX.Messages.RevisionArchiveInfo" = "Locally saved text and captions received while edit history was enabled. Past attachment changes are not saved.";
+
+"NagramiX.Debug.Test Passcode Migration Failed" = "Test Passcode Migration Failed";
+"NagramiX.Debug.test passcode migration" = "test passcode migration";
+"NagramiX.Debug.Lock on next launch" = "Lock on next launch";
+"NagramiX.Debug.6-digits (123456)" = "6-digits (123456)";
+"NagramiX.Debug.4-digits (1234)" = "4-digits (1234)";
+"NagramiX.Debug.alphanumeric (qwerty)" = "alphanumeric (qwerty)";
+"NagramiX.Debug.Test Passcode Migration" = "Test Passcode Migration";
+"NagramiX.Debug.Chat: CoreList backend (PoC)" = "Chat: CoreList backend (PoC)";
+"NagramiX.Debug.Lottie: force rlottie" = "Lottie: force rlottie";
+"NagramiX.Debug.Recording: respect system microphone" = "Recording: respect system microphone";
+"NagramiX.Debug.Use Modern Video Message Pipeline" = "Use Modern Video Message Pipeline";
+"NagramiX.Debug.Group calls: reference engine" = "Group calls: reference engine";
+"NagramiX.Debug.Rust MTProto [Restart App]" = "Rust MTProto [Restart App]";
+"NagramiX.Debug.Collect CPU Profile (10s)" = "Collect CPU Profile (10s)";
+"NagramiX.Debug.Send Profile Logs" = "Send Profile Logs";
+"NagramiX.Debug.A profile is already running" = "A profile is already running";
+"NagramiX.Debug.Preparation failed. Local passcode or wallet data may already have been removed.\n\n%@" = "Preparation failed. Local passcode or wallet data may already have been removed.\n\n%@";
+"NagramiX.Debug.Saved %@. Send it with Send Profile Logs." = "Saved %@. Send it with Send Profile Logs.";
+"NagramiX.Debug.Could not save the profile: %@" = "Could not save the profile: %@";

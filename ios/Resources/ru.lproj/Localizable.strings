@@ -931,7 +931,7 @@
 
 
 "Contacts.GlobalSearch" = "Глобальный поиск";
-"Profile.Username" = "имя пользователя";
+"Profile.Username" = "Имя пользователя";
 "Settings.Username" = "Имя пользователя";
 "Settings.UsernameEmpty" = "Добавить";
 
@@ -2058,7 +2058,7 @@
 "Settings.About.Title" = "О себе";
 "Settings.About.Help" = "Любые подробности, например: возраст, род занятий или город.\nПример: 23 года, дизайнер из Санкт-Петербурга.";
 
-"Profile.About" = "о себе";
+"Profile.About" = "О себе";
 
 "Conversation.StatusKickedFromChannel" = "Вы были исключены из канала";
 
@@ -3565,7 +3565,7 @@ Unused sets are archived when you add more.";
 "ContactInfo.Title" = "Контактная информация";
 "ContactInfo.PhoneLabelHome" = "дом";
 "ContactInfo.PhoneLabelWork" = "рабочий";
-"ContactInfo.PhoneLabelMobile" = "мобильный";
+"ContactInfo.PhoneLabelMobile" = "Мобильный";
 "ContactInfo.PhoneLabelMain" = "главный";
 "ContactInfo.PhoneLabelHomeFax" = "домашний факс";
 "ContactInfo.PhoneLabelWorkFax" = "рабочий факс";

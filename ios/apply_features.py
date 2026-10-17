@@ -4398,6 +4398,118 @@ def apply_voice_recording_cancellation_fix(source: Path) -> None:
     )
 
 
+def apply_notification_exception_peer_picker(source: Path) -> None:
+    """Filter exception candidates before pagination; keep empty-list search usable."""
+    picker = "submodules/TelegramUI/Components/PeerSelectionController/Sources/"
+    patches = {
+        "submodules/AccountContext/Sources/PeerSelectionController.swift": (
+            "c5ff201a36ee0bcdf548914d519cfd337592a8169ad653c4a7cb269cd8508c3b",
+            [(
+                "    public static let includeCommunities = ChatListNodePeersFilter(rawValue: 1 << 17)\n",
+                "    public static let includeCommunities = ChatListNodePeersFilter(rawValue: 1 << 17)\n"
+                "    // Transient selector behavior, never a saved folder or preference.\n"
+                "    public static let nagramiXNotificationExceptions = ChatListNodePeersFilter(rawValue: 1 << 18)\n",
+            )],
+        ),
+        "submodules/SettingsUI/Sources/NotificationsPeerCategoryController.swift": (
+            "db403229ce160e97d7e218cee0b91bf202ffe4cb1a3ff068f57273b107fd9cc8",
+            [(
+                "        var filter: ChatListNodePeersFilter = [.excludeRecent, .doNotSearchMessages, .removeSearchHeader]\n",
+                "        var filter: ChatListNodePeersFilter = [.excludeRecent, .doNotSearchMessages, .removeSearchHeader, .nagramiXNotificationExceptions]\n",
+            )],
+        ),
+        picker + "PeerSelectionControllerNode.swift": (
+            "c4bd57a17f81d78504ee27807707437473b9aa3b1dd271c7c8a3cd7d4b55b74d",
+            [
+                (
+                    "        if hasFilters {\n            self.mainContainerNode = ChatListContainerNode(",
+                    """        // The ordinary picker filters peers after taking its newest 200 chats.
+        // Notification exceptions need the category predicate inside Postbox,
+        // so older and archived candidates participate in native pagination.
+        let nagramiXExceptionFilter: ChatListFilter?
+        if filter.contains(.nagramiXNotificationExceptions), forumPeerId == nil, !hasFilters {
+            let categories: ChatListFilterPeerCategories
+            if filter.contains(.onlyGroups) {
+                categories = [.groups]
+            } else if filter.contains(.onlyChannels) {
+                categories = [.channels]
+            } else {
+                categories = [.contacts, .nonContacts, .bots]
+            }
+            nagramiXExceptionFilter = .filter(
+                id: 0,
+                title: ChatFolderTitle(text: "", entities: [], enableAnimations: false),
+                emoticon: nil,
+                data: ChatListFilterData(
+                    isShared: false,
+                    hasSharedLinks: false,
+                    categories: categories,
+                    excludeMuted: false,
+                    excludeRead: false,
+                    excludeArchived: false,
+                    includePeers: ChatListFilterIncludePeers(),
+                    excludePeers: [],
+                    color: nil
+                )
+            )
+        } else {
+            nagramiXExceptionFilter = nil
+        }
+
+        if hasFilters {
+            self.mainContainerNode = ChatListContainerNode(""",
+                ),
+                (
+                    "self.chatListNode = ChatListNode(context: context, location: chatListLocation, previewing: false,",
+                    "self.chatListNode = ChatListNode(context: context, location: chatListLocation, chatListFilter: nagramiXExceptionFilter, previewing: false,",
+                ),
+            ],
+        ),
+        picker + "PeerSelectionController.swift": (
+            "4f5dd1365d4d72f0d4c3b8b42daee93da1fcf784809641f546ca5cd24191726c",
+            [
+                (
+                    "        self.navigationBar?.setContentNode(self.searchContentNode, animated: false)\n",
+                    "        self.navigationBar?.setContentNode(self.searchContentNode, animated: false)\n"
+                    "        if self.filter.contains(.nagramiXNotificationExceptions) {\n"
+                    "            self.searchContentNode?.updateExpansionProgress(1.0, animated: false)\n"
+                    "        }\n",
+                ),
+                (
+                    "                searchContentNode.updateListVisibleContentOffset(offset)\n",
+                    "                if strongSelf.filter.contains(.nagramiXNotificationExceptions) {\n"
+                    "                    searchContentNode.updateExpansionProgress(1.0, animated: false)\n"
+                    "                } else {\n"
+                    "                    searchContentNode.updateListVisibleContentOffset(offset)\n"
+                    "                }\n",
+                ),
+                (
+                    "                return fixNavigationSearchableListNodeScrolling(listView, searchNode: searchContentNode)\n",
+                    "                if strongSelf.filter.contains(.nagramiXNotificationExceptions) {\n"
+                    "                    searchContentNode.updateExpansionProgress(1.0, animated: false)\n"
+                    "                    return false\n"
+                    "                }\n"
+                    "                return fixNavigationSearchableListNodeScrolling(listView, searchNode: searchContentNode)\n",
+                ),
+            ],
+        ),
+    }
+    staged = {}
+    for name, (expected_hash, replacements) in patches.items():
+        path = source / name
+        data = path.read_bytes()
+        if hashlib.sha256(data).hexdigest() != expected_hash:
+            raise SystemExit(f"Изменился проверенный выбор исключений уведомлений: {name}")
+        text = data.decode("utf-8")
+        for old, new in replacements:
+            if text.count(old) != 1:
+                raise SystemExit(f"Изменилась точка интеграции исключений уведомлений: {name}")
+            text = text.replace(old, new, 1)
+        staged[path] = text
+    for path, text in staged.items():
+        path.write_text(text, encoding="utf-8")
+
+
 def apply_auto_reveal_spoilers(source: Path) -> None:
     """Reveal presentation spoilers without rewriting message entities/media."""
     text_module = "submodules/TelegramUI/Components/Chat/ChatMessageTextBubbleContentNode"
@@ -8287,6 +8399,903 @@ def apply_forward_action_labels(source: Path) -> None:
         "Use the same Repost title for native replacement-message forwarding",
     )
 
+
+def apply_edit_history_screen(source: Path, overlay: Path) -> None:
+    """Replace the unbounded alert with a selectable, full-screen revision list."""
+    relative = "submodules/TelegramUI/Sources/ChatInterfaceStateContextMenus.swift"
+    path = source / relative
+    raw = path.read_bytes()
+    if hashlib.sha256(raw).hexdigest() != "ff44cf918c9d9e6534301f73f15ab3f234993397f7197140e74b4ad64d3279e0":
+        raise SystemExit("Edit history menu input drift")
+    old = """                    let presentationData = context.sharedContext.currentPresentationData.with { $0 }
+                    let title = NSAttributedString(string: presentationData.strings.nagramiXEditHistory, font: Font.semibold(presentationData.listsFontSize.baseDisplaySize), textColor: presentationData.theme.actionSheet.primaryTextColor, paragraphAlignment: .center)
+                    let body = NSMutableAttributedString()
+                    let formatter = DateFormatter()
+                    formatter.locale = Locale.current
+                    formatter.dateStyle = .short
+                    formatter.timeStyle = .short
+                    for i in 0 ..< editHistory.count {
+                        if i != 0 {
+                            body.append(NSAttributedString(string: "\\n\\n"))
+                        }
+                        let date = formatter.string(from: Date(timeIntervalSince1970: TimeInterval(editHistory[i].timestamp)))
+                        let label = i == 0 ? presentationData.strings.nagramiXOriginalVersion + " · " + date : (i == editHistory.count - 1 ? presentationData.strings.nagramiXCurrentVersion + " · " + date : date)
+                        body.append(NSAttributedString(string: label + "\\n", font: Font.semibold(13.0), textColor: presentationData.theme.actionSheet.controlAccentColor))
+                        body.append(stringWithAppliedEntities(editHistory[i].text, entities: editHistory[i].entities, baseColor: presentationData.theme.actionSheet.primaryTextColor, linkColor: presentationData.theme.actionSheet.controlAccentColor, baseFont: Font.regular(15.0), linkFont: Font.regular(15.0), boldFont: Font.semibold(15.0), italicFont: Font.italic(15.0), boldItalicFont: Font.semiboldItalic(15.0), fixedFont: Font.monospace(15.0), blockQuoteFont: Font.regular(15.0), message: nil))
+                    }
+                    controllerInteraction.presentController(richTextAlertController(context: context, title: title, text: body, actions: [TextAlertAction(type: .defaultAction, title: presentationData.strings.Common_OK, action: {})]), nil)"""
+    new = """                    let canExport = !isCopyProtected && !message.isCopyProtected() && !message.containsSecretMedia && message.id.peerId.namespace != Namespaces.Peer.SecretChat && !message.media.contains(where: { $0 is TelegramMediaPaidContent })
+                    let controller = NagramiXEditHistoryController(context: context, message: message, revisions: editHistory, canExport: canExport, forward: interfaceInteraction.copyMessagesWithoutSource)
+                    if let navigationController = controllerInteraction.navigationController() {
+                        navigationController.pushViewController(controller)
+                    } else {
+                        controller.navigationPresentation = .standaloneModal
+                        controllerInteraction.presentController(controller, nil)
+                    }"""
+    text = raw.decode("utf-8")
+    if text.count(old) != 1:
+        raise SystemExit("Edit history alert anchor drift")
+    state_path = source / "submodules/TelegramCore/Sources/State/AccountStateManagementUtils.swift"
+    state_raw = state_path.read_bytes()
+    if hashlib.sha256(state_raw).hexdigest() != "a463630a38ac75c48bd77f485dc8678ad8b4e4a3c019651c045ac7b317436f91":
+        raise SystemExit("Edit history sync input drift")
+    state_old = """                let _ = transaction.addMessages(messages, location: location)
+                if let messageArchive = NagramiXMessageArchive.forPostbox(postbox) {"""
+    state_new = """                // History-page/sync replacements can carry edits without an
+                // EditMessage operation. Preserve the actual previous Postbox
+                // text before addMessages replaces it, including the first edit.
+                if let messageArchive = NagramiXMessageArchive.forPostbox(postbox), messageArchive.capturesMessageEdits {
+                    for message in messages {
+                        if case let .Id(id) = message.id, let previousMessage = transaction.getMessage(id) {
+                            let peers: [PeerId: Peer] = previousMessage.peers.reduce(into: [:]) { result, entry in
+                                result[entry.0] = entry.1
+                            }
+                            messageArchive.recordIncomingEdit(previousMessage: previousMessage, replacementMessage: message, peers: peers, receivedAt: Int32(CFAbsoluteTimeGetCurrent() + kCFAbsoluteTimeIntervalSince1970))
+                        }
+                    }
+                }
+                let _ = transaction.addMessages(messages, location: location)
+                if let messageArchive = NagramiXMessageArchive.forPostbox(postbox) {"""
+    state_text = state_raw.decode("utf-8")
+    if state_text.count(state_old) != 1:
+        raise SystemExit("Edit history sync anchor drift")
+    helpers = {
+        "submodules/TelegramUI/Sources/Chat/NagramiXEditHistoryController.swift": "Sources/TelegramUI/NagramiXEditHistoryController.swift",
+        "submodules/TelegramCore/Tests/NagramiXEditHistoryTests.swift": "Tests/TelegramCore/NagramiXEditHistoryTests.swift",
+    }
+    for target, origin in helpers.items():
+        if (source / target).exists() or not (overlay / origin).is_file():
+            raise SystemExit(f"Edit history helper conflict or missing source: {target}")
+    # Preflight all inputs before mutating any output.
+    path.write_text(text.replace(old, new, 1), encoding="utf-8")
+    state_path.write_text(state_text.replace(state_old, state_new, 1), encoding="utf-8")
+    for target, origin in helpers.items():
+        destination = source / target
+        destination.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copy2(overlay / origin, destination)
+
+
+def apply_pinned_preview_emoji(source: Path, overlay: Path) -> None:
+    """Resolve rich pinned-preview emoji without changing message/preview storage."""
+    name = "submodules/TelegramUI/Sources/ChatPinnedMessageTitlePanelNode.swift"
+    raw = (source / name).read_bytes()
+    if hashlib.sha256(raw).hexdigest() != "a1c59d60a2cbe75f5c032977cadb0ed98ea95cc9184f968b472bbbfe0ca49f35":
+        raise SystemExit("Pinned preview emoji input drift")
+    text = raw.decode("utf-8")
+    replacements = [
+        (
+            'import Foundation\n',
+            """import Foundation
+import Postbox
+""",
+        ),
+        (
+            '    private let translationDisposable = MetaDisposable()\n',
+            """    private let translationDisposable = MetaDisposable()
+    private let nagramiXEmojiDisposable = MetaDisposable()
+    private var nagramiXEmojiMessageId: MessageId?
+    private var nagramiXEmojiIds = Set<Int64>()
+    private var nagramiXEmojiFiles: [Int64: TelegramMediaFile] = [:]
+    private var nagramiXEmojiGeneration = 0
+    private var nagramiXEmojiInterfaceState: ChatPresentationInterfaceState?
+""",
+        ),
+        (
+            '        self.translationDisposable.dispose()\n',
+            """        self.translationDisposable.dispose()
+        self.nagramiXEmojiDisposable.dispose()
+""",
+        ),
+        (
+            '        let panelHeight: CGFloat = 50.0\n        var themeUpdated = false',
+            """        let panelHeight: CGFloat = 50.0
+        self.nagramiXEmojiInterfaceState = interfaceState
+        // Cancel even when the panel loses its last pin and no transition runs.
+        let nagramiXMessageId = interfaceState.pinnedMessage?.message.id
+        if self.nagramiXEmojiMessageId != nagramiXMessageId {
+            self.nagramiXEmojiGeneration += 1
+            self.nagramiXEmojiDisposable.set(nil)
+            self.nagramiXEmojiMessageId = nagramiXMessageId
+            self.nagramiXEmojiIds.removeAll()
+            self.nagramiXEmojiFiles.removeAll()
+        }
+        var themeUpdated = false""",
+        ),
+        (
+            '        let textConstrainedSize = CGSize(width: width - textLineInset - contentLeftInset - rightInset - textRightInset - 10.0, height: CGFloat.greatestFiniteMagnitude)\n',
+            """        // RichText preview metadata can contain alt glyphs such as ABC without
+        // an active custom-emoji attribute. Resolve that bounded preview only.
+        let nagramiXEmojiIds = nagramiXPinnedPreviewEmojiFileIds(messageText)
+        if self.nagramiXEmojiIds != nagramiXEmojiIds {
+            self.nagramiXEmojiGeneration += 1
+            self.nagramiXEmojiDisposable.set(nil)
+            self.nagramiXEmojiIds = nagramiXEmojiIds
+            self.nagramiXEmojiFiles = self.nagramiXEmojiFiles.filter { nagramiXEmojiIds.contains($0.key) }
+            let missingIds = nagramiXEmojiIds.filter { self.nagramiXEmojiFiles[$0] == nil }.sorted()
+            if !missingIds.isEmpty, self.animationCache != nil, self.animationRenderer != nil {
+                let generation = self.nagramiXEmojiGeneration
+                let messageId = message.id
+                self.nagramiXEmojiDisposable.set((context.engine.stickers.resolveInlineStickers(fileIds: missingIds)
+                |> deliverOnMainQueue).start(next: { [weak self] files in
+                    // A local cache hit may deliver synchronously. Invalidate
+                    // after the current layout finishes, with fresh parent state.
+                    Queue.mainQueue().async { [weak self] in
+                        guard let self, self.nagramiXEmojiGeneration == generation,
+                              self.nagramiXEmojiMessageId == messageId,
+                              self.currentMessage?.message.id == messageId else { return }
+                        var changed = false
+                        for (id, file) in files where self.nagramiXEmojiIds.contains(id) && self.nagramiXEmojiFiles[id] == nil {
+                            guard file.fileId == MediaId(namespace: Namespaces.Media.CloudFile, id: id) else { continue }
+                            self.nagramiXEmojiFiles[id] = file
+                            changed = true
+                        }
+                        if changed, let layout = self.currentLayout, let currentMessage = self.currentMessage,
+                           let interfaceState = self.nagramiXEmojiInterfaceState {
+                            // The header Component may skip equal parent state.
+                            // Refresh its native text layout directly using the
+                            // latest pin/theme/geometry, without a pin animation.
+                            self.enqueueTransition(width: layout.0, panelHeight: 50.0, leftInset: layout.1, rightInset: layout.2, transition: .immediate, animation: nil, pinnedMessage: currentMessage, theme: interfaceState.theme, strings: interfaceState.strings, nameDisplayOrder: interfaceState.nameDisplayOrder, dateTimeFormat: interfaceState.dateTimeFormat, accountPeerId: self.context.account.peerId, firstTime: false, isReplyThread: self.isReplyThread, translateToLanguage: self.currentTranslateToLanguage?.toLang)
+                        }
+                    }
+                }))
+            }
+        }
+        let nagramiXMessageText: NSAttributedString
+        if self.animationCache != nil, self.animationRenderer != nil {
+            nagramiXMessageText = nagramiXPinnedPreviewApplyingEmojiFiles(messageText, files: self.nagramiXEmojiFiles)
+        } else {
+            nagramiXMessageText = messageText
+        }
+        let textConstrainedSize = CGSize(width: width - textLineInset - contentLeftInset - rightInset - textRightInset - 10.0, height: CGFloat.greatestFiniteMagnitude)
+""",
+        ),
+        (
+            'makeTextLayout(TextNodeLayoutArguments(attributedString: messageText,',
+            """makeTextLayout(TextNodeLayoutArguments(attributedString: nagramiXMessageText,""",
+        ),
+        (
+            'makeSpoilerTextLayout(TextNodeLayoutArguments(attributedString: messageText,',
+            """makeSpoilerTextLayout(TextNodeLayoutArguments(attributedString: nagramiXMessageText,""",
+        ),
+    ]
+    for old, new in replacements:
+        if text.count(old) != 1:
+            raise SystemExit(f"Pinned preview emoji anchor drift: {old[:80]!r}")
+        text = text.replace(old, new, 1)
+    copies = {
+        "submodules/TelegramStringFormatting/Sources/NagramiXPinnedPreviewEmoji.swift": "Sources/TelegramStringFormatting/NagramiXPinnedPreviewEmoji.swift",
+        "submodules/TelegramStringFormatting/Tests/NagramiXPinnedPreviewEmojiTests.swift": "Tests/TelegramStringFormatting/NagramiXPinnedPreviewEmojiTests.swift",
+    }
+    for target, origin in copies.items():
+        if (source / target).exists() or not (overlay / origin).is_file():
+            raise SystemExit(f"Pinned preview emoji helper conflict or missing source: {target}")
+    # Every anchor and destination is checked before the first write.
+    (source / name).write_text(text, encoding="utf-8")
+    for target, origin in copies.items():
+        destination = source / target
+        destination.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copy2(overlay / origin, destination)
+
+
+def apply_round_video_finalization(source: Path) -> None:
+    """Keep cold round-video finalization off main and replay stop results."""
+    name = 'submodules/TelegramUI/Components/VideoMessageCameraScreen/Sources/VideoMessageCameraScreen.swift'
+    raw = (source / name).read_bytes()
+    if hashlib.sha256(raw).hexdigest() != '83121d3f32d7cb2cd95cbab461c01fe131a98f4c6f64f54b989f0e112ee0f022':
+        raise SystemExit("Round video finalization input drift")
+    text = raw.decode("utf-8")
+    replacements = [
+        (
+            """        fileprivate var resultsPipe = ValuePipe<VideoMessageCameraScreen.CaptureResult>()""",
+            """        // Only final stops advance this revision. Retained camera-switch
+        // fragments are not a completed recording for a send/preview waiter.
+        fileprivate var nagramiXCompletedRevision = 0
+        fileprivate let nagramiXCompletedResults = Promise<(revision: Int, results: [VideoMessageCameraScreen.CaptureResult])>()
+        fileprivate let nagramiXCompositionDisposable = MetaDisposable()""",
+        ),
+        (
+            """            self.resultsPipe.putNext(result)""",
+            """            self.nagramiXCompletedRevision += 1
+            Logger.shared.log("NagramiX", "Round recording finalized; segments=\\(self.results.count)")
+            self.nagramiXCompletedResults.set(.single((revision: self.nagramiXCompletedRevision, results: self.results)))""",
+        ),
+        (
+            """            self.transitioningToPreview = false
+\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20
+            if !controller.isSendingImmediately {
+                let composition = composition(with: self.results)
+                controller.updatePreviewState({ _ in
+                    return PreviewState(composition: composition, trimRange: nil, isMuted: true)
+                }, transition: .spring(duration: 0.4))
+            }""",
+            """            if !controller.isSendingImmediately && !controller.didSend && !controller.isDismissed {
+                let revision = self.nagramiXCompletedRevision
+                let request = MetaDisposable()
+                self.nagramiXCompositionDisposable.set(request)
+                Logger.shared.log("NagramiX", "Round preview preparation started")
+                request.set(nagramiXRecordingComposition(with: self.results).start(next: { [weak self, weak controller] composition in
+                    guard let self, let controller, !controller.isDismissed,
+                          !controller.didSend, !controller.isSendingImmediately,
+                          self.nagramiXCompletedRevision == revision,
+                          case .none = controller.cameraState.recording else { return }
+                    self.transitioningToPreview = false
+                    Logger.shared.log("NagramiX", "Round preview preparation finished")
+                    controller.updatePreviewState({ _ in
+                        return PreviewState(composition: composition, trimRange: nil, isMuted: true)
+                    }, transition: .spring(duration: 0.4))
+                }))
+            } else {
+                self.transitioningToPreview = false
+            }""",
+        ),
+        (
+            """        deinit {
+            self.nagramiXPreviewReadyDisposables.dispose()""",
+            """        deinit {
+            self.nagramiXCompositionDisposable.dispose()
+            self.nagramiXPreviewReadyDisposables.dispose()""",
+        ),
+        (
+            """        func resumeCameraCapture() {
+            if !self.mainPreviewView.isEnabled {""",
+            """        func resumeCameraCapture() {
+            self.nagramiXCompositionDisposable.set(nil)
+            self.transitioningToPreview = false
+            if !self.mainPreviewView.isEnabled {""",
+        ),
+        (
+            """        self.node.nagramiXPreviewReadyDisposables.dispose()
+        self.node.camera?.stopCapture(invalidate: true)""",
+            """        self.node.nagramiXCompositionDisposable.dispose()
+        self.node.nagramiXPreviewReadyDisposables.dispose()
+        self.node.camera?.stopCapture(invalidate: true)""",
+        ),
+        (
+            """    private var currentResults: Signal<[VideoMessageCameraScreen.CaptureResult], NoError> {
+        var results: Signal<[VideoMessageCameraScreen.CaptureResult], NoError> = .single(self.node.results)
+        if self.waitingForNextResult {
+            results = results
+            |> mapToSignal { initial in
+                return self.node.resultsPipe.signal()
+                |> take(1)
+                |> map { next in
+                    var updatedResults = initial
+                    updatedResults.append(next)
+                    return updatedResults
+                }
+            }
+        }
+        self.waitingForNextResult = false
+        return results
+    }
+\x20\x20\x20\x20\x20\x20\x20\x20
+""",
+            """    private var currentResults: Signal<[VideoMessageCameraScreen.CaptureResult], NoError> {
+        guard self.waitingForNextResult else {
+            return .single(self.node.results)
+        }
+        // Capture the stop revision when stop was requested, not when this
+        // signal is constructed/subscribed. Promise replays a completed stop
+        // even if thumbnail work or a synchronous callback delayed the waiter.
+        let expectedRevision = self.nagramiXExpectedCompletedRevision
+        self.waitingForNextResult = false
+        return self.node.nagramiXCompletedResults.get()
+        |> filter { $0.revision >= expectedRevision }
+        |> take(1)
+        |> map { $0.results }
+    }
+
+""",
+        ),
+        (
+            """    private var waitingForNextResult = false
+    public func stopVideoRecording()""",
+            """    private var nagramiXExpectedCompletedRevision = 0
+    private var waitingForNextResult = false {
+        didSet {
+            if self.waitingForNextResult && !oldValue {
+                self.nagramiXExpectedCompletedRevision = self.node.nagramiXCompletedRevision + 1
+            }
+        }
+    }
+    public func stopVideoRecording()""",
+        ),
+        (
+            """                    let composition = composition(with: results)
+                    return combineLatest(
+                        queue: Queue.mainQueue(),
+                        videoFrames(asset: composition, count: count, initialTimestamp: immediateResult?.framesUpdateTimestamp),
+                        previewState
+                    )
+                    |> map { framesAndUpdateTimestamp, previewState in
+                        return RecordedVideoData(
+                            duration: totalDuration,
+                            frames: framesAndUpdateTimestamp.0,
+                            framesUpdateTimestamp: framesAndUpdateTimestamp.1,
+                            trimRange: previewState?.trimRange
+                        )
+                    }""",
+            """                    return nagramiXRecordingComposition(with: results)
+                    |> mapToSignal { composition in
+                        return combineLatest(
+                            queue: Queue.mainQueue(),
+                            videoFrames(asset: composition, count: count, initialTimestamp: immediateResult?.framesUpdateTimestamp),
+                            previewState
+                        )
+                        |> map { framesAndUpdateTimestamp, previewState in
+                            return RecordedVideoData(
+                                duration: totalDuration,
+                                frames: framesAndUpdateTimestamp.0,
+                                framesUpdateTimestamp: framesAndUpdateTimestamp.1,
+                                trimRange: previewState?.trimRange
+                            )
+                        }
+                    }""",
+        ),
+        (
+            """                thumbnailImage = Signal { subscriber in
+                    let composition = composition(with: results)
+                    let imageGenerator = AVAssetImageGenerator(asset: composition)
+                    imageGenerator.maximumSize = dimensions.cgSize
+                    imageGenerator.appliesPreferredTrackTransform = true
+\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20
+                    imageGenerator.generateCGImagesAsynchronously(forTimes: [NSValue(time: CMTime(seconds: startTime, preferredTimescale: composition.duration.timescale))], completionHandler: { _, image, _, _, _ in
+                        if let image {
+                            subscriber.putNext(UIImage(cgImage: image))
+                        } else {
+                            subscriber.putNext(video.thumbnail)
+                        }
+                        subscriber.putCompletion()
+                    })
+\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20
+                    return ActionDisposable {
+                        imageGenerator.cancelAllCGImageGeneration()
+                    }
+                }""",
+            """                thumbnailImage = nagramiXRecordingComposition(with: results)
+                |> mapToSignal { composition in
+                    return Signal { subscriber in
+                        let imageGenerator = AVAssetImageGenerator(asset: composition)
+                        imageGenerator.maximumSize = dimensions.cgSize
+                        imageGenerator.appliesPreferredTrackTransform = true
+
+                        imageGenerator.generateCGImagesAsynchronously(forTimes: [NSValue(time: CMTime(seconds: startTime, preferredTimescale: composition.duration.timescale))], completionHandler: { _, image, _, _, _ in
+                            if let image {
+                                subscriber.putNext(UIImage(cgImage: image))
+                            } else {
+                                subscriber.putNext(video.thumbnail)
+                            }
+                            subscriber.putCompletion()
+                        })
+
+                        return ActionDisposable {
+                            imageGenerator.cancelAllCGImageGeneration()
+                        }
+                    }
+                }""",
+        ),
+        (
+            """private func composition(with results: [VideoMessageCameraScreen.CaptureResult]) -> AVComposition {""",
+            """private let nagramiXRecordingCompositionQueue = Queue(name: "NagramiX.RoundVideoComposition")
+
+private func nagramiXRecordingComposition(with results: [VideoMessageCameraScreen.CaptureResult]) -> Signal<AVComposition, NoError> {
+    return Signal { subscriber in
+        // AVAsset.duration/track discovery and composition insertion can block
+        // on the first file after process launch. Never do that work on main.
+        let composition = nagramiXMakeRecordingComposition(with: results)
+        subscriber.putNext(composition)
+        subscriber.putCompletion()
+        return EmptyDisposable
+    }
+    |> runOn(nagramiXRecordingCompositionQueue)
+    |> deliverOnMainQueue
+}
+
+private func nagramiXMakeRecordingComposition(with results: [VideoMessageCameraScreen.CaptureResult]) -> AVComposition {""",
+        ),
+        (
+            """        self.didSend = true
+\x20\x20\x20\x20\x20\x20\x20\x20
+        let _ = (self.currentResults""",
+            """        self.didSend = true
+        self.node.nagramiXCompositionDisposable.set(nil)
+        Logger.shared.log("NagramiX", "Round send requested")
+
+        let _ = (self.currentResults""",
+        ),
+        (
+            """            self.completion.invoke(result)
+            controller.updateCameraState({ $0.updatedRecording(.none) }, transition: .spring(duration: 0.4))""",
+            """            // Publish only after state is coherent: replay can synchronously
+            // enqueue/dismiss the controller from inside completion.invoke.
+            controller.updateCameraState({ $0.updatedRecording(.none) }, transition: .spring(duration: 0.4))
+            self.completion.invoke(result)""",
+        ),
+        (
+            """            self.nagramiXStoppingRecording = true
+            self.nagramiXPreparationTimer?.invalidate()""",
+            """            self.nagramiXStoppingRecording = true
+            Logger.shared.log("NagramiX", "Round writer stop requested; cameraSwitch=\\(forCameraSwitch)")
+            self.nagramiXPreparationTimer?.invalidate()""",
+        ),
+        (
+            """                self.completion(.message(
+""",
+            """                Logger.shared.log("NagramiX", "Round media prepared for enqueue; segments=\\(videoPaths.count)")
+                self.completion(.message(
+""",
+        ),
+    ]
+    for old, new in replacements:
+        if text.count(old) != 1:
+            raise SystemExit(f"Round video finalization anchor drift: {old[:80]!r}")
+        text = text.replace(old, new, 1)
+    # Preflight the whole change before the only write.
+    (source / name).write_text(text, encoding="utf-8")
+
+def apply_camera_preview_lifecycle(source: Path, overlay: Path) -> None:
+    """Serialize modern capture graph/preview lifetime after a watchdog report."""
+    guards = {
+        'submodules/Camera/CameraNeo/Sources/CameraNeo.swift': 'd51213db5c784693e6c1b63865cb4a3afeafcb05909d8a755f9925252ad612c3',
+        'submodules/Camera/CameraNeo/Sources/CameraPreviewView.swift': 'd184558d1d25c9f61db5a5290a869a3b1c3687cd01e32a4f900e8cccb21f0f7d',
+        'submodules/Camera/CameraNeo/BUILD': 'bb6f70382a058e02023e0bbe0eec025fb74818975c94fbfbe75207dcdf6cafa4',
+    }
+    prepared = {}
+    for name, digest in guards.items():
+        raw = (source / name).read_bytes()
+        if hashlib.sha256(raw).hexdigest() != digest:
+            raise SystemExit(f"Camera preview lifecycle input drift: {name}")
+        prepared[name] = raw.decode("utf-8")
+    helper = overlay / "Sources/CameraNeo/NagramiXPreviewSession.swift.inc"
+    if not helper.is_file():
+        raise SystemExit("Camera preview lifecycle helper missing")
+    methods = helper.read_text(encoding="utf-8")
+    test_origin = overlay / "Tests/CameraNeo/NagramiXPreviewSessionTests.swift"
+    test_target = source / "submodules/Camera/CameraNeo/Tests/NagramiXPreviewSessionTests.swift"
+    if not test_origin.is_file() or test_target.exists():
+        raise SystemExit("Camera preview lifecycle test missing or destination exists")
+    patches = [
+        (
+            'submodules/Camera/CameraNeo/Sources/CameraNeo.swift',
+            """    private let sessionQueue = DispatchQueue(label: "Camera.Session", qos: .userInitiated)""",
+            """    private let sessionQueue = nagramiXCameraSessionQueue""",
+        ),
+        (
+            'submodules/Camera/CameraNeo/Sources/CameraNeo.swift',
+            """    private let sessionQueueKey = DispatchSpecificKey<Void>()
+""",
+            """""",
+        ),
+        (
+            'submodules/Camera/CameraNeo/Sources/CameraNeo.swift',
+            """        self.sessionQueue.setSpecific(key: self.sessionQueueKey, value: ())
+""",
+            """""",
+        ),
+        (
+            'submodules/Camera/CameraNeo/Sources/CameraNeo.swift',
+            """    private let secondaryPreviewView: CameraPreviewView?
+""",
+            """    private let secondaryPreviewView: CameraPreviewView?
+    private let nagramiXPreviewSession: NagramiXCameraPreviewSession?
+    private let nagramiXSecondaryPreviewSession: NagramiXCameraPreviewSession?
+""",
+        ),
+        (
+            'submodules/Camera/CameraNeo/Sources/CameraNeo.swift',
+            """        self.secondaryPreviewView = secondaryPreviewView
+""",
+            """        self.secondaryPreviewView = secondaryPreviewView
+        self.nagramiXPreviewSession = previewView?.nagramiXSessionBinding
+        self.nagramiXSecondaryPreviewSession = secondaryPreviewView?.nagramiXSessionBinding
+""",
+        ),
+        (
+            'submodules/Camera/CameraNeo/Sources/CameraNeo.swift',
+            """        let session = self.session
+        let primaryOutput = self.primaryVideoOutput""",
+            """        let session = self.session
+        let previewView = self.previewView
+        let secondaryPreviewView = self.secondaryPreviewView
+        let previewSession = self.nagramiXPreviewSession
+        let secondaryPreviewSession = self.nagramiXSecondaryPreviewSession
+        let primaryOutput = self.primaryVideoOutput""",
+        ),
+        (
+            'submodules/Camera/CameraNeo/Sources/CameraNeo.swift',
+            """            session.commitConfiguration()
+            mediaQueue.async {""",
+            """            session.commitConfiguration()
+            // Keep both native layers alive and detach on the capture owner,
+            // never from UIView destruction or an overlapping main callback.
+            previewSession?.detach(from: session)
+            secondaryPreviewSession?.detach(from: session)
+            DispatchQueue.main.async {
+                // UIView ownership is released on main after capture detach.
+                withExtendedLifetime(previewView) {}
+                withExtendedLifetime(secondaryPreviewView) {}
+            }
+            mediaQueue.async {""",
+        ),
+        (
+            'submodules/Camera/CameraNeo/Sources/CameraNeo.swift',
+            """                DispatchQueue.main.async { [weak self] in
+                    self?.previewView?.invalidate()
+                    self?.secondaryPreviewView?.invalidate()
+                }""",
+            """                self.nagramiXPreviewSession?.detach(from: self.session)
+                self.nagramiXSecondaryPreviewSession?.detach(from: self.session)""",
+        ),
+        (
+            'submodules/Camera/CameraNeo/Sources/CameraNeo.swift',
+            """            previewView: self.previewView,
+""",
+            """            previewSession: self.nagramiXPreviewSession,
+""",
+        ),
+        (
+            'submodules/Camera/CameraNeo/Sources/CameraNeo.swift',
+            """            previewView: self.secondaryPreviewView,
+""",
+            """            previewSession: self.nagramiXSecondaryPreviewSession,
+""",
+        ),
+        (
+            'submodules/Camera/CameraNeo/Sources/CameraNeo.swift',
+            """        previewView: CameraPreviewView?,
+        mirrored: Bool""",
+            """        previewSession: NagramiXCameraPreviewSession?,
+        mirrored: Bool""",
+        ),
+        (
+            'submodules/Camera/CameraNeo/Sources/CameraNeo.swift',
+            """        if let previewView, let port = videoPorts.first {
+            let previewConnection = AVCaptureConnection(inputPort: port, videoPreviewLayer: previewView.videoPreviewLayer)""",
+            """        if let previewSession, let port = videoPorts.first {
+            let previewConnection = AVCaptureConnection(inputPort: port, videoPreviewLayer: previewSession.layer)""",
+        ),
+        (
+            'submodules/Camera/CameraNeo/Sources/CameraPreviewView.swift',
+            """final class CameraPreviewView: UIView, CameraSimplePreviewView {""",
+            """__NAGRAMIX_PREVIEW_SESSION__
+final class CameraPreviewView: UIView, CameraSimplePreviewView {""",
+        ),
+        (
+            'submodules/Camera/CameraNeo/Sources/CameraPreviewView.swift',
+            """    private let placeholderView = UIImageView()
+""",
+            """    private let placeholderView = UIImageView()
+    private(set) lazy var nagramiXSessionBinding = NagramiXCameraPreviewSession(layer: self.videoPreviewLayer)
+""",
+        ),
+        (
+            'submodules/Camera/CameraNeo/Sources/CameraPreviewView.swift',
+            """        super.init(frame: frame)
+
+        if roundVideo {""",
+            """        super.init(frame: frame)
+        // Establish native-layer ownership on main before attaching a session.
+        _ = self.nagramiXSessionBinding
+
+        if roundVideo {""",
+        ),
+        (
+            'submodules/Camera/CameraNeo/Sources/CameraPreviewView.swift',
+            """    func updateOrientation() {
+        guard self.videoPreviewLayer.connection?.isVideoOrientationSupported == true else {
+            return
+        }
+        let interfaceOrientation = self.window?.windowScene?.interfaceOrientation ?? .portrait
+        self.videoPreviewLayer.connection?.videoOrientation = interfaceOrientation.videoOrientation
+        self.videoPreviewLayer.removeAllAnimations()
+    }""",
+            """    func updateOrientation() {
+        let interfaceOrientation = self.window?.windowScene?.interfaceOrientation ?? .portrait
+        self.nagramiXSessionBinding.updateOrientation(interfaceOrientation.videoOrientation)
+        self.videoPreviewLayer.removeAllAnimations()
+    }""",
+        ),
+        (
+            'submodules/Camera/CameraNeo/Sources/CameraPreviewView.swift',
+            """    func setSession(_ session: AVCaptureSession, automaticallyConnect: Bool) {
+        if automaticallyConnect {
+            self.videoPreviewLayer.session = session
+        } else {
+            self.videoPreviewLayer.setSessionWithNoConnection(session)
+        }
+    }""",
+            """    func setSession(_ session: AVCaptureSession, automaticallyConnect: Bool) {
+        self.nagramiXSessionBinding.bind(session, automaticallyConnect: automaticallyConnect)
+    }""",
+        ),
+        (
+            'submodules/Camera/CameraNeo/Sources/CameraPreviewView.swift',
+            """    func invalidate() {
+        self.videoPreviewLayer.session = nil
+    }""",
+            """    func invalidate() {
+        self.nagramiXSessionBinding.invalidate()
+    }""",
+        ),
+        (
+            'submodules/Camera/CameraNeo/Sources/CameraPreviewView.swift',
+            """        return self.videoPreviewLayer.connection?.videoOrientation ?? .portrait""",
+            """        return self.nagramiXSessionBinding.captureOrientation""",
+        ),
+        (
+            'submodules/Camera/CameraNeo/Sources/CameraPreviewView.swift',
+            """            self.videoPreviewLayer.connection?.isEnabled = self.isEnabled""",
+            """            self.nagramiXSessionBinding.setEnabled(self.isEnabled)""",
+        ),
+        (
+            'submodules/Camera/CameraNeo/BUILD',
+            '''load("@build_bazel_rules_swift//swift:swift.bzl", "swift_library")
+load(
+    "@build_bazel_rules_apple//apple:resources.bzl",
+    "apple_resource_bundle",
+    "apple_resource_group",
+)
+load("//build-system/bazel-utils:plist_fragment.bzl",
+    "plist_fragment",
+)
+
+filegroup(
+    name = "CameraNeoMetalResources",
+    srcs = glob([
+        "MetalResources/**/*.*",
+    ]),
+    visibility = ["//visibility:public"],
+)
+
+plist_fragment(
+    name = "CameraNeoBundleInfoPlist",
+    extension = "plist",
+    template =
+    """
+    <key>CFBundleIdentifier</key>
+    <string>org.telegram.CameraNeo</string>
+    <key>CFBundleDevelopmentRegion</key>
+    <string>en</string>
+    <key>CFBundleName</key>
+    <string>CameraNeo</string>
+    """,
+)
+
+apple_resource_bundle(
+    name = "CameraNeoBundle",
+    infoplists = [
+        ":CameraNeoBundleInfoPlist",
+    ],
+    resources = [
+        ":CameraNeoMetalResources",
+    ],
+)
+
+swift_library(
+    name = "CameraNeo",
+    module_name = "CameraNeo",
+    srcs = glob([
+        "Sources/**/*.swift",
+    ]),
+    copts = [
+        "-warnings-as-errors",
+    ],
+    data = [
+        ":CameraNeoBundle",
+    ],
+    deps = [
+        "//submodules/AppBundle",
+        "//submodules/Camera",
+        "//submodules/GZip",
+        "//submodules/SSignalKit/SwiftSignalKit:SwiftSignalKit",
+        "//submodules/Utils/DeviceModel",
+        "//submodules/LottieBinding:LottieBinding",
+        "//submodules/LottieSettings:LottieSettings",
+    ],
+    visibility = [
+        "//visibility:public",
+    ],
+)
+''',
+            '''load("@build_bazel_rules_swift//swift:swift.bzl", "swift_library")
+load("@build_bazel_rules_apple//apple:ios.bzl", "ios_unit_test")
+load("@build_bazel_rules_apple//apple/testing/default_runner:ios_test_runner.bzl", "ios_test_runner")
+load(
+    "@build_bazel_rules_apple//apple:resources.bzl",
+    "apple_resource_bundle",
+    "apple_resource_group",
+)
+load("//build-system/bazel-utils:plist_fragment.bzl",
+    "plist_fragment",
+)
+
+filegroup(
+    name = "CameraNeoMetalResources",
+    srcs = glob([
+        "MetalResources/**/*.*",
+    ]),
+    visibility = ["//visibility:public"],
+)
+
+plist_fragment(
+    name = "CameraNeoBundleInfoPlist",
+    extension = "plist",
+    template =
+    """
+    <key>CFBundleIdentifier</key>
+    <string>org.telegram.CameraNeo</string>
+    <key>CFBundleDevelopmentRegion</key>
+    <string>en</string>
+    <key>CFBundleName</key>
+    <string>CameraNeo</string>
+    """,
+)
+
+apple_resource_bundle(
+    name = "CameraNeoBundle",
+    infoplists = [
+        ":CameraNeoBundleInfoPlist",
+    ],
+    resources = [
+        ":CameraNeoMetalResources",
+    ],
+)
+
+swift_library(
+    name = "CameraNeo",
+    module_name = "CameraNeo",
+    srcs = glob([
+        "Sources/**/*.swift",
+    ]),
+    copts = [
+        "-warnings-as-errors",
+    ],
+    data = [
+        ":CameraNeoBundle",
+    ],
+    deps = [
+        "//submodules/AppBundle",
+        "//submodules/Camera",
+        "//submodules/GZip",
+        "//submodules/SSignalKit/SwiftSignalKit:SwiftSignalKit",
+        "//submodules/Utils/DeviceModel",
+        "//submodules/LottieBinding:LottieBinding",
+        "//submodules/LottieSettings:LottieSettings",
+    ],
+    visibility = [
+        "//visibility:public",
+    ],
+)
+
+# Compile the production preview source directly into the test-only module;
+# private implementation access does not change the app's compiler flags/API.
+swift_library(
+    name = "CameraNeoPreviewTestsLib",
+    testonly = True,
+    srcs = ["Sources/CameraPreviewView.swift"] + glob(["Tests/**/*.swift"]),
+    deps = [
+        "//submodules/Camera",
+        "//submodules/SSignalKit/SwiftSignalKit:SwiftSignalKit",
+    ],
+)
+
+ios_test_runner(
+    name = "CameraNeoPreviewTestRunner",
+    device_type = "iPhone 17",
+    os_version = "26.5",
+)
+
+ios_unit_test(
+    name = "CameraNeoPreviewTests",
+    minimum_os_version = "15.0",
+    runner = ":CameraNeoPreviewTestRunner",
+    deps = [":CameraNeoPreviewTestsLib"],
+    visibility = ["//visibility:public"],
+)
+''',
+        ),
+    ]
+    for name, old, new in patches:
+        new = new.replace("__NAGRAMIX_PREVIEW_SESSION__", methods)
+        if prepared[name].count(old) != 1:
+            raise SystemExit(f"Camera preview lifecycle anchor drift: {name}: {old[:70]!r}")
+        prepared[name] = prepared[name].replace(old, new, 1)
+    # All hashes, helper/test sources, destinations and anchors pass before any write.
+    for name, text in prepared.items():
+        (source / name).write_text(text, encoding="utf-8")
+    test_target.parent.mkdir(parents=True, exist_ok=True)
+    shutil.copy2(test_origin, test_target)
+
+def apply_debug_menu_ru_completion(source: Path) -> None:
+    """Localize Telegram 13.0 debug alerts; retain diagnostic values/actions."""
+    name = 'submodules/DebugSettingsUI/Sources/DebugController.swift'
+    raw = (source / name).read_bytes()
+    if hashlib.sha256(raw).hexdigest() != '222808350d22523fb876e23f58f378925c3f739d92fe7316bd262dbfa486db7f':
+        raise SystemExit("Debug menu localization input drift")
+    text = raw.decode("utf-8")
+    replacements = [
+        ('text: "Preparation failed. Local passcode or wallet data may already have been removed.\\n\\n\\(error.localizedDescription)"',
+         'text: String(format: presentationData.strings.nagramiXDebugLocalized("Preparation failed. Local passcode or wallet data may already have been removed.\\n\\n%@"), error.localizedDescription)'),
+        ('.genericSuccess("A profile is already running", false)',
+         '.genericSuccess(presentationData.strings.nagramiXDebugLocalized("A profile is already running"), false)'),
+        ('.genericSuccess("Saved \\(fileName). Send it with Send Profile Logs.", false)',
+         '.genericSuccess(String(format: presentationData.strings.nagramiXDebugLocalized("Saved %@. Send it with Send Profile Logs."), fileName), false)'),
+        ('.genericSuccess("Could not save the profile: \\(error.localizedDescription)", false)',
+         '.genericSuccess(String(format: presentationData.strings.nagramiXDebugLocalized("Could not save the profile: %@"), error.localizedDescription), false)'),
+    ]
+    for old, new in replacements:
+        if text.count(old) != 1:
+            raise SystemExit(f"Debug menu localization anchor drift: {old[:70]!r}")
+        text = text.replace(old, new, 1)
+    (source / name).write_text(text, encoding="utf-8")
+
+def apply_background_transaction_lifetime(source: Path) -> None:
+    """Close ungranted background writes and drain before ending UIKit tasks."""
+    guards = {
+        'submodules/TelegramUI/Sources/SharedWakeupManager.swift': 'f4e51955d75f8507dde2e86955cb75dcef171c452694b609d96692d4720fd85a',
+        'submodules/TelegramUI/Sources/AppDelegate.swift': '540eae4abbe1d8dcb2d92ed778f074ed68cb425aa8d7e346fb1a0f11bcb62166',
+    }
+    prepared = {}
+    for name, digest in guards.items():
+        raw = (source / name).read_bytes()
+        if hashlib.sha256(raw).hexdigest() != digest:
+            raise SystemExit(f"Background transaction input drift: {name}")
+        prepared[name] = raw.decode("utf-8")
+    patches = [
+        ('submodules/TelegramUI/Sources/AppDelegate.swift',
+         '                let id = application.beginBackgroundTask(withName: name, expirationHandler: expiration)\n',
+         '                let id = application.beginBackgroundTask(withName: name, expirationHandler: expiration)\n                guard id != .invalid else { return nil }\n'),
+        ('submodules/TelegramUI/Sources/SharedWakeupManager.swift',
+         '            var enableBeginTransactions = false\n            if self.allowBackgroundTimeExtensionDeadlineTimer != nil {\n                enableBeginTransactions = true\n            }',
+         '            // A grace timer does not grant iOS background execution. Keep the\n            // native Postbox/StorageBox barrier closed without a real grant.\n            let enableBeginTransactions = false'),
+        ('submodules/TelegramUI/Sources/SharedWakeupManager.swift',
+         'self.backgroundProcessingTaskId != nil || self.backgroundStoryProcessingTaskId != nil || hasBackgroundLocationTask || (hasTasks && self.currentExternalCompletion != nil) || self.activeExplicitExtensionTimer != nil || self.silenceAudioRenderer != nil {',
+         '(self.backgroundProcessingTaskId != nil && self.backgroundProcessingTaskLaunched) || (self.backgroundStoryProcessingTaskId != nil && self.backgroundStoryProcessingTaskLaunched) || hasBackgroundLocationTask || (hasTasks && self.currentExternalCompletion != nil) || (self.activeExplicitExtensionTimer != nil && self.activeExplicitExtensionTask != nil) || self.silenceAudioRenderer != nil {'),
+        ('submodules/TelegramUI/Sources/SharedWakeupManager.swift',
+         '                    self.backgroundProcessingTaskLaunched = true\n                }',
+         '                    self.backgroundProcessingTaskLaunched = true\n                    self.checkTasks()\n                }'),
+        ('submodules/TelegramUI/Sources/SharedWakeupManager.swift',
+         '                    self.backgroundStoryProcessingTaskLaunched = true\n                }',
+         '                    self.backgroundStoryProcessingTaskLaunched = true\n                    self.checkTasks()\n                }'),
+        ('submodules/TelegramUI/Sources/SharedWakeupManager.swift',
+         '                            if let actualTaskId {\n                                strongSelf.endBackgroundTask(actualTaskId)\n                                \n                                if let (taskId, _, timer) = strongSelf.currentTask, taskId == actualTaskId {\n                                    timer.invalidate()\n                                    strongSelf.currentTask = nil\n                                }\n                            }\n                            \n                            strongSelf.isInBackgroundExtension = false\n                            strongSelf.checkTasks()',
+         '                            guard let actualTaskId, let (taskId, _, timer) = strongSelf.currentTask,\n                                  taskId == actualTaskId else { return }\n                            timer.invalidate()\n                            strongSelf.currentTask = nil\n                            strongSelf.isInBackgroundExtension = false\n                            strongSelf.checkTasks()\n                            strongSelf.nagramiXEndBackgroundTaskAfterTransactions(actualTaskId)'),
+        ('submodules/TelegramUI/Sources/SharedWakeupManager.swift',
+         '                    if let activeExplicitExtensionTask = strongSelf.activeExplicitExtensionTask {\n                        strongSelf.activeExplicitExtensionTask = nil\n                        strongSelf.endBackgroundTask(activeExplicitExtensionTask)\n                    }\n                    strongSelf.checkTasks()',
+         '                    let activeExplicitExtensionTask = strongSelf.activeExplicitExtensionTask\n                    strongSelf.activeExplicitExtensionTask = nil\n                    strongSelf.checkTasks()\n                    if let activeExplicitExtensionTask {\n                        strongSelf.nagramiXEndBackgroundTaskAfterTransactions(activeExplicitExtensionTask)\n                    }'),
+        ('submodules/TelegramUI/Sources/SharedWakeupManager.swift',
+         '                        if let activeExplicitExtensionTask = self.activeExplicitExtensionTask {\n                            self.activeExplicitExtensionTask = nil\n                            self.endBackgroundTask(activeExplicitExtensionTask)\n                        }\n                        self.checkTasks()',
+         '                        let activeExplicitExtensionTask = self.activeExplicitExtensionTask\n                        self.activeExplicitExtensionTask = nil\n                        self.checkTasks()\n                        if let activeExplicitExtensionTask {\n                            self.nagramiXEndBackgroundTaskAfterTransactions(activeExplicitExtensionTask)\n                        }'),
+        ('submodules/TelegramUI/Sources/SharedWakeupManager.swift',
+         '    private func updateAccounts(hasTasks: Bool, endTaskAfterTransactionsComplete: UIBackgroundTaskIdentifier?) {',
+         '    private func nagramiXEndBackgroundTaskAfterTransactions(_ taskId: UIBackgroundTaskIdentifier) {\n        // The native barrier drains both Postbox and MediaBox StorageBox for\n        // every account. Release the UIKit assertion only after their callback;\n        // a newer real grant/foreground remains governed by updateAccounts.\n        self.updateAccounts(hasTasks: false, endTaskAfterTransactionsComplete: taskId)\n    }\n\n    private func updateAccounts(hasTasks: Bool, endTaskAfterTransactionsComplete: UIBackgroundTaskIdentifier?) {'),
+    ]
+    for name, old, new in patches:
+        if prepared[name].count(old) != 1:
+            raise SystemExit(f"Background transaction anchor drift: {name}: {old[:70]!r}")
+        prepared[name] = prepared[name].replace(old, new, 1)
+    for name, text in prepared.items():
+        (source / name).write_text(text, encoding="utf-8")
 
 def apply_features(source: Path) -> None:
     overlay = Path(__file__).resolve().parent
@@ -13103,6 +14112,13 @@ private func nagramiXCopyProfileId(_ value: Int64, presentationData: Presentatio
     apply_notification_exception_sound_catalog(source)
     apply_compact_webapp_button_layout(source)
     apply_auto_reveal_spoilers(source)
+    apply_notification_exception_peer_picker(source)
+    apply_edit_history_screen(source, overlay)
+    apply_pinned_preview_emoji(source, overlay)
+    apply_round_video_finalization(source)
+    apply_camera_preview_lifecycle(source, overlay)
+    apply_debug_menu_ru_completion(source)
+    apply_background_transaction_lifetime(source)
     replace_unique(
         source / "submodules/SettingsUI/Sources/Data and Storage/ProxyListSettingsController.swift",
         "title: text, value: value, enableInteractiveChanges: true, enabled: true, sectionId: self.section, style: .blocks, updated: arguments.toggleUseForCalls, tag: ProxySettingsEntryTag.useForCalls)",

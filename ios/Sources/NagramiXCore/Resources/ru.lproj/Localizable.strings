@@ -177,7 +177,7 @@
 "NagramiX.Context.SelectedDeletionWarning" = "Будут удалены выбранные сообщения: %@. Остальная переписка останется.";
 "NagramiX.Context.LocalCopiesDeletionWarning" = "Локальные копии (%@) удалятся только с этого устройства.";
 "NagramiX.Network.DataCenters" = "Дата-центры";
-"NagramiX.Profile.Id" = "ID профиля";
+"NagramiX.Profile.Id" = "ID Профиля";
 "NagramiX.Profile.IdCopied" = "ID скопирован";
 "NagramiX.Profile.RegistrationDate" = "Регистрация";
 "NagramiX.Profile.RegistrationApproximate" = "Примерно %@ г.";
@@ -291,3 +291,29 @@
 
 "NagramiX.Settings.Messages.AutoRevealSpoilers" = "Автораскрытие спойлеров";
 "NagramiX.Settings.Messages.AutoRevealSpoilers.SearchTerms" = "Текст, фото и видео под спойлером видны сразу, без нажатия. Анти-спойлер.";
+
+"NagramiX.Messages.SavedVersion" = "Сохранённая версия";
+
+"NagramiX.Messages.RevisionWithoutText" = "В этой версии нет текста.";
+
+"NagramiX.Messages.RevisionArchiveInfo" = "Здесь сохранены текст и подписи тех версий, которые приложение получило при включённой истории правок. Прошлые изменения вложений не сохраняются.";
+
+"NagramiX.Debug.Test Passcode Migration Failed" = "Не удалось проверить перенос код-пароля";
+"NagramiX.Debug.test passcode migration" = "Проверка переноса код-пароля";
+"NagramiX.Debug.Lock on next launch" = "Заблокировать при следующем запуске";
+"NagramiX.Debug.6-digits (123456)" = "6 цифр (123456)";
+"NagramiX.Debug.4-digits (1234)" = "4 цифры (1234)";
+"NagramiX.Debug.alphanumeric (qwerty)" = "Буквы и цифры (qwerty)";
+"NagramiX.Debug.Test Passcode Migration" = "Проверить перенос код-пароля";
+"NagramiX.Debug.Chat: CoreList backend (PoC)" = "Чаты: движок CoreList (эксперимент)";
+"NagramiX.Debug.Lottie: force rlottie" = "Lottie: принудительно использовать rlottie";
+"NagramiX.Debug.Recording: respect system microphone" = "Запись: учитывать системный выбор микрофона";
+"NagramiX.Debug.Use Modern Video Message Pipeline" = "Современная обработка видеосообщений";
+"NagramiX.Debug.Group calls: reference engine" = "Групповые звонки: эталонный движок";
+"NagramiX.Debug.Rust MTProto [Restart App]" = "MTProto на Rust [перезапустите приложение]";
+"NagramiX.Debug.Collect CPU Profile (10s)" = "Записать профиль нагрузки CPU (10 с)";
+"NagramiX.Debug.Send Profile Logs" = "Отправить логи профилирования";
+"NagramiX.Debug.A profile is already running" = "Профилирование уже выполняется";
+"NagramiX.Debug.Preparation failed. Local passcode or wallet data may already have been removed.\n\n%@" = "Не удалось выполнить подготовку. Локальный код-пароль или данные кошелька уже могли быть удалены.\n\n%@";
+"NagramiX.Debug.Saved %@. Send it with Send Profile Logs." = "Файл %@ сохранён. Отправьте его через «Отправить логи профилирования».";
+"NagramiX.Debug.Could not save the profile: %@" = "Не удалось сохранить профиль: %@";

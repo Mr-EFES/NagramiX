@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "product": "NagramiX",
-  "release": "0.5.8",
+  "release": "0.5.9",
   "platformPriority": [
     "ios"
   ],
@@ -42,7 +42,7 @@
       "specification": "specified",
       "ios": {
         "implementation": "implemented",
-        "compile": "compile_passed",
+        "compile": "compile_pending",
         "device": "device_pending"
       }
     },
@@ -102,7 +102,7 @@
       "specification": "specified",
       "ios": {
         "implementation": "implemented",
-        "compile": "compile_passed",
+        "compile": "compile_pending",
         "device": "device_pending"
       }
     },
@@ -328,11 +328,11 @@
     },
     {
       "id": "notification_sounds",
-      "title": "Полный системный и классический каталог звуков; звук в приложении по умолчанию выключен",
+      "title": "Уведомления: выбор чатов для исключений и полный каталог звуков; звук в приложении по умолчанию выключен",
       "specification": "specified",
       "ios": {
         "implementation": "implemented",
-        "compile": "compile_passed",
+        "compile": "compile_pending",
         "device": "device_pending"
       }
     },
@@ -512,7 +512,7 @@
       "specification": "specified",
       "ios": {
         "implementation": "implemented",
-        "compile": "compile_passed",
+        "compile": "compile_pending",
         "device": "device_pending"
       }
     },

@@ -1,4 +1,4 @@
-# Тест NagramiX 0.5.8 на физическом iPhone
+# Тест NagramiX 0.5.9 на физическом iPhone
 
 Статус после сборки94: source_checked, native compile_passed, пакет отдельно проверен, device_pending. Тестировать именно0.5.8 по Info.plist и происхождению пакета; предыдущий0.5.7/build93 не содержит новых исправлений.
 

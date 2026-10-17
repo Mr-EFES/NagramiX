@@ -33,6 +33,14 @@ public struct NagramiXMessageRevision: Codable, Equatable {
         self.entities = entities
         self.timestamp = timestamp
     }
+
+    /// Only consecutive equal text/entities are duplicates. A → B → A is three
+    /// versions, even when several edits arrive during the same second.
+    static func appendIfChanged(_ revision: NagramiXMessageRevision, to revisions: inout [NagramiXMessageRevision]) {
+        if revisions.last?.text != revision.text || revisions.last?.entities != revision.entities {
+            revisions.append(revision)
+        }
+    }
 }
 
 /// Marks a synthetic, display-only message supplied by NagramiXMessageArchive.
@@ -123,6 +131,11 @@ public final class NagramiXMessageArchive {
 
     public var updates: Signal<Int, NoError> {
         return self.revisionValue.get()
+    }
+
+    var capturesMessageEdits: Bool {
+        let settings = NagramiXMessageArchiveSettings.current
+        return settings.showDeletedMessages || settings.messageEditHistory
     }
 
     public init(postbox: Postbox, accountPeerId: PeerId, basePath: String) {
@@ -351,7 +364,7 @@ public final class NagramiXMessageArchive {
             temporary: temporary,
             peerData: peerData,
             content: NagramiXArchivedContent(text: message.text, entities: entities, media: media),
-            contentTimestamp: message.timestamp,
+            contentTimestamp: (message.attributes.first(where: { $0 is EditedMessageAttribute }) as? EditedMessageAttribute).flatMap { $0.date > 0 ? $0.date : nil } ?? message.timestamp,
             revisions: [],
             deletedAt: nil
         )
@@ -406,6 +419,14 @@ public final class NagramiXMessageArchive {
             if let current = updated.records[key] {
                 var record = record
                 record.revisions = current.revisions
+                if record.content == current.content {
+                    // Re-fetching a message must not reset the edit date.
+                    record.contentTimestamp = max(current.contentTimestamp ?? current.timestamp, record.contentTimestamp ?? record.timestamp)
+                } else if settings.messageEditHistory {
+                    // History pages / sync can refresh an existing snapshot too,
+                    // without going through the explicit edit-update operation.
+                    NagramiXMessageRevision.appendIfChanged(NagramiXMessageRevision(text: current.content.text, entities: current.content.entities, timestamp: current.contentTimestamp ?? current.timestamp), to: &record.revisions)
+                }
                 record.deletedAt = current.deletedAt
                 updated.records[key] = record
             } else {
@@ -487,12 +508,13 @@ public final class NagramiXMessageArchive {
             }
             if settings.messageEditHistory {
                 let previousRevision = NagramiXMessageRevision(text: current.content.text, entities: current.content.entities, timestamp: current.contentTimestamp ?? current.timestamp)
-                if current.revisions.last != previousRevision {
-                    current.revisions.append(previousRevision)
-                }
+                NagramiXMessageRevision.appendIfChanged(previousRevision, to: &current.revisions)
+                // If capture was paused or sync skipped intermediate updates,
+                // also retain the actual previous Postbox version we observed.
+                NagramiXMessageRevision.appendIfChanged(NagramiXMessageRevision(text: previous.content.text, entities: previous.content.entities, timestamp: previous.contentTimestamp ?? previous.timestamp), to: &current.revisions)
             }
             current.content = replacement.content
-            current.contentTimestamp = receivedAt
+            current.contentTimestamp = (replacementMessage.attributes.first(where: { $0 is EditedMessageAttribute }) as? EditedMessageAttribute).flatMap { $0.date > 0 ? $0.date : nil } ?? receivedAt
             current.peerData = replacement.peerData
             current.deletedAt = nil
             updated.records[key] = current
@@ -636,9 +658,7 @@ public final class NagramiXMessageArchive {
         let text = currentText ?? record.content.text
         let entities = currentEntities ?? record.content.entities
         let current = NagramiXMessageRevision(text: text, entities: entities, timestamp: record.contentTimestamp ?? record.timestamp)
-        if result.last?.text != current.text || result.last?.entities != current.entities {
-            result.append(current)
-        }
+        NagramiXMessageRevision.appendIfChanged(current, to: &result)
         return result.count > 1 ? result : []
     }
 
@@ -697,7 +717,7 @@ public final class NagramiXMessageArchive {
             guard var record = updated.records[key], record.deletedAt != nil,
                   text != record.content.text, !text.isEmpty || !record.content.media.isEmpty else { return }
             let timestamp = Int32(Date().timeIntervalSince1970)
-            record.revisions.append(NagramiXMessageRevision(text: record.content.text, entities: record.content.entities, timestamp: record.contentTimestamp ?? record.timestamp))
+            NagramiXMessageRevision.appendIfChanged(NagramiXMessageRevision(text: record.content.text, entities: record.content.entities, timestamp: record.contentTimestamp ?? record.timestamp), to: &record.revisions)
             // Plain-text local editing must not retain invalid entity offsets.
             record.content = NagramiXArchivedContent(text: text, entities: [], media: record.content.media)
             record.contentTimestamp = timestamp

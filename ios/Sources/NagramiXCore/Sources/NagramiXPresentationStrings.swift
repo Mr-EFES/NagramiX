@@ -197,6 +197,9 @@ public extension PresentationStrings {
     var nagramiXEditLocalCopy: String { self.nagramiXLocalized("NagramiX.Messages.EditLocalCopy") }
     var nagramiXDeleted: String { self.nagramiXLocalized("NagramiX.Messages.Deleted") }
     var nagramiXEditHistory: String { self.nagramiXLocalized("NagramiX.Messages.EditHistory") }
+    var nagramiXSavedVersion: String { self.nagramiXLocalized("NagramiX.Messages.SavedVersion") }
+    var nagramiXRevisionWithoutText: String { self.nagramiXLocalized("NagramiX.Messages.RevisionWithoutText") }
+    var nagramiXRevisionArchiveInfo: String { self.nagramiXLocalized("NagramiX.Messages.RevisionArchiveInfo") }
     var nagramiXOriginalVersion: String { self.nagramiXLocalized("NagramiX.Messages.OriginalVersion") }
     var nagramiXCurrentVersion: String { self.nagramiXLocalized("NagramiX.Messages.CurrentVersion") }
     var nagramiXNoPreviousVersions: String { self.nagramiXLocalized("NagramiX.Messages.NoPreviousVersions") }

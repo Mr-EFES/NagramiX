@@ -45,5 +45,8 @@
   "Contacts.AccessDeniedHelpON": "ВКЛЮЧЕНО",
   "Watch.UserInfo.Unmute": "Включить звук",
   "Camera.FlashAuto": "Автоматически",
-  "SocksProxySetup.UseForCalls": "Использовать прокси для звонков"
+  "SocksProxySetup.UseForCalls": "Использовать прокси для звонков",
+  "ContactInfo.PhoneLabelMobile": "Мобильный",
+  "Profile.Username": "Имя пользователя",
+  "Profile.About": "О себе"
 }

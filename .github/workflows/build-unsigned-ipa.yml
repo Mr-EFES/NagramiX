@@ -25,7 +25,7 @@ on:
         default: true
 
 env:
-  NAGRAMIX_VERSION: 0.5.8
+  NAGRAMIX_VERSION: 0.5.9
 
 permissions:
   contents: read
@@ -98,6 +98,7 @@ jobs:
             --configuration "$RUNNER_TEMP/nagramix-configuration.json"
           python3 scripts/validate_intro_localization.py \
             Telegram-iOS/Telegram/Telegram-iOS/ru.lproj/Localizable.strings
+          python3 scripts/validate_debug_localization.py --source Telegram-iOS
 
       - name: Восстановить кеш Bazel
         if: ${{ !inputs.clean_build }}
@@ -140,6 +141,14 @@ jobs:
         with:
           path: ${{ env.BAZEL_CACHE }}
           key: telegram-ios-${{ runner.os }}-${{ runner.arch }}-${{ env.TELEGRAM_IOS_REF }}
+
+      - name: Сохранить символы для диагностики вылетов
+        uses: actions/upload-artifact@v4
+        with:
+          name: NagramiX-${{ env.NAGRAMIX_VERSION }}-symbols-arm64
+          path: ${{ runner.temp }}/build-artifacts/Telegram.DSYMs.zip
+          if-no-files-found: warn
+          retention-days: 14
 
       - name: Найти и упаковать неподписанное приложение
         shell: bash
