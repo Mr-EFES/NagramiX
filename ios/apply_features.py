@@ -9289,6 +9289,9 @@ def apply_background_transaction_lifetime(source: Path) -> None:
         ('submodules/TelegramUI/Sources/SharedWakeupManager.swift',
          '    private func updateAccounts(hasTasks: Bool, endTaskAfterTransactionsComplete: UIBackgroundTaskIdentifier?) {',
          '    private func nagramiXEndBackgroundTaskAfterTransactions(_ taskId: UIBackgroundTaskIdentifier) {\n        // The native barrier drains both Postbox and MediaBox StorageBox for\n        // every account. Release the UIKit assertion only after their callback;\n        // a newer real grant/foreground remains governed by updateAccounts.\n        self.updateAccounts(hasTasks: self.accountsAndTasks.contains(where: { !$0.2.isEmpty }) || self.activeExplicitExtensionTimer != nil, endTaskAfterTransactionsComplete: taskId)\n    }\n\n    private func updateAccounts(hasTasks: Bool, endTaskAfterTransactionsComplete: UIBackgroundTaskIdentifier?) {'),
+        ('submodules/TelegramUI/Sources/SharedWakeupManager.swift',
+         '            let canBeginBackgroundExtensionTasks = self.allowBackgroundTimeExtensionDeadline.flatMap({ CFAbsoluteTimeGetCurrent() < $0 }) ?? false',
+         '            // Stop renewing before the final five seconds: a zero-duration\n            // timer can otherwise re-enter checkTasks and keep writes enabled\n            // until suspension, leaving no time for the native drain barrier.\n            let canBeginBackgroundExtensionTasks = (self.allowBackgroundTimeExtensionDeadline.flatMap({ CFAbsoluteTimeGetCurrent() < $0 }) ?? false) && self.backgroundTimeRemaining() > 5.0'),
     ]
     for name, old, new in patches:
         if prepared[name].count(old) != 1:

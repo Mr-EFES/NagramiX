@@ -118,7 +118,7 @@ def main() -> None:
             validate_onboarding_resources(archive, prefix, russian, english)
 
         custom = plistlib.loads(archive.read(prefix + "Frameworks/TelegramUIFramework.framework/NagramiXLocalization.bundle/ru.lproj/Localizable.strings"))
-        custom_keys = set(re.findall(r'^"([^"\n]+)"\s*=', (ROOT / "ios/Sources/NagramiXCore/Resources/ru.lproj/Localizable.strings").read_text(), re.MULTILINE))
+        custom_keys = {json.loads('"' + key + '"') for key in re.findall(r'^"((?:[^"\\]|\\.)*)"\s*=', (ROOT / "ios/Sources/NagramiXCore/Resources/ru.lproj/Localizable.strings").read_text(), re.MULTILINE)}
         require(custom_keys.issubset(custom), "В RU ресурсе NagramiX отсутствуют ключи")
         require(custom.get("NagramiX.Profiles.MutualContact") == "Взаимный контакт", "Нет русской метки взаимного контакта")
 
