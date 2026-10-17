@@ -8869,7 +8869,7 @@ def apply_camera_preview_lifecycle(source: Path, overlay: Path) -> None:
     helper = overlay / "Sources/CameraNeo/NagramiXPreviewSession.swift.inc"
     if not helper.is_file():
         raise SystemExit("Camera preview lifecycle helper missing")
-    methods = helper.read_text(encoding="utf-8")
+    methods = helper.read_text(encoding="utf-8").rstrip("\n") + "\n\n"
     test_origin = overlay / "Tests/CameraNeo/NagramiXPreviewSessionTests.swift"
     test_target = source / "submodules/Camera/CameraNeo/Tests/NagramiXPreviewSessionTests.swift"
     if not test_origin.is_file() or test_target.exists():

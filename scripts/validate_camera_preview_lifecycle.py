@@ -30,7 +30,7 @@ def main():
     assignments = {t.id: n.value for n in helper.body if isinstance(n, ast.Assign) for t in n.targets if isinstance(t, ast.Name)}
     guards = ast.literal_eval(assignments["guards"])
     patches = ast.literal_eval(assignments["patches"])
-    methods = (OVERLAY / METHODS).read_text()
+    methods = (OVERLAY / METHODS).read_text().rstrip("\n") + "\n\n"
     assert len(guards) == 3 and len(patches) == 21
     before, after = inventory(args.before), inventory(args.after)
     assert after.keys() - before.keys() == {TEST}
