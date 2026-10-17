@@ -27,8 +27,10 @@
         return true
     }
 
-    public func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
-        guard gestureRecognizer === self.nagramiXDirectionalPiPGesture else { return true }
+    public override func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
+        guard gestureRecognizer === self.nagramiXDirectionalPiPGesture else {
+            return super.gestureRecognizerShouldBegin(gestureRecognizer)
+        }
         guard !self.isDismissed, self.nagramiXDirectionalPiPRequest == nil,
               let gesture = gestureRecognizer as? UIPanGestureRecognizer,
               gesture.numberOfTouches == 1, UIApplication.shared.applicationState == .active,

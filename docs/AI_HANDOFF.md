@@ -1,5 +1,9 @@
 # Текущий контекст NagramiX 0.5.10
 
+## Повтор после компиляции98
+
+Run39043508963/build98 завершился до IPA: ASDisplayNode.gestureRecognizerShouldBegin требует override. В gesture template добавлен public override, остальные recognizers возвращаются через super вместо hardcoded true. Это точечная совместимость, не изменение сценария PiP. Исправление внесено в root и isolated source, новый retry остаётся0.5.10. Предыдущего release0.5.10 нет. Перед следующим dispatch повторить overlay и сравнить только это объявление/stock fallback; сохранить root index и прошлые releases.
+
 ## Разрешена сборка и полноценная публикация
 
 17октября пользователь явно разрешил очередную сборку и GitHub Release с пользовательским описанием функций без технических особенностей. Новый рабочий выпуск0.5.10, попытки сохраняют эту версию. Изолированный checkout от origin/main aae9ae1d8eac41e8dc4ccf69a150b6165968f8ac: /workspace/.codex-validation-nagramix-0510/source. Root WIP и staged R100 product/releases/0.5.6.md→docs/releases/0.5.6.md сохранить. Прежние releases/tags/IPA не удалять и не заменять.
