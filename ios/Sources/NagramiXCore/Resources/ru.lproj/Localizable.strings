@@ -205,7 +205,7 @@
 
 "NagramiX.Settings.Video.Header" = "Видео";
 "NagramiX.Settings.Video.PiPSwipe" = "«Картинка в Картинке» свайпом";
-"NagramiX.Settings.Video.PiPSwipe.Info" = "Свайп вверх или вниз по открытому видео включает режим «Картинка в картинке», если он доступен.";
+"NagramiX.Settings.Video.PiPSwipe.Info" = "Короткий свайп в любом направлении по открытому видео включает режим «Картинка в картинке», если он доступен.";
 "NagramiX.Settings.Video.BackgroundPlayback" = "Звук видео в фоне";
 "NagramiX.Settings.Video.BackgroundPlayback.Info" = "Продолжать звук запущенного видео при сворачивании приложения и блокировке экрана.";
 

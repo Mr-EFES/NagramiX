@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "product": "NagramiX",
-  "release": "0.5.9",
+  "release": "0.5.10",
   "platformPriority": [
     "ios"
   ],
@@ -258,11 +258,11 @@
     },
     {
       "id": "video_pip_swipe",
-      "title": "Короткий свайп для PiP без длинного перетаскивания и пустой области поста",
+      "title": "Системный PiP коротким свайпом во всех направлениях",
       "specification": "specified",
       "ios": {
         "implementation": "implemented",
-        "compile": "compile_passed",
+        "compile": "compile_pending",
         "device": "device_pending"
       }
     },
@@ -332,7 +332,7 @@
       "specification": "specified",
       "ios": {
         "implementation": "implemented",
-        "compile": "compile_passed",
+        "compile": "compile_pending",
         "device": "device_pending"
       }
     },

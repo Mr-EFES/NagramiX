@@ -4510,6 +4510,68 @@ def apply_notification_exception_peer_picker(source: Path) -> None:
         path.write_text(text, encoding="utf-8")
 
 
+def apply_notification_exception_picker_lifecycle(source: Path) -> None:
+    """Keep the transient category filter and search alive for all exception pickers."""
+    picker = "submodules/TelegramUI/Components/PeerSelectionController/Sources/"
+    patches = {
+        picker + "PeerSelectionControllerNode.swift": (
+            "1e3b8b801e83efa3aa99b251d357a5f02ea58c17c1122125a4ceed165610e469",
+            [
+                (
+                    "            nagramiXExceptionFilter = .filter(\n                id: 0,\n",
+                    "            // Native resetFilter reserves Int32.max for transient filters.\n"
+                    "            // id 0 collides with All Chats and is replaced or removed on updates.\n"
+                    "            nagramiXExceptionFilter = .filter(\n                id: Int32.max,\n",
+                ),
+                (
+                    """        self.chatListNode?.isEmptyUpdated = { [weak self] state, _, _ in
+            guard let strongSelf = self else {
+                return
+            }
+""",
+                    """        self.chatListNode?.isEmptyUpdated = { [weak self] state, _, _ in
+            guard let strongSelf = self else {
+                return
+            }
+            // Empty/loading categories must retain their searchable header.
+            // The ordinary request-peer picker keeps its native empty state.
+            if strongSelf.filter.contains(.nagramiXNotificationExceptions) {
+                return
+            }
+""",
+                ),
+            ],
+        ),
+        "submodules/ChatListUI/Sources/ChatListSearchListPaneNode.swift": (
+            "601f989382ffa1fb67a8dc37d30b3dacdccedf77bd220981200d38a3fb05598f",
+            [(
+                "                let filteredPeer: (EnginePeer, EnginePeer) -> Bool = { peer, accountPeer in\n",
+                "                let filteredPeer: (EnginePeer, EnginePeer) -> Bool = { peer, accountPeer in\n"
+                "                    // Native includeSelf/excludeSavedMessages share bit 7.\n"
+                "                    // Exception search must agree with the chat-list exclusions.\n"
+                "                    if peersFilter.contains(.nagramiXNotificationExceptions),\n"
+                "                       peer.id == accountPeer.id || peer.id.isRepliesOrVerificationCodes {\n"
+                "                        return false\n"
+                "                    }\n",
+            )],
+        ),
+    }
+    staged = {}
+    for name, (expected_hash, replacements) in patches.items():
+        path = source / name
+        data = path.read_bytes()
+        if hashlib.sha256(data).hexdigest() != expected_hash:
+            raise SystemExit(f"Изменился жизненный цикл выбора исключений уведомлений: {name}")
+        text = data.decode("utf-8")
+        for old, new in replacements:
+            if text.count(old) != 1:
+                raise SystemExit(f"Изменилась точка восстановления выбора исключений: {name}")
+            text = text.replace(old, new, 1)
+        staged[path] = text
+    for path, text in staged.items():
+        path.write_text(text, encoding="utf-8")
+
+
 def apply_auto_reveal_spoilers(source: Path) -> None:
     """Reveal presentation spoilers without rewriting message entities/media."""
     text_module = "submodules/TelegramUI/Components/Chat/ChatMessageTextBubbleContentNode"
@@ -9248,6 +9310,227 @@ def apply_debug_menu_ru_completion(source: Path) -> None:
             raise SystemExit(f"Debug menu localization anchor drift: {old[:70]!r}")
         text = text.replace(old, new, 1)
     (source / name).write_text(text, encoding="utf-8")
+
+
+def apply_directional_swipe_picture_in_picture(source: Path, overlay: Path) -> None:
+    """Route an explicit video pan independently of aspect ratio and scroll nesting."""
+    guards = {'submodules/GalleryUI/Sources/GalleryControllerNode.swift': 'ca0b83ed5616cc2484b9344afaad7be5cfa3b30eabad7b5da5aa2e11d28391dc',
+     'submodules/GalleryUI/Sources/GalleryPagerNode.swift': 'c5bf71d78d62037ef84c95a95e860445a95b26097a77340f3ef0e5340770e563',
+     'submodules/GalleryUI/Sources/GalleryItemNode.swift': 'b263c913796999947d704aa50d61f5e81b5d3dbff41208e4e233bdba46a3a5e6',
+     'submodules/GalleryUI/Sources/Items/UniversalVideoGalleryItem.swift': 'ade44a09ab02468a7b1ba5f2d810e9e67e6356e6a1305aed4597176d9788e891'}
+    templates = {
+        "__CONTROLLER_METHODS__": (overlay / "Sources/GalleryUI/NagramiXDirectionalPiPGesture.swift.inc").read_text(encoding="utf-8"),
+        "__REQUEST_METHODS__": (overlay / "Sources/GalleryUI/NagramiXDirectionalPiPRequest.swift.inc").read_text(encoding="utf-8"),
+    }
+    patches = [('submodules/GalleryUI/Sources/GalleryControllerNode.swift',
+      '    private var nagramiXSwipeApplicationObserver: NSObjectProtocol?\n',
+      '    private var nagramiXSwipeApplicationObserver: NSObjectProtocol?\n'
+      '    private var nagramiXDirectionalPiPGesture: UIPanGestureRecognizer?\n'
+      '    private var nagramiXDirectionalPiPItem: GalleryItemNode?\n'
+      '    private var nagramiXDirectionalPiPRequest: UUID?\n'
+      '    private var nagramiXDirectionalPiPInitialTransform = CGAffineTransform.identity\n'),
+     ('submodules/GalleryUI/Sources/GalleryControllerNode.swift',
+      '        self.scrollView.addSubview(self.pager.view)\n',
+      '        self.scrollView.addSubview(self.pager.view)\n        self.nagramiXInstallDirectionalPiPGesture()\n'),
+     ('submodules/GalleryUI/Sources/GalleryControllerNode.swift',
+      '    private func nagramiXCancelSwipePreparation() {\n',
+      '    private func nagramiXCancelSwipePreparation() {\n'
+      '        self.nagramiXResetDirectionalPiPSwipe(animated: false)\n'),
+     ('submodules/GalleryUI/Sources/GalleryControllerNode.swift',
+      '        self.pager.centralItemIndexOffsetUpdated = { [weak self] itemsIndexAndProgress in\n'
+      '            if let strongSelf = self {',
+      '        self.pager.centralItemIndexOffsetUpdated = { [weak self] itemsIndexAndProgress in\n'
+      '            if let strongSelf = self {\n'
+      '                if let item = strongSelf.nagramiXDirectionalPiPItem, item !== strongSelf.pager.centralItemNode() '
+      '{\n'
+      '                    strongSelf.nagramiXResetDirectionalPiPSwipe(animated: false)\n'
+      '                }'),
+     ('submodules/GalleryUI/Sources/GalleryControllerNode.swift',
+      '    @objc private func panGesture(_ recognizer: SwipeToDismissGestureRecognizer) {',
+      '__CONTROLLER_METHODS__    @objc private func panGesture(_ recognizer: SwipeToDismissGestureRecognizer) {'),
+     ('submodules/GalleryUI/Sources/GalleryPagerNode.swift',
+      '    private let scrollView: UIScrollView\n',
+      '    private let scrollView: UIScrollView\n'
+      '    private weak var nagramiXDirectionalPiPGesture: UIPanGestureRecognizer?\n'),
+     ('submodules/GalleryUI/Sources/GalleryPagerNode.swift',
+      '    private func makeNodeForItem(at index: Int, synchronous: Bool) -> GalleryItemNode {',
+      '    func nagramiXInstallDirectionalPiPGesture(_ gesture: UIPanGestureRecognizer) {\n'
+      '        self.nagramiXDirectionalPiPGesture = gesture\n'
+      '        self.scrollView.panGestureRecognizer.require(toFail: gesture)\n'
+      '        for node in self.itemNodes {\n'
+      '            node.nagramiXRequireDirectionalPiPGesture(gesture)\n'
+      '        }\n'
+      '    }\n'
+      '\n'
+      '    private func makeNodeForItem(at index: Int, synchronous: Bool) -> GalleryItemNode {'),
+     ('submodules/GalleryUI/Sources/GalleryPagerNode.swift',
+      '        let node = self.items[index].node(synchronous: synchronous)\n',
+      '        let node = self.items[index].node(synchronous: synchronous)\n'
+      '        if let gesture = self.nagramiXDirectionalPiPGesture {\n'
+      '            node.nagramiXRequireDirectionalPiPGesture(gesture)\n'
+      '        }\n'),
+     ('submodules/GalleryUI/Sources/GalleryItemNode.swift',
+      '    // Only eligible video nodes opt into preparing AVKit during an explicit drag.',
+      '    open var nagramiXCanBeginDirectionalPiPSwipe: Bool { return false }\n'
+      '\n'
+      '    open func nagramiXRequireDirectionalPiPGesture(_ gesture: UIPanGestureRecognizer) {\n'
+      '    }\n'
+      '\n'
+      '    open func nagramiXStartDirectionalPiP(completion: @escaping (Bool) -> Void) -> Bool {\n'
+      '        return false\n'
+      '    }\n'
+      '\n'
+      '    // Only eligible video nodes opt into preparing AVKit during an explicit drag.'),
+     ('submodules/GalleryUI/Sources/Items/UniversalVideoGalleryItem.swift',
+      '    override func prepareForPictureInPictureSwipe() -> Bool {',
+      '    override var nagramiXCanBeginDirectionalPiPSwipe: Bool {\n'
+      '        guard #available(iOS 15.0, *), NagramiXTabSettings.videoPiPSwipeEnabled,\n'
+      '              self.isCentral == true, self.hasPictureInPicture,\n'
+      '              let item = self.item, !item.isSecret,\n'
+      '              self.videoNode?.getVideoLayer() != nil,\n'
+      '              AVPictureInPictureController.isPictureInPictureSupported() else { return false }\n'
+      '        let scrollView = self.scrollNode.view\n'
+      "        // Do not steal a user's zoom/pinch pan. Compare relatively: 4K portrait\n"
+      '        // and landscape sources can have very different minimumZoomScale values.\n'
+      '        guard !scrollView.isZooming, !scrollView.isZoomBouncing,\n'
+      '              scrollView.zoomScale <= scrollView.minimumZoomScale * 1.005 else { return false }\n'
+      '        if let data = self.context.currentAppConfiguration.with({ $0 }).data,\n'
+      '           data["ios_killswitch_disable_swipe_pip"] != nil || data["ios_killswitch_disable_native_pip_v2"] != nil '
+      '{ return false }\n'
+      '        if case let .message(message, _) = item.contentInfo, message.adAttribute != nil { return false }\n'
+      '        if let content = item.content as? NativeVideoContent, content.fileReference.media.isAnimated { return '
+      'false }\n'
+      '        return true\n'
+      '    }\n'
+      '\n'
+      '    override func nagramiXRequireDirectionalPiPGesture(_ gesture: UIPanGestureRecognizer) {\n'
+      '        self.scrollNode.view.panGestureRecognizer.require(toFail: gesture)\n'
+      '    }\n'
+      '\n'
+      '    override func nagramiXStartDirectionalPiP(completion: @escaping (Bool) -> Void) -> Bool {\n'
+      '        guard #available(iOS 15.0, *), self.nagramiXCanBeginDirectionalPiPSwipe,\n'
+      '              self.prepareForPictureInPictureSwipe(),\n'
+      '              let content = self.nativePictureInPictureContent as? NativePictureInPictureContentImpl,\n'
+      '              let videoNode = self.videoNode else { return false }\n'
+      '        // The explicit request owns this inactive adapter even if an earlier\n'
+      '        // button action created it. Failure discards it, preventing late AVKit\n'
+      '        // callbacks from acting on a retried request or dismissing the gallery.\n'
+      '        self.nagramiXOwnsSwipePiPPreparation = true\n'
+      '        return content.nagramiXRequestDirectionalPiP(canCommit: { [weak self, weak content, weak videoNode] in\n'
+      '            guard let self, let content, let videoNode else { return false }\n'
+      '            return self.videoNode === videoNode && self.nativePictureInPictureContent === content\n'
+      '                && self.isCentral == true && self.galleryController()?.view.window != nil\n'
+      '        }, completion: { [weak self, weak content] started in\n'
+      '            guard let self, let content, self.nativePictureInPictureContent === content else {\n'
+      '                completion(false)\n'
+      '                return\n'
+      '            }\n'
+      '            completion(started)\n'
+      '        })\n'
+      '    }\n'
+      '\n'
+      '    override func prepareForPictureInPictureSwipe() -> Bool {\n'
+      '        guard self.nagramiXCanBeginDirectionalPiPSwipe else { return false }'),
+     ('submodules/GalleryUI/Sources/Items/UniversalVideoGalleryItem.swift',
+      '    override func cancelPictureInPictureSwipePreparation() {\n'
+      '        guard self.nagramiXOwnsSwipePiPPreparation else { return }',
+      '    override func cancelPictureInPictureSwipePreparation() {\n'
+      '        if #available(iOS 15.0, *), let content = self.nativePictureInPictureContent as? '
+      'NativePictureInPictureContentImpl {\n'
+      '            content.nagramiXCancelDirectionalPiP()\n'
+      '        }\n'
+      '        guard self.nagramiXOwnsSwipePiPPreparation else { return }'),
+     ('submodules/GalleryUI/Sources/Items/UniversalVideoGalleryItem.swift',
+      '    private var nagramiXPiPStartFailure: (() -> Void)?\n',
+      '    private var nagramiXPiPStartFailure: (() -> Void)?\n'
+      '    private var nagramiXDirectionalPiPCompletion: ((Bool) -> Void)?\n'
+      '    private var nagramiXDirectionalPiPValidation: (() -> Bool)?\n'
+      '    private var nagramiXDirectionalPiPDidTransfer = false\n'
+      '    private var nagramiXDirectionalPiPTimer: SwiftSignalKit.Timer?\n'),
+     ('submodules/GalleryUI/Sources/Items/UniversalVideoGalleryItem.swift',
+      '        self.pictureInPictureTimer?.invalidate()\n        self.nagramiXCancelPendingPiPStart()',
+      '        self.pictureInPictureTimer?.invalidate()\n'
+      '        self.nagramiXDirectionalPiPTimer?.invalidate()\n'
+      '        self.nagramiXCancelPendingPiPStart()'),
+     ('submodules/GalleryUI/Sources/Items/UniversalVideoGalleryItem.swift',
+      '    func nagramiXCancelSwipePreparation() -> Bool {',
+      '__REQUEST_METHODS__    func nagramiXCancelSwipePreparation() -> Bool {'),
+     ('submodules/GalleryUI/Sources/Items/UniversalVideoGalleryItem.swift',
+      '        // Native custom dismissal takes over here; a later AVKit error must not dismiss twice.\n'
+      '        self.nagramiXPiPStartFailure = nil',
+      '        // Directional swipes retain their gallery until native didStart confirms\n'
+      '        // the transfer. The ordinary PiP button keeps its existing lifecycle.\n'
+      '        if self.nagramiXDirectionalPiPCompletion == nil {\n'
+      '            self.nagramiXPiPStartFailure = nil\n'
+      '        }'),
+     ('submodules/GalleryUI/Sources/Items/UniversalVideoGalleryItem.swift',
+      '        self.willBegin(self)\n'
+      '    }\n'
+      '\n'
+      '    public func pictureInPictureControllerDidStartPictureInPicture(_ pictureInPictureController: '
+      'AVPictureInPictureController) {\n'
+      '        self.didBegin(self)\n'
+      '    }',
+      '        if self.nagramiXDirectionalPiPCompletion == nil {\n'
+      '            self.willBegin(self)\n'
+      '        }\n'
+      '    }\n'
+      '\n'
+      '    public func pictureInPictureControllerDidStartPictureInPicture(_ pictureInPictureController: '
+      'AVPictureInPictureController) {\n'
+      '        if self.nagramiXDirectionalPiPCompletion != nil {\n'
+      '            self.nagramiXConfirmDirectionalPiPStart()\n'
+      '            return\n'
+      '        }\n'
+      '        if !self.nagramiXDirectionalPiPDidTransfer {\n'
+      '            self.didBegin(self)\n'
+      '        }\n'
+      '    }'),
+     ('submodules/GalleryUI/Sources/Items/UniversalVideoGalleryItem.swift',
+      '    public func pictureInPictureControllerWillStartPictureInPicture(_ pictureInPictureController: '
+      'AVPictureInPictureController) {\n',
+      '    public func pictureInPictureControllerWillStartPictureInPicture(_ pictureInPictureController: '
+      'AVPictureInPictureController) {\n'
+      '        if self.nagramiXDirectionalPiPDidTransfer { return }\n'
+      '        if self.nagramiXDirectionalPiPCompletion != nil, self.nagramiXDirectionalPiPValidation?() != true {\n'
+      '            self.nagramiXFinishDirectionalPiP(started: false)\n'
+      '            return\n'
+      '        }\n'),
+     ('submodules/GalleryUI/Sources/Items/UniversalVideoGalleryItem.swift',
+      '    private func nagramiXUpdateBackgroundVideoPlayback() {\n',
+      '    private func nagramiXUpdateBackgroundVideoPlayback() {\n'
+      '        if !NagramiXTabSettings.videoPiPSwipeEnabled {\n'
+      '            self.cancelPictureInPictureSwipePreparation()\n'
+      '        }\n'),
+     ('submodules/GalleryUI/Sources/Items/UniversalVideoGalleryItem.swift',
+      '        self.nagramiXPiPStartFailure = unavailable\n',
+      '        self.nagramiXDirectionalPiPDidTransfer = false\n        self.nagramiXPiPStartFailure = unavailable\n'),
+     ('submodules/GalleryUI/Sources/Items/UniversalVideoGalleryItem.swift',
+      '    public func pictureInPictureControllerDidStopPictureInPicture(_ pictureInPictureController: '
+      'AVPictureInPictureController) {\n',
+      '    public func pictureInPictureControllerDidStopPictureInPicture(_ pictureInPictureController: '
+      'AVPictureInPictureController) {\n'
+      '        self.nagramiXDirectionalPiPDidTransfer = false\n'),
+     ('submodules/GalleryUI/Sources/Items/UniversalVideoGalleryItem.swift',
+      '    private func nagramiXStartSwipePictureInPicture(logEvent: String) -> Bool {\n'
+      '        guard self.isCentral == true, NagramiXTabSettings.videoPiPSwipeEnabled, self.hasPictureInPicture, let '
+      'item = self.item, !item.isSecret else {',
+      '    private func nagramiXStartSwipePictureInPicture(logEvent: String) -> Bool {\n'
+      '        guard self.nagramiXCanBeginDirectionalPiPSwipe else {')]
+    texts = {}
+    for name, digest in guards.items():
+        raw = (source / name).read_bytes()
+        if hashlib.sha256(raw).hexdigest() != digest:
+            raise SystemExit(f"Directional PiP input drift: {name}")
+        texts[name] = raw.decode("utf-8")
+    for name, old, new in patches:
+        if texts[name].count(old) != 1:
+            raise SystemExit(f"Directional PiP anchor drift: {name}: {old[:70]!r}")
+        for marker, template in templates.items():
+            new = new.replace(marker, template.rstrip("\n") + "\n\n")
+        texts[name] = texts[name].replace(old, new, 1)
+    for name, text in texts.items():
+        (source / name).write_text(text, encoding="utf-8")
 
 def apply_background_transaction_lifetime(source: Path) -> None:
     """Close ungranted background writes and drain before ending UIKit tasks."""
@@ -14122,6 +14405,8 @@ private func nagramiXCopyProfileId(_ value: Int64, presentationData: Presentatio
     apply_camera_preview_lifecycle(source, overlay)
     apply_debug_menu_ru_completion(source)
     apply_background_transaction_lifetime(source)
+    apply_directional_swipe_picture_in_picture(source, overlay)
+    apply_notification_exception_picker_lifecycle(source)
     replace_unique(
         source / "submodules/SettingsUI/Sources/Data and Storage/ProxyListSettingsController.swift",
         "title: text, value: value, enableInteractiveChanges: true, enabled: true, sectionId: self.section, style: .blocks, updated: arguments.toggleUseForCalls, tag: ProxySettingsEntryTag.useForCalls)",

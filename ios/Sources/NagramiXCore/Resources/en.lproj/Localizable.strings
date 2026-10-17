@@ -131,7 +131,7 @@
 
 "NagramiX.Settings.Video.Header" = "Video";
 "NagramiX.Settings.Video.PiPSwipe" = "Video PiP by Swipe";
-"NagramiX.Settings.Video.PiPSwipe.Info" = "Swiping up or down on an open video starts Picture in Picture when available.";
+"NagramiX.Settings.Video.PiPSwipe.Info" = "A short swipe in any direction on an open video starts Picture in Picture when available.";
 "NagramiX.Settings.Video.BackgroundPlayback" = "Play video in background";
 "NagramiX.Settings.Video.BackgroundPlayback.Info" = "Continue audio from a playing video when the app is minimized or the screen is locked.";
 
