@@ -1,0 +1,36 @@
+{
+  "inputs": {
+    "submodules/NagramiXTranscription/Sources/Preferences.swift": "486351c138a6b574ea8f27370c6c8806c502dc1bf7f4363b3faee4f4ab03f4f5",
+    "submodules/NagramiXTranscription/Sources/Runtime.swift": "1052b8a403d8efad6282f3a011bb74063ce67b992c753e92b01f5b3a153b57b5",
+    "submodules/NagramiXTranscription/Sources/Cloud.swift": "06390226acd3924a1e47893673df0ca47d79126bba59246cbbd8b1f9b2c03874"
+  },
+  "outputs": {
+    "submodules/NagramiXTranscription/Sources/Preferences.swift": "bb19971845e2f2924777a34283f1f1f8d829f8f6b1ea0a5582fb070d66ffc5a6",
+    "submodules/NagramiXTranscription/Sources/Runtime.swift": "0f2fc374beec69578eb476191666149c2684f02bc99a1357d6bc84b3f6a8dd07",
+    "submodules/NagramiXTranscription/Sources/Cloud.swift": "3eb50ac8dd62f99798970809a7ea0d31ccf305d5d6c5bcc9a9eb03f3052514d4"
+  },
+  "guards": {
+    "submodules/NagramiXTranscription/BUILD": "820772c2401f640bf652106d20d11b466cee847e29b43a8dff3ca3b3af0c7e78"
+  },
+  "templates": {
+    "speech_provider_permission/Before0.inc": "486351c138a6b574ea8f27370c6c8806c502dc1bf7f4363b3faee4f4ab03f4f5",
+    "speech_provider_permission/After0.inc": "bb19971845e2f2924777a34283f1f1f8d829f8f6b1ea0a5582fb070d66ffc5a6",
+    "speech_provider_permission/Before1.inc": "1052b8a403d8efad6282f3a011bb74063ce67b992c753e92b01f5b3a153b57b5",
+    "speech_provider_permission/After1.inc": "0f2fc374beec69578eb476191666149c2684f02bc99a1357d6bc84b3f6a8dd07",
+    "speech_provider_permission/Before2.inc": "06390226acd3924a1e47893673df0ca47d79126bba59246cbbd8b1f9b2c03874",
+    "speech_provider_permission/After2.inc": "3eb50ac8dd62f99798970809a7ea0d31ccf305d5d6c5bcc9a9eb03f3052514d4",
+    "speech_provider_permission/Guard.inc": "820772c2401f640bf652106d20d11b466cee847e29b43a8dff3ca3b3af0c7e78"
+  },
+  "replacements": {
+    "submodules/NagramiXTranscription/Sources/Preferences.swift": "speech_provider_permission/After0.inc",
+    "submodules/NagramiXTranscription/Sources/Runtime.swift": "speech_provider_permission/After1.inc",
+    "submodules/NagramiXTranscription/Sources/Cloud.swift": "speech_provider_permission/After2.inc"
+  },
+  "previous": {
+    "submodules/NagramiXTranscription/Sources/Preferences.swift": "speech_provider_permission/Before0.inc",
+    "submodules/NagramiXTranscription/Sources/Runtime.swift": "speech_provider_permission/Before1.inc",
+    "submodules/NagramiXTranscription/Sources/Cloud.swift": "speech_provider_permission/Before2.inc"
+  },
+  "copies": {},
+  "deletions": {}
+}

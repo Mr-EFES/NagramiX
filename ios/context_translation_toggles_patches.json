@@ -1,0 +1,78 @@
+{
+  "inputs": {
+    "submodules/SettingsUI/Sources/NagramiXSettingsController.swift": "c19bc033648c86fbe0911d4c77027c5d880a8ce341ba7a33f4b4c73166892d2b",
+    "submodules/TelegramUI/Sources/ChatInterfaceStateContextMenus.swift": "de1ccded42e48f2521b72eeed7305a4d470cbb301232847a4ffb19ddaf60d1ee"
+  },
+  "outputs": {
+    "submodules/SettingsUI/Sources/NagramiXSettingsController.swift": "5b5e4cfcb08b6e09a03a04ff5ba37c43627a84028ad847808f1ac9f51a92b84b",
+    "submodules/TelegramUI/Sources/ChatInterfaceStateContextMenus.swift": "cda39553e6abb02b1262f4fd26c5d2af637fe4c0cff392537bcd1ffa1e4942e1"
+  },
+  "guards": {
+    "submodules/SettingsUI/BUILD": "ccf29c184b8eab3b16f702e5cecc61490e5762f46e4bd53273ad95790d1a879a",
+    "submodules/TelegramUI/BUILD": "f4ae55a27c3a5e486a0fe9c768c70b65b974c505125d91a1215645179de54926"
+  },
+  "templates": {
+    "unified_temporary_messages/After1.inc": "c19bc033648c86fbe0911d4c77027c5d880a8ce341ba7a33f4b4c73166892d2b",
+    "transcription_context_telegram/After1.inc": "de1ccded42e48f2521b72eeed7305a4d470cbb301232847a4ffb19ddaf60d1ee",
+    "context_translation_toggles/Guard0.inc": "ccf29c184b8eab3b16f702e5cecc61490e5762f46e4bd53273ad95790d1a879a",
+    "context_translation_toggles/Guard1.inc": "f4ae55a27c3a5e486a0fe9c768c70b65b974c505125d91a1215645179de54926"
+  },
+  "previous": {
+    "submodules/SettingsUI/Sources/NagramiXSettingsController.swift": "unified_temporary_messages/After1.inc",
+    "submodules/TelegramUI/Sources/ChatInterfaceStateContextMenus.swift": "transcription_context_telegram/After1.inc"
+  },
+  "replacements": {},
+  "copies": {},
+  "deletions": {},
+  "operations": {
+    "submodules/SettingsUI/Sources/NagramiXSettingsController.swift": [
+      [
+        "    let updateShowSelectByAuthor: (Bool) -> Void",
+        "    let updateShowSelectByAuthor: (Bool) -> Void\n    let updateContextTranscribe: (Bool) -> Void\n    let updateContextTranslate: (Bool) -> Void"
+      ],
+      [
+        "    case showSelectByAuthor(Bool)",
+        "    case showSelectByAuthor(Bool)\n    case contextTranscribe(Bool)\n    case contextTranslate(Bool)"
+      ],
+      [
+        ".showBroadcastMessages, .broadcastMessagesInfo, .showSelectByAuthor, .selectByAuthorInfo:",
+        ".showBroadcastMessages, .broadcastMessagesInfo, .showSelectByAuthor, .selectByAuthorInfo, .contextTranscribe, .contextTranslate:",
+        2
+      ],
+      [
+        "        case .showSelectByAuthor: return 83",
+        "        case .showSelectByAuthor: return 83\n        case .contextTranscribe: return 161\n        case .contextTranslate: return 162"
+      ],
+      [
+        "            case .skipCallRating: return 515",
+        "            case .contextTranscribe: return 1230\n            case .contextTranslate: return 1240\n            case .skipCallRating: return 515"
+      ],
+      [
+        "        case let .showSelectByAuthor(value):",
+        "        case let .contextTranscribe(value):\n            return ItemListSwitchItem(presentationData: presentationData, systemStyle: .glass, title: presentationData.strings.baseLanguageCode.lowercased().hasPrefix(\"ru\") ? \"Расшифровать\" : \"Transcribe\", value: value, maximumNumberOfLines: 0, sectionId: self.section, style: .blocks, updated: arguments.updateContextTranscribe)\n        case let .contextTranslate(value):\n            return ItemListSwitchItem(presentationData: presentationData, systemStyle: .glass, title: presentationData.strings.Conversation_ContextMenuTranslate, value: value, maximumNumberOfLines: 0, sectionId: self.section, style: .blocks, updated: arguments.updateContextTranslate)\n        case let .showSelectByAuthor(value):"
+      ],
+      [
+        "        case .showSelectByAuthor: return strings.nagramiXSelectFromAuthorSetting",
+        "        case .contextTranscribe: return strings.baseLanguageCode.lowercased().hasPrefix(\"ru\") ? \"Расшифровать\" : \"Transcribe\"\n        case .contextTranslate: return strings.Conversation_ContextMenuTranslate\n        case .showSelectByAuthor: return strings.nagramiXSelectFromAuthorSetting"
+      ],
+      [
+        "        .showSelectByAuthor(settings.showSelectByAuthor),",
+        "        .showSelectByAuthor(settings.showSelectByAuthor),\n        .contextTranscribe(UserDefaults.standard.object(forKey: \"nagramix.context.transcribe\") as? Bool ?? true),\n        .contextTranslate(UserDefaults.standard.object(forKey: \"nagramix.context.translate\") as? Bool ?? true),"
+      ],
+      [
+        "        updateShowSelectByAuthor: { value in update { $0.showSelectByAuthor = value } },",
+        "        updateShowSelectByAuthor: { value in update { $0.showSelectByAuthor = value } },\n        updateContextTranscribe: { value in UserDefaults.standard.set(value, forKey: \"nagramix.context.transcribe\"); settingsPromise.set(NagramiXTabSettings.current) },\n        updateContextTranslate: { value in UserDefaults.standard.set(value, forKey: \"nagramix.context.translate\"); settingsPromise.set(NagramiXTabSettings.current) },"
+      ]
+    ],
+    "submodules/TelegramUI/Sources/ChatInterfaceStateContextMenus.swift": [
+      [
+        "if NagramiXTranscriptionRuntime.handlesContext(message) &&",
+        "if (UserDefaults.standard.object(forKey: \"nagramix.context.transcribe\") as? Bool ?? true) && NagramiXTranscriptionRuntime.handlesContext(message) &&"
+      ],
+      [
+        "if canTranslate || (inlineTranslation != nil && inlineTranslation?.nagramiXInlineHidden == false) {",
+        "if ((UserDefaults.standard.object(forKey: \"nagramix.context.translate\") as? Bool ?? true) && canTranslate) || (inlineTranslation != nil && inlineTranslation?.nagramiXInlineHidden == false) {"
+      ]
+    ]
+  }
+}

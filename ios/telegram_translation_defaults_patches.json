@@ -1,0 +1,41 @@
+{
+  "inputs": {
+    "submodules/TelegramUIPreferences/Sources/TranslationSettings.swift": "4504d1be9435c3f931a577448266b987241726969a37770e706d05a57699b8a9",
+    "submodules/SettingsUI/Sources/Language Selection/LocalizationListControllerNode.swift": "dcb879f6cdaa0d79a0b85a6c8fabf89ada65d1f754336c2f8c5b7e708cb6f4ba"
+  },
+  "outputs": {
+    "submodules/TelegramUIPreferences/Sources/TranslationSettings.swift": "3aeda785a340e2571d98524e7bb3b88afdb0d5a5639424c7ef8d5f000943a250",
+    "submodules/SettingsUI/Sources/Language Selection/LocalizationListControllerNode.swift": "e08ce03b6d1ec04bdb9fd5c38ebb16893eff5917903459397aad506d720f286c"
+  },
+  "guards": {
+    "submodules/TelegramUIPreferences/BUILD": "8bd593a3a01a9e1adfb789fd04e3e43d533080020b8c6591fd478d717ccfc988",
+    "submodules/SettingsUI/BUILD": "ccf29c184b8eab3b16f702e5cecc61490e5762f46e4bd53273ad95790d1a879a"
+  },
+  "templates": {
+    "telegram_translation_defaults/Before0.inc": "4504d1be9435c3f931a577448266b987241726969a37770e706d05a57699b8a9",
+    "telegram_translation_defaults/Before1.inc": "dcb879f6cdaa0d79a0b85a6c8fabf89ada65d1f754336c2f8c5b7e708cb6f4ba",
+    "telegram_translation_defaults/Guard0.inc": "8bd593a3a01a9e1adfb789fd04e3e43d533080020b8c6591fd478d717ccfc988",
+    "telegram_translation_defaults/Guard1.inc": "ccf29c184b8eab3b16f702e5cecc61490e5762f46e4bd53273ad95790d1a879a"
+  },
+  "previous": {
+    "submodules/TelegramUIPreferences/Sources/TranslationSettings.swift": "telegram_translation_defaults/Before0.inc",
+    "submodules/SettingsUI/Sources/Language Selection/LocalizationListControllerNode.swift": "telegram_translation_defaults/Before1.inc"
+  },
+  "replacements": {},
+  "copies": {},
+  "deletions": {},
+  "operations": {
+    "submodules/TelegramUIPreferences/Sources/TranslationSettings.swift": [
+      [
+        "TranslationSettings(showTranslate: false, translateChats: true, ignoredLanguages: nil)",
+        "TranslationSettings(showTranslate: false, translateChats: false, ignoredLanguages: nil)"
+      ]
+    ],
+    "submodules/SettingsUI/Sources/Language Selection/LocalizationListControllerNode.swift": [
+      [
+        "            } else {\n                translateChats = isPremium\n                if let activeLanguage = activeLanguageCode",
+        "            } else {\n                translateChats = false\n                if let activeLanguage = activeLanguageCode"
+      ]
+    ]
+  }
+}

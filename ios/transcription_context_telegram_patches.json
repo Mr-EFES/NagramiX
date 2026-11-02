@@ -1,0 +1,32 @@
+{
+  "inputs": {
+    "submodules/NagramiXTranscription/Sources/Runtime.swift": "0f2fc374beec69578eb476191666149c2684f02bc99a1357d6bc84b3f6a8dd07",
+    "submodules/TelegramUI/Sources/ChatInterfaceStateContextMenus.swift": "7dd0bb99dc566777be360672cb8410a7350e0cc66377256d61b4a6f2c730272c"
+  },
+  "outputs": {
+    "submodules/NagramiXTranscription/Sources/Runtime.swift": "a1a53827d2fc2902f6d612089d8467769e68f7372f2aa02d22a940aef4e29855",
+    "submodules/TelegramUI/Sources/ChatInterfaceStateContextMenus.swift": "de1ccded42e48f2521b72eeed7305a4d470cbb301232847a4ffb19ddaf60d1ee"
+  },
+  "guards": {
+    "submodules/NagramiXTranscription/BUILD": "820772c2401f640bf652106d20d11b466cee847e29b43a8dff3ca3b3af0c7e78",
+    "submodules/TelegramUI/BUILD": "f4ae55a27c3a5e486a0fe9c768c70b65b974c505125d91a1215645179de54926"
+  },
+  "templates": {
+    "speech_provider_permission/After1.inc": "0f2fc374beec69578eb476191666149c2684f02bc99a1357d6bc84b3f6a8dd07",
+    "transcription_context_telegram/After0.inc": "a1a53827d2fc2902f6d612089d8467769e68f7372f2aa02d22a940aef4e29855",
+    "translation_manual_always/After0.inc": "7dd0bb99dc566777be360672cb8410a7350e0cc66377256d61b4a6f2c730272c",
+    "transcription_context_telegram/After1.inc": "de1ccded42e48f2521b72eeed7305a4d470cbb301232847a4ffb19ddaf60d1ee",
+    "transcription_context_telegram/Guard0.inc": "820772c2401f640bf652106d20d11b466cee847e29b43a8dff3ca3b3af0c7e78",
+    "transcription_context_telegram/Guard1.inc": "f4ae55a27c3a5e486a0fe9c768c70b65b974c505125d91a1215645179de54926"
+  },
+  "previous": {
+    "submodules/NagramiXTranscription/Sources/Runtime.swift": "speech_provider_permission/After1.inc",
+    "submodules/TelegramUI/Sources/ChatInterfaceStateContextMenus.swift": "translation_manual_always/After0.inc"
+  },
+  "replacements": {
+    "submodules/NagramiXTranscription/Sources/Runtime.swift": "transcription_context_telegram/After0.inc",
+    "submodules/TelegramUI/Sources/ChatInterfaceStateContextMenus.swift": "transcription_context_telegram/After1.inc"
+  },
+  "copies": {},
+  "deletions": {}
+}

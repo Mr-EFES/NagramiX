@@ -1,0 +1,24 @@
+{
+  "inputs": {
+    "submodules/TelegramCore/Sources/Utils/NagramiXMessageArchive.swift": "d20136afa91d22806d48b48b405d5b93e64091783357b5bc1050512371bf0e6c"
+  },
+  "outputs": {
+    "submodules/TelegramCore/Sources/Utils/NagramiXMessageArchive.swift": "90564623cbe370a0fab9a7c40c6101d146d0a767eff10edf7019e21db0600ad6"
+  },
+  "guards": {
+    "submodules/TelegramCore/BUILD": "81e6c1d9dceab5da57124381fce03665a449bcb7904e66c884269dacdd584fbf"
+  },
+  "templates": {
+    "view_once_server_deletion/Before.inc": "d20136afa91d22806d48b48b405d5b93e64091783357b5bc1050512371bf0e6c",
+    "view_once_server_deletion/After.inc": "90564623cbe370a0fab9a7c40c6101d146d0a767eff10edf7019e21db0600ad6",
+    "view_once_server_deletion/Guard0.inc": "81e6c1d9dceab5da57124381fce03665a449bcb7904e66c884269dacdd584fbf"
+  },
+  "previous": {
+    "submodules/TelegramCore/Sources/Utils/NagramiXMessageArchive.swift": "view_once_server_deletion/Before.inc"
+  },
+  "replacements": {
+    "submodules/TelegramCore/Sources/Utils/NagramiXMessageArchive.swift": "view_once_server_deletion/After.inc"
+  },
+  "copies": {},
+  "deletions": {}
+}

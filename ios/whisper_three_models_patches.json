@@ -1,0 +1,30 @@
+{
+  "inputs": {
+    "submodules/NagramiXTranscription/Sources/Preferences.swift": "bb19971845e2f2924777a34283f1f1f8d829f8f6b1ea0a5582fb070d66ffc5a6",
+    "submodules/NagramiXTranscription/Sources/Settings.swift": "c9cffa45a5566380326b39337bc7f88b49f30b748ec807e49f7867a29a08c0c8"
+  },
+  "outputs": {
+    "submodules/NagramiXTranscription/Sources/Preferences.swift": "c9cc663a1a123642f07d1fb91afa67f35d1fdcb4fe234bff5941fd099e5d27da",
+    "submodules/NagramiXTranscription/Sources/Settings.swift": "94b429ce15417985dc728f88689bb222d38d7e43c668e0de5f72a7c5612cd5b6"
+  },
+  "guards": {
+    "submodules/NagramiXTranscription/BUILD": "820772c2401f640bf652106d20d11b466cee847e29b43a8dff3ca3b3af0c7e78"
+  },
+  "templates": {
+    "whisper_three_models/Before0.inc": "bb19971845e2f2924777a34283f1f1f8d829f8f6b1ea0a5582fb070d66ffc5a6",
+    "whisper_three_models/After0.inc": "c9cc663a1a123642f07d1fb91afa67f35d1fdcb4fe234bff5941fd099e5d27da",
+    "whisper_three_models/Before1.inc": "c9cffa45a5566380326b39337bc7f88b49f30b748ec807e49f7867a29a08c0c8",
+    "whisper_three_models/After1.inc": "94b429ce15417985dc728f88689bb222d38d7e43c668e0de5f72a7c5612cd5b6",
+    "whisper_three_models/Guard.inc": "820772c2401f640bf652106d20d11b466cee847e29b43a8dff3ca3b3af0c7e78"
+  },
+  "replacements": {
+    "submodules/NagramiXTranscription/Sources/Preferences.swift": "whisper_three_models/After0.inc",
+    "submodules/NagramiXTranscription/Sources/Settings.swift": "whisper_three_models/After1.inc"
+  },
+  "previous": {
+    "submodules/NagramiXTranscription/Sources/Preferences.swift": "whisper_three_models/Before0.inc",
+    "submodules/NagramiXTranscription/Sources/Settings.swift": "whisper_three_models/Before1.inc"
+  },
+  "copies": {},
+  "deletions": {}
+}

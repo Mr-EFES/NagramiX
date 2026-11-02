@@ -1,0 +1,78 @@
+{
+  "inputs": {
+    "submodules/DebugSettingsUI/Sources/CrashReportsController.swift": "c1021232f12fa746904888832558128a5630f6ace138751ea4ac9be9bce53366",
+    "submodules/CrashReporting/Sources/CrashReport.swift": "84b094154e911af9f38f4fc4e311c6e5850ba66687651b13bc0aceb6f9a8a327",
+    "submodules/NagramiXCore/Resources/ru.lproj/Localizable.strings": "1679a1c2ef9f820755a346b8bc166a2b222772ccf105e8899d39c608861272a6",
+    "submodules/NagramiXCore/Resources/en.lproj/Localizable.strings": "7494608af582f236fd7cc10f873ddd2f1e50785ee662686ff0cafb1d72250b7c"
+  },
+  "outputs": {
+    "submodules/DebugSettingsUI/Sources/CrashReportsController.swift": "0779b1ef8039f18b051f9b78357c9cd68fa6180e23416ad7df43d17bc0e9137c",
+    "submodules/CrashReporting/Sources/CrashReport.swift": "00c949400336b4cb5049b49ff4587aa9b2500dcc678408a6690c1db9134e2bcc",
+    "submodules/NagramiXCore/Resources/ru.lproj/Localizable.strings": "84a4c7d3b75214e5404e9fa13dc520daad93546f34c75850e550282ac2af3435",
+    "submodules/NagramiXCore/Resources/en.lproj/Localizable.strings": "b73d0cb2e695d69418a13f5267495618fcf254be4fb0955db23807fea6f305aa"
+  },
+  "guards": {},
+  "copies": {},
+  "patches": [
+    [
+      "submodules/DebugSettingsUI/Sources/CrashReportsController.swift",
+      "private let crashReportBot = \"iOSCrashReportsBot\"",
+      "private let crashReportBot = \"NagramiX_bot\"\nprivate let nagramiXCrashReportBotId: Int64 = 8868652150",
+      1
+    ],
+    [
+      "submodules/DebugSettingsUI/Sources/CrashReportsController.swift",
+      "guard let peer, case let .user(user) = peer, user.botInfo != nil else {",
+      "guard let peer, case let .user(user) = peer, user.botInfo != nil,\n                  user.id.namespace == Namespaces.Peer.CloudUser,\n                  user.id.id._internalGetInt64Value() == nagramiXCrashReportBotId else {",
+      1
+    ],
+    [
+      "submodules/DebugSettingsUI/Sources/CrashReportsController.swift",
+      "                            self.show(UndoOverlayController(presentationData:",
+      "                            if self.canPresent {\n                                self.sharedContext.navigateToChat(accountId: context.account.id, peerId: peerId, messageId: ids.compactMap { $0 }.first)\n                            }\n                            self.show(UndoOverlayController(presentationData:",
+      1
+    ],
+    [
+      "submodules/DebugSettingsUI/Sources/CrashReportsController.swift",
+      "nagramiXDebugLocalized(\"New Crash Log Available\")",
+      "nagramiXDebugLocalized(\"NagramiX Crash Report\")",
+      1
+    ],
+    [
+      "submodules/DebugSettingsUI/Sources/CrashReportsController.swift",
+      "nagramiXDebugLocalized(\"The app closed unexpectedly.\\n\\n Would you like to send a crash log to help us fix the issue?\")",
+      "nagramiXDebugLocalized(\"NagramiX closed unexpectedly.\\n\\nSend a crash report to @NagramiX_bot? The archive contains technical crash, app and device details.\")",
+      1
+    ],
+    [
+      "submodules/DebugSettingsUI/Sources/CrashReportsController.swift",
+      "nagramiXDebugLocalized(\"Thank you for helping make Telegram better!\")",
+      "nagramiXDebugLocalized(\"Crash report queued for @NagramiX_bot.\")",
+      1
+    ],
+    [
+      "submodules/DebugSettingsUI/Sources/CrashReportsController.swift",
+      "nagramiXDebugLocalized(\"From: %@\\n\\nThe archive includes the crash diagnostic, app and device details, and stack addresses. You can review these in View Log.\")",
+      "nagramiXDebugLocalized(\"From: %@\\n\\nSend to @NagramiX_bot. The archive includes the crash diagnostic, app and device details, and stack addresses. You can review these in View Log.\")",
+      1
+    ],
+    [
+      "submodules/CrashReporting/Sources/CrashReport.swift",
+      "    return override ?? isInternalBuild",
+      "    return override ?? true",
+      1
+    ],
+    [
+      "submodules/NagramiXCore/Resources/ru.lproj/Localizable.strings",
+      "\"NagramiX.Stories.Download.Failed\" = \"Не удалось сохранить историю. Проверьте подключение и свободное место, затем повторите попытку.\";\n",
+      "\"NagramiX.Stories.Download.Failed\" = \"Не удалось сохранить историю. Проверьте подключение и свободное место, затем повторите попытку.\";\n\n// NagramiX crash reports: explicit consent, project-owned destination.\n\"NagramiX.Debug.NagramiX Crash Report\" = \"Новый отчёт о сбое NagramiX\";\n\"NagramiX.Debug.NagramiX closed unexpectedly.\\n\\nSend a crash report to @NagramiX_bot? The archive contains technical crash, app and device details.\" = \"NagramiX неожиданно закрылось.\\n\\nОтправить отчёт о сбое в @NagramiX_bot, чтобы помочь исправить ошибку? Архив содержит технические данные сбоя, приложения и устройства.\";\n\"NagramiX.Debug.Crash report queued for @NagramiX_bot.\" = \"Отчёт добавлен в очередь отправки в @NagramiX_bot.\";\n\"NagramiX.Debug.From: %@\\n\\nSend to @NagramiX_bot. The archive includes the crash diagnostic, app and device details, and stack addresses. You can review these in View Log.\" = \"Отправитель: %@\\n\\nПолучатель: @NagramiX_bot. Архив содержит диагностику сбоя, сведения о приложении и устройстве, адреса стека. Их можно посмотреть перед отправкой.\";\n",
+      1
+    ],
+    [
+      "submodules/NagramiXCore/Resources/en.lproj/Localizable.strings",
+      "\"NagramiX.Stories.Download.Failed\" = \"Could not save the story. Check your connection and available storage, then try again.\";\n",
+      "\"NagramiX.Stories.Download.Failed\" = \"Could not save the story. Check your connection and available storage, then try again.\";\n\n// NagramiX crash reports: explicit consent, project-owned destination.\n\"NagramiX.Debug.NagramiX Crash Report\" = \"NagramiX Crash Report\";\n\"NagramiX.Debug.NagramiX closed unexpectedly.\\n\\nSend a crash report to @NagramiX_bot? The archive contains technical crash, app and device details.\" = \"NagramiX closed unexpectedly.\\n\\nSend a crash report to @NagramiX_bot? The archive contains technical crash, app and device details.\";\n\"NagramiX.Debug.Crash report queued for @NagramiX_bot.\" = \"Crash report queued for @NagramiX_bot.\";\n\"NagramiX.Debug.From: %@\\n\\nSend to @NagramiX_bot. The archive includes the crash diagnostic, app and device details, and stack addresses. You can review these in View Log.\" = \"From: %@\\n\\nSend to @NagramiX_bot. The archive includes the crash diagnostic, app and device details, and stack addresses. You can review these in View Log.\";\n",
+      1
+    ]
+  ]
+}

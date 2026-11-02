@@ -1,0 +1,24 @@
+{
+  "inputs": {
+    "submodules/TelegramUI/Sources/ChatControllerNode.swift": "796587615cb4148897dc9c257806c70e6d5408412d62ebddb889568c457a9bc7"
+  },
+  "outputs": {
+    "submodules/TelegramUI/Sources/ChatControllerNode.swift": "609debaceebc8f5f4dec8bcf16ab278fc9bf2e910fb10663c97a3b84685abe68"
+  },
+  "guards": {
+    "submodules/TelegramUI/BUILD": "f4ae55a27c3a5e486a0fe9c768c70b65b974c505125d91a1215645179de54926"
+  },
+  "templates": {
+    "keyboard_handoff/Before.swift.inc": "796587615cb4148897dc9c257806c70e6d5408412d62ebddb889568c457a9bc7",
+    "keyboard_handoff/After.swift.inc": "609debaceebc8f5f4dec8bcf16ab278fc9bf2e910fb10663c97a3b84685abe68",
+    "keyboard_handoff/BUILD.inc": "f4ae55a27c3a5e486a0fe9c768c70b65b974c505125d91a1215645179de54926"
+  },
+  "replacements": {
+    "submodules/TelegramUI/Sources/ChatControllerNode.swift": "keyboard_handoff/After.swift.inc"
+  },
+  "previous": {
+    "submodules/TelegramUI/Sources/ChatControllerNode.swift": "keyboard_handoff/Before.swift.inc"
+  },
+  "copies": {},
+  "deletions": {}
+}

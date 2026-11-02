@@ -1,0 +1,158 @@
+{
+  "inputs": {
+    "submodules/TelegramUI/Components/Stories/StoryContainerScreen/Sources/StoryContainerScreen.swift": "145d40be6f55e88adab26570c019ca2626b54047238091e2e132065f6c6f8fa2",
+    "submodules/TelegramUI/Components/Stories/StoryContainerScreen/Sources/StoryItemSetContainerComponent.swift": "7cba98bff29d66ef685943947af548d4cf0b6dc473a8f295e2971c399596390d",
+    "submodules/SettingsUI/Sources/NagramiXSettingsController.swift": "b9dcbc53bfd52f2490637a130e4f467fb07f71e1bd2cec41f1eaf09ee7addada",
+    "submodules/NagramiXCore/Sources/NagramiXPresentationStrings.swift": "caba7b148d4e345cfc93f5e111ca44e00a59228ee58633d4adbf6581c1b2784d",
+    "submodules/NagramiXCore/Resources/ru.lproj/Localizable.strings": "dee1954ea4319f6603814a4f330239502f24959a7cb81a80f229fb63131edd13",
+    "submodules/NagramiXCore/Resources/en.lproj/Localizable.strings": "dbef7a02df08b8be477f062427710c9456e08b1d0a29321fb7043c318d2fb5be"
+  },
+  "guards": {
+    "submodules/NagramiXCore/BUILD": "869e31310cc925b84ceb827a3c0b8503f3a22614acb4abeeec4a4ad435cf56e2",
+    "submodules/SaveToCameraRoll/BUILD": "a97ea3e962a8ebd6d55d09ef070f6c23124bc29104d3379081c1940ab6818f4c",
+    "submodules/TelegramUI/Components/Stories/StoryContainerScreen/BUILD": "384b0c0514fcdbc674ecca1e0b39e32d8477db64c9283f558e1d6841c0259889"
+  },
+  "templates": {
+    "Sources/TelegramUI/NagramiXStoryDownloadControls.swift.inc": "cd49f089674b0a115c067137d1381d2c49c823d39c2d48576c7b744cd1b870ac"
+  },
+  "patches": [
+    {
+      "path": "submodules/TelegramUI/Components/Stories/StoryContainerScreen/Sources/StoryContainerScreen.swift",
+      "old": "                confirmed: { [weak self] in\n                    self?.nagramiXIsPresentingConfirmation = false\n                    if anonymousViewing { self?.nagramiXAcknowledgedAnonymousViewing = true }\n                    self?.nagramiXApprovedStoryId = slice.item.id\n                    action()\n                },",
+      "new": "                // Navigation does not own the story screen until acceptance.\n                // The presented confirmation retains it until confirm/cancel.\n                confirmed: { [self] in\n                    self.nagramiXIsPresentingConfirmation = false\n                    if anonymousViewing { self.nagramiXAcknowledgedAnonymousViewing = true }\n                    self.nagramiXApprovedStoryId = slice.item.id\n                    action()\n                },",
+      "count": 1
+    },
+    {
+      "path": "submodules/TelegramUI/Components/Stories/StoryContainerScreen/Sources/StoryContainerScreen.swift",
+      "old": "            |> take(1)\n            |> deliverOnMainQueue).start(next: { state in\n                presentForState(state)\n            })",
+      "new": "            |> take(1)\n            |> timeout(30.0, queue: .mainQueue(), alternate: .complete())\n            |> deliverOnMainQueue).start(next: { [self] state in\n                // Keep the screen alive until the first state; the confirmation\n                // takes ownership next. Timeout bounds an unavailable source.\n                self.nagramiXPresentationDisposable?.dispose()\n                self.nagramiXPresentationDisposable = nil\n                presentForState(state)\n            })",
+      "count": 1
+    },
+    {
+      "path": "submodules/TelegramUI/Components/Stories/StoryContainerScreen/Sources/StoryItemSetContainerComponent.swift",
+      "old": "        private let nagramiXAnonymousIcon = UIImageView()\n",
+      "new": "        private let nagramiXAnonymousIcon = UIImageView()\n        private let nagramiXStoryDownloadButton = UIButton(type: .custom)\n        private var nagramiXStoryDownloadObserver: NSObjectProtocol?\n        private let nagramiXStorySaveDisposable = MetaDisposable()\n        private var nagramiXStorySaveActive = false\n        private weak var nagramiXStorySaveProgress: SaveProgressScreen?\n",
+      "count": 1
+    },
+    {
+      "path": "submodules/TelegramUI/Components/Stories/StoryContainerScreen/Sources/StoryItemSetContainerComponent.swift",
+      "old": "            super.init(frame: frame)\n            \n            self.addSubview(self.componentContainerView)",
+      "new": "            super.init(frame: frame)\n\n            self.nagramiXStoryDownloadButton.setImage(UIImage(systemName: \"arrow.down.to.line\"), for: .normal)\n            self.nagramiXStoryDownloadButton.tintColor = .white\n            self.nagramiXStoryDownloadButton.addTarget(self, action: #selector(self.nagramiXDownloadStoryPressed), for: .touchUpInside)\n            self.nagramiXStoryDownloadObserver = NotificationCenter.default.addObserver(forName: NagramiXStoryDownloadSettings.changedNotification, object: nil, queue: .main) { [weak self] _ in\n                self?.state?.updated(transition: .immediate)\n            }\n\n            self.addSubview(self.componentContainerView)",
+      "count": 1
+    },
+    {
+      "path": "submodules/TelegramUI/Components/Stories/StoryContainerScreen/Sources/StoryItemSetContainerComponent.swift",
+      "old": "        deinit {\n            self.audioRecorderDisposable?.dispose()",
+      "new": "        deinit {\n            self.nagramiXStorySaveDisposable.dispose()\n            self.nagramiXStorySaveProgress?.dismiss()\n            if let observer = self.nagramiXStoryDownloadObserver { NotificationCenter.default.removeObserver(observer) }\n            self.audioRecorderDisposable?.dispose()",
+      "count": 1
+    },
+    {
+      "path": "submodules/TelegramUI/Components/Stories/StoryContainerScreen/Sources/StoryItemSetContainerComponent.swift",
+      "old": "            var isSilentVideo = false\n            var isVideo = false",
+      "new": "            if self.nagramiXCanDownloadStory {\n                if self.nagramiXStoryDownloadButton.superview == nil {\n                    self.controlsClippingView.addSubview(self.nagramiXStoryDownloadButton)\n                }\n                self.nagramiXStoryDownloadButton.accessibilityLabel = component.strings.nagramiXDownloadStory\n                self.nagramiXStoryDownloadButton.isEnabled = !self.nagramiXStorySaveActive\n                self.nagramiXStoryDownloadButton.alpha = self.nagramiXStorySaveActive ? 0.5 : 1.0\n                transition.setFrame(view: self.nagramiXStoryDownloadButton, frame: CGRect(x: headerRightOffset - 33.0, y: 12.0, width: 44.0, height: 44.0))\n                headerRightOffset -= 44.0\n            } else {\n                self.nagramiXStoryDownloadButton.removeFromSuperview()\n            }\n\n            var isSilentVideo = false\n            var isVideo = false",
+      "count": 1
+    },
+    {
+      "path": "submodules/TelegramUI/Components/Stories/StoryContainerScreen/Sources/StoryItemSetContainerComponent.swift",
+      "old": "        private func requestSave() {",
+      "new": "        private var nagramiXCanDownloadStory: Bool {\n            guard NagramiXStoryDownloadSettings.enabled, let component = self.component else { return false }\n            let item = component.slice.item.storyItem\n            guard !item.isForwardingDisabled || component.slice.effectivePeer.id == component.context.account.peerId else { return false }\n            switch item.media {\n            case let .image(image): return !image.representations.isEmpty\n            case let .file(file): return file.isVideo || file.mimeType.hasPrefix(\"video/\")\n            default: return false\n            }\n        }\n\n        @objc private func nagramiXDownloadStoryPressed() {\n            guard self.nagramiXCanDownloadStory, !self.nagramiXStorySaveActive,\n                  let component = self.component, let peer = PeerReference(component.slice.effectivePeer),\n                  let controller = component.controller() else { return }\n            // Snapshot the selected story before any permission or fetch callback.\n            let reference: AnyMediaReference = .story(peer: peer, id: component.slice.item.storyItem.id, media: component.slice.item.storyItem.media._asMedia())\n            self.nagramiXStorySaveActive = true\n            self.state?.updated(transition: .immediate)\n            let progress = SaveProgressScreen(context: component.context, content: .progress(component.strings.Story_TooltipSaving, 0.0))\n            self.nagramiXStorySaveProgress = progress\n            controller.present(progress, in: .current)\n            let savingText = component.strings.Story_TooltipSaving\n            let savedText = component.strings.Story_TooltipSaved\n            self.nagramiXStorySaveDisposable.set((nagramiXSaveStoryToCameraRoll(context: component.context, userLocation: .peer(peer.id), mediaReference: reference)\n            |> deliverOnMainQueue).start(next: { [weak progress] value in\n                progress?.content = .progress(savingText, value)\n            }, error: { [weak self, weak progress] error in\n                progress?.dismiss()\n                guard let self else { return }\n                self.nagramiXStorySaveActive = false\n                self.state?.updated(transition: .immediate)\n                // DeviceAccess already explains a denied Photos permission.\n                guard error != .permissionDenied, let current = self.component else { return }\n                let data = current.context.sharedContext.currentPresentationData.with { $0 }\n                let notice = UndoOverlayController(presentationData: data,\n                    content: .info(title: nil, text: current.strings.nagramiXStorySaveFailed, timeout: nil, customUndoText: nil),\n                    elevatedLayout: false, animateInAsReplacement: false, appearance: UndoOverlayController.Appearance(isBlurred: true), action: { _ in false })\n                current.presentController(notice, nil)\n            }, completed: { [weak self, weak progress] in\n                self?.nagramiXStorySaveActive = false\n                self?.state?.updated(transition: .immediate)\n                progress?.content = .completion(savedText)\n                Queue.mainQueue().after(3.0, { [weak progress] in progress?.dismiss() })\n            }))\n            progress.cancelled = { [weak self] in\n                self?.nagramiXStorySaveDisposable.set(nil)\n                self?.nagramiXStorySaveActive = false\n                self?.state?.updated(transition: .immediate)\n            }\n        }\n\n        private func requestSave() {",
+      "count": 1
+    },
+    {
+      "path": "submodules/SettingsUI/Sources/NagramiXSettingsController.swift",
+      "old": "    let updateEnableStoryRepost: (Bool) -> Void\n",
+      "new": "    let updateEnableStoryRepost: (Bool) -> Void\n    let updateDownloadStories: (Bool) -> Void\n",
+      "count": 1
+    },
+    {
+      "path": "submodules/SettingsUI/Sources/NagramiXSettingsController.swift",
+      "old": "    case enableStoryRepost(Bool)\n",
+      "new": "    case enableStoryRepost(Bool)\n    case downloadStories(Bool)\n",
+      "count": 1
+    },
+    {
+      "path": "submodules/SettingsUI/Sources/NagramiXSettingsController.swift",
+      "old": ".confirmStoryViewing, .enableStoryRepost, .callsHeader,",
+      "new": ".confirmStoryViewing, .enableStoryRepost, .downloadStories, .callsHeader,",
+      "count": 1
+    },
+    {
+      "path": "submodules/SettingsUI/Sources/NagramiXSettingsController.swift",
+      "old": "case .featureStoriesHeader, .hideStories, .storyCameraSwipeEnabled, .confirmStoryViewing, .enableStoryRepost:",
+      "new": "case .featureStoriesHeader, .hideStories, .storyCameraSwipeEnabled, .confirmStoryViewing, .enableStoryRepost, .downloadStories:",
+      "count": 1
+    },
+    {
+      "path": "submodules/SettingsUI/Sources/NagramiXSettingsController.swift",
+      "old": "        case .enableStoryRepost: return 28\n",
+      "new": "        case .enableStoryRepost: return 28\n        case .downloadStories: return 159\n",
+      "count": 1
+    },
+    {
+      "path": "submodules/SettingsUI/Sources/NagramiXSettingsController.swift",
+      "old": "            case .selfieCountdown: return 110\n",
+      "new": "            case .downloadStories: return 285\n            case .selfieCountdown: return 110\n",
+      "count": 1
+    },
+    {
+      "path": "submodules/SettingsUI/Sources/NagramiXSettingsController.swift",
+      "old": "        case let .enableStoryRepost(value):\n",
+      "new": "        case let .downloadStories(value):\n            return ItemListSwitchItem(presentationData: presentationData, systemStyle: .glass, title: presentationData.strings.nagramiXDownloadStories, value: value, maximumNumberOfLines: 0, sectionId: self.section, style: .blocks, updated: arguments.updateDownloadStories)\n        case let .enableStoryRepost(value):\n",
+      "count": 1
+    },
+    {
+      "path": "submodules/SettingsUI/Sources/NagramiXSettingsController.swift",
+      "old": "        case .enableStoryRepost: return strings.nagramiXEnableStoryRepost\n",
+      "new": "        case .enableStoryRepost: return strings.nagramiXEnableStoryRepost\n        case .downloadStories: return strings.nagramiXDownloadStories\n",
+      "count": 1
+    },
+    {
+      "path": "submodules/SettingsUI/Sources/NagramiXSettingsController.swift",
+      "old": "        .confirmStoryViewing(settings.confirmStoryViewing), .enableStoryRepost(settings.enableStoryRepost),",
+      "new": "        .confirmStoryViewing(settings.confirmStoryViewing), .enableStoryRepost(settings.enableStoryRepost),\n        .downloadStories(NagramiXStoryDownloadSettings.enabled),",
+      "count": 1
+    },
+    {
+      "path": "submodules/SettingsUI/Sources/NagramiXSettingsController.swift",
+      "old": "        updateEnableStoryRepost: { value in update { $0.enableStoryRepost = value } },",
+      "new": "        updateEnableStoryRepost: { value in update { $0.enableStoryRepost = value } },\n        updateDownloadStories: { value in\n            NagramiXStoryDownloadSettings.setEnabled(value)\n            settingsPromise.set(NagramiXTabSettings.current)\n        },",
+      "count": 1
+    },
+    {
+      "path": "submodules/NagramiXCore/Sources/NagramiXPresentationStrings.swift",
+      "old": "public extension PresentationStrings {\n",
+      "new": "public extension PresentationStrings {\n    var nagramiXDownloadStories: String { self.nagramiXLocalized(\"NagramiX.Stories.Download.Title\") }\n    var nagramiXDownloadStory: String { self.nagramiXLocalized(\"NagramiX.Stories.Download.Action\") }\n    var nagramiXStorySaveFailed: String { self.nagramiXLocalized(\"NagramiX.Stories.Download.Failed\") }\n",
+      "count": 1
+    },
+    {
+      "path": "submodules/NagramiXCore/Resources/ru.lproj/Localizable.strings",
+      "old": "ое\";\n\"NagramiX.Debug.The app closed unexpectedly.\\n\\n Would you like to send a crash log to help us fix the issue?\" = \"Приложение неожиданно закрылось.\\n\\nОтправить отчёт о сбое, чтобы помочь исправить ошибку?\";\n\"NagramiX.Debug.Not Now\" = \"Не сейчас\";\n\"NagramiX.Debug.Send Log\" = \"Отправить журнал\";\n",
+      "new": "ое\";\n\"NagramiX.Debug.The app closed unexpectedly.\\n\\n Would you like to send a crash log to help us fix the issue?\" = \"Приложение неожиданно закрылось.\\n\\nОтправить отчёт о сбое, чтобы помочь исправить ошибку?\";\n\"NagramiX.Debug.Not Now\" = \"Не сейчас\";\n\"NagramiX.Debug.Send Log\" = \"Отправить журнал\";\n\n\"NagramiX.Stories.Download.Title\" = \"Скачивать истории\";\n\"NagramiX.Stories.Download.Action\" = \"Сохранить историю в Фото\";\n\"NagramiX.Stories.Download.Failed\" = \"Не удалось сохранить историю. Проверьте подключение и свободное место, затем повторите попытку.\";\n",
+      "count": 1
+    },
+    {
+      "path": "submodules/NagramiXCore/Resources/en.lproj/Localizable.strings",
+      "old": "Available\";\n\"NagramiX.Debug.The app closed unexpectedly.\\n\\n Would you like to send a crash log to help us fix the issue?\" = \"The app closed unexpectedly.\\n\\n Would you like to send a crash log to help us fix the issue?\";\n\"NagramiX.Debug.Not Now\" = \"Not Now\";\n\"NagramiX.Debug.Send Log\" = \"Send Log\";\n",
+      "new": "Available\";\n\"NagramiX.Debug.The app closed unexpectedly.\\n\\n Would you like to send a crash log to help us fix the issue?\" = \"The app closed unexpectedly.\\n\\n Would you like to send a crash log to help us fix the issue?\";\n\"NagramiX.Debug.Not Now\" = \"Not Now\";\n\"NagramiX.Debug.Send Log\" = \"Send Log\";\n\n\"NagramiX.Stories.Download.Title\" = \"Download stories\";\n\"NagramiX.Stories.Download.Action\" = \"Save story to Photos\";\n\"NagramiX.Stories.Download.Failed\" = \"Could not save the story. Check your connection and available storage, then try again.\";\n",
+      "count": 1
+    }
+  ],
+  "copies": {
+    "submodules/NagramiXCore/Sources/NagramiXStoryDownloadSettings.swift": {
+      "source": "Sources/NagramiXCore/Sources/NagramiXStoryDownloadSettings.swift",
+      "sha256": "2b22039e7b40e853506819188aa69d0e0a497ba7f9766798c50fc7465f4da731"
+    },
+    "submodules/SaveToCameraRoll/Sources/NagramiXStorySave.swift": {
+      "source": "Sources/SaveToCameraRoll/NagramiXStorySave.swift",
+      "sha256": "91f408c0d7fedd120897b42a0b0e8c307d1d01d3a1bcac011d48718371886ac1"
+    }
+  },
+  "outputs": {
+    "submodules/TelegramUI/Components/Stories/StoryContainerScreen/Sources/StoryContainerScreen.swift": "6bc98cb071186f3d9aac1ce8d95cbb7c34fdaf3b896e3833ce2142937f9b4810",
+    "submodules/TelegramUI/Components/Stories/StoryContainerScreen/Sources/StoryItemSetContainerComponent.swift": "c571ba09d19df1e13233440609fc2a7423a4752de098af5222725b880cd3dab3",
+    "submodules/SettingsUI/Sources/NagramiXSettingsController.swift": "660a1bcbadda29949e2a14d9cbc645a1e8e6d6ba66274d2f98ef76094e5b5ecc",
+    "submodules/NagramiXCore/Sources/NagramiXPresentationStrings.swift": "9c58a41c9dbbefcecefca2cf71a4f6ed99331b4fc5818fc6acbbca5566ae5946",
+    "submodules/NagramiXCore/Resources/ru.lproj/Localizable.strings": "88ebc58405b79b68eacdfc4f191be489440aa96f5d470b8f72a3599fe6c0ce51",
+    "submodules/NagramiXCore/Resources/en.lproj/Localizable.strings": "10a95be9eb63f8279d5036d5fe37965832afec053c4584468b3afbb261eb0495"
+  }
+}

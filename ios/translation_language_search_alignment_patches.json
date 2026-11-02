@@ -1,0 +1,26 @@
+{
+  "inputs": {
+    "submodules/TranslateUI/Sources/NagramiXTranslationPreferences.swift": "ebac780c8a14bd718318731de442a93f57e716f690be44d93caf4459fecab84a"
+  },
+  "outputs": {
+    "submodules/TranslateUI/Sources/NagramiXTranslationPreferences.swift": "f0e7c6d6dcbb6d1ab0cf182ab77e2d94904cb342577545ba4cb82b9735a5985d"
+  },
+  "guards": {
+    "submodules/TranslateUI/BUILD": "f1a9e651b7caa1a06203dd97ff851a7b58d4453a0427660bb7656fa686ad96a7",
+    "submodules/TranslateUI/Sources/NagramiXTranslationSettings.swift": "9ace9c2cae937ee7401a0264b779d0a2195e805d9d5b950ba450187fcb71a652"
+  },
+  "templates": {
+    "translation_language_search_alignment/Before.inc": "ebac780c8a14bd718318731de442a93f57e716f690be44d93caf4459fecab84a",
+    "translation_language_search_alignment/After.inc": "f0e7c6d6dcbb6d1ab0cf182ab77e2d94904cb342577545ba4cb82b9735a5985d",
+    "translation_language_search_alignment/Guard0.inc": "f1a9e651b7caa1a06203dd97ff851a7b58d4453a0427660bb7656fa686ad96a7",
+    "translation_language_search_alignment/Guard1.inc": "9ace9c2cae937ee7401a0264b779d0a2195e805d9d5b950ba450187fcb71a652"
+  },
+  "previous": {
+    "submodules/TranslateUI/Sources/NagramiXTranslationPreferences.swift": "translation_language_search_alignment/Before.inc"
+  },
+  "replacements": {
+    "submodules/TranslateUI/Sources/NagramiXTranslationPreferences.swift": "translation_language_search_alignment/After.inc"
+  },
+  "copies": {},
+  "deletions": {}
+}

@@ -1,0 +1,23 @@
+{
+  "inputs": {
+    "submodules/TranslateUI/Sources/NagramiXTranslationPreferences.swift": "2f8ebb65be83c8f9873d4b156b01d61a8b71c455317e45905c0d245448557483"
+  },
+  "outputs": {
+    "submodules/TranslateUI/Sources/NagramiXTranslationPreferences.swift": "3ca7e7c97b44eddc2db3cd1df9329dbb5d72f8d77c58dd9ebbf2b52df41d487e"
+  },
+  "guards": {
+    "submodules/TranslateUI/BUILD": "f1a9e651b7caa1a06203dd97ff851a7b58d4453a0427660bb7656fa686ad96a7"
+  },
+  "templates": {
+    "translation_premium_visibility/Before-Preferences.swift.inc": "2f8ebb65be83c8f9873d4b156b01d61a8b71c455317e45905c0d245448557483",
+    "translation_premium_visibility/Preferences.swift.inc": "3ca7e7c97b44eddc2db3cd1df9329dbb5d72f8d77c58dd9ebbf2b52df41d487e"
+  },
+  "replacements": {
+    "submodules/TranslateUI/Sources/NagramiXTranslationPreferences.swift": "translation_premium_visibility/Preferences.swift.inc"
+  },
+  "previous": {
+    "submodules/TranslateUI/Sources/NagramiXTranslationPreferences.swift": "translation_premium_visibility/Before-Preferences.swift.inc"
+  },
+  "copies": {},
+  "deletions": {}
+}

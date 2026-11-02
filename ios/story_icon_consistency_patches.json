@@ -1,0 +1,29 @@
+{
+  "inputs": {
+    "submodules/TelegramUI/Components/Stories/StoryContainerScreen/Sources/StoryItemSetContainerComponent.swift": "0ee6b018c18f1407cd111a2af96c59fc72096276a496ba31a6458273881814ee"
+  },
+  "outputs": {
+    "submodules/TelegramUI/Components/Stories/StoryContainerScreen/Sources/StoryItemSetContainerComponent.swift": "f2a81f72390c9cb9eae50ed4887d2179c64a832614193009a1f1f441da338cc0"
+  },
+  "guards": {
+    "submodules/TelegramUI/Components/Stories/StoryContainerScreen/BUILD": "6d1056630ca8320601491b8055990b68835bb61f0fb285f6124dee23d4b27c73",
+    "submodules/TelegramUI/Images.xcassets/Chat/Context Menu/Save.imageset/Contents.json": "3a8442bdf037a957bec840e7843b769ea05b9681c9f99b8af180f53d9362a0ec",
+    "submodules/TelegramUI/Images.xcassets/Chat/Context Menu/Save.imageset/ic_lt_save.pdf": "04fa9b347223a0f10e9cdfeb7ebe5fb20f1757c9f19f3920eedd8d5c74a66be5"
+  },
+  "copies": {},
+  "templates": {},
+  "patches": [
+    [
+      "submodules/TelegramUI/Components/Stories/StoryContainerScreen/Sources/StoryItemSetContainerComponent.swift",
+      "                UIImage(systemName: status == .recorded ? \"checkmark\" : \"eye\")?.withTintColor(theme.contextMenu.primaryColor, renderingMode: .alwaysOriginal)",
+      "                guard let symbol = UIImage(systemName: status == .recorded ? \"checkmark\" : \"eye\") else { return nil }\n                // Растровая alpha-маска, как у остальных иконок ContextMenu.\n                let image = UIGraphicsImageRenderer(size: symbol.size).image { _ in symbol.draw(at: .zero) }\n                return generateTintedImage(image: image, color: theme.contextMenu.primaryColor)",
+      1
+    ],
+    [
+      "submodules/TelegramUI/Components/Stories/StoryContainerScreen/Sources/StoryItemSetContainerComponent.swift",
+      "            self.nagramiXStoryDownloadButton.setImage(UIImage(systemName: \"arrow.down.to.line\"), for: .normal)",
+      "            self.nagramiXStoryDownloadButton.setImage(generateTintedImage(image: UIImage(bundleImageName: \"Chat/Context Menu/Save\"), color: .white), for: .normal)",
+      1
+    ]
+  ]
+}

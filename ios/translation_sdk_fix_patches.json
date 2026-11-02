@@ -1,0 +1,20 @@
+{
+  "inputs": {
+    "submodules/TranslateUI/Sources/NagramiXTranslationApple.swift": "2448d810e27aac7ff22e4a5e5a3ff086e8a4e07a8cd7b9d667533767a7657b40"
+  },
+  "outputs": {
+    "submodules/TranslateUI/Sources/NagramiXTranslationApple.swift": "ecc2f9f3cc235d697980965b489168a8d6fb032f688772c804f402083a09fe5c"
+  },
+  "guards": {},
+  "templates": {
+    "translation_sdk_fix/Before-Apple.swift.inc": "2448d810e27aac7ff22e4a5e5a3ff086e8a4e07a8cd7b9d667533767a7657b40",
+    "translation_sdk_fix/Apple.swift.inc": "ecc2f9f3cc235d697980965b489168a8d6fb032f688772c804f402083a09fe5c"
+  },
+  "copies": {},
+  "replacements": {
+    "submodules/TranslateUI/Sources/NagramiXTranslationApple.swift": "translation_sdk_fix/Apple.swift.inc"
+  },
+  "previous": {
+    "submodules/TranslateUI/Sources/NagramiXTranslationApple.swift": "translation_sdk_fix/Before-Apple.swift.inc"
+  }
+}

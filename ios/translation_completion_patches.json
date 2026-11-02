@@ -1,0 +1,38 @@
+{
+  "inputs": {
+    "submodules/TranslateUI/Sources/NagramiXTranslationSettings.swift": "0e7f3d061ba20b0ed8c99a9d761ad06a1f326bafe244465c4248b526e39c4a11",
+    "submodules/TranslateUI/Sources/NagramiXTranslationPreferences.swift": "ddef549b7cd112585a674cd61ab3e3119ebc6215ab4c35506e34ce2d737a7974",
+    "submodules/TranslateUI/Sources/NagramiXTranslationApple.swift": "ba3c3055c209fca210ec72c201d9fd49aa66863930a948ec09607539e363ab04",
+    "submodules/TranslateUI/Sources/NagramiXTranslationRuntime.swift": "e351efcd69effcd0b0d07c90dfbe5d22286117a0af70a7c0f503b3b5df7222f0"
+  },
+  "outputs": {
+    "submodules/TranslateUI/Sources/NagramiXTranslationSettings.swift": "57098606d62b17b45b80f05d7bd70b25cd55a41c3c2c440c2f2b98ed003241c9",
+    "submodules/TranslateUI/Sources/NagramiXTranslationPreferences.swift": "579929b343d0f58ea7bac54f85cb566f482f03585b29f7174e4acde12e676da4",
+    "submodules/TranslateUI/Sources/NagramiXTranslationApple.swift": "2448d810e27aac7ff22e4a5e5a3ff086e8a4e07a8cd7b9d667533767a7657b40",
+    "submodules/TranslateUI/Sources/NagramiXTranslationRuntime.swift": "d3f5f2a7081e2509c4d16d604982ab6a15eebd085ea96ac740a116883c97de26"
+  },
+  "guards": {},
+  "templates": {
+    "translation_completion/Before-Settings.swift.inc": "0e7f3d061ba20b0ed8c99a9d761ad06a1f326bafe244465c4248b526e39c4a11",
+    "translation_completion/Settings.swift.inc": "57098606d62b17b45b80f05d7bd70b25cd55a41c3c2c440c2f2b98ed003241c9",
+    "translation_completion/Before-Preferences.swift.inc": "ddef549b7cd112585a674cd61ab3e3119ebc6215ab4c35506e34ce2d737a7974",
+    "translation_completion/Preferences.swift.inc": "579929b343d0f58ea7bac54f85cb566f482f03585b29f7174e4acde12e676da4",
+    "translation_completion/Before-Apple.swift.inc": "ba3c3055c209fca210ec72c201d9fd49aa66863930a948ec09607539e363ab04",
+    "translation_completion/Apple.swift.inc": "2448d810e27aac7ff22e4a5e5a3ff086e8a4e07a8cd7b9d667533767a7657b40",
+    "translation_completion/Before-Runtime.swift.inc": "e351efcd69effcd0b0d07c90dfbe5d22286117a0af70a7c0f503b3b5df7222f0",
+    "translation_completion/Runtime.swift.inc": "d3f5f2a7081e2509c4d16d604982ab6a15eebd085ea96ac740a116883c97de26"
+  },
+  "copies": {},
+  "replacements": {
+    "submodules/TranslateUI/Sources/NagramiXTranslationSettings.swift": "translation_completion/Settings.swift.inc",
+    "submodules/TranslateUI/Sources/NagramiXTranslationPreferences.swift": "translation_completion/Preferences.swift.inc",
+    "submodules/TranslateUI/Sources/NagramiXTranslationApple.swift": "translation_completion/Apple.swift.inc",
+    "submodules/TranslateUI/Sources/NagramiXTranslationRuntime.swift": "translation_completion/Runtime.swift.inc"
+  },
+  "previous": {
+    "submodules/TranslateUI/Sources/NagramiXTranslationSettings.swift": "translation_completion/Before-Settings.swift.inc",
+    "submodules/TranslateUI/Sources/NagramiXTranslationPreferences.swift": "translation_completion/Before-Preferences.swift.inc",
+    "submodules/TranslateUI/Sources/NagramiXTranslationApple.swift": "translation_completion/Before-Apple.swift.inc",
+    "submodules/TranslateUI/Sources/NagramiXTranslationRuntime.swift": "translation_completion/Before-Runtime.swift.inc"
+  }
+}

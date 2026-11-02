@@ -1,0 +1,454 @@
+name: Сборка неподписанного IPA NagramiX
+
+on:
+  workflow_dispatch:
+    inputs:
+      artifact_run_id:
+        description: ID готовой сборки для публикации без повторной компиляции (пусто — собрать заново)
+        type: string
+        required: false
+        default: ""
+      clean_build:
+        description: Чистая сборка без кеша Bazel (при публикации включается автоматически)
+        type: boolean
+        required: true
+        default: false
+      publish_release:
+        description: Подготовить проверенный релиз для публикации от Mr_EFES
+        type: boolean
+        required: true
+        default: false
+      prerelease:
+        description: Пометить публикацию как тестовую версию
+        type: boolean
+        required: true
+        default: true
+
+env:
+  NAGRAMIX_VERSION: 0.8.4
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    if: ${{ inputs.artifact_run_id == '' }}
+    outputs:
+      version: ${{ steps.provenance.outputs.version }}
+    runs-on: xcode-27
+    timeout-minutes: 180
+    env:
+      TELEGRAM_API_ID: ${{ secrets.TELEGRAM_API_ID }}
+      TELEGRAM_API_HASH: ${{ secrets.TELEGRAM_API_HASH }}
+      BAZEL_CACHE: ${{ github.workspace }}/.bazel-cache
+
+    steps:
+      - name: Проверить аккаунт запуска сборки
+        shell: bash
+        run: |
+          test "$GITHUB_ACTOR" = "Mr-EFES"
+          test "$GITHUB_TRIGGERING_ACTOR" = "Mr-EFES"
+
+      - name: Получить overlay NagramiX
+        uses: actions/checkout@v4
+
+      - name: Подготовить чистую SDK-сборку
+        if: ${{ inputs.clean_build || inputs.publish_release }}
+        shell: bash
+        run: |
+          test "$BAZEL_CACHE" = "$GITHUB_WORKSPACE/.bazel-cache"
+          rm -rf -- "$BAZEL_CACHE"
+          mkdir -p "$BAZEL_CACHE"
+
+      - name: Проверить метаданные релиза
+        run: |
+          python3 scripts/validate_release_metadata.py
+          python3 scripts/validate_release_build_mode.py
+          python3 scripts/validate_owner_publication.py
+
+      - name: Проверить актуальность официальной базы Telegram-iOS
+        run: python3 scripts/check_upstreams.py --platform ios --require-current
+
+      - name: Загрузить закреплённую ссылку upstream
+        id: upstream
+        shell: bash
+        run: |
+          cat ios/upstream.env >> "$GITHUB_ENV"
+          source ios/upstream.env
+          echo "ref=$TELEGRAM_IOS_REF" >> "$GITHUB_OUTPUT"
+          echo "legacy_ref=$TELEGRAM_IOS_LEGACY_REF" >> "$GITHUB_OUTPUT"
+
+      - name: Проверить обязательные учётные данные Telegram API
+        shell: bash
+        run: |
+          test -n "$TELEGRAM_API_ID" || { echo "Missing TELEGRAM_API_ID repository secret"; exit 1; }
+          test -n "$TELEGRAM_API_HASH" || { echo "Missing TELEGRAM_API_HASH repository secret"; exit 1; }
+
+      - name: Получить Telegram-iOS
+        uses: actions/checkout@v4
+        with:
+          repository: TelegramMessenger/Telegram-iOS
+          ref: ${{ steps.upstream.outputs.ref }}
+          path: Telegram-iOS
+          submodules: recursive
+          fetch-depth: 1
+
+      - name: Проверить ожидаемую версию upstream
+        shell: bash
+        run: |
+          actual="$(python3 -c 'import json; print(json.load(open("Telegram-iOS/versions.json"))["app"])')"
+          test "$actual" = "$TELEGRAM_IOS_VERSION" || {
+            echo "Pinned ref reports Telegram $actual, expected $TELEGRAM_IOS_VERSION"
+            exit 1
+          }
+
+      - name: Получить закреплённую базу преобразования overlay
+        uses: actions/checkout@v4
+        with:
+          repository: TelegramMessenger/Telegram-iOS
+          ref: ${{ steps.upstream.outputs.legacy_ref }}
+          path: Telegram-overlay-input
+          submodules: false
+          fetch-depth: 1
+
+      - name: Выбрать требуемую версию Xcode
+        shell: bash
+        run: |
+          xcode_version="$(python3 -c 'import json; print(json.load(open("Telegram-iOS/versions.json"))["xcode"])')"
+          sudo xcode-select -s "/Applications/Xcode_${xcode_version}.app/Contents/Developer"
+
+      - name: Подготовить Metal Toolchain для Xcode
+        shell: bash
+        run: |
+          xcodebuild -downloadComponent MetalToolchain
+          xcrun --find metal
+          xcrun metal --version
+
+      - name: Применить overlay NagramiX
+        shell: bash
+        run: |
+          export SDKROOT="$(xcrun --sdk macosx --show-sdk-path)"
+          export MACOSX_DEPLOYMENT_TARGET=13.0
+          python3 ios/apply_overlay.py \
+            --source Telegram-iOS \
+            --legacy-source Telegram-overlay-input \
+            --configuration "$RUNNER_TEMP/nagramix-configuration.json"
+          python3 scripts/validate_intro_localization.py \
+            Telegram-iOS/Telegram/Telegram-iOS/ru.lproj/Localizable.strings
+          python3 scripts/validate_debug_localization.py --source Telegram-iOS
+          python3 scripts/validate_import_access.py --source Telegram-iOS
+          python3 scripts/validate_video_rotation_layout.py --source Telegram-iOS
+          python3 scripts/validate_round_video_sheet.py --source Telegram-iOS
+          python3 scripts/validate_quick_format_spacing.py --source Telegram-iOS
+          python3 scripts/validate_pip_presentation.py --source Telegram-iOS
+          python3 scripts/validate_round_video_page.py --source Telegram-iOS
+          python3 scripts/validate_story_explicit_view.py --source Telegram-iOS
+          python3 scripts/validate_story_download_quality.py --source Telegram-iOS
+          python3 scripts/validate_story_icon_consistency.py --source Telegram-iOS
+          python3 scripts/validate_pip_native_transaction.py --source Telegram-iOS
+          python3 scripts/validate_round_video_refinement.py --source Telegram-iOS
+          python3 scripts/validate_recovery_storage_fixes.py --source Telegram-iOS
+          python3 scripts/validate_scheduled_archive_isolation.py --source Telegram-iOS
+          python3 scripts/validate_round_video_bitrate.py --source Telegram-iOS
+          python3 scripts/validate_pip_native_entry.py --source Telegram-iOS
+          python3 scripts/validate_message_translation.py --source Telegram-iOS
+          python3 scripts/validate_translation_free_modes.py --source Telegram-iOS
+          python3 scripts/validate_translation_gpt_oss.py --source Telegram-iOS
+          python3 scripts/validate_voice_transcription.py --source Telegram-iOS
+          python3 scripts/validate_release_076_sdk.py --source Telegram-iOS
+          python3 scripts/validate_release_076_dependencies.py --source Telegram-iOS
+          python3 scripts/validate_release_076_compile.py --source Telegram-iOS
+          python3 scripts/validate_release_076_import.py --source Telegram-iOS
+          python3 scripts/validate_video_ownership_fix.py --source Telegram-iOS
+          python3 scripts/validate_transcription_settings_refinement.py --source Telegram-iOS
+          python3 scripts/validate_transcription_settings_complete.py --source Telegram-iOS
+          python3 scripts/validate_translation_completion.py --source Telegram-iOS
+          python3 scripts/validate_translation_sdk_fix.py --source Telegram-iOS
+          python3 scripts/validate_pip_removal_work.py --source Telegram-iOS
+          python3 scripts/validate_native_player_pip.py --source Telegram-iOS
+          python3 scripts/validate_media_privacy_fixes.py --source Telegram-iOS --standalone --swiftc "$(xcrun --find swiftc)"
+          python3 scripts/validate_translation_simplification.py --source Telegram-iOS --standalone --swiftc "$(xcrun --find swiftc)"
+          python3 scripts/validate_translation_inline_telegram.py --source Telegram-iOS --standalone --swiftc "$(xcrun --find swiftc)"
+          python3 scripts/validate_translation_premium_visibility.py --source Telegram-iOS --standalone --swiftc "$(xcrun --find swiftc)"
+          python3 scripts/validate_broadcast_stable_order.py --source Telegram-iOS --standalone --swiftc "$(xcrun --find swiftc)"
+          python3 scripts/validate_transcription_whisper_safety.py --source Telegram-iOS --standalone --swiftc "$(xcrun --find swiftc)"
+          python3 scripts/validate_transcription_cloud_ui.py --source Telegram-iOS --standalone --swiftc "$(xcrun --find swiftc)"
+          python3 scripts/validate_transcription_local_fallback.py --source Telegram-iOS --standalone --swiftc "$(xcrun --find swiftc)"
+          python3 scripts/validate_transcription_cloudflare.py --source Telegram-iOS --standalone --swiftc "$(xcrun --find swiftc)"
+          python3 scripts/validate_transcription_vosk.py --source Telegram-iOS --standalone --swiftc "$(xcrun --find swiftc)"
+          python3 scripts/validate_keyboard_transition.py --swiftc "$(xcrun --find swiftc)"
+          python3 scripts/validate_pip_readiness_fix.py --swiftc "$(xcrun --find swiftc)"
+          python3 scripts/validate_keyboard_handoff.py --swiftc "$(xcrun --find swiftc)"
+          python3 scripts/validate_transcription_context_refresh.py --swiftc "$(xcrun --find swiftc)"
+          python3 scripts/validate_repost_schedule.py --swiftc "$(xcrun --find swiftc)"
+          python3 scripts/validate_file_bubble_spacing.py --swiftc "$(xcrun --find swiftc)"
+          python3 scripts/validate_translation_speech_ui.py --swiftc "$(xcrun --find swiftc)"
+          python3 scripts/validate_speech_model_display.py --swiftc "$(xcrun --find swiftc)"
+          python3 scripts/validate_speech_cloudflare_display.py --swiftc "$(xcrun --find swiftc)"
+          python3 scripts/validate_speech_provider_permission.py --swiftc "$(xcrun --find swiftc)"
+          python3 scripts/validate_translation_chat_language.py --swiftc "$(xcrun --find swiftc)"
+          python3 scripts/validate_whisper_three_models.py --swiftc "$(xcrun --find swiftc)"
+          python3 scripts/validate_pip_asset_audio_recovery.py --swiftc "$(xcrun --find swiftc)"
+          python3 scripts/validate_formatting_keyboard_height.py --swiftc "$(xcrun --find swiftc)"
+          python3 scripts/validate_license_readable.py --swiftc "$(xcrun --find swiftc)"
+          python3 scripts/validate_pip_transition_surface.py --swiftc "$(xcrun --find swiftc)"
+          python3 scripts/validate_round_slider_touch.py --swiftc "$(xcrun --find swiftc)"
+          python3 scripts/validate_round_slider_kbps.py --swiftc "$(xcrun --find swiftc)"
+          python3 scripts/validate_speech_download_no_bar.py --swiftc "$(xcrun --find swiftc)"
+          python3 scripts/validate_whisper_footer_removal.py --swiftc "$(xcrun --find swiftc)"
+          python3 scripts/validate_provider_settings_consistency.py --swiftc "$(xcrun --find swiftc)"
+          python3 scripts/validate_remote_model_catalog.py --swiftc "$(xcrun --find swiftc)"
+          python3 scripts/validate_chat_russian_language_guard.py --swiftc "$(xcrun --find swiftc)"
+          python3 scripts/validate_translation_preferred_layout.py --swiftc "$(xcrun --find swiftc)"
+          python3 scripts/validate_translation_speech_text_only.py --swiftc "$(xcrun --find swiftc)"
+          python3 scripts/validate_translation_auto_flow.py --swiftc "$(xcrun --find swiftc)"
+          python3 scripts/validate_translation_language_search_alignment.py --swiftc "$(xcrun --find swiftc)"
+          python3 scripts/validate_translation_panel_visibility.py --swiftc "$(xcrun --find swiftc)"
+          python3 scripts/validate_transcription_link_accent.py --swiftc "$(xcrun --find swiftc)"
+          python3 scripts/validate_remove_groq.py
+          python3 scripts/validate_pip_readiness_observation.py
+          python3 scripts/validate_pip_playback_handoff.py --swiftc "$(xcrun --find swiftc)"
+          python3 scripts/validate_view_once_consumption_guard.py --swiftc "$(xcrun --find swiftc)"
+          python3 scripts/validate_view_once_archive_foundation.py --swiftc "$(xcrun --find swiftc)"
+          python3 scripts/validate_view_once_archive_render.py --swiftc "$(xcrun --find swiftc)"
+          python3 scripts/validate_view_once_copy_actions.py --swiftc "$(xcrun --find swiftc)"
+          python3 scripts/validate_view_once_receipt_queue.py --swiftc "$(xcrun --find swiftc)"
+          python3 scripts/validate_view_once_copy_marker.py --swiftc "$(xcrun --find swiftc)"
+          python3 scripts/validate_view_once_capture_on_receive.py --swiftc "$(xcrun --find swiftc)"
+          python3 scripts/validate_view_once_setting.py --swiftc "$(xcrun --find swiftc)"
+          python3 scripts/validate_view_once_preserve_capture.py --swiftc "$(xcrun --find swiftc)"
+          python3 scripts/validate_view_once_short_media.py --swiftc "$(xcrun --find swiftc)"
+          python3 scripts/validate_view_once_server_deletion.py --swiftc "$(xcrun --find swiftc)"
+          python3 scripts/validate_view_once_existing_in_chat.py --swiftc "$(xcrun --find swiftc)"
+          python3 scripts/validate_onboarding_privacy_text.py
+          python3 scripts/validate_unified_temporary_messages.py --swiftc "$(xcrun --find swiftc)"
+          python3 scripts/validate_copy_actions_consistency.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)"
+          python3 scripts/validate_pip_streaming.py --swiftc "$(xcrun --find swiftc)"
+          python3 scripts/validate_translation_manual_always.py --swiftc "$(xcrun --find swiftc)"
+          python3 scripts/validate_transcription_context_telegram.py --swiftc "$(xcrun --find swiftc)"
+          python3 scripts/validate_context_translation_toggles.py --swiftc "$(xcrun --find swiftc)"
+          python3 scripts/validate_emoji_keyboard_stability.py --swiftc "$(xcrun --find swiftc)"
+          python3 scripts/validate_story_preview_copy.py
+          python3 scripts/validate_author_selection_fix.py --swiftc "$(xcrun --find swiftc)"
+          python3 scripts/validate_pip_stream_request_lifetime.py --swiftc "$(xcrun --find swiftc)"
+          python3 scripts/validate_pip_transition_lifecycle.py --swiftc "$(xcrun --find swiftc)"
+          python3 scripts/validate_settings_labels.py --source Telegram-iOS
+          python3 scripts/validate_telegram_translation_defaults.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)"
+          python3 scripts/validate_single_player_pip.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)"
+          python3 scripts/validate_author_selection_icon.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)"
+          python3 scripts/validate_forward_single_person_icon.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)"
+          python3 scripts/validate_disable_next_swipe.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)"
+          python3 scripts/validate_deletion_effect_setting.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)"
+          python3 scripts/validate_pip_gallery_capture_fix.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)"
+          python3 scripts/validate_upright_author_icon.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)"
+          python3 scripts/validate_pip_mode_label.py --source Telegram-iOS
+          python3 scripts/validate_pip_caption_quotes.py --source Telegram-iOS
+          python3 scripts/validate_pip_gallery_native_gesture.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)"
+          python3 scripts/validate_pip_ghost_handoff.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)"
+          python3 scripts/validate_pip_active_gallery_restore.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)"
+          python3 scripts/validate_pip_ghost_source_layer.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)"
+          python3 scripts/validate_pip_no_status_wait.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)"
+          python3 scripts/validate_expanded_editor_stability.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)"
+          python3 scripts/validate_protected_copy_draft.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)"
+          python3 scripts/validate_author_check_badge_icon.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)"
+          python3 scripts/validate_protected_copy_selection_flow.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)"
+          python3 scripts/validate_protected_copy_send_timing.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)"
+          python3 scripts/validate_ghostgram_pip_replacement.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)"
+          python3 scripts/validate_ghostgram_pip_gallery_exact.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)"
+          python3 scripts/validate_ghostgram_pip_cleanup.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)"
+          python3 scripts/validate_rich_content_copy.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)"
+          python3 scripts/validate_gallery_export_privacy_gate.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)"
+          python3 scripts/validate_ghostgram_pip_compile_fix.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)"
+          python3 scripts/validate_upstream_13_2.py --swiftc "$(xcrun --find swiftc)"
+          PYTHONPATH=ios python3 -c 'from pathlib import Path; from upstream_13_2_post import apply_upstream_13_2_post; apply_upstream_13_2_post(Path("Telegram-iOS").resolve(), Path("ios").resolve())'
+          python3 Telegram-iOS/build-system/Make/PostboxImportCheck.py Telegram-iOS
+
+      - name: Восстановить кеш Bazel
+        if: ${{ !inputs.clean_build && !inputs.publish_release }}
+        id: bazel-cache
+        uses: actions/cache/restore@v4
+        with:
+          path: ${{ env.BAZEL_CACHE }}
+          key: telegram-ios-${{ runner.os }}-${{ runner.arch }}-${{ env.TELEGRAM_IOS_REF }}-${{ github.run_id }}-${{ github.run_attempt }}
+          restore-keys: |
+            telegram-ios-${{ runner.os }}-${{ runner.arch }}-${{ env.TELEGRAM_IOS_REF }}-
+
+      - name: Подтвердить холодную основу релизной сборки
+        if: ${{ inputs.publish_release }}
+        env:
+          RESTORED_CACHE_KEY: ${{ steps.bazel-cache.outputs.cache-matched-key }}
+        shell: bash
+        run: |
+          test -z "$RESTORED_CACHE_KEY" || {
+            echo "Релизная SDK-сборка не должна восстанавливать кеш Bazel."
+            exit 1
+          }
+          python3 - <<'PY'
+          import os
+          from pathlib import Path
+          if any(Path(os.environ["BAZEL_CACHE"]).iterdir()):
+              raise SystemExit("Релизная SDK-сборка требует пустой кеш Bazel.")
+          PY
+
+      - name: Создать временные профили NagramiX для сборки
+        shell: bash
+        run: |
+          python3 ios/generate_fake_profiles.py \
+            --source-profiles Telegram-iOS/build-system/fake-codesigning/profiles \
+            --source-certs Telegram-iOS/build-system/fake-codesigning/certs \
+            --destination "$RUNNER_TEMP/nagramix-codesigning" \
+            --upstream-team C67CF9S4VU \
+            --upstream-bundle ph.telegra.Telegraph \
+            --team NAGRAMIX0 \
+            --bundle com.mr-efes.nagramix
+
+      - name: Собрать нативное ARM64-приложение NagramiX без профилей
+        working-directory: Telegram-iOS
+        shell: bash
+        run: |
+          printf '%s\n' 'build --experimental_ui_max_stdouterr_bytes=16777216' >> .bazelrc
+          python3 build-system/Make/ImportCertificates.py --path "$RUNNER_TEMP/nagramix-codesigning/certs"
+          python3 build-system/Make/Make.py \
+            --cacheDir="$BAZEL_CACHE" \
+            --overrideXcodeVersion \
+            build \
+            --continueOnError \
+            --configurationPath="$RUNNER_TEMP/nagramix-configuration.json" \
+            --codesigningInformationPath="$RUNNER_TEMP/nagramix-codesigning" \
+            --buildNumber="${GITHUB_RUN_NUMBER}" \
+            --configuration=release_arm64 \
+            --outputBuildArtifactsPath="$RUNNER_TEMP/build-artifacts"
+
+      - name: Сохранить кеш Bazel
+        if: always() && !inputs.clean_build && !inputs.publish_release && steps.bazel-cache.outputs.cache-hit != 'true'
+        uses: actions/cache/save@v4
+        with:
+          path: ${{ env.BAZEL_CACHE }}
+          key: telegram-ios-${{ runner.os }}-${{ runner.arch }}-${{ env.TELEGRAM_IOS_REF }}-${{ github.run_id }}-${{ github.run_attempt }}
+
+      - name: Сохранить символы для диагностики вылетов
+        uses: actions/upload-artifact@v4
+        with:
+          name: NagramiX-${{ env.NAGRAMIX_VERSION }}-symbols-arm64
+          path: ${{ runner.temp }}/build-artifacts/Telegram.DSYMs.zip
+          if-no-files-found: warn
+          retention-days: 14
+
+      - name: Найти и упаковать неподписанное приложение
+        shell: bash
+        run: |
+          source_ipa="$RUNNER_TEMP/build-artifacts/Telegram.ipa"
+          test -f "$source_ipa" || { echo "Built Telegram.ipa was not found at $source_ipa"; exit 1; }
+          rm -rf "$RUNNER_TEMP/nagramix-unpack"
+          mkdir -p "$RUNNER_TEMP/nagramix-unpack"
+          unzip -q "$source_ipa" -d "$RUNNER_TEMP/nagramix-unpack"
+          python3 scripts/validate_intro_localization.py \
+            "$RUNNER_TEMP/nagramix-unpack/Payload/Telegram.app/ru.lproj/Localizable.strings"
+          bash scripts/package_unsigned_ipa.sh \
+            "$RUNNER_TEMP/nagramix-unpack/Payload/Telegram.app" \
+            "NagramiX-${NAGRAMIX_VERSION}-unsigned.ipa" \
+            com.mr-efes.nagramix \
+            "$NAGRAMIX_VERSION"
+
+      - name: Записать происхождение сборки
+        id: provenance
+        shell: bash
+        run: |
+          upstream_sha="$(git -C Telegram-iOS rev-parse HEAD)"
+          printf 'NagramiX version: %s\nNagramiX commit: %s\nTelegram-iOS commit: %s\nWorkflow run: %s/%s/actions/runs/%s\n' \
+            "$NAGRAMIX_VERSION" "$GITHUB_SHA" "$upstream_sha" \
+            "$GITHUB_SERVER_URL" "$GITHUB_REPOSITORY" "$GITHUB_RUN_ID" > BUILD-PROVENANCE.txt
+          shasum -a 256 "NagramiX-${NAGRAMIX_VERSION}-unsigned.ipa" > SHA256SUMS
+          echo "version=$NAGRAMIX_VERSION" >> "$GITHUB_OUTPUT"
+
+      - name: Загрузить неподписанный IPA
+        uses: actions/upload-artifact@v4
+        with:
+          name: NagramiX-${{ env.NAGRAMIX_VERSION }}-unsigned-arm64
+          path: |
+            NagramiX-${{ env.NAGRAMIX_VERSION }}-unsigned.ipa
+            BUILD-PROVENANCE.txt
+            SHA256SUMS
+          if-no-files-found: error
+          retention-days: 14
+
+  release:
+    name: Проверить IPA для публикации Mr_EFES
+    needs: build
+    if: ${{ always() && !cancelled() && inputs.publish_release && github.ref == 'refs/heads/main' && (needs.build.result == 'success' || inputs.artifact_run_id != '') }}
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      actions: read
+    steps:
+      - name: Проверить аккаунт подготовки релиза
+        shell: bash
+        run: |
+          test "$GITHUB_ACTOR" = "Mr-EFES"
+          test "$GITHUB_TRIGGERING_ACTOR" = "Mr-EFES"
+
+      - name: Получить аннотацию и валидатор
+        uses: actions/checkout@v4
+      - name: Проверить источник готового IPA
+        id: source
+        env:
+          GH_TOKEN: ${{ github.token }}
+          ARTIFACT_RUN_ID: ${{ inputs.artifact_run_id }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          run_id="$GITHUB_RUN_ID"
+          source_sha="$GITHUB_SHA"
+          build_number="$GITHUB_RUN_NUMBER"
+          if [ -n "$ARTIFACT_RUN_ID" ]; then
+            [[ "$ARTIFACT_RUN_ID" =~ ^[0-9]+$ ]]
+            run_id="$ARTIFACT_RUN_ID"
+            gh api "repos/$GITHUB_REPOSITORY/actions/runs/$run_id" > "$RUNNER_TEMP/source-run.json"
+            workflow_id="$(gh api "repos/$GITHUB_REPOSITORY/actions/workflows/build-unsigned-ipa.yml" --jq '.id')"
+            jq -e --argjson workflow "$workflow_id" '.head_branch == "main" and .event == "workflow_dispatch" and .status == "completed" and .workflow_id == $workflow' "$RUNNER_TEMP/source-run.json"
+            gh api "repos/$GITHUB_REPOSITORY/actions/runs/$run_id/jobs" --jq 'any(.jobs[]; .name == "build" and .conclusion == "success")' | grep -Fx true
+            source_sha="$(jq -r '.head_sha' "$RUNNER_TEMP/source-run.json")"
+            build_number="$(jq -r '.run_number' "$RUNNER_TEMP/source-run.json")"
+          fi
+          [[ "$source_sha" =~ ^[0-9a-f]{40}$ ]]
+          [[ "$build_number" =~ ^[0-9]+$ ]]
+          echo "run_id=$run_id" >> "$GITHUB_OUTPUT"
+          echo "source_sha=$source_sha" >> "$GITHUB_OUTPUT"
+          echo "build_number=$build_number" >> "$GITHUB_OUTPUT"
+      - name: Скачать результат проверенной сборки
+        uses: actions/download-artifact@v4
+        with:
+          name: NagramiX-${{ env.NAGRAMIX_VERSION }}-unsigned-arm64
+          path: release-assets
+          run-id: ${{ steps.source.outputs.run_id }}
+          github-token: ${{ github.token }}
+      - name: Проверить артефакт для публикации владельцем
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RELEASE_VERSION: ${{ env.NAGRAMIX_VERSION }}
+          SOURCE_SHA: ${{ steps.source.outputs.source_sha }}
+          SOURCE_BUILD_NUMBER: ${{ steps.source.outputs.build_number }}
+          SOURCE_RUN_ID: ${{ steps.source.outputs.run_id }}
+          RELEASE_PRERELEASE: ${{ inputs.prerelease }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          cd release-assets
+          sha256sum --check SHA256SUMS
+          grep -Fx "NagramiX commit: $SOURCE_SHA" BUILD-PROVENANCE.txt
+          grep -Fx "NagramiX version: $RELEASE_VERSION" BUILD-PROVENANCE.txt
+          grep -Fx "Workflow run: $GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$SOURCE_RUN_ID" BUILD-PROVENANCE.txt
+          python3 ../scripts/validate_unsigned_ipa.py \
+            --ipa "NagramiX-${RELEASE_VERSION}-unsigned.ipa" \
+            --version "$RELEASE_VERSION" --build-number "$SOURCE_BUILD_NUMBER" \
+            --source-commit "$SOURCE_SHA" \
+            --provenance BUILD-PROVENANCE.txt --checksums SHA256SUMS
+          python3 - <<'PY' >> "$GITHUB_STEP_SUMMARY"
+          import os
+          print("IPA проверен. Финальная публикация выполняется через аккаунт Mr-EFES.")
+          print("Скачать исходный Actions ZIP и выполнить из checkout выбранной версии:")
+          print("```sh")
+          suffix = " --prerelease" if os.environ["RELEASE_PRERELEASE"] == "true" else ""
+          print("python3 scripts/publish_owner_release.py --source-run-id " + os.environ["SOURCE_RUN_ID"] + " --artifact-zip /путь/к/скачанному.zip" + suffix)
+          print("```")
+          PY

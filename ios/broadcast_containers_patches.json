@@ -1,0 +1,69 @@
+{
+  "inputs": {
+    "submodules/AccountContext/Sources/PeerSelectionController.swift": "3f0d340dc8841f9ef9a7b55b9492d6a7651cfd3661a8175160a637da4bb157ca",
+    "submodules/ChatListUI/Sources/Node/ChatListNode.swift": "9946cc9d212c25ad74d4765274428ee7f22b934faafabcab196fde851b551882",
+    "submodules/TelegramUI/Sources/ChatControllerForwardMessages.swift": "a011b14d60c8985f1f651c29fcb0b0d46ea0ebe423857713aae689a7982ed3fb"
+  },
+  "patches": [
+    [
+      "submodules/AccountContext/Sources/PeerSelectionController.swift",
+      "    public static let nagramiXNotificationExceptions = ChatListNodePeersFilter(rawValue: 1 << 18)",
+      "    public static let nagramiXNotificationExceptions = ChatListNodePeersFilter(rawValue: 1 << 18)\n    // Transient copy-picker navigation only; never stored as a preference.\n    public static let nagramiXCopyDestinations = ChatListNodePeersFilter(rawValue: 1 << 19)"
+    ],
+    [
+      "submodules/TelegramUI/Sources/ChatControllerForwardMessages.swift",
+      "            var filter: ChatListNodePeersFilter = [.onlyWriteable, .excludeDisabled, .doNotSearchMessages]",
+      "            var filter: ChatListNodePeersFilter = [.onlyWriteable, .excludeDisabled, .doNotSearchMessages]\n            if transferMode == .copyAsNew && !nagramiXOwnViewOnceCopy {\n                filter.insert(.nagramiXCopyDestinations)\n            }"
+    ],
+    [
+      "submodules/TelegramUI/Sources/ChatControllerForwardMessages.swift",
+      "filter: filter, hasFilters: true, attemptSelection: { peer, _, reason in",
+      "filter: filter, hasFilters: true, title: transferMode == .copyAsNew ? self.presentationData.strings.nagramiXBroadcastMessages : nil, attemptSelection: { peer, _, reason in"
+    ],
+    [
+      "submodules/ChatListUI/Sources/Node/ChatListNode.swift",
+      "\n                        if editing && !isSelecting {",
+      "\n                        if editing && !isSelecting && !filter.contains(.nagramiXCopyDestinations) {"
+    ],
+    [
+      "submodules/ChatListUI/Sources/Node/ChatListNode.swift",
+      "\n                        if editing {\n                            enabled = false\n                        }\n                    }",
+      "\n                        if editing && (!filter.contains(.nagramiXCopyDestinations) || isSelecting) {\n                            enabled = false\n                        }\n                    }"
+    ],
+    [
+      "submodules/ChatListUI/Sources/Node/ChatListNode.swift",
+      "\n                    var selectable = editing",
+      "\n                    // Open the container without selecting it as a recipient.\n                    let opensCopyContainer = filter.contains(.nagramiXCopyDestinations) && !isSelecting && threadId == nil && (isForum || isCommunity)\n                    var selectable = editing"
+    ],
+    [
+      "submodules/ChatListUI/Sources/Node/ChatListNode.swift",
+      "\n                                if editing {\n                                    nodeInteraction.togglePeerSelected(chatPeer, threadId)",
+      "\n                                if editing && !opensCopyContainer {\n                                    nodeInteraction.togglePeerSelected(chatPeer, threadId)"
+    ],
+    [
+      "submodules/ChatListUI/Sources/Node/ChatListNode.swift",
+      "\n                            if editing && !isSelecting {",
+      "\n                            if editing && !isSelecting && !filter.contains(.nagramiXCopyDestinations) {"
+    ],
+    [
+      "submodules/ChatListUI/Sources/Node/ChatListNode.swift",
+      "\n                            if editing {\n                                enabled = false\n                            }\n                        }",
+      "\n                            if editing && (!filter.contains(.nagramiXCopyDestinations) || isSelecting) {\n                                enabled = false\n                            }\n                        }"
+    ],
+    [
+      "submodules/ChatListUI/Sources/Node/ChatListNode.swift",
+      "\n                        var selectable = editing",
+      "\n                        // Open the container without selecting it as a recipient.\n                        let opensCopyContainer = filter.contains(.nagramiXCopyDestinations) && !isSelecting && threadId == nil && (isForum || isCommunity)\n                        var selectable = editing"
+    ],
+    [
+      "submodules/ChatListUI/Sources/Node/ChatListNode.swift",
+      "\n                                    if editing {\n                                        nodeInteraction.togglePeerSelected(chatPeer, threadId)",
+      "\n                                    if editing && !opensCopyContainer {\n                                        nodeInteraction.togglePeerSelected(chatPeer, threadId)"
+    ]
+  ],
+  "outputs": {
+    "submodules/AccountContext/Sources/PeerSelectionController.swift": "c3018f62cf51defecf076ca7df8404738b3893ef2ec0dff418b4746c1d96920e",
+    "submodules/ChatListUI/Sources/Node/ChatListNode.swift": "18d1db0444968747a7c35c035917924e087980e0e477b28bf0b5e394d3a31c0b",
+    "submodules/TelegramUI/Sources/ChatControllerForwardMessages.swift": "fa82a4fedea96737e506126b1c434c42d449c9f1d348f65542719b07d7994581"
+  }
+}

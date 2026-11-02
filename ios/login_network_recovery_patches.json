@@ -1,0 +1,57 @@
+{
+  "hashes": {
+    "submodules/TelegramCore/Sources/Account/Account.swift": "d1373dc0f715ce7601e8addbb86acb9679df9924999dd2ca45e93ec5c48f8b3f",
+    "submodules/TelegramCore/Sources/Network/Network.swift": "69f4ba20300b04422a590693d70adcc741387f676e27f5b5c916168e62db6dd2",
+    "submodules/TelegramCore/BUILD": "e3f2268e32065ef8f325446db583c2b0c2c41b862d6523303cb0a7607370aca5"
+  },
+  "patches": [
+    [
+      "submodules/TelegramCore/Sources/Account/Account.swift",
+      "    private let proxySettingsDisposable = MetaDisposable()\n",
+      "    private let proxySettingsDisposable = MetaDisposable()\n    private let nagramiXNetworkRecovery = MetaDisposable()\n",
+      1
+    ],
+    [
+      "submodules/TelegramCore/Sources/Account/Account.swift",
+      "        self.proxySettingsDisposable.set((combineLatest(accountManager.sharedData(keys: [SharedDataKeys.proxySettings]), NagramiXProxyVPNPolicy.bypassedSignal())\n        |> map { sharedData, _ -> ProxyServerSettings? in\n            return sharedData.entries[SharedDataKeys.proxySettings]?.get(ProxySettings.self)?.effectiveActiveServer\n        }\n        |> distinctUntilChanged).start(next: { [weak network] activeServer in\n            network?.updateProxySettings(activeServer)\n        }))\n",
+      "        self.proxySettingsDisposable.set((combineLatest(accountManager.sharedData(keys: [SharedDataKeys.proxySettings]), NagramiXProxyVPNPolicy.bypassedSignal())\n        |> map { sharedData, _ -> ProxyServerSettings? in\n            return sharedData.entries[SharedDataKeys.proxySettings]?.get(ProxySettings.self)?.effectiveActiveServer\n        }\n        |> distinctUntilChanged).start(next: { [weak network] activeServer in\n            network?.updateProxySettings(activeServer)\n        }))\n        self.nagramiXNetworkRecovery.set(NagramiXNetworkRecovery.attach(basePath: basePath, accountManager: accountManager, network: network, allowsFailover: Bundle.main.infoDictionary?[\"NSExtension\"] == nil))\n",
+      1
+    ],
+    [
+      "submodules/TelegramCore/Sources/Account/Account.swift",
+      "    deinit {\n        self.proxySettingsDisposable.dispose()\n    }",
+      "    deinit {\n        self.nagramiXNetworkRecovery.dispose()\n        self.proxySettingsDisposable.dispose()\n    }",
+      1
+    ],
+    [
+      "submodules/TelegramCore/Sources/Account/Account.swift",
+      "        let nagramiXDnsObserver = NotificationCenter.default.addObserver(forName: Notification.Name(\"NagramiXDnsSettingsChanged\"), object: nil, queue: nil, using: { _ in\n            network.reconnectForNagramiXDnsChange()\n        })\n        self.managedOperationsDisposable.add(ActionDisposable {\n            NotificationCenter.default.removeObserver(nagramiXDnsObserver)\n        })\n\n        if !supplementary {\n            let nagramiXProxyFailoverController = NagramiXProxyFailoverController()\n            nagramiXProxyFailoverController.start(accountManager: accountManager, network: network)\n            self.managedOperationsDisposable.add(ActionDisposable {\n                nagramiXProxyFailoverController.stop()\n            })\n        }\n",
+      "        self.managedOperationsDisposable.add(NagramiXNetworkRecovery.attach(basePath: basePath, accountManager: accountManager, network: network, allowsFailover: !supplementary))\n",
+      1
+    ],
+    [
+      "submodules/TelegramCore/Sources/Network/Network.swift",
+      "    public func reconnectForNagramiXDnsChange() {\n        let _ = (self.shouldKeepConnection.get()\n        |> take(1)\n        |> deliverOn(self.queue)).start(next: { [weak self] keepConnection in\n            guard let self else { return }\n            self.mainSession.setPaused(true)\n            self.dropConnectionStatus()\n            self.mainSession.setPaused(!keepConnection)\n        })\n    }\n",
+      "    @discardableResult\n    public func reconnectForNagramiXDnsChange(shouldApply: @escaping () -> Bool = { true }) -> Disposable {\n        return (Signal<Void, NoError>.single(())\n        |> deliverOn(self.queue)).start(next: { [weak self] _ in\n            guard let self, shouldApply() else { return }\n            // Read the state already applied on this queue, not an earlier\n            // Promise snapshot that could resume a network paused meanwhile.\n            let keepConnection = self.nagramiXKeepsMainConnection\n            self.mainSession.setPaused(true)\n            self.dropConnectionStatus()\n            self.mainSession.setPaused(!keepConnection)\n        })\n    }\n",
+      1
+    ],
+    [
+      "submodules/TelegramCore/Sources/Network/Network.swift",
+      "    public let shouldKeepConnection = Promise<Bool>(false)\n",
+      "    private var nagramiXKeepsMainConnection = false\n    public let shouldKeepConnection = Promise<Bool>(false)\n",
+      1
+    ],
+    [
+      "submodules/TelegramCore/Sources/Network/Network.swift",
+      "        self.shouldKeepConnectionDisposable.set(shouldKeepConnectionSignal.start(next: { [weak self] value in\n            if let strongSelf = self {\n                if value {",
+      "        self.shouldKeepConnectionDisposable.set(shouldKeepConnectionSignal.start(next: { [weak self] value in\n            if let strongSelf = self {\n                strongSelf.nagramiXKeepsMainConnection = value\n                if value {",
+      1
+    ]
+  ],
+  "copies": {
+    "Sources/TelegramCore/NagramiXNetworkRecovery.swift": "submodules/TelegramCore/Sources/Network/NagramiXNetworkRecovery.swift"
+  },
+  "provided": {
+    "Sources/TelegramCore/NagramiXProxyFailoverController.swift": "submodules/TelegramCore/Sources/Network/NagramiXProxyFailoverController.swift"
+  }
+}

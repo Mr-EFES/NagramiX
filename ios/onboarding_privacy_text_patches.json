@@ -1,0 +1,27 @@
+{
+  "inputs": {
+    "Telegram/Telegram-iOS/ru.lproj/Localizable.strings": "37c82c528203b2f326c7554637d2e5b93b0f05e8004918c45cf241cc2d91cea9",
+    "Telegram/Telegram-iOS/en.lproj/Localizable.strings": "6dd1e83fca80c8ecea2eaa8accddaad691b2ffd0b931999c50a0773bdf1f10d7"
+  },
+  "outputs": {
+    "Telegram/Telegram-iOS/ru.lproj/Localizable.strings": "3dd5eb3046b1c680b12d5e6ee9c32c5785b880ed720f67b45e51e2b2ad6c45ab",
+    "Telegram/Telegram-iOS/en.lproj/Localizable.strings": "62fd2c2ddbf9a7e979c1f0fa4026f0cfb89517f4013a5f47b46f180fb0ea9fa5"
+  },
+  "guards": {},
+  "templates": {
+    "onboarding_privacy_text/Before0.inc": "37c82c528203b2f326c7554637d2e5b93b0f05e8004918c45cf241cc2d91cea9",
+    "onboarding_privacy_text/After0.inc": "3dd5eb3046b1c680b12d5e6ee9c32c5785b880ed720f67b45e51e2b2ad6c45ab",
+    "onboarding_privacy_text/Before1.inc": "6dd1e83fca80c8ecea2eaa8accddaad691b2ffd0b931999c50a0773bdf1f10d7",
+    "onboarding_privacy_text/After1.inc": "62fd2c2ddbf9a7e979c1f0fa4026f0cfb89517f4013a5f47b46f180fb0ea9fa5"
+  },
+  "previous": {
+    "Telegram/Telegram-iOS/ru.lproj/Localizable.strings": "onboarding_privacy_text/Before0.inc",
+    "Telegram/Telegram-iOS/en.lproj/Localizable.strings": "onboarding_privacy_text/Before1.inc"
+  },
+  "replacements": {
+    "Telegram/Telegram-iOS/ru.lproj/Localizable.strings": "onboarding_privacy_text/After0.inc",
+    "Telegram/Telegram-iOS/en.lproj/Localizable.strings": "onboarding_privacy_text/After1.inc"
+  },
+  "copies": {},
+  "deletions": {}
+}

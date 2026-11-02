@@ -1,0 +1,142 @@
+{
+  "hashes": {
+    "submodules/TelegramUI/Sources/ChatControllerForwardMessages.swift": "786bf7421eecb5a3861ae03bf7881273307ffd04b12dbcbc455765f8966dc155",
+    "submodules/TelegramUI/Sources/ChatController.swift": "551b81c8e649f40113bec61eb83cbfbed171485aeb2dc904ed176c6672b8ed22",
+    "submodules/TelegramUI/Sources/ChatInterfaceStateContextMenus.swift": "854cf20ff7abc44d1d52c98f7b7a16a30365e039ddba24a5e191883a5d668d86",
+    "submodules/TelegramUI/Components/Chat/ChatMessageSelectionInputPanelNode/Sources/ChatMessageSelectionInputPanelNode.swift": "7e3ea781ca462f846b61d655cea126f88d92ea577785cec6c009214046de23d7",
+    "submodules/TelegramCore/BUILD": "e3f2268e32065ef8f325446db583c2b0c2c41b862d6523303cb0a7607370aca5",
+    "submodules/TelegramUI/BUILD": "6eef6e98a3f594371cfb56f4c13883f65693a42f98741e5ef26d383d4266b341"
+  },
+  "patches": [
+    [
+      "submodules/TelegramUI/Sources/ChatControllerForwardMessages.swift",
+      "mediaBox: MediaBox? = nil, hideCaptions: Bool = false) -> [EnqueueMessage]?",
+      "mediaBox: MediaBox? = nil, hideCaptions: Bool = false, forceLocalMedia: Bool = false) -> [EnqueueMessage]?",
+      1
+    ],
+    [
+      "submodules/TelegramUI/Sources/ChatControllerForwardMessages.swift",
+      "        if message.id.peerId.namespace == Namespaces.Peer.SecretChat\n            || message.isCopyProtected()\n            || message.containsSecretMedia\n            || message.media.contains(where: { $0 is TelegramMediaPaidContent || $0 is TelegramMediaExpiredContent }) {",
+      "        if !message.nagramiXAllowsContentCopy {",
+      1
+    ],
+    [
+      "submodules/TelegramUI/Sources/ChatControllerForwardMessages.swift",
+      "                if message.attributes.contains(where: { $0 is NagramiXArchivedMessageAttribute }) {",
+      "                if forceLocalMedia || message.isCopyProtected() || message.attributes.contains(where: { $0 is NagramiXArchivedMessageAttribute }) {",
+      1
+    ],
+    [
+      "submodules/TelegramUI/Sources/ChatControllerForwardMessages.swift",
+      "    func forwardMessages(messages: [EngineRawMessage], options: ChatInterfaceForwardOptionsState? = nil, resetCurrent: Bool, transferMode: NagramiXMessageTransferMode = .forwardWithSource) {\n        let _ = self.presentVoiceMessageDiscardAlert",
+      "    func forwardMessages(messages: [EngineRawMessage], options: ChatInterfaceForwardOptionsState? = nil, resetCurrent: Bool, transferMode: NagramiXMessageTransferMode = .forwardWithSource, nagramiXProtectedMediaPrepared: Bool = false) {\n        let nagramiXProtectedCopy = transferMode != .forwardWithSource && (messages.contains(where: { $0.isCopyProtected() }) || (self.presentationInterfaceState.copyProtectionEnabled && messages.contains(where: { $0.id.peerId == self.chatLocation.peerId })))\n        if nagramiXProtectedCopy {\n            guard nagramiXCanCopyMessagesAsNew(messages) else {\n                self.present(nagramiXArchivedCopyAlert(context: self.context), in: .window(.root))\n                return\n            }\n            if !nagramiXProtectedMediaPrepared {\n                let liveMessages = messages.filter { !$0.attributes.contains(where: { $0 is NagramiXArchivedMessageAttribute }) }\n                self.nagramiXPrepareProtectedCopy(messages: liveMessages) { [weak self] in\n                    self?.forwardMessages(messages: messages, options: options, resetCurrent: resetCurrent, transferMode: transferMode, nagramiXProtectedMediaPrepared: true)\n                }\n                return\n            }\n        }\n        // A protected original cannot be forwarded by server ID. Keep the\n        // single-recipient contract and use the existing copy send panel.\n        let transferMode = nagramiXProtectedCopy && transferMode.singleRecipient ? NagramiXMessageTransferMode.copyToSingleRecipient : transferMode\n        let _ = self.presentVoiceMessageDiscardAlert",
+      1
+    ],
+    [
+      "submodules/TelegramUI/Sources/ChatControllerForwardMessages.swift",
+      "multipleSelectionLimit: nil, forwardedMessageIds: transferMode == .copyAsNew ? [] : messages.map { $0.id }",
+      "multipleSelectionLimit: nagramiXProtectedCopy && transferMode.singleRecipient ? 1 : nil, forwardedMessageIds: transferMode == .copyAsNew || nagramiXProtectedCopy ? [] : messages.map { $0.id }",
+      1
+    ],
+    [
+      "submodules/TelegramUI/Sources/ChatControllerForwardMessages.swift",
+      "hideCaptions: forwardOptions?.hideCaptions == true) else {",
+      "hideCaptions: forwardOptions?.hideCaptions == true, forceLocalMedia: nagramiXProtectedCopy) else {",
+      1
+    ],
+    [
+      "submodules/TelegramUI/Sources/ChatControllerForwardMessages.swift",
+      "                if transferMode == .copyAsNew {\n",
+      "                if transferMode == .copyAsNew || nagramiXProtectedCopy {\n",
+      1
+    ],
+    [
+      "submodules/TelegramUI/Sources/ChatController.swift",
+      "    let nagramiXSelectAuthorDisposable = MetaDisposable()\n",
+      "    let nagramiXSelectAuthorDisposable = MetaDisposable()\n    let nagramiXContentCopyDisposable = MetaDisposable()\n",
+      1
+    ],
+    [
+      "submodules/TelegramUI/Sources/ChatController.swift",
+      "        self.nagramiXSelectAuthorDisposable.dispose()\n",
+      "        self.nagramiXSelectAuthorDisposable.dispose()\n        self.nagramiXContentCopyDisposable.dispose()\n",
+      1
+    ],
+    [
+      "submodules/TelegramUI/Sources/ChatController.swift",
+      "                    if let mediaFile = media as? TelegramMediaFile, mediaFile.isMusic {",
+      "                    if let mediaFile = media as? TelegramMediaFile, mediaFile.isMusic || ((message._asMessage().isCopyProtected() || (self.presentationInterfaceState.copyProtectionEnabled && message.id.peerId == self.chatLocation.peerId)) && nagramiXAllowsProtectedContentExport(message._asMessage())) {",
+      1
+    ],
+    [
+      "submodules/TelegramUI/Sources/ChatController.swift",
+      "                    saveMediaToFiles(\n",
+      "                    nagramiXSaveCopiedMediaToFiles(\n",
+      1
+    ],
+    [
+      "submodules/TelegramUI/Sources/ChatInterfaceStateContextMenus.swift",
+      "        let isCopyProtected = chatPresentationInterfaceState.copyProtectionEnabled || message.isCopyProtected()\n",
+      "        let isCopyProtected = chatPresentationInterfaceState.copyProtectionEnabled || message.isCopyProtected()\n        let nagramiXProtectedExport = isCopyProtected && nagramiXAllowsProtectedContentExport(message)\n",
+      1
+    ],
+    [
+      "submodules/TelegramUI/Sources/ChatInterfaceStateContextMenus.swift",
+      "        if data.messageActions.options.contains(.forward) {\n            if !isCopyProtected {\n                let messagesToForward = selectAll || isImage ? messages : [message]\n",
+      "        let messagesToForward = selectAll || isImage ? messages : [message]\n        if data.messageActions.options.contains(.forward) || (isCopyProtected && nagramiXCanCopyMessagesAsNew(messagesToForward)) {\n            if data.messageActions.options.contains(.forward) && !isCopyProtected {\n",
+      1
+    ],
+    [
+      "submodules/TelegramUI/Sources/ChatInterfaceStateContextMenus.swift",
+      "                    interfaceInteraction.forwardMessages(messagesToForward)\n                    f(.dismissWithoutContent)\n                })))\n                if NagramiXTabSettings.current.showForwardWithoutAuthor {",
+      "                    interfaceInteraction.forwardMessages(messagesToForward)\n                    f(.dismissWithoutContent)\n                })))\n            }\n            if !isCopyProtected || nagramiXCanCopyMessagesAsNew(messagesToForward) {\n                if NagramiXTabSettings.current.showForwardWithoutAuthor {",
+      1
+    ],
+    [
+      "submodules/TelegramUI/Sources/ChatInterfaceStateContextMenus.swift",
+      "                    if !isCopyProtected {\n                        actions.append(.action(ContextMenuActionItem(text: chatPresentationInterfaceState.strings.Conversation_ContextMenuCopy,",
+      "                    if !isCopyProtected || nagramiXProtectedExport {\n                        actions.append(.action(ContextMenuActionItem(text: chatPresentationInterfaceState.strings.Conversation_ContextMenuCopy,",
+      1
+    ],
+    [
+      "submodules/TelegramUI/Sources/ChatInterfaceStateContextMenus.swift",
+      "        if resourceAvailable, !message.containsSecretMedia && !isCopyProtected {",
+      "        if resourceAvailable, !message.containsSecretMedia && (!isCopyProtected || nagramiXProtectedExport) {",
+      1
+    ],
+    [
+      "submodules/TelegramUI/Sources/ChatInterfaceStateContextMenus.swift",
+      "mediaReference = ImageMediaReference.standalone(media: image).abstract",
+      "mediaReference = nagramiXProtectedExport ? ImageMediaReference.message(message: MessageReference(message), media: image).abstract : ImageMediaReference.standalone(media: image).abstract",
+      1
+    ],
+    [
+      "submodules/TelegramUI/Sources/ChatInterfaceStateContextMenus.swift",
+      "mediaReference = FileMediaReference.standalone(media: file).abstract",
+      "mediaReference = nagramiXProtectedExport ? FileMediaReference.message(message: MessageReference(message), media: file).abstract : FileMediaReference.standalone(media: file).abstract",
+      1
+    ],
+    [
+      "submodules/TelegramUI/Sources/ChatInterfaceStateContextMenus.swift",
+      "        if !isCopyProtected {\n            for media in message.effectiveMedia {\n                if let file = media as? TelegramMediaFile {\n                    if file.isMusic {",
+      "        if !isCopyProtected || nagramiXProtectedExport {\n            for media in message.effectiveMedia {\n                if let file = media as? TelegramMediaFile {\n                    if file.isMusic || nagramiXProtectedExport {",
+      1
+    ],
+    [
+      "submodules/TelegramUI/Components/Chat/ChatMessageSelectionInputPanelNode/Sources/ChatMessageSelectionInputPanelNode.swift",
+      "        let canCopySelection = self.nagramiXCanCopySelection && self.actions?.isCopyProtected != true",
+      "        let canCopySelection = self.nagramiXCanCopySelection",
+      1
+    ],
+    [
+      "submodules/TelegramUI/Components/Chat/ChatMessageSelectionInputPanelNode/Sources/ChatMessageSelectionInputPanelNode.swift",
+      "        if let actions = self.actions, actions.isCopyProtected {\n            self.interfaceInteraction?.displayCopyProtectionTip(button, false)\n            return\n        }\n        guard !button.isImplicitlyDisabled else {",
+      "        // Custom copy actions use their payload eligibility, independently\n        // of the native Repost/external-share protection flag.\n        guard !button.isImplicitlyDisabled else {",
+      1
+    ]
+  ],
+  "copies": {
+    "Sources/TelegramCore/NagramiXContentCopy.swift": "submodules/TelegramCore/Sources/Utils/NagramiXContentCopy.swift",
+    "Sources/TelegramUI/NagramiXProtectedCopyPreparation.swift": "submodules/TelegramUI/Sources/Chat/NagramiXProtectedCopyPreparation.swift"
+  }
+}

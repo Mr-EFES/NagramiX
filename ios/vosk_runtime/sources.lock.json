@@ -1,0 +1,13 @@
+{
+  "version": "0.3.50",
+  "publisher": "santalex/libvosk",
+  "url": "https://github.com/santalex/libvosk/releases/download/v0.3.50/libvosk-v0.3.50-ios-xcframework.zip",
+  "sha256": "13348851e77887fec83631e1651655057801677472dfd0a53f1670cbe06eb735",
+  "device_library": "libvosk.xcframework/ios-arm64/libvosk.a",
+  "catalog_url": "https://alphacephei.com/vosk/models/model-list.json",
+  "catalog_sha256": "0b2d34cb345e768f806274b6fa70d05e7db44763c0c8cb69f4a334bd0088189e",
+  "catalog_entries": 131,
+  "status": "linked_by_transcription_vosk_stage_device_arm64",
+  "header_sha256": "f82f553a38fbff84a5731fbf086215f107e301a27daad0f038459781dc4a2adc",
+  "license_sha256": "bb618af833c817ab01c1564bd3ec75ba4b4f9cf30910a4a2168e30a674ee8cc6"
+}

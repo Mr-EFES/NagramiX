@@ -1,0 +1,322 @@
+{
+  "hashes": {
+    "submodules/TelegramUI/Components/Chat/ChatTextInputPanelNode/Sources/NagramiXFormattingKeyboard.swift": "a1c5152ad8ff2aef92db3d6b661b3f87c36958f8bd72e293e258fa7cf3bbd806",
+    "submodules/TelegramUI/Components/Chat/ChatTextInputPanelNode/Sources/NagramiXFormattingGeometry.swift": "16fe88805356f183222d87749051cc6c470514cd43cd3d211b2c5f26b3f3ce62",
+    "submodules/TelegramUI/Components/Chat/ChatTextInputPanelNode/Sources/ChatTextInputPanelNode.swift": "bffa36f24a03abe02fe629221ad742d2d8606a0219d5f341024a15b3e861ee90",
+    "submodules/TelegramUI/Components/Chat/ChatInputTextNode/Sources/ChatRichTextInputNode.swift": "be057d45a844fbb2f679b0915936266439092742745d431f6319d6f69fc539ea",
+    "submodules/TelegramUI/Components/Chat/ChatRichTextEditorComposer/Sources/RichTextEditorChatInputNode.swift": "14aa5d9fdbb79910d80ab6c706e81a36f9b2e5f2bbe15ca348c6d6e1a447ad30",
+    "submodules/TelegramUI/Components/Chat/ChatTextInputPanelNode/BUILD": "d776f482e9caf7873ad3a0f47584360c4b3e730757647298da07d41ea266e185",
+    "submodules/TelegramUI/Components/RichTextAttachmentScreen/BUILD": "f18ef3dc2880e1c59a6a115e2c9fbbcb88c95d7f58ad4999189e26688b7a720a",
+    "submodules/TelegramUI/Components/RichTextAttachmentScreen/Sources/RichTextAttachmentScreen.swift": "e30f42aa7621bf3e0e4ff87e2ac8c1202353128fe9f30b86e37a8c50f3abb3a2",
+    "submodules/TelegramUI/Components/RichTextAttachmentScreen/Sources/RichTextEmojiKeyboardController.swift": "464f3151b75a8b02f4903170b69ff1a188feb6ad44d7d3b6dd7b31f98b72c93c",
+    "submodules/TelegramUI/Components/RichTextAttachmentScreen/Sources/RichTextActionBarComponent.swift": "ef43ad759d3fa64bfde758498aa328d751106f5584904e3228b99f1913aba0ce",
+    "submodules/NagramiXCore/Sources/NagramiXPresentationStrings.swift": "5c1e402bac65a2165ccedfb0d0254c0f239765661aa9c80192b5c185300c5f3e",
+    "submodules/NagramiXCore/Resources/ru.lproj/Localizable.strings": "4db1b4dff5e4fd3479b4f78b22e13a4cb0402fdae6326df8726728e4701dcb46",
+    "submodules/NagramiXCore/Resources/en.lproj/Localizable.strings": "cf087813416ac9d237f06852295d37e25d9162cd13633079f1d0fbb1bb7fd67d"
+  },
+  "source_globs": [
+    "submodules/TelegramUI/Components/Chat/ChatTextInputPanelNode/BUILD",
+    "submodules/TelegramUI/Components/RichTextAttachmentScreen/BUILD"
+  ],
+  "templates": {
+    "__NAGRAMIX_FORMATTING_FOOTER__": "Sources/ChatTextInputPanelNode/NagramiXFormattingFooter.swift.inc",
+    "__NAGRAMIX_FORMATTING_EXTRA_INTEGRATION__": "Sources/ChatTextInputPanelNode/NagramiXFormattingExtraIntegration.swift.inc",
+    "__NAGRAMIX_EXPANDED_FORMATTING__": "Sources/ChatTextInputPanelNode/NagramiXExpandedFormatting.swift.inc"
+  },
+  "patches": [
+    [
+      "submodules/TelegramUI/Components/Chat/ChatTextInputPanelNode/Sources/NagramiXFormattingKeyboard.swift",
+      "    private let heading = UILabel()\n",
+      "__NAGRAMIX_FORMATTING_FOOTER__\n\n    private let heading = UILabel()\n",
+      1
+    ],
+    [
+      "submodules/TelegramUI/Components/Chat/ChatTextInputPanelNode/Sources/NagramiXFormattingKeyboard.swift",
+      "        let font = UIFontMetrics(forTextStyle: .caption1).scaledFont(for: UIFont.systemFont(ofSize: 12), maximumPointSize: 28)\n        let keyColor = UIColor { traits in\n            traits.userInterfaceStyle == .dark ? UIColor(white: 0.26, alpha: 1) : .white\n        }\n",
+      "",
+      1
+    ],
+    [
+      "submodules/TelegramUI/Components/Chat/ChatTextInputPanelNode/Sources/NagramiXFormattingKeyboard.swift",
+      "            button.isEnabled = item.enabled\n            button.isSelected = item.selected\n            button.caption.text = item.title\n            button.caption.font = font\n            button.caption.textColor = item.selected ? accent : .label\n            button.glyph.image = UIImage(systemName: item.symbol, withConfiguration: UIImage.SymbolConfiguration(pointSize: 23, weight: .regular))?.withRenderingMode(.alwaysTemplate)\n            button.glyph.tintColor = item.selected ? accent : .label\n            button.backgroundColor = item.selected ? accent.withAlphaComponent(0.18) : keyColor\n            button.alpha = item.enabled ? 1 : 0.45\n            button.accessibilityLabel = item.accessibilityTitle\n            button.accessibilityTraits = item.selected ? [.button, .selected] : [.button]\n            if !item.enabled { button.accessibilityTraits.insert(.notEnabled) }",
+      "            self.configureKey(button, title: item.title, accessibilityTitle: item.accessibilityTitle,\n                symbol: item.symbol, enabled: item.enabled, selected: item.selected, accent: accent)",
+      1
+    ],
+    [
+      "submodules/TelegramUI/Components/Chat/ChatTextInputPanelNode/Sources/NagramiXFormattingKeyboard.swift",
+      "            accessibility: self.traitCollection.preferredContentSizeCategory.isAccessibilityCategory)\n",
+      "            accessibility: self.traitCollection.preferredContentSizeCategory.isAccessibilityCategory,\n            footerMinimumLabelWidth: self.extraItems.isEmpty ? nil : ceil(self.extraItems.map { ($0.title as NSString).size(withAttributes: [.font: minimumFont]).width }.max() ?? 0))\n",
+      1
+    ],
+    [
+      "submodules/TelegramUI/Components/Chat/ChatTextInputPanelNode/Sources/NagramiXFormattingKeyboard.swift",
+      "        self.scroll.contentSize = grid.contentSize\n",
+      "        for (index, button) in self.extraButtons.enumerated() where self.items.count + index < grid.frames.count {\n            button.frame = grid.frames[self.items.count + index]\n        }\n        self.scroll.contentSize = grid.contentSize\n",
+      1
+    ],
+    [
+      "submodules/TelegramUI/Components/Chat/ChatTextInputPanelNode/Sources/NagramiXFormattingGeometry.swift",
+      "minimumKeyHeight: CGFloat, accessibility: Bool) -> NagramiXFormattingGrid {",
+      "minimumKeyHeight: CGFloat, accessibility: Bool, footerMinimumLabelWidth: CGFloat? = nil) -> NagramiXFormattingGrid {",
+      1
+    ],
+    [
+      "submodules/TelegramUI/Components/Chat/ChatTextInputPanelNode/Sources/NagramiXFormattingGeometry.swift",
+      "        let gap: CGFloat = 6\n",
+      "        if let footerMinimumLabelWidth {\n            guard footerMinimumLabelWidth.isFinite, footerMinimumLabelWidth >= 0 else {\n                return NagramiXFormattingGrid(columns: 0, frames: [], contentSize: .zero)\n            }\n            let gap: CGFloat = 6\n            let columns = (size.width - gap) / 2 - 4 >= footerMinimumLabelWidth ? 2 : 1\n            let rows = 2 / columns\n            let keyHeight = max(60, minimumKeyHeight)\n            let footerHeight = CGFloat(rows) * keyHeight + CGFloat(rows - 1) * gap\n            let body = self.layout(size: CGSize(width: size.width, height: max(0, size.height - footerHeight - gap)),\n                count: count, minimumLabelWidth: minimumLabelWidth, minimumKeyHeight: minimumKeyHeight, accessibility: accessibility)\n            let keyWidth = (size.width - CGFloat(columns - 1) * gap) / CGFloat(columns)\n            let top = body.contentSize.height + gap\n            let footer = (0 ..< 2).map { index in\n                CGRect(x: CGFloat(index % columns) * (keyWidth + gap), y: top + CGFloat(index / columns) * (keyHeight + gap), width: keyWidth, height: keyHeight)\n            }\n            return NagramiXFormattingGrid(columns: body.columns, frames: body.frames + footer,\n                contentSize: CGSize(width: size.width, height: top + footerHeight))\n        }\n        let gap: CGFloat = 6\n",
+      1
+    ],
+    [
+      "submodules/TelegramUI/Components/Chat/ChatTextInputPanelNode/Sources/ChatTextInputPanelNode.swift",
+      "            keyboard.action = { [weak self] action in self?.nagramiXApplyFormatting(action) }\n",
+      "            keyboard.action = { [weak self] action in self?.nagramiXApplyFormatting(action) }\n            keyboard.extraAction = { [weak self] action in self?.nagramiXApplyExtraFormatting(action) }\n",
+      1
+    ],
+    [
+      "submodules/TelegramUI/Components/Chat/ChatTextInputPanelNode/Sources/ChatTextInputPanelNode.swift",
+      "    private func nagramiXFormattingSelection() -> NagramiXFormattingSelection {",
+      "__NAGRAMIX_FORMATTING_EXTRA_INTEGRATION__\n\n    private func nagramiXFormattingSelection() -> NagramiXFormattingSelection {",
+      1
+    ],
+    [
+      "submodules/TelegramUI/Components/Chat/ChatTextInputPanelNode/Sources/ChatTextInputPanelNode.swift",
+      "           accent: state.theme.chat.inputPanel.panelControlAccentColor)\n    }\n",
+      "           accent: state.theme.chat.inputPanel.panelControlAccentColor)\n        keyboard.updateExtras([\n            .init(action: .pullQuote, title: strings.RichText_MenuPullquote, enabled: self.nagramiXExtraFormattingAvailable(.pullQuote), selected: self.richTextInputNode?.nagramiXIsPullQuote ?? false),\n            .init(action: .selectAll, title: strings.nagramiXFormattingSelectAll, enabled: self.nagramiXExtraFormattingAvailable(.selectAll), selected: false)\n        ], accent: state.theme.chat.inputPanel.panelControlAccentColor)\n    }\n",
+      1
+    ],
+    [
+      "submodules/TelegramUI/Components/Chat/ChatInputTextNode/Sources/ChatRichTextInputNode.swift",
+      "    var selectedRange: NSRange { get set }\n",
+      "    var selectedRange: NSRange { get set }\n    func nagramiXSelectAll()\n    var nagramiXIsPullQuote: Bool { get }\n",
+      1
+    ],
+    [
+      "submodules/TelegramUI/Components/Chat/ChatInputTextNode/Sources/ChatRichTextInputNode.swift",
+      "public extension ChatRichTextInputNode {\n",
+      "public extension ChatRichTextInputNode {\n    func nagramiXSelectAll() {\n        self.selectedRange = NSRange(location: 0, length: self.attributedText?.length ?? 0)\n    }\n    var nagramiXIsPullQuote: Bool { return false }\n",
+      1
+    ],
+    [
+      "submodules/TelegramUI/Components/Chat/ChatRichTextEditorComposer/Sources/RichTextEditorChatInputNode.swift",
+      "    public func performFormatAction(_ action: ChatRichTextFormatAction) {",
+      "    public func nagramiXSelectAll() { self.editorView.selectAll() }\n    public var nagramiXIsPullQuote: Bool { self.editorView.currentState().isPullQuote }\n\n    public func performFormatAction(_ action: ChatRichTextFormatAction) {",
+      1
+    ],
+    [
+      "submodules/TelegramUI/Components/Chat/ChatTextInputPanelNode/BUILD",
+      "swift_library(\n    name = \"ChatTextInputPanelNode\",",
+      "filegroup(\n    name = \"nagramix_formatting_keyboard_sources\",\n    srcs = [\"Sources/NagramiXFormattingKeyboard.swift\", \"Sources/NagramiXFormattingGeometry.swift\"],\n    visibility = [\"//visibility:public\"],\n)\n\nswift_library(\n    name = \"ChatTextInputPanelNode\",",
+      1
+    ],
+    [
+      "submodules/TelegramUI/Components/RichTextAttachmentScreen/BUILD",
+      "        \"Sources/**/*.swift\",\n    ]),",
+      "        \"Sources/**/*.swift\",\n    ]) + [\"//submodules/TelegramUI/Components/Chat/ChatTextInputPanelNode:nagramix_formatting_keyboard_sources\"],",
+      1
+    ],
+    [
+      "submodules/TelegramUI/Components/RichTextAttachmentScreen/BUILD",
+      "    deps = [\n",
+      "    deps = [\n        \"//submodules/NagramiXCore:NagramiXCore\",\n",
+      1
+    ],
+    [
+      "submodules/TelegramUI/Components/RichTextAttachmentScreen/Sources/RichTextAttachmentScreen.swift",
+      "import Foundation\n",
+      "import Foundation\nimport NagramiXCore\nimport ChatEntityKeyboardInputNode\n",
+      1
+    ],
+    [
+      "submodules/TelegramUI/Components/RichTextAttachmentScreen/Sources/RichTextAttachmentScreen.swift",
+      "        private let editor = RichTextEditorView()\n",
+      "        private let editor = RichTextEditorView()\n__NAGRAMIX_EXPANDED_FORMATTING__\n",
+      1
+    ],
+    [
+      "submodules/TelegramUI/Components/RichTextAttachmentScreen/Sources/RichTextAttachmentScreen.swift",
+      "        deinit {\n            for (_, disposable)",
+      "        deinit {\n            if let observer = self.nagramiXFormattingObserver { NotificationCenter.default.removeObserver(observer) }\n            for (_, disposable)",
+      1
+    ],
+    [
+      "submodules/TelegramUI/Components/RichTextAttachmentScreen/Sources/RichTextAttachmentScreen.swift",
+      "            self.environment = environment\n\n            self.isUpdating = true",
+      "            self.environment = environment\n            if self.nagramiXFormattingObserver == nil {\n                self.nagramiXFormattingObserver = NotificationCenter.default.addObserver(forName: NagramiXFormattingSettings.changedNotification, object: nil, queue: .main) { [weak self] _ in\n                    guard let self else { return }\n                    if !NagramiXFormattingSettings.enabled && self.nagramiXFormattingActive {\n                        self.nagramiXSetFormattingMode(false)\n                    } else {\n                        self.componentState?.updated(transition: .spring(duration: 0.4))\n                    }\n                }\n            }\n\n            self.isUpdating = true",
+      1
+    ],
+    [
+      "submodules/TelegramUI/Components/RichTextAttachmentScreen/Sources/RichTextAttachmentScreen.swift",
+      "self.emojiKeyboard?.updatePanel(container: self, availableSize: availableSize, environment: environment, transition: transition)",
+      "self.emojiKeyboard?.updatePanel(container: self, availableSize: availableSize, environment: environment, transition: transition, measureOnly: self.nagramiXFormattingActive)",
+      1
+    ],
+    [
+      "submodules/TelegramUI/Components/RichTextAttachmentScreen/Sources/RichTextAttachmentScreen.swift",
+      "            let editorTop = environment.navigationHeight\n",
+      "            self.nagramiXUpdateFormattingPanel(availableSize: availableSize, height: emojiPanelHeight, environment: environment, transition: transition)\n            let editorTop = environment.navigationHeight\n",
+      1
+    ],
+    [
+      "submodules/TelegramUI/Components/RichTextAttachmentScreen/Sources/RichTextAttachmentScreen.swift",
+      "action: { [weak self] _ in self?.emojiKeyboard?.toggle() },",
+      "action: { [weak self] _ in self?.nagramiXToggleEmoji() },",
+      1
+    ],
+    [
+      "submodules/TelegramUI/Components/RichTextAttachmentScreen/Sources/RichTextAttachmentScreen.swift",
+      "            let tabBarBottomInset = max(environment.inputHeight, emojiPanelHeight, environment.additionalInsets.bottom)\n",
+      "            if NagramiXFormattingSettings.enabled {\n                let index = barActions.firstIndex(where: { $0.id == AnyHashable(\"emoji\") }) ?? barActions.endIndex\n                barActions.insert(RichTextActionBarComponent.Action(\n                    id: AnyHashable(\"nagramixFormatting\"), icon: self.nagramiXFormattingActive ? \"nagramix:keyboard\" : \"nagramix:textformat\",\n                    action: { [weak self] _ in self?.nagramiXToggleFormatting() }, isSelected: false,\n                    accessibilityLabel: self.nagramiXFormattingActive ? environment.strings.nagramiXFormattingKeyboard : environment.strings.nagramiXQuickFormatting\n                ), at: index)\n            }\n            let tabBarBottomInset = max(environment.inputHeight, emojiPanelHeight, environment.additionalInsets.bottom)\n",
+      1
+    ],
+    [
+      "submodules/TelegramUI/Components/RichTextAttachmentScreen/Sources/RichTextAttachmentScreen.swift",
+      "            let isTabBarVisible = !(self.emojiKeyboard?.isEmojiMode ?? false)\n",
+      "            let isTabBarVisible = !(self.emojiKeyboard?.isEmojiMode ?? false) && !self.nagramiXFormattingActive\n",
+      1
+    ],
+    [
+      "submodules/TelegramUI/Components/RichTextAttachmentScreen/Sources/RichTextEmojiKeyboardController.swift",
+      "    private var panelPresented = false\n",
+      "    private var panelPresented = false\n    private var nagramiXMeasuringFormatting = false\n",
+      1
+    ],
+    [
+      "submodules/TelegramUI/Components/RichTextAttachmentScreen/Sources/RichTextEmojiKeyboardController.swift",
+      "            if self.isEmojiMode {\n",
+      "            if self.isEmojiMode || self.nagramiXMeasuringFormatting {\n",
+      1
+    ],
+    [
+      "submodules/TelegramUI/Components/RichTextAttachmentScreen/Sources/RichTextEmojiKeyboardController.swift",
+      "        self.requestLayout()\n    }\n\n    private func handleInsert",
+      "        if notifyLayout { self.requestLayout() }\n    }\n\n    private func handleInsert",
+      1
+    ],
+    [
+      "submodules/TelegramUI/Components/RichTextAttachmentScreen/Sources/RichTextEmojiKeyboardController.swift",
+      "    func setEmojiMode(_ active: Bool) {",
+      "    func setEmojiMode(_ active: Bool, preserveInputView: Bool = false, notifyLayout: Bool = true) {",
+      1
+    ],
+    [
+      "submodules/TelegramUI/Components/RichTextAttachmentScreen/Sources/RichTextEmojiKeyboardController.swift",
+      "        } else {\n            self.editor?.customInputView = nil\n",
+      "        } else if !preserveInputView {\n            self.editor?.customInputView = nil\n",
+      1
+    ],
+    [
+      "submodules/TelegramUI/Components/RichTextAttachmentScreen/Sources/RichTextEmojiKeyboardController.swift",
+      "transition: ComponentTransition) -> CGFloat {\n        guard self.isEmojiMode, let currentData = self.currentData else {",
+      "transition: ComponentTransition, measureOnly: Bool = false) -> CGFloat {\n        self.nagramiXMeasuringFormatting = measureOnly\n        guard self.isEmojiMode || measureOnly, let currentData = self.currentData else {",
+      1
+    ],
+    [
+      "submodules/TelegramUI/Components/RichTextAttachmentScreen/Sources/RichTextEmojiKeyboardController.swift",
+      "            return 0.0\n        }\n\n        let node: ChatEntityKeyboardInputNode",
+      "            return measureOnly ? environment.deviceMetrics.standardInputHeight(inLandscape: false) : 0.0\n        }\n\n        let node: ChatEntityKeyboardInputNode",
+      1
+    ],
+    [
+      "submodules/TelegramUI/Components/RichTextAttachmentScreen/Sources/RichTextEmojiKeyboardController.swift",
+      "        node.view.isHidden = false\n        self.panelPresented = true\n",
+      "        node.view.isHidden = measureOnly\n        self.panelPresented = !measureOnly\n",
+      1
+    ],
+    [
+      "submodules/TelegramUI/Components/RichTextAttachmentScreen/Sources/RichTextEmojiKeyboardController.swift",
+      "            isVisible: true,\n",
+      "            isVisible: !measureOnly,\n",
+      1
+    ],
+    [
+      "submodules/TelegramUI/Components/RichTextAttachmentScreen/Sources/RichTextEmojiKeyboardController.swift",
+      "        if animateIn {\n",
+      "        if measureOnly {\n            ComponentTransition.immediate.setFrame(view: node.view, frame: shownFrame)\n            return panelHeight\n        }\n        if animateIn {\n",
+      1
+    ],
+    [
+      "submodules/TelegramUI/Components/RichTextAttachmentScreen/Sources/RichTextActionBarComponent.swift",
+      "        let showsPremiumBadge: Bool\n",
+      "        let showsPremiumBadge: Bool\n        let accessibilityLabel: String?\n",
+      1
+    ],
+    [
+      "submodules/TelegramUI/Components/RichTextAttachmentScreen/Sources/RichTextActionBarComponent.swift",
+      "flipHorizontally: Bool = false, showsPremiumBadge: Bool = false) {",
+      "flipHorizontally: Bool = false, showsPremiumBadge: Bool = false, accessibilityLabel: String? = nil) {",
+      1
+    ],
+    [
+      "submodules/TelegramUI/Components/RichTextAttachmentScreen/Sources/RichTextActionBarComponent.swift",
+      "            self.showsPremiumBadge = showsPremiumBadge\n",
+      "            self.showsPremiumBadge = showsPremiumBadge\n            self.accessibilityLabel = accessibilityLabel\n",
+      1
+    ],
+    [
+      "submodules/TelegramUI/Components/RichTextAttachmentScreen/Sources/RichTextActionBarComponent.swift",
+      "            if lhs.icon != rhs.icon {",
+      "            if lhs.accessibilityLabel != rhs.accessibilityLabel { return false }\n            if lhs.icon != rhs.icon {",
+      1
+    ],
+    [
+      "submodules/TelegramUI/Components/RichTextAttachmentScreen/Sources/RichTextActionBarComponent.swift",
+      "                        showsPremiumBadge: item.showsPremiumBadge\n",
+      "                        showsPremiumBadge: item.showsPremiumBadge,\n                        accessibilityLabel: item.accessibilityLabel\n",
+      1
+    ],
+    [
+      "submodules/TelegramUI/Components/RichTextAttachmentScreen/Sources/RichTextActionBarComponent.swift",
+      "\n    let showsPremiumBadge: Bool\n",
+      "\n    let showsPremiumBadge: Bool\n    let accessibilityLabel: String?\n",
+      1
+    ],
+    [
+      "submodules/TelegramUI/Components/RichTextAttachmentScreen/Sources/RichTextActionBarComponent.swift",
+      "        showsPremiumBadge: Bool = false\n",
+      "        showsPremiumBadge: Bool = false,\n        accessibilityLabel: String? = nil\n",
+      1
+    ],
+    [
+      "submodules/TelegramUI/Components/RichTextAttachmentScreen/Sources/RichTextActionBarComponent.swift",
+      "\n        self.showsPremiumBadge = showsPremiumBadge\n",
+      "\n        self.showsPremiumBadge = showsPremiumBadge\n        self.accessibilityLabel = accessibilityLabel\n",
+      1
+    ],
+    [
+      "submodules/TelegramUI/Components/RichTextAttachmentScreen/Sources/RichTextActionBarComponent.swift",
+      "\n        if lhs.icon != rhs.icon {",
+      "\n        if lhs.accessibilityLabel != rhs.accessibilityLabel { return false }\n        if lhs.icon != rhs.icon {",
+      1
+    ],
+    [
+      "submodules/TelegramUI/Components/RichTextAttachmentScreen/Sources/RichTextActionBarComponent.swift",
+      "            guard let baseImage = UIImage(bundleImageName: name) else {",
+      "            let image: UIImage?\n            switch name {\n            case \"nagramix:textformat\": image = UIImage(systemName: \"textformat\", withConfiguration: UIImage.SymbolConfiguration(pointSize: 23, weight: .regular))\n            case \"nagramix:keyboard\": image = UIImage(systemName: \"keyboard\", withConfiguration: UIImage.SymbolConfiguration(pointSize: 23, weight: .regular))\n            default: image = UIImage(bundleImageName: name)\n            }\n            guard let baseImage = image else {",
+      1
+    ],
+    [
+      "submodules/TelegramUI/Components/RichTextAttachmentScreen/Sources/RichTextActionBarComponent.swift",
+      "            let iconImage = self.generateIconImage(name: component.icon, showsPremiumBadge: component.showsPremiumBadge)\n",
+      "            if let label = component.accessibilityLabel {\n                self.isAccessibilityElement = true\n                self.accessibilityLabel = label\n                self.accessibilityTraits = .button\n            }\n            let iconImage = self.generateIconImage(name: component.icon, showsPremiumBadge: component.showsPremiumBadge)\n",
+      1
+    ],
+    [
+      "submodules/NagramiXCore/Sources/NagramiXPresentationStrings.swift",
+      "    var nagramiXFormattingPanelTitle:",
+      "    var nagramiXFormattingSelectAll: String { self.nagramiXLocalized(\"NagramiX.QuickFormatting.SelectAll\") }\n    var nagramiXFormattingPanelTitle:",
+      1
+    ],
+    [
+      "submodules/NagramiXCore/Resources/ru.lproj/Localizable.strings",
+      "\"NagramiX.QuickFormatting.PanelTitle\" = ",
+      "\"NagramiX.QuickFormatting.SelectAll\" = \"Выделить всё\";\n\"NagramiX.QuickFormatting.PanelTitle\" = ",
+      1
+    ],
+    [
+      "submodules/NagramiXCore/Resources/en.lproj/Localizable.strings",
+      "\"NagramiX.QuickFormatting.PanelTitle\" = ",
+      "\"NagramiX.QuickFormatting.SelectAll\" = \"Select all\";\n\"NagramiX.QuickFormatting.PanelTitle\" = ",
+      1
+    ]
+  ]
+}

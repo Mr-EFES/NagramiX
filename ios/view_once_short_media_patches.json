@@ -1,0 +1,38 @@
+{
+  "inputs": {
+    "submodules/TelegramCore/Sources/TelegramEngine/Messages/MarkMessageContentAsConsumedInteractively.swift": "7c8c3bd73fe538cf34df9790b224e060919816ad34ec0d272bfb899c8b540d24",
+    "submodules/TelegramCore/Sources/Utils/NagramiXMessageArchive.swift": "b5814e2d4c07ad638caa89f299d32cbccf685a2e073321988928420274df0780",
+    "submodules/TelegramUI/Sources/ChatInterfaceStateContextMenus.swift": "214eb015020955dd1c2236cea96778c09cd6f35404c2293ef0a2a0c72e60d35a"
+  },
+  "outputs": {
+    "submodules/TelegramCore/Sources/TelegramEngine/Messages/MarkMessageContentAsConsumedInteractively.swift": "184b1705365a25811266615dc9a24cacda0a847a32b257bd4ae8469527f6e8e0",
+    "submodules/TelegramCore/Sources/Utils/NagramiXMessageArchive.swift": "d20136afa91d22806d48b48b405d5b93e64091783357b5bc1050512371bf0e6c",
+    "submodules/TelegramUI/Sources/ChatInterfaceStateContextMenus.swift": "c9570f324b57740d0157caeaa66d52cb03b8f5e61e334404b6b53189ad7a8fb6"
+  },
+  "guards": {
+    "submodules/TelegramCore/BUILD": "81e6c1d9dceab5da57124381fce03665a449bcb7904e66c884269dacdd584fbf",
+    "submodules/TelegramUI/BUILD": "f4ae55a27c3a5e486a0fe9c768c70b65b974c505125d91a1215645179de54926"
+  },
+  "templates": {
+    "view_once_short_media/Before0.inc": "7c8c3bd73fe538cf34df9790b224e060919816ad34ec0d272bfb899c8b540d24",
+    "view_once_short_media/After0.inc": "184b1705365a25811266615dc9a24cacda0a847a32b257bd4ae8469527f6e8e0",
+    "view_once_short_media/Before1.inc": "b5814e2d4c07ad638caa89f299d32cbccf685a2e073321988928420274df0780",
+    "view_once_short_media/After1.inc": "d20136afa91d22806d48b48b405d5b93e64091783357b5bc1050512371bf0e6c",
+    "view_once_short_media/Before2.inc": "214eb015020955dd1c2236cea96778c09cd6f35404c2293ef0a2a0c72e60d35a",
+    "view_once_short_media/After2.inc": "c9570f324b57740d0157caeaa66d52cb03b8f5e61e334404b6b53189ad7a8fb6",
+    "view_once_short_media/Guard0.inc": "81e6c1d9dceab5da57124381fce03665a449bcb7904e66c884269dacdd584fbf",
+    "view_once_short_media/Guard1.inc": "f4ae55a27c3a5e486a0fe9c768c70b65b974c505125d91a1215645179de54926"
+  },
+  "previous": {
+    "submodules/TelegramCore/Sources/TelegramEngine/Messages/MarkMessageContentAsConsumedInteractively.swift": "view_once_short_media/Before0.inc",
+    "submodules/TelegramCore/Sources/Utils/NagramiXMessageArchive.swift": "view_once_short_media/Before1.inc",
+    "submodules/TelegramUI/Sources/ChatInterfaceStateContextMenus.swift": "view_once_short_media/Before2.inc"
+  },
+  "replacements": {
+    "submodules/TelegramCore/Sources/TelegramEngine/Messages/MarkMessageContentAsConsumedInteractively.swift": "view_once_short_media/After0.inc",
+    "submodules/TelegramCore/Sources/Utils/NagramiXMessageArchive.swift": "view_once_short_media/After1.inc",
+    "submodules/TelegramUI/Sources/ChatInterfaceStateContextMenus.swift": "view_once_short_media/After2.inc"
+  },
+  "copies": {},
+  "deletions": {}
+}

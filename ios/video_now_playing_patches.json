@@ -1,0 +1,192 @@
+{
+  "inputs": {
+    "submodules/AccountContext/Sources/MediaManager.swift": "e7e674eb5c1c8206df8f402672b7e694068a3bdf04b8e12ac8c488384a3ccfd6",
+    "submodules/TelegramUI/Sources/MediaManager.swift": "a3d21efff2b85886772bfa42df6d73626b847a1a9e87fdf10d1b1843593d9b68",
+    "submodules/GalleryUI/Sources/Items/UniversalVideoGalleryItem.swift": "b2a6e5c93f832a549a7e1cbd7a04e115d7d0cfdd911c6bf130964974772754b9"
+  },
+  "outputs": {
+    "submodules/AccountContext/Sources/MediaManager.swift": "d999ef48472b0590f926796a6ebb57d890475df3663bd6b2354bcfdd829aaa53",
+    "submodules/TelegramUI/Sources/MediaManager.swift": "69450c60fbe3e0461a3abdb6292ccf1d9cf638fffc69c7813ee01773ba2d4784",
+    "submodules/GalleryUI/Sources/Items/UniversalVideoGalleryItem.swift": "e6f3cd60c8080ded86312b00e7fcfc8d757926ebaa20fc5fbbd36de7b268d4b1"
+  },
+  "guards": {
+    "submodules/TelegramUI/BUILD": "eec4771359520d912df85e8a26bfb8ef29d0069862addb1ac87bcffaab853bf2",
+    "submodules/AccountContext/BUILD": "5f3668ee2377aa5ed6b17e1584b99110b7b9e84258b345a1ba886470aa4b3d65"
+  },
+  "patches": [
+    [
+      "submodules/AccountContext/Sources/MediaManager.swift",
+      "public protocol MediaManager: AnyObject {",
+      "public struct NagramiXVideoNowPlayingState {\n    public let title: String\n    public let status: MediaPlayerStatus\n    public let isPictureInPicture: Bool\n    public let control: (SharedMediaPlayerControlAction) -> Void\n\n    public init(title: String, status: MediaPlayerStatus, isPictureInPicture: Bool,\n                control: @escaping (SharedMediaPlayerControlAction) -> Void) {\n        self.title = title\n        self.status = status\n        self.isPictureInPicture = isPictureInPicture\n        self.control = control\n    }\n}\n\npublic protocol MediaManager: AnyObject {",
+      1
+    ],
+    [
+      "submodules/AccountContext/Sources/MediaManager.swift",
+      "    func setNagramiXSystemPiPPlayback(id: UUID, active: Bool)\n",
+      "    func setNagramiXSystemPiPPlayback(id: UUID, active: Bool)\n    func setNagramiXVideoNowPlaying(id: UUID, state: NagramiXVideoNowPlayingState?)\n",
+      1
+    ],
+    [
+      "submodules/AccountContext/Sources/MediaManager.swift",
+      "    func setNagramiXSystemPiPPlayback(id: UUID, active: Bool) {}\n",
+      "    func setNagramiXSystemPiPPlayback(id: UUID, active: Bool) {}\n    func setNagramiXVideoNowPlaying(id: UUID, state: NagramiXVideoNowPlayingState?) {}\n",
+      1
+    ],
+    [
+      "submodules/TelegramUI/Sources/MediaManager.swift",
+      "    private var nagramiXVideoSettingsObserver: NSObjectProtocol?\n",
+      "    private var nagramiXVideoSettingsObserver: NSObjectProtocol?\n    private let nagramiXVideoNowPlayingRegistry = NagramiXVideoNowPlayingRegistry()\n    private let nagramiXNowPlayingArbitration = NagramiXNowPlayingArbitration()\n    private let nagramiXVideoNowPlayingValue = Promise<NagramiXVideoNowPlayingEntry?>(nil)\n    private let nagramiXCurrentVideoNowPlaying = Atomic<NagramiXVideoNowPlayingEntry?>(value: nil)\n",
+      1
+    ],
+    [
+      "submodules/TelegramUI/Sources/MediaManager.swift",
+      "        self.globalControlsDisposable.set((combineLatest(self.globalMediaPlayerState, self.presentationData)\n        |> deliverOnMainQueue).startStrict(next: { stateAndType, presentationData in\n            var updatedGlobalControlOptions = GlobalControlOptions()",
+      "        self.globalControlsDisposable.set((combineLatest(self.globalMediaPlayerState, self.presentationData, self.nagramiXVideoNowPlayingValue.get())\n        |> deliverOnMainQueue).startStrict(next: { stateAndType, presentationData, videoEntry in\n            var sharedPlayerIsPlaying = false\n            if let (_, stateOrLoading, _) = stateAndType, case let .state(state) = stateOrLoading {\n                sharedPlayerIsPlaying = NagramiXVideoNowPlayingRegistry.isPlaying(state.status.status)\n            }\n            let videoEntry = self.nagramiXNowPlayingArbitration.choose(video: videoEntry, sharedIsPlaying: sharedPlayerIsPlaying)\n            _ = self.nagramiXCurrentVideoNowPlaying.swap(videoEntry)\n            var updatedGlobalControlOptions = GlobalControlOptions()",
+      1
+    ],
+    [
+      "submodules/TelegramUI/Sources/MediaManager.swift",
+      "            if let (account, stateOrLoading, type) = stateAndType, type == .music, case let .state(state) = stateOrLoading, let displayData = state.item.displayData {",
+      "            if let videoEntry {\n                let state = videoEntry.state\n                let timeline = NagramiXVideoNowPlayingRegistry.timeline(state.status)\n                updatedGlobalControlOptions = [NagramiXVideoNowPlayingRegistry.isPlaying(state.status.status) ? .pause : .play]\n                if timeline.duration != nil { updatedGlobalControlOptions.insert(.seek) }\n                previousState = nil\n                previousDisplayData = nil\n                globalControlsArtwork.set(.single(nil))\n                globalControlsStatus.set(.single(nil))\n                var info: [String: Any] = [\n                    MPMediaItemPropertyTitle: state.title,\n                    MPNowPlayingInfoPropertyMediaType: MPNowPlayingInfoMediaType.video.rawValue,\n                    MPNowPlayingInfoPropertyExternalContentIdentifier: videoEntry.id.uuidString,\n                    MPNowPlayingInfoPropertyElapsedPlaybackTime: timeline.elapsed,\n                    MPNowPlayingInfoPropertyPlaybackRate: timeline.rate\n                ]\n                if let duration = timeline.duration { info[MPMediaItemPropertyPlaybackDuration] = duration }\n                baseNowPlayingInfo = info\n                MPNowPlayingInfoCenter.default().nowPlayingInfo = info\n            } else if let (account, stateOrLoading, type) = stateAndType, type == .music, case let .state(state) = stateOrLoading, let displayData = state.item.displayData {",
+      1
+    ],
+    [
+      "submodules/TelegramUI/Sources/MediaManager.swift",
+      "        } |> deliverOnMainQueue).startStrict(next: { image in\n            if var nowPlayingInfo = baseNowPlayingInfo {",
+      "        } |> deliverOnMainQueue).startStrict(next: { image in\n            guard self.nagramiXCurrentVideoNowPlaying.with({ $0 == nil }) else { return }\n            if var nowPlayingInfo = baseNowPlayingInfo {",
+      1
+    ],
+    [
+      "submodules/TelegramUI/Sources/MediaManager.swift",
+      "        |> deliverOnMainQueue).startStrict(next: { next in\n            if let next = next {",
+      "        |> deliverOnMainQueue).startStrict(next: { next in\n            guard self.nagramiXCurrentVideoNowPlaying.with({ $0 == nil }) else { return }\n            if let next = next {",
+      1
+    ],
+    [
+      "submodules/TelegramUI/Sources/MediaManager.swift",
+      "            self?.nagramiXUpdateBackgroundVideoState()\n        })",
+      "            self?.nagramiXUpdateBackgroundVideoState()\n            self?.nagramiXRefreshVideoNowPlaying()\n        })",
+      1
+    ],
+    [
+      "submodules/TelegramUI/Sources/MediaManager.swift",
+      "    public func setNagramiXSystemPiPPlayback(id: UUID, active: Bool) {",
+      "    public func setNagramiXVideoNowPlaying(id: UUID, state: NagramiXVideoNowPlayingState?) {\n        let update = { [weak self] in\n            guard let self else { return }\n            self.nagramiXVideoNowPlayingRegistry.update(id: id, state: state)\n            self.nagramiXRefreshVideoNowPlaying()\n        }\n        if Thread.isMainThread { update() } else { Queue.mainQueue().async(update) }\n    }\n\n    private func nagramiXRefreshVideoNowPlaying() {\n        self.nagramiXVideoNowPlayingValue.set(.single(self.nagramiXVideoNowPlayingRegistry.preferred(backgroundEnabled: NagramiXTabSettings.backgroundVideoPlaybackEnabled)))\n    }\n\n    private func nagramiXRemoteControl(_ action: SharedMediaPlayerControlAction) {\n        let owner = self.nagramiXCurrentVideoNowPlaying.with { $0?.id }\n        let update = { [weak self] in\n            guard let self else { return }\n            let current = self.nagramiXCurrentVideoNowPlaying.with { $0 }\n            guard owner == current?.id else { return }\n            if let current {\n                if let action = NagramiXVideoNowPlayingRegistry.action(action, status: current.state.status) {\n                    current.state.control(action)\n                }\n            } else {\n                self.playlistControl(action, type: nil)\n            }\n        }\n        if Thread.isMainThread { update() } else { Queue.mainQueue().async(update) }\n    }\n\n    public func setNagramiXSystemPiPPlayback(id: UUID, active: Bool) {",
+      1
+    ],
+    [
+      "submodules/TelegramUI/Sources/MediaManager.swift",
+      "        self.playlistControl(.playback(.play), type: nil)\n        \n        return .success",
+      "        self.nagramiXRemoteControl(.playback(.play))\n        \n        return .success",
+      1
+    ],
+    [
+      "submodules/TelegramUI/Sources/MediaManager.swift",
+      "        self.playlistControl(.playback(.pause), type: nil)\n        \n        return .success",
+      "        self.nagramiXRemoteControl(.playback(.pause))\n        \n        return .success",
+      1
+    ],
+    [
+      "submodules/TelegramUI/Sources/MediaManager.swift",
+      "        self.playlistControl(.previous, type: nil)\n        \n        return .success",
+      "        self.nagramiXRemoteControl(.previous)\n        \n        return .success",
+      1
+    ],
+    [
+      "submodules/TelegramUI/Sources/MediaManager.swift",
+      "        self.playlistControl(.next, type: nil)\n        \n        return .success",
+      "        self.nagramiXRemoteControl(.next)\n        \n        return .success",
+      1
+    ],
+    [
+      "submodules/TelegramUI/Sources/MediaManager.swift",
+      "        self.playlistControl(.playback(.togglePlayPause), type: nil)\n        \n        return .success",
+      "        self.nagramiXRemoteControl(.playback(.togglePlayPause))\n        \n        return .success",
+      1
+    ],
+    [
+      "submodules/TelegramUI/Sources/MediaManager.swift",
+      "        self.playlistControl(.seek(event.positionTime), type: nil)\n        \n        return .success",
+      "        self.nagramiXRemoteControl(.seek(event.positionTime))\n        \n        return .success",
+      1
+    ],
+    [
+      "submodules/GalleryUI/Sources/Items/UniversalVideoGalleryItem.swift",
+      "    private let playbackOwner = UUID()\n",
+      "    private let playbackOwner = UUID()\n    private let nowPlayingTitle: String\n",
+      1
+    ],
+    [
+      "submodules/GalleryUI/Sources/Items/UniversalVideoGalleryItem.swift",
+      "    init(context: AccountContext, videoNode: UniversalVideoNode, hiddenMedia: (MessageId, Media)?,\n",
+      "    init(context: AccountContext, videoNode: UniversalVideoNode, hiddenMedia: (MessageId, Media)?, nowPlayingTitle: String,\n",
+      1
+    ],
+    [
+      "submodules/GalleryUI/Sources/Items/UniversalVideoGalleryItem.swift",
+      "        self.playback = Playback(node: videoNode)\n",
+      "        self.playback = Playback(node: videoNode)\n        self.nowPlayingTitle = nowPlayingTitle\n",
+      1
+    ],
+    [
+      "submodules/GalleryUI/Sources/Items/UniversalVideoGalleryItem.swift",
+      "        self.mediaManager.setNagramiXSystemPiPPlayback(id: self.playbackOwner, active: false)\n",
+      "        self.mediaManager.setNagramiXSystemPiPPlayback(id: self.playbackOwner, active: false)\n        self.mediaManager.setNagramiXVideoNowPlaying(id: self.playbackOwner, state: nil)\n",
+      2
+    ],
+    [
+      "submodules/GalleryUI/Sources/Items/UniversalVideoGalleryItem.swift",
+      "    func invalidatePlaybackState() {\n        self.controller?.invalidatePlaybackState()\n        self.lifecycle.update()\n    }",
+      "    private func updateNowPlaying() {\n        guard self.lifecycle.phase == .active || self.lifecycle.phase == .stopping,\n              self.node.ownsContentNode, let status = self.playback.snapshot() else {\n            self.mediaManager.setNagramiXVideoNowPlaying(id: self.playbackOwner, state: nil)\n            return\n        }\n        self.mediaManager.setNagramiXVideoNowPlaying(id: self.playbackOwner, state: NagramiXVideoNowPlayingState(\n            title: self.nowPlayingTitle, status: status, isPictureInPicture: true,\n            control: { [weak node = self.node] action in\n                switch action {\n                case .playback(.play): node?.play()\n                case .playback(.pause): node?.pause()\n                case let .seek(position): node?.seek(position)\n                default: break\n                }\n            }))\n    }\n    func invalidatePlaybackState() {\n        self.controller?.invalidatePlaybackState()\n        self.lifecycle.update()\n        self.updateNowPlaying()\n    }",
+      1
+    ],
+    [
+      "submodules/GalleryUI/Sources/Items/UniversalVideoGalleryItem.swift",
+      "            self.lifecycle.didStart()\n",
+      "            self.lifecycle.didStart()\n            self.updateNowPlaying()\n",
+      1
+    ],
+    [
+      "submodules/GalleryUI/Sources/Items/UniversalVideoGalleryItem.swift",
+      "        self.context.sharedContext.mediaManager.setNagramiXBackgroundVideoPlayback(id: self.nagramiXBackgroundVideoId, active: false)\n        self.statusDisposable.dispose()",
+      "        self.context.sharedContext.mediaManager.setNagramiXBackgroundVideoPlayback(id: self.nagramiXBackgroundVideoId, active: false)\n        self.context.sharedContext.mediaManager.setNagramiXVideoNowPlaying(id: self.nagramiXBackgroundVideoId, state: nil)\n        self.statusDisposable.dispose()",
+      1
+    ],
+    [
+      "submodules/GalleryUI/Sources/Items/UniversalVideoGalleryItem.swift",
+      "    private func nagramiXUpdateBackgroundVideoPlayback() {",
+      "    private var nagramiXVideoNowPlayingTitle: String {\n        if let content = self.item?.content as? NativeVideoContent, let name = content.fileReference.media.fileName, !name.isEmpty { return name }\n        if let content = self.item?.content as? HLSVideoContent, let name = content.fileReference.media.fileName, !name.isEmpty { return name }\n        return self.presentationData.strings.Message_Video\n    }\n\n    private func nagramiXUpdateBackgroundVideoPlayback() {",
+      1
+    ],
+    [
+      "submodules/GalleryUI/Sources/Items/UniversalVideoGalleryItem.swift",
+      "        var active = false\n        if let item = self.item, !item.isSecret, !self.isLivePhoto, let status = self.playerStatusValue, status.soundEnabled,",
+      "        var active = false\n        var nowPlaying: NagramiXVideoNowPlayingState?\n        if let item = self.item, !item.isSecret, !self.isLivePhoto, let status = self.playerStatusValue, status.soundEnabled,",
+      1
+    ],
+    [
+      "submodules/GalleryUI/Sources/Items/UniversalVideoGalleryItem.swift",
+      "            if supportedContent {\n                switch status.status {",
+      "            if supportedContent {\n                if let node = self.videoNode {\n                    nowPlaying = NagramiXVideoNowPlayingState(title: self.nagramiXVideoNowPlayingTitle, status: status, isPictureInPicture: false, control: { [weak node] action in\n                        switch action {\n                        case .playback(.play): node?.play()\n                        case .playback(.pause): node?.pause()\n                        case let .seek(position): node?.seek(position)\n                        default: break\n                        }\n                    })\n                }\n                switch status.status {",
+      1
+    ],
+    [
+      "submodules/GalleryUI/Sources/Items/UniversalVideoGalleryItem.swift",
+      "        self.context.sharedContext.mediaManager.setNagramiXBackgroundVideoPlayback(id: self.nagramiXBackgroundVideoId, active: active)\n    }",
+      "        self.context.sharedContext.mediaManager.setNagramiXBackgroundVideoPlayback(id: self.nagramiXBackgroundVideoId, active: active)\n        self.context.sharedContext.mediaManager.setNagramiXVideoNowPlaying(id: self.nagramiXBackgroundVideoId,\n            state: NagramiXTabSettings.backgroundVideoPlaybackEnabled ? nowPlaying : nil)\n    }",
+      1
+    ],
+    [
+      "submodules/GalleryUI/Sources/Items/UniversalVideoGalleryItem.swift",
+      "        let content = NagramiXSystemPiPController(context: self.context, videoNode: node, hiddenMedia: hiddenMedia,\n",
+      "        let content = NagramiXSystemPiPController(context: self.context, videoNode: node, hiddenMedia: hiddenMedia, nowPlayingTitle: self.nagramiXVideoNowPlayingTitle,\n",
+      1
+    ]
+  ],
+  "copies": {
+    "submodules/TelegramUI/Sources/NagramiXVideoNowPlaying.swift": {
+      "source": "Sources/TelegramUI/NagramiXVideoNowPlaying.swift",
+      "sha256": "9bb99ab1fd575e6c3dec32f331242fb7758527aedb637bb3ae3742a0b7d72f00"
+    }
+  }
+}

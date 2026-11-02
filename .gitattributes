@@ -1,0 +1,45 @@
+# Точные SHA-копии upstream сохраняют исходные пробелы в пустых строках.
+# Остальные исходники проверяются стандартным git diff --check.
+ios/voice_transcription/Inputs/*.swift.inc whitespace=-blank-at-eol
+ios/voice_transcription/Native-*.swift.inc whitespace=-blank-at-eol
+
+# Точные снимки входов и выходов SDK-адаптера.
+ios/release_076_sdk/*.inc whitespace=-blank-at-eol
+ios/release_076_dependencies/*.inc whitespace=-blank-at-eol
+ios/release_076_compile/*.inc whitespace=-blank-at-eol
+ios/release_076_import/*.inc whitespace=-blank-at-eol
+ios/video_ownership_fix/*.inc whitespace=-blank-at-eol
+ios/transcription_settings_refinement/*.inc whitespace=-blank-at-eol
+ios/transcription_settings_complete/*.inc whitespace=-blank-at-eol
+ios/translation_settings_revision/*Translate.swift.inc whitespace=-blank-at-eol
+ios/pip_removal_work/*.inc whitespace=-blank-at-eol
+ios/native_player_pip/*.inc whitespace=-blank-at-eol
+ios/translation_simplification/*.inc whitespace=-blank-at-eol
+
+# Точные снимки upstream для inline-перевода и Telegram Premium.
+ios/translation_inline_telegram/*.inc -whitespace
+
+# Точные снимки настроек условной видимости Telegram Premium.
+ios/translation_premium_visibility/*.inc -whitespace
+
+ios/broadcast_stable_order/*.inc -whitespace
+
+ios/transcription_whisper_safety/*.inc -whitespace
+
+ios/transcription_cloud_ui/*.inc -whitespace
+
+ios/transcription_local_fallback/*.inc -whitespace
+
+ios/transcription_cloudflare/*.inc -whitespace
+
+ios/transcription_vosk/*.inc -whitespace
+
+# Swift-шаблоны остаются Swift независимо от суффикса механизма overlay.
+*.swift.inc linguist-language=Swift
+# Сгенерированные снимки патчей не отражают язык активного исходного кода.
+ios/**/Before*.inc linguist-generated=true
+ios/**/After*.inc linguist-generated=true
+ios/**/Guard*.inc linguist-generated=true
+ios/voice_transcription/Inputs/** linguist-generated=true
+# Точные копии upstream/reference сохраняются побайтно, включая пробелы.
+ios/**/*.inc -whitespace

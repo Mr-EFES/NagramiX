@@ -1,0 +1,37 @@
+{
+  "inputs": {
+    "submodules/TelegramUI/Components/RichTextAttachmentScreen/Sources/RichTextAttachmentScreen.swift": "319170b3c4b75abbb8cc2059877893f5ee5b28155ae92244d2d8e2a170e5ec60"
+  },
+  "outputs": {
+    "submodules/TelegramUI/Components/RichTextAttachmentScreen/Sources/RichTextAttachmentScreen.swift": "d43015fbafc63ea189380d69c4841c6245ddc4253d69d3ed5b7717472cfa4146"
+  },
+  "guards": {
+    "submodules/TelegramUI/Components/RichTextAttachmentScreen/BUILD": "b567c3892df5ba02d96045b534b6a1fb57d3108edea111af453df5d9baee1144"
+  },
+  "templates": {
+    "expanded_editor_stability/Before0.inc": "319170b3c4b75abbb8cc2059877893f5ee5b28155ae92244d2d8e2a170e5ec60",
+    "expanded_editor_stability/Guard0.inc": "b567c3892df5ba02d96045b534b6a1fb57d3108edea111af453df5d9baee1144"
+  },
+  "previous": {
+    "submodules/TelegramUI/Components/RichTextAttachmentScreen/Sources/RichTextAttachmentScreen.swift": "expanded_editor_stability/Before0.inc"
+  },
+  "replacements": {},
+  "copies": {},
+  "deletions": {},
+  "operations": {
+    "submodules/TelegramUI/Components/RichTextAttachmentScreen/Sources/RichTextAttachmentScreen.swift": [
+      [
+        "            let tabBarBottomInset = max(environment.inputHeight, emojiPanelHeight, environment.additionalInsets.bottom)\n            \n            var sideInset: CGFloat = 12.0\n            if tabBarBottomInset <= 28.0 {\n                sideInset = 20.0\n            }",
+        "            // Keep the action row aligned while switching input modes.\n            let sideInset: CGFloat = 20.0"
+      ],
+      [
+        "            if let actionBarView = self.actionBar.view {\n                if actionBarView.superview == nil {",
+        "            if let actionBarView = self.actionBar.view {\n                // Clip the scrolling controls to their allotted space beside Send.\n                actionBarView.clipsToBounds = true\n                if actionBarView.superview == nil {"
+      ],
+      [
+        "            let isTabBarVisible = !(self.emojiKeyboard?.isEmojiMode ?? false) && !self.nagramiXFormattingActive",
+        "            // The first responder stays active during keyboard/emoji/formatting\n            // handoffs, so the attachment tab bar does not briefly reappear.\n            let isEditingText = viewTreeContainsFirstResponder(view: self.editor)\n            let isTabBarVisible = !isEditingText && environment.inputHeight <= 0.0 && !(self.emojiKeyboard?.isEmojiMode ?? false) && !self.nagramiXFormattingActive"
+      ]
+    ]
+  }
+}

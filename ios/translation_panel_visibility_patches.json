@@ -1,0 +1,42 @@
+{
+  "inputs": {
+    "submodules/TranslateUI/Sources/NagramiXTranslationPreferences.swift": "f0e7c6d6dcbb6d1ab0cf182ab77e2d94904cb342577545ba4cb82b9735a5985d",
+    "submodules/TranslateUI/Sources/Translate.swift": "1f041e84200e91d0eb43c5a607f1d8f8ea58e182870b8c54b996d54aeeda82e2",
+    "submodules/TelegramUI/Sources/ChatControllerNode.swift": "aef2e305bd13a57b58ed4c36b6c560f3a44de87eff4483aec8d84198942c3932"
+  },
+  "outputs": {
+    "submodules/TranslateUI/Sources/NagramiXTranslationPreferences.swift": "e2b57edc829f16061c4c134538703b2e345dfbecf1a9ae83aac728bdc8748ffc",
+    "submodules/TranslateUI/Sources/Translate.swift": "a752fd2d701e76c33f689298eca6c1334204122184bbc83f3f25430d327fb8f9",
+    "submodules/TelegramUI/Sources/ChatControllerNode.swift": "fad7e6dca626320594620be80dfccfd5d84daf87155b277b9bb7071290a956dd"
+  },
+  "guards": {
+    "submodules/TranslateUI/BUILD": "f1a9e651b7caa1a06203dd97ff851a7b58d4453a0427660bb7656fa686ad96a7",
+    "submodules/TelegramUI/BUILD": "f4ae55a27c3a5e486a0fe9c768c70b65b974c505125d91a1215645179de54926",
+    "submodules/TranslateUI/Sources/NagramiXTranslationSettings.swift": "9ace9c2cae937ee7401a0264b779d0a2195e805d9d5b950ba450187fcb71a652",
+    "submodules/TelegramUI/Sources/ChatInterfaceStateContextMenus.swift": "7ffb91a69dd14cabf77597c547beff3f58c574b24bc8089745be37e4f6ea3ea7"
+  },
+  "templates": {
+    "translation_panel_visibility/Before0.inc": "f0e7c6d6dcbb6d1ab0cf182ab77e2d94904cb342577545ba4cb82b9735a5985d",
+    "translation_panel_visibility/After0.inc": "e2b57edc829f16061c4c134538703b2e345dfbecf1a9ae83aac728bdc8748ffc",
+    "translation_panel_visibility/Before1.inc": "1f041e84200e91d0eb43c5a607f1d8f8ea58e182870b8c54b996d54aeeda82e2",
+    "translation_panel_visibility/After1.inc": "a752fd2d701e76c33f689298eca6c1334204122184bbc83f3f25430d327fb8f9",
+    "translation_panel_visibility/Before2.inc": "aef2e305bd13a57b58ed4c36b6c560f3a44de87eff4483aec8d84198942c3932",
+    "translation_panel_visibility/After2.inc": "fad7e6dca626320594620be80dfccfd5d84daf87155b277b9bb7071290a956dd",
+    "translation_panel_visibility/Guard0.inc": "f1a9e651b7caa1a06203dd97ff851a7b58d4453a0427660bb7656fa686ad96a7",
+    "translation_panel_visibility/Guard1.inc": "f4ae55a27c3a5e486a0fe9c768c70b65b974c505125d91a1215645179de54926",
+    "translation_panel_visibility/Guard2.inc": "9ace9c2cae937ee7401a0264b779d0a2195e805d9d5b950ba450187fcb71a652",
+    "translation_panel_visibility/Guard3.inc": "7ffb91a69dd14cabf77597c547beff3f58c574b24bc8089745be37e4f6ea3ea7"
+  },
+  "previous": {
+    "submodules/TranslateUI/Sources/NagramiXTranslationPreferences.swift": "translation_panel_visibility/Before0.inc",
+    "submodules/TranslateUI/Sources/Translate.swift": "translation_panel_visibility/Before1.inc",
+    "submodules/TelegramUI/Sources/ChatControllerNode.swift": "translation_panel_visibility/Before2.inc"
+  },
+  "replacements": {
+    "submodules/TranslateUI/Sources/NagramiXTranslationPreferences.swift": "translation_panel_visibility/After0.inc",
+    "submodules/TranslateUI/Sources/Translate.swift": "translation_panel_visibility/After1.inc",
+    "submodules/TelegramUI/Sources/ChatControllerNode.swift": "translation_panel_visibility/After2.inc"
+  },
+  "copies": {},
+  "deletions": {}
+}

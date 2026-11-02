@@ -1,0 +1,32 @@
+{
+  "inputs": {
+    "submodules/NagramiXTranscription/Sources/Preferences.swift": "0b95b0d292bc4d6e9b8c2ccd5bce2e87cb3d58e3288e9193e8aa79e4dd8a4fa1",
+    "submodules/TranslateUI/Sources/NagramiXTranslationPreferences.swift": "54ff4b0b3c0cad3f996de73d58c99b7d886df09a6190f0c251f70f02ef8a646d"
+  },
+  "outputs": {
+    "submodules/NagramiXTranscription/Sources/Preferences.swift": "330d96ac977696f1d433c213f538fce383c19d5f74b3a054b8ad0fed96c3aa6e",
+    "submodules/TranslateUI/Sources/NagramiXTranslationPreferences.swift": "725c63558a5d47d874d1452325f26d61ef3f636ec2891b0648d22bc37321fe16"
+  },
+  "guards": {
+    "submodules/NagramiXTranscription/BUILD": "820772c2401f640bf652106d20d11b466cee847e29b43a8dff3ca3b3af0c7e78",
+    "submodules/TranslateUI/BUILD": "f1a9e651b7caa1a06203dd97ff851a7b58d4453a0427660bb7656fa686ad96a7"
+  },
+  "templates": {
+    "provider_settings_consistency/Before0.inc": "0b95b0d292bc4d6e9b8c2ccd5bce2e87cb3d58e3288e9193e8aa79e4dd8a4fa1",
+    "provider_settings_consistency/After0.inc": "330d96ac977696f1d433c213f538fce383c19d5f74b3a054b8ad0fed96c3aa6e",
+    "provider_settings_consistency/Before1.inc": "54ff4b0b3c0cad3f996de73d58c99b7d886df09a6190f0c251f70f02ef8a646d",
+    "provider_settings_consistency/After1.inc": "725c63558a5d47d874d1452325f26d61ef3f636ec2891b0648d22bc37321fe16",
+    "provider_settings_consistency/Guard0.inc": "820772c2401f640bf652106d20d11b466cee847e29b43a8dff3ca3b3af0c7e78",
+    "provider_settings_consistency/Guard1.inc": "f1a9e651b7caa1a06203dd97ff851a7b58d4453a0427660bb7656fa686ad96a7"
+  },
+  "previous": {
+    "submodules/NagramiXTranscription/Sources/Preferences.swift": "provider_settings_consistency/Before0.inc",
+    "submodules/TranslateUI/Sources/NagramiXTranslationPreferences.swift": "provider_settings_consistency/Before1.inc"
+  },
+  "replacements": {
+    "submodules/NagramiXTranscription/Sources/Preferences.swift": "provider_settings_consistency/After0.inc",
+    "submodules/TranslateUI/Sources/NagramiXTranslationPreferences.swift": "provider_settings_consistency/After1.inc"
+  },
+  "copies": {},
+  "deletions": {}
+}

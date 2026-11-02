@@ -1,0 +1,730 @@
+{
+  "schemaVersion": 1,
+  "product": "NagramiX",
+  "release": "0.8.4",
+  "platformPriority": [
+    "ios"
+  ],
+  "features": [
+    {
+      "id": "clean_install_defaults",
+      "title": "Русский язык, полные подписи и системное оформление Telegram с тёмной ночной темой",
+      "specification": "specified",
+      "ios": {
+        "implementation": "implemented",
+        "compile": "compile_passed",
+        "device": "device_pending"
+      }
+    },
+    {
+      "id": "tabs",
+      "title": "Видимость и названия вкладок",
+      "specification": "specified",
+      "ios": {
+        "implementation": "implemented",
+        "compile": "compile_passed",
+        "device": "device_pending"
+      }
+    },
+    {
+      "id": "icons",
+      "title": "Иконки приложения NagramiX",
+      "specification": "specified",
+      "ios": {
+        "implementation": "implemented",
+        "compile": "compile_passed",
+        "device": "device_pending"
+      }
+    },
+    {
+      "id": "round_video_camera",
+      "title": "Передняя и задняя камера круглых видео",
+      "specification": "specified",
+      "ios": {
+        "implementation": "implemented",
+        "compile": "compile_passed",
+        "device": "device_pending"
+      }
+    },
+    {
+      "id": "story_controls",
+      "title": "Управление видимостью, подтверждением и репостом историй",
+      "specification": "specified",
+      "ios": {
+        "implementation": "implemented",
+        "compile": "compile_passed",
+        "device": "device_pending"
+      }
+    },
+    {
+      "id": "story_incognito",
+      "title": "Единый пункт скрытия просмотров историй в разделе «Приватность»",
+      "specification": "specified",
+      "ios": {
+        "implementation": "implemented",
+        "compile": "compile_pending",
+        "device": "device_pending"
+      }
+    },
+    {
+      "id": "forward_copy",
+      "title": "Репост с автором, Переслать без автора одному адресату и Рассылка нескольким адресатам",
+      "specification": "specified",
+      "ios": {
+        "implementation": "implemented",
+        "compile": "compile_passed",
+        "device": "device_pending"
+      }
+    },
+    {
+      "id": "deleted_messages",
+      "title": "Локальный архив входящих и исходящих удалённых сообщений и файлов",
+      "specification": "specified",
+      "ios": {
+        "implementation": "implemented",
+        "compile": "compile_passed",
+        "device": "device_pending"
+      }
+    },
+    {
+      "id": "temporary_messages",
+      "title": "Локальный архив входящих и исходящих временных и одноразовых вложений",
+      "specification": "specified",
+      "ios": {
+        "implementation": "implemented",
+        "compile": "compile_pending",
+        "device": "device_pending"
+      }
+    },
+    {
+      "id": "edit_history",
+      "title": "История замеченных правок сообщений",
+      "specification": "specified",
+      "ios": {
+        "implementation": "implemented",
+        "compile": "compile_passed",
+        "device": "device_pending"
+      }
+    },
+    {
+      "id": "dns_doh",
+      "title": "Системный DNS, DNS Telegram и DNS-over-HTTPS",
+      "specification": "specified",
+      "ios": {
+        "implementation": "implemented",
+        "compile": "compile_passed",
+        "device": "device_pending"
+      }
+    },
+    {
+      "id": "proxy_failover",
+      "title": "Проверка и автоматическое переключение прокси",
+      "specification": "specified",
+      "ios": {
+        "implementation": "implemented",
+        "compile": "compile_passed",
+        "device": "device_pending"
+      }
+    },
+    {
+      "id": "proxy_vpn_bypass",
+      "title": "Не использовать прокси с VPN",
+      "specification": "specified",
+      "ios": {
+        "implementation": "implemented",
+        "compile": "compile_passed",
+        "device": "device_pending"
+      }
+    },
+    {
+      "id": "force_tcp",
+      "title": "Force TCP для звонков",
+      "specification": "specified",
+      "ios": {
+        "implementation": "implemented",
+        "compile": "compile_passed",
+        "device": "device_pending"
+      }
+    },
+    {
+      "id": "profile_info",
+      "title": "ID профиля, примерная дата регистрации и значок взаимного контакта",
+      "specification": "specified",
+      "ios": {
+        "implementation": "implemented",
+        "compile": "compile_passed",
+        "device": "device_pending"
+      }
+    },
+    {
+      "id": "offline_startup",
+      "title": "Запуск без сети и при недоступном прокси",
+      "specification": "specified",
+      "ios": {
+        "implementation": "implemented",
+        "compile": "compile_passed",
+        "device": "device_pending"
+      }
+    },
+    {
+      "id": "wide_channel_posts",
+      "title": "Широкие посты каналов",
+      "specification": "specified",
+      "ios": {
+        "implementation": "implemented",
+        "compile": "compile_passed",
+        "device": "device_pending"
+      }
+    },
+    {
+      "id": "select_from_author",
+      "title": "Выбор сообщений автора",
+      "specification": "specified",
+      "ios": {
+        "implementation": "implemented",
+        "compile": "compile_passed",
+        "device": "device_pending"
+      }
+    },
+    {
+      "id": "global_settings_search",
+      "title": "Глобальный поиск по настройкам",
+      "specification": "specified",
+      "ios": {
+        "implementation": "implemented",
+        "compile": "compile_passed",
+        "device": "device_pending"
+      }
+    },
+    {
+      "id": "settings_category_swipe",
+      "title": "Свайпы между категориями настроек",
+      "specification": "specified",
+      "ios": {
+        "implementation": "implemented",
+        "compile": "compile_passed",
+        "device": "device_pending"
+      }
+    },
+    {
+      "id": "context_menu_settings",
+      "title": "Видимость действий контекстного меню",
+      "specification": "specified",
+      "ios": {
+        "implementation": "implemented",
+        "compile": "compile_passed",
+        "device": "device_pending"
+      }
+    },
+    {
+      "id": "standard_telegram_themes",
+      "title": "Штатные темы Telegram: акценты RGB24/ARGB и выбор светлого/тёмного варианта",
+      "specification": "specified",
+      "ios": {
+        "implementation": "implemented",
+        "compile": "compile_passed",
+        "device": "device_pending"
+      }
+    },
+    {
+      "id": "chat_actions_on_hold",
+      "title": "Опции чатов по тапу: архив, просмотр по аватарке, локальные реакции до активного открытия и переход по Ответить",
+      "specification": "specified",
+      "ios": {
+        "implementation": "implemented",
+        "compile": "compile_passed",
+        "device": "device_pending"
+      }
+    },
+    {
+      "id": "media_controls",
+      "title": "Качество фото и фотоисторий, размер стикеров/эмодзи и время",
+      "specification": "specified",
+      "ios": {
+        "implementation": "implemented",
+        "compile": "compile_passed",
+        "device": "device_pending"
+      }
+    },
+    {
+      "id": "compact_chat_list",
+      "title": "Компактный список чатов, выключенный по умолчанию",
+      "specification": "specified",
+      "ios": {
+        "implementation": "implemented",
+        "compile": "compile_passed",
+        "device": "device_pending"
+      }
+    },
+    {
+      "id": "video_pip_swipe",
+      "title": "Режим «Картинка в Картинке» — реализация Ghostgram",
+      "specification": "specified",
+      "ios": {
+        "implementation": "implemented",
+        "compile": "compile_pending",
+        "device": "device_pending"
+      }
+    },
+    {
+      "id": "background_video_playback",
+      "title": "Звук видео при сворачивании и блокировке экрана, включено по умолчанию",
+      "specification": "specified",
+      "ios": {
+        "implementation": "implemented",
+        "compile": "compile_passed",
+        "device": "device_pending"
+      }
+    },
+    {
+      "id": "channel_bottom_panel",
+      "title": "Нижняя панель канала, выключенная по умолчанию",
+      "specification": "specified",
+      "ios": {
+        "implementation": "implemented",
+        "compile": "compile_passed",
+        "device": "device_pending"
+      }
+    },
+    {
+      "id": "double_tap_edit",
+      "title": "Правка двойным тапом, включённый по умолчанию",
+      "specification": "specified",
+      "ios": {
+        "implementation": "implemented",
+        "compile": "compile_passed",
+        "device": "device_pending"
+      }
+    },
+    {
+      "id": "hide_reactions",
+      "title": "Скрыть реакции, выключено по умолчанию",
+      "specification": "specified",
+      "ios": {
+        "implementation": "implemented",
+        "compile": "compile_passed",
+        "device": "device_pending"
+      }
+    },
+    {
+      "id": "download_acceleration",
+      "title": "Ускорение скачивания: Среднее или Максимум с отдельным чекбоксом",
+      "specification": "specified",
+      "ios": {
+        "implementation": "implemented",
+        "compile": "compile_passed",
+        "device": "device_pending"
+      }
+    },
+    {
+      "id": "broadcast_messages",
+      "title": "Рассылка копий нескольким адресатам с независимой видимостью",
+      "specification": "specified",
+      "ios": {
+        "implementation": "implemented",
+        "compile": "compile_passed",
+        "device": "device_pending"
+      }
+    },
+    {
+      "id": "notification_sounds",
+      "title": "Уведомления: выбор чатов для исключений и полный каталог звуков; звук в приложении по умолчанию выключен",
+      "specification": "specified",
+      "ios": {
+        "implementation": "implemented",
+        "compile": "compile_passed",
+        "device": "device_pending"
+      }
+    },
+    {
+      "id": "proxy_share_brightness",
+      "title": "Возврат исходной яркости после QR-кода прокси",
+      "specification": "specified",
+      "ios": {
+        "implementation": "implemented",
+        "compile": "compile_passed",
+        "device": "device_pending"
+      }
+    },
+    {
+      "id": "profile_navigation_layout",
+      "title": "Раздельные кнопки поиска и редактирования в настройках и профилях",
+      "specification": "specified",
+      "ios": {
+        "implementation": "implemented",
+        "compile": "compile_passed",
+        "device": "device_pending"
+      }
+    },
+    {
+      "id": "hide_greeting_sticker",
+      "title": "Скрывать приветственный стикер",
+      "specification": "specified",
+      "ios": {
+        "implementation": "implemented",
+        "compile": "compile_passed",
+        "device": "device_pending"
+      }
+    },
+    {
+      "id": "recorder_keep_music",
+      "title": "Не останавливать музыку при записи кружка",
+      "specification": "specified",
+      "ios": {
+        "implementation": "implemented",
+        "compile": "compile_passed",
+        "device": "device_pending"
+      }
+    },
+    {
+      "id": "voice_autoplay_control",
+      "title": "Автовоспроизведение голосовых",
+      "specification": "specified",
+      "ios": {
+        "implementation": "implemented",
+        "compile": "compile_passed",
+        "device": "device_pending"
+      }
+    },
+    {
+      "id": "auto_mute_new_channels",
+      "title": "Авто-мьют новых каналов",
+      "specification": "specified",
+      "ios": {
+        "implementation": "implemented",
+        "compile": "compile_passed",
+        "device": "device_pending"
+      }
+    },
+    {
+      "id": "exact_last_seen",
+      "title": "Показывать точное время",
+      "specification": "specified",
+      "ios": {
+        "implementation": "implemented",
+        "compile": "compile_passed",
+        "device": "device_pending"
+      }
+    },
+    {
+      "id": "authorization_alert_handling",
+      "title": "Обработка и диагностика предупреждений авторизации",
+      "specification": "specified",
+      "ios": {
+        "implementation": "implemented",
+        "compile": "compile_passed",
+        "device": "device_pending"
+      }
+    },
+    {
+      "id": "high_quality_photos",
+      "title": "Фото максимального качества со штатным просмотрщиком Telegram",
+      "specification": "specified",
+      "ios": {
+        "implementation": "implemented",
+        "compile": "compile_passed",
+        "device": "device_pending"
+      }
+    },
+    {
+      "id": "original_videos",
+      "title": "Видео без сжатия: оригинал галереи со штатным видеоплеером",
+      "specification": "specified",
+      "ios": {
+        "implementation": "implemented",
+        "compile": "compile_passed",
+        "device": "device_pending"
+      }
+    },
+    {
+      "id": "unread_chats_first",
+      "title": "Непрочитанные сверху во всех папках",
+      "specification": "specified",
+      "ios": {
+        "implementation": "implemented",
+        "compile": "compile_passed",
+        "device": "device_pending"
+      }
+    },
+    {
+      "id": "branded_onboarding",
+      "title": "Приветственные экраны NagramiX",
+      "specification": "specified",
+      "ios": {
+        "implementation": "implemented",
+        "compile": "compile_passed",
+        "device": "device_pending"
+      }
+    },
+    {
+      "id": "archived_media_save",
+      "title": "Сохранение удалённых голосовых и кружков",
+      "specification": "specified",
+      "ios": {
+        "implementation": "implemented",
+        "compile": "compile_passed",
+        "device": "device_pending"
+      }
+    },
+    {
+      "id": "skip_call_rating",
+      "title": "Не спрашивать оценку звонка",
+      "specification": "specified",
+      "ios": {
+        "implementation": "implemented",
+        "compile": "compile_passed",
+        "device": "device_pending"
+      }
+    },
+    {
+      "id": "anti_caps",
+      "title": "Анти-капс",
+      "specification": "specified",
+      "ios": {
+        "implementation": "implemented",
+        "compile": "compile_passed",
+        "device": "device_pending"
+      }
+    },
+    {
+      "id": "anonymous_stickers",
+      "title": "Анонимные стикеры",
+      "specification": "specified",
+      "ios": {
+        "implementation": "implemented",
+        "compile": "compile_passed",
+        "device": "device_pending"
+      }
+    },
+    {
+      "id": "hide_blocked_messages",
+      "title": "Скрывать сообщения заблокированных",
+      "specification": "specified",
+      "ios": {
+        "implementation": "implemented",
+        "compile": "compile_passed",
+        "device": "device_pending"
+      }
+    },
+    {
+      "id": "selfie_countdown",
+      "title": "Таймер селфи",
+      "specification": "specified",
+      "ios": {
+        "implementation": "implemented",
+        "compile": "compile_passed",
+        "device": "device_pending"
+      }
+    },
+    {
+      "id": "advertising_visibility",
+      "title": "Показать рекламу: спонсор прокси и встроенная реклама Telegram, OFF по умолчанию",
+      "specification": "specified",
+      "ios": {
+        "implementation": "implemented",
+        "compile": "compile_passed",
+        "device": "device_pending"
+      }
+    },
+    {
+      "id": "auto_reveal_spoilers",
+      "title": "Автораскрытие спойлеров: текст и медиа, включено по умолчанию",
+      "specification": "specified",
+      "ios": {
+        "implementation": "implemented",
+        "compile": "compile_passed",
+        "device": "device_pending"
+      }
+    },
+    {
+      "id": "ghost_mode",
+      "title": "Приватность: отдельные настройки прочтений, историй, статуса и активности без общего режима",
+      "specification": "specified",
+      "ios": {
+        "implementation": "implemented",
+        "compile": "compile_passed",
+        "device": "device_pending"
+      }
+    },
+    {
+      "id": "message_read_mode",
+      "title": "Читать сообщения локально и по действию: без автоматических серверных отметок",
+      "specification": "specified",
+      "ios": {
+        "implementation": "implemented",
+        "compile": "compile_passed",
+        "device": "device_pending"
+      }
+    },
+    {
+      "id": "view_once_recording",
+      "title": "Одноразовые записи: голосовые и кружки с ручным отключением для одной записи",
+      "specification": "specified",
+      "ios": {
+        "implementation": "implemented",
+        "compile": "compile_passed",
+        "device": "device_pending"
+      }
+    },
+    {
+      "id": "number_rounding",
+      "title": "Округление чисел по выбору, полные счётчики по умолчанию",
+      "specification": "specified",
+      "ios": {
+        "implementation": "implemented",
+        "compile": "compile_passed",
+        "device": "device_pending"
+      }
+    },
+    {
+      "id": "prefer_ipv6",
+      "title": "Приоритет IPv6 для соединения с резервным IPv4",
+      "specification": "specified",
+      "ios": {
+        "implementation": "implemented",
+        "compile": "compile_passed",
+        "device": "device_pending"
+      }
+    },
+    {
+      "id": "screenshot_bypass",
+      "title": "Свободный скриншот и запись экрана доступных защищённых и одноразовых медиа без исходящего уведомления",
+      "specification": "specified",
+      "ios": {
+        "implementation": "implemented",
+        "compile": "compile_pending",
+        "device": "device_pending"
+      }
+    },
+    {
+      "id": "protected_content_copy",
+      "title": "Пересылка, рассылка и сохранение доступных защищённых сообщений копиями",
+      "specification": "specified",
+      "ios": {
+        "implementation": "implemented",
+        "compile": "compile_passed",
+        "device": "device_pending"
+      }
+    },
+    {
+      "id": "video_quality_save",
+      "title": "Сохранение видео: оригинал,1080p,720p,480p",
+      "specification": "specified",
+      "ios": {
+        "implementation": "implemented",
+        "compile": "compile_passed",
+        "device": "device_pending"
+      }
+    },
+    {
+      "id": "archive_persistence",
+      "title": "Надёжное подтверждение записи архива, ошибки и ограниченные повторы",
+      "specification": "specified",
+      "ios": {
+        "implementation": "implemented",
+        "compile": "compile_passed",
+        "device": "device_pending"
+      }
+    },
+    {
+      "id": "quick_formatting",
+      "title": "Быстрое форматирование выделенного текста из поля сообщения",
+      "specification": "specified",
+      "ios": {
+        "implementation": "implemented",
+        "compile": "compile_passed",
+        "device": "device_pending"
+      }
+    },
+    {
+      "id": "contact_chat_readiness",
+      "title": "Контакты и чаты без запроса при запуске с последующим явным разрешением доступа",
+      "specification": "specified",
+      "ios": {
+        "implementation": "implemented",
+        "compile": "compile_passed",
+        "device": "device_pending"
+      }
+    },
+    {
+      "id": "own_view_once_copy",
+      "title": "Пересылка и рассылка своих одноразовых голосовых и кружков с сохранением одноразового режима",
+      "specification": "specified",
+      "ios": {
+        "implementation": "implemented",
+        "compile": "compile_passed",
+        "device": "device_pending"
+      }
+    },
+    {
+      "id": "send_silently",
+      "title": "Отправлять без звука: автоматическая тихая отправка исходящих сообщений",
+      "specification": "specified",
+      "ios": {
+        "implementation": "implemented",
+        "compile": "compile_passed",
+        "device": "device_pending"
+      }
+    },
+    {
+      "id": "chatlist_preview_emoji",
+      "title": "Оригинальные пользовательские эмодзи в превью списка чатов и подписях медиа",
+      "specification": "specified",
+      "ios": {
+        "implementation": "implemented",
+        "compile": "compile_passed",
+        "device": "device_pending"
+      }
+    },
+    {
+      "id": "story_download",
+      "title": "Скачивать доступные фото- и видеоистории в Фото отдельной кнопкой",
+      "specification": "specified",
+      "ios": {
+        "implementation": "implemented",
+        "compile": "compile_pending",
+        "device": "device_pending"
+      }
+    },
+    {
+      "id": "crash_reports",
+      "title": "Отчёты о сбоях NagramiX: ZIP в @NagramiX_bot после согласия пользователя",
+      "specification": "specified",
+      "ios": {
+        "implementation": "implemented",
+        "compile": "compile_passed",
+        "device": "device_pending"
+      }
+    },
+    {
+      "id": "round_video_quality",
+      "title": "Качественные кружки: разрешение, битрейт, частота кадров и кодек",
+      "specification": "specified",
+      "ios": {
+        "implementation": "implemented",
+        "compile": "compile_passed",
+        "device": "device_pending"
+      }
+    },
+    {
+      "id": "message_translation",
+      "title": "Перевод сообщений в переписке: Telegram Premium, Apple/Google/Яндекс и Gemini/ChatGPT/DeepSeek с личным API-ключом",
+      "specification": "specified",
+      "ios": {
+        "implementation": "implemented",
+        "compile": "compile_pending",
+        "device": "device_pending"
+      }
+    },
+    {
+      "id": "voice_transcription",
+      "title": "Расшифровка голосовых: Apple, Whisper, Vosk, Cloudflare и облачные нейросети",
+      "specification": "specified",
+      "ios": {
+        "implementation": "implemented",
+        "compile": "compile_pending",
+        "device": "device_pending"
+      }
+    }
+  ]
+}

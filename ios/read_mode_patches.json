@@ -1,0 +1,333 @@
+{
+  "hashes": {
+    "submodules/SettingsUI/Sources/NagramiXSettingsController.swift": "0512f3478c13931eb9928750a775168000479c6601374f4ebd9ef0cda18a0c9e",
+    "submodules/TelegramUI/Sources/ChatHistoryListNode.swift": "0a0811a10949c91a514b6b4c3498c773ad3c1ef3a4376fd209012e936d4fbdf0",
+    "submodules/TelegramCore/Sources/TelegramEngine/Messages/TelegramEngineMessages.swift": "594fb7ff0034f028e7ef3263e3e47ce5c51c3f7d41a38fbe9a5bc604aca33195",
+    "submodules/SettingsUI/BUILD": "cc0d919e15e40d17fa81aaa13d8ada5389cbe55b874ff2157a05646a4d9f2eef",
+    "submodules/TelegramCore/BUILD": "e3f2268e32065ef8f325446db583c2b0c2c41b862d6523303cb0a7607370aca5",
+    "submodules/NagramiXCore/Sources/NagramiXTabSettings.swift": "3430fc10a6820712fca03c03207132a3ca5320a20f2f90f069ec53763353d173"
+  },
+  "patches": [
+    [
+      "submodules/SettingsUI/Sources/NagramiXSettingsController.swift",
+      "    let openGhostSettings: () -> Void\n",
+      "    let openGhostSettings: () -> Void\n    let updateReadMode: (NagramiXReadMode, Bool) -> Void\n",
+      1
+    ],
+    [
+      "submodules/SettingsUI/Sources/NagramiXSettingsController.swift",
+      "    case ghostMode\n",
+      "    case ghostMode\n    case readLocally(Bool)\n    case readOnServer(Bool)\n",
+      1
+    ],
+    [
+      "submodules/SettingsUI/Sources/NagramiXSettingsController.swift",
+      "case .privacyHeader, .ghostMode:",
+      "case .privacyHeader, .ghostMode, .readLocally, .readOnServer:",
+      2
+    ],
+    [
+      "submodules/SettingsUI/Sources/NagramiXSettingsController.swift",
+      "        case .ghostMode: return 147\n",
+      "        case .ghostMode: return 147\n        case .readLocally: return 148\n        case .readOnServer: return 149\n",
+      1
+    ],
+    [
+      "submodules/SettingsUI/Sources/NagramiXSettingsController.swift",
+      "            case .ghostMode: return 2\n",
+      "            case .ghostMode: return 2\n            case .readLocally: return 3\n            case .readOnServer: return 4\n",
+      1
+    ],
+    [
+      "submodules/SettingsUI/Sources/NagramiXSettingsController.swift",
+      "        case let .search(query, _):\n",
+      "        case let .readLocally(value):\n            return ItemListSwitchItem(presentationData: presentationData, systemStyle: .glass, title: presentationData.strings.nagramiXReadModeText(\"Local\"), value: value, maximumNumberOfLines: 0, sectionId: self.section, style: .blocks, updated: { arguments.updateReadMode(.local, $0) })\n        case let .readOnServer(value):\n            return ItemListSwitchItem(presentationData: presentationData, systemStyle: .glass, title: presentationData.strings.nagramiXReadModeText(\"Server\"), value: value, maximumNumberOfLines: 0, sectionId: self.section, style: .blocks, updated: { arguments.updateReadMode(.server, $0) })\n        case let .search(query, _):\n",
+      1
+    ],
+    [
+      "submodules/SettingsUI/Sources/NagramiXSettingsController.swift",
+      "        case .ghostMode: return strings.nagramiXGhostText(\"Title\")\n",
+      "        case .ghostMode: return strings.nagramiXGhostText(\"Title\")\n        case .readLocally: return strings.nagramiXReadModeText(\"Local\")\n        case .readOnServer: return strings.nagramiXReadModeText(\"Server\")\n",
+      1
+    ],
+    [
+      "submodules/SettingsUI/Sources/NagramiXSettingsController.swift",
+      "        case .ghostMode: return strings.nagramiXGhostText(\"Search\")\n",
+      "        case .ghostMode: return strings.nagramiXGhostText(\"Search\")\n        case .readLocally: return strings.nagramiXReadModeText(\"Local.Search\")\n        case .readOnServer: return strings.nagramiXReadModeText(\"Server.Search\")\n",
+      1
+    ],
+    [
+      "submodules/SettingsUI/Sources/NagramiXSettingsController.swift",
+      "private func nagramiXAllSettingsEntries(settings: NagramiXTabSettings, ",
+      "private func nagramiXAllSettingsEntries(settings: NagramiXTabSettings, readMode: NagramiXReadMode, ",
+      1
+    ],
+    [
+      "submodules/SettingsUI/Sources/NagramiXSettingsController.swift",
+      "nagramiXAllSettingsEntries(settings: settings, ",
+      "nagramiXAllSettingsEntries(settings: settings, readMode: readMode, ",
+      2
+    ],
+    [
+      "submodules/SettingsUI/Sources/NagramiXSettingsController.swift",
+      "private func nagramiXSettingsEntries(settings: NagramiXTabSettings, ",
+      "private func nagramiXSettingsEntries(settings: NagramiXTabSettings, readMode: NagramiXReadMode, ",
+      1
+    ],
+    [
+      "submodules/SettingsUI/Sources/NagramiXSettingsController.swift",
+      "nagramiXSettingsEntries(settings: settings, ",
+      "nagramiXSettingsEntries(settings: settings, readMode: readMode, ",
+      1
+    ],
+    [
+      "submodules/SettingsUI/Sources/NagramiXSettingsController.swift",
+      "private func nagramiXSearchEntries(settings: NagramiXTabSettings, ",
+      "private func nagramiXSearchEntries(settings: NagramiXTabSettings, readMode: NagramiXReadMode, ",
+      1
+    ],
+    [
+      "submodules/SettingsUI/Sources/NagramiXSettingsController.swift",
+      "nagramiXSearchEntries(settings: settings, ",
+      "nagramiXSearchEntries(settings: settings, readMode: readMode, ",
+      1
+    ],
+    [
+      "submodules/SettingsUI/Sources/NagramiXSettingsController.swift",
+      "        .privacyHeader, .ghostMode,\n",
+      "        .privacyHeader, .ghostMode, .readLocally(readMode == .local), .readOnServer(readMode == .server),\n",
+      1
+    ],
+    [
+      "submodules/SettingsUI/Sources/NagramiXSettingsController.swift",
+      "        openGhostSettings: { pushControllerImpl?(nagramiXGhostSettingsController(context: context)) },\n",
+      "        openGhostSettings: { pushControllerImpl?(nagramiXGhostSettingsController(context: context)) },\n        updateReadMode: { mode, enabled in NagramiXReadModeSettings.set(mode, enabled: enabled) },\n",
+      1
+    ],
+    [
+      "submodules/SettingsUI/Sources/NagramiXSettingsController.swift",
+      "context.sharedContext.presentationData, settingsPromise.get(), categoryPromise.get(), searchQueryPromise.get(), mediaInputSettings)",
+      "context.sharedContext.presentationData, combineLatest(settingsPromise.get(), nagramiXReadModeSignal()), categoryPromise.get(), searchQueryPromise.get(), mediaInputSettings)",
+      1
+    ],
+    [
+      "submodules/SettingsUI/Sources/NagramiXSettingsController.swift",
+      "    |> map { presentationData, settings, category, searchQuery, mediaInputSettings -> (ItemListControllerState, (ItemListNodeState, Any)) in\n",
+      "    |> map { presentationData, settingsAndReadMode, category, searchQuery, mediaInputSettings -> (ItemListControllerState, (ItemListNodeState, Any)) in\n        let (settings, readMode) = settingsAndReadMode\n",
+      1
+    ],
+    [
+      "submodules/TelegramUI/Sources/ChatHistoryListNode.swift",
+      "        let readHistory = combineLatest(self.maxVisibleIncomingMessageIndex.get(), self.canReadHistory.get())",
+      "        let readHistory = combineLatest(self.maxVisibleIncomingMessageIndex.get(), self.canReadHistory.get(), nagramiXReadModeSignal())\n        var previousReadMode: NagramiXReadMode?",
+      1
+    ],
+    [
+      "submodules/TelegramUI/Sources/ChatHistoryListNode.swift",
+      "startStrict(next: { [weak self] messageIndex, canRead in",
+      "startStrict(next: { [weak self] messageIndex, canRead, readMode in",
+      1
+    ],
+    [
+      "submodules/TelegramUI/Sources/ChatHistoryListNode.swift",
+      "            var apply = false\n            let _ = previousMaxIncomingMessageIndexByNamespace.modify { dict in",
+      "            if previousReadMode != readMode {\n                previousReadMode = readMode\n                let _ = previousMaxIncomingMessageIndexByNamespace.swap([:])\n            }\n            var apply = false\n            let _ = previousMaxIncomingMessageIndexByNamespace.modify { dict in",
+      1
+    ],
+    [
+      "submodules/TelegramCore/Sources/TelegramEngine/Messages/TelegramEngineMessages.swift",
+      "            return _internal_applyMaxReadIndexInteractively(postbox: self.account.postbox, stateManager: self.account.stateManager, index: index)",
+      "            return _internal_applyMaxReadIndexInteractively(postbox: self.account.postbox, stateManager: self.account.stateManager, index: index)\n            |> then(nagramiXReadPreviouslyLocalMessage(account: self.account, index: index))",
+      1
+    ],
+    [
+      "submodules/SettingsUI/Sources/NagramiXSettingsController.swift",
+      "{\n    let openProxySettings: () -> Void\n    let openGhostSettings: () -> Void\n    let updateReadMode: (NagramiXReadMod",
+      "{\n    let openProxySettings: () -> Void\n    let updateReadMode: (NagramiXReadMod",
+      1
+    ],
+    [
+      "submodules/SettingsUI/Sources/NagramiXSettingsController.swift",
+      "    let updateAnonymousStoryViewing: (Bool) -> Void\n",
+      "    let updatePrivacyOption: (NagramiXPrivacySettings.Option, Bool) -> Void\n",
+      1
+    ],
+    [
+      "submodules/SettingsUI/Sources/NagramiXSettingsController.swift",
+      "    case ghostMode\n",
+      "    case privacyToggle(NagramiXPrivacySettings.Option, Bool)\n",
+      1
+    ],
+    [
+      "submodules/SettingsUI/Sources/NagramiXSettingsController.swift",
+      ", .ghostMode, .readLocally, .readOnServer:",
+      ", .privacyToggle, .readLocally, .readOnServer:",
+      2
+    ],
+    [
+      "submodules/SettingsUI/Sources/NagramiXSettingsController.swift",
+      "        case .ghostMode: return 147\n",
+      "        case let .privacyToggle(option, _):\n            switch option {\n            case .storyReads: return 123\n            case .online: return 150\n            case .typing: return 151\n            case .readOnAction: return 153\n            }\n",
+      1
+    ],
+    [
+      "submodules/SettingsUI/Sources/NagramiXSettingsController.swift",
+      "            case .privacyHeader: return 1\n            case .ghostMode: return 2\n            case .readLocally: return 3\n            case .readOnServer: return 4\n",
+      "            case .privacyHeader: return 490\n            case .readLocally: return 491\n            case .readOnServer: return 492\n            case let .privacyToggle(option, _):\n                switch option {\n                case .storyReads: return 493\n                case .online: return 494\n                case .typing: return 495\n                case .readOnAction: return 497\n                }\n",
+      1
+    ],
+    [
+      "submodules/SettingsUI/Sources/NagramiXSettingsController.swift",
+      "        case .ghostMode:\n            return ItemListDisclosureItem(presentationData: presentationData, systemStyle: .glass, title: presentationData.strings.nagramiXGhostText(\"Title\"), label: \"\", sectionId: self.section, style: .blocks, action: arguments.openGhostSettings)\n",
+      "        case let .privacyToggle(option, value):\n            return ItemListSwitchItem(presentationData: presentationData, systemStyle: .glass, title: presentationData.strings.nagramiXPrivacyText(option.rawValue), value: value, maximumNumberOfLines: 0, sectionId: self.section, style: .blocks, updated: { arguments.updatePrivacyOption(option, $0) })\n",
+      1
+    ],
+    [
+      "submodules/SettingsUI/Sources/NagramiXSettingsController.swift",
+      "        case .ghostMode: return strings.nagramiXGhostText(\"Title\")\n",
+      "        case let .privacyToggle(option, _): return strings.nagramiXPrivacyText(option.rawValue)\n",
+      1
+    ],
+    [
+      "submodules/SettingsUI/Sources/NagramiXSettingsController.swift",
+      "        case .ghostMode: return strings.nagramiXGhostText(\"Search\")\n",
+      "        case let .privacyToggle(option, _): return strings.nagramiXPrivacyText(option.rawValue + \".Search\")\n",
+      1
+    ],
+    [
+      "submodules/SettingsUI/Sources/NagramiXSettingsController.swift",
+      "nagramiXGhostText(\"Privacy\")",
+      "nagramiXPrivacyText(\"Title\")",
+      3
+    ],
+    [
+      "submodules/SettingsUI/Sources/NagramiXSettingsController.swift",
+      "ontroller(context: context))\n        },\n        openGhostSettings: { pushControllerImpl?(nagramiXGhostSettingsController(context: context)) },\n        updateReadMode: { mode, enabled ",
+      "ontroller(context: context))\n        },\n        updateReadMode: { mode, enabled ",
+      1
+    ],
+    [
+      "submodules/SettingsUI/Sources/NagramiXSettingsController.swift",
+      "(Bool)\n    case enableStoryRepost(Bool)\n    case anonymousStoryViewing(Bool)\n    case anonymousStoryViewingInfo\n    case profilesHeader\n    case showPro",
+      "(Bool)\n    case enableStoryRepost(Bool)\n    case profilesHeader\n    case showPro",
+      1
+    ],
+    [
+      "submodules/SettingsUI/Sources/NagramiXSettingsController.swift",
+      ".confirmStoryViewing, .enableStoryRepost, .anonymousStoryViewing, .anonymousStoryViewingInfo, .callsHeader, .confirmOutgoingCalls, .",
+      ".confirmStoryViewing, .enableStoryRepost, .callsHeader, .confirmOutgoingCalls, .",
+      1
+    ],
+    [
+      "submodules/SettingsUI/Sources/NagramiXSettingsController.swift",
+      ".confirmStoryViewing, .enableStoryRepost, .anonymousStoryViewing, .anonymousStoryViewingInfo:\n            return NagramiXSettingsSec",
+      ".confirmStoryViewing, .enableStoryRepost:\n            return NagramiXSettingsSec",
+      1
+    ],
+    [
+      "submodules/SettingsUI/Sources/NagramiXSettingsController.swift",
+      "     case .enableStoryRepost: return 28\n        case .anonymousStoryViewing: return 123\n        case .anonymousStoryViewingInfo: return 124\n        case .profilesHeader: return 30\n",
+      "     case .enableStoryRepost: return 28\n        case .profilesHeader: return 30\n",
+      1
+    ],
+    [
+      "submodules/SettingsUI/Sources/NagramiXSettingsController.swift",
+      "    case .videoPiPSwipeInfo: return 560\n            case .anonymousStoryViewing: return 281\n            case .anonymousStoryViewingInfo: return 282\n            case .saveTemporaryMessages:",
+      "    case .videoPiPSwipeInfo: return 560\n            case .saveTemporaryMessages:",
+      1
+    ],
+    [
+      "submodules/SettingsUI/Sources/NagramiXSettingsController.swift",
+      "PiPSwipeInfo), sectionId: self.section)\n        case let .anonymousStoryViewing(value):\n            return ItemListSwitchItem(presentationData: presentationData, systemStyle: .glass, title: presentationData.strings.nagramiXAnonymousStoryViewing, value: value, maximumNumberOfLines: 0, sectionId: self.section, style: .blocks, updated: arguments.updateAnonymousStoryViewing)\n        case .anonymousStoryViewingInfo:\n            return ItemListTextItem(presentationData: presentationData, text: .plain(presentationData.strings.nagramiXAnonymousStoryViewingInfo), sectionId: self.section)\n        case .featureStoriesHeader:\n    ",
+      "PiPSwipeInfo), sectionId: self.section)\n        case .featureStoriesHeader:\n    ",
+      1
+    ],
+    [
+      "submodules/SettingsUI/Sources/NagramiXSettingsController.swift",
+      "                .anonymousStoryViewingInfo, .forceTcpCallsInfo,",
+      "                .forceTcpCallsInfo,",
+      1
+    ],
+    [
+      "submodules/SettingsUI/Sources/NagramiXSettingsController.swift",
+      "eturn strings.nagramiXEnableStoryRepost\n        case .anonymousStoryViewing: return strings.nagramiXAnonymousStoryViewing\n        case .anonymousStoryViewingInfo: return strings.nagramiXAnonymousStoryViewingInfo\n        case .profilesHeader: return str",
+      "eturn strings.nagramiXEnableStoryRepost\n        case .profilesHeader: return str",
+      1
+    ],
+    [
+      "submodules/SettingsUI/Sources/NagramiXSettingsController.swift",
+      "turn strings.nagramiXSelectByAuthorInfo\n        case .anonymousStoryViewing:\n            return strings.nagramiXAnonymousStoryViewingInfo\n        case .forceTcpCalls:\n           ",
+      "turn strings.nagramiXSelectByAuthorInfo\n        case .forceTcpCalls:\n           ",
+      1
+    ],
+    [
+      "submodules/SettingsUI/Sources/NagramiXSettingsController.swift",
+      "d footer rows to settings.\n    return [\n        .privacyHeader, .ghostMode, .readLocally(readMode == .local), .readOnServer(readMode == .server),\n        .tabsHeader, .hideContacts(setti",
+      "d footer rows to settings.\n    return [\n        .tabsHeader, .hideContacts(setti",
+      1
+    ],
+    [
+      "submodules/SettingsUI/Sources/NagramiXSettingsController.swift",
+      "toryRepost(settings.enableStoryRepost),\n        .anonymousStoryViewing(settings.anonymousStoryViewing),\n        .profilesHeader, .showExactLastS",
+      "toryRepost(settings.enableStoryRepost),\n        .profilesHeader, .showExactLastS",
+      1
+    ],
+    [
+      "submodules/SettingsUI/Sources/NagramiXSettingsController.swift",
+      "        .clearMessageArchive,\n",
+      "        .clearMessageArchive,\n        .privacyHeader, .readLocally(privacy.readMode == .local), .readOnServer(privacy.readMode == .server),\n        .privacyToggle(.storyReads, privacy[.storyReads]),\n        .privacyToggle(.online, privacy[.online]),\n        .privacyToggle(.typing, privacy[.typing]),\n        .privacyToggle(.readOnAction, privacy[.readOnAction]),\n",
+      1
+    ],
+    [
+      "submodules/SettingsUI/Sources/NagramiXSettingsController.swift",
+      "        updateAnonymousStoryViewing: { value in update { $0.anonymousStoryViewing = value } },\n",
+      "        updatePrivacyOption: { option, value in NagramiXPrivacySettings.update { $0[option] = value } },\n",
+      1
+    ],
+    [
+      "submodules/SettingsUI/Sources/NagramiXSettingsController.swift",
+      "readMode: NagramiXReadMode,",
+      "privacy: NagramiXPrivacySettings,",
+      3
+    ],
+    [
+      "submodules/SettingsUI/Sources/NagramiXSettingsController.swift",
+      "readMode: readMode,",
+      "privacy: privacy,",
+      4
+    ],
+    [
+      "submodules/SettingsUI/Sources/NagramiXSettingsController.swift",
+      "combineLatest(settingsPromise.get(), nagramiXReadModeSignal())",
+      "combineLatest(settingsPromise.get(), nagramiXPrivacySettingsSignal())",
+      1
+    ],
+    [
+      "submodules/SettingsUI/Sources/NagramiXSettingsController.swift",
+      "settingsAndReadMode",
+      "settingsAndPrivacy",
+      2
+    ],
+    [
+      "submodules/SettingsUI/Sources/NagramiXSettingsController.swift",
+      "let (settings, readMode) = settingsAndPrivacy",
+      "let (settings, privacy) = settingsAndPrivacy",
+      1
+    ],
+    [
+      "submodules/NagramiXCore/Sources/NagramiXTabSettings.swift",
+      "        let previousSkipCallRating = value.skipCallRating\n",
+      "        let previousSkipCallRating = value.skipCallRating\n        let previousAnonymousStoryViewing = value.anonymousStoryViewing\n",
+      1
+    ],
+    [
+      "submodules/NagramiXCore/Sources/NagramiXTabSettings.swift",
+      "        NagramiXStorySettings.update(anonymousViewing: value.anonymousStoryViewing)\n",
+      "        if previousAnonymousStoryViewing != value.anonymousStoryViewing {\n            NagramiXStorySettings.update(anonymousViewing: value.anonymousStoryViewing)\n        }\n",
+      1
+    ]
+  ],
+  "copies": {
+    "Sources/TelegramCore/NagramiXReadModeActions.swift": "submodules/TelegramCore/Sources/NagramiXReadModeActions.swift"
+  }
+}

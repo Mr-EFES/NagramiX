@@ -1,0 +1,33 @@
+{
+  "inputs": {
+    "submodules/TelegramUI/Sources/ChatControllerForwardMessages.swift": "b81868dae72eaf290185ded6be10cd371fb912585c42c004336544b3e52274fe"
+  },
+  "outputs": {
+    "submodules/TelegramUI/Sources/ChatControllerForwardMessages.swift": "dbcb5b7ea5a1c94fe31d4a75e435b86a581486bf01e13d092073a33c13143e2c"
+  },
+  "guards": {
+    "submodules/TelegramUI/BUILD": "f4ae55a27c3a5e486a0fe9c768c70b65b974c505125d91a1215645179de54926"
+  },
+  "templates": {
+    "protected_copy_selection_flow/Before0.inc": "b81868dae72eaf290185ded6be10cd371fb912585c42c004336544b3e52274fe",
+    "protected_copy_selection_flow/Guard0.inc": "f4ae55a27c3a5e486a0fe9c768c70b65b974c505125d91a1215645179de54926"
+  },
+  "previous": {
+    "submodules/TelegramUI/Sources/ChatControllerForwardMessages.swift": "protected_copy_selection_flow/Before0.inc"
+  },
+  "replacements": {},
+  "copies": {},
+  "deletions": {},
+  "operations": {
+    "submodules/TelegramUI/Sources/ChatControllerForwardMessages.swift": [
+      [
+        "if !nagramiXProtectedMediaPrepared {",
+        "if !nagramiXProtectedMediaPrepared && !transferMode.singleRecipient {"
+      ],
+      [
+        "multipleSelectionLimit: nagramiXProtectedCopy && transferMode.singleRecipient && !nagramiXOwnViewOnceCopy ? 1 : nil",
+        "multipleSelectionLimit: nil"
+      ]
+    ]
+  }
+}

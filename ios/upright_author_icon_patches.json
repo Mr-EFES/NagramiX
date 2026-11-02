@@ -1,0 +1,31 @@
+{
+  "inputs": {
+    "submodules/TelegramUI/Sources/ChatInterfaceStateContextMenus.swift": "6531c2887dfda123cfacaceac5ae418db9b1280e00116cdfad24fd08408f7731"
+  },
+  "outputs": {
+    "submodules/TelegramUI/Sources/ChatInterfaceStateContextMenus.swift": "44afc7741b3199e8032175ce19cb158c1e597d18a88fb8790c8b90d234389656"
+  },
+  "guards": {
+    "submodules/TelegramUI/BUILD": "f4ae55a27c3a5e486a0fe9c768c70b65b974c505125d91a1215645179de54926",
+    "submodules/Display/Source/GenerateImage.swift": "d9e52a9ea7dd8cd641c655618e6add9ecf158777440e9e28ad24b5e562b1c6e8"
+  },
+  "templates": {
+    "upright_author_icon/Before0.inc": "6531c2887dfda123cfacaceac5ae418db9b1280e00116cdfad24fd08408f7731",
+    "upright_author_icon/Guard0.inc": "f4ae55a27c3a5e486a0fe9c768c70b65b974c505125d91a1215645179de54926",
+    "upright_author_icon/Guard1.inc": "d9e52a9ea7dd8cd641c655618e6add9ecf158777440e9e28ad24b5e562b1c6e8"
+  },
+  "previous": {
+    "submodules/TelegramUI/Sources/ChatInterfaceStateContextMenus.swift": "upright_author_icon/Before0.inc"
+  },
+  "replacements": {},
+  "copies": {},
+  "deletions": {},
+  "operations": {
+    "submodules/TelegramUI/Sources/ChatInterfaceStateContextMenus.swift": [
+      [
+        "private func nagramiXSelectByAuthorIcon(_ color: UIColor) -> UIImage? {\n    return generateImage(CGSize(width: 24, height: 24), contextGenerator: { _, context in",
+        "private func nagramiXSelectByAuthorIcon(_ color: UIColor) -> UIImage? {\n    return generateImage(CGSize(width: 24, height: 24), rotatedContext: { _, context in"
+      ]
+    ]
+  }
+}

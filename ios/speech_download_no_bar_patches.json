@@ -1,0 +1,24 @@
+{
+  "inputs": {
+    "submodules/NagramiXTranscription/Sources/Preferences.swift": "c9cc663a1a123642f07d1fb91afa67f35d1fdcb4fe234bff5941fd099e5d27da"
+  },
+  "outputs": {
+    "submodules/NagramiXTranscription/Sources/Preferences.swift": "c36240b7946714b2c4d57d211fa127d8b9cf8e2fb9f630f248aa2890ecc2ab5d"
+  },
+  "guards": {
+    "submodules/NagramiXTranscription/BUILD": "820772c2401f640bf652106d20d11b466cee847e29b43a8dff3ca3b3af0c7e78"
+  },
+  "templates": {
+    "speech_download_no_bar/Before.inc": "c9cc663a1a123642f07d1fb91afa67f35d1fdcb4fe234bff5941fd099e5d27da",
+    "speech_download_no_bar/After.inc": "c36240b7946714b2c4d57d211fa127d8b9cf8e2fb9f630f248aa2890ecc2ab5d",
+    "speech_download_no_bar/Guard.inc": "820772c2401f640bf652106d20d11b466cee847e29b43a8dff3ca3b3af0c7e78"
+  },
+  "previous": {
+    "submodules/NagramiXTranscription/Sources/Preferences.swift": "speech_download_no_bar/Before.inc"
+  },
+  "replacements": {
+    "submodules/NagramiXTranscription/Sources/Preferences.swift": "speech_download_no_bar/After.inc"
+  },
+  "copies": {},
+  "deletions": {}
+}

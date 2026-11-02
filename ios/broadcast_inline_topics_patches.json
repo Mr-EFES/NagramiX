@@ -1,0 +1,248 @@
+{
+  "inputs": {
+    "submodules/ChatListUI/Sources/Node/ChatListNode.swift": "18d1db0444968747a7c35c035917924e087980e0e477b28bf0b5e394d3a31c0b",
+    "submodules/ChatListUI/Sources/Node/ChatListNodeEntries.swift": "489b787e85d4d7ac8e494573f3227a23e176b6afad604f9a0c38576e8ed1019d",
+    "submodules/AccountContext/Sources/PeerSelectionController.swift": "c3018f62cf51defecf076ca7df8404738b3893ef2ec0dff418b4746c1d96920e",
+    "submodules/TelegramUI/Components/PeerSelectionController/Sources/PeerSelectionController.swift": "850edd6783953d857e59565b1e68703ec9bbada24865ce05ac22715adb168e23",
+    "submodules/TelegramUI/Components/PeerSelectionController/Sources/PeerSelectionControllerNode.swift": "1c79358044bec36f139962875ae659305e2f1da99de2301909cb2304eb33b799",
+    "submodules/TelegramUI/Sources/ChatControllerForwardMessages.swift": "fa82a4fedea96737e506126b1c434c42d449c9f1d348f65542719b07d7994581",
+    "submodules/ChatListUI/Sources/ChatListControllerNode.swift": "1b436a6dd02ab204f04948051d9b26af18b2f554561ccbe661501048294bc2f5",
+    "submodules/ContactsPeerItem/Sources/ContactsPeerItem.swift": "3b94874f3dfff29483cd53e4cc41ef3e3d8bb2224d980f388dc64b10dcb3ed4b"
+  },
+  "outputs": {
+    "submodules/ChatListUI/Sources/Node/ChatListNode.swift": "09088bc3c369a9555f58954f09ee1e1ff5de7783c4362276d0ec5eedb6bb4291",
+    "submodules/ChatListUI/Sources/Node/ChatListNodeEntries.swift": "27c45908a4a4cceb67ea51f1232cb418e8d67874120e0194c72d10b7b4986ec4",
+    "submodules/AccountContext/Sources/PeerSelectionController.swift": "0d378c63f02c2c37e3452894c7681e536a12bb74ad42080de3e75c025b342544",
+    "submodules/TelegramUI/Components/PeerSelectionController/Sources/PeerSelectionController.swift": "cba2b8bbfb158631946c7747fef00dba77013dbd1154c7945f552d829908cad1",
+    "submodules/TelegramUI/Components/PeerSelectionController/Sources/PeerSelectionControllerNode.swift": "c1a34cd7ae9f18db3af640304ab692c07b2fb10a044c5e0ffb26a099578e3676",
+    "submodules/TelegramUI/Sources/ChatControllerForwardMessages.swift": "a24e3361278a2533b926c6b5fa013c55f94d915f8a8ff8763946bc45d4b39181",
+    "submodules/ChatListUI/Sources/ChatListControllerNode.swift": "48604a26656e663c96b3d4a48e8093341f23555c1fbb749c91365760693c14f9",
+    "submodules/ContactsPeerItem/Sources/ContactsPeerItem.swift": "357dec66d8ae0cd23d9e04ada8ca399422948bbf4d9db28cd777cb2930aab47f"
+  },
+  "guards": {},
+  "copies": {},
+  "patches": [
+    [
+      "submodules/ChatListUI/Sources/Node/ChatListNode.swift",
+      "    public var selectedPeerIds: Set<EnginePeer.Id>",
+      "    public var selectedPeerIds: Set<EnginePeer.Id>\n    public var nagramiXCopyThreadIds: [EnginePeer.Id: Int64] = [:]",
+      1
+    ],
+    [
+      "submodules/ChatListUI/Sources/Node/ChatListNode.swift",
+      "        if lhs.selectedPeerIds != rhs.selectedPeerIds {",
+      "        if lhs.nagramiXCopyThreadIds != rhs.nagramiXCopyThreadIds { return false }\n        if lhs.selectedPeerIds != rhs.selectedPeerIds {",
+      1
+    ],
+    [
+      "submodules/ChatListUI/Sources/Node/ChatListNode.swift",
+      "    private var nagramiXUnreadObserver: NSObjectProtocol?",
+      "    private let nagramiXInlineTopics = ValuePromise<[EnginePeer.Id: EngineChatList]>([:])\n    private var nagramiXInlineTopicLists: [EnginePeer.Id: EngineChatList] = [:]\n    private var nagramiXInlineTopicSubscriptions: [EnginePeer.Id: MetaDisposable] = [:]\n\n    private func nagramiXToggleInlineForum(_ peer: EnginePeer) -> Bool {\n        guard case let .peers(filter, isSelecting, _, _, _, _, _) = self.mode,\n              filter.contains(.nagramiXCopyDestinations), !isSelecting,\n              case .chatList = self.location,\n              case let .channel(channel) = peer, channel.isForum, !channel.isMonoForum else { return false }\n        if let subscription = self.nagramiXInlineTopicSubscriptions.removeValue(forKey: peer.id) {\n            subscription.dispose()\n            self.nagramiXInlineTopicLists.removeValue(forKey: peer.id)\n            self.nagramiXInlineTopics.set(self.nagramiXInlineTopicLists)\n        } else {\n            let subscription = MetaDisposable()\n            self.nagramiXInlineTopicSubscriptions[peer.id] = subscription\n            subscription.set((chatListViewForLocation(chatListLocation: .forum(peerId: peer.id),\n                location: .initial(count: 80, filter: nil), account: self.context.account,\n                shouldLoadCanMessagePeer: true) |> deliverOnMainQueue).start(next: { [weak self, weak subscription] update in\n                    guard let self, let subscription, self.nagramiXInlineTopicSubscriptions[peer.id] === subscription else { return }\n                    self.nagramiXInlineTopicLists[peer.id] = update.list\n                    self.nagramiXInlineTopics.set(self.nagramiXInlineTopicLists)\n                }))\n        }\n        return true\n    }\n\n    private var nagramiXUnreadObserver: NSObjectProtocol?",
+      1
+    ],
+    [
+      "submodules/ChatListUI/Sources/Node/ChatListNode.swift",
+      "        }, peerSelected: { [weak self] peer, _, threadId, promoInfo, _ in\n            if let strongSelf",
+      "        }, peerSelected: { [weak self] peer, _, threadId, promoInfo, _ in\n            if threadId == nil, self?.nagramiXToggleInlineForum(peer) == true { return }\n            if let strongSelf",
+      1
+    ],
+    [
+      "submodules/ChatListUI/Sources/Node/ChatListNode.swift",
+      "}, togglePeerSelected: { [weak self] peer, _ in",
+      "}, togglePeerSelected: { [weak self] peer, threadId in",
+      1
+    ],
+    [
+      "submodules/ChatListUI/Sources/Node/ChatListNode.swift",
+      "            if case .peers = strongSelf.mode, strongSelf.passthroughPeerSelection {",
+      "            if let threadId, case let .peers(filter, _, _, _, _, _, _) = strongSelf.mode,\n               filter.contains(.nagramiXCopyDestinations), case .chatList = strongSelf.location {\n                if strongSelf.currentState.selectedPeerIds.contains(peer.id), strongSelf.currentState.nagramiXCopyThreadIds[peer.id] == threadId {\n                    strongSelf.updateState { state in\n                        var state = state\n                        state.selectedPeerIds.remove(peer.id)\n                        state.nagramiXCopyThreadIds.removeValue(forKey: peer.id)\n                        return state\n                    }\n                } else {\n                    // Reuse the proven copy recipient/explicit thread callback.\n                    strongSelf.peerSelected?(peer, threadId, true, true, nil)\n                }\n                return\n            }\n            if case .peers = strongSelf.mode, strongSelf.passthroughPeerSelection {",
+      1
+    ],
+    [
+      "submodules/ChatListUI/Sources/Node/ChatListNode.swift",
+      "            self.nagramiXSettingsRevision.get()",
+      "            combineLatest(self.nagramiXSettingsRevision.get(), self.nagramiXInlineTopics.get())",
+      1
+    ],
+    [
+      "submodules/ChatListUI/Sources/Node/ChatListNode.swift",
+      "accountIsPremium, _) -> Signal<ChatListNodeListViewTransition",
+      "accountIsPremium, inlineState) -> Signal<ChatListNodeListViewTransition",
+      1
+    ],
+    [
+      "submodules/ChatListUI/Sources/Node/ChatListNode.swift",
+      "            if isEmpty {\n                entries = [.HeaderEntry]\n            }\n            \n            if update.nagramiXUnreadChatsFirst",
+      "            if case let .peers(peerFilter, isSelecting, _, _, _, _, _) = mode,\n               peerFilter.contains(.nagramiXCopyDestinations), !isSelecting, case .chatList = location {\n                entries = entries.flatMap { entry -> [ChatListNodeEntry] in\n                    guard case var .PeerEntry(parent) = entry,\n                          let topics = inlineState.1[parent.peer.peerId] else { return [entry] }\n                    let (topicEntries, _) = chatListNodeEntriesForView(view: topics, state: state,\n                        savedMessagesPeer: nil, foundPeers: [], hideArchivedFolderByDefault: false,\n                        displayArchiveIntro: false, mode: mode, chatListLocation: .forum(peerId: parent.peer.peerId),\n                        contacts: [], accountPeerId: accountPeerId, isMainTab: false)\n                    var children: [ChatListNodeEntry] = []\n                    let leaves = topicEntries.compactMap { item -> ChatListNodeEntry.PeerEntryData? in\n                        guard case let .PeerEntry(data) = item, data.threadInfo != nil else { return nil }\n                        return data\n                    }\n                    for (offset, var child) in leaves.enumerated() {\n                        child.nagramiXInlineParentIndex = parent.index\n                        child.nagramiXInlineOrder = offset - leaves.count\n                        if let topicId = child.threadInfo?.id {\n                            child.selected = state.selectedPeerIds.contains(parent.peer.peerId) && state.nagramiXCopyThreadIds[parent.peer.peerId] == topicId\n                        }\n                        children.append(.PeerEntry(child))\n                    }\n                    parent.nagramiXInlineExpanded = true\n                    // Native list order is reversed on screen: children precede their parent here.\n                    return children + [.PeerEntry(parent)]\n                }\n            }\n            if isEmpty {\n                entries = [.HeaderEntry]\n            }\n            \n            if update.nagramiXUnreadChatsFirst",
+      1
+    ],
+    [
+      "submodules/ChatListUI/Sources/Node/ChatListNode.swift",
+      "if (isForum && !isSelecting) || isCommunity {",
+      "if ((isForum && !isSelecting) || isCommunity) && peerEntry.nagramiXInlineParentIndex == nil {",
+      2
+    ],
+    [
+      "submodules/ChatListUI/Sources/Node/ChatListNode.swift",
+      "title: threadInfo.info.title, icon:",
+      "title: peerEntry.nagramiXInlineParentIndex == nil ? threadInfo.info.title : \"↳ \" + threadInfo.info.title, icon:",
+      2
+    ],
+    [
+      "submodules/ChatListUI/Sources/Node/ChatListNode.swift",
+      "status: status,\n                        requiresPremiumForMessaging:",
+      "status: peerEntry.nagramiXInlineExpanded ? .custom(string: NSAttributedString(string: \"⌄\", font: Font.regular(15), textColor: presentationData.theme.list.itemSecondaryTextColor), multiline: false, isActive: false, icon: nil) : status,\n                        requiresPremiumForMessaging:",
+      1
+    ],
+    [
+      "submodules/ChatListUI/Sources/Node/ChatListNode.swift",
+      "status: status,\n                            requiresPremiumForMessaging:",
+      "status: peerEntry.nagramiXInlineExpanded ? .custom(string: NSAttributedString(string: \"⌄\", font: Font.regular(15), textColor: presentationData.theme.list.itemSecondaryTextColor), multiline: false, isActive: false, icon: nil) : status,\n                            requiresPremiumForMessaging:",
+      2
+    ],
+    [
+      "submodules/ChatListUI/Sources/Node/ChatListNode.swift",
+      "        if let observer = self.nagramiXAdvertisingObserver {",
+      "        for subscription in self.nagramiXInlineTopicSubscriptions.values { subscription.dispose() }\n        if let observer = self.nagramiXAdvertisingObserver {",
+      1
+    ],
+    [
+      "submodules/ChatListUI/Sources/Node/ChatListNode.swift",
+      "case .ThreadId, .GroupId, .ContactId, .ArchiveIntro, .EmptyIntro, .SectionHeader, .Notice, .additionalCategory, .TopPeer:",
+      "case .ThreadId, .nagramiXInlineTopic, .GroupId, .ContactId, .ArchiveIntro, .EmptyIntro, .SectionHeader, .Notice, .additionalCategory, .TopPeer:",
+      1
+    ],
+    [
+      "submodules/ChatListUI/Sources/Node/ChatListNodeEntries.swift",
+      "    case ThreadId(Int64)",
+      "    case ThreadId(Int64)\n    case nagramiXInlineTopic(EnginePeer.Id, Int64)",
+      1
+    ],
+    [
+      "submodules/ChatListUI/Sources/Node/ChatListNodeEntries.swift",
+      "        var nagramiXUnreadCount: Int? = nil",
+      "        var nagramiXUnreadCount: Int? = nil\n        var nagramiXInlineParentIndex: EngineChatList.Item.Index? = nil\n        var nagramiXInlineOrder: Int = 0\n        var nagramiXInlineExpanded = false",
+      1
+    ],
+    [
+      "submodules/ChatListUI/Sources/Node/ChatListNodeEntries.swift",
+      "        static func ==(lhs: PeerEntryData, rhs: PeerEntryData) -> Bool {",
+      "        static func ==(lhs: PeerEntryData, rhs: PeerEntryData) -> Bool {\n            if lhs.nagramiXInlineParentIndex != rhs.nagramiXInlineParentIndex || lhs.nagramiXInlineOrder != rhs.nagramiXInlineOrder || lhs.nagramiXInlineExpanded != rhs.nagramiXInlineExpanded { return false }",
+      1
+    ],
+    [
+      "submodules/ChatListUI/Sources/Node/ChatListNodeEntries.swift",
+      "            return .index(peerEntry.index)",
+      "            return .index(peerEntry.nagramiXInlineParentIndex ?? peerEntry.index)",
+      1
+    ],
+    [
+      "submodules/ChatListUI/Sources/Node/ChatListNodeEntries.swift",
+      "                return .ThreadId(threadId)",
+      "                if peerEntry.nagramiXInlineParentIndex != nil { return .nagramiXInlineTopic(peerEntry.peer.peerId, threadId) }\n                return .ThreadId(threadId)",
+      1
+    ],
+    [
+      "submodules/ChatListUI/Sources/Node/ChatListNodeEntries.swift",
+      "    static func <(lhs: ChatListNodeEntry, rhs: ChatListNodeEntry) -> Bool {",
+      "    static func <(lhs: ChatListNodeEntry, rhs: ChatListNodeEntry) -> Bool {\n        if case let .PeerEntry(left) = lhs, case let .PeerEntry(right) = rhs,\n           left.nagramiXInlineParentIndex != nil || right.nagramiXInlineParentIndex != nil {\n            let leftIndex = left.nagramiXInlineParentIndex ?? left.index\n            let rightIndex = right.nagramiXInlineParentIndex ?? right.index\n            if leftIndex != rightIndex { return leftIndex < rightIndex }\n            return left.nagramiXInlineOrder < right.nagramiXInlineOrder\n        }",
+      1
+    ],
+    [
+      "submodules/AccountContext/Sources/PeerSelectionController.swift",
+      "func nagramiXSelectCopyRecipient(_ peer: EnginePeer)",
+      "func nagramiXSelectCopyRecipient(_ peer: EnginePeer, threadId: Int64?)",
+      1
+    ],
+    [
+      "submodules/TelegramUI/Components/PeerSelectionController/Sources/PeerSelectionController.swift",
+      "func nagramiXSelectCopyRecipient(_ peer: EnginePeer)",
+      "func nagramiXSelectCopyRecipient(_ peer: EnginePeer, threadId: Int64?)",
+      1
+    ],
+    [
+      "submodules/TelegramUI/Components/PeerSelectionController/Sources/PeerSelectionControllerNode.swift",
+      "func nagramiXSelectCopyRecipient(_ peer: EnginePeer)",
+      "func nagramiXSelectCopyRecipient(_ peer: EnginePeer, threadId: Int64?)",
+      1
+    ],
+    [
+      "submodules/TelegramUI/Components/PeerSelectionController/Sources/PeerSelectionController.swift",
+      "self.peerSelectionNode.nagramiXSelectCopyRecipient(peer)",
+      "self.peerSelectionNode.nagramiXSelectCopyRecipient(peer, threadId: threadId)",
+      1
+    ],
+    [
+      "submodules/TelegramUI/Sources/ChatControllerForwardMessages.swift",
+      "strongController.nagramiXSelectCopyRecipient(peer)",
+      "strongController.nagramiXSelectCopyRecipient(peer, threadId: threadId)",
+      1
+    ],
+    [
+      "submodules/TelegramUI/Components/PeerSelectionController/Sources/PeerSelectionControllerNode.swift",
+      "                state.selectedPeerIds.insert(peer.id)\n                state.selectedPeerMap[peer.id] = peer",
+      "                state.selectedPeerIds.insert(peer.id)\n                state.nagramiXCopyThreadIds[peer.id] = threadId\n                state.selectedPeerMap[peer.id] = peer",
+      1
+    ],
+    [
+      "submodules/TelegramUI/Components/PeerSelectionController/Sources/PeerSelectionControllerNode.swift",
+      "    private var nagramiXCopySelectionStarted = false",
+      "    private var nagramiXCopySelectionStarted = false\n    private var nagramiXCopyThreads: [EnginePeer.Id: Int64] = [:]",
+      1
+    ],
+    [
+      "submodules/TelegramUI/Components/PeerSelectionController/Sources/PeerSelectionControllerNode.swift",
+      "            self.nagramiXCopyRecipients = self.nagramiXActiveSelectedPeers\n            return",
+      "            self.nagramiXCopyRecipients = self.nagramiXActiveSelectedPeers\n            if !self.contactListActive, let node = self.mainContainerNode?.currentItemNode ?? self.chatListNode {\n                self.nagramiXCopyThreads = node.currentState.nagramiXCopyThreadIds\n            }\n            return",
+      1
+    ],
+    [
+      "submodules/TelegramUI/Components/PeerSelectionController/Sources/PeerSelectionControllerNode.swift",
+      "                state.selectedPeerMap = peerMap",
+      "                state.selectedPeerMap = peerMap\n                state.nagramiXCopyThreadIds = self.nagramiXCopyThreads",
+      1
+    ],
+    [
+      "submodules/ChatListUI/Sources/ChatListControllerNode.swift",
+      "                state.selectedPeerMap = selectedState.selectedPeerMap",
+      "                state.selectedPeerMap = selectedState.selectedPeerMap\n                state.nagramiXCopyThreadIds = selectedState.nagramiXCopyThreadIds",
+      1
+    ],
+    [
+      "submodules/ContactsPeerItem/Sources/ContactsPeerItem.swift",
+      "    public let peer: ContactsPeerItemPeer",
+      "    public let nagramiXTreeInset: CGFloat\n    public let peer: ContactsPeerItemPeer",
+      1
+    ],
+    [
+      "submodules/ContactsPeerItem/Sources/ContactsPeerItem.swift",
+      "        peer: ContactsPeerItemPeer,",
+      "        peer: ContactsPeerItemPeer,\n        nagramiXTreeInset: CGFloat = 0,",
+      1
+    ],
+    [
+      "submodules/ContactsPeerItem/Sources/ContactsPeerItem.swift",
+      "        self.peer = peer",
+      "        self.peer = peer\n        self.nagramiXTreeInset = max(0, min(24, nagramiXTreeInset))",
+      1
+    ],
+    [
+      "submodules/ContactsPeerItem/Sources/ContactsPeerItem.swift",
+      "var leftInset: CGFloat = 65.0 + params.leftInset",
+      "var leftInset: CGFloat = 65.0 + params.leftInset + item.nagramiXTreeInset",
+      1
+    ],
+    [
+      "submodules/ChatListUI/Sources/Node/ChatListNode.swift",
+      "peer: peerContent,\n                        status:",
+      "peer: peerContent,\n                        nagramiXTreeInset: peerEntry.nagramiXInlineParentIndex == nil ? 0 : 18,\n                        status:",
+      1
+    ],
+    [
+      "submodules/ChatListUI/Sources/Node/ChatListNode.swift",
+      "peer: peerContent,\n                            status:",
+      "peer: peerContent,\n                            nagramiXTreeInset: peerEntry.nagramiXInlineParentIndex == nil ? 0 : 18,\n                            status:",
+      2
+    ]
+  ]
+}

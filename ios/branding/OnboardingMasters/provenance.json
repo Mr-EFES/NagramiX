@@ -1,0 +1,172 @@
+{
+  "method": "Active Logo/Phone: exact PNG bytes supplied by the user in Архив.zip, copied without redraw, crop, resizing or alpha changes. Legacy five scenes retain their earlier export provenance.",
+  "canvas": 1024,
+  "visibleLongestSide": 800,
+  "scenes": [
+    {
+      "name": "Logo",
+      "canvas": [
+        1024,
+        1024
+      ],
+      "master": "OriginalWelcomeLogo.png",
+      "masterSha256": "deb75942be46dfb82367fbbad5ce17785f971d2ef42a32f6c9d7bb82839ac077",
+      "archiveEntry": "Награмикс Лого.PNG",
+      "method": "byte-for-byte archive original; aspectFit in native UI",
+      "output": "NagramiXOnboardingLogo.png"
+    },
+    {
+      "name": "Communication",
+      "canvas": [
+        1024,
+        1024
+      ],
+      "master": "Sheet.png",
+      "masterSha256": "6b59c089c0c7c5a41facc9b5326e86fc0ebbbe0fc6ccc2af9fc790982a2ef0b9",
+      "crop": [
+        0,
+        0,
+        532,
+        540
+      ],
+      "sourceVisibleBounds": [
+        34,
+        63,
+        530,
+        503
+      ],
+      "scale": 1.6129032258064515,
+      "excludedAdjacentFragments": [],
+      "output": "NagramiXOnboardingCommunication.png"
+    },
+    {
+      "name": "Free",
+      "canvas": [
+        1024,
+        1024
+      ],
+      "master": "Sheet.png",
+      "masterSha256": "6b59c089c0c7c5a41facc9b5326e86fc0ebbbe0fc6ccc2af9fc790982a2ef0b9",
+      "crop": [
+        532,
+        0,
+        999,
+        540
+      ],
+      "sourceVisibleBounds": [
+        5,
+        103,
+        467,
+        460
+      ],
+      "scale": 1.7316017316017316,
+      "excludedAdjacentFragments": [
+        [
+          456,
+          430,
+          467,
+          490
+        ]
+      ],
+      "output": "NagramiXOnboardingFree.png"
+    },
+    {
+      "name": "Personal",
+      "canvas": [
+        1024,
+        1024
+      ],
+      "master": "Sheet.png",
+      "masterSha256": "6b59c089c0c7c5a41facc9b5326e86fc0ebbbe0fc6ccc2af9fc790982a2ef0b9",
+      "crop": [
+        999,
+        0,
+        1536,
+        540
+      ],
+      "sourceVisibleBounds": [
+        0,
+        69,
+        506,
+        519
+      ],
+      "scale": 1.5810276679841897,
+      "excludedAdjacentFragments": [
+        [
+          0,
+          170,
+          8,
+          225
+        ]
+      ],
+      "output": "NagramiXOnboardingPersonal.png"
+    },
+    {
+      "name": "Privacy",
+      "canvas": [
+        1024,
+        1024
+      ],
+      "master": "Sheet.png",
+      "masterSha256": "6b59c089c0c7c5a41facc9b5326e86fc0ebbbe0fc6ccc2af9fc790982a2ef0b9",
+      "crop": [
+        0,
+        540,
+        524,
+        1024
+      ],
+      "sourceVisibleBounds": [
+        31,
+        11,
+        524,
+        413
+      ],
+      "scale": 1.6227180527383367,
+      "excludedAdjacentFragments": [],
+      "output": "NagramiXOnboardingPrivacy.png"
+    },
+    {
+      "name": "Nearby",
+      "canvas": [
+        1024,
+        1024
+      ],
+      "master": "Sheet.png",
+      "masterSha256": "6b59c089c0c7c5a41facc9b5326e86fc0ebbbe0fc6ccc2af9fc790982a2ef0b9",
+      "crop": [
+        524,
+        540,
+        1018,
+        1024
+      ],
+      "sourceVisibleBounds": [
+        2,
+        58,
+        490,
+        386
+      ],
+      "scale": 1.639344262295082,
+      "excludedAdjacentFragments": [
+        [
+          0,
+          100,
+          8,
+          210
+        ]
+      ],
+      "output": "NagramiXOnboardingNearby.png"
+    },
+    {
+      "name": "Phone",
+      "canvas": [
+        1371,
+        1148
+      ],
+      "master": "OriginalPhoneEntry.png",
+      "masterSha256": "7d577efbca117859797aee2f00a56d218c428362a5b93b01859e55a1fe2c029a",
+      "archiveEntry": "Награмикс Телефон.PNG",
+      "method": "byte-for-byte archive original; aspectFit in native UI",
+      "output": "NagramiXOnboardingPhone.png"
+    }
+  ]
+}

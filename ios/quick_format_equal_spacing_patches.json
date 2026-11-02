@@ -1,0 +1,58 @@
+{
+  "inputs": {
+    "submodules/TelegramUI/Components/Chat/ChatTextInputPanelNode/Sources/NagramiXFormattingKeyboard.swift": "5879abf4c64ac892441d1c6b1f2be14ba3940cd83ef933c42e4d655b46b8fab3",
+    "submodules/TelegramUI/Components/Chat/ChatTextInputPanelNode/Sources/NagramiXFormattingGeometry.swift": "be1d4c55ad97648ac4c87f4472b321c1beedfef039944419e238c4e1dbcdb0e6",
+    "submodules/TelegramUI/Components/Chat/ChatTextInputPanelNode/Sources/ChatTextInputPanelNode.swift": "34677d3aef81689213c1a1a026357448bcfc2092d733752997e2ef250353ff9a"
+  },
+  "outputs": {
+    "submodules/TelegramUI/Components/Chat/ChatTextInputPanelNode/Sources/NagramiXFormattingKeyboard.swift": "6734a1ba8445bb3a2a98d2cdc71b05087436f934fcc9b698582fef492141f9dc",
+    "submodules/TelegramUI/Components/Chat/ChatTextInputPanelNode/Sources/NagramiXFormattingGeometry.swift": "c594ada4f441e91c87460bac9545e188824d9053f07f462123f6faec545e26f1",
+    "submodules/TelegramUI/Components/Chat/ChatTextInputPanelNode/Sources/ChatTextInputPanelNode.swift": "e70fe5f26de73a56933f9a606e3f33d54199b1cc461778fe0c5ef4157fccf93d"
+  },
+  "guards": {},
+  "copies": {},
+  "patches": [
+    [
+      "submodules/TelegramUI/Components/Chat/ChatTextInputPanelNode/Sources/NagramiXFormattingKeyboard.swift",
+      "    private let heading = UILabel()",
+      "    weak var composerView: UIView?\n    private let heading = UILabel()",
+      1
+    ],
+    [
+      "submodules/TelegramUI/Components/Chat/ChatTextInputPanelNode/Sources/NagramiXFormattingKeyboard.swift",
+      "        let headingLeft = max(left, self.layer.cornerRadius + inset)\n        let headingRight = max(right, self.layer.cornerRadius + inset)\n        let headingWidth = max(0, self.bounds.width - headingLeft - headingRight)\n        let headingSize = self.heading.sizeThatFits(CGSize(width: headingWidth, height: CGFloat.greatestFiniteMagnitude))\n",
+      "",
+      1
+    ],
+    [
+      "submodules/TelegramUI/Components/Chat/ChatTextInputPanelNode/Sources/NagramiXFormattingKeyboard.swift",
+      "        let headingHeight = ceil(headingSize.height)\n        // The lower band includes the home-indicator safe area exactly once.\n        // Match it above the grid: no extra strip, no buttons at the screen edge.\n        let band = max(headingHeight + (landscape ? 12 : 16), self.safeAreaInsets.bottom + 8)\n        self.heading.frame = CGRect(x: headingLeft, y: floor((band - headingHeight) / 2) + 2,\n            width: headingWidth, height: headingHeight)\n        self.scroll.frame = CGRect(x: left, y: band, width: contentWidth,\n            height: max(0, self.bounds.height - 2 * band))\n",
+      "        var composerGap: CGFloat = 0\n        if let composer = self.composerView, let window = self.window, composer.window === window {\n            let composerFrame = self.convert(composer.bounds, from: composer)\n            composerGap = max(0, self.bounds.minY - composerFrame.maxY)\n        }\n        let bands = NagramiXFormattingBands.layout(composerGap: composerGap,\n            safeBottom: self.safeAreaInsets.bottom, landscape: landscape,\n            referenceLineHeight: UIFont.preferredFont(forTextStyle: .headline).lineHeight)\n        self.scroll.frame = CGRect(x: left, y: bands.top, width: contentWidth,\n            height: max(0, self.bounds.height - bands.top - bands.bottom))\n",
+      1
+    ],
+    [
+      "submodules/TelegramUI/Components/Chat/ChatTextInputPanelNode/Sources/NagramiXFormattingKeyboard.swift",
+      "        super.didMoveToWindow()",
+      "        super.didMoveToWindow()\n        self.setNeedsLayout()",
+      1
+    ],
+    [
+      "submodules/TelegramUI/Components/Chat/ChatTextInputPanelNode/Sources/NagramiXFormattingGeometry.swift",
+      "import Foundation\n",
+      "import Foundation\n\n/// Верхний внешний зазор включает промежуток между полем ввода и панелью.\nstruct NagramiXFormattingBands {\n    let top: CGFloat\n    let bottom: CGFloat\n\n    static func layout(composerGap: CGFloat, safeBottom: CGFloat, landscape: Bool,\n                       referenceLineHeight: CGFloat) -> NagramiXFormattingBands {\n        let gap = composerGap.isFinite ? max(0, composerGap) : 0\n        let safe = safeBottom.isFinite ? max(0, safeBottom) : 0\n        let line = referenceLineHeight.isFinite ? max(0, referenceLineHeight) : 0\n        // Сохраняем компактный размер прежней полосы, независимо от текста UILabel.\n        let outside = max(ceil(line) + (landscape ? 12 : 16), safe + 8, gap + 8)\n        return NagramiXFormattingBands(top: outside - gap, bottom: outside)\n    }\n}\n\n",
+      1
+    ],
+    [
+      "submodules/TelegramUI/Components/Chat/ChatTextInputPanelNode/Sources/ChatTextInputPanelNode.swift",
+      "            keyboard.action = { [weak self] action in self?.nagramiXApplyFormatting(action) }",
+      "            keyboard.composerView = self.textInputBackgroundNode.view\n            keyboard.action = { [weak self] action in self?.nagramiXApplyFormatting(action) }",
+      1
+    ],
+    [
+      "submodules/TelegramUI/Components/Chat/ChatTextInputPanelNode/Sources/ChatTextInputPanelNode.swift",
+      "        transition.updateFrame(layer: self.textInputBackgroundNode.layer, frame: textInputContainerBackgroundFrame)",
+      "        transition.updateFrame(layer: self.textInputBackgroundNode.layer, frame: textInputContainerBackgroundFrame)\n        self.nagramiXFormattingKeyboard?.setNeedsLayout()",
+      1
+    ]
+  ]
+}

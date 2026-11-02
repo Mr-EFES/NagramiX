@@ -1,0 +1,117 @@
+{
+  "inputs": {
+    "submodules/TelegramCore/Sources/Network/NagramiXProxyFailoverController.swift": "41346847db4cfe4bfa7a8a622653df353bbad1030458a36430ca536959d3a3bd",
+    "submodules/TelegramCore/Sources/Utils/NagramiXArchivedMediaStore.swift": "37c5336e81fc3df17d24aed8e08a409a0914917a5a33422ae8e05e74f29f679a"
+  },
+  "outputs": {
+    "submodules/TelegramCore/Sources/Network/NagramiXProxyFailoverController.swift": "00bc648e06af1cfff1ab18d7e160cf18d1c03efb653164ff05cc7e7ce20998a1",
+    "submodules/TelegramCore/Sources/Utils/NagramiXArchivedMediaStore.swift": "bb22982fc2d1aa860e0cfaacb1281de16a36be87aa56ecdbf09d31b26da5e175"
+  },
+  "guards": {
+    "submodules/TelegramCore/BUILD": "81e6c1d9dceab5da57124381fce03665a449bcb7904e66c884269dacdd584fbf",
+    "submodules/TelegramCore/Sources/Network/NagramiXNetworkRecovery.swift": "b0ffc8d67c9d342c0c4843bc68ee2abbb583df4994f532fe2bd816e35d03f3c3",
+    "submodules/TelegramCore/Sources/Utils/NagramiXMessageArchive.swift": "465e3512299d90a44e06af587afe7d34eb90362b7e2a9961cb91df45d08a9f98",
+    "submodules/TelegramCore/Sources/Utils/NagramiXArchivePersistence.swift": "172f87ec61020c59777190b1d36a5de25d2b3cd2f7f6243033499077b60ee2db",
+    "submodules/NagramiXMediaSettings/Sources/NagramiXProxyPreferences.swift": "e8ff5139c23b9555edf974e106674466cb0ee3ec4a422f95d60029eb945c564c"
+  },
+  "templates": {},
+  "copies": {},
+  "patches": [
+    [
+      "submodules/TelegramCore/Sources/Network/NagramiXProxyFailoverController.swift",
+      "import Foundation\n",
+      "import Foundation\nimport UIKit\n",
+      1
+    ],
+    [
+      "submodules/TelegramCore/Sources/Network/NagramiXProxyFailoverController.swift",
+      "    private var inForeground = true\n",
+      "    private var inForeground = false\n    private var foregroundRun = UUID()\n",
+      1
+    ],
+    [
+      "submodules/TelegramCore/Sources/Network/NagramiXProxyFailoverController.swift",
+      "            self.isCurrentNetwork = isCurrentNetwork\n",
+      "            self.isCurrentNetwork = isCurrentNetwork\n            let foregroundRun = self.foregroundRun\n",
+      1
+    ],
+    [
+      "submodules/TelegramCore/Sources/Network/NagramiXProxyFailoverController.swift",
+      "                        guard let self else { return }\n                        self.inForeground = foreground",
+      "                        guard let self, self.foregroundRun == foregroundRun, self.isCurrentNetwork() else { return }\n                        self.inForeground = foreground",
+      1
+    ],
+    [
+      "submodules/TelegramCore/Sources/Network/NagramiXProxyFailoverController.swift",
+      "            let proxySettings = accountManager.sharedData(keys: [SharedDataKeys.proxySettings])",
+      "            // Subscribe first, then read UIKit on main. Notifications and this\n            // snapshot enqueue updates in main-thread order. A restarted or\n            // background controller must not reuse an earlier foreground flag.\n            Queue.mainQueue().async { [weak self] in\n                let foreground = UIApplication.shared.applicationState != .background\n                self?.queue.async { [weak self] in\n                    guard let self, self.foregroundRun == foregroundRun, self.isCurrentNetwork() else { return }\n                    self.inForeground = foreground\n                    self.invalidate()\n                    self.reevaluate()\n                }\n            }\n            let proxySettings = accountManager.sharedData(keys: [SharedDataKeys.proxySettings])",
+      1
+    ],
+    [
+      "submodules/TelegramCore/Sources/Network/NagramiXProxyFailoverController.swift",
+      "    private func stopInternal() {\n        self.invalidate()",
+      "    private func stopInternal() {\n        self.foregroundRun = UUID()\n        self.inForeground = false\n        self.invalidate()",
+      1
+    ],
+    [
+      "submodules/TelegramCore/Sources/Utils/NagramiXArchivedMediaStore.swift",
+      "    private let sequence = Atomic<Int64>(value: 0)\n",
+      "    private let sequence = Atomic<Int64>(value: 0)\n    // Reservation publication and pruning form one transaction. A resource\n    // reserved before pruning owns its retained bytes, even during a full clear.\n    // Recursive because clear/remove call the same pruning path on this queue.\n    private let reservationLock = NSRecursiveLock()\n",
+      1
+    ],
+    [
+      "submodules/TelegramCore/Sources/Utils/NagramiXArchivedMediaStore.swift",
+      "func reserve(key: String, requests: [NagramiXArchiveMediaRequest]) -> Int64 {\n        let ticket = self.sequence.modify { $0 + 1 }\n        let ids = Set(requests.map { $0.reference.resource.id.stringRepresentation })\n        _ = self.reservations.modify { current in\n            var current = current\n            current[key] = (ticket, ids, requests.contains(where: { $0.temporary }))\n            return current\n        }\n        return ticket\n    }",
+      "func reserve(key: String, requests: [NagramiXArchiveMediaRequest]) -> Int64 {\n        self.reservationLock.lock()\n        defer { self.reservationLock.unlock() }\n        let ticket = self.sequence.modify { $0 + 1 }\n        let ids = Set(requests.map { $0.reference.resource.id.stringRepresentation })\n        _ = self.reservations.modify { current in\n            var current = current\n            current[key] = (ticket, ids, requests.contains(where: { $0.temporary }))\n            return current\n        }\n        return ticket\n    }",
+      1
+    ],
+    [
+      "submodules/TelegramCore/Sources/Utils/NagramiXArchivedMediaStore.swift",
+      "func reserveRestored(key: String, requests: [NagramiXArchiveMediaRequest]) -> Int64? {\n        let ticket = self.sequence.modify { $0 + 1 }\n        let ids = Set(requests.map { $0.reference.resource.id.stringRepresentation })\n        let result = self.reservations.modify { current in\n            var current = current\n            if current[key] == nil { current[key] = (ticket, ids, requests.contains(where: { $0.temporary })) }\n            return current\n        }\n        return result[key]?.0 == ticket ? ticket : nil\n    }",
+      "func reserveRestored(key: String, requests: [NagramiXArchiveMediaRequest]) -> Int64? {\n        self.reservationLock.lock()\n        defer { self.reservationLock.unlock() }\n        let ticket = self.sequence.modify { $0 + 1 }\n        let ids = Set(requests.map { $0.reference.resource.id.stringRepresentation })\n        let result = self.reservations.modify { current in\n            var current = current\n            if current[key] == nil { current[key] = (ticket, ids, requests.contains(where: { $0.temporary })) }\n            return current\n        }\n        return result[key]?.0 == ticket ? ticket : nil\n    }",
+      1
+    ],
+    [
+      "submodules/TelegramCore/Sources/Utils/NagramiXArchivedMediaStore.swift",
+      "func barrier(clearFiles: Bool = false) -> Int64 {\n        let ticket = self.sequence.modify { $0 + 1 }\n        if clearFiles { _ = self.pendingClear.modify { max($0, ticket) } }\n        return ticket\n    }",
+      "func barrier(clearFiles: Bool = false) -> Int64 {\n        self.reservationLock.lock()\n        defer { self.reservationLock.unlock() }\n        let ticket = self.sequence.modify { $0 + 1 }\n        if clearFiles { _ = self.pendingClear.modify { max($0, ticket) } }\n        return ticket\n    }",
+      1
+    ],
+    [
+      "submodules/TelegramCore/Sources/Utils/NagramiXArchivedMediaStore.swift",
+      "func resourcesToRemove(_ resources: [MediaResourceId], includeTemporary: Bool) -> [MediaResourceId] {\n        let reserved = self.reservations.with { values in\n            Set(values.values.filter { !$0.2 || includeTemporary }.flatMap { $0.1 })\n        }\n        let files = self.files.with { $0 }\n        let clearing = self.pendingClear.with { $0 != 0 }\n        return resources.filter { id in\n            if !reserved.contains(id.stringRepresentation) { return true }\n            if clearing { return false }\n            return files[id.stringRepresentation].flatMap(self.existingPath) != nil\n        }\n    }",
+      "func resourcesToRemove(_ resources: [MediaResourceId], includeTemporary: Bool) -> [MediaResourceId] {\n        self.reservationLock.lock()\n        defer { self.reservationLock.unlock() }\n        let reserved = self.reservations.with { values in\n            Set(values.values.filter { !$0.2 || includeTemporary }.flatMap { $0.1 })\n        }\n        let files = self.files.with { $0 }\n        let clearing = self.pendingClear.with { $0 != 0 }\n        return resources.filter { id in\n            if !reserved.contains(id.stringRepresentation) { return true }\n            if clearing { return false }\n            return files[id.stringRepresentation].flatMap(self.existingPath) != nil\n        }\n    }",
+      1
+    ],
+    [
+      "submodules/TelegramCore/Sources/Utils/NagramiXArchivedMediaStore.swift",
+      "func remove(keys: Set<String>, before ticket: Int64) {\n        for key in keys { self.owners.removeValue(forKey: key) }\n        _ = self.reservations.modify { values in\n            values.filter { !keys.contains($0.key) || $0.value.0 > ticket }\n        }\n        self.rebuildRequests()\n        self.prune()\n        self.pump()\n    }",
+      "func remove(keys: Set<String>, before ticket: Int64) {\n        self.reservationLock.lock()\n        defer { self.reservationLock.unlock() }\n        for key in keys { self.owners.removeValue(forKey: key) }\n        _ = self.reservations.modify { values in\n            values.filter { !keys.contains($0.key) || $0.value.0 > ticket }\n        }\n        self.rebuildRequests()\n        self.prune()\n        self.pump()\n    }",
+      1
+    ],
+    [
+      "submodules/TelegramCore/Sources/Utils/NagramiXArchivedMediaStore.swift",
+      "func clear(before ticket: Int64) {\n        self.retryTimer?.invalidate()\n        self.retryTimer = nil\n        for id in Array(self.active.keys) { self.stop(id: id) }\n        self.owners.removeAll()\n        self.requests.removeAll()\n        self.failures.removeAll()\n        self.retryAfter.removeAll()\n        _ = self.reservations.modify { $0.filter { $0.value.0 > ticket } }\n        let files = self.files.swap([:])\n        self.removePlaybackCache(Array(files.values))\n        try? FileManager.default.removeItem(atPath: self.directory)\n        _ = self.pendingClear.modify { $0 == ticket ? 0 : $0 }\n        self.changed()\n    }",
+      "func clear(before ticket: Int64) {\n        self.reservationLock.lock()\n        defer { self.reservationLock.unlock() }\n        self.retryTimer?.invalidate()\n        self.retryTimer = nil\n        for id in Array(self.active.keys) { self.stop(id: id) }\n        self.owners.removeAll()\n        self.requests.removeAll()\n        self.failures.removeAll()\n        self.retryAfter.removeAll()\n        _ = self.reservations.modify { $0.filter { $0.value.0 > ticket } }\n        let files = self.files.swap([:])\n        self.removePlaybackCache(Array(files.values))\n        try? FileManager.default.removeItem(atPath: self.directory)\n        _ = self.pendingClear.modify { $0 == ticket ? 0 : $0 }\n        self.changed()\n    }",
+      1
+    ],
+    [
+      "submodules/TelegramCore/Sources/Utils/NagramiXArchivedMediaStore.swift",
+      "private func prune(removeStoredFiles: Bool = true) {\n        let used = Set(self.owners.values.flatMap { $0.keys }).union(self.reservations.with { Set($0.values.flatMap { $0.1 }) })\n        for id in Array(self.active.keys) where self.requests[id] == nil {\n            self.stop(id: id)\n            self.failures.removeValue(forKey: id)\n            self.retryAfter.removeValue(forKey: id)\n        }\n        guard removeStoredFiles else { return }\n        let old = self.files.with { $0 }\n        let removed = old.filter { !used.contains($0.key) }\n        guard !removed.isEmpty else { return }\n        let updated = old.filter { used.contains($0.key) }\n        do {\n            try self.persist(updated)\n            _ = self.files.swap(updated)\n            self.removePlaybackCache(Array(removed.values))\n            for file in removed.values {\n                if let path = self.filePath(file) { try? FileManager.default.removeItem(atPath: path) }\n            }\n        } catch {\n            Logger.shared.log(\"NagramiXArchive\", \"Could not prune archived media\")\n        }\n    }",
+      "private func prune(removeStoredFiles: Bool = true) {\n        self.reservationLock.lock()\n        defer { self.reservationLock.unlock() }\n        let used = Set(self.owners.values.flatMap { $0.keys }).union(self.reservations.with { Set($0.values.flatMap { $0.1 }) })\n        for id in Array(self.active.keys) where self.requests[id] == nil {\n            self.stop(id: id)\n            self.failures.removeValue(forKey: id)\n            self.retryAfter.removeValue(forKey: id)\n        }\n        guard removeStoredFiles else { return }\n        let old = self.files.with { $0 }\n        let removed = old.filter { !used.contains($0.key) }\n        guard !removed.isEmpty else { return }\n        let updated = old.filter { used.contains($0.key) }\n        do {\n            try self.persist(updated)\n            _ = self.files.swap(updated)\n            self.removePlaybackCache(Array(removed.values))\n            for file in removed.values {\n                if let path = self.filePath(file) { try? FileManager.default.removeItem(atPath: path) }\n            }\n        } catch {\n            Logger.shared.log(\"NagramiXArchive\", \"Could not prune archived media\")\n        }\n    }",
+      1
+    ],
+    [
+      "submodules/TelegramCore/Sources/Utils/NagramiXArchivedMediaStore.swift",
+      "func remove(keys: Set<String>, before ticket: Int64) {\n        self.reservationLock.lock()\n        defer { self.reservationLock.unlock() }\n        for key in keys { self.owners.removeValue(forKey: key) }\n        _ = self.reservations.modify { values in\n            values.filter { !keys.contains($0.key) || $0.value.0 > ticket }\n        }\n        self.rebuildRequests()\n        self.prune()\n        self.pump()\n    }",
+      "func remove(keys: Set<String>, before ticket: Int64) {\n        self.reservationLock.lock()\n        defer { self.reservationLock.unlock() }\n        let reservations = self.reservations.modify { values in\n            values.filter { !keys.contains($0.key) || $0.value.0 > ticket }\n        }\n        for key in keys where reservations[key] == nil { self.owners.removeValue(forKey: key) }\n        self.rebuildRequests()\n        self.prune()\n        self.pump()\n    }",
+      1
+    ],
+    [
+      "submodules/TelegramCore/Sources/Utils/NagramiXArchivedMediaStore.swift",
+      "func clear(before ticket: Int64) {\n        self.reservationLock.lock()\n        defer { self.reservationLock.unlock() }\n        self.retryTimer?.invalidate()\n        self.retryTimer = nil\n        for id in Array(self.active.keys) { self.stop(id: id) }\n        self.owners.removeAll()\n        self.requests.removeAll()\n        self.failures.removeAll()\n        self.retryAfter.removeAll()\n        _ = self.reservations.modify { $0.filter { $0.value.0 > ticket } }\n        let files = self.files.swap([:])\n        self.removePlaybackCache(Array(files.values))\n        try? FileManager.default.removeItem(atPath: self.directory)\n        _ = self.pendingClear.modify { $0 == ticket ? 0 : $0 }\n        self.changed()\n    }",
+      "func clear(before ticket: Int64) {\n        self.reservationLock.lock()\n        defer { self.reservationLock.unlock() }\n        self.retryTimer?.invalidate()\n        self.retryTimer = nil\n        let reservations = self.reservations.modify { $0.filter { $0.value.0 > ticket } }\n        self.owners = self.owners.filter { reservations[$0.key] != nil }\n        self.rebuildRequests()\n        self.failures.removeAll()\n        self.retryAfter.removeAll()\n        // Commit the filtered index before unlinking old files. Keep resources\n        // owned by newer reservations, including captures not yet queued here.\n        // A failed index write leaves the old index and bytes available to retry.\n        self.prune()\n        _ = self.pendingClear.modify { $0 == ticket ? 0 : $0 }\n        self.changed()\n        self.pump()\n    }",
+      1
+    ]
+  ]
+}

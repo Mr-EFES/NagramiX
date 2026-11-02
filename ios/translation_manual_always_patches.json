@@ -1,0 +1,46 @@
+{
+  "inputs": {
+    "submodules/TelegramUI/Sources/ChatInterfaceStateContextMenus.swift": "17bc741da530ca5109a7f78d3246754f69cb46efeef051a6b23ebf6980d1970a",
+    "submodules/TranslateUI/Sources/NagramiXTranslationRuntime.swift": "3116454fb5271c43beb31d2b5bf289bf4b59a16fdf1c39605020704698505d88",
+    "submodules/TranslateUI/Sources/NagramiXInlineTranslationRuntime.swift": "7412c9a681be6b6969dd9dea52292d8bb5e30ac8fb9e3450dd44a128eeea0a80",
+    "submodules/TelegramCore/Sources/SyncCore/SyncCore_TranslationMessageAttribute.swift": "bdd581df53ad205ec9431a14bfa87d8b4d1c9e3d7e0154f04d10f385a6dc84d2"
+  },
+  "outputs": {
+    "submodules/TelegramUI/Sources/ChatInterfaceStateContextMenus.swift": "7dd0bb99dc566777be360672cb8410a7350e0cc66377256d61b4a6f2c730272c",
+    "submodules/TranslateUI/Sources/NagramiXTranslationRuntime.swift": "5dd7cb6600e40ac4f57217d75aee3c578294e7624e9f2b0ddd6326746564827b",
+    "submodules/TranslateUI/Sources/NagramiXInlineTranslationRuntime.swift": "66ea1fd8c9a8a7e6f2c51cca03da7d04327d1855b7df92b04e01be3f6a6d96f6",
+    "submodules/TelegramCore/Sources/SyncCore/SyncCore_TranslationMessageAttribute.swift": "85b584ddc86cb1367181b2469149ac3c3da06cb49f6cf28e6893b06cc1700aaf"
+  },
+  "guards": {
+    "submodules/TelegramUI/BUILD": "f4ae55a27c3a5e486a0fe9c768c70b65b974c505125d91a1215645179de54926",
+    "submodules/TranslateUI/BUILD": "f1a9e651b7caa1a06203dd97ff851a7b58d4453a0427660bb7656fa686ad96a7",
+    "submodules/TelegramCore/BUILD": "81e6c1d9dceab5da57124381fce03665a449bcb7904e66c884269dacdd584fbf"
+  },
+  "templates": {
+    "copy_actions_consistency/After0.inc": "17bc741da530ca5109a7f78d3246754f69cb46efeef051a6b23ebf6980d1970a",
+    "translation_manual_always/After0.inc": "7dd0bb99dc566777be360672cb8410a7350e0cc66377256d61b4a6f2c730272c",
+    "translation_auto_flow/After1.inc": "3116454fb5271c43beb31d2b5bf289bf4b59a16fdf1c39605020704698505d88",
+    "translation_manual_always/After1.inc": "5dd7cb6600e40ac4f57217d75aee3c578294e7624e9f2b0ddd6326746564827b",
+    "translation_inline_telegram/InlineRuntime.swift": "7412c9a681be6b6969dd9dea52292d8bb5e30ac8fb9e3450dd44a128eeea0a80",
+    "translation_manual_always/After2.inc": "66ea1fd8c9a8a7e6f2c51cca03da7d04327d1855b7df92b04e01be3f6a6d96f6",
+    "translation_inline_telegram/Attribute.swift.inc": "bdd581df53ad205ec9431a14bfa87d8b4d1c9e3d7e0154f04d10f385a6dc84d2",
+    "translation_manual_always/After3.inc": "85b584ddc86cb1367181b2469149ac3c3da06cb49f6cf28e6893b06cc1700aaf",
+    "translation_manual_always/Guard0.inc": "f4ae55a27c3a5e486a0fe9c768c70b65b974c505125d91a1215645179de54926",
+    "translation_manual_always/Guard1.inc": "f1a9e651b7caa1a06203dd97ff851a7b58d4453a0427660bb7656fa686ad96a7",
+    "translation_manual_always/Guard2.inc": "81e6c1d9dceab5da57124381fce03665a449bcb7904e66c884269dacdd584fbf"
+  },
+  "previous": {
+    "submodules/TelegramUI/Sources/ChatInterfaceStateContextMenus.swift": "copy_actions_consistency/After0.inc",
+    "submodules/TranslateUI/Sources/NagramiXTranslationRuntime.swift": "translation_auto_flow/After1.inc",
+    "submodules/TranslateUI/Sources/NagramiXInlineTranslationRuntime.swift": "translation_inline_telegram/InlineRuntime.swift",
+    "submodules/TelegramCore/Sources/SyncCore/SyncCore_TranslationMessageAttribute.swift": "translation_inline_telegram/Attribute.swift.inc"
+  },
+  "replacements": {
+    "submodules/TelegramUI/Sources/ChatInterfaceStateContextMenus.swift": "translation_manual_always/After0.inc",
+    "submodules/TranslateUI/Sources/NagramiXTranslationRuntime.swift": "translation_manual_always/After1.inc",
+    "submodules/TranslateUI/Sources/NagramiXInlineTranslationRuntime.swift": "translation_manual_always/After2.inc",
+    "submodules/TelegramCore/Sources/SyncCore/SyncCore_TranslationMessageAttribute.swift": "translation_manual_always/After3.inc"
+  },
+  "copies": {},
+  "deletions": {}
+}

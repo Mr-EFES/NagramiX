@@ -1,0 +1,30 @@
+{
+  "inputs": {
+    "submodules/GalleryUI/Sources/Items/UniversalVideoGalleryItem.swift": "e6f3cd60c8080ded86312b00e7fcfc8d757926ebaa20fc5fbbd36de7b268d4b1"
+  },
+  "outputs": {
+    "submodules/GalleryUI/Sources/Items/UniversalVideoGalleryItem.swift": "cafb56ebb497d648c69640d65e205a862145beb87d64ee83dc615dd8c6841f3f"
+  },
+  "guards": {},
+  "copies": {},
+  "patches": [
+    [
+      "submodules/GalleryUI/Sources/Items/UniversalVideoGalleryItem.swift",
+      "                    // Bind the real layer before the user asks to start. KVO\n                    // readiness is asynchronous; setup never starts PiP itself.\n                    if strongSelf.nagramiXCanUseSystemPiP, strongSelf.videoNode?.ownsContentNode == true {\n                        strongSelf.setupNativePictureInPicture()\n                    }\n",
+      "                    // AVKit registration belongs only to an explicit PiP request, never playback status.\n",
+      1
+    ],
+    [
+      "submodules/GalleryUI/Sources/Items/UniversalVideoGalleryItem.swift",
+      "        self.playback.changed = { [weak self] in self?.invalidatePlaybackState() }\n        self.bindSourceIfNeeded()\n",
+      "        self.playback.changed = { [weak self] in self?.invalidatePlaybackState() }\n",
+      1
+    ],
+    [
+      "submodules/GalleryUI/Sources/Items/UniversalVideoGalleryItem.swift",
+      "    private func bindSourceIfNeeded() {\n        guard let layer = self.node.nagramiXPictureInPictureSourceLayer() else { return }\n",
+      "    private func bindSourceIfNeeded() {\n        // Constructing an AVKit controller registers window/rotation observers.\n        // Even a source owner prepared by a cancelled swipe must remain unbound\n        // until an explicit request enters the readiness phase.\n        guard self.lifecycle.phase == .preparing else { return }\n        guard let layer = self.node.nagramiXPictureInPictureSourceLayer() else { return }\n",
+      1
+    ]
+  ]
+}

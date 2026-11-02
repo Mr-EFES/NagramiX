@@ -1,0 +1,38 @@
+{
+  "inputs": {
+    "submodules/NagramiXTranscription/Sources/Preferences.swift": "8dd555b68e521b8d05bba4aa9009c96b0d033a02c44ef131982bb3aa99f7c72c",
+    "submodules/NagramiXTranscription/Sources/Whisper.swift": "1ceeecfbc6d400a45a9f5643d8a599e57a5e77781c6b5435a8ec36e7614ff01b",
+    "submodules/NagramiXTranscription/Sources/Settings.swift": "1b1a72dbdc12e042779aa51d273ac0a80546995888751d4c87cfa4081e13d3da"
+  },
+  "outputs": {
+    "submodules/NagramiXTranscription/Sources/Preferences.swift": "f4a0e99b7567b95f4a2e3a1a3e767db13fd71263632a6d1b14328b7464a98652",
+    "submodules/NagramiXTranscription/Sources/Whisper.swift": "9d9a7555c6eb0931a312b163087b1f97e8dcfa7fb4a449132864b2a5d25bd8b7",
+    "submodules/NagramiXTranscription/Sources/Settings.swift": "b1a06e07fd6220d4290e6bd21b9b9b5a3cad75d6d8f4a1d97283d916e3c356d2"
+  },
+  "guards": {
+    "submodules/NagramiXTranscription/BUILD": "0a3e9cad2c13fdf76a39088878960d3ccbb62abb45e68f2172ada3a9904a49c9",
+    "submodules/NagramiXTranscription/Whisper/BUILD": "75ba2c38b20af3719a59805b208f42eabaa0f9aada0fee22de4f97bb29f3e7df",
+    "submodules/NagramiXTranscription/Sources/Models.swift": "240a8b8ee5e55d07317e27944a26b053edf8584c0f4bd7fc8db119d87617af30",
+    "submodules/NagramiXTranscription/Whisper/Bridge.cpp": "c348df8f43b5f46eebeeb9ef06ec2c32dd9b34f2e8d0b69c72c6f8e5bbecdf6a"
+  },
+  "templates": {
+    "transcription_whisper_safety/Before-Preferences.swift.inc": "8dd555b68e521b8d05bba4aa9009c96b0d033a02c44ef131982bb3aa99f7c72c",
+    "transcription_whisper_safety/Preferences.swift.inc": "f4a0e99b7567b95f4a2e3a1a3e767db13fd71263632a6d1b14328b7464a98652",
+    "transcription_whisper_safety/Before-Whisper.swift.inc": "1ceeecfbc6d400a45a9f5643d8a599e57a5e77781c6b5435a8ec36e7614ff01b",
+    "transcription_whisper_safety/Whisper.swift.inc": "9d9a7555c6eb0931a312b163087b1f97e8dcfa7fb4a449132864b2a5d25bd8b7",
+    "transcription_whisper_safety/Before-Settings.swift.inc": "1b1a72dbdc12e042779aa51d273ac0a80546995888751d4c87cfa4081e13d3da",
+    "transcription_whisper_safety/Settings.swift.inc": "b1a06e07fd6220d4290e6bd21b9b9b5a3cad75d6d8f4a1d97283d916e3c356d2"
+  },
+  "replacements": {
+    "submodules/NagramiXTranscription/Sources/Preferences.swift": "transcription_whisper_safety/Preferences.swift.inc",
+    "submodules/NagramiXTranscription/Sources/Whisper.swift": "transcription_whisper_safety/Whisper.swift.inc",
+    "submodules/NagramiXTranscription/Sources/Settings.swift": "transcription_whisper_safety/Settings.swift.inc"
+  },
+  "previous": {
+    "submodules/NagramiXTranscription/Sources/Preferences.swift": "transcription_whisper_safety/Before-Preferences.swift.inc",
+    "submodules/NagramiXTranscription/Sources/Whisper.swift": "transcription_whisper_safety/Before-Whisper.swift.inc",
+    "submodules/NagramiXTranscription/Sources/Settings.swift": "transcription_whisper_safety/Before-Settings.swift.inc"
+  },
+  "copies": {},
+  "deletions": {}
+}

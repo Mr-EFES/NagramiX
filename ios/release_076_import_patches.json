@@ -1,0 +1,23 @@
+{
+  "inputs": {
+    "submodules/TelegramUI/Sources/ChatControllerNode.swift": "a573b3e536a03d011f9ded092dbf2c32bf716ebe93159b04f340a21eac9fac95"
+  },
+  "outputs": {
+    "submodules/TelegramUI/Sources/ChatControllerNode.swift": "93027a16ec2d59be3f1580f99d9665c0c22c73a26b5e471fd1517482cfd11d31"
+  },
+  "guards": {
+    "submodules/TelegramUI/BUILD": "f4ae55a27c3a5e486a0fe9c768c70b65b974c505125d91a1215645179de54926",
+    "submodules/TranslateUI/Sources/NagramiXTranslationRuntime.swift": "e351efcd69effcd0b0d07c90dfbe5d22286117a0af70a7c0f503b3b5df7222f0"
+  },
+  "templates": {
+    "release_076_import/Before-ChatControllerNode.swift.inc": "a573b3e536a03d011f9ded092dbf2c32bf716ebe93159b04f340a21eac9fac95",
+    "release_076_import/ChatControllerNode.swift.inc": "93027a16ec2d59be3f1580f99d9665c0c22c73a26b5e471fd1517482cfd11d31"
+  },
+  "copies": {},
+  "replacements": {
+    "submodules/TelegramUI/Sources/ChatControllerNode.swift": "release_076_import/ChatControllerNode.swift.inc"
+  },
+  "previous": {
+    "submodules/TelegramUI/Sources/ChatControllerNode.swift": "release_076_import/Before-ChatControllerNode.swift.inc"
+  }
+}

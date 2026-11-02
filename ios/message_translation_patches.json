@@ -1,0 +1,397 @@
+{
+  "inputs": {
+    "submodules/TranslateUI/Sources/Translate.swift": "d5c5e46b7025bd40decf4359889c92fb9872debb38a1bc5a44cb5532daab43b3",
+    "submodules/TranslateUI/Sources/ChatTranslation.swift": "01a71f7eb1e199dbf95fc80c8507d8c13bf7adf20a96fd47217efe122531fa2c",
+    "submodules/TranslateUI/Sources/TranslateScreen.swift": "73065d0ad06fda017a4c0bb30b67aacbdedf325e280914a3fd663a73d6672add",
+    "submodules/TranslateUI/BUILD": "f1a9e651b7caa1a06203dd97ff851a7b58d4453a0427660bb7656fa686ad96a7",
+    "submodules/TelegramUI/Sources/ChatControllerContentData.swift": "3726696640613add5b970c50ccb7dbefd7531a27a4ca87cca1049f8b35af252c",
+    "submodules/TelegramUI/Sources/ChatHistoryListNode.swift": "245d1108f2b39eb4bd70ba3ca386e413119d749fa6e0c2bcbc6f910015ac3226",
+    "submodules/TelegramUI/Sources/Chat/ChatControllerLoadDisplayNode.swift": "b913dc580ca07c0e8fc18ab04fa228561484807450cca4858c93b4bb69589166",
+    "submodules/TelegramUI/Sources/ChatInterfaceStateContextMenus.swift": "ce237888613b18368b097c70449984f752ad4230174fa3e3bdc6860c1e915ca9",
+    "submodules/TelegramUI/Sources/ChatControllerNode.swift": "7a4a1a17bd5f90836fd7d67aa4840267dbda4107c8eae8665f1ce7b7a97e3290",
+    "submodules/SettingsUI/Sources/NagramiXSettingsController.swift": "75cf2ca4abd0147ce4f28e4f4880c95f4565cdd298985c595f5adbd5836e1e10",
+    "submodules/TelegramUI/Components/TranslateHeaderPanelComponent/Sources/ChatTranslationPanelNode.swift": "6d43a565443e6cf9de926149996f2d1ffdf91e0de808ff26fbdff04542f20ffe"
+  },
+  "outputs": {
+    "submodules/TranslateUI/Sources/Translate.swift": "78950b17529711c8f6b9416337823fe5c524ae3db13f094824a1e9600d4a8cf5",
+    "submodules/TranslateUI/Sources/ChatTranslation.swift": "88e2911d9ed60e0b7b5a6b43f9ac7c41b38c419e96674902be782b3fc169714c",
+    "submodules/TranslateUI/Sources/TranslateScreen.swift": "dc7c657c59256106c06cc6219c48f2e79bd9cfd0cb0bdcee64f02dd7920f623b",
+    "submodules/TranslateUI/BUILD": "e303517d2b8949daec623e0de22479179433d2b6916edcb3646e6310f88df504",
+    "submodules/TelegramUI/Sources/ChatControllerContentData.swift": "41d933f6d4ea5adfe8f2d15da3ba3ea99941896c18be8b635cecc899a0a0eee9",
+    "submodules/TelegramUI/Sources/ChatHistoryListNode.swift": "aca1eaedea30975ff35364df995ff69f9a67fa734be91122b35722c2a3b31f06",
+    "submodules/TelegramUI/Sources/Chat/ChatControllerLoadDisplayNode.swift": "22750ea4254b38b4cacff7d8072f04433bc30664395590340215bb771284274c",
+    "submodules/TelegramUI/Sources/ChatInterfaceStateContextMenus.swift": "9822059e12313c39dab2edb11099ba9f7de72e966dae673da60bcb74e564f7b9",
+    "submodules/TelegramUI/Sources/ChatControllerNode.swift": "a573b3e536a03d011f9ded092dbf2c32bf716ebe93159b04f340a21eac9fac95",
+    "submodules/SettingsUI/Sources/NagramiXSettingsController.swift": "1debc0af484aa321ae7d656c62613d62b26a0290dc59392550d5312e137bf355",
+    "submodules/TelegramUI/Components/TranslateHeaderPanelComponent/Sources/ChatTranslationPanelNode.swift": "44b0ba86751e3cce0d96d77545e702f9133cf803ac0f2a5d030e7eba3b3e1484"
+  },
+  "guards": {
+    "submodules/SettingsUI/BUILD": "c874afb38c0ecbddac98203f2e81bc66293a43989cf65bff9434fd7a12e9f3db",
+    "submodules/TelegramUI/BUILD": "eec4771359520d912df85e8a26bfb8ef29d0069862addb1ac87bcffaab853bf2",
+    "submodules/TelegramUI/Components/TranslateHeaderPanelComponent/BUILD": "8ee8a82f4b4ceccd60036099e6c53315a375e61363b423fa0ee388a679f6ad60",
+    "submodules/TelegramCore/Sources/TelegramEngine/Messages/Translate.swift": "66d474e1cb5d932a6c53f679a46126be49a11cedde17c439d8c4f8c971dfba09",
+    "submodules/TelegramCore/Sources/SyncCore/SyncCore_TextEntitiesMessageAttribute.swift": "cbd4efb28f2be877a5fcc3d6050524afe31d741e8c2b50c9554cef01b5a3ea59",
+    "submodules/TelegramCore/Sources/SyncCore/SyncCore_TranslationMessageAttribute.swift": "06abc1b8584edf722e3518463d4d98f3f1a2de0502f8e88ce84a86fbd6c6bc1a",
+    "submodules/Postbox/Sources/Message.swift": "c382cdf51199878336bf65c396cc56aeebaf74685b00a941211676e07c2e476e",
+    "submodules/TelegramPresentationData/Sources/PresentationData.swift": "c914710ec05238175d28809ca151c74c4993b0c64916ff88e6f465dde3f27e51"
+  },
+  "templates": {
+    "message_translation/Apple.swift": "ba3c3055c209fca210ec72c201d9fd49aa66863930a948ec09607539e363ab04",
+    "message_translation/Cloud.swift": "a0254f612b3c4d686f713bb26880ad8ebd26e516bb570036aa3f962033cb3d1d",
+    "message_translation/Credentials.swift": "b7420886325020939968c1130e0ed40f9d7115580c60df6a8e7029e09c702131",
+    "message_translation/PanelLayout.swift.inc": "e3cec3f048a70a7c26bfecdceeb69697c73497f349d9ea799aeee93e392008e1",
+    "message_translation/Preferences.swift": "36268240022c6b34190ac9b466417161aa96c5cff5055fc0584f1341a0df973c",
+    "message_translation/ResultController.swift": "54a6c60d7f16afbe89c63f9ecfebe98f98ab00eb2756f5c4268651449b1d5a32",
+    "message_translation/Runtime.swift": "5257ce5edc0079bc696cb0b398b1204ce4843393c37bc961e1453931af6b3a83",
+    "message_translation/Settings.swift": "f67558c2d9fabd517aa33e5cbc586c1c1ec42f374686d87cd716a1f16e084671",
+    "message_translation/TextPlan.swift": "0ee997d740a343c38f2ed1fcbe70190781d0779e5f66fdda62a0cac2bf8b0fc4"
+  },
+  "copies": {
+    "submodules/TranslateUI/Sources/NagramiXTranslationApple.swift": {
+      "source": "message_translation/Apple.swift",
+      "sha256": "ba3c3055c209fca210ec72c201d9fd49aa66863930a948ec09607539e363ab04"
+    },
+    "submodules/TranslateUI/Sources/NagramiXTranslationCloud.swift": {
+      "source": "message_translation/Cloud.swift",
+      "sha256": "a0254f612b3c4d686f713bb26880ad8ebd26e516bb570036aa3f962033cb3d1d"
+    },
+    "submodules/TranslateUI/Sources/NagramiXTranslationCredentials.swift": {
+      "source": "message_translation/Credentials.swift",
+      "sha256": "b7420886325020939968c1130e0ed40f9d7115580c60df6a8e7029e09c702131"
+    },
+    "submodules/TranslateUI/Sources/NagramiXTranslationPreferences.swift": {
+      "source": "message_translation/Preferences.swift",
+      "sha256": "36268240022c6b34190ac9b466417161aa96c5cff5055fc0584f1341a0df973c"
+    },
+    "submodules/TranslateUI/Sources/NagramiXTranslationResultController.swift": {
+      "source": "message_translation/ResultController.swift",
+      "sha256": "54a6c60d7f16afbe89c63f9ecfebe98f98ab00eb2756f5c4268651449b1d5a32"
+    },
+    "submodules/TranslateUI/Sources/NagramiXTranslationRuntime.swift": {
+      "source": "message_translation/Runtime.swift",
+      "sha256": "5257ce5edc0079bc696cb0b398b1204ce4843393c37bc961e1453931af6b3a83"
+    },
+    "submodules/TranslateUI/Sources/NagramiXTranslationSettings.swift": {
+      "source": "message_translation/Settings.swift",
+      "sha256": "f67558c2d9fabd517aa33e5cbc586c1c1ec42f374686d87cd716a1f16e084671"
+    },
+    "submodules/TranslateUI/Sources/NagramiXTranslationTextPlan.swift": {
+      "source": "message_translation/TextPlan.swift",
+      "sha256": "0ee997d740a343c38f2ed1fcbe70190781d0779e5f66fdda62a0cac2bf8b0fc4"
+    }
+  },
+  "patches": [
+    [
+      "submodules/TranslateUI/Sources/Translate.swift",
+      "public func canTranslateChats(context: AccountContext) -> Bool {",
+      "public func canTranslateChats(context: AccountContext) -> Bool {\n    if NagramiXTranslationSettings.current.enabled { return true }",
+      1
+    ],
+    [
+      "submodules/TranslateUI/Sources/Translate.swift",
+      "public func canTranslateText(context: AccountContext, text: String, showTranslate: Bool, showTranslateIfTopical: Bool = false, ignoredLanguages: [String]?) -> (canTranslate: Bool, language: String?) {",
+      "public func canTranslateText(context: AccountContext, text: String, showTranslate: Bool, showTranslateIfTopical: Bool = false, ignoredLanguages: [String]?) -> (canTranslate: Bool, language: String?) {\n    let nagramiXConfiguration = NagramiXTranslationSettings.current\n    if nagramiXConfiguration.enabled {\n        let interface = context.sharedContext.currentPresentationData.with { $0 }.strings.baseLanguageCode\n        let language = nagramiXTranslationSource(text, interface: interface, ignored: nagramiXConfiguration.ignored)\n        return (language != nil, language)\n    }",
+      1
+    ],
+    [
+      "submodules/TranslateUI/Sources/ChatTranslation.swift",
+      "public func translateMessageIds(context: AccountContext, messageIds: [EngineMessage.Id], fromLang: String?, toLang: String) -> Signal<Never, NoError> {",
+      "public func translateMessageIds(context: AccountContext, messageIds: [EngineMessage.Id], fromLang: String?, toLang: String) -> Signal<Never, NoError> {\n    if NagramiXTranslationSettings.current.enabled {\n        return NagramiXTranslationRuntime.translate(context: context, messageIds: messageIds, target: toLang)\n    }",
+      1
+    ],
+    [
+      "submodules/TranslateUI/Sources/ChatTranslation.swift",
+      "public func chatTranslationState(context: AccountContext, peerId: EnginePeer.Id, threadId: Int64?) -> Signal<ChatTranslationState?, NoError> {",
+      "public func chatTranslationState(context: AccountContext, peerId: EnginePeer.Id, threadId: Int64?) -> Signal<ChatTranslationState?, NoError> {\n    return nagramiXTranslationSettingsSignal()\n    |> mapToSignal { configuration -> Signal<ChatTranslationState?, NoError> in\n        if configuration.enabled { return nagramiXTranslationChatState(context: context, peerId: peerId, threadId: threadId) }\n        return nagramiXOriginalChatTranslationState(context: context, peerId: peerId, threadId: threadId)\n    }\n}\n\nprivate func nagramiXOriginalChatTranslationState(context: AccountContext, peerId: EnginePeer.Id, threadId: Int64?) -> Signal<ChatTranslationState?, NoError> {",
+      1
+    ],
+    [
+      "submodules/TranslateUI/Sources/TranslateScreen.swift",
+      ") {\n    let translationConfiguration",
+      ") {\n    if NagramiXTranslationSettings.current.enabled, replaceText == nil {\n        display(NagramiXMessageTranslationController(context: context, text: text, entities: entities, canCopy: canCopy,\n            source: fromLanguage, target: toLanguage, closed: wasDismissed))\n        return\n    }\n    let translationConfiguration",
+      1
+    ],
+    [
+      "submodules/TranslateUI/BUILD",
+      "        \"//submodules/TelegramCore:TelegramCore\",",
+      "        \"//submodules/TelegramCore:TelegramCore\",\n        \"//submodules/Postbox:Postbox\",",
+      1
+    ],
+    [
+      "submodules/TelegramUI/Sources/ChatControllerContentData.swift",
+      "                        ApplicationSpecificNotice.translationSuggestion(accountManager: context.sharedContext.accountManager)\n",
+      "                        ApplicationSpecificNotice.translationSuggestion(accountManager: context.sharedContext.accountManager),\n                        nagramiXTranslationSettingsSignal()\n",
+      1
+    ],
+    [
+      "submodules/TelegramUI/Sources/ChatControllerContentData.swift",
+      ") |> mapToSignal { isPremium, isHidden, hasAutoTranslate, counterAndTimestamp -> Signal<ChatPresentationTranslationState?, NoError> in",
+      ") |> mapToSignal { isPremium, isHidden, hasAutoTranslate, counterAndTimestamp, nagramiXConfiguration -> Signal<ChatPresentationTranslationState?, NoError> in",
+      1
+    ],
+    [
+      "submodules/TelegramUI/Sources/ChatControllerContentData.swift",
+      "if (isPremium || maybeSuggestPremium || hasAutoTranslate) && !isHidden {",
+      "if (nagramiXConfiguration.enabled || isPremium || maybeSuggestPremium || hasAutoTranslate) && (!isHidden || nagramiXConfiguration.enabled) {",
+      1
+    ],
+    [
+      "submodules/TelegramUI/Sources/ChatControllerContentData.swift",
+      "                            |> map { translationState -> ChatPresentationTranslationState? in\n",
+      "                            |> map { translationState -> ChatPresentationTranslationState? in\n                                if nagramiXConfiguration.enabled && NagramiXTranslationSettings.chat(nagramiXTranslationChatKey(context: context, peerId: peerId, threadId: chatLocation.threadId)).hidden { return nil }\n",
+      1
+    ],
+    [
+      "submodules/TelegramUI/Sources/ChatHistoryListNode.swift",
+      "    private var translationLang: (fromLang: String?, toLang: String)?",
+      "    private var nagramiXTranslationRefreshKey: String?\n    private var translationLang: (fromLang: String?, toLang: String)?",
+      1
+    ],
+    [
+      "submodules/TelegramUI/Sources/ChatHistoryListNode.swift",
+      "            translationState = chatTranslationState(context: context, peerId: peerId, threadId: self.chatLocation.threadId)",
+      "            translationState = chatTranslationState(context: context, peerId: peerId, threadId: self.chatLocation.threadId)\n            |> afterNext { [weak self] state in\n                Queue.mainQueue().async { [weak self] in\n                    guard let self else { return }\n                    let configuration = NagramiXTranslationSettings.current\n                    guard configuration.enabled, let state, state.isEnabled else { self.nagramiXTranslationRefreshKey = nil; return }\n                    let target = state.toLang ?? self.currentPresentationData.strings.baseLanguageCode\n                    let key = configuration.revision + \":\" + target\n                    guard self.nagramiXTranslationRefreshKey != key else { return }\n                    self.nagramiXTranslationRefreshKey = key\n                    var ids: [EngineMessage.Id] = []\n                    self.forEachVisibleItemNode { node in\n                        guard let item = (node as? ChatMessageItemView)?.item else { return }\n                        switch item.content {\n                        case let .message(message, _, _, _, _): ids.append(message.id)\n                        case let .group(messages): ids.append(contentsOf: messages.map { $0.0.id })\n                        }\n                    }\n                    let _ = NagramiXTranslationRuntime.translate(context: context, messageIds: ids, target: target).startStandalone()\n                }\n            }",
+      1
+    ],
+    [
+      "submodules/TelegramUI/Sources/ChatHistoryListNode.swift",
+      "if let translationState, (isPremium || autoTranslate)  && translationState.isEnabled {",
+      "if let translationState, (NagramiXTranslationSettings.current.enabled || isPremium || autoTranslate) && translationState.isEnabled {",
+      1
+    ],
+    [
+      "submodules/TelegramUI/Sources/ChatHistoryListNode.swift",
+      "translation.toLang == translateToLanguage {\n                                continue",
+      "translation.toLang == translateToLanguage, NagramiXTranslationRuntime.hasTranslation(context: self.context, message: message, target: translateToLanguage) {\n                                continue",
+      1
+    ],
+    [
+      "submodules/TelegramUI/Sources/ChatHistoryListNode.swift",
+      "translation.toLang == translateToLanguage {\n                                    continue",
+      "translation.toLang == translateToLanguage, NagramiXTranslationRuntime.hasTranslation(context: self.context, message: message, target: translateToLanguage) {\n                                    continue",
+      1
+    ],
+    [
+      "submodules/TelegramUI/Sources/Chat/ChatControllerLoadDisplayNode.swift",
+      "        }, toggleTranslation: { [weak self] type in\n            guard let self, let peerId = self.chatLocation.peerId else {\n                return\n            }\n",
+      "        }, toggleTranslation: { [weak self] type in\n            guard let self, let peerId = self.chatLocation.peerId else {\n                return\n            }\n            if NagramiXTranslationSettings.current.enabled {\n                let key = nagramiXTranslationChatKey(context: self.context, peerId: peerId, threadId: self.chatLocation.threadId)\n                if type == .translated { NagramiXTranslationRuntime.clearFailure(chat: key) }\n                NagramiXTranslationSettings.updateChat(key) { $0.enabled = type == .translated }\n                return\n            }\n",
+      1
+    ],
+    [
+      "submodules/TelegramUI/Sources/Chat/ChatControllerLoadDisplayNode.swift",
+      "        }, changeTranslationLanguage: { [weak self] langCode in\n            guard let self, let peerId = self.chatLocation.peerId else {\n                return\n            }\n",
+      "        }, changeTranslationLanguage: { [weak self] langCode in\n            guard let self, let peerId = self.chatLocation.peerId else {\n                return\n            }\n            if NagramiXTranslationSettings.current.enabled {\n                let key = nagramiXTranslationChatKey(context: self.context, peerId: peerId, threadId: self.chatLocation.threadId)\n                NagramiXTranslationSettings.updateChat(key) { $0.target = langCode; $0.enabled = true }\n                return\n            }\n",
+      1
+    ],
+    [
+      "submodules/TelegramUI/Sources/Chat/ChatControllerLoadDisplayNode.swift",
+      "        }, addDoNotTranslateLanguage: { [weak self] langCode in\n            guard let self, let peerId = self.chatLocation.peerId else {\n                return\n            }\n",
+      "        }, addDoNotTranslateLanguage: { [weak self] langCode in\n            guard let self, let peerId = self.chatLocation.peerId else {\n                return\n            }\n            if NagramiXTranslationSettings.current.enabled {\n                NagramiXTranslationSettings.update { value in\n                    let code = NagramiXTranslationLanguage.base(langCode)\n                    if !value.ignored.contains(code) { value.ignored.append(code) }\n                }\n                return\n            }\n",
+      1
+    ],
+    [
+      "submodules/TelegramUI/Sources/Chat/ChatControllerLoadDisplayNode.swift",
+      "        }, hideTranslationPanel: { [weak self] in\n            guard let strongSelf = self, let peerId = strongSelf.chatLocation.peerId else {\n                return\n            }\n",
+      "        }, hideTranslationPanel: { [weak self] in\n            guard let strongSelf = self, let peerId = strongSelf.chatLocation.peerId else {\n                return\n            }\n            if NagramiXTranslationSettings.current.enabled {\n                let key = nagramiXTranslationChatKey(context: strongSelf.context, peerId: peerId, threadId: strongSelf.chatLocation.threadId)\n                NagramiXTranslationSettings.updateChat(key) { $0.hidden = true }\n                return\n            }\n",
+      1
+    ],
+    [
+      "submodules/TelegramUI/Sources/ChatInterfaceStateContextMenus.swift",
+      "UIImage(bundleImageName: \"Chat/Context Menu/Translate\"), color: theme.actionSheet.primaryTextColor",
+      "UIImage(bundleImageName: \"Chat/Context Menu/Translate\"), color: theme.contextMenu.primaryColor",
+      1
+    ],
+    [
+      "submodules/TelegramUI/Sources/ChatControllerNode.swift",
+      "    private weak var controller: ChatControllerImpl?",
+      "    private var nagramiXTranslationObserver: NSObjectProtocol?\n    private weak var controller: ChatControllerImpl?",
+      1
+    ],
+    [
+      "submodules/TelegramUI/Sources/ChatControllerNode.swift",
+      "    deinit {",
+      "    deinit {\n        if let observer = self.nagramiXTranslationObserver { NotificationCenter.default.removeObserver(observer) }",
+      1
+    ],
+    [
+      "submodules/TelegramUI/Sources/ChatControllerNode.swift",
+      "        super.didLoad()",
+      "        super.didLoad()\n        self.nagramiXTranslationObserver = NotificationCenter.default.addObserver(forName: NagramiXTranslationRuntime.failed, object: nil, queue: .main) { [weak self] notification in\n            guard let self, self.view.window != nil, UIApplication.shared.applicationState == .active,\n                  let peerId = self.chatLocation.peerId,\n                  notification.userInfo?[\"chat\"] as? String == nagramiXTranslationChatKey(context: self.context, peerId: peerId, threadId: self.chatLocation.threadId),\n                  let error = notification.userInfo?[\"error\"] as? NagramiXTranslationFailure else { return }\n            let alert = UIAlertController(title: \"Перевод\", message: error.text, preferredStyle: .alert)\n            alert.addAction(UIAlertAction(title: \"OK\", style: .default))\n            self.controller?.present(alert, animated: true)\n        }",
+      1
+    ],
+    [
+      "submodules/SettingsUI/Sources/NagramiXSettingsController.swift",
+      "import NagramiXMediaSettings\n",
+      "import NagramiXMediaSettings\nimport TranslateUI\n",
+      1
+    ],
+    [
+      "submodules/SettingsUI/Sources/NagramiXSettingsController.swift",
+      "private struct NagramiXSettingsControllerArguments {",
+      "private struct NagramiXSettingsControllerArguments {\n    let updateTranslation: (Bool) -> Void\n    let openTranslation: () -> Void",
+      1
+    ],
+    [
+      "submodules/SettingsUI/Sources/NagramiXSettingsController.swift",
+      "    case roundQualitySettings\n",
+      "    case roundQualitySettings\n    case translationSettings\n",
+      1
+    ],
+    [
+      "submodules/SettingsUI/Sources/NagramiXSettingsController.swift",
+      "    case roundQualityHeader\n",
+      "    case translationHeader\n    case translationEnabled(Bool)\n    case translationOptions(NagramiXTranslationProvider)\n    case roundQualityHeader\n",
+      1
+    ],
+    [
+      "submodules/SettingsUI/Sources/NagramiXSettingsController.swift",
+      "        case .roundQualityHeader, .roundQuality, .roundQualityOptions, .downloadsHeader,",
+      "        case .translationHeader, .translationEnabled, .translationOptions, .roundQualityHeader, .roundQuality, .roundQualityOptions, .downloadsHeader,",
+      1
+    ],
+    [
+      "submodules/SettingsUI/Sources/NagramiXSettingsController.swift",
+      "    var section: ItemListSectionId {\n        switch self {",
+      "    var section: ItemListSectionId {\n        switch self {\n        case .translationHeader, .translationEnabled, .translationOptions: return NagramiXSettingsSection.translationSettings.rawValue",
+      1
+    ],
+    [
+      "submodules/SettingsUI/Sources/NagramiXSettingsController.swift",
+      "    var stableId: Int32 {\n        switch self {",
+      "    var stableId: Int32 {\n        switch self {\n        case .translationHeader: return 5010\n        case .translationEnabled: return 5011\n        case .translationOptions: return 5012",
+      1
+    ],
+    [
+      "submodules/SettingsUI/Sources/NagramiXSettingsController.swift",
+      "                .roundQualityHeader, .downloadsHeader, .downloadAccelerationInfo,",
+      "                .translationHeader, .roundQualityHeader, .downloadsHeader, .downloadAccelerationInfo,",
+      1
+    ],
+    [
+      "submodules/SettingsUI/Sources/NagramiXSettingsController.swift",
+      "        case .roundQualityHeader:\n            return ItemListSectionHeaderItem",
+      "        case .translationHeader:\n            return ItemListSectionHeaderItem(presentationData: presentationData, text: \"ПЕРЕВОД\", sectionId: self.section)\n        case let .translationEnabled(enabled):\n            return ItemListSwitchItem(presentationData: presentationData, systemStyle: .glass, title: \"Перевод сообщений\", value: enabled, maximumNumberOfLines: 0, sectionId: self.section, style: .blocks, updated: arguments.updateTranslation)\n        case let .translationOptions(provider):\n            return ItemListDisclosureItem(presentationData: presentationData, systemStyle: .glass, title: \"Настройки перевода\", label: provider.title, sectionId: self.section, style: .blocks, action: arguments.openTranslation)\n        case .roundQualityHeader:\n            return ItemListSectionHeaderItem",
+      1
+    ],
+    [
+      "submodules/SettingsUI/Sources/NagramiXSettingsController.swift",
+      "        switch self {\n        case .privacyHeader: return strings.nagramiXPrivacyText(\"Title\")",
+      "        switch self {\n        case .translationHeader: return \"Перевод\"\n        case .translationEnabled: return \"Перевод сообщений\"\n        case .translationOptions: return \"Настройки перевода\"\n        case .privacyHeader: return strings.nagramiXPrivacyText(\"Title\")",
+      1
+    ],
+    [
+      "submodules/SettingsUI/Sources/NagramiXSettingsController.swift",
+      "        case let .privacyToggle(option, _): return strings.nagramiXPrivacyText(option.rawValue + \".Search\")",
+      "        case .translationEnabled, .translationOptions: return \"Перевод чатов, групп и каналов Apple Google Яндекс Gemini ChatGPT DeepSeek язык API\"\n        case let .privacyToggle(option, _): return strings.nagramiXPrivacyText(option.rawValue + \".Search\")",
+      1
+    ],
+    [
+      "submodules/SettingsUI/Sources/NagramiXSettingsController.swift",
+      "        case NagramiXSettingsSection.roundQualitySettings.rawValue: return \"Качественные кружки\"",
+      "        case NagramiXSettingsSection.translationSettings.rawValue: return \"Перевод\"\n        case NagramiXSettingsSection.roundQualitySettings.rawValue: return \"Качественные кружки\"",
+      1
+    ],
+    [
+      "submodules/SettingsUI/Sources/NagramiXSettingsController.swift",
+      "] + downloadEntries + [.roundQualityHeader, .roundQuality(NagramiXRoundVideoSettings.current.enabled)] + (NagramiXRoundVideoSettings.current.enabled ? [.roundQualityOptions(NagramiXRoundVideoSettings.current.quality)] : [])",
+      "] + downloadEntries + [.roundQualityHeader, .roundQuality(NagramiXRoundVideoSettings.current.enabled)] + (NagramiXRoundVideoSettings.current.enabled ? [.roundQualityOptions(NagramiXRoundVideoSettings.current.quality)] : []) + [.translationHeader, .translationEnabled(NagramiXTranslationSettings.current.enabled)] + (NagramiXTranslationSettings.current.enabled ? [.translationOptions(NagramiXTranslationSettings.current.provider)] : [])",
+      1
+    ],
+    [
+      "submodules/SettingsUI/Sources/NagramiXSettingsController.swift",
+      "    let arguments = NagramiXSettingsControllerArguments(",
+      "    let arguments = NagramiXSettingsControllerArguments(\n        updateTranslation: { enabled in NagramiXTranslationSettings.update { $0.enabled = enabled } },\n        openTranslation: { pushControllerImpl?(NagramiXTranslationSettingsController(context: context)) },",
+      1
+    ],
+    [
+      "submodules/SettingsUI/Sources/NagramiXSettingsController.swift",
+      "combineLatest(settingsPromise.get(), nagramiXPrivacySettingsSignal())",
+      "combineLatest(settingsPromise.get(), nagramiXPrivacySettingsSignal(), nagramiXTranslationSettingsSignal())",
+      1
+    ],
+    [
+      "submodules/SettingsUI/Sources/NagramiXSettingsController.swift",
+      "        let (settings, privacy) = settingsAndPrivacy",
+      "        let (settings, privacy, _) = settingsAndPrivacy",
+      1
+    ],
+    [
+      "submodules/TelegramUI/Components/TranslateHeaderPanelComponent/Sources/ChatTranslationPanelNode.swift",
+      "if themeUpdated || previousInfo?.isActive != info.isActive {",
+      "if themeUpdated || previousInfo != info {",
+      1
+    ],
+    [
+      "submodules/TelegramUI/Components/TranslateHeaderPanelComponent/Sources/ChatTranslationPanelNode.swift",
+      "            let buttonText = info.isActive ? strings.Conversation_Translation_ShowOriginal : translateTitle",
+      "            let buttonText: String\n            if NagramiXTranslationSettings.current.enabled {\n                let language = NagramiXTranslationLanguage.title(toLang, interface: languageCode)\n                let action = languageCode.hasPrefix(\"ru\") ? \"Перевести на \" + language : strings.Conversation_Translation_TranslateToOther(language).string\n                buttonText = NagramiXTranslationLanguage.badge(info.fromLang) + \" · \" + (info.isActive ? strings.Conversation_Translation_ShowOriginal : action)\n            } else { buttonText = info.isActive ? strings.Conversation_Translation_ShowOriginal : translateTitle }",
+      1
+    ],
+    [
+      "submodules/TelegramUI/Components/TranslateHeaderPanelComponent/Sources/ChatTranslationPanelNode.swift",
+      "        let panelHeight: CGFloat = 40.0",
+      "        if NagramiXTranslationSettings.current.enabled { return self.nagramiXLayoutTranslation(width: width, transition: transition) }\n        self.buttonIconNode.isHidden = false\n        self.buttonTextNode.maximumNumberOfLines = 1\n        let panelHeight: CGFloat = 40.0",
+      1
+    ],
+    [
+      "submodules/TelegramUI/Components/TranslateHeaderPanelComponent/Sources/ChatTranslationPanelNode.swift",
+      "        if info.isPremium {",
+      "        if info.isPremium || NagramiXTranslationSettings.current.enabled {",
+      1
+    ],
+    [
+      "submodules/TelegramUI/Components/TranslateHeaderPanelComponent/Sources/ChatTranslationPanelNode.swift",
+      "        var translationAvailable = isPremium",
+      "        var translationAvailable = isPremium || NagramiXTranslationSettings.current.enabled",
+      2
+    ],
+    [
+      "submodules/TelegramUI/Components/TranslateHeaderPanelComponent/Sources/ChatTranslationPanelNode.swift",
+      "    @objc private func buttonPressed() {\n        guard let info = self.currentInfo else {\n            return\n        }\n",
+      "    @objc private func buttonPressed() {\n        guard let info = self.currentInfo else {\n            return\n        }\n        if NagramiXTranslationSettings.current.enabled, !info.isActive, let error = nagramiXTranslationAvailability(NagramiXTranslationSettings.current) {\n            let alert = UIAlertController(title: \"Перевод\", message: error.text, preferredStyle: .alert)\n            alert.addAction(UIAlertAction(title: \"OK\", style: .default))\n            alert.addAction(UIAlertAction(title: \"Настройки\", style: .default, handler: { [weak self] _ in\n                guard let self else { return }; self.controller()?.push(NagramiXTranslationSettingsController(context: self.context))\n            }))\n            self.controller()?.present(alert, animated: true)\n            return\n        }\n",
+      1
+    ],
+    [
+      "submodules/TelegramUI/Components/TranslateHeaderPanelComponent/Sources/ChatTranslationPanelNode.swift",
+      "        let doNotTranslateTitle: String",
+      "        var doNotTranslateTitle: String",
+      1
+    ],
+    [
+      "submodules/TelegramUI/Components/TranslateHeaderPanelComponent/Sources/ChatTranslationPanelNode.swift",
+      "        let items: Signal<ContextController.Items, NoError> =",
+      "        if NagramiXTranslationSettings.current.enabled {\n            doNotTranslateTitle = \"Не переводить \" + NagramiXTranslationLanguage.title(info.fromLang, interface: languageCode)\n        }\n        let items: Signal<ContextController.Items, NoError> =",
+      1
+    ],
+    [
+      "submodules/TelegramUI/Components/TranslateHeaderPanelComponent/Sources/ChatTranslationPanelNode.swift",
+      "let displayTitle = languageLocale.localizedString(forLanguageCode: code) ?? \"\"",
+      "let displayTitle = NagramiXTranslationSettings.current.enabled ? NagramiXTranslationLanguage.title(code, interface: langCode) : (languageLocale.localizedString(forLanguageCode: code) ?? \"\")",
+      2
+    ],
+    [
+      "submodules/TelegramUI/Components/TranslateHeaderPanelComponent/Sources/ChatTranslationPanelNode.swift",
+      "            items.append(.action(ContextMenuActionItem(text: presentationData.strings.Conversation_Translation_Hide, icon: { theme in",
+      "            if NagramiXTranslationSettings.current.enabled {\n                items.append(.action(ContextMenuActionItem(text: \"Переводчик\", icon: { theme in\n                    generateTintedImage(image: UIImage(bundleImageName: \"Chat/Context Menu/Translate\"), color: theme.contextMenu.primaryColor)\n                }, action: { [weak self] c, _ in\n                    c?.dismiss(completion: { [weak self] in\n                        guard let self else { return }; self.controller()?.push(NagramiXTranslationSettingsController(context: self.context))\n                    })\n                })))\n            }\n            items.append(.action(ContextMenuActionItem(text: presentationData.strings.Conversation_Translation_Hide, icon: { theme in",
+      1
+    ],
+    [
+      "submodules/TelegramUI/Components/TranslateHeaderPanelComponent/Sources/ChatTranslationPanelNode.swift",
+      "            items.append(.action(ContextMenuActionItem(text: doNotTranslateTitle, icon: { theme in\n                return generateTintedImage(image: UIImage(bundleImageName: \"Chat/Context Menu/Restrict\"), color: theme.contextMenu.primaryColor)\n            }, action: { [weak self] c, _ in\n                c?.dismiss(completion: nil)\n                \n                guard let self, let info = self.currentInfo else {\n                    return\n                }\n                self.addDoNotTranslateLanguage(info.fromLang)\n            })))\n            \n",
+      "            if !NagramiXTranslationSettings.current.enabled || info.fromLang != \"auto\" {\n            items.append(.action(ContextMenuActionItem(text: doNotTranslateTitle, icon: { theme in\n                return generateTintedImage(image: UIImage(bundleImageName: \"Chat/Context Menu/Restrict\"), color: theme.contextMenu.primaryColor)\n            }, action: { [weak self] c, _ in\n                c?.dismiss(completion: nil)\n                \n                guard let self, let info = self.currentInfo else {\n                    return\n                }\n                self.addDoNotTranslateLanguage(info.fromLang)\n            })))\n            \n\n            }\n",
+      1
+    ],
+    [
+      "submodules/TelegramUI/Components/TranslateHeaderPanelComponent/Sources/ChatTranslationPanelNode.swift",
+      "            let cocoonFile = TelegramMediaFile(\n                fileId: EngineMedia.Id(namespace: Namespaces.Media.CloudFile, id: -123456789),\n                partialReference: nil,\n                resource: BundleResource(name: \"Cocoon\", path: cocoonPath),\n                previewRepresentations: [],\n                videoThumbnails: [],\n                immediateThumbnailData: nil,\n                mimeType: \"application/x-tgsticker\",\n                size: nil,\n                attributes: [\n                    .FileName(fileName: \"sticker.tgs\"),\n                    .CustomEmoji(isPremium: false, isSingleColor: true, alt: \"\", packReference: .animatedEmojiAnimations)\n                ],\n                alternativeRepresentations: []\n            )\n\n            let (cocoonText, entities) = parseCocoonMenuTextEntities(presentationData.strings.Conversation_Translation_CocoonInfo, emojiFileId: cocoonFile.fileId.id)\n            items.append(.action(ContextMenuActionItem(text: cocoonText, entities: entities, entityFiles: [cocoonFile.fileId.id: cocoonFile], enableEntityAnimations: true, textLayout: .multiline, textFont: .small, icon: { _ in return nil }, action: { [weak self] c, _ in\n                c?.dismiss(completion: nil)\n                \n                if let controller = self?.controller() {\n                    let infoController = context.sharedContext.makeCocoonInfoScreen(context: context)\n                    controller.push(infoController)\n                }\n            })))\n            \n",
+      "            if NagramiXTranslationSettings.current.enabled {\n                items.append(.action(ContextMenuActionItem(text: \"Перевод: \" + NagramiXTranslationSettings.current.provider.title, textFont: .small, icon: { _ in nil }, action: { c, _ in c?.dismiss(completion: nil) })))\n            } else {\n            let cocoonFile = TelegramMediaFile(\n                fileId: EngineMedia.Id(namespace: Namespaces.Media.CloudFile, id: -123456789),\n                partialReference: nil,\n                resource: BundleResource(name: \"Cocoon\", path: cocoonPath),\n                previewRepresentations: [],\n                videoThumbnails: [],\n                immediateThumbnailData: nil,\n                mimeType: \"application/x-tgsticker\",\n                size: nil,\n                attributes: [\n                    .FileName(fileName: \"sticker.tgs\"),\n                    .CustomEmoji(isPremium: false, isSingleColor: true, alt: \"\", packReference: .animatedEmojiAnimations)\n                ],\n                alternativeRepresentations: []\n            )\n\n            let (cocoonText, entities) = parseCocoonMenuTextEntities(presentationData.strings.Conversation_Translation_CocoonInfo, emojiFileId: cocoonFile.fileId.id)\n            items.append(.action(ContextMenuActionItem(text: cocoonText, entities: entities, entityFiles: [cocoonFile.fileId.id: cocoonFile], enableEntityAnimations: true, textLayout: .multiline, textFont: .small, icon: { _ in return nil }, action: { [weak self] c, _ in\n                c?.dismiss(completion: nil)\n                \n                if let controller = self?.controller() {\n                    let infoController = context.sharedContext.makeCocoonInfoScreen(context: context)\n                    controller.push(infoController)\n                }\n            })))\n            \n            }\n",
+      1
+    ],
+    [
+      "submodules/TelegramUI/Components/TranslateHeaderPanelComponent/Sources/ChatTranslationPanelNode.swift",
+      "    func animateOut() {",
+      "    private func nagramiXLayoutTranslation(width: CGFloat, transition: ContainedViewLayoutTransition) -> CGFloat {\n        self.buttonIconNode.isHidden = true\n        self.closeButton.isHidden = true\n        self.moreButton.isHidden = false\n        self.buttonTextNode.maximumNumberOfLines = 0\n        let moreSize = self.moreButton.measure(CGSize(width: 100, height: 44))\n        let available = max(1, width - moreSize.width - 42)\n        let textSize = self.buttonTextNode.updateLayout(CGSize(width: available, height: .greatestFiniteMagnitude))\n        let height = max(44, textSize.height + 12)\n        let buttonWidth = min(available + 20, textSize.width + 20)\n        transition.updateFrame(node: self.button, frame: CGRect(x: 8 + floorToScreenPixels((available + 20 - buttonWidth) / 2), y: 0, width: buttonWidth, height: height))\n        let textFrame = CGRect(x: 10, y: floorToScreenPixels((height - textSize.height) / 2), width: textSize.width, height: textSize.height)\n        transition.updatePosition(node: self.buttonTextNode, position: textFrame.center)\n        self.buttonTextNode.bounds = CGRect(origin: .zero, size: textFrame.size)\n        transition.updateFrame(node: self.moreButton, frame: CGRect(x: width - moreSize.width - 11, y: floorToScreenPixels((height - moreSize.height) / 2), width: moreSize.width, height: moreSize.height))\n        return height\n    }\n\n    func animateOut() {",
+      1
+    ]
+  ]
+}

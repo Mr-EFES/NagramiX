@@ -1,0 +1,32 @@
+{
+  "inputs": {
+    "submodules/NagramiXTranscription/Sources/Coordinator.swift": "82d987d818ea2659aadf6a103ca81fa34cc99e0473c6a12664dec4f153ee2450",
+    "submodules/NagramiXTranscription/Sources/MediaPreparation.swift": "6d7b1babf30d839461bd1b5a4ae2d2f27fc7fdcb2303898686cf95a9725aecf6",
+    "submodules/GalleryUI/Sources/Items/UniversalVideoGalleryItem.swift": "41a1bfd008c53e0b0b9726008718eaa56897cec4e592ef4663b58288fe6f1964"
+  },
+  "outputs": {
+    "submodules/NagramiXTranscription/Sources/Coordinator.swift": "337fca53ada806134c4cd98e1af9e0ec7171619fa0a2f092aa7a7d78371878e9",
+    "submodules/NagramiXTranscription/Sources/MediaPreparation.swift": "ad19175ebfd1ad0c45841eaf3acb15f2efe909e7bf847b582f1f011cf802c8e6",
+    "submodules/GalleryUI/Sources/Items/UniversalVideoGalleryItem.swift": "e80ea430b614b64e9778f07d9f4e07383753d32925af99a6afa890b6f17f37ca"
+  },
+  "guards": {},
+  "templates": {
+    "release_076_compile/Before-Coordinator.swift.inc": "82d987d818ea2659aadf6a103ca81fa34cc99e0473c6a12664dec4f153ee2450",
+    "release_076_compile/Coordinator.swift.inc": "337fca53ada806134c4cd98e1af9e0ec7171619fa0a2f092aa7a7d78371878e9",
+    "release_076_compile/Before-MediaPreparation.swift.inc": "6d7b1babf30d839461bd1b5a4ae2d2f27fc7fdcb2303898686cf95a9725aecf6",
+    "release_076_compile/MediaPreparation.swift.inc": "ad19175ebfd1ad0c45841eaf3acb15f2efe909e7bf847b582f1f011cf802c8e6",
+    "release_076_compile/Before-UniversalVideoGalleryItem.swift.inc": "41a1bfd008c53e0b0b9726008718eaa56897cec4e592ef4663b58288fe6f1964",
+    "release_076_compile/UniversalVideoGalleryItem.swift.inc": "e80ea430b614b64e9778f07d9f4e07383753d32925af99a6afa890b6f17f37ca"
+  },
+  "copies": {},
+  "replacements": {
+    "submodules/NagramiXTranscription/Sources/Coordinator.swift": "release_076_compile/Coordinator.swift.inc",
+    "submodules/NagramiXTranscription/Sources/MediaPreparation.swift": "release_076_compile/MediaPreparation.swift.inc",
+    "submodules/GalleryUI/Sources/Items/UniversalVideoGalleryItem.swift": "release_076_compile/UniversalVideoGalleryItem.swift.inc"
+  },
+  "previous": {
+    "submodules/NagramiXTranscription/Sources/Coordinator.swift": "release_076_compile/Before-Coordinator.swift.inc",
+    "submodules/NagramiXTranscription/Sources/MediaPreparation.swift": "release_076_compile/Before-MediaPreparation.swift.inc",
+    "submodules/GalleryUI/Sources/Items/UniversalVideoGalleryItem.swift": "release_076_compile/Before-UniversalVideoGalleryItem.swift.inc"
+  }
+}

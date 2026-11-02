@@ -1,0 +1,72 @@
+{
+  "inputs": {
+    "submodules/TranslateUI/Sources/NagramiXTranslationPreferences.swift": "3ca7e7c97b44eddc2db3cd1df9329dbb5d72f8d77c58dd9ebbf2b52df41d487e",
+    "submodules/NagramiXTranscription/Sources/Preferences.swift": "6869cdab6d481eadf0260c2a42fdde098ac4e1b34a9848f37e5013f1eab99905",
+    "submodules/TranslateUI/Sources/NagramiXTranslationTextPlan.swift": "0ee997d740a343c38f2ed1fcbe70190781d0779e5f66fdda62a0cac2bf8b0fc4",
+    "submodules/TranslateUI/Sources/NagramiXTranslationCloud.swift": "acabfdf5f25e21a8efcda484a0241d757a6aa4b468cc855992f70c0e64493130",
+    "submodules/NagramiXTranscription/Sources/Settings.swift": "87ac2c4b5e8cb3cb9e0718a05fda63823206f0b7700724d2006b2198f180e6ac",
+    "submodules/NagramiXTranscription/Sources/Cloud.swift": "62ecf2e45e064dd16cadc1fec5c9dde7f871014f59cf68dd6fdf61961e3a7f68"
+  },
+  "outputs": {
+    "submodules/TranslateUI/Sources/NagramiXTranslationPreferences.swift": "54ff4b0b3c0cad3f996de73d58c99b7d886df09a6190f0c251f70f02ef8a646d",
+    "submodules/NagramiXTranscription/Sources/Preferences.swift": "9c502d13afd09a90b1a06e3e70fc969214dd47fe3ee936813052fd57e4543273",
+    "submodules/TranslateUI/Sources/NagramiXTranslationTextPlan.swift": "eca70c0e6f497b6521f68f85f8684c14b05bf7a4a9065cabe4da19f46848c3cf",
+    "submodules/TranslateUI/Sources/NagramiXTranslationCloud.swift": "d613c7991021ff3536ea69d346037bbebb4bed61f7136a71481f1872457ef821",
+    "submodules/NagramiXTranscription/Sources/Settings.swift": "0e4685268f6d17cf0034b1b79d9ffc1f86c2de5da53b541d7c7c2d0b0f0d4fe6",
+    "submodules/NagramiXTranscription/Sources/Cloud.swift": "06390226acd3924a1e47893673df0ca47d79126bba59246cbbd8b1f9b2c03874"
+  },
+  "guards": {
+    "submodules/NagramiXTranscription/BUILD": "820772c2401f640bf652106d20d11b466cee847e29b43a8dff3ca3b3af0c7e78",
+    "submodules/TranslateUI/BUILD": "f1a9e651b7caa1a06203dd97ff851a7b58d4453a0427660bb7656fa686ad96a7"
+  },
+  "templates": {
+    "translation_speech_ui/Before0.inc": "3ca7e7c97b44eddc2db3cd1df9329dbb5d72f8d77c58dd9ebbf2b52df41d487e",
+    "translation_speech_ui/After0.inc": "54ff4b0b3c0cad3f996de73d58c99b7d886df09a6190f0c251f70f02ef8a646d",
+    "translation_speech_ui/Before1.inc": "6869cdab6d481eadf0260c2a42fdde098ac4e1b34a9848f37e5013f1eab99905",
+    "translation_speech_ui/After1.inc": "9c502d13afd09a90b1a06e3e70fc969214dd47fe3ee936813052fd57e4543273",
+    "translation_speech_ui/Before2.inc": "0ee997d740a343c38f2ed1fcbe70190781d0779e5f66fdda62a0cac2bf8b0fc4",
+    "translation_speech_ui/After2.inc": "eca70c0e6f497b6521f68f85f8684c14b05bf7a4a9065cabe4da19f46848c3cf",
+    "translation_speech_ui/TranslationIcon.swift": "6b4e74a2e7445fb3246fd7df4cf2c8ce19c5947177f98043c601abda0506f7cd",
+    "translation_speech_ui/TranscriptionIcon.swift": "6b4e74a2e7445fb3246fd7df4cf2c8ce19c5947177f98043c601abda0506f7cd",
+    "translation_speech_ui/ModelPicker.swift": "fffc0c7b6f06a1dbf413d83ee98c5d3ec89c7c59225fb88fd0b1ec8ee10033c2",
+    "translation_speech_ui/Before3.inc": "acabfdf5f25e21a8efcda484a0241d757a6aa4b468cc855992f70c0e64493130",
+    "translation_speech_ui/After3.inc": "d613c7991021ff3536ea69d346037bbebb4bed61f7136a71481f1872457ef821",
+    "translation_speech_ui/Before4.inc": "87ac2c4b5e8cb3cb9e0718a05fda63823206f0b7700724d2006b2198f180e6ac",
+    "translation_speech_ui/After4.inc": "0e4685268f6d17cf0034b1b79d9ffc1f86c2de5da53b541d7c7c2d0b0f0d4fe6",
+    "translation_speech_ui/Before5.inc": "62ecf2e45e064dd16cadc1fec5c9dde7f871014f59cf68dd6fdf61961e3a7f68",
+    "translation_speech_ui/After5.inc": "06390226acd3924a1e47893673df0ca47d79126bba59246cbbd8b1f9b2c03874",
+    "translation_speech_ui/Guard0.inc": "820772c2401f640bf652106d20d11b466cee847e29b43a8dff3ca3b3af0c7e78",
+    "translation_speech_ui/Guard1.inc": "f1a9e651b7caa1a06203dd97ff851a7b58d4453a0427660bb7656fa686ad96a7"
+  },
+  "replacements": {
+    "submodules/TranslateUI/Sources/NagramiXTranslationPreferences.swift": "translation_speech_ui/After0.inc",
+    "submodules/NagramiXTranscription/Sources/Preferences.swift": "translation_speech_ui/After1.inc",
+    "submodules/TranslateUI/Sources/NagramiXTranslationTextPlan.swift": "translation_speech_ui/After2.inc",
+    "submodules/TranslateUI/Sources/NagramiXTranslationCloud.swift": "translation_speech_ui/After3.inc",
+    "submodules/NagramiXTranscription/Sources/Settings.swift": "translation_speech_ui/After4.inc",
+    "submodules/NagramiXTranscription/Sources/Cloud.swift": "translation_speech_ui/After5.inc"
+  },
+  "previous": {
+    "submodules/TranslateUI/Sources/NagramiXTranslationPreferences.swift": "translation_speech_ui/Before0.inc",
+    "submodules/NagramiXTranscription/Sources/Preferences.swift": "translation_speech_ui/Before1.inc",
+    "submodules/TranslateUI/Sources/NagramiXTranslationTextPlan.swift": "translation_speech_ui/Before2.inc",
+    "submodules/TranslateUI/Sources/NagramiXTranslationCloud.swift": "translation_speech_ui/Before3.inc",
+    "submodules/NagramiXTranscription/Sources/Settings.swift": "translation_speech_ui/Before4.inc",
+    "submodules/NagramiXTranscription/Sources/Cloud.swift": "translation_speech_ui/Before5.inc"
+  },
+  "copies": {
+    "submodules/TranslateUI/Sources/NagramiXServiceIcon.swift": {
+      "source": "translation_speech_ui/TranslationIcon.swift",
+      "sha256": "6b4e74a2e7445fb3246fd7df4cf2c8ce19c5947177f98043c601abda0506f7cd"
+    },
+    "submodules/NagramiXTranscription/Sources/NagramiXServiceIcon.swift": {
+      "source": "translation_speech_ui/TranscriptionIcon.swift",
+      "sha256": "6b4e74a2e7445fb3246fd7df4cf2c8ce19c5947177f98043c601abda0506f7cd"
+    },
+    "submodules/NagramiXTranscription/Sources/NagramiXTranscriptionModelPicker.swift": {
+      "source": "translation_speech_ui/ModelPicker.swift",
+      "sha256": "fffc0c7b6f06a1dbf413d83ee98c5d3ec89c7c59225fb88fd0b1ec8ee10033c2"
+    }
+  },
+  "deletions": {}
+}

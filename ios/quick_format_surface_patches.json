@@ -1,0 +1,56 @@
+{
+  "inputs": {
+    "submodules/TelegramUI/Components/Chat/ChatTextInputPanelNode/Sources/NagramiXFormattingKeyboard.swift": "f9499056594b020e15bf3a1426dcaea6068f5156bffb7d9f09f509a20697af67",
+    "submodules/NagramiXCore/Resources/ru.lproj/Localizable.strings": "88ebc58405b79b68eacdfc4f191be489440aa96f5d470b8f72a3599fe6c0ce51",
+    "submodules/NagramiXCore/Resources/en.lproj/Localizable.strings": "10a95be9eb63f8279d5036d5fe37965832afec053c4584468b3afbb261eb0495",
+    "submodules/TelegramUI/Sources/ChatInterfaceInputNodes.swift": "181a6f6520961c4f527a72352dc054a0c1f83d2f0a70cffd4b54967cbcacd809"
+  },
+  "patches": [
+    [
+      "submodules/TelegramUI/Components/Chat/ChatTextInputPanelNode/Sources/NagramiXFormattingKeyboard.swift",
+      "        // UIInputView owns the native keyboard material. Do not paint a settings\n        // list color over it or add a second bottom safe-area inset to its height.\n        self.allowsSelfSizing = true",
+      "        // A UIInputView embedded in a native ChatInputNode has no system\n        // keyboard backdrop. Own the same solid surface in every input host.\n        self.isOpaque = true\n        self.layer.cornerRadius = 30\n        self.layer.cornerCurve = .continuous\n        self.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]\n        self.clipsToBounds = true\n        self.updateSurface()\n        self.allowsSelfSizing = true"
+    ],
+    [
+      "submodules/TelegramUI/Components/Chat/ChatTextInputPanelNode/Sources/NagramiXFormattingKeyboard.swift",
+      "        self.heading.text = title\n        self.heading.textAlignment = .center",
+      "        self.heading.text = title\n        self.heading.numberOfLines = 0\n        self.heading.lineBreakMode = .byWordWrapping\n        self.heading.textAlignment = .center"
+    ],
+    [
+      "submodules/TelegramUI/Components/Chat/ChatTextInputPanelNode/Sources/NagramiXFormattingKeyboard.swift",
+      "    required init?(coder: NSCoder) { fatalError(\"init(coder:) has not been implemented\") }\n    override var intrinsicContentSize:",
+      "    required init?(coder: NSCoder) { fatalError(\"init(coder:) has not been implemented\") }\n\n    private func updateSurface() {\n        let dark = self.traitCollection.userInterfaceStyle == .dark\n        self.backgroundColor = dark\n            ? UIColor(red: 0.12, green: 0.13, blue: 0.14, alpha: 1)\n            : UIColor(red: 0.82, green: 0.83, blue: 0.85, alpha: 1)\n        self.layer.borderColor = UIColor(white: dark ? 1 : 0, alpha: dark ? 0.20 : 0.16).cgColor\n        self.layer.borderWidth = 1 / max(1, self.traitCollection.displayScale)\n    }\n\n    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {\n        super.traitCollectionDidChange(previousTraitCollection)\n        self.updateSurface()\n        self.setNeedsLayout()\n    }\n\n    override var intrinsicContentSize:"
+    ],
+    [
+      "submodules/TelegramUI/Components/Chat/ChatTextInputPanelNode/Sources/NagramiXFormattingKeyboard.swift",
+      "        default: self.overrideUserInterfaceStyle = .unspecified\n        }\n        self.heading.text = title",
+      "        default: self.overrideUserInterfaceStyle = .unspecified\n        }\n        self.updateSurface()\n        self.heading.text = title"
+    ],
+    [
+      "submodules/TelegramUI/Components/Chat/ChatTextInputPanelNode/Sources/NagramiXFormattingKeyboard.swift",
+      "        super.layoutSubviews()\n        let inset: CGFloat = 8\n        let headingHeight = max(36, self.heading.font.lineHeight + 8)\n        let left = inset + self.safeAreaInsets.left\n        let right = inset + self.safeAreaInsets.right\n        let contentWidth = max(0, self.bounds.width - left - right)\n        self.heading.frame = CGRect(x: left, y: 4, width: contentWidth, height: headingHeight)",
+      "        super.layoutSubviews()\n        self.updateSurface()\n        let inset: CGFloat = 8\n        let left = inset + self.safeAreaInsets.left\n        let right = inset + self.safeAreaInsets.right\n        let contentWidth = max(0, self.bounds.width - left - right)\n        let headingLeft = max(left, self.layer.cornerRadius + inset)\n        let headingRight = max(right, self.layer.cornerRadius + inset)\n        let headingWidth = max(0, self.bounds.width - headingLeft - headingRight)\n        let headingSize = self.heading.sizeThatFits(CGSize(width: headingWidth, height: CGFloat.greatestFiniteMagnitude))\n        let headingHeight = max(36, ceil(headingSize.height) + 8)\n        self.heading.frame = CGRect(x: headingLeft, y: 4, width: headingWidth, height: headingHeight)"
+    ],
+    [
+      "submodules/NagramiXCore/Resources/ru.lproj/Localizable.strings",
+      "\"NagramiX.QuickFormatting.PanelTitle\" = \"Форматирование\";",
+      "\"NagramiX.QuickFormatting.PanelTitle\" = \"Быстрое форматирование\";"
+    ],
+    [
+      "submodules/NagramiXCore/Resources/en.lproj/Localizable.strings",
+      "\"NagramiX.QuickFormatting.PanelTitle\" = \"Formatting\";",
+      "\"NagramiX.QuickFormatting.PanelTitle\" = \"Quick formatting\";"
+    ],
+    [
+      "submodules/TelegramUI/Sources/ChatInterfaceInputNodes.swift",
+      "        panel.clipsToBounds = true\n    }\n\n    override func updateLayout(",
+      "        panel.clipsToBounds = true\n    }\n\n    override func layout() {\n        super.layout()\n        // The parent may reduce the visible input bounds after updateLayout,\n        // for example while dragging below a tall editing field. Keep the\n        // surface and its controls inside those actual bounds, not a stale\n        // preferred keyboard size or UIKit's intermediate autoresizing result.\n        if self.panel.frame != self.bounds {\n            self.panel.frame = self.bounds\n            self.panel.setNeedsLayout()\n        }\n    }\n\n    override func updateLayout("
+    ]
+  ],
+  "outputs": {
+    "submodules/TelegramUI/Components/Chat/ChatTextInputPanelNode/Sources/NagramiXFormattingKeyboard.swift": "3f6866b961cc1e2ed5143cae8cbed1e67acc854a16397263cd6e28e4420d54c8",
+    "submodules/NagramiXCore/Resources/ru.lproj/Localizable.strings": "4c3c0e56be45a6f18487539a88bd566e07582e2b7ce274568067922ebaf98aa4",
+    "submodules/NagramiXCore/Resources/en.lproj/Localizable.strings": "843ff03bf2641a3001352fc12996f5192101c887963ee970b24bd253a4c94a6d",
+    "submodules/TelegramUI/Sources/ChatInterfaceInputNodes.swift": "bc1f75c743dea07f241edc60999f6f87bd9dbac69aa905c69813773d3699c93f"
+  }
+}

@@ -1,0 +1,69 @@
+{
+  "inputs": {
+    "submodules/TelegramUI/Sources/ChatInterfaceStateContextMenus.swift": "cda39553e6abb02b1262f4fd26c5d2af637fe4c0cff392537bcd1ffa1e4942e1",
+    "submodules/NagramiXCore/Resources/ru.lproj/Localizable.strings": "f43cb69cec771e5e7af94972dea23269022f09c4ff5eb671585afee3bdc46ba3",
+    "submodules/NagramiXCore/Resources/en.lproj/Localizable.strings": "0ba2862aad79ed693698093f3bdd8d31d52a9f6aeeb8c18f7098dc6e419b2799"
+  },
+  "outputs": {
+    "submodules/TelegramUI/Sources/ChatInterfaceStateContextMenus.swift": "464991f58c56bcee4c2d54efe4e63a6fb45ae30cb0d8ceb5b43a8adbe4df323a",
+    "submodules/NagramiXCore/Resources/ru.lproj/Localizable.strings": "1cfb0557431e012135767c7b2f00c46d7bc31674655540c0fa6d51adffba217e",
+    "submodules/NagramiXCore/Resources/en.lproj/Localizable.strings": "b50d6d2817cc18a9e4b064803efa69ae67193d04ae3633b6e401eca5322b111d"
+  },
+  "guards": {
+    "submodules/TelegramUI/BUILD": "f4ae55a27c3a5e486a0fe9c768c70b65b974c505125d91a1215645179de54926"
+  },
+  "templates": {
+    "author_selection_fix/Before0.inc": "cda39553e6abb02b1262f4fd26c5d2af637fe4c0cff392537bcd1ffa1e4942e1",
+    "author_selection_fix/Guard0.inc": "f4ae55a27c3a5e486a0fe9c768c70b65b974c505125d91a1215645179de54926",
+    "author_selection_fix/Before-ru.inc": "f43cb69cec771e5e7af94972dea23269022f09c4ff5eb671585afee3bdc46ba3",
+    "author_selection_fix/Before-en.inc": "0ba2862aad79ed693698093f3bdd8d31d52a9f6aeeb8c18f7098dc6e419b2799"
+  },
+  "previous": {
+    "submodules/TelegramUI/Sources/ChatInterfaceStateContextMenus.swift": "author_selection_fix/Before0.inc",
+    "submodules/NagramiXCore/Resources/ru.lproj/Localizable.strings": "author_selection_fix/Before-ru.inc",
+    "submodules/NagramiXCore/Resources/en.lproj/Localizable.strings": "author_selection_fix/Before-en.inc"
+  },
+  "replacements": {},
+  "copies": {},
+  "deletions": {},
+  "operations": {
+    "submodules/TelegramUI/Sources/ChatInterfaceStateContextMenus.swift": [
+      [
+        "            if !selectAll || messages.count == 1 {\n                if !actions.isEmpty && !didAddSeparator {\n                    didAddSeparator = true\n                    actions.append(.separator)\n                }\n\n                actions.append(.action(ContextMenuActionItem(text: chatPresentationInterfaceState.strings.Conversation_ContextMenuSelect, icon: { theme in\n                    return generateTintedImage(image: UIImage(bundleImageName: \"Chat/Context Menu/Select\"), color: theme.actionSheet.primaryTextColor)\n                }, action: { _, f in\n                    interfaceInteraction.beginMessageSelection(selectAll ? messages.map { $0.id } : [message.id], { transition in\n                        f(.custom(transition))\n                    })\n                })))\n            }\n",
+        "            if !actions.isEmpty && !didAddSeparator {\n                didAddSeparator = true\n                actions.append(.separator)\n            }\n\n            actions.append(.action(ContextMenuActionItem(text: chatPresentationInterfaceState.strings.Conversation_ContextMenuSelect, icon: { theme in\n                return generateTintedImage(image: UIImage(bundleImageName: \"Chat/Context Menu/Select\"), color: theme.actionSheet.primaryTextColor)\n            }, action: { _, f in\n                interfaceInteraction.beginMessageSelection([message.id], { transition in\n                    f(.custom(transition))\n                })\n            })))"
+      ],
+      [
+        "                interfaceInteraction.beginMessageSelection(selectAll ? messages.map { $0.id } : [message.id], { transition in f(.custom(transition)) })\n            })))\n            if NagramiXTabSettings.current.showSelectByAuthor",
+        "                interfaceInteraction.beginMessageSelection([message.id], { transition in f(.custom(transition)) })\n            })))\n            if messages.count > 1 {\n                actions.append(.action(ContextMenuActionItem(text: chatPresentationInterfaceState.strings.Conversation_ContextMenuSelectAll(Int32(messages.count)), icon: { theme in\n                    return generateTintedImage(image: UIImage(bundleImageName: \"Chat/Context Menu/SelectAll\"), color: theme.actionSheet.primaryTextColor)\n                }, action: { _, f in\n                    interfaceInteraction.beginMessageSelection(messages.map { $0.id }, { transition in f(.custom(transition)) })\n                })))\n            }\n            if NagramiXTabSettings.current.showSelectByAuthor"
+      ]
+    ],
+    "submodules/NagramiXCore/Resources/ru.lproj/Localizable.strings": [
+      [
+        "\"NagramiX.Context.SelectFromAuthor\" = \"Выделить\";",
+        "\"NagramiX.Context.SelectFromAuthor\" = \"По автору\";"
+      ],
+      [
+        "\"NagramiX.Settings.ContextMenu.SelectByAuthor\" = \"«Выделить от автора»\";",
+        "\"NagramiX.Settings.ContextMenu.SelectByAuthor\" = \"Выбор сообщений по автору\";"
+      ],
+      [
+        "\"NagramiX.Settings.ContextMenu.SelectByAuthor.Info\" = \"Показывать действие «Выделить от автора» в контекстном меню сообщений.\";",
+        "\"NagramiX.Settings.ContextMenu.SelectByAuthor.Info\" = \"Показывать действие «По автору» в контекстном меню сообщений.\";"
+      ]
+    ],
+    "submodules/NagramiXCore/Resources/en.lproj/Localizable.strings": [
+      [
+        "\"NagramiX.Context.SelectFromAuthor\" = \"Select From Author\";",
+        "\"NagramiX.Context.SelectFromAuthor\" = \"By Author\";"
+      ],
+      [
+        "\"NagramiX.Settings.ContextMenu.SelectByAuthor\" = \"Select From Author\";",
+        "\"NagramiX.Settings.ContextMenu.SelectByAuthor\" = \"Select Messages by Author\";"
+      ],
+      [
+        "\"NagramiX.Settings.ContextMenu.SelectByAuthor.Info\" = \"Show Select From Author in the message context menu.\";",
+        "\"NagramiX.Settings.ContextMenu.SelectByAuthor.Info\" = \"Show By Author in the message context menu.\";"
+      ]
+    ]
+  }
+}

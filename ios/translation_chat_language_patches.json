@@ -1,0 +1,32 @@
+{
+  "inputs": {
+    "submodules/TranslateUI/Sources/NagramiXTranslationRuntime.swift": "6d11663b73f76dcb2208acd78c1bd4c92ac473c2ebcdd000cf17c423301bc0b1"
+  },
+  "outputs": {
+    "submodules/TranslateUI/Sources/NagramiXTranslationRuntime.swift": "776b5722cfab0f9431c2f847e6af692ee4abd09e1e849391e2d59b6e8ebfb386"
+  },
+  "guards": {
+    "submodules/TranslateUI/BUILD": "f1a9e651b7caa1a06203dd97ff851a7b58d4453a0427660bb7656fa686ad96a7",
+    "submodules/TranslateUI/Sources/NagramiXTranslationSettings.swift": "9ace9c2cae937ee7401a0264b779d0a2195e805d9d5b950ba450187fcb71a652"
+  },
+  "templates": {
+    "translation_chat_language/Before.inc": "6d11663b73f76dcb2208acd78c1bd4c92ac473c2ebcdd000cf17c423301bc0b1",
+    "translation_chat_language/After.inc": "776b5722cfab0f9431c2f847e6af692ee4abd09e1e849391e2d59b6e8ebfb386",
+    "translation_chat_language/ChatLanguage.swift": "19ce567e9072b645c6dc4848231edc52f46f02599c13cff2365c0a0003e812ec",
+    "translation_chat_language/Guard.inc": "f1a9e651b7caa1a06203dd97ff851a7b58d4453a0427660bb7656fa686ad96a7",
+    "translation_chat_language/GuardSettings.inc": "9ace9c2cae937ee7401a0264b779d0a2195e805d9d5b950ba450187fcb71a652"
+  },
+  "previous": {
+    "submodules/TranslateUI/Sources/NagramiXTranslationRuntime.swift": "translation_chat_language/Before.inc"
+  },
+  "replacements": {
+    "submodules/TranslateUI/Sources/NagramiXTranslationRuntime.swift": "translation_chat_language/After.inc"
+  },
+  "copies": {
+    "submodules/TranslateUI/Sources/NagramiXTranslationChatLanguage.swift": {
+      "source": "translation_chat_language/ChatLanguage.swift",
+      "sha256": "19ce567e9072b645c6dc4848231edc52f46f02599c13cff2365c0a0003e812ec"
+    }
+  },
+  "deletions": {}
+}

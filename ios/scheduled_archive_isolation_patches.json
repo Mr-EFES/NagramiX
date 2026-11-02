@@ -1,0 +1,26 @@
+{
+  "inputs": {
+    "submodules/TelegramUI/Sources/ChatHistoryEntriesForView.swift": "0c2b3fde3dbf38550d06f0a70da48cd3b7bbded71d8a0c37773d604339907653"
+  },
+  "outputs": {
+    "submodules/TelegramUI/Sources/ChatHistoryEntriesForView.swift": "915d74db7e86232d0a6e76d927591d3ba85bd3546cea42a39383aa13f937ee65"
+  },
+  "guards": {
+    "submodules/TelegramUI/Sources/ChatHistoryListNode.swift": "245d1108f2b39eb4bd70ba3ca386e413119d749fa6e0c2bcbc6f910015ac3226",
+    "submodules/TelegramUI/Sources/ChatHistoryViewForLocation.swift": "2ff51bf079c3040f41e7a47bc4ad412a8ac46164582513a2c25e3ac1755a4bb3",
+    "submodules/AccountContext/Sources/ChatController.swift": "670cee104398e29bcd21c4f7e3bf27ee49ff0e2eb6feea970427a2257ab89804",
+    "submodules/TelegramCore/Sources/Utils/NagramiXMessageArchive.swift": "465e3512299d90a44e06af587afe7d34eb90362b7e2a9961cb91df45d08a9f98",
+    "submodules/TelegramCore/Sources/SyncCore/SyncCore_Namespaces.swift": "1749a11eb0ebf54adff01da5a5eb12590ef98472cf5f93eea78b857b8519d5e8",
+    "submodules/TelegramUI/BUILD": "eec4771359520d912df85e8a26bfb8ef29d0069862addb1ac87bcffaab853bf2"
+  },
+  "templates": {},
+  "copies": {},
+  "patches": [
+    [
+      "submodules/TelegramUI/Sources/ChatHistoryEntriesForView.swift",
+      "    var sourceEntries = view.entries\n    if let peerId = location.peerId {",
+      "    var sourceEntries = view.entries\n    if let peerId = location.peerId, subject != .scheduledMessages {",
+      1
+    ]
+  ]
+}

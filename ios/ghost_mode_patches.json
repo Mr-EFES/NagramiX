@@ -1,0 +1,404 @@
+{
+  "hashes": {
+    "submodules/SettingsUI/BUILD": "cc0d919e15e40d17fa81aaa13d8ada5389cbe55b874ff2157a05646a4d9f2eef",
+    "submodules/SettingsUI/Sources/NagramiXSettingsController.swift": "fded32aa17869525cd239df5a5529ee1caca998d05fa21577613d96f1f90cfda",
+    "submodules/TelegramCore/BUILD": "e3f2268e32065ef8f325446db583c2b0c2c41b862d6523303cb0a7607370aca5",
+    "submodules/TelegramCore/Sources/PendingMessages/EnqueueMessage.swift": "0d64efd2ea1f826a25db90d29f8036e901a628cfcc70b4a2e27e07812f608845",
+    "submodules/TelegramCore/Sources/State/ManagedAccountPresence.swift": "d7d8ad5ea5a1fd73f4807a3bbdf7c6107cb5f9b2ac767652d0dc0b5b43d583e2",
+    "submodules/TelegramCore/Sources/State/ManagedConsumePersonalMessagesActions.swift": "ced60be5947e62f265e9a064f0e4dc6a56c274b6f4a5088be86efa8cc51c8fd5",
+    "submodules/TelegramCore/Sources/State/ManagedLocalInputActivities.swift": "8c5971f8a6d019483334226f8d2a65b67ce1fd6177c281c717e559d64c350e63",
+    "submodules/TelegramCore/Sources/State/ManagedSynchronizeConsumeMessageContentsOperations.swift": "dfa83199710cdc8fd8ca4e725c98c73eb20bf8ae172f0b72362596690f4934c1",
+    "submodules/TelegramCore/Sources/State/ManagedSynchronizeViewStoriesOperations.swift": "850a30d76ab0891d948e78a9d2bb217cc82bb49c5514da04a066904e12ae4817",
+    "submodules/TelegramCore/Sources/State/MessageReactions.swift": "4fb5c117d757871a27a6a30794782acac932cd10f96a623c7729cbfa71dbde88",
+    "submodules/TelegramCore/Sources/State/SynchronizeConsumeMessageContentsOperation.swift": "46043d4df36e81e78b844ca48350ac4ba7c7e6d8a66d1e80595ec77c191ebb78",
+    "submodules/TelegramCore/Sources/State/SynchronizePeerReadState.swift": "ecc48f9b648ca33d9eeec6790d4dff8b3c4e6ef6cb8ca4713573e6765dc0bbb8",
+    "submodules/TelegramCore/Sources/TelegramEngine/Messages/ApplyMaxReadIndexInteractively.swift": "63889717a7e369f6d508305c886cc81dec934962f6286ae172b67569a42131fb",
+    "submodules/TelegramCore/Sources/TelegramEngine/Messages/MarkMessageContentAsConsumedInteractively.swift": "f365b06f1972134bd3f45ed89d364d6d3e8b0889d5aabad5f4ff4a4ab14fee29",
+    "submodules/TelegramCore/Sources/TelegramEngine/Messages/ReplyThreadHistory.swift": "9903a84a748e8a89d9972df0ebc4d29a2662374224f7de214787ee230518cab6",
+    "submodules/TelegramCore/Sources/TelegramEngine/Messages/Stories.swift": "663832c2b743942dc281bf993cc9bb44828d2eed923dd3f0e1cf54efde7da128",
+    "submodules/TelegramUI/Components/Stories/StoryContainerScreen/Sources/StoryChatContent.swift": "9a8e9767d3bf111ad8b03c732577fde3970288d2adcd49854fa8d8ee49e2c55e"
+  },
+  "patches": [
+    [
+      "submodules/TelegramCore/Sources/State/SynchronizePeerReadState.swift",
+      "import Foundation\n",
+      "import Foundation\nimport NagramiXMediaSettings\n",
+      1
+    ],
+    [
+      "submodules/TelegramCore/Sources/State/SynchronizePeerReadState.swift",
+      "func synchronizePeerReadState(network: Network, postbox: Postbox, stateManager: AccountStateManager, peerId: PeerId, push: Bool, validate: Bool) -> Signal<Never, PeerReadStateValidationError> {\n",
+      "func synchronizePeerReadState(network: Network, postbox: Postbox, stateManager: AccountStateManager, peerId: PeerId, push: Bool, validate: Bool) -> Signal<Never, PeerReadStateValidationError> {\n    if NagramiXGhostSettings.current.hidesMessageReads {\n        return confirmSynchronized(postbox: postbox, peerId: peerId) |> ignoreValues\n    }\n",
+      1
+    ],
+    [
+      "submodules/TelegramCore/Sources/State/SynchronizePeerReadState.swift",
+      "private func pushPeerReadState(network: Network, postbox: Postbox, stateManager: AccountStateManager, peerId: PeerId, readState: PeerReadState) -> Signal<PeerReadState, PeerReadStateValidationError> {\n",
+      "private func pushPeerReadState(network: Network, postbox: Postbox, stateManager: AccountStateManager, peerId: PeerId, readState: PeerReadState) -> Signal<PeerReadState, PeerReadStateValidationError> {\n    if NagramiXGhostSettings.current.hidesMessageReads { return .single(readState) }\n",
+      1
+    ],
+    [
+      "submodules/TelegramCore/Sources/State/SynchronizePeerReadState.swift",
+      "        |> mapToSignal { inputPeer -> Signal<PeerReadState, PeerReadStateValidationError> in\n            switch inputPeer {",
+      "        |> mapToSignal { inputPeer -> Signal<PeerReadState, PeerReadStateValidationError> in\n            if NagramiXGhostSettings.current.hidesMessageReads { return .single(readState) }\n            switch inputPeer {",
+      1
+    ],
+    [
+      "submodules/TelegramCore/Sources/State/SynchronizePeerReadState.swift",
+      "        |> mapToSignal { inputPeer -> Signal<PeerReadState, PeerReadStateValidationError> in\n            // A rejected push",
+      "        |> mapToSignal { inputPeer -> Signal<PeerReadState, PeerReadStateValidationError> in\n            if NagramiXGhostSettings.current.hidesMessageReads { return .single(readState) }\n            // A rejected push",
+      1
+    ],
+    [
+      "submodules/TelegramCore/Sources/State/SynchronizePeerReadState.swift",
+      "private func validatePeerReadState(network: Network, postbox: Postbox, stateManager: AccountStateManager, peerId: PeerId) -> Signal<Never, PeerReadStateValidationError> {\n",
+      "private func validatePeerReadState(network: Network, postbox: Postbox, stateManager: AccountStateManager, peerId: PeerId) -> Signal<Never, PeerReadStateValidationError> {\n    if NagramiXGhostSettings.current.hidesMessageReads { return confirmSynchronized(postbox: postbox, peerId: peerId) |> ignoreValues }\n",
+      1
+    ],
+    [
+      "submodules/TelegramCore/Sources/State/SynchronizePeerReadState.swift",
+      "        guard let (readState, _) = data else {",
+      "        if NagramiXGhostSettings.current.hidesMessageReads { return confirmSynchronized(postbox: postbox, peerId: peerId) |> ignoreValues }\n        guard let (readState, _) = data else {",
+      1
+    ],
+    [
+      "submodules/TelegramCore/Sources/State/SynchronizePeerReadState.swift",
+      "                            if case let .idBased(updatedMaxIncomingReadId, _, _, updatedCount, updatedMarkedUnread) = readState {\n",
+      "                            if case let .idBased(updatedMaxIncomingReadId, updatedMaxOutgoingReadId, _, updatedCount, updatedMarkedUnread) = readState {\n                                if nagramiXPreservePrivateRead(transaction: transaction, peerId: peerId, localMaxId: localMaxIncomingReadId, serverMaxId: updatedMaxIncomingReadId) {\n                                    if updatedMaxOutgoingReadId > 0 {\n                                        let _ = transaction.applyOutgoingReadMaxIndex(MessageIndex(id: MessageId(peerId: peerId, namespace: Namespaces.Message.Cloud, id: updatedMaxOutgoingReadId), timestamp: 0))\n                                    }\n                                    transaction.confirmSynchronizedIncomingReadState(peerId)\n                                    return nil\n                                }\n",
+      1
+    ],
+    [
+      "submodules/TelegramCore/Sources/State/SynchronizeConsumeMessageContentsOperation.swift",
+      "import Postbox\n",
+      "import Postbox\nimport NagramiXMediaSettings\n",
+      1
+    ],
+    [
+      "submodules/TelegramCore/Sources/State/SynchronizeConsumeMessageContentsOperation.swift",
+      "func addSynchronizeConsumeMessageContentsOperation(transaction: Transaction, messageIds: [MessageId]) {\n",
+      "func addSynchronizeConsumeMessageContentsOperation(transaction: Transaction, messageIds: [MessageId]) {\n    guard !NagramiXGhostSettings.current.hidesMessageReads else { return }\n",
+      1
+    ],
+    [
+      "submodules/TelegramCore/Sources/State/ManagedSynchronizeConsumeMessageContentsOperations.swift",
+      "import Foundation\n",
+      "import Foundation\nimport NagramiXMediaSettings\n",
+      1
+    ],
+    [
+      "submodules/TelegramCore/Sources/State/ManagedSynchronizeConsumeMessageContentsOperations.swift",
+      "private func synchronizeConsumeMessageContents(transaction: Transaction, network: Network, stateManager: AccountStateManager, peerId: PeerId, operation: SynchronizeConsumeMessageContentsOperation) -> Signal<Void, NoError> {\n",
+      "private func synchronizeConsumeMessageContents(transaction: Transaction, network: Network, stateManager: AccountStateManager, peerId: PeerId, operation: SynchronizeConsumeMessageContentsOperation) -> Signal<Void, NoError> {\n    guard !NagramiXGhostSettings.current.hidesMessageReads else { return .complete() }\n",
+      1
+    ],
+    [
+      "submodules/TelegramCore/Sources/State/ManagedConsumePersonalMessagesActions.swift",
+      "import Foundation\n",
+      "import Foundation\nimport NagramiXMediaSettings\n",
+      1
+    ],
+    [
+      "submodules/TelegramCore/Sources/State/ManagedConsumePersonalMessagesActions.swift",
+      "private func synchronizeConsumeMessageContents(transaction: Transaction, postbox: Postbox, network: Network, stateManager: AccountStateManager, id: MessageId) -> Signal<Void, NoError> {\n",
+      "private func synchronizeConsumeMessageContents(transaction: Transaction, postbox: Postbox, network: Network, stateManager: AccountStateManager, id: MessageId) -> Signal<Void, NoError> {\n    guard !NagramiXGhostSettings.current.hidesMessageReads else { return .complete() }\n",
+      1
+    ],
+    [
+      "submodules/TelegramCore/Sources/State/ManagedConsumePersonalMessagesActions.swift",
+      "private func synchronizeReadMessageReactionsOrPollVotes(transaction: Transaction, postbox: Postbox, network: Network, stateManager: AccountStateManager, id: MessageId) -> Signal<Void, NoError> {\n",
+      "private func synchronizeReadMessageReactionsOrPollVotes(transaction: Transaction, postbox: Postbox, network: Network, stateManager: AccountStateManager, id: MessageId) -> Signal<Void, NoError> {\n    guard !NagramiXGhostSettings.current.hidesMessageReads else { return .complete() }\n",
+      1
+    ],
+    [
+      "submodules/TelegramCore/Sources/TelegramEngine/Messages/MarkMessageContentAsConsumedInteractively.swift",
+      "import Foundation\n",
+      "import Foundation\nimport NagramiXMediaSettings\n",
+      1
+    ],
+    [
+      "submodules/TelegramCore/Sources/TelegramEngine/Messages/MarkMessageContentAsConsumedInteractively.swift",
+      "if let layer = layer {\n                                    var globallyUniqueIds:",
+      "if let layer = layer, !NagramiXGhostSettings.current.hidesMessageReads {\n                                    var globallyUniqueIds:",
+      1
+    ],
+    [
+      "submodules/TelegramCore/Sources/TelegramEngine/Messages/MarkMessageContentAsConsumedInteractively.swift",
+      "if let state = state, let layer = layer, let globallyUniqueId = message.globallyUniqueId {",
+      "if let state = state, let layer = layer, let globallyUniqueId = message.globallyUniqueId, !NagramiXGhostSettings.current.hidesMessageReads {",
+      2
+    ],
+    [
+      "submodules/TelegramCore/Sources/TelegramEngine/Messages/MarkMessageContentAsConsumedInteractively.swift",
+      "            NagramiXMessageArchive.forPostbox(postbox)?.captureTemporaryBeforeViewing(message: message)\n            var updateMessage = false\n            var updatedAttributes = message.attributes",
+      "            NagramiXMessageArchive.forPostbox(postbox)?.captureTemporaryBeforeViewing(message: message)\n            var updateMessage = false\n            var updatedAttributes = message.attributes\n            var updatedTags = message.tags",
+      1
+    ],
+    [
+      "submodules/TelegramCore/Sources/TelegramEngine/Messages/MarkMessageContentAsConsumedInteractively.swift",
+      "                    transaction.setPendingMessageAction(type: .consumeUnseenPersonalMessage, id: messageId, action: ConsumePersonalMessageAction())\n                    updatedAttributes[i] = ConsumablePersonalMentionMessageAttribute(consumed: attribute.consumed, pending: true)",
+      "                    if NagramiXGhostSettings.current.hidesMessageReads {\n                        transaction.setPendingMessageAction(type: .consumeUnseenPersonalMessage, id: messageId, action: nil)\n                        updatedAttributes[i] = ConsumablePersonalMentionMessageAttribute(consumed: true, pending: false)\n                        updatedTags.remove(.unseenPersonalMessage)\n                        updateMessage = true\n                    } else {\n                    transaction.setPendingMessageAction(type: .consumeUnseenPersonalMessage, id: messageId, action: ConsumePersonalMessageAction())\n                    updatedAttributes[i] = ConsumablePersonalMentionMessageAttribute(consumed: attribute.consumed, pending: true)\n                    }",
+      1
+    ],
+    [
+      "submodules/TelegramCore/Sources/TelegramEngine/Messages/MarkMessageContentAsConsumedInteractively.swift",
+      "                    return .update(StoreMessage(id: currentMessage.id, customStableId: nil, globallyUniqueId: currentMessage.globallyUniqueId, groupingKey: currentMessage.groupingKey, threadId: currentMessage.threadId, timestamp: currentMessage.timestamp, flags: StoreMessageFlags(currentMessage.flags), tags: currentMessage.tags, globalTags: currentMessage.globalTags, localTags: currentMessage.localTags, forwardInfo: storeForwardInfo, authorId: currentMessage.author?.id, text: currentMessage.text, attributes: updatedAttributes, media: currentMessage.media))",
+      "                    return .update(StoreMessage(id: currentMessage.id, customStableId: nil, globallyUniqueId: currentMessage.globallyUniqueId, groupingKey: currentMessage.groupingKey, threadId: currentMessage.threadId, timestamp: currentMessage.timestamp, flags: StoreMessageFlags(currentMessage.flags), tags: updatedTags, globalTags: currentMessage.globalTags, localTags: currentMessage.localTags, forwardInfo: storeForwardInfo, authorId: currentMessage.author?.id, text: currentMessage.text, attributes: updatedAttributes, media: currentMessage.media))",
+      1
+    ],
+    [
+      "submodules/TelegramCore/Sources/TelegramEngine/Messages/ApplyMaxReadIndexInteractively.swift",
+      "import Foundation\n",
+      "import Foundation\nimport NagramiXMediaSettings\n",
+      1
+    ],
+    [
+      "submodules/TelegramCore/Sources/TelegramEngine/Messages/ApplyMaxReadIndexInteractively.swift",
+      "    let messageIds = transaction.applyInteractiveReadMaxIndex(index)\n",
+      "    let messageIds = transaction.applyInteractiveReadMaxIndex(index)\n    if nagramiXRecordPrivateRead(transaction: transaction, index: index) { transaction.confirmSynchronizedIncomingReadState(index.id.peerId) }\n",
+      1
+    ],
+    [
+      "submodules/TelegramCore/Sources/TelegramEngine/Messages/ApplyMaxReadIndexInteractively.swift",
+      "                    let _ = transaction.applyInteractiveReadMaxIndex(index)\n",
+      "                    let _ = transaction.applyInteractiveReadMaxIndex(index)\n                    if nagramiXRecordPrivateRead(transaction: transaction, index: index) { transaction.confirmSynchronizedIncomingReadState(peerId) }\n",
+      1
+    ],
+    [
+      "submodules/TelegramCore/Sources/TelegramEngine/Messages/ApplyMaxReadIndexInteractively.swift",
+      "let _ = network.request(Api.functions.messages.readDiscussion(peer: inputPeer, msgId: Int32(clamping: threadId), readMaxId: messageIndex.id.id)).start()",
+      "if !NagramiXGhostSettings.current.hidesMessageReads { let _ = network.request(Api.functions.messages.readDiscussion(peer: inputPeer, msgId: Int32(clamping: threadId), readMaxId: messageIndex.id.id)).start() }",
+      2
+    ],
+    [
+      "submodules/TelegramCore/Sources/TelegramEngine/Messages/ApplyMaxReadIndexInteractively.swift",
+      "let _ = network.request(Api.functions.messages.readDiscussion(peer: inputPeer, msgId: Int32(clamping: item.threadId), readMaxId: messageIndex.id.id)).start()",
+      "if !NagramiXGhostSettings.current.hidesMessageReads { let _ = network.request(Api.functions.messages.readDiscussion(peer: inputPeer, msgId: Int32(clamping: item.threadId), readMaxId: messageIndex.id.id)).start() }",
+      1
+    ],
+    [
+      "submodules/TelegramCore/Sources/TelegramEngine/Messages/ApplyMaxReadIndexInteractively.swift",
+      "let _ = network.request(Api.functions.messages.readSavedHistory(parentPeer: inputPeer, peer: subPeer, maxId: messageIndex.id.id)).start()",
+      "if !NagramiXGhostSettings.current.hidesMessageReads { let _ = network.request(Api.functions.messages.readSavedHistory(parentPeer: inputPeer, peer: subPeer, maxId: messageIndex.id.id)).start() }",
+      3
+    ],
+    [
+      "submodules/TelegramCore/Sources/TelegramEngine/Messages/ReplyThreadHistory.swift",
+      "import Foundation\n",
+      "import Foundation\nimport NagramiXMediaSettings\n",
+      1
+    ],
+    [
+      "submodules/TelegramCore/Sources/TelegramEngine/Messages/ReplyThreadHistory.swift",
+      "            if let subPeerId {\n                let signal = strongSelf.account.network.request(Api.functions.messages.readSavedHistory",
+      "            if NagramiXGhostSettings.current.hidesMessageReads {\n                strongSelf.readDisposable.set(nil)\n                return\n            }\n            if let subPeerId {\n                let signal = strongSelf.account.network.request(Api.functions.messages.readSavedHistory",
+      1
+    ],
+    [
+      "submodules/TelegramCore/Sources/TelegramEngine/Messages/Stories.swift",
+      "NagramiXStorySettings.anonymousViewingEnabled",
+      "NagramiXStorySettings.effectiveAnonymousViewingEnabled",
+      4
+    ],
+    [
+      "submodules/TelegramUI/Components/Stories/StoryContainerScreen/Sources/StoryChatContent.swift",
+      "import Foundation\n",
+      "import Foundation\nimport NagramiXMediaSettings\n",
+      1
+    ],
+    [
+      "submodules/TelegramUI/Components/Stories/StoryContainerScreen/Sources/StoryChatContent.swift",
+      "NagramiXTabSettings.anonymousStoryViewingEnabled",
+      "NagramiXStorySettings.effectiveAnonymousViewingEnabled",
+      4
+    ],
+    [
+      "submodules/TelegramCore/Sources/State/ManagedSynchronizeViewStoriesOperations.swift",
+      "import Foundation\n",
+      "import Foundation\nimport NagramiXMediaSettings\n",
+      1
+    ],
+    [
+      "submodules/TelegramCore/Sources/State/ManagedSynchronizeViewStoriesOperations.swift",
+      "private func pushStoriesAreSeen(postbox: Postbox, network: Network, stateManager: AccountStateManager, peer: Peer, operation: SynchronizeViewStoriesOperation) -> Signal<Void, NoError> {\n",
+      "private func pushStoriesAreSeen(postbox: Postbox, network: Network, stateManager: AccountStateManager, peer: Peer, operation: SynchronizeViewStoriesOperation) -> Signal<Void, NoError> {\n    guard !NagramiXStorySettings.effectiveAnonymousViewingEnabled else { return .complete() }\n",
+      1
+    ],
+    [
+      "submodules/TelegramCore/Sources/State/ManagedAccountPresence.swift",
+      "import Foundation\n",
+      "import Foundation\nimport NagramiXMediaSettings\n",
+      1
+    ],
+    [
+      "submodules/TelegramCore/Sources/State/ManagedAccountPresence.swift",
+      "    private var wasOnline: Bool = false\n",
+      "    private var wasOnline: Bool = false\n    private var ghostSettings = NagramiXGhostSettings()\n",
+      1
+    ],
+    [
+      "submodules/TelegramCore/Sources/State/ManagedAccountPresence.swift",
+      "self.shouldKeepOnlinePresenceDisposable = (shouldKeepOnlinePresence\n        |> distinctUntilChanged",
+      "self.shouldKeepOnlinePresenceDisposable = (combineLatest(shouldKeepOnlinePresence |> distinctUntilChanged, nagramiXGhostSettingsSignal())",
+      1
+    ],
+    [
+      "submodules/TelegramCore/Sources/State/ManagedAccountPresence.swift",
+      ").start(next: { [weak self] value in",
+      ").start(next: { [weak self] value, settings in",
+      1
+    ],
+    [
+      "submodules/TelegramCore/Sources/State/ManagedAccountPresence.swift",
+      "            if self.wasOnline != value {\n                self.wasOnline = value\n                self.updatePresence(value)\n            }",
+      "            let changed = self.ghostSettings.hidesOnline != settings.hidesOnline || self.ghostSettings.automaticOffline != settings.automaticOffline\n            self.ghostSettings = settings\n            if self.wasOnline != value || changed {\n                self.wasOnline = value\n                self.updatePresence(value, forceOffline: value && settings.automaticOffline)\n            }",
+      1
+    ],
+    [
+      "submodules/TelegramCore/Sources/State/ManagedAccountPresence.swift",
+      "    private func updatePresence(_ isOnline: Bool) {\n        let request:",
+      "    private func updatePresence(_ requestedOnline: Bool, forceOffline: Bool = false) {\n        let settings = NagramiXGhostSettings.current\n        let directive = settings.presenceDirective(requestedOnline: requestedOnline, forceOffline: forceOffline)\n        if directive == .unchanged {\n            self.onlineTimer?.invalidate(); self.onlineTimer = nil\n            self.currentRequestDisposable.set(nil)\n            self.isPerformingUpdate.set(false)\n            return\n        }\n        let isOnline = directive == .online\n        let request:",
+      1
+    ],
+    [
+      "submodules/TelegramCore/Sources/State/ManagedAccountPresence.swift",
+      "            request = self.network.request(Api.functions.account.updateStatus(offline: .boolTrue))\n",
+      "            request = self.network.request(Api.functions.account.updateStatus(offline: .boolTrue))\n            // Automatic offline is an immediate transition. The separate\n            // hide-online option controls whether later keepalives stay hidden.\n            if forceOffline && !settings.hidesOnline && self.wasOnline {\n                let timer = SignalKitTimer(timeout: 30.0, repeat: false, completion: { [weak self] in self?.updatePresence(true) }, queue: self.queue)\n                self.onlineTimer = timer\n                timer.start()\n            }\n",
+      1
+    ],
+    [
+      "submodules/TelegramCore/Sources/State/ManagedLocalInputActivities.swift",
+      "import Foundation\n",
+      "import Foundation\nimport NagramiXMediaSettings\n",
+      1
+    ],
+    [
+      "submodules/TelegramCore/Sources/State/ManagedLocalInputActivities.swift",
+      "let disposable = activities.start(next: { activities in",
+      "let disposable = combineLatest(activities, nagramiXGhostSettingsSignal()).start(next: { activities, settings in\n            let activities = settings.hidesTyping ? activities.mapValues { values in values.filter { value in\n                if case .speakingInGroupCall = value.1.activity { return true }\n                return false\n            } } : activities",
+      1
+    ],
+    [
+      "submodules/TelegramCore/Sources/State/ManagedLocalInputActivities.swift",
+      "    return postbox.transaction { transaction -> Signal<Void, NoError> in\n        if let peer = transaction.getPeer(peerId) {",
+      "    return postbox.transaction { transaction -> Signal<Void, NoError> in\n        if NagramiXGhostSettings.current.hidesTyping, let activity {\n            if case .speakingInGroupCall = activity {} else { return .complete() }\n        }\n        if let peer = transaction.getPeer(peerId) {",
+      1
+    ],
+    [
+      "submodules/TelegramCore/Sources/PendingMessages/EnqueueMessage.swift",
+      "import Foundation\n",
+      "import Foundation\nimport NagramiXMediaSettings\n",
+      1
+    ],
+    [
+      "submodules/TelegramCore/Sources/PendingMessages/EnqueueMessage.swift",
+      "            let _ = transaction.applyInteractiveReadMaxIndex(index)\n",
+      "            let _ = transaction.applyInteractiveReadMaxIndex(index)\n            if nagramiXRecordPrivateRead(transaction: transaction, index: index) { transaction.confirmSynchronizedIncomingReadState(peerId) }\n",
+      1
+    ],
+    [
+      "submodules/TelegramCore/Sources/PendingMessages/EnqueueMessage.swift",
+      "            return resultIds\n        }\n    }\n}\n\npublic func enqueueWelcomeMessages",
+      "            return resultIds\n        }\n        |> afterNext { ids in\n            let hadImmediateSend = zip(ids, messages).contains { pair in\n                pair.0 != nil && !pair.1.1.attributes.contains(where: { $0 is OutgoingScheduleInfoMessageAttribute })\n            }\n            if hadImmediateSend {\n                let _ = nagramiXReadAfterUserAction(account: account, peerId: peerId).startStandalone()\n            }\n        }\n    }\n}\n\npublic func enqueueWelcomeMessages",
+      1
+    ],
+    [
+      "submodules/TelegramCore/Sources/State/MessageReactions.swift",
+      "    |> ignoreValues\n}\n\nfunc _internal_sendStarsReactionsInteractively",
+      "    |> afterNext { _ in\n        if !reactions.isEmpty, let id = messageIds.max() {\n            let _ = nagramiXReadAfterUserAction(account: account, peerId: id.peerId, upTo: id).startStandalone()\n        }\n    }\n    |> ignoreValues\n}\n\nfunc _internal_sendStarsReactionsInteractively",
+      1
+    ],
+    [
+      "submodules/TelegramCore/Sources/State/MessageReactions.swift",
+      "        return resolvedPrivacyValue\n    }\n}\n\nfunc cancelPendingSendStarsReactionInteractively",
+      "        return resolvedPrivacyValue\n    }\n    |> afterNext { _ in\n        if count > 0 { let _ = nagramiXReadAfterUserAction(account: account, peerId: messageId.peerId, upTo: messageId).startStandalone() }\n    }\n}\n\nfunc cancelPendingSendStarsReactionInteractively",
+      1
+    ],
+    [
+      "submodules/SettingsUI/Sources/NagramiXSettingsController.swift",
+      "    let openProxySettings: () -> Void\n",
+      "    let openProxySettings: () -> Void\n    let openGhostSettings: () -> Void\n",
+      1
+    ],
+    [
+      "submodules/SettingsUI/Sources/NagramiXSettingsController.swift",
+      "    case downloads\n}",
+      "    case downloads\n    case privacy\n}",
+      1
+    ],
+    [
+      "submodules/SettingsUI/Sources/NagramiXSettingsController.swift",
+      "    case noSearchResults\n",
+      "    case noSearchResults\n    case privacyHeader\n    case ghostMode\n",
+      1
+    ],
+    [
+      "submodules/SettingsUI/Sources/NagramiXSettingsController.swift",
+      "    var category: NagramiXSettingsCategory {\n        switch self {",
+      "    var category: NagramiXSettingsCategory {\n        switch self {\n        case .privacyHeader, .ghostMode: return .features",
+      1
+    ],
+    [
+      "submodules/SettingsUI/Sources/NagramiXSettingsController.swift",
+      "    var section: ItemListSectionId {\n        switch self {",
+      "    var section: ItemListSectionId {\n        switch self {\n        case .privacyHeader, .ghostMode: return NagramiXSettingsSection.privacy.rawValue",
+      1
+    ],
+    [
+      "submodules/SettingsUI/Sources/NagramiXSettingsController.swift",
+      "    var stableId: Int32 {\n        switch self {",
+      "    var stableId: Int32 {\n        switch self {\n        case .privacyHeader: return 146\n        case .ghostMode: return 147",
+      1
+    ],
+    [
+      "submodules/SettingsUI/Sources/NagramiXSettingsController.swift",
+      "            case .originalVideos: return 116",
+      "            case .privacyHeader: return 1\n            case .ghostMode: return 2\n            case .originalVideos: return 116",
+      1
+    ],
+    [
+      "submodules/SettingsUI/Sources/NagramiXSettingsController.swift",
+      "        let arguments = arguments as! NagramiXSettingsControllerArguments\n        switch self {",
+      "        let arguments = arguments as! NagramiXSettingsControllerArguments\n        switch self {\n        case .privacyHeader:\n            return ItemListSectionHeaderItem(presentationData: presentationData, text: presentationData.strings.nagramiXGhostText(\"Privacy\").uppercased(), sectionId: self.section)\n        case .ghostMode:\n            return ItemListDisclosureItem(presentationData: presentationData, systemStyle: .glass, title: presentationData.strings.nagramiXGhostText(\"Title\"), label: \"\", sectionId: self.section, style: .blocks, action: arguments.openGhostSettings)",
+      1
+    ],
+    [
+      "submodules/SettingsUI/Sources/NagramiXSettingsController.swift",
+      "        case .search, .noSearchResults, .searchHeader, .tabsHeader, .chatsHeader, .videoMessagesHeader, .featureStoriesHeader,",
+      "        case .privacyHeader, .search, .noSearchResults, .searchHeader, .tabsHeader, .chatsHeader, .videoMessagesHeader, .featureStoriesHeader,",
+      1
+    ],
+    [
+      "submodules/SettingsUI/Sources/NagramiXSettingsController.swift",
+      "        case .search: return strings.nagramiXSettingsSearch",
+      "        case .privacyHeader: return strings.nagramiXGhostText(\"Privacy\")\n        case .ghostMode: return strings.nagramiXGhostText(\"Title\")\n        case .search: return strings.nagramiXSettingsSearch",
+      1
+    ],
+    [
+      "submodules/SettingsUI/Sources/NagramiXSettingsController.swift",
+      "    func description(strings: PresentationStrings) -> String {\n        switch self {",
+      "    func description(strings: PresentationStrings) -> String {\n        switch self {\n        case .ghostMode: return strings.nagramiXGhostText(\"Search\")",
+      1
+    ],
+    [
+      "submodules/SettingsUI/Sources/NagramiXSettingsController.swift",
+      "        switch self.section {\n",
+      "        switch self.section {\n        case NagramiXSettingsSection.privacy.rawValue: return strings.nagramiXGhostText(\"Privacy\")\n",
+      1
+    ],
+    [
+      "submodules/SettingsUI/Sources/NagramiXSettingsController.swift",
+      "    return [\n        .tabsHeader,",
+      "    return [\n        .privacyHeader, .ghostMode,\n        .tabsHeader,",
+      1
+    ],
+    [
+      "submodules/SettingsUI/Sources/NagramiXSettingsController.swift",
+      "        updateSearchQuery: { query in",
+      "        openGhostSettings: { pushControllerImpl?(nagramiXGhostSettingsController(context: context)) },\n        updateSearchQuery: { query in",
+      1
+    ]
+  ],
+  "copies": {
+    "Sources/TelegramCore/NagramiXGhostReadActions.swift": "submodules/TelegramCore/Sources/NagramiXGhostReadActions.swift"
+  }
+}

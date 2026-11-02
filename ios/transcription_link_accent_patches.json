@@ -1,0 +1,24 @@
+{
+  "inputs": {
+    "submodules/NagramiXTranscription/Sources/Preferences.swift": "692321b87afc1d3a12982c14cd4fc9d303d477901188a26011ab9715529def30"
+  },
+  "outputs": {
+    "submodules/NagramiXTranscription/Sources/Preferences.swift": "2160568e558cf5a9a003419c3a879e8935f91eb4771d28e91884df02e2971721"
+  },
+  "guards": {
+    "submodules/NagramiXTranscription/BUILD": "820772c2401f640bf652106d20d11b466cee847e29b43a8dff3ca3b3af0c7e78"
+  },
+  "templates": {
+    "transcription_link_accent/Before.inc": "692321b87afc1d3a12982c14cd4fc9d303d477901188a26011ab9715529def30",
+    "transcription_link_accent/After.inc": "2160568e558cf5a9a003419c3a879e8935f91eb4771d28e91884df02e2971721",
+    "transcription_link_accent/Guard0.inc": "820772c2401f640bf652106d20d11b466cee847e29b43a8dff3ca3b3af0c7e78"
+  },
+  "previous": {
+    "submodules/NagramiXTranscription/Sources/Preferences.swift": "transcription_link_accent/Before.inc"
+  },
+  "replacements": {
+    "submodules/NagramiXTranscription/Sources/Preferences.swift": "transcription_link_accent/After.inc"
+  },
+  "copies": {},
+  "deletions": {}
+}

@@ -1,0 +1,136 @@
+{
+  "inputs": {
+    "submodules/TelegramUI/Components/Stories/StoryContainerScreen/Sources/StoryItemSetContainerComponent.swift": "94d7a776790b9858c917fd0e4b9f9b07b2875d7a7dcc811c5b39b3885c8f435a",
+    "submodules/TelegramUI/Components/Stories/StoryContainerScreen/Sources/StoryContainerScreen.swift": "6bc98cb071186f3d9aac1ce8d95cbb7c34fdaf3b896e3833ce2142937f9b4810",
+    "submodules/TelegramCore/Sources/TelegramEngine/Messages/Stories.swift": "a33e4748f9973a887c75ff07944f17d6043a882c7fc54fca9e84808e4348c332",
+    "submodules/TelegramCore/Sources/TelegramEngine/Messages/TelegramEngineMessages.swift": "a39c5d42ab974c06af5098bac2cd9efe4e22fb0b0a5455a04d12f98f02fc0913",
+    "submodules/NagramiXCore/Sources/NagramiXPresentationStrings.swift": "b582f1bec0a7e8ad1a72c92d745ae9ffb53b764b6a75135f59a027b1450ce4a6",
+    "submodules/NagramiXCore/Resources/ru.lproj/Localizable.strings": "a7b4b0f10df63ad114e5d2d9c8dc5bb5022d3c9e7f52cd86f6afe7dfe3f58bd5",
+    "submodules/NagramiXCore/Resources/en.lproj/Localizable.strings": "b73d0cb2e695d69418a13f5267495618fcf254be4fb0955db23807fea6f305aa"
+  },
+  "outputs": {
+    "submodules/TelegramUI/Components/Stories/StoryContainerScreen/Sources/StoryItemSetContainerComponent.swift": "40415ed9db1fecb034e6849ab334682c213d2ead024a265e4ee8bffe620b4fbc",
+    "submodules/TelegramUI/Components/Stories/StoryContainerScreen/Sources/StoryContainerScreen.swift": "2347d4bcdc0b51e0ee18cfc7d83688f5c2438b08ab6cae92a622ae945f1c2e62",
+    "submodules/TelegramCore/Sources/TelegramEngine/Messages/Stories.swift": "1fa26cb6d29270fba8018d5b6c53b1723a7491cab6a60fb1496f82d8667939b4",
+    "submodules/TelegramCore/Sources/TelegramEngine/Messages/TelegramEngineMessages.swift": "d8374e28818bbc52abe849c6364c355489fd3968ad1ea0bf3f5058126c4d5ed1",
+    "submodules/NagramiXCore/Sources/NagramiXPresentationStrings.swift": "860a4935d614b119ef5d4beb6d9cd8ae014fb906ee5e3769babc201e9daf8a94",
+    "submodules/NagramiXCore/Resources/ru.lproj/Localizable.strings": "0aab385c7eeef6b1dc13655c3acf50d211e34035c12a3ed81a079ef4905a2ecb",
+    "submodules/NagramiXCore/Resources/en.lproj/Localizable.strings": "e6d2786686f2645952f567784729f3f9efffc04d6a7b100fa3330fac82ab9a82"
+  },
+  "guards": {
+    "submodules/TelegramUI/Components/Stories/StoryContainerScreen/BUILD": "6d1056630ca8320601491b8055990b68835bb61f0fb285f6124dee23d4b27c73",
+    "submodules/TelegramCore/BUILD": "81e6c1d9dceab5da57124381fce03665a449bcb7904e66c884269dacdd584fbf",
+    "submodules/NagramiXCore/BUILD": "869e31310cc925b84ceb827a3c0b8503f3a22614acb4abeeec4a4ad435cf56e2",
+    "submodules/TelegramCore/Sources/State/ManagedSynchronizeViewStoriesOperations.swift": "f8e4994af1813be6b61276a7bdc725e3445ac967d7d4c1a6889e134ef66bff02",
+    "submodules/TelegramUI/Components/Stories/StoryContainerScreen/Sources/StoryChatContent.swift": "f98b39aa40e503d11419ae54ae678f52c3aec7475c22c09fa2f7b067127c96d1"
+  },
+  "copies": {
+    "submodules/TelegramUI/Components/Stories/StoryContainerScreen/Sources/NagramiXStoryViewDisclosure.swift": {
+      "source": "story_explicit_view/Disclosure.swift",
+      "sha256": "ca8073c0f93a87a82085199abee2b4fda47b510b0fe30c0b2baf8f0aeba0d4b5"
+    }
+  },
+  "templates": {
+    "story_explicit_view/Disclosure.swift": "ca8073c0f93a87a82085199abee2b4fda47b510b0fe30c0b2baf8f0aeba0d4b5",
+    "story_explicit_view/Core.swift.inc": "88044e1734be97773b3650d5e4834cee3d313a61ce8be5a4fe639675d6db3cbc",
+    "story_explicit_view/Menu.swift.inc": "606f547df13e75a96383881a26cd8dd2870885eed16ed0ea6c5ac1858c2163b3"
+  },
+  "patches": [
+    [
+      "submodules/TelegramUI/Components/Stories/StoryContainerScreen/Sources/StoryItemSetContainerComponent.swift",
+      "    let nagramiXAnonymousViewing: Bool\n",
+      "    let nagramiXAnonymousViewing: Bool\n    let nagramiXViewDisclosure: NagramiXStoryViewDisclosure\n",
+      1
+    ],
+    [
+      "submodules/TelegramUI/Components/Stories/StoryContainerScreen/Sources/StoryItemSetContainerComponent.swift",
+      "    var nagramiXUsesAnonymousViewing: Bool {",
+      "    var nagramiXViewDisclosureKey: NagramiXStoryViewDisclosure.Key {\n        return NagramiXStoryViewDisclosure.Key(accountId: self.context.account.peerId.toInt64(),\n            peerId: self.slice.item.id.peerId.toInt64(), storyId: self.slice.item.id.id)\n    }\n\n    var nagramiXUsesAnonymousViewing: Bool {",
+      1
+    ],
+    [
+      "submodules/TelegramUI/Components/Stories/StoryContainerScreen/Sources/StoryItemSetContainerComponent.swift",
+      "return self.nagramiXAnonymousViewing && self.slice.effectivePeer.id != self.context.account.peerId",
+      "return self.nagramiXAnonymousViewing && self.slice.effectivePeer.id != self.context.account.peerId\n            && self.nagramiXViewDisclosure.status(for: self.nagramiXViewDisclosureKey) != .recorded",
+      1
+    ],
+    [
+      "submodules/TelegramUI/Components/Stories/StoryContainerScreen/Sources/StoryItemSetContainerComponent.swift",
+      "        nagramiXAnonymousViewing: Bool = false,\n",
+      "        nagramiXAnonymousViewing: Bool = false,\n        nagramiXViewDisclosure: NagramiXStoryViewDisclosure? = nil,\n",
+      1
+    ],
+    [
+      "submodules/TelegramUI/Components/Stories/StoryContainerScreen/Sources/StoryItemSetContainerComponent.swift",
+      "        self.nagramiXAnonymousViewing = nagramiXAnonymousViewing\n",
+      "        self.nagramiXAnonymousViewing = nagramiXAnonymousViewing\n        self.nagramiXViewDisclosure = nagramiXViewDisclosure ?? NagramiXStoryViewDisclosure()\n",
+      1
+    ],
+    [
+      "submodules/TelegramUI/Components/Stories/StoryContainerScreen/Sources/StoryItemSetContainerComponent.swift",
+      "        if lhs.nagramiXAnonymousViewing != rhs.nagramiXAnonymousViewing {",
+      "        if lhs.nagramiXViewDisclosure !== rhs.nagramiXViewDisclosure {\n            return false\n        }\n        if lhs.nagramiXAnonymousViewing != rhs.nagramiXAnonymousViewing {",
+      1
+    ],
+    [
+      "submodules/TelegramUI/Components/Stories/StoryContainerScreen/Sources/StoryItemSetContainerComponent.swift",
+      "    public final class View: UIView, UIScrollViewDelegate, UIGestureRecognizerDelegate {\n",
+      "    public final class View: UIView, UIScrollViewDelegate, UIGestureRecognizerDelegate {\n        private func nagramiXRecordViewItem(_ snapshot: StoryItemSetContainerComponent) -> ContextMenuItem {\n            let status = snapshot.nagramiXViewDisclosure.status(for: snapshot.nagramiXViewDisclosureKey)\n            let text: String\n            switch status {\n            case .anonymous: text = snapshot.strings.nagramiXStoryRecordView\n            case .pending: text = snapshot.strings.nagramiXStoryRecordingView\n            case .recorded: text = snapshot.strings.nagramiXStoryViewRecorded\n            }\n            let action: ((ContextMenuActionItem.Action) -> Void)?\n            if status == .anonymous {\n                action = { [weak self] item in\n                    item.dismissWithResult(.default)\n                    self?.nagramiXRecordView(snapshot)\n                }\n            } else { action = nil }\n            return .action(ContextMenuActionItem(text: text, textColor: status == .anonymous ? .primary : .disabled, icon: { theme in\n                UIImage(systemName: status == .recorded ? \"checkmark\" : \"eye\")?.withTintColor(theme.contextMenu.primaryColor, renderingMode: .alwaysOriginal)\n            }, action: action))\n        }\n\n        private func nagramiXRecordView(_ snapshot: StoryItemSetContainerComponent) {\n            let target = snapshot.slice.item.id\n            guard let current = self.component, current.isCentral, snapshot.isCentral,\n                  !current.isDismissed, !snapshot.isDismissed,\n                  current.context.account === snapshot.context.account,\n                  current.nagramiXViewDisclosure === snapshot.nagramiXViewDisclosure,\n                  current.slice.item.id == target, snapshot.nagramiXUsesAnonymousViewing else { return }\n            // Серверный Premium Stealth Mode нельзя отключить для одной истории.\n            if let timeout = current.stealthModeTimeout, timeout > 0 {\n                self.nagramiXRecordViewError(snapshot, text: snapshot.strings.nagramiXStoryServerStealthActive)\n                return\n            }\n            let disclosure = snapshot.nagramiXViewDisclosure\n            let key = snapshot.nagramiXViewDisclosureKey\n            guard let request = disclosure.begin(key) else { return }\n            self.state?.updated(transition: .immediate)\n            let _ = (snapshot.context.engine.messages.nagramiXRecordStoryView(peerId: target.peerId, id: target.id)\n            |> deliverOnMainQueue).startStandalone(next: { [weak self] success in\n                guard disclosure.complete(key, request: request, success: success) else { return }\n                guard let self else { return }\n                self.state?.updated(transition: .immediate)\n                if !success, let current = self.component, current.isCentral, !current.isDismissed,\n                   current.context.account === snapshot.context.account,\n                   current.nagramiXViewDisclosure === disclosure, current.slice.item.id == target {\n                    self.nagramiXRecordViewError(snapshot, text: snapshot.strings.nagramiXStoryRecordViewFailed)\n                }\n            })\n        }\n\n        private func nagramiXRecordViewError(_ snapshot: StoryItemSetContainerComponent, text: String) {\n            let data = snapshot.context.sharedContext.currentPresentationData.with { $0 }.withUpdated(theme: snapshot.theme)\n            snapshot.presentController(UndoOverlayController(presentationData: data,\n                content: .info(title: nil, text: text, timeout: nil, customUndoText: nil),\n                elevatedLayout: false, animateInAsReplacement: false, action: { _ in false }), nil)\n        }\n\n",
+      1
+    ],
+    [
+      "submodules/TelegramUI/Components/Stories/StoryContainerScreen/Sources/StoryItemSetContainerComponent.swift",
+      "                    if case let .user(accountUser) = component.slice.effectivePeer, !isLiveStream {\n                        items.append(.action(ContextMenuActionItem(text: component.strings.Story_ContextStealthMode",
+      "                    if component.nagramiXAnonymousViewing, component.slice.item.id.peerId != component.context.account.peerId, !isLiveStream {\n                        items.append(self.nagramiXRecordViewItem(component))\n                    } else if case let .user(accountUser) = component.slice.effectivePeer, !isLiveStream {\n                        items.append(.action(ContextMenuActionItem(text: component.strings.Story_ContextStealthMode",
+      1
+    ],
+    [
+      "submodules/TelegramUI/Components/Stories/StoryContainerScreen/Sources/StoryItemSetContainerComponent.swift",
+      "                    if case .user = component.slice.effectivePeer, !isLiveStream {\n                        items.append(.action(ContextMenuActionItem(text: component.strings.Story_ContextStealthMode",
+      "                    if component.nagramiXAnonymousViewing, component.slice.item.id.peerId != component.context.account.peerId, !isLiveStream {\n                        items.append(self.nagramiXRecordViewItem(component))\n                    } else if case .user = component.slice.effectivePeer, !isLiveStream {\n                        items.append(.action(ContextMenuActionItem(text: component.strings.Story_ContextStealthMode",
+      1
+    ],
+    [
+      "submodules/TelegramUI/Components/Stories/StoryContainerScreen/Sources/StoryContainerScreen.swift",
+      "    private let nagramiXContent: StoryContentContext\n",
+      "    private let nagramiXContent: StoryContentContext\n    fileprivate let nagramiXViewDisclosure = NagramiXStoryViewDisclosure()\n",
+      1
+    ],
+    [
+      "submodules/TelegramUI/Components/Stories/StoryContainerScreen/Sources/StoryContainerScreen.swift",
+      "                                nagramiXAnonymousViewing: component.content.nagramiXAnonymousViewing,\n",
+      "                                nagramiXAnonymousViewing: component.content.nagramiXAnonymousViewing,\n                                nagramiXViewDisclosure: (environment.controller() as? StoryContainerScreen)?.nagramiXViewDisclosure,\n",
+      1
+    ],
+    [
+      "submodules/TelegramCore/Sources/TelegramEngine/Messages/Stories.swift",
+      "func _internal_markStoryAsSeen(account: Account, peerId: PeerId, id: Int32, asPinned: Bool) -> Signal<Never, NoError> {",
+      "// Только явное согласие на один story ID; не меняет maxReadId и общую приватность.\nfunc _internal_nagramiXRecordStoryView(account: Account, peerId: PeerId, id: Int32) -> Signal<Bool, NoError> {\n    guard id > 0, peerId != account.peerId else { return .single(false) }\n    return account.postbox.transaction { transaction -> Api.InputPeer? in\n        return transaction.getPeer(peerId).flatMap(apiInputPeer)\n    }\n    |> mapToSignal { inputPeer -> Signal<Bool, NoError> in\n        guard let inputPeer else { return .single(false) }\n        return account.network.request(Api.functions.stories.incrementStoryViews(peer: inputPeer, id: [id]))\n        |> map { result -> Bool in\n            if case .boolTrue = result { return true }\n            return false\n        }\n        |> `catch` { _ -> Signal<Bool, NoError> in return .single(false) }\n    }\n}\n\nfunc _internal_markStoryAsSeen(account: Account, peerId: PeerId, id: Int32, asPinned: Bool) -> Signal<Never, NoError> {",
+      1
+    ],
+    [
+      "submodules/TelegramCore/Sources/TelegramEngine/Messages/TelegramEngineMessages.swift",
+      "        public func markStoryAsSeen(peerId: EnginePeer.Id, id: Int32, asPinned: Bool) -> Signal<Never, NoError> {",
+      "        /// Явное согласие: отправляет только выбранный ID без изменения read watermark.\n        public func nagramiXRecordStoryView(peerId: EnginePeer.Id, id: Int32) -> Signal<Bool, NoError> {\n            return _internal_nagramiXRecordStoryView(account: self.account, peerId: peerId, id: id)\n        }\n\n        public func markStoryAsSeen(peerId: EnginePeer.Id, id: Int32, asPinned: Bool) -> Signal<Never, NoError> {",
+      1
+    ],
+    [
+      "submodules/NagramiXCore/Sources/NagramiXPresentationStrings.swift",
+      "public extension PresentationStrings {\n",
+      "public extension PresentationStrings {\n    var nagramiXStoryRecordView: String { self.nagramiXLocalized(\"NagramiX.Story.RecordView\") }\n    var nagramiXStoryRecordingView: String { self.nagramiXLocalized(\"NagramiX.Story.RecordingView\") }\n    var nagramiXStoryViewRecorded: String { self.nagramiXLocalized(\"NagramiX.Story.ViewRecorded\") }\n    var nagramiXStoryRecordViewFailed: String { self.nagramiXLocalized(\"NagramiX.Story.RecordViewFailed\") }\n    var nagramiXStoryServerStealthActive: String { self.nagramiXLocalized(\"NagramiX.Story.ServerStealthActive\") }\n",
+      1
+    ],
+    [
+      "submodules/NagramiXCore/Resources/ru.lproj/Localizable.strings",
+      "\"NagramiX.Debug.From: %@\\n\\nSend to @NagramiX_bot. The archive includes the crash diagnostic, app and device details, and stack addresses. You can review these in View Log.\" = \"Отправитель: %@\\n\\nПолучатель: @NagramiX_bot. Архив содержит диагностику сбоя, сведения о приложении и устройстве, адреса стека. Их можно посмотреть перед отправкой.\";",
+      "\"NagramiX.Debug.From: %@\\n\\nSend to @NagramiX_bot. The archive includes the crash diagnostic, app and device details, and stack addresses. You can review these in View Log.\" = \"Отправитель: %@\\n\\nПолучатель: @NagramiX_bot. Архив содержит диагностику сбоя, сведения о приложении и устройстве, адреса стека. Их можно посмотреть перед отправкой.\";\n// Явное согласие на просмотр одной истории.\n\"NagramiX.Story.RecordView\" = \"Засчитать просмотр\";\n\"NagramiX.Story.RecordingView\" = \"Засчитываем просмотр…\";\n\"NagramiX.Story.ViewRecorded\" = \"Просмотр засчитан\";\n\"NagramiX.Story.RecordViewFailed\" = \"Не удалось засчитать просмотр. Попробуйте ещё раз.\";\n\"NagramiX.Story.ServerStealthActive\" = \"Сейчас действует режим «Инкогнито» Telegram. Дождитесь его завершения, чтобы засчитать просмотр этой истории.\";\n",
+      1
+    ],
+    [
+      "submodules/NagramiXCore/Resources/en.lproj/Localizable.strings",
+      "\"NagramiX.Debug.From: %@\\n\\nSend to @NagramiX_bot. The archive includes the crash diagnostic, app and device details, and stack addresses. You can review these in View Log.\" = \"From: %@\\n\\nSend to @NagramiX_bot. The archive includes the crash diagnostic, app and device details, and stack addresses. You can review these in View Log.\";",
+      "\"NagramiX.Debug.From: %@\\n\\nSend to @NagramiX_bot. The archive includes the crash diagnostic, app and device details, and stack addresses. You can review these in View Log.\" = \"From: %@\\n\\nSend to @NagramiX_bot. The archive includes the crash diagnostic, app and device details, and stack addresses. You can review these in View Log.\";\n// Явное согласие на просмотр одной истории.\n\"NagramiX.Story.RecordView\" = \"Count view\";\n\"NagramiX.Story.RecordingView\" = \"Counting view…\";\n\"NagramiX.Story.ViewRecorded\" = \"View counted\";\n\"NagramiX.Story.RecordViewFailed\" = \"Could not count this view. Please try again.\";\n\"NagramiX.Story.ServerStealthActive\" = \"Telegram Stealth Mode is active. Wait until it ends to count your view of this story.\";\n",
+      1
+    ]
+  ]
+}

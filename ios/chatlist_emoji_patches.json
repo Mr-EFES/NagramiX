@@ -1,0 +1,78 @@
+{
+  "hashes": {
+    "submodules/ChatListUI/Sources/Node/ChatListItem.swift": "bb2511a75945c1d2295c5a7ccce376418b074838caad9f75a530450a7d675e47",
+    "submodules/ChatListUI/Sources/Node/ChatListItemStrings.swift": "5fbc1fd4e72f36fadd24bda47a8afa030198ab3324f39a9a258eceafa79f3ddc",
+    "submodules/ChatListUI/BUILD": "9301b6b9d889f7642c92fbf4781e860a2c60819a4c3ef0c9d9a21aec79f78d7a"
+  },
+  "copies": {
+    "Sources/ChatListUI/NagramiXChatListPreviewEmoji.swift": "submodules/ChatListUI/Sources/Node/NagramiXChatListPreviewEmoji.swift"
+  },
+  "patches": [
+    [
+      "submodules/ChatListUI/Sources/Node/ChatListItem.swift",
+      "    private var cachedDataDisposable = MetaDisposable()\n",
+      "    private var cachedDataDisposable = MetaDisposable()\n    private let nagramiXPreviewEmoji = NagramiXChatListPreviewEmoji()\n",
+      1
+    ],
+    [
+      "submodules/ChatListUI/Sources/Node/ChatListItem.swift",
+      "        self.item = item\n",
+      "        self.item = item\n        let nagramiXPreviewMessageId: MessageId?\n        switch item.content {\n        case let .peer(peerData): nagramiXPreviewMessageId = peerData.messages.last?.id\n        case let .groupReference(data): nagramiXPreviewMessageId = data.message?.id\n        case .loading: nagramiXPreviewMessageId = nil\n        }\n        self.nagramiXPreviewEmoji.prepare(accountPeerId: item.context.account.peerId, messageId: nagramiXPreviewMessageId)\n",
+      1
+    ],
+    [
+      "submodules/ChatListUI/Sources/Node/ChatListItem.swift",
+      "        let currentCustomTextEntities = self.cachedCustomTextEntities\n",
+      "        let currentCustomTextEntities = self.cachedCustomTextEntities\n        let nagramiXPreviewEmojiSnapshot = self.nagramiXPreviewEmoji.snapshot()\n",
+      1
+    ],
+    [
+      "submodules/ChatListUI/Sources/Node/ChatListItem.swift",
+      "            let textLineSpacing: CGFloat = min(0.2, item.presentationData.fontSize.itemListBaseFontSize * 0.2 / 17.0)\n",
+      "            let nagramiXPreviewEmojiText = textAttributedString ?? NSAttributedString(string: \"\")\n            let nagramiXPreviewEmojiMessageId = messages.last?.id\n            if let text = textAttributedString {\n                textAttributedString = nagramiXPreviewEmojiSnapshot.applying(to: text, accountPeerId: account.peerId, messageId: nagramiXPreviewEmojiMessageId)\n            }\n            let textLineSpacing: CGFloat = min(0.2, item.presentationData.fontSize.itemListBaseFontSize * 0.2 / 17.0)\n",
+      1
+    ],
+    [
+      "submodules/ChatListUI/Sources/Node/ChatListItem.swift",
+      "                    let _ = textApply(TextNodeWithEntities.Arguments(\n                        context: item.context,\n                        cache: item.interaction.animationCache,\n                        renderer: item.interaction.animationRenderer,\n                        placeholderColor: item.presentationData.theme.list.mediaPlaceholderColor,\n                        attemptSynchronous: synchronousLoads\n                    ))",
+      "                    let _ = textApply(TextNodeWithEntities.Arguments(\n                        context: item.context,\n                        cache: item.interaction.animationCache,\n                        renderer: item.interaction.animationRenderer,\n                        placeholderColor: item.presentationData.theme.list.mediaPlaceholderColor,\n                        attemptSynchronous: synchronousLoads\n                    ))\n                    strongSelf.nagramiXPreviewEmoji.update(accountPeerId: account.peerId, messageId: nagramiXPreviewEmojiMessageId, text: nagramiXPreviewEmojiText, rendered: nagramiXPreviewEmojiSnapshot, resolve: { ids, completion in\n                        return (item.context.engine.stickers.resolveInlineStickers(fileIds: ids)\n                        |> deliverOnMainQueue).start(next: completion)\n                    }, refresh: { [weak strongSelf] in\n                        guard let strongSelf, let params = strongSelf.layoutParams, strongSelf.item === params.0 else { return }\n                        let (_, apply) = strongSelf.asyncLayout()(params.0, params.6, params.1, params.2, params.3, params.4, params.5)\n                        apply(false, false)\n                    })",
+      1
+    ],
+    [
+      "submodules/ChatListUI/Sources/Node/ChatListItemStrings.swift",
+      "                                    richTextPreview = nil\n                                    messageText = \"🖼 \\(messageText)\"",
+      "                                    nagramiXChatListPrependMediaPrefix(\"🖼 \", text: &messageText, entities: &messageEntities, spoilers: &spoilers, customEmoji: &customEmojiRanges, richText: &richTextPreview)",
+      1
+    ],
+    [
+      "submodules/ChatListUI/Sources/Node/ChatListItemStrings.swift",
+      "                                    richTextPreview = nil\n                                    messageText = \"📹 \\(messageText)\"",
+      "                                    nagramiXChatListPrependMediaPrefix(\"📹 \", text: &messageText, entities: &messageEntities, spoilers: &spoilers, customEmoji: &customEmojiRanges, richText: &richTextPreview)",
+      1
+    ],
+    [
+      "submodules/ChatListUI/Sources/Node/ChatListItemStrings.swift",
+      "                            richTextPreview = nil\n                            messageText = \"🖼 \\(messageText)\"",
+      "                            nagramiXChatListPrependMediaPrefix(\"🖼 \", text: &messageText, entities: &messageEntities, spoilers: &spoilers, customEmoji: &customEmojiRanges, richText: &richTextPreview)",
+      1
+    ],
+    [
+      "submodules/ChatListUI/Sources/Node/ChatListItemStrings.swift",
+      "                                            richTextPreview = nil\n                                            messageText = \"🎤 \\(messageText)\"",
+      "                                            nagramiXChatListPrependMediaPrefix(\"🎤 \", text: &messageText, entities: &messageEntities, spoilers: &spoilers, customEmoji: &customEmojiRanges, richText: &richTextPreview)",
+      1
+    ],
+    [
+      "submodules/ChatListUI/Sources/Node/ChatListItemStrings.swift",
+      "                                                    richTextPreview = nil\n                                                    messageText = \"📹 \\(messageText)\"",
+      "                                                    nagramiXChatListPrependMediaPrefix(\"📹 \", text: &messageText, entities: &messageEntities, spoilers: &spoilers, customEmoji: &customEmojiRanges, richText: &richTextPreview)",
+      1
+    ],
+    [
+      "submodules/ChatListUI/Sources/Node/ChatListItemStrings.swift",
+      "                                    richTextPreview = nil\n                                    messageText = \"📎 \\(messageText)\"",
+      "                                    nagramiXChatListPrependMediaPrefix(\"📎 \", text: &messageText, entities: &messageEntities, spoilers: &spoilers, customEmoji: &customEmojiRanges, richText: &richTextPreview)",
+      1
+    ]
+  ]
+}

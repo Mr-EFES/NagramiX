@@ -1,0 +1,99 @@
+{
+  "hashes": {
+    "submodules/TelegramUI/Sources/ChatControllerForwardMessages.swift": "c85e8f8d92f01e23b4f17cc62628d1bbca89fa1ef6e8e39823f9926b64579ce1",
+    "submodules/TelegramUI/Sources/ChatInterfaceStateContextMenus.swift": "7b9317faea4a2a65f375d2a42c56cd52d16162d36ffa5431798c012f7a41f109",
+    "submodules/TelegramUI/Sources/Chat/ChatControllerLoadDisplayNode.swift": "0263221823e87c21d82f62cf38b52cb0cc49d2fb9107bd325efd3e09a591c3cf"
+  },
+  "patches": [
+    [
+      "submodules/TelegramUI/Sources/ChatControllerForwardMessages.swift",
+      "func nagramiXCanCopyMessagesAsNew(_ messages: [EngineRawMessage]) -> Bool {\n    return nagramiXCopyMessagesAsNew(messages) != nil\n}",
+      "func nagramiXCanCopyMessagesAsNew(_ messages: [EngineRawMessage], accountPeerId: PeerId? = nil) -> Bool {\n    return nagramiXCopyMessagesAsNew(messages, accountPeerId: accountPeerId) != nil\n}\n\nfunc nagramiXAllowsOwnViewOnceDestination(_ peer: EnginePeer, accountPeerId: PeerId, requiresPayment: Bool) -> Bool {\n    guard case let .user(user) = peer else { return false }\n    return user.id != accountPeerId && user.botInfo == nil && !requiresPayment\n}",
+      1
+    ],
+    [
+      "submodules/TelegramUI/Sources/ChatControllerForwardMessages.swift",
+      "forceLocalMedia: Bool = false) -> [EnqueueMessage]?",
+      "forceLocalMedia: Bool = false, accountPeerId: PeerId? = nil) -> [EnqueueMessage]?",
+      1
+    ],
+    [
+      "submodules/TelegramUI/Sources/ChatControllerForwardMessages.swift",
+      "        if !message.nagramiXAllowsContentCopy {\n            return nil\n        }\n\n        var attributes: [EngineMessage.Attribute] = []",
+      "        let ownViewOnce = message.nagramiXAllowsOwnViewOnceCopy(accountPeerId: accountPeerId)\n        guard message.nagramiXAllowsContentCopy || ownViewOnce else { return nil }\n        if ownViewOnce, let mediaBox, !message.nagramiXHasLocalViewOnceRecording(mediaBox: mediaBox) {\n            return nil\n        }\n\n        var attributes: [EngineMessage.Attribute] = []\n        if ownViewOnce {\n            // New one-shot lifetime; never reuse the original's countdown.\n            attributes.append(AutoremoveTimeoutMessageAttribute(timeout: viewOnceTimeout, countdownBeginTime: nil))\n        }",
+      1
+    ],
+    [
+      "submodules/TelegramUI/Sources/ChatControllerForwardMessages.swift",
+      "if forceLocalMedia || message.isCopyProtected() || message.attributes.contains(where: { $0 is NagramiXArchivedMessageAttribute }) {",
+      "if ownViewOnce || forceLocalMedia || message.isCopyProtected() || message.attributes.contains(where: { $0 is NagramiXArchivedMessageAttribute }) {",
+      1
+    ],
+    [
+      "submodules/TelegramUI/Sources/ChatControllerForwardMessages.swift",
+      "        let nagramiXProtectedCopy = transferMode != .forwardWithSource && (messages.contains(where: { $0.isCopyProtected() }) || (self.presentationInterfaceState.copyProtectionEnabled && messages.contains(where: { $0.id.peerId == self.chatLocation.peerId })))",
+      "        let nagramiXOwnViewOnceCopy = messages.contains(where: { $0.nagramiXAllowsOwnViewOnceCopy(accountPeerId: self.context.account.peerId) })\n        // Repost remains a native forward; only the two copy actions gain this path.\n        if nagramiXOwnViewOnceCopy && transferMode == .forwardWithSource {\n            self.present(nagramiXArchivedCopyAlert(context: self.context), in: .window(.root))\n            return\n        }\n        let nagramiXProtectedCopy = transferMode != .forwardWithSource && (nagramiXOwnViewOnceCopy || messages.contains(where: { $0.isCopyProtected() }) || (self.presentationInterfaceState.copyProtectionEnabled && messages.contains(where: { $0.id.peerId == self.chatLocation.peerId })))",
+      1
+    ],
+    [
+      "submodules/TelegramUI/Sources/ChatControllerForwardMessages.swift",
+      "guard nagramiXCanCopyMessagesAsNew(messages) else {",
+      "guard nagramiXCanCopyMessagesAsNew(messages, accountPeerId: self.context.account.peerId) else {",
+      1
+    ],
+    [
+      "submodules/TelegramUI/Sources/ChatControllerForwardMessages.swift",
+      "            var filter: ChatListNodePeersFilter = [.onlyWriteable, .excludeDisabled, .doNotSearchMessages]\n",
+      "            var filter: ChatListNodePeersFilter = [.onlyWriteable, .excludeDisabled, .doNotSearchMessages]\n            if nagramiXOwnViewOnceCopy {\n                filter.formUnion([.onlyPrivateChats, .excludeSavedMessages, .excludeSecretChats, .excludeBots])\n            }\n",
+      1
+    ],
+    [
+      "submodules/TelegramUI/Sources/ChatControllerForwardMessages.swift",
+      "                    let renderedPeers = renderedPeers.compactMap({ $0 })\n",
+      "                    if nagramiXOwnViewOnceCopy {\n                        let allowsMode: Bool\n                        switch mode {\n                        case .generic, .silent: allowsMode = true\n                        case .schedule, .whenOnline: allowsMode = false\n                        }\n                        // Revalidate contacts/search selections and current fees as\n                        // well as the list filter before staging, payment or enqueue.\n                        let allowsPeers = peers.allSatisfy { peer in\n                            nagramiXAllowsOwnViewOnceDestination(peer, accountPeerId: context.account.peerId, requiresPayment: (sendPaidMessageStars[peer.id] ?? nil) != nil)\n                        }\n                        guard allowsMode && allowsPeers else {\n                            controller?.present(textAlertController(context: context, title: nil, text: strongSelf.presentationData.strings.Forward_ErrorDisabledForChat, actions: [TextAlertAction(type: .defaultAction, title: strongSelf.presentationData.strings.Common_OK, action: {})]), in: .window(.root))\n                            return\n                        }\n                    }\n                    let renderedPeers = renderedPeers.compactMap({ $0 })\n",
+      1
+    ],
+    [
+      "submodules/TelegramUI/Sources/ChatControllerForwardMessages.swift",
+      "hideCaptions: forwardOptions?.hideCaptions == true, forceLocalMedia: nagramiXProtectedCopy) else {",
+      "hideCaptions: forwardOptions?.hideCaptions == true, forceLocalMedia: nagramiXProtectedCopy, accountPeerId: strongSelf.context.account.peerId) else {",
+      1
+    ],
+    [
+      "submodules/TelegramUI/Sources/ChatControllerForwardMessages.swift",
+      "                                var displayConvertingTooltip = false\n",
+      "                                // A native destination diversion must not silently\n                                // turn a one-shot recording into a scheduled message.\n                                if nagramiXOwnViewOnceCopy && targetPeersShouldDivert.contains(where: { $0.1 }) {\n                                    strongSelf.present(textAlertController(context: strongSelf.context, title: nil, text: strongSelf.presentationData.strings.Forward_ErrorDisabledForChat, actions: [TextAlertAction(type: .defaultAction, title: strongSelf.presentationData.strings.Common_OK, action: {})]), in: .window(.root))\n                                    return\n                                }\n                                var displayConvertingTooltip = false\n",
+      1
+    ],
+    [
+      "submodules/TelegramUI/Sources/ChatInterfaceStateContextMenus.swift",
+      "        let messagesToForward = selectAll || isImage ? messages : [message]\n        if data.messageActions.options.contains(.forward) || (isCopyProtected && nagramiXCanCopyMessagesAsNew(messagesToForward)) {",
+      "        let messagesToForward = selectAll || isImage ? messages : [message]\n        let nagramiXCanCopySelection = nagramiXCanCopyMessagesAsNew(messagesToForward, accountPeerId: context.account.peerId)\n        let nagramiXOwnViewOnceCopy = messagesToForward.contains(where: { $0.nagramiXAllowsOwnViewOnceCopy(accountPeerId: context.account.peerId) })\n        if data.messageActions.options.contains(.forward) || ((isCopyProtected || nagramiXOwnViewOnceCopy) && nagramiXCanCopySelection) {",
+      1
+    ],
+    [
+      "submodules/TelegramUI/Sources/ChatInterfaceStateContextMenus.swift",
+      "if data.messageActions.options.contains(.forward) && !isCopyProtected {",
+      "if data.messageActions.options.contains(.forward) && !isCopyProtected && !nagramiXOwnViewOnceCopy {",
+      1
+    ],
+    [
+      "submodules/TelegramUI/Sources/ChatInterfaceStateContextMenus.swift",
+      "nagramiXCanCopyMessagesAsNew(messagesToForward)",
+      "nagramiXCanCopySelection",
+      3
+    ],
+    [
+      "submodules/TelegramUI/Sources/ChatInterfaceStateContextMenus.swift",
+      "nagramiXCanCopyMessagesAsNew(selectAll ? messages : [message])",
+      "nagramiXCanCopyMessagesAsNew(selectAll ? messages : [message], accountPeerId: context.account.peerId)",
+      2
+    ],
+    [
+      "submodules/TelegramUI/Sources/Chat/ChatControllerLoadDisplayNode.swift",
+      "        }, canCopyMessagesWithoutSource: nagramiXCanCopyMessagesAsNew, copyMessagesWithoutSource:",
+      "        }, canCopyMessagesWithoutSource: { [weak self] messages in\n            guard let self else { return false }\n            return nagramiXCanCopyMessagesAsNew(messages, accountPeerId: self.context.account.peerId)\n        }, copyMessagesWithoutSource:",
+      1
+    ]
+  ]
+}

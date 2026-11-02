@@ -1,0 +1,38 @@
+{
+  "inputs": {
+    "submodules/NagramiXTranscription/Sources/Settings.swift": "b1a06e07fd6220d4290e6bd21b9b9b5a3cad75d6d8f4a1d97283d916e3c356d2",
+    "submodules/NagramiXTranscription/Sources/Preferences.swift": "d9db9e994c47893c5e561272aa48cf75bd32dfd2a8c9fe2b37e3ab4a9acd4f92",
+    "submodules/NagramiXTranscription/Sources/Runtime.swift": "104056a0bc753558c4efce7f2db3d6a260aa31b64a060bfeb86b9b70cbef3194"
+  },
+  "outputs": {
+    "submodules/NagramiXTranscription/Sources/Settings.swift": "04ee2ca433d2d62d423be47be1d42ba9398adb4446d647afe58ba9d984bdafc0",
+    "submodules/NagramiXTranscription/Sources/Preferences.swift": "1894137d0149f3d1e09a68d207fbf52c3481b09b85613479f0bf1a9e8f9e97bc",
+    "submodules/NagramiXTranscription/Sources/Runtime.swift": "48bb16de39e4e93c4c51154d4c95359027a4937cb709e8e57be7ece7a0053d9a"
+  },
+  "guards": {
+    "submodules/NagramiXTranscription/BUILD": "0a3e9cad2c13fdf76a39088878960d3ccbb62abb45e68f2172ada3a9904a49c9",
+    "submodules/NagramiXTranscription/Sources/Coordinator.swift": "337fca53ada806134c4cd98e1af9e0ec7171619fa0a2f092aa7a7d78371878e9",
+    "submodules/NagramiXTranscription/Sources/Apple.swift": "d1fcda81b534c9e4f3059160c7b0113d2a11fe5a566259590fb8a77d11d4aa5d",
+    "submodules/NagramiXTranscription/Sources/Whisper.swift": "9d9a7555c6eb0931a312b163087b1f97e8dcfa7fb4a449132864b2a5d25bd8b7"
+  },
+  "templates": {
+    "transcription_local_fallback/Before-Settings.swift.inc": "b1a06e07fd6220d4290e6bd21b9b9b5a3cad75d6d8f4a1d97283d916e3c356d2",
+    "transcription_local_fallback/Settings.swift.inc": "04ee2ca433d2d62d423be47be1d42ba9398adb4446d647afe58ba9d984bdafc0",
+    "transcription_local_fallback/Before-Preferences.swift.inc": "d9db9e994c47893c5e561272aa48cf75bd32dfd2a8c9fe2b37e3ab4a9acd4f92",
+    "transcription_local_fallback/Preferences.swift.inc": "1894137d0149f3d1e09a68d207fbf52c3481b09b85613479f0bf1a9e8f9e97bc",
+    "transcription_local_fallback/Before-Runtime.swift.inc": "104056a0bc753558c4efce7f2db3d6a260aa31b64a060bfeb86b9b70cbef3194",
+    "transcription_local_fallback/Runtime.swift.inc": "48bb16de39e4e93c4c51154d4c95359027a4937cb709e8e57be7ece7a0053d9a"
+  },
+  "replacements": {
+    "submodules/NagramiXTranscription/Sources/Settings.swift": "transcription_local_fallback/Settings.swift.inc",
+    "submodules/NagramiXTranscription/Sources/Preferences.swift": "transcription_local_fallback/Preferences.swift.inc",
+    "submodules/NagramiXTranscription/Sources/Runtime.swift": "transcription_local_fallback/Runtime.swift.inc"
+  },
+  "previous": {
+    "submodules/NagramiXTranscription/Sources/Settings.swift": "transcription_local_fallback/Before-Settings.swift.inc",
+    "submodules/NagramiXTranscription/Sources/Preferences.swift": "transcription_local_fallback/Before-Preferences.swift.inc",
+    "submodules/NagramiXTranscription/Sources/Runtime.swift": "transcription_local_fallback/Before-Runtime.swift.inc"
+  },
+  "copies": {},
+  "deletions": {}
+}

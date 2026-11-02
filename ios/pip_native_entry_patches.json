@@ -1,0 +1,191 @@
+{
+  "inputs": {
+    "submodules/GalleryUI/Sources/Items/UniversalVideoGalleryItem.swift": "94f90000528ed452af8b988fdfc9d7d75eefd172c24c10cc21746e0f7a0ffc11",
+    "submodules/GalleryUI/Sources/GalleryControllerNode.swift": "75ae91c0199cd119f0a6129f1913dbb860a1c4a460b0db730f0be012d640a26d",
+    "submodules/GalleryUI/Sources/GalleryItemNode.swift": "27f9078f8d9c08a4a8939e3bd5de9b9d101b62a40b48f0823a1e41b04b575f83",
+    "submodules/GalleryUI/Sources/NagramiXPiPGestureController.swift": "9a3520ca305eeace7942ae00b71fb94e2408e33634d5279ca74a9933ff325068",
+    "submodules/GalleryUI/Sources/ChatItemGalleryFooterContentNode.swift": "facfbb3dc107a8f3c1f53d82bcedbb1ed772aa69c0356eaeccaba70278a8246d"
+  },
+  "outputs": {
+    "submodules/GalleryUI/Sources/Items/UniversalVideoGalleryItem.swift": "41a1bfd008c53e0b0b9726008718eaa56897cec4e592ef4663b58288fe6f1964",
+    "submodules/GalleryUI/Sources/GalleryControllerNode.swift": "15d72fed31f1ff9bed54d33782995ac29d69d10d2cc825f2a009d4db03ca68a2",
+    "submodules/GalleryUI/Sources/GalleryItemNode.swift": "4ca723b476b854be380c910f0f4cad1bdd0212d550bf85168717b7a04ffd316a",
+    "submodules/GalleryUI/Sources/NagramiXPiPGestureController.swift": "a7f3e41e0e82cc25ba1c9e70397ff288938b1e97f9bd5f1d97464a14c0a902b0",
+    "submodules/GalleryUI/Sources/ChatItemGalleryFooterContentNode.swift": "f920376a9573f0192dfcce4fc3d63539e8f5f3797fbdadec556ddac63e8d2439"
+  },
+  "guards": {
+    "submodules/GalleryUI/BUILD": "963014e4710bf8e9f76f03508369d9d2d399bc5b2a9a68d2860e0c41ea910136",
+    "submodules/GalleryUI/Sources/NagramiXPiPLifecycle.swift": "eabebe0b37cf156252c0e82a99b706467b24f9613f9f49dd975c56210fe69565",
+    "submodules/GalleryUI/Sources/NagramiXPiPVisualHandoff.swift": "3e9360997118a31dc9f971ca7e88ac91912177f3bcd4b2ec61e8ad4ef40251ee",
+    "submodules/GalleryUI/Sources/GalleryController.swift": "f25cd0fe06d75bfa49b21abe4af099e6b8064ed20c1cdca28a601be2f59fc847",
+    "submodules/AccountContext/Sources/UniversalVideoNode.swift": "a0a2479c3e9e18a6d07d980a7271bf945c2a0b10f45f5c20d8ebc9c4dde6f2af",
+    "submodules/Display/Source/WindowContent.swift": "2dc1fec753da9171182b10fb793e49764bf21e85bcaa0fd4db65ff153b81780a",
+    "submodules/Display/Source/Navigation/NavigationController.swift": "50201ef844b3650993acc4cdc2f85395825a2750134feb7c1cd361a788821a74",
+    "submodules/TelegramCore/Sources/Utils/Log.swift": "e9178355bb3c7bfff0053de5695a58f410c0e42526514a3ab6d949b38c77f471",
+    "submodules/MediaPlayer/Sources/MediaPlayerNode.swift": "bce51daf3b616a7e4b109a001fba0f7621bfcf93a3c65b1db9a26e29e4d85a9e",
+    "submodules/TelegramUI/Sources/MediaManager.swift": "69450c60fbe3e0461a3abdb6292ccf1d9cf638fffc69c7813ee01773ba2d4784"
+  },
+  "templates": {
+    "pip_native_entry/Diagnostics.swift": "86f7700464787547f71274cc966bc45af79e28b7df1efaef5a9e03eba6dd6de4",
+    "pip_native_entry/Admission.swift.inc": "bc860780500c03d374c27dc2fe27ce3db95a7453cac419e6cba5b524e4936384",
+    "pip_native_entry/Backdrop.swift.inc": "2574e3c3e4f3940b91df6d0c21bef1921a40af07fb11513aa163fb5ba392840c"
+  },
+  "copies": {
+    "submodules/GalleryUI/Sources/NagramiXPiPDiagnostics.swift": {
+      "source": "pip_native_entry/Diagnostics.swift",
+      "sha256": "86f7700464787547f71274cc966bc45af79e28b7df1efaef5a9e03eba6dd6de4"
+    }
+  },
+  "patches": [
+    [
+      "submodules/GalleryUI/Sources/Items/UniversalVideoGalleryItem.swift",
+      "private var nagramiXCanUseSystemPiP: Bool {\n        guard self.isCentral == true, self.hasPictureInPicture, !self.isLivePhoto,\n              let item = self.item, !item.isSecret, self.videoNode != nil,\n              self.baseNavigationController() != nil,\n              AVPictureInPictureController.isPictureInPictureSupported() else { return false }\n        if let data = self.context.currentAppConfiguration.with({ $0 }).data,\n           data[\"ios_killswitch_disable_native_pip_v2\"] != nil { return false }\n        if case let .message(message, _) = item.contentInfo, message.adAttribute != nil { return false }\n        if let content = item.content as? NativeVideoContent, content.fileReference.media.isAnimated { return false }\n        if let content = item.content as? HLSVideoContent, content.fileReference.media.isAnimated { return false }\n        return true\n    }",
+      "private var nagramiXPiPCurrentGallery: GalleryControllerNode? {\n        guard let gallery = self.galleryController()?.displayNode as? GalleryControllerNode,\n              gallery.pager.centralItemNode() === self,\n              gallery.nagramiXAllowsSystemPiPTransition else { return nil }\n        return gallery\n    }\n\n    private var nagramiXPiPUnavailableReason: String? {\n        guard self.nagramiXPiPCurrentGallery != nil else { return \"not_current_gallery\" }\n        guard self.hasPictureInPicture, !self.isLivePhoto, let item = self.item else { return \"unsupported_content\" }\n        guard !item.isSecret else { return \"secret_content\" }\n        guard self.videoNode != nil else { return \"missing_video_node\" }\n        guard self.galleryController()?.view.windowHost != nil else { return \"missing_window_host\" }\n        guard AVPictureInPictureController.isPictureInPictureSupported() else { return \"unsupported_device\" }\n        if let data = self.context.currentAppConfiguration.with({ $0 }).data,\n           data[\"ios_killswitch_disable_native_pip_v2\"] != nil { return \"server_disabled\" }\n        if case let .message(message, _) = item.contentInfo, message.adAttribute != nil { return \"advertisement\" }\n        if let content = item.content as? NativeVideoContent, content.fileReference.media.isAnimated { return \"animated_content\" }\n        if let content = item.content as? HLSVideoContent, content.fileReference.media.isAnimated { return \"animated_content\" }\n        return nil\n    }\n\n    private var nagramiXCanUseSystemPiP: Bool { return self.nagramiXPiPUnavailableReason == nil }",
+      1
+    ],
+    [
+      "submodules/GalleryUI/Sources/Items/UniversalVideoGalleryItem.swift",
+      "    private var activePictureInPictureNavigationController: NavigationController?\n",
+      "    private var activePictureInPictureNavigationController: NavigationController?\n    private var nagramiXActivePiPWindowHost: WindowHost?\n",
+      1
+    ],
+    [
+      "submodules/GalleryUI/Sources/Items/UniversalVideoGalleryItem.swift",
+      "        self.alternativeDismiss = { [weak self] in",
+      "        self.footerContentNode.nagramiXPictureInPictureRequested = { [weak self] in\n            self?.pictureInPictureButtonPressed()\n        }\n        self.alternativeDismiss = { [weak self] in",
+      1
+    ],
+    [
+      "submodules/GalleryUI/Sources/Items/UniversalVideoGalleryItem.swift",
+      "        return self.nagramiXStartSystemPiP(requiresSwipeSetting: true, completion: completion)",
+      "        NagramiXPiPDiagnostics.begin(\"swipe\")\n        self.nagramiXPiPSourceWasCancelled = false\n        return self.nagramiXStartSystemPiP(requiresSwipeSetting: true, completion: completion)",
+      1
+    ],
+    [
+      "submodules/GalleryUI/Sources/Items/UniversalVideoGalleryItem.swift",
+      "    private func nagramiXStartSystemPiP(requiresSwipeSetting: Bool, completion: @escaping (Bool) -> Void) -> Bool {\n        guard self.nagramiXCanUseSystemPiP,",
+      "    private func nagramiXStartSystemPiP(requiresSwipeSetting: Bool, completion: @escaping (Bool) -> Void) -> Bool {\n        if let reason = self.nagramiXPiPUnavailableReason {\n            NagramiXPiPDiagnostics.record(\"rejected=\" + reason)\n            return false\n        }\n        guard self.nagramiXCanUseSystemPiP,",
+      1
+    ],
+    [
+      "submodules/GalleryUI/Sources/Items/UniversalVideoGalleryItem.swift",
+      "              let node = self.videoNode else { return false }\n        self.nagramiXPiPControlsWereVisible",
+      "              let node = self.videoNode else { NagramiXPiPDiagnostics.record(\"rejected=presentation_or_duplicate\"); return false }\n        NagramiXPiPDiagnostics.record(\"admitted\")\n        self.nagramiXPiPControlsWereVisible",
+      1
+    ],
+    [
+      "submodules/GalleryUI/Sources/Items/UniversalVideoGalleryItem.swift",
+      "                item.activePictureInPictureNavigationController = nil\n                return true",
+      "                item.activePictureInPictureNavigationController = nil\n                item.nagramiXActivePiPWindowHost = nil\n                return true",
+      1
+    ],
+    [
+      "submodules/GalleryUI/Sources/Items/UniversalVideoGalleryItem.swift",
+      "            NSLog(\"NagramiX PiP v3: result=%@\", started ? \"active\" : \"inline\")",
+      "            NagramiXPiPDiagnostics.record(started ? \"result=active\" : \"result=inline\")\n            NSLog(\"NagramiX PiP v3: result=%@\", started ? \"active\" : \"inline\")",
+      1
+    ],
+    [
+      "submodules/GalleryUI/Sources/Items/UniversalVideoGalleryItem.swift",
+      "private func setupNativePictureInPicture() {\n        guard self.nagramiXCanUseSystemPiP, let item = self.item, let node = self.videoNode else { return }\n        if let previous = self.nativePictureInPictureContent as? NagramiXSystemPiPController {\n            if previous.nagramiXMatchesSource(node, requireLayer: false) { return }\n            guard !previous.nagramiXHasPiPRequest else { return }\n            self.nativePictureInPictureContent = nil\n        }\n        var hiddenMedia: (MessageId, Media)?\n        if case let .message(message, _) = item.contentInfo {\n            for media in message.effectiveMedia {\n                if let file = media as? TelegramMediaFile, file.isVideo { hiddenMedia = (message.id, file); break }\n            }\n        }\n        let previewOwner = UUID()\n        let visual = NagramiXPiPVisualHandoff(preview: { [weak self] visible in\n            (self?.galleryController() as? GalleryController)?.nagramiXSetPiPSourcePreview(owner: previewOwner, visible: visible)\n        }, fadeOut: { [weak self] completion in\n            guard let controller = self?.galleryController() else { completion(); return }\n            let alpha = CGFloat(controller.view.layer.presentation()?.opacity ?? Float(controller.view.alpha))\n            controller.view.layer.removeAnimation(forKey: \"opacity\")\n            controller.view.alpha = 0.0\n            controller.view.layer.animateAlpha(from: alpha, to: 0.0,\n                duration: UIAccessibility.isReduceMotionEnabled ? 0.0 : 0.2,\n                completion: { _ in completion() })\n        }, fadeIn: { [weak self] animated, completion in\n            guard let controller = self?.galleryController() else { completion(); return }\n            let alpha = CGFloat(controller.view.layer.presentation()?.opacity ?? Float(controller.view.alpha))\n            controller.view.layer.removeAnimation(forKey: \"opacity\")\n            controller.view.alpha = 1.0\n            if animated && !UIAccessibility.isReduceMotionEnabled {\n                controller.view.layer.animateAlpha(from: alpha, to: 1.0, duration: 0.2, completion: { _ in completion() })\n            } else {\n                completion()\n            }\n        }, dismiss: { [weak self] in\n            self?.completeCustomDismiss(true)\n        })\n        let content = NagramiXSystemPiPController(context: self.context, videoNode: node, hiddenMedia: hiddenMedia, nowPlayingTitle: self.nagramiXVideoNowPlayingTitle,\n            transition: { [weak self] in\n                (self?.galleryController()?.displayNode as? GalleryControllerNode)?.nagramiXPrepareSystemPiPControls()\n                visual.willStart()\n            }, rollbackTransition: { [weak self] in\n                visual.cancel()\n                guard let self else { return }\n                self.nagramiXPiPSurface.view.layer.removeAnimation(forKey: \"transform\")\n                self.nagramiXPiPSurface.view.transform = .identity\n                (self.galleryController()?.displayNode as? GalleryControllerNode)?.nagramiXPreparePiPRestoration()\n                (self.galleryController()?.displayNode as? GalleryControllerNode)?.setControlsHidden(!self.nagramiXPiPControlsWereVisible, animated: false)\n                self.controlsVisibilityUpdated(isVisible: self.nagramiXPiPControlsWereVisible, animated: false)\n            },\n            transfer: { [weak self, weak node] content in\n                guard let self, let node, self.videoNode === node, self.nativePictureInPictureContent === content,\n                      let controller = self.galleryController(), let navigation = self.baseNavigationController() else { return false }\n                let owner = self.context.sharedContext.mediaManager.currentPictureInPictureNode\n                guard owner == nil || owner === self else { return false }\n                self.activePictureInPictureController = controller\n                self.activePictureInPictureNavigationController = navigation\n                self.context.sharedContext.mediaManager.currentPictureInPictureNode = self\n                node.canAttachContent = true\n                self.beginCustomDismiss(.pip)\n                visual.commit()\n                return true\n            }, restore: { [weak self, weak node] completion in\n                guard let self, let node, self.videoNode === node,\n                      let controller = self.activePictureInPictureController,\n                      let navigation = self.activePictureInPictureNavigationController,\n                      let window = navigation.currentWindow else { completion(false); return }\n                visual.restore()\n                (controller.displayNode as? GalleryControllerNode)?.nagramiXPreparePiPRestoration()\n                node.canAttachContent = true\n                controller.view.layer.removeAnimation(forKey: \"opacity\")\n                controller.view.alpha = 1.0\n                self.updateControlsVisibility(false)\n                // Expand may arrive before the inline fade/dismiss completed.\n                // If the gallery is still present, presenting it again duplicates\n                // the controller. Reuse it and let AVKit animate back to its layer.\n                if controller.view.window != nil {\n                    completion(true)\n                } else {\n                    let arguments = controller.presentationArguments\n                    controller.presentationArguments = nil\n                    window.present(controller, on: .root, blockInteraction: false, completion: { completion(true) })\n                    controller.presentationArguments = arguments\n                }\n            }, ended: { [weak self, weak node] content, restored in\n                guard let self, self.nativePictureInPictureContent === content else { return }\n                if self.context.sharedContext.mediaManager.currentPictureInPictureNode === self {\n                    self.context.sharedContext.mediaManager.currentPictureInPictureNode = nil\n                }\n                if !restored || self.isCentral == false {\n                    // A newer gallery can own the same shared decoder already.\n                    // Stopping this retired PiP must not pause that new owner.\n                    if node?.ownsContentNode == true { node?.pause() }\n                    if self._isVisible == false || self.view.window == nil { node?.canAttachContent = false }\n                }\n                if !restored {\n                    self.context.engine.accountData.addAppLogEvent(type: \"pip_close_btn\")\n                }\n                self.activePictureInPictureController = nil\n                self.activePictureInPictureNavigationController = nil\n                self.updateDisplayPlaceholder()\n            })\n        self.nativePictureInPictureContent = content\n    }",
+      "private func setupNativePictureInPicture() {\n        guard self.nagramiXCanUseSystemPiP, let item = self.item, let node = self.videoNode else { return }\n        if let previous = self.nativePictureInPictureContent as? NagramiXSystemPiPController {\n            if previous.nagramiXMatchesSource(node, requireLayer: false) { return }\n            guard !previous.nagramiXHasPiPRequest else { return }\n            self.nativePictureInPictureContent = nil\n        }\n        var hiddenMedia: (MessageId, Media)?\n        if case let .message(message, _) = item.contentInfo {\n            for media in message.effectiveMedia {\n                if let file = media as? TelegramMediaFile, file.isVideo { hiddenMedia = (message.id, file); break }\n            }\n        }\n        let previewOwner = UUID()\n        let visual = NagramiXPiPVisualHandoff(preview: { [weak self] visible in\n            (self?.galleryController() as? GalleryController)?.nagramiXSetPiPSourcePreview(owner: previewOwner, visible: visible)\n        }, fadeOut: { [weak self] completion in\n            guard let controller = self?.galleryController() else { completion(); return }\n            guard let gallery = controller.displayNode as? GalleryControllerNode else { completion(); return }\n            gallery.nagramiXSetPiPBackdrop(visible: false, animated: true, completion: completion)\n        }, fadeIn: { [weak self] animated, completion in\n            guard let controller = self?.galleryController() else { completion(); return }\n            controller.view.layer.removeAnimation(forKey: \"opacity\")\n            controller.view.alpha = 1.0\n            guard let gallery = controller.displayNode as? GalleryControllerNode else { completion(); return }\n            gallery.nagramiXSetPiPBackdrop(visible: true, animated: animated, completion: completion)\n        }, dismiss: { [weak self] in\n            self?.completeCustomDismiss(true)\n        })\n        let content = NagramiXSystemPiPController(context: self.context, videoNode: node, hiddenMedia: hiddenMedia, nowPlayingTitle: self.nagramiXVideoNowPlayingTitle,\n            transition: { [weak self] in\n                (self?.galleryController()?.displayNode as? GalleryControllerNode)?.nagramiXPrepareSystemPiPControls()\n                visual.willStart()\n            }, rollbackTransition: { [weak self] in\n                visual.cancel()\n                guard let self else { return }\n                self.nagramiXPiPSurface.view.layer.removeAnimation(forKey: \"transform\")\n                self.nagramiXPiPSurface.view.transform = .identity\n                (self.galleryController()?.displayNode as? GalleryControllerNode)?.nagramiXPreparePiPRestoration()\n                (self.galleryController()?.displayNode as? GalleryControllerNode)?.setControlsHidden(!self.nagramiXPiPControlsWereVisible, animated: false)\n                self.controlsVisibilityUpdated(isVisible: self.nagramiXPiPControlsWereVisible, animated: false)\n            },\n            transfer: { [weak self, weak node] content in\n                guard let self, let node, self.videoNode === node, self.nativePictureInPictureContent === content,\n                      let controller = self.galleryController(), let windowHost = controller.view.windowHost else { return false }\n                let owner = self.context.sharedContext.mediaManager.currentPictureInPictureNode\n                guard owner == nil || owner === self else { return false }\n                self.activePictureInPictureController = controller\n                self.activePictureInPictureNavigationController = self.baseNavigationController()\n                self.nagramiXActivePiPWindowHost = windowHost\n                self.context.sharedContext.mediaManager.currentPictureInPictureNode = self\n                node.canAttachContent = true\n                self.beginCustomDismiss(.pip)\n                visual.commit()\n                return true\n            }, restore: { [weak self, weak node] completion in\n                guard let self, let node, self.videoNode === node,\n                      let controller = self.activePictureInPictureController,\n                      let window = self.nagramiXActivePiPWindowHost else { completion(false); return }\n                visual.restore()\n                (controller.displayNode as? GalleryControllerNode)?.nagramiXPreparePiPRestoration()\n                node.canAttachContent = true\n                controller.view.layer.removeAnimation(forKey: \"opacity\")\n                controller.view.alpha = 1.0\n                self.updateControlsVisibility(false)\n                // Expand may arrive before the inline fade/dismiss completed.\n                // If the gallery is still present, presenting it again duplicates\n                // the controller. Reuse it and let AVKit animate back to its layer.\n                if controller.view.window != nil {\n                    completion(true)\n                } else {\n                    let arguments = controller.presentationArguments\n                    controller.presentationArguments = nil\n                    window.present(controller, on: .root, blockInteraction: false, completion: { completion(true) })\n                    controller.presentationArguments = arguments\n                }\n            }, ended: { [weak self, weak node] content, restored in\n                guard let self, self.nativePictureInPictureContent === content else { return }\n                if self.context.sharedContext.mediaManager.currentPictureInPictureNode === self {\n                    self.context.sharedContext.mediaManager.currentPictureInPictureNode = nil\n                }\n                if !restored || self.nagramiXPiPCurrentGallery == nil {\n                    // A newer gallery can own the same shared decoder already.\n                    // Stopping this retired PiP must not pause that new owner.\n                    if node?.ownsContentNode == true { node?.pause() }\n                    if self._isVisible == false || self.view.window == nil { node?.canAttachContent = false }\n                }\n                if !restored {\n                    self.context.engine.accountData.addAppLogEvent(type: \"pip_close_btn\")\n                }\n                self.activePictureInPictureController = nil\n                self.activePictureInPictureNavigationController = nil\n                self.nagramiXActivePiPWindowHost = nil\n                self.updateDisplayPlaceholder()\n            })\n        self.nativePictureInPictureContent = content\n    }",
+      1
+    ],
+    [
+      "submodules/GalleryUI/Sources/Items/UniversalVideoGalleryItem.swift",
+      "        guard let source = self.videoNode else { self.nagramiXPresentPiPFailure(); return }",
+      "        NagramiXPiPDiagnostics.begin(\"button\")\n        guard let source = self.videoNode else { self.nagramiXPresentPiPFailure(); return }",
+      1
+    ],
+    [
+      "submodules/GalleryUI/Sources/Items/UniversalVideoGalleryItem.swift",
+      "private func nagramiXPresentPiPFailure() {\n        guard self.isCentral == true, UIApplication.shared.applicationState == .active,\n              let controller = self.galleryController(), controller.view.window != nil,\n              (controller.displayNode as? GalleryControllerNode)?.nagramiXAllowsSystemPiPTransition == true else { return }\n        controller.present(textAlertController(context: self.context, title: self.presentationData.strings.nagramiXPiPTitle, text: self.presentationData.strings.nagramiXPiPUnavailable, actions: [TextAlertAction(type: .defaultAction, title: self.presentationData.strings.Common_OK, action: {})]), in: .window(.root))\n    }",
+      "override func nagramiXPictureInPictureRequestFailed() {\n        guard !self.nagramiXPiPSourceWasCancelled else { return }\n        self.nagramiXPresentPiPFailure()\n    }\n\n    private func nagramiXPresentPiPFailure() {\n        guard self.nagramiXPiPCurrentGallery != nil, UIApplication.shared.applicationState == .active,\n              let controller = self.galleryController(), controller.view.window != nil else { return }\n        NagramiXPiPDiagnostics.record(\"feedback=unavailable\")\n        controller.present(textAlertController(context: self.context, title: self.presentationData.strings.nagramiXPiPTitle, text: self.presentationData.strings.nagramiXPiPUnavailable, actions: [\n            TextAlertAction(type: .defaultAction, title: self.presentationData.strings.Common_OK, action: {}),\n            TextAlertAction(type: .genericAction, title: self.presentationData.strings.Common_Copy, action: {\n                UIPasteboard.general.string = NagramiXPiPDiagnostics.report\n            })\n        ]), in: .window(.root))\n    }",
+      1
+    ],
+    [
+      "submodules/GalleryUI/Sources/Items/UniversalVideoGalleryItem.swift",
+      "        NSLog(\"NagramiX PiP v3: prepare_system_session\")",
+      "        NagramiXPiPDiagnostics.record(\"prepare=system_session\")\n        NSLog(\"NagramiX PiP v3: prepare_system_session\")",
+      1
+    ],
+    [
+      "submodules/GalleryUI/Sources/Items/UniversalVideoGalleryItem.swift",
+      "    private var nagramiXReadinessReason = \"not_started\"",
+      "    private var nagramiXReadinessReason = \"not_started\" {\n        didSet {\n            if oldValue != self.nagramiXReadinessReason { NagramiXPiPDiagnostics.record(\"readiness=\" + self.nagramiXReadinessReason) }\n        }\n    }",
+      1
+    ],
+    [
+      "submodules/GalleryUI/Sources/Items/UniversalVideoGalleryItem.swift",
+      "                self?.rollbackTransition()\n            }\n            completion(started)",
+      "                NagramiXPiPDiagnostics.record(\"failed=\" + (self?.nagramiXReadinessReason ?? \"released\"))\n                self?.rollbackTransition()\n            }\n            completion(started)",
+      1
+    ],
+    [
+      "submodules/GalleryUI/Sources/Items/UniversalVideoGalleryItem.swift",
+      "            self.controller?.startPictureInPicture()",
+      "            NagramiXPiPDiagnostics.record(\"native=start\")\n            self.controller?.startPictureInPicture()",
+      1
+    ],
+    [
+      "submodules/GalleryUI/Sources/Items/UniversalVideoGalleryItem.swift",
+      "            self.transition()\n        }",
+      "            NagramiXPiPDiagnostics.record(\"native=will_start\")\n            self.transition()\n        }",
+      1
+    ],
+    [
+      "submodules/GalleryUI/Sources/Items/UniversalVideoGalleryItem.swift",
+      "            self.lifecycle.didStart()\n            self.updateNowPlaying()",
+      "            NagramiXPiPDiagnostics.record(\"native=did_start\")\n            self.lifecycle.didStart()\n            self.updateNowPlaying()",
+      1
+    ],
+    [
+      "submodules/GalleryUI/Sources/Items/UniversalVideoGalleryItem.swift",
+      "            self.lifecycle.failedToStart()",
+      "            NagramiXPiPDiagnostics.record(\"native_error=\" + error.domain + \"/\" + String(error.code))\n            self.lifecycle.failedToStart()",
+      1
+    ],
+    [
+      "submodules/GalleryUI/Sources/Items/UniversalVideoGalleryItem.swift",
+      "            self.lifecycle.didStop()",
+      "            NagramiXPiPDiagnostics.record(\"native=did_stop\")\n            self.lifecycle.didStop()",
+      1
+    ],
+    [
+      "submodules/GalleryUI/Sources/Items/UniversalVideoGalleryItem.swift",
+      "            self.lifecycle.restoreInterface(completion: completion)",
+      "            NagramiXPiPDiagnostics.record(\"native=restore\")\n            self.lifecycle.restoreInterface(completion: completion)",
+      1
+    ],
+    [
+      "submodules/GalleryUI/Sources/GalleryControllerNode.swift",
+      "    func nagramiXPreparePiPRestoration() {",
+      "    func nagramiXSetPiPBackdrop(visible: Bool, animated: Bool, completion: @escaping () -> Void) {\n        // Keep the live source view/layer visible until AVKit finishes taking\n        // ownership. Only the backdrop and controls fade during willStart.\n        let alpha: CGFloat = visible ? 1.0 : 0.0\n        let from = CGFloat(self.backgroundNode.layer.presentation()?.opacity ?? Float(self.backgroundNode.alpha))\n        self.backgroundNode.layer.removeAnimation(forKey: \"opacity\")\n        self.backgroundNode.alpha = alpha\n        if animated && !UIAccessibility.isReduceMotionEnabled {\n            self.backgroundNode.layer.animateAlpha(from: from, to: alpha, duration: 0.2, completion: { _ in completion() })\n        } else { completion() }\n    }\n\n    func nagramiXPreparePiPRestoration() {",
+      1
+    ],
+    [
+      "submodules/GalleryUI/Sources/GalleryItemNode.swift",
+      "    var nagramiXPiPSwipeTransitionPending = false",
+      "    func nagramiXPictureInPictureRequestFailed() {}\n\n    var nagramiXPiPSwipeTransitionPending = false",
+      1
+    ],
+    [
+      "submodules/GalleryUI/Sources/NagramiXPiPGestureController.swift",
+      "let accepted = item.nagramiXStartDirectionalPiP { [weak self] _ in",
+      "let accepted = item.nagramiXStartDirectionalPiP { [weak self, weak item] started in",
+      1
+    ],
+    [
+      "submodules/GalleryUI/Sources/NagramiXPiPGestureController.swift",
+      "                self.reset(animated: false, cancelPreparation: false)\n            }\n            if !accepted { self.reset(animated: false) }",
+      "                self.reset(animated: false, cancelPreparation: false)\n                if !started { item?.nagramiXPictureInPictureRequestFailed() }\n            }\n            if !accepted {\n                self.reset(animated: false)\n                item.nagramiXPictureInPictureRequestFailed()\n            }",
+      1
+    ],
+    [
+      "submodules/GalleryUI/Sources/ChatItemGalleryFooterContentNode.swift",
+      "    private func pipButtonPressed() {\n",
+      "    var nagramiXPictureInPictureRequested: (() -> Void)?\n\n    private func pipButtonPressed() {\n        NagramiXPiPDiagnostics.record(\"entry=footer\")\n        if let requested = self.nagramiXPictureInPictureRequested { requested(); return }\n",
+      1
+    ]
+  ]
+}

@@ -1,0 +1,130 @@
+{
+  "hashes": {
+    "submodules/GalleryUI/Sources/GalleryControllerNode.swift": "5c660be6d43d2955ceae3b5515be5727068a8c25a07f8239286a7f40cf90c75d",
+    "submodules/GalleryUI/Sources/GalleryItemNode.swift": "cb1ffb67558a2f3943466e332b74770b3350d218f6db11206ba6bfe9037074e5",
+    "submodules/GalleryUI/Sources/Items/UniversalVideoGalleryItem.swift": "f044b67cb90925a06fd49375f82f70985da041dbe25ff16716445150e08c7346",
+    "submodules/GalleryUI/BUILD": "963014e4710bf8e9f76f03508369d9d2d399bc5b2a9a68d2860e0c41ea910136"
+  },
+  "templates": {
+    "__SYSTEM_TRANSITION__": "Sources/GalleryUI/NagramiXSystemPiPTransition.swift.inc"
+  },
+  "copies": {
+    "Sources/GalleryUI/NagramiXPiPSourceGeometry.swift": "submodules/GalleryUI/Sources/NagramiXPiPSourceGeometry.swift"
+  },
+  "patches": [
+    [
+      "submodules/GalleryUI/Sources/GalleryControllerNode.swift",
+      "    private func nagramiXInstallDirectionalPiPGesture() {\n        let gesture = UIPanGestureRecognizer(target: self, action: #selector(self.nagramiXDirectionalPiPPan(_:)))\n        gesture.minimumNumberOfTouches = 1\n        gesture.maximumNumberOfTouches = 1\n        gesture.delegate = self.wrappedGestureRecognizerDelegate\n        self.nagramiXDirectionalPiPGesture = gesture\n        self.view.addGestureRecognizer(gesture)\n        self.scrollView.panGestureRecognizer.require(toFail: gesture)\n        self.pager.nagramiXInstallDirectionalPiPGesture(gesture)\n    }\n\n    public func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {\n        guard gestureRecognizer === self.nagramiXDirectionalPiPGesture else { return true }\n        guard !self.isDismissed,\n              UIApplication.shared.applicationState == .active,\n              let item = self.pager.centralItemNode(),\n              item.nagramiXCanBeginDirectionalPiPSwipe || item.nagramiXBlocksPiPSourcePan,\n              touch.view?.isDescendant(of: self.scrollView) == true,\n              item.view.bounds.contains(touch.location(in: item.view)) else { return false }\n        // Footer/navigation controls live outside this scroll view. Preserve any\n        // controls embedded in the video too, including ASButtonNode-backed views.\n        var view = touch.view\n        while let current = view, current !== self.view {\n            if current is UIControl || current.asyncdisplaykit_node is ASButtonNode {\n                return false\n            }\n            view = current.superview\n        }\n        self.nagramiXDirectionalPiPTouchTimestamp = touch.timestamp\n        return true\n    }\n\n    public override func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {\n        guard gestureRecognizer === self.nagramiXDirectionalPiPGesture else {\n            return super.gestureRecognizerShouldBegin(gestureRecognizer)\n        }\n        guard !self.isDismissed,\n              let gesture = gestureRecognizer as? UIPanGestureRecognizer,\n              UIApplication.shared.applicationState == .active,\n              let item = self.pager.centralItemNode(),\n              item.nagramiXCanBeginDirectionalPiPSwipe || item.nagramiXBlocksPiPSourcePan else { return false }\n        // Число пальцев уже ограничено minimum/maximumNumberOfTouches.\n        // Не используем текущее число касаний как второй gate до .began.\n        let velocity = gesture.velocity(in: self.scrollView)\n        return velocity.x.isFinite && velocity.y.isFinite\n    }\n\n    private func nagramiXResetDirectionalPiPSwipe(animated: Bool, cancelPreparation: Bool = true) {\n        let item = self.nagramiXDirectionalPiPItem\n        let transform = self.nagramiXDirectionalPiPInitialTransform\n        // Clear identity before cancellation: the native failure callback can be synchronous.\n        self.nagramiXDirectionalPiPRequest = nil\n        self.nagramiXDirectionalPiPItem = nil\n        self.nagramiXDirectionalPiPTranslation = .zero\n        self.nagramiXDirectionalPiPTransferring = false\n        self.nagramiXDirectionalPiPIsFlick = false\n        if let item {\n            let layer = item.nagramiXPiPSwipeView.layer\n            let previous = layer.presentation()?.transform ?? layer.transform\n            layer.removeAnimation(forKey: \"nagramiX.pip.swipe.return\")\n            layer.removeAnimation(forKey: \"nagramiX.pip.swipe.exit\")\n            item.nagramiXPiPSwipeView.transform = transform\n            if animated {\n                let animation = CABasicAnimation(keyPath: \"transform\")\n                animation.fromValue = NSValue(caTransform3D: previous)\n                animation.toValue = NSValue(caTransform3D: layer.transform)\n                animation.duration = 0.2\n                animation.timingFunction = CAMediaTimingFunction(name: .easeInEaseOut)\n                layer.add(animation, forKey: \"nagramiX.pip.swipe.return\")\n            }\n            if cancelPreparation {\n                item.cancelPictureInPictureSwipePreparation()\n            }\n        }\n    }\n\n    private func nagramiXCommitDirectionalPiPSwipe(_ item: GalleryItemNode) {\n        guard self.nagramiXDirectionalPiPRequest == nil,\n              item === self.nagramiXDirectionalPiPItem,\n              item === self.pager.centralItemNode(), item.nagramiXCanBeginDirectionalPiPSwipe else {\n            return\n        }\n        let request = UUID()\n        self.nagramiXDirectionalPiPRequest = request\n        let accepted = item.nagramiXStartDirectionalPiP(completion: { [weak self, weak item] started in\n            guard let self, let item, self.nagramiXDirectionalPiPRequest == request,\n                  self.nagramiXDirectionalPiPItem === item else { return }\n            if started {\n                self.nagramiXAnimateDirectionalPiPTransfer(item, request: request)\n            } else {\n                self.nagramiXResetDirectionalPiPSwipe(animated: true)\n            }\n        })\n        if !accepted, self.nagramiXDirectionalPiPRequest == request {\n            self.nagramiXResetDirectionalPiPSwipe(animated: true)\n        }\n    }\n\n    private func nagramiXAnimateDirectionalPiPTransfer(_ item: GalleryItemNode, request: UUID) {\n        // AVKit подтвердил запуск. Теперь источник может уйти за границу экрана.\n        // Обе координаты сохраняются: горизонтальный свайп не добавляет вертикаль.\n        self.nagramiXDirectionalPiPTransferring = true\n        let delta = self.nagramiXDirectionalPiPTranslation\n        let distance = hypot(delta.x, delta.y)\n        guard distance > 0.0 else {\n            self.nagramiXResetDirectionalPiPSwipe(animated: false, cancelPreparation: false)\n            return\n        }\n        let travel = max(self.view.bounds.width, self.view.bounds.height)\n        let layer = item.nagramiXPiPSwipeView.layer\n        let previous = layer.presentation()?.transform ?? layer.transform\n        let destination = NagramiXPiPReleaseDecision(\n            kind: self.nagramiXDirectionalPiPIsFlick ? .swipe : .drag,\n            x: Double(delta.x), y: Double(delta.y)\n        ).destination(travel: Double(travel))\n        let target = CGPoint(x: CGFloat(destination.x), y: CGFloat(destination.y))\n        item.nagramiXPiPSwipeView.transform = self.nagramiXDirectionalPiPInitialTransform\n            .translatedBy(x: target.x, y: target.y)\n            .scaledBy(x: 0.25, y: 0.25)\n        let animation = CABasicAnimation(keyPath: \"transform\")\n        animation.fromValue = NSValue(caTransform3D: previous)\n        animation.toValue = NSValue(caTransform3D: layer.transform)\n        animation.duration = 0.2\n        animation.timingFunction = CAMediaTimingFunction(name: .easeIn)\n        layer.add(animation, forKey: \"nagramiX.pip.swipe.exit\")\n        // Штатная галерея исчезает за 0.2с. Возвращаем геометрию для Expand\n        // после исчезновения, без видимого скачка к исходному положению.\n        DispatchQueue.main.asyncAfter(deadline: .now() + 0.22) { [weak self, weak item] in\n            guard let self, let item, self.nagramiXDirectionalPiPRequest == request,\n                  self.nagramiXDirectionalPiPItem === item else { return }\n            self.nagramiXResetDirectionalPiPSwipe(animated: false, cancelPreparation: false)\n        }\n    }\n\n    @objc private func nagramiXDirectionalPiPPan(_ gesture: UIPanGestureRecognizer) {\n        // Новые касания не перезапускают уже отпущенный запрос и не двигают\n        // заглушку во время подтверждённой передачи.\n        guard !self.nagramiXDirectionalPiPTransferring, self.nagramiXDirectionalPiPRequest == nil else { return }\n        switch gesture.state {\n        case .began:\n            self.nagramiXCancelSwipePreparation()\n            guard let item = self.pager.centralItemNode(), item.nagramiXCanBeginDirectionalPiPSwipe else { return }\n            // .began только захватывает поверхность текущего видео.\n            // Подготовка AVKit начнётся после отпускания пальца.\n            item.nagramiXPiPSwipeView.layer.removeAnimation(forKey: \"nagramiX.pip.swipe.return\")\n            self.nagramiXDirectionalPiPInitialTransform = item.nagramiXPiPSwipeView.transform\n            self.nagramiXDirectionalPiPItem = item\n        case .changed, .ended:\n            guard let item = self.nagramiXDirectionalPiPItem else { return }\n            guard item === self.pager.centralItemNode(), item.nagramiXCanBeginDirectionalPiPSwipe,\n                  UIApplication.shared.applicationState == .active else {\n                self.nagramiXResetDirectionalPiPSwipe(animated: false)\n                return\n            }\n            let translation = gesture.translation(in: self.scrollView)\n            let velocity = gesture.velocity(in: self.scrollView)\n            guard translation.x.isFinite, translation.y.isFinite,\n                  velocity.x.isFinite, velocity.y.isFinite else {\n                self.nagramiXResetDirectionalPiPSwipe(animated: false)\n                return\n            }\n            self.nagramiXDirectionalPiPTranslation = translation\n            item.nagramiXPiPSwipeView.transform = self.nagramiXDirectionalPiPInitialTransform.translatedBy(\n                x: translation.x, y: translation.y\n            )\n            // Пока палец на экране, AVKit не запускается. Одна точка принятия\n            // решения исключает переход посреди удерживания и повторный start.\n            guard gesture.state == .ended else { return }\n            let decision = NagramiXPiPReleaseDecision.resolve(\n                x: Double(translation.x), y: Double(translation.y),\n                velocityX: Double(velocity.x), velocityY: Double(velocity.y),\n                elapsed: CACurrentMediaTime() - self.nagramiXDirectionalPiPTouchTimestamp\n            )\n            guard decision.kind != .cancel else {\n                self.nagramiXResetDirectionalPiPSwipe(animated: true)\n                return\n            }\n            NSLog(\"NagramiX PiP: release=%@\", decision.kind == .swipe ? \"swipe\" : \"drag\")\n            self.nagramiXDirectionalPiPIsFlick = decision.kind == .swipe\n            self.nagramiXCommitDirectionalPiPSwipe(item)\n        case .cancelled, .failed:\n            self.nagramiXResetDirectionalPiPSwipe(animated: true)\n        default:\n            break\n        }\n    }",
+      "__SYSTEM_TRANSITION__",
+      1
+    ],
+    [
+      "submodules/GalleryUI/Sources/GalleryControllerNode.swift",
+      "    private var nagramiXDirectionalPiPIsFlick = false\n",
+      "    private var nagramiXDirectionalPiPIsFlick = false\n    private var nagramiXDirectionalPiPRestTransform = CGAffineTransform.identity\n    private var nagramiXDirectionalPiPSourceFrame: CGRect?\n    private weak var nagramiXDirectionalPiPSpace: UIView?\n    private var nagramiXDirectionalPiPViewport = CGRect.zero\n    private var nagramiXDirectionalPiPSafeArea = CGRect.zero\n",
+      1
+    ],
+    [
+      "submodules/GalleryUI/Sources/GalleryControllerNode.swift",
+      "                strongSelf.completeCustomDismiss(isPictureInPicture)\n",
+      "                strongSelf.completeCustomDismiss(isPictureInPicture)\n                if isPictureInPicture {\n                    // Native fade/dismissal actually finished; safe for Expand.\n                    strongSelf.nagramiXResetDirectionalPiPSwipe(animated: false, cancelPreparation: false)\n                }\n",
+      1
+    ],
+    [
+      "submodules/GalleryUI/Sources/GalleryControllerNode.swift",
+      "    private func nagramiXCancelSwipePreparation() {\n        self.nagramiXResetDirectionalPiPSwipe(animated: false)\n    }",
+      "    private func nagramiXCancelSwipePreparation() {\n        // iOS may resign active while presenting PiP. Keep its source fixed\n        // until AVKit acknowledges success/failure and the gallery fade ends.\n        if self.nagramiXDirectionalPiPItem?.nagramiXPiPNativeTransitionInFlight == true { return }\n        self.nagramiXResetDirectionalPiPSwipe(animated: false)\n    }",
+      1
+    ],
+    [
+      "submodules/GalleryUI/Sources/GalleryItemNode.swift",
+      "    open var nagramiXPiPSwipeView: UIView { return self.view }\n",
+      "    open var nagramiXPiPSwipeView: UIView { return self.view }\n\n    open func nagramiXPiPSourceFrame(in view: UIView) -> CGRect {\n        return self.view.convert(self.view.bounds, to: view)\n    }\n\n    open var nagramiXPiPNativeTransitionInFlight: Bool { return false }\n\n    var nagramiXPiPSwipeTransitionPending = false\n",
+      1
+    ],
+    [
+      "submodules/GalleryUI/Sources/Items/UniversalVideoGalleryItem.swift",
+      "    override var nagramiXPiPSwipeView: UIView { return self.scrollNode.view }\n",
+      "    override var nagramiXPiPSwipeView: UIView { return self.scrollNode.view }\n\n    override func nagramiXPiPSourceFrame(in view: UIView) -> CGRect {\n        guard let video = self.videoNode else { return .zero }\n        return video.view.convert(video.view.bounds, to: view)\n    }\n\n    override var nagramiXPiPNativeTransitionInFlight: Bool {\n        guard #available(iOS 15.0, *) else { return false }\n        return (self.nativePictureInPictureContent as? NativePictureInPictureContentImpl)?.nagramiXNativeStartInFlight == true\n    }\n\n    private var nagramiXPiPRequestRequiresSwipeSetting = false\n",
+      1
+    ],
+    [
+      "submodules/GalleryUI/Sources/Items/UniversalVideoGalleryItem.swift",
+      "        self.nagramiXDirectionalPiPSourceCompletion = completion\n",
+      "        self.nagramiXDirectionalPiPSourceCompletion = completion\n        self.nagramiXPiPRequestRequiresSwipeSetting = requiresSwipeSetting\n",
+      1
+    ],
+    [
+      "submodules/GalleryUI/Sources/Items/UniversalVideoGalleryItem.swift",
+      "        if !NagramiXTabSettings.videoPiPSwipeEnabled {\n            self.cancelPictureInPictureSwipePreparation()\n        }",
+      "        if !NagramiXTabSettings.videoPiPSwipeEnabled,\n           self.nagramiXPiPRequestRequiresSwipeSetting || self.nagramiXDirectionalPiPSourceRequest == nil {\n            self.cancelPictureInPictureSwipePreparation()\n        }",
+      1
+    ],
+    [
+      "submodules/GalleryUI/Sources/Items/UniversalVideoGalleryItem.swift",
+      "                        && (!requiresSwipeSetting || NagramiXTabSettings.videoPiPSwipeEnabled)\n",
+      "                        && (!requiresSwipeSetting || NagramiXTabSettings.videoPiPSwipeEnabled)\n                        && (content.nagramiXNativeStartInFlight || (UIApplication.shared.applicationState == .active\n                            && self.galleryController()?.view.window != nil))\n",
+      1
+    ],
+    [
+      "submodules/GalleryUI/Sources/Items/UniversalVideoGalleryItem.swift",
+      "                    if videoNode.ownsContentNode {\n                        videoNode.pause()\n                    }\n",
+      "                    if videoNode.ownsContentNode && !self.nagramiXPiPNativeTransitionInFlight {\n                        videoNode.pause()\n                    }\n",
+      1
+    ],
+    [
+      "submodules/GalleryUI/Sources/Items/UniversalVideoGalleryItem.swift",
+      "            if let item = self.item, let videoNode = self.videoNode {\n                if hadPreviousValue {\n",
+      "            if let item = self.item, let videoNode = self.videoNode {\n                if self.nagramiXPiPNativeTransitionInFlight {\n                    // The PiP owner keeps the SAME decoder and audio state even\n                    // when the inline gallery leaves the UIKit hierarchy.\n                    videoNode.canAttachContent = true\n                    return\n                }\n                if hadPreviousValue {\n",
+      1
+    ],
+    [
+      "submodules/GalleryUI/Sources/Items/UniversalVideoGalleryItem.swift",
+      "                videoNode.setNativePictureInPictureIsActive(false)\n                \n                if !didExpand {\n",
+      "                videoNode.setNativePictureInPictureIsActive(false)\n                if self._isVisible == false || self.view.window == nil {\n                    videoNode.canAttachContent = false\n                }\n                \n                if !didExpand {\n",
+      1
+    ],
+    [
+      "submodules/GalleryUI/Sources/Items/UniversalVideoGalleryItem.swift",
+      "        if self.nagramiXDirectionalPiPSourceRequest != nil { return }\n",
+      "        if self.nagramiXPiPSwipeTransitionPending || self.nagramiXDirectionalPiPSourceRequest != nil { return }\n",
+      1
+    ],
+    [
+      "submodules/GalleryUI/Sources/Items/UniversalVideoGalleryItem.swift",
+      "                controller.view.layer.animateAlpha(from: 1.0, to: 0.0, duration: 0.2, completion: { [weak self] _ in\n                    self?.completeCustomDismiss(true)\n                })",
+      "                controller.view.layer.animateAlpha(from: 1.0, to: 0.0, duration: 0.2, completion: { [weak self, weak content] _ in\n                    guard let self, let content, self.nativePictureInPictureContent === content, !didExpand else { return }\n                    self.completeCustomDismiss(true)\n                })",
+      1
+    ],
+    [
+      "submodules/GalleryUI/Sources/Items/UniversalVideoGalleryItem.swift",
+      "                didExpand = true\n                self.activePictureInPictureController = nil\n",
+      "                didExpand = true\n                (activePictureInPictureController.displayNode as? GalleryControllerNode)?.nagramiXPreparePiPRestoration()\n                self.activePictureInPictureController = nil\n",
+      1
+    ],
+    [
+      "submodules/GalleryUI/Sources/Items/UniversalVideoGalleryItem.swift",
+      "combineLatest(self.audioSession.isActive(), self.audioSession.isPlaybackActive()) |> take(1) |> deliverOnMainQueue",
+      "combineLatest(self.audioSession.isActive(), self.audioSession.isPlaybackActive()) |> deliverOnMainQueue",
+      1
+    ],
+    [
+      "submodules/GalleryUI/Sources/Items/UniversalVideoGalleryItem.swift",
+      "    private var audioReady = false\n",
+      "    private var audioReady = false\n    private var requestedSilentAudioLease = false\n",
+      1
+    ],
+    [
+      "submodules/GalleryUI/Sources/Items/UniversalVideoGalleryItem.swift",
+      "            guard !self.audioSession.getIsRecordingActive() else { return }\n            self.silentAudioLease.set",
+      "            self.audioReady = false\n            guard !self.requestedSilentAudioLease, !self.audioSession.getIsRecordingActive() else { return }\n            self.requestedSilentAudioLease = true\n            self.silentAudioLease.set",
+      1
+    ],
+    [
+      "submodules/GalleryUI/Sources/Items/UniversalVideoGalleryItem.swift",
+      "        self.audioReady && self.nagramiXMatchesSource(self.node) && self.controller?.isPictureInPicturePossible == true\n",
+      "        self.audioReady && self.node.view.window != nil && self.sourceLayer.superlayer != nil\n            && self.sourceLayer.bounds.width > 0 && self.sourceLayer.bounds.height > 0\n            && !self.sourceLayer.isHidden && self.nagramiXMatchesSource(self.node)\n            && self.controller?.isPictureInPicturePossible == true\n",
+      1
+    ]
+  ]
+}

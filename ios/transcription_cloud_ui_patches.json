@@ -1,0 +1,23 @@
+{
+  "inputs": {
+    "submodules/NagramiXTranscription/Sources/Preferences.swift": "f4a0e99b7567b95f4a2e3a1a3e767db13fd71263632a6d1b14328b7464a98652"
+  },
+  "outputs": {
+    "submodules/NagramiXTranscription/Sources/Preferences.swift": "d9db9e994c47893c5e561272aa48cf75bd32dfd2a8c9fe2b37e3ab4a9acd4f92"
+  },
+  "guards": {
+    "submodules/NagramiXTranscription/BUILD": "0a3e9cad2c13fdf76a39088878960d3ccbb62abb45e68f2172ada3a9904a49c9"
+  },
+  "templates": {
+    "transcription_cloud_ui/Before.swift.inc": "f4a0e99b7567b95f4a2e3a1a3e767db13fd71263632a6d1b14328b7464a98652",
+    "transcription_cloud_ui/After.swift.inc": "d9db9e994c47893c5e561272aa48cf75bd32dfd2a8c9fe2b37e3ab4a9acd4f92"
+  },
+  "replacements": {
+    "submodules/NagramiXTranscription/Sources/Preferences.swift": "transcription_cloud_ui/After.swift.inc"
+  },
+  "previous": {
+    "submodules/NagramiXTranscription/Sources/Preferences.swift": "transcription_cloud_ui/Before.swift.inc"
+  },
+  "copies": {},
+  "deletions": {}
+}

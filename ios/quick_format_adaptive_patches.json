@@ -1,0 +1,92 @@
+{
+  "inputs": {
+    "submodules/TelegramUI/Components/Chat/ChatTextInputPanelNode/Sources/NagramiXFormattingGeometry.swift": "7d3cd470995e9185c64f7db5b07ae46ad2ee8e94fae7c9cc20bcad1f060cf837",
+    "submodules/TelegramUI/Components/Chat/ChatTextInputPanelNode/Sources/NagramiXFormattingKeyboard.swift": "3f6866b961cc1e2ed5143cae8cbed1e67acc854a16397263cd6e28e4420d54c8"
+  },
+  "outputs": {
+    "submodules/TelegramUI/Components/Chat/ChatTextInputPanelNode/Sources/NagramiXFormattingGeometry.swift": "be1d4c55ad97648ac4c87f4472b321c1beedfef039944419e238c4e1dbcdb0e6",
+    "submodules/TelegramUI/Components/Chat/ChatTextInputPanelNode/Sources/NagramiXFormattingKeyboard.swift": "a3e50c9b58e710b09376404359bff831b947a7ffecf8f52f37a10a6026e81fe4"
+  },
+  "guards": {},
+  "copies": {},
+  "patches": [
+    [
+      "submodules/TelegramUI/Components/Chat/ChatTextInputPanelNode/Sources/NagramiXFormattingGeometry.swift",
+      "accessibility: Bool, footerMinimumLabelWidth: CGFloat? = nil)",
+      "accessibility: Bool, footerMinimumLabelWidth: CGFloat? = nil, landscape: Bool = false)",
+      1
+    ],
+    [
+      "submodules/TelegramUI/Components/Chat/ChatTextInputPanelNode/Sources/NagramiXFormattingGeometry.swift",
+      "var columns = min(totalCount, 4)",
+      "var columns = min(totalCount, landscape ? 6 : 4)",
+      1
+    ],
+    [
+      "submodules/TelegramUI/Components/Chat/ChatTextInputPanelNode/Sources/NagramiXFormattingGeometry.swift",
+      "let height = max(60, minimumKeyHeight,",
+      "let height = max(44, minimumKeyHeight,",
+      1
+    ],
+    [
+      "submodules/TelegramUI/Components/Chat/ChatTextInputPanelNode/Sources/NagramiXFormattingGeometry.swift",
+      "        let frames = (0 ..< totalCount).map { index in\n            CGRect(x: CGFloat(index % columns) * (width + gap), y: CGFloat(index / columns) * (height + gap), width: width, height: height)\n        }",
+      "        // Keep action indexes/tags stable; only their visual positions change.\n        // Date/strike remain above pull quote/select all in both orientations.\n        let positions = landscape && columns == 6 && count == 10 && totalCount == 12\n            ? [0, 1, 2, 3, 6, 7, 4, 5, 8, 9, 10, 11] : Array(0 ..< totalCount)\n        let frames = positions.map { position in\n            CGRect(x: CGFloat(position % columns) * (width + gap), y: CGFloat(position / columns) * (height + gap), width: width, height: height)\n        }",
+      1
+    ],
+    [
+      "submodules/TelegramUI/Components/Chat/ChatTextInputPanelNode/Sources/NagramiXFormattingKeyboard.swift",
+      "    let caption = UILabel()",
+      "    let caption = UILabel()\n    var compact = false { didSet { if oldValue != self.compact { self.setNeedsLayout() } } }",
+      1
+    ],
+    [
+      "submodules/TelegramUI/Components/Chat/ChatTextInputPanelNode/Sources/NagramiXFormattingKeyboard.swift",
+      "        let glyphHeight: CGFloat = 26\n        let textHeight = ceil(self.caption.font.lineHeight)\n        let groupHeight = glyphHeight + 8 + textHeight\n        let top = max(4, floor((self.bounds.height - groupHeight) / 2))\n        self.glyph.frame = CGRect(x: max(0, (self.bounds.width - 30) / 2), y: top, width: min(30, self.bounds.width), height: glyphHeight)\n        self.caption.frame = CGRect(x: 2, y: top + glyphHeight + 8, width: max(0, self.bounds.width - 4), height: textHeight)",
+      "        let glyphHeight: CGFloat = (self.compact || self.bounds.height < 60) ? 20 : 26\n        let gap: CGFloat = (self.compact || self.bounds.height < 60) ? 4 : 8\n        let textHeight = ceil(self.caption.font.lineHeight)\n        let groupHeight = glyphHeight + gap + textHeight\n        let top = max(2, floor((self.bounds.height - groupHeight) / 2))\n        self.glyph.frame = CGRect(x: max(0, (self.bounds.width - 30) / 2), y: top, width: min(30, self.bounds.width), height: glyphHeight)\n        self.caption.frame = CGRect(x: 3, y: top + glyphHeight + gap, width: max(0, self.bounds.width - 6), height: textHeight)",
+      1
+    ],
+    [
+      "submodules/TelegramUI/Components/Chat/ChatTextInputPanelNode/Sources/NagramiXFormattingKeyboard.swift",
+      "button.caption.text = title",
+      "// Preserve a real word space, never condensed tracking or joined words.\n        button.caption.text = title",
+      1
+    ],
+    [
+      "submodules/TelegramUI/Components/Chat/ChatTextInputPanelNode/Sources/NagramiXFormattingKeyboard.swift",
+      "        let headingHeight = max(36, ceil(headingSize.height) + 8)\n        self.heading.frame = CGRect(x: headingLeft, y: 4, width: headingWidth, height: headingHeight)\n        let top = headingHeight + 12\n        self.scroll.frame = CGRect(x: left, y: top, width: contentWidth, height: max(0, self.bounds.height - top - self.safeAreaInsets.bottom - 8))",
+      "        // Use the actual host orientation, including the initial detached layout.\n        let landscape: Bool\n        if let hostSize = self.window?.bounds.size {\n            landscape = hostSize.width > hostSize.height\n        } else {\n            landscape = self.bounds.width >= 500 && self.bounds.width > self.bounds.height * 2\n        }\n        let headingHeight = ceil(headingSize.height)\n        // The lower band includes the home-indicator safe area exactly once.\n        // Match it above the grid: no extra strip, no buttons at the screen edge.\n        let band = max(headingHeight + (landscape ? 12 : 16), self.safeAreaInsets.bottom + 8)\n        self.heading.frame = CGRect(x: headingLeft, y: floor((band - headingHeight) / 2) + 2,\n            width: headingWidth, height: headingHeight)\n        self.scroll.frame = CGRect(x: left, y: band, width: contentWidth,\n            height: max(0, self.bounds.height - 2 * band))",
+      1
+    ],
+    [
+      "submodules/TelegramUI/Components/Chat/ChatTextInputPanelNode/Sources/NagramiXFormattingKeyboard.swift",
+      "minimumLabelWidth: ceil(minimumLabelWidth), minimumKeyHeight: font.lineHeight + 50,",
+      "minimumLabelWidth: ceil(minimumLabelWidth), minimumKeyHeight: font.lineHeight + 28,",
+      1
+    ],
+    [
+      "submodules/TelegramUI/Components/Chat/ChatTextInputPanelNode/Sources/NagramiXFormattingKeyboard.swift",
+      "footerMinimumLabelWidth: self.extraItems.isEmpty ? nil : ceil(self.extraItems.map { ($0.title as NSString).size(withAttributes: [.font: minimumFont]).width }.max() ?? 0))",
+      "footerMinimumLabelWidth: self.extraItems.isEmpty ? nil : ceil(self.extraItems.map { ($0.title as NSString).size(withAttributes: [.font: minimumFont]).width }.max() ?? 0),\n            landscape: landscape)",
+      1
+    ],
+    [
+      "submodules/TelegramUI/Components/Chat/ChatTextInputPanelNode/Sources/NagramiXFormattingKeyboard.swift",
+      "            button.frame = grid.frames[index]",
+      "            button.compact = landscape\n            button.frame = grid.frames[index]",
+      1
+    ],
+    [
+      "submodules/TelegramUI/Components/Chat/ChatTextInputPanelNode/Sources/NagramiXFormattingKeyboard.swift",
+      "            button.frame = grid.frames[self.items.count + index]",
+      "            button.compact = landscape\n            button.frame = grid.frames[self.items.count + index]",
+      1
+    ],
+    [
+      "submodules/TelegramUI/Components/Chat/ChatTextInputPanelNode/Sources/NagramiXFormattingKeyboard.swift",
+      "UIFont.systemFont(ofSize: 12), maximumPointSize: 28)",
+      "UIFont.systemFont(ofSize: title == \"Выносная цитата\" ? 11 : 12), maximumPointSize: 28)",
+      1
+    ]
+  ]
+}

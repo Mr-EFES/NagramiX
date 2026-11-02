@@ -1,0 +1,37 @@
+{
+  "inputs": {
+    "submodules/GalleryUI/Sources/Items/UniversalVideoGalleryItem.swift": "cf6d1e1f64b6ef3bf27b0008ed09a01a8102b5057fc17b580a392ca5ba4adfb8"
+  },
+  "outputs": {
+    "submodules/GalleryUI/Sources/Items/UniversalVideoGalleryItem.swift": "e78bae645475c92ea857e67325210be77a0a89bfb1d8b0623ac670b9fa5a2188"
+  },
+  "guards": {
+    "submodules/GalleryUI/BUILD": "963014e4710bf8e9f76f03508369d9d2d399bc5b2a9a68d2860e0c41ea910136"
+  },
+  "templates": {
+    "pip_gallery_native_gesture/Before0.inc": "cf6d1e1f64b6ef3bf27b0008ed09a01a8102b5057fc17b580a392ca5ba4adfb8",
+    "pip_gallery_native_gesture/Guard0.inc": "963014e4710bf8e9f76f03508369d9d2d399bc5b2a9a68d2860e0c41ea910136"
+  },
+  "previous": {
+    "submodules/GalleryUI/Sources/Items/UniversalVideoGalleryItem.swift": "pip_gallery_native_gesture/Before0.inc"
+  },
+  "replacements": {},
+  "copies": {},
+  "deletions": {},
+  "operations": {
+    "submodules/GalleryUI/Sources/Items/UniversalVideoGalleryItem.swift": [
+      [
+        "                }\n            }, failed: { [weak self] detail in self?.nagramiXPiPFailure(detail) })\n        if self.nagramiXPlayerPiP == nil { self.nagramiXPiPFailure() }\n    }\n\n    private var nagramiXNativeSwipe: NagramiXNativePlayerSwipe?\n    private let context: AccountContext\n    private let presentationData: PresentationData\n    \n    fileprivate let _ready = Promise<Void>()\n    fileprivate let _title = Promise<String>()\n",
+        "                }\n            }, failed: { [weak self] detail in self?.nagramiXPiPFailure(detail) })\n        if self.nagramiXPlayerPiP == nil { self.nagramiXPiPFailure() }\n    }\n\n    private let context: AccountContext\n    private let presentationData: PresentationData\n    \n    fileprivate let _ready = Promise<Void>()\n    fileprivate let _title = Promise<String>()\n"
+      ],
+      [
+        "        if !isCentral && self.nagramiXPlayerPiP?.isActive == true {\n            self.isCentral = false\n            self.nagramiXUpdateBackgroundVideoPlayback()\n            return\n        }\n        if isCentral && self.nagramiXNativeSwipe == nil {\n            let gesture = NagramiXNativePlayerSwipe(host: self.videoSurface.view, available: { [weak self] point in\n                guard let self, let video = self.videoNode,\n                      NagramiXTabSettings.videoPiPSwipeEnabled, self.isCentral == true, self.nagramiXPiPFileToken == nil,\n                      self.nagramiXPiPSource != nil, !NagramiXNativePlayerPiP.isBusy,\n                      self.scrollNode.view.zoomScale <= self.scrollNode.view.minimumZoomScale * 1.005 else { return false }\n                return video.view.convert(video.view.bounds, to: self.videoSurface.view).contains(point)\n            }, commit: { [weak self] in self?.nagramiXRequestPlayerPiP() })\n            self.nagramiXNativeSwipe = gesture\n            self.scrollNode.view.panGestureRecognizer.require(toFail: gesture.recognizer)\n            if let gallery = self.galleryController()?.displayNode as? GalleryControllerNode {\n                gallery.scrollView.panGestureRecognizer.require(toFail: gesture.recognizer)\n            }\n        }\n        \n        if self.isCentral != isCentral {\n            self.isCentral = isCentral\n            if isCentral && self.nagramiXPlayerPiP == nil && NagramiXNativePlayerPiP.isBusy {\n                self.nagramiXPiPWaitingForReturn = true\n                let accepted = NagramiXNativePlayerPiP.takeForOpening(resourceId: self.nagramiXPiPSource?.fileReference.media.resource.id.stringRepresentation) { [weak self] state in\n",
+        "        if !isCentral && self.nagramiXPlayerPiP?.isActive == true {\n            self.isCentral = false\n            self.nagramiXUpdateBackgroundVideoPlayback()\n            return\n        }\n        if self.isCentral != isCentral {\n            self.isCentral = isCentral\n            if isCentral && self.nagramiXPlayerPiP == nil && NagramiXNativePlayerPiP.isBusy {\n                self.nagramiXPiPWaitingForReturn = true\n                let accepted = NagramiXNativePlayerPiP.takeForOpening(resourceId: self.nagramiXPiPSource?.fileReference.media.resource.id.stringRepresentation) { [weak self] state in\n"
+      ],
+      [
+        "            nodeCompleted = true\n            intermediateCompletion()\n        })\n    }\n    \n    override func maybePerformActionForSwipeDismiss() -> Bool {\n        // Свайп передаётся единственным pan-обработчиком после отпускания.\n        return false\n    }\n\n    override func maybePerformActionForSwipeDownDismiss() -> Bool {\n        self.context.engine.accountData.addAppLogEvent(type: \"swipe_down_close\")\n        return false\n    }\n\n    private var nagramiXVideoNowPlayingTitle: String {\n",
+        "            nodeCompleted = true\n            intermediateCompletion()\n        })\n    }\n    \n    private func nagramiXBeginPiPFromGallerySwipe() -> Bool {\n        guard NagramiXTabSettings.videoPiPSwipeEnabled, self.isCentral == true,\n              self.nagramiXPiPSource != nil, self.nagramiXPiPFileToken == nil,\n              !NagramiXNativePlayerPiP.isBusy,\n              self.scrollNode.view.zoomScale <= self.scrollNode.view.minimumZoomScale * 1.005 else {\n            return false\n        }\n        self.nagramiXRequestPlayerPiP()\n        return true\n    }\n\n    override func maybePerformActionForSwipeDismiss() -> Bool {\n        return self.nagramiXBeginPiPFromGallerySwipe()\n    }\n\n    override func maybePerformActionForSwipeDownDismiss() -> Bool {\n        if self.nagramiXBeginPiPFromGallerySwipe() { return true }\n        self.context.engine.accountData.addAppLogEvent(type: \"swipe_down_close\")\n        return false\n    }\n\n    private var nagramiXVideoNowPlayingTitle: String {\n"
+      ]
+    ]
+  }
+}

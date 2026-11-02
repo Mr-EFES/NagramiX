@@ -1,0 +1,130 @@
+{
+  "hashes": {
+    "submodules/SettingsUI/Sources/NagramiXSettingsController.swift": "9ae803e54e0ceb6a77915afbfe7ed54fba5f7f4f63d7a5cf49104067c6b99cb9",
+    "submodules/TelegramPresentationData/Sources/NumericFormat.swift": "5e8f7ed55fa68bd335e408af1006d4369dd688fde69f3fa2f999200e9b0db09b",
+    "submodules/TelegramPresentationData/Sources/DefaultPresentationStrings.swift": "9729a78bc4888710e01647525614ffacf422cfa296f62d225f8943d3bd1ac25d",
+    "submodules/TelegramPresentationData/Sources/PresentationData.swift": "4d8108aaada5d8254ea7f5590d74b3c971bb8977bdac119951de5fb02c905774",
+    "submodules/TelegramPresentationData/BUILD": "15b49147e7344f5d07487af77b88a543eb80ab053252a13eca7c53e84316d2d1",
+    "submodules/NagramiXMediaSettings/BUILD": "083253dd17992220fe47c883d1c0686fea165a717703eec0b9f0860ab21ed65f",
+    "submodules/NagramiXCore/BUILD": "869e31310cc925b84ceb827a3c0b8503f3a22614acb4abeeec4a4ad435cf56e2"
+  },
+  "patches": [
+    [
+      "submodules/SettingsUI/Sources/NagramiXSettingsController.swift",
+      "    let updateCompactChatList: (Bool) -> Void\n",
+      "    let updateCompactChatList: (Bool) -> Void\n    let updateNumberRounding: (Bool) -> Void\n",
+      1
+    ],
+    [
+      "submodules/SettingsUI/Sources/NagramiXSettingsController.swift",
+      "    case compactChatList(Bool)\n",
+      "    case compactChatList(Bool)\n    case numberRounding(Bool)\n",
+      1
+    ],
+    [
+      "submodules/SettingsUI/Sources/NagramiXSettingsController.swift",
+      ".compactChatList, .compactChatListInfo",
+      ".compactChatList, .numberRounding, .compactChatListInfo",
+      2
+    ],
+    [
+      "submodules/SettingsUI/Sources/NagramiXSettingsController.swift",
+      "        case .compactChatList: return 101\n",
+      "        case .compactChatList: return 101\n        case .numberRounding: return 156\n",
+      1
+    ],
+    [
+      "submodules/SettingsUI/Sources/NagramiXSettingsController.swift",
+      "            case .unreadChatsFirst: return 1009\n",
+      "            case .unreadChatsFirst: return 1009\n            case .numberRounding: return 1011\n",
+      1
+    ],
+    [
+      "submodules/SettingsUI/Sources/NagramiXSettingsController.swift",
+      "        case .compactChatListInfo:\n            return ItemListTextItem",
+      "        case let .numberRounding(value):\n            return ItemListSwitchItem(presentationData: presentationData, systemStyle: .glass, title: presentationData.strings.nagramiXNumberRounding, value: value, maximumNumberOfLines: 0, sectionId: self.section, style: .blocks, updated: arguments.updateNumberRounding)\n        case .compactChatListInfo:\n            return ItemListTextItem",
+      1
+    ],
+    [
+      "submodules/SettingsUI/Sources/NagramiXSettingsController.swift",
+      "        case .compactChatList: return strings.nagramiXCompactChatList\n",
+      "        case .compactChatList: return strings.nagramiXCompactChatList\n        case .numberRounding: return strings.nagramiXNumberRounding\n",
+      1
+    ],
+    [
+      "submodules/SettingsUI/Sources/NagramiXSettingsController.swift",
+      "        case .compactChatList:\n            return strings.nagramiXCompactChatListInfo\n",
+      "        case .compactChatList:\n            return strings.nagramiXCompactChatListInfo\n        case .numberRounding:\n            return strings.nagramiXNumberRoundingSearchTerms\n",
+      1
+    ],
+    [
+      "submodules/SettingsUI/Sources/NagramiXSettingsController.swift",
+      "        .compactChatList(settings.compactChatList),\n",
+      "        .compactChatList(settings.compactChatList),\n        .numberRounding(NagramiXNumberSettings.roundingEnabled),\n",
+      1
+    ],
+    [
+      "submodules/SettingsUI/Sources/NagramiXSettingsController.swift",
+      "        updateCompactChatList: { value in update { $0.compactChatList = value } },\n",
+      "        updateCompactChatList: { value in update { $0.compactChatList = value } },\n        updateNumberRounding: { value in\n            NagramiXNumberSettings.setRoundingEnabled(value)\n            settingsPromise.set(NagramiXTabSettings.current)\n        },\n",
+      1
+    ],
+    [
+      "submodules/TelegramPresentationData/Sources/NumericFormat.swift",
+      "import Foundation\n",
+      "import Foundation\nimport NagramiXMediaSettings\n",
+      1
+    ],
+    [
+      "submodules/TelegramPresentationData/Sources/DefaultPresentationStrings.swift",
+      "import Foundation\n",
+      "import Foundation\nimport NagramiXMediaSettings\n",
+      1
+    ],
+    [
+      "submodules/TelegramPresentationData/Sources/PresentationData.swift",
+      "import Foundation\n",
+      "import Foundation\nimport NagramiXMediaSettings\n",
+      1
+    ],
+    [
+      "submodules/TelegramPresentationData/Sources/NumericFormat.swift",
+      "public func compactNumericCountString(_ count: Int, decimalSeparator: String = \".\", showDecimalPart: Bool = true) -> String {\n",
+      "public func compactNumericCountString(_ count: Int, decimalSeparator: String = \".\", showDecimalPart: Bool = true) -> String {\n    if !NagramiXNumberSettings.roundingEnabled {\n        return NagramiXNumberSettings.fullCountString(count)\n    }\n",
+      1
+    ],
+    [
+      "submodules/TelegramPresentationData/Sources/DefaultPresentationStrings.swift",
+      "public func countString(_ count: Int64, forceDecimal: Bool = false) -> String {\n",
+      "public func countString(_ count: Int64, forceDecimal: Bool = false) -> String {\n    if !NagramiXNumberSettings.roundingEnabled {\n        return NagramiXNumberSettings.fullCountString(count)\n    }\n",
+      1
+    ],
+    [
+      "submodules/TelegramPresentationData/BUILD",
+      "        \"//submodules/TelegramCore:TelegramCore\",\n",
+      "        \"//submodules/TelegramCore:TelegramCore\",\n        \"//submodules/NagramiXMediaSettings:NagramiXMediaSettings\",\n",
+      1
+    ],
+    [
+      "submodules/TelegramPresentationData/Sources/PresentationData.swift",
+      "public func updatedPresentationData(accountManager:",
+      "private func nagramiXNumberRoundingSignal() -> Signal<Bool, NoError> {\n    return Signal { subscriber in\n        let observer = NotificationCenter.default.addObserver(forName: NagramiXNumberSettings.changedNotification, object: nil, queue: .main, using: { _ in\n            subscriber.putNext(NagramiXNumberSettings.roundingEnabled)\n        })\n        subscriber.putNext(NagramiXNumberSettings.roundingEnabled)\n        return ActionDisposable { NotificationCenter.default.removeObserver(observer) }\n    }\n    |> distinctUntilChanged\n}\n\npublic func updatedPresentationData(accountManager:",
+      1
+    ],
+    [
+      "submodules/TelegramPresentationData/Sources/PresentationData.swift",
+      "    return combineLatest(accountManager.sharedData(keys: [SharedDataKeys.localizationSettings, ApplicationSpecificSharedDataKeys.presentationThemeSettings, ApplicationSpecificSharedDataKeys.contactSynchronizationSettings]), systemUserInterfaceStyle)\n    |> mapToSignal { sharedData, systemUserInterfaceStyle -> Signal<PresentationData, NoError> in\n",
+      "    return combineLatest(accountManager.sharedData(keys: [SharedDataKeys.localizationSettings, ApplicationSpecificSharedDataKeys.presentationThemeSettings, ApplicationSpecificSharedDataKeys.contactSynchronizationSettings]), systemUserInterfaceStyle, nagramiXNumberRoundingSignal())\n    |> mapToSignal { sharedData, systemUserInterfaceStyle, _ -> Signal<PresentationData, NoError> in\n",
+      1
+    ],
+    [
+      "submodules/TelegramPresentationData/Sources/PresentationData.swift",
+      "                        } else {\n                            stringsValue = defaultPresentationStrings\n                        }\n",
+      "                        } else {\n                            // A new identity invalidates native cached counter labels even\n                            // before a language pack is installed. Keep the same strings.\n                            stringsValue = PresentationStrings(primaryComponent: defaultPresentationStrings.primaryComponent, secondaryComponent: nil, groupingSeparator: \"\")\n                        }\n",
+      1
+    ]
+  ],
+  "provided": {
+    "Sources/NagramiXMediaSettings/Sources/NagramiXNumberSettings.swift": "submodules/NagramiXMediaSettings/Sources/NagramiXNumberSettings.swift"
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "inputs": {
+    "submodules/TelegramUI/Components/Chat/ChatTextInputPanelNode/Sources/NagramiXFormattingKeyboard.swift": "a3e50c9b58e710b09376404359bff831b947a7ffecf8f52f37a10a6026e81fe4"
+  },
+  "outputs": {
+    "submodules/TelegramUI/Components/Chat/ChatTextInputPanelNode/Sources/NagramiXFormattingKeyboard.swift": "5879abf4c64ac892441d1c6b1f2be14ba3940cd83ef933c42e4d655b46b8fab3"
+  },
+  "guards": {},
+  "copies": {},
+  "patches": [
+    [
+      "submodules/TelegramUI/Components/Chat/ChatTextInputPanelNode/Sources/NagramiXFormattingKeyboard.swift",
+      "        self.heading.text = title",
+      "        self.heading.text = nil\n        self.heading.isHidden = true\n        self.heading.isAccessibilityElement = false",
+      2
+    ]
+  ]
+}

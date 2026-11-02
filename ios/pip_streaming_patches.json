@@ -1,0 +1,30 @@
+{
+  "inputs": {
+    "submodules/GalleryUI/Sources/NagramiXNativePlayerPiP.swift": "41c16709cb870a081c2bd3f51124a50da7fbe21ba4292b4d3c60b5e1c6e7ad9b",
+    "submodules/GalleryUI/Sources/Items/UniversalVideoGalleryItem.swift": "ff1bd3a909116fcc8764fa6c0ae7330fefed437f83a6b2608012169755915526"
+  },
+  "outputs": {
+    "submodules/GalleryUI/Sources/NagramiXNativePlayerPiP.swift": "a43b505e77528f880fa97401fedbe7bbd546f1d720d267cbbeb40a1ef1df0cf4",
+    "submodules/GalleryUI/Sources/Items/UniversalVideoGalleryItem.swift": "3b603d6c327f118d9a69b4601741c6c3c42010a15581a580ce4478b9a1669d66"
+  },
+  "guards": {
+    "submodules/GalleryUI/BUILD": "963014e4710bf8e9f76f03508369d9d2d399bc5b2a9a68d2860e0c41ea910136"
+  },
+  "templates": {
+    "pip_streaming/Before0.inc": "41c16709cb870a081c2bd3f51124a50da7fbe21ba4292b4d3c60b5e1c6e7ad9b",
+    "pip_streaming/After0.inc": "a43b505e77528f880fa97401fedbe7bbd546f1d720d267cbbeb40a1ef1df0cf4",
+    "pip_streaming/Before1.inc": "ff1bd3a909116fcc8764fa6c0ae7330fefed437f83a6b2608012169755915526",
+    "pip_streaming/After1.inc": "3b603d6c327f118d9a69b4601741c6c3c42010a15581a580ce4478b9a1669d66",
+    "pip_streaming/Guard0.inc": "963014e4710bf8e9f76f03508369d9d2d399bc5b2a9a68d2860e0c41ea910136"
+  },
+  "previous": {
+    "submodules/GalleryUI/Sources/NagramiXNativePlayerPiP.swift": "pip_streaming/Before0.inc",
+    "submodules/GalleryUI/Sources/Items/UniversalVideoGalleryItem.swift": "pip_streaming/Before1.inc"
+  },
+  "replacements": {
+    "submodules/GalleryUI/Sources/NagramiXNativePlayerPiP.swift": "pip_streaming/After0.inc",
+    "submodules/GalleryUI/Sources/Items/UniversalVideoGalleryItem.swift": "pip_streaming/After1.inc"
+  },
+  "copies": {},
+  "deletions": {}
+}

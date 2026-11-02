@@ -1,0 +1,79 @@
+{
+  "hashes": {
+    "submodules/Components/ReactionListContextMenuContent/Sources/ReactionListContextMenuContent.swift": "2256edd6f985c2202b63ce91f42f2383e12ec76b569be3fcc5741f5976c47b90",
+    "submodules/TelegramUI/Sources/Chat/ChatControllerLoadDisplayNode.swift": "c5d4606540e73dcbbd09bddb86c5971e733119de10ef14d7c9f94246f4c319d7"
+  },
+  "templates": {
+    "@@ROW_LAYOUT@@": "Sources/ReactionListContextMenuContent/NagramiXReactionRowLayout.swift.inc",
+    "@@NAME_WIDTH@@": "Sources/ReactionListContextMenuContent/NagramiXReactionNameMeasurement.swift.inc",
+    "@@MEASURE_ROWS@@": "Sources/ReactionListContextMenuContent/NagramiXReactionMeasureRows.swift.inc"
+  },
+  "patches": [
+    [
+      "submodules/TelegramUI/Sources/Chat/ChatControllerLoadDisplayNode.swift",
+      "Conversation_PinMessagesFor(EnginePeer(peer).compactDisplayTitle).string, textColor: .primary, icon:",
+      "Conversation_PinMessagesFor(EnginePeer(peer).displayTitle(strings: strongSelf.presentationData.strings, displayOrder: strongSelf.presentationData.nameDisplayOrder)).string, textColor: .primary, textLayout: .multiline, icon:",
+      1
+    ],
+    [
+      "submodules/Components/ReactionListContextMenuContent/Sources/ReactionListContextMenuContent.swift",
+      "private let avatarFont = avatarPlaceholderFont(size: 16.0)",
+      "@@ROW_LAYOUT@@\n\n@@NAME_WIDTH@@\n\nprivate let avatarFont = avatarPlaceholderFont(size: 16.0)",
+      1
+    ],
+    [
+      "submodules/Components/ReactionListContextMenuContent/Sources/ReactionListContextMenuContent.swift",
+      "                self.titleLabelNode = ImmediateTextNode()\n                self.titleLabelNode.isAccessibilityElement = false\n                self.titleLabelNode.maximumNumberOfLines = 1",
+      "                self.titleLabelNode = ImmediateTextNode()\n                self.titleLabelNode.isAccessibilityElement = false\n                self.titleLabelNode.maximumNumberOfLines = 0",
+      1
+    ],
+    [
+      "submodules/Components/ReactionListContextMenuContent/Sources/ReactionListContextMenuContent.swift",
+      "                let sideInset: CGFloat = 16.0\n",
+      "",
+      1
+    ],
+    [
+      "submodules/Components/ReactionListContextMenuContent/Sources/ReactionListContextMenuContent.swift",
+      "                var maxTextWidth: CGFloat = size.width - avatarInset - avatarSize - avatarSpacing - sideInset - additionalTitleInset\n                if reaction != nil {\n                    maxTextWidth -= 32.0\n                }\n                let titleSize = self.titleLabelNode.updateLayout(CGSize(width: maxTextWidth, height: 100.0))",
+      "                let measuredCredibilityInset = nagramiXReactionCredibilityInset(peer: item.peer, presentationData: presentationData, premiumDisabled: premiumConfiguration.isPremiumDisabled)\n                let maxTextWidth = nagramiXReactionNameWidth(width: size.width, hasReaction: reaction != nil, credibilityInset: max(additionalTitleInset, measuredCredibilityInset))\n                let titleSize = self.titleLabelNode.updateLayout(CGSize(width: maxTextWidth, height: .greatestFiniteMagnitude))",
+      1
+    ],
+    [
+      "submodules/Components/ReactionListContextMenuContent/Sources/ReactionListContextMenuContent.swift",
+      "        private var currentSize: CGSize?\n        private var apparentHeight: CGFloat = 0.0",
+      "        private var currentSize: CGSize?\n        private var nagramiXRowLayout = NagramiXReactionRowLayout()\n        private let nagramiXNameMeasureNode = ImmediateTextNode()\n        private var nagramiXNameMeasures: [NagramiXReactionNameMeasureKey: CGFloat] = [:]\n        private var apparentHeight: CGFloat = 0.0",
+      1
+    ],
+    [
+      "submodules/Components/ReactionListContextMenuContent/Sources/ReactionListContextMenuContent.swift",
+      "        private func updateVisibleItems(animated: Bool, syncronousLoad: Bool) {",
+      "@@MEASURE_ROWS@@\n\n        private func updateVisibleItems(animated: Bool, syncronousLoad: Bool) {",
+      1
+    ],
+    [
+      "submodules/Components/ReactionListContextMenuContent/Sources/ReactionListContextMenuContent.swift",
+      "            let heightFraction: CGFloat = presentationData.listsFontSize.baseDisplaySize / 17.0\n            \n            let topInset: CGFloat = 5.0\n            let itemHeight: CGFloat = (self.displayReadTimestamps ? 56.0 : 44.0) * heightFraction\n            let visibleBounds = self.scrollNode.bounds.insetBy(dx: 0.0, dy: -180.0)",
+      "            let visibleBounds = self.scrollNode.bounds.insetBy(dx: 0.0, dy: -180.0)",
+      1
+    ],
+    [
+      "submodules/Components/ReactionListContextMenuContent/Sources/ReactionListContextMenuContent.swift",
+      "            let minVisibleIndex = max(0, Int(floor(visibleBounds.minY / itemHeight)))\n            let maxVisibleIndex = Int(ceil(visibleBounds.maxY / itemHeight))\n            \n            if minVisibleIndex <= maxVisibleIndex {\n                for index in minVisibleIndex ... maxVisibleIndex {\n                    let itemFrame = CGRect(origin: CGPoint(x: 0.0, y: topInset + CGFloat(index) * itemHeight), size: CGSize(width: size.width, height: itemHeight))",
+      "            let visibleRange = self.nagramiXRowLayout.visibleRange(in: visibleBounds)\n            let maxVisibleIndex = max(0, visibleRange.upperBound - 1)\n            \n            if !visibleRange.isEmpty {\n                for index in visibleRange {\n                    let itemFrame = self.nagramiXRowLayout.frame(at: index, width: size.width)",
+      1
+    ],
+    [
+      "submodules/Components/ReactionListContextMenuContent/Sources/ReactionListContextMenuContent.swift",
+      "            let baseContentHeight = topInset + CGFloat(self.state.totalCount) * itemHeight + topInset",
+      "            self.nagramiXMeasureRows(presentationData: presentationData, width: constrainedSize.width)\n            let baseContentHeight = self.nagramiXRowLayout.contentHeight",
+      1
+    ],
+    [
+      "submodules/Components/ReactionListContextMenuContent/Sources/ReactionListContextMenuContent.swift",
+      "            let itemHeight: CGFloat = (self.displayReadTimestamps ? 56.0 : 44.0) * heightFraction\n            let topInset: CGFloat = 5.0\n            \n            if self.presentationData?.theme",
+      "            let itemHeight: CGFloat = (self.displayReadTimestamps ? 56.0 : 44.0) * heightFraction\n            \n            if self.presentationData?.theme",
+      1
+    ]
+  ]
+}

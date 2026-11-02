@@ -1,0 +1,32 @@
+{
+  "inputs": {
+    "submodules/GalleryUI/Sources/Items/UniversalVideoGalleryItem.swift": "e80ea430b614b64e9778f07d9f4e07383753d32925af99a6afa890b6f17f37ca",
+    "submodules/GalleryUI/Sources/NagramiXPiPLifecycle.swift": "eabebe0b37cf156252c0e82a99b706467b24f9613f9f49dd975c56210fe69565",
+    "submodules/GalleryUI/Sources/NagramiXPiPGestureController.swift": "a7f3e41e0e82cc25ba1c9e70397ff288938b1e97f9bd5f1d97464a14c0a902b0"
+  },
+  "outputs": {
+    "submodules/GalleryUI/Sources/Items/UniversalVideoGalleryItem.swift": "0c5179fa42a798f98f611f347ee8fbf7abf80c8f7395bb6e1183e3fd38ca20c3",
+    "submodules/GalleryUI/Sources/NagramiXPiPLifecycle.swift": "7c8ad797f6b15a4b22885ba0ba4ac74aec8266c435d68b765158df6e946f7a44",
+    "submodules/GalleryUI/Sources/NagramiXPiPGestureController.swift": "84fe581f2568ba5e7b7d088411a1236b184b44ae2cbfd8473841a5d3b7a171a9"
+  },
+  "guards": {},
+  "templates": {
+    "video_ownership_fix/Before-UniversalVideoGalleryItem.swift.inc": "e80ea430b614b64e9778f07d9f4e07383753d32925af99a6afa890b6f17f37ca",
+    "video_ownership_fix/UniversalVideoGalleryItem.swift.inc": "0c5179fa42a798f98f611f347ee8fbf7abf80c8f7395bb6e1183e3fd38ca20c3",
+    "video_ownership_fix/Before-NagramiXPiPLifecycle.swift.inc": "eabebe0b37cf156252c0e82a99b706467b24f9613f9f49dd975c56210fe69565",
+    "video_ownership_fix/NagramiXPiPLifecycle.swift.inc": "7c8ad797f6b15a4b22885ba0ba4ac74aec8266c435d68b765158df6e946f7a44",
+    "video_ownership_fix/Before-NagramiXPiPGestureController.swift.inc": "a7f3e41e0e82cc25ba1c9e70397ff288938b1e97f9bd5f1d97464a14c0a902b0",
+    "video_ownership_fix/NagramiXPiPGestureController.swift.inc": "84fe581f2568ba5e7b7d088411a1236b184b44ae2cbfd8473841a5d3b7a171a9"
+  },
+  "copies": {},
+  "replacements": {
+    "submodules/GalleryUI/Sources/Items/UniversalVideoGalleryItem.swift": "video_ownership_fix/UniversalVideoGalleryItem.swift.inc",
+    "submodules/GalleryUI/Sources/NagramiXPiPLifecycle.swift": "video_ownership_fix/NagramiXPiPLifecycle.swift.inc",
+    "submodules/GalleryUI/Sources/NagramiXPiPGestureController.swift": "video_ownership_fix/NagramiXPiPGestureController.swift.inc"
+  },
+  "previous": {
+    "submodules/GalleryUI/Sources/Items/UniversalVideoGalleryItem.swift": "video_ownership_fix/Before-UniversalVideoGalleryItem.swift.inc",
+    "submodules/GalleryUI/Sources/NagramiXPiPLifecycle.swift": "video_ownership_fix/Before-NagramiXPiPLifecycle.swift.inc",
+    "submodules/GalleryUI/Sources/NagramiXPiPGestureController.swift": "video_ownership_fix/Before-NagramiXPiPGestureController.swift.inc"
+  }
+}

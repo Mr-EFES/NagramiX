@@ -1,0 +1,33 @@
+{
+  "inputs": {
+    "submodules/TelegramUI/Components/Chat/ChatMessageSelectionInputPanelNode/Sources/ChatMessageSelectionInputPanelNode.swift": "9a891c48a0a98b0085aa98b0d7fcd3045c0c29cecf13c869cdca538fd9a17c54"
+  },
+  "outputs": {
+    "submodules/TelegramUI/Components/Chat/ChatMessageSelectionInputPanelNode/Sources/ChatMessageSelectionInputPanelNode.swift": "63fc42bb03fd86aebe19cdedaf412f5101ca2683fe883598673b28168ea95715"
+  },
+  "guards": {
+    "submodules/TelegramUI/Components/Chat/ChatMessageSelectionInputPanelNode/BUILD": "063867ba4540e8d711d9ed19d2c231f5c5cf00d10b13583d5c07e0371cf1ce86",
+    "submodules/TelegramUI/Images.xcassets/Chat/Context Menu/User.imageset/ic_lt_user.pdf": "28aa032f8b829edfd02397531d8f257aa666ae7bb03b96b781296db421632480",
+    "submodules/TelegramUI/Images.xcassets/Chat/Context Menu/User.imageset/Contents.json": "47b0ae43c1d0ce7109d6fb78c65d3e5fc7e2c458cffd3fa692ea7b23c7c2f870"
+  },
+  "templates": {
+    "forward_single_person_icon/Before0.inc": "9a891c48a0a98b0085aa98b0d7fcd3045c0c29cecf13c869cdca538fd9a17c54",
+    "forward_single_person_icon/Guard0.inc": "063867ba4540e8d711d9ed19d2c231f5c5cf00d10b13583d5c07e0371cf1ce86",
+    "forward_single_person_icon/Guard1.inc": "28aa032f8b829edfd02397531d8f257aa666ae7bb03b96b781296db421632480",
+    "forward_single_person_icon/Guard2.inc": "47b0ae43c1d0ce7109d6fb78c65d3e5fc7e2c458cffd3fa692ea7b23c7c2f870"
+  },
+  "previous": {
+    "submodules/TelegramUI/Components/Chat/ChatMessageSelectionInputPanelNode/Sources/ChatMessageSelectionInputPanelNode.swift": "forward_single_person_icon/Before0.inc"
+  },
+  "replacements": {},
+  "copies": {},
+  "deletions": {},
+  "operations": {
+    "submodules/TelegramUI/Components/Chat/ChatMessageSelectionInputPanelNode/Sources/ChatMessageSelectionInputPanelNode.swift": [
+      [
+        "        self.forwardWithoutSourceButton.systemIcon = \"person.crop.circle.badge.xmark\"",
+        "        self.forwardWithoutSourceButton.icon = \"Chat/Context Menu/User\""
+      ]
+    ]
+  }
+}

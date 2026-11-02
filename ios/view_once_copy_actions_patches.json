@@ -1,0 +1,32 @@
+{
+  "inputs": {
+    "submodules/TelegramCore/Sources/Utils/NagramiXMessageArchive.swift": "71f467e5fa7d769cdf75f83acb0629bb7d3bd47169060b7e258eb04c13138981",
+    "submodules/TelegramUI/Sources/ChatInterfaceStateContextMenus.swift": "7ffb91a69dd14cabf77597c547beff3f58c574b24bc8089745be37e4f6ea3ea7"
+  },
+  "outputs": {
+    "submodules/TelegramCore/Sources/Utils/NagramiXMessageArchive.swift": "d54306de62ff1cfd159c8cfc5d46b851c8348f607026e6dbdc16b6c95ac6d10f",
+    "submodules/TelegramUI/Sources/ChatInterfaceStateContextMenus.swift": "214eb015020955dd1c2236cea96778c09cd6f35404c2293ef0a2a0c72e60d35a"
+  },
+  "guards": {
+    "submodules/TelegramCore/BUILD": "81e6c1d9dceab5da57124381fce03665a449bcb7904e66c884269dacdd584fbf",
+    "submodules/TelegramUI/BUILD": "f4ae55a27c3a5e486a0fe9c768c70b65b974c505125d91a1215645179de54926"
+  },
+  "templates": {
+    "view_once_copy_actions/Before0.inc": "71f467e5fa7d769cdf75f83acb0629bb7d3bd47169060b7e258eb04c13138981",
+    "view_once_copy_actions/After0.inc": "d54306de62ff1cfd159c8cfc5d46b851c8348f607026e6dbdc16b6c95ac6d10f",
+    "view_once_copy_actions/Before1.inc": "7ffb91a69dd14cabf77597c547beff3f58c574b24bc8089745be37e4f6ea3ea7",
+    "view_once_copy_actions/After1.inc": "214eb015020955dd1c2236cea96778c09cd6f35404c2293ef0a2a0c72e60d35a",
+    "view_once_copy_actions/Guard0.inc": "81e6c1d9dceab5da57124381fce03665a449bcb7904e66c884269dacdd584fbf",
+    "view_once_copy_actions/Guard1.inc": "f4ae55a27c3a5e486a0fe9c768c70b65b974c505125d91a1215645179de54926"
+  },
+  "previous": {
+    "submodules/TelegramCore/Sources/Utils/NagramiXMessageArchive.swift": "view_once_copy_actions/Before0.inc",
+    "submodules/TelegramUI/Sources/ChatInterfaceStateContextMenus.swift": "view_once_copy_actions/Before1.inc"
+  },
+  "replacements": {
+    "submodules/TelegramCore/Sources/Utils/NagramiXMessageArchive.swift": "view_once_copy_actions/After0.inc",
+    "submodules/TelegramUI/Sources/ChatInterfaceStateContextMenus.swift": "view_once_copy_actions/After1.inc"
+  },
+  "copies": {},
+  "deletions": {}
+}

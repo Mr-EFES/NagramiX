@@ -1,0 +1,48 @@
+{
+  "inputs": {
+    "submodules/MediaPlayer/Sources/MediaPlayerNode.swift": "21827b96d5953f1a2811fdb96b06748d2c8273ca2d5b312bbfd209a12eb89a4d"
+  },
+  "outputs": {
+    "submodules/MediaPlayer/Sources/MediaPlayerNode.swift": "bce51daf3b616a7e4b109a001fba0f7621bfcf93a3c65b1db9a26e29e4d85a9e"
+  },
+  "guards": {},
+  "copies": {},
+  "patches": [
+    [
+      "submodules/MediaPlayer/Sources/MediaPlayerNode.swift",
+      "    private var didNotifyVideoLayerReadyForDisplay: Bool = false",
+      "    private var didNotifyVideoLayerReadyForDisplay: Bool = false\n    private var nagramiXDisplayRecoveryObserver: NSObjectProtocol?",
+      1
+    ],
+    [
+      "submodules/MediaPlayer/Sources/MediaPlayerNode.swift",
+      "    private func updateState() {\n",
+      "    @discardableResult\n    private func nagramiXRecoverVideoDisplayIfNeeded() -> Bool {\n        assert(Queue.mainQueue().isCurrent())\n        guard UIApplication.shared.applicationState == .active,\n              self.videoInHierarchy || self.canPlaybackWithoutHierarchy,\n              let videoLayer = self.videoLayer,\n              videoLayer.status == .failed || videoLayer.requiresFlushToResumeDecoding else { return false }\n        // Reset the failed renderer, retaining the same layer, timebase and\n        // displayed image. Do not recreate AVKit's source or seek/play the media.\n        videoLayer.flush()\n        return true\n    }\n\n    private func updateState() {\n        self.nagramiXRecoverVideoDisplayIfNeeded()\n",
+      1
+    ],
+    [
+      "submodules/MediaPlayer/Sources/MediaPlayerNode.swift",
+      "                                    if videoLayer.isReadyForMoreMediaData {\n",
+      "                                    strongSelf.nagramiXRecoverVideoDisplayIfNeeded()\n                                    if videoLayer.isReadyForMoreMediaData {\n",
+      1
+    ],
+    [
+      "submodules/MediaPlayer/Sources/MediaPlayerNode.swift",
+      "        if !videoLayer.isReadyForMoreMediaData {\n",
+      "        node.nagramiXRecoverVideoDisplayIfNeeded()\n        if !videoLayer.isReadyForMoreMediaData {\n",
+      1
+    ],
+    [
+      "submodules/MediaPlayer/Sources/MediaPlayerNode.swift",
+      "        super.init()\n        \n        self.videoNode.updateInHierarchy",
+      "        super.init()\n\n        self.nagramiXDisplayRecoveryObserver = NotificationCenter.default.addObserver(forName: UIApplication.didBecomeActiveNotification, object: nil, queue: .main, using: { [weak self] _ in\n            guard let self, self.videoInHierarchy || self.canPlaybackWithoutHierarchy else { return }\n            // Foreground may not change the playback state or hierarchy; rearm\n            // the existing polling path after resuming from the lock screen.\n            self.updateState()\n        })\n        \n        self.videoNode.updateInHierarchy",
+      1
+    ],
+    [
+      "submodules/MediaPlayer/Sources/MediaPlayerNode.swift",
+      "    deinit {\n        assert(Queue.mainQueue().isCurrent())\n        self.videoLayer?.removeFromSuperlayer()",
+      "    deinit {\n        assert(Queue.mainQueue().isCurrent())\n        if let observer = self.nagramiXDisplayRecoveryObserver {\n            NotificationCenter.default.removeObserver(observer)\n        }\n        self.videoLayer?.removeFromSuperlayer()",
+      1
+    ]
+  ]
+}

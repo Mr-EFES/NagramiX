@@ -1,0 +1,24 @@
+{
+  "inputs": {
+    "submodules/NagramiXTranscription/Sources/Runtime.swift": "81400e5c352f65d95370829258baa88f93134cfa134ec4611c35ffa35513c447"
+  },
+  "outputs": {
+    "submodules/NagramiXTranscription/Sources/Runtime.swift": "1052b8a403d8efad6282f3a011bb74063ce67b992c753e92b01f5b3a153b57b5"
+  },
+  "guards": {
+    "submodules/NagramiXTranscription/BUILD": "820772c2401f640bf652106d20d11b466cee847e29b43a8dff3ca3b3af0c7e78"
+  },
+  "templates": {
+    "transcription_context_refresh/Before.swift.inc": "81400e5c352f65d95370829258baa88f93134cfa134ec4611c35ffa35513c447",
+    "transcription_context_refresh/After.swift.inc": "1052b8a403d8efad6282f3a011bb74063ce67b992c753e92b01f5b3a153b57b5",
+    "transcription_context_refresh/BUILD.inc": "820772c2401f640bf652106d20d11b466cee847e29b43a8dff3ca3b3af0c7e78"
+  },
+  "replacements": {
+    "submodules/NagramiXTranscription/Sources/Runtime.swift": "transcription_context_refresh/After.swift.inc"
+  },
+  "previous": {
+    "submodules/NagramiXTranscription/Sources/Runtime.swift": "transcription_context_refresh/Before.swift.inc"
+  },
+  "copies": {},
+  "deletions": {}
+}

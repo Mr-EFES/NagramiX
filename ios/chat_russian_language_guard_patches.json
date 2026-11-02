@@ -1,0 +1,28 @@
+{
+  "inputs": {
+    "submodules/TranslateUI/Sources/NagramiXTranslationChatLanguage.swift": "19ce567e9072b645c6dc4848231edc52f46f02599c13cff2365c0a0003e812ec"
+  },
+  "outputs": {
+    "submodules/TranslateUI/Sources/NagramiXTranslationChatLanguage.swift": "4a4eaf112d7c6e2c2532b31c898ec0c53b1d3d536fe5ff8f17b7271ab820195f"
+  },
+  "guards": {
+    "submodules/TranslateUI/BUILD": "f1a9e651b7caa1a06203dd97ff851a7b58d4453a0427660bb7656fa686ad96a7",
+    "submodules/TranslateUI/Sources/NagramiXTranslationSettings.swift": "9ace9c2cae937ee7401a0264b779d0a2195e805d9d5b950ba450187fcb71a652",
+    "submodules/TranslateUI/Sources/NagramiXTranslationRuntime.swift": "776b5722cfab0f9431c2f847e6af692ee4abd09e1e849391e2d59b6e8ebfb386"
+  },
+  "templates": {
+    "chat_russian_language_guard/Before.inc": "19ce567e9072b645c6dc4848231edc52f46f02599c13cff2365c0a0003e812ec",
+    "chat_russian_language_guard/After.inc": "4a4eaf112d7c6e2c2532b31c898ec0c53b1d3d536fe5ff8f17b7271ab820195f",
+    "chat_russian_language_guard/Guard0.inc": "f1a9e651b7caa1a06203dd97ff851a7b58d4453a0427660bb7656fa686ad96a7",
+    "chat_russian_language_guard/Guard1.inc": "9ace9c2cae937ee7401a0264b779d0a2195e805d9d5b950ba450187fcb71a652",
+    "chat_russian_language_guard/Guard2.inc": "776b5722cfab0f9431c2f847e6af692ee4abd09e1e849391e2d59b6e8ebfb386"
+  },
+  "previous": {
+    "submodules/TranslateUI/Sources/NagramiXTranslationChatLanguage.swift": "chat_russian_language_guard/Before.inc"
+  },
+  "replacements": {
+    "submodules/TranslateUI/Sources/NagramiXTranslationChatLanguage.swift": "chat_russian_language_guard/After.inc"
+  },
+  "copies": {},
+  "deletions": {}
+}

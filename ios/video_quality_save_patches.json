@@ -1,0 +1,50 @@
+{
+  "hashes": {
+    "submodules/GalleryUI/Sources/Items/UniversalVideoGalleryItem.swift": "6086d03c47332853cc42d5515bf448a6ecadbbacafdb60a06aaa86a20636ab7d",
+    "submodules/SaveToCameraRoll/BUILD": "a97ea3e962a8ebd6d55d09ef070f6c23124bc29104d3379081c1940ab6818f4c",
+    "submodules/GalleryUI/BUILD": "963014e4710bf8e9f76f03508369d9d2d399bc5b2a9a68d2860e0c41ea910136"
+  },
+  "patches": [
+    [
+      "submodules/GalleryUI/Sources/Items/UniversalVideoGalleryItem.swift",
+      "                            var allFiles: [FileMediaReference] = []\n                            allFiles.append(content.fileReference)\n                            allFiles.append(contentsOf: qualitySet.qualityFiles.values)\n",
+      "                            let nagramiXSaveFiles = Dictionary(uniqueKeysWithValues: qualitySet.qualityFiles.keys.map { quality in\n                                (quality, nagramiXVideoSaveSource(original: content.fileReference, quality: quality))\n                            })\n                            var allFiles: [FileMediaReference] = []\n                            allFiles.append(content.fileReference)\n                            allFiles.append(contentsOf: nagramiXSaveFiles.values)\n",
+      1
+    ],
+    [
+      "submodules/GalleryUI/Sources/Items/UniversalVideoGalleryItem.swift",
+      "                                    if let statusValue = fileStatuses.first(where: { $0.fileId ==  qualityFile.media.fileId }), statusValue.isCached {",
+      "                                    if quality != nil && qualityFile.media.fileId == content.fileReference.media.fileId {\n                                        fileSizeString = self.presentationData.strings.nagramiXVideoSaveText(\"FromOriginal\")\n                                    }\n                                    if let statusValue = fileStatuses.first(where: { $0.fileId == qualityFile.media.fileId }), statusValue.isCached {",
+      1
+    ],
+    [
+      "submodules/GalleryUI/Sources/Items/UniversalVideoGalleryItem.swift",
+      "                                        let saveFileReference: AnyMediaReference = qualityFile.abstract\n                                        let saveSignal = SaveToCameraRoll.saveToCameraRoll(context: self.context, userLocation: .peer(message.id.peerId), mediaReference: saveFileReference)\n",
+      "                                        let saveSignal: Signal<Float, NagramiXGalleryVideoSaveError>\n                                        if let quality {\n                                            saveSignal = nagramiXSaveGalleryVideoQuality(context: self.context, userLocation: .peer(message.id.peerId), source: qualityFile, original: content.fileReference, quality: quality)\n                                        } else {\n                                            // Preserve the working original-file save path.\n                                            saveSignal = SaveToCameraRoll.saveToCameraRoll(context: self.context, userLocation: .peer(message.id.peerId), mediaReference: qualityFile.abstract)\n                                            |> castError(NagramiXGalleryVideoSaveError.self)\n                                        }\n",
+      1
+    ],
+    [
+      "submodules/GalleryUI/Sources/Items/UniversalVideoGalleryItem.swift",
+      "                                            saveScreen.content = .progress(stringSaving, progress)\n                                        }, completed: { [weak saveScreen] in",
+      "                                            saveScreen.content = .progress(stringSaving, progress)\n                                        }, error: { [weak self, weak saveScreen, weak controller] error in\n                                            saveScreen?.dismiss()\n                                            guard let self else { return }\n                                            let key: String\n                                            switch error {\n                                            case .permissionDenied: return // DeviceAccess presents the native access prompt.\n                                            case .download: key = \"DownloadFailed\"\n                                            case .conversion: key = \"ConversionFailed\"\n                                            case .library: key = \"LibraryFailed\"\n                                            }\n                                            controller?.present(textAlertController(context: self.context, title: nil, text: self.presentationData.strings.nagramiXVideoSaveText(key), actions: [TextAlertAction(type: .defaultAction, title: self.presentationData.strings.Common_OK, action: {})]), in: .window(.root))\n                                        }, completed: { [weak saveScreen] in",
+      1
+    ],
+    [
+      "submodules/GalleryUI/Sources/Items/UniversalVideoGalleryItem.swift",
+      "                                        saveScreen.cancelled = {\n                                            disposable.dispose()\n                                        }",
+      "                                        saveScreen.cancelled = { [weak saveScreen] in\n                                            disposable.dispose()\n                                            saveScreen?.dismiss()\n                                        }",
+      1
+    ],
+    [
+      "submodules/GalleryUI/Sources/Items/UniversalVideoGalleryItem.swift",
+      "                                    guard let qualityFile = qualitySet.qualityFiles[quality] else {\n                                        continue\n                                    }\n                                    addItem(quality, qualityFile)",
+      "                                    guard let qualityFile = nagramiXSaveFiles[quality] else {\n                                        continue\n                                    }\n                                    addItem(quality, qualityFile)",
+      1
+    ]
+  ],
+  "copies": {
+    "Sources/SaveToCameraRoll/NagramiXVideoSavePolicy.swift": "submodules/SaveToCameraRoll/Sources/NagramiXVideoSavePolicy.swift",
+    "Sources/SaveToCameraRoll/NagramiXVideoQualitySave.swift": "submodules/SaveToCameraRoll/Sources/NagramiXVideoQualitySave.swift",
+    "Sources/GalleryUI/NagramiXVideoSaveSelection.swift": "submodules/GalleryUI/Sources/NagramiXVideoSaveSelection.swift"
+  }
+}

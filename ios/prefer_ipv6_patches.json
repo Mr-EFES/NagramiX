@@ -1,0 +1,209 @@
+{
+  "hashes": {
+    "submodules/SettingsUI/Sources/Data and Storage/ProxyListSettingsController.swift": "618c0cc7b17bc4981fa6eaf5bb49ca6f0b6b6d21ac2e965d5af6c96044d18db3",
+    "submodules/MtProtoKit/Sources/MTContext.m": "1e4984ee65b0ca9021185fb4150ad7390dbfad2bd13b6ba0304ea4dfb8f20c10",
+    "submodules/MtProtoKit/Sources/MTDNS.m": "30dc02e48e9473fc911acfebafd60614a05bffd6bcf6289ed256431a92da103d",
+    "submodules/MtProtoKit/Sources/MTTcpConnection.m": "9e54099c1dd24cba3dd59aca4cabaa8d0b76cf81c1a2a1c063e4cf4c8784bfbe",
+    "submodules/MtProtoKit/Sources/NagramiXDNSResolver.m": "08ec935c2687c2c98cd532bc3a1481a1d4f118c50f426f3e6e59778e90ae8b24",
+    "submodules/MtProtoKit/Sources/NagramiXDNSResolver.h": "862a08344978bdbbc30beed453fa23393a0f6c848e2887e5c27c3d7f09b0a456",
+    "submodules/MtProtoKit/PublicHeaders/MtProtoKit/NagramiXDNSResolver.h": "862a08344978bdbbc30beed453fa23393a0f6c848e2887e5c27c3d7f09b0a456",
+    "submodules/MtProtoKit/BUILD": "15f6bac296bee39f497f2d9f77fcc253d7b8fcff4ecc672d9e1475ef3f61e08e",
+    "submodules/NagramiXMediaSettings/BUILD": "083253dd17992220fe47c883d1c0686fea165a717703eec0b9f0860ab21ed65f"
+  },
+  "patches": [
+    [
+      "submodules/SettingsUI/Sources/Data and Storage/ProxyListSettingsController.swift",
+      "    let selectDns: () -> Void\n",
+      "    let selectDns: () -> Void\n    let togglePreferIPv6: (Bool) -> Void\n",
+      1
+    ],
+    [
+      "submodules/SettingsUI/Sources/Data and Storage/ProxyListSettingsController.swift",
+      "selectDns: @escaping () -> Void, editCustomDoh:",
+      "selectDns: @escaping () -> Void, togglePreferIPv6: @escaping (Bool) -> Void, editCustomDoh:",
+      1
+    ],
+    [
+      "submodules/SettingsUI/Sources/Data and Storage/ProxyListSettingsController.swift",
+      "        self.selectDns = selectDns\n",
+      "        self.selectDns = selectDns\n        self.togglePreferIPv6 = togglePreferIPv6\n",
+      1
+    ],
+    [
+      "submodules/SettingsUI/Sources/Data and Storage/ProxyListSettingsController.swift",
+      "    case dns(PresentationTheme, String, String)\n",
+      "    case dns(PresentationTheme, String, String)\n    case preferIPv6(PresentationTheme, String, Bool)\n",
+      1
+    ],
+    [
+      "submodules/SettingsUI/Sources/Data and Storage/ProxyListSettingsController.swift",
+      "case .enabled, .dns, .customDoh,",
+      "case .enabled, .dns, .preferIPv6, .customDoh,",
+      1
+    ],
+    [
+      "submodules/SettingsUI/Sources/Data and Storage/ProxyListSettingsController.swift",
+      "    private var sortIndex: Int {\n        switch self {\n        case .enabled: return 0\n        case .dns: return 1\n        case .customDoh: return 2\n        case .autoSwitch: return 3\n        case .autoSwitchTimeout: return 4\n        case .avoidProxyWithVPN: return 5\n        case .avoidProxyWithVPNInfo: return 6\n        case .checkAllProxies: return 7\n        case .serversHeader: return 10\n        case .addServer: return 11\n        case let .server(index, _, _, _, _, _, _, _): return 20 + index\n        case .useForCalls: return 9_990\n        case .useForCallsInfo: return 9_991\n        case .shareProxyList: return 8\n        }\n    }\n\n",
+      "    private var sortIndex: Int {\n        switch self {\n        case .enabled: return 0\n        case .dns: return 1\n        case .preferIPv6: return 2\n        case .customDoh: return 3\n        case .autoSwitch: return 4\n        case .autoSwitchTimeout: return 5\n        case .avoidProxyWithVPN: return 6\n        case .avoidProxyWithVPNInfo: return 7\n        case .checkAllProxies: return 8\n        case .serversHeader: return 10\n        case .addServer: return 11\n        case let .server(index, _, _, _, _, _, _, _): return 20 + index\n        case .useForCalls: return 9_990\n        case .useForCallsInfo: return 9_991\n        case .shareProxyList: return 9\n        }\n    }\n\n",
+      1
+    ],
+    [
+      "submodules/SettingsUI/Sources/Data and Storage/ProxyListSettingsController.swift",
+      "        case .dns: return .index(1)\n",
+      "        case .dns: return .index(1)\n        case .preferIPv6: return .index(17)\n",
+      1
+    ],
+    [
+      "submodules/SettingsUI/Sources/Data and Storage/ProxyListSettingsController.swift",
+      "        case let (.autoSwitch(lt, ls, lv), .autoSwitch(rt, rs, rv)),",
+      "        case let (.preferIPv6(lt, ls, lv), .preferIPv6(rt, rs, rv)), let (.autoSwitch(lt, ls, lv), .autoSwitch(rt, rs, rv)),",
+      1
+    ],
+    [
+      "submodules/SettingsUI/Sources/Data and Storage/ProxyListSettingsController.swift",
+      "        case let .customDoh(_, title, value):\n",
+      "        case let .preferIPv6(_, title, value):\n            return ItemListSwitchItem(presentationData: presentationData, systemStyle: .glass, title: title, value: value, maximumNumberOfLines: 0, sectionId: self.section, style: .blocks, updated: arguments.togglePreferIPv6)\n        case let .customDoh(_, title, value):\n",
+      1
+    ],
+    [
+      "submodules/SettingsUI/Sources/Data and Storage/ProxyListSettingsController.swift",
+      "    entries.append(.dns(theme, strings.nagramiXDns, nagramiXDnsTitle(nagramiXSettings.dnsProvider, strings: strings)))\n",
+      "    entries.append(.dns(theme, strings.nagramiXDns, nagramiXDnsTitle(nagramiXSettings.dnsProvider, strings: strings)))\n    entries.append(.preferIPv6(theme, strings.nagramiXPreferIPv6, NagramiXProxyPreferences.preferIPv6))\n",
+      1
+    ],
+    [
+      "submodules/SettingsUI/Sources/Data and Storage/ProxyListSettingsController.swift",
+      "    }, editCustomDoh: {\n",
+      "    }, togglePreferIPv6: { value in\n        NagramiXProxyPreferences.setPreferIPv6(value)\n    }, editCustomDoh: {\n",
+      1
+    ],
+    [
+      "submodules/MtProtoKit/Sources/MTContext.m",
+      "#import <MtProtoKit/MTContext.h>\n",
+      "#import <MtProtoKit/MTContext.h>\n#import \"NagramiXIPv6Preference.h\"\n",
+      1
+    ],
+    [
+      "submodules/MtProtoKit/Sources/MTDNS.m",
+      "#import \"MTDNS.h\"\n",
+      "#import \"MTDNS.h\"\n#import \"NagramiXIPv6Preference.h\"\n",
+      1
+    ],
+    [
+      "submodules/MtProtoKit/Sources/MTTcpConnection.m",
+      "#import \"MTTcpConnection.h\"\n",
+      "#import \"MTTcpConnection.h\"\n#import \"NagramiXIPv6Preference.h\"\n",
+      1
+    ],
+    [
+      "submodules/MtProtoKit/Sources/NagramiXDNSResolver.m",
+      "#import \"NagramiXDNSResolver.h\"\n",
+      "#import \"NagramiXDNSResolver.h\"\n#import \"NagramiXIPv6Preference.h\"\n",
+      1
+    ],
+    [
+      "submodules/MtProtoKit/Sources/MTContext.m",
+      "        __block bool scanIpv6 = false;\n",
+      "        // Proxy hop families are chosen by DNS. Keep SOCKS destination\n        // schemes unchanged: its existing CONNECT encoder uses IPv4.\n        bool preferIpv6 = [NagramiXIPv6Preference enabled] && _apiEnvironment.socksProxySettings == nil;\n        __block int32_t selectedResponse = 0;\n        __block bool scanIpv6 = preferIpv6;\n",
+      1
+    ],
+    [
+      "submodules/MtProtoKit/Sources/MTContext.m",
+      "                    earliestFailure = current.lastFailureTimestamp;\n",
+      "                    earliestFailure = current.lastFailureTimestamp;\n                    selectedResponse = current.lastResponseTimestamp;\n",
+      2
+    ],
+    [
+      "submodules/MtProtoKit/Sources/MTContext.m",
+      "                } else if (earliestFailure > current.lastFailureTimestamp) {\n",
+      "                } else if (preferIpv6\n                    ? NagramiXIPv6ShouldReplaceScheme(scheme.address.isIpv6, current.lastFailureTimestamp, current.lastResponseTimestamp, schemeWithEarliestFailure.address.isIpv6, earliestFailure, selectedResponse, timestamp)\n                    : earliestFailure > current.lastFailureTimestamp) {\n",
+      1
+    ],
+    [
+      "submodules/MtProtoKit/Sources/MTDNS.m",
+      "            if (address4 != nil) {\n",
+      "            if (NagramiXIPv6DNSFamily([NagramiXIPv6Preference preferForHost:host port:port], address4 != nil, address6 != nil) == 4) {\n",
+      1
+    ],
+    [
+      "submodules/MtProtoKit/Sources/MTDNS.m",
+      "[NagramiXDNSResolver resolveHostname:hostname]",
+      "[NagramiXDNSResolver resolveHostname:hostname preferIPv6:[NagramiXIPv6Preference preferForHost:hostname port:port]]",
+      1
+    ],
+    [
+      "submodules/MtProtoKit/Sources/MTTcpConnection.m",
+      "    bool _closed;\n",
+      "    bool _closed;\n    NSString *_nagramiXProxyHostname;\n    int32_t _nagramiXProxyPort;\n    bool _nagramiXIPv6Endpoint;\n    bool _nagramiXTcpConnected;\n",
+      1
+    ],
+    [
+      "submodules/MtProtoKit/Sources/MTTcpConnection.m",
+      "                    int32_t port = _socksPort;\n",
+      "                    int32_t port = _socksPort;\n                    _nagramiXProxyHostname = [_socksIp copy];\n                    _nagramiXProxyPort = port;\n",
+      1
+    ],
+    [
+      "submodules/MtProtoKit/Sources/MTTcpConnection.m",
+      "                    int32_t port = _mtpPort;\n",
+      "                    int32_t port = _mtpPort;\n                    _nagramiXProxyHostname = [_mtpIp copy];\n                    _nagramiXProxyPort = port;\n",
+      1
+    ],
+    [
+      "submodules/MtProtoKit/Sources/MTTcpConnection.m",
+      "                    __autoreleasing NSError *error = nil;\n",
+      "                    struct in6_addr nagramiXEndpoint6;\n                    strongSelf->_nagramiXIPv6Endpoint = inet_pton(AF_INET6, connectionData.ip.UTF8String, &nagramiXEndpoint6) == 1;\n                    __autoreleasing NSError *error = nil;\n",
+      1
+    ],
+    [
+      "submodules/MtProtoKit/Sources/MTTcpConnection.m",
+      "            _closed = true;\n",
+      "            if (NagramiXIPv6ShouldRecordFailure([NagramiXIPv6Preference enabled], error, _nagramiXTcpConnected, _nagramiXIPv6Endpoint, _nagramiXProxyHostname.length != 0)) {\n                [NagramiXIPv6Preference recordFailureForHost:_nagramiXProxyHostname port:_nagramiXProxyPort];\n            }\n            _closed = true;\n",
+      1
+    ],
+    [
+      "submodules/MtProtoKit/Sources/MTTcpConnection.m",
+      "- (void)connectionInterfaceDidConnect\n{\n",
+      "- (void)connectionInterfaceDidConnect\n{\n    _nagramiXTcpConnected = true;\n    if (_nagramiXIPv6Endpoint && _nagramiXProxyHostname.length != 0) {\n        [NagramiXIPv6Preference recordSuccessForHost:_nagramiXProxyHostname port:_nagramiXProxyPort];\n    }\n",
+      1
+    ],
+    [
+      "submodules/MtProtoKit/Sources/NagramiXDNSResolver.h",
+      "+ (MTSignal *)resolveHostname:(NSString *)hostname;\n",
+      "+ (MTSignal *)resolveHostname:(NSString *)hostname;\n+ (MTSignal *)resolveHostname:(NSString *)hostname preferIPv6:(BOOL)preferIPv6;\n",
+      1
+    ],
+    [
+      "submodules/MtProtoKit/PublicHeaders/MtProtoKit/NagramiXDNSResolver.h",
+      "+ (MTSignal *)resolveHostname:(NSString *)hostname;\n",
+      "+ (MTSignal *)resolveHostname:(NSString *)hostname;\n+ (MTSignal *)resolveHostname:(NSString *)hostname preferIPv6:(BOOL)preferIPv6;\n",
+      1
+    ],
+    [
+      "submodules/MtProtoKit/Sources/NagramiXDNSResolver.m",
+      "+ (MTSignal *)resolveHostname:(NSString *)hostname {\n",
+      "+ (MTSignal *)resolveHostname:(NSString *)hostname {\n    return [self resolveHostname:hostname preferIPv6:[NagramiXIPv6Preference enabled]];\n}\n\n+ (MTSignal *)resolveHostname:(NSString *)hostname preferIPv6:(BOOL)preferIPv6 {\n",
+      1
+    ],
+    [
+      "submodules/MtProtoKit/Sources/NagramiXDNSResolver.m",
+      "    return [self resolveHostname:hostname endpoint:endpoint];\n}\n\n+ (MTSignal *)testEndpoint:(NSString *)endpoint hostname:(NSString *)hostname {\n    return [self resolveHostname:hostname endpoint:endpoint];\n}\n\n+ (MTSignal *)resolveHostname:(NSString *)hostname endpoint:(NSString *)endpoint {\n",
+      "    return [self resolveHostname:hostname endpoint:endpoint preferIPv6:preferIPv6];\n}\n\n+ (MTSignal *)testEndpoint:(NSString *)endpoint hostname:(NSString *)hostname {\n    return [self resolveHostname:hostname endpoint:endpoint preferIPv6:[NagramiXIPv6Preference enabled]];\n}\n\n+ (MTSignal *)resolveHostname:(NSString *)hostname endpoint:(NSString *)endpoint preferIPv6:(BOOL)preferIPv6 {\n",
+      1
+    ],
+    [
+      "submodules/MtProtoKit/Sources/NagramiXDNSResolver.m",
+      "        NSArray<NSNumber *> *types = @[@1, @28, @1, @28];\n",
+      "        NSArray<NSNumber *> *types = @[@(NagramiXIPv6DNSQueryType(preferIPv6, 0)), @(NagramiXIPv6DNSQueryType(preferIPv6, 1)), @(NagramiXIPv6DNSQueryType(preferIPv6, 2)), @(NagramiXIPv6DNSQueryType(preferIPv6, 3))];\n",
+      1
+    ]
+  ],
+  "provided": {
+    "Sources/NagramiXMediaSettings/Sources/NagramiXProxyPreferences.swift": "submodules/NagramiXMediaSettings/Sources/NagramiXProxyPreferences.swift"
+  },
+  "copies": {
+    "Sources/MtProtoKit/NagramiXIPv6Policy.h": "submodules/MtProtoKit/Sources/NagramiXIPv6Policy.h",
+    "Sources/MtProtoKit/NagramiXIPv6Preference.h": "submodules/MtProtoKit/Sources/NagramiXIPv6Preference.h",
+    "Sources/MtProtoKit/NagramiXIPv6Preference.m": "submodules/MtProtoKit/Sources/NagramiXIPv6Preference.m"
+  }
+}

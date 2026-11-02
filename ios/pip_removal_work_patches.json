@@ -1,0 +1,83 @@
+{
+  "inputs": {
+    "submodules/GalleryUI/Sources/Items/UniversalVideoGalleryItem.swift": "0c5179fa42a798f98f611f347ee8fbf7abf80c8f7395bb6e1183e3fd38ca20c3",
+    "submodules/GalleryUI/Sources/GalleryControllerNode.swift": "15d72fed31f1ff9bed54d33782995ac29d69d10d2cc825f2a009d4db03ca68a2",
+    "submodules/SettingsUI/Sources/NagramiXSettingsController.swift": "2aafc61833c77c0c3928c29403da44e17a9e10c8e6e186922c7f960a8c760be6",
+    "submodules/NagramiXCore/Sources/NagramiXTabSettings.swift": "f235efc76121b9f5cf0b2f0256212445ea1cd24c61f960d4d1662052e71e73c7",
+    "submodules/GalleryUI/Sources/ChatItemGalleryFooterContentNode.swift": "f920376a9573f0192dfcce4fc3d63539e8f5f3797fbdadec556ddac63e8d2439"
+  },
+  "outputs": {
+    "submodules/GalleryUI/Sources/Items/UniversalVideoGalleryItem.swift": "71e8d780eb6f4e36c3cc7e648ad485c13dc729b7a2ebfa80a7170aca886f7f90",
+    "submodules/GalleryUI/Sources/GalleryControllerNode.swift": "63e13400270b7b542cd50434af82b6ac9e6b0cf449877a04a94010bae9e51dda",
+    "submodules/SettingsUI/Sources/NagramiXSettingsController.swift": "7f2eb540e7a8713d6768d24711734bd7e4a5eb232c59370ec552b3a5c3ef2379",
+    "submodules/NagramiXCore/Sources/NagramiXTabSettings.swift": "facaa1342c051351267bcb616ac533349aa852d0a977fb106b28c19481dd3d8d",
+    "submodules/GalleryUI/Sources/ChatItemGalleryFooterContentNode.swift": "84721b4ca3f95c34a2b0920cc8f6b296694555cb1fb7b013fdb7bb0ac0ed1eb0"
+  },
+  "guards": {
+    "submodules/GalleryUI/Sources/NagramiXPiPLifecycle.swift": "7c8ad797f6b15a4b22885ba0ba4ac74aec8266c435d68b765158df6e946f7a44",
+    "submodules/GalleryUI/Sources/NagramiXPiPGestureController.swift": "84fe581f2568ba5e7b7d088411a1236b184b44ae2cbfd8473841a5d3b7a171a9",
+    "submodules/GalleryUI/Sources/NagramiXPiPDiagnostics.swift": "86f7700464787547f71274cc966bc45af79e28b7df1efaef5a9e03eba6dd6de4",
+    "submodules/GalleryUI/Sources/NagramiXPiPVisualHandoff.swift": "3e9360997118a31dc9f971ca7e88ac91912177f3bcd4b2ec61e8ad4ef40251ee",
+    "submodules/GalleryUI/Sources/NagramiXPiPReleaseDecision.swift": "f9e02fe91a2d98934c966d67d081d0b3b29cb18f59d2bdcfb405babcc117c78a",
+    "submodules/GalleryUI/Sources/NagramiXPiPSourceGeometry.swift": "08f3f30767ae426b5a9ffd666ef8caa9d870f503ea9c94c1d169586da9424b0d"
+  },
+  "templates": {
+    "pip_removal_work/Before-Video.swift.inc": "0c5179fa42a798f98f611f347ee8fbf7abf80c8f7395bb6e1183e3fd38ca20c3",
+    "pip_removal_work/Before-Gallery.swift.inc": "15d72fed31f1ff9bed54d33782995ac29d69d10d2cc825f2a009d4db03ca68a2",
+    "pip_removal_work/Before-Settings.swift.inc": "2aafc61833c77c0c3928c29403da44e17a9e10c8e6e186922c7f960a8c760be6",
+    "pip_removal_work/Before-TabSettings.swift.inc": "f235efc76121b9f5cf0b2f0256212445ea1cd24c61f960d4d1662052e71e73c7",
+    "pip_removal_work/Before-Footer.swift.inc": "f920376a9573f0192dfcce4fc3d63539e8f5f3797fbdadec556ddac63e8d2439",
+    "pip_removal_work/Video.swift.inc": "71e8d780eb6f4e36c3cc7e648ad485c13dc729b7a2ebfa80a7170aca886f7f90",
+    "pip_removal_work/Gallery.swift.inc": "63e13400270b7b542cd50434af82b6ac9e6b0cf449877a04a94010bae9e51dda",
+    "pip_removal_work/Settings.swift.inc": "7f2eb540e7a8713d6768d24711734bd7e4a5eb232c59370ec552b3a5c3ef2379",
+    "pip_removal_work/TabSettings.swift.inc": "facaa1342c051351267bcb616ac533349aa852d0a977fb106b28c19481dd3d8d",
+    "pip_removal_work/Footer.swift.inc": "84721b4ca3f95c34a2b0920cc8f6b296694555cb1fb7b013fdb7bb0ac0ed1eb0",
+    "pip_removal_work/Before-NagramiXPiPLifecycle.swift.inc": "7c8ad797f6b15a4b22885ba0ba4ac74aec8266c435d68b765158df6e946f7a44",
+    "pip_removal_work/Before-NagramiXPiPGestureController.swift.inc": "84fe581f2568ba5e7b7d088411a1236b184b44ae2cbfd8473841a5d3b7a171a9",
+    "pip_removal_work/Before-NagramiXPiPDiagnostics.swift.inc": "86f7700464787547f71274cc966bc45af79e28b7df1efaef5a9e03eba6dd6de4",
+    "pip_removal_work/Before-NagramiXPiPVisualHandoff.swift.inc": "3e9360997118a31dc9f971ca7e88ac91912177f3bcd4b2ec61e8ad4ef40251ee",
+    "pip_removal_work/Before-NagramiXPiPReleaseDecision.swift.inc": "f9e02fe91a2d98934c966d67d081d0b3b29cb18f59d2bdcfb405babcc117c78a",
+    "pip_removal_work/Before-NagramiXPiPSourceGeometry.swift.inc": "08f3f30767ae426b5a9ffd666ef8caa9d870f503ea9c94c1d169586da9424b0d"
+  },
+  "copies": {},
+  "replacements": {
+    "submodules/GalleryUI/Sources/Items/UniversalVideoGalleryItem.swift": "pip_removal_work/Video.swift.inc",
+    "submodules/GalleryUI/Sources/GalleryControllerNode.swift": "pip_removal_work/Gallery.swift.inc",
+    "submodules/SettingsUI/Sources/NagramiXSettingsController.swift": "pip_removal_work/Settings.swift.inc",
+    "submodules/NagramiXCore/Sources/NagramiXTabSettings.swift": "pip_removal_work/TabSettings.swift.inc",
+    "submodules/GalleryUI/Sources/ChatItemGalleryFooterContentNode.swift": "pip_removal_work/Footer.swift.inc"
+  },
+  "previous": {
+    "submodules/GalleryUI/Sources/Items/UniversalVideoGalleryItem.swift": "pip_removal_work/Before-Video.swift.inc",
+    "submodules/GalleryUI/Sources/GalleryControllerNode.swift": "pip_removal_work/Before-Gallery.swift.inc",
+    "submodules/SettingsUI/Sources/NagramiXSettingsController.swift": "pip_removal_work/Before-Settings.swift.inc",
+    "submodules/NagramiXCore/Sources/NagramiXTabSettings.swift": "pip_removal_work/Before-TabSettings.swift.inc",
+    "submodules/GalleryUI/Sources/ChatItemGalleryFooterContentNode.swift": "pip_removal_work/Before-Footer.swift.inc"
+  },
+  "deletions": {
+    "submodules/GalleryUI/Sources/NagramiXPiPLifecycle.swift": {
+      "sha256": "7c8ad797f6b15a4b22885ba0ba4ac74aec8266c435d68b765158df6e946f7a44",
+      "source": "pip_removal_work/Before-NagramiXPiPLifecycle.swift.inc"
+    },
+    "submodules/GalleryUI/Sources/NagramiXPiPGestureController.swift": {
+      "sha256": "84fe581f2568ba5e7b7d088411a1236b184b44ae2cbfd8473841a5d3b7a171a9",
+      "source": "pip_removal_work/Before-NagramiXPiPGestureController.swift.inc"
+    },
+    "submodules/GalleryUI/Sources/NagramiXPiPDiagnostics.swift": {
+      "sha256": "86f7700464787547f71274cc966bc45af79e28b7df1efaef5a9e03eba6dd6de4",
+      "source": "pip_removal_work/Before-NagramiXPiPDiagnostics.swift.inc"
+    },
+    "submodules/GalleryUI/Sources/NagramiXPiPVisualHandoff.swift": {
+      "sha256": "3e9360997118a31dc9f971ca7e88ac91912177f3bcd4b2ec61e8ad4ef40251ee",
+      "source": "pip_removal_work/Before-NagramiXPiPVisualHandoff.swift.inc"
+    },
+    "submodules/GalleryUI/Sources/NagramiXPiPReleaseDecision.swift": {
+      "sha256": "f9e02fe91a2d98934c966d67d081d0b3b29cb18f59d2bdcfb405babcc117c78a",
+      "source": "pip_removal_work/Before-NagramiXPiPReleaseDecision.swift.inc"
+    },
+    "submodules/GalleryUI/Sources/NagramiXPiPSourceGeometry.swift": {
+      "sha256": "08f3f30767ae426b5a9ffd666ef8caa9d870f503ea9c94c1d169586da9424b0d",
+      "source": "pip_removal_work/Before-NagramiXPiPSourceGeometry.swift.inc"
+    }
+  }
+}

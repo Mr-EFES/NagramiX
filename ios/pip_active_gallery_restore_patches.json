@@ -1,0 +1,47 @@
+{
+  "inputs": {
+    "submodules/GalleryUI/Sources/Items/UniversalVideoGalleryItem.swift": "e78bae645475c92ea857e67325210be77a0a89bfb1d8b0623ac670b9fa5a2188",
+    "submodules/GalleryUI/Sources/NagramiXNativePlayerPiP.swift": "1c9f67a31ffe6c219ecd902142ae3b730058c968e9e94d6da95f3e9f97eeff42"
+  },
+  "outputs": {
+    "submodules/GalleryUI/Sources/Items/UniversalVideoGalleryItem.swift": "b571dbae357b25c212605dd30e08194c3c1d9687272bd8778aad0563fa026b33",
+    "submodules/GalleryUI/Sources/NagramiXNativePlayerPiP.swift": "7052708926b19162fc4c85de03c4c867bd3a7d2fdfcc5c7fa8e902f974da8464"
+  },
+  "guards": {
+    "submodules/GalleryUI/BUILD": "963014e4710bf8e9f76f03508369d9d2d399bc5b2a9a68d2860e0c41ea910136"
+  },
+  "templates": {
+    "pip_active_gallery_restore/Before0.inc": "e78bae645475c92ea857e67325210be77a0a89bfb1d8b0623ac670b9fa5a2188",
+    "pip_active_gallery_restore/Before1.inc": "1c9f67a31ffe6c219ecd902142ae3b730058c968e9e94d6da95f3e9f97eeff42",
+    "pip_active_gallery_restore/Guard0.inc": "963014e4710bf8e9f76f03508369d9d2d399bc5b2a9a68d2860e0c41ea910136"
+  },
+  "previous": {
+    "submodules/GalleryUI/Sources/Items/UniversalVideoGalleryItem.swift": "pip_active_gallery_restore/Before0.inc",
+    "submodules/GalleryUI/Sources/NagramiXNativePlayerPiP.swift": "pip_active_gallery_restore/Before1.inc"
+  },
+  "replacements": {},
+  "copies": {},
+  "deletions": {},
+  "operations": {
+    "submodules/GalleryUI/Sources/Items/UniversalVideoGalleryItem.swift": [
+      [
+        "                let elapsed = playing && status.generationTimestamp > 0 ? max(0, CACurrentMediaTime() - status.generationTimestamp) * status.baseRate : 0\n                let position = status.duration > 0 ? min(status.duration, max(0, status.timestamp + elapsed)) : max(0, status.timestamp + elapsed)\n                return NagramiXNativePlayerPiP.ReturnState(timestamp: position, playing: playing, rate: status.baseRate)\n            }, didStart: { [weak self] in\n                guard let self else { return }\n                self.beginCustomDismiss(.pip)\n                gallery.view.alpha = 0\n                gallery.view.layer.animateAlpha(from: 1, to: 0, duration: 0.2, completion: { [weak self, weak gallery = gallery] _ in\n                    guard let self, let gallery, !self.nagramiXPiPRestoring, gallery.view.alpha == 0 else { return }\n                    self.completeCustomDismiss(true)\n",
+        "                let elapsed = playing && status.generationTimestamp > 0 ? max(0, CACurrentMediaTime() - status.generationTimestamp) * status.baseRate : 0\n                let position = status.duration > 0 ? min(status.duration, max(0, status.timestamp + elapsed)) : max(0, status.timestamp + elapsed)\n                return NagramiXNativePlayerPiP.ReturnState(timestamp: position, playing: playing, rate: status.baseRate)\n            }, didStart: { [weak self] in\n                guard let self else { return }\n                self.context.sharedContext.mediaManager.currentPictureInPictureNode = self\n                self.beginCustomDismiss(.pip)\n                gallery.view.alpha = 0\n                gallery.view.layer.animateAlpha(from: 1, to: 0, duration: 0.2, completion: { [weak self, weak gallery = gallery] _ in\n                    guard let self, let gallery, !self.nagramiXPiPRestoring, gallery.view.alpha == 0 else { return }\n                    self.completeCustomDismiss(true)\n"
+      ],
+      [
+        "                let arguments = gallery.presentationArguments; gallery.presentationArguments = nil\n                window.present(gallery, on: .root, blockInteraction: false, completion: { completion(true) })\n                gallery.presentationArguments = arguments\n            }, finish: { [weak self, weak video] _, _, restored, transferred in\n                guard let self else { return }\n                self.nagramiXPlayerPiP = nil\n                self.nagramiXPiPRestoring = false\n                self.nagramiXPiPReturn = nil\n                if transferred && restored, let video, self.videoNode === video {\n                    // Same decoder and timeline: no second seek, pause or play.\n",
+        "                let arguments = gallery.presentationArguments; gallery.presentationArguments = nil\n                window.present(gallery, on: .root, blockInteraction: false, completion: { completion(true) })\n                gallery.presentationArguments = arguments\n            }, finish: { [weak self, weak video] _, _, restored, transferred in\n                guard let self else { return }\n                if self.context.sharedContext.mediaManager.currentPictureInPictureNode === self {\n                    self.context.sharedContext.mediaManager.currentPictureInPictureNode = nil\n                }\n                self.nagramiXPlayerPiP = nil\n                self.nagramiXPiPRestoring = false\n                self.nagramiXPiPReturn = nil\n                if transferred && restored, let video, self.videoNode === video {\n                    // Same decoder and timeline: no second seek, pause or play.\n"
+      ],
+      [
+        "        }\n    }\n    \n    // Compatibility with the upstream gallery restoration interface.\n    // There is no detached video owner after removal of PiP.\n    func expandPIP() {}\n\n    private func contentInfo() -> (message: Message, file: TelegramMediaFile?, isWebpage: Bool)? {\n        guard let item = self.item else {\n            return nil\n        }\n",
+        "        }\n    }\n    \n    // Compatibility with the upstream gallery restoration interface.\n    // There is no detached video owner after removal of PiP.\n    func expandPIP() { self.nagramiXPlayerPiP?.requestExpand() }\n\n    private func contentInfo() -> (message: Message, file: TelegramMediaFile?, isWebpage: Bool)? {\n        guard let item = self.item else {\n            return nil\n        }\n"
+      ]
+    ],
+    "submodules/GalleryUI/Sources/NagramiXNativePlayerPiP.swift": [
+      [
+        "        self.didStart = didStart; self.restore = restore; self.finish = finish; self.failed = failed\n        super.init()\n    }\n    func updateFrame(_ frame: CGRect) {} // AVKit uses the original layer's geometry.\n    func cancelPreparation() { if !self.active && !self.starting { self.complete(success: false, notifyFailure: false) } }\n    private func update() {\n        guard !self.ended, !self.stopping else { return }\n        if self.active { return }\n        // Once AVKit accepted start, its callback/timeout owns the outcome;\n        // transient application-state changes must not tear down its layer.\n",
+        "        self.didStart = didStart; self.restore = restore; self.finish = finish; self.failed = failed\n        super.init()\n    }\n    func updateFrame(_ frame: CGRect) {} // AVKit uses the original layer's geometry.\n    func cancelPreparation() { if !self.active && !self.starting { self.complete(success: false, notifyFailure: false) } }\n    func requestExpand() {\n        guard Thread.isMainThread else {\n            DispatchQueue.main.async { [weak self] in self?.requestExpand() }\n            return\n        }\n        guard self.active, !self.ended, !self.stopping, let controller = self.playerController else { return }\n        self.pictureInPictureController(controller, restoreUserInterfaceForPictureInPictureStopWithCompletionHandler: { [weak self, weak controller] restored in\n            guard restored, let self, let controller, !self.ended else { return }\n            controller.stopPictureInPicture()\n        })\n    }\n    private func update() {\n        guard !self.ended, !self.stopping else { return }\n        if self.active { return }\n        // Once AVKit accepted start, its callback/timeout owns the outcome;\n        // transient application-state changes must not tear down its layer.\n"
+      ]
+    ]
+  }
+}

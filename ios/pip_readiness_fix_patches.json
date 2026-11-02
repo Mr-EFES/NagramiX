@@ -1,0 +1,27 @@
+{
+  "inputs": {
+    "submodules/GalleryUI/Sources/NagramiXNativePlayerPiP.swift": "632b124e0d9cf00c51d5c8632fcbd47aa7cae3cf143296d6a946188fa5b14e8e",
+    "submodules/GalleryUI/Sources/Items/UniversalVideoGalleryItem.swift": "9de3a59810d29cf30bf40a37b4fad268b284eb230eeaf925a087b9180f64d8cf"
+  },
+  "outputs": {
+    "submodules/GalleryUI/Sources/NagramiXNativePlayerPiP.swift": "d2feaf1d48cf512f13d7c1d0522ab2f1ec8fdf364c522a3c0de5bf172487028e",
+    "submodules/GalleryUI/Sources/Items/UniversalVideoGalleryItem.swift": "afaceb8fd338a1c8c38fea0c43633aff1fe4110a51a491c78acd19964923bd36"
+  },
+  "guards": {},
+  "templates": {
+    "pip_readiness_fix/Before0.swift.inc": "632b124e0d9cf00c51d5c8632fcbd47aa7cae3cf143296d6a946188fa5b14e8e",
+    "pip_readiness_fix/After0.swift.inc": "d2feaf1d48cf512f13d7c1d0522ab2f1ec8fdf364c522a3c0de5bf172487028e",
+    "pip_readiness_fix/Before1.swift.inc": "9de3a59810d29cf30bf40a37b4fad268b284eb230eeaf925a087b9180f64d8cf",
+    "pip_readiness_fix/After1.swift.inc": "afaceb8fd338a1c8c38fea0c43633aff1fe4110a51a491c78acd19964923bd36"
+  },
+  "replacements": {
+    "submodules/GalleryUI/Sources/NagramiXNativePlayerPiP.swift": "pip_readiness_fix/After0.swift.inc",
+    "submodules/GalleryUI/Sources/Items/UniversalVideoGalleryItem.swift": "pip_readiness_fix/After1.swift.inc"
+  },
+  "previous": {
+    "submodules/GalleryUI/Sources/NagramiXNativePlayerPiP.swift": "pip_readiness_fix/Before0.swift.inc",
+    "submodules/GalleryUI/Sources/Items/UniversalVideoGalleryItem.swift": "pip_readiness_fix/Before1.swift.inc"
+  },
+  "copies": {},
+  "deletions": {}
+}

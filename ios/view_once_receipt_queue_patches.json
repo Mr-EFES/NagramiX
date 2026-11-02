@@ -1,0 +1,42 @@
+{
+  "inputs": {
+    "submodules/TelegramCore/Sources/TelegramEngine/Messages/MarkMessageContentAsConsumedInteractively.swift": "8e97a364d0521a82d30885d9bdf30e44099f33143f293188909f9c2444650ec3",
+    "submodules/TelegramCore/Sources/State/ManagedSynchronizeConsumeMessageContentsOperations.swift": "2f0f614481dd57df93ed28c2c2f082341c7b3ea8f27d1ca5f23401e640096bac",
+    "submodules/TelegramCore/Sources/State/ManagedConsumePersonalMessagesActions.swift": "443e8366727665b518a6312bf7dd26fb40eead4fde98e460bbc8e6ff7590837f",
+    "submodules/TelegramCore/Sources/State/ManagedSynchronizeMarkAllUnseenPersonalMessagesOperations.swift": "0a59d549b76af1ba080fc63da20e74c0bf5b2b8dc4cca7014b0072384494c360"
+  },
+  "outputs": {
+    "submodules/TelegramCore/Sources/TelegramEngine/Messages/MarkMessageContentAsConsumedInteractively.swift": "7c8c3bd73fe538cf34df9790b224e060919816ad34ec0d272bfb899c8b540d24",
+    "submodules/TelegramCore/Sources/State/ManagedSynchronizeConsumeMessageContentsOperations.swift": "b5233b4798ab6c3337f4e088bec75601ee638ef684e8baefcd36effa94b8839d",
+    "submodules/TelegramCore/Sources/State/ManagedConsumePersonalMessagesActions.swift": "b115415ffef8eb298faa9fe02a39db432dd1f4c44715a2888dd636066f79f975",
+    "submodules/TelegramCore/Sources/State/ManagedSynchronizeMarkAllUnseenPersonalMessagesOperations.swift": "fc0daaa8edbd9ace500925449daba699417881ff3fe7d74709d04c55727c0c6d"
+  },
+  "guards": {
+    "submodules/TelegramCore/BUILD": "81e6c1d9dceab5da57124381fce03665a449bcb7904e66c884269dacdd584fbf"
+  },
+  "templates": {
+    "view_once_receipt_queue/Before0.inc": "8e97a364d0521a82d30885d9bdf30e44099f33143f293188909f9c2444650ec3",
+    "view_once_receipt_queue/After0.inc": "7c8c3bd73fe538cf34df9790b224e060919816ad34ec0d272bfb899c8b540d24",
+    "view_once_receipt_queue/Before1.inc": "2f0f614481dd57df93ed28c2c2f082341c7b3ea8f27d1ca5f23401e640096bac",
+    "view_once_receipt_queue/After1.inc": "b5233b4798ab6c3337f4e088bec75601ee638ef684e8baefcd36effa94b8839d",
+    "view_once_receipt_queue/Before2.inc": "443e8366727665b518a6312bf7dd26fb40eead4fde98e460bbc8e6ff7590837f",
+    "view_once_receipt_queue/After2.inc": "b115415ffef8eb298faa9fe02a39db432dd1f4c44715a2888dd636066f79f975",
+    "view_once_receipt_queue/Before3.inc": "0a59d549b76af1ba080fc63da20e74c0bf5b2b8dc4cca7014b0072384494c360",
+    "view_once_receipt_queue/After3.inc": "fc0daaa8edbd9ace500925449daba699417881ff3fe7d74709d04c55727c0c6d",
+    "view_once_receipt_queue/Guard0.inc": "81e6c1d9dceab5da57124381fce03665a449bcb7904e66c884269dacdd584fbf"
+  },
+  "previous": {
+    "submodules/TelegramCore/Sources/TelegramEngine/Messages/MarkMessageContentAsConsumedInteractively.swift": "view_once_receipt_queue/Before0.inc",
+    "submodules/TelegramCore/Sources/State/ManagedSynchronizeConsumeMessageContentsOperations.swift": "view_once_receipt_queue/Before1.inc",
+    "submodules/TelegramCore/Sources/State/ManagedConsumePersonalMessagesActions.swift": "view_once_receipt_queue/Before2.inc",
+    "submodules/TelegramCore/Sources/State/ManagedSynchronizeMarkAllUnseenPersonalMessagesOperations.swift": "view_once_receipt_queue/Before3.inc"
+  },
+  "replacements": {
+    "submodules/TelegramCore/Sources/TelegramEngine/Messages/MarkMessageContentAsConsumedInteractively.swift": "view_once_receipt_queue/After0.inc",
+    "submodules/TelegramCore/Sources/State/ManagedSynchronizeConsumeMessageContentsOperations.swift": "view_once_receipt_queue/After1.inc",
+    "submodules/TelegramCore/Sources/State/ManagedConsumePersonalMessagesActions.swift": "view_once_receipt_queue/After2.inc",
+    "submodules/TelegramCore/Sources/State/ManagedSynchronizeMarkAllUnseenPersonalMessagesOperations.swift": "view_once_receipt_queue/After3.inc"
+  },
+  "copies": {},
+  "deletions": {}
+}

@@ -1,0 +1,56 @@
+{
+  "inputs": {
+    "submodules/SettingsUI/Sources/NagramiXSettingsController.swift": "4466a69df86f9e858adbf9fb22d1e897377a8eef2a08a09de436bca797a4cdb0",
+    "submodules/NagramiXCore/Resources/ru.lproj/Localizable.strings": "84a4c7d3b75214e5404e9fa13dc520daad93546f34c75850e550282ac2af3435"
+  },
+  "outputs": {
+    "submodules/SettingsUI/Sources/NagramiXSettingsController.swift": "b11a31a29775166df368563f8e8661bbe7c1246b0004e442d1c845917802cacd",
+    "submodules/NagramiXCore/Resources/ru.lproj/Localizable.strings": "a7b4b0f10df63ad114e5d2d9c8dc5bb5022d3c9e7f52cd86f6afe7dfe3f58bd5"
+  },
+  "guards": {},
+  "copies": {},
+  "patches": [
+    [
+      "submodules/SettingsUI/Sources/NagramiXSettingsController.swift",
+      "case .roundQuality, .roundQualityOptions, .videoMessagesHeader, .selfieCountdown,",
+      "case .videoMessagesHeader, .selfieCountdown,",
+      2
+    ],
+    [
+      "submodules/SettingsUI/Sources/NagramiXSettingsController.swift",
+      "        case .downloadsHeader, .downloadAcceleration, .downloadAccelerationMode, .downloadAccelerationInfo, .otherVideoHeader,",
+      "        case .roundQuality, .roundQualityOptions, .downloadsHeader, .downloadAcceleration, .downloadAccelerationMode, .downloadAccelerationInfo, .otherVideoHeader,",
+      1
+    ],
+    [
+      "submodules/SettingsUI/Sources/NagramiXSettingsController.swift",
+      "        case .downloadsHeader, .downloadAcceleration, .downloadAccelerationMode, .downloadAccelerationInfo:\n",
+      "        case .roundQuality, .roundQualityOptions, .downloadsHeader, .downloadAcceleration, .downloadAccelerationMode, .downloadAccelerationInfo:\n",
+      1
+    ],
+    [
+      "submodules/SettingsUI/Sources/NagramiXSettingsController.swift",
+      "case .roundQuality: return 108",
+      "case .roundQuality: return 121",
+      1
+    ],
+    [
+      "submodules/SettingsUI/Sources/NagramiXSettingsController.swift",
+      "case .roundQualityOptions: return 109",
+      "case .roundQualityOptions: return 122",
+      1
+    ],
+    [
+      "submodules/NagramiXCore/Resources/ru.lproj/Localizable.strings",
+      "\"NagramiX.Settings.Downloads.Enabled\" = \"Ускорять скачивание файлов\";",
+      "\"NagramiX.Settings.Downloads.Enabled\" = \"Ускорение загрузки\";",
+      1
+    ],
+    [
+      "submodules/NagramiXCore/Resources/ru.lproj/Localizable.strings",
+      "\"NagramiX.Settings.Downloads.Mode\" = \"Ускорение скачивания\";",
+      "\"NagramiX.Settings.Downloads.Mode\" = \"Параметры скачивания\";",
+      1
+    ]
+  ]
+}

@@ -1,0 +1,73 @@
+{
+  "inputs": {
+    "submodules/TelegramUI/Sources/AppDelegate.swift": "e4fca4beb58d1b4fa41bb5c5a33302853487d39d223cba8909e232e80a180f6b",
+    "submodules/SettingsUI/Sources/Themes/ThemeSettingsController.swift": "e4cdf995a464caa46fffb451d3dd9fd2657312e3c86a24de263f93a96fcb7d6b",
+    "submodules/NagramiXCore/Sources/NagramiXPresentationStrings.swift": "9c58a41c9dbbefcecefca2cf71a4f6ed99331b4fc5818fc6acbbca5566ae5946",
+    "submodules/NagramiXCore/Resources/ru.lproj/Localizable.strings": "4c3c0e56be45a6f18487539a88bd566e07582e2b7ce274568067922ebaf98aa4",
+    "submodules/NagramiXCore/Resources/en.lproj/Localizable.strings": "843ff03bf2641a3001352fc12996f5192101c887963ee970b24bd253a4c94a6d"
+  },
+  "outputs": {
+    "submodules/TelegramUI/Sources/AppDelegate.swift": "e08d6d04d750fd8dad39e07d78299f4cfba097a0389805039022c2927fe7b62b",
+    "submodules/SettingsUI/Sources/Themes/ThemeSettingsController.swift": "d0473c23193a0697ada47d76e2b0c2ba748449fddb79ea835d2147c7d28d8287",
+    "submodules/NagramiXCore/Sources/NagramiXPresentationStrings.swift": "b582f1bec0a7e8ad1a72c92d745ae9ffb53b764b6a75135f59a027b1450ce4a6",
+    "submodules/NagramiXCore/Resources/ru.lproj/Localizable.strings": "1679a1c2ef9f820755a346b8bc166a2b222772ccf105e8899d39c608861272a6",
+    "submodules/NagramiXCore/Resources/en.lproj/Localizable.strings": "7494608af582f236fd7cc10f873ddd2f1e50785ee662686ff0cafb1d72250b7c"
+  },
+  "guards": {
+    "submodules/TelegramUI/BUILD": "eec4771359520d912df85e8a26bfb8ef29d0069862addb1ac87bcffaab853bf2",
+    "submodules/SettingsUI/BUILD": "c874afb38c0ecbddac98203f2e81bc66293a43989cf65bff9434fd7a12e9f3db"
+  },
+  "patches": [
+    [
+      "submodules/TelegramUI/Sources/AppDelegate.swift",
+      "    private let isActivePromise = ValuePromise<Bool>(false, ignoreRepeated: true)\n",
+      "    private lazy var nagramiXAppIconController = NagramiXAppIconController(\n        defaults: .standard,\n        canChange: {\n            return UIApplication.shared.supportsAlternateIcons && UIApplication.shared.applicationState == .active\n        },\n        declaredNames: {\n            let icons = Bundle.main.infoDictionary?[\"CFBundleIcons\"] as? [String: Any]\n            let alternates = icons?[\"CFBundleAlternateIcons\"] as? [String: Any]\n            return Set(alternates?.keys.map { $0 } ?? [])\n        },\n        currentName: { UIApplication.shared.alternateIconName },\n        apply: { name, completion in\n            UIApplication.shared.setAlternateIconName(name, completionHandler: { error in\n                if let error {\n                    Logger.shared.log(\"AppIcon\", \"Failed to change icon: \\(error.localizedDescription)\")\n                }\n                completion(error == nil)\n            })\n        },\n        performOnMain: { action in\n            if Thread.isMainThread {\n                action()\n            } else {\n                DispatchQueue.main.async(execute: action)\n            }\n        }\n    )\n    private let isActivePromise = ValuePromise<Bool>(false, ignoreRepeated: true)\n"
+    ],
+    [
+      "submodules/TelegramUI/Sources/AppDelegate.swift",
+      "            application.setAlternateIconName(name, completionHandler: { error in\n                if let error = error {\n                   Logger.shared.log(\"App \\(self.episodeId)\", \"failed to set alternate icon with error \\(error.localizedDescription)\")\n                }\n                completion(error == nil)\n            })",
+      "            self.nagramiXAppIconController.request(name, completion: completion)"
+    ],
+    [
+      "submodules/TelegramUI/Sources/AppDelegate.swift",
+      "    func handleDidBecomeActive() {\n        self.isInForegroundValue = true",
+      "    func handleDidBecomeActive() {\n        self.nagramiXAppIconController.restoreIfNeeded()\n        self.isInForegroundValue = true"
+    ],
+    [
+      "submodules/SettingsUI/Sources/Themes/ThemeSettingsController.swift",
+      "import TelegramUIPreferences\n",
+      "import TelegramUIPreferences\nimport NagramiXCore\n"
+    ],
+    [
+      "submodules/SettingsUI/Sources/Themes/ThemeSettingsController.swift",
+      "    currentAppIconName.set(currentAppIcon?.name ?? \"Blue\")",
+      "    currentAppIconName.set(currentAppIcon?.name ?? appIcons.first(where: { $0.isDefault })?.name)\n    var nagramiXIsChangingAppIcon = false"
+    ],
+    [
+      "submodules/SettingsUI/Sources/Themes/ThemeSettingsController.swift",
+      "                currentAppIconName.set(icon.name)\n                context.sharedContext.applicationBindings.requestSetAlternateIconName(icon.isDefault ? nil : icon.name, { _ in\n                })",
+      "                guard !nagramiXIsChangingAppIcon else {\n                    return\n                }\n                nagramiXIsChangingAppIcon = true\n                context.sharedContext.applicationBindings.requestSetAlternateIconName(icon.isDefault ? nil : icon.name, { succeeded in\n                    Queue.mainQueue().async {\n                        nagramiXIsChangingAppIcon = false\n                        let bindings = context.sharedContext.applicationBindings\n                        let actualName = bindings.getAlternateIconName()\n                        let availableIcons = bindings.getAvailableAlternateIcons()\n                        let actualIcon = availableIcons.first(where: {\n                            actualName == nil ? $0.isDefault : $0.name == actualName\n                        })\n                        currentAppIconName.set(actualIcon?.name)\n                        if !succeeded {\n                            let data = context.sharedContext.currentPresentationData.with { $0 }\n                            presentControllerImpl?(textAlertController(context: context, title: nil, text: data.strings.nagramiXAppIconChangeFailed, actions: [TextAlertAction(type: .defaultAction, title: data.strings.Common_OK, action: {})]), nil)\n                        }\n                    }\n                })"
+    ],
+    [
+      "submodules/NagramiXCore/Sources/NagramiXPresentationStrings.swift",
+      "public extension PresentationStrings {\n",
+      "public extension PresentationStrings {\n    var nagramiXAppIconChangeFailed: String { self.nagramiXLocalized(\"NagramiX.Icon.ChangeFailed\") }\n"
+    ],
+    [
+      "submodules/NagramiXCore/Resources/ru.lproj/Localizable.strings",
+      "\"NagramiX.Icon.Main\" = \"NagramiX\";\n",
+      "\"NagramiX.Icon.Main\" = \"NagramiX\";\n\"NagramiX.Icon.ChangeFailed\" = \"iOS не подтвердила смену иконки. Попробуйте ещё раз. Если ошибка повторяется, проверьте способ установки приложения.\";\n"
+    ],
+    [
+      "submodules/NagramiXCore/Resources/en.lproj/Localizable.strings",
+      "\"NagramiX.Icon.Main\" = \"NagramiX\";\n",
+      "\"NagramiX.Icon.Main\" = \"NagramiX\";\n\"NagramiX.Icon.ChangeFailed\" = \"iOS did not confirm the icon change. Try again. If the error persists, check how the app was installed.\";\n"
+    ]
+  ],
+  "copies": {
+    "submodules/TelegramUI/Sources/NagramiXAppIconController.swift": {
+      "source": "Sources/TelegramUI/NagramiXAppIconController.swift",
+      "sha256": "e16f55857cd74f2fcfdee661dc723d8b5662ebfbe6b3716d4dac5fbebe96d62f"
+    }
+  }
+}

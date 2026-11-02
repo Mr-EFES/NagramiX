@@ -1,0 +1,33 @@
+{
+  "hashes": {
+    "submodules/ChatListUI/Sources/ChatListControllerNode.swift": "e1b12d8c701da4d8189f73218edbe519cc2994039722d139d4c972d788236d4d",
+    "submodules/TelegramUI/Components/PeerSelectionController/Sources/PeerSelectionControllerNode.swift": "be6cea5761ba312e000515887c7dd1d69227e1f03adad7c88c4e169e6116da99",
+    "submodules/TelegramUI/Sources/ChatControllerForwardMessages.swift": "870ded4d308e496a0b3d56a51aae6a20264849accfe272a47a88cb1dc43a6388"
+  },
+  "patches": [
+    [
+      "submodules/ChatListUI/Sources/ChatListControllerNode.swift",
+      "    private var currentItemNodeValue: ChatListContainerItemNode?",
+      "    // Opt in only for NagramiX copy pickers; other chat lists keep native state.\n    public var nagramiXPreserveCopyRecipients = false\n    private var currentItemNodeValue: ChatListContainerItemNode?",
+      1
+    ],
+    [
+      "submodules/ChatListUI/Sources/ChatListControllerNode.swift",
+      "    private func applyItemNodeAsCurrent(id: ChatListFilterTabEntryId, itemNode: ChatListContainerItemNode) {\n        if let previousItemNode = self.currentItemNodeValue {",
+      "    private func applyItemNodeAsCurrent(id: ChatListFilterTabEntryId, itemNode: ChatListContainerItemNode) {\n        // Each folder owns a different list node. Carry the complete selection,\n        // including peer values needed by Send, even when returning to a cached\n        // folder or when a pending folder finishes loading after another tap.\n        if self.nagramiXPreserveCopyRecipients, let previousItemNode = self.currentItemNodeValue, previousItemNode !== itemNode {\n            let selectedState = previousItemNode.listNode.currentState\n            itemNode.listNode.selectionCountChanged = previousItemNode.listNode.selectionCountChanged\n            itemNode.listNode.updateState { state in\n                var state = state\n                state.editing = selectedState.editing\n                state.selectedPeerIds = selectedState.selectedPeerIds\n                state.selectedPeerMap = selectedState.selectedPeerMap\n                state.foundPeers = selectedState.foundPeers\n                return state\n            }\n        }\n        if let previousItemNode = self.currentItemNodeValue {",
+      1
+    ],
+    [
+      "submodules/TelegramUI/Components/PeerSelectionController/Sources/PeerSelectionControllerNode.swift",
+      "    var nagramiXCopySelection = false",
+      "    var nagramiXCopySelection = false {\n        didSet {\n            self.mainContainerNode?.nagramiXPreserveCopyRecipients = self.nagramiXCopySelection\n        }\n    }",
+      1
+    ],
+    [
+      "submodules/TelegramUI/Sources/ChatControllerForwardMessages.swift",
+      "                                    if transferMode.copiesAsNew, let threadId = destinationThreadIds[peer.id] {\n                                        peerMessages = peerMessages.map { $0.withUpdatedThreadId(threadId) }\n                                    }",
+      "                                    if transferMode.copiesAsNew, let threadId = destinationThreadIds[peer.id] {\n                                        peerMessages = peerMessages.map { $0.withUpdatedThreadId(threadId) }\n                                        if case let .channel(channel) = peer, channel.isForum {\n                                            // A local threadId alone does not create the RPC reply target.\n                                            // Copies are new messages: explicitly address the chosen topic,\n                                            // just as native forwarding does when converting to .message.\n                                            let replySubject = EngineMessageReplySubject(messageId: MessageId(peerId: peer.id, namespace: Namespaces.Message.Cloud, id: Int32(clamping: threadId)), quote: nil, innerSubject: nil)\n                                            peerMessages = peerMessages.map { $0.withUpdatedReplyToMessageId(replySubject) }\n                                        }\n                                    }",
+      1
+    ]
+  ]
+}

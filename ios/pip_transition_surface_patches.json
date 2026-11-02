@@ -1,0 +1,24 @@
+{
+  "inputs": {
+    "submodules/GalleryUI/Sources/NagramiXNativePlayerPiP.swift": "2d63c49cc709ea5290b0fbb0767493f70a107dff60c29e98dd0ee7186f520bef"
+  },
+  "outputs": {
+    "submodules/GalleryUI/Sources/NagramiXNativePlayerPiP.swift": "bc066da774db8391f2ebf812dbf4b4eb108e55db2c56daf9a818a6f102a8f549"
+  },
+  "guards": {
+    "submodules/GalleryUI/BUILD": "963014e4710bf8e9f76f03508369d9d2d399bc5b2a9a68d2860e0c41ea910136"
+  },
+  "templates": {
+    "pip_transition_surface/Before.inc": "2d63c49cc709ea5290b0fbb0767493f70a107dff60c29e98dd0ee7186f520bef",
+    "pip_transition_surface/After.inc": "bc066da774db8391f2ebf812dbf4b4eb108e55db2c56daf9a818a6f102a8f549",
+    "pip_transition_surface/Guard.inc": "963014e4710bf8e9f76f03508369d9d2d399bc5b2a9a68d2860e0c41ea910136"
+  },
+  "previous": {
+    "submodules/GalleryUI/Sources/NagramiXNativePlayerPiP.swift": "pip_transition_surface/Before.inc"
+  },
+  "replacements": {
+    "submodules/GalleryUI/Sources/NagramiXNativePlayerPiP.swift": "pip_transition_surface/After.inc"
+  },
+  "copies": {},
+  "deletions": {}
+}

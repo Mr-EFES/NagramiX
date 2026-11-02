@@ -1,0 +1,48 @@
+{
+  "inputs": {
+    "submodules/NagramiXTranscription/Sources/Preferences.swift": "330d96ac977696f1d433c213f538fce383c19d5f74b3a054b8ad0fed96c3aa6e",
+    "submodules/TranslateUI/Sources/NagramiXTranslationPreferences.swift": "725c63558a5d47d874d1452325f26d61ef3f636ec2891b0648d22bc37321fe16",
+    "submodules/NagramiXTranscription/Sources/Cloud.swift": "3eb50ac8dd62f99798970809a7ea0d31ccf305d5d6c5bcc9a9eb03f3052514d4"
+  },
+  "outputs": {
+    "submodules/NagramiXTranscription/Sources/Preferences.swift": "9aef2415073abf5473274c047941a0cdde84633cc0612ee10c0c3d75aa8a0800",
+    "submodules/TranslateUI/Sources/NagramiXTranslationPreferences.swift": "b16e93f7c96a686e16ab390a187f9cbb0e057b39d4f833ae4023a89fd42f5cf5",
+    "submodules/NagramiXTranscription/Sources/Cloud.swift": "aa073e566a46dcac1bd982039a68e12041d1e4125ea8dba93ec1b39b984baacb"
+  },
+  "guards": {
+    "submodules/NagramiXTranscription/BUILD": "820772c2401f640bf652106d20d11b466cee847e29b43a8dff3ca3b3af0c7e78",
+    "submodules/TranslateUI/BUILD": "f1a9e651b7caa1a06203dd97ff851a7b58d4453a0427660bb7656fa686ad96a7"
+  },
+  "templates": {
+    "remote_model_catalog/Before0.inc": "330d96ac977696f1d433c213f538fce383c19d5f74b3a054b8ad0fed96c3aa6e",
+    "remote_model_catalog/After0.inc": "9aef2415073abf5473274c047941a0cdde84633cc0612ee10c0c3d75aa8a0800",
+    "remote_model_catalog/Before1.inc": "725c63558a5d47d874d1452325f26d61ef3f636ec2891b0648d22bc37321fe16",
+    "remote_model_catalog/After1.inc": "b16e93f7c96a686e16ab390a187f9cbb0e057b39d4f833ae4023a89fd42f5cf5",
+    "remote_model_catalog/Before2.inc": "3eb50ac8dd62f99798970809a7ea0d31ccf305d5d6c5bcc9a9eb03f3052514d4",
+    "remote_model_catalog/After2.inc": "aa073e566a46dcac1bd982039a68e12041d1e4125ea8dba93ec1b39b984baacb",
+    "remote_model_catalog/Guard0.inc": "820772c2401f640bf652106d20d11b466cee847e29b43a8dff3ca3b3af0c7e78",
+    "remote_model_catalog/Guard1.inc": "f1a9e651b7caa1a06203dd97ff851a7b58d4453a0427660bb7656fa686ad96a7",
+    "remote_model_catalog/Catalog.swift": "86316a7aa38f219792eb60d7d8bada696867e9111538d3767db7c9bad4916bdd"
+  },
+  "previous": {
+    "submodules/NagramiXTranscription/Sources/Preferences.swift": "remote_model_catalog/Before0.inc",
+    "submodules/TranslateUI/Sources/NagramiXTranslationPreferences.swift": "remote_model_catalog/Before1.inc",
+    "submodules/NagramiXTranscription/Sources/Cloud.swift": "remote_model_catalog/Before2.inc"
+  },
+  "replacements": {
+    "submodules/NagramiXTranscription/Sources/Preferences.swift": "remote_model_catalog/After0.inc",
+    "submodules/TranslateUI/Sources/NagramiXTranslationPreferences.swift": "remote_model_catalog/After1.inc",
+    "submodules/NagramiXTranscription/Sources/Cloud.swift": "remote_model_catalog/After2.inc"
+  },
+  "copies": {
+    "submodules/NagramiXTranscription/Sources/NagramiXRemoteModelCatalog.swift": {
+      "source": "remote_model_catalog/Catalog.swift",
+      "sha256": "86316a7aa38f219792eb60d7d8bada696867e9111538d3767db7c9bad4916bdd"
+    },
+    "submodules/TranslateUI/Sources/NagramiXRemoteModelCatalog.swift": {
+      "source": "remote_model_catalog/Catalog.swift",
+      "sha256": "86316a7aa38f219792eb60d7d8bada696867e9111538d3767db7c9bad4916bdd"
+    }
+  },
+  "deletions": {}
+}

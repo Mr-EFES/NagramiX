@@ -1,0 +1,58 @@
+{
+  "inputs": {
+    "submodules/NagramiXTranscription/Sources/Settings.swift": "94b429ce15417985dc728f88689bb222d38d7e43c668e0de5f72a7c5612cd5b6",
+    "submodules/NagramiXTranscription/Sources/Preferences.swift": "2160568e558cf5a9a003419c3a879e8935f91eb4771d28e91884df02e2971721",
+    "submodules/NagramiXTranscription/Sources/Cloud.swift": "aa073e566a46dcac1bd982039a68e12041d1e4125ea8dba93ec1b39b984baacb",
+    "submodules/NagramiXTranscription/Sources/NagramiXRemoteModelCatalog.swift": "86316a7aa38f219792eb60d7d8bada696867e9111538d3767db7c9bad4916bdd",
+    "submodules/TranslateUI/Sources/NagramiXRemoteModelCatalog.swift": "86316a7aa38f219792eb60d7d8bada696867e9111538d3767db7c9bad4916bdd",
+    "submodules/SettingsUI/Sources/NagramiXSettingsController.swift": "4321400fdf8f874f35ed00f528a44788b3f8dfee701cfbd182326bdef77d8b6a"
+  },
+  "outputs": {
+    "submodules/NagramiXTranscription/Sources/Settings.swift": "b6a49ae2c0b0b66e5a528c8b76f08eec1cfa47c31c9b46c0ad56c63bde84b32e",
+    "submodules/NagramiXTranscription/Sources/Preferences.swift": "8e0aad9615d1d9a0a2be3531695f566e448a1c9cade4b2bb1bf6c5450ef19dc5",
+    "submodules/NagramiXTranscription/Sources/Cloud.swift": "f2ca7d765222513f757bf301ec507b759e995a8841b6d65c5479c7f9a24710f2",
+    "submodules/NagramiXTranscription/Sources/NagramiXRemoteModelCatalog.swift": "647804c10643d2a8432963399226ad6c32cd28de64ac8ab1ae18248dae70b7a3",
+    "submodules/TranslateUI/Sources/NagramiXRemoteModelCatalog.swift": "647804c10643d2a8432963399226ad6c32cd28de64ac8ab1ae18248dae70b7a3",
+    "submodules/SettingsUI/Sources/NagramiXSettingsController.swift": "60f7b4e7921f4f200a066d7682ebac858670675fca8c0a3a15350933defe3661"
+  },
+  "guards": {
+    "submodules/NagramiXTranscription/BUILD": "820772c2401f640bf652106d20d11b466cee847e29b43a8dff3ca3b3af0c7e78",
+    "submodules/TranslateUI/BUILD": "f1a9e651b7caa1a06203dd97ff851a7b58d4453a0427660bb7656fa686ad96a7",
+    "submodules/SettingsUI/BUILD": "ccf29c184b8eab3b16f702e5cecc61490e5762f46e4bd53273ad95790d1a879a"
+  },
+  "templates": {
+    "remove_groq/Before0.inc": "94b429ce15417985dc728f88689bb222d38d7e43c668e0de5f72a7c5612cd5b6",
+    "remove_groq/After0.inc": "b6a49ae2c0b0b66e5a528c8b76f08eec1cfa47c31c9b46c0ad56c63bde84b32e",
+    "remove_groq/Before1.inc": "2160568e558cf5a9a003419c3a879e8935f91eb4771d28e91884df02e2971721",
+    "remove_groq/After1.inc": "8e0aad9615d1d9a0a2be3531695f566e448a1c9cade4b2bb1bf6c5450ef19dc5",
+    "remove_groq/Before2.inc": "aa073e566a46dcac1bd982039a68e12041d1e4125ea8dba93ec1b39b984baacb",
+    "remove_groq/After2.inc": "f2ca7d765222513f757bf301ec507b759e995a8841b6d65c5479c7f9a24710f2",
+    "remove_groq/Before3.inc": "86316a7aa38f219792eb60d7d8bada696867e9111538d3767db7c9bad4916bdd",
+    "remove_groq/After3.inc": "647804c10643d2a8432963399226ad6c32cd28de64ac8ab1ae18248dae70b7a3",
+    "remove_groq/Before4.inc": "86316a7aa38f219792eb60d7d8bada696867e9111538d3767db7c9bad4916bdd",
+    "remove_groq/After4.inc": "647804c10643d2a8432963399226ad6c32cd28de64ac8ab1ae18248dae70b7a3",
+    "remove_groq/Before5.inc": "4321400fdf8f874f35ed00f528a44788b3f8dfee701cfbd182326bdef77d8b6a",
+    "remove_groq/After5.inc": "60f7b4e7921f4f200a066d7682ebac858670675fca8c0a3a15350933defe3661",
+    "remove_groq/Guard0.inc": "820772c2401f640bf652106d20d11b466cee847e29b43a8dff3ca3b3af0c7e78",
+    "remove_groq/Guard1.inc": "f1a9e651b7caa1a06203dd97ff851a7b58d4453a0427660bb7656fa686ad96a7",
+    "remove_groq/Guard2.inc": "ccf29c184b8eab3b16f702e5cecc61490e5762f46e4bd53273ad95790d1a879a"
+  },
+  "previous": {
+    "submodules/NagramiXTranscription/Sources/Settings.swift": "remove_groq/Before0.inc",
+    "submodules/NagramiXTranscription/Sources/Preferences.swift": "remove_groq/Before1.inc",
+    "submodules/NagramiXTranscription/Sources/Cloud.swift": "remove_groq/Before2.inc",
+    "submodules/NagramiXTranscription/Sources/NagramiXRemoteModelCatalog.swift": "remove_groq/Before3.inc",
+    "submodules/TranslateUI/Sources/NagramiXRemoteModelCatalog.swift": "remove_groq/Before4.inc",
+    "submodules/SettingsUI/Sources/NagramiXSettingsController.swift": "remove_groq/Before5.inc"
+  },
+  "replacements": {
+    "submodules/NagramiXTranscription/Sources/Settings.swift": "remove_groq/After0.inc",
+    "submodules/NagramiXTranscription/Sources/Preferences.swift": "remove_groq/After1.inc",
+    "submodules/NagramiXTranscription/Sources/Cloud.swift": "remove_groq/After2.inc",
+    "submodules/NagramiXTranscription/Sources/NagramiXRemoteModelCatalog.swift": "remove_groq/After3.inc",
+    "submodules/TranslateUI/Sources/NagramiXRemoteModelCatalog.swift": "remove_groq/After4.inc",
+    "submodules/SettingsUI/Sources/NagramiXSettingsController.swift": "remove_groq/After5.inc"
+  },
+  "copies": {},
+  "deletions": {}
+}

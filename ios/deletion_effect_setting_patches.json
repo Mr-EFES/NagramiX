@@ -1,0 +1,137 @@
+{
+  "inputs": {
+    "submodules/NagramiXCore/Sources/NagramiXTabSettings.swift": "63387a244119952126d07c1cacee9c3c3fa40da735d4df2d462995510851ad81",
+    "submodules/NagramiXCore/Sources/NagramiXPresentationStrings.swift": "e3aa0894ed008b93339d7c4637a85540f632d3ba4d217dbd461f00c53698f467",
+    "submodules/NagramiXCore/Resources/ru.lproj/Localizable.strings": "8260de45c8a4991e92bd371e5fb06e64d6377aadab74f61612096b2008781c5f",
+    "submodules/NagramiXCore/Resources/en.lproj/Localizable.strings": "41634af45318fbabbd751b03f32cb263129fda5469fcf6a8555fbc7a47a12187",
+    "submodules/SettingsUI/Sources/NagramiXSettingsController.swift": "04223d8b209dc4c596c9019a124e539168f89a571113966ad01ddc9d9c308854",
+    "submodules/TelegramUI/Sources/ChatHistoryListNode.swift": "4de90be724b805d458af0069f41cffd2d2357a548d412b9babe89f1b4ae1d4f0",
+    "submodules/TelegramUI/Sources/ChatMessageContextControllerContentSource.swift": "1a236abe2587f071df99fa5a5e8c91ac974f336a3dfd372eb5adf481cc5286dd"
+  },
+  "outputs": {
+    "submodules/NagramiXCore/Sources/NagramiXTabSettings.swift": "6d4631a3dc92c3d8140f221553d7657de32b3c825341b5d98f96b7d0f70d24d2",
+    "submodules/NagramiXCore/Sources/NagramiXPresentationStrings.swift": "c4b24f242e3da48ab0c3796a360a3455c90fbac7be00f44bc31ff9aa8ea17f39",
+    "submodules/NagramiXCore/Resources/ru.lproj/Localizable.strings": "7a1b32463f5a30dff532455c12142cd497b297ae17946ad8596a53b1736d489e",
+    "submodules/NagramiXCore/Resources/en.lproj/Localizable.strings": "d5b73ed2183d3d0541ccd55a45a603380a3b60747bd63e1558b864e9769b91e8",
+    "submodules/SettingsUI/Sources/NagramiXSettingsController.swift": "2b9595d11ed48530b52ed3adaf7479e7e734a14547834a5420e197b5075b7371",
+    "submodules/TelegramUI/Sources/ChatHistoryListNode.swift": "9566d2b33380454fb6b1b03cdd2675bdef8e690f82d9ab41d798c2d81e87afab",
+    "submodules/TelegramUI/Sources/ChatMessageContextControllerContentSource.swift": "151a78b7eba33c07d8a7d1143a2171a7795c2a7135f8df670d1f896c22421b89"
+  },
+  "guards": {
+    "submodules/NagramiXCore/BUILD": "869e31310cc925b84ceb827a3c0b8503f3a22614acb4abeeec4a4ad435cf56e2",
+    "submodules/SettingsUI/BUILD": "ccf29c184b8eab3b16f702e5cecc61490e5762f46e4bd53273ad95790d1a879a",
+    "submodules/TelegramUI/BUILD": "f4ae55a27c3a5e486a0fe9c768c70b65b974c505125d91a1215645179de54926"
+  },
+  "templates": {
+    "deletion_effect_setting/Before0.inc": "63387a244119952126d07c1cacee9c3c3fa40da735d4df2d462995510851ad81",
+    "deletion_effect_setting/Before1.inc": "e3aa0894ed008b93339d7c4637a85540f632d3ba4d217dbd461f00c53698f467",
+    "deletion_effect_setting/Before2.inc": "8260de45c8a4991e92bd371e5fb06e64d6377aadab74f61612096b2008781c5f",
+    "deletion_effect_setting/Before3.inc": "41634af45318fbabbd751b03f32cb263129fda5469fcf6a8555fbc7a47a12187",
+    "deletion_effect_setting/Before4.inc": "04223d8b209dc4c596c9019a124e539168f89a571113966ad01ddc9d9c308854",
+    "deletion_effect_setting/Before5.inc": "4de90be724b805d458af0069f41cffd2d2357a548d412b9babe89f1b4ae1d4f0",
+    "deletion_effect_setting/Before6.inc": "1a236abe2587f071df99fa5a5e8c91ac974f336a3dfd372eb5adf481cc5286dd",
+    "deletion_effect_setting/Guard0.inc": "869e31310cc925b84ceb827a3c0b8503f3a22614acb4abeeec4a4ad435cf56e2",
+    "deletion_effect_setting/Guard1.inc": "ccf29c184b8eab3b16f702e5cecc61490e5762f46e4bd53273ad95790d1a879a",
+    "deletion_effect_setting/Guard2.inc": "f4ae55a27c3a5e486a0fe9c768c70b65b974c505125d91a1215645179de54926"
+  },
+  "previous": {
+    "submodules/NagramiXCore/Sources/NagramiXTabSettings.swift": "deletion_effect_setting/Before0.inc",
+    "submodules/NagramiXCore/Sources/NagramiXPresentationStrings.swift": "deletion_effect_setting/Before1.inc",
+    "submodules/NagramiXCore/Resources/ru.lproj/Localizable.strings": "deletion_effect_setting/Before2.inc",
+    "submodules/NagramiXCore/Resources/en.lproj/Localizable.strings": "deletion_effect_setting/Before3.inc",
+    "submodules/SettingsUI/Sources/NagramiXSettingsController.swift": "deletion_effect_setting/Before4.inc",
+    "submodules/TelegramUI/Sources/ChatHistoryListNode.swift": "deletion_effect_setting/Before5.inc",
+    "submodules/TelegramUI/Sources/ChatMessageContextControllerContentSource.swift": "deletion_effect_setting/Before6.inc"
+  },
+  "replacements": {},
+  "copies": {},
+  "deletions": {},
+  "operations": {
+    "submodules/NagramiXCore/Sources/NagramiXTabSettings.swift": [
+      [
+        "    public static func isDisabled(in defaults: UserDefaults = .standard) -> Bool {\n        return defaults.object(forKey: self.key) as? Bool ?? true\n    }\n    public static func setDisabled(_ value: Bool, in defaults: UserDefaults = .standard) {\n        defaults.set(value, forKey: self.key)\n    }\n}\n\n",
+        "    public static func isDisabled(in defaults: UserDefaults = .standard) -> Bool {\n        return defaults.object(forKey: self.key) as? Bool ?? true\n    }\n    public static func setDisabled(_ value: Bool, in defaults: UserDefaults = .standard) {\n        defaults.set(value, forKey: self.key)\n    }\n}\n\npublic enum NagramiXDeletionEffectSettings {\n    private static let key = \"nagramix.chats.deletionEffectEnabled\"\n    public static func isEnabled(in defaults: UserDefaults = .standard) -> Bool {\n        return defaults.object(forKey: self.key) as? Bool ?? true\n    }\n    public static func setEnabled(_ value: Bool, in defaults: UserDefaults = .standard) {\n        defaults.set(value, forKey: self.key)\n    }\n}\n\n"
+      ]
+    ],
+    "submodules/NagramiXCore/Sources/NagramiXPresentationStrings.swift": [
+      [
+        "    }\n}\n\npublic extension PresentationStrings {\n    var nagramiXDisableNextSwipe: String { self.nagramiXLocalized(\"NagramiX.Settings.Chats.DisableNextSwipe\") }\n    var nagramiXDisableNextSwipeSearch: String { self.nagramiXLocalized(\"NagramiX.Settings.Chats.DisableNextSwipe.Search\") }\n    var nagramiXStoryRecordView: String { self.nagramiXLocalized(\"NagramiX.Story.RecordView\") }\n    var nagramiXStoryRecordingView: String { self.nagramiXLocalized(\"NagramiX.Story.RecordingView\") }\n",
+        "    }\n}\n\npublic extension PresentationStrings {\n    var nagramiXDeletionEffect: String { self.nagramiXLocalized(\"NagramiX.Settings.Chats.DeletionEffect\") }\n    var nagramiXDeletionEffectSearch: String { self.nagramiXLocalized(\"NagramiX.Settings.Chats.DeletionEffect.Search\") }\n    var nagramiXDisableNextSwipe: String { self.nagramiXLocalized(\"NagramiX.Settings.Chats.DisableNextSwipe\") }\n    var nagramiXDisableNextSwipeSearch: String { self.nagramiXLocalized(\"NagramiX.Settings.Chats.DisableNextSwipe.Search\") }\n    var nagramiXStoryRecordView: String { self.nagramiXLocalized(\"NagramiX.Story.RecordView\") }\n    var nagramiXStoryRecordingView: String { self.nagramiXLocalized(\"NagramiX.Story.RecordingView\") }\n"
+      ]
+    ],
+    "submodules/NagramiXCore/Resources/ru.lproj/Localizable.strings": [
+      [
+        "\"NagramiX.Settings.Messages.ReplayViewOnce\" = \"Повторное открытие\";\n\n\"NagramiX.Settings.Chats.DisableNextSwipe\" = \"Без перехода свайпом\";\n\"NagramiX.Settings.Chats.DisableNextSwipe.Search\" = \"Отключить переход к следующему каналу или теме при свайпе вверх.\";\n",
+        "\"NagramiX.Settings.Messages.ReplayViewOnce\" = \"Повторное открытие\";\n\n\"NagramiX.Settings.Chats.DisableNextSwipe\" = \"Без перехода свайпом\";\n\"NagramiX.Settings.Chats.DisableNextSwipe.Search\" = \"Отключить переход к следующему каналу или теме при свайпе вверх.\";\n\n\"NagramiX.Settings.Chats.DeletionEffect\" = \"Эффект удаления\";\n\"NagramiX.Settings.Chats.DeletionEffect.Search\" = \"Рассыпание сообщений при удалении.\";\n"
+      ]
+    ],
+    "submodules/NagramiXCore/Resources/en.lproj/Localizable.strings": [
+      [
+        "\"NagramiX.Settings.Messages.ReplayViewOnce\" = \"Replay view-once messages\";\n\n\"NagramiX.Settings.Chats.DisableNextSwipe\" = \"No Swipe to Next\";\n\"NagramiX.Settings.Chats.DisableNextSwipe.Search\" = \"Disable swipe-up navigation to the next channel or topic.\";\n",
+        "\"NagramiX.Settings.Messages.ReplayViewOnce\" = \"Replay view-once messages\";\n\n\"NagramiX.Settings.Chats.DisableNextSwipe\" = \"No Swipe to Next\";\n\"NagramiX.Settings.Chats.DisableNextSwipe.Search\" = \"Disable swipe-up navigation to the next channel or topic.\";\n\n\"NagramiX.Settings.Chats.DeletionEffect\" = \"Deletion Effect\";\n\"NagramiX.Settings.Chats.DeletionEffect.Search\" = \"Show the disintegration effect when messages are deleted.\";\n"
+      ]
+    ],
+    "submodules/SettingsUI/Sources/NagramiXSettingsController.swift": [
+      [
+        "    let updateHideGreetingSticker: (Bool) -> Void\n    let updateUnreadChatsFirst: (Bool) -> Void\n    let updateCompactChatList: (Bool) -> Void\n    let updateNumberRounding: (Bool) -> Void\n    let updateDisableNextSwipe: (Bool) -> Void\n    let updateChatActionsOnHold: (Bool) -> Void\n    let updateShowForwardWithoutAuthor: (Bool) -> Void\n    let updateShowBroadcastMessages: (Bool) -> Void\n",
+        "    let updateHideGreetingSticker: (Bool) -> Void\n    let updateUnreadChatsFirst: (Bool) -> Void\n    let updateCompactChatList: (Bool) -> Void\n    let updateNumberRounding: (Bool) -> Void\n    let updateDeletionEffect: (Bool) -> Void\n    let updateDisableNextSwipe: (Bool) -> Void\n    let updateChatActionsOnHold: (Bool) -> Void\n    let updateShowForwardWithoutAuthor: (Bool) -> Void\n    let updateShowBroadcastMessages: (Bool) -> Void\n"
+      ],
+      [
+        "    case hideReactions(Bool)\n    case hideReactionsInfo\n    case hideGreetingSticker(Bool)\n    case hideGreetingStickerInfo\n    case disableNextSwipe(Bool)\n    case chatActionsOnHold(Bool)\n    case chatActionsOnHoldInfo\n    case unreadChatsFirst(Bool)\n",
+        "    case hideReactions(Bool)\n    case hideReactionsInfo\n    case hideGreetingSticker(Bool)\n    case hideGreetingStickerInfo\n    case deletionEffect(Bool)\n    case disableNextSwipe(Bool)\n    case chatActionsOnHold(Bool)\n    case chatActionsOnHoldInfo\n    case unreadChatsFirst(Bool)\n"
+      ],
+      [
+        "        switch self {\n        case .privacyHeader, .privacyToggle, .readLocally: return .features\n        case .search, .noSearchResults, .searchHeader:\n            return .interface\n        case .tabsHeader, .hideContacts, .hideCalls, .showSearchButton, .showProxyButton, .showAdvertising, .chatsHeader, .wideChannelPosts, .disableNextSwipe, .showChannelBottomPanel, .channelBottomPanelInfo, .hideReactions, .hideReactionsInfo, .hideGreetingSticker, .hideGreetingStickerInfo, .chatActionsOnHold, .chatActionsOnHoldInfo, .unreadChatsFirst, .compactChatList, .numberRounding, .compactChatListInfo,\n                .profilesHeader, .showExactLastSeen, .showExactLastSeenInfo, .showProfileIds, .showRegistrationDate, .showMutualContactIcon,\n                .contextMenuHeader, .showForwardWithoutAuthor, .forwardWithoutAuthorInfo, .showBroadcastMessages, .broadcastMessagesInfo, .showSelectByAuthor, .selectByAuthorInfo, .contextTranscribe, .contextTranslate:\n            return .interface\n        case .videoMessagesHeader, .selfieCountdown, .useRearCameraForVideoMessages, .keepMusicPlayingWhileRecording, .viewOnceRecording, .keepMusicPlayingWhileRecordingInfo, .featureStoriesHeader, .hideStories, .storyCameraSwipeEnabled,\n",
+        "        switch self {\n        case .privacyHeader, .privacyToggle, .readLocally: return .features\n        case .search, .noSearchResults, .searchHeader:\n            return .interface\n        case .tabsHeader, .hideContacts, .hideCalls, .showSearchButton, .showProxyButton, .showAdvertising, .chatsHeader, .wideChannelPosts, .deletionEffect, .disableNextSwipe, .showChannelBottomPanel, .channelBottomPanelInfo, .hideReactions, .hideReactionsInfo, .hideGreetingSticker, .hideGreetingStickerInfo, .chatActionsOnHold, .chatActionsOnHoldInfo, .unreadChatsFirst, .compactChatList, .numberRounding, .compactChatListInfo,\n                .profilesHeader, .showExactLastSeen, .showExactLastSeenInfo, .showProfileIds, .showRegistrationDate, .showMutualContactIcon,\n                .contextMenuHeader, .showForwardWithoutAuthor, .forwardWithoutAuthorInfo, .showBroadcastMessages, .broadcastMessagesInfo, .showSelectByAuthor, .selectByAuthorInfo, .contextTranscribe, .contextTranslate:\n            return .interface\n        case .videoMessagesHeader, .selfieCountdown, .useRearCameraForVideoMessages, .keepMusicPlayingWhileRecording, .viewOnceRecording, .keepMusicPlayingWhileRecordingInfo, .featureStoriesHeader, .hideStories, .storyCameraSwipeEnabled,\n"
+      ],
+      [
+        "        case let .searchHeader(sectionId, _):\n            return sectionId\n        case .tabsHeader, .hideContacts, .hideCalls, .showSearchButton, .showProxyButton, .showAdvertising:\n            return NagramiXSettingsSection.tabs.rawValue\n        case .chatsHeader, .wideChannelPosts, .disableNextSwipe, .showChannelBottomPanel, .channelBottomPanelInfo, .hideReactions, .hideReactionsInfo, .hideGreetingSticker, .hideGreetingStickerInfo, .chatActionsOnHold, .chatActionsOnHoldInfo, .unreadChatsFirst, .compactChatList, .numberRounding, .compactChatListInfo:\n            return NagramiXSettingsSection.chats.rawValue\n        case .contextMenuHeader, .showForwardWithoutAuthor, .forwardWithoutAuthorInfo, .showBroadcastMessages, .broadcastMessagesInfo, .showSelectByAuthor, .selectByAuthorInfo, .contextTranscribe, .contextTranslate:\n            return NagramiXSettingsSection.contextMenu.rawValue\n        case .videoMessagesHeader, .selfieCountdown, .useRearCameraForVideoMessages, .keepMusicPlayingWhileRecording, .viewOnceRecording, .keepMusicPlayingWhileRecordingInfo:\n",
+        "        case let .searchHeader(sectionId, _):\n            return sectionId\n        case .tabsHeader, .hideContacts, .hideCalls, .showSearchButton, .showProxyButton, .showAdvertising:\n            return NagramiXSettingsSection.tabs.rawValue\n        case .chatsHeader, .wideChannelPosts, .deletionEffect, .disableNextSwipe, .showChannelBottomPanel, .channelBottomPanelInfo, .hideReactions, .hideReactionsInfo, .hideGreetingSticker, .hideGreetingStickerInfo, .chatActionsOnHold, .chatActionsOnHoldInfo, .unreadChatsFirst, .compactChatList, .numberRounding, .compactChatListInfo:\n            return NagramiXSettingsSection.chats.rawValue\n        case .contextMenuHeader, .showForwardWithoutAuthor, .forwardWithoutAuthorInfo, .showBroadcastMessages, .broadcastMessagesInfo, .showSelectByAuthor, .selectByAuthorInfo, .contextTranscribe, .contextTranslate:\n            return NagramiXSettingsSection.contextMenu.rawValue\n        case .videoMessagesHeader, .selfieCountdown, .useRearCameraForVideoMessages, .keepMusicPlayingWhileRecording, .viewOnceRecording, .keepMusicPlayingWhileRecordingInfo:\n"
+      ],
+      [
+        "        case .showAdvertising: return 5\n        case .chatsHeader: return 6\n        case .wideChannelPosts: return 7\n        case .disableNextSwipe: return 163\n        case .showChannelBottomPanel: return 111\n        case .channelBottomPanelInfo: return 112\n        case .doubleTapEdit: return 113\n        case .doubleTapEditInfo: return 114\n",
+        "        case .showAdvertising: return 5\n        case .chatsHeader: return 6\n        case .wideChannelPosts: return 7\n        case .disableNextSwipe: return 163\n        case .deletionEffect: return 164\n        case .showChannelBottomPanel: return 111\n        case .channelBottomPanelInfo: return 112\n        case .doubleTapEdit: return 113\n        case .doubleTapEditInfo: return 114\n"
+      ],
+      [
+        "            case .showExactLastSeen: return 301\n            case .showExactLastSeenInfo: return 302\n            case .hideGreetingStickerInfo: return 76\n            case .disableNextSwipe: return 78\n            case .doubleTapEdit: return 341\n            case .doubleTapEditInfo: return 342\n            case .anonymousStickers: return 965\n            case .hideBlockedMessages: return 349\n",
+        "            case .showExactLastSeen: return 301\n            case .showExactLastSeenInfo: return 302\n            case .hideGreetingStickerInfo: return 76\n            case .disableNextSwipe: return 78\n            case .deletionEffect: return 79\n            case .doubleTapEdit: return 341\n            case .doubleTapEditInfo: return 342\n            case .anonymousStickers: return 965\n            case .hideBlockedMessages: return 349\n"
+      ],
+      [
+        "        case let .hideGreetingSticker(value):\n            return ItemListSwitchItem(presentationData: presentationData, systemStyle: .glass, title: presentationData.strings.nagramiXHideGreetingSticker, value: value, maximumNumberOfLines: 0, sectionId: self.section, style: .blocks, updated: arguments.updateHideGreetingSticker)\n        case .hideGreetingStickerInfo:\n            return ItemListTextItem(presentationData: presentationData, text: .plain(presentationData.strings.nagramiXHideGreetingStickerInfo), sectionId: self.section)\n        case let .disableNextSwipe(value):\n            return ItemListSwitchItem(presentationData: presentationData, systemStyle: .glass, title: presentationData.strings.nagramiXDisableNextSwipe, value: value, maximumNumberOfLines: 0, sectionId: self.section, style: .blocks, updated: arguments.updateDisableNextSwipe)\n        case let .chatActionsOnHold(value):\n            return ItemListSwitchItem(presentationData: presentationData, systemStyle: .glass, title: presentationData.strings.nagramiXChatActionsOnHold, value: value, maximumNumberOfLines: 0, sectionId: self.section, style: .blocks, updated: arguments.updateChatActionsOnHold)\n",
+        "        case let .hideGreetingSticker(value):\n            return ItemListSwitchItem(presentationData: presentationData, systemStyle: .glass, title: presentationData.strings.nagramiXHideGreetingSticker, value: value, maximumNumberOfLines: 0, sectionId: self.section, style: .blocks, updated: arguments.updateHideGreetingSticker)\n        case .hideGreetingStickerInfo:\n            return ItemListTextItem(presentationData: presentationData, text: .plain(presentationData.strings.nagramiXHideGreetingStickerInfo), sectionId: self.section)\n        case let .deletionEffect(value):\n            return ItemListSwitchItem(presentationData: presentationData, systemStyle: .glass, title: presentationData.strings.nagramiXDeletionEffect, value: value, maximumNumberOfLines: 0, sectionId: self.section, style: .blocks, updated: arguments.updateDeletionEffect)\n        case let .disableNextSwipe(value):\n            return ItemListSwitchItem(presentationData: presentationData, systemStyle: .glass, title: presentationData.strings.nagramiXDisableNextSwipe, value: value, maximumNumberOfLines: 0, sectionId: self.section, style: .blocks, updated: arguments.updateDisableNextSwipe)\n        case let .chatActionsOnHold(value):\n            return ItemListSwitchItem(presentationData: presentationData, systemStyle: .glass, title: presentationData.strings.nagramiXChatActionsOnHold, value: value, maximumNumberOfLines: 0, sectionId: self.section, style: .blocks, updated: arguments.updateChatActionsOnHold)\n"
+      ],
+      [
+        "        case .downloadsHeader: return strings.nagramiXDownloadsHeader\n        case .downloadAcceleration: return strings.nagramiXDownloadAcceleration\n        case .downloadAccelerationMode: return strings.nagramiXDownloadAccelerationMode\n        case .downloadAccelerationInfo: return strings.nagramiXDownloadAccelerationInfo\n        case .disableNextSwipe: return strings.nagramiXDisableNextSwipe\n        case .chatActionsOnHold: return strings.nagramiXChatActionsOnHold\n        case .chatActionsOnHoldInfo: return strings.nagramiXChatActionsOnHoldInfo\n        case .unreadChatsFirst: return strings.nagramiXUnreadChatsFirst\n",
+        "        case .downloadsHeader: return strings.nagramiXDownloadsHeader\n        case .downloadAcceleration: return strings.nagramiXDownloadAcceleration\n        case .downloadAccelerationMode: return strings.nagramiXDownloadAccelerationMode\n        case .downloadAccelerationInfo: return strings.nagramiXDownloadAccelerationInfo\n        case .deletionEffect: return strings.nagramiXDeletionEffect\n        case .disableNextSwipe: return strings.nagramiXDisableNextSwipe\n        case .chatActionsOnHold: return strings.nagramiXChatActionsOnHold\n        case .chatActionsOnHoldInfo: return strings.nagramiXChatActionsOnHoldInfo\n        case .unreadChatsFirst: return strings.nagramiXUnreadChatsFirst\n"
+      ],
+      [
+        "        case .compactChatList:\n            return strings.nagramiXCompactChatListInfo\n        case .numberRounding:\n            return strings.nagramiXNumberRoundingSearchTerms\n        case .disableNextSwipe:\n            return strings.nagramiXDisableNextSwipeSearch\n        case .chatActionsOnHold:\n            return strings.nagramiXChatActionsOnHoldInfo\n",
+        "        case .compactChatList:\n            return strings.nagramiXCompactChatListInfo\n        case .numberRounding:\n            return strings.nagramiXNumberRoundingSearchTerms\n        case .deletionEffect:\n            return strings.nagramiXDeletionEffectSearch\n        case .disableNextSwipe:\n            return strings.nagramiXDisableNextSwipeSearch\n        case .chatActionsOnHold:\n            return strings.nagramiXChatActionsOnHoldInfo\n"
+      ],
+      [
+        "        .hideReactions(settings.hideReactions),\n        .hideGreetingSticker(settings.hideGreetingSticker),\n        .chatActionsOnHold(settings.chatActionsOnHold),\n        .disableNextSwipe(NagramiXNextSwipeSettings.isDisabled()),\n        .unreadChatsFirst(settings.unreadChatsFirst),\n        .compactChatList(settings.compactChatList),\n        .numberRounding(NagramiXNumberSettings.roundingEnabled),\n        .videoMessagesHeader, .useRearCameraForVideoMessages(settings.useRearCameraForVideoMessages), .selfieCountdown(settings.selfieCountdown),\n",
+        "        .hideReactions(settings.hideReactions),\n        .hideGreetingSticker(settings.hideGreetingSticker),\n        .chatActionsOnHold(settings.chatActionsOnHold),\n        .disableNextSwipe(NagramiXNextSwipeSettings.isDisabled()),\n        .deletionEffect(NagramiXDeletionEffectSettings.isEnabled()),\n        .unreadChatsFirst(settings.unreadChatsFirst),\n        .compactChatList(settings.compactChatList),\n        .numberRounding(NagramiXNumberSettings.roundingEnabled),\n        .videoMessagesHeader, .useRearCameraForVideoMessages(settings.useRearCameraForVideoMessages), .selfieCountdown(settings.selfieCountdown),\n"
+      ],
+      [
+        "        updateUnreadChatsFirst: { value in update { $0.unreadChatsFirst = value } },\n        updateCompactChatList: { value in update { $0.compactChatList = value } },\n        updateNumberRounding: { value in\n            NagramiXNumberSettings.setRoundingEnabled(value)\n            settingsPromise.set(NagramiXTabSettings.current)\n        },\n        updateDisableNextSwipe: { value in\n            NagramiXNextSwipeSettings.setDisabled(value)\n",
+        "        updateUnreadChatsFirst: { value in update { $0.unreadChatsFirst = value } },\n        updateCompactChatList: { value in update { $0.compactChatList = value } },\n        updateNumberRounding: { value in\n            NagramiXNumberSettings.setRoundingEnabled(value)\n            settingsPromise.set(NagramiXTabSettings.current)\n        },\n        updateDeletionEffect: { value in\n            NagramiXDeletionEffectSettings.setEnabled(value)\n            settingsPromise.set(NagramiXTabSettings.current)\n        },\n        updateDisableNextSwipe: { value in\n            NagramiXNextSwipeSettings.setDisabled(value)\n"
+      ]
+    ],
+    "submodules/TelegramUI/Sources/ChatHistoryListNode.swift": [
+      [
+        "            }\n        }\n        self.currentDeleteAnimationCorrelationIds.formUnion(expiredMessageStableIds)\n        \n        var appliedDeleteAnimationCorrelationIds = Set<UInt32>()\n        if !self.currentDeleteAnimationCorrelationIds.isEmpty && self.allowDustEffect {\n            var foundItemNodes: [ChatMessageItemView] = []\n            self.forEachItemNode { itemNode in\n                if let itemNode = itemNode as? ChatMessageItemView, let item = itemNode.item {\n                    for (message, _) in item.content {\n",
+        "            }\n        }\n        self.currentDeleteAnimationCorrelationIds.formUnion(expiredMessageStableIds)\n        \n        let deletionEffectEnabled = NagramiXDeletionEffectSettings.isEnabled()\n        if !deletionEffectEnabled {\n            self.currentDeleteAnimationCorrelationIds.removeAll()\n        }\n        var appliedDeleteAnimationCorrelationIds = Set<UInt32>()\n        if !self.currentDeleteAnimationCorrelationIds.isEmpty && self.allowDustEffect && deletionEffectEnabled {\n            var foundItemNodes: [ChatMessageItemView] = []\n            self.forEachItemNode { itemNode in\n                if let itemNode = itemNode as? ChatMessageItemView, let item = itemNode.item {\n                    for (message, _) in item.content {\n"
+      ]
+    ],
+    "submodules/TelegramUI/Sources/ChatMessageContextControllerContentSource.swift": [
+      [
+        "import Foundation\nimport UIKit\nimport AsyncDisplayKit\nimport Display\nimport ContextUI\n",
+        "import Foundation\nimport NagramiXCore\nimport UIKit\nimport AsyncDisplayKit\nimport Display\nimport ContextUI\n"
+      ],
+      [
+        "            tooltipController.dismiss()\n        }\n        \n        if let messageNodeCopy = self.messageNodeCopy, let sourceView = messageNodeCopy.supernode?.view, let contentNode = messageNodeCopy.getMessageContextSourceNode(stableId: nil)?.contentNode, let parentNode = contentNode.supernode?.supernode?.supernode {\n            let dustEffectLayer = DustEffectLayer()\n            dustEffectLayer.position = sourceView.bounds.center.offsetBy(dx: (parentNode.frame.width - messageNodeCopy.frame.width), dy: 0.0)\n            dustEffectLayer.bounds = CGRect(origin: CGPoint(), size: sourceView.bounds.size)\n            dustEffectLayer.zPosition = 10.0\n",
+        "            tooltipController.dismiss()\n        }\n        \n        if let messageNodeCopy = self.messageNodeCopy, let sourceView = messageNodeCopy.supernode?.view, let contentNode = messageNodeCopy.getMessageContextSourceNode(stableId: nil)?.contentNode, let parentNode = contentNode.supernode?.supernode?.supernode {\n            if !NagramiXDeletionEffectSettings.isEnabled() {\n                messageNodeCopy.removeFromSupernode()\n                contentNode.removeFromSupernode()\n                return nil\n            }\n            let dustEffectLayer = DustEffectLayer()\n            dustEffectLayer.position = sourceView.bounds.center.offsetBy(dx: (parentNode.frame.width - messageNodeCopy.frame.width), dy: 0.0)\n            dustEffectLayer.bounds = CGRect(origin: CGPoint(), size: sourceView.bounds.size)\n            dustEffectLayer.zPosition = 10.0\n"
+      ]
+    ]
+  }
+}

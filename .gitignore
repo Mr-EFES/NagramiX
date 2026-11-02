@@ -1,0 +1,20 @@
+# NagramiX 0.8.4 — временные файлы, артефакты и локальные секреты
+
+work/
+.DS_Store
+*.ipa
+*.xcarchive
+__pycache__/
+*.pyc
+ios/generated-configuration.json
+.codex-*
+artifacts/
+outputs/
+
+# Локальные настройки окружения и секреты не публикуются
+.env
+.env.*
+!.env.example
+
+# Результаты локальных проверок
+.pytest_cache/

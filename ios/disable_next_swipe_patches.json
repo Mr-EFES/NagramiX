@@ -1,0 +1,131 @@
+{
+  "inputs": {
+    "submodules/NagramiXCore/Sources/NagramiXTabSettings.swift": "098674e8e3154e0fd2f0b5aa04e3dbb925ed1e212b921594faefc135f2331a9c",
+    "submodules/NagramiXCore/Sources/NagramiXPresentationStrings.swift": "e3647fda6d9aa1c6d8ae3b4597f299ee74460286f81f8b250a9a2e8fc55bc675",
+    "submodules/NagramiXCore/Resources/ru.lproj/Localizable.strings": "0984cc9baba6b3aaff767b4ba718bd474e72007ec5a537d6b09a1a131f8a36b2",
+    "submodules/NagramiXCore/Resources/en.lproj/Localizable.strings": "b50d6d2817cc18a9e4b064803efa69ae67193d04ae3633b6e401eca5322b111d",
+    "submodules/SettingsUI/Sources/NagramiXSettingsController.swift": "5b5e4cfcb08b6e09a03a04ff5ba37c43627a84028ad847808f1ac9f51a92b84b",
+    "submodules/TelegramUI/Sources/ChatHistoryListNode.swift": "134f227505fc0a1086cea0f6735ffb3c3afb9c0e3d3b24072f5b5a5a01eeca56"
+  },
+  "outputs": {
+    "submodules/NagramiXCore/Sources/NagramiXTabSettings.swift": "63387a244119952126d07c1cacee9c3c3fa40da735d4df2d462995510851ad81",
+    "submodules/NagramiXCore/Sources/NagramiXPresentationStrings.swift": "e3aa0894ed008b93339d7c4637a85540f632d3ba4d217dbd461f00c53698f467",
+    "submodules/NagramiXCore/Resources/ru.lproj/Localizable.strings": "8260de45c8a4991e92bd371e5fb06e64d6377aadab74f61612096b2008781c5f",
+    "submodules/NagramiXCore/Resources/en.lproj/Localizable.strings": "41634af45318fbabbd751b03f32cb263129fda5469fcf6a8555fbc7a47a12187",
+    "submodules/SettingsUI/Sources/NagramiXSettingsController.swift": "04223d8b209dc4c596c9019a124e539168f89a571113966ad01ddc9d9c308854",
+    "submodules/TelegramUI/Sources/ChatHistoryListNode.swift": "4de90be724b805d458af0069f41cffd2d2357a548d412b9babe89f1b4ae1d4f0"
+  },
+  "guards": {
+    "submodules/NagramiXCore/BUILD": "869e31310cc925b84ceb827a3c0b8503f3a22614acb4abeeec4a4ad435cf56e2",
+    "submodules/SettingsUI/BUILD": "ccf29c184b8eab3b16f702e5cecc61490e5762f46e4bd53273ad95790d1a879a",
+    "submodules/TelegramUI/BUILD": "f4ae55a27c3a5e486a0fe9c768c70b65b974c505125d91a1215645179de54926"
+  },
+  "templates": {
+    "disable_next_swipe/Before0.inc": "098674e8e3154e0fd2f0b5aa04e3dbb925ed1e212b921594faefc135f2331a9c",
+    "disable_next_swipe/Before1.inc": "e3647fda6d9aa1c6d8ae3b4597f299ee74460286f81f8b250a9a2e8fc55bc675",
+    "disable_next_swipe/Before2.inc": "0984cc9baba6b3aaff767b4ba718bd474e72007ec5a537d6b09a1a131f8a36b2",
+    "disable_next_swipe/Before3.inc": "b50d6d2817cc18a9e4b064803efa69ae67193d04ae3633b6e401eca5322b111d",
+    "disable_next_swipe/Before4.inc": "5b5e4cfcb08b6e09a03a04ff5ba37c43627a84028ad847808f1ac9f51a92b84b",
+    "disable_next_swipe/Before5.inc": "134f227505fc0a1086cea0f6735ffb3c3afb9c0e3d3b24072f5b5a5a01eeca56",
+    "disable_next_swipe/Guard0.inc": "869e31310cc925b84ceb827a3c0b8503f3a22614acb4abeeec4a4ad435cf56e2",
+    "disable_next_swipe/Guard1.inc": "ccf29c184b8eab3b16f702e5cecc61490e5762f46e4bd53273ad95790d1a879a",
+    "disable_next_swipe/Guard2.inc": "f4ae55a27c3a5e486a0fe9c768c70b65b974c505125d91a1215645179de54926"
+  },
+  "previous": {
+    "submodules/NagramiXCore/Sources/NagramiXTabSettings.swift": "disable_next_swipe/Before0.inc",
+    "submodules/NagramiXCore/Sources/NagramiXPresentationStrings.swift": "disable_next_swipe/Before1.inc",
+    "submodules/NagramiXCore/Resources/ru.lproj/Localizable.strings": "disable_next_swipe/Before2.inc",
+    "submodules/NagramiXCore/Resources/en.lproj/Localizable.strings": "disable_next_swipe/Before3.inc",
+    "submodules/SettingsUI/Sources/NagramiXSettingsController.swift": "disable_next_swipe/Before4.inc",
+    "submodules/TelegramUI/Sources/ChatHistoryListNode.swift": "disable_next_swipe/Before5.inc"
+  },
+  "replacements": {},
+  "copies": {},
+  "deletions": {},
+  "operations": {
+    "submodules/NagramiXCore/Sources/NagramiXTabSettings.swift": [
+      [
+        "            return \"https://cloudflare-dns.com/dns-query\"\n        case .customDoh:\n            return nil\n        }\n    }\n}\n\npublic struct NagramiXTabSettings: Equatable {\n",
+        "            return \"https://cloudflare-dns.com/dns-query\"\n        case .customDoh:\n            return nil\n        }\n    }\n}\n\n// The user's choice is stored independently of the aggregate tab settings.\npublic enum NagramiXNextSwipeSettings {\n    private static let key = \"nagramix.chats.disableNextChannelSwipe\"\n    public static func isDisabled(in defaults: UserDefaults = .standard) -> Bool {\n        return defaults.object(forKey: self.key) as? Bool ?? true\n    }\n    public static func setDisabled(_ value: Bool, in defaults: UserDefaults = .standard) {\n        defaults.set(value, forKey: self.key)\n    }\n}\n\npublic struct NagramiXTabSettings: Equatable {\n"
+      ]
+    ],
+    "submodules/NagramiXCore/Sources/NagramiXPresentationStrings.swift": [
+      [
+        "    }\n}\n\npublic extension PresentationStrings {\n    var nagramiXStoryRecordView: String { self.nagramiXLocalized(\"NagramiX.Story.RecordView\") }\n    var nagramiXStoryRecordingView: String { self.nagramiXLocalized(\"NagramiX.Story.RecordingView\") }\n    var nagramiXStoryViewRecorded: String { self.nagramiXLocalized(\"NagramiX.Story.ViewRecorded\") }\n    var nagramiXStoryRecordViewFailed: String { self.nagramiXLocalized(\"NagramiX.Story.RecordViewFailed\") }\n",
+        "    }\n}\n\npublic extension PresentationStrings {\n    var nagramiXDisableNextSwipe: String { self.nagramiXLocalized(\"NagramiX.Settings.Chats.DisableNextSwipe\") }\n    var nagramiXDisableNextSwipeSearch: String { self.nagramiXLocalized(\"NagramiX.Settings.Chats.DisableNextSwipe.Search\") }\n    var nagramiXStoryRecordView: String { self.nagramiXLocalized(\"NagramiX.Story.RecordView\") }\n    var nagramiXStoryRecordingView: String { self.nagramiXLocalized(\"NagramiX.Story.RecordingView\") }\n    var nagramiXStoryViewRecorded: String { self.nagramiXLocalized(\"NagramiX.Story.ViewRecorded\") }\n    var nagramiXStoryRecordViewFailed: String { self.nagramiXLocalized(\"NagramiX.Story.RecordViewFailed\") }\n"
+      ]
+    ],
+    "submodules/NagramiXCore/Resources/ru.lproj/Localizable.strings": [
+      [
+        "\n\"NagramiX.Messages.ViewOnceReplay\" = \"Одноразовое\";\n\n\"NagramiX.Settings.Messages.ReplayViewOnce\" = \"Повторное открытие\";\n",
+        "\n\"NagramiX.Messages.ViewOnceReplay\" = \"Одноразовое\";\n\n\"NagramiX.Settings.Messages.ReplayViewOnce\" = \"Повторное открытие\";\n\n\"NagramiX.Settings.Chats.DisableNextSwipe\" = \"Без перехода свайпом\";\n\"NagramiX.Settings.Chats.DisableNextSwipe.Search\" = \"Отключить переход к следующему каналу или теме при свайпе вверх.\";\n"
+      ]
+    ],
+    "submodules/NagramiXCore/Resources/en.lproj/Localizable.strings": [
+      [
+        "\n\"NagramiX.Messages.ViewOnceReplay\" = \"View once\";\n\n\"NagramiX.Settings.Messages.ReplayViewOnce\" = \"Replay view-once messages\";\n",
+        "\n\"NagramiX.Messages.ViewOnceReplay\" = \"View once\";\n\n\"NagramiX.Settings.Messages.ReplayViewOnce\" = \"Replay view-once messages\";\n\n\"NagramiX.Settings.Chats.DisableNextSwipe\" = \"No Swipe to Next\";\n\"NagramiX.Settings.Chats.DisableNextSwipe.Search\" = \"Disable swipe-up navigation to the next channel or topic.\";\n"
+      ]
+    ],
+    "submodules/SettingsUI/Sources/NagramiXSettingsController.swift": [
+      [
+        "    let updateHideGreetingSticker: (Bool) -> Void\n    let updateUnreadChatsFirst: (Bool) -> Void\n    let updateCompactChatList: (Bool) -> Void\n    let updateNumberRounding: (Bool) -> Void\n    let updateChatActionsOnHold: (Bool) -> Void\n    let updateShowForwardWithoutAuthor: (Bool) -> Void\n    let updateShowBroadcastMessages: (Bool) -> Void\n    let updateShowSelectByAuthor: (Bool) -> Void\n",
+        "    let updateHideGreetingSticker: (Bool) -> Void\n    let updateUnreadChatsFirst: (Bool) -> Void\n    let updateCompactChatList: (Bool) -> Void\n    let updateNumberRounding: (Bool) -> Void\n    let updateDisableNextSwipe: (Bool) -> Void\n    let updateChatActionsOnHold: (Bool) -> Void\n    let updateShowForwardWithoutAuthor: (Bool) -> Void\n    let updateShowBroadcastMessages: (Bool) -> Void\n    let updateShowSelectByAuthor: (Bool) -> Void\n"
+      ],
+      [
+        "    case hideReactions(Bool)\n    case hideReactionsInfo\n    case hideGreetingSticker(Bool)\n    case hideGreetingStickerInfo\n    case chatActionsOnHold(Bool)\n    case chatActionsOnHoldInfo\n    case unreadChatsFirst(Bool)\n    case compactChatList(Bool)\n",
+        "    case hideReactions(Bool)\n    case hideReactionsInfo\n    case hideGreetingSticker(Bool)\n    case hideGreetingStickerInfo\n    case disableNextSwipe(Bool)\n    case chatActionsOnHold(Bool)\n    case chatActionsOnHoldInfo\n    case unreadChatsFirst(Bool)\n    case compactChatList(Bool)\n"
+      ],
+      [
+        "        switch self {\n        case .privacyHeader, .privacyToggle, .readLocally: return .features\n        case .search, .noSearchResults, .searchHeader:\n            return .interface\n        case .tabsHeader, .hideContacts, .hideCalls, .showSearchButton, .showProxyButton, .showAdvertising, .chatsHeader, .wideChannelPosts, .showChannelBottomPanel, .channelBottomPanelInfo, .hideReactions, .hideReactionsInfo, .hideGreetingSticker, .hideGreetingStickerInfo, .chatActionsOnHold, .chatActionsOnHoldInfo, .unreadChatsFirst, .compactChatList, .numberRounding, .compactChatListInfo,\n                .profilesHeader, .showExactLastSeen, .showExactLastSeenInfo, .showProfileIds, .showRegistrationDate, .showMutualContactIcon,\n                .contextMenuHeader, .showForwardWithoutAuthor, .forwardWithoutAuthorInfo, .showBroadcastMessages, .broadcastMessagesInfo, .showSelectByAuthor, .selectByAuthorInfo, .contextTranscribe, .contextTranslate:\n            return .interface\n        case .videoMessagesHeader, .selfieCountdown, .useRearCameraForVideoMessages, .keepMusicPlayingWhileRecording, .viewOnceRecording, .keepMusicPlayingWhileRecordingInfo, .featureStoriesHeader, .hideStories, .storyCameraSwipeEnabled,\n",
+        "        switch self {\n        case .privacyHeader, .privacyToggle, .readLocally: return .features\n        case .search, .noSearchResults, .searchHeader:\n            return .interface\n        case .tabsHeader, .hideContacts, .hideCalls, .showSearchButton, .showProxyButton, .showAdvertising, .chatsHeader, .wideChannelPosts, .disableNextSwipe, .showChannelBottomPanel, .channelBottomPanelInfo, .hideReactions, .hideReactionsInfo, .hideGreetingSticker, .hideGreetingStickerInfo, .chatActionsOnHold, .chatActionsOnHoldInfo, .unreadChatsFirst, .compactChatList, .numberRounding, .compactChatListInfo,\n                .profilesHeader, .showExactLastSeen, .showExactLastSeenInfo, .showProfileIds, .showRegistrationDate, .showMutualContactIcon,\n                .contextMenuHeader, .showForwardWithoutAuthor, .forwardWithoutAuthorInfo, .showBroadcastMessages, .broadcastMessagesInfo, .showSelectByAuthor, .selectByAuthorInfo, .contextTranscribe, .contextTranslate:\n            return .interface\n        case .videoMessagesHeader, .selfieCountdown, .useRearCameraForVideoMessages, .keepMusicPlayingWhileRecording, .viewOnceRecording, .keepMusicPlayingWhileRecordingInfo, .featureStoriesHeader, .hideStories, .storyCameraSwipeEnabled,\n"
+      ],
+      [
+        "        case let .searchHeader(sectionId, _):\n            return sectionId\n        case .tabsHeader, .hideContacts, .hideCalls, .showSearchButton, .showProxyButton, .showAdvertising:\n            return NagramiXSettingsSection.tabs.rawValue\n        case .chatsHeader, .wideChannelPosts, .showChannelBottomPanel, .channelBottomPanelInfo, .hideReactions, .hideReactionsInfo, .hideGreetingSticker, .hideGreetingStickerInfo, .chatActionsOnHold, .chatActionsOnHoldInfo, .unreadChatsFirst, .compactChatList, .numberRounding, .compactChatListInfo:\n            return NagramiXSettingsSection.chats.rawValue\n        case .contextMenuHeader, .showForwardWithoutAuthor, .forwardWithoutAuthorInfo, .showBroadcastMessages, .broadcastMessagesInfo, .showSelectByAuthor, .selectByAuthorInfo, .contextTranscribe, .contextTranslate:\n            return NagramiXSettingsSection.contextMenu.rawValue\n        case .videoMessagesHeader, .selfieCountdown, .useRearCameraForVideoMessages, .keepMusicPlayingWhileRecording, .viewOnceRecording, .keepMusicPlayingWhileRecordingInfo:\n",
+        "        case let .searchHeader(sectionId, _):\n            return sectionId\n        case .tabsHeader, .hideContacts, .hideCalls, .showSearchButton, .showProxyButton, .showAdvertising:\n            return NagramiXSettingsSection.tabs.rawValue\n        case .chatsHeader, .wideChannelPosts, .disableNextSwipe, .showChannelBottomPanel, .channelBottomPanelInfo, .hideReactions, .hideReactionsInfo, .hideGreetingSticker, .hideGreetingStickerInfo, .chatActionsOnHold, .chatActionsOnHoldInfo, .unreadChatsFirst, .compactChatList, .numberRounding, .compactChatListInfo:\n            return NagramiXSettingsSection.chats.rawValue\n        case .contextMenuHeader, .showForwardWithoutAuthor, .forwardWithoutAuthorInfo, .showBroadcastMessages, .broadcastMessagesInfo, .showSelectByAuthor, .selectByAuthorInfo, .contextTranscribe, .contextTranslate:\n            return NagramiXSettingsSection.contextMenu.rawValue\n        case .videoMessagesHeader, .selfieCountdown, .useRearCameraForVideoMessages, .keepMusicPlayingWhileRecording, .viewOnceRecording, .keepMusicPlayingWhileRecordingInfo:\n"
+      ],
+      [
+        "        case .showProxyButton: return 4\n        case .showAdvertising: return 5\n        case .chatsHeader: return 6\n        case .wideChannelPosts: return 7\n        case .showChannelBottomPanel: return 111\n        case .channelBottomPanelInfo: return 112\n        case .doubleTapEdit: return 113\n        case .doubleTapEditInfo: return 114\n",
+        "        case .showProxyButton: return 4\n        case .showAdvertising: return 5\n        case .chatsHeader: return 6\n        case .wideChannelPosts: return 7\n        case .disableNextSwipe: return 163\n        case .showChannelBottomPanel: return 111\n        case .channelBottomPanelInfo: return 112\n        case .doubleTapEdit: return 113\n        case .doubleTapEditInfo: return 114\n"
+      ],
+      [
+        "            case .numberRounding: return 1011\n            case .showExactLastSeen: return 301\n            case .showExactLastSeenInfo: return 302\n            case .hideGreetingStickerInfo: return 76\n            case .doubleTapEdit: return 341\n            case .doubleTapEditInfo: return 342\n            case .anonymousStickers: return 965\n            case .hideBlockedMessages: return 349\n",
+        "            case .numberRounding: return 1011\n            case .showExactLastSeen: return 301\n            case .showExactLastSeenInfo: return 302\n            case .hideGreetingStickerInfo: return 76\n            case .disableNextSwipe: return 78\n            case .doubleTapEdit: return 341\n            case .doubleTapEditInfo: return 342\n            case .anonymousStickers: return 965\n            case .hideBlockedMessages: return 349\n"
+      ],
+      [
+        "        case let .hideGreetingSticker(value):\n            return ItemListSwitchItem(presentationData: presentationData, systemStyle: .glass, title: presentationData.strings.nagramiXHideGreetingSticker, value: value, maximumNumberOfLines: 0, sectionId: self.section, style: .blocks, updated: arguments.updateHideGreetingSticker)\n        case .hideGreetingStickerInfo:\n            return ItemListTextItem(presentationData: presentationData, text: .plain(presentationData.strings.nagramiXHideGreetingStickerInfo), sectionId: self.section)\n        case let .chatActionsOnHold(value):\n            return ItemListSwitchItem(presentationData: presentationData, systemStyle: .glass, title: presentationData.strings.nagramiXChatActionsOnHold, value: value, maximumNumberOfLines: 0, sectionId: self.section, style: .blocks, updated: arguments.updateChatActionsOnHold)\n        case .chatActionsOnHoldInfo:\n            return ItemListTextItem(presentationData: presentationData, text: .plain(presentationData.strings.nagramiXChatActionsOnHoldInfo), sectionId: self.section)\n",
+        "        case let .hideGreetingSticker(value):\n            return ItemListSwitchItem(presentationData: presentationData, systemStyle: .glass, title: presentationData.strings.nagramiXHideGreetingSticker, value: value, maximumNumberOfLines: 0, sectionId: self.section, style: .blocks, updated: arguments.updateHideGreetingSticker)\n        case .hideGreetingStickerInfo:\n            return ItemListTextItem(presentationData: presentationData, text: .plain(presentationData.strings.nagramiXHideGreetingStickerInfo), sectionId: self.section)\n        case let .disableNextSwipe(value):\n            return ItemListSwitchItem(presentationData: presentationData, systemStyle: .glass, title: presentationData.strings.nagramiXDisableNextSwipe, value: value, maximumNumberOfLines: 0, sectionId: self.section, style: .blocks, updated: arguments.updateDisableNextSwipe)\n        case let .chatActionsOnHold(value):\n            return ItemListSwitchItem(presentationData: presentationData, systemStyle: .glass, title: presentationData.strings.nagramiXChatActionsOnHold, value: value, maximumNumberOfLines: 0, sectionId: self.section, style: .blocks, updated: arguments.updateChatActionsOnHold)\n        case .chatActionsOnHoldInfo:\n            return ItemListTextItem(presentationData: presentationData, text: .plain(presentationData.strings.nagramiXChatActionsOnHoldInfo), sectionId: self.section)\n"
+      ],
+      [
+        "        case .downloadsHeader: return strings.nagramiXDownloadsHeader\n        case .downloadAcceleration: return strings.nagramiXDownloadAcceleration\n        case .downloadAccelerationMode: return strings.nagramiXDownloadAccelerationMode\n        case .downloadAccelerationInfo: return strings.nagramiXDownloadAccelerationInfo\n        case .chatActionsOnHold: return strings.nagramiXChatActionsOnHold\n        case .chatActionsOnHoldInfo: return strings.nagramiXChatActionsOnHoldInfo\n        case .unreadChatsFirst: return strings.nagramiXUnreadChatsFirst\n        case .compactChatList: return strings.nagramiXCompactChatList\n",
+        "        case .downloadsHeader: return strings.nagramiXDownloadsHeader\n        case .downloadAcceleration: return strings.nagramiXDownloadAcceleration\n        case .downloadAccelerationMode: return strings.nagramiXDownloadAccelerationMode\n        case .downloadAccelerationInfo: return strings.nagramiXDownloadAccelerationInfo\n        case .disableNextSwipe: return strings.nagramiXDisableNextSwipe\n        case .chatActionsOnHold: return strings.nagramiXChatActionsOnHold\n        case .chatActionsOnHoldInfo: return strings.nagramiXChatActionsOnHoldInfo\n        case .unreadChatsFirst: return strings.nagramiXUnreadChatsFirst\n        case .compactChatList: return strings.nagramiXCompactChatList\n"
+      ],
+      [
+        "        case .compactChatList:\n            return strings.nagramiXCompactChatListInfo\n        case .numberRounding:\n            return strings.nagramiXNumberRoundingSearchTerms\n        case .chatActionsOnHold:\n            return strings.nagramiXChatActionsOnHoldInfo\n        case .showForwardWithoutAuthor:\n            return strings.nagramiXForwardWithoutAuthorInfo\n",
+        "        case .compactChatList:\n            return strings.nagramiXCompactChatListInfo\n        case .numberRounding:\n            return strings.nagramiXNumberRoundingSearchTerms\n        case .disableNextSwipe:\n            return strings.nagramiXDisableNextSwipeSearch\n        case .chatActionsOnHold:\n            return strings.nagramiXChatActionsOnHoldInfo\n        case .showForwardWithoutAuthor:\n            return strings.nagramiXForwardWithoutAuthorInfo\n"
+      ],
+      [
+        "        .showChannelBottomPanel(settings.showChannelBottomPanel),\n        .hideReactions(settings.hideReactions),\n        .hideGreetingSticker(settings.hideGreetingSticker),\n        .chatActionsOnHold(settings.chatActionsOnHold),\n        .unreadChatsFirst(settings.unreadChatsFirst),\n        .compactChatList(settings.compactChatList),\n        .numberRounding(NagramiXNumberSettings.roundingEnabled),\n        .videoMessagesHeader, .useRearCameraForVideoMessages(settings.useRearCameraForVideoMessages), .selfieCountdown(settings.selfieCountdown),\n",
+        "        .showChannelBottomPanel(settings.showChannelBottomPanel),\n        .hideReactions(settings.hideReactions),\n        .hideGreetingSticker(settings.hideGreetingSticker),\n        .chatActionsOnHold(settings.chatActionsOnHold),\n        .disableNextSwipe(NagramiXNextSwipeSettings.isDisabled()),\n        .unreadChatsFirst(settings.unreadChatsFirst),\n        .compactChatList(settings.compactChatList),\n        .numberRounding(NagramiXNumberSettings.roundingEnabled),\n        .videoMessagesHeader, .useRearCameraForVideoMessages(settings.useRearCameraForVideoMessages), .selfieCountdown(settings.selfieCountdown),\n"
+      ],
+      [
+        "        updateUnreadChatsFirst: { value in update { $0.unreadChatsFirst = value } },\n        updateCompactChatList: { value in update { $0.compactChatList = value } },\n        updateNumberRounding: { value in\n            NagramiXNumberSettings.setRoundingEnabled(value)\n            settingsPromise.set(NagramiXTabSettings.current)\n        },\n        updateChatActionsOnHold: { value in update { $0.chatActionsOnHold = value } },\n        updateShowForwardWithoutAuthor: { value in update { $0.showForwardWithoutAuthor = value } },\n",
+        "        updateUnreadChatsFirst: { value in update { $0.unreadChatsFirst = value } },\n        updateCompactChatList: { value in update { $0.compactChatList = value } },\n        updateNumberRounding: { value in\n            NagramiXNumberSettings.setRoundingEnabled(value)\n            settingsPromise.set(NagramiXTabSettings.current)\n        },\n        updateDisableNextSwipe: { value in\n            NagramiXNextSwipeSettings.setDisabled(value)\n            settingsPromise.set(NagramiXTabSettings.current)\n        },\n        updateChatActionsOnHold: { value in update { $0.chatActionsOnHold = value } },\n        updateShowForwardWithoutAuthor: { value in update { $0.showForwardWithoutAuthor = value } },\n"
+      ]
+    ],
+    "submodules/TelegramUI/Sources/ChatHistoryListNode.swift": [
+      [
+        "import Foundation\nimport NagramiXTranscription\nimport NagramiXMediaSettings\nimport UIKit\nimport SwiftSignalKit\n",
+        "import Foundation\nimport NagramiXCore\nimport NagramiXTranscription\nimport NagramiXMediaSettings\nimport UIKit\nimport SwiftSignalKit\n"
+      ],
+      [
+        "            // unconditional without changing what THIS release does.\n            strongSelf.isDraggingForOverscrollAction = false\n            let expandProgress = strongSelf.currentOverscrollExpandProgress\n            strongSelf.currentOverscrollExpandProgress = 0.0\n            if strongSelf.offerNextChannelToRead, expandProgress >= 0.99 {\n                if let nextChannelToRead = strongSelf.nextChannelToRead {\n                    // A landing may already be running from an earlier release — the control stays at\n                    // full expansion for its whole duration, so a second qualifying release inside it\n                    // is easy to make. Stop its stages before handing this node to the transition,\n",
+        "            // unconditional without changing what THIS release does.\n            strongSelf.isDraggingForOverscrollAction = false\n            let expandProgress = strongSelf.currentOverscrollExpandProgress\n            strongSelf.currentOverscrollExpandProgress = 0.0\n            if strongSelf.offerNextChannelToRead, !NagramiXNextSwipeSettings.isDisabled(), expandProgress >= 0.99 {\n                if let nextChannelToRead = strongSelf.nextChannelToRead {\n                    // A landing may already be running from an earlier release — the control stays at\n                    // full expansion for its whole duration, so a second qualifying release inside it\n                    // is easy to make. Stop its stages before handing this node to the transition,\n"
+      ],
+      [
+        "    private func maybeUpdateOverscrollAction(offset: CGFloat?) {\n        if self.freezeOverscrollControl {\n            return\n        }\n        if let offset = offset, offset < -0.1, self.offerNextChannelToRead, let chatControllerNode = self.controllerInteraction.chatControllerNode() as? ChatControllerNode, chatControllerNode.shouldAllowOverscrollActions {\n            let overscrollView: ComponentHostView<Empty>\n            if let current = self.overscrollView {\n                overscrollView = current\n            } else {\n",
+        "    private func maybeUpdateOverscrollAction(offset: CGFloat?) {\n        if self.freezeOverscrollControl {\n            return\n        }\n        if let offset = offset, offset < -0.1, self.offerNextChannelToRead, !NagramiXNextSwipeSettings.isDisabled(), let chatControllerNode = self.controllerInteraction.chatControllerNode() as? ChatControllerNode, chatControllerNode.shouldAllowOverscrollActions {\n            let overscrollView: ComponentHostView<Empty>\n            if let current = self.overscrollView {\n                overscrollView = current\n            } else {\n"
+      ]
+    ]
+  }
+}

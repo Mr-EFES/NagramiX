@@ -1,0 +1,16 @@
+{
+  "archive": "Архив.zip",
+  "method": "Byte-for-byte originals from the user archive; scaling uses native UIImageView aspectFit only.",
+  "files": {
+    "NagramiXOnboardingLogo.png": {
+      "master": "OriginalWelcomeLogo.png",
+      "archiveEntry": "Награмикс Лого.PNG",
+      "sha256": "deb75942be46dfb82367fbbad5ce17785f971d2ef42a32f6c9d7bb82839ac077"
+    },
+    "NagramiXOnboardingPhone.png": {
+      "master": "OriginalPhoneEntry.png",
+      "archiveEntry": "Награмикс Телефон.PNG",
+      "sha256": "7d577efbca117859797aee2f00a56d218c428362a5b93b01859e55a1fe2c029a"
+    }
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "inputs": {
+    "submodules/GalleryUI/Sources/Items/UniversalVideoGalleryItem.swift": "ad8ae72792d2d102a58dbd4aac669d72656aa781a128a05b5069ce5c5b464485"
+  },
+  "outputs": {
+    "submodules/GalleryUI/Sources/Items/UniversalVideoGalleryItem.swift": "cf6d1e1f64b6ef3bf27b0008ed09a01a8102b5057fc17b580a392ca5ba4adfb8"
+  },
+  "guards": {
+    "submodules/GalleryUI/BUILD": "963014e4710bf8e9f76f03508369d9d2d399bc5b2a9a68d2860e0c41ea910136"
+  },
+  "templates": {
+    "pip_gallery_capture_fix/Before0.inc": "ad8ae72792d2d102a58dbd4aac669d72656aa781a128a05b5069ce5c5b464485",
+    "pip_gallery_capture_fix/Guard0.inc": "963014e4710bf8e9f76f03508369d9d2d399bc5b2a9a68d2860e0c41ea910136"
+  },
+  "previous": {
+    "submodules/GalleryUI/Sources/Items/UniversalVideoGalleryItem.swift": "pip_gallery_capture_fix/Before0.inc"
+  },
+  "replacements": {},
+  "copies": {},
+  "deletions": {},
+  "operations": {
+    "submodules/GalleryUI/Sources/Items/UniversalVideoGalleryItem.swift": [
+      [
+        "completion: { [weak self, weak gallery] _ in",
+        "completion: { [weak self, weak gallery = gallery] _ in"
+      ]
+    ]
+  }
+}

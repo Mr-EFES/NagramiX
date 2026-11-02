@@ -1,0 +1,57 @@
+{
+  "inputs": {
+    "submodules/AccountContext/Sources/AccountContext.swift": "5731910ec45c36a55b17cc3b07391ba5057a82fd7a747cd694b5440e7f4b9dad",
+    "submodules/MediaPlayer/Sources/MediaPlayerNode.swift": "bce51daf3b616a7e4b109a001fba0f7621bfcf93a3c65b1db9a26e29e4d85a9e",
+    "submodules/TelegramCore/Sources/Account/Account.swift": "30e673a575147c7d205e9075e722df775fd25503f7d2232713679606b20285a8",
+    "submodules/TelegramUI/Components/MediaEditor/Sources/MediaEditorVideoExport.swift": "0e265fbf6d669ed1bfd76255c3444d24610d8f9d6f26396cc11d805579bbe5c5",
+    "submodules/TelegramUI/Sources/OpenResolvedUrl.swift": "262fede49af8f7e9b60c394024b126d7da6b71d72ab2f7e05e8f4c25b4e3a86d",
+    "submodules/TelegramUI/Sources/SharedAccountContext.swift": "549c1ec2fa42ba9bfe219ceb1b52a225d79d13a59c9ae56bbe4b07f3c952fa0e",
+    "versions.json": "794d08501e64df7e6693aee147edddf72a23b30c5903b8de0c23992349f69758"
+  },
+  "outputs": {
+    "submodules/AccountContext/Sources/AccountContext.swift": "d0d02aad991d01415aeac0cb694748aed26f4a0e1fc798afe337fcd8d8820bac",
+    "submodules/MediaPlayer/Sources/MediaPlayerNode.swift": "bdbc51a35471e26ab43a945ef28166c0ab0aa140c2ed18586ac04fd26be28133",
+    "submodules/TelegramCore/Sources/Account/Account.swift": "e90bb2c20d049e11227c9fc171ecba383b9238ebac98e6ffac4b679466aa4b09",
+    "submodules/TelegramUI/Components/MediaEditor/Sources/MediaEditorVideoExport.swift": "5a9245b71dffdacfb95c44a6eba7000ba3ece393af4aaed08b4e0eb88ce526e2",
+    "submodules/TelegramUI/Sources/OpenResolvedUrl.swift": "1c2dff4d8ef6ed2e61a9ce3fa5352e5b9c4f513f4d77322c4f09a637497abd66",
+    "submodules/TelegramUI/Sources/SharedAccountContext.swift": "b227ae686fcc555386edefebc9a5f0cd081e4c802974126239be4dbaaae2ea1a",
+    "versions.json": "212e5bb28eba0efde490b68d145c22abd5c6c3318b33686189f0149d38640437"
+  },
+  "guards": {},
+  "templates": {
+    "upstream_13_2_post/Before0.inc": "5731910ec45c36a55b17cc3b07391ba5057a82fd7a747cd694b5440e7f4b9dad",
+    "upstream_13_2_post/After0.inc": "d0d02aad991d01415aeac0cb694748aed26f4a0e1fc798afe337fcd8d8820bac",
+    "upstream_13_2_post/Before1.inc": "bce51daf3b616a7e4b109a001fba0f7621bfcf93a3c65b1db9a26e29e4d85a9e",
+    "upstream_13_2_post/After1.inc": "bdbc51a35471e26ab43a945ef28166c0ab0aa140c2ed18586ac04fd26be28133",
+    "upstream_13_2_post/Before2.inc": "30e673a575147c7d205e9075e722df775fd25503f7d2232713679606b20285a8",
+    "upstream_13_2_post/After2.inc": "e90bb2c20d049e11227c9fc171ecba383b9238ebac98e6ffac4b679466aa4b09",
+    "upstream_13_2_post/Before3.inc": "0e265fbf6d669ed1bfd76255c3444d24610d8f9d6f26396cc11d805579bbe5c5",
+    "upstream_13_2_post/After3.inc": "5a9245b71dffdacfb95c44a6eba7000ba3ece393af4aaed08b4e0eb88ce526e2",
+    "upstream_13_2_post/Before4.inc": "262fede49af8f7e9b60c394024b126d7da6b71d72ab2f7e05e8f4c25b4e3a86d",
+    "upstream_13_2_post/After4.inc": "1c2dff4d8ef6ed2e61a9ce3fa5352e5b9c4f513f4d77322c4f09a637497abd66",
+    "upstream_13_2_post/Before5.inc": "549c1ec2fa42ba9bfe219ceb1b52a225d79d13a59c9ae56bbe4b07f3c952fa0e",
+    "upstream_13_2_post/After5.inc": "b227ae686fcc555386edefebc9a5f0cd081e4c802974126239be4dbaaae2ea1a",
+    "upstream_13_2_post/Before6.inc": "794d08501e64df7e6693aee147edddf72a23b30c5903b8de0c23992349f69758",
+    "upstream_13_2_post/After6.inc": "212e5bb28eba0efde490b68d145c22abd5c6c3318b33686189f0149d38640437"
+  },
+  "previous": {
+    "submodules/AccountContext/Sources/AccountContext.swift": "upstream_13_2_post/Before0.inc",
+    "submodules/MediaPlayer/Sources/MediaPlayerNode.swift": "upstream_13_2_post/Before1.inc",
+    "submodules/TelegramCore/Sources/Account/Account.swift": "upstream_13_2_post/Before2.inc",
+    "submodules/TelegramUI/Components/MediaEditor/Sources/MediaEditorVideoExport.swift": "upstream_13_2_post/Before3.inc",
+    "submodules/TelegramUI/Sources/OpenResolvedUrl.swift": "upstream_13_2_post/Before4.inc",
+    "submodules/TelegramUI/Sources/SharedAccountContext.swift": "upstream_13_2_post/Before5.inc",
+    "versions.json": "upstream_13_2_post/Before6.inc"
+  },
+  "replacements": {
+    "submodules/AccountContext/Sources/AccountContext.swift": "upstream_13_2_post/After0.inc",
+    "submodules/MediaPlayer/Sources/MediaPlayerNode.swift": "upstream_13_2_post/After1.inc",
+    "submodules/TelegramCore/Sources/Account/Account.swift": "upstream_13_2_post/After2.inc",
+    "submodules/TelegramUI/Components/MediaEditor/Sources/MediaEditorVideoExport.swift": "upstream_13_2_post/After3.inc",
+    "submodules/TelegramUI/Sources/OpenResolvedUrl.swift": "upstream_13_2_post/After4.inc",
+    "submodules/TelegramUI/Sources/SharedAccountContext.swift": "upstream_13_2_post/After5.inc",
+    "versions.json": "upstream_13_2_post/After6.inc"
+  },
+  "copies": {},
+  "deletions": {}
+}

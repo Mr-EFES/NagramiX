@@ -1,0 +1,33 @@
+{
+  "inputs": {
+    "submodules/GalleryUI/Sources/Items/UniversalVideoGalleryItem.swift": "7d30218caa1bf1ebcaf77dc0aa8c007fddd1f37e3031f51bfd2f36b5c80f93a5"
+  },
+  "outputs": {
+    "submodules/GalleryUI/Sources/Items/UniversalVideoGalleryItem.swift": "466cb7e5e42347d52472ef9d863415a0c0d98faa4a32b0c6ca969b18bde04fbf"
+  },
+  "guards": {
+    "submodules/GalleryUI/BUILD": "b40ed813ad5f84ab3bbeccbb6b37794c365054b63ff46ae3e18607b66cba8662"
+  },
+  "templates": {
+    "ghostgram_pip_compile_fix/Before0.inc": "7d30218caa1bf1ebcaf77dc0aa8c007fddd1f37e3031f51bfd2f36b5c80f93a5",
+    "ghostgram_pip_compile_fix/Guard0.inc": "b40ed813ad5f84ab3bbeccbb6b37794c365054b63ff46ae3e18607b66cba8662"
+  },
+  "previous": {
+    "submodules/GalleryUI/Sources/Items/UniversalVideoGalleryItem.swift": "ghostgram_pip_compile_fix/Before0.inc"
+  },
+  "replacements": {},
+  "copies": {},
+  "deletions": {},
+  "operations": {
+    "submodules/GalleryUI/Sources/Items/UniversalVideoGalleryItem.swift": [
+      [
+        "private let moreButtonImage = generateTintedImage(image: UIImage(bundleImageName: \"Chat/Context Menu/More\"), color: .white)\n\n\n\n\nprivate let pictureInPictureImage",
+        "private let pictureInPictureImage"
+      ],
+      [
+        "@available(iOS 15.0, *)\n\n\nfinal class UniversalVideoGalleryItemNode",
+        "final class UniversalVideoGalleryItemNode"
+      ]
+    ]
+  }
+}

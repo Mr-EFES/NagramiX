@@ -1,0 +1,137 @@
+{
+  "hashes": {
+    "submodules/SettingsUI/Sources/NagramiXSettingsController.swift": "a83e55f8e8a6f1e1800215e6f5e0a294160824fce013ac3cce5e7da998058c57",
+    "submodules/TelegramUI/Sources/Chat/ChatControllerMediaRecording.swift": "ba1d8c9cdea98612332d64ce37fc1a28b2358e554b7bc253fc39ac6ff93d203d",
+    "submodules/TelegramUI/Components/VideoMessageCameraScreen/Sources/VideoMessageCameraScreen.swift": "b1dc89643af9320e18a88a9c79241f79f12ad76fdb61f45e1ae337fe8b03402a",
+    "submodules/TelegramUI/Components/Chat/ChatTextInputPanelNode/Sources/ChatTextInputPanelNode.swift": "73856f13865e339cd48b94e0952041b4c3a26181800fd338473b81aa9c7cb3a2",
+    "submodules/TelegramUI/Components/Chat/ChatTextInputPanelNode/BUILD": "2530e96950caba2ed919784d57ace8f56105cceba2c5c7ec27c494250e96b759",
+    "submodules/NagramiXCore/BUILD": "869e31310cc925b84ceb827a3c0b8503f3a22614acb4abeeec4a4ad435cf56e2",
+    "submodules/TelegramUI/Components/VideoMessageCameraScreen/BUILD": "290c32e4ed4d9df82894d9e52316da729405f886a40b1d28f341dc702a084e51",
+    "submodules/TelegramUI/BUILD": "6eef6e98a3f594371cfb56f4c13883f65693a42f98741e5ef26d383d4266b341"
+  },
+  "patches": [
+    [
+      "submodules/SettingsUI/Sources/NagramiXSettingsController.swift",
+      "    let updateKeepMusicPlayingWhileRecording: (Bool) -> Void\n",
+      "    let updateViewOnceRecording: (Bool) -> Void\n    let updateKeepMusicPlayingWhileRecording: (Bool) -> Void\n",
+      1
+    ],
+    [
+      "submodules/SettingsUI/Sources/NagramiXSettingsController.swift",
+      "    case keepMusicPlayingWhileRecording(Bool)\n",
+      "    case keepMusicPlayingWhileRecording(Bool)\n    case viewOnceRecording(Bool)\n",
+      1
+    ],
+    [
+      "submodules/SettingsUI/Sources/NagramiXSettingsController.swift",
+      ".keepMusicPlayingWhileRecording, .keepMusicPlayingWhileRecordingInfo",
+      ".keepMusicPlayingWhileRecording, .viewOnceRecording, .keepMusicPlayingWhileRecordingInfo",
+      2
+    ],
+    [
+      "submodules/SettingsUI/Sources/NagramiXSettingsController.swift",
+      "        case .keepMusicPlayingWhileRecording: return 128\n",
+      "        case .keepMusicPlayingWhileRecording: return 128\n        case .viewOnceRecording: return 155\n",
+      1
+    ],
+    [
+      "submodules/SettingsUI/Sources/NagramiXSettingsController.swift",
+      "            case .keepMusicPlayingWhileRecording: return 111\n",
+      "            case .keepMusicPlayingWhileRecording: return 111\n            case .viewOnceRecording: return 112\n",
+      1
+    ],
+    [
+      "submodules/SettingsUI/Sources/NagramiXSettingsController.swift",
+      "        case .keepMusicPlayingWhileRecordingInfo:\n            return ItemListTextItem",
+      "        case let .viewOnceRecording(value):\n            return ItemListSwitchItem(presentationData: presentationData, systemStyle: .glass, title: presentationData.strings.nagramiXViewOnceRecording, value: value, maximumNumberOfLines: 0, sectionId: self.section, style: .blocks, updated: arguments.updateViewOnceRecording)\n        case .keepMusicPlayingWhileRecordingInfo:\n            return ItemListTextItem",
+      1
+    ],
+    [
+      "submodules/SettingsUI/Sources/NagramiXSettingsController.swift",
+      "        case .keepMusicPlayingWhileRecording: return strings.nagramiXKeepMusicPlayingWhileRecording\n",
+      "        case .keepMusicPlayingWhileRecording: return strings.nagramiXKeepMusicPlayingWhileRecording\n        case .viewOnceRecording: return strings.nagramiXViewOnceRecording\n",
+      1
+    ],
+    [
+      "submodules/SettingsUI/Sources/NagramiXSettingsController.swift",
+      "        case .selfieCountdown:\n            return strings.nagramiXSelfieCountdownSearchTerms\n",
+      "        case .selfieCountdown:\n            return strings.nagramiXSelfieCountdownSearchTerms\n        case .viewOnceRecording:\n            return strings.nagramiXViewOnceRecordingSearchTerms\n",
+      1
+    ],
+    [
+      "submodules/SettingsUI/Sources/NagramiXSettingsController.swift",
+      "        .keepMusicPlayingWhileRecording(keepMusicPlaying),\n",
+      "        .keepMusicPlayingWhileRecording(keepMusicPlaying),\n        .viewOnceRecording(NagramiXRecordingSettings.viewOnceEnabled),\n",
+      1
+    ],
+    [
+      "submodules/SettingsUI/Sources/NagramiXSettingsController.swift",
+      "        updateKeepMusicPlayingWhileRecording: { value in\n",
+      "        updateViewOnceRecording: { value in\n            NagramiXRecordingSettings.setViewOnceEnabled(value)\n            settingsPromise.set(NagramiXTabSettings.current)\n        },\n        updateKeepMusicPlayingWhileRecording: { value in\n",
+      1
+    ],
+    [
+      "submodules/TelegramUI/Sources/Chat/ChatControllerMediaRecording.swift",
+      "        if self.audioRecorderValue == nil {\n",
+      "        if self.audioRecorderValue == nil {\n            // Snapshot the default only for a fresh recording. Resume/trim\n            // preserves the native per-recording choice, including manual OFF.\n            self.chatDisplayNode.textInputPanelNode?.nagramiXPrepareAudioViewOnce(resuming: existingDraft != nil)\n",
+      1
+    ],
+    [
+      "submodules/TelegramUI/Sources/Chat/ChatControllerMediaRecording.swift",
+      "                    viewOnceAvailable: viewOnceAvailable,\n",
+      "                    viewOnceAvailable: viewOnceAvailable && !isBot,\n",
+      1
+    ],
+    [
+      "submodules/TelegramUI/Sources/Chat/ChatControllerMediaRecording.swift",
+      "                                        strongSelf.interfaceInteraction?.sendRecordedMedia(false, false)\n",
+      "                                        strongSelf.interfaceInteraction?.sendRecordedMedia(false, strongSelf.chatDisplayNode.textInputPanelNode?.viewOnce ?? false)\n",
+      1
+    ],
+    [
+      "submodules/TelegramUI/Sources/Chat/ChatControllerMediaRecording.swift",
+      "        viewOnce: Bool = false,\n",
+      "        viewOnce: Bool? = nil,\n",
+      1
+    ],
+    [
+      "submodules/TelegramUI/Sources/Chat/ChatControllerMediaRecording.swift",
+      "        switch recordedMediaPreview {\n",
+      "        // Omitted by native silent/effect send actions: preserve the current\n        // per-recording choice instead of reverting to the default argument.\n        let viewOnce = scheduleTime == nil && repeatPeriod == nil\n            && (viewOnce ?? self.chatDisplayNode.textInputPanelNode?.viewOnce ?? false)\n        switch recordedMediaPreview {\n",
+      1
+    ],
+    [
+      "submodules/TelegramUI/Components/VideoMessageCameraScreen/Sources/VideoMessageCameraScreen.swift",
+      "                if self.cameraState.isViewOnceEnabled {\n                    attributes.append(AutoremoveTimeoutMessageAttribute",
+      "                if self.cameraState.isViewOnceEnabled && scheduleTime == nil && repeatPeriod == nil {\n                    attributes.append(AutoremoveTimeoutMessageAttribute",
+      1
+    ],
+    [
+      "submodules/TelegramUI/Components/VideoMessageCameraScreen/Sources/VideoMessageCameraScreen.swift",
+      "                isViewOnceEnabled: false\n",
+      "                isViewOnceEnabled: NagramiXRecordingSettings.initialViewOnce(available: controller.viewOnceAvailable)\n",
+      1
+    ],
+    [
+      "submodules/TelegramUI/Components/Chat/ChatTextInputPanelNode/Sources/ChatTextInputPanelNode.swift",
+      "import Foundation\n",
+      "import Foundation\nimport NagramiXCore\n",
+      1
+    ],
+    [
+      "submodules/TelegramUI/Components/Chat/ChatTextInputPanelNode/Sources/ChatTextInputPanelNode.swift",
+      "    @objc private func viewOncePressed() {\n",
+      "    public func nagramiXPrepareAudioViewOnce(resuming: Bool) {\n        guard !resuming else { return }\n        var available = false\n        if let state = self.presentationInterfaceState,\n           let peerId = state.chatLocation.peerId,\n           let user = state.renderedPeer?.peer as? TelegramUser {\n            var scheduled = false\n            if case .scheduledMessages = state.subject { scheduled = true }\n            available = peerId.namespace == Namespaces.Peer.CloudUser\n                && peerId != state.accountPeerId && user.botInfo == nil\n                && !scheduled && state.sendPaidMessageStars == nil\n        }\n        self.viewOnce = NagramiXRecordingSettings.initialViewOnce(available: available)\n        self.viewOnceButton.update(isSelected: self.viewOnce, animated: false)\n    }\n\n    @objc private func viewOncePressed() {\n",
+      1
+    ],
+    [
+      "submodules/TelegramUI/Components/Chat/ChatTextInputPanelNode/BUILD",
+      "    deps = [\n        \"//submodules/Display\",\n",
+      "    deps = [\n        \"//submodules/Display\",\n        \"//submodules/NagramiXCore:NagramiXCore\",\n",
+      1
+    ]
+  ],
+  "provided": {
+    "Sources/NagramiXCore/Sources/NagramiXRecordingSettings.swift": "submodules/NagramiXCore/Sources/NagramiXRecordingSettings.swift"
+  }
+}

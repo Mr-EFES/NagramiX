@@ -1,0 +1,52 @@
+{
+  "inputs": {
+    "submodules/TelegramCore/Sources/Utils/NagramiXMessageArchive.swift": "d54306de62ff1cfd159c8cfc5d46b851c8348f607026e6dbdc16b6c95ac6d10f",
+    "submodules/TelegramUI/Components/Chat/ChatMessageBubbleItemNode/Sources/ChatMessageBubbleItemNode.swift": "1328e162f1a40d7174bebfbf0650ded768d57d908db92660f3e1a210bb00842b",
+    "submodules/NagramiXCore/Sources/NagramiXPresentationStrings.swift": "860a4935d614b119ef5d4beb6d9cd8ae014fb906ee5e3769babc201e9daf8a94",
+    "submodules/NagramiXCore/Resources/ru.lproj/Localizable.strings": "7c4a12c9e36ac7120fbfa062812619c93f47df6c2005a9dbce809d62840b3ead",
+    "submodules/NagramiXCore/Resources/en.lproj/Localizable.strings": "cd382022509af10d6409434d299dbf907ffb81c03419afa37536edcd73830aad"
+  },
+  "outputs": {
+    "submodules/TelegramCore/Sources/Utils/NagramiXMessageArchive.swift": "578b8036601a19a0774c822b002dd1e99a6d19801dc30248503267002cf3725f",
+    "submodules/TelegramUI/Components/Chat/ChatMessageBubbleItemNode/Sources/ChatMessageBubbleItemNode.swift": "144b8ce2f372ad6e84a54d6eb7656a31eb4e1eb67800f308fc7f14271f8ce306",
+    "submodules/NagramiXCore/Sources/NagramiXPresentationStrings.swift": "d3ac8073131bc7bbb77593195a179277a0bcaf02b1abdf8e06aacc82ac9d532a",
+    "submodules/NagramiXCore/Resources/ru.lproj/Localizable.strings": "a2cc363bf1b8821718e30872932359f442ee2a747fa9d87fd42e91787ea293d7",
+    "submodules/NagramiXCore/Resources/en.lproj/Localizable.strings": "cb5ecb8e4714f2b646c88fc88d6a79e035deff4a6c2036cace845d6b9e7360d6"
+  },
+  "guards": {
+    "submodules/TelegramCore/BUILD": "81e6c1d9dceab5da57124381fce03665a449bcb7904e66c884269dacdd584fbf",
+    "submodules/NagramiXCore/BUILD": "869e31310cc925b84ceb827a3c0b8503f3a22614acb4abeeec4a4ad435cf56e2",
+    "submodules/TelegramUI/Components/Chat/ChatMessageBubbleItemNode/BUILD": "0ef99602eabde67d35579c5769dcc372470ad04af19895bef2e312a565cc9ceb"
+  },
+  "templates": {
+    "view_once_copy_marker/Before0.inc": "d54306de62ff1cfd159c8cfc5d46b851c8348f607026e6dbdc16b6c95ac6d10f",
+    "view_once_copy_marker/After0.inc": "578b8036601a19a0774c822b002dd1e99a6d19801dc30248503267002cf3725f",
+    "view_once_copy_marker/Before1.inc": "1328e162f1a40d7174bebfbf0650ded768d57d908db92660f3e1a210bb00842b",
+    "view_once_copy_marker/After1.inc": "144b8ce2f372ad6e84a54d6eb7656a31eb4e1eb67800f308fc7f14271f8ce306",
+    "view_once_copy_marker/Before2.inc": "860a4935d614b119ef5d4beb6d9cd8ae014fb906ee5e3769babc201e9daf8a94",
+    "view_once_copy_marker/After2.inc": "d3ac8073131bc7bbb77593195a179277a0bcaf02b1abdf8e06aacc82ac9d532a",
+    "view_once_copy_marker/Before3.inc": "7c4a12c9e36ac7120fbfa062812619c93f47df6c2005a9dbce809d62840b3ead",
+    "view_once_copy_marker/After3.inc": "a2cc363bf1b8821718e30872932359f442ee2a747fa9d87fd42e91787ea293d7",
+    "view_once_copy_marker/Before4.inc": "cd382022509af10d6409434d299dbf907ffb81c03419afa37536edcd73830aad",
+    "view_once_copy_marker/After4.inc": "cb5ecb8e4714f2b646c88fc88d6a79e035deff4a6c2036cace845d6b9e7360d6",
+    "view_once_copy_marker/Guard0.inc": "81e6c1d9dceab5da57124381fce03665a449bcb7904e66c884269dacdd584fbf",
+    "view_once_copy_marker/Guard1.inc": "869e31310cc925b84ceb827a3c0b8503f3a22614acb4abeeec4a4ad435cf56e2",
+    "view_once_copy_marker/Guard2.inc": "0ef99602eabde67d35579c5769dcc372470ad04af19895bef2e312a565cc9ceb"
+  },
+  "previous": {
+    "submodules/TelegramCore/Sources/Utils/NagramiXMessageArchive.swift": "view_once_copy_marker/Before0.inc",
+    "submodules/TelegramUI/Components/Chat/ChatMessageBubbleItemNode/Sources/ChatMessageBubbleItemNode.swift": "view_once_copy_marker/Before1.inc",
+    "submodules/NagramiXCore/Sources/NagramiXPresentationStrings.swift": "view_once_copy_marker/Before2.inc",
+    "submodules/NagramiXCore/Resources/ru.lproj/Localizable.strings": "view_once_copy_marker/Before3.inc",
+    "submodules/NagramiXCore/Resources/en.lproj/Localizable.strings": "view_once_copy_marker/Before4.inc"
+  },
+  "replacements": {
+    "submodules/TelegramCore/Sources/Utils/NagramiXMessageArchive.swift": "view_once_copy_marker/After0.inc",
+    "submodules/TelegramUI/Components/Chat/ChatMessageBubbleItemNode/Sources/ChatMessageBubbleItemNode.swift": "view_once_copy_marker/After1.inc",
+    "submodules/NagramiXCore/Sources/NagramiXPresentationStrings.swift": "view_once_copy_marker/After2.inc",
+    "submodules/NagramiXCore/Resources/ru.lproj/Localizable.strings": "view_once_copy_marker/After3.inc",
+    "submodules/NagramiXCore/Resources/en.lproj/Localizable.strings": "view_once_copy_marker/After4.inc"
+  },
+  "copies": {},
+  "deletions": {}
+}

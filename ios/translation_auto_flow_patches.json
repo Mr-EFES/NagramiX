@@ -1,0 +1,52 @@
+{
+  "inputs": {
+    "submodules/TranslateUI/Sources/NagramiXTranslationChatLanguage.swift": "4a4eaf112d7c6e2c2532b31c898ec0c53b1d3d536fe5ff8f17b7271ab820195f",
+    "submodules/TranslateUI/Sources/NagramiXTranslationRuntime.swift": "776b5722cfab0f9431c2f847e6af692ee4abd09e1e849391e2d59b6e8ebfb386",
+    "submodules/TranslateUI/Sources/ChatTranslation.swift": "88e2911d9ed60e0b7b5a6b43f9ac7c41b38c419e96674902be782b3fc169714c",
+    "submodules/TelegramUI/Sources/ChatHistoryListNode.swift": "c8a8c647f13cb67bc03f26dad335994c8c163efe0a8d576a9f82b62697caaa0d",
+    "submodules/TranslateUI/Sources/Translate.swift": "276b3ffb928ff6e1c869e79749067cb033a95ea7aa82a99aa0f9116fc3cee9c6"
+  },
+  "outputs": {
+    "submodules/TranslateUI/Sources/NagramiXTranslationChatLanguage.swift": "d0dd2eb48b9a01440b83508d3e73c52d03d058f50b6bade1c22182024171d8c2",
+    "submodules/TranslateUI/Sources/NagramiXTranslationRuntime.swift": "3116454fb5271c43beb31d2b5bf289bf4b59a16fdf1c39605020704698505d88",
+    "submodules/TranslateUI/Sources/ChatTranslation.swift": "30125a9cc974dcd3de25d1a4f32d1f19419166c430132aa3bb0713946de94176",
+    "submodules/TelegramUI/Sources/ChatHistoryListNode.swift": "134f227505fc0a1086cea0f6735ffb3c3afb9c0e3d3b24072f5b5a5a01eeca56",
+    "submodules/TranslateUI/Sources/Translate.swift": "1f041e84200e91d0eb43c5a607f1d8f8ea58e182870b8c54b996d54aeeda82e2"
+  },
+  "guards": {
+    "submodules/TranslateUI/BUILD": "f1a9e651b7caa1a06203dd97ff851a7b58d4453a0427660bb7656fa686ad96a7",
+    "submodules/TelegramUI/BUILD": "f4ae55a27c3a5e486a0fe9c768c70b65b974c505125d91a1215645179de54926",
+    "submodules/TranslateUI/Sources/NagramiXTranslationSettings.swift": "9ace9c2cae937ee7401a0264b779d0a2195e805d9d5b950ba450187fcb71a652"
+  },
+  "templates": {
+    "translation_auto_flow/Before0.inc": "4a4eaf112d7c6e2c2532b31c898ec0c53b1d3d536fe5ff8f17b7271ab820195f",
+    "translation_auto_flow/After0.inc": "d0dd2eb48b9a01440b83508d3e73c52d03d058f50b6bade1c22182024171d8c2",
+    "translation_auto_flow/Before1.inc": "776b5722cfab0f9431c2f847e6af692ee4abd09e1e849391e2d59b6e8ebfb386",
+    "translation_auto_flow/After1.inc": "3116454fb5271c43beb31d2b5bf289bf4b59a16fdf1c39605020704698505d88",
+    "translation_auto_flow/Before2.inc": "88e2911d9ed60e0b7b5a6b43f9ac7c41b38c419e96674902be782b3fc169714c",
+    "translation_auto_flow/After2.inc": "30125a9cc974dcd3de25d1a4f32d1f19419166c430132aa3bb0713946de94176",
+    "translation_auto_flow/Before3.inc": "c8a8c647f13cb67bc03f26dad335994c8c163efe0a8d576a9f82b62697caaa0d",
+    "translation_auto_flow/After3.inc": "134f227505fc0a1086cea0f6735ffb3c3afb9c0e3d3b24072f5b5a5a01eeca56",
+    "translation_auto_flow/Before4.inc": "276b3ffb928ff6e1c869e79749067cb033a95ea7aa82a99aa0f9116fc3cee9c6",
+    "translation_auto_flow/After4.inc": "1f041e84200e91d0eb43c5a607f1d8f8ea58e182870b8c54b996d54aeeda82e2",
+    "translation_auto_flow/Guard0.inc": "f1a9e651b7caa1a06203dd97ff851a7b58d4453a0427660bb7656fa686ad96a7",
+    "translation_auto_flow/Guard1.inc": "f4ae55a27c3a5e486a0fe9c768c70b65b974c505125d91a1215645179de54926",
+    "translation_auto_flow/Guard2.inc": "9ace9c2cae937ee7401a0264b779d0a2195e805d9d5b950ba450187fcb71a652"
+  },
+  "previous": {
+    "submodules/TranslateUI/Sources/NagramiXTranslationChatLanguage.swift": "translation_auto_flow/Before0.inc",
+    "submodules/TranslateUI/Sources/NagramiXTranslationRuntime.swift": "translation_auto_flow/Before1.inc",
+    "submodules/TranslateUI/Sources/ChatTranslation.swift": "translation_auto_flow/Before2.inc",
+    "submodules/TelegramUI/Sources/ChatHistoryListNode.swift": "translation_auto_flow/Before3.inc",
+    "submodules/TranslateUI/Sources/Translate.swift": "translation_auto_flow/Before4.inc"
+  },
+  "replacements": {
+    "submodules/TranslateUI/Sources/NagramiXTranslationChatLanguage.swift": "translation_auto_flow/After0.inc",
+    "submodules/TranslateUI/Sources/NagramiXTranslationRuntime.swift": "translation_auto_flow/After1.inc",
+    "submodules/TranslateUI/Sources/ChatTranslation.swift": "translation_auto_flow/After2.inc",
+    "submodules/TelegramUI/Sources/ChatHistoryListNode.swift": "translation_auto_flow/After3.inc",
+    "submodules/TranslateUI/Sources/Translate.swift": "translation_auto_flow/After4.inc"
+  },
+  "copies": {},
+  "deletions": {}
+}

@@ -1,0 +1,119 @@
+{
+  "inputs": {
+    "submodules/TelegramUI/Components/Stories/StoryContainerScreen/Sources/StoryItemSetContainerComponent.swift": "c571ba09d19df1e13233440609fc2a7423a4752de098af5222725b880cd3dab3",
+    "submodules/TelegramUI/Components/Stories/StoryContainerScreen/Sources/StoryItemImageView.swift": "98422c894a4b2079a6434a918cb17c33d20f50bc87e304c43cc340578d5229f3",
+    "submodules/TelegramUI/Components/Stories/StoryContainerScreen/Sources/StoryItemContentComponent.swift": "8863ed105bc2e425f125bf84a6b00e2b15a802305d2bad97b9468561657655ca",
+    "submodules/TelegramUI/Components/Stories/StoryContainerScreen/BUILD": "384b0c0514fcdbc674ecca1e0b39e32d8477db64c9283f558e1d6841c0259889",
+    "submodules/GalleryUI/Sources/Items/ChatImageGalleryItem.swift": "0b114b74b70077cb8201d8d51f6cbf157d31cea6324330d9ff2ca1924994131a",
+    "submodules/GalleryUI/Sources/Items/UniversalVideoGalleryItem.swift": "4949bd377f23d335bb20d7edae7d20f27a86d6046c9c3db4e85c49c6269bcb1d"
+  },
+  "patches": [
+    [
+      "submodules/TelegramUI/Components/Stories/StoryContainerScreen/BUILD",
+      "        \"//submodules/NagramiXCore:NagramiXCore\",",
+      "        \"//submodules/NagramiXCore:NagramiXCore\",\n        \"//submodules/NagramiXMediaSettings:NagramiXMediaSettings\","
+    ],
+    [
+      "submodules/TelegramUI/Components/Stories/StoryContainerScreen/Sources/StoryItemContentComponent.swift",
+      "                            captureProtected: component.item.isForwardingDisabled,",
+      "                            captureProtected: component.item.isForwardingDisabled,\n                            nagramiXAllowsScreenshotBypass: true,"
+    ],
+    [
+      "submodules/TelegramUI/Components/Stories/StoryContainerScreen/Sources/StoryItemImageView.swift",
+      "import MultilineTextComponent",
+      "import MultilineTextComponent\nimport NagramiXMediaSettings"
+    ],
+    [
+      "submodules/TelegramUI/Components/Stories/StoryContainerScreen/Sources/StoryItemImageView.swift",
+      "    private var captureProtectedView: UITextField?",
+      "    private var captureProtectedView: UITextField?\n    private var nagramiXCaptureObserver: NSObjectProtocol?\n    private var nagramiXCaptureUpdate: (() -> Void)?\n    private var nagramiXCaptureBypass = NagramiXPrivacySettings.current.bypassScreenshots"
+    ],
+    [
+      "submodules/TelegramUI/Components/Stories/StoryContainerScreen/Sources/StoryItemImageView.swift",
+      "        super.init(frame: frame)\n    }",
+      "        super.init(frame: frame)\n        self.nagramiXCaptureObserver = NotificationCenter.default.addObserver(forName: NagramiXPrivacySettings.changedNotification, object: nil, queue: .main) { [weak self] _ in\n            guard let self else { return }\n            let bypass = NagramiXPrivacySettings.current.bypassScreenshots\n            guard bypass != self.nagramiXCaptureBypass else { return }\n            self.nagramiXCaptureBypass = bypass\n            self.nagramiXCaptureUpdate?()\n        }\n    }"
+    ],
+    [
+      "submodules/TelegramUI/Components/Stories/StoryContainerScreen/Sources/StoryItemImageView.swift",
+      "    deinit {\n        self.disposable?.dispose()",
+      "    deinit {\n        if let observer = self.nagramiXCaptureObserver { NotificationCenter.default.removeObserver(observer) }\n        self.disposable?.dispose()"
+    ],
+    [
+      "submodules/TelegramUI/Components/Stories/StoryContainerScreen/Sources/StoryItemImageView.swift",
+      "    private func updateImage(image: UIImage, isCaptureProtected: Bool) {\n        self.contentView.image = image",
+      "    private func updateImage(image: UIImage, isCaptureProtected: Bool) {\n        // Read the setting at delivery time as image decoding may finish after\n        // the user changed it. The original story requirement stays unchanged.\n        let isCaptureProtected = NagramiXPrivacySettings.current.requiresScreenshotProtection(isCaptureProtected, allowsBypass: true)\n        self.contentView.image = image"
+    ],
+    [
+      "submodules/TelegramUI/Components/Stories/StoryContainerScreen/Sources/StoryItemImageView.swift",
+      "        self.backgroundColor = isCaptureProtected ? UIColor(rgb: 0x181818) : nil",
+      "        self.nagramiXCaptureUpdate = { [weak self] in\n            self?.update(context: context, strings: strings, peer: peer, storyId: storyId, media: media, size: size,\n                isCaptureProtected: isCaptureProtected, attemptSynchronous: false, transition: .immediate)\n        }\n        let nagramiXIsCaptureProtected = NagramiXPrivacySettings.current.requiresScreenshotProtection(isCaptureProtected, allowsBypass: true)\n        self.backgroundColor = nagramiXIsCaptureProtected ? UIColor(rgb: 0x181818) : nil\n        // Reuse the decoded image when only protection changes. The native\n        // geometry below also repositions it after secure-layer reparenting.\n        if let image = self.contentView.image, (self.captureProtectedView != nil) != nagramiXIsCaptureProtected {\n            self.updateImage(image: image, isCaptureProtected: isCaptureProtected)\n        }"
+    ],
+    [
+      "submodules/TelegramUI/Components/Stories/StoryContainerScreen/Sources/StoryItemImageView.swift",
+      "        if isCaptureProtected {\n            let captureProtectedInfo: ComponentView<Empty>",
+      "        if nagramiXIsCaptureProtected {\n            let captureProtectedInfo: ComponentView<Empty>"
+    ],
+    [
+      "submodules/TelegramUI/Components/Stories/StoryContainerScreen/Sources/StoryItemSetContainerComponent.swift",
+      "            guard !item.isForwardingDisabled || component.slice.effectivePeer.id == component.context.account.peerId else { return false }\n",
+      ""
+    ],
+    [
+      "submodules/TelegramUI/Components/Stories/StoryContainerScreen/Sources/StoryItemSetContainerComponent.swift",
+      "        private func requestSave() {\n            guard let component = self.component, let peerReference = PeerReference(component.slice.effectivePeer) else {",
+      "        private func requestSave() {\n            if self.nagramiXCanDownloadStory {\n                self.nagramiXDownloadStoryPressed()\n                return\n            }\n            guard let component = self.component, let peerReference = PeerReference(component.slice.effectivePeer) else {"
+    ],
+    [
+      "submodules/TelegramUI/Components/Stories/StoryContainerScreen/Sources/StoryItemSetContainerComponent.swift",
+      "                    } else if !component.slice.item.storyItem.isForwardingDisabled {\n                        let saveText: String = component.strings.Story_Context_SaveToGallery\n                        items.append(.action(ContextMenuActionItem(text: saveText, icon: { theme in\n                            return generateTintedImage(image: UIImage(bundleImageName: accountUser.isPremium ? \"Chat/Context Menu/Download\" : \"Chat/Context Menu/DownloadLocked\"), color: theme.contextMenu.primaryColor)\n                        }, action: { [weak self] _, a in\n                            a(.default)\n                            \n                            guard let self else {\n                                return\n                            }\n                            \n                            if accountUser.isPremium {\n                                self.requestSave()\n                            } else {\n                                self.presentSaveUpgradeScreen()\n                            }\n                        })))\n                    }",
+      "                    } else if !component.slice.item.storyItem.isForwardingDisabled || self.nagramiXCanDownloadStory {\n                        let saveText: String = component.strings.Story_Context_SaveToGallery\n                        let nagramiXCanSaveStory = self.nagramiXCanDownloadStory\n                        items.append(.action(ContextMenuActionItem(text: saveText, icon: { theme in\n                            return generateTintedImage(image: UIImage(bundleImageName: (accountUser.isPremium || nagramiXCanSaveStory) ? \"Chat/Context Menu/Download\" : \"Chat/Context Menu/DownloadLocked\"), color: theme.contextMenu.primaryColor)\n                        }, action: { [weak self] _, a in\n                            a(.default)\n\n                            guard let self, let current = self.component,\n                                  current.slice.effectivePeer.id == component.slice.effectivePeer.id,\n                                  current.slice.item.storyItem.id == component.slice.item.storyItem.id else {\n                                return\n                            }\n                            // Recheck the opt-in at tap time. An already open\n                            // menu must not retain permission after it is OFF.\n                            if self.nagramiXCanDownloadStory || (accountUser.isPremium && !current.slice.item.storyItem.isForwardingDisabled) {\n                                self.requestSave()\n                            } else if !current.slice.item.storyItem.isForwardingDisabled {\n                                self.presentSaveUpgradeScreen()\n                            }\n                        })))\n                    }"
+    ],
+    [
+      "submodules/GalleryUI/Sources/Items/ChatImageGalleryItem.swift",
+      "                if !message.isCopyProtected() && !self.peerIsCopyProtected && message.paidContent == nil, let media = self.contextAndMedia?.1 {\n                    items.append(.action(ContextMenuActionItem(text: self.presentationData.strings.Gallery_CreateSticker, icon: { theme in generateTintedImage(image: UIImage(bundleImageName: \"Chat/Context Menu/Sticker\"), color: theme.actionSheet.primaryTextColor) }, action: { [weak self] _, f in\n                        f(.default)\n                        guard let self else {\n                            return\n                        }\n                        let _ = (fetchMediaData(context: context, userLocation: .other, mediaReference: media)\n                        |> deliverOnMainQueue).start(next: { [weak self] (value, isImage) in\n                            guard let self, case let .data(data) = value, data.isComplete, isImage, let image = UIImage(contentsOfFile: data.path) else {\n                                return\n                            }\n                            let sendSticker = self.sendSticker\n                            let controller = context.sharedContext.makeStickerEditorScreen(context: context, source: image, mode: .generic(canSend: self.sendSticker != nil), transitionArguments: (self.imageNode.view, self.imageNode.bounds, self.imageNode.image), completion: { file, _, commit in\n                                sendSticker?(.standalone(media: file))\n                                commit()\n                            }, cancelled: {})\n                            guard let galleryController = self.galleryController() as? GalleryController, let navigationController = self.baseNavigationController() else {\n                                return\n                            }\n                            galleryController.willDismiss()\n                            (navigationController.topViewController as? ViewController)?.present(controller, in: .window(.root))\n                            (controller as? MediaEditorScreen)?.customNavigationController  = navigationController\n                            self.imageNode.isHidden = true\n                            Queue.mainQueue().after(0.5, {\n                                galleryController.dismiss()\n                            })\n                        })\n                    })))\n                    \n                    items.append(.action(ContextMenuActionItem(text: self.presentationData.strings.Gallery_SaveImage, icon: { theme in generateTintedImage(image: UIImage(bundleImageName: \"Chat/Context Menu/Download\"), color: theme.actionSheet.primaryTextColor) }, action: { [weak self] _, f in\n                        f(.default)\n                                                \n                        let _ = (SaveToCameraRoll.saveToCameraRoll(context: context, userLocation: .peer(message.id.peerId), mediaReference: media)\n                        |> deliverOnMainQueue).start(completed: { [weak self] in\n                            guard let strongSelf = self else {\n                                return\n                            }\n                            guard let controller = strongSelf.galleryController() else {\n                                return\n                            }\n                            controller.present(UndoOverlayController(presentationData: strongSelf.presentationData, content: .mediaSaved(text: strongSelf.presentationData.strings.Gallery_ImageSaved), elevatedLayout: false, animateInAsReplacement: false, action: { _ in return false }), in: .window(.root))\n                        })\n                    })))\n                }",
+      "                if nagramiXCanSaveGalleryMedia(message, peerIsCopyProtected: self.peerIsCopyProtected), let media = self.contextAndMedia?.1 {\n                    // Keep sticker creation under its original native policy.\n                    if !message.isCopyProtected() && !self.peerIsCopyProtected {\n                        items.append(.action(ContextMenuActionItem(text: self.presentationData.strings.Gallery_CreateSticker, icon: { theme in generateTintedImage(image: UIImage(bundleImageName: \"Chat/Context Menu/Sticker\"), color: theme.actionSheet.primaryTextColor) }, action: { [weak self] _, f in\n                            f(.default)\n                            guard let self else {\n                                return\n                            }\n                            let _ = (fetchMediaData(context: context, userLocation: .other, mediaReference: media)\n                            |> deliverOnMainQueue).start(next: { [weak self] (value, isImage) in\n                                guard let self, case let .data(data) = value, data.isComplete, isImage, let image = UIImage(contentsOfFile: data.path) else {\n                                    return\n                                }\n                                let sendSticker = self.sendSticker\n                                let controller = context.sharedContext.makeStickerEditorScreen(context: context, source: image, mode: .generic(canSend: self.sendSticker != nil), transitionArguments: (self.imageNode.view, self.imageNode.bounds, self.imageNode.image), completion: { file, _, commit in\n                                    sendSticker?(.standalone(media: file))\n                                    commit()\n                                }, cancelled: {})\n                                guard let galleryController = self.galleryController() as? GalleryController, let navigationController = self.baseNavigationController() else {\n                                    return\n                                }\n                                galleryController.willDismiss()\n                                (navigationController.topViewController as? ViewController)?.present(controller, in: .window(.root))\n                                (controller as? MediaEditorScreen)?.customNavigationController  = navigationController\n                                self.imageNode.isHidden = true\n                                Queue.mainQueue().after(0.5, {\n                                    galleryController.dismiss()\n                                })\n                            })\n                        })))\n                    }\n\n                    items.append(.action(ContextMenuActionItem(text: self.presentationData.strings.Gallery_SaveImage, icon: { theme in generateTintedImage(image: UIImage(bundleImageName: \"Chat/Context Menu/Download\"), color: theme.actionSheet.primaryTextColor) }, action: { [weak self] _, f in\n                        f(.default)\n                                                \n                        guard let self, nagramiXCanSaveGalleryMedia(message, peerIsCopyProtected: self.peerIsCopyProtected) else { return }\n                        let _ = (SaveToCameraRoll.saveToCameraRoll(context: context, userLocation: .peer(message.id.peerId), mediaReference: media)\n                        |> deliverOnMainQueue).start(completed: { [weak self] in\n                            guard let strongSelf = self else {\n                                return\n                            }\n                            guard let controller = strongSelf.galleryController() else {\n                                return\n                            }\n                            controller.present(UndoOverlayController(presentationData: strongSelf.presentationData, content: .mediaSaved(text: strongSelf.presentationData.strings.Gallery_ImageSaved), elevatedLayout: false, animateInAsReplacement: false, action: { _ in return false }), in: .window(.root))\n                        })\n                    })))\n                }"
+    ],
+    [
+      "submodules/GalleryUI/Sources/Items/UniversalVideoGalleryItem.swift",
+      "if let (message, maybeFile, _) = strongSelf.contentInfo(), let file = maybeFile, !message.isCopyProtected() && !item.peerIsCopyProtected && message.paidContent == nil {",
+      "if let (message, maybeFile, _) = strongSelf.contentInfo(), let file = maybeFile, nagramiXCanSaveGalleryMedia(message, peerIsCopyProtected: item.peerIsCopyProtected) {"
+    ],
+    [
+      "submodules/GalleryUI/Sources/Items/UniversalVideoGalleryItem.swift",
+      "                        if let content = item.content as? HLSVideoContent {\n                            guard let videoNode = self.videoNode, let qualityState = videoNode.videoQualityState(), !qualityState.available.isEmpty else {",
+      "                        guard nagramiXCanSaveGalleryMedia(message, peerIsCopyProtected: item.peerIsCopyProtected) else {\n                            c?.dismiss(result: .default, completion: nil)\n                            return\n                        }\n                        if let content = item.content as? HLSVideoContent {\n                            guard let videoNode = self.videoNode, let qualityState = videoNode.videoQualityState(), !qualityState.available.isEmpty else {"
+    ],
+    [
+      "submodules/GalleryUI/Sources/Items/UniversalVideoGalleryItem.swift",
+      "                                        let saveScreen = SaveProgressScreen(context: self.context, content: .progress(self.presentationData.strings.Story_TooltipSaving, 0.0))",
+      "                                        guard nagramiXCanSaveGalleryMedia(message, peerIsCopyProtected: item.peerIsCopyProtected) else { return }\n                                        let saveScreen = SaveProgressScreen(context: self.context, content: .progress(self.presentationData.strings.Story_TooltipSaving, 0.0))"
+    ],
+    [
+      "submodules/GalleryUI/Sources/Items/UniversalVideoGalleryItem.swift",
+      "if let (message, _, _) = strongSelf.contentInfo(), let image = message.effectiveMedia.first(where: { $0 is TelegramMediaImage }) as? TelegramMediaImage, !message.isCopyProtected() && !item.peerIsCopyProtected && message.paidContent == nil {",
+      "if let (message, _, _) = strongSelf.contentInfo(), let image = message.effectiveMedia.first(where: { $0 is TelegramMediaImage }) as? TelegramMediaImage, nagramiXCanSaveGalleryMedia(message, peerIsCopyProtected: item.peerIsCopyProtected) {"
+    ],
+    [
+      "submodules/GalleryUI/Sources/Items/UniversalVideoGalleryItem.swift",
+      "                        let _ = (SaveToCameraRoll.saveToCameraRoll(context: context, userLocation: .peer(message.id.peerId), mediaReference: .message(message: MessageReference(message), media: image), video: videoReference)",
+      "                        guard nagramiXCanSaveGalleryMedia(message, peerIsCopyProtected: item.peerIsCopyProtected) else { return }\n                        let _ = (SaveToCameraRoll.saveToCameraRoll(context: context, userLocation: .peer(message.id.peerId), mediaReference: .message(message: MessageReference(message), media: image), video: videoReference)"
+    ]
+  ],
+  "outputs": {
+    "submodules/TelegramUI/Components/Stories/StoryContainerScreen/Sources/StoryItemSetContainerComponent.swift": "94d7a776790b9858c917fd0e4b9f9b07b2875d7a7dcc811c5b39b3885c8f435a",
+    "submodules/TelegramUI/Components/Stories/StoryContainerScreen/Sources/StoryItemImageView.swift": "f17b1064a607000c879965464a45592e93319be07973e6008245e3ebb2e0e674",
+    "submodules/TelegramUI/Components/Stories/StoryContainerScreen/Sources/StoryItemContentComponent.swift": "a7b67e2e5fcf37f08166b24975b97e585c004b344ca3dee17ba9f6ebe3262092",
+    "submodules/TelegramUI/Components/Stories/StoryContainerScreen/BUILD": "6d1056630ca8320601491b8055990b68835bb61f0fb285f6124dee23d4b27c73",
+    "submodules/GalleryUI/Sources/Items/ChatImageGalleryItem.swift": "e28044b45092ccecc29f474d3ab1a92dc4170e587748e511bedca7a7af2be5cc",
+    "submodules/GalleryUI/Sources/Items/UniversalVideoGalleryItem.swift": "b2a6e5c93f832a549a7e1cbd7a04e115d7d0cfdd911c6bf130964974772754b9"
+  },
+  "guards": {
+    "submodules/GalleryUI/BUILD": "963014e4710bf8e9f76f03508369d9d2d399bc5b2a9a68d2860e0c41ea910136"
+  },
+  "copies": {
+    "submodules/GalleryUI/Sources/NagramiXGallerySavePolicy.swift": {
+      "source": "Sources/GalleryUI/NagramiXGallerySavePolicy.swift",
+      "sha256": "27a92d7bf9a75c4b5de2913788c86b1692dfb0ebdcab438bf37fa90c816c5d27"
+    }
+  }
+}

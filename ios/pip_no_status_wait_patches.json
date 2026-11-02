@@ -1,0 +1,29 @@
+{
+  "inputs": {
+    "submodules/GalleryUI/Sources/Items/UniversalVideoGalleryItem.swift": "b571dbae357b25c212605dd30e08194c3c1d9687272bd8778aad0563fa026b33"
+  },
+  "outputs": {
+    "submodules/GalleryUI/Sources/Items/UniversalVideoGalleryItem.swift": "d8d8211ac50bf48dc98fe218f4a39d2f9405acf724f7d2ca64c408549f276e15"
+  },
+  "guards": {
+    "submodules/GalleryUI/BUILD": "963014e4710bf8e9f76f03508369d9d2d399bc5b2a9a68d2860e0c41ea910136"
+  },
+  "templates": {
+    "pip_no_status_wait/Before0.inc": "b571dbae357b25c212605dd30e08194c3c1d9687272bd8778aad0563fa026b33",
+    "pip_no_status_wait/Guard0.inc": "963014e4710bf8e9f76f03508369d9d2d399bc5b2a9a68d2860e0c41ea910136"
+  },
+  "previous": {
+    "submodules/GalleryUI/Sources/Items/UniversalVideoGalleryItem.swift": "pip_no_status_wait/Before0.inc"
+  },
+  "replacements": {},
+  "copies": {},
+  "deletions": {},
+  "operations": {
+    "submodules/GalleryUI/Sources/Items/UniversalVideoGalleryItem.swift": [
+      [
+        "        guard let video = self.videoNode, video.ownsContentNode,\n              let gallery = self.galleryController(), let window = gallery.view.windowHost,\n              let status = self.playerStatusValue else {\n            self.nagramiXPiPFailure(\"Видеоплеер ещё не готов к запуску PiP.\"); return\n        }\n        let running: Bool\n        switch status.status {\n        case .playing: running = true\n        case let .buffering(_, whilePlaying, _, _): running = whilePlaying\n        default: running = false\n        }\n        let elapsed = running && status.generationTimestamp > 0 ? max(0, CACurrentMediaTime() - status.generationTimestamp) * status.baseRate : 0\n        let timestamp = status.duration > 0 ? min(status.duration, max(0, status.timestamp + elapsed)) : max(0, status.timestamp + elapsed)",
+        "        guard let video = self.videoNode, video.ownsContentNode,\n              let gallery = self.galleryController(), let window = gallery.view.windowHost else {\n            self.nagramiXPiPFailure(\"Видеоплеер ещё не готов к запуску PiP.\"); return\n        }\n        let running: Bool\n        let timestamp: Double\n        if let status = self.playerStatusValue {\n            switch status.status {\n            case .playing: running = true\n            case let .buffering(_, whilePlaying, _, _): running = whilePlaying\n            default: running = false\n            }\n            let elapsed = running && status.generationTimestamp > 0 ? max(0, CACurrentMediaTime() - status.generationTimestamp) * status.baseRate : 0\n            timestamp = status.duration > 0 ? min(status.duration, max(0, status.timestamp + elapsed)) : max(0, status.timestamp + elapsed)\n        } else {\n            // The original decoder remains in place; its status arrives asynchronously.\n            running = !self.isPaused\n            timestamp = 0\n        }"
+      ]
+    ]
+  }
+}

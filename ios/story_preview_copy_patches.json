@@ -1,0 +1,55 @@
+{
+  "inputs": {
+    "submodules/NagramiXCore/Resources/ru.lproj/Localizable.strings": "2eb4beed1b676b5dd2587baf0f86ef8c90444b479ed3d9da2fb1edb943e56fea",
+    "submodules/NagramiXCore/Resources/en.lproj/Localizable.strings": "7644ba6f78fc8176e2280748c50fffcab842751a1245ee94d7f78847df57a167"
+  },
+  "outputs": {
+    "submodules/NagramiXCore/Resources/ru.lproj/Localizable.strings": "f43cb69cec771e5e7af94972dea23269022f09c4ff5eb671585afee3bdc46ba3",
+    "submodules/NagramiXCore/Resources/en.lproj/Localizable.strings": "0ba2862aad79ed693698093f3bdd8d31d52a9f6aeeb8c18f7098dc6e419b2799"
+  },
+  "guards": {
+    "submodules/NagramiXCore/BUILD": "869e31310cc925b84ceb827a3c0b8503f3a22614acb4abeeec4a4ad435cf56e2"
+  },
+  "templates": {
+    "view_once_setting/After3.inc": "2eb4beed1b676b5dd2587baf0f86ef8c90444b479ed3d9da2fb1edb943e56fea",
+    "view_once_setting/After4.inc": "7644ba6f78fc8176e2280748c50fffcab842751a1245ee94d7f78847df57a167",
+    "story_preview_copy/Guard0.inc": "869e31310cc925b84ceb827a3c0b8503f3a22614acb4abeeec4a4ad435cf56e2"
+  },
+  "previous": {
+    "submodules/NagramiXCore/Resources/ru.lproj/Localizable.strings": "view_once_setting/After3.inc",
+    "submodules/NagramiXCore/Resources/en.lproj/Localizable.strings": "view_once_setting/After4.inc"
+  },
+  "replacements": {},
+  "copies": {},
+  "deletions": {},
+  "operations": {
+    "submodules/NagramiXCore/Resources/ru.lproj/Localizable.strings": [
+      [
+        "\"NagramiX.Stories.Anonymous.Preview.Title\" = \"Просмотр инкогнито\";",
+        "\"NagramiX.Stories.Anonymous.Preview.Title\" = \"Приватный просмотр\";"
+      ],
+      [
+        "\"NagramiX.Stories.Anonymous.Preview.Text\" = \"Вы будете смотреть истории в режиме инкогнито. NagramiX не отправит автору отметку просмотра.\";",
+        "\"NagramiX.Stories.Anonymous.Preview.Text\" = \"История откроется без отметки о просмотре.\";"
+      ],
+      [
+        "\"NagramiX.Stories.Anonymous.Preview.Action\" = \"Смотреть инкогнито\";",
+        "\"NagramiX.Stories.Anonymous.Preview.Action\" = \"Открыть историю\";"
+      ]
+    ],
+    "submodules/NagramiXCore/Resources/en.lproj/Localizable.strings": [
+      [
+        "\"NagramiX.Stories.Anonymous.Preview.Title\" = \"Incognito viewing\";",
+        "\"NagramiX.Stories.Anonymous.Preview.Title\" = \"Private viewing\";"
+      ],
+      [
+        "\"NagramiX.Stories.Anonymous.Preview.Text\" = \"You will view stories in incognito mode. NagramiX will not send a view receipt to the author.\";",
+        "\"NagramiX.Stories.Anonymous.Preview.Text\" = \"The story will open without sending a view receipt.\";"
+      ],
+      [
+        "\"NagramiX.Stories.Anonymous.Preview.Action\" = \"View incognito\";",
+        "\"NagramiX.Stories.Anonymous.Preview.Action\" = \"Open story\";"
+      ]
+    ]
+  }
+}

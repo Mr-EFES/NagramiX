@@ -1,0 +1,24 @@
+{
+  "inputs": {
+    "submodules/TelegramUI/Sources/ChatControllerForwardMessages.swift": "a24e3361278a2533b926c6b5fa013c55f94d915f8a8ff8763946bc45d4b39181"
+  },
+  "outputs": {
+    "submodules/TelegramUI/Sources/ChatControllerForwardMessages.swift": "02d80327950c508f5889d3fdc177dafd2ed7ab3c14b751263ff5c1f1e8e5a0a2"
+  },
+  "guards": {
+    "submodules/TelegramUI/BUILD": "f4ae55a27c3a5e486a0fe9c768c70b65b974c505125d91a1215645179de54926"
+  },
+  "templates": {
+    "repost_schedule/Before.swift.inc": "a24e3361278a2533b926c6b5fa013c55f94d915f8a8ff8763946bc45d4b39181",
+    "repost_schedule/After.swift.inc": "02d80327950c508f5889d3fdc177dafd2ed7ab3c14b751263ff5c1f1e8e5a0a2",
+    "repost_schedule/BUILD.inc": "f4ae55a27c3a5e486a0fe9c768c70b65b974c505125d91a1215645179de54926"
+  },
+  "replacements": {
+    "submodules/TelegramUI/Sources/ChatControllerForwardMessages.swift": "repost_schedule/After.swift.inc"
+  },
+  "previous": {
+    "submodules/TelegramUI/Sources/ChatControllerForwardMessages.swift": "repost_schedule/Before.swift.inc"
+  },
+  "copies": {},
+  "deletions": {}
+}

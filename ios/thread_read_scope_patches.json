@@ -1,0 +1,66 @@
+{
+  "hashes": {
+    "submodules/TelegramCore/Sources/TelegramEngine/Messages/ReplyThreadHistory.swift": "1d2fbdcf89e8fe776683088e9ec0e6cf08d455139e340f91e81a949a652fa3ec",
+    "submodules/TelegramCore/Sources/PendingMessages/EnqueueMessage.swift": "aad3288c019cc5d78b145f895643d2441f880b000184fb52c6aa7b04e3882819"
+  },
+  "patches": [
+    [
+      "submodules/TelegramCore/Sources/TelegramEngine/Messages/ReplyThreadHistory.swift",
+      "            var markMainAsRead = false\n            \n            if var data = transaction.getMessageHistoryThreadInfo(peerId: peerId, threadId: threadId)?.data.get(MessageHistoryThreadData.self) {\n                if messageIndex.id.id >= data.maxIncomingReadId {\n                    if let count = transaction.getThreadMessageCount(peerId: peerId, threadId: threadId, namespace: Namespaces.Message.Cloud, fromIdExclusive: data.maxIncomingReadId, toIndex: messageIndex) {\n                        data.incomingUnreadCount = max(0, data.incomingUnreadCount - Int32(count))\n                        data.maxIncomingReadId = messageIndex.id.id\n                    }\n                    \n                    var newCountIsZero = false\n                    if let topMessageIndex = transaction.getMessageHistoryThreadTopMessage(peerId: peerId, threadId: threadId, namespaces: Set([Namespaces.Message.Cloud])) {\n                        if messageIndex.id.id >= topMessageIndex.id.id {\n                            let containingHole = transaction.getThreadIndexHole(peerId: peerId, threadId: threadId, namespace: topMessageIndex.id.namespace, containing: topMessageIndex.id.id)\n                            if let _ = containingHole[.everywhere] {\n                            } else {\n                                data.incomingUnreadCount = 0\n                            }\n                        }\n                    }\n                    newCountIsZero = data.incomingUnreadCount == 0\n                    \n                    if newCountIsZero, let peer = transaction.getPeer(peerId), peer.isForumOrMonoForum {\n                        var allTopicsAreRead = true\n                        for item in transaction.getMessageHistoryThreadIndex(peerId: peer.id, limit: 100) {\n                            guard let data = transaction.getMessageHistoryThreadInfo(peerId: messageIndex.id.peerId, threadId: item.threadId)?.data.get(MessageHistoryThreadData.self) else {\n                                continue\n                            }\n                            if data.incomingUnreadCount != 0 {\n                                allTopicsAreRead = false\n                                break\n                            }\n                        }\n                        \n                        if allTopicsAreRead {\n                            markMainAsRead = true\n                        }\n                    }\n                    \n                    data.maxKnownMessageId = max(data.maxKnownMessageId, messageIndex.id.id)\n                    \n                    if let entry = StoredMessageHistoryThreadInfo(data) {\n                        transaction.setMessageHistoryThreadInfo(peerId: peerId, threadId: threadId, info: entry)\n                    }\n                }\n            }\n            \n",
+      "            let markMainAsRead = nagramiXApplyThreadReadIndex(transaction: transaction, peerId: peerId, threadId: threadId, messageIndex: messageIndex)\n            _ = nagramiXRecordPrivateRead(transaction: transaction, index: messageIndex, threadId: threadId)\n\n",
+      1
+    ],
+    [
+      "submodules/TelegramCore/Sources/TelegramEngine/Messages/ReplyThreadHistory.swift",
+      "            if markMainAsRead {\n",
+      "            if markMainAsRead && !NagramiXGhostSettings.current.hidesMessageReads {\n",
+      1
+    ],
+    [
+      "submodules/TelegramCore/Sources/TelegramEngine/Messages/ReplyThreadHistory.swift",
+      "account.network.request(Api.functions.messages.readSavedHistory(parentPeer: inputPeer, peer: subPeerId, maxId: messageIndex.id.id))\n                |> `catch` { _ -> Signal<Api.Bool, NoError> in\n                    return .single(.boolFalse)\n                }\n                |> ignoreValues",
+      "account.network.request(Api.functions.messages.readSavedHistory(parentPeer: inputPeer, peer: subPeerId, maxId: messageIndex.id.id))\n                |> `catch` { _ -> Signal<Api.Bool, NoError> in\n                    return .single(.boolFalse)\n                }\n                |> mapToSignal { result -> Signal<Api.Bool, NoError> in\n                    guard case .boolTrue = result else { return .single(result) }\n                    return account.postbox.transaction { transaction -> Api.Bool in\n                        nagramiXAcknowledgePrivateRead(transaction: transaction, peerId: peerId, maxId: messageIndex.id.id, threadId: threadId)\n                        return result\n                    }\n                }\n                |> ignoreValues",
+      1
+    ],
+    [
+      "submodules/TelegramCore/Sources/TelegramEngine/Messages/ReplyThreadHistory.swift",
+      "account.network.request(Api.functions.messages.readDiscussion(peer: inputPeer, msgId: Int32(clamping: threadId), readMaxId: messageIndex.id.id))\n                |> `catch` { _ -> Signal<Api.Bool, NoError> in\n                    return .single(.boolFalse)\n                }\n                |> ignoreValues",
+      "account.network.request(Api.functions.messages.readDiscussion(peer: inputPeer, msgId: Int32(clamping: threadId), readMaxId: messageIndex.id.id))\n                |> `catch` { _ -> Signal<Api.Bool, NoError> in\n                    return .single(.boolFalse)\n                }\n                |> mapToSignal { result -> Signal<Api.Bool, NoError> in\n                    guard case .boolTrue = result else { return .single(result) }\n                    return account.postbox.transaction { transaction -> Api.Bool in\n                        nagramiXAcknowledgePrivateRead(transaction: transaction, peerId: peerId, maxId: messageIndex.id.id, threadId: threadId)\n                        return result\n                    }\n                }\n                |> ignoreValues",
+      1
+    ],
+    [
+      "submodules/TelegramCore/Sources/PendingMessages/EnqueueMessage.swift",
+      "transaction -> ([MessageId?], [MessageId], MessageId?) in\n            // Snapshot before enqueue. Messages arriving after Send remain private.\n            let nagramiXReadBoundary = NagramiXPrivacySettings.current.readsOnAction\n                ? transaction.getTopPeerMessageIndex(peerId: peerId, namespace: Namespaces.Message.Cloud)?.id : nil",
+      "transaction -> ([MessageId?], [MessageId], [NagramiXReadActionBoundary?]) in\n            // Snapshot every destination topic before enqueue, not the peer top.\n            let nagramiXReadBoundaries = messages.map { nagramiXReadBoundaryBeforeEnqueue(transaction: transaction, peerId: peerId, message: $0.1) }",
+      1
+    ],
+    [
+      "submodules/TelegramCore/Sources/PendingMessages/EnqueueMessage.swift",
+      "return (resultIds, ephemeralMessageIds, nagramiXReadBoundary)",
+      "return (resultIds, ephemeralMessageIds, nagramiXReadBoundaries)",
+      1
+    ],
+    [
+      "submodules/TelegramCore/Sources/PendingMessages/EnqueueMessage.swift",
+      "|> map { resultIds, ephemeralMessageIds, nagramiXReadBoundary -> [MessageId?] in",
+      "|> map { resultIds, ephemeralMessageIds, nagramiXReadBoundaries -> [MessageId?] in",
+      1
+    ],
+    [
+      "submodules/TelegramCore/Sources/PendingMessages/EnqueueMessage.swift",
+      "            let hadImmediateSend = zip(resultIds, messages).contains { pair in\n                pair.0 != nil && !pair.1.1.attributes.contains(where: { $0 is OutgoingScheduleInfoMessageAttribute })\n            }\n            if hadImmediateSend, let nagramiXReadBoundary {\n                let _ = nagramiXReadAfterUserAction(account: account, peerId: peerId, upTo: nagramiXReadBoundary).startStandalone()\n            }",
+      "            var nagramiXReadStarted = Set<NagramiXReadActionBoundary>()\n            for (resultId, boundary) in zip(resultIds, nagramiXReadBoundaries) {\n                if resultId != nil, let boundary, nagramiXReadStarted.insert(boundary).inserted {\n                    let _ = nagramiXReadAfterUserAction(account: account, peerId: peerId, upTo: boundary.messageId, threadId: boundary.threadId).startStandalone()\n                }\n            }",
+      1
+    ],
+    [
+      "submodules/TelegramCore/Sources/PendingMessages/EnqueueMessage.swift",
+      "    if account.isSupportUser {\n",
+      "    if account.isSupportUser && !NagramiXPrivacySettings.current.hidesMessageReads {\n",
+      1
+    ]
+  ],
+  "provided": {
+    "Sources/TelegramCore/NagramiXGhostReadActions.swift": "submodules/TelegramCore/Sources/NagramiXGhostReadActions.swift",
+    "Sources/TelegramCore/NagramiXReadModeActions.swift": "submodules/TelegramCore/Sources/NagramiXReadModeActions.swift"
+  }
+}

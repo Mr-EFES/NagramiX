@@ -1,0 +1,29 @@
+{
+  "inputs": {
+    "submodules/TelegramUI/Sources/ChatInterfaceStateContextMenus.swift": "e968940ba464c3aead3d553c88c2ff69fbd82992e6055cbb546070d05e637ce9"
+  },
+  "outputs": {
+    "submodules/TelegramUI/Sources/ChatInterfaceStateContextMenus.swift": "07ad7d309f515d8020e73f170d93c02907e6c9c12c20fff0594bb7597dc29fa1"
+  },
+  "guards": {
+    "submodules/TelegramUI/BUILD": "f4ae55a27c3a5e486a0fe9c768c70b65b974c505125d91a1215645179de54926"
+  },
+  "templates": {
+    "author_check_badge_icon/Before0.inc": "e968940ba464c3aead3d553c88c2ff69fbd82992e6055cbb546070d05e637ce9",
+    "author_check_badge_icon/Guard0.inc": "f4ae55a27c3a5e486a0fe9c768c70b65b974c505125d91a1215645179de54926"
+  },
+  "previous": {
+    "submodules/TelegramUI/Sources/ChatInterfaceStateContextMenus.swift": "author_check_badge_icon/Before0.inc"
+  },
+  "replacements": {},
+  "copies": {},
+  "deletions": {},
+  "operations": {
+    "submodules/TelegramUI/Sources/ChatInterfaceStateContextMenus.swift": [
+      [
+        "private func nagramiXSelectByAuthorIcon(_ color: UIColor) -> UIImage? {\n    return generateImage(CGSize(width: 24, height: 24), rotatedContext: { _, context in\n        context.clear(CGRect(x: 0, y: 0, width: 24, height: 24))\n        context.setStrokeColor(color.cgColor)\n        context.setLineWidth(1.65)\n        context.setLineCap(.round)\n        context.setLineJoin(.round)\n        context.strokeEllipse(in: CGRect(x: 4.4, y: 2.0, width: 7.2, height: 7.2))\n        context.move(to: CGPoint(x: 2.7, y: 20.2))\n        context.addLine(to: CGPoint(x: 2.7, y: 18.3))\n        context.addCurve(to: CGPoint(x: 14.2, y: 14.5), control1: CGPoint(x: 2.7, y: 11.4), control2: CGPoint(x: 10.9, y: 10.3))\n        context.strokePath()\n        context.move(to: CGPoint(x: 2.7, y: 20.2))\n        context.addLine(to: CGPoint(x: 12.0, y: 20.2))\n        context.strokePath()\n        context.move(to: CGPoint(x: 13.0, y: 17.5))\n        context.addLine(to: CGPoint(x: 15.4, y: 19.9))\n        context.addLine(to: CGPoint(x: 19.4, y: 15.0))\n        context.strokePath()\n        context.move(to: CGPoint(x: 17.2, y: 19.6))\n        context.addLine(to: CGPoint(x: 18.4, y: 20.7))\n        context.addLine(to: CGPoint(x: 22.0, y: 16.2))\n        context.strokePath()\n    })\n}\n",
+        "private func nagramiXSelectByAuthorIcon(_ color: UIColor) -> UIImage? {\n    // UIKit coordinates keep the person and the badge upright at every scale.\n    let format = UIGraphicsImageRendererFormat()\n    format.opaque = false\n    return UIGraphicsImageRenderer(size: CGSize(width: 24, height: 24), format: format).image { renderer in\n        let context = renderer.cgContext\n        context.setStrokeColor(color.cgColor)\n        context.setLineWidth(1.55)\n        context.setLineCap(.round)\n        context.setLineJoin(.round)\n        context.strokeEllipse(in: CGRect(x: 4.2, y: 2.2, width: 6.4, height: 6.4))\n        context.move(to: CGPoint(x: 1.8, y: 20.4))\n        context.addCurve(to: CGPoint(x: 13.0, y: 20.4), control1: CGPoint(x: 1.8, y: 10.9), control2: CGPoint(x: 13.0, y: 10.9))\n        context.strokePath()\n        context.saveGState()\n        context.setBlendMode(.clear)\n        context.fillEllipse(in: CGRect(x: 12.2, y: 12.2, width: 11.2, height: 11.2))\n        context.restoreGState()\n        context.strokeEllipse(in: CGRect(x: 13.2, y: 13.2, width: 9.2, height: 9.2))\n        context.move(to: CGPoint(x: 15.6, y: 17.9))\n        context.addLine(to: CGPoint(x: 17.2, y: 19.5))\n        context.addLine(to: CGPoint(x: 20.1, y: 16.4))\n        context.strokePath()\n    }\n}\n"
+      ]
+    ]
+  }
+}

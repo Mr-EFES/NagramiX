@@ -1,0 +1,118 @@
+{
+  "hashes": {
+    "submodules/TelegramCore/Sources/Utils/NagramiXMessageArchive.swift": "fa04fb965a40e747152f9b316ba21eeaa3044f3b55f4c6bab473ccf5fe00641f",
+    "submodules/TelegramCore/Sources/State/ApplyUpdateMessage.swift": "d3ee212afa493dbd45fcf1612e855bc53f391d1216673d2cec5ee9a4341f5b2b",
+    "submodules/NagramiXCore/Resources/ru.lproj/Localizable.strings": "e8c1b10beba0b499f8af44ce19f6071274c489c352db6f6dcafbdfbd5e7b6608",
+    "submodules/NagramiXCore/Resources/en.lproj/Localizable.strings": "e7a299e29e2627661629c504c08f8e88f1539850bba9a3ee4f79504c3c1e0fbf"
+  },
+  "patches": [
+    [
+      "submodules/TelegramCore/Sources/Utils/NagramiXMessageArchive.swift",
+      "        guard message.flags.contains(.Incoming) else {\n            return nil\n        }\n",
+      "",
+      1
+    ],
+    [
+      "submodules/TelegramCore/Sources/Utils/NagramiXMessageArchive.swift",
+      "            incoming: true,\n            temporary: temporary,",
+      "            incoming: message.flags.contains(.Incoming),\n            temporary: temporary,",
+      1
+    ],
+    [
+      "submodules/TelegramCore/Sources/Utils/NagramiXMessageArchive.swift",
+      "    public func captureIncoming(_ message: StoreMessage, peers: [PeerId: Peer]) {",
+      "    /// Called after a successful native send has its final server ID/resources.\n    /// captureIncoming is the historical shared ingestion entry, now bidirectional.\n    public func captureSent(_ message: StoreMessage, transaction: Transaction) {\n        guard NagramiXMessageArchiveSettings.current.showDeletedMessages,\n              !message.flags.contains(.Incoming) else { return }\n        var peers: [PeerId: Peer] = [:]\n        var ids = Set<PeerId>([message.id.peerId])\n        if let authorId = message.authorId { ids.insert(authorId) }\n        for media in message.media { ids.formUnion(media.peerIds) }\n        for id in ids { if let peer = transaction.getPeer(id) { peers[id] = peer } }\n        self.captureIncoming(message, peers: peers)\n    }\n\n    public func captureIncoming(_ message: StoreMessage, peers: [PeerId: Peer]) {",
+      1
+    ],
+    [
+      "submodules/TelegramCore/Sources/Utils/NagramiXMessageArchive.swift",
+      "        // applied. Keeping every incoming message on disk is only necessary when a",
+      "        // applied. Keeping each approved message on disk is only necessary when a",
+      1
+    ],
+    [
+      "submodules/TelegramCore/Sources/Utils/NagramiXMessageArchive.swift",
+      "    public func snapshotForExpiredMessage(id: MessageId) -> Message? {\n        guard NagramiXMessageArchiveSettings.current.showDeletedMessages,",
+      "    public func snapshotForExpiredMessage(id: MessageId) -> Message? {\n        let settings = NagramiXMessageArchiveSettings.current\n        guard settings.showDeletedMessages && settings.saveTemporaryMessages,",
+      1
+    ],
+    [
+      "submodules/TelegramCore/Sources/Utils/NagramiXMessageArchive.swift",
+      "    public func containsArchivedMessage(id: MessageId) -> Bool {\n        guard NagramiXMessageArchiveSettings.current.showDeletedMessages else { return false }\n        return self.state.with { state in\n            guard let record = state.records[Self.key(id)] else { return false }",
+      "    public func containsArchivedMessage(id: MessageId) -> Bool {\n        let settings = NagramiXMessageArchiveSettings.current\n        guard settings.showDeletedMessages else { return false }\n        return self.state.with { state in\n            guard let record = state.records[Self.key(id)], record.temporary != true || settings.saveTemporaryMessages else { return false }",
+      1
+    ],
+    [
+      "submodules/TelegramCore/Sources/Utils/NagramiXMessageArchive.swift",
+      "    public func deletedMessages(peerId: PeerId, threadId: Int64?, minIndex: MessageIndex?, maxIndex: MessageIndex?, limit: Int = 200) -> [Message] {\n        guard NagramiXMessageArchiveSettings.current.showDeletedMessages else {",
+      "    public func deletedMessages(peerId: PeerId, threadId: Int64?, minIndex: MessageIndex?, maxIndex: MessageIndex?, limit: Int = 200) -> [Message] {\n        let settings = NagramiXMessageArchiveSettings.current\n        guard settings.showDeletedMessages else {",
+      1
+    ],
+    [
+      "submodules/TelegramCore/Sources/Utils/NagramiXMessageArchive.swift",
+      "                guard record.peerId == rawPeerId && record.deletedAt != nil && (threadId == nil || record.threadId == threadId) else {",
+      "                guard record.peerId == rawPeerId && record.deletedAt != nil && (threadId == nil || record.threadId == threadId), record.temporary != true || settings.saveTemporaryMessages else {",
+      1
+    ],
+    [
+      "submodules/TelegramCore/Sources/Utils/NagramiXMessageArchive.swift",
+      "    private func renderDeletedRecord(_ record: NagramiXArchivedRecord) -> Message? {\n        var peers:",
+      "    private func renderDeletedRecord(_ record: NagramiXArchivedRecord) -> Message? {\n        let settings = NagramiXMessageArchiveSettings.current\n        guard settings.showDeletedMessages, record.temporary != true || settings.saveTemporaryMessages else { return nil }\n        var peers:",
+      1
+    ],
+    [
+      "submodules/TelegramCore/Sources/Utils/NagramiXMessageArchive.swift",
+      "        let flags: StoreMessageFlags = [.Incoming]\n",
+      "        let flags: StoreMessageFlags = record.incoming ? [.Incoming] : []\n",
+      1
+    ],
+    [
+      "submodules/TelegramCore/Sources/Utils/NagramiXMessageArchive.swift",
+      "tagsForStoreMessage(incoming: true, attributes: attributes, media: media, textEntities: record.content.entities, isPinned: false)",
+      "tagsForStoreMessage(incoming: record.incoming, attributes: attributes, media: media, textEntities: record.content.entities, isPinned: false)",
+      1
+    ],
+    [
+      "submodules/TelegramCore/Sources/State/ApplyUpdateMessage.swift",
+      "        if let updatedMessage = updatedMessage, case let .Id(updatedId) = updatedMessage.id {\n            if message.id.namespace",
+      "        if let updatedMessage = updatedMessage, case let .Id(updatedId) = updatedMessage.id {\n            NagramiXMessageArchive.forPostbox(postbox)?.captureSent(updatedMessage, transaction: transaction)\n            if message.id.namespace",
+      1
+    ],
+    [
+      "submodules/TelegramCore/Sources/State/ApplyUpdateMessage.swift",
+      "        for (message, _, updatedMessage) in mapping {\n            transaction.updateMessage(message.id, update: { currentMessage in",
+      "        for (message, _, updatedMessage) in mapping {\n            var archiveMessage: StoreMessage?\n            transaction.updateMessage(message.id, update: { currentMessage in",
+      1
+    ],
+    [
+      "submodules/TelegramCore/Sources/State/ApplyUpdateMessage.swift",
+      "                return .update(StoreMessage(id: updatedId, customStableId: nil, globallyUniqueId: nil, groupingKey: currentMessage.groupingKey, threadId: currentMessage.threadId, timestamp: updatedMessage.timestamp, flags: [], tags: tags, globalTags: globalTags, localTags: currentMessage.localTags, forwardInfo: storeForwardInfo, authorId: currentMessage.author?.id, text: text, attributes: attributes, media: media))\n            })\n        }",
+      "                let finalMessage = StoreMessage(id: updatedId, customStableId: nil, globallyUniqueId: nil, groupingKey: currentMessage.groupingKey, threadId: currentMessage.threadId, timestamp: updatedMessage.timestamp, flags: [], tags: tags, globalTags: globalTags, localTags: currentMessage.localTags, forwardInfo: storeForwardInfo, authorId: currentMessage.author?.id, text: text, attributes: attributes, media: media)\n                archiveMessage = finalMessage\n                return .update(finalMessage)\n            })\n            if let archiveMessage {\n                NagramiXMessageArchive.forPostbox(postbox)?.captureSent(archiveMessage, transaction: transaction)\n            }\n        }",
+      1
+    ],
+    [
+      "submodules/NagramiXCore/Resources/ru.lproj/Localizable.strings",
+      "\"NagramiX.Settings.Messages.DeletedInfo\" = \"Сохраняет полученные сообщения и файлы вложений в локальном архиве и показывает их после удаления. Сохранение файлов требует загрузки и места на устройстве.\";",
+      "\"NagramiX.Settings.Messages.DeletedInfo\" = \"Сохраняет входящие и исходящие сообщения и файлы вложений в локальном архиве и показывает их после удаления. Сохранение файлов требует загрузки и места на устройстве.\";",
+      1
+    ],
+    [
+      "submodules/NagramiXCore/Resources/ru.lproj/Localizable.strings",
+      "\"NagramiX.Settings.Messages.TemporaryInfo\" = \"Вместе с «Удалёнными сообщениями» сохраняет временные и одноразовые фото, видео, кружки и голосовые сообщения. Полученные файлы остаются в локальном архиве до его очистки.\";",
+      "\"NagramiX.Settings.Messages.TemporaryInfo\" = \"Вместе с «Удалёнными сообщениями» сохраняет входящие и исходящие временные и одноразовые фото, видео, кружки и голосовые сообщения. Локальные копии остаются до очистки архива; при выключении настройки скрываются.\";",
+      1
+    ],
+    [
+      "submodules/NagramiXCore/Resources/en.lproj/Localizable.strings",
+      "\"NagramiX.Settings.Messages.DeletedInfo\" = \"Saves received messages and attachment files in a local archive and displays them after deletion. Saving files requires downloading them and space on your device.\";",
+      "\"NagramiX.Settings.Messages.DeletedInfo\" = \"Saves incoming and outgoing messages and attachment files in a local archive and displays them after deletion. Saving files requires downloading them and space on your device.\";",
+      1
+    ],
+    [
+      "submodules/NagramiXCore/Resources/en.lproj/Localizable.strings",
+      "\"NagramiX.Settings.Messages.TemporaryInfo\" = \"Together with Deleted Messages, saves temporary and view-once photos, videos, video messages and voice messages. Received files remain in the local archive until it is cleared.\";",
+      "\"NagramiX.Settings.Messages.TemporaryInfo\" = \"Together with Deleted Messages, saves incoming and outgoing temporary and view-once photos, videos, video messages and voice messages. Local copies remain until the archive is cleared and are hidden when the setting is off.\";",
+      1
+    ]
+  ]
+}

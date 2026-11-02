@@ -1,0 +1,32 @@
+{
+  "inputs": {
+    "submodules/TelegramCore/Sources/Utils/NagramiXMessageArchive.swift": "90564623cbe370a0fab9a7c40c6101d146d0a767eff10edf7019e21db0600ad6",
+    "submodules/TelegramUI/Sources/ChatHistoryEntriesForView.swift": "915d74db7e86232d0a6e76d927591d3ba85bd3546cea42a39383aa13f937ee65"
+  },
+  "outputs": {
+    "submodules/TelegramCore/Sources/Utils/NagramiXMessageArchive.swift": "d4c2970b40aae0dc41fc35ab41b489b88a48c312281656cb27752e44ac3f2dd6",
+    "submodules/TelegramUI/Sources/ChatHistoryEntriesForView.swift": "cef70a98c4b7be291e0faa0b18828ccfe77ad5ac6e9f2c50eaf08798b73ad1bf"
+  },
+  "guards": {
+    "submodules/TelegramCore/BUILD": "81e6c1d9dceab5da57124381fce03665a449bcb7904e66c884269dacdd584fbf",
+    "submodules/TelegramUI/BUILD": "f4ae55a27c3a5e486a0fe9c768c70b65b974c505125d91a1215645179de54926"
+  },
+  "templates": {
+    "view_once_existing_in_chat/Before0.inc": "90564623cbe370a0fab9a7c40c6101d146d0a767eff10edf7019e21db0600ad6",
+    "view_once_existing_in_chat/After0.inc": "d4c2970b40aae0dc41fc35ab41b489b88a48c312281656cb27752e44ac3f2dd6",
+    "view_once_existing_in_chat/Before1.inc": "915d74db7e86232d0a6e76d927591d3ba85bd3546cea42a39383aa13f937ee65",
+    "view_once_existing_in_chat/After1.inc": "cef70a98c4b7be291e0faa0b18828ccfe77ad5ac6e9f2c50eaf08798b73ad1bf",
+    "view_once_existing_in_chat/Guard0.inc": "81e6c1d9dceab5da57124381fce03665a449bcb7904e66c884269dacdd584fbf",
+    "view_once_existing_in_chat/Guard1.inc": "f4ae55a27c3a5e486a0fe9c768c70b65b974c505125d91a1215645179de54926"
+  },
+  "previous": {
+    "submodules/TelegramCore/Sources/Utils/NagramiXMessageArchive.swift": "view_once_existing_in_chat/Before0.inc",
+    "submodules/TelegramUI/Sources/ChatHistoryEntriesForView.swift": "view_once_existing_in_chat/Before1.inc"
+  },
+  "replacements": {
+    "submodules/TelegramCore/Sources/Utils/NagramiXMessageArchive.swift": "view_once_existing_in_chat/After0.inc",
+    "submodules/TelegramUI/Sources/ChatHistoryEntriesForView.swift": "view_once_existing_in_chat/After1.inc"
+  },
+  "copies": {},
+  "deletions": {}
+}

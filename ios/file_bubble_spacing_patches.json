@@ -1,0 +1,24 @@
+{
+  "inputs": {
+    "submodules/TelegramUI/Components/Chat/ChatMessageInteractiveFileNode/Sources/ChatMessageInteractiveFileNode.swift": "0c697ab0bff49fd870232b78ce286fdf8066c68205dfc6b0387047572465981f"
+  },
+  "outputs": {
+    "submodules/TelegramUI/Components/Chat/ChatMessageInteractiveFileNode/Sources/ChatMessageInteractiveFileNode.swift": "9f38d1d1d8269db7fce6f0deb689637020d0b383ec48cf10e7193622681175c1"
+  },
+  "guards": {
+    "submodules/TelegramUI/Components/Chat/ChatMessageInteractiveFileNode/BUILD": "eeb9cbede77600d8452014a9aaf1967d3798fe81b283f3b2de2b75aa3a37ceb9"
+  },
+  "templates": {
+    "file_bubble_spacing/Before.swift.inc": "0c697ab0bff49fd870232b78ce286fdf8066c68205dfc6b0387047572465981f",
+    "file_bubble_spacing/After.swift.inc": "9f38d1d1d8269db7fce6f0deb689637020d0b383ec48cf10e7193622681175c1",
+    "file_bubble_spacing/BUILD.inc": "eeb9cbede77600d8452014a9aaf1967d3798fe81b283f3b2de2b75aa3a37ceb9"
+  },
+  "replacements": {
+    "submodules/TelegramUI/Components/Chat/ChatMessageInteractiveFileNode/Sources/ChatMessageInteractiveFileNode.swift": "file_bubble_spacing/After.swift.inc"
+  },
+  "previous": {
+    "submodules/TelegramUI/Components/Chat/ChatMessageInteractiveFileNode/Sources/ChatMessageInteractiveFileNode.swift": "file_bubble_spacing/Before.swift.inc"
+  },
+  "copies": {},
+  "deletions": {}
+}

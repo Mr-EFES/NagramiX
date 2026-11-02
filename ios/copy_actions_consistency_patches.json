@@ -1,0 +1,24 @@
+{
+  "inputs": {
+    "submodules/TelegramUI/Sources/ChatInterfaceStateContextMenus.swift": "c9570f324b57740d0157caeaa66d52cb03b8f5e61e334404b6b53189ad7a8fb6"
+  },
+  "outputs": {
+    "submodules/TelegramUI/Sources/ChatInterfaceStateContextMenus.swift": "17bc741da530ca5109a7f78d3246754f69cb46efeef051a6b23ebf6980d1970a"
+  },
+  "guards": {
+    "submodules/TelegramUI/BUILD": "f4ae55a27c3a5e486a0fe9c768c70b65b974c505125d91a1215645179de54926"
+  },
+  "templates": {
+    "copy_actions_consistency/Before0.inc": "c9570f324b57740d0157caeaa66d52cb03b8f5e61e334404b6b53189ad7a8fb6",
+    "copy_actions_consistency/After0.inc": "17bc741da530ca5109a7f78d3246754f69cb46efeef051a6b23ebf6980d1970a",
+    "copy_actions_consistency/Guard0.inc": "f4ae55a27c3a5e486a0fe9c768c70b65b974c505125d91a1215645179de54926"
+  },
+  "previous": {
+    "submodules/TelegramUI/Sources/ChatInterfaceStateContextMenus.swift": "copy_actions_consistency/Before0.inc"
+  },
+  "replacements": {
+    "submodules/TelegramUI/Sources/ChatInterfaceStateContextMenus.swift": "copy_actions_consistency/After0.inc"
+  },
+  "copies": {},
+  "deletions": {}
+}

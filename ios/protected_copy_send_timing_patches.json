@@ -1,0 +1,41 @@
+{
+  "inputs": {
+    "submodules/TelegramUI/Sources/ChatControllerForwardMessages.swift": "dbcb5b7ea5a1c94fe31d4a75e435b86a581486bf01e13d092073a33c13143e2c"
+  },
+  "outputs": {
+    "submodules/TelegramUI/Sources/ChatControllerForwardMessages.swift": "79e3b3fbd68601a0b0b5b667403ac23504e93919dad3c238096513078e51865b"
+  },
+  "guards": {
+    "submodules/TelegramUI/BUILD": "f4ae55a27c3a5e486a0fe9c768c70b65b974c505125d91a1215645179de54926"
+  },
+  "templates": {
+    "protected_copy_send_timing/Before0.inc": "dbcb5b7ea5a1c94fe31d4a75e435b86a581486bf01e13d092073a33c13143e2c",
+    "protected_copy_send_timing/Guard0.inc": "f4ae55a27c3a5e486a0fe9c768c70b65b974c505125d91a1215645179de54926"
+  },
+  "previous": {
+    "submodules/TelegramUI/Sources/ChatControllerForwardMessages.swift": "protected_copy_send_timing/Before0.inc"
+  },
+  "replacements": {},
+  "copies": {},
+  "deletions": {},
+  "operations": {
+    "submodules/TelegramUI/Sources/ChatControllerForwardMessages.swift": [
+      [
+        "            }\n            guard nagramiXCanCopyMessagesAsNew(messages, accountPeerId: self.context.account.peerId) else {\n                self.present(nagramiXArchivedCopyAlert(context: self.context), in: .window(.root))\n                return\n            }\n            if !nagramiXProtectedMediaPrepared && !transferMode.singleRecipient {\n                let liveMessages = messages.filter { !$0.attributes.contains(where: { $0 is NagramiXArchivedMessageAttribute }) }\n                self.nagramiXPrepareProtectedCopy(messages: liveMessages) { [weak self] in\n                    self?.forwardMessages(messages: messages, options: options, resetCurrent: resetCurrent, transferMode: transferMode, nagramiXProtectedMediaPrepared: true)\n                }\n                return\n            }\n        }\n        // Protected single-recipient drafts open the normal destination chat.\n        // Its send path converts protected originals to prepared local copies.\n        let _ = self.presentVoiceMessageDiscardAlert(action: { [weak self] in\n            guard let self else {\n",
+        "            }\n            guard nagramiXCanCopyMessagesAsNew(messages, accountPeerId: self.context.account.peerId) else {\n                self.present(nagramiXArchivedCopyAlert(context: self.context), in: .window(.root))\n                return\n            }\n\n        }\n        // Protected single-recipient drafts open the normal destination chat.\n        // Its send path converts protected originals to prepared local copies.\n        let _ = self.presentVoiceMessageDiscardAlert(action: { [weak self] in\n            guard let self else {\n"
+      ],
+      [
+        "                        }\n                        return false\n                    }), in: .current)\n                }\n            }\n            controller.multiplePeersSelected = { [weak self, weak controller] peers, peerMap, messageText, mode, forwardOptions, _ in\n                var recipientIds = Set<EnginePeer.Id>()\n                let peers = peers.filter { recipientIds.insert($0.id).inserted }\n                // Enforce the recipient contract before payments, scheduling or enqueue.\n                guard !transferMode.singleRecipient || peers.count == 1 else {\n",
+        "                        }\n                        return false\n                    }), in: .current)\n                }\n            }\n            var nagramiXCopyPreparationGeneration = 0\n            controller.multiplePeersSelected = { [weak self, weak controller] peers, peerMap, messageText, mode, forwardOptions, _ in\n                var recipientIds = Set<EnginePeer.Id>()\n                let peers = peers.filter { recipientIds.insert($0.id).inserted }\n                // Enforce the recipient contract before payments, scheduling or enqueue.\n                guard !transferMode.singleRecipient || peers.count == 1 else {\n"
+      ],
+      [
+        "                }) {\n                    controller?.present(textAlertController(context: context, title: nil, text: context.sharedContext.currentPresentationData.with { $0 }.strings.Forward_ErrorDisabledForChat, actions: [TextAlertAction(type: .defaultAction, title: context.sharedContext.currentPresentationData.with { $0 }.strings.Common_OK, action: {})]), in: .window(.root))\n                    return\n                }\n                let peerIds = peers.map { $0.id }\n                \n                let _ = (context.engine.data.get(\n                    EngineDataMap(\n                        peerIds.map(TelegramEngine.EngineData.Item.Peer.SendPaidMessageStars.init(id:))\n                    ),\n                    EngineDataList(\n",
+        "                }) {\n                    controller?.present(textAlertController(context: context, title: nil, text: context.sharedContext.currentPresentationData.with { $0 }.strings.Forward_ErrorDisabledForChat, actions: [TextAlertAction(type: .defaultAction, title: context.sharedContext.currentPresentationData.with { $0 }.strings.Common_OK, action: {})]), in: .window(.root))\n                    return\n                }\n                let peerIds = peers.map { $0.id }\n                let beginSend: () -> Void = { [weak self, weak controller] in\n                let _ = (context.engine.data.get(\n                    EngineDataMap(\n                        peerIds.map(TelegramEngine.EngineData.Item.Peer.SendPaidMessageStars.init(id:))\n                    ),\n                    EngineDataList(\n"
+      ],
+      [
+        "                        strongSelf.present(controller, in: .window(.root))\n                    } else {\n                        proceed()\n                    }\n                })\n            }\n            controller.peerSelected = { [weak self, weak controller] peer, threadId in\n                guard let strongSelf = self, let strongController = controller else {\n                    return\n                }\n",
+        "                        strongSelf.present(controller, in: .window(.root))\n                    } else {\n                        proceed()\n                    }\n                })\n                }\n                if nagramiXProtectedCopy && !nagramiXProtectedMediaPrepared {\n                    guard let self else { return }\n                    nagramiXCopyPreparationGeneration += 1\n                    let generation = nagramiXCopyPreparationGeneration\n                    let liveMessages = messages.filter { !$0.attributes.contains(where: { $0 is NagramiXArchivedMessageAttribute }) }\n                    self.nagramiXPrepareProtectedCopy(messages: liveMessages) { [weak controller] in\n                        guard generation == nagramiXCopyPreparationGeneration,\n                              let controller, controller.navigationController != nil else { return }\n                        beginSend()\n                    }\n                } else {\n                    beginSend()\n                }\n            }\n            controller.peerSelected = { [weak self, weak controller] peer, threadId in\n                guard let strongSelf = self, let strongController = controller else {\n                    return\n                }\n"
+      ]
+    ]
+  }
+}

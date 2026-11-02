@@ -1,0 +1,49 @@
+{
+  "inputs": {
+    "submodules/TelegramUI/Sources/ChatControllerNode.swift": "fad7e6dca626320594620be80dfccfd5d84daf87155b277b9bb7071290a956dd"
+  },
+  "outputs": {
+    "submodules/TelegramUI/Sources/ChatControllerNode.swift": "2f64aa991e4c4d45e20adf145915c520e865aef0e306ca1a0f2de3f58a1a1303"
+  },
+  "guards": {
+    "submodules/TelegramUI/BUILD": "f4ae55a27c3a5e486a0fe9c768c70b65b974c505125d91a1215645179de54926"
+  },
+  "templates": {
+    "translation_panel_visibility/After2.inc": "fad7e6dca626320594620be80dfccfd5d84daf87155b277b9bb7071290a956dd",
+    "emoji_keyboard_stability/Guard0.inc": "f4ae55a27c3a5e486a0fe9c768c70b65b974c505125d91a1215645179de54926"
+  },
+  "previous": {
+    "submodules/TelegramUI/Sources/ChatControllerNode.swift": "translation_panel_visibility/After2.inc"
+  },
+  "replacements": {},
+  "copies": {},
+  "deletions": {},
+  "operations": {
+    "submodules/TelegramUI/Sources/ChatControllerNode.swift": [
+      [
+        "    private var nagramiXKeyboardHandoffPending = false\n",
+        "    private var nagramiXKeyboardHandoffPending = false\n    private var nagramiXKeyboardHandoffHeight: CGFloat?\n    private var nagramiXKeyboardHandoffSize: CGSize?\n"
+      ],
+      [
+        "               self.nagramiXSystemKeyboardSize == layout.size,\n               let height = self.nagramiXSystemKeyboardHeight,\n               self.textInputPanelNode?.richTextInputNode?.isInputFirstResponder == true {\n                if (layout.inputHeight ?? 0.0) < 120.0 {",
+        "               self.nagramiXKeyboardHandoffSize == layout.size,\n               let height = self.nagramiXKeyboardHandoffHeight {\n                // Keep the previous panel's height through transient empty or\n                // partial keyboard frames, including the first-ever switch.\n                if (layout.inputHeight ?? 0.0) < max(120.0, height * 0.75) {"
+      ],
+      [
+        "                self.nagramiXKeyboardHandoffPending = false\n                self.nagramiXKeyboardHandoffRawLayout = nil\n                if case .media(_, nil, _) = self.chatPresentationInterfaceState.inputMode,\n                   case .text = chatPresentationInterfaceState.inputMode,\n                   self.textInputPanelNode?.richTextInputNode?.isInputFirstResponder == true,\n                   let (layout, _) = self.validLayout,\n                   self.nagramiXSystemKeyboardSize == layout.size,\n                   self.nagramiXSystemKeyboardHeight != nil {\n                    self.nagramiXKeyboardHandoffPending = true",
+        "                self.nagramiXKeyboardHandoffPending = false\n                self.nagramiXKeyboardHandoffRawLayout = nil\n                self.nagramiXKeyboardHandoffHeight = nil\n                self.nagramiXKeyboardHandoffSize = nil\n                if case .media(_, nil, _) = self.chatPresentationInterfaceState.inputMode,\n                   case .text = chatPresentationInterfaceState.inputMode,\n                   self.isInFocus, !self.inputPanelContainerNode.stableIsExpanded,\n                   let emojiNode = self.inputNode as? ChatEntityKeyboardInputNode,\n                   emojiNode.followsDefaultHeight, !emojiNode.hideInput,\n                   let (layout, _) = self.validLayout {\n                    let emojiHeight = (self.derivedLayoutState?.inputNodeHeight ?? 0.0) + (self.derivedLayoutState?.inputNodeAdditionalHeight ?? 0.0)\n                    let measuredHeight = self.nagramiXSystemKeyboardSize == layout.size ? self.nagramiXSystemKeyboardHeight : nil\n                    let height = measuredHeight ?? emojiHeight\n                    if height.isFinite, height >= 120.0, height <= layout.size.height * 0.85 {\n                        self.nagramiXKeyboardHandoffHeight = height\n                        self.nagramiXKeyboardHandoffSize = layout.size\n                        self.nagramiXKeyboardHandoffPending = true"
+      ],
+      [
+        "                    }\n                }\n            }\n            var updatedInputFocus = self.chatPresentationInterfaceStateRequiresInputFocus",
+        "                        }\n                    }\n                }\n            }\n            var updatedInputFocus = self.chatPresentationInterfaceStateRequiresInputFocus"
+      ],
+      [
+        "                        self.nagramiXKeyboardHandoffPending = false\n                        if let raw = self.nagramiXKeyboardHandoffRawLayout {",
+        "                        self.nagramiXKeyboardHandoffPending = false\n                        self.nagramiXKeyboardHandoffHeight = nil\n                        self.nagramiXKeyboardHandoffSize = nil\n                        if let raw = self.nagramiXKeyboardHandoffRawLayout {"
+      ],
+      [
+        "                    if height.isFinite, height >= 120.0, height <= layout.size.height * 0.85 {\n                        self.nagramiXKeyboardHandoffHeight = height\n                        self.nagramiXKeyboardHandoffSize = layout.size\n                        self.nagramiXKeyboardHandoffPending = true\n                    let handoffId = self.nagramiXKeyboardHandoffId\n                    DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) { [weak self] in\n                        guard let self, self.nagramiXKeyboardHandoffId == handoffId,\n                              self.nagramiXKeyboardHandoffPending else { return }\n                        self.nagramiXKeyboardHandoffPending = false\n                        self.nagramiXKeyboardHandoffHeight = nil\n                        self.nagramiXKeyboardHandoffSize = nil\n                        if let raw = self.nagramiXKeyboardHandoffRawLayout {\n                            self.nagramiXKeyboardHandoffRawLayout = nil\n                            self.validLayout = raw\n                            self.requestLayout(.animated(duration: 0.2, curve: .easeInOut))\n                        }\n                        }\n                    }\n",
+        "                    if height.isFinite, height >= 120.0, height <= layout.size.height * 0.85 {\n                        self.nagramiXKeyboardHandoffHeight = height\n                        self.nagramiXKeyboardHandoffSize = layout.size\n                        self.nagramiXKeyboardHandoffPending = true\n                        let handoffId = self.nagramiXKeyboardHandoffId\n                        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) { [weak self] in\n                            guard let self, self.nagramiXKeyboardHandoffId == handoffId,\n                                  self.nagramiXKeyboardHandoffPending else { return }\n                            self.nagramiXKeyboardHandoffPending = false\n                            self.nagramiXKeyboardHandoffHeight = nil\n                            self.nagramiXKeyboardHandoffSize = nil\n                            if let raw = self.nagramiXKeyboardHandoffRawLayout {\n                                self.nagramiXKeyboardHandoffRawLayout = nil\n                                self.validLayout = raw\n                                self.requestLayout(.animated(duration: 0.2, curve: .easeInOut))\n                            }\n                        }\n                    }\n"
+      ]
+    ]
+  }
+}

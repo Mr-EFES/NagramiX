@@ -1,0 +1,37 @@
+{
+  "inputs": {
+    "submodules/NagramiXTranscription/Sources/Settings.swift": "04ee2ca433d2d62d423be47be1d42ba9398adb4446d647afe58ba9d984bdafc0",
+    "submodules/NagramiXTranscription/Sources/Cloud.swift": "cfbe3035074bc9057d96dfab121027c142186ad7966e8c1422a4f659f841c645",
+    "submodules/NagramiXTranscription/Sources/Preferences.swift": "1894137d0149f3d1e09a68d207fbf52c3481b09b85613479f0bf1a9e8f9e97bc"
+  },
+  "outputs": {
+    "submodules/NagramiXTranscription/Sources/Settings.swift": "2df9f37e99b9f7f48bc2494cbc9d329a7a6ffc754ab812a0482c4ec8e5012f05",
+    "submodules/NagramiXTranscription/Sources/Cloud.swift": "62ecf2e45e064dd16cadc1fec5c9dde7f871014f59cf68dd6fdf61961e3a7f68",
+    "submodules/NagramiXTranscription/Sources/Preferences.swift": "96f0bba23c95fd6fa826c084c40b73a7ead111f610ea2027d8b78abe3e1ee2c0"
+  },
+  "guards": {
+    "submodules/NagramiXTranscription/BUILD": "0a3e9cad2c13fdf76a39088878960d3ccbb62abb45e68f2172ada3a9904a49c9",
+    "submodules/NagramiXTranscription/Sources/Credentials.swift": "d856367fc428835449676b81294ea94554d63d54bd23d894eb501166daa03338",
+    "submodules/NagramiXTranscription/Sources/Runtime.swift": "48bb16de39e4e93c4c51154d4c95359027a4937cb709e8e57be7ece7a0053d9a"
+  },
+  "templates": {
+    "transcription_cloudflare/Before-Settings.swift.inc": "04ee2ca433d2d62d423be47be1d42ba9398adb4446d647afe58ba9d984bdafc0",
+    "transcription_cloudflare/Settings.swift.inc": "2df9f37e99b9f7f48bc2494cbc9d329a7a6ffc754ab812a0482c4ec8e5012f05",
+    "transcription_cloudflare/Before-Cloud.swift.inc": "cfbe3035074bc9057d96dfab121027c142186ad7966e8c1422a4f659f841c645",
+    "transcription_cloudflare/Cloud.swift.inc": "62ecf2e45e064dd16cadc1fec5c9dde7f871014f59cf68dd6fdf61961e3a7f68",
+    "transcription_cloudflare/Before-Preferences.swift.inc": "1894137d0149f3d1e09a68d207fbf52c3481b09b85613479f0bf1a9e8f9e97bc",
+    "transcription_cloudflare/Preferences.swift.inc": "96f0bba23c95fd6fa826c084c40b73a7ead111f610ea2027d8b78abe3e1ee2c0"
+  },
+  "replacements": {
+    "submodules/NagramiXTranscription/Sources/Settings.swift": "transcription_cloudflare/Settings.swift.inc",
+    "submodules/NagramiXTranscription/Sources/Cloud.swift": "transcription_cloudflare/Cloud.swift.inc",
+    "submodules/NagramiXTranscription/Sources/Preferences.swift": "transcription_cloudflare/Preferences.swift.inc"
+  },
+  "previous": {
+    "submodules/NagramiXTranscription/Sources/Settings.swift": "transcription_cloudflare/Before-Settings.swift.inc",
+    "submodules/NagramiXTranscription/Sources/Cloud.swift": "transcription_cloudflare/Before-Cloud.swift.inc",
+    "submodules/NagramiXTranscription/Sources/Preferences.swift": "transcription_cloudflare/Before-Preferences.swift.inc"
+  },
+  "copies": {},
+  "deletions": {}
+}

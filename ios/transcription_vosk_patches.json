@@ -1,0 +1,108 @@
+{
+  "inputs": {
+    "submodules/NagramiXTranscription/Sources/Settings.swift": "2df9f37e99b9f7f48bc2494cbc9d329a7a6ffc754ab812a0482c4ec8e5012f05",
+    "submodules/NagramiXTranscription/Sources/Preferences.swift": "96f0bba23c95fd6fa826c084c40b73a7ead111f610ea2027d8b78abe3e1ee2c0",
+    "submodules/NagramiXTranscription/Sources/Runtime.swift": "48bb16de39e4e93c4c51154d4c95359027a4937cb709e8e57be7ece7a0053d9a",
+    "submodules/NagramiXTranscription/BUILD": "0a3e9cad2c13fdf76a39088878960d3ccbb62abb45e68f2172ada3a9904a49c9",
+    "MODULE.bazel": "575b7ae9e4b4c1417f12534975f71739d34ea6ab198d864bed4c056b0c7c6614",
+    "submodules/SettingsUI/Sources/NagramiXSettingsController.swift": "2e1339e3de82f24459f33dc3a8872d3c65a9f50e4b4ffefb01179b69aa3f2732",
+    "submodules/NagramiXTranscription/Sources/Credentials.swift": "d856367fc428835449676b81294ea94554d63d54bd23d894eb501166daa03338"
+  },
+  "outputs": {
+    "submodules/NagramiXTranscription/Sources/Settings.swift": "87ac2c4b5e8cb3cb9e0718a05fda63823206f0b7700724d2006b2198f180e6ac",
+    "submodules/NagramiXTranscription/Sources/Preferences.swift": "6869cdab6d481eadf0260c2a42fdde098ac4e1b34a9848f37e5013f1eab99905",
+    "submodules/NagramiXTranscription/Sources/Runtime.swift": "81400e5c352f65d95370829258baa88f93134cfa134ec4611c35ffa35513c447",
+    "submodules/NagramiXTranscription/BUILD": "820772c2401f640bf652106d20d11b466cee847e29b43a8dff3ca3b3af0c7e78",
+    "MODULE.bazel": "e50b16540a088681ecb12747e526654d8a41d52b2486f602b9c524c022cbc6e8",
+    "submodules/SettingsUI/Sources/NagramiXSettingsController.swift": "4321400fdf8f874f35ed00f528a44788b3f8dfee701cfbd182326bdef77d8b6a",
+    "submodules/NagramiXTranscription/Sources/Credentials.swift": "39b0e6bc16730be6841c45c9346518a990b6951c088d2163b3fe61c4f60215d4"
+  },
+  "guards": {
+    "submodules/NagramiXTranscription/Sources/Coordinator.swift": "337fca53ada806134c4cd98e1af9e0ec7171619fa0a2f092aa7a7d78371878e9",
+    "submodules/NagramiXTranscription/Sources/Cloud.swift": "62ecf2e45e064dd16cadc1fec5c9dde7f871014f59cf68dd6fdf61961e3a7f68",
+    "submodules/NagramiXTranscription/Sources/MediaPreparation.swift": "ad19175ebfd1ad0c45841eaf3acb15f2efe909e7bf847b582f1f011cf802c8e6",
+    "submodules/SettingsUI/BUILD": "ccf29c184b8eab3b16f702e5cecc61490e5762f46e4bd53273ad95790d1a879a"
+  },
+  "templates": {
+    "transcription_vosk/Before-Settings.inc": "2df9f37e99b9f7f48bc2494cbc9d329a7a6ffc754ab812a0482c4ec8e5012f05",
+    "transcription_vosk/Settings.inc": "87ac2c4b5e8cb3cb9e0718a05fda63823206f0b7700724d2006b2198f180e6ac",
+    "transcription_vosk/Before-Preferences.inc": "96f0bba23c95fd6fa826c084c40b73a7ead111f610ea2027d8b78abe3e1ee2c0",
+    "transcription_vosk/Preferences.inc": "6869cdab6d481eadf0260c2a42fdde098ac4e1b34a9848f37e5013f1eab99905",
+    "transcription_vosk/Before-Runtime.inc": "48bb16de39e4e93c4c51154d4c95359027a4937cb709e8e57be7ece7a0053d9a",
+    "transcription_vosk/Runtime.inc": "81400e5c352f65d95370829258baa88f93134cfa134ec4611c35ffa35513c447",
+    "transcription_vosk/Before-Build.inc": "0a3e9cad2c13fdf76a39088878960d3ccbb62abb45e68f2172ada3a9904a49c9",
+    "transcription_vosk/Build.inc": "820772c2401f640bf652106d20d11b466cee847e29b43a8dff3ca3b3af0c7e78",
+    "transcription_vosk/Before-Module.inc": "575b7ae9e4b4c1417f12534975f71739d34ea6ab198d864bed4c056b0c7c6614",
+    "transcription_vosk/Module.inc": "e50b16540a088681ecb12747e526654d8a41d52b2486f602b9c524c022cbc6e8",
+    "vosk_runtime/Bridge.cpp": "05383540d3a34921dd49e7267603f60a2132d85f678bb1d39e83e4e08eb2dc25",
+    "vosk_runtime/Bridge.h": "470ba946b71f9a8045914904d63dca876270227a609ed8dea52ef0f3680af271",
+    "vosk_runtime/vosk_api.h": "f82f553a38fbff84a5731fbf086215f107e301a27daad0f038459781dc4a2adc",
+    "vosk_runtime/BUILD": "f0abcc053fc35ddbaca48756d437b442d9d16b2e9e217c77a4407b7a6c705b9b",
+    "vosk_runtime/upstream.BUILD": "1a752d465589b869f7f49400c3d499f0526796f59e745f0a459ff040dfbe7ec2",
+    "vosk_runtime/LICENSE": "bb618af833c817ab01c1564bd3ec75ba4b4f9cf30910a4a2168e30a674ee8cc6",
+    "vosk_runtime/sources.lock.json": "9897b00932cbd3a845c32de81b0d3787ca5881b4ab15a6bee06e623158cdab9c",
+    "vosk_runtime/Models.swift": "fe0c8eb11e923f0ec15e92052b64ac37bf73e1ca39cf053436a63b841c1ecf22",
+    "vosk_runtime/Recognizer.swift": "1648f398460e4b401ea09e5286ab5714bb4bca369290166ac31114e50b3187eb",
+    "transcription_vosk/Before-Controller.inc": "2e1339e3de82f24459f33dc3a8872d3c65a9f50e4b4ffefb01179b69aa3f2732",
+    "transcription_vosk/Controller.inc": "4321400fdf8f874f35ed00f528a44788b3f8dfee701cfbd182326bdef77d8b6a",
+    "transcription_vosk/Before-Credentials.inc": "d856367fc428835449676b81294ea94554d63d54bd23d894eb501166daa03338",
+    "transcription_vosk/Credentials.inc": "39b0e6bc16730be6841c45c9346518a990b6951c088d2163b3fe61c4f60215d4"
+  },
+  "replacements": {
+    "submodules/NagramiXTranscription/Sources/Settings.swift": "transcription_vosk/Settings.inc",
+    "submodules/NagramiXTranscription/Sources/Preferences.swift": "transcription_vosk/Preferences.inc",
+    "submodules/NagramiXTranscription/Sources/Runtime.swift": "transcription_vosk/Runtime.inc",
+    "submodules/NagramiXTranscription/BUILD": "transcription_vosk/Build.inc",
+    "MODULE.bazel": "transcription_vosk/Module.inc",
+    "submodules/SettingsUI/Sources/NagramiXSettingsController.swift": "transcription_vosk/Controller.inc",
+    "submodules/NagramiXTranscription/Sources/Credentials.swift": "transcription_vosk/Credentials.inc"
+  },
+  "previous": {
+    "submodules/NagramiXTranscription/Sources/Settings.swift": "transcription_vosk/Before-Settings.inc",
+    "submodules/NagramiXTranscription/Sources/Preferences.swift": "transcription_vosk/Before-Preferences.inc",
+    "submodules/NagramiXTranscription/Sources/Runtime.swift": "transcription_vosk/Before-Runtime.inc",
+    "submodules/NagramiXTranscription/BUILD": "transcription_vosk/Before-Build.inc",
+    "MODULE.bazel": "transcription_vosk/Before-Module.inc",
+    "submodules/SettingsUI/Sources/NagramiXSettingsController.swift": "transcription_vosk/Before-Controller.inc",
+    "submodules/NagramiXTranscription/Sources/Credentials.swift": "transcription_vosk/Before-Credentials.inc"
+  },
+  "copies": {
+    "submodules/NagramiXTranscription/Vosk/Bridge.cpp": {
+      "source": "vosk_runtime/Bridge.cpp",
+      "sha256": "05383540d3a34921dd49e7267603f60a2132d85f678bb1d39e83e4e08eb2dc25"
+    },
+    "submodules/NagramiXTranscription/Vosk/Bridge.h": {
+      "source": "vosk_runtime/Bridge.h",
+      "sha256": "470ba946b71f9a8045914904d63dca876270227a609ed8dea52ef0f3680af271"
+    },
+    "submodules/NagramiXTranscription/Vosk/vosk_api.h": {
+      "source": "vosk_runtime/vosk_api.h",
+      "sha256": "f82f553a38fbff84a5731fbf086215f107e301a27daad0f038459781dc4a2adc"
+    },
+    "submodules/NagramiXTranscription/Vosk/BUILD": {
+      "source": "vosk_runtime/BUILD",
+      "sha256": "f0abcc053fc35ddbaca48756d437b442d9d16b2e9e217c77a4407b7a6c705b9b"
+    },
+    "submodules/NagramiXTranscription/Vosk/upstream.BUILD": {
+      "source": "vosk_runtime/upstream.BUILD",
+      "sha256": "1a752d465589b869f7f49400c3d499f0526796f59e745f0a459ff040dfbe7ec2"
+    },
+    "submodules/NagramiXTranscription/Vosk/LICENSE": {
+      "source": "vosk_runtime/LICENSE",
+      "sha256": "bb618af833c817ab01c1564bd3ec75ba4b4f9cf30910a4a2168e30a674ee8cc6"
+    },
+    "submodules/NagramiXTranscription/Vosk/sources.lock.json": {
+      "source": "vosk_runtime/sources.lock.json",
+      "sha256": "9897b00932cbd3a845c32de81b0d3787ca5881b4ab15a6bee06e623158cdab9c"
+    },
+    "submodules/NagramiXTranscription/Sources/VoskModels.swift": {
+      "source": "vosk_runtime/Models.swift",
+      "sha256": "fe0c8eb11e923f0ec15e92052b64ac37bf73e1ca39cf053436a63b841c1ecf22"
+    },
+    "submodules/NagramiXTranscription/Sources/VoskRecognizer.swift": {
+      "source": "vosk_runtime/Recognizer.swift",
+      "sha256": "1648f398460e4b401ea09e5286ab5714bb4bca369290166ac31114e50b3187eb"
+    }
+  },
+  "deletions": {}
+}

@@ -1,0 +1,155 @@
+{
+  "inputs": {
+    "submodules/GalleryUI/Sources/SecretMediaPreviewController.swift": "45f4af91bc35d303d77773077be11f3aaa317633c8a0acd8afa598a13e53f238",
+    "submodules/TelegramCore/Sources/Utils/NagramiXCaptureProtectionPolicy.swift": "3934af286c2347f0f2d219b20cf345f00948cde69262d8f0289526a008386c71",
+    "submodules/GalleryUI/Sources/Items/ChatImageGalleryItem.swift": "e28044b45092ccecc29f474d3ab1a92dc4170e587748e511bedca7a7af2be5cc",
+    "submodules/SaveToCameraRoll/Sources/NagramiXStorySave.swift": "91f408c0d7fedd120897b42a0b0e8c307d1d01d3a1bcac011d48718371886ac1",
+    "submodules/TelegramCore/Sources/Utils/NagramiXMessageArchive.swift": "465e3512299d90a44e06af587afe7d34eb90362b7e2a9961cb91df45d08a9f98",
+    "submodules/TelegramUI/Components/Chat/ChatMessageBubbleItemNode/Sources/ChatMessageBubbleItemNode.swift": "c8fa9e061873374ad324e581d2e9d0bba170dd1c8216fb5f0b80e40001968461",
+    "submodules/TelegramUI/Components/Stories/StoryContainerScreen/Sources/StoryItemSetContainerComponent.swift": "f2a81f72390c9cb9eae50ed4887d2179c64a832614193009a1f1f441da338cc0",
+    "submodules/TelegramCore/Sources/TelegramEngine/Messages/Stories.swift": "1fa26cb6d29270fba8018d5b6c53b1723a7491cab6a60fb1496f82d8667939b4",
+    "submodules/NagramiXCore/Resources/ru.lproj/Localizable.strings": "0aab385c7eeef6b1dc13655c3acf50d211e34035c12a3ed81a079ef4905a2ecb",
+    "submodules/NagramiXCore/Resources/en.lproj/Localizable.strings": "e6d2786686f2645952f567784729f3f9efffc04d6a7b100fa3330fac82ab9a82",
+    "submodules/Display/Source/NagramiXCaptureProtection.swift": "2bcd5e487f2dba13ac64b7653d25bd5b29fea5fb11d550f2ab98295e54b8f297"
+  },
+  "outputs": {
+    "submodules/GalleryUI/Sources/SecretMediaPreviewController.swift": "95f3d4399681f35cd4be301aa8b8015288e5ef9da10fbaf77a979ff893b4fa88",
+    "submodules/TelegramCore/Sources/Utils/NagramiXCaptureProtectionPolicy.swift": "c5c1cbc643b153c8623d81976636a80ae352fb6727aa7a2b472f1d2ece2c3102",
+    "submodules/GalleryUI/Sources/Items/ChatImageGalleryItem.swift": "04510d08db66f3d9857c6d32f3dc3e9feead21a0f3869c60a8b54dcddb30be94",
+    "submodules/SaveToCameraRoll/Sources/NagramiXStorySave.swift": "4d73107632a04aa76507e42d3d2010ad17f55951a93e13f79c15c2936aee69a3",
+    "submodules/TelegramCore/Sources/Utils/NagramiXMessageArchive.swift": "48024257b955598ddfd6e0f6eeae9f191a34815dcbb9739f89934662510db837",
+    "submodules/TelegramUI/Components/Chat/ChatMessageBubbleItemNode/Sources/ChatMessageBubbleItemNode.swift": "1328e162f1a40d7174bebfbf0650ded768d57d908db92660f3e1a210bb00842b",
+    "submodules/TelegramUI/Components/Stories/StoryContainerScreen/Sources/StoryItemSetContainerComponent.swift": "5850ed16267fc8fe06a01f54ee2d7ac84bd5e8293ab31021e272b3d650320a87",
+    "submodules/TelegramCore/Sources/TelegramEngine/Messages/Stories.swift": "6e9c1fefdf4a0262184139a33154291df59a849af8b37e31d9694c4022cb5087",
+    "submodules/NagramiXCore/Resources/ru.lproj/Localizable.strings": "7c4a12c9e36ac7120fbfa062812619c93f47df6c2005a9dbce809d62840b3ead",
+    "submodules/NagramiXCore/Resources/en.lproj/Localizable.strings": "cd382022509af10d6409434d299dbf907ffb81c03419afa37536edcd73830aad",
+    "submodules/Display/Source/NagramiXCaptureProtection.swift": "9a8c99d67adc6ab71f22134d9b723ffbd68f57fbe94a43e8df653018a5c3301f"
+  },
+  "guards": {
+    "submodules/GalleryUI/BUILD": "963014e4710bf8e9f76f03508369d9d2d399bc5b2a9a68d2860e0c41ea910136",
+    "submodules/TelegramCore/BUILD": "81e6c1d9dceab5da57124381fce03665a449bcb7904e66c884269dacdd584fbf",
+    "submodules/SaveToCameraRoll/BUILD": "a97ea3e962a8ebd6d55d09ef070f6c23124bc29104d3379081c1940ab6818f4c",
+    "submodules/TelegramUI/Components/Stories/StoryContainerScreen/BUILD": "6d1056630ca8320601491b8055990b68835bb61f0fb285f6124dee23d4b27c73",
+    "submodules/TelegramUI/Components/Chat/ChatMessageBubbleItemNode/BUILD": "0ef99602eabde67d35579c5769dcc372470ad04af19895bef2e312a565cc9ceb"
+  },
+  "templates": {
+    "media_privacy_fixes/SaveJob.swift": "4d962f6d500d0e62c2af7719ec11f6ff508e25bfbd6f973bc038ab5e220bf087",
+    "media_privacy_fixes/Saver.swift": "4d73107632a04aa76507e42d3d2010ad17f55951a93e13f79c15c2936aee69a3"
+  },
+  "copies": {
+    "submodules/SaveToCameraRoll/Sources/NagramiXStorySaveJob.swift": {
+      "source": "media_privacy_fixes/SaveJob.swift",
+      "sha256": "4d962f6d500d0e62c2af7719ec11f6ff508e25bfbd6f973bc038ab5e220bf087"
+    }
+  },
+  "patches": [
+    [
+      "submodules/GalleryUI/Sources/SecretMediaPreviewController.swift",
+      "                if let strongSelf = self, strongSelf.traceVisibility() {\n",
+      "                if let strongSelf = self, strongSelf.traceVisibility(), nagramiXShouldNotifyScreenCapture() {\n",
+      1
+    ],
+    [
+      "submodules/TelegramCore/Sources/Utils/NagramiXCaptureProtectionPolicy.swift",
+      "import Postbox\n",
+      "import Postbox\nimport NagramiXMediaSettings\n\n// Used at the capture-event producer before any local enqueue or server RPC.\npublic func nagramiXShouldNotifyScreenCapture() -> Bool {\n    return !NagramiXPrivacySettings.current.bypassScreenshots\n}\n",
+      1
+    ],
+    [
+      "submodules/TelegramCore/Sources/Utils/NagramiXCaptureProtectionPolicy.swift",
+      "return !self.containsSecretMedia\n            && self.minAutoremoveOrClearTimeout != viewOnceTimeout\n            && self.paidContent == nil",
+      "return self.paidContent == nil",
+      1
+    ],
+    [
+      "submodules/GalleryUI/Sources/Items/ChatImageGalleryItem.swift",
+      "self.imageNode.nagramiXAllowsScreenshotBypass = message.nagramiXAllowsScreenshotBypass && !isSecret",
+      "self.imageNode.nagramiXAllowsScreenshotBypass = message.nagramiXAllowsScreenshotBypass",
+      1
+    ],
+    [
+      "submodules/TelegramCore/Sources/TelegramEngine/Messages/Stories.swift",
+      "        |> map { result -> Bool in\n            if case .boolTrue = result { return true }\n            return false\n        }",
+      "        // Like TDLib IncrementStoryViewsQuery, accept a completed RPC even\n        // when its Bool payload is false. Transport/RPC errors stay failures.\n        |> map { _ -> Bool in return true }",
+      1
+    ],
+    [
+      "submodules/TelegramUI/Components/Stories/StoryContainerScreen/Sources/StoryItemSetContainerComponent.swift",
+      "            controller.present(progress, in: .current)\n",
+      "            // The context menu may still be dismissing; present above its window.\n            controller.present(progress, in: .window(.root))\n",
+      1
+    ],
+    [
+      "submodules/SaveToCameraRoll/Sources/NagramiXStorySave.swift",
+      "import Foundation\nimport Photos\nimport SwiftSignalKit\nimport TelegramCore\nimport AccountContext\nimport DeviceAccess\n\npublic enum NagramiXStorySaveError: Error, Equatable {\n    case unavailable\n    case permissionDenied\n    case library\n}\n\n// Saving a viewable story fetches its resource only: no read, reaction or repost\n// operation is issued. Success means Photos committed the asset, not just that\n// a fetch signal completed or a permission dialog was dismissed.\npublic func nagramiXSaveStoryToCameraRoll(context: AccountContext, userLocation: MediaResourceUserLocation, mediaReference: AnyMediaReference) -> Signal<Float, NagramiXStorySaveError> {\n    let resource: TelegramMediaResource\n    let isImage: Bool\n    if let image = mediaReference.media as? TelegramMediaImage, let representation = largestImageRepresentation(image.representations) {\n        resource = representation.resource\n        isImage = true\n    } else if let file = mediaReference.media as? TelegramMediaFile, file.isVideo || file.mimeType.hasPrefix(\"video/\") {\n        resource = file.resource\n        isImage = false\n    } else {\n        return .fail(.unavailable)\n    }\n\n    return Signal { subscriber in\n        let active = Atomic<Bool>(value: true)\n        let saving = Atomic<Bool>(value: false)\n        let disposables = DisposableSet()\n        let fail: (NagramiXStorySaveError) -> Void = { error in\n            if active.swap(false) {\n                disposables.dispose()\n                subscriber.putError(error)\n            }\n        }\n        DeviceAccess.authorizeAccess(to: .mediaLibrary(.save), presentationData: context.sharedContext.currentPresentationData.with { $0 }, present: { controller, arguments in\n            context.sharedContext.presentGlobalController(controller, arguments)\n        }, openSettings: context.sharedContext.applicationBindings.openSettings, { authorized in\n            guard active.with({ $0 }) else { return }\n            guard authorized else {\n                fail(.permissionDenied)\n                return\n            }\n            disposables.add(nagramiXKeepMediaResource(account: context.account, resource: resource))\n            disposables.add(context.engine.resources.fetch(reference: mediaReference.resourceReference(resource), userLocation: userLocation, userContentType: .story, reportResultStatus: true).start(error: { _ in\n                if !saving.with({ $0 }) { fail(.unavailable) }\n            }))\n            disposables.add(context.engine.resources.status(resource: EngineMediaResource(resource)).start(next: { status in\n                guard active.with({ $0 }) else { return }\n                if case let .Fetching(_, progress) = status, progress.isFinite {\n                    subscriber.putNext(min(0.9, max(0, progress * 0.9)))\n                }\n            }))\n            disposables.add((context.engine.resources.data(resource: EngineMediaResource(resource), pathExtension: isImage ? \"jpg\" : \"mp4\", waitUntilFetchStatus: true)\n            |> filter { $0.isComplete }\n            |> take(1)).start(next: { data in\n                guard active.with({ $0 }), !saving.swap(true) else { return }\n                Queue.concurrentDefaultQueue().async {\n                    guard active.with({ $0 }) else { return }\n                    let temporary = EngineTempBox.shared.tempFile(fileName: isImage ? \"story.jpg\" : \"story.mp4\")\n                    do {\n                        do { try FileManager.default.linkItem(atPath: data.path, toPath: temporary.path) }\n                        catch { try FileManager.default.copyItem(atPath: data.path, toPath: temporary.path) }\n                    } catch {\n                        EngineTempBox.shared.dispose(temporary)\n                        fail(.unavailable)\n                        return\n                    }\n                    guard active.with({ $0 }) else {\n                        EngineTempBox.shared.dispose(temporary)\n                        return\n                    }\n                    // Keep the pinned local file until Photos finishes, even if\n                    // the user cancels while its transaction is in flight.\n                    PHPhotoLibrary.shared().performChanges({\n                        PHAssetCreationRequest.forAsset().addResource(with: isImage ? .photo : .video, fileURL: URL(fileURLWithPath: temporary.path), options: nil)\n                    }, completionHandler: { success, error in\n                        EngineTempBox.shared.dispose(temporary)\n                        guard active.swap(false) else { return }\n                        disposables.dispose()\n                        if success && error == nil {\n                            subscriber.putNext(1.0)\n                            subscriber.putCompletion()\n                        } else {\n                            subscriber.putError(.library)\n                        }\n                    })\n                }\n            }))\n        })\n        return ActionDisposable {\n            _ = active.swap(false)\n            disposables.dispose()\n        }\n    }\n}\n",
+      "import Foundation\nimport Photos\nimport SwiftSignalKit\nimport TelegramCore\nimport AccountContext\nimport DeviceAccess\n\npublic enum NagramiXStorySaveError: Error, Equatable {\n    case unavailable\n    case permissionDenied\n    case library\n}\n\n// Saving a viewable story fetches its resource only: no read, reaction or repost\n// operation is issued. Success means Photos committed the asset, not just that\n// a fetch signal completed or a permission dialog was dismissed.\npublic func nagramiXSaveStoryToCameraRoll(context: AccountContext, userLocation: MediaResourceUserLocation, mediaReference: AnyMediaReference) -> Signal<Float, NagramiXStorySaveError> {\n    guard case let .story(peer, id, _) = mediaReference else { return .fail(.unavailable) }\n    let resource: TelegramMediaResource\n    if let image = mediaReference.media as? TelegramMediaImage, let representation = largestImageRepresentation(image.representations) {\n        resource = representation.resource\n    } else if let file = mediaReference.media as? TelegramMediaFile, file.isVideo || file.mimeType.hasPrefix(\"video/\") {\n        resource = file.resource\n    } else {\n        return .fail(.unavailable)\n    }\n    let key = \"\\(context.account.peerId.toInt64()):\\(peer.id.toInt64()):\\(id):\\(resource.id.stringRepresentation)\"\n    return Signal { subscriber in\n        let active = Atomic<Bool>(value: true)\n        let subscription = MetaDisposable()\n        Queue.mainQueue().async {\n            guard active.with({ $0 }) else { return }\n            let job: NagramiXStorySaveJob\n            let isNew: Bool\n            if let current = NagramiXStorySaveJob.jobs[key] {\n                job = current\n                isNew = false\n            } else {\n                job = NagramiXStorySaveJob(key: key)\n                NagramiXStorySaveJob.jobs[key] = job\n                isNew = true\n            }\n            subscription.set(job.subscribe { event in\n                guard active.with({ $0 }) else { return }\n                switch event {\n                case let .progress(value): subscriber.putNext(value)\n                case .saved:\n                    subscriber.putNext(1.0)\n                    subscriber.putCompletion()\n                case let .failed(error): subscriber.putError(error)\n                }\n            })\n            if isNew {\n                job.start { beginCommit in\n                    nagramiXPerformStorySave(context: context, userLocation: userLocation, mediaReference: mediaReference, beginCommit: beginCommit)\n                }\n            }\n        }\n        return ActionDisposable {\n            _ = active.swap(false)\n            subscription.dispose()\n        }\n    }\n}\n\nprivate func nagramiXPerformStorySave(context: AccountContext, userLocation: MediaResourceUserLocation, mediaReference: AnyMediaReference, beginCommit: @escaping () -> Void) -> Signal<Float, NagramiXStorySaveError> {\n    let resource: TelegramMediaResource\n    let isImage: Bool\n    if let image = mediaReference.media as? TelegramMediaImage, let representation = largestImageRepresentation(image.representations) {\n        resource = representation.resource\n        isImage = true\n    } else if let file = mediaReference.media as? TelegramMediaFile, file.isVideo || file.mimeType.hasPrefix(\"video/\") {\n        resource = file.resource\n        isImage = false\n    } else {\n        return .fail(.unavailable)\n    }\n\n    return Signal { subscriber in\n        let active = Atomic<Bool>(value: true)\n        let saving = Atomic<Bool>(value: false)\n        let disposables = DisposableSet()\n        let fail: (NagramiXStorySaveError) -> Void = { error in\n            if active.swap(false) {\n                disposables.dispose()\n                subscriber.putError(error)\n            }\n        }\n        DeviceAccess.authorizeAccess(to: .mediaLibrary(.save), presentationData: context.sharedContext.currentPresentationData.with { $0 }, present: { controller, arguments in\n            context.sharedContext.presentGlobalController(controller, arguments)\n        }, openSettings: context.sharedContext.applicationBindings.openSettings, { authorized in\n            guard active.with({ $0 }) else { return }\n            guard authorized else {\n                fail(.permissionDenied)\n                return\n            }\n            disposables.add(nagramiXKeepMediaResource(account: context.account, resource: resource))\n            disposables.add(context.engine.resources.fetch(reference: mediaReference.resourceReference(resource), userLocation: userLocation, userContentType: .story, reportResultStatus: true).start(error: { _ in\n                if !saving.with({ $0 }) { fail(.unavailable) }\n            }))\n            disposables.add(context.engine.resources.status(resource: EngineMediaResource(resource)).start(next: { status in\n                guard active.with({ $0 }) else { return }\n                if case let .Fetching(_, progress) = status, progress.isFinite {\n                    subscriber.putNext(min(0.9, max(0, progress * 0.9)))\n                }\n            }))\n            disposables.add((context.engine.resources.data(resource: EngineMediaResource(resource), pathExtension: isImage ? \"jpg\" : \"mp4\", waitUntilFetchStatus: true)\n            |> filter { $0.isComplete }\n            |> take(1)).start(next: { data in\n                guard active.with({ $0 }), !saving.swap(true) else { return }\n                Queue.concurrentDefaultQueue().async {\n                    guard active.with({ $0 }) else { return }\n                    let temporary = EngineTempBox.shared.tempFile(fileName: isImage ? \"story.jpg\" : \"story.mp4\")\n                    do {\n                        do { try FileManager.default.linkItem(atPath: data.path, toPath: temporary.path) }\n                        catch { try FileManager.default.copyItem(atPath: data.path, toPath: temporary.path) }\n                    } catch {\n                        EngineTempBox.shared.dispose(temporary)\n                        fail(.unavailable)\n                        return\n                    }\n                    guard active.with({ $0 }) else {\n                        EngineTempBox.shared.dispose(temporary)\n                        return\n                    }\n                    // Keep the pinned local file until Photos finishes, even if\n                    // the user cancels while its transaction is in flight.\n                    Queue.mainQueue().async {\n                        guard active.with({ $0 }) else {\n                            EngineTempBox.shared.dispose(temporary)\n                            return\n                        }\n                        beginCommit()\n                        PHPhotoLibrary.shared().performChanges({\n                            PHAssetCreationRequest.forAsset().addResource(with: isImage ? .photo : .video, fileURL: URL(fileURLWithPath: temporary.path), options: nil)\n                        }, completionHandler: { success, error in\n                            EngineTempBox.shared.dispose(temporary)\n                            guard active.swap(false) else { return }\n                            disposables.dispose()\n                            if success && error == nil {\n                                subscriber.putNext(1.0)\n                                subscriber.putCompletion()\n                            } else {\n                                subscriber.putError(.library)\n                            }\n                        })\n                    }\n                }\n            }))\n        })\n        return ActionDisposable {\n            _ = active.swap(false)\n            disposables.dispose()\n        }\n    }\n}\n",
+      1
+    ],
+    [
+      "submodules/TelegramCore/Sources/Utils/NagramiXMessageArchive.swift",
+      "    public let deletedAt: Int32\n    public let revisions: [NagramiXMessageRevision]\n",
+      "    public let deletedAt: Int32\n    public let revisions: [NagramiXMessageRevision]\n    public let isTemporary: Bool\n",
+      1
+    ],
+    [
+      "submodules/TelegramCore/Sources/Utils/NagramiXMessageArchive.swift",
+      "public init(deletedAt: Int32, revisions: [NagramiXMessageRevision]) {\n        self.deletedAt = deletedAt\n        self.revisions = revisions\n",
+      "public init(deletedAt: Int32, revisions: [NagramiXMessageRevision], isTemporary: Bool = false) {\n        self.deletedAt = deletedAt\n        self.revisions = revisions\n        self.isTemporary = isTemporary\n",
+      1
+    ],
+    [
+      "submodules/TelegramCore/Sources/Utils/NagramiXMessageArchive.swift",
+      "        self.deletedAt = decoder.decodeInt32ForKey(\"d\", orElse: 0)\n        self.revisions = []\n",
+      "        self.deletedAt = decoder.decodeInt32ForKey(\"d\", orElse: 0)\n        self.revisions = []\n        self.isTemporary = decoder.decodeBoolForKey(\"t\", orElse: false)\n",
+      1
+    ],
+    [
+      "submodules/TelegramCore/Sources/Utils/NagramiXMessageArchive.swift",
+      "        encoder.encodeInt32(self.deletedAt, forKey: \"d\")\n",
+      "        encoder.encodeInt32(self.deletedAt, forKey: \"d\")\n        encoder.encodeBool(self.isTemporary, forKey: \"t\")\n",
+      1
+    ],
+    [
+      "submodules/TelegramCore/Sources/Utils/NagramiXMessageArchive.swift",
+      "NagramiXArchivedMessageAttribute(deletedAt: record.deletedAt ?? record.timestamp, revisions: record.revisions)",
+      "NagramiXArchivedMessageAttribute(deletedAt: record.deletedAt ?? record.timestamp, revisions: record.revisions, isTemporary: record.temporary == true)",
+      1
+    ],
+    [
+      "submodules/TelegramCore/Sources/Utils/NagramiXMessageArchive.swift",
+      "private struct NagramiXArchivedContent: Codable, Equatable {",
+      "public extension Message {\n    var nagramiXShowsArchiveNotice: Bool {\n        return self.attributes.contains { attribute in\n            guard let archived = attribute as? NagramiXArchivedMessageAttribute else { return false }\n            return !archived.isTemporary\n        }\n    }\n}\n\nprivate struct NagramiXArchivedContent: Codable, Equatable {",
+      1
+    ],
+    [
+      "submodules/NagramiXCore/Resources/ru.lproj/Localizable.strings",
+      "\"NagramiX.Privacy.screenshotBypass.Search\" = \"Разрешать скриншоты обычного содержимого защищённых и секретных чатов и не отправлять собеседнику уведомление о скриншоте в секретном чате.\";",
+      "\"NagramiX.Privacy.screenshotBypass.Search\" = \"Разрешать скриншоты и запись экрана доступных защищённых, одноразовых и исчезающих медиа без исходящего уведомления о захвате. Платные медиа и коды подтверждения сохраняют защиту.\";",
+      1
+    ],
+    [
+      "submodules/NagramiXCore/Resources/en.lproj/Localizable.strings",
+      "\"NagramiX.Privacy.screenshotBypass.Search\" = \"Allow screenshots of ordinary content in protected and secret chats without sending secret-chat screenshot notifications.\";",
+      "\"NagramiX.Privacy.screenshotBypass.Search\" = \"Allow screenshots and screen recording of available protected, view-once and disappearing media without sending capture notifications. Paid media and verification codes remain protected.\";",
+      1
+    ],
+    [
+      "submodules/Display/Source/NagramiXCaptureProtection.swift",
+      "// UI, paid previews and one-time media keep their native protection.",
+      "// UI and paid previews keep their native protection.",
+      1
+    ],
+    [
+      "submodules/TelegramUI/Components/Chat/ChatMessageBubbleItemNode/Sources/ChatMessageBubbleItemNode.swift",
+      "let nagramiXArchivedMessage = firstMessage.attributes.contains(where: { $0 is NagramiXArchivedMessageAttribute })",
+      "let nagramiXArchivedMessage = firstMessage.nagramiXShowsArchiveNotice",
+      1
+    ],
+    [
+      "submodules/TelegramUI/Components/Chat/ChatMessageBubbleItemNode/Sources/ChatMessageBubbleItemNode.swift",
+      "let nagramiXIsArchived = item.content.firstMessage.attributes.contains(where: { $0 is NagramiXArchivedMessageAttribute })",
+      "let nagramiXIsArchived = item.content.firstMessage.nagramiXShowsArchiveNotice",
+      1
+    ]
+  ]
+}

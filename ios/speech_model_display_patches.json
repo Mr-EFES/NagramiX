@@ -1,0 +1,54 @@
+{
+  "inputs": {
+    "submodules/NagramiXTranscription/Sources/Preferences.swift": "9c502d13afd09a90b1a06e3e70fc969214dd47fe3ee936813052fd57e4543273",
+    "submodules/NagramiXTranscription/Sources/Models.swift": "240a8b8ee5e55d07317e27944a26b053edf8584c0f4bd7fc8db119d87617af30",
+    "submodules/NagramiXTranscription/Sources/VoskModels.swift": "fe0c8eb11e923f0ec15e92052b64ac37bf73e1ca39cf053436a63b841c1ecf22",
+    "submodules/NagramiXTranscription/Sources/Settings.swift": "0e4685268f6d17cf0034b1b79d9ffc1f86c2de5da53b541d7c7c2d0b0f0d4fe6",
+    "submodules/NagramiXTranscription/Sources/Whisper.swift": "9d9a7555c6eb0931a312b163087b1f97e8dcfa7fb4a449132864b2a5d25bd8b7",
+    "submodules/NagramiXTranscription/Sources/License.swift": "eede76891f401e04b3a12afa65c06c45cc164e8edcd2a929390e8109e98f63e5"
+  },
+  "outputs": {
+    "submodules/NagramiXTranscription/Sources/Preferences.swift": "910afba6c1af6fc7eee6214f12eccf950b9f8effa3f760c0fed828b5ec476071",
+    "submodules/NagramiXTranscription/Sources/Models.swift": "bdbfb43f78a02b31a217a5db1910f81b06c741b3422f2517ff7b4df83abf4a65",
+    "submodules/NagramiXTranscription/Sources/VoskModels.swift": "f28b2db3b19957f32245cd54056c9f3900413a40d0f62127a4e100b50658f5d9",
+    "submodules/NagramiXTranscription/Sources/Settings.swift": "c9cffa45a5566380326b39337bc7f88b49f30b748ec807e49f7867a29a08c0c8",
+    "submodules/NagramiXTranscription/Sources/Whisper.swift": "41eb178781a4d076e488af257b0d6dfb07d1fc210429aead96da815b437076bc",
+    "submodules/NagramiXTranscription/Sources/License.swift": "46bdd93f8ecd5eb37e2a059e18e61abec1c3f6a4b84b87bf2655eec98d93d9ad"
+  },
+  "guards": {
+    "submodules/NagramiXTranscription/BUILD": "820772c2401f640bf652106d20d11b466cee847e29b43a8dff3ca3b3af0c7e78"
+  },
+  "templates": {
+    "speech_model_display/Before0.inc": "9c502d13afd09a90b1a06e3e70fc969214dd47fe3ee936813052fd57e4543273",
+    "speech_model_display/After0.inc": "910afba6c1af6fc7eee6214f12eccf950b9f8effa3f760c0fed828b5ec476071",
+    "speech_model_display/Before1.inc": "240a8b8ee5e55d07317e27944a26b053edf8584c0f4bd7fc8db119d87617af30",
+    "speech_model_display/After1.inc": "bdbfb43f78a02b31a217a5db1910f81b06c741b3422f2517ff7b4df83abf4a65",
+    "speech_model_display/Before2.inc": "fe0c8eb11e923f0ec15e92052b64ac37bf73e1ca39cf053436a63b841c1ecf22",
+    "speech_model_display/After2.inc": "f28b2db3b19957f32245cd54056c9f3900413a40d0f62127a4e100b50658f5d9",
+    "speech_model_display/Before3.inc": "0e4685268f6d17cf0034b1b79d9ffc1f86c2de5da53b541d7c7c2d0b0f0d4fe6",
+    "speech_model_display/After3.inc": "c9cffa45a5566380326b39337bc7f88b49f30b748ec807e49f7867a29a08c0c8",
+    "speech_model_display/Before4.inc": "9d9a7555c6eb0931a312b163087b1f97e8dcfa7fb4a449132864b2a5d25bd8b7",
+    "speech_model_display/After4.inc": "41eb178781a4d076e488af257b0d6dfb07d1fc210429aead96da815b437076bc",
+    "speech_model_display/Before5.inc": "eede76891f401e04b3a12afa65c06c45cc164e8edcd2a929390e8109e98f63e5",
+    "speech_model_display/After5.inc": "46bdd93f8ecd5eb37e2a059e18e61abec1c3f6a4b84b87bf2655eec98d93d9ad",
+    "speech_model_display/Guard.inc": "820772c2401f640bf652106d20d11b466cee847e29b43a8dff3ca3b3af0c7e78"
+  },
+  "replacements": {
+    "submodules/NagramiXTranscription/Sources/Preferences.swift": "speech_model_display/After0.inc",
+    "submodules/NagramiXTranscription/Sources/Models.swift": "speech_model_display/After1.inc",
+    "submodules/NagramiXTranscription/Sources/VoskModels.swift": "speech_model_display/After2.inc",
+    "submodules/NagramiXTranscription/Sources/Settings.swift": "speech_model_display/After3.inc",
+    "submodules/NagramiXTranscription/Sources/Whisper.swift": "speech_model_display/After4.inc",
+    "submodules/NagramiXTranscription/Sources/License.swift": "speech_model_display/After5.inc"
+  },
+  "previous": {
+    "submodules/NagramiXTranscription/Sources/Preferences.swift": "speech_model_display/Before0.inc",
+    "submodules/NagramiXTranscription/Sources/Models.swift": "speech_model_display/Before1.inc",
+    "submodules/NagramiXTranscription/Sources/VoskModels.swift": "speech_model_display/Before2.inc",
+    "submodules/NagramiXTranscription/Sources/Settings.swift": "speech_model_display/Before3.inc",
+    "submodules/NagramiXTranscription/Sources/Whisper.swift": "speech_model_display/Before4.inc",
+    "submodules/NagramiXTranscription/Sources/License.swift": "speech_model_display/Before5.inc"
+  },
+  "copies": {},
+  "deletions": {}
+}

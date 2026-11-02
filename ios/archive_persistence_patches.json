@@ -1,0 +1,35 @@
+{
+  "hashes": {
+    "submodules/TelegramUI/Sources/AccountContext.swift": "21b6ed38720d7011bedda1106b368fa50f6866f09b1aeaf36f28291f3a9b5c62",
+    "submodules/TelegramCore/BUILD": "e3f2268e32065ef8f325446db583c2b0c2c41b862d6523303cb0a7607370aca5"
+  },
+  "patches": [
+    [
+      "submodules/TelegramUI/Sources/AccountContext.swift",
+      "public final class AccountContextImpl: AccountContext {\n",
+      "public final class AccountContextImpl: AccountContext {\n    private let nagramiXArchiveStorageDisposable = MetaDisposable()\n",
+      1
+    ],
+    [
+      "submodules/TelegramUI/Sources/AccountContext.swift",
+      "    }\n\n    deinit {\n        self.walletTonConnectDisposable.dispose()",
+      "        if !temp {\n            var presentedFailure: NagramiXArchiveStorageFailure?\n            self.nagramiXArchiveStorageDisposable.set((combineLatest(account.nagramiXMessageArchive.storageStatus, sharedContext.applicationBindings.applicationInForeground)\n            |> deliverOnMainQueue).start(next: { [weak self] status, foreground in\n                guard let self else { return }\n                guard case let .failed(failure) = status else { presentedFailure = nil; return }\n                guard foreground, presentedFailure != failure, let window = self.sharedContext.mainWindow else { return }\n                presentedFailure = failure\n                let data = self.sharedContext.currentPresentationData.with { $0 }\n                let text: String\n                switch failure {\n                case .noSpace: text = data.strings.nagramiXArchiveStorageNoSpace\n                case .writeFailed: text = data.strings.nagramiXArchiveStorageWriteFailed\n                case .unreadable: text = data.strings.nagramiXArchiveStorageUnreadable\n                }\n                window.present(textAlertController(context: self, title: data.strings.nagramiXArchiveStorageTitle, text: text, actions: [\n                    TextAlertAction(type: .defaultAction, title: data.strings.Common_OK, action: {}),\n                    TextAlertAction(type: .genericAction, title: data.strings.nagramiXArchiveStorageRetry, action: { [weak self] in\n                        self?.account.nagramiXMessageArchive.retryPersistence()\n                    })\n                ]), on: .root)\n            }))\n        }\n    }\n\n    deinit {\n        self.walletTonConnectDisposable.dispose()",
+      1
+    ],
+    [
+      "submodules/TelegramUI/Sources/AccountContext.swift",
+      "    deinit {\n        self.walletTonConnectDisposable.dispose()",
+      "    deinit {\n        self.nagramiXArchiveStorageDisposable.dispose()\n        self.walletTonConnectDisposable.dispose()",
+      1
+    ]
+  ],
+  "copies": {
+    "Sources/TelegramCore/NagramiXArchivePersistence.swift": "submodules/TelegramCore/Sources/Utils/NagramiXArchivePersistence.swift"
+  },
+  "provided": {
+    "Sources/TelegramCore/NagramiXMessageArchive.swift": "submodules/TelegramCore/Sources/Utils/NagramiXMessageArchive.swift",
+    "Sources/NagramiXCore/Sources/NagramiXPresentationStrings.swift": "submodules/NagramiXCore/Sources/NagramiXPresentationStrings.swift",
+    "Sources/NagramiXCore/Resources/ru.lproj/Localizable.strings": "submodules/NagramiXCore/Resources/ru.lproj/Localizable.strings",
+    "Sources/NagramiXCore/Resources/en.lproj/Localizable.strings": "submodules/NagramiXCore/Resources/en.lproj/Localizable.strings"
+  }
+}

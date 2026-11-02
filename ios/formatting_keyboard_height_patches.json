@@ -1,0 +1,24 @@
+{
+  "inputs": {
+    "submodules/TelegramUI/Sources/ChatControllerNode.swift": "609debaceebc8f5f4dec8bcf16ab278fc9bf2e910fb10663c97a3b84685abe68"
+  },
+  "outputs": {
+    "submodules/TelegramUI/Sources/ChatControllerNode.swift": "aef2e305bd13a57b58ed4c36b6c560f3a44de87eff4483aec8d84198942c3932"
+  },
+  "guards": {
+    "submodules/TelegramUI/BUILD": "f4ae55a27c3a5e486a0fe9c768c70b65b974c505125d91a1215645179de54926"
+  },
+  "templates": {
+    "formatting_keyboard_height/Before.inc": "609debaceebc8f5f4dec8bcf16ab278fc9bf2e910fb10663c97a3b84685abe68",
+    "formatting_keyboard_height/After.inc": "aef2e305bd13a57b58ed4c36b6c560f3a44de87eff4483aec8d84198942c3932",
+    "formatting_keyboard_height/Guard.inc": "f4ae55a27c3a5e486a0fe9c768c70b65b974c505125d91a1215645179de54926"
+  },
+  "previous": {
+    "submodules/TelegramUI/Sources/ChatControllerNode.swift": "formatting_keyboard_height/Before.inc"
+  },
+  "replacements": {
+    "submodules/TelegramUI/Sources/ChatControllerNode.swift": "formatting_keyboard_height/After.inc"
+  },
+  "copies": {},
+  "deletions": {}
+}

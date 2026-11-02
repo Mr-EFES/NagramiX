@@ -1,0 +1,140 @@
+{
+  "schema": 1,
+  "base_release": "0.6.9/build122",
+  "upstream_ref": "fb0e62ba8a147f0821da6aa63c09da7d79a10111",
+  "inputs": {
+    "submodules/TelegramUI/Components/Chat/ChatTextInputPanelNode/Sources/NagramiXFormattingGeometry.swift": "8ef884f83fb527b0cfe00afd2e20aa2316ca9f5df969447ca6a030cbb9908791",
+    "submodules/TelegramUI/Components/Chat/ChatTextInputPanelNode/Sources/NagramiXFormattingKeyboard.swift": "a7a388b069dc84e68059c8200f89609a9539847b58571fec13489b0d4233be7d",
+    "submodules/TelegramUI/Components/Chat/ChatTextInputPanelNode/Sources/ChatTextInputPanelNode.swift": "2d0cb98193a0f17ea3ddb3922c03cd1317ee87bb1098b58b4080a7fada298d9e",
+    "submodules/TelegramUI/Sources/ChatControllerNode.swift": "15af5826dd7d03a81e6af1f1180523a3eae9a8c9661e63edc2444af8fd9a3864",
+    "submodules/TelegramUI/Sources/ChatInterfaceInputNodes.swift": "af2be2fd97f32ee567c3b32fe1adcba9a72bbdca63abd8284587b1996f25df1a",
+    "submodules/TelegramUI/Components/RichTextAttachmentScreen/Sources/RichTextAttachmentScreen.swift": "67ecbb1c1bc1d8e95217951c09e2f5316c18a530092536a2b098bbcfc43eca90",
+    "submodules/TelegramUI/Components/Chat/ChatTextInputPanelNode/Sources/ChatTextInputPanelComponent.swift": "f16675640f7d169a19e012d5441edfc8dfbff81ff76dcdf714aa3890e7f98b06"
+  },
+  "patches": [
+    [
+      "submodules/TelegramUI/Components/Chat/ChatTextInputPanelNode/Sources/NagramiXFormattingGeometry.swift",
+      "struct NagramiXFormattingGrid {\n    let columns: Int\n    let frames: [CGRect]\n    let contentSize: CGSize\n\n    static func layout(size: CGSize, count: Int, minimumLabelWidth: CGFloat,\n                       minimumKeyHeight: CGFloat, accessibility: Bool, footerMinimumLabelWidth: CGFloat? = nil) -> NagramiXFormattingGrid {\n        guard size.width.isFinite, size.height.isFinite, size.width > 0, size.height >= 0,\n              minimumLabelWidth.isFinite, minimumKeyHeight.isFinite, count > 0, count <= 100 else {\n            return NagramiXFormattingGrid(columns: 0, frames: [], contentSize: .zero)\n        }\n        if let footerMinimumLabelWidth {\n            guard footerMinimumLabelWidth.isFinite, footerMinimumLabelWidth >= 0 else {\n                return NagramiXFormattingGrid(columns: 0, frames: [], contentSize: .zero)\n            }\n            let gap: CGFloat = 6\n            let columns = (size.width - gap) / 2 - 4 >= footerMinimumLabelWidth ? 2 : 1\n            let rows = 2 / columns\n            let keyHeight = max(60, minimumKeyHeight)\n            let footerHeight = CGFloat(rows) * keyHeight + CGFloat(rows - 1) * gap\n            let body = self.layout(size: CGSize(width: size.width, height: max(0, size.height - footerHeight - gap)),\n                count: count, minimumLabelWidth: minimumLabelWidth, minimumKeyHeight: minimumKeyHeight, accessibility: accessibility)\n            let keyWidth = (size.width - CGFloat(columns - 1) * gap) / CGFloat(columns)\n            let top = body.contentSize.height + gap\n            let footer = (0 ..< 2).map { index in\n                CGRect(x: CGFloat(index % columns) * (keyWidth + gap), y: top + CGFloat(index / columns) * (keyHeight + gap), width: keyWidth, height: keyHeight)\n            }\n            return NagramiXFormattingGrid(columns: body.columns, frames: body.frames + footer,\n                contentSize: CGSize(width: size.width, height: top + footerHeight))\n        }\n        let gap: CGFloat = 6\n        let labelInset: CGFloat = 4\n        var columns = min(count, size.width >= 344 ? 5 : 4)\n        let minimumColumns = accessibility ? 1 : min(2, count)\n        while columns > minimumColumns {\n            let width = (size.width - CGFloat(columns - 1) * gap) / CGFloat(columns)\n            if width - labelInset >= minimumLabelWidth { break }\n            columns -= 1\n        }\n        let rows = (count + columns - 1) / columns\n        let width = max(0, (size.width - CGFloat(columns - 1) * gap) / CGFloat(columns))\n        let height = max(60, minimumKeyHeight, (size.height - CGFloat(rows - 1) * gap) / CGFloat(rows))\n        let frames = (0 ..< count).map { index in\n            CGRect(x: CGFloat(index % columns) * (width + gap), y: CGFloat(index / columns) * (height + gap), width: width, height: height)\n        }\n        return NagramiXFormattingGrid(columns: columns, frames: frames,\n            contentSize: CGSize(width: size.width, height: CGFloat(rows) * height + CGFloat(rows - 1) * gap))\n    }\n}",
+      "struct NagramiXFormattingGrid {\n    let columns: Int\n    let frames: [CGRect]\n    let contentSize: CGSize\n\n    static func layout(size: CGSize, count: Int, minimumLabelWidth: CGFloat,\n                       minimumKeyHeight: CGFloat, accessibility: Bool, footerMinimumLabelWidth: CGFloat? = nil) -> NagramiXFormattingGrid {\n        guard size.width.isFinite, size.height.isFinite, size.width > 0, size.height >= 0,\n              minimumLabelWidth.isFinite, minimumLabelWidth >= 0,\n              minimumKeyHeight.isFinite, minimumKeyHeight >= 0, count > 0, count <= 100 else {\n            return NagramiXFormattingGrid(columns: 0, frames: [], contentSize: .zero)\n        }\n        if let extraLabelWidth = footerMinimumLabelWidth, !extraLabelWidth.isFinite || extraLabelWidth < 0 {\n            return NagramiXFormattingGrid(columns: 0, frames: [], contentSize: .zero)\n        }\n        // Extra actions occupy ordinary cells 10 and 11, directly below date\n        // and strikethrough. Never reserve or append a separate footer row.\n        let totalCount = count + (footerMinimumLabelWidth == nil ? 0 : 2)\n        guard totalCount <= 100 else { return NagramiXFormattingGrid(columns: 0, frames: [], contentSize: .zero) }\n        let labelWidth = max(minimumLabelWidth, footerMinimumLabelWidth ?? 0)\n        let gap: CGFloat = 6\n        let labelInset: CGFloat = 4\n        var columns = min(totalCount, 4)\n        while columns > 1 && size.width <= CGFloat(columns - 1) * gap { columns -= 1 }\n        if accessibility {\n            while columns > 1 {\n                let width = (size.width - CGFloat(columns - 1) * gap) / CGFloat(columns)\n                if width - labelInset >= labelWidth { break }\n                columns -= 1\n            }\n        }\n        let rows = (totalCount + columns - 1) / columns\n        let width = max(0, (size.width - CGFloat(columns - 1) * gap) / CGFloat(columns))\n        let height = max(60, minimumKeyHeight, (size.height - CGFloat(rows - 1) * gap) / CGFloat(rows))\n        let frames = (0 ..< totalCount).map { index in\n            CGRect(x: CGFloat(index % columns) * (width + gap), y: CGFloat(index / columns) * (height + gap), width: width, height: height)\n        }\n        return NagramiXFormattingGrid(columns: columns, frames: frames,\n            contentSize: CGSize(width: size.width, height: CGFloat(rows) * height + CGFloat(rows - 1) * gap))\n    }\n}"
+    ],
+    [
+      "submodules/TelegramUI/Components/Chat/ChatTextInputPanelNode/Sources/NagramiXFormattingKeyboard.swift",
+      "self.caption.minimumScaleFactor = 0.9",
+      "self.caption.minimumScaleFactor = 0.7"
+    ],
+    [
+      "submodules/TelegramUI/Components/Chat/ChatTextInputPanelNode/Sources/NagramiXFormattingKeyboard.swift",
+      "        self.frame.size.height = height\n",
+      ""
+    ],
+    [
+      "submodules/TelegramUI/Components/Chat/ChatTextInputPanelNode/Sources/NagramiXFormattingKeyboard.swift",
+      "accessibility: self.traitCollection.preferredContentSizeCategory.isAccessibilityCategory,",
+      "accessibility: self.traitCollection.preferredContentSizeCategory.isAccessibilityCategory || font.pointSize > 14,"
+    ],
+    [
+      "submodules/TelegramUI/Components/Chat/ChatTextInputPanelNode/Sources/NagramiXFormattingKeyboard.swift",
+      "        self.scroll.contentSize = grid.contentSize\n",
+      "        self.scroll.contentSize = grid.contentSize\n        // Content shrinking from a previous size must not leave the first row\n        // scrolled underneath the heading. Keep ordinary three-row layouts at 0.\n        let maximumOffset = max(0, grid.contentSize.height - self.scroll.bounds.height)\n        let boundedOffset = min(max(0, self.scroll.contentOffset.y), maximumOffset)\n        if self.scroll.contentOffset.y != boundedOffset {\n            self.scroll.setContentOffset(CGPoint(x: 0, y: boundedOffset), animated: false)\n        }\n"
+    ],
+    [
+      "submodules/TelegramUI/Components/Chat/ChatTextInputPanelNode/Sources/NagramiXFormattingKeyboard.swift",
+      "override func didMoveToWindow() {\n        super.didMoveToWindow()\n        self.heading.layer.removeAllAnimations()\n        self.scroll.layer.removeAllAnimations()\n        self.heading.alpha = 1\n        self.scroll.alpha = 1\n        guard self.window != nil, !UIAccessibility.isReduceMotionEnabled else { return }\n        // Keep the native keyboard backdrop and geometry stationary; only its\n        // new content fades in. UIKit owns replacement of the keyboard itself.\n        self.heading.alpha = 0\n        self.scroll.alpha = 0\n        UIView.animate(withDuration: 0.16, delay: 0, options: [.beginFromCurrentState, .allowUserInteraction, .curveEaseInOut], animations: {\n            self.heading.alpha = 1\n            self.scroll.alpha = 1\n        })\n    }",
+      "override func didMoveToWindow() {\n        super.didMoveToWindow()\n        // The containing native input node/keyboard owns the entire transition,\n        // just like emoji. Do not layer a separate fade over its slide animation.\n    }"
+    ],
+    [
+      "submodules/TelegramUI/Components/Chat/ChatTextInputPanelNode/Sources/NagramiXFormattingKeyboard.swift",
+      "symbol: item.action == .pullQuote ? \"quote.bubble\" : \"checkmark.rectangle\",",
+      "symbol: item.action == .pullQuote ? \"quote.bubble\" : \"character.textbox\","
+    ],
+    [
+      "submodules/TelegramUI/Components/Chat/ChatTextInputPanelNode/Sources/ChatTextInputPanelNode.swift",
+      "    private var nagramiXFormattingActive = false\n",
+      "    private var nagramiXFormattingActive = false\n    private var nagramiXFormattingHostInputView: UIView?\n    private var nagramiXFormattingRequestLayout: (() -> Void)?\n\n    public func nagramiXConfigureFormattingHost(inputView: UIView, requestLayout: @escaping () -> Void) {\n        self.nagramiXFormattingHostInputView = inputView\n        self.nagramiXFormattingRequestLayout = requestLayout\n    }\n\n    private var nagramiXFormattingOwnedInputView: UIView? {\n        return self.nagramiXFormattingHostInputView ?? self.nagramiXFormattingKeyboard\n    }\n\n    public func nagramiXFormattingPanelView(for state: ChatPresentationInterfaceState) -> UIView? {\n        guard self.nagramiXFormattingHostInputView != nil,\n              self.nagramiXFormattingInputView(for: state) != nil else { return nil }\n        return self.nagramiXFormattingKeyboard\n    }\n"
+    ],
+    [
+      "submodules/TelegramUI/Components/Chat/ChatTextInputPanelNode/Sources/ChatTextInputPanelNode.swift",
+      "if self.nagramiXFormattingActive { richTextInputNode.keyboardInputView = self.nagramiXFormattingKeyboard }",
+      "if self.nagramiXFormattingActive { richTextInputNode.keyboardInputView = self.nagramiXFormattingOwnedInputView }"
+    ],
+    [
+      "submodules/TelegramUI/Components/Chat/ChatTextInputPanelNode/Sources/ChatTextInputPanelNode.swift",
+      "        return self.nagramiXFormattingKeyboard\n    }\n\n    public func nagramiXUpdateFormattingKeyboardGeometry",
+      "        return self.nagramiXFormattingOwnedInputView\n    }\n\n    public func nagramiXUpdateFormattingKeyboardGeometry"
+    ],
+    [
+      "submodules/TelegramUI/Components/Chat/ChatTextInputPanelNode/Sources/ChatTextInputPanelNode.swift",
+      "private func nagramiXCloseFormatting(reload: Bool) {\n        self.nagramiXFormattingActive = false\n        if let keyboard = self.nagramiXFormattingKeyboard, let node = self.richTextInputNode,\n           node.keyboardInputView === keyboard {\n            node.keyboardInputView = nil\n            if reload && node.isInputFirstResponder { node.reloadInputViews() }\n        }\n        self.nagramiXUpdateFormatting()\n    }",
+      "private func nagramiXCloseFormatting(reload: Bool, preserveInputView: Bool = false) {\n        let wasActive = self.nagramiXFormattingActive\n        self.nagramiXFormattingActive = false\n        var keyboardWillRelayout = false\n        if !preserveInputView, let owned = self.nagramiXFormattingOwnedInputView, let node = self.richTextInputNode,\n           node.keyboardInputView === owned {\n            keyboardWillRelayout = reload && node.isInputFirstResponder\n            node.keyboardInputView = nil\n            if keyboardWillRelayout { node.reloadInputViews() }\n        }\n        self.nagramiXUpdateFormatting()\n        // When returning to a focused system keyboard, its notification supplies\n        // the layout and animation. An earlier zero-height layout would jump.\n        if wasActive && !keyboardWillRelayout && !preserveInputView {\n            self.nagramiXFormattingRequestLayout?()\n        }\n    }"
+    ],
+    [
+      "submodules/TelegramUI/Components/Chat/ChatTextInputPanelNode/Sources/ChatTextInputPanelNode.swift",
+      "        // Publish text mode first: switching away from stickers/bot keyboards\n        // runs the same host transition as the native keyboard accessory.\n        self.interfaceInteraction?.updateInputModeAndDismissedButtonKeyboardMessageId { state in\n            return (.text, state.keyboardButtonsMessage?.id)\n        }\n        self.nagramiXFormattingKeyboard?.updateHeight(height)\n        self.nagramiXFormattingActive = true\n        node.keyboardInputView = self.nagramiXFormattingKeyboard\n        self.nagramiXUpdateFormatting()\n        if node.isInputFirstResponder { node.reloadInputViews() }\n        else { node.makeInputFirstResponder() }\n        // reloadInputViews and the native keyboard layout own this transition.\n        // An extra immediate chat layout here would fight their animation.",
+      "        self.nagramiXFormattingKeyboard?.updateHeight(height)\n        self.nagramiXFormattingActive = true\n        self.nagramiXUpdateFormatting()\n        // Publish the complete mode before asking the host to lay out. A native\n        // chat uses the SAME empty input view as emoji; other owners retain the\n        // existing UIKit input-view path with no additional content animation.\n        let inputViewChanged = node.keyboardInputView !== self.nagramiXFormattingOwnedInputView\n        node.keyboardInputView = self.nagramiXFormattingOwnedInputView\n        self.interfaceInteraction?.updateInputModeAndDismissedButtonKeyboardMessageId { state in\n            return (.text, state.keyboardButtonsMessage?.id)\n        }\n        if node.isInputFirstResponder {\n            if inputViewChanged { node.reloadInputViews() }\n        } else {\n            node.makeInputFirstResponder()\n        }\n        self.nagramiXFormattingRequestLayout?()"
+    ],
+    [
+      "submodules/TelegramUI/Components/Chat/ChatTextInputPanelNode/Sources/ChatTextInputPanelNode.swift",
+      "    @objc func accessoryItemButtonPressed(_ button: UIView) {\n        self.nagramiXCloseFormatting(reload: true)",
+      "    @objc func accessoryItemButtonPressed(_ button: UIView) {\n        let switchingToMedia = self.accessoryItemButtons.contains { item, currentButton in\n            guard currentButton === button else { return false }\n            switch item {\n            case let .input(isEnabled, inputMode), let .botInput(isEnabled, inputMode):\n                switch inputMode {\n                case .stickers, .emoji: return isEnabled\n                default: return false\n                }\n            default: return false\n            }\n        }\n        self.nagramiXCloseFormatting(reload: !switchingToMedia, preserveInputView: switchingToMedia)"
+    ],
+    [
+      "submodules/TelegramUI/Components/Chat/ChatTextInputPanelNode/Sources/ChatTextInputPanelNode.swift",
+      "(.date, strings.TextFormat_Date, \"calendar\")",
+      "(.date, strings.TextFormat_Date, \"calendar.badge.clock\")"
+    ],
+    [
+      "submodules/TelegramUI/Sources/ChatControllerNode.swift",
+      "        self.textInputPanelNode?.storedInputLanguage = chatPresentationInterfaceState.interfaceState.inputLanguage\n",
+      "        self.textInputPanelNode?.storedInputLanguage = chatPresentationInterfaceState.interfaceState.inputLanguage\n        self.textInputPanelNode?.nagramiXConfigureFormattingHost(inputView: self.emptyInputView, requestLayout: { [weak self] in\n            guard let self else { return }\n            let transition: ContainedViewLayoutTransition = UIAccessibility.isReduceMotionEnabled || self.controller?.enableAnimations == false\n                ? .immediate : .animated(duration: 0.4, curve: .spring)\n            self.scheduleLayoutTransitionRequest(transition)\n        })\n"
+    ],
+    [
+      "submodules/TelegramUI/Sources/ChatInterfaceInputNodes.swift",
+      "import AsyncDisplayKit\n",
+      "import AsyncDisplayKit\nimport Display\n"
+    ],
+    [
+      "submodules/TelegramUI/Sources/ChatInterfaceInputNodes.swift",
+      "func inputNodeForChatPresentationIntefaceState(",
+      "// Formatting is an ordinary native input node, so ChatControllerNode supplies\n// exactly the same slide, clipping, composer movement and dismissal as emoji.\nprivate final class NagramiXFormattingInputNode: ChatInputNode {\n    let panel: UIView\n\n    init(panel: UIView) {\n        self.panel = panel\n        super.init()\n        self.clipsToBounds = true\n        self.view.addSubview(panel)\n        panel.layer.cornerRadius = 30\n        panel.layer.cornerCurve = .continuous\n        panel.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]\n        panel.clipsToBounds = true\n    }\n\n    override func updateLayout(width: CGFloat, leftInset: CGFloat, rightInset: CGFloat, bottomInset: CGFloat, standardInputHeight: CGFloat, inputHeight: CGFloat, maximumHeight: CGFloat, inputPanelHeight: CGFloat, transition: ContainedViewLayoutTransition, interfaceState: ChatPresentationInterfaceState, layoutMetrics: LayoutMetrics, deviceMetrics: DeviceMetrics, isVisible: Bool, isExpanded: Bool) -> (CGFloat, CGFloat) {\n        // ChatEntityKeyboardInputNode returns this same expanded/standard height.\n        // The parent computes expansion and safe bounds for both node types.\n        guard width.isFinite, width >= 0, standardInputHeight.isFinite else { return (0, 0) }\n        let height = max(0, standardInputHeight)\n        self.panel.frame = CGRect(x: 0, y: 0, width: width, height: height)\n        self.panel.setNeedsLayout()\n        return (height, 0)\n    }\n}\n\nfunc inputNodeForChatPresentationIntefaceState("
+    ],
+    [
+      "submodules/TelegramUI/Sources/ChatInterfaceInputNodes.swift",
+      "    switch chatPresentationInterfaceState.inputMode {\n",
+      "    if let textPanel = inputPanelNode as? ChatTextInputPanelNode,\n       let panel = textPanel.nagramiXFormattingPanelView(for: chatPresentationInterfaceState) {\n        if let current = currentNode as? NagramiXFormattingInputNode, current.panel === panel {\n            return current\n        }\n        let node = NagramiXFormattingInputNode(panel: panel)\n        node.interfaceInteraction = interfaceInteraction\n        return node\n    }\n    switch chatPresentationInterfaceState.inputMode {\n"
+    ],
+    [
+      "submodules/TelegramUI/Components/RichTextAttachmentScreen/Sources/RichTextAttachmentScreen.swift",
+      "        private var nagramiXFormattingGeneration = 0\n",
+      "        private var nagramiXFormattingGeneration = 0\n\n        private func nagramiXRequestInputPanelLayout() {\n            self.componentState?.updated(transition: UIAccessibility.isReduceMotionEnabled ? .immediate : .spring(duration: 0.4))\n        }\n"
+    ],
+    [
+      "submodules/TelegramUI/Components/RichTextAttachmentScreen/Sources/RichTextAttachmentScreen.swift",
+      "if notifyLayout { self.componentState?.updated(transition: .spring(duration: 0.4)) }",
+      "if notifyLayout { self.nagramiXRequestInputPanelLayout() }"
+    ],
+    [
+      "submodules/TelegramUI/Components/RichTextAttachmentScreen/Sources/RichTextAttachmentScreen.swift",
+      "                let emojiKeyboard = RichTextEmojiKeyboardController(context: component.context, editor: editor, requestLayout: { [weak self] in\n                    guard let self, !self.isUpdating else { return }\n                    self.componentState?.updated(transition: .spring(duration: 0.4))\n                })",
+      "                let emojiKeyboard = RichTextEmojiKeyboardController(context: component.context, editor: editor, requestLayout: { [weak self] in\n                    guard let self, !self.isUpdating else { return }\n                    self.nagramiXRequestInputPanelLayout()\n                })"
+    ],
+    [
+      "submodules/TelegramUI/Components/RichTextAttachmentScreen/Sources/RichTextAttachmentScreen.swift",
+      "(.date, strings.TextFormat_Date, strings.TextFormat_Date, \"calendar\", false)",
+      "(.date, strings.TextFormat_Date, strings.TextFormat_Date, \"calendar.badge.clock\", false)"
+    ],
+    [
+      "submodules/TelegramUI/Components/Chat/ChatTextInputPanelNode/Sources/ChatTextInputPanelComponent.swift",
+      "            if let richTextInputNode = panelNode.richTextInputNode {\n                if component.hideKeyboard {\n                    if richTextInputNode.keyboardInputView == nil {\n                        richTextInputNode.keyboardInputView = EmptyInputView()\n                        richTextInputNode.reloadInputViews()\n                    }\n                } else if richTextInputNode.keyboardInputView != nil {\n                    richTextInputNode.keyboardInputView = nil\n                    richTextInputNode.reloadInputViews()\n                }\n            }",
+      "            if let richTextInputNode = panelNode.richTextInputNode {\n                // Do not discard an active formatting input view during a\n                // component refresh. Switching to emoji clears formatting and\n                // installs the native empty input view in one reload.\n                let formattingState = presentationInterfaceState.updatedInputMode { _ in\n                    return component.hideKeyboard ? .none : .text\n                }\n                let formattingInputView = panelNode.nagramiXFormattingInputView(for: formattingState)\n                let updatedInputView: UIView?\n                if let formattingInputView {\n                    updatedInputView = formattingInputView\n                } else if component.hideKeyboard {\n                    updatedInputView = (richTextInputNode.keyboardInputView as? EmptyInputView) ?? EmptyInputView()\n                } else {\n                    updatedInputView = nil\n                }\n                if richTextInputNode.keyboardInputView !== updatedInputView {\n                    richTextInputNode.keyboardInputView = updatedInputView\n                    richTextInputNode.reloadInputViews()\n                }\n            }"
+    ]
+  ],
+  "outputs": {
+    "submodules/TelegramUI/Components/Chat/ChatTextInputPanelNode/Sources/NagramiXFormattingGeometry.swift": "7d3cd470995e9185c64f7db5b07ae46ad2ee8e94fae7c9cc20bcad1f060cf837",
+    "submodules/TelegramUI/Components/Chat/ChatTextInputPanelNode/Sources/NagramiXFormattingKeyboard.swift": "f9499056594b020e15bf3a1426dcaea6068f5156bffb7d9f09f509a20697af67",
+    "submodules/TelegramUI/Components/Chat/ChatTextInputPanelNode/Sources/ChatTextInputPanelNode.swift": "34677d3aef81689213c1a1a026357448bcfc2092d733752997e2ef250353ff9a",
+    "submodules/TelegramUI/Sources/ChatControllerNode.swift": "7a4a1a17bd5f90836fd7d67aa4840267dbda4107c8eae8665f1ce7b7a97e3290",
+    "submodules/TelegramUI/Sources/ChatInterfaceInputNodes.swift": "181a6f6520961c4f527a72352dc054a0c1f83d2f0a70cffd4b54967cbcacd809",
+    "submodules/TelegramUI/Components/RichTextAttachmentScreen/Sources/RichTextAttachmentScreen.swift": "319170b3c4b75abbb8cc2059877893f5ee5b28155ae92244d2d8e2a170e5ec60",
+    "submodules/TelegramUI/Components/Chat/ChatTextInputPanelNode/Sources/ChatTextInputPanelComponent.swift": "f3769aee821ffbbec10a71fb13a07de9abe2901255120b32f959264ef6bc33ba"
+  }
+}

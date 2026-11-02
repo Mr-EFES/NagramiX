@@ -1,0 +1,42 @@
+{
+  "inputs": {
+    "submodules/NagramiXTranscription/Sources/Runtime.swift": "32de0e248db38f58c37324e1c961803db06bfdda743d1c19c466f6bc8e0a2cd6",
+    "submodules/TranslateUI/Sources/NagramiXTranslationRuntime.swift": "a74b4a7a55b961671dad17b58bbd336f3d1398a66bb087af05660ab397ffd213",
+    "submodules/NagramiXTranscription/BUILD": "9f13e96fc67a16912673dd02aaaa2ff07c25a7a21a91b4ceee133f3fdb0e227a"
+  },
+  "outputs": {
+    "submodules/NagramiXTranscription/Sources/Runtime.swift": "104056a0bc753558c4efce7f2db3d6a260aa31b64a060bfeb86b9b70cbef3194",
+    "submodules/TranslateUI/Sources/NagramiXTranslationRuntime.swift": "e351efcd69effcd0b0d07c90dfbe5d22286117a0af70a7c0f503b3b5df7222f0",
+    "submodules/NagramiXTranscription/BUILD": "0a3e9cad2c13fdf76a39088878960d3ccbb62abb45e68f2172ada3a9904a49c9"
+  },
+  "guards": {
+    "submodules/TelegramCore/BUILD": "81e6c1d9dceab5da57124381fce03665a449bcb7904e66c884269dacdd584fbf",
+    "submodules/TelegramCore/Sources/TelegramEngine/Utils/EnginePostboxCoding.swift": "85fe70dd6ee4acd5f41c94c7e2d22ed761fa71625547db8e60175938cc6678a7",
+    "submodules/TelegramCore/Sources/TelegramEngine/Messages/TelegramEngineMessages.swift": "d8374e28818bbc52abe849c6364c355489fd3968ad1ea0bf3f5058126c4d5ed1"
+  },
+  "templates": {
+    "release_076_sdk/Before-submodules_NagramiXTranscription_BUILD.inc": "9f13e96fc67a16912673dd02aaaa2ff07c25a7a21a91b4ceee133f3fdb0e227a",
+    "release_076_sdk/Before-submodules_NagramiXTranscription_Sources_Runtime.swift.inc": "32de0e248db38f58c37324e1c961803db06bfdda743d1c19c466f6bc8e0a2cd6",
+    "release_076_sdk/Before-submodules_TranslateUI_Sources_NagramiXTranslationRuntime.swift.inc": "a74b4a7a55b961671dad17b58bbd336f3d1398a66bb087af05660ab397ffd213",
+    "release_076_sdk/EngineLocalMessages.swift": "8bf2cf0803cd2452581ff453ba732fb1ab565360dbb33f9f70ff527b61a70a44",
+    "release_076_sdk/submodules_NagramiXTranscription_BUILD.inc": "0a3e9cad2c13fdf76a39088878960d3ccbb62abb45e68f2172ada3a9904a49c9",
+    "release_076_sdk/submodules_NagramiXTranscription_Sources_Runtime.swift.inc": "104056a0bc753558c4efce7f2db3d6a260aa31b64a060bfeb86b9b70cbef3194",
+    "release_076_sdk/submodules_TranslateUI_Sources_NagramiXTranslationRuntime.swift.inc": "e351efcd69effcd0b0d07c90dfbe5d22286117a0af70a7c0f503b3b5df7222f0"
+  },
+  "copies": {
+    "submodules/TelegramCore/Sources/TelegramEngine/Messages/NagramiXLocalMessageData.swift": {
+      "source": "release_076_sdk/EngineLocalMessages.swift",
+      "sha256": "8bf2cf0803cd2452581ff453ba732fb1ab565360dbb33f9f70ff527b61a70a44"
+    }
+  },
+  "replacements": {
+    "submodules/NagramiXTranscription/Sources/Runtime.swift": "release_076_sdk/submodules_NagramiXTranscription_Sources_Runtime.swift.inc",
+    "submodules/TranslateUI/Sources/NagramiXTranslationRuntime.swift": "release_076_sdk/submodules_TranslateUI_Sources_NagramiXTranslationRuntime.swift.inc",
+    "submodules/NagramiXTranscription/BUILD": "release_076_sdk/submodules_NagramiXTranscription_BUILD.inc"
+  },
+  "previous": {
+    "submodules/NagramiXTranscription/Sources/Runtime.swift": "release_076_sdk/Before-submodules_NagramiXTranscription_Sources_Runtime.swift.inc",
+    "submodules/TranslateUI/Sources/NagramiXTranslationRuntime.swift": "release_076_sdk/Before-submodules_TranslateUI_Sources_NagramiXTranslationRuntime.swift.inc",
+    "submodules/NagramiXTranscription/BUILD": "release_076_sdk/Before-submodules_NagramiXTranscription_BUILD.inc"
+  }
+}

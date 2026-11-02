@@ -1,0 +1,54 @@
+{
+  "inputs": {
+    "submodules/NagramiXTranscription/Sources/Settings.swift": "0194d505dc83d8f84ccf1f15661fdae182a9d180f4d63d2a660fa56d60969a21",
+    "submodules/NagramiXTranscription/Sources/Cloud.swift": "dbf5a3fcfa0c42d3b8c15ba472026aa44438f467f9fca55c378d57b58359aabe",
+    "submodules/NagramiXTranscription/Sources/Models.swift": "66bd9c1100d5cdcfe473ab6ed18f6a26802149914509e7d89f12815850ca3fa0",
+    "submodules/NagramiXTranscription/Sources/Preferences.swift": "9937b266e1c7cfbf0081b66612d9e010bc316c9ae02a144267217d4c2085ab4c",
+    "submodules/NagramiXTranscription/Sources/AppleAnalyzer.swift": "3ea131b92f594aa912d29fc2613269a40a792c6c1eecb322c09962b203e7f81b",
+    "submodules/NagramiXTranscription/Sources/Whisper.swift": "ad4b6fe0f39d202f0c6d046ecf6435f04fd0c146ef79c7be186ec8264368a13f"
+  },
+  "outputs": {
+    "submodules/NagramiXTranscription/Sources/Settings.swift": "1b1a72dbdc12e042779aa51d273ac0a80546995888751d4c87cfa4081e13d3da",
+    "submodules/NagramiXTranscription/Sources/Cloud.swift": "cfbe3035074bc9057d96dfab121027c142186ad7966e8c1422a4f659f841c645",
+    "submodules/NagramiXTranscription/Sources/Models.swift": "240a8b8ee5e55d07317e27944a26b053edf8584c0f4bd7fc8db119d87617af30",
+    "submodules/NagramiXTranscription/Sources/Preferences.swift": "8dd555b68e521b8d05bba4aa9009c96b0d033a02c44ef131982bb3aa99f7c72c",
+    "submodules/NagramiXTranscription/Sources/AppleAnalyzer.swift": "703a40a97114ddfe696b3656682aba5a2576b3bf5a254ebf63c300fb886e382f",
+    "submodules/NagramiXTranscription/Sources/Whisper.swift": "1ceeecfbc6d400a45a9f5643d8a599e57a5e77781c6b5435a8ec36e7614ff01b"
+  },
+  "guards": {
+    "submodules/NagramiXTranscription/BUILD": "0a3e9cad2c13fdf76a39088878960d3ccbb62abb45e68f2172ada3a9904a49c9",
+    "submodules/NagramiXTranscription/Whisper/BUILD": "75ba2c38b20af3719a59805b208f42eabaa0f9aada0fee22de4f97bb29f3e7df",
+    "MODULE.bazel": "575b7ae9e4b4c1417f12534975f71739d34ea6ab198d864bed4c056b0c7c6614"
+  },
+  "templates": {
+    "transcription_settings_complete/Before-Settings.swift.inc": "0194d505dc83d8f84ccf1f15661fdae182a9d180f4d63d2a660fa56d60969a21",
+    "transcription_settings_complete/Settings.swift.inc": "1b1a72dbdc12e042779aa51d273ac0a80546995888751d4c87cfa4081e13d3da",
+    "transcription_settings_complete/Before-Cloud.swift.inc": "dbf5a3fcfa0c42d3b8c15ba472026aa44438f467f9fca55c378d57b58359aabe",
+    "transcription_settings_complete/Cloud.swift.inc": "cfbe3035074bc9057d96dfab121027c142186ad7966e8c1422a4f659f841c645",
+    "transcription_settings_complete/Before-Models.swift.inc": "66bd9c1100d5cdcfe473ab6ed18f6a26802149914509e7d89f12815850ca3fa0",
+    "transcription_settings_complete/Models.swift.inc": "240a8b8ee5e55d07317e27944a26b053edf8584c0f4bd7fc8db119d87617af30",
+    "transcription_settings_complete/Before-Preferences.swift.inc": "9937b266e1c7cfbf0081b66612d9e010bc316c9ae02a144267217d4c2085ab4c",
+    "transcription_settings_complete/Preferences.swift.inc": "8dd555b68e521b8d05bba4aa9009c96b0d033a02c44ef131982bb3aa99f7c72c",
+    "transcription_settings_complete/Before-AppleAnalyzer.swift.inc": "3ea131b92f594aa912d29fc2613269a40a792c6c1eecb322c09962b203e7f81b",
+    "transcription_settings_complete/AppleAnalyzer.swift.inc": "703a40a97114ddfe696b3656682aba5a2576b3bf5a254ebf63c300fb886e382f",
+    "transcription_settings_complete/Before-Whisper.swift.inc": "ad4b6fe0f39d202f0c6d046ecf6435f04fd0c146ef79c7be186ec8264368a13f",
+    "transcription_settings_complete/Whisper.swift.inc": "1ceeecfbc6d400a45a9f5643d8a599e57a5e77781c6b5435a8ec36e7614ff01b"
+  },
+  "copies": {},
+  "replacements": {
+    "submodules/NagramiXTranscription/Sources/Settings.swift": "transcription_settings_complete/Settings.swift.inc",
+    "submodules/NagramiXTranscription/Sources/Cloud.swift": "transcription_settings_complete/Cloud.swift.inc",
+    "submodules/NagramiXTranscription/Sources/Models.swift": "transcription_settings_complete/Models.swift.inc",
+    "submodules/NagramiXTranscription/Sources/Preferences.swift": "transcription_settings_complete/Preferences.swift.inc",
+    "submodules/NagramiXTranscription/Sources/AppleAnalyzer.swift": "transcription_settings_complete/AppleAnalyzer.swift.inc",
+    "submodules/NagramiXTranscription/Sources/Whisper.swift": "transcription_settings_complete/Whisper.swift.inc"
+  },
+  "previous": {
+    "submodules/NagramiXTranscription/Sources/Settings.swift": "transcription_settings_complete/Before-Settings.swift.inc",
+    "submodules/NagramiXTranscription/Sources/Cloud.swift": "transcription_settings_complete/Before-Cloud.swift.inc",
+    "submodules/NagramiXTranscription/Sources/Models.swift": "transcription_settings_complete/Before-Models.swift.inc",
+    "submodules/NagramiXTranscription/Sources/Preferences.swift": "transcription_settings_complete/Before-Preferences.swift.inc",
+    "submodules/NagramiXTranscription/Sources/AppleAnalyzer.swift": "transcription_settings_complete/Before-AppleAnalyzer.swift.inc",
+    "submodules/NagramiXTranscription/Sources/Whisper.swift": "transcription_settings_complete/Before-Whisper.swift.inc"
+  }
+}

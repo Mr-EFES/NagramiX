@@ -1,0 +1,24 @@
+{
+  "inputs": {
+    "submodules/NagramiXTranscription/Sources/License.swift": "46bdd93f8ecd5eb37e2a059e18e61abec1c3f6a4b84b87bf2655eec98d93d9ad"
+  },
+  "outputs": {
+    "submodules/NagramiXTranscription/Sources/License.swift": "a74574c3bab1e71d0c98aed3fd78e45e0c4d940fe10655acd227fd7ff96ab120"
+  },
+  "guards": {
+    "submodules/NagramiXTranscription/BUILD": "820772c2401f640bf652106d20d11b466cee847e29b43a8dff3ca3b3af0c7e78"
+  },
+  "templates": {
+    "license_readable/Before.inc": "46bdd93f8ecd5eb37e2a059e18e61abec1c3f6a4b84b87bf2655eec98d93d9ad",
+    "license_readable/After.inc": "a74574c3bab1e71d0c98aed3fd78e45e0c4d940fe10655acd227fd7ff96ab120",
+    "license_readable/Guard.inc": "820772c2401f640bf652106d20d11b466cee847e29b43a8dff3ca3b3af0c7e78"
+  },
+  "previous": {
+    "submodules/NagramiXTranscription/Sources/License.swift": "license_readable/Before.inc"
+  },
+  "replacements": {
+    "submodules/NagramiXTranscription/Sources/License.swift": "license_readable/After.inc"
+  },
+  "copies": {},
+  "deletions": {}
+}

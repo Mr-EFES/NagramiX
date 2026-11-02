@@ -1,0 +1,38 @@
+{
+  "hashes": {
+    "submodules/TelegramUI/Sources/ApplicationContext.swift": "38e4f3931450a181427b8052c5eb14901770a6ba70c5e5ac37c1df61c562724b",
+    "submodules/TelegramUI/Sources/DeviceContactDataManager.swift": "a093413d75cef0efe6e77aec638c631b830e6bf1d0cc609bfc5fdeab45c53f36"
+  },
+  "patches": [
+    [
+      "submodules/TelegramUI/Sources/ApplicationContext.swift",
+      "                let contactsTimestamp = contactsPermissionWarningNotice.value.flatMap({ ApplicationSpecificNotice.getTimestampValue($0) })\n",
+      "                let savedContactsTimestamp = contactsPermissionWarningNotice.value.flatMap({ ApplicationSpecificNotice.getTimestampValue($0) })\n                // The native \"Not Allow\" continuation acknowledges this notice.\n                // Complete it silently, without requesting or faking OS access.\n                if savedContactsTimestamp != 0 {\n                    ApplicationSpecificNotice.setPermissionWarning(accountManager: context.sharedContext.accountManager, permission: .contacts, value: 0)\n                }\n",
+      1
+    ],
+    [
+      "submodules/TelegramUI/Sources/ApplicationContext.swift",
+      "                        case .contacts:\n                            if case .modal = config.contacts {\n                                modal = true\n                            }\n                            if case .requestable = required.0.status, contactsTimestamp != 0 {\n                                requestedPermissions.append((required.0, modal))\n                            }\n",
+      "                        case .contacts:\n                            // Already acknowledged above as Not Allow. Keep the\n                            // native permission order and continue other requests.\n                            break\n",
+      1
+    ],
+    [
+      "submodules/TelegramUI/Sources/ApplicationContext.swift",
+      "                // Phone-book access is requested by contacts UI actions only,\n                // including when a server experiment changes the startup order.\n                var order = config.order.filter { $0 != .contacts }\n",
+      "                var order = config.order\n",
+      1
+    ],
+    [
+      "submodules/TelegramUI/Sources/ApplicationContext.swift",
+      "        let deviceContactPhoneNumbers = optionalImportableContacts\n        |> map { contacts in\n            return Set(contacts.keys.map { cleanPhoneNumber($0.rawValue) })\n        }\n        // Promise.set discards its cached value. Chat history must receive an\n        // empty phone-book snapshot even while permission remains undecided.\n        // Seed only the display stream; keep contact-import consent unchanged.\n        self.context.sharedContext.deviceContactPhoneNumbers.set(\n            .single(Set<String>()) |> then(deviceContactPhoneNumbers)\n        )\n",
+      "        self.context.sharedContext.deviceContactPhoneNumbers.set(optionalImportableContacts\n        |> map { contacts in\n            return Set(contacts.keys.map { cleanPhoneNumber($0.rawValue) })\n        })\n",
+      1
+    ],
+    [
+      "submodules/TelegramUI/Sources/DeviceContactDataManager.swift",
+      "            guard let strongSelf = self, authorizationStatus != .notDetermined else {\n                return\n            }\n            strongSelf.accessInitialized = true\n",
+      "            guard let strongSelf = self else {\n                return\n            }\n            // An unrequested phone book is unavailable, just like a denied one.\n            // Publish the native empty-data branch instead of leaving its\n            // subscribers pending. Explicit authorization still uses real iOS\n            // status and can request access later; no permission cache is set.\n            strongSelf.accessInitialized = true\n",
+      1
+    ]
+  ]
+}

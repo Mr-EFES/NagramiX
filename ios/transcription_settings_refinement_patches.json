@@ -1,0 +1,26 @@
+{
+  "inputs": {
+    "submodules/SettingsUI/Sources/NagramiXSettingsController.swift": "9ea71b33a1f71850535d052ccfb95b8a5f06d475f8e4b5c84176373f1a7f9784",
+    "submodules/NagramiXTranscription/Sources/Preferences.swift": "942e4e239a92b40bef6e4bef7af69a576224588a8d8eb41632281a2173cbe019"
+  },
+  "outputs": {
+    "submodules/SettingsUI/Sources/NagramiXSettingsController.swift": "d39811c3908b9d6341a9b1a1f830686624fe773b52c881ef93bbd9b47d1221d6",
+    "submodules/NagramiXTranscription/Sources/Preferences.swift": "9937b266e1c7cfbf0081b66612d9e010bc316c9ae02a144267217d4c2085ab4c"
+  },
+  "guards": {},
+  "templates": {
+    "transcription_settings_refinement/Before-NagramiXSettingsController.swift.inc": "9ea71b33a1f71850535d052ccfb95b8a5f06d475f8e4b5c84176373f1a7f9784",
+    "transcription_settings_refinement/NagramiXSettingsController.swift.inc": "d39811c3908b9d6341a9b1a1f830686624fe773b52c881ef93bbd9b47d1221d6",
+    "transcription_settings_refinement/Before-Preferences.swift.inc": "942e4e239a92b40bef6e4bef7af69a576224588a8d8eb41632281a2173cbe019",
+    "transcription_settings_refinement/Preferences.swift.inc": "9937b266e1c7cfbf0081b66612d9e010bc316c9ae02a144267217d4c2085ab4c"
+  },
+  "copies": {},
+  "replacements": {
+    "submodules/SettingsUI/Sources/NagramiXSettingsController.swift": "transcription_settings_refinement/NagramiXSettingsController.swift.inc",
+    "submodules/NagramiXTranscription/Sources/Preferences.swift": "transcription_settings_refinement/Preferences.swift.inc"
+  },
+  "previous": {
+    "submodules/SettingsUI/Sources/NagramiXSettingsController.swift": "transcription_settings_refinement/Before-NagramiXSettingsController.swift.inc",
+    "submodules/NagramiXTranscription/Sources/Preferences.swift": "transcription_settings_refinement/Before-Preferences.swift.inc"
+  }
+}

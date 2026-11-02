@@ -1,0 +1,32 @@
+{
+  "inputs": {
+    "submodules/TelegramUI/Components/Stories/StoryContainerScreen/Sources/StoryItemSetContainerComponent.swift": "40415ed9db1fecb034e6849ab334682c213d2ead024a265e4ee8bffe620b4fbc"
+  },
+  "outputs": {
+    "submodules/TelegramUI/Components/Stories/StoryContainerScreen/Sources/StoryItemSetContainerComponent.swift": "0ee6b018c18f1407cd111a2af96c59fc72096276a496ba31a6458273881814ee"
+  },
+  "guards": {
+    "submodules/TelegramUI/Components/Stories/StoryContainerScreen/BUILD": "6d1056630ca8320601491b8055990b68835bb61f0fb285f6124dee23d4b27c73",
+    "submodules/SaveToCameraRoll/Sources/NagramiXStorySave.swift": "91f408c0d7fedd120897b42a0b0e8c307d1d01d3a1bcac011d48718371886ac1",
+    "submodules/TelegramCore/Sources/TelegramEngine/Messages/Stories.swift": "1fa26cb6d29270fba8018d5b6c53b1723a7491cab6a60fb1496f82d8667939b4",
+    "submodules/TelegramUI/Components/Stories/StoryContainerScreen/Sources/StoryChatContent.swift": "f98b39aa40e503d11419ae54ae678f52c3aec7475c22c09fa2f7b067127c96d1",
+    "submodules/TelegramUI/Components/Stories/StoryContainerScreen/Sources/StoryContainerScreen.swift": "2347d4bcdc0b51e0ee18cfc7d83688f5c2438b08ab6cae92a622ae945f1c2e62"
+  },
+  "copies": {
+    "submodules/TelegramUI/Components/Stories/StoryContainerScreen/Sources/NagramiXStoryDownloadQuality.swift": {
+      "source": "story_download_quality/Quality.swift",
+      "sha256": "fec373a66737563fcafe61987844522268e4e362f8d5ce5687462350771c3f8c"
+    }
+  },
+  "templates": {
+    "story_download_quality/Quality.swift": "fec373a66737563fcafe61987844522268e4e362f8d5ce5687462350771c3f8c"
+  },
+  "patches": [
+    [
+      "submodules/TelegramUI/Components/Stories/StoryContainerScreen/Sources/StoryItemSetContainerComponent.swift",
+      "            let reference: AnyMediaReference = .story(peer: peer, id: component.slice.item.storyItem.id, media: component.slice.item.storyItem.media._asMedia())",
+      "            let item = component.slice.item.storyItem\n            let media = nagramiXBestStoryMediaForSaving(item)\n            let reference: AnyMediaReference = .story(peer: peer, id: item.id, media: media._asMedia())",
+      1
+    ]
+  ]
+}

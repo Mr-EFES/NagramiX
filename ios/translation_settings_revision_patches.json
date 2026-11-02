@@ -1,0 +1,38 @@
+{
+  "inputs": {
+    "submodules/TranslateUI/Sources/NagramiXTranslationSettings.swift": "2f6f72aaa666710e1522f51860b1bc3383334e0231b2689836aad1a86295bf38",
+    "submodules/TranslateUI/Sources/NagramiXTranslationPreferences.swift": "64c1aca2d26a2e272094bf465b2b17c168e8138b6200b496187c61e211d429b5",
+    "submodules/SettingsUI/Sources/NagramiXSettingsController.swift": "d39811c3908b9d6341a9b1a1f830686624fe773b52c881ef93bbd9b47d1221d6",
+    "submodules/TranslateUI/Sources/Translate.swift": "78950b17529711c8f6b9416337823fe5c524ae3db13f094824a1e9600d4a8cf5"
+  },
+  "outputs": {
+    "submodules/TranslateUI/Sources/NagramiXTranslationSettings.swift": "0e7f3d061ba20b0ed8c99a9d761ad06a1f326bafe244465c4248b526e39c4a11",
+    "submodules/TranslateUI/Sources/NagramiXTranslationPreferences.swift": "ddef549b7cd112585a674cd61ab3e3119ebc6215ab4c35506e34ce2d737a7974",
+    "submodules/SettingsUI/Sources/NagramiXSettingsController.swift": "2aafc61833c77c0c3928c29403da44e17a9e10c8e6e186922c7f960a8c760be6",
+    "submodules/TranslateUI/Sources/Translate.swift": "0645d79f094f9a1f3b693493f82c30fb04110ff70001b775aa0cb75d864778df"
+  },
+  "guards": {},
+  "templates": {
+    "translation_settings_revision/Before-Settings.swift.inc": "2f6f72aaa666710e1522f51860b1bc3383334e0231b2689836aad1a86295bf38",
+    "translation_settings_revision/Settings.swift.inc": "0e7f3d061ba20b0ed8c99a9d761ad06a1f326bafe244465c4248b526e39c4a11",
+    "translation_settings_revision/Before-Preferences.swift.inc": "64c1aca2d26a2e272094bf465b2b17c168e8138b6200b496187c61e211d429b5",
+    "translation_settings_revision/Preferences.swift.inc": "ddef549b7cd112585a674cd61ab3e3119ebc6215ab4c35506e34ce2d737a7974",
+    "translation_settings_revision/Before-Controller.swift.inc": "d39811c3908b9d6341a9b1a1f830686624fe773b52c881ef93bbd9b47d1221d6",
+    "translation_settings_revision/Controller.swift.inc": "2aafc61833c77c0c3928c29403da44e17a9e10c8e6e186922c7f960a8c760be6",
+    "translation_settings_revision/Before-Translate.swift.inc": "78950b17529711c8f6b9416337823fe5c524ae3db13f094824a1e9600d4a8cf5",
+    "translation_settings_revision/Translate.swift.inc": "0645d79f094f9a1f3b693493f82c30fb04110ff70001b775aa0cb75d864778df"
+  },
+  "copies": {},
+  "replacements": {
+    "submodules/TranslateUI/Sources/NagramiXTranslationSettings.swift": "translation_settings_revision/Settings.swift.inc",
+    "submodules/TranslateUI/Sources/NagramiXTranslationPreferences.swift": "translation_settings_revision/Preferences.swift.inc",
+    "submodules/SettingsUI/Sources/NagramiXSettingsController.swift": "translation_settings_revision/Controller.swift.inc",
+    "submodules/TranslateUI/Sources/Translate.swift": "translation_settings_revision/Translate.swift.inc"
+  },
+  "previous": {
+    "submodules/TranslateUI/Sources/NagramiXTranslationSettings.swift": "translation_settings_revision/Before-Settings.swift.inc",
+    "submodules/TranslateUI/Sources/NagramiXTranslationPreferences.swift": "translation_settings_revision/Before-Preferences.swift.inc",
+    "submodules/SettingsUI/Sources/NagramiXSettingsController.swift": "translation_settings_revision/Before-Controller.swift.inc",
+    "submodules/TranslateUI/Sources/Translate.swift": "translation_settings_revision/Before-Translate.swift.inc"
+  }
+}

@@ -1,0 +1,75 @@
+{
+  "inputs": {
+    "submodules/TranslateUI/Sources/NagramiXTranslationSettings.swift": "57098606d62b17b45b80f05d7bd70b25cd55a41c3c2c440c2f2b98ed003241c9",
+    "submodules/TranslateUI/Sources/NagramiXTranslationPreferences.swift": "579929b343d0f58ea7bac54f85cb566f482f03585b29f7174e4acde12e676da4",
+    "submodules/TranslateUI/Sources/NagramiXTranslationRuntime.swift": "d3f5f2a7081e2509c4d16d604982ab6a15eebd085ea96ac740a116883c97de26",
+    "submodules/TranslateUI/Sources/NagramiXTranslationCloud.swift": "f29da347c710e685000a3397f2fdb6999f3a722dc4b4e039a01cdc1f9fa72b86",
+    "submodules/TranslateUI/Sources/NagramiXTranslationCredentials.swift": "b7420886325020939968c1130e0ed40f9d7115580c60df6a8e7029e09c702131",
+    "submodules/TranslateUI/Sources/Translate.swift": "0645d79f094f9a1f3b693493f82c30fb04110ff70001b775aa0cb75d864778df",
+    "submodules/SettingsUI/Sources/NagramiXSettingsController.swift": "2aafc61833c77c0c3928c29403da44e17a9e10c8e6e186922c7f960a8c760be6"
+  },
+  "outputs": {
+    "submodules/TranslateUI/Sources/NagramiXTranslationSettings.swift": "acb21fcf0e46376d0168aeba885db71aa859ae7d35b9cca99c23ba8b9660a541",
+    "submodules/TranslateUI/Sources/NagramiXTranslationPreferences.swift": "0104c57f4a68b6f6cf5f77b02ed9cc3bc42f862b5b894bea3c6b96d87697587b",
+    "submodules/TranslateUI/Sources/NagramiXTranslationRuntime.swift": "4093bbbc5343f8894989477ce57ac0d2ea4e245717b9d3d14c6e1a3ee6cb71cc",
+    "submodules/TranslateUI/Sources/NagramiXTranslationCloud.swift": "c3300ef5806fd05ba391506dfdb5777163a37264c1bae71aa6a6ca749b78ec6c",
+    "submodules/TranslateUI/Sources/NagramiXTranslationCredentials.swift": "c7e44493e9407fe57c3b5fe3400d65dd4433de0fd27dc89dfb95bdc807ecffd4",
+    "submodules/TranslateUI/Sources/Translate.swift": "276b3ffb928ff6e1c869e79749067cb033a95ea7aa82a99aa0f9116fc3cee9c6",
+    "submodules/SettingsUI/Sources/NagramiXSettingsController.swift": "aabe0b6c9d1af5c931b3d362f87540c9e02b7b63f24c46eadaf1208620c90a98"
+  },
+  "guards": {
+    "submodules/TranslateUI/BUILD": "f1a9e651b7caa1a06203dd97ff851a7b58d4453a0427660bb7656fa686ad96a7",
+    "submodules/SettingsUI/BUILD": "ccf29c184b8eab3b16f702e5cecc61490e5762f46e4bd53273ad95790d1a879a",
+    "submodules/TranslateUI/Sources/NagramiXTranslationWeb.swift": "7a031fe1eb6d4e53117ca02a8c47750f8d360e0356a35da072f94ce129b6185c",
+    "submodules/TranslateUI/Sources/NagramiXTranslationTextPlan.swift": "0ee997d740a343c38f2ed1fcbe70190781d0779e5f66fdda62a0cac2bf8b0fc4",
+    "submodules/TranslateUI/Sources/NagramiXTranslationApple.swift": "ecc2f9f3cc235d697980965b489168a8d6fb032f688772c804f402083a09fe5c"
+  },
+  "templates": {
+    "translation_simplification/Before-Settings.swift.inc": "57098606d62b17b45b80f05d7bd70b25cd55a41c3c2c440c2f2b98ed003241c9",
+    "translation_simplification/Settings.swift.inc": "acb21fcf0e46376d0168aeba885db71aa859ae7d35b9cca99c23ba8b9660a541",
+    "translation_simplification/Before-Preferences.swift.inc": "579929b343d0f58ea7bac54f85cb566f482f03585b29f7174e4acde12e676da4",
+    "translation_simplification/Preferences.swift.inc": "0104c57f4a68b6f6cf5f77b02ed9cc3bc42f862b5b894bea3c6b96d87697587b",
+    "translation_simplification/Before-Runtime.swift.inc": "d3f5f2a7081e2509c4d16d604982ab6a15eebd085ea96ac740a116883c97de26",
+    "translation_simplification/Runtime.swift.inc": "4093bbbc5343f8894989477ce57ac0d2ea4e245717b9d3d14c6e1a3ee6cb71cc",
+    "translation_simplification/Before-Cloud.swift.inc": "f29da347c710e685000a3397f2fdb6999f3a722dc4b4e039a01cdc1f9fa72b86",
+    "translation_simplification/Cloud.swift.inc": "c3300ef5806fd05ba391506dfdb5777163a37264c1bae71aa6a6ca749b78ec6c",
+    "translation_simplification/Before-Credentials.swift.inc": "b7420886325020939968c1130e0ed40f9d7115580c60df6a8e7029e09c702131",
+    "translation_simplification/Credentials.swift.inc": "c7e44493e9407fe57c3b5fe3400d65dd4433de0fd27dc89dfb95bdc807ecffd4",
+    "translation_simplification/Before-Translate.swift.inc": "0645d79f094f9a1f3b693493f82c30fb04110ff70001b775aa0cb75d864778df",
+    "translation_simplification/Translate.swift.inc": "276b3ffb928ff6e1c869e79749067cb033a95ea7aa82a99aa0f9116fc3cee9c6",
+    "translation_simplification/Before-Controller.swift.inc": "2aafc61833c77c0c3928c29403da44e17a9e10c8e6e186922c7f960a8c760be6",
+    "translation_simplification/Controller.swift.inc": "aabe0b6c9d1af5c931b3d362f87540c9e02b7b63f24c46eadaf1208620c90a98",
+    "translation_simplification/Before-Apple.swift.inc": "ecc2f9f3cc235d697980965b489168a8d6fb032f688772c804f402083a09fe5c",
+    "translation_simplification/ModelPicker.swift": "c290a8d694ce8116b3a952b31ef68a6955bbea840cf5365608397f95489d0a55"
+  },
+  "replacements": {
+    "submodules/TranslateUI/Sources/NagramiXTranslationSettings.swift": "translation_simplification/Settings.swift.inc",
+    "submodules/TranslateUI/Sources/NagramiXTranslationPreferences.swift": "translation_simplification/Preferences.swift.inc",
+    "submodules/TranslateUI/Sources/NagramiXTranslationRuntime.swift": "translation_simplification/Runtime.swift.inc",
+    "submodules/TranslateUI/Sources/NagramiXTranslationCloud.swift": "translation_simplification/Cloud.swift.inc",
+    "submodules/TranslateUI/Sources/NagramiXTranslationCredentials.swift": "translation_simplification/Credentials.swift.inc",
+    "submodules/TranslateUI/Sources/Translate.swift": "translation_simplification/Translate.swift.inc",
+    "submodules/SettingsUI/Sources/NagramiXSettingsController.swift": "translation_simplification/Controller.swift.inc"
+  },
+  "previous": {
+    "submodules/TranslateUI/Sources/NagramiXTranslationSettings.swift": "translation_simplification/Before-Settings.swift.inc",
+    "submodules/TranslateUI/Sources/NagramiXTranslationPreferences.swift": "translation_simplification/Before-Preferences.swift.inc",
+    "submodules/TranslateUI/Sources/NagramiXTranslationRuntime.swift": "translation_simplification/Before-Runtime.swift.inc",
+    "submodules/TranslateUI/Sources/NagramiXTranslationCloud.swift": "translation_simplification/Before-Cloud.swift.inc",
+    "submodules/TranslateUI/Sources/NagramiXTranslationCredentials.swift": "translation_simplification/Before-Credentials.swift.inc",
+    "submodules/TranslateUI/Sources/Translate.swift": "translation_simplification/Before-Translate.swift.inc",
+    "submodules/SettingsUI/Sources/NagramiXSettingsController.swift": "translation_simplification/Before-Controller.swift.inc"
+  },
+  "copies": {
+    "submodules/TranslateUI/Sources/NagramiXTranslationModelPicker.swift": {
+      "source": "translation_simplification/ModelPicker.swift",
+      "sha256": "c290a8d694ce8116b3a952b31ef68a6955bbea840cf5365608397f95489d0a55"
+    }
+  },
+  "deletions": {
+    "submodules/TranslateUI/Sources/NagramiXTranslationApple.swift": {
+      "source": "translation_simplification/Before-Apple.swift.inc",
+      "sha256": "ecc2f9f3cc235d697980965b489168a8d6fb032f688772c804f402083a09fe5c"
+    }
+  }
+}

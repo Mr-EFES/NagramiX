@@ -1,0 +1,26 @@
+{
+  "inputs": {
+    "MODULE.bazel": "80c7deaf4e9aab5136d13b0b8a546c7cff3b9469dbe518158f8315fd1c136f94",
+    "submodules/TranslateUI/BUILD": "e303517d2b8949daec623e0de22479179433d2b6916edcb3646e6310f88df504"
+  },
+  "outputs": {
+    "MODULE.bazel": "575b7ae9e4b4c1417f12534975f71739d34ea6ab198d864bed4c056b0c7c6614",
+    "submodules/TranslateUI/BUILD": "f1a9e651b7caa1a06203dd97ff851a7b58d4453a0427660bb7656fa686ad96a7"
+  },
+  "guards": {},
+  "templates": {
+    "release_076_dependencies/Before-submodules_TranslateUI_BUILD.inc": "e303517d2b8949daec623e0de22479179433d2b6916edcb3646e6310f88df504",
+    "release_076_dependencies/Before-MODULE.bazel.inc": "80c7deaf4e9aab5136d13b0b8a546c7cff3b9469dbe518158f8315fd1c136f94",
+    "release_076_dependencies/MODULE.bazel.inc": "575b7ae9e4b4c1417f12534975f71739d34ea6ab198d864bed4c056b0c7c6614",
+    "release_076_dependencies/submodules_TranslateUI_BUILD.inc": "f1a9e651b7caa1a06203dd97ff851a7b58d4453a0427660bb7656fa686ad96a7"
+  },
+  "copies": {},
+  "replacements": {
+    "MODULE.bazel": "release_076_dependencies/MODULE.bazel.inc",
+    "submodules/TranslateUI/BUILD": "release_076_dependencies/submodules_TranslateUI_BUILD.inc"
+  },
+  "previous": {
+    "MODULE.bazel": "release_076_dependencies/Before-MODULE.bazel.inc",
+    "submodules/TranslateUI/BUILD": "release_076_dependencies/Before-submodules_TranslateUI_BUILD.inc"
+  }
+}

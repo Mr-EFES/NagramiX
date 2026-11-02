@@ -1,0 +1,39 @@
+{
+  "inputs": {
+    "submodules/NagramiXCore/Resources/ru.lproj/Localizable.strings": "7a1b32463f5a30dff532455c12142cd497b297ae17946ad8596a53b1736d489e",
+    "submodules/NagramiXCore/Resources/en.lproj/Localizable.strings": "d5b73ed2183d3d0541ccd55a45a603380a3b60747bd63e1558b864e9769b91e8"
+  },
+  "outputs": {
+    "submodules/NagramiXCore/Resources/ru.lproj/Localizable.strings": "a22a5919c4dfaf11cec31d7c6f9aa816b058e8361225f27b7d7f4112ae6d81ad",
+    "submodules/NagramiXCore/Resources/en.lproj/Localizable.strings": "8342573cfcc87e8e8ee9eb91dd4552bda27341943d86269c3e80554e69d93419"
+  },
+  "guards": {
+    "submodules/NagramiXCore/BUILD": "869e31310cc925b84ceb827a3c0b8503f3a22614acb4abeeec4a4ad435cf56e2"
+  },
+  "templates": {
+    "pip_mode_label/Before0.inc": "7a1b32463f5a30dff532455c12142cd497b297ae17946ad8596a53b1736d489e",
+    "pip_mode_label/Before1.inc": "d5b73ed2183d3d0541ccd55a45a603380a3b60747bd63e1558b864e9769b91e8",
+    "pip_mode_label/Guard0.inc": "869e31310cc925b84ceb827a3c0b8503f3a22614acb4abeeec4a4ad435cf56e2"
+  },
+  "previous": {
+    "submodules/NagramiXCore/Resources/ru.lproj/Localizable.strings": "pip_mode_label/Before0.inc",
+    "submodules/NagramiXCore/Resources/en.lproj/Localizable.strings": "pip_mode_label/Before1.inc"
+  },
+  "replacements": {},
+  "copies": {},
+  "deletions": {},
+  "operations": {
+    "submodules/NagramiXCore/Resources/ru.lproj/Localizable.strings": [
+      [
+        "\"NagramiX.Settings.Video.PiPSwipe\" = \"«Картинка в Картинке» свайпом\";",
+        "\"NagramiX.Settings.Video.PiPSwipe\" = \"Режим картинка в картинке\";"
+      ]
+    ],
+    "submodules/NagramiXCore/Resources/en.lproj/Localizable.strings": [
+      [
+        "\"NagramiX.Settings.Video.PiPSwipe\" = \"Video PiP by Swipe\";",
+        "\"NagramiX.Settings.Video.PiPSwipe\" = \"Picture-in-Picture Mode\";"
+      ]
+    ]
+  }
+}

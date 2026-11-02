@@ -1,0 +1,138 @@
+{
+  "hashes": {
+    "submodules/SettingsUI/Sources/NagramiXSettingsController.swift": "90d8604c0473919310baa2bc359abaa112a58876b6cad084309008dedc18fdd3",
+    "submodules/NagramiXCore/Sources/NagramiXPresentationStrings.swift": "542287aeee3420df82ad39b37fa69f785566bea7e04b8b959900d840c6b62e29",
+    "submodules/NagramiXCore/Resources/ru.lproj/Localizable.strings": "120e6e98998df80593eeb06eded8239d0c257d21e9170769abb56c26af05398c",
+    "submodules/NagramiXCore/Resources/en.lproj/Localizable.strings": "b1646ba7157ad9a5388c2fd981b39d90c19851f6d0aa430ca8ebe803cf48c695",
+    "submodules/TelegramCore/Sources/PendingMessages/EnqueueMessage.swift": "3bdd6a9193b4ea1a350a1a836f75b09d5b8d61fba13f6fdf72bdde95c0cf9f89",
+    "submodules/TelegramCore/Sources/PendingMessages/StandaloneSendMessage.swift": "b3a204c8d629a16dae6126e3ccfb160c36d35dd73889c7183ee6a8460e842c04",
+    "submodules/NagramiXMediaSettings/BUILD": "083253dd17992220fe47c883d1c0686fea165a717703eec0b9f0860ab21ed65f",
+    "submodules/TelegramCore/BUILD": "e3f2268e32065ef8f325446db583c2b0c2c41b862d6523303cb0a7607370aca5"
+  },
+  "source_globs": [
+    "submodules/NagramiXMediaSettings/BUILD",
+    "submodules/TelegramCore/BUILD"
+  ],
+  "provided": {
+    "Sources/NagramiXMediaSettings/Sources/NagramiXSendSettings.swift": "submodules/NagramiXMediaSettings/Sources/NagramiXSendSettings.swift"
+  },
+  "copies": {
+    "Sources/TelegramCore/NagramiXSilentSend.swift": "submodules/TelegramCore/Sources/NagramiXSilentSend.swift"
+  },
+  "patches": [
+    [
+      "submodules/SettingsUI/Sources/NagramiXSettingsController.swift",
+      "    let updateQuickFormatting: (Bool) -> Void",
+      "    let updateQuickFormatting: (Bool) -> Void\n    let updateSendSilently: (Bool) -> Void",
+      1
+    ],
+    [
+      "submodules/SettingsUI/Sources/NagramiXSettingsController.swift",
+      "    case quickFormatting(Bool)",
+      "    case quickFormatting(Bool)\n    case sendSilently(Bool)",
+      1
+    ],
+    [
+      "submodules/SettingsUI/Sources/NagramiXSettingsController.swift",
+      "        case .quickFormatting, .autoRevealSpoilers,",
+      "        case .sendSilently, .quickFormatting, .autoRevealSpoilers,",
+      2
+    ],
+    [
+      "submodules/SettingsUI/Sources/NagramiXSettingsController.swift",
+      "        case .quickFormatting: return 157",
+      "        case .quickFormatting: return 157\n        case .sendSilently: return 158",
+      1
+    ],
+    [
+      "submodules/SettingsUI/Sources/NagramiXSettingsController.swift",
+      "            case .quickFormatting: return 348",
+      "            case .quickFormatting: return 348\n            case .sendSilently: return 351",
+      1
+    ],
+    [
+      "submodules/SettingsUI/Sources/NagramiXSettingsController.swift",
+      "        case let .quickFormatting(value):",
+      "        case let .sendSilently(value):\n            return ItemListSwitchItem(presentationData: presentationData, systemStyle: .glass, title: presentationData.strings.nagramiXSendSilently, value: value, maximumNumberOfLines: 0, sectionId: self.section, style: .blocks, updated: arguments.updateSendSilently)\n        case let .quickFormatting(value):",
+      1
+    ],
+    [
+      "submodules/SettingsUI/Sources/NagramiXSettingsController.swift",
+      "        case .quickFormatting: return strings.nagramiXQuickFormatting",
+      "        case .quickFormatting: return strings.nagramiXQuickFormatting\n        case .sendSilently: return strings.nagramiXSendSilently",
+      1
+    ],
+    [
+      "submodules/SettingsUI/Sources/NagramiXSettingsController.swift",
+      "        case .quickFormatting:\n            return strings.nagramiXQuickFormattingSearchTerms",
+      "        case .quickFormatting:\n            return strings.nagramiXQuickFormattingSearchTerms\n        case .sendSilently:\n            return strings.nagramiXSendSilentlySearchTerms",
+      1
+    ],
+    [
+      "submodules/SettingsUI/Sources/NagramiXSettingsController.swift",
+      "        .quickFormatting(NagramiXFormattingSettings.enabled),",
+      "        .quickFormatting(NagramiXFormattingSettings.enabled),\n        .sendSilently(NagramiXSendSettings.sendSilently),",
+      1
+    ],
+    [
+      "submodules/SettingsUI/Sources/NagramiXSettingsController.swift",
+      "        updateQuickFormatting: { value in NagramiXFormattingSettings.setEnabled(value) },",
+      "        updateQuickFormatting: { value in NagramiXFormattingSettings.setEnabled(value) },\n        updateSendSilently: { value in\n            NagramiXSendSettings.setSendSilently(value)\n            settingsPromise.set(NagramiXTabSettings.current)\n        },",
+      1
+    ],
+    [
+      "submodules/NagramiXCore/Sources/NagramiXPresentationStrings.swift",
+      "public extension PresentationStrings {",
+      "public extension PresentationStrings {\n    var nagramiXSendSilently: String { self.nagramiXLocalized(\"NagramiX.Messages.SendSilently.Title\") }\n    var nagramiXSendSilentlySearchTerms: String { self.nagramiXLocalized(\"NagramiX.Messages.SendSilently.SearchTerms\") }",
+      1
+    ],
+    [
+      "submodules/NagramiXCore/Resources/ru.lproj/Localizable.strings",
+      "\"NagramiX.Archive.Storage.Retry\" = \"Повторить\";",
+      "\"NagramiX.Archive.Storage.Retry\" = \"Повторить\";\n\"NagramiX.Messages.SendSilently.Title\" = \"Отправлять без звука\";\n\"NagramiX.Messages.SendSilently.SearchTerms\" = \"Автоматическая тихая отправка исходящих сообщений, фото, видео, голосовых и кружков без звука уведомления у получателя.\";",
+      1
+    ],
+    [
+      "submodules/NagramiXCore/Resources/en.lproj/Localizable.strings",
+      "\"NagramiX.Archive.Storage.Retry\" = \"Retry\";",
+      "\"NagramiX.Archive.Storage.Retry\" = \"Retry\";\n\"NagramiX.Messages.SendSilently.Title\" = \"Send Silently\";\n\"NagramiX.Messages.SendSilently.SearchTerms\" = \"Automatically send outgoing messages, photos, videos, voice and video messages without notification sound.\";",
+      1
+    ],
+    [
+      "submodules/TelegramCore/Sources/PendingMessages/EnqueueMessage.swift",
+      "func enqueueMessages(transaction: Transaction, account: Account, peerId: PeerId, messages: [(Bool, EnqueueMessage)], disableAutoremove: Bool = false, transformGroupingKeysWithPeerId: Bool = false) -> [MessageId?] {",
+      "func enqueueMessages(transaction: Transaction, account: Account, peerId: PeerId, messages: [(Bool, EnqueueMessage)], disableAutoremove: Bool = false, transformGroupingKeysWithPeerId: Bool = false) -> [MessageId?] {\n    let sendSilently = NagramiXSendSettings.sendSilently\n    let messages = messages.map { transformed, message in\n        return (transformed, nagramiXSilentSendMessage(message, enabled: sendSilently))\n    }",
+      1
+    ],
+    [
+      "submodules/TelegramCore/Sources/PendingMessages/StandaloneSendMessage.swift",
+      "import Foundation\n",
+      "import Foundation\nimport NagramiXMediaSettings\n",
+      1
+    ],
+    [
+      "submodules/TelegramCore/Sources/PendingMessages/StandaloneSendMessage.swift",
+      ") -> Signal<StandaloneSendMessageStatus, StandaloneSendMessagesError> {",
+      ") -> Signal<StandaloneSendMessageStatus, StandaloneSendMessagesError> {\n    let sendSilently = NagramiXSendSettings.sendSilently",
+      1
+    ],
+    [
+      "submodules/TelegramCore/Sources/PendingMessages/StandaloneSendMessage.swift",
+      "        if message.isSilent {",
+      "        if message.isSilent || sendSilently {",
+      1
+    ],
+    [
+      "submodules/TelegramCore/Sources/PendingMessages/StandaloneSendMessage.swift",
+      "public func standaloneSendMessage(account: Account, peerId: PeerId, text: String, attributes: [MessageAttribute], media: StandaloneMedia?, replyToMessageId: MessageId?, threadId: Int32? = nil) -> Signal<Float, StandaloneSendMessageError> {",
+      "public func standaloneSendMessage(account: Account, peerId: PeerId, text: String, attributes: [MessageAttribute], media: StandaloneMedia?, replyToMessageId: MessageId?, threadId: Int32? = nil) -> Signal<Float, StandaloneSendMessageError> {\n    let attributes = nagramiXSilentSendAttributes(attributes, enabled: NagramiXSendSettings.sendSilently)",
+      1
+    ],
+    [
+      "submodules/TelegramCore/Sources/PendingMessages/StandaloneSendMessage.swift",
+      "                    messageEntities = apiTextAttributeEntities(attribute, associatedPeers: SimpleDictionary())\n                } else if let attribute = attribute as? OutgoingContentInfoMessageAttribute {\n                    if attribute.flags.contains(.disableLinkPreviews) {\n                        flags |= Int32(1 << 1)\n                    }\n                } else if let attribute = attribute as? OutgoingScheduleInfoMessageAttribute {",
+      "                    messageEntities = apiTextAttributeEntities(attribute, associatedPeers: SimpleDictionary())\n                } else if let attribute = attribute as? OutgoingContentInfoMessageAttribute {\n                    if attribute.flags.contains(.disableLinkPreviews) {\n                        flags |= Int32(1 << 1)\n                    }\n                } else if let attribute = attribute as? NotificationInfoMessageAttribute {\n                    if attribute.flags.contains(.muted) {\n                        flags |= Int32(1 << 5)\n                    }\n                } else if let attribute = attribute as? OutgoingScheduleInfoMessageAttribute {",
+      1
+    ]
+  ]
+}

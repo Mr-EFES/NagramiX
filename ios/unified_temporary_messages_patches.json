@@ -1,0 +1,54 @@
+{
+  "inputs": {
+    "submodules/NagramiXCore/Sources/NagramiXTabSettings.swift": "0baed07a619acd9b0dd084ebb62ad986fb77d3d627f90f51078729ee1640e1c4",
+    "submodules/SettingsUI/Sources/NagramiXSettingsController.swift": "77be634116b297a136c06bd41b6354bd10ce87aad1926f2fefbde955e803ab30",
+    "submodules/TelegramCore/Sources/Utils/NagramiXMessageArchive.swift": "d4c2970b40aae0dc41fc35ab41b489b88a48c312281656cb27752e44ac3f2dd6",
+    "submodules/TelegramCore/Sources/TelegramEngine/Messages/MarkMessageContentAsConsumedInteractively.swift": "184b1705365a25811266615dc9a24cacda0a847a32b257bd4ae8469527f6e8e0",
+    "submodules/TelegramUI/Sources/ChatHistoryEntriesForView.swift": "cef70a98c4b7be291e0faa0b18828ccfe77ad5ac6e9f2c50eaf08798b73ad1bf"
+  },
+  "outputs": {
+    "submodules/NagramiXCore/Sources/NagramiXTabSettings.swift": "098674e8e3154e0fd2f0b5aa04e3dbb925ed1e212b921594faefc135f2331a9c",
+    "submodules/SettingsUI/Sources/NagramiXSettingsController.swift": "c19bc033648c86fbe0911d4c77027c5d880a8ce341ba7a33f4b4c73166892d2b",
+    "submodules/TelegramCore/Sources/Utils/NagramiXMessageArchive.swift": "3ba4251047f20643cfba09ece708a13117f1f80b0fa681f0807359356c3ea753",
+    "submodules/TelegramCore/Sources/TelegramEngine/Messages/MarkMessageContentAsConsumedInteractively.swift": "e5dd8780b176b170e13111d5b854b2cee87bf95535c86fb1ed2d70d36ba07eff",
+    "submodules/TelegramUI/Sources/ChatHistoryEntriesForView.swift": "0ee85dcbd9a7c1d90db8107c66e2d7322aac0197cc39323730e964dedd799f04"
+  },
+  "guards": {
+    "submodules/NagramiXCore/BUILD": "869e31310cc925b84ceb827a3c0b8503f3a22614acb4abeeec4a4ad435cf56e2",
+    "submodules/SettingsUI/BUILD": "ccf29c184b8eab3b16f702e5cecc61490e5762f46e4bd53273ad95790d1a879a",
+    "submodules/TelegramCore/BUILD": "81e6c1d9dceab5da57124381fce03665a449bcb7904e66c884269dacdd584fbf",
+    "submodules/TelegramUI/BUILD": "f4ae55a27c3a5e486a0fe9c768c70b65b974c505125d91a1215645179de54926"
+  },
+  "templates": {
+    "unified_temporary_messages/Before0.inc": "0baed07a619acd9b0dd084ebb62ad986fb77d3d627f90f51078729ee1640e1c4",
+    "unified_temporary_messages/After0.inc": "098674e8e3154e0fd2f0b5aa04e3dbb925ed1e212b921594faefc135f2331a9c",
+    "unified_temporary_messages/Before1.inc": "77be634116b297a136c06bd41b6354bd10ce87aad1926f2fefbde955e803ab30",
+    "unified_temporary_messages/After1.inc": "c19bc033648c86fbe0911d4c77027c5d880a8ce341ba7a33f4b4c73166892d2b",
+    "unified_temporary_messages/Before2.inc": "d4c2970b40aae0dc41fc35ab41b489b88a48c312281656cb27752e44ac3f2dd6",
+    "unified_temporary_messages/After2.inc": "3ba4251047f20643cfba09ece708a13117f1f80b0fa681f0807359356c3ea753",
+    "unified_temporary_messages/Before3.inc": "184b1705365a25811266615dc9a24cacda0a847a32b257bd4ae8469527f6e8e0",
+    "unified_temporary_messages/After3.inc": "e5dd8780b176b170e13111d5b854b2cee87bf95535c86fb1ed2d70d36ba07eff",
+    "unified_temporary_messages/Before4.inc": "cef70a98c4b7be291e0faa0b18828ccfe77ad5ac6e9f2c50eaf08798b73ad1bf",
+    "unified_temporary_messages/After4.inc": "0ee85dcbd9a7c1d90db8107c66e2d7322aac0197cc39323730e964dedd799f04",
+    "unified_temporary_messages/Guard0.inc": "869e31310cc925b84ceb827a3c0b8503f3a22614acb4abeeec4a4ad435cf56e2",
+    "unified_temporary_messages/Guard1.inc": "ccf29c184b8eab3b16f702e5cecc61490e5762f46e4bd53273ad95790d1a879a",
+    "unified_temporary_messages/Guard2.inc": "81e6c1d9dceab5da57124381fce03665a449bcb7904e66c884269dacdd584fbf",
+    "unified_temporary_messages/Guard3.inc": "f4ae55a27c3a5e486a0fe9c768c70b65b974c505125d91a1215645179de54926"
+  },
+  "previous": {
+    "submodules/NagramiXCore/Sources/NagramiXTabSettings.swift": "unified_temporary_messages/Before0.inc",
+    "submodules/SettingsUI/Sources/NagramiXSettingsController.swift": "unified_temporary_messages/Before1.inc",
+    "submodules/TelegramCore/Sources/Utils/NagramiXMessageArchive.swift": "unified_temporary_messages/Before2.inc",
+    "submodules/TelegramCore/Sources/TelegramEngine/Messages/MarkMessageContentAsConsumedInteractively.swift": "unified_temporary_messages/Before3.inc",
+    "submodules/TelegramUI/Sources/ChatHistoryEntriesForView.swift": "unified_temporary_messages/Before4.inc"
+  },
+  "replacements": {
+    "submodules/NagramiXCore/Sources/NagramiXTabSettings.swift": "unified_temporary_messages/After0.inc",
+    "submodules/SettingsUI/Sources/NagramiXSettingsController.swift": "unified_temporary_messages/After1.inc",
+    "submodules/TelegramCore/Sources/Utils/NagramiXMessageArchive.swift": "unified_temporary_messages/After2.inc",
+    "submodules/TelegramCore/Sources/TelegramEngine/Messages/MarkMessageContentAsConsumedInteractively.swift": "unified_temporary_messages/After3.inc",
+    "submodules/TelegramUI/Sources/ChatHistoryEntriesForView.swift": "unified_temporary_messages/After4.inc"
+  },
+  "copies": {},
+  "deletions": {}
+}

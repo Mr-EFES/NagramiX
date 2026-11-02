@@ -1,0 +1,132 @@
+{
+  "hashes": {
+    "submodules/AccountContext/Sources/PeerSelectionController.swift": "7f505e08d40fde51ba77cbb60eab76d94a51b94a51e5fbec012bd3f490b15233",
+    "submodules/TelegramUI/Components/PeerSelectionController/Sources/PeerSelectionController.swift": "980487033c417b7ab48778663486b023e684f62cb99b82d95ae0bfa423f0fb90",
+    "submodules/TelegramUI/Components/PeerSelectionController/Sources/PeerSelectionControllerNode.swift": "b4ed49b9ad235785e189a3f7e23a34c850aac244fdb3e04151f8654a4bafae9e",
+    "submodules/TelegramUI/Sources/ChatControllerForwardMessages.swift": "9f5a6b1e56a00124a43ac2b7b9c20571fd1e6d9df304a338f1a633c240e1fb6b",
+    "submodules/TelegramUI/Sources/ChatControllerNode.swift": "8ee748630c18127c926c528ce87ca173ea551687e8033403c498a913beedfc42",
+    "submodules/TelegramUI/Sources/Chat/ChatControllerLoadDisplayNode.swift": "fdb74603fe5baccf2e43d94f1cadec67792e10279c9bc0060ff3626847803b9a"
+  },
+  "patches": [
+    [
+      "submodules/AccountContext/Sources/PeerSelectionController.swift",
+      "    func nagramiXSelectCopyRecipient(_ peer: EnginePeer)\n",
+      "    func nagramiXSelectCopyRecipient(_ peer: EnginePeer)\n    func nagramiXConfigureCopySelection()\n",
+      1
+    ],
+    [
+      "submodules/TelegramUI/Components/PeerSelectionController/Sources/PeerSelectionController.swift",
+      "    public func nagramiXSelectCopyRecipient(_ peer: EnginePeer) {",
+      "    public func nagramiXConfigureCopySelection() {\n        self.peerSelectionNode.nagramiXCopySelection = true\n    }\n\n    public func nagramiXSelectCopyRecipient(_ peer: EnginePeer) {",
+      1
+    ],
+    [
+      "submodules/TelegramUI/Components/PeerSelectionController/Sources/PeerSelectionControllerNode.swift",
+      "    private var contactListActive = false",
+      "    private var contactListActive = false\n    var nagramiXCopySelection = false\n    private var nagramiXCopySelectionStarted = false\n    private var nagramiXCopyRecipients: ([EnginePeer], [EnginePeer.Id: EnginePeer]) = ([], [:])",
+      1
+    ],
+    [
+      "submodules/TelegramUI/Components/PeerSelectionController/Sources/PeerSelectionControllerNode.swift",
+      "    private var selectedPeers: ([EnginePeer], [EnginePeer.Id: EnginePeer]) {",
+      "    private var selectedPeers: ([EnginePeer], [EnginePeer.Id: EnginePeer]) {\n        if self.nagramiXCopySelection {\n            self.nagramiXCopyRecipients = self.nagramiXActiveSelectedPeers\n            return self.nagramiXCopyRecipients\n        }\n        return self.nagramiXActiveSelectedPeers\n    }\n\n    // Restore one selection when changing Contacts/Chats, including nested\n    // community leaves. A container is never a destination by itself.\n    private func nagramiXRestoreCopyRecipients() {\n        guard self.nagramiXCopySelection, self.nagramiXCopySelectionStarted else { return }\n        let (peers, peerMap) = self.nagramiXCopyRecipients\n        if self.contactListActive {\n            self.contactListNode?.multipleSelection = true\n            self.contactListNode?.updateSelectionState { _ in\n                var state = ContactListNodeGroupSelectionState()\n                var foundPeers = state.foundPeers\n                var selectedPeerMap = state.selectedPeerMap\n                for peer in peers {\n                    foundPeers.append(.peer(peer: peer, isGlobal: false, participantCount: nil))\n                    selectedPeerMap[.peer(peer.id)] = .peer(peer: peer, isGlobal: false, participantCount: nil)\n                    state = state.withToggledPeerId(.peer(peer.id))\n                }\n                return state.withFoundPeers(foundPeers).withSelectedPeerMap(selectedPeerMap)\n            }\n        } else {\n            let chatListNode = self.mainContainerNode?.currentItemNode ?? self.chatListNode\n            chatListNode?.updateState { state in\n                var state = state\n                state.editing = true\n                state.selectedPeerIds = Set(peers.map { $0.id })\n                state.selectedPeerMap = peerMap\n                for peer in peers where !state.foundPeers.contains(where: { $0.0.id == peer.id }) {\n                    state.foundPeers.append((peer, nil))\n                }\n                return state\n            }\n        }\n        self.textInputPanelNode?.updateSendButtonEnabled(!peers.isEmpty, animated: true)\n    }\n\n    private var nagramiXActiveSelectedPeers: ([EnginePeer], [EnginePeer.Id: EnginePeer]) {",
+      1
+    ],
+    [
+      "submodules/TelegramUI/Components/PeerSelectionController/Sources/PeerSelectionControllerNode.swift",
+      "    func beginSelection() {\n        guard let controller = self.controller else {",
+      "    func beginSelection() {\n        if self.nagramiXCopySelection {\n            // Returning from a community/topic must not erase selected contacts.\n            guard !self.nagramiXCopySelectionStarted else { return }\n            self.nagramiXCopySelectionStarted = true\n        }\n        guard let controller = self.controller else {",
+      1
+    ],
+    [
+      "submodules/TelegramUI/Components/PeerSelectionController/Sources/PeerSelectionControllerNode.swift",
+      "        if contactListActive != self.contactListActive {\n            self.contactListActive = contactListActive",
+      "        if contactListActive != self.contactListActive {\n            if self.nagramiXCopySelection, self.nagramiXCopySelectionStarted {\n                self.nagramiXCopyRecipients = self.nagramiXActiveSelectedPeers\n            }\n            self.contactListActive = contactListActive",
+      1
+    ],
+    [
+      "submodules/TelegramUI/Components/PeerSelectionController/Sources/PeerSelectionControllerNode.swift",
+      "                contactListNode.removeFromSupernode()\n\n                if let (layout, _, _) = self.containerLayout {\n                    self.controller?.containerLayoutUpdated(layout, transition: .immediate)\n                }\n            }\n        }\n    }\n}",
+      "                contactListNode.removeFromSupernode()\n\n                if let (layout, _, _) = self.containerLayout {\n                    self.controller?.containerLayoutUpdated(layout, transition: .immediate)\n                }\n            }\n            self.nagramiXRestoreCopyRecipients()\n        }\n    }\n}",
+      1
+    ],
+    [
+      "submodules/TelegramUI/Components/PeerSelectionController/Sources/PeerSelectionControllerNode.swift",
+      "                        if ignoredSelectionContainer {\n                            return\n                        }",
+      "                        if ignoredSelectionContainer {\n                            if strongSelf.nagramiXCopySelection, threadId == nil {\n                                switch peer {\n                                case .community:\n                                    strongSelf.requestOpenPeerFromSearch?(peer, nil)\n                                case let .channel(channel) where channel.isForumOrMonoForum:\n                                    strongSelf.requestOpenPeerFromSearch?(peer, nil)\n                                default:\n                                    break\n                                }\n                            }\n                            return\n                        }",
+      1
+    ],
+    [
+      "submodules/TelegramUI/Components/PeerSelectionController/Sources/PeerSelectionControllerNode.swift",
+      "                        var ignoredSelectionContainer = false\n                        chatListNode?.updateState { state in",
+      "                        if strongSelf.nagramiXCopySelection, threadId != nil {\n                            strongSelf.requestOpenPeerFromSearch?(peer, threadId)\n                            return\n                        }\n                        var ignoredSelectionContainer = false\n                        chatListNode?.updateState { state in",
+      1
+    ],
+    [
+      "submodules/TelegramUI/Sources/ChatControllerForwardMessages.swift",
+      "            let context = self.context\n            attemptSelectionImpl =",
+      "            if transferMode.copiesAsNew {\n                controller.nagramiXConfigureCopySelection()\n            }\n            let context = self.context\n            attemptSelectionImpl =",
+      1
+    ],
+    [
+      "submodules/TelegramUI/Sources/ChatControllerForwardMessages.swift",
+      "                if transferMode == .copyAsNew || nagramiXProtectedCopy {\n                    if let threadId {\n                        nagramiXCopyThreadIds[peer.id] = threadId\n                    }",
+      "                if (transferMode == .copyAsNew || nagramiXProtectedCopy) && !(transferMode.singleRecipient && nagramiXOwnViewOnceCopy) {\n                    // Assign nil as well: a previous topic may not leak into a\n                    // new selection of this destination.\n                    nagramiXCopyThreadIds[peer.id] = threadId",
+      1
+    ],
+    [
+      "submodules/TelegramUI/Sources/ChatControllerForwardMessages.swift",
+      "multipleSelectionLimit: nagramiXProtectedCopy && transferMode.singleRecipient ? 1 : nil,",
+      "multipleSelectionLimit: nagramiXProtectedCopy && transferMode.singleRecipient && !nagramiXOwnViewOnceCopy ? 1 : nil,",
+      1
+    ],
+    [
+      "submodules/TelegramUI/Sources/ChatControllerForwardMessages.swift",
+      "                let peerIds = peers.map { $0.id }\n",
+      "                let destinationThreadIds = nagramiXCopyThreadIds.filter { recipientIds.contains($0.key) }\n                if transferMode.copiesAsNew && peers.contains(where: { peer in\n                    if case .community = peer { return true }\n                    if case let .channel(channel) = peer, channel.isForumOrMonoForum {\n                        return destinationThreadIds[peer.id] == nil\n                    }\n                    return false\n                }) {\n                    controller?.present(textAlertController(context: context, title: nil, text: context.sharedContext.currentPresentationData.with { $0 }.strings.Forward_ErrorDisabledForChat, actions: [TextAlertAction(type: .defaultAction, title: context.sharedContext.currentPresentationData.with { $0 }.strings.Common_OK, action: {})]), in: .window(.root))\n                    return\n                }\n                let peerIds = peers.map { $0.id }\n",
+      1
+    ],
+    [
+      "submodules/TelegramUI/Sources/ChatControllerForwardMessages.swift",
+      "if transferMode.copiesAsNew, let threadId = nagramiXCopyThreadIds[peer.id]",
+      "if transferMode.copiesAsNew, let threadId = destinationThreadIds[peer.id]",
+      1
+    ],
+    [
+      "submodules/TelegramUI/Sources/ChatControllerForwardMessages.swift",
+      "            // Telegram cannot forward IDs that were already deleted remotely.\n",
+      "            let ownRecordingDraft = resetCurrent && sortedMessages.contains(where: { $0.nagramiXAllowsOwnViewOnceCopy(accountPeerId: self.context.account.peerId) })\n            let transferMode = ownRecordingDraft && transferMode == .forwardWithSource ? NagramiXMessageTransferMode.forwardWithoutSource : transferMode\n            // Telegram cannot forward IDs that were already deleted remotely.\n",
+      1
+    ],
+    [
+      "submodules/TelegramUI/Sources/ChatControllerNode.swift",
+      "    var sendMessages: ([EnqueueMessage], Bool?, Int32?, Int32?, Bool, Bool) -> Void = { _, _, _, _, _, _ in }",
+      "    var sendMessages: ([EnqueueMessage], Bool?, Int32?, Int32?, Bool, Bool) -> Void = { _, _, _, _, _, _ in }\n    private var nagramiXResolvingForwardSend = false",
+      1
+    ],
+    [
+      "submodules/TelegramUI/Sources/ChatControllerNode.swift",
+      "sendWithoutFormatting: Bool = false, completion: @escaping () -> Void = {}) {\n        guard let textInputPanelNode",
+      "sendWithoutFormatting: Bool = false, nagramiXResolvedForwards: [MessageId: Message]? = nil, completion: @escaping () -> Void = {}) {\n        guard let textInputPanelNode",
+      1
+    ],
+    [
+      "submodules/TelegramUI/Sources/ChatControllerNode.swift",
+      "        var effectivePresentationInterfaceState = self.chatPresentationInterfaceState\n        \n        if let textInputPanelNode = self.textInputPanelNode {",
+      "        if nagramiXResolvedForwards == nil, let ids = self.chatPresentationInterfaceState.interfaceState.forwardMessageIds, !ids.isEmpty,\n           self.chatPresentationInterfaceState.interfaceState.editMessage == nil,\n           let destinationId = self.chatLocation.peerId {\n            guard !self.nagramiXResolvingForwardSend else { return }\n            self.nagramiXResolvingForwardSend = true\n            let draft = self.chatPresentationInterfaceState.interfaceState\n            let input = textInputPanelNode.inputTextState\n            let location = self.chatLocation\n            let _ = (self.context.engine.data.get(\n                EngineDataMap(ids.map(TelegramEngine.EngineData.Item.Messages.Message.init)),\n                TelegramEngine.EngineData.Item.Peer.Peer(id: destinationId),\n                TelegramEngine.EngineData.Item.Peer.SendPaidMessageStars(id: destinationId)\n            ) |> take(1) |> deliverOnMainQueue).startStandalone(next: { [weak self] resolved, peer, stars in\n                guard let self else { return }\n                self.nagramiXResolvingForwardSend = false\n                guard self.chatLocation == location,\n                      self.chatPresentationInterfaceState.interfaceState == draft,\n                      self.textInputPanelNode?.inputTextState == input else { return }\n                var messages: [MessageId: Message] = [:]\n                for id in ids {\n                    if let message = (resolved[id] ?? nil)?._asMessage() { messages[id] = message }\n                }\n                if messages.values.contains(where: { $0.nagramiXAllowsOwnViewOnceCopy(accountPeerId: self.context.account.peerId) }) {\n                    var scheduled = false\n                    if case .scheduledMessages = self.chatPresentationInterfaceState.subject { scheduled = true }\n                    guard let peer, scheduleTime == nil, repeatPeriod == nil, !postpone, !scheduled,\n                          nagramiXAllowsOwnViewOnceDestination(peer, accountPeerId: self.context.account.peerId, requiresPayment: stars != nil) else {\n                        self.interfaceInteraction?.presentController(nagramiXArchivedCopyAlert(context: self.context), nil)\n                        return\n                    }\n                }\n                self.sendCurrentMessage(silentPosting: silentPosting, scheduleTime: scheduleTime, repeatPeriod: repeatPeriod, postpone: postpone, messageEffect: messageEffect, sendWithoutFormatting: sendWithoutFormatting, nagramiXResolvedForwards: messages, completion: completion)\n            })\n            return\n        }\n\n        var effectivePresentationInterfaceState = self.chatPresentationInterfaceState\n        \n        if let textInputPanelNode = self.textInputPanelNode {",
+      1
+    ],
+    [
+      "submodules/TelegramUI/Sources/ChatControllerNode.swift",
+      "                    for id in forwardMessageIds.sorted() {\n                        if let copy = archivedCopies[id] {",
+      "                    let ownRecordings = forwardMessageIds.sorted().compactMap { nagramiXResolvedForwards?[$0] }.filter {\n                        $0.nagramiXAllowsOwnViewOnceCopy(accountPeerId: self.context.account.peerId)\n                    }\n                    var ownCopies: [MessageId: EnqueueMessage] = [:]\n                    if !ownRecordings.isEmpty {\n                        guard let copies = nagramiXCopyMessagesAsNew(ownRecordings, mediaBox: self.context.account.postbox.mediaBox, hideCaptions: self.chatPresentationInterfaceState.interfaceState.forwardOptionsState?.hideCaptions == true, forceLocalMedia: true, accountPeerId: self.context.account.peerId) else {\n                            self.interfaceInteraction?.presentController(nagramiXArchivedCopyAlert(context: self.context), nil)\n                            return\n                        }\n                        ownCopies = Dictionary(uniqueKeysWithValues: zip(ownRecordings.map { $0.id }, copies))\n                    }\n                    for id in forwardMessageIds.sorted() {\n                        if let copy = ownCopies[id] {\n                            messages.append(copy.withUpdatedThreadId(replyThreadId))\n                        } else if let copy = archivedCopies[id] {",
+      1
+    ],
+    [
+      "submodules/TelegramUI/Sources/Chat/ChatControllerLoadDisplayNode.swift",
+      "                |> deliverOnMainQueue).start(next: { shouldDivert in\n                    let signal: Signal<[MessageId?], NoError>",
+      "                |> deliverOnMainQueue).start(next: { shouldDivert in\n                    if shouldDivert && messages.contains(where: { message in\n                        if case let .message(_, attributes, _, _, _, _, _, _, _, _) = message {\n                            return attributes.contains(where: { ($0 as? AutoremoveTimeoutMessageAttribute)?.timeout == viewOnceTimeout })\n                        }\n                        return false\n                    }) {\n                        strongSelf.present(nagramiXArchivedCopyAlert(context: strongSelf.context), in: .window(.root))\n                        return\n                    }\n                    let signal: Signal<[MessageId?], NoError>",
+      1
+    ]
+  ]
+}

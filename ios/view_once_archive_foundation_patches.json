@@ -1,0 +1,30 @@
+{
+  "inputs": {
+    "submodules/TelegramCore/Sources/Utils/NagramiXMessageArchive.swift": "48024257b955598ddfd6e0f6eeae9f191a34815dcbb9739f89934662510db837",
+    "submodules/TelegramCore/Sources/Utils/NagramiXArchivedMediaStore.swift": "bb22982fc2d1aa860e0cfaacb1281de16a36be87aa56ecdbf09d31b26da5e175"
+  },
+  "outputs": {
+    "submodules/TelegramCore/Sources/Utils/NagramiXMessageArchive.swift": "4a8dc40df36dc63b7c604993ca8ea924e18b599ecc021ca306e07ddc8c14cbf6",
+    "submodules/TelegramCore/Sources/Utils/NagramiXArchivedMediaStore.swift": "cc0352b82b9e944884453ca1c9dd4ca9876413002090dd29083edddf4004996b"
+  },
+  "guards": {
+    "submodules/TelegramCore/BUILD": "81e6c1d9dceab5da57124381fce03665a449bcb7904e66c884269dacdd584fbf"
+  },
+  "templates": {
+    "view_once_archive_foundation/Before0.inc": "48024257b955598ddfd6e0f6eeae9f191a34815dcbb9739f89934662510db837",
+    "view_once_archive_foundation/After0.inc": "4a8dc40df36dc63b7c604993ca8ea924e18b599ecc021ca306e07ddc8c14cbf6",
+    "view_once_archive_foundation/Before1.inc": "bb22982fc2d1aa860e0cfaacb1281de16a36be87aa56ecdbf09d31b26da5e175",
+    "view_once_archive_foundation/After1.inc": "cc0352b82b9e944884453ca1c9dd4ca9876413002090dd29083edddf4004996b",
+    "view_once_archive_foundation/Guard0.inc": "81e6c1d9dceab5da57124381fce03665a449bcb7904e66c884269dacdd584fbf"
+  },
+  "previous": {
+    "submodules/TelegramCore/Sources/Utils/NagramiXMessageArchive.swift": "view_once_archive_foundation/Before0.inc",
+    "submodules/TelegramCore/Sources/Utils/NagramiXArchivedMediaStore.swift": "view_once_archive_foundation/Before1.inc"
+  },
+  "replacements": {
+    "submodules/TelegramCore/Sources/Utils/NagramiXMessageArchive.swift": "view_once_archive_foundation/After0.inc",
+    "submodules/TelegramCore/Sources/Utils/NagramiXArchivedMediaStore.swift": "view_once_archive_foundation/After1.inc"
+  },
+  "copies": {},
+  "deletions": {}
+}

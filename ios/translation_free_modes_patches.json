@@ -1,0 +1,58 @@
+{
+  "inputs": {
+    "submodules/TranslateUI/Sources/NagramiXTranslationSettings.swift": "f67558c2d9fabd517aa33e5cbc586c1c1ec42f374686d87cd716a1f16e084671",
+    "submodules/TranslateUI/Sources/NagramiXTranslationCloud.swift": "a0254f612b3c4d686f713bb26880ad8ebd26e516bb570036aa3f962033cb3d1d",
+    "submodules/TranslateUI/Sources/NagramiXTranslationRuntime.swift": "5257ce5edc0079bc696cb0b398b1204ce4843393c37bc961e1453931af6b3a83",
+    "submodules/TranslateUI/Sources/NagramiXTranslationPreferences.swift": "36268240022c6b34190ac9b466417161aa96c5cff5055fc0584f1341a0df973c"
+  },
+  "outputs": {
+    "submodules/TranslateUI/Sources/NagramiXTranslationSettings.swift": "63083f0fb12cc4861221b9f7f88bb9039ec1165b4d8fa43fbb9c63c6c9e70e32",
+    "submodules/TranslateUI/Sources/NagramiXTranslationCloud.swift": "ad3a3a0c54b5f549c0b857769215fb66586355ad26085817d60c55eb2b961206",
+    "submodules/TranslateUI/Sources/NagramiXTranslationRuntime.swift": "ee8c6e729cb852027633873d44cb82baf0fe37228f11105f57465e27fc7cb0fd",
+    "submodules/TranslateUI/Sources/NagramiXTranslationPreferences.swift": "8280d61b75a30ccbba5760401f84bf09e6a2d4e3c333bcc6c414b563b59e5687"
+  },
+  "guards": {
+    "submodules/TelegramCore/Sources/SyncCore/SyncCore_TextEntitiesMessageAttribute.swift": "cbd4efb28f2be877a5fcc3d6050524afe31d741e8c2b50c9554cef01b5a3ea59",
+    "submodules/TelegramUI/Sources/ChatHistoryListNode.swift": "aca1eaedea30975ff35364df995ff69f9a67fa734be91122b35722c2a3b31f06",
+    "submodules/TelegramUI/Sources/Chat/ChatControllerLoadDisplayNode.swift": "22750ea4254b38b4cacff7d8072f04433bc30664395590340215bb771284274c",
+    "submodules/TranslateUI/Sources/Translate.swift": "78950b17529711c8f6b9416337823fe5c524ae3db13f094824a1e9600d4a8cf5",
+    "submodules/SettingsUI/Sources/NagramiXSettingsController.swift": "1debc0af484aa321ae7d656c62613d62b26a0290dc59392550d5312e137bf355",
+    "submodules/TelegramPresentationData/Sources/PresentationData.swift": "c914710ec05238175d28809ca151c74c4993b0c64916ff88e6f465dde3f27e51",
+    "submodules/TelegramCore/Sources/TelegramEngine/Messages/Translate.swift": "66d474e1cb5d932a6c53f679a46126be49a11cedde17c439d8c4f8c971dfba09",
+    "submodules/TelegramUI/Sources/ChatControllerContentData.swift": "41d933f6d4ea5adfe8f2d15da3ba3ea99941896c18be8b635cecc899a0a0eee9",
+    "submodules/TranslateUI/Sources/TranslateScreen.swift": "dc7c657c59256106c06cc6219c48f2e79bd9cfd0cb0bdcee64f02dd7920f623b",
+    "submodules/TelegramUI/BUILD": "eec4771359520d912df85e8a26bfb8ef29d0069862addb1ac87bcffaab853bf2",
+    "submodules/TelegramUI/Sources/ChatControllerNode.swift": "a573b3e536a03d011f9ded092dbf2c32bf716ebe93159b04f340a21eac9fac95",
+    "submodules/TranslateUI/Sources/NagramiXTranslationCredentials.swift": "b7420886325020939968c1130e0ed40f9d7115580c60df6a8e7029e09c702131",
+    "submodules/TelegramUI/Sources/ChatInterfaceStateContextMenus.swift": "9822059e12313c39dab2edb11099ba9f7de72e966dae673da60bcb74e564f7b9",
+    "submodules/TranslateUI/Sources/NagramiXTranslationTextPlan.swift": "0ee997d740a343c38f2ed1fcbe70190781d0779e5f66fdda62a0cac2bf8b0fc4",
+    "submodules/TranslateUI/BUILD": "e303517d2b8949daec623e0de22479179433d2b6916edcb3646e6310f88df504",
+    "submodules/Postbox/Sources/Message.swift": "c382cdf51199878336bf65c396cc56aeebaf74685b00a941211676e07c2e476e",
+    "submodules/TelegramUI/Components/TranslateHeaderPanelComponent/Sources/ChatTranslationPanelNode.swift": "44b0ba86751e3cce0d96d77545e702f9133cf803ac0f2a5d030e7eba3b3e1484",
+    "submodules/TelegramCore/Sources/SyncCore/SyncCore_TranslationMessageAttribute.swift": "06abc1b8584edf722e3518463d4d98f3f1a2de0502f8e88ce84a86fbd6c6bc1a",
+    "submodules/SettingsUI/BUILD": "c874afb38c0ecbddac98203f2e81bc66293a43989cf65bff9434fd7a12e9f3db",
+    "submodules/TranslateUI/Sources/ChatTranslation.swift": "88e2911d9ed60e0b7b5a6b43f9ac7c41b38c419e96674902be782b3fc169714c",
+    "submodules/TranslateUI/Sources/NagramiXTranslationApple.swift": "ba3c3055c209fca210ec72c201d9fd49aa66863930a948ec09607539e363ab04",
+    "submodules/TranslateUI/Sources/NagramiXTranslationResultController.swift": "54a6c60d7f16afbe89c63f9ecfebe98f98ab00eb2756f5c4268651449b1d5a32",
+    "submodules/TelegramUI/Components/TranslateHeaderPanelComponent/BUILD": "8ee8a82f4b4ceccd60036099e6c53315a375e61363b423fa0ee388a679f6ad60"
+  },
+  "templates": {
+    "translation_free_modes/Cloud.swift": "ad3a3a0c54b5f549c0b857769215fb66586355ad26085817d60c55eb2b961206",
+    "translation_free_modes/Preferences.swift": "8280d61b75a30ccbba5760401f84bf09e6a2d4e3c333bcc6c414b563b59e5687",
+    "translation_free_modes/Runtime.swift": "ee8c6e729cb852027633873d44cb82baf0fe37228f11105f57465e27fc7cb0fd",
+    "translation_free_modes/Settings.swift": "63083f0fb12cc4861221b9f7f88bb9039ec1165b4d8fa43fbb9c63c6c9e70e32",
+    "translation_free_modes/Web.swift": "7a031fe1eb6d4e53117ca02a8c47750f8d360e0356a35da072f94ce129b6185c"
+  },
+  "copies": {
+    "submodules/TranslateUI/Sources/NagramiXTranslationWeb.swift": {
+      "source": "translation_free_modes/Web.swift",
+      "sha256": "7a031fe1eb6d4e53117ca02a8c47750f8d360e0356a35da072f94ce129b6185c"
+    }
+  },
+  "replacements": {
+    "submodules/TranslateUI/Sources/NagramiXTranslationSettings.swift": "translation_free_modes/Settings.swift",
+    "submodules/TranslateUI/Sources/NagramiXTranslationCloud.swift": "translation_free_modes/Cloud.swift",
+    "submodules/TranslateUI/Sources/NagramiXTranslationRuntime.swift": "translation_free_modes/Runtime.swift",
+    "submodules/TranslateUI/Sources/NagramiXTranslationPreferences.swift": "translation_free_modes/Preferences.swift"
+  }
+}

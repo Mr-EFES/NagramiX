@@ -1,0 +1,32 @@
+{
+  "inputs": {
+    "submodules/TranslateUI/Sources/NagramiXTranslationPreferences.swift": "97097b0bd8509655732bf76cf20915de7a4ed972f454ff7160974b51a4aa17c7",
+    "submodules/NagramiXTranscription/Sources/Preferences.swift": "9aef2415073abf5473274c047941a0cdde84633cc0612ee10c0c3d75aa8a0800"
+  },
+  "outputs": {
+    "submodules/TranslateUI/Sources/NagramiXTranslationPreferences.swift": "ebac780c8a14bd718318731de442a93f57e716f690be44d93caf4459fecab84a",
+    "submodules/NagramiXTranscription/Sources/Preferences.swift": "692321b87afc1d3a12982c14cd4fc9d303d477901188a26011ab9715529def30"
+  },
+  "guards": {
+    "submodules/TranslateUI/BUILD": "f1a9e651b7caa1a06203dd97ff851a7b58d4453a0427660bb7656fa686ad96a7",
+    "submodules/NagramiXTranscription/BUILD": "820772c2401f640bf652106d20d11b466cee847e29b43a8dff3ca3b3af0c7e78"
+  },
+  "templates": {
+    "translation_speech_text_only/Before0.inc": "97097b0bd8509655732bf76cf20915de7a4ed972f454ff7160974b51a4aa17c7",
+    "translation_speech_text_only/After0.inc": "ebac780c8a14bd718318731de442a93f57e716f690be44d93caf4459fecab84a",
+    "translation_speech_text_only/Before1.inc": "9aef2415073abf5473274c047941a0cdde84633cc0612ee10c0c3d75aa8a0800",
+    "translation_speech_text_only/After1.inc": "692321b87afc1d3a12982c14cd4fc9d303d477901188a26011ab9715529def30",
+    "translation_speech_text_only/Guard0.inc": "f1a9e651b7caa1a06203dd97ff851a7b58d4453a0427660bb7656fa686ad96a7",
+    "translation_speech_text_only/Guard1.inc": "820772c2401f640bf652106d20d11b466cee847e29b43a8dff3ca3b3af0c7e78"
+  },
+  "previous": {
+    "submodules/TranslateUI/Sources/NagramiXTranslationPreferences.swift": "translation_speech_text_only/Before0.inc",
+    "submodules/NagramiXTranscription/Sources/Preferences.swift": "translation_speech_text_only/Before1.inc"
+  },
+  "replacements": {
+    "submodules/TranslateUI/Sources/NagramiXTranslationPreferences.swift": "translation_speech_text_only/After0.inc",
+    "submodules/NagramiXTranscription/Sources/Preferences.swift": "translation_speech_text_only/After1.inc"
+  },
+  "copies": {},
+  "deletions": {}
+}

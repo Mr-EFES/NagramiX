@@ -1,0 +1,61 @@
+{
+  "inputs": {
+    "submodules/NagramiXCore/Resources/ru.lproj/Localizable.strings": "1cfb0557431e012135767c7b2f00c46d7bc31674655540c0fa6d51adffba217e"
+  },
+  "outputs": {
+    "submodules/NagramiXCore/Resources/ru.lproj/Localizable.strings": "0984cc9baba6b3aaff767b4ba718bd474e72007ec5a537d6b09a1a131f8a36b2"
+  },
+  "guards": {
+    "submodules/NagramiXCore/BUILD": "869e31310cc925b84ceb827a3c0b8503f3a22614acb4abeeec4a4ad435cf56e2"
+  },
+  "templates": {
+    "settings_labels/Before0.inc": "1cfb0557431e012135767c7b2f00c46d7bc31674655540c0fa6d51adffba217e",
+    "settings_labels/Guard0.inc": "869e31310cc925b84ceb827a3c0b8503f3a22614acb4abeeec4a4ad435cf56e2"
+  },
+  "previous": {
+    "submodules/NagramiXCore/Resources/ru.lproj/Localizable.strings": "settings_labels/Before0.inc"
+  },
+  "replacements": {},
+  "copies": {},
+  "deletions": {},
+  "operations": {
+    "submodules/NagramiXCore/Resources/ru.lproj/Localizable.strings": [
+      [
+        "\"NagramiX.Settings.Messages.DoubleTapEdit\" = \"Двойной тап для правки\";",
+        "\"NagramiX.Settings.Messages.DoubleTapEdit\" = \"Правка двойным тапом\";"
+      ],
+      [
+        "\"NagramiX.ReadMode.Local\" = \"Читать сообщения локально\";",
+        "\"NagramiX.ReadMode.Local\" = \"Локальное «чтение»\";"
+      ],
+      [
+        "\"NagramiX.Privacy.storyReads\" = \"Просмотр истории инкогнито\";",
+        "\"NagramiX.Privacy.storyReads\" = \"История инкогнито\";"
+      ],
+      [
+        "\"NagramiX.Privacy.online\" = \"Скрывать статус «Онлайн»\";",
+        "\"NagramiX.Privacy.online\" = \"Скрывать «онлайн»\";"
+      ],
+      [
+        "\"NagramiX.Privacy.typing\" = \"Не показывать активность\";",
+        "\"NagramiX.Privacy.typing\" = \"Скрывать активность\";"
+      ],
+      [
+        "\"NagramiX.Privacy.readOnAction\" = \"Чтение по действию\";",
+        "\"NagramiX.Privacy.readOnAction\" = \"Прочтение по действию\";"
+      ],
+      [
+        "\"NagramiX.Settings.VideoMessages.UseRearCamera\" = \"Запись с основной камеры\";",
+        "\"NagramiX.Settings.VideoMessages.UseRearCamera\" = \"Основная камера\";"
+      ],
+      [
+        "\"NagramiX.Recording.ViewOnce.Title\" = \"Одноразовая запись медиа\";",
+        "\"NagramiX.Recording.ViewOnce.Title\" = \"Одноразовые записи\";"
+      ],
+      [
+        "\"NagramiX.SelfieCountdown.Title\" = \"Таймер селфи-камеры\";",
+        "\"NagramiX.SelfieCountdown.Title\" = \"Таймер селфи\";"
+      ]
+    ]
+  }
+}

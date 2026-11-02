@@ -1,0 +1,19 @@
+{
+  "hashes": {
+    "submodules/GalleryUI/Sources/NagramiXPiPSourceGeometry.swift": "1cb76c9cc1a18548840eafe6d30a239c71e65257a16a0a33e7e3f7b91e55ff6b"
+  },
+  "patches": [
+    [
+      "submodules/GalleryUI/Sources/NagramiXPiPSourceGeometry.swift",
+      "        // The derivative reaches zero at the minimum size, rather than changing\n        // abruptly when a long drag crosses the end of the shrinking range.\n        let progress = fraction * (2 - fraction)",
+      "        // Zero shrink/fade velocity at both ends avoids the abrupt initial\n        // size change of ease-out. Direction and final AVKit handoff stay exact.\n        let progress = fraction * fraction * (3 - 2 * fraction)",
+      1
+    ],
+    [
+      "submodules/GalleryUI/Sources/NagramiXPiPSourceGeometry.swift",
+      "        // Safe-area margins enter continuously. A full-screen portrait starts\n        // at its original size/position rather than jumping on the first delta.\n        let area = CGRect(x: viewport.minX + (safe.minX - viewport.minX) * progress,\n                          y: viewport.minY + (safe.minY - viewport.minY) * progress,\n                          width: viewport.width + (safe.width - viewport.width) * progress,\n                          height: viewport.height + (safe.height - viewport.height) * progress)\n        let minX = area.minX + width / 2, maxX = area.maxX - width / 2\n        let minY = area.minY + height / 2, maxY = area.maxY - height / 2\n",
+      "        // Grow travel bounds as the surface shrinks, stopping at the final\n        // safe-area limits. Interpolating the viewport itself can pull a wide\n        // video back against the finger near the top/bottom edge.\n        // Include the initial center so an interrupted return does not jump.\n        let finalHalfWidth = source.width * minimumScale / 2\n        let finalHalfHeight = source.height * minimumScale / 2\n        let minX = max(viewport.minX + width / 2, min(source.midX, safe.minX + finalHalfWidth))\n        let maxX = min(viewport.maxX - width / 2, max(source.midX, safe.maxX - finalHalfWidth))\n        let minY = max(viewport.minY + height / 2, min(source.midY, safe.minY + finalHalfHeight))\n        let maxY = min(viewport.maxY - height / 2, max(source.midY, safe.maxY - finalHalfHeight))\n",
+      1
+    ]
+  ]
+}

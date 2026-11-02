@@ -1,0 +1,183 @@
+{
+  "hashes": {
+    "submodules/TelegramUI/Components/Chat/ChatTextInputPanelNode/Sources/ChatTextInputPanelNode.swift": "ab15995fd55255b7fa5d19b6c62dea1047cb4681a5f4a663676541a68cddb817",
+    "submodules/TelegramUI/Sources/ChatControllerNode.swift": "b8e1fa0a8e4b7b7eb36dbf70e4266efd0282b8fb451fb10d570c0f954ea9e1aa",
+    "submodules/SettingsUI/Sources/NagramiXSettingsController.swift": "78e8a7b6dfbd41b0eba2fa9760ebbd3b9bc343224010b733f9a12c776eb6d7ae",
+    "submodules/NagramiXCore/Sources/NagramiXPresentationStrings.swift": "233d5cc1426840a9b7157f8085c5072b2179cdaef7f6fb56c497faf6055a746e",
+    "submodules/NagramiXCore/Resources/ru.lproj/Localizable.strings": "100473da734eb6d4cf77678c7215671effb2f9ee0ffd5671afad8d1e452d0e1c",
+    "submodules/NagramiXCore/Resources/en.lproj/Localizable.strings": "b1119023e29d5d1b2dd770ff24f4330991f6135a20bd2f79ddada4339d37d571",
+    "submodules/TelegramUI/Components/Chat/ChatTextInputPanelNode/BUILD": "d776f482e9caf7873ad3a0f47584360c4b3e730757647298da07d41ea266e185",
+    "submodules/NagramiXCore/BUILD": "869e31310cc925b84ceb827a3c0b8503f3a22614acb4abeeec4a4ad435cf56e2"
+  },
+  "patches": [
+    [
+      "submodules/TelegramUI/Components/Chat/ChatTextInputPanelNode/Sources/ChatTextInputPanelNode.swift",
+      "    private var accessoryItemButtons: [(ChatTextInputAccessoryItem, AccessoryItemIconButton)] = []\n",
+      "    private var accessoryItemButtons: [(ChatTextInputAccessoryItem, AccessoryItemIconButton)] = []\n    private let nagramiXFormattingButton = HighlightTrackingButton()\n    private var nagramiXFormattingKeyboard: NagramiXFormattingKeyboard?\n    private var nagramiXFormattingActive = false\n    private var nagramiXFormattingObserver: NSObjectProtocol?\n",
+      1
+    ],
+    [
+      "submodules/TelegramUI/Components/Chat/ChatTextInputPanelNode/Sources/ChatTextInputPanelNode.swift",
+      "        self.view.addSubview(self.glassBackgroundContainer)\n",
+      "        self.nagramiXInstallFormatting()\n        self.view.addSubview(self.glassBackgroundContainer)\n",
+      1
+    ],
+    [
+      "submodules/TelegramUI/Components/Chat/ChatTextInputPanelNode/Sources/ChatTextInputPanelNode.swift",
+      "    deinit {\n        self.statusDisposable.dispose()",
+      "    deinit {\n        if let observer = self.nagramiXFormattingObserver { NotificationCenter.default.removeObserver(observer) }\n        self.statusDisposable.dispose()",
+      1
+    ],
+    [
+      "submodules/TelegramUI/Components/Chat/ChatTextInputPanelNode/Sources/ChatTextInputPanelNode.swift",
+      "        self.richTextInputNode = richTextInputNode\n",
+      "        self.richTextInputNode = richTextInputNode\n        if self.nagramiXFormattingActive { richTextInputNode.keyboardInputView = self.nagramiXFormattingKeyboard }\n",
+      1
+    ],
+    [
+      "submodules/TelegramUI/Components/Chat/ChatTextInputPanelNode/Sources/ChatTextInputPanelNode.swift",
+      "            richTextInputNode.refreshTextInputTypingAttributes(textColor: presentationInterfaceState.theme.chat.inputPanel.primaryTextColor, baseFontSize: baseFontSize)\n            richTextInputNode.textContainerInset",
+      "            accessoryButtonsWidth += self.nagramiXFormattingWidth(presentationInterfaceState)\n            richTextInputNode.refreshTextInputTypingAttributes(textColor: presentationInterfaceState.theme.chat.inputPanel.primaryTextColor, baseFontSize: baseFontSize)\n            richTextInputNode.textContainerInset",
+      1
+    ],
+    [
+      "submodules/TelegramUI/Components/Chat/ChatTextInputPanelNode/Sources/ChatTextInputPanelNode.swift",
+      "        var textFieldMinHeight: CGFloat = 35.0\n",
+      "        accessoryButtonsWidth += self.nagramiXFormattingWidth(interfaceState)\n        var textFieldMinHeight: CGFloat = 35.0\n",
+      1
+    ],
+    [
+      "submodules/TelegramUI/Components/Chat/ChatTextInputPanelNode/Sources/ChatTextInputPanelNode.swift",
+      "        self.currentTextInputBackgroundWidthOffset = textInputBackgroundWidthOffset\n",
+      "        let nagramiXFormattingWidth = self.nagramiXFormattingWidth(interfaceState)\n        self.nagramiXFormattingButton.isHidden = nagramiXFormattingWidth == 0\n        if nagramiXFormattingWidth > 0 {\n            transition.updateFrame(layer: self.nagramiXFormattingButton.layer,\n                frame: CGRect(x: nextButtonTopRight.x - nagramiXFormattingWidth, y: nextButtonTopRight.y,\n                              width: nagramiXFormattingWidth, height: minimalInputHeight))\n            transition.updateAlpha(layer: self.nagramiXFormattingButton.layer, alpha: audioRecordingItemsAlpha)\n            nextButtonTopRight.x -= nagramiXFormattingWidth\n        } else if self.nagramiXFormattingActive {\n            self.nagramiXCloseFormatting(reload: true)\n        }\n        self.nagramiXUpdateFormatting()\n\n        self.currentTextInputBackgroundWidthOffset = textInputBackgroundWidthOffset\n",
+      1
+    ],
+    [
+      "submodules/TelegramUI/Components/Chat/ChatTextInputPanelNode/Sources/ChatTextInputPanelNode.swift",
+      "    public func chatInputTextNodeDidChangeSelection(dueToEditing: Bool) {\n",
+      "    public func chatInputTextNodeDidChangeSelection(dueToEditing: Bool) {\n        defer { self.nagramiXUpdateFormatting() }\n",
+      1
+    ],
+    [
+      "submodules/TelegramUI/Components/Chat/ChatTextInputPanelNode/Sources/ChatTextInputPanelNode.swift",
+      "    public func chatInputTextNodeDidUpdateText() {\n",
+      "    public func chatInputTextNodeDidUpdateText() {\n        defer { self.nagramiXUpdateFormatting() }\n",
+      1
+    ],
+    [
+      "submodules/TelegramUI/Components/Chat/ChatTextInputPanelNode/Sources/ChatTextInputPanelNode.swift",
+      "    @objc func accessoryItemButtonPressed(_ button: UIView) {\n",
+      "    @objc func accessoryItemButtonPressed(_ button: UIView) {\n        self.nagramiXCloseFormatting(reload: true)\n",
+      1
+    ],
+    [
+      "submodules/TelegramUI/Components/Chat/ChatTextInputPanelNode/Sources/ChatTextInputPanelNode.swift",
+      "    public func ensureFocused() {\n",
+      "__QUICK_FORMAT_METHODS__\n\n    public func ensureFocused() {\n",
+      1
+    ],
+    [
+      "submodules/TelegramUI/Components/Chat/ChatTextInputPanelNode/Sources/ChatTextInputPanelNode.swift",
+      "        for (_, button) in self.accessoryItemButtons {\n            if let result = button.hitTest",
+      "        if !self.nagramiXFormattingButton.isHidden, self.nagramiXFormattingButton.alpha > 0.01,\n           let result = self.nagramiXFormattingButton.hitTest(self.view.convert(point, to: self.nagramiXFormattingButton), with: event) {\n            return result\n        }\n\n        for (_, button) in self.accessoryItemButtons {\n            if let result = button.hitTest",
+      1
+    ],
+    [
+      "submodules/TelegramUI/Sources/ChatControllerNode.swift",
+      "                let updatedInputView = self.chatPresentationInterfaceStateInputView(chatPresentationInterfaceState)\n",
+      "                let updatedInputView = self.textInputPanelNode?.nagramiXFormattingInputView(for: chatPresentationInterfaceState)\n                    ?? self.chatPresentationInterfaceStateInputView(chatPresentationInterfaceState)\n",
+      1
+    ],
+    [
+      "submodules/SettingsUI/Sources/NagramiXSettingsController.swift",
+      "    let updateAutoRevealSpoilers: (Bool) -> Void\n",
+      "    let updateAutoRevealSpoilers: (Bool) -> Void\n    let updateQuickFormatting: (Bool) -> Void\n",
+      1
+    ],
+    [
+      "submodules/SettingsUI/Sources/NagramiXSettingsController.swift",
+      "    case autoRevealSpoilers(Bool)\n",
+      "    case autoRevealSpoilers(Bool)\n    case quickFormatting(Bool)\n",
+      1
+    ],
+    [
+      "submodules/SettingsUI/Sources/NagramiXSettingsController.swift",
+      "        case .autoRevealSpoilers, .hideBlockedMessages,",
+      "        case .quickFormatting, .autoRevealSpoilers, .hideBlockedMessages,",
+      2
+    ],
+    [
+      "submodules/SettingsUI/Sources/NagramiXSettingsController.swift",
+      "        case .autoRevealSpoilers: return 145\n",
+      "        case .autoRevealSpoilers: return 145\n        case .quickFormatting: return 157\n",
+      1
+    ],
+    [
+      "submodules/SettingsUI/Sources/NagramiXSettingsController.swift",
+      "            case .autoRevealSpoilers: return 347\n",
+      "            case .autoRevealSpoilers: return 347\n            case .quickFormatting: return 348\n",
+      1
+    ],
+    [
+      "submodules/SettingsUI/Sources/NagramiXSettingsController.swift",
+      "        case let .autoRevealSpoilers(value):\n",
+      "        case let .quickFormatting(value):\n            return ItemListSwitchItem(presentationData: presentationData, systemStyle: .glass, title: presentationData.strings.nagramiXQuickFormatting, value: value, maximumNumberOfLines: 0, sectionId: self.section, style: .blocks, updated: arguments.updateQuickFormatting)\n        case let .autoRevealSpoilers(value):\n",
+      1
+    ],
+    [
+      "submodules/SettingsUI/Sources/NagramiXSettingsController.swift",
+      "        case .autoRevealSpoilers: return strings.nagramiXAutoRevealSpoilers\n",
+      "        case .autoRevealSpoilers: return strings.nagramiXAutoRevealSpoilers\n        case .quickFormatting: return strings.nagramiXQuickFormatting\n",
+      1
+    ],
+    [
+      "submodules/SettingsUI/Sources/NagramiXSettingsController.swift",
+      "        case .autoRevealSpoilers:\n            return strings.nagramiXAutoRevealSpoilersSearchTerms\n",
+      "        case .autoRevealSpoilers:\n            return strings.nagramiXAutoRevealSpoilersSearchTerms\n        case .quickFormatting:\n            return strings.nagramiXQuickFormattingSearchTerms\n",
+      1
+    ],
+    [
+      "submodules/SettingsUI/Sources/NagramiXSettingsController.swift",
+      "        .autoRevealSpoilers(settings.media.autoRevealSpoilers),\n",
+      "        .autoRevealSpoilers(settings.media.autoRevealSpoilers),\n        .quickFormatting(NagramiXFormattingSettings.enabled),\n",
+      1
+    ],
+    [
+      "submodules/SettingsUI/Sources/NagramiXSettingsController.swift",
+      "        updateAutoRevealSpoilers: { value in update { $0.media.autoRevealSpoilers = value } },\n",
+      "        updateAutoRevealSpoilers: { value in update { $0.media.autoRevealSpoilers = value } },\n        updateQuickFormatting: { value in NagramiXFormattingSettings.setEnabled(value) },\n",
+      1
+    ],
+    [
+      "submodules/NagramiXCore/Sources/NagramiXPresentationStrings.swift",
+      "public extension PresentationStrings {\n",
+      "public extension PresentationStrings {\n    var nagramiXQuickFormatting: String { self.nagramiXLocalized(\"NagramiX.QuickFormatting.Title\") }\n    var nagramiXQuickFormattingSearchTerms: String { self.nagramiXLocalized(\"NagramiX.QuickFormatting.SearchTerms\") }\n    var nagramiXFormattingKeyboard: String { self.nagramiXLocalized(\"NagramiX.QuickFormatting.Keyboard\") }\n",
+      1
+    ],
+    [
+      "submodules/NagramiXCore/Resources/ru.lproj/Localizable.strings",
+      "\"NagramiX.Numbers.Rounding.Title\"",
+      "\"NagramiX.QuickFormatting.Title\" = \"Быстрое форматирование\";\n\"NagramiX.QuickFormatting.SearchTerms\" = \"Панель оформления выделенного текста: цитата, спойлер, жирный, курсив, моноширинный, ссылка, дата, зачёркнутый, подчёркнутый, код. Кнопка Aa рядом с эмодзи. Без выделения действия недоступны.\";\n\"NagramiX.QuickFormatting.Keyboard\" = \"Клавиатура\";\n\"NagramiX.Numbers.Rounding.Title\"",
+      1
+    ],
+    [
+      "submodules/NagramiXCore/Resources/en.lproj/Localizable.strings",
+      "\"NagramiX.Numbers.Rounding.Title\"",
+      "\"NagramiX.QuickFormatting.Title\" = \"Quick formatting\";\n\"NagramiX.QuickFormatting.SearchTerms\" = \"Format selected text: quote, spoiler, bold, italic, monospace, link, date, strikethrough, underline and code. Aa button beside emoji. Actions are disabled until text is selected.\";\n\"NagramiX.QuickFormatting.Keyboard\" = \"Keyboard\";\n\"NagramiX.Numbers.Rounding.Title\"",
+      1
+    ]
+  ],
+  "templates": {
+    "__QUICK_FORMAT_METHODS__": "Sources/ChatTextInputPanelNode/NagramiXFormattingIntegration.swift.inc"
+  },
+  "copies": {
+    "Sources/ChatTextInputPanelNode/NagramiXFormattingKeyboard.swift": "submodules/TelegramUI/Components/Chat/ChatTextInputPanelNode/Sources/NagramiXFormattingKeyboard.swift"
+  },
+  "provided": {
+    "Sources/NagramiXCore/Sources/NagramiXFormattingSettings.swift": "submodules/NagramiXCore/Sources/NagramiXFormattingSettings.swift"
+  },
+  "source_globs": [
+    "submodules/TelegramUI/Components/Chat/ChatTextInputPanelNode/BUILD",
+    "submodules/NagramiXCore/BUILD"
+  ]
+}

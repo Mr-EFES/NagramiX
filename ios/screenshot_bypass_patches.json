@@ -1,0 +1,260 @@
+{
+  "hashes": {
+    "submodules/SettingsUI/Sources/NagramiXSettingsController.swift": "493bacabd5f5d492470128938a306ad96666b033ee54ca38662060006036c377",
+    "submodules/TelegramCore/Sources/TelegramEngine/Messages/TelegramEngineMessages.swift": "af801a706c89e72749155f80914776c6d99b57fcf6721d5fa2b65f559890f397",
+    "submodules/Display/Source/TransformImageNode.swift": "85bd8ee76d7349a2d2fcbbe8bb0453d8f88a99fdb443f1e766a2e53ee3b60012",
+    "submodules/Display/BUILD": "e2b6b7ea9355cfac3fa2eb014f26b73afec265e8b763ffe5cd8b593ac1c261ef",
+    "submodules/TelegramUI/Sources/ChatControllerNode.swift": "e50141e68e76d7757aff54dfa0a601dbb4bf91cfb1fba19181d791471898d3f9",
+    "submodules/TelegramUI/Sources/ChatPinnedMessageTitlePanelNode.swift": "8e6eaaf25836ad1c11e06f628690a7056dca2854a66ba0952c03c20aa98630e1",
+    "submodules/TelegramUI/Components/PeerInfo/PeerInfoScreen/Sources/PeerInfoScreen.swift": "4911fc405716a43a248db6528ddea4a3608f19c75ef532b51293de80e5e4fa0e",
+    "submodules/TelegramUI/Sources/ChatController.swift": "e8f8ac7bce5b0092f4992a81202fb27f1252be94f4c9bb3ffccc30a2623a54d4",
+    "submodules/GalleryUI/Sources/Items/ChatImageGalleryItem.swift": "9442af4851efe0c3a448f7364b109dc23187b123fc0525210d69ec948a56a6ba",
+    "submodules/TelegramUI/Components/Chat/ChatMessageInteractiveMediaNode/Sources/ChatMessageInteractiveMediaNode.swift": "1dd8e4bb2062b68421a4f30ea9254aac71f4805818dff5086395c9332b0bddd6",
+    "submodules/GalleryUI/Sources/GalleryController.swift": "d13d4139df1a688c5127bde41421b238d76783b425ac7b61b5fbb0f99b708c1e",
+    "submodules/TelegramUI/Components/Chat/ChatMessageInteractiveInstantVideoNode/Sources/ChatMessageInteractiveInstantVideoNode.swift": "e9c00fd05032876d99925b9d3a34948774f69a144517e1caa98817e5248bd81c",
+    "submodules/TelegramUI/Sources/SharedMediaPlayer.swift": "ce72e4921b30fa74e77bdaf02d5bc0fdb3971989a26b62fd47f39311075cf17a",
+    "submodules/TelegramUniversalVideoContent/Sources/NativeVideoContent.swift": "eefbdc60645d39c48ab945dd966e55220bbc9de18aa69fcdb3874e8661d4d8b1",
+    "submodules/MediaPlayer/Sources/MediaPlayerNode.swift": "a0309d65c09e822a5ce7b076f290e448b6d98b8bdd4f97cf92b10d6fafa91cd4",
+    "submodules/TelegramCore/BUILD": "e3f2268e32065ef8f325446db583c2b0c2c41b862d6523303cb0a7607370aca5"
+  },
+  "patches": [
+    [
+      "submodules/SettingsUI/Sources/NagramiXSettingsController.swift",
+      "            case .readOnAction: return 153\n",
+      "            case .readOnAction: return 153\n            case .screenshotBypass: return 154\n",
+      1
+    ],
+    [
+      "submodules/SettingsUI/Sources/NagramiXSettingsController.swift",
+      "                case .readOnAction: return 497\n",
+      "                case .readOnAction: return 497\n                case .screenshotBypass: return 498\n",
+      1
+    ],
+    [
+      "submodules/SettingsUI/Sources/NagramiXSettingsController.swift",
+      "        .privacyToggle(.readOnAction, privacy[.readOnAction]),\n",
+      "        .privacyToggle(.readOnAction, privacy[.readOnAction]),\n        .privacyToggle(.screenshotBypass, privacy[.screenshotBypass]),\n",
+      1
+    ],
+    [
+      "submodules/TelegramCore/Sources/TelegramEngine/Messages/TelegramEngineMessages.swift",
+      "import Foundation\n",
+      "import Foundation\nimport NagramiXMediaSettings\n",
+      1
+    ],
+    [
+      "submodules/TelegramCore/Sources/TelegramEngine/Messages/TelegramEngineMessages.swift",
+      "        public func addSecretChatMessageScreenshot(peerId: PeerId) -> Signal<Never, NoError> {\n            return _internal_addSecretChatMessageScreenshot(account: self.account, peerId: peerId)\n",
+      "        public func addSecretChatMessageScreenshot(peerId: PeerId) -> Signal<Never, NoError> {\n            if NagramiXPrivacySettings.current.bypassScreenshots { return .complete() }\n            return _internal_addSecretChatMessageScreenshot(account: self.account, peerId: peerId)\n",
+      1
+    ],
+    [
+      "submodules/Display/Source/TransformImageNode.swift",
+      "    private var overlayNode: ASDisplayNode?\n\n    public var captureProtected: Bool = false {\n",
+      "    private var overlayNode: ASDisplayNode?\n\n    public var nagramiXAllowsScreenshotBypass: Bool = false {\n        didSet {\n            if self.nagramiXAllowsScreenshotBypass != oldValue && self.isNodeLoaded {\n                nagramiXSetLayerDisableScreenshots(self.layer, self.captureProtected, allowsBypass: self.nagramiXAllowsScreenshotBypass)\n            }\n        }\n    }\n\n    public var captureProtected: Bool = false {\n",
+      1
+    ],
+    [
+      "submodules/Display/Source/TransformImageNode.swift",
+      "    public var captureProtected: Bool = false {\n        didSet {\n            if self.captureProtected != oldValue {\n                setLayerDisableScreenshots(self.layer, self.captureProtected)\n",
+      "    public var nagramiXAllowsScreenshotBypass: Bool = false {\n        didSet {\n            if self.nagramiXAllowsScreenshotBypass != oldValue {\n                nagramiXSetLayerDisableScreenshots(self.layer, self.captureProtected, allowsBypass: self.nagramiXAllowsScreenshotBypass)\n            }\n        }\n    }\n\n    public var captureProtected: Bool = false {\n        didSet {\n            if self.captureProtected != oldValue {\n                setLayerDisableScreenshots(self.layer, self.captureProtected)\n",
+      1
+    ],
+    [
+      "submodules/Display/Source/TransformImageNode.swift",
+      "setLayerDisableScreenshots(self.layer, self.captureProtected)",
+      "nagramiXSetLayerDisableScreenshots(self.layer, self.captureProtected, allowsBypass: self.nagramiXAllowsScreenshotBypass)",
+      3
+    ],
+    [
+      "submodules/Display/Source/TransformImageNode.swift",
+      "setLayerDisableScreenshots(tempLayer, strongSelf.captureProtected)",
+      "nagramiXSetLayerDisableScreenshots(tempLayer, strongSelf.captureProtected, allowsBypass: strongSelf.nagramiXAllowsScreenshotBypass)",
+      2
+    ],
+    [
+      "submodules/Display/BUILD",
+      "    deps = [\n",
+      "    deps = [\n        \"//submodules/NagramiXMediaSettings:NagramiXMediaSettings\",\n",
+      1
+    ],
+    [
+      "submodules/TelegramUI/Sources/ChatControllerNode.swift",
+      "class HistoryNodeContainer: ASDisplayNode {\n    var isSecret: Bool {",
+      "class HistoryNodeContainer: ASDisplayNode {\n    var nagramiXAllowsScreenshotBypass = false {\n        didSet {\n            if self.nagramiXAllowsScreenshotBypass != oldValue {\n                nagramiXSetLayerDisableScreenshots(self.layer, self.isSecret, allowsBypass: self.nagramiXAllowsScreenshotBypass)\n            }\n        }\n    }\n    var isSecret: Bool {",
+      1
+    ],
+    [
+      "submodules/TelegramUI/Sources/ChatControllerNode.swift",
+      "setLayerDisableScreenshots(self.layer, self.isSecret)",
+      "nagramiXSetLayerDisableScreenshots(self.layer, self.isSecret, allowsBypass: self.nagramiXAllowsScreenshotBypass)",
+      2
+    ],
+    [
+      "submodules/TelegramUI/Sources/ChatControllerNode.swift",
+      "        self.historyNodeContainer = HistoryNodeContainer(isSecret: chatLocation.peerId?.namespace == Namespaces.Peer.SecretChat)\n",
+      "        self.historyNodeContainer = HistoryNodeContainer(isSecret: chatLocation.peerId?.namespace == Namespaces.Peer.SecretChat)\n        self.historyNodeContainer.nagramiXAllowsScreenshotBypass = chatLocation.peerId?.isVerificationCodes != true\n",
+      1
+    ],
+    [
+      "submodules/TelegramUI/Sources/ChatControllerNode.swift",
+      "setLayerDisableScreenshots(self.titleAccessoryPanelContainer.layer, chatLocation.peerId?.namespace == Namespaces.Peer.SecretChat)",
+      "nagramiXSetLayerDisableScreenshots(self.titleAccessoryPanelContainer.layer, chatLocation.peerId?.namespace == Namespaces.Peer.SecretChat, allowsBypass: chatLocation.peerId?.isVerificationCodes != true)",
+      1
+    ],
+    [
+      "submodules/TelegramUI/Sources/ChatControllerNode.swift",
+      "        let isSecret = self.chatPresentationInterfaceState.copyProtectionEnabled || self.chatLocation.peerId?.namespace == Namespaces.Peer.SecretChat || self.chatLocation.peerId?.isVerificationCodes == true\n",
+      "        self.historyNodeContainer.nagramiXAllowsScreenshotBypass = self.chatLocation.peerId?.isVerificationCodes != true\n        let isSecret = self.chatPresentationInterfaceState.copyProtectionEnabled || self.chatLocation.peerId?.namespace == Namespaces.Peer.SecretChat || self.chatLocation.peerId?.isVerificationCodes == true\n",
+      1
+    ],
+    [
+      "submodules/TelegramUI/Sources/ChatControllerNode.swift",
+      "setLayerDisableScreenshots(self.titleAccessoryPanelContainer.layer, isSecret)",
+      "nagramiXSetLayerDisableScreenshots(self.titleAccessoryPanelContainer.layer, isSecret, allowsBypass: self.chatLocation.peerId?.isVerificationCodes != true)",
+      1
+    ],
+    [
+      "submodules/TelegramUI/Sources/ChatPinnedMessageTitlePanelNode.swift",
+      "setLayerDisableScreenshots(self.contentContainer.layer, self.captureProtected)",
+      "nagramiXSetLayerDisableScreenshots(self.contentContainer.layer, self.captureProtected)",
+      1
+    ],
+    [
+      "submodules/TelegramUI/Components/PeerInfo/PeerInfoScreen/Sources/PeerInfoScreen.swift",
+      "setLayerDisableScreenshots(self.layer, peerInfoIsCopyProtected(data: data, sharedMediaFromForumTopic: self.sharedMediaFromForumTopic))",
+      "nagramiXSetLayerDisableScreenshots(self.layer, peerInfoIsCopyProtected(data: data, sharedMediaFromForumTopic: self.sharedMediaFromForumTopic))",
+      1
+    ],
+    [
+      "submodules/TelegramUI/Sources/ChatController.swift",
+      "            strongSelf.currentPinchController = pinchController\n",
+      "            nagramiXSetLayerDisableScreenshots(pinchController.displayNode.layer, isSecret, allowsBypass: strongSelf.chatLocation.peerId?.isVerificationCodes != true)\n            strongSelf.currentPinchController = pinchController\n",
+      1
+    ],
+    [
+      "submodules/GalleryUI/Sources/Items/ChatImageGalleryItem.swift",
+      "        self.imageNode.captureProtected = message.id.peerId.namespace == Namespaces.Peer.SecretChat || message.isCopyProtected() || peerIsCopyProtected || isSecret || message.paidContent != nil\n",
+      "        self.imageNode.nagramiXAllowsScreenshotBypass = message.nagramiXAllowsScreenshotBypass && !isSecret\n        self.imageNode.captureProtected = message.id.peerId.namespace == Namespaces.Peer.SecretChat || message.isCopyProtected() || peerIsCopyProtected || isSecret || message.paidContent != nil\n",
+      1
+    ],
+    [
+      "submodules/TelegramUI/Components/Chat/ChatMessageInteractiveMediaNode/Sources/ChatMessageInteractiveMediaNode.swift",
+      "                                strongSelf.imageNode.captureProtected = associatedData.isCopyProtectionEnabled || message.isCopyProtected() || isExtendedMedia\n",
+      "                                strongSelf.imageNode.nagramiXAllowsScreenshotBypass = message.nagramiXAllowsScreenshotBypass && !isExtendedMedia\n                                strongSelf.imageNode.captureProtected = associatedData.isCopyProtectionEnabled || message.isCopyProtected() || isExtendedMedia\n",
+      1
+    ],
+    [
+      "submodules/TelegramUI/Components/Chat/ChatMessageInteractiveMediaNode/Sources/ChatMessageInteractiveMediaNode.swift",
+      "setLayerDisableScreenshots(imageView.layer, true)",
+      "nagramiXSetLayerDisableScreenshots(imageView.layer, true, allowsBypass: strongSelf.imageNode.nagramiXAllowsScreenshotBypass)",
+      1
+    ],
+    [
+      "submodules/TelegramUI/Components/Chat/ChatMessageInteractiveMediaNode/Sources/ChatMessageInteractiveMediaNode.swift",
+      "setLayerDisableScreenshots(view.layer, true)",
+      "nagramiXSetLayerDisableScreenshots(view.layer, true, allowsBypass: strongSelf.imageNode.nagramiXAllowsScreenshotBypass)",
+      1
+    ],
+    [
+      "submodules/TelegramUI/Components/Chat/ChatMessageInteractiveMediaNode/Sources/ChatMessageInteractiveMediaNode.swift",
+      "captureProtected: associatedData.isCopyProtectionEnabled || message.isCopyProtected() || isExtendedMedia,\n",
+      "captureProtected: associatedData.isCopyProtectionEnabled || message.isCopyProtected() || isExtendedMedia,\n                                            nagramiXAllowsScreenshotBypass: message.nagramiXAllowsScreenshotBypass && !isExtendedMedia,\n",
+      1
+    ],
+    [
+      "submodules/GalleryUI/Sources/GalleryController.swift",
+      "captureProtected: captureProtected, storeAfterDownload:",
+      "captureProtected: captureProtected, nagramiXAllowsScreenshotBypass: message.nagramiXAllowsScreenshotBypass, storeAfterDownload:",
+      3
+    ],
+    [
+      "submodules/GalleryUI/Sources/GalleryController.swift",
+      "captureProtected: message.isCopyProtected() || message.containsSecretMedia || peerIsCopyProtected, storeAfterDownload:",
+      "captureProtected: message.isCopyProtected() || message.containsSecretMedia || peerIsCopyProtected, nagramiXAllowsScreenshotBypass: message.nagramiXAllowsScreenshotBypass, storeAfterDownload:",
+      2
+    ],
+    [
+      "submodules/TelegramUI/Components/Chat/ChatMessageInteractiveInstantVideoNode/Sources/ChatMessageInteractiveInstantVideoNode.swift",
+      "captureProtected: item.associatedData.isCopyProtectionEnabled || item.message.isCopyProtected(), storeAfterDownload:",
+      "captureProtected: item.associatedData.isCopyProtectionEnabled || item.message.isCopyProtected(), nagramiXAllowsScreenshotBypass: item.message.nagramiXAllowsScreenshotBypass, storeAfterDownload:",
+      1
+    ],
+    [
+      "submodules/TelegramUI/Sources/SharedMediaPlayer.swift",
+      "captureProtected: item.message.isCopyProtected(), storeAfterDownload:",
+      "captureProtected: item.message.isCopyProtected(), nagramiXAllowsScreenshotBypass: item.message.nagramiXAllowsScreenshotBypass, storeAfterDownload:",
+      1
+    ],
+    [
+      "submodules/TelegramUniversalVideoContent/Sources/NativeVideoContent.swift",
+      "    let captureProtected: Bool\n",
+      "    let captureProtected: Bool\n    let nagramiXAllowsScreenshotBypass: Bool\n",
+      1
+    ],
+    [
+      "submodules/TelegramUniversalVideoContent/Sources/NativeVideoContent.swift",
+      "    private let captureProtected: Bool\n",
+      "    private let captureProtected: Bool\n    private let nagramiXAllowsScreenshotBypass: Bool\n",
+      1
+    ],
+    [
+      "submodules/TelegramUniversalVideoContent/Sources/NativeVideoContent.swift",
+      "captureProtected: Bool = false, hintDimensions:",
+      "captureProtected: Bool = false, nagramiXAllowsScreenshotBypass: Bool = false, hintDimensions:",
+      1
+    ],
+    [
+      "submodules/TelegramUniversalVideoContent/Sources/NativeVideoContent.swift",
+      "captureProtected: Bool, hintDimensions:",
+      "captureProtected: Bool, nagramiXAllowsScreenshotBypass: Bool = false, hintDimensions:",
+      1
+    ],
+    [
+      "submodules/TelegramUniversalVideoContent/Sources/NativeVideoContent.swift",
+      "        self.captureProtected = captureProtected\n",
+      "        self.captureProtected = captureProtected\n        self.nagramiXAllowsScreenshotBypass = nagramiXAllowsScreenshotBypass\n",
+      2
+    ],
+    [
+      "submodules/TelegramUniversalVideoContent/Sources/NativeVideoContent.swift",
+      "captureProtected: self.captureProtected, hintDimensions:",
+      "captureProtected: self.captureProtected, nagramiXAllowsScreenshotBypass: self.nagramiXAllowsScreenshotBypass, hintDimensions:",
+      1
+    ],
+    [
+      "submodules/TelegramUniversalVideoContent/Sources/NativeVideoContent.swift",
+      "        self.imageNode = TransformImageNode()\n",
+      "        self.imageNode = TransformImageNode()\n        self.imageNode.nagramiXAllowsScreenshotBypass = nagramiXAllowsScreenshotBypass\n",
+      1
+    ],
+    [
+      "submodules/TelegramUniversalVideoContent/Sources/NativeVideoContent.swift",
+      "MediaPlayerNode(backgroundThread: false, captureProtected: captureProtected)",
+      "MediaPlayerNode(backgroundThread: false, captureProtected: captureProtected, nagramiXAllowsScreenshotBypass: nagramiXAllowsScreenshotBypass)",
+      1
+    ],
+    [
+      "submodules/TelegramUniversalVideoContent/Sources/NativeVideoContent.swift",
+      "setLayerDisableScreenshots(self.imageNode.layer, captureProtected)",
+      "nagramiXSetLayerDisableScreenshots(self.imageNode.layer, captureProtected, allowsBypass: nagramiXAllowsScreenshotBypass)",
+      1
+    ],
+    [
+      "submodules/MediaPlayer/Sources/MediaPlayerNode.swift",
+      "public init(backgroundThread: Bool = false, captureProtected: Bool = false)",
+      "public init(backgroundThread: Bool = false, captureProtected: Bool = false, nagramiXAllowsScreenshotBypass: Bool = false)",
+      1
+    ],
+    [
+      "submodules/MediaPlayer/Sources/MediaPlayerNode.swift",
+      "                        videoLayer.preventsCapture = captureProtected\n",
+      "                        nagramiXSetVideoCaptureProtection(videoLayer, captureProtected, allowsBypass: nagramiXAllowsScreenshotBypass)\n",
+      1
+    ]
+  ],
+  "copies": {
+    "Sources/Display/NagramiXCaptureProtection.swift": "submodules/Display/Source/NagramiXCaptureProtection.swift",
+    "Sources/TelegramCore/NagramiXCaptureProtectionPolicy.swift": "submodules/TelegramCore/Sources/Utils/NagramiXCaptureProtectionPolicy.swift"
+  }
+}

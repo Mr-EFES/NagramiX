@@ -1,0 +1,24 @@
+{
+  "inputs": {
+    "submodules/NagramiXTranscription/Sources/Preferences.swift": "c36240b7946714b2c4d57d211fa127d8b9cf8e2fb9f630f248aa2890ecc2ab5d"
+  },
+  "outputs": {
+    "submodules/NagramiXTranscription/Sources/Preferences.swift": "0b95b0d292bc4d6e9b8c2ccd5bce2e87cb3d58e3288e9193e8aa79e4dd8a4fa1"
+  },
+  "guards": {
+    "submodules/NagramiXTranscription/BUILD": "820772c2401f640bf652106d20d11b466cee847e29b43a8dff3ca3b3af0c7e78"
+  },
+  "templates": {
+    "whisper_footer_removal/Before.inc": "c36240b7946714b2c4d57d211fa127d8b9cf8e2fb9f630f248aa2890ecc2ab5d",
+    "whisper_footer_removal/After.inc": "0b95b0d292bc4d6e9b8c2ccd5bce2e87cb3d58e3288e9193e8aa79e4dd8a4fa1",
+    "whisper_footer_removal/Guard.inc": "820772c2401f640bf652106d20d11b466cee847e29b43a8dff3ca3b3af0c7e78"
+  },
+  "previous": {
+    "submodules/NagramiXTranscription/Sources/Preferences.swift": "whisper_footer_removal/Before.inc"
+  },
+  "replacements": {
+    "submodules/NagramiXTranscription/Sources/Preferences.swift": "whisper_footer_removal/After.inc"
+  },
+  "copies": {},
+  "deletions": {}
+}

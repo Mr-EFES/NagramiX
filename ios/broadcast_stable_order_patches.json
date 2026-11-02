@@ -1,0 +1,23 @@
+{
+  "inputs": {
+    "submodules/TelegramUI/Components/PeerSelectionController/Sources/PeerSelectionControllerNode.swift": "c1a34cd7ae9f18db3af640304ab692c07b2fb10a044c5e0ffb26a099578e3676"
+  },
+  "outputs": {
+    "submodules/TelegramUI/Components/PeerSelectionController/Sources/PeerSelectionControllerNode.swift": "dff3d4afbeac1bbad2bff200d744d308dda75972bb12d500efa9fade74416c51"
+  },
+  "guards": {
+    "submodules/TelegramUI/Components/PeerSelectionController/BUILD": "a317b5c8efa26d7b4db7aa2b4c997dc992b6505b9b05130945bed9b3ef2dfa7d"
+  },
+  "templates": {
+    "broadcast_stable_order/Before.swift.inc": "c1a34cd7ae9f18db3af640304ab692c07b2fb10a044c5e0ffb26a099578e3676",
+    "broadcast_stable_order/After.swift.inc": "dff3d4afbeac1bbad2bff200d744d308dda75972bb12d500efa9fade74416c51"
+  },
+  "replacements": {
+    "submodules/TelegramUI/Components/PeerSelectionController/Sources/PeerSelectionControllerNode.swift": "broadcast_stable_order/After.swift.inc"
+  },
+  "previous": {
+    "submodules/TelegramUI/Components/PeerSelectionController/Sources/PeerSelectionControllerNode.swift": "broadcast_stable_order/Before.swift.inc"
+  },
+  "copies": {},
+  "deletions": {}
+}

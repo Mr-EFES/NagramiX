@@ -1,0 +1,24 @@
+{
+  "inputs": {
+    "submodules/TelegramCore/Sources/TelegramEngine/Messages/MarkMessageContentAsConsumedInteractively.swift": "4c4a28a48b1eda6a090c21ff2407314ac9491f7fa59342d4c91eb86ce0bb3ed4"
+  },
+  "outputs": {
+    "submodules/TelegramCore/Sources/TelegramEngine/Messages/MarkMessageContentAsConsumedInteractively.swift": "8e97a364d0521a82d30885d9bdf30e44099f33143f293188909f9c2444650ec3"
+  },
+  "guards": {
+    "submodules/TelegramCore/BUILD": "81e6c1d9dceab5da57124381fce03665a449bcb7904e66c884269dacdd584fbf"
+  },
+  "templates": {
+    "view_once_consumption_guard/Before.inc": "4c4a28a48b1eda6a090c21ff2407314ac9491f7fa59342d4c91eb86ce0bb3ed4",
+    "view_once_consumption_guard/After.inc": "8e97a364d0521a82d30885d9bdf30e44099f33143f293188909f9c2444650ec3",
+    "view_once_consumption_guard/Guard0.inc": "81e6c1d9dceab5da57124381fce03665a449bcb7904e66c884269dacdd584fbf"
+  },
+  "previous": {
+    "submodules/TelegramCore/Sources/TelegramEngine/Messages/MarkMessageContentAsConsumedInteractively.swift": "view_once_consumption_guard/Before.inc"
+  },
+  "replacements": {
+    "submodules/TelegramCore/Sources/TelegramEngine/Messages/MarkMessageContentAsConsumedInteractively.swift": "view_once_consumption_guard/After.inc"
+  },
+  "copies": {},
+  "deletions": {}
+}

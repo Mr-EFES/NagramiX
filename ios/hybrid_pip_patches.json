@@ -1,0 +1,233 @@
+{
+  "inputs": {
+    "submodules/AccountContext/Sources/OverlayMediaItemNode.swift": "f73d064c9790e3f86cdf1baa825fde23da94d155c7337090d6e61aab452d4314",
+    "submodules/TelegramUI/Sources/MediaManager.swift": "69450c60fbe3e0461a3abdb6292ccf1d9cf638fffc69c7813ee01773ba2d4784",
+    "submodules/TelegramUI/Sources/OverlayMediaControllerNode.swift": "36c530bc4358da807fc345e383a4a59585e7d1a31d4767c65dba24d4d332fce3",
+    "submodules/GalleryUI/Sources/GalleryItemNode.swift": "27f9078f8d9c08a4a8939e3bd5de9b9d101b62a40b48f0823a1e41b04b575f83",
+    "submodules/GalleryUI/Sources/NagramiXPiPGestureController.swift": "1e6760de8054d02c80d7ff51a7b58b63d29ece727c06d4e104c40ab4dfe47efd",
+    "submodules/GalleryUI/Sources/Items/UniversalVideoGalleryItem.swift": "cafb56ebb497d648c69640d65e205a862145beb87d64ee83dc615dd8c6841f3f"
+  },
+  "outputs": {
+    "submodules/AccountContext/Sources/OverlayMediaItemNode.swift": "c5b60b50971bf5e1839bed178fcad9e01cdede9f5a321043181cca34bc7b1be6",
+    "submodules/TelegramUI/Sources/MediaManager.swift": "8b81d2886e7a4f54ea91a734e608d906f5542755fb58cc85c2eb7bb27720a04b",
+    "submodules/TelegramUI/Sources/OverlayMediaControllerNode.swift": "df680f93f7f26980ffb78eab6eed5aafebf6e83c46680995be779f5987cf61ac",
+    "submodules/GalleryUI/Sources/GalleryItemNode.swift": "48478dbbc0619a7b1841c7f298ccc44b7d7db2f6e6f7ec625116e726a6f95755",
+    "submodules/GalleryUI/Sources/NagramiXPiPGestureController.swift": "d9b54f5a68490f8d453cf96373a2eef5508d2215d97e77580be1cb981450b0d9",
+    "submodules/GalleryUI/Sources/Items/UniversalVideoGalleryItem.swift": "2fe298ef892840e22c03e1da3e23fd7778ed9345e9b598aaa78b04fe80a115b6"
+  },
+  "guards": {
+    "submodules/AccountContext/BUILD": "5f3668ee2377aa5ed6b17e1584b99110b7b9e84258b345a1ba886470aa4b3d65",
+    "submodules/GalleryUI/BUILD": "963014e4710bf8e9f76f03508369d9d2d399bc5b2a9a68d2860e0c41ea910136",
+    "submodules/TelegramUI/BUILD": "eec4771359520d912df85e8a26bfb8ef29d0069862addb1ac87bcffaab853bf2"
+  },
+  "copies": {
+    "submodules/AccountContext/Sources/NagramiXHybridPiPPlacement.swift": {
+      "source": "hybrid_pip/Placement.swift",
+      "sha256": "fb0e3902603594b95165f66dbf0670fc85858e12a7db7a1a5e80f3a0a1aeb44a"
+    }
+  },
+  "patches": [
+    [
+      "submodules/AccountContext/Sources/OverlayMediaItemNode.swift",
+      "    public var manualExpandEmbed:",
+      "    public var nagramiXHybridHalf: Double?\n    open func nagramiXOverlayWillRemove() {}\n\n    public var manualExpandEmbed:",
+      1
+    ],
+    [
+      "submodules/TelegramUI/Sources/MediaManager.swift",
+      "            self.overlayMediaManager.controller?.removeNode(currentOverlayVideoNode, customTransition: true)",
+      "            currentOverlayVideoNode.nagramiXOverlayWillRemove()\n            self.overlayMediaManager.controller?.removeNode(currentOverlayVideoNode, customTransition: true)",
+      1
+    ],
+    [
+      "submodules/TelegramUI/Sources/OverlayMediaControllerNode.swift",
+      "        let nodeData = OverlayMediaVideoNodeData(node: node, location: location,",
+      "        if let half = node.nagramiXHybridHalf { location.y = CGFloat(half) }\n        let nodeData = OverlayMediaVideoNodeData(node: node, location: location,",
+      1
+    ],
+    [
+      "submodules/TelegramUI/Sources/OverlayMediaControllerNode.swift",
+      "let (updatedLocation, shouldDismiss) = self.nodeLocationForPosition(",
+      "let (proposedLocation, shouldDismiss) = self.nodeLocationForPosition(",
+      1
+    ],
+    [
+      "submodules/TelegramUI/Sources/OverlayMediaControllerNode.swift",
+      "                        if shouldDismiss && draggingNode.isMinimizeable {",
+      "                        var updatedLocation = proposedLocation\n                        if draggingNode.nagramiXHybridHalf != nil {\n                            let velocity = recognizer.velocity(in: self.view)\n                            let isVerticalFlick = abs(velocity.y) >= 500 && abs(velocity.y) > abs(velocity.x)\n                            let half = NagramiXHybridPiPPlacement.half(deltaY: Double(velocity.y), releaseY: Double(previousFrame.midY), midpointY: Double(validLayout.size.height / 2), swipe: isVerticalFlick) ?? 0\n                            updatedLocation.y = CGFloat(half)\n                            draggingNode.nagramiXHybridHalf = half\n                        }\n                        if shouldDismiss && draggingNode.isMinimizeable {",
+      1
+    ],
+    [
+      "submodules/GalleryUI/Sources/GalleryItemNode.swift",
+      "    open func nagramiXStartDirectionalPiP(",
+      "    public var nagramiXRequestedPiPHalf: Double = 0\n\n    open func nagramiXStartDirectionalPiP(",
+      1
+    ],
+    [
+      "submodules/GalleryUI/Sources/NagramiXPiPGestureController.swift",
+      "            let accepted = surface.item.nagramiXStartDirectionalPiP",
+      "            surface.item.nagramiXRequestedPiPHalf = NagramiXHybridPiPPlacement.half(deltaY: Double(delta.y), releaseY: Double(pose.frame.midY), midpointY: Double(surface.viewport.midY), swipe: release.kind == .swipe) ?? 0\n            let accepted = surface.item.nagramiXStartDirectionalPiP",
+      1
+    ],
+    [
+      "submodules/GalleryUI/Sources/Items/UniversalVideoGalleryItem.swift",
+      "    private var customUnembedWhenPortrait:",
+      "    private weak var nagramiXHybridMini: NagramiXHybridMiniNode?\n    private var nagramiXHybridRetiring: NagramiXHybridMiniNode?\n    private var nagramiXHybridClosing = false\n    private var nagramiXHybridExpandPending = false\n    private var nagramiXHybridReturning = false\n    private let nagramiXHybridLease = UUID()\n    private var nagramiXHybridGeneration = UUID()\n\n    private func nagramiXStartHybridPiP(completion: @escaping (Bool) -> Void) -> Bool {\n        guard self.nagramiXCanBeginDirectionalPiPSwipe, let video = self.videoNode,\n              let item = self.item, let gallery = self.galleryController(),\n              let navigation = self.baseNavigationController(), video.ownsContentNode else { return false }\n        let manager = self.context.sharedContext.mediaManager\n        if let previous = manager.currentPictureInPictureNode as? UniversalVideoGalleryItemNode,\n           previous !== self, previous.nagramiXHybridMini != nil {\n            previous.nagramiXCloseHybrid(remove: true)\n        }\n        guard manager.currentPictureInPictureNode == nil || manager.currentPictureInPictureNode === self else { return false }\n        guard self.nagramiXHybridRetiring == nil else { return false }\n        self.nagramiXHybridClosing = false\n        self.nagramiXHybridExpandPending = false\n        self.nagramiXHybridReturning = false\n        let generation = UUID()\n        self.nagramiXHybridGeneration = generation\n        self.activePictureInPictureController = gallery\n        self.activePictureInPictureNavigationController = navigation\n        video.setNagramiXBackgroundPlayback(id: self.nagramiXHybridLease, active: true)\n        let mini = NagramiXHybridMiniNode(owner: self, video: video, dimensions: item.content.dimensions,\n            half: self.nagramiXRequestedPiPHalf,\n            expand: { [weak self] in guard self?.nagramiXHybridGeneration == generation else { return }; self?.nagramiXExpandHybrid() },\n            close: { [weak self] in guard self?.nagramiXHybridGeneration == generation else { return }; self?.nagramiXCloseHybrid(remove: true) },\n            removed: { [weak self] in guard self?.nagramiXHybridGeneration == generation else { return }; self?.nagramiXCloseHybrid(remove: false) },\n            background: { [weak self] in guard self?.nagramiXHybridGeneration == generation else { return }; self?.nagramiXHybridBackground() },\n            foreground: { [weak self] in guard self?.nagramiXHybridGeneration == generation else { return }; self?.nagramiXHybridForeground() })\n        self.nagramiXHybridMini = mini\n        manager.currentPictureInPictureNode = self\n        video.canAttachContent = true\n        self.nagramiXUpdateBackgroundVideoPlayback()\n        manager.setOverlayVideoNode(mini)\n        self.beginCustomDismiss(.pip)\n        completion(true)\n        self.completeCustomDismiss(true)\n        return true\n    }\n    private func nagramiXHybridBackground() {\n        guard self.nagramiXHybridMini != nil, !self.nagramiXHybridClosing else { return }\n        if let native = self.nativePictureInPictureContent as? NagramiXSystemPiPController, native.nagramiXHasPiPRequest { return }\n        self.nagramiXHybridReturning = false\n        _ = self.nagramiXStartSystemPiP(requiresSwipeSetting: false, completion: { [weak self] started in\n            guard let self else { return }\n            if !started {\n                self.nagramiXHybridMini?.alpha = 1\n                if self.nagramiXHybridClosing { self.nagramiXFinishHybridClose() }\n                else if self.nagramiXHybridExpandPending {\n                    self.nagramiXHybridExpandPending = false\n                    self.nagramiXExpandHybrid()\n                } else if self.nagramiXHybridReturning {\n                    self.nagramiXHybridReturning = false\n                    self.nagramiXScheduleHybridBackgroundRetry()\n                }\n            }\n        })\n    }\n    private func nagramiXScheduleHybridBackgroundRetry() {\n        let generation = self.nagramiXHybridGeneration\n        Queue.mainQueue().async { [weak self] in\n            guard let self, self.nagramiXHybridGeneration == generation,\n                  UIApplication.shared.applicationState != .active else { return }\n            self.nagramiXHybridBackground()\n        }\n    }\n    private func nagramiXHybridForeground() {\n        guard self.nagramiXHybridMini != nil, !self.nagramiXHybridClosing else { return }\n        self.nagramiXHybridReturning = true\n        if let native = self.nativePictureInPictureContent as? NagramiXSystemPiPController, native.nagramiXHasPiPRequest {\n            native.stop()\n        } else {\n            self.nagramiXHybridMini?.alpha = 1\n            self.nagramiXHybridReturning = false\n        }\n    }\n    private func nagramiXCloseHybrid(remove: Bool) {\n        guard let mini = self.nagramiXHybridMini, !self.nagramiXHybridClosing else { return }\n        self.nagramiXHybridClosing = true\n        self.nagramiXHybridRetiring = mini\n        if remove {\n            mini.removing = true\n            if self.context.sharedContext.mediaManager.hasOverlayVideoNode(mini) {\n                self.context.sharedContext.mediaManager.setOverlayVideoNode(nil)\n            }\n        }\n        if let native = self.nativePictureInPictureContent as? NagramiXSystemPiPController, native.nagramiXHasPiPRequest {\n            native.stop()\n        } else { self.nagramiXFinishHybridClose() }\n    }\n    private func nagramiXFinishHybridClose() {\n        self.nagramiXHybridGeneration = UUID()\n        self.nagramiXHybridMini = nil\n        self.videoNode?.setNagramiXBackgroundPlayback(id: self.nagramiXHybridLease, active: false)\n        if self.videoNode?.ownsContentNode == true { self.videoNode?.pause() }\n        self.videoNode?.canAttachContent = false\n        let manager = self.context.sharedContext.mediaManager\n        if manager.currentPictureInPictureNode === self { manager.currentPictureInPictureNode = nil }\n        self.nativePictureInPictureContent = nil\n        self.activePictureInPictureController = nil\n        self.activePictureInPictureNavigationController = nil\n        self.nagramiXUpdateBackgroundVideoPlayback()\n        self.nagramiXHybridRetiring = nil\n    }\n    private func nagramiXExpandHybrid() {\n        guard let mini = self.nagramiXHybridMini, !self.nagramiXHybridClosing,\n              let controller = self.activePictureInPictureController,\n              let navigation = self.activePictureInPictureNavigationController,\n              let window = navigation.currentWindow else { return }\n        if let native = self.nativePictureInPictureContent as? NagramiXSystemPiPController, native.nagramiXHasPiPRequest {\n            self.nagramiXHybridExpandPending = true\n            self.nagramiXHybridReturning = true\n            native.stop()\n            return\n        }\n        guard mini.restoreVideo() else { return }\n        self.nagramiXHybridGeneration = UUID()\n        mini.removing = true\n        self.nagramiXHybridMini = nil\n        if self.context.sharedContext.mediaManager.hasOverlayVideoNode(mini) {\n            self.context.sharedContext.mediaManager.setOverlayVideoNode(nil)\n        }\n        self.videoNode?.setNagramiXBackgroundPlayback(id: self.nagramiXHybridLease, active: false)\n        self.nagramiXPiPSurface.view.transform = .identity\n        self.nagramiXPiPSwipeTransitionPending = false\n        self.skipInitialPause = true\n        self.nativePictureInPictureContent = nil\n        (controller.displayNode as? GalleryControllerNode)?.nagramiXPreparePiPRestoration()\n        controller.view.alpha = 1\n        let arguments = controller.presentationArguments\n        controller.presentationArguments = nil\n        window.present(controller, on: .root, blockInteraction: false, completion: { [weak self] in\n            guard let self else { return }\n            if self.context.sharedContext.mediaManager.currentPictureInPictureNode === self {\n                self.context.sharedContext.mediaManager.currentPictureInPictureNode = nil\n            }\n            self.activePictureInPictureController = nil\n            self.activePictureInPictureNavigationController = nil\n            self.nagramiXUpdateBackgroundVideoPlayback()\n        })\n        controller.presentationArguments = arguments\n    }\n\n    private var customUnembedWhenPortrait:",
+      1
+    ],
+    [
+      "submodules/GalleryUI/Sources/Items/UniversalVideoGalleryItem.swift",
+      "        return self.nagramiXStartSystemPiP(requiresSwipeSetting: true, completion: completion)",
+      "        return self.nagramiXStartHybridPiP(completion: completion)",
+      1
+    ],
+    [
+      "submodules/GalleryUI/Sources/Items/UniversalVideoGalleryItem.swift",
+      "        guard NagramiXTabSettings.videoPiPSwipeEnabled, self.nagramiXCanUseSystemPiP else { return false }",
+      "        guard self.nagramiXHybridMini == nil, NagramiXTabSettings.videoPiPSwipeEnabled, self.nagramiXCanUseSystemPiP else { return false }",
+      1
+    ],
+    [
+      "submodules/GalleryUI/Sources/Items/UniversalVideoGalleryItem.swift",
+      "        super.centralityUpdated(isCentral: isCentral)",
+      "        if self.nagramiXHybridMini != nil { return }\n        super.centralityUpdated(isCentral: isCentral)",
+      1
+    ],
+    [
+      "submodules/GalleryUI/Sources/Items/UniversalVideoGalleryItem.swift",
+      "        super.visibilityUpdated(isVisible: isVisible)",
+      "        if self.nagramiXHybridMini != nil { self.videoNode?.canAttachContent = true; return }\n        super.visibilityUpdated(isVisible: isVisible)",
+      1
+    ],
+    [
+      "submodules/GalleryUI/Sources/Items/UniversalVideoGalleryItem.swift",
+      "    override func containerLayoutUpdated(_ layout: ContainerViewLayout, navigationBarHeight: CGFloat, transition: ContainedViewLayoutTransition) {",
+      "    override func containerLayoutUpdated(_ layout: ContainerViewLayout, navigationBarHeight: CGFloat, transition: ContainedViewLayoutTransition) {\n        if let mini = self.nagramiXHybridMini { mini.updateLayout(mini.bounds.size); return }",
+      1
+    ],
+    [
+      "submodules/GalleryUI/Sources/Items/UniversalVideoGalleryItem.swift",
+      "              UIApplication.shared.applicationState == .active,\n              (self.galleryController()?.displayNode as? GalleryControllerNode)?.nagramiXAllowsSystemPiPTransition == true,\n              self.galleryController()?.view.window != nil,",
+      "              self.nagramiXHybridMini != nil || UIApplication.shared.applicationState == .active,\n              self.nagramiXHybridMini != nil || (self.galleryController()?.displayNode as? GalleryControllerNode)?.nagramiXAllowsSystemPiPTransition == true,\n              self.nagramiXHybridMini != nil || self.galleryController()?.view.window != nil,",
+      1
+    ],
+    [
+      "submodules/GalleryUI/Sources/Items/UniversalVideoGalleryItem.swift",
+      "                  (self.galleryController()?.displayNode as? GalleryControllerNode)?.nagramiXAllowsSystemPiPTransition == true,\n                  self.nagramiXCanUseSystemPiP,",
+      "                  self.nagramiXHybridMini != nil || (self.galleryController()?.displayNode as? GalleryControllerNode)?.nagramiXAllowsSystemPiPTransition == true,\n                  self.nagramiXCanUseSystemPiP,",
+      1
+    ],
+    [
+      "submodules/GalleryUI/Sources/Items/UniversalVideoGalleryItem.swift",
+      "            return content.nagramiXNativeStartInFlight || (UIApplication.shared.applicationState == .active",
+      "            return self.nagramiXHybridMini != nil || content.nagramiXNativeStartInFlight || (UIApplication.shared.applicationState == .active",
+      1
+    ],
+    [
+      "submodules/GalleryUI/Sources/Items/UniversalVideoGalleryItem.swift",
+      "            transition: { visual.willStart() }, rollbackTransition: { visual.cancel() },",
+      "            transition: { [weak self] in\n                if let mini = self?.nagramiXHybridMini { mini.alpha = 0 } else { visual.willStart() }\n            }, rollbackTransition: { [weak self] in\n                if let mini = self?.nagramiXHybridMini { mini.alpha = 1 } else { visual.cancel() }\n            },",
+      1
+    ],
+    [
+      "submodules/GalleryUI/Sources/Items/UniversalVideoGalleryItem.swift",
+      "            transfer: { [weak self, weak node] content in",
+      "            transfer: { [weak self, weak node] content in\n                if let self, self.nagramiXHybridMini != nil, !self.nagramiXHybridClosing,\n                   self.videoNode === node, self.nativePictureInPictureContent === content { return true }",
+      1
+    ],
+    [
+      "submodules/GalleryUI/Sources/Items/UniversalVideoGalleryItem.swift",
+      "            }, restore: { [weak self, weak node] completion in",
+      "            }, restore: { [weak self, weak node] completion in\n                if let self, self.nagramiXHybridMini != nil, !self.nagramiXHybridClosing {\n                    self.nagramiXHybridReturning = true\n                    completion(true)\n                    return\n                }",
+      1
+    ],
+    [
+      "submodules/GalleryUI/Sources/Items/UniversalVideoGalleryItem.swift",
+      "                guard let self, self.nativePictureInPictureContent === content else { return }\n                if self.context.sharedContext.mediaManager.currentPictureInPictureNode === self {",
+      "                guard let self, self.nativePictureInPictureContent === content else { return }\n                if self.nagramiXHybridMini != nil {\n                    if self.nagramiXHybridClosing { self.nagramiXFinishHybridClose(); return }\n                    if self.nagramiXHybridReturning || UIApplication.shared.applicationState == .active {\n                        self.nagramiXHybridReturning = false\n                        self.nativePictureInPictureContent = nil\n                        self.nagramiXHybridMini?.alpha = 1\n                        self.videoNode?.canAttachContent = true\n                        self.nagramiXUpdateBackgroundVideoPlayback()\n                        if self.nagramiXHybridExpandPending {\n                            self.nagramiXHybridExpandPending = false\n                            self.nagramiXExpandHybrid()\n                        } else if UIApplication.shared.applicationState != .active {\n                            self.nagramiXScheduleHybridBackgroundRetry()\n                        }\n                    } else { self.nagramiXCloseHybrid(remove: true) }\n                    return\n                }\n                if self.context.sharedContext.mediaManager.currentPictureInPictureNode === self {",
+      1
+    ],
+    [
+      "submodules/GalleryUI/Sources/Items/UniversalVideoGalleryItem.swift",
+      "active: active && NagramiXTabSettings.backgroundVideoPlaybackEnabled)",
+      "active: active && (self.nagramiXHybridMini != nil || NagramiXTabSettings.backgroundVideoPlaybackEnabled))",
+      1
+    ],
+    [
+      "submodules/GalleryUI/Sources/Items/UniversalVideoGalleryItem.swift",
+      "state: NagramiXTabSettings.backgroundVideoPlaybackEnabled ? nowPlaying : nil)",
+      "state: self.nagramiXHybridMini != nil || NagramiXTabSettings.backgroundVideoPlaybackEnabled ? nowPlaying : nil)",
+      1
+    ],
+    [
+      "submodules/GalleryUI/Sources/Items/UniversalVideoGalleryItem.swift",
+      "private final class NagramiXSystemPiPController:",
+      "private final class NagramiXHybridMiniNode: OverlayMediaItemNode {\n    private let dimensions: CGSize\n    private var observers: [NSObjectProtocol] = []\n    private let retainedOwner: AnyObject\n    let video: UniversalVideoNode\n    private weak var originalParent: ASDisplayNode?\n    private let originalFrame: CGRect\n    private let expandAction: () -> Void\n    private let closeAction: () -> Void\n    var removing = false\n    let removalAction: () -> Void\n    private let controls = UIStackView()\n    init(owner: AnyObject, video: UniversalVideoNode, dimensions: CGSize, half: Double,\n         expand: @escaping () -> Void, close: @escaping () -> Void, removed: @escaping () -> Void, background: @escaping () -> Void, foreground: @escaping () -> Void) {\n        self.dimensions = dimensions\n        self.retainedOwner = owner\n        self.video = video\n        self.originalParent = video.supernode\n        self.originalFrame = video.frame\n        self.expandAction = expand\n        self.closeAction = close\n        self.removalAction = removed\n        super.init()\n        self.nagramiXHybridHalf = half\n        self.hasAttachedContext = true\n        self.clipsToBounds = true\n        self.cornerRadius = 10\n        self.backgroundColor = .black\n        self.addSubnode(video)\n        self.controls.axis = .horizontal\n        self.controls.distribution = .fillEqually\n        for (symbol, action, label) in [(\"arrow.up.left.and.arrow.down.right\", #selector(expandPressed), \"Развернуть\"),\n                                        (\"playpause.fill\", #selector(playPressed), \"Воспроизвести или приостановить\"),\n                                        (\"xmark\", #selector(closePressed), \"Закрыть\")] {\n            let button = UIButton(type: .system)\n            button.setImage(UIImage(systemName: symbol), for: .normal)\n            button.tintColor = .white\n            button.accessibilityLabel = label\n            button.addTarget(self, action: action, for: .touchUpInside)\n            self.controls.addArrangedSubview(button)\n        }\n        self.controls.backgroundColor = UIColor.black.withAlphaComponent(0.5)\n        self.view.addSubview(self.controls)\n        self.observers.append(NotificationCenter.default.addObserver(forName: UIApplication.willResignActiveNotification, object: nil, queue: .main) { _ in background() })\n        self.observers.append(NotificationCenter.default.addObserver(forName: UIApplication.didBecomeActiveNotification, object: nil, queue: .main) { _ in foreground() })\n    }\n    deinit { for observer in self.observers { NotificationCenter.default.removeObserver(observer) } }\n    override func preferredSizeForOverlayDisplay(boundingSize: CGSize) -> CGSize {\n        return self.dimensions.aspectFitted(CGSize(width: min(260, max(100, boundingSize.width - 24)), height: 190))\n    }\n    override func updateLayout(_ size: CGSize) {\n        self.video.frame = CGRect(origin: .zero, size: size)\n        self.video.updateLayout(size: size, transition: .immediate)\n        self.controls.frame = CGRect(x: 0, y: max(0, size.height - 44), width: size.width, height: min(44, size.height))\n    }\n    override func nagramiXOverlayWillRemove() {\n        if !self.removing { self.removing = true; self.removalAction() }\n    }\n    func restoreVideo() -> Bool {\n        guard let parent = self.originalParent else { return false }\n        parent.addSubnode(self.video)\n        self.video.frame = self.originalFrame\n        self.video.updateLayout(size: self.originalFrame.size, transition: .immediate)\n        return true\n    }\n    @objc private func expandPressed() { self.expandAction() }\n    @objc private func playPressed() { self.video.togglePlayPause() }\n    @objc private func closePressed() { self.closeAction() }\n}\n\nprivate final class NagramiXSystemPiPController:",
+      1
+    ],
+    [
+      "submodules/GalleryUI/Sources/Items/UniversalVideoGalleryItem.swift",
+      "            guard let owner = self.context.sharedContext.mediaManager.currentPictureInPictureNode else { return true }",
+      "            guard let owner = self.context.sharedContext.mediaManager.currentPictureInPictureNode else { return true }\n            if self.nagramiXHybridMini != nil, owner === self { return true }",
+      1
+    ],
+    [
+      "submodules/GalleryUI/Sources/Items/UniversalVideoGalleryItem.swift",
+      "                    strongSelf.nagramiXUpdateBackgroundVideoPlayback()\n                    strongSelf.updateDisplayPlaceholder(!value)",
+      "                    if !value, strongSelf.nagramiXHybridMini != nil { strongSelf.nagramiXCloseHybrid(remove: true); return }\n                    strongSelf.nagramiXUpdateBackgroundVideoPlayback()\n                    strongSelf.updateDisplayPlaceholder(!value)",
+      1
+    ],
+    [
+      "submodules/GalleryUI/Sources/NagramiXPiPGestureController.swift",
+      "import Foundation",
+      "import Foundation\nimport AccountContext",
+      1
+    ],
+    [
+      "submodules/TelegramUI/Sources/OverlayMediaControllerNode.swift",
+      "let (proposedLocation, shouldDismiss) = self.nodeLocationForPosition(",
+      "let (proposedLocation, proposedDismiss) = self.nodeLocationForPosition(",
+      1
+    ],
+    [
+      "submodules/TelegramUI/Sources/OverlayMediaControllerNode.swift",
+      "                        var updatedLocation = proposedLocation",
+      "                        let shouldDismiss = draggingNode.nagramiXHybridHalf == nil && proposedDismiss\n                        var updatedLocation = proposedLocation",
+      1
+    ],
+    [
+      "submodules/TelegramUI/Sources/OverlayMediaControllerNode.swift",
+      "                    if self.embedPossibleEmbeddingItem(OverlayMediaControllerEmbeddingItem(",
+      "                    if draggingNode.nagramiXHybridHalf == nil && self.embedPossibleEmbeddingItem(OverlayMediaControllerEmbeddingItem(",
+      1
+    ],
+    [
+      "submodules/GalleryUI/Sources/Items/UniversalVideoGalleryItem.swift",
+      "    private func readiness() -> NagramiXPiPLifecycle.Readiness {",
+      "    var nagramiXBackgroundSourceAllowed = false\n\n    private func readiness() -> NagramiXPiPLifecycle.Readiness {",
+      1
+    ],
+    [
+      "submodules/GalleryUI/Sources/Items/UniversalVideoGalleryItem.swift",
+      "        guard UIApplication.shared.applicationState == .active, self.node.view.window != nil else { return .invalid }",
+      "        guard (UIApplication.shared.applicationState == .active || self.nagramiXBackgroundSourceAllowed), self.node.view.window != nil else { return .invalid }",
+      1
+    ],
+    [
+      "submodules/GalleryUI/Sources/Items/UniversalVideoGalleryItem.swift",
+      "        self.nativePictureInPictureContent = content",
+      "        content.nagramiXBackgroundSourceAllowed = self.nagramiXHybridMini != nil\n        self.nativePictureInPictureContent = content",
+      1
+    ],
+    [
+      "submodules/GalleryUI/Sources/Items/UniversalVideoGalleryItem.swift",
+      "            guard owner === previous, owner !== self, let item = owner as? UniversalVideoGalleryItemNode,\n                  let old = item.nativePictureInPictureContent as? NagramiXSystemPiPController else { return false }",
+      "            guard owner === previous, owner !== self, let item = owner as? UniversalVideoGalleryItemNode else { return false }\n            if item.nagramiXHybridMini != nil {\n                item.nagramiXCloseHybrid(remove: true)\n                return self.context.sharedContext.mediaManager.currentPictureInPictureNode == nil\n            }\n            guard let old = item.nativePictureInPictureContent as? NagramiXSystemPiPController else { return false }",
+      1
+    ]
+  ],
+  "template_guards": {
+    "hybrid_pip/Mini.swift.inc": "a4bfe6534a34f22c51a827a698114fc209de4c665920ff2471e62da98ab503db",
+    "hybrid_pip/Owner.swift.inc": "e16f00bfd75820e05cf3e5f220fcc7bcf05fe9999b91ec879c125c2abf9fc0c9"
+  }
+}

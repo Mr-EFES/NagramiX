@@ -1,0 +1,370 @@
+{
+  "inputs": {
+    "submodules/DebugSettingsUI/Sources/DebugController.swift": "6c860a48230e9e86f8e948990ff0bd1de20320731df0b1a28cc32b6609db2a3e",
+    "submodules/DebugSettingsUI/Sources/CrashReportsController.swift": "26e2ec627b07844ea76c3d456f19bb69aacc3b9d1297db6f6620836801a24dee",
+    "submodules/NagramiXCore/Resources/ru.lproj/Localizable.strings": "0758d422fb8a1e79f8a50f894b1121b38c473ae40f8ca8e6cf492666d4d9c055",
+    "submodules/NagramiXCore/Resources/en.lproj/Localizable.strings": "768d6463a68cdf65f18a5754f4fdb3451e068733199de390521ecb82c043703b"
+  },
+  "outputs": {
+    "submodules/DebugSettingsUI/Sources/DebugController.swift": "340fa999d77a431eae158a5893fae36bde604393102c402a0f202172329d6bc7",
+    "submodules/DebugSettingsUI/Sources/CrashReportsController.swift": "c1021232f12fa746904888832558128a5630f6ace138751ea4ac9be9bce53366",
+    "submodules/NagramiXCore/Resources/ru.lproj/Localizable.strings": "dee1954ea4319f6603814a4f330239502f24959a7cb81a80f229fb63131edd13",
+    "submodules/NagramiXCore/Resources/en.lproj/Localizable.strings": "dbef7a02df08b8be477f062427710c9456e08b1d0a29321fb7043c318d2fb5be"
+  },
+  "patches": [
+    {
+      "path": "submodules/DebugSettingsUI/Sources/DebugController.swift",
+      "old": "text: \"LOGS\", sectionId:",
+      "new": "text: presentationData.strings.nagramiXDebugLocalized(\"LOGS\"), sectionId:",
+      "count": 1
+    },
+    {
+      "path": "submodules/DebugSettingsUI/Sources/DebugController.swift",
+      "old": "text: \"RESET APP\", sectionId:",
+      "new": "text: presentationData.strings.nagramiXDebugLocalized(\"RESET APP\"), sectionId:",
+      "count": 1
+    },
+    {
+      "path": "submodules/DebugSettingsUI/Sources/DebugController.swift",
+      "old": "text: \"EXPERIMENTAL SETTINGS\", sectionId:",
+      "new": "text: presentationData.strings.nagramiXDebugLocalized(\"EXPERIMENTAL SETTINGS\"), sectionId:",
+      "count": 1
+    },
+    {
+      "path": "submodules/DebugSettingsUI/Sources/DebugController.swift",
+      "old": ".plain(\"When enabled, your message text and other sensitive information are excluded from logs.\")",
+      "new": ".plain(presentationData.strings.nagramiXDebugLocalized(\"When enabled, your message text and other sensitive information are excluded from logs.\"))",
+      "count": 1
+    },
+    {
+      "path": "submodules/DebugSettingsUI/Sources/DebugController.swift",
+      "old": ".plain(\"Telegram for iOS \\(bundleVersion) (\\(bundleBuild))\\n\\(bundleId)\")",
+      "new": ".plain(String(format: presentationData.strings.nagramiXDebugLocalized(\"NagramiX for iOS %@ (%@)\\n%@\"), String(describing: bundleVersion), String(describing: bundleBuild), bundleId))",
+      "count": 1
+    },
+    {
+      "path": "submodules/DebugSettingsUI/Sources/DebugController.swift",
+      "old": "\"Engine: \\(context.account.network.engineKind.rawValue)\"",
+      "new": "String(format: presentationData.strings.nagramiXDebugLocalized(\"Engine: %@\"), context.account.network.engineKind.rawValue)",
+      "count": 1
+    },
+    {
+      "path": "submodules/DebugSettingsUI/Sources/DebugController.swift",
+      "old": "\"Host: \\(backupHostOverride)\"",
+      "new": "String(format: presentationData.strings.nagramiXDebugLocalized(\"Host: %@\"), backupHostOverride)",
+      "count": 1
+    },
+    {
+      "path": "submodules/DebugSettingsUI/Sources/DebugController.swift",
+      "old": "text: option.title, textLayout: option.textLayout,",
+      "new": "text: sharedContext.currentPresentationData.with { $0 }.strings.nagramiXDebugLocalized(option.title), textLayout: option.textLayout(strings: sharedContext.currentPresentationData.with { $0 }.strings),",
+      "count": 1
+    },
+    {
+      "path": "submodules/DebugSettingsUI/Sources/DebugController.swift",
+      "old": "    var textLayout: ContextMenuActionItemTextLayout {",
+      "new": "    func textLayout(strings: PresentationStrings) -> ContextMenuActionItemTextLayout {",
+      "count": 1
+    },
+    {
+      "path": "submodules/DebugSettingsUI/Sources/DebugController.swift",
+      "old": ".secondLineWithValue(\"Up to 40 MB\")",
+      "new": ".secondLineWithValue(strings.nagramiXDebugLocalized(\"Up to 40 MB\"))",
+      "count": 1
+    },
+    {
+      "path": "submodules/DebugSettingsUI/Sources/DebugController.swift",
+      "old": ".secondLineWithValue(\"Up to 4 MB\")",
+      "new": ".secondLineWithValue(strings.nagramiXDebugLocalized(\"Up to 4 MB\"))",
+      "count": 1
+    },
+    {
+      "path": "submodules/DebugSettingsUI/Sources/DebugController.swift",
+      "old": "label: value.debugTitle,",
+      "new": "label: presentationData.strings.nagramiXDebugLocalized(value.debugTitle),",
+      "count": 1
+    },
+    {
+      "path": "submodules/DebugSettingsUI/Sources/DebugController.swift",
+      "old": "title: mode.debugTitle,",
+      "new": "title: presentationData.strings.nagramiXDebugLocalized(mode.debugTitle),",
+      "count": 1
+    },
+    {
+      "path": "submodules/DebugSettingsUI/Sources/DebugController.swift",
+      "old": "text: \"Via Telegram\", icon:",
+      "new": "text: sharedContext.currentPresentationData.with { $0 }.strings.nagramiXDebugLocalized(\"Via NagramiX\"), icon:",
+      "count": 1
+    },
+    {
+      "path": "submodules/DebugSettingsUI/Sources/DebugController.swift",
+      "old": "text: \"Via Email\", icon:",
+      "new": "text: sharedContext.currentPresentationData.with { $0 }.strings.nagramiXDebugLocalized(\"Via Email\"), icon:",
+      "count": 1
+    },
+    {
+      "path": "submodules/DebugSettingsUI/Sources/DebugController.swift",
+      "old": "composeController.setSubject(\"Telegram Logs\")",
+      "new": "composeController.setSubject(arguments.sharedContext.currentPresentationData.with { $0 }.strings.nagramiXDebugLocalized(\"NagramiX Logs\"))",
+      "count": 6
+    },
+    {
+      "path": "submodules/DebugSettingsUI/Sources/DebugController.swift",
+      "old": "composeController.setSubject(\"Telegram CPU Profiles\")",
+      "new": "composeController.setSubject(arguments.sharedContext.currentPresentationData.with { $0 }.strings.nagramiXDebugLocalized(\"NagramiX CPU Profiles\"))",
+      "count": 1
+    },
+    {
+      "path": "submodules/DebugSettingsUI/Sources/CrashReportsController.swift",
+      "old": "import Foundation\n",
+      "new": "import Foundation\nimport NagramiXCore\n",
+      "count": 1
+    },
+    {
+      "path": "submodules/DebugSettingsUI/Sources/CrashReportsController.swift",
+      "old": "    func alert(_ title: String, _ text: String) {",
+      "new": "    private var strings: PresentationStrings {\n        return self.sharedContext.currentPresentationData.with { $0 }.strings\n    }\n\n    func alert(_ title: String, _ text: String) {",
+      "count": 1
+    },
+    {
+      "path": "submodules/DebugSettingsUI/Sources/CrashReportsController.swift",
+      "old": "\"Could Not Save Test Log\"",
+      "new": "self.strings.nagramiXDebugLocalized(\"Could Not Save Test Log\")",
+      "count": 1
+    },
+    {
+      "path": "submodules/DebugSettingsUI/Sources/CrashReportsController.swift",
+      "old": "\"View Log\"",
+      "new": "self.strings.nagramiXDebugLocalized(\"View Log\")",
+      "count": 1
+    },
+    {
+      "path": "submodules/DebugSettingsUI/Sources/CrashReportsController.swift",
+      "old": "\"Send to Telegram Team\"",
+      "new": "self.strings.nagramiXDebugLocalized(\"Send to Telegram Team\")",
+      "count": 1
+    },
+    {
+      "path": "submodules/DebugSettingsUI/Sources/CrashReportsController.swift",
+      "old": "\"Delete Log\"",
+      "new": "self.strings.nagramiXDebugLocalized(\"Delete Log\")",
+      "count": 1
+    },
+    {
+      "path": "submodules/DebugSettingsUI/Sources/CrashReportsController.swift",
+      "old": "\"Delete Crash Log?\"",
+      "new": "self.strings.nagramiXDebugLocalized(\"Delete Crash Log?\")",
+      "count": 1
+    },
+    {
+      "path": "submodules/DebugSettingsUI/Sources/CrashReportsController.swift",
+      "old": "\"This removes the saved log from this device.\"",
+      "new": "self.strings.nagramiXDebugLocalized(\"This removes the saved log from this device.\")",
+      "count": 1
+    },
+    {
+      "path": "submodules/DebugSettingsUI/Sources/CrashReportsController.swift",
+      "old": "\"Delete\"",
+      "new": "self.strings.nagramiXDebugLocalized(\"Delete\")",
+      "count": 1
+    },
+    {
+      "path": "submodules/DebugSettingsUI/Sources/CrashReportsController.swift",
+      "old": "\"Could Not Delete Log\"",
+      "new": "self.strings.nagramiXDebugLocalized(\"Could Not Delete Log\")",
+      "count": 1
+    },
+    {
+      "path": "submodules/DebugSettingsUI/Sources/CrashReportsController.swift",
+      "old": "\"Please try again.\"",
+      "new": "self.strings.nagramiXDebugLocalized(\"Please try again.\")",
+      "count": 2
+    },
+    {
+      "path": "submodules/DebugSettingsUI/Sources/CrashReportsController.swift",
+      "old": "\"Sign In Required\"",
+      "new": "self.strings.nagramiXDebugLocalized(\"Sign In Required\")",
+      "count": 1
+    },
+    {
+      "path": "submodules/DebugSettingsUI/Sources/CrashReportsController.swift",
+      "old": "\"Sign in to a Telegram account to send this log.\"",
+      "new": "self.strings.nagramiXDebugLocalized(\"Sign in to a Telegram account to send this log.\")",
+      "count": 1
+    },
+    {
+      "path": "submodules/DebugSettingsUI/Sources/CrashReportsController.swift",
+      "old": "\"Could Not Load Account\"",
+      "new": "self.strings.nagramiXDebugLocalized(\"Could Not Load Account\")",
+      "count": 1
+    },
+    {
+      "path": "submodules/DebugSettingsUI/Sources/CrashReportsController.swift",
+      "old": "\"Send Crash Log?\"",
+      "new": "self.strings.nagramiXDebugLocalized(\"Send Crash Log?\")",
+      "count": 1
+    },
+    {
+      "path": "submodules/DebugSettingsUI/Sources/CrashReportsController.swift",
+      "old": "\"Send\"",
+      "new": "self.strings.nagramiXDebugLocalized(\"Send\")",
+      "count": 1
+    },
+    {
+      "path": "submodules/DebugSettingsUI/Sources/CrashReportsController.swift",
+      "old": "\"Could Not Find Crash Log Bot\"",
+      "new": "self.strings.nagramiXDebugLocalized(\"Could Not Find Crash Log Bot\")",
+      "count": 1
+    },
+    {
+      "path": "submodules/DebugSettingsUI/Sources/CrashReportsController.swift",
+      "old": "\"Check your connection and try again. The log remains saved on this device.\"",
+      "new": "self.strings.nagramiXDebugLocalized(\"Check your connection and try again. The log remains saved on this device.\")",
+      "count": 1
+    },
+    {
+      "path": "submodules/DebugSettingsUI/Sources/CrashReportsController.swift",
+      "old": "\"Crash Log Bot Is Blocked\"",
+      "new": "self.strings.nagramiXDebugLocalized(\"Crash Log Bot Is Blocked\")",
+      "count": 1
+    },
+    {
+      "path": "submodules/DebugSettingsUI/Sources/CrashReportsController.swift",
+      "old": "\"Could Not Queue Log\"",
+      "new": "self.strings.nagramiXDebugLocalized(\"Could Not Queue Log\")",
+      "count": 1
+    },
+    {
+      "path": "submodules/DebugSettingsUI/Sources/CrashReportsController.swift",
+      "old": "\"Please try again. The log remains saved on this device.\"",
+      "new": "self.strings.nagramiXDebugLocalized(\"Please try again. The log remains saved on this device.\")",
+      "count": 2
+    },
+    {
+      "path": "submodules/DebugSettingsUI/Sources/CrashReportsController.swift",
+      "old": "\"Thank you for helping make Telegram better!\"",
+      "new": "self.strings.nagramiXDebugLocalized(\"Thank you for helping make Telegram better!\")",
+      "count": 1
+    },
+    {
+      "path": "submodules/DebugSettingsUI/Sources/CrashReportsController.swift",
+      "old": "\"Could Not Prepare Log\"",
+      "new": "self.strings.nagramiXDebugLocalized(\"Could Not Prepare Log\")",
+      "count": 1
+    },
+    {
+      "path": "submodules/DebugSettingsUI/Sources/CrashReportsController.swift",
+      "old": "\"The app was not crashed because the test log could not be saved.\\n\\n\\(error.localizedDescription)\"",
+      "new": "String(format: self.strings.nagramiXDebugLocalized(\"The app was not crashed because the test log could not be saved.\\n\\n%@\"), error.localizedDescription)",
+      "count": 1
+    },
+    {
+      "path": "submodules/DebugSettingsUI/Sources/CrashReportsController.swift",
+      "old": "\"From: \\(sender)\\n\\nThe archive includes the crash diagnostic, app and device details, and stack addresses. You can review these in View Log.\"",
+      "new": "String(format: self.strings.nagramiXDebugLocalized(\"From: %@\\n\\nThe archive includes the crash diagnostic, app and device details, and stack addresses. You can review these in View Log.\"), sender)",
+      "count": 1
+    },
+    {
+      "path": "submodules/DebugSettingsUI/Sources/CrashReportsController.swift",
+      "old": "\"Open @\\(crashReportBot) and unblock it before sending the log.\"",
+      "new": "String(format: self.strings.nagramiXDebugLocalized(\"Open @%@ and unblock it before sending the log.\"), crashReportBot)",
+      "count": 1
+    },
+    {
+      "path": "submodules/DebugSettingsUI/Sources/CrashReportsController.swift",
+      "old": "\"Ask to Send Crash Logs\"",
+      "new": "presentationData.strings.nagramiXDebugLocalized(\"Ask to Send Crash Logs\")",
+      "count": 1
+    },
+    {
+      "path": "submodules/DebugSettingsUI/Sources/CrashReportsController.swift",
+      "old": "\"Show a prompt after the app crashes so you can send a log to help us fix the issue.\"",
+      "new": "presentationData.strings.nagramiXDebugLocalized(\"Show a prompt after the app crashes so you can send a log to help us fix the issue.\")",
+      "count": 1
+    },
+    {
+      "path": "submodules/DebugSettingsUI/Sources/CrashReportsController.swift",
+      "old": "\"RECENT CRASHES\"",
+      "new": "presentationData.strings.nagramiXDebugLocalized(\"RECENT CRASHES\")",
+      "count": 1
+    },
+    {
+      "path": "submodules/DebugSettingsUI/Sources/CrashReportsController.swift",
+      "old": "\"No recent crash logs yet.\"",
+      "new": "presentationData.strings.nagramiXDebugLocalized(\"No recent crash logs yet.\")",
+      "count": 1
+    },
+    {
+      "path": "submodules/DebugSettingsUI/Sources/CrashReportsController.swift",
+      "old": "\"The 10 most recent crash logs are displayed here.\"",
+      "new": "presentationData.strings.nagramiXDebugLocalized(\"The 10 most recent crash logs are displayed here.\")",
+      "count": 1
+    },
+    {
+      "path": "submodules/DebugSettingsUI/Sources/CrashReportsController.swift",
+      "old": "\"Unknown Error Occured.\"",
+      "new": "presentationData.strings.nagramiXDebugLocalized(\"Unknown Error Occured.\")",
+      "count": 1
+    },
+    {
+      "path": "submodules/DebugSettingsUI/Sources/CrashReportsController.swift",
+      "old": "\"Test\"",
+      "new": "presentationData.strings.nagramiXDebugLocalized(\"Test Crash\")",
+      "count": 1
+    },
+    {
+      "path": "submodules/DebugSettingsUI/Sources/CrashReportsController.swift",
+      "old": "\"Crash Logs\"",
+      "new": "presentationData.strings.nagramiXDebugLocalized(\"Crash Logs\")",
+      "count": 1
+    },
+    {
+      "path": "submodules/DebugSettingsUI/Sources/CrashReportsController.swift",
+      "old": "self.title = \"Crash Log\"",
+      "new": "self.title = presentationData.strings.nagramiXDebugLocalized(\"Crash Log\")",
+      "count": 1
+    },
+    {
+      "path": "submodules/DebugSettingsUI/Sources/CrashReportsController.swift",
+      "old": "\"New Crash Log Available\"",
+      "new": "context.sharedContext.currentPresentationData.with { $0 }.strings.nagramiXDebugLocalized(\"New Crash Log Available\")",
+      "count": 1
+    },
+    {
+      "path": "submodules/DebugSettingsUI/Sources/CrashReportsController.swift",
+      "old": "\"The app closed unexpectedly.\\n\\n Would you like to send a crash log to help us fix the issue?\"",
+      "new": "context.sharedContext.currentPresentationData.with { $0 }.strings.nagramiXDebugLocalized(\"The app closed unexpectedly.\\n\\n Would you like to send a crash log to help us fix the issue?\")",
+      "count": 1
+    },
+    {
+      "path": "submodules/DebugSettingsUI/Sources/CrashReportsController.swift",
+      "old": "\"Not Now\"",
+      "new": "context.sharedContext.currentPresentationData.with { $0 }.strings.nagramiXDebugLocalized(\"Not Now\")",
+      "count": 1
+    },
+    {
+      "path": "submodules/DebugSettingsUI/Sources/CrashReportsController.swift",
+      "old": "\"Send Log\"",
+      "new": "context.sharedContext.currentPresentationData.with { $0 }.strings.nagramiXDebugLocalized(\"Send Log\")",
+      "count": 1
+    },
+    {
+      "path": "submodules/NagramiXCore/Resources/ru.lproj/Localizable.strings",
+      "old": "ружков: 480×480 при 30 кадрах/с.\";\n\"NagramiX.Debug.Send Logs\" = \"Отправить журналы\";\n\"NagramiX.Debug.Text Field v2: InputDec backend\" = \"Поле ввода v2: движок InputDec\";\n\"NagramiX.Debug.Video Message Camera\" = \"Камера кружков\";\n\"NagramiX.Debug.Wallet: fake transfers\" = \"Кошелёк: тестовые переводы\";\n",
+      "new": "ружков: 480×480 при 30 кадрах/с.\";\n\"NagramiX.Debug.Send Logs\" = \"Отправить журналы\";\n\"NagramiX.Debug.Text Field v2: InputDec backend\" = \"Поле ввода v2: движок InputDec\";\n\"NagramiX.Debug.Video Message Camera\" = \"Камера кружков\";\n\"NagramiX.Debug.Wallet: fake transfers\" = \"Кошелёк: тестовые переводы\";\n\n// Complete debug UI on Telegram 13.1.1.\n\"NagramiX.Debug.LOGS\" = \"ЖУРНАЛЫ\";\n\"NagramiX.Debug.RESET APP\" = \"СБРОС ПРИЛОЖЕНИЯ\";\n\"NagramiX.Debug.EXPERIMENTAL SETTINGS\" = \"ЭКСПЕРИМЕНТАЛЬНЫЕ НАСТРОЙКИ\";\n\"NagramiX.Debug.When enabled, your message text and other sensitive information are excluded from logs.\" = \"Если включено, текст сообщений и другие конфиденциальные данные не попадают в журналы.\";\n\"NagramiX.Debug.NagramiX for iOS %@ (%@)\\n%@\" = \"NagramiX для iOS %@ (%@)\\n%@\";\n\"NagramiX.Debug.Engine: %@\" = \"Сетевой движок: %@\";\n\"NagramiX.Debug.Host: %@\" = \"Сервер: %@\";\n\"NagramiX.Debug.Up to 40 MB\" = \"До 40 МБ\";\n\"NagramiX.Debug.Up to 4 MB\" = \"До 4 МБ\";\n\"NagramiX.Debug.Logs\" = \"Журналы\";\n\"NagramiX.Debug.Latest Logs\" = \"Последние журналы\";\n\"NagramiX.Debug.Share Logs\" = \"Журналы отправки\";\n\"NagramiX.Debug.Group Call Logs\" = \"Журналы групповых звонков\";\n\"NagramiX.Debug.Notification Logs\" = \"Журналы уведомлений\";\n\"NagramiX.Debug.Critical Logs\" = \"Критические журналы\";\n\"NagramiX.Debug.All Logs\" = \"Все журналы\";\n\"NagramiX.Debug.Storage Stats\" = \"Статистика хранилища\";\n\"NagramiX.Debug.Legacy\" = \"Прежняя камера\";\n\"NagramiX.Debug.VGA (640×480)\" = \"VGA (640×480)\";\n\"NagramiX.Debug.HD · Bilinear\" = \"HD · Билинейная\";\n\"NagramiX.Debug.HD · Lanczos\" = \"HD · Ланцош\";\n\"NagramiX.Debug.Via NagramiX\" = \"Через NagramiX\";\n\"NagramiX.Debug.NagramiX Logs\" = \"Журналы NagramiX\";\n\"NagramiX.Debug.NagramiX CPU Profiles\" = \"Профили процессора NagramiX\";\n\"NagramiX.Debug.Could Not Save Test Log\" = \"Не удалось сохранить тестовый журнал\";\n\"NagramiX.Debug.View Log\" = \"Просмотреть журнал\";\n\"NagramiX.Debug.Send to Telegram Team\" = \"Отправить команде Telegram\";\n\"NagramiX.Debug.Delete Log\" = \"Удалить журнал\";\n\"NagramiX.Debug.Delete Crash Log?\" = \"Удалить отчёт о сбое?\";\n\"NagramiX.Debug.This removes the saved log from this device.\" = \"Сохранённый журнал будет удалён с этого устройства.\";\n\"NagramiX.Debug.Delete\" = \"Удалить\";\n\"NagramiX.Debug.Could Not Delete Log\" = \"Не удалось удалить журнал\";\n\"NagramiX.Debug.Please try again.\" = \"Повторите попытку.\";\n\"NagramiX.Debug.Sign In Required\" = \"Требуется вход\";\n\"NagramiX.Debug.Sign in to a Telegram account to send this log.\" = \"Войдите в учётную запись в NagramiX, чтобы отправить журнал.\";\n\"NagramiX.Debug.Could Not Load Account\" = \"Не удалось загрузить учётную запись\";\n\"NagramiX.Debug.Send Crash Log?\" = \"Отправить отчёт о сбое?\";\n\"NagramiX.Debug.Send\" = \"Отправить\";\n\"NagramiX.Debug.Could Not Find Crash Log Bot\" = \"Не удалось найти бота для отчётов\";\n\"NagramiX.Debug.Check your connection and try again. The log remains saved on this device.\" = \"Проверьте подключение и повторите попытку. Журнал остаётся на этом устройстве.\";\n\"NagramiX.Debug.Crash Log Bot Is Blocked\" = \"Бот для отчётов заблокирован\";\n\"NagramiX.Debug.Could Not Queue Log\" = \"Не удалось отправить журнал\";\n\"NagramiX.Debug.Please try again. The log remains saved on this device.\" = \"Повторите попытку. Журнал остаётся на этом устройстве.\";\n\"NagramiX.Debug.Thank you for helping make Telegram better!\" = \"Спасибо за помощь в улучшении NagramiX!\";\n\"NagramiX.Debug.Could Not Prepare Log\" = \"Не удалось подготовить журнал\";\n\"NagramiX.Debug.The app was not crashed because the test log could not be saved.\\n\\n%@\" = \"Приложение не было аварийно завершено: не удалось сохранить тестовый журнал.\\n\\n%@\";\n\"NagramiX.Debug.From: %@\\n\\nThe archive includes the crash diagnostic, app and device details, and stack addresses. You can review these in View Log.\" = \"Отправитель: %@\\n\\nАрхив содержит диагностику сбоя, сведения о приложении и устройстве, а также адреса стека. Они доступны в пункте «Просмотреть журнал».\";\n\"NagramiX.Debug.Open @%@ and unblock it before sending the log.\" = \"Откройте @%@ и разблокируйте бота перед отправкой журнала.\";\n\"NagramiX.Debug.Ask to Send Crash Logs\" = \"Предлагать отправку отчётов\";\n\"NagramiX.Debug.Show a prompt after the app crashes so you can send a log to help us fix the issue.\" = \"После сбоя предлагать отправить журнал, чтобы помочь исправить ошибку.\";\n\"NagramiX.Debug.RECENT CRASHES\" = \"НЕДАВНИЕ СБОИ\";\n\"NagramiX.Debug.No recent crash logs yet.\" = \"Отчётов о недавних сбоях пока нет.\";\n\"NagramiX.Debug.The 10 most recent crash logs are displayed here.\" = \"Здесь показаны 10 последних отчётов о сбоях.\";\n\"NagramiX.Debug.Unknown Error Occured.\" = \"Произошла неизвестная ошибка.\";\n\"NagramiX.Debug.Test Crash\" = \"Тестовый сбой\";\n\"NagramiX.Debug.Crash Log\" = \"Отчёт о сбое\";\n\"NagramiX.Debug.New Crash Log Available\" = \"Новый отчёт о сбое\";\n\"NagramiX.Debug.The app closed unexpectedly.\\n\\n Would you like to send a crash log to help us fix the issue?\" = \"Приложение неожиданно закрылось.\\n\\nОтправить отчёт о сбое, чтобы помочь исправить ошибку?\";\n\"NagramiX.Debug.Not Now\" = \"Не сейчас\";\n\"NagramiX.Debug.Send Log\" = \"Отправить журнал\";\n",
+      "count": 1
+    },
+    {
+      "path": "submodules/NagramiXCore/Resources/en.lproj/Localizable.strings",
+      "old": "ipeline and record 480×480 at 30 FPS.\";\n\"NagramiX.Debug.Send Logs\" = \"Send Logs\";\n\"NagramiX.Debug.Text Field v2: InputDec backend\" = \"Text Field v2: InputDec backend\";\n\"NagramiX.Debug.Video Message Camera\" = \"Video Message Camera\";\n\"NagramiX.Debug.Wallet: fake transfers\" = \"Wallet: fake transfers\";\n",
+      "new": "ipeline and record 480×480 at 30 FPS.\";\n\"NagramiX.Debug.Send Logs\" = \"Send Logs\";\n\"NagramiX.Debug.Text Field v2: InputDec backend\" = \"Text Field v2: InputDec backend\";\n\"NagramiX.Debug.Video Message Camera\" = \"Video Message Camera\";\n\"NagramiX.Debug.Wallet: fake transfers\" = \"Wallet: fake transfers\";\n\n// Complete debug UI on Telegram 13.1.1.\n\"NagramiX.Debug.LOGS\" = \"LOGS\";\n\"NagramiX.Debug.RESET APP\" = \"RESET APP\";\n\"NagramiX.Debug.EXPERIMENTAL SETTINGS\" = \"EXPERIMENTAL SETTINGS\";\n\"NagramiX.Debug.When enabled, your message text and other sensitive information are excluded from logs.\" = \"When enabled, your message text and other sensitive information are excluded from logs.\";\n\"NagramiX.Debug.NagramiX for iOS %@ (%@)\\n%@\" = \"NagramiX for iOS %@ (%@)\\n%@\";\n\"NagramiX.Debug.Engine: %@\" = \"Engine: %@\";\n\"NagramiX.Debug.Host: %@\" = \"Host: %@\";\n\"NagramiX.Debug.Up to 40 MB\" = \"Up to 40 MB\";\n\"NagramiX.Debug.Up to 4 MB\" = \"Up to 4 MB\";\n\"NagramiX.Debug.Logs\" = \"Logs\";\n\"NagramiX.Debug.Latest Logs\" = \"Latest Logs\";\n\"NagramiX.Debug.Share Logs\" = \"Share Logs\";\n\"NagramiX.Debug.Group Call Logs\" = \"Group Call Logs\";\n\"NagramiX.Debug.Notification Logs\" = \"Notification Logs\";\n\"NagramiX.Debug.Critical Logs\" = \"Critical Logs\";\n\"NagramiX.Debug.All Logs\" = \"All Logs\";\n\"NagramiX.Debug.Storage Stats\" = \"Storage Stats\";\n\"NagramiX.Debug.Legacy\" = \"Legacy\";\n\"NagramiX.Debug.VGA (640×480)\" = \"VGA (640×480)\";\n\"NagramiX.Debug.HD · Bilinear\" = \"HD · Bilinear\";\n\"NagramiX.Debug.HD · Lanczos\" = \"HD · Lanczos\";\n\"NagramiX.Debug.Via NagramiX\" = \"Via NagramiX\";\n\"NagramiX.Debug.Via Email\" = \"Via Email\";\n\"NagramiX.Debug.NagramiX Logs\" = \"NagramiX Logs\";\n\"NagramiX.Debug.NagramiX CPU Profiles\" = \"NagramiX CPU Profiles\";\n\"NagramiX.Debug.Could Not Save Test Log\" = \"Could Not Save Test Log\";\n\"NagramiX.Debug.View Log\" = \"View Log\";\n\"NagramiX.Debug.Send to Telegram Team\" = \"Send to Telegram Team\";\n\"NagramiX.Debug.Delete Log\" = \"Delete Log\";\n\"NagramiX.Debug.Delete Crash Log?\" = \"Delete Crash Log?\";\n\"NagramiX.Debug.This removes the saved log from this device.\" = \"This removes the saved log from this device.\";\n\"NagramiX.Debug.Delete\" = \"Delete\";\n\"NagramiX.Debug.Could Not Delete Log\" = \"Could Not Delete Log\";\n\"NagramiX.Debug.Please try again.\" = \"Please try again.\";\n\"NagramiX.Debug.Sign In Required\" = \"Sign In Required\";\n\"NagramiX.Debug.Sign in to a Telegram account to send this log.\" = \"Sign in to a Telegram account to send this log.\";\n\"NagramiX.Debug.Could Not Load Account\" = \"Could Not Load Account\";\n\"NagramiX.Debug.Send Crash Log?\" = \"Send Crash Log?\";\n\"NagramiX.Debug.Send\" = \"Send\";\n\"NagramiX.Debug.Could Not Find Crash Log Bot\" = \"Could Not Find Crash Log Bot\";\n\"NagramiX.Debug.Check your connection and try again. The log remains saved on this device.\" = \"Check your connection and try again. The log remains saved on this device.\";\n\"NagramiX.Debug.Crash Log Bot Is Blocked\" = \"Crash Log Bot Is Blocked\";\n\"NagramiX.Debug.Could Not Queue Log\" = \"Could Not Queue Log\";\n\"NagramiX.Debug.Please try again. The log remains saved on this device.\" = \"Please try again. The log remains saved on this device.\";\n\"NagramiX.Debug.Thank you for helping make Telegram better!\" = \"Thank you for helping make Telegram better!\";\n\"NagramiX.Debug.Could Not Prepare Log\" = \"Could Not Prepare Log\";\n\"NagramiX.Debug.The app was not crashed because the test log could not be saved.\\n\\n%@\" = \"The app was not crashed because the test log could not be saved.\\n\\n%@\";\n\"NagramiX.Debug.From: %@\\n\\nThe archive includes the crash diagnostic, app and device details, and stack addresses. You can review these in View Log.\" = \"From: %@\\n\\nThe archive includes the crash diagnostic, app and device details, and stack addresses. You can review these in View Log.\";\n\"NagramiX.Debug.Open @%@ and unblock it before sending the log.\" = \"Open @%@ and unblock it before sending the log.\";\n\"NagramiX.Debug.Ask to Send Crash Logs\" = \"Ask to Send Crash Logs\";\n\"NagramiX.Debug.Show a prompt after the app crashes so you can send a log to help us fix the issue.\" = \"Show a prompt after the app crashes so you can send a log to help us fix the issue.\";\n\"NagramiX.Debug.RECENT CRASHES\" = \"RECENT CRASHES\";\n\"NagramiX.Debug.No recent crash logs yet.\" = \"No recent crash logs yet.\";\n\"NagramiX.Debug.The 10 most recent crash logs are displayed here.\" = \"The 10 most recent crash logs are displayed here.\";\n\"NagramiX.Debug.Unknown Error Occured.\" = \"Unknown Error Occured.\";\n\"NagramiX.Debug.Test Crash\" = \"Test Crash\";\n\"NagramiX.Debug.Crash Log\" = \"Crash Log\";\n\"NagramiX.Debug.New Crash Log Available\" = \"New Crash Log Available\";\n\"NagramiX.Debug.The app closed unexpectedly.\\n\\n Would you like to send a crash log to help us fix the issue?\" = \"The app closed unexpectedly.\\n\\n Would you like to send a crash log to help us fix the issue?\";\n\"NagramiX.Debug.Not Now\" = \"Not Now\";\n\"NagramiX.Debug.Send Log\" = \"Send Log\";\n",
+      "count": 1
+    },
+    {
+      "path": "submodules/NagramiXCore/Resources/ru.lproj/Localizable.strings",
+      "old": "\"NagramiX.Debug.Remove Sensitive Data\" = \"Удалять конфиденциальные данные\";",
+      "new": "\"NagramiX.Debug.Remove Sensitive Data\" = \"Исключать личные данные\";",
+      "count": 1
+    }
+  ]
+}

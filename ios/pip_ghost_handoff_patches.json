@@ -1,0 +1,43 @@
+{
+  "inputs": {
+    "submodules/GalleryUI/Sources/NagramiXNativePlayerPiP.swift": "e78babe1e17d451ba2a131f0d5f8f3cb60b6012dacb8b198a7b76ad349765137",
+    "submodules/GalleryUI/Sources/GalleryControllerNode.swift": "63e13400270b7b542cd50434af82b6ac9e6b0cf449877a04a94010bae9e51dda"
+  },
+  "outputs": {
+    "submodules/GalleryUI/Sources/NagramiXNativePlayerPiP.swift": "1c9f67a31ffe6c219ecd902142ae3b730058c968e9e94d6da95f3e9f97eeff42",
+    "submodules/GalleryUI/Sources/GalleryControllerNode.swift": "7c175825299b03f45212a439ca0b73610260ed9f11afa94487da5870a7080650"
+  },
+  "guards": {
+    "submodules/GalleryUI/BUILD": "963014e4710bf8e9f76f03508369d9d2d399bc5b2a9a68d2860e0c41ea910136"
+  },
+  "templates": {
+    "pip_ghost_handoff/Before0.inc": "e78babe1e17d451ba2a131f0d5f8f3cb60b6012dacb8b198a7b76ad349765137",
+    "pip_ghost_handoff/Before1.inc": "63e13400270b7b542cd50434af82b6ac9e6b0cf449877a04a94010bae9e51dda",
+    "pip_ghost_handoff/Guard0.inc": "963014e4710bf8e9f76f03508369d9d2d399bc5b2a9a68d2860e0c41ea910136"
+  },
+  "previous": {
+    "submodules/GalleryUI/Sources/NagramiXNativePlayerPiP.swift": "pip_ghost_handoff/Before0.inc",
+    "submodules/GalleryUI/Sources/GalleryControllerNode.swift": "pip_ghost_handoff/Before1.inc"
+  },
+  "replacements": {},
+  "copies": {},
+  "deletions": {},
+  "operations": {
+    "submodules/GalleryUI/Sources/NagramiXNativePlayerPiP.swift": [
+      [
+        "            return\n        }\n        guard !self.ended else { pictureInPictureController.stopPictureInPicture(); return }\n        self.active = true\n        if self.stopping { pictureInPictureController.stopPictureInPicture(); return }\n        guard self.valid() else {\n            self.beginStopping()\n            pictureInPictureController.stopPictureInPicture()\n            self.scheduleStopFallback(failedStart: false)\n            return\n        }\n        self.transferred = true\n        self.timer?.invalidate(); self.timer = nil\n        self.updateNowPlaying()\n        self.didStart()\n    }\n",
+        "            return\n        }\n        guard !self.ended else { pictureInPictureController.stopPictureInPicture(); return }\n        self.active = true\n        if self.stopping { pictureInPictureController.stopPictureInPicture(); return }\n        // The source was checked before requesting PiP. AVKit may move the\n        // gallery out of the window while starting; its successful callback is\n        // authoritative and must not be cancelled by a visibility check.\n        self.transferred = true\n        self.timer?.invalidate(); self.timer = nil\n        self.updateNowPlaying()\n        self.didStart()\n    }\n"
+      ]
+    ],
+    "submodules/GalleryUI/Sources/GalleryControllerNode.swift": [
+      [
+        "        \n        let distanceFromEquilibrium = scrollView.contentOffset.y - scrollView.contentSize.height / 3.0\n        let minimalDismissDistance = scrollView.contentSize.height / 12.0\n        if abs(velocity.y) > 1.0 || abs(distanceFromEquilibrium) > minimalDismissDistance {\n            if distanceFromEquilibrium > 1.0, let centralItemNode = self.pager.centralItemNode(), centralItemNode.maybePerformActionForSwipeDismiss() {\n                if let chatController = self.baseNavigationController()?.topViewController as? ChatController {\n                    let presentationData = self.context.sharedContext.currentPresentationData.with({ $0 })\n                    chatController.present(UndoOverlayController(\n                        presentationData: presentationData,\n                        content: .hidArchive(title: presentationData.strings.MediaGallery_ToastVideoPip_Title, text: presentationData.strings.MediaGallery_ToastVideoPip_Text, undo: false),\n",
+        "        \n        let distanceFromEquilibrium = scrollView.contentOffset.y - scrollView.contentSize.height / 3.0\n        let minimalDismissDistance = scrollView.contentSize.height / 12.0\n        if abs(velocity.y) > 1.0 || abs(distanceFromEquilibrium) > minimalDismissDistance {\n            if distanceFromEquilibrium > 1.0, let centralItemNode = self.pager.centralItemNode(), centralItemNode.maybePerformActionForSwipeDismiss() {\n                targetContentOffset.pointee.y = scrollView.contentSize.height / 3.0\n                if let chatController = self.baseNavigationController()?.topViewController as? ChatController {\n                    let presentationData = self.context.sharedContext.currentPresentationData.with({ $0 })\n                    chatController.present(UndoOverlayController(\n                        presentationData: presentationData,\n                        content: .hidArchive(title: presentationData.strings.MediaGallery_ToastVideoPip_Title, text: presentationData.strings.MediaGallery_ToastVideoPip_Text, undo: false),\n"
+      ],
+      [
+        "                \n                return\n            }\n            \n            if distanceFromEquilibrium < -1.0, let centralItemNode = self.pager.centralItemNode(), centralItemNode.maybePerformActionForSwipeDownDismiss() {\n                return\n            }\n            \n            if let backgroundColor = self.backgroundNode.backgroundColor {\n                self.backgroundNode.layer.animate(from: backgroundColor, to: UIColor(white: 0.0, alpha: 0.0).cgColor, keyPath: \"backgroundColor\", timingFunction: CAMediaTimingFunctionName.linear.rawValue, duration: 0.2, removeOnCompletion: false)\n",
+        "                \n                return\n            }\n            \n            if distanceFromEquilibrium < -1.0, let centralItemNode = self.pager.centralItemNode(), centralItemNode.maybePerformActionForSwipeDownDismiss() {\n                targetContentOffset.pointee.y = scrollView.contentSize.height / 3.0\n                return\n            }\n            \n            if let backgroundColor = self.backgroundNode.backgroundColor {\n                self.backgroundNode.layer.animate(from: backgroundColor, to: UIColor(white: 0.0, alpha: 0.0).cgColor, keyPath: \"backgroundColor\", timingFunction: CAMediaTimingFunctionName.linear.rawValue, duration: 0.2, removeOnCompletion: false)\n"
+      ]
+    ]
+  }
+}

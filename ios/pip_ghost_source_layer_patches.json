@@ -1,0 +1,37 @@
+{
+  "inputs": {
+    "submodules/GalleryUI/Sources/NagramiXNativePlayerPiP.swift": "7052708926b19162fc4c85de03c4c867bd3a7d2fdfcc5c7fa8e902f974da8464"
+  },
+  "outputs": {
+    "submodules/GalleryUI/Sources/NagramiXNativePlayerPiP.swift": "9200d1d023918236a7d2a9cfdee53173936e865c91b97a5025b696c9e615028a"
+  },
+  "guards": {
+    "submodules/GalleryUI/BUILD": "963014e4710bf8e9f76f03508369d9d2d399bc5b2a9a68d2860e0c41ea910136"
+  },
+  "templates": {
+    "pip_ghost_source_layer/Before0.inc": "7052708926b19162fc4c85de03c4c867bd3a7d2fdfcc5c7fa8e902f974da8464",
+    "pip_ghost_source_layer/Guard0.inc": "963014e4710bf8e9f76f03508369d9d2d399bc5b2a9a68d2860e0c41ea910136"
+  },
+  "previous": {
+    "submodules/GalleryUI/Sources/NagramiXNativePlayerPiP.swift": "pip_ghost_source_layer/Before0.inc"
+  },
+  "replacements": {},
+  "copies": {},
+  "deletions": {},
+  "operations": {
+    "submodules/GalleryUI/Sources/NagramiXNativePlayerPiP.swift": [
+      [
+        "            guard restored, let self, let controller, !self.ended else { return }\n            controller.stopPictureInPicture()\n        })\n    }\n    private func update() {\n        guard !self.ended, !self.stopping else { return }\n        if self.active { return }\n        // Once AVKit accepted start, its callback/timeout owns the outcome;\n",
+        "            guard restored, let self, let controller, !self.ended else { return }\n            controller.stopPictureInPicture()\n        })\n    }\n    private func pictureInPictureSourceLayer() -> CALayer? {\n        // Ghostgram uses the sample-buffer layer of the existing player.\n        // Keep the AVPlayerLayer fallback for sources without such a layer.\n        if let layer = self.node.getVideoLayer() { return layer }\n        return self.node.nagramiXPictureInPictureSourceLayer()\n    }\n    private func update() {\n        guard !self.ended, !self.stopping else { return }\n        if self.active { return }\n        // Once AVKit accepted start, its callback/timeout owns the outcome;\n"
+      ],
+      [
+        "                self.complete(success: false, detail: \"Время ожидания PiP: слой=\\(type), в окне=\\(attached), доступен=\\(possible), звук=\\(self.lastStatus?.soundEnabled == true).\")\n            }\n            return\n        }\n        if self.playerController == nil, let layer = self.node.nagramiXPictureInPictureSourceLayer() {\n            let controller: AVPictureInPictureController?\n            if let sample = layer as? AVSampleBufferDisplayLayer {\n                let playback = Playback(node: self.node, layer: sample)\n                self.playback = playback\n",
+        "                self.complete(success: false, detail: \"Время ожидания PiP: слой=\\(type), в окне=\\(attached), доступен=\\(possible), звук=\\(self.lastStatus?.soundEnabled == true).\")\n            }\n            return\n        }\n        if self.playerController == nil, let layer = self.pictureInPictureSourceLayer() {\n            let controller: AVPictureInPictureController?\n            if let sample = layer as? AVSampleBufferDisplayLayer {\n                let playback = Playback(node: self.node, layer: sample)\n                self.playback = playback\n"
+      ],
+      [
+        "                }, deactivate: { _ in .complete() })\n            }))\n        }\n        guard !self.starting, let controller = self.playerController, let layer = self.layer,\n              self.node.nagramiXPictureInPictureSourceLayer() === layer,\n              controller.isPictureInPicturePossible else { return }\n        self.starting = true\n        self.deadline = CACurrentMediaTime() + 8\n        controller.startPictureInPicture()\n",
+        "                }, deactivate: { _ in .complete() })\n            }))\n        }\n        guard !self.starting, let controller = self.playerController, let layer = self.layer,\n              self.pictureInPictureSourceLayer() === layer,\n              controller.isPictureInPicturePossible else { return }\n        self.starting = true\n        self.deadline = CACurrentMediaTime() + 8\n        controller.startPictureInPicture()\n"
+      ]
+    ]
+  }
+}

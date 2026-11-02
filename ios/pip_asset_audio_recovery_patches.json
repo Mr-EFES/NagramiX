@@ -1,0 +1,30 @@
+{
+  "inputs": {
+    "submodules/GalleryUI/Sources/NagramiXNativePlayerPiP.swift": "d2feaf1d48cf512f13d7c1d0522ab2f1ec8fdf364c522a3c0de5bf172487028e",
+    "submodules/GalleryUI/Sources/Items/UniversalVideoGalleryItem.swift": "afaceb8fd338a1c8c38fea0c43633aff1fe4110a51a491c78acd19964923bd36"
+  },
+  "outputs": {
+    "submodules/GalleryUI/Sources/NagramiXNativePlayerPiP.swift": "2d63c49cc709ea5290b0fbb0767493f70a107dff60c29e98dd0ee7186f520bef",
+    "submodules/GalleryUI/Sources/Items/UniversalVideoGalleryItem.swift": "c087d008327c40c5914573c3058947c5f34e0134bba8331e7cc3147a28222f9a"
+  },
+  "guards": {
+    "submodules/GalleryUI/BUILD": "963014e4710bf8e9f76f03508369d9d2d399bc5b2a9a68d2860e0c41ea910136"
+  },
+  "templates": {
+    "pip_asset_audio_recovery/Before0.inc": "d2feaf1d48cf512f13d7c1d0522ab2f1ec8fdf364c522a3c0de5bf172487028e",
+    "pip_asset_audio_recovery/After0.inc": "2d63c49cc709ea5290b0fbb0767493f70a107dff60c29e98dd0ee7186f520bef",
+    "pip_asset_audio_recovery/Before1.inc": "afaceb8fd338a1c8c38fea0c43633aff1fe4110a51a491c78acd19964923bd36",
+    "pip_asset_audio_recovery/After1.inc": "c087d008327c40c5914573c3058947c5f34e0134bba8331e7cc3147a28222f9a",
+    "pip_asset_audio_recovery/Guard.inc": "963014e4710bf8e9f76f03508369d9d2d399bc5b2a9a68d2860e0c41ea910136"
+  },
+  "replacements": {
+    "submodules/GalleryUI/Sources/NagramiXNativePlayerPiP.swift": "pip_asset_audio_recovery/After0.inc",
+    "submodules/GalleryUI/Sources/Items/UniversalVideoGalleryItem.swift": "pip_asset_audio_recovery/After1.inc"
+  },
+  "previous": {
+    "submodules/GalleryUI/Sources/NagramiXNativePlayerPiP.swift": "pip_asset_audio_recovery/Before0.inc",
+    "submodules/GalleryUI/Sources/Items/UniversalVideoGalleryItem.swift": "pip_asset_audio_recovery/Before1.inc"
+  },
+  "copies": {},
+  "deletions": {}
+}

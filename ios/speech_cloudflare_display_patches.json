@@ -1,0 +1,24 @@
+{
+  "inputs": {
+    "submodules/NagramiXTranscription/Sources/Preferences.swift": "910afba6c1af6fc7eee6214f12eccf950b9f8effa3f760c0fed828b5ec476071"
+  },
+  "outputs": {
+    "submodules/NagramiXTranscription/Sources/Preferences.swift": "486351c138a6b574ea8f27370c6c8806c502dc1bf7f4363b3faee4f4ab03f4f5"
+  },
+  "guards": {
+    "submodules/NagramiXTranscription/BUILD": "820772c2401f640bf652106d20d11b466cee847e29b43a8dff3ca3b3af0c7e78"
+  },
+  "templates": {
+    "speech_cloudflare_display/Before.inc": "910afba6c1af6fc7eee6214f12eccf950b9f8effa3f760c0fed828b5ec476071",
+    "speech_cloudflare_display/After.inc": "486351c138a6b574ea8f27370c6c8806c502dc1bf7f4363b3faee4f4ab03f4f5",
+    "speech_cloudflare_display/Guard.inc": "820772c2401f640bf652106d20d11b466cee847e29b43a8dff3ca3b3af0c7e78"
+  },
+  "replacements": {
+    "submodules/NagramiXTranscription/Sources/Preferences.swift": "speech_cloudflare_display/After.inc"
+  },
+  "previous": {
+    "submodules/NagramiXTranscription/Sources/Preferences.swift": "speech_cloudflare_display/Before.inc"
+  },
+  "copies": {},
+  "deletions": {}
+}

@@ -1,0 +1,24 @@
+{
+  "inputs": {
+    "submodules/SettingsUI/Sources/NagramiXRoundQualityController.swift": "663eb9bfb8cc9eea65c2a782149e4694150c3517dfe1cf4a95659de3b3307743"
+  },
+  "outputs": {
+    "submodules/SettingsUI/Sources/NagramiXRoundQualityController.swift": "f881b13e3602a5d529fd38e773585746fbeb8651c5626b4b922daeb864ff3841"
+  },
+  "guards": {
+    "submodules/SettingsUI/BUILD": "ccf29c184b8eab3b16f702e5cecc61490e5762f46e4bd53273ad95790d1a879a"
+  },
+  "templates": {
+    "round_slider_kbps/Before.inc": "663eb9bfb8cc9eea65c2a782149e4694150c3517dfe1cf4a95659de3b3307743",
+    "round_slider_kbps/After.inc": "f881b13e3602a5d529fd38e773585746fbeb8651c5626b4b922daeb864ff3841",
+    "round_slider_kbps/Guard.inc": "ccf29c184b8eab3b16f702e5cecc61490e5762f46e4bd53273ad95790d1a879a"
+  },
+  "previous": {
+    "submodules/SettingsUI/Sources/NagramiXRoundQualityController.swift": "round_slider_kbps/Before.inc"
+  },
+  "replacements": {
+    "submodules/SettingsUI/Sources/NagramiXRoundQualityController.swift": "round_slider_kbps/After.inc"
+  },
+  "copies": {},
+  "deletions": {}
+}
