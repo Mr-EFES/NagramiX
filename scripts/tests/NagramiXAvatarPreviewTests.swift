@@ -1,3 +1,7 @@
+private final class AvatarPreviewWeakReference {
+    weak var value: AnyObject?
+}
+
 @main enum Tests {
     static var count = 0
     static func check(_ value: @autoclosure () -> Bool, _ message: String) {
@@ -89,10 +93,11 @@
         check(navigation.viewControllers.count == 2 && navigation.viewControllers.last === active && completions == 2, "duplicate Reply callback cannot stack two active chats")
         var disposable: PreviewController? = PreviewController()
         let released = disposable!.makeCommit(navigation)
-        weak var weakPreview = disposable
+        let weakPreview = AvatarPreviewWeakReference()
+        weakPreview.value = disposable
         disposable = nil
         released(destination, true, { completions += 1 })
-        check(weakPreview == nil && navigation.viewControllers.last === active, "pending commit does not retain or resurrect removed preview")
+        check(weakPreview.value == nil && navigation.viewControllers.last === active, "pending commit does not retain or resurrect removed preview")
         print("PASS: \(count) actual avatar tap/hold, native row selection and preview replacement checks; UIKit/metadata/navigation boundaries")
     }
 }

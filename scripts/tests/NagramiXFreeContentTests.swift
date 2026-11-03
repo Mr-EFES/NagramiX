@@ -1,3 +1,7 @@
+private final class FreeContentWeakReference {
+    weak var value: AnyObject?
+}
+
 @main
 private struct FreeContentTests {
     static func main() {
@@ -87,9 +91,10 @@ private struct FreeContentTests {
         controller!.isNodeLoaded = false
         enabled(true)
         check(controller!.forcedUpdates == 2, "unloaded controller never forces node loading")
-        weak var weakController = controller
+        let weakController = FreeContentWeakReference()
+        weakController.value = controller
         controller = nil
-        check(weakController == nil, "notification observer never retains the controller")
+        check(weakController.value == nil, "notification observer never retains the controller")
         enabled(false)
         let otherSettings = NagramiXPrivacySettings.current
         enabled(true)
