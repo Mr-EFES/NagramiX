@@ -1,4 +1,7 @@
 import Foundation
+#if canImport(CoreGraphics)
+import CoreGraphics
+#endif
 
 // UIKit, keyboard delivery and component boundaries only. Geometry, routing and
 // the layout coordination block are extracted unchanged from production.
