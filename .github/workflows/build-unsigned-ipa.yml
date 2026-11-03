@@ -25,7 +25,7 @@ on:
         default: true
 
 env:
-  NAGRAMIX_VERSION: 0.8.4
+  NAGRAMIX_VERSION: 0.8.5
 
 permissions:
   contents: read
@@ -259,6 +259,13 @@ jobs:
           python3 scripts/validate_rich_content_copy.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)"
           python3 scripts/validate_gallery_export_privacy_gate.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)"
           python3 scripts/validate_ghostgram_pip_compile_fix.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)"
+          python3 scripts/validate_archive_chat_scope.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)"
+          python3 scripts/validate_free_content.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)"
+          python3 scripts/validate_recipient_copy_isolation.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)"
+          python3 scripts/validate_inline_temporary_voice.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)"
+          python3 scripts/validate_expanded_keyboard_handoff.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)"
+          python3 scripts/validate_avatar_preview_navigation.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)"
+          python3 scripts/validate_system_video_pip.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)"
           python3 scripts/validate_upstream_13_2.py --swiftc "$(xcrun --find swiftc)"
           PYTHONPATH=ios python3 -c 'from pathlib import Path; from upstream_13_2_post import apply_upstream_13_2_post; apply_upstream_13_2_post(Path("Telegram-iOS").resolve(), Path("ios").resolve())'
           python3 Telegram-iOS/build-system/Make/PostboxImportCheck.py Telegram-iOS

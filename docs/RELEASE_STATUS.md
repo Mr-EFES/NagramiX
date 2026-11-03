@@ -1,5 +1,7 @@
 # Релиз 0.8.4
 
+Исходники следующего 0.8.5 подготовлены в main с сегодняшними правками. SDK/IPA и публикация 0.8.5 ещё не выполнялись; опубликованный пакет и сведения 0.8.4 ниже сохраняются без изменений.
+
 Единственный актуальный выпуск: **0.8.4, сборка 162**, обычный релиз, не prerelease.
 
 [Скачать IPA](https://github.com/Mr-EFES/NagramiX/releases/download/v0.8.4/NagramiX-0.8.4-unsigned.ipa) · [Релиз](https://github.com/Mr-EFES/NagramiX/releases/tag/v0.8.4) · [Успешная чистая сборка](https://github.com/Mr-EFES/NagramiX/actions/runs/41355923502).

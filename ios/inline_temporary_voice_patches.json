@@ -1,0 +1,68 @@
+{
+  "inputs": {
+    "submodules/TelegramCore/Sources/Utils/NagramiXCaptureProtectionPolicy.swift": "c5c1cbc643b153c8623d81976636a80ae352fb6727aa7a2b472f1d2ece2c3102",
+    "submodules/TelegramUI/Sources/Chat/ChatControllerOpenViewOnceMediaMessage.swift": "8eba6053d5d4d4d9d3dcbe9789a05e6e44922f3f2327c8f0ab97fce3d8c6a57f",
+    "submodules/TelegramUI/Components/Chat/ChatMessageInteractiveFileNode/Sources/ChatMessageInteractiveFileNode.swift": "9f38d1d1d8269db7fce6f0deb689637020d0b383ec48cf10e7193622681175c1"
+  },
+  "outputs": {
+    "submodules/TelegramCore/Sources/Utils/NagramiXCaptureProtectionPolicy.swift": "c3a8f3d452c3c5b002112527b5181ceca1d94167a104ecb736c8bbf2af9e3f26",
+    "submodules/TelegramUI/Sources/Chat/ChatControllerOpenViewOnceMediaMessage.swift": "74a3ca019e3df6c0f49166c6bd523d0c7f1de6c0958f41bab68fe6c0fe6ca1f3",
+    "submodules/TelegramUI/Components/Chat/ChatMessageInteractiveFileNode/Sources/ChatMessageInteractiveFileNode.swift": "a86c9463b02c287120dc45ff99855b54b7cdefc682f30c6af60c9580ea3e5224"
+  },
+  "guards": {
+    "submodules/TelegramCore/BUILD": "81e6c1d9dceab5da57124381fce03665a449bcb7904e66c884269dacdd584fbf",
+    "submodules/TelegramUI/BUILD": "f4ae55a27c3a5e486a0fe9c768c70b65b974c505125d91a1215645179de54926",
+    "submodules/TelegramUI/Components/Chat/ChatMessageInteractiveFileNode/BUILD": "eeb9cbede77600d8452014a9aaf1967d3798fe81b283f3b2de2b75aa3a37ceb9",
+    "submodules/TelegramUI/Components/AudioWaveformComponent/Sources/AudioWaveformComponent.swift": "80814fdb931c899a580c14b70c7ee7e3f305853e7a47ff8a005e3e0a5edb852a",
+    "submodules/TelegramCore/Sources/TelegramEngine/Messages/MarkMessageContentAsConsumedInteractively.swift": "e5dd8780b176b170e13111d5b854b2cee87bf95535c86fb1ed2d70d36ba07eff",
+    "submodules/TelegramCore/Sources/Utils/NagramiXMessageArchive.swift": "1c36599ca6c12e35d54159becdf47ba4e084e59d9182ac4b81912432d9e45468",
+    "submodules/AccountContext/Sources/MediaManager.swift": "116e9b3c3d46f9b6aaa80e974d419b903d42b3705ac415057b81984127677e21",
+    "submodules/FileMediaResourceStatus/Sources/FileMediaResourceStatus.swift": "6ee02f36f0c5b48b95b4deede14e07188b0e17fe70028134196b9bbb67ca6651",
+    "submodules/TelegramUI/Components/MediaManager/PeerMessagesMediaPlaylist/Sources/PeerMessagesMediaPlaylist.swift": "28e61d6946f86fdd883fa9f3ce2390f321b507034395ab7de5221c0fd579dcbb",
+    "submodules/TelegramUI/Sources/ChatController.swift": "45e6fbdb50197f735f6f176b8377bc30116f3627815bad9ef160099913dce12f",
+    "submodules/TelegramUI/Sources/SharedMediaPlayer.swift": "daf8a72f5a04d7a8667acba641e5b1b161bdd359ed6b6f33a448bf6ef280dfb4"
+  },
+  "templates": {
+    "inline_temporary_voice/Before0.inc": "c5c1cbc643b153c8623d81976636a80ae352fb6727aa7a2b472f1d2ece2c3102",
+    "inline_temporary_voice/Before1.inc": "8eba6053d5d4d4d9d3dcbe9789a05e6e44922f3f2327c8f0ab97fce3d8c6a57f",
+    "inline_temporary_voice/Before2.inc": "9f38d1d1d8269db7fce6f0deb689637020d0b383ec48cf10e7193622681175c1"
+  },
+  "previous": {
+    "submodules/TelegramCore/Sources/Utils/NagramiXCaptureProtectionPolicy.swift": "inline_temporary_voice/Before0.inc",
+    "submodules/TelegramUI/Sources/Chat/ChatControllerOpenViewOnceMediaMessage.swift": "inline_temporary_voice/Before1.inc",
+    "submodules/TelegramUI/Components/Chat/ChatMessageInteractiveFileNode/Sources/ChatMessageInteractiveFileNode.swift": "inline_temporary_voice/Before2.inc"
+  },
+  "operations": {
+    "submodules/TelegramCore/Sources/Utils/NagramiXCaptureProtectionPolicy.swift": [
+      [
+        "import Postbox\n",
+        "import Foundation\nimport Postbox\n",
+        1
+      ],
+      [
+        "import Postbox\nimport NagramiXMediaSettings\n\n// Used at the capture-event producer before any local enqueue or server RPC.\npublic func nagramiXShouldNotifyScreenCapture() -> Bool {\n    return !NagramiXPrivacySettings.current.bypassScreenshots\n}\n\npublic extension Message {\n    var nagramiXAllowsScreenshotBypass: Bool {\n        return self.paidContent == nil\n            && !self.id.peerId.isVerificationCodes\n    }\n}\n",
+        "import Postbox\nimport NagramiXMediaSettings\n\n// Used at the capture-event producer before any local enqueue or server RPC.\npublic func nagramiXShouldNotifyScreenCapture() -> Bool {\n    return !NagramiXPrivacySettings.current.bypassScreenshots\n}\n\npublic extension Message {\n    var nagramiXAllowsScreenshotBypass: Bool {\n        return self.paidContent == nil\n            && !self.id.peerId.isVerificationCodes\n    }\n}\n\n/// Visual/playback routing only. It never changes a message's lifetime,\n/// consumed attribute, archive visibility or server forwarding permissions.\npublic func nagramiXCanPlayTemporaryVoiceInline(_ message: Message) -> Bool {\n    let defaults = UserDefaults.standard\n    guard defaults.bool(forKey: \"nagramix.messages.saveTemporaryMessages\") || defaults.bool(forKey: \"nagramix.messages.replayViewOnce\"),\n          message.id.namespace == Namespaces.Message.Cloud,\n          message.id.peerId.namespace == Namespaces.Peer.CloudUser,\n          !message.id.peerId.isVerificationCodes,\n          !message.flags.isSending, !message.flags.contains(.Failed),\n          message.media.count == 1, let file = message.media.first as? TelegramMediaFile,\n          file.isVoice, !file.isInstantVideo else { return false }\n    if message.minAutoremoveOrClearTimeout == viewOnceTimeout { return true }\n    // Retained temporary voices have no expiry attribute. Keep it that way:\n    // the native burn appearance must not give the local copy a real timer.\n    return message.attributes.contains { ($0 as? NagramiXArchivedMessageAttribute)?.isTemporary == true }\n}\n",
+        1
+      ]
+    ],
+    "submodules/TelegramUI/Sources/Chat/ChatControllerOpenViewOnceMediaMessage.swift": [
+      [
+        "        let isIncoming = message.effectivelyIncoming(self.context.account.peerId)\n",
+        "        if nagramiXCanPlayTemporaryVoiceInline(message._asMessage()) {\n            let archived = message._asMessage().attributes.contains { $0 is NagramiXArchivedMessageAttribute }\n            let playlistLocation: PeerMessagesPlaylistLocation = archived ? .recentActions(message._asMessage()) : .singleMessage(message.id)\n            let _ = self.context.sharedContext.openChatMessage(OpenChatMessageParams(context: self.context, chatLocation: nil, chatFilterTag: nil, chatLocationContextHolder: nil, message: message._asMessage(), standalone: archived, reverseMessageGalleryOrder: false, navigationController: nil, dismissInput: { }, present: { _, _, _ in }, transitionNode: { _, _, _ in return nil }, addToTransitionSurface: { _ in }, openUrl: { _ in }, openPeer: { _, _ in }, callPeer: { _, _ in }, openConferenceCall: { _ in\n            }, enqueueMessage: { _ in }, sendSticker: nil, sendEmoji: nil, setupTemporaryHiddenMedia: { _, _, _ in }, chatAvatarHiddenMedia: { _, _ in }, playlistLocation: playlistLocation))\n            return\n        }\n\n        let isIncoming = message.effectivelyIncoming(self.context.account.peerId)\n",
+        1
+      ]
+    ],
+    "submodules/TelegramUI/Components/Chat/ChatMessageInteractiveFileNode/Sources/ChatMessageInteractiveFileNode.swift": [
+      [
+        "                let isViewOnceMessage = isVoice && arguments.message.minAutoremoveOrClearTimeout == viewOnceTimeout",
+        "                let isViewOnceMessage = isVoice && (arguments.message.minAutoremoveOrClearTimeout == viewOnceTimeout || nagramiXCanPlayTemporaryVoiceInline(arguments.message))",
+        1
+      ],
+      [
+        "        let isViewOnceMessage = isVoice && message.minAutoremoveOrClearTimeout == viewOnceTimeout",
+        "        let isViewOnceMessage = isVoice && (message.minAutoremoveOrClearTimeout == viewOnceTimeout || nagramiXCanPlayTemporaryVoiceInline(message))\n        // Reset transient visibility on pause/end and row reuse. The native\n        // playing branch below hides it only while the flame is active.\n        self.consumableContentNode.isHidden = false",
+        1
+      ]
+    ]
+  }
+}

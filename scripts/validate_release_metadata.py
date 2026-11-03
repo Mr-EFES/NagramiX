@@ -33,12 +33,12 @@ def main() -> None:
     if not license_path.is_file() or hashlib.sha256(license_path.read_bytes()).hexdigest() != "edaef632cbb643e4e7a221717a6c441a4c1a7c918e6e4d56debc3d8739b233f6":
         errors.append("LICENSE должен содержать полный неизменённый текст GNU GPL-2.0")
     annotation = ROOT / f"product/releases/{version}.md"
-    expected_annotation = "NagramiX — неофициальный независимый Telegram-клиент для iPhone с дополнительными настройками общения, приватности и медия, не связан с Telegram Messenger Inc."
+    expected_annotation = "NagramiX — неофициальный Telegram-клиент для iPhone с дополнительными настройками общения, приватности и медия."
     if not annotation.is_file() or annotation.read_text().strip() != expected_annotation:
         errors.append("Аннотация релиза должна содержать только утверждённую фразу о неофициальном клиенте")
     # README закреплён отдельно от версии и аннотации; менять только по прямой команде пользователя.
     readme = ROOT / "README.md"
-    expected_readme = "NagramiX — неофициальный Telegram-клиент для iPhone с дополнительными настройками общения, приватности и медия, не связан с Telegram Messenger Inc."
+    expected_readme = expected_annotation
     if not readme.is_file() or readme.read_text().strip() != expected_readme:
         errors.append("README должен сохранять утверждённый пользователем текст без автоматических правок")
     tracked = subprocess.check_output(["git", "ls-files", "-z", "--cached", "--others", "--exclude-standard"], cwd=ROOT).decode().split("\0")

@@ -421,6 +421,22 @@ def main() -> None:
     apply_gallery_export_privacy_gate(source, Path(__file__).resolve().parent)
     from ghostgram_pip_compile_fix import apply_ghostgram_pip_compile_fix
     apply_ghostgram_pip_compile_fix(source, Path(__file__).resolve().parent)
+    from archive_chat_scope import apply_archive_chat_scope
+    apply_archive_chat_scope(source, Path(__file__).resolve().parent)
+    from free_content import apply_free_content
+    apply_free_content(source, Path(__file__).resolve().parent)
+    from recipient_copy_isolation import apply_recipient_copy_isolation
+    apply_recipient_copy_isolation(source, Path(__file__).resolve().parent)
+    from inline_temporary_voice import apply_inline_temporary_voice
+    apply_inline_temporary_voice(source, Path(__file__).resolve().parent)
+    from expanded_keyboard_handoff import apply_expanded_keyboard_handoff
+    apply_expanded_keyboard_handoff(source, Path(__file__).resolve().parent)
+    from author_icon_variant_five import apply_author_icon_variant_five
+    apply_author_icon_variant_five(source, Path(__file__).resolve().parent)
+    from avatar_preview_navigation import apply_avatar_preview_navigation
+    apply_avatar_preview_navigation(source, Path(__file__).resolve().parent)
+    from system_video_pip import apply_system_video_pip
+    apply_system_video_pip(source, Path(__file__).resolve().parent)
     # Системный PiP: экспериментальный hybrid_pip больше не включается в приложение.
 
     api_id = os.environ.get("TELEGRAM_API_ID", "")

@@ -1,0 +1,117 @@
+{
+  "inputs": {
+    "submodules/TelegramUI/Components/RichTextAttachmentScreen/Sources/RichTextAttachmentScreen.swift": "d43015fbafc63ea189380d69c4841c6245ddc4253d69d3ed5b7717472cfa4146",
+    "submodules/TelegramUI/Components/RichTextAttachmentScreen/Sources/RichTextEmojiKeyboardController.swift": "3313661c7bca510bfcd97c9f0ca08ca6f639a6909c15dfc3a0207a9064b4778d"
+  },
+  "outputs": {
+    "submodules/TelegramUI/Components/RichTextAttachmentScreen/Sources/RichTextAttachmentScreen.swift": "6614fddf79a084e55d77623cd591adb779588d9f7c358aa4fd136ce8359e1d03",
+    "submodules/TelegramUI/Components/RichTextAttachmentScreen/Sources/RichTextEmojiKeyboardController.swift": "8424f9bcc7bd8f1bc9a4c72ac1ca6d1d042384eb91563548bde6ec07d75acc12"
+  },
+  "guards": {
+    "submodules/TelegramUI/Components/RichTextAttachmentScreen/BUILD": "b567c3892df5ba02d96045b534b6a1fb57d3108edea111af453df5d9baee1144",
+    "submodules/TelegramUI/Components/Chat/ChatTextInputPanelNode/Sources/ChatTextInputPanelNode.swift": "e70fe5f26de73a56933f9a606e3f33d54199b1cc461778fe0c5ef4157fccf93d",
+    "submodules/TelegramUI/Sources/ChatControllerNode.swift": "f7fdb51a7d4423436a2fd01bc9cd727ad7127af27ff8340a66f799890e5d2bcf",
+    "submodules/TelegramUI/Components/ChatEntityKeyboardInputNode/Sources/ChatEntityKeyboardInputNode.swift": "b4040cb76ce98cf9e3bd2f2c14cbb2a3202750240f188dbac81b337735f7f637",
+    "submodules/TelegramUI/Components/RichTextEditor/Sources/RichTextEditorUIKit/RichTextEditorView.swift": "14847c4c49b5391c20f00cf7796a2897480ac0d2307ab459077d51335acd0bce",
+    "submodules/TelegramUI/Components/RichTextEditor/Sources/RichTextEngineEditor/RichTextEngineEditorView+Responder.swift": "bcdd64d19c99ff6abff79b55ff68ccb3f1141bc7f5c56617577226aea8f2d3d4"
+  },
+  "templates": {
+    "expanded_keyboard_handoff/Before0.inc": "d43015fbafc63ea189380d69c4841c6245ddc4253d69d3ed5b7717472cfa4146",
+    "expanded_keyboard_handoff/Before1.inc": "3313661c7bca510bfcd97c9f0ca08ca6f639a6909c15dfc3a0207a9064b4778d"
+  },
+  "previous": {
+    "submodules/TelegramUI/Components/RichTextAttachmentScreen/Sources/RichTextAttachmentScreen.swift": "expanded_keyboard_handoff/Before0.inc",
+    "submodules/TelegramUI/Components/RichTextAttachmentScreen/Sources/RichTextEmojiKeyboardController.swift": "expanded_keyboard_handoff/Before1.inc"
+  },
+  "operations": {
+    "submodules/TelegramUI/Components/RichTextAttachmentScreen/Sources/RichTextAttachmentScreen.swift": [
+      [
+        "        private var nagramiXFormattingGeneration = 0",
+        "        private var nagramiXFormattingGeneration = 0\n        private var nagramiXInputGeometry = NagramiXExpandedInputGeometry()\n        private var nagramiXPanelSwapPending = false\n\n        private func nagramiXBeginKeyboardHandoff() {\n            guard viewTreeContainsFirstResponder(view: self.editor),\n                  let generation = self.nagramiXInputGeometry.beginKeyboardHandoff() else { return }\n            // A hardware/floating keyboard may never send a full-height frame.\n            // An old completion cannot finish a newer switch or a resized layout.\n            DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) { [weak self] in\n                guard let self, self.nagramiXInputGeometry.expireHandoff(generation) else { return }\n                self.nagramiXRequestInputPanelLayout()\n            }\n        }",
+        1
+      ],
+      [
+        "                // Keep a custom input view throughout emoji → formatting.\n                self.emojiKeyboard?.setEmojiMode(false, preserveInputView: true, notifyLayout: false)\n                let placeholder = EmptyInputView()\n                self.nagramiXFormattingInputView = placeholder\n                self.editor.customInputView = placeholder\n                _ = self.editor.becomeFirstResponder()",
+        "                self.nagramiXInputGeometry.cancelHandoff()\n                self.nagramiXPanelSwapPending = self.emojiKeyboard?.isEmojiMode == true\n                self.emojiKeyboard?.setEmojiMode(false, preserveInputView: true, notifyLayout: false)\n                let placeholder = self.emojiKeyboard?.nagramiXEmptyInputView ?? EmptyInputView()\n                self.nagramiXFormattingInputView = placeholder\n                if self.editor.customInputView !== placeholder {\n                    self.editor.customInputView = placeholder\n                }\n                _ = self.editor.becomeFirstResponder()",
+        1
+      ],
+      [
+        "                if restoringKeyboard, let owned = self.nagramiXFormattingInputView, self.editor.customInputView === owned {\n                    self.editor.customInputView = nil",
+        "                if restoringKeyboard, let owned = self.nagramiXFormattingInputView, self.editor.customInputView === owned {\n                    self.nagramiXBeginKeyboardHandoff()\n                    self.editor.customInputView = nil",
+        1
+      ],
+      [
+        "        private func nagramiXToggleEmoji() {\n            if self.nagramiXFormattingActive {\n                self.nagramiXSetFormattingMode(false, restoringKeyboard: false, notifyLayout: false)\n            }\n            self.emojiKeyboard?.toggle()\n        }",
+        "        private func nagramiXToggleEmoji() {\n            if self.nagramiXFormattingActive {\n                self.nagramiXPanelSwapPending = true\n                self.nagramiXSetFormattingMode(false, restoringKeyboard: false, notifyLayout: false)\n            }\n            if self.emojiKeyboard?.isEmojiMode != true {\n                self.nagramiXInputGeometry.cancelHandoff()\n            }\n            self.emojiKeyboard?.toggle()\n        }",
+        1
+      ],
+      [
+        "            let emojiPanelHeight = self.emojiKeyboard?.updatePanel(container: self, availableSize: availableSize, environment: environment, transition: transition, measureOnly: self.nagramiXFormattingActive) ?? 0.0\n            self.nagramiXUpdateFormattingPanel(availableSize: availableSize, height: emojiPanelHeight, environment: environment, transition: transition)",
+        "            let customInputActive = self.nagramiXFormattingActive || self.emojiKeyboard?.isEmojiMode == true\n            self.nagramiXInputGeometry.update(size: availableSize, inputHeight: environment.inputHeight, safeBottom: environment.safeInsets.bottom, standardInputHeight: environment.deviceMetrics.standardInputHeight(inLandscape: availableSize.width > availableSize.height), customInputActive: customInputActive, focused: viewTreeContainsFirstResponder(view: self.editor), systemInputActive: self.editor.customInputView == nil)\n            // Exchange equal-height custom panels in place. Only a system/custom\n            // transition slides the panel; do not restart a second slide from below.\n            let panelTransition: ComponentTransition = self.nagramiXPanelSwapPending ? .immediate : transition\n            self.nagramiXPanelSwapPending = false\n            let emojiPanelHeight = self.emojiKeyboard?.updatePanel(container: self, availableSize: availableSize, environment: environment, transition: panelTransition, measureOnly: self.nagramiXFormattingActive, standardInputHeight: self.nagramiXInputGeometry.customInputHeight) ?? 0.0\n            if customInputActive {\n                self.nagramiXInputGeometry.recordCustomPanelHeight(emojiPanelHeight, safeBottom: environment.safeInsets.bottom)\n            }\n            self.nagramiXUpdateFormattingPanel(availableSize: availableSize, height: emojiPanelHeight, environment: environment, transition: panelTransition)",
+        1
+      ],
+      [
+        "            var bottomInset = max(environment.inputHeight, emojiPanelHeight, environment.safeInsets.bottom)",
+        "            // A stale system-keyboard height must not override the active custom\n            // panel. On return, hold the row until UIKit supplies its real frame.\n            var bottomInset = customInputActive ? max(emojiPanelHeight, environment.safeInsets.bottom) : self.nagramiXInputGeometry.bottomInset",
+        1
+      ],
+      [
+        "RichTextEmojiKeyboardController(context: component.context, editor: editor, requestLayout: { [weak self] in",
+        "RichTextEmojiKeyboardController(context: component.context, editor: editor, willRestoreKeyboard: { [weak self] in\n                    self?.nagramiXBeginKeyboardHandoff()\n                }, requestLayout: { [weak self] in",
+        1
+      ]
+    ],
+    "submodules/TelegramUI/Components/RichTextAttachmentScreen/Sources/RichTextEmojiKeyboardController.swift": [
+      [
+        "/// Hosts the Telegram emoji keyboard",
+        "/// Geometry for this editor only. A custom panel owns its height; transient UIKit\n/// keyboard frames must not move the action row between two different owners.\nstruct NagramiXExpandedInputGeometry {\n    private var size: CGSize?\n    private var keyboardHeight: CGFloat?\n    private var rawInputHeight: CGFloat = 0.0\n    private var lastBottomInset: CGFloat = 0.0\n    private var heldHeight: CGFloat?\n    private var initialInputHeight: CGFloat = 0.0\n    private var sawIntermediateFrame = false\n    private(set) var generation = 0\n    private(set) var customInputHeight: CGFloat = 0.0\n    private(set) var bottomInset: CGFloat = 0.0\n\n    mutating func cancelHandoff() {\n        if self.heldHeight != nil {\n            self.generation += 1\n            self.heldHeight = nil\n        }\n    }\n\n    mutating func beginKeyboardHandoff() -> Int? {\n        self.cancelHandoff()\n        guard self.size != nil, self.lastBottomInset >= 120.0 else { return nil }\n        self.generation += 1\n        self.heldHeight = self.lastBottomInset\n        self.initialInputHeight = self.rawInputHeight\n        self.sawIntermediateFrame = false\n        return self.generation\n    }\n\n    mutating func expireHandoff(_ generation: Int) -> Bool {\n        guard self.generation == generation, self.heldHeight != nil else { return false }\n        self.cancelHandoff()\n        return true\n    }\n\n    mutating func recordCustomPanelHeight(_ height: CGFloat, safeBottom: CGFloat) {\n        self.lastBottomInset = max(safeBottom, height)\n    }\n\n    mutating func update(size: CGSize, inputHeight: CGFloat, safeBottom: CGFloat, standardInputHeight: CGFloat, customInputActive: Bool, focused: Bool, systemInputActive: Bool = true) {\n        if self.size != size {\n            self.cancelHandoff()\n            self.size = size\n            self.keyboardHeight = nil\n        }\n        let inputHeight = inputHeight.isFinite ? max(0.0, inputHeight) : 0.0\n        self.rawInputHeight = inputHeight\n        if customInputActive || !focused || !systemInputActive {\n            self.cancelHandoff()\n        } else if let heldHeight = self.heldHeight {\n            if inputHeight < max(120.0, heldHeight * 0.75) {\n                self.sawIntermediateFrame = true\n            } else if self.sawIntermediateFrame || inputHeight != self.initialInputHeight {\n                self.cancelHandoff()\n            }\n        }\n        // Match the ordinary composer: cache only plausible, focused SYSTEM\n        // keyboard heights for this exact container size. Never cache EmptyInputView.\n        if !customInputActive, focused, systemInputActive, self.heldHeight == nil,\n           inputHeight >= 120.0, inputHeight <= size.height * 0.85 {\n            self.keyboardHeight = inputHeight\n        }\n        self.customInputHeight = min(size.height, max(safeBottom, self.keyboardHeight ?? standardInputHeight))\n        self.bottomInset = max(safeBottom, self.heldHeight ?? inputHeight)\n        self.lastBottomInset = customInputActive ? self.customInputHeight : self.bottomInset\n    }\n}\n\n/// Hosts the Telegram emoji keyboard",
+        1
+      ],
+      [
+        "    private(set) var isEmojiMode = false",
+        "    private(set) var isEmojiMode = false\n    let nagramiXEmptyInputView = EmptyInputView()",
+        1
+      ],
+      [
+        "        if active {\n            _ = self.editor?.becomeFirstResponder()\n            // `EmptyInputView` (ChatEntityKeyboardInputNode) suppresses the system keyboard while the\n            // canvas stays first responder, so the caret keeps rendering under the emoji panel.\n            self.editor?.customInputView = EmptyInputView()\n        } else if !preserveInputView {\n            self.editor?.customInputView = nil\n        }",
+        "        if active {\n            // Install before focus, and retain one owner across emoji ↔ formatting.\n            // Reassigning an equivalent view still reloads UIKit input views.\n            if self.editor?.customInputView !== self.nagramiXEmptyInputView {\n                self.editor?.customInputView = self.nagramiXEmptyInputView\n            }\n            _ = self.editor?.becomeFirstResponder()\n        } else if !preserveInputView, self.editor?.customInputView === self.nagramiXEmptyInputView {\n            self.editor?.customInputView = nil\n        }",
+        1
+      ],
+      [
+        "transition: ComponentTransition, measureOnly: Bool = false) -> CGFloat {",
+        "transition: ComponentTransition, measureOnly: Bool = false, standardInputHeight: CGFloat? = nil) -> CGFloat {",
+        1
+      ],
+      [
+        "return measureOnly ? environment.deviceMetrics.standardInputHeight(inLandscape: false) : 0.0",
+        "return self.isEmojiMode || measureOnly ? (standardInputHeight ?? environment.deviceMetrics.standardInputHeight(inLandscape: availableSize.width > availableSize.height)) : 0.0",
+        1
+      ],
+      [
+        "let standardInputHeight = deviceMetrics.standardInputHeight(inLandscape: false)",
+        "let standardInputHeight = standardInputHeight ?? deviceMetrics.standardInputHeight(inLandscape: availableSize.width > availableSize.height)",
+        1
+      ],
+      [
+        "    private let requestLayout: () -> Void",
+        "    private let requestLayout: () -> Void\n    private let willRestoreKeyboard: () -> Void",
+        1
+      ],
+      [
+        "init(context: AccountContext, editor: any RichTextEditor, requestLayout: @escaping () -> Void)",
+        "init(context: AccountContext, editor: any RichTextEditor, willRestoreKeyboard: @escaping () -> Void, requestLayout: @escaping () -> Void)",
+        1
+      ],
+      [
+        "        self.requestLayout = requestLayout",
+        "        self.requestLayout = requestLayout\n        self.willRestoreKeyboard = willRestoreKeyboard",
+        1
+      ],
+      [
+        "        } else if !preserveInputView, self.editor?.customInputView === self.nagramiXEmptyInputView {\n            self.editor?.customInputView = nil",
+        "        } else if !preserveInputView, self.editor?.customInputView === self.nagramiXEmptyInputView {\n            self.willRestoreKeyboard()\n            self.editor?.customInputView = nil",
+        1
+      ]
+    ]
+  }
+}

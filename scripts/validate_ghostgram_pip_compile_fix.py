@@ -32,6 +32,8 @@ def reverse(source, prior):
         if path.is_file():
             target = prior / name; target.parent.mkdir(parents=True, exist_ok=True); target.write_bytes(path.read_bytes())
 def delegate_if_applied(args, script):
+    from validate_archive_chat_scope import delegate_if_applied as delegate_next
+    if delegate_next(args, script): return True
     source = args.source
     if not is_applied(source): return False
     verify(source)
@@ -50,6 +52,9 @@ def main():
     parser.add_argument('--source', type=Path, required=True)
     parser.add_argument('--swiftc')
     args = parser.parse_args()
+    from validate_system_video_pip import delegate_if_applied as delegate_latest
+    if delegate_latest(args, Path(__file__)):
+        return
     verify(args.source)
     path = args.source / 'submodules/GalleryUI/Sources/Items/UniversalVideoGalleryItem.swift'
     text = path.read_text()

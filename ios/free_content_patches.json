@@ -1,0 +1,139 @@
+{
+  "inputs": {
+    "submodules/NagramiXMediaSettings/Sources/NagramiXPrivacySettings.swift": "8e4c7adf9e5cae0f70dc9cd0163e9d0f6b0a1c1e191c5fbe90240e3b81044e52",
+    "submodules/TelegramCore/Sources/Settings/ContentSettings.swift": "22cff3748c93dce0aff5163152384cca4776bafb4cc2d36d3f9352941ca01265",
+    "submodules/TelegramCore/Sources/Utils/PeerUtils.swift": "69bc91d51927e52aed30687ed334348d7da3e6dddccf0095a0cce72ee7a5c589",
+    "submodules/PlatformRestrictionMatching/Sources/PlatformRestrictionMatching.swift": "fefb185947f05480e4bb72f2865b1a74e39adbc7e625a21b30de7471b45c9d8d",
+    "submodules/TelegramUI/Sources/ChatController.swift": "eb06400a93d28c3efe7d88e2aef592f911b937e5736cb605ae19e973b7747b6b",
+    "submodules/NagramiXCore/Resources/ru.lproj/Localizable.strings": "8e02641fdc6482f4b8ad3663d4b3e1ca8569d6100b2df6eb1639b0ab0c3e5247",
+    "submodules/NagramiXCore/Resources/en.lproj/Localizable.strings": "8342573cfcc87e8e8ee9eb91dd4552bda27341943d86269c3e80554e69d93419"
+  },
+  "outputs": {
+    "submodules/NagramiXMediaSettings/Sources/NagramiXPrivacySettings.swift": "55727748205aa6989ab1758ee20bc81274ae0f4df0f89b53c626a62409a82b7a",
+    "submodules/TelegramCore/Sources/Settings/ContentSettings.swift": "c212e880c7e522c3fd23cdbe2ec37c3174b9e0925d339a14681f3912fc1a1f95",
+    "submodules/TelegramCore/Sources/Utils/PeerUtils.swift": "e08de621d13f1768c7723bec50abbfecd50f443ab87a5da33ea97023801fbf81",
+    "submodules/PlatformRestrictionMatching/Sources/PlatformRestrictionMatching.swift": "fe538d7c06b7664fd1f6181026c39bf975b2ea5c6acd71b95bf63caf048f3b7d",
+    "submodules/TelegramUI/Sources/ChatController.swift": "45e6fbdb50197f735f6f176b8377bc30116f3627815bad9ef160099913dce12f",
+    "submodules/NagramiXCore/Resources/ru.lproj/Localizable.strings": "ba04b5959ce56abefdfd31b9ddb654f22928cbf412f6d33f2281b6ec40e5ae49",
+    "submodules/NagramiXCore/Resources/en.lproj/Localizable.strings": "b7a3e27a9bf8868f4df64632c5a88b93eab61963758f1f68ec3b69af23d33162"
+  },
+  "guards": {
+    "submodules/TelegramUI/BUILD": "f4ae55a27c3a5e486a0fe9c768c70b65b974c505125d91a1215645179de54926",
+    "submodules/TelegramCore/BUILD": "81e6c1d9dceab5da57124381fce03665a449bcb7904e66c884269dacdd584fbf",
+    "submodules/PlatformRestrictionMatching/BUILD": "2c0781e1905daff53e7c89689456974a413cb860b465ef72ac4e6ae65a8bc0c6",
+    "submodules/NagramiXMediaSettings/BUILD": "083253dd17992220fe47c883d1c0686fea165a717703eec0b9f0860ab21ed65f",
+    "submodules/SettingsUI/Sources/NagramiXSettingsController.swift": "2b9595d11ed48530b52ed3adaf7479e7e734a14547834a5420e197b5075b7371",
+    "submodules/TelegramUI/Sources/ChatHistoryListNode.swift": "9566d2b33380454fb6b1b03cdd2675bdef8e690f82d9ab41d798c2d81e87afab",
+    "submodules/TelegramUI/Sources/Chat/UpdateChatPresentationInterfaceState.swift": "b0f4c1d985c590c2294321b16b861489f733f069a45108d38d395bb8a5035c84",
+    "submodules/TelegramCore/Sources/TelegramEngine/Peers/Peer.swift": "86947564fffc374b7b7a182ba872417c7eb2da0f61c2ebd27dbd62468a12efee",
+    "submodules/TelegramCore/Sources/Utils/NagramiXCaptureProtectionPolicy.swift": "c5c1cbc643b153c8623d81976636a80ae352fb6727aa7a2b472f1d2ece2c3102",
+    "submodules/TelegramCore/Sources/Utils/NagramiXContentCopy.swift": "873ea9dbdade1516497f7c74cd11694f57cfa0b5fbe2a70920cae3149ff7366c",
+    "submodules/NagramiXMediaSettings/Sources/NagramiXReadModeSettings.swift": "25d97ecb7f113d04ceb7b9ecc21bf6c5a0fab4fab86fb99887af5bd5fd3a838d",
+    "submodules/GalleryUI/Sources/NagramiXGallerySavePolicy.swift": "f6e39254043f99675cde7fd4e631dd1e1c81631dea9b4ee3f82b10fd0c907946",
+    "submodules/Display/Source/NagramiXCaptureProtection.swift": "9a8c99d67adc6ab71f22134d9b723ffbd68f57fbe94a43e8df653018a5c3301f"
+  },
+  "templates": {
+    "free_content/Before0.inc": "8e4c7adf9e5cae0f70dc9cd0163e9d0f6b0a1c1e191c5fbe90240e3b81044e52",
+    "free_content/Before1.inc": "22cff3748c93dce0aff5163152384cca4776bafb4cc2d36d3f9352941ca01265",
+    "free_content/Before2.inc": "69bc91d51927e52aed30687ed334348d7da3e6dddccf0095a0cce72ee7a5c589",
+    "free_content/Before3.inc": "fefb185947f05480e4bb72f2865b1a74e39adbc7e625a21b30de7471b45c9d8d",
+    "free_content/Before4.inc": "eb06400a93d28c3efe7d88e2aef592f911b937e5736cb605ae19e973b7747b6b",
+    "free_content/Before5.inc": "8e02641fdc6482f4b8ad3663d4b3e1ca8569d6100b2df6eb1639b0ab0c3e5247",
+    "free_content/Before6.inc": "8342573cfcc87e8e8ee9eb91dd4552bda27341943d86269c3e80554e69d93419"
+  },
+  "previous": {
+    "submodules/NagramiXMediaSettings/Sources/NagramiXPrivacySettings.swift": "free_content/Before0.inc",
+    "submodules/TelegramCore/Sources/Settings/ContentSettings.swift": "free_content/Before1.inc",
+    "submodules/TelegramCore/Sources/Utils/PeerUtils.swift": "free_content/Before2.inc",
+    "submodules/PlatformRestrictionMatching/Sources/PlatformRestrictionMatching.swift": "free_content/Before3.inc",
+    "submodules/TelegramUI/Sources/ChatController.swift": "free_content/Before4.inc",
+    "submodules/NagramiXCore/Resources/ru.lproj/Localizable.strings": "free_content/Before5.inc",
+    "submodules/NagramiXCore/Resources/en.lproj/Localizable.strings": "free_content/Before6.inc"
+  },
+  "operations": {
+    "submodules/NagramiXMediaSettings/Sources/NagramiXPrivacySettings.swift": [
+      [
+        "    public var bypassScreenshots: Bool { self[.screenshotBypass] }",
+        "    // One persisted switch controls content visibility and eligible capture/export.\n    // Keep screenshotBypass as its storage key and compatibility API.\n    public var allowsFreeContent: Bool { self[.screenshotBypass] }\n    public var bypassScreenshots: Bool { self.allowsFreeContent }",
+        1
+      ]
+    ],
+    "submodules/TelegramCore/Sources/Settings/ContentSettings.swift": [
+      [
+        "import SwiftSignalKit\n",
+        "import SwiftSignalKit\nimport NagramiXMediaSettings\n",
+        1
+      ],
+      [
+        "    public var ignoreContentRestrictionReasons: Set<String>\n",
+        "    /// Read the shared switch at the point of use, including cached settings.\n    public var nagramiXAllowsFreeContent: Bool { NagramiXPrivacySettings.current.allowsFreeContent }\n\n    public var ignoreContentRestrictionReasons: Set<String>\n",
+        1
+      ]
+    ],
+    "submodules/TelegramCore/Sources/Utils/PeerUtils.swift": [
+      [
+        "    func restrictionText(platform: String, contentSettings: ContentSettings) -> String? {\n",
+        "    func restrictionText(platform: String, contentSettings: ContentSettings) -> String? {\n        if contentSettings.nagramiXAllowsFreeContent { return nil }\n",
+        1
+      ]
+    ],
+    "submodules/PlatformRestrictionMatching/Sources/PlatformRestrictionMatching.swift": [
+      [
+        "    func platformText(platform: String, contentSettings: ContentSettings) -> String? {\n",
+        "    func platformText(platform: String, contentSettings: ContentSettings) -> String? {\n        if contentSettings.nagramiXAllowsFreeContent { return nil }\n",
+        1
+      ]
+    ],
+    "submodules/TelegramUI/Sources/ChatController.swift": [
+      [
+        "import NagramiXCore\n",
+        "import NagramiXCore\nimport NagramiXMediaSettings\n",
+        1
+      ],
+      [
+        "    let nagramiXContentCopyDisposable = MetaDisposable()\n",
+        "    let nagramiXContentCopyDisposable = MetaDisposable()\n    private var nagramiXFreeContentObserver: NSObjectProtocol?\n    private var nagramiXFreeContentEnabled = NagramiXPrivacySettings.current.allowsFreeContent\n",
+        1
+      ],
+      [
+        "        super.init(context: context, navigationBarPresentationData: navigationBarPresentationData)\n",
+        "        super.init(context: context, navigationBarPresentationData: navigationBarPresentationData)\n\n        self.nagramiXFreeContentObserver = NotificationCenter.default.addObserver(forName: NagramiXPrivacySettings.changedNotification, object: nil, queue: .main, using: { [weak self] _ in\n            self?.nagramiXRefreshFreeContent()\n        })\n        self.nagramiXRefreshFreeContent()\n",
+        1
+      ],
+      [
+        "    deinit {\n        let _ = ChatControllerCount.modify { value in\n",
+        "    deinit {\n        if let observer = self.nagramiXFreeContentObserver { NotificationCenter.default.removeObserver(observer) }\n        let _ = ChatControllerCount.modify { value in\n",
+        1
+      ],
+      [
+        "    override public func viewWillAppear(_ animated: Bool) {\n        super.viewWillAppear(animated)\n",
+        "    private func nagramiXRefreshFreeContent() {\n        let enabled = NagramiXPrivacySettings.current.allowsFreeContent\n        guard self.nagramiXFreeContentEnabled != enabled else { return }\n        self.nagramiXFreeContentEnabled = enabled\n        guard self.isNodeLoaded else { return }\n        self.updateChatPresentationInterfaceState(transition: .immediate, interactive: false, force: true, { $0 })\n        var messageIds = Set<MessageId>()\n        self.chatDisplayNode.historyNode.forEachItemNode { itemNode in\n            guard let item = (itemNode as? ChatMessageItemView)?.item else { return }\n            for (message, _) in item.content { messageIds.insert(message.id) }\n        }\n        for id in messageIds { self.chatDisplayNode.historyNode.requestMessageUpdate(id) }\n    }\n\n    override public func viewWillAppear(_ animated: Bool) {\n        super.viewWillAppear(animated)\n        self.nagramiXRefreshFreeContent()\n",
+        1
+      ]
+    ],
+    "submodules/NagramiXCore/Resources/ru.lproj/Localizable.strings": [
+      [
+        "\"NagramiX.Privacy.screenshotBypass\" = \"Свободный скриншот\";",
+        "\"NagramiX.Privacy.screenshotBypass\" = \"Свободный контент\";",
+        1
+      ],
+      [
+        "\"NagramiX.Privacy.screenshotBypass.Search\" = \"Разрешать скриншоты и запись экрана доступных защищённых, одноразовых и исчезающих медиа без исходящего уведомления о захвате. Платные медиа и коды подтверждения сохраняют защиту.\";",
+        "\"NagramiX.Privacy.screenshotBypass.Search\" = \"Свободный скриншот; открывать доступные боты, каналы и сообщения с пометкой «недоступно на вашем устройстве». Разрешать скриншоты и запись экрана доступного защищённого содержимого без исходящего уведомления о захвате. Платные медиа и коды подтверждения сохраняют защиту.\";",
+        1
+      ]
+    ],
+    "submodules/NagramiXCore/Resources/en.lproj/Localizable.strings": [
+      [
+        "\"NagramiX.Privacy.screenshotBypass\" = \"Free Screenshot\";",
+        "\"NagramiX.Privacy.screenshotBypass\" = \"Free Content\";",
+        1
+      ],
+      [
+        "\"NagramiX.Privacy.screenshotBypass.Search\" = \"Allow screenshots and screen recording of available protected, view-once and disappearing media without sending capture notifications. Paid media and verification codes remain protected.\";",
+        "\"NagramiX.Privacy.screenshotBypass.Search\" = \"Free Screenshot; open available bots, channels and messages marked unavailable on this device. Allow screenshots and screen recording of available protected content without sending capture notifications. Paid media and verification codes remain protected.\";",
+        1
+      ]
+    ]
+  }
+}

@@ -1,0 +1,49 @@
+{
+  "inputs": {
+    "submodules/ChatListUI/Sources/Node/ChatListItem.swift": "69b579454759ef4329a0938c2896d4421f42993b953d66eeab2dd03234ee4202",
+    "submodules/TelegramUI/Sources/Chat/ChatControllerLoadDisplayNode.swift": "22750ea4254b38b4cacff7d8072f04433bc30664395590340215bb771284274c"
+  },
+  "outputs": {
+    "submodules/ChatListUI/Sources/Node/ChatListItem.swift": "a9f0a4cf4b3bd37cc18018d3a701d4af1b1a9df488e5d127763087e730a7b164",
+    "submodules/TelegramUI/Sources/Chat/ChatControllerLoadDisplayNode.swift": "bcc1668b09082e221345f8d81aa68df5a03e1cbbd8cf953ff02ca0fcddaa673e"
+  },
+  "guards": {
+    "submodules/ChatListUI/BUILD": "e764b30ffe60131dbe1e988ef1b606540fdf2a1c2d56368be9bd2a78a94a44f5",
+    "submodules/TelegramUI/BUILD": "f4ae55a27c3a5e486a0fe9c768c70b65b974c505125d91a1215645179de54926",
+    "submodules/ChatListUI/Sources/ChatListController.swift": "784b534a3af39037f0651997fd5fe026a240cd64dce8ef214a7294c5ba1bec07",
+    "submodules/AccountContext/Sources/AccountContext.swift": "5731910ec45c36a55b17cc3b07391ba5057a82fd7a747cd694b5440e7f4b9dad",
+    "submodules/TelegramUI/Sources/NavigateToChatController.swift": "0c57a25521ca70f8456a59337b6227e682ec9cc8fa1a2f8bc563c062391f9dfc",
+    "submodules/TelegramUI/Sources/ChatController.swift": "45e6fbdb50197f735f6f176b8377bc30116f3627815bad9ef160099913dce12f",
+    "submodules/Display/Source/Navigation/NavigationController.swift": "50201ef844b3650993acc4cdc2f85395825a2750134feb7c1cd361a788821a74"
+  },
+  "templates": {
+    "avatar_preview_navigation/Before0.inc": "69b579454759ef4329a0938c2896d4421f42993b953d66eeab2dd03234ee4202",
+    "avatar_preview_navigation/Before1.inc": "22750ea4254b38b4cacff7d8072f04433bc30664395590340215bb771284274c"
+  },
+  "previous": {
+    "submodules/ChatListUI/Sources/Node/ChatListItem.swift": "avatar_preview_navigation/Before0.inc",
+    "submodules/TelegramUI/Sources/Chat/ChatControllerLoadDisplayNode.swift": "avatar_preview_navigation/Before1.inc"
+  },
+  "operations": {
+    "submodules/ChatListUI/Sources/Node/ChatListItem.swift": [
+      [
+        "    public func selected(listView: ListView) {\n        switch self.content {",
+        "    public func selected(listView: ListView) {\n        self.nagramiXOpenChatFromListItem()\n    }\n\n    // The avatar without stories follows exactly the ordinary row-selection path.\n    fileprivate func nagramiXOpenChatFromListItem() {\n        switch self.content {",
+        1
+      ],
+      [
+        "            if self.nagramiXCanOpenAvatarWithoutReadReceipts {\n                item.interaction.nagramiXOpenChatWithoutReadReceipts?(item)\n                return\n            }\n            switch item.content {",
+        "            if self.nagramiXCanOpenAvatarWithoutReadReceipts,\n               case let .peer(peerData) = item.content, peerData.peer.peer?.containerPeerId == nil {\n                let hasStories = peerData.storyState.map { $0.stats.totalCount > 0 || $0.stats.hasLiveItems } ?? false\n                if !hasStories {\n                    item.nagramiXOpenChatFromListItem()\n                    return\n                }\n                // Keep native story navigation, confirmation and viewing policy.\n                // Read-only preview is exclusively the avatar's long-press route.\n            }\n            switch item.content {",
+        1
+      ]
+    ],
+    "submodules/TelegramUI/Sources/Chat/ChatControllerLoadDisplayNode.swift": [
+      [
+        "                        chatListFilter: self.currentChatListFilter,\n                        completion: { controller in\n                            guard let active = controller as? ChatControllerImpl, !active.nagramiXReadHistoryDisabled else { return }",
+        "                        chatListFilter: self.currentChatListFilter,\n                        pushController: { [weak self] controller, animated, completion in\n                            // Commit only while this preview is still the current screen.\n                            // Native navigation has already passed its readiness/age gates.\n                            guard let self, navigationController.viewControllers.last === self else { return }\n                            navigationController.replaceControllersAndPush(\n                                controllers: navigationController.viewControllers.filter { $0 !== self },\n                                controller: controller, animated: animated, completion: completion\n                            )\n                        },\n                        completion: { controller in\n                            guard let active = controller as? ChatControllerImpl, !active.nagramiXReadHistoryDisabled else { return }",
+        1
+      ]
+    ]
+  },
+  "copies": {}
+}

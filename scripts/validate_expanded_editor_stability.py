@@ -52,6 +52,9 @@ def main():
     parser.add_argument("--source", type=Path, required=True)
     parser.add_argument("--swiftc")
     args = parser.parse_args()
+    from validate_expanded_keyboard_handoff import delegate_if_applied as delegate_latest
+    if delegate_latest(args, Path(__file__)):
+        return
     verify(args.source)
     p = args.source / "submodules/TelegramUI/Components/RichTextAttachmentScreen/Sources/RichTextAttachmentScreen.swift"
     s = p.read_text()

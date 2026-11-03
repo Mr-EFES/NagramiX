@@ -1,0 +1,139 @@
+{
+  "inputs": {
+    "submodules/TelegramCore/Sources/Utils/NagramiXMessageArchive.swift": "3ba4251047f20643cfba09ece708a13117f1f80b0fa681f0807359356c3ea753",
+    "submodules/TelegramUI/Sources/ChatHistoryEntriesForView.swift": "0ee85dcbd9a7c1d90db8107c66e2d7322aac0197cc39323730e964dedd799f04",
+    "submodules/TelegramCore/Sources/TelegramEngine/Messages/DeleteMessages.swift": "53f42582ec7dee2591a897b41956e8c30a964111c3b8575cc377b967cf336f48",
+    "submodules/TelegramCore/Sources/TelegramEngine/Messages/DeleteMessagesInteractively.swift": "d399872a149b7949e1ba48a1671d6e138294d34e5c273a57f36f976f4a309671",
+    "submodules/TelegramUI/Sources/ChatInterfaceStateContextMenus.swift": "07ad7d309f515d8020e73f170d93c02907e6c9c12c20fff0594bb7597dc29fa1",
+    "submodules/TelegramUI/Components/Chat/ChatMessageSelectionInputPanelNode/Sources/ChatMessageSelectionInputPanelNode.swift": "63fc42bb03fd86aebe19cdedaf412f5101ca2683fe883598673b28168ea95715",
+    "submodules/TelegramCore/Sources/State/AccountStateManagementUtils.swift": "769bb4ec21421c8c73fecae5a2b45ad6a1b9d031ba68bf624df9cdb9a66e7719"
+  },
+  "outputs": {
+    "submodules/TelegramCore/Sources/Utils/NagramiXMessageArchive.swift": "1c36599ca6c12e35d54159becdf47ba4e084e59d9182ac4b81912432d9e45468",
+    "submodules/TelegramUI/Sources/ChatHistoryEntriesForView.swift": "7c4be17475b9c5d3148a851887142f38dd077b03b9216ac0775705a36d10b2c6",
+    "submodules/TelegramCore/Sources/TelegramEngine/Messages/DeleteMessages.swift": "d6c2d182645b70ef135c95dc90f4994521b76f2f52fc434a79764be9d8231d39",
+    "submodules/TelegramCore/Sources/TelegramEngine/Messages/DeleteMessagesInteractively.swift": "c88d6a7d73549c4c95d0187c32f4d568139375f8845e76695688b9393c2a83f9",
+    "submodules/TelegramUI/Sources/ChatInterfaceStateContextMenus.swift": "c68fe177149f28ad2c3d669842cb2dfeff012203b5274cfd5690c2af0bd67c44",
+    "submodules/TelegramUI/Components/Chat/ChatMessageSelectionInputPanelNode/Sources/ChatMessageSelectionInputPanelNode.swift": "a64be7e8464601799ad15c8ab8f41b3734d87f004d3a07b5387eec68e7a7816e",
+    "submodules/TelegramCore/Sources/State/AccountStateManagementUtils.swift": "fe818043f982da3a3f174c151b10cda70f7bc9e6a5c4e767fe4ebc17d1cdb033"
+  },
+  "guards": {
+    "submodules/AccountContext/Sources/ChatController.swift": "670cee104398e29bcd21c4f7e3bf27ee49ff0e2eb6feea970427a2257ab89804",
+    "submodules/Postbox/Sources/Postbox.swift": "71ce7879969134652ceb1ea82f9fe56670977033d148b50a5fd76bfec716e231",
+    "submodules/Postbox/Sources/Message.swift": "c382cdf51199878336bf65c396cc56aeebaf74685b00a941211676e07c2e476e",
+    "submodules/Postbox/Sources/SimpleDictionary.swift": "60fb102c08b1c228683f2e34bf576d2221f5688730661f6badf24761c47c3d60",
+    "submodules/TelegramCore/Sources/TelegramEngine/Peers/RemovePeerChat.swift": "e24b3bebaa0e15081e1ed74e8fa78848bd0c3dd0a0c037fc122330f240116ac6",
+    "submodules/TelegramCore/Sources/Utils/NagramiXArchivePersistence.swift": "172f87ec61020c59777190b1d36a5de25d2b3cd2f7f6243033499077b60ee2db",
+    "submodules/TelegramCore/Sources/Utils/NagramiXArchivedMediaStore.swift": "cc0352b82b9e944884453ca1c9dd4ca9876413002090dd29083edddf4004996b",
+    "submodules/TelegramUI/Sources/ChatHistoryListNode.swift": "9566d2b33380454fb6b1b03cdd2675bdef8e690f82d9ab41d798c2d81e87afab"
+  },
+  "templates": {
+    "archive_chat_scope/Before0.inc": "3ba4251047f20643cfba09ece708a13117f1f80b0fa681f0807359356c3ea753",
+    "archive_chat_scope/Before1.inc": "0ee85dcbd9a7c1d90db8107c66e2d7322aac0197cc39323730e964dedd799f04",
+    "archive_chat_scope/Before2.inc": "53f42582ec7dee2591a897b41956e8c30a964111c3b8575cc377b967cf336f48",
+    "archive_chat_scope/Before3.inc": "d399872a149b7949e1ba48a1671d6e138294d34e5c273a57f36f976f4a309671",
+    "archive_chat_scope/Before4.inc": "07ad7d309f515d8020e73f170d93c02907e6c9c12c20fff0594bb7597dc29fa1",
+    "archive_chat_scope/Before5.inc": "63fc42bb03fd86aebe19cdedaf412f5101ca2683fe883598673b28168ea95715",
+    "archive_chat_scope/Before6.inc": "769bb4ec21421c8c73fecae5a2b45ad6a1b9d031ba68bf624df9cdb9a66e7719"
+  },
+  "previous": {
+    "submodules/TelegramCore/Sources/Utils/NagramiXMessageArchive.swift": "archive_chat_scope/Before0.inc",
+    "submodules/TelegramUI/Sources/ChatHistoryEntriesForView.swift": "archive_chat_scope/Before1.inc",
+    "submodules/TelegramCore/Sources/TelegramEngine/Messages/DeleteMessages.swift": "archive_chat_scope/Before2.inc",
+    "submodules/TelegramCore/Sources/TelegramEngine/Messages/DeleteMessagesInteractively.swift": "archive_chat_scope/Before3.inc",
+    "submodules/TelegramUI/Sources/ChatInterfaceStateContextMenus.swift": "archive_chat_scope/Before4.inc",
+    "submodules/TelegramUI/Components/Chat/ChatMessageSelectionInputPanelNode/Sources/ChatMessageSelectionInputPanelNode.swift": "archive_chat_scope/Before5.inc",
+    "submodules/TelegramCore/Sources/State/AccountStateManagementUtils.swift": "archive_chat_scope/Before6.inc"
+  },
+  "operations": {
+    "submodules/TelegramCore/Sources/Utils/NagramiXMessageArchive.swift": [
+      [
+        "    private let postbox: Postbox\n",
+        "    public static func forMediaBox(_ mediaBox: MediaBox) -> NagramiXMessageArchive? {\n        return self.registry.with { values in\n            values.values.compactMap { $0.value }.first { $0.postbox.mediaBox === mediaBox }\n        }\n    }\n\n    private let postbox: Postbox\n",
+        1
+      ],
+      [
+        "    public func removeLocal(messageIds: [MessageId]) {",
+        "    /// Reserve available media before native deletion. OFF never captures new content.\n    public func archiveMessagesBeforeDeletion(_ messages: [Message], deletedAt: Int32) {\n        let settings = NagramiXMessageArchiveSettings.current\n        let ids = Set(messages.map { $0.id })\n        var captured: [(NagramiXArchivedRecord, [NagramiXArchiveMediaRequest], Int64)] = []\n        if settings.showDeletedMessages {\n            for message in messages {\n                let peers: [PeerId: Peer] = message.peers.reduce([:], { current, entry in\n                    var current = current\n                    current[entry.0] = entry.1\n                    return current\n                })\n                guard let record = Self.makeRecord(message: message, peers: peers), record.messageId.peerId != self.accountPeerId else { continue }\n                let requests = self.mediaRequests(record)\n                let ticket = self.mediaStore.reserve(key: Self.key(record.messageId), requests: requests)\n                captured.append((record, requests, ticket))\n            }\n        }\n        self.queue.async { [weak self] in\n            guard let self else { return }\n            var updated = self.mutationState\n            for (snapshot, _, _) in captured {\n                let key = Self.key(snapshot.messageId)\n                var record = snapshot\n                if let current = updated.records[key] {\n                    record.revisions = current.revisions\n                    if record.content == current.content {\n                        record.contentTimestamp = max(current.contentTimestamp ?? current.timestamp, record.contentTimestamp ?? record.timestamp)\n                    } else if settings.messageEditHistory {\n                        NagramiXMessageRevision.appendIfChanged(NagramiXMessageRevision(text: current.content.text, entities: current.content.entities, timestamp: current.contentTimestamp ?? current.timestamp), to: &record.revisions)\n                    }\n                    record.deletedAt = current.deletedAt\n                }\n                updated.records[key] = record\n            }\n            for id in ids {\n                let key = Self.key(id)\n                guard var record = updated.records[key] else { continue }\n                if record.viewOnceReplay == true {\n                    record.viewOnceReplay = nil\n                    record.temporary = false\n                }\n                if record.deletedAt == nil { record.deletedAt = deletedAt }\n                updated.records[key] = record\n            }\n            if updated != self.mutationState {\n                self.persist(updated)\n                self.publishUpdate()\n            }\n            for (record, requests, ticket) in captured {\n                let key = Self.key(record.messageId)\n                self.mediaStore.retain(key: key, requests: updated.records[key].map(self.mediaRequests) ?? requests, ticket: ticket)\n            }\n        }\n    }\n\n    public func archiveHistoryBeforeDeletion(transaction: Transaction, peerId: PeerId, threadId: Int64?, minTimestamp: Int32?, maxTimestamp: Int32?, namespaces: MessageIdNamespaces) {\n        guard namespaces.contains(Namespaces.Message.Cloud), peerId.namespace != Namespaces.Peer.SecretChat else { return }\n        let deletedAt = Int32(Date().timeIntervalSince1970)\n        if NagramiXMessageArchiveSettings.current.showDeletedMessages {\n            var messages: [Message] = []\n            transaction.withAllMessages(peerId: peerId, namespace: Namespaces.Message.Cloud, { message in\n                if (threadId == nil || message.threadId == threadId)\n                    && (minTimestamp == nil || message.timestamp >= minTimestamp!)\n                    && (maxTimestamp == nil || message.timestamp <= maxTimestamp!) {\n                    messages.append(message)\n                }\n                return true\n            })\n            self.archiveMessagesBeforeDeletion(messages, deletedAt: deletedAt)\n        }\n        self.archiveHistoryDeletion(peerId: peerId, threadId: threadId, minTimestamp: minTimestamp, maxTimestamp: maxTimestamp, deletedAt: deletedAt)\n    }\n\n    public func archiveMessageRangeBeforeDeletion(transaction: Transaction, peerId: PeerId, namespace: MessageId.Namespace, minId: Int32, maxId: Int32, deletedAt: Int32) {\n        guard NagramiXMessageArchiveSettings.current.showDeletedMessages, namespace == Namespaces.Message.Cloud else { return }\n        var messages: [Message] = []\n        transaction.withAllMessages(peerId: peerId, namespace: namespace, { message in\n            if message.id.id >= minId && message.id.id <= maxId { messages.append(message) }\n            return true\n        })\n        self.archiveMessagesBeforeDeletion(messages, deletedAt: deletedAt)\n    }\n\n    private func archiveHistoryDeletion(peerId: PeerId, threadId: Int64?, minTimestamp: Int32?, maxTimestamp: Int32?, deletedAt: Int32) {\n        self.queue.async { [weak self] in\n            guard let self else { return }\n            let ids = self.mutationState.records.values.filter { record in\n                record.messageId.peerId == peerId && record.namespace == Namespaces.Message.Cloud\n                    && (threadId == nil || record.threadId == threadId)\n                    && (minTimestamp == nil || record.timestamp >= minTimestamp!)\n                    && (maxTimestamp == nil || record.timestamp <= maxTimestamp!)\n            }.map { $0.messageId }\n            self.archiveServerDeletion(messageIds: ids, deletedAt: deletedAt)\n        }\n    }\n\n    public func removeLocal(messageIds: [MessageId]) {",
+        1
+      ],
+      [
+        "    public func removeLocal(messageIds: [MessageId]) {\n        let keys = Set(messageIds.map { Self.key($0) })\n        let ticket = self.mediaStore.barrier()\n        self.queue.async { [weak self] in\n            guard let self else {\n                return\n            }\n            var updated = self.mutationState\n            let oldCount = updated.records.count\n            updated.records = updated.records.filter { !keys.contains($0.key) }\n            for key in keys { self.removalTickets[key] = ticket }\n            if updated.records.count != oldCount || self.persistence.pending != nil {\n                self.persist(updated, retryNow: true)\n                self.publishUpdate()\n            }\n        }\n    }",
+        "    public func removeLocal(messageIds: [MessageId]) {\n        // Individual deletion never purges an approved archive snapshot.\n        self.archiveServerDeletion(messageIds: messageIds, deletedAt: Int32(Date().timeIntervalSince1970))\n    }",
+        1
+      ],
+      [
+        "    public func clear(peerId: PeerId) {\n        let ticket = self.mediaStore.barrier()\n        self.queue.async { [weak self] in\n            guard let self else {\n                return\n            }\n            var updated = self.mutationState\n            let rawPeerId = peerId.toInt64()\n            let keys = Set(updated.records.filter { $0.value.peerId == rawPeerId }.keys)\n            updated.records = updated.records.filter { $0.value.peerId != rawPeerId }\n            for key in keys { self.removalTickets[key] = ticket }\n            self.persist(updated, retryNow: true)\n            self.publishUpdate()\n        }\n    }",
+        "    public func clear(peerId: PeerId) {\n        // Keep this compatibility entry non-destructive. Only clearAll purges data.\n        self.archiveHistoryDeletion(peerId: peerId, threadId: nil, minTimestamp: nil, maxTimestamp: nil, deletedAt: Int32(Date().timeIntervalSince1970))\n    }",
+        1
+      ],
+      [
+        "            current.deletedAt = nil\n",
+        "",
+        1
+      ]
+    ],
+    "submodules/TelegramUI/Sources/ChatHistoryEntriesForView.swift": [
+      [
+        "    var sourceEntries = view.entries\n    if let peerId = location.peerId, subject != .scheduledMessages {",
+        "    var sourceEntries = view.entries\n    let nagramiXOrdinaryHistory: Bool\n    switch subject {\n    case nil, .message:\n        nagramiXOrdinaryHistory = true\n    default:\n        nagramiXOrdinaryHistory = false\n    }\n    if let peerId = location.peerId, nagramiXOrdinaryHistory, view.tag == nil,\n       view.namespaces.contains(Namespaces.Message.Cloud), !isMusicPlaylist, !associatedData.isRecentActions {",
+        1
+      ],
+      [
+        "            maxIndex: view.laterId == nil ? nil : lastIndex\n        )",
+        "            maxIndex: view.laterId == nil ? nil : lastIndex,\n            limit: Int.max\n        )",
+        1
+      ]
+    ],
+    "submodules/TelegramCore/Sources/TelegramEngine/Messages/DeleteMessages.swift": [
+      [
+        "public func _internal_deleteMessages(transaction: Transaction, mediaBox: MediaBox, ids: [MessageId], deleteMedia: Bool = true, manualAddMessageThreadStatsDifference: ((MessageThreadKey, Int, Int) -> Void)? = nil) {\n",
+        "public func _internal_deleteMessages(transaction: Transaction, mediaBox: MediaBox, ids: [MessageId], deleteMedia: Bool = true, manualAddMessageThreadStatsDifference: ((MessageThreadKey, Int, Int) -> Void)? = nil) {\n    NagramiXMessageArchive.forMediaBox(mediaBox)?.archiveMessagesBeforeDeletion(ids.compactMap { transaction.getMessage($0) }, deletedAt: Int32(Date().timeIntervalSince1970))\n",
+        1
+      ],
+      [
+        "func _internal_clearHistory(transaction: Transaction, mediaBox: MediaBox, peerId: PeerId, threadId: Int64?, namespaces: MessageIdNamespaces) {\n",
+        "func _internal_clearHistory(transaction: Transaction, mediaBox: MediaBox, peerId: PeerId, threadId: Int64?, namespaces: MessageIdNamespaces) {\n    NagramiXMessageArchive.forMediaBox(mediaBox)?.archiveHistoryBeforeDeletion(transaction: transaction, peerId: peerId, threadId: threadId, minTimestamp: nil, maxTimestamp: nil, namespaces: namespaces)\n",
+        1
+      ],
+      [
+        "func _internal_clearHistoryInRange(transaction: Transaction, mediaBox: MediaBox, peerId: PeerId, threadId: Int64?, minTimestamp: Int32, maxTimestamp: Int32, namespaces: MessageIdNamespaces) {\n",
+        "func _internal_clearHistoryInRange(transaction: Transaction, mediaBox: MediaBox, peerId: PeerId, threadId: Int64?, minTimestamp: Int32, maxTimestamp: Int32, namespaces: MessageIdNamespaces) {\n    NagramiXMessageArchive.forMediaBox(mediaBox)?.archiveHistoryBeforeDeletion(transaction: transaction, peerId: peerId, threadId: threadId, minTimestamp: minTimestamp, maxTimestamp: maxTimestamp, namespaces: namespaces)\n",
+        1
+      ]
+    ],
+    "submodules/TelegramCore/Sources/TelegramEngine/Messages/DeleteMessagesInteractively.swift": [
+      [
+        "    NagramiXMessageArchive.forPostbox(postbox)?.clear(peerId: peerId)\n",
+        "",
+        2
+      ]
+    ],
+    "submodules/TelegramUI/Sources/ChatInterfaceStateContextMenus.swift": [
+      [
+        "            actions.append(.action(ContextMenuActionItem(text: chatPresentationInterfaceState.strings.Conversation_ContextMenuDelete, textColor: .destructive, icon: { theme in\n                return generateTintedImage(image: UIImage(bundleImageName: \"Chat/Context Menu/Delete\"), color: theme.actionSheet.destructiveActionTextColor)\n            }, action: { _, f in\n                context.account.nagramiXMessageArchive.removeLocal(messageIds: [message.id])\n                f(.dismissWithoutContent)\n            })))\n",
+        "",
+        1
+      ]
+    ],
+    "submodules/TelegramUI/Components/Chat/ChatMessageSelectionInputPanelNode/Sources/ChatMessageSelectionInputPanelNode.swift": [
+      [
+        "            if archiveOnlySelection {\n                self.deleteButton.isEnabled = true\n            }",
+        "            if archiveOnlySelection {\n                self.deleteButton.isEnabled = false\n            }",
+        1
+      ]
+    ],
+    "submodules/TelegramCore/Sources/State/AccountStateManagementUtils.swift": [
+      [
+        "            case let .DeleteMessagesWithGlobalIds(ids):\n",
+        "            case let .DeleteMessagesWithGlobalIds(ids):\n                NagramiXMessageArchive.forPostbox(postbox)?.archiveMessagesBeforeDeletion(transaction.messageIdsForGlobalIds(ids).compactMap { transaction.getMessage($0) }, deletedAt: Int32(CFAbsoluteTimeGetCurrent() + kCFAbsoluteTimeIntervalSince1970))\n",
+        1
+      ],
+      [
+        "                NagramiXMessageArchive.forPostbox(postbox)?.archiveServerDeletion(upToMessageId: id, deletedAt: Int32(CFAbsoluteTimeGetCurrent() + kCFAbsoluteTimeIntervalSince1970))\n",
+        "                NagramiXMessageArchive.forPostbox(postbox)?.archiveMessageRangeBeforeDeletion(transaction: transaction, peerId: id.peerId, namespace: id.namespace, minId: 1, maxId: id.id, deletedAt: Int32(CFAbsoluteTimeGetCurrent() + kCFAbsoluteTimeIntervalSince1970))\n                NagramiXMessageArchive.forPostbox(postbox)?.archiveServerDeletion(upToMessageId: id, deletedAt: Int32(CFAbsoluteTimeGetCurrent() + kCFAbsoluteTimeIntervalSince1970))\n",
+        1
+      ]
+    ]
+  }
+}

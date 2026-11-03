@@ -1,5 +1,7 @@
 # PiP Ghostgram в NagramiX
 
+Этот документ описывает предыдущую стадию. Актуальная реализация после 0.8.4 и новая команда пользователя — [SYSTEM_VIDEO_PIP](SYSTEM_VIDEO_PIP.md): предварительная подготовка текущего владельца, KVO готовности и завершение AVKit. Ниже сохранён контракт прежнего опубликованного кода.
+
 Источник: [ichmagmaus111/ghostgram](https://github.com/ichmagmaus111/ghostgram/blob/df95ba566c5f25a8f36de2b703bf070ca97c54ba/submodules/GalleryUI/Sources/Items/UniversalVideoGalleryItem.swift), коммит `df95ba566c5f25a8f36de2b703bf070ca97c54ba`, лицензия GPL-2.0 согласно LICENSE исходного репозитория.
 
 Контроллер `NativePictureInPictureContentImpl`, его делегат, методы настройки, кнопки и возврата, обработчики центральности и видимости, заглушка и её раскладка перенесены из исходника Ghostgram. Валидаторы проверяют совпадение сохранённых блоков. Кнопка панели вызывает тот же метод через `controllerInteraction`, как в Ghostgram. Свайп вверх запускает PiP, вниз закрывает видео. Единственная привязка к настройкам клиента: вызов `GGGalleryHooks.allowsSwipeToPictureInPicture` заменён чтением сохранённой настройки NagramiX. Остальные возможности Ghostgram в приложение не переносятся.

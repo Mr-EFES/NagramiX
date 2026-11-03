@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "product": "NagramiX",
-  "release": "0.8.4",
+  "release": "0.8.5",
   "platformPriority": [
     "ios"
   ],
@@ -82,7 +82,7 @@
       "specification": "specified",
       "ios": {
         "implementation": "implemented",
-        "compile": "compile_passed",
+        "compile": "compile_pending",
         "device": "device_pending"
       }
     },
@@ -182,7 +182,7 @@
       "specification": "specified",
       "ios": {
         "implementation": "implemented",
-        "compile": "compile_passed",
+        "compile": "compile_pending",
         "device": "device_pending"
       }
     },
@@ -232,7 +232,7 @@
       "specification": "specified",
       "ios": {
         "implementation": "implemented",
-        "compile": "compile_passed",
+        "compile": "compile_pending",
         "device": "device_pending"
       }
     },
@@ -258,7 +258,7 @@
     },
     {
       "id": "video_pip_swipe",
-      "title": "Режим «Картинка в Картинке» — реализация Ghostgram",
+      "title": "Системный режим «Картинка в Картинке»",
       "specification": "specified",
       "ios": {
         "implementation": "implemented",
@@ -322,7 +322,7 @@
       "specification": "specified",
       "ios": {
         "implementation": "implemented",
-        "compile": "compile_passed",
+        "compile": "compile_pending",
         "device": "device_pending"
       }
     },
@@ -588,7 +588,7 @@
     },
     {
       "id": "screenshot_bypass",
-      "title": "Свободный скриншот и запись экрана доступных защищённых и одноразовых медиа без исходящего уведомления",
+      "title": "Свободный контент: доступные боты, каналы и сообщения без заглушки устройства, скриншоты и запись разрешённых медиа",
       "specification": "specified",
       "ios": {
         "implementation": "implemented",
@@ -602,7 +602,7 @@
       "specification": "specified",
       "ios": {
         "implementation": "implemented",
-        "compile": "compile_passed",
+        "compile": "compile_pending",
         "device": "device_pending"
       }
     },
@@ -632,7 +632,7 @@
       "specification": "specified",
       "ios": {
         "implementation": "implemented",
-        "compile": "compile_passed",
+        "compile": "compile_pending",
         "device": "device_pending"
       }
     },

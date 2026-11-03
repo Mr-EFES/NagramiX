@@ -20,17 +20,41 @@ def verify(source):
     assert is_applied(source)
     for name, digest in PLAN['guards'].items(): assert sha((source / name).read_bytes()) == digest
     for name, digest in PLAN['templates'].items(): assert sha((OVERLAY / name).read_bytes()) == digest
-def reverse(source, prior):
-    names = set(PLAN['inputs'])
+def reverse(source, prior, plan=PLAN):
+    names = set(plan['inputs'])
     for manifest in OVERLAY.glob('*_patches.json'):
         item = json.loads(manifest.read_text())
         for field in ('inputs', 'outputs', 'guards', 'copies'): names.update(item.get(field, {}))
     names.update(json.loads((OVERLAY / 'upstream_13_1_manifest.json').read_text())['files'])
     names.update(['Telegram/Telegram-iOS/en.lproj/Localizable.strings', 'submodules/TelegramPresentationData/Sources/PresentationData.swift'])
-    for name in names - set(PLAN['copies']):
-        old = PLAN['previous'].get(name); path = OVERLAY / old if old else source / name
+    for name in names - set(plan['copies']):
+        old = plan['previous'].get(name); path = OVERLAY / old if old else source / name
         if path.is_file():
             target = prior / name; target.parent.mkdir(parents=True, exist_ok=True); target.write_bytes(path.read_bytes())
+
+def delegate_variant_five_if_applied(args, script):
+    from validate_avatar_preview_navigation import delegate_if_applied as delegate_next
+    if delegate_next(args, script):
+        return True
+    plan = json.loads((OVERLAY / 'author_icon_variant_five_patches.json').read_text())
+    if not all((args.source / name).is_file() and sha((args.source / name).read_bytes()) == digest for name, digest in plan['outputs'].items()):
+        return False
+    for name, digest in plan['guards'].items():
+        assert sha((args.source / name).read_bytes()) == digest, name
+    for name, digest in plan['templates'].items():
+        assert sha((OVERLAY / name).read_bytes()) == digest, name
+    with tempfile.TemporaryDirectory(prefix='author-variant-five-prior-') as folder:
+        prior = Path(folder)
+        reverse(args.source, prior, plan)
+        arguments = []
+        for key, value in vars(args).items():
+            if key == 'source': arguments += ['--source', str(prior)]
+            elif value is True: arguments.append('--' + key.replace('_', '-'))
+            elif value is not None and value is not False: arguments += ['--' + key.replace('_', '-'), str(value)]
+        if getattr(args, 'swiftc', None) and hasattr(args, 'upstream') and args.upstream is None:
+            arguments += ['--upstream', str(args.source)]
+        subprocess.run([sys.executable, str(script), *arguments], check=True)
+    return True
 def delegate_if_applied(args, script):
     from validate_protected_copy_selection_flow import delegate_if_applied as delegate_next
     if delegate_next(args, script): return True
@@ -52,6 +76,9 @@ def main():
     parser.add_argument("--source", type=Path, required=True)
     parser.add_argument("--swiftc")
     args = parser.parse_args()
+    from validate_protected_copy_selection_flow import delegate_if_applied as delegate_next
+    if delegate_next(args, Path(__file__)):
+        return
     verify(args.source)
     p = args.source / "submodules/TelegramUI/Sources/ChatInterfaceStateContextMenus.swift"
     text = p.read_text(); start = text.index("private func nagramiXSelectByAuthorIcon("); end = text.index("private struct MessageContextMenuData", start); icon = text[start:end]

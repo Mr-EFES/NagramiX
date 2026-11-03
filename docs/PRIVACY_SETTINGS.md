@@ -1,5 +1,7 @@
 # Приватность
 
+Актуальное объединение после 0.8.4 — [«Свободный контент»](FREE_CONTENT.md): один прежний screenshot checkbox управляет платформенной заглушкой доступного контента и capture/export. Fresh OFF и сохранённые ON/OFF не меняются. Ниже — предыдущие стадии модели; новое объединение ожидает Apple SDK и iPhone.
+
 20 октября исправлена область «Чтения по действию» в темах: только scoped discussion/saved-history RPC, локальные watermark по peer+thread и граница ответа своей темы до enqueue. Peer-wide read не используется для topic action; success/false/error обрабатывают только свой scope.106checks debug/optimized, прежний сбой воспроизведён. Настройки и defaults прежние. [Исправление, проверка и приёмка](THREAD_READ_SCOPE_FIX.md). Apple SDK/реальный iPhone pending, IPA не запускался.
 
 ## Текущий контракт —20 октября
