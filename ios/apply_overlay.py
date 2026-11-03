@@ -437,6 +437,8 @@ def main() -> None:
     apply_avatar_preview_navigation(source, Path(__file__).resolve().parent)
     from system_video_pip import apply_system_video_pip
     apply_system_video_pip(source, Path(__file__).resolve().parent)
+    from release_085_validation_support import apply_release_085_validation_support
+    apply_release_085_validation_support(source, Path(__file__).resolve().parent)
     # Системный PiP: экспериментальный hybrid_pip больше не включается в приложение.
 
     api_id = os.environ.get("TELEGRAM_API_ID", "")

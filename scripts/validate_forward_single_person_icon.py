@@ -49,6 +49,9 @@ def delegate_if_applied(args, script):
 
 def main():
     parser = argparse.ArgumentParser(); parser.add_argument("--source", type=Path, required=True); parser.add_argument("--swiftc"); args = parser.parse_args()
+    from validate_disable_next_swipe import delegate_if_applied as delegate_next
+    if delegate_next(args, Path(__file__)):
+        return
     verify(args.source)
     if args.swiftc:
         for name in PLAN["outputs"]: subprocess.run([args.swiftc, "-frontend", "-parse", str(args.source / name)], check=True)

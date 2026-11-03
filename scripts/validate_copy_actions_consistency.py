@@ -49,6 +49,10 @@ def delegate_if_applied(args, script):
 
 def main():
     parser = argparse.ArgumentParser(); parser.add_argument("--swiftc"); parser.add_argument("--source", type=Path); args = parser.parse_args()
+    if args.source:
+        from validate_pip_streaming import delegate_if_applied as delegate_next
+        if delegate_next(args, Path(__file__)):
+            return
     spec = importlib.util.spec_from_file_location("copy_actions_consistency", OVERLAY / "copy_actions_consistency.py")
     module = importlib.util.module_from_spec(spec); spec.loader.exec_module(module)
     with tempfile.TemporaryDirectory() as folder:
