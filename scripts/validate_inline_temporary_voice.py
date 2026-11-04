@@ -268,6 +268,9 @@ def main():
     parser.add_argument('--swiftc', type=Path)
     parser.add_argument('--report', type=Path)
     args = parser.parse_args()
+    from validate_expanded_keyboard_handoff import delegate_if_applied as delegate_next
+    if delegate_next(args, Path(__file__)):
+        return
     verify(args.source)
     contracts(args.source)
     with tempfile.TemporaryDirectory(prefix='nagramix-inline-temporary-voice-') as folder:

@@ -1,0 +1,27 @@
+{
+  "inputs": {
+    "submodules/TelegramUI/Sources/ChatInterfaceStateContextMenus.swift": "8c9d877104231d826a76a7d7930f3fd7b79fc177e19b431a1f6f7e8f44a5cf87"
+  },
+  "outputs": {
+    "submodules/TelegramUI/Sources/ChatInterfaceStateContextMenus.swift": "9023410e256897783733ef0b4641349bacd101d5f25c97d82cd93ec0697a4446"
+  },
+  "guards": {
+    "submodules/TelegramUI/BUILD": "f4ae55a27c3a5e486a0fe9c768c70b65b974c505125d91a1215645179de54926"
+  },
+  "templates": {
+    "author_head_alignment/Before0.inc": "8c9d877104231d826a76a7d7930f3fd7b79fc177e19b431a1f6f7e8f44a5cf87"
+  },
+  "previous": {
+    "submodules/TelegramUI/Sources/ChatInterfaceStateContextMenus.swift": "author_head_alignment/Before0.inc"
+  },
+  "operations": {
+    "submodules/TelegramUI/Sources/ChatInterfaceStateContextMenus.swift": [
+      [
+        "context.strokeEllipse(in: CGRect(x: 4.2, y: 1.8, width: 7.0, height: 7.0))",
+        "context.strokeEllipse(in: CGRect(x: 5.7, y: 1.8, width: 7.0, height: 7.0))",
+        1
+      ]
+    ]
+  },
+  "copies": {}
+}

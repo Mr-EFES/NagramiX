@@ -1,0 +1,169 @@
+{
+  "inputs": {
+    "submodules/TelegramUI/Components/RichTextAttachmentScreen/Sources/RichTextAttachmentScreen.swift": "6614fddf79a084e55d77623cd591adb779588d9f7c358aa4fd136ce8359e1d03",
+    "submodules/TelegramUI/Components/RichTextAttachmentScreen/Sources/RichTextEmojiKeyboardController.swift": "8424f9bcc7bd8f1bc9a4c72ac1ca6d1d042384eb91563548bde6ec07d75acc12"
+  },
+  "outputs": {
+    "submodules/TelegramUI/Components/RichTextAttachmentScreen/Sources/RichTextAttachmentScreen.swift": "8f68ee0bdc33acdbdeacab0fa4f128283ef8d502b6a1fa57cfaa21592f03bbfa",
+    "submodules/TelegramUI/Components/RichTextAttachmentScreen/Sources/RichTextEmojiKeyboardController.swift": "1fa535d39394f6229654f4224c366660f5f0d65742a9cce1df8d2255b45ae455"
+  },
+  "previous": {
+    "submodules/TelegramUI/Components/RichTextAttachmentScreen/Sources/RichTextAttachmentScreen.swift": "expanded_panel_animation/Before0.inc",
+    "submodules/TelegramUI/Components/RichTextAttachmentScreen/Sources/RichTextEmojiKeyboardController.swift": "expanded_panel_animation/Before1.inc"
+  },
+  "operations": {
+    "submodules/TelegramUI/Components/RichTextAttachmentScreen/Sources/RichTextAttachmentScreen.swift": [
+      [
+        "        private var nagramiXPanelSwapPending = false",
+        "        private var nagramiXPanelAnimation = NagramiXExpandedPanelAnimation()\n        private let nagramiXFormattingPresentation = NagramiXExpandedPanelPresentation()",
+        1
+      ],
+      [
+        "                self.nagramiXPanelSwapPending = self.emojiKeyboard?.isEmojiMode == true\n",
+        "",
+        1
+      ],
+      [
+        "                self.nagramiXPanelSwapPending = true\n",
+        "",
+        1
+      ],
+      [
+        "            // Exchange equal-height custom panels in place. Only a system/custom\n            // transition slides the panel; do not restart a second slide from below.\n            let panelTransition: ComponentTransition = self.nagramiXPanelSwapPending ? .immediate : transition\n            self.nagramiXPanelSwapPending = false\n",
+        "            let panelMode: NagramiXExpandedPanelAnimation.Mode = self.nagramiXFormattingActive ? .formatting : (self.emojiKeyboard?.isEmojiMode == true ? .emoji : .keyboard)\n            let panelTransition = self.nagramiXPanelAnimation.resolve(mode: panelMode, size: availableSize, transition: transition, reduceMotion: UIAccessibility.isReduceMotionEnabled)\n",
+        1
+      ],
+      [
+        "                    let generation = self.nagramiXFormattingGeneration\n                    let frame = CGRect(origin: CGPoint(x: 0, y: availableSize.height), size: panel.bounds.size)\n                    transition.setFrame(view: panel, frame: frame, completion: { [weak self, weak panel] _ in\n                        if self?.nagramiXFormattingGeneration == generation, self?.nagramiXFormattingActive != true { panel?.isHidden = true }\n                    })\n",
+        "                    let frame = CGRect(origin: CGPoint(x: 0, y: availableSize.height - panel.bounds.height), size: panel.bounds.size)\n                    self.nagramiXFormattingPresentation.update(view: panel, frame: frame, size: availableSize, visible: false, transition: transition, reduceMotion: UIAccessibility.isReduceMotionEnabled)\n",
+        1
+      ],
+      [
+        "                panel.frame = CGRect(x: 0, y: availableSize.height, width: availableSize.width, height: height)",
+        "                panel.frame = CGRect(x: 0, y: availableSize.height, width: availableSize.width, height: height)\n                panel.isHidden = true",
+        1
+      ],
+      [
+        "            if panel.isHidden {\n                ComponentTransition.immediate.setFrame(view: panel, frame: CGRect(x: 0, y: availableSize.height, width: availableSize.width, height: height))\n            }\n            panel.isHidden = false\n            transition.setFrame(view: panel, frame: CGRect(x: 0, y: availableSize.height - height, width: availableSize.width, height: height))",
+        "            self.nagramiXFormattingPresentation.update(view: panel, frame: CGRect(x: 0, y: availableSize.height - height, width: availableSize.width, height: height), size: availableSize, visible: true, transition: transition, reduceMotion: UIAccessibility.isReduceMotionEnabled)",
+        1
+      ],
+      [
+        "transition.setFrame(view: aiButtonView",
+        "panelTransition.setFrame(view: aiButtonView",
+        1
+      ],
+      [
+        "transition.setPosition(view: self.sendButtonExtractedContainer,",
+        "panelTransition.setPosition(view: self.sendButtonExtractedContainer,",
+        1
+      ],
+      [
+        "transition.setBounds(view: self.sendButtonExtractedContainer,",
+        "panelTransition.setBounds(view: self.sendButtonExtractedContainer,",
+        1
+      ],
+      [
+        "transition.setPosition(view: self.sendButtonExtractedContainer.contentView,",
+        "panelTransition.setPosition(view: self.sendButtonExtractedContainer.contentView,",
+        1
+      ],
+      [
+        "transition.setBounds(view: self.sendButtonExtractedContainer.contentView,",
+        "panelTransition.setBounds(view: self.sendButtonExtractedContainer.contentView,",
+        1
+      ],
+      [
+        "transition.setFrame(view: actionBarView",
+        "panelTransition.setFrame(view: actionBarView",
+        1
+      ],
+      [
+        "editorAnimation(from: transition)))",
+        "editorAnimation(from: panelTransition)))",
+        1
+      ],
+      [
+        "if let panel = self.nagramiXFormattingPanel, !panel.isHidden {",
+        "if let panel = self.nagramiXFormattingPanel {",
+        1
+      ],
+      [
+        "        private var nagramiXFormattingGeneration = 0\n",
+        "",
+        1
+      ],
+      [
+        "            self.nagramiXFormattingGeneration += 1\n",
+        "",
+        1
+      ]
+    ],
+    "submodules/TelegramUI/Components/RichTextAttachmentScreen/Sources/RichTextEmojiKeyboardController.swift": [
+      [
+        "/// Hosts the Telegram emoji keyboard",
+        "/// A mode change must animate even when reloading input views delivers an\n/// immediate layout before the component's explicit animated update.\nstruct NagramiXExpandedPanelAnimation {\n    enum Mode { case keyboard, emoji, formatting }\n    private var mode: Mode?\n    private var size: CGSize?\n\n    mutating func resolve(mode: Mode, size: CGSize, transition: ComponentTransition, reduceMotion: Bool) -> ComponentTransition {\n        let changesMode = self.mode != nil && self.mode != mode && self.size == size\n        self.mode = mode\n        self.size = size\n        if reduceMotion { return .immediate }\n        if changesMode && transition.animation.isImmediate { return .spring(duration: 0.4) }\n        return transition\n    }\n}\n\n/// Owns only a panel's outer presentation. Repeated layouts keep an ongoing\n/// animation; a completion from an older dismissal cannot hide a newer panel.\nfinal class NagramiXExpandedPanelPresentation {\n    private var presented = false\n    private var generation = 0\n    private var size: CGSize?\n\n    func update(view: UIView, frame: CGRect, size: CGSize, visible: Bool, transition: ComponentTransition, reduceMotion: Bool) {\n        let resized = self.size != nil && self.size != size\n        self.size = size\n        let offscreen = CGRect(origin: CGPoint(x: frame.minX, y: size.height), size: frame.size)\n        if reduceMotion || resized {\n            self.generation += 1\n            self.presented = visible\n            view.layer.removeAnimation(forKey: \"position\")\n            view.layer.removeAnimation(forKey: \"bounds\")\n            view.layer.removeAnimation(forKey: \"bounds.size\")\n            view.frame = visible ? frame : offscreen\n            view.isHidden = !visible\n            return\n        }\n        if visible {\n            if !self.presented { self.generation += 1 }\n            self.presented = true\n            // A reversing dismissal already has a presentation position. Seeding\n            // it at the bottom again would introduce a jump on rapid switches.\n            if view.isHidden { ComponentTransition.immediate.setFrame(view: view, frame: offscreen) }\n            view.isHidden = false\n            transition.setFrame(view: view, frame: frame)\n        } else if self.presented {\n            self.presented = false\n            self.generation += 1\n            let generation = self.generation\n            transition.setFrame(view: view, frame: offscreen, completion: { [weak self, weak view] completed in\n                guard let self, completed, self.generation == generation, !self.presented else { return }\n                view?.isHidden = true\n            })\n        }\n    }\n}\n\n/// Hosts the Telegram emoji keyboard",
+        1
+      ],
+      [
+        "    private var panelPresented = false",
+        "    private let panelPresentation = NagramiXExpandedPanelPresentation()",
+        1
+      ],
+      [
+        "            // Slide the panel down off-screen, then hide it (kept alive for reuse).\n            if self.panelPresented, let node = self.inputNode {\n                self.panelPresented = false\n                let offscreenFrame = CGRect(origin: CGPoint(x: 0.0, y: availableSize.height), size: CGSize(width: availableSize.width, height: node.view.frame.height))\n                transition.setFrame(view: node.view, frame: offscreenFrame, completion: { [weak self, weak node] _ in\n                    if self?.panelPresented == false {\n                        node?.view.isHidden = true\n                    }\n                })\n            }\n",
+        "            if let node = self.inputNode {\n                let shownFrame = CGRect(origin: CGPoint(x: 0.0, y: availableSize.height - node.view.bounds.height), size: node.view.bounds.size)\n                self.panelPresentation.update(view: node.view, frame: shownFrame, size: availableSize, visible: false, transition: transition, reduceMotion: UIAccessibility.isReduceMotionEnabled)\n            }\n",
+        1
+      ],
+      [
+        "        let animateIn: Bool\n",
+        "",
+        1
+      ],
+      [
+        "            animateIn = !self.panelPresented\n",
+        "",
+        1
+      ],
+      [
+        "            animateIn = true\n",
+        "",
+        1
+      ],
+      [
+        "            node.clipsToBounds = true",
+        "            node.clipsToBounds = true\n            node.view.isHidden = true",
+        1
+      ],
+      [
+        "        node.view.isHidden = measureOnly\n        self.panelPresented = !measureOnly\n",
+        "",
+        1
+      ],
+      [
+        "            isVisible: !measureOnly,",
+        "            isVisible: !measureOnly || !node.view.isHidden,",
+        1
+      ],
+      [
+        "        if measureOnly {\n            ComponentTransition.immediate.setFrame(view: node.view, frame: shownFrame)\n            return panelHeight\n        }\n        if animateIn {\n            // Start off-screen at the bottom (non-animated) so the layout transition slides it up,\n            // rather than animating from a fresh node's .zero frame (which looked like \"from the top\").\n            let offscreenFrame = CGRect(origin: CGPoint(x: 0.0, y: availableSize.height), size: shownFrame.size)\n            ComponentTransition.immediate.setFrame(view: node.view, frame: offscreenFrame)\n        }\n        transition.setFrame(view: node.view, frame: shownFrame)\n",
+        "        self.panelPresentation.update(view: node.view, frame: shownFrame, size: availableSize, visible: !measureOnly, transition: transition, reduceMotion: UIAccessibility.isReduceMotionEnabled)\n",
+        1
+      ]
+    ]
+  },
+  "templates": {
+    "expanded_panel_animation/Before0.inc": "6614fddf79a084e55d77623cd591adb779588d9f7c358aa4fd136ce8359e1d03",
+    "expanded_panel_animation/Before1.inc": "8424f9bcc7bd8f1bc9a4c72ac1ca6d1d042384eb91563548bde6ec07d75acc12"
+  },
+  "guards": {
+    "submodules/TelegramUI/Components/RichTextAttachmentScreen/BUILD": "b567c3892df5ba02d96045b534b6a1fb57d3108edea111af453df5d9baee1144",
+    "submodules/ComponentFlow/Source/Base/Transition.swift": "ffd0854a4a1e2a04168920dfcc644c7d5bb21dadebe4007884ec5121d12a235f",
+    "submodules/Components/ViewControllerComponent/Sources/ViewControllerComponent.swift": "7cc622777cbef939eb2377707bdeb9213112389c5ee488ef477d5fd96ed5eee6",
+    "submodules/TelegramUI/Components/Chat/ChatTextInputPanelNode/Sources/ChatTextInputPanelNode.swift": "e70fe5f26de73a56933f9a606e3f33d54199b1cc461778fe0c5ef4157fccf93d",
+    "submodules/TelegramUI/Sources/ChatControllerNode.swift": "43b102a1dbe76434d8e65ea04389d39e783d92c1ca845fc1c7da12cadb5ee379",
+    "submodules/TelegramUI/Components/ChatEntityKeyboardInputNode/Sources/ChatEntityKeyboardInputNode.swift": "b4040cb76ce98cf9e3bd2f2c14cbb2a3202750240f188dbac81b337735f7f637",
+    "submodules/TelegramUI/Components/RichTextEditor/Sources/RichTextEditorUIKit/RichTextEditorView.swift": "14847c4c49b5391c20f00cf7796a2897480ac0d2307ab459077d51335acd0bce",
+    "submodules/TelegramUI/Components/RichTextEditor/Sources/RichTextEngineEditor/RichTextEngineEditorView+Responder.swift": "bcdd64d19c99ff6abff79b55ff68ccb3f1141bc7f5c56617577226aea8f2d3d4"
+  }
+}

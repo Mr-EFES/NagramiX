@@ -1,0 +1,36 @@
+{
+  "note": "Только технические queue IDs, бренд Telegram Premium, поисковый alias и один штатный upstream ephemeral notice; новые UI-литералы добавлять в каталоги, не в исключения.",
+  "files": {
+    "submodules/DebugSettingsUI/Sources/CrashReportsController.swift": {
+      "org.telegram.crash-report-ui": 1
+    },
+    "submodules/NagramiXTranscription/Sources/Coordinator.swift": {
+      "NagramiXTranscription.Coordinator": 1
+    },
+    "submodules/NagramiXTranscription/Sources/MediaPreparation.swift": {
+      "NagramiXTranscription.AudioPreparation": 1
+    },
+    "submodules/NagramiXTranscription/Sources/Preferences.swift": {
+      "NagramiXTranscription.Network": 1,
+      "Telegram Premium": 1
+    },
+    "submodules/NagramiXTranscription/Sources/VoskRecognizer.swift": {
+      "NagramiXTranscription.Vosk": 1
+    },
+    "submodules/NagramiXTranscription/Sources/Whisper.swift": {
+      "NagramiXTranscription.Whisper": 1
+    },
+    "submodules/TelegramCore/Sources/NagramiXProxyVPNPolicy.swift": {
+      "org.nagramix.proxy-vpn-path": 1
+    },
+    "submodules/TelegramUI/Sources/ChatControllerNode.swift": {
+      "my notes": 1
+    },
+    "submodules/TelegramUI/Sources/ChatInterfaceStateContextMenus.swift": {
+      "Only you see this message. It will disappear after you log in again.": 1
+    },
+    "submodules/TranslateUI/Sources/NagramiXTranslationCloud.swift": {
+      "NagramiXTranslation": 1
+    }
+  }
+}

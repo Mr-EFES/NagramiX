@@ -252,7 +252,11 @@ def main():
     parser.add_argument('--source',type=Path,required=True)
     parser.add_argument('--swiftc',type=Path)
     parser.add_argument('--report',type=Path)
-    args=parser.parse_args();verify(args.source);contracts(args.source)
+    args=parser.parse_args()
+    from validate_author_check_badge_icon import delegate_variant_five_if_applied
+    if delegate_variant_five_if_applied(args, Path(__file__)):
+        return
+    verify(args.source);contracts(args.source)
     with tempfile.TemporaryDirectory(prefix='nagramix-expanded-keyboard-') as folder:
         temp=Path(folder)
         rejected=guard_checks(args.source,temp)

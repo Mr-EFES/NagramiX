@@ -1,0 +1,30 @@
+{
+  "inputs": {
+    "submodules/TelegramUI/Sources/ChatInterfaceStateContextMenus.swift": "9023410e256897783733ef0b4641349bacd101d5f25c97d82cd93ec0697a4446"
+  },
+  "outputs": {
+    "submodules/TelegramUI/Sources/ChatInterfaceStateContextMenus.swift": "9961bddf04f2afcfac1a14a6868d1e58d041886813417bf661f81b8f1aa15a54"
+  },
+  "guards": {
+    "submodules/TelegramUI/BUILD": "f4ae55a27c3a5e486a0fe9c768c70b65b974c505125d91a1215645179de54926",
+    "submodules/Display/Source/GenerateImage.swift": "d9e52a9ea7dd8cd641c655618e6add9ecf158777440e9e28ad24b5e562b1c6e8",
+    "submodules/TelegramUI/Images.xcassets/Chat/Context Menu/Groups.imageset/Contents.json": "2af07b6e7ee58dac6ce908b00caf273f38227ee4c27645014b51dbd402f7a665",
+    "submodules/TelegramUI/Images.xcassets/Chat/Context Menu/Groups.imageset/ic_group.pdf": "3eb9f7031add49853c1a599382a3e22260f9ddc1fbb2607ad22c6324f6075408"
+  },
+  "templates": {
+    "broadcast_icon_order/Before0.inc": "9023410e256897783733ef0b4641349bacd101d5f25c97d82cd93ec0697a4446"
+  },
+  "previous": {
+    "submodules/TelegramUI/Sources/ChatInterfaceStateContextMenus.swift": "broadcast_icon_order/Before0.inc"
+  },
+  "operations": {
+    "submodules/TelegramUI/Sources/ChatInterfaceStateContextMenus.swift": [
+      [
+        "return generateTintedImage(image: UIImage(bundleImageName: \"Chat/Context Menu/Groups\"), color: theme.actionSheet.primaryTextColor)",
+        "return generateTintedImage(image: UIImage(bundleImageName: \"Chat/Context Menu/Groups\"), color: theme.actionSheet.primaryTextColor, flipHorizontally: true)",
+        2
+      ]
+    ]
+  },
+  "copies": {}
+}

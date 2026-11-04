@@ -1,0 +1,415 @@
+{
+  "uk": {
+    "Accounts": "Облікові записи",
+    "Selfie camera timer. Three seconds before starting or switching a video message to the front camera. Countdown timer selfie round video.": "Таймер селфі-камери: відлік 3 секунд перед початком відеоповідомлення передньою камерою або перемиканням на неї."
+  },
+  "kn": {
+    "Production": "ಉತ್ಪಾದನಾ ಪರಿಸರ",
+    "Selfie camera timer. Three seconds before starting or switching a video message to the front camera. Countdown timer selfie round video.": "ಸೆಲ್ಫಿ ಕ್ಯಾಮೆರಾ ಟೈಮರ್: ಮುಂಭಾಗದ ಕ್ಯಾಮೆರಾದಲ್ಲಿ ವೀಡಿಯೊ ಸಂದೇಶವನ್ನು ಪ್ರಾರಂಭಿಸುವ ಅಥವಾ ಅದಕ್ಕೆ ಬದಲಾಯಿಸುವ ಮೊದಲು 3 ಸೆಕೆಂಡುಗಳ ಕ್ಷಣಗಣನೆ."
+  },
+  "it": {
+    "Production": "Ambiente di produzione",
+    "Edit History": "Cronologia delle modifiche",
+    "Selfie camera timer. Three seconds before starting or switching a video message to the front camera. Countdown timer selfie round video.": "Timer selfie: conto alla rovescia di 3 secondi prima di avviare un videomessaggio con la fotocamera anteriore o passare a essa."
+  },
+  "fa": {
+    "CODEC": "کُدک",
+    "Selfie camera timer. Three seconds before starting or switching a video message to the front camera. Countdown timer selfie round video.": "تایمر دوربین سلفی: شمارش معکوس 3 ثانیه پیش از شروع پیام ویدیویی با دوربین جلو یا تغییر به آن."
+  },
+  "bn": {
+    "Failed": "ব্যর্থ হয়েছে",
+    "Selfie camera timer. Three seconds before starting or switching a video message to the front camera. Countdown timer selfie round video.": "সেলফি ক্যামেরার কাউন্টডাউন: সামনের ক্যামেরায় ভিডিও বার্তা শুরু করার বা সেটিতে যাওয়ার আগে 3 সেকেন্ড।",
+    "Vosk License · Apache 2.0": "Vosk লাইসেন্স · Apache 2.0"
+  },
+  "fr": {
+    "Bitrate": "Débit binaire",
+    "Selfie camera timer. Three seconds before starting or switching a video message to the front camera. Countdown timer selfie round video.": "Retardateur selfie : compte à rebours de 3 secondes avant de démarrer un message vidéo avec la caméra avant ou de basculer vers celle-ci.",
+    "NagramiX Logs": "Journaux NagramiX"
+  },
+  "de": {
+    "LOGS": "PROTOKOLLE",
+    "STORIES": "STORYS",
+    "Selfie camera timer. Three seconds before starting or switching a video message to the front camera. Countdown timer selfie round video.": "Selfie-Kamera-Timer: 3 Sekunden Countdown vor dem Start einer Videonachricht mit der Frontkamera oder dem Wechsel zu ihr.",
+    "Edit History": "Änderungsverlauf",
+    "Repost": "Erneut veröffentlichen",
+    "Debug Ripple": "Wellenanimation debuggen",
+    "Crash Log": "Absturzprotokoll",
+    "Download X [Restart App]": "Download X [App neu starten]",
+    "Test1": "Test 1"
+  },
+  "da": {
+    "Call": "Ring op",
+    "All Logs": "Alle logfiler",
+    "Crash": "Fremkald nedbrud",
+    "Download": "Hent",
+    "Downloads": "Overførsler",
+    "Download Acceleration": "Hurtigere overførsler",
+    "Send": "Send",
+    "Send Crash Log?": "Send nedbrudslog?",
+    "Chat: spring send animation": "Chat: afsendelsesanimation med fjedereffekt",
+    "Selfie camera timer. Three seconds before starting or switching a video message to the front camera. Countdown timer selfie round video.": "Selvudløser til selfiekamera: nedtælling på 3 sekunder før en videobesked startes med frontkameraet, eller der skiftes til det.",
+    "Failed": "Mislykkedes",
+    "NagramiX Logs": "NagramiX-logfiler",
+    "NagramiX Crash Report": "NagramiX-nedbrudsrapport",
+    "Crash Log": "Nedbrudslog",
+    "Test Crash": "Fremkald testnedbrud",
+    "Voice Auto-Next": "Afspil automatisk næste talebesked",
+    "Debug": "Fejlfinding",
+    "Debug Ripple": "Fejlfinding af bølgeeffekt"
+  },
+  "eu": {
+    "Production": "Produkzio-ingurunea",
+    "Settings for ": "Ezarpenak: ",
+    "Send Crash Log?": "Bidali hutsegitearen erregistroa?",
+    "Selfie camera timer. Three seconds before starting or switching a video message to the front camera. Countdown timer selfie round video.": "Selfie-kameraren atzerako kontaketa: 3 segundo bideo-mezua aurreko kamerarekin hasi edo kamera horretara aldatu aurretik.",
+    "Not Supported by Apple": "Apple-k ez du onartzen",
+    "Request sent. The result will appear with the message after Telegram processes it.": "Eskaera bidali da. Emaitza mezuarekin batera agertuko da Telegram-ek prozesatu ondoren.",
+    "The recording is too large. Recordings up to 15 minutes and audio files up to 25 MB are supported.": "Grabazioa handiegia da. Gehienez 15 minutuko grabazioak eta 25 MB-eko audio-fitxategiak onartzen dira."
+  },
+  "hr": {
+    "Context Menu": "Kontekstni izbornik",
+    "Free Screenshot; open available bots, channels and messages marked unavailable on this device. Allow screenshots and screen recording of available protected content without sending capture notifications. Paid media and verification codes remain protected.": "Slobodne snimke zaslona; otvorite dostupne botove, kanale i poruke označene kao nedostupne na ovom uređaju. Dopustite snimke zaslona i snimanje dostupnog zaštićenog sadržaja bez slanja obavijesti o snimanju. Plaćeni mediji i kontrolni kodovi ostaju zaštićeni.",
+    "Selfie camera timer. Three seconds before starting or switching a video message to the front camera. Countdown timer selfie round video.": "Odbrojavanje selfie kamere: 3 sekunde prije početka videosnimke poruke prednjom kamerom ili prebacivanja na nju.",
+    "Test1": "Test 1",
+    "Vosk License · Apache 2.0": "Licenca za Vosk · Apache 2.0"
+  },
+  "cs": {
+    "Preferred Languages": "Preferované jazyky",
+    "Selfie camera timer. Three seconds before starting or switching a video message to the front camera. Countdown timer selfie round video.": "Časovač selfie kamery: odpočet 3 sekund před zahájením videozprávy přední kamerou nebo přepnutím na ni.",
+    "Crash Log": "Protokol pádu",
+    "Model Download": "Stažení modelu"
+  },
+  "ka": {
+    "AUTO": "ავტომატური",
+    "APPLE LANGUAGES": "Apple-ის მხარდაჭერილი ენები",
+    "SPEECH LANGUAGE": "მეტყველების ენა",
+    "FRAME RATE": "კადრების სიხშირე",
+    "OK": "კარგი",
+    "RESET APP": "აპის განულება",
+    "Selfie camera timer. Three seconds before starting or switching a video message to the front camera. Countdown timer selfie round video.": "სელფის კამერის ტაიმერი: 3-წამიანი უკუთვლა წინა კამერით ვიდეოშეტყობინების დაწყებამდე ან მასზე გადართვამდე."
+  },
+  "mt": {
+    "Download": "Niżżel",
+    "Downloads": "Tniżżil",
+    "Selfie camera timer. Three seconds before starting or switching a video message to the front camera. Countdown timer selfie round video.": "Timer tal-kamera selfie: għadd lura ta’ 3 sekondi qabel tibda messaġġ bil-vidjo bil-kamera ta’ quddiem jew taqleb għaliha.",
+    "NagramiX Settings": "Is-settings ta’ NagramiX",
+    "Approximately %@": "Madwar %@",
+    "View Log": "Ara r-reġistru",
+    "Strike": "Test maqtugħ b’linja",
+    "OK": "Tajjeb",
+    "Repost": "Erġa’ ppubblika",
+    "LOGS": "REĠISTRI",
+    "Logs": "Reġistri",
+    "Debug Ripple": "Iddibaggja l-effett tal-mewġ"
+  },
+  "mr": {
+    "By Author": "लेखकानुसार",
+    "Up to 4 MB": "4 MB पर्यंत",
+    "Selfie camera timer. Three seconds before starting or switching a video message to the front camera. Countdown timer selfie round video.": "सेल्फी कॅमेरा टाइमर: समोरच्या कॅमेऱ्यातून व्हिडिओ संदेश सुरू करण्यापूर्वी किंवा त्यावर स्विच करण्यापूर्वी 3 सेकंदांची उलटी गणना.",
+    "DevRequests": "विकसक विनंत्या"
+  },
+  "gu": {
+    "Approximately %@": "લગભગ %@",
+    "Selfie camera timer. Three seconds before starting or switching a video message to the front camera. Countdown timer selfie round video.": "સેલ્ફી કેમેરા ટાઇમર: આગળના કેમેરાથી વિડિયો સંદેશ શરૂ કરતા અથવા તેના પર બદલતા પહેલાં 3 સેકન્ડની ઊલટી ગણતરી."
+  },
+  "ms": {
+    "Failed": "Gagal",
+    "Restart": "MULAKAN SEMULA",
+    "Selfie camera timer. Three seconds before starting or switching a video message to the front camera. Countdown timer selfie round video.": "Pemasa kamera swafoto: kira detik 3 saat sebelum memulakan mesej video dengan kamera hadapan atau beralih kepadanya."
+  },
+  "et": {
+    "Clear": "Tühjenda",
+    "The 10 most recent crash logs are displayed here.": "Siin kuvatakse 10 viimast krahhilogi.",
+    "From: %@\n\nThe archive includes the crash diagnostic, app and device details, and stack addresses. You can review these in View Log.": "Saatja: %@\n\nArhiiv sisaldab krahhi diagnostikat, rakenduse ja seadme andmeid ning pinuaadresse. Saate neid vaadata jaotises „Vaata logi”.",
+    "From: %@\n\nSend to @NagramiX_bot. The archive includes the crash diagnostic, app and device details, and stack addresses. You can review these in View Log.": "Saatja: %@\n\nSaada @NagramiX_bot-ile. Arhiiv sisaldab krahhi diagnostikat, rakenduse ja seadme andmeid ning pinuaadresse. Saate neid vaadata jaotises „Vaata logi”.",
+    "Selfie camera timer. Three seconds before starting or switching a video message to the front camera. Countdown timer selfie round video.": "Selfikaamera taimer: 3-sekundiline loendus enne esikaameraga videosõnumi alustamist või esikaamerale lülitumist."
+  },
+  "es": {
+    "Basic": "Básico",
+    "Selfie camera timer. Three seconds before starting or switching a video message to the front camera. Countdown timer selfie round video.": "Temporizador de selfis: cuenta atrás de 3 segundos antes de iniciar un videomensaje con la cámara frontal o cambiar a ella."
+  },
+  "fi": {
+    "The 10 most recent crash logs are displayed here.": "Tässä näkyvät 10 viimeisintä kaatumislokia.",
+    "Selfie camera timer. Three seconds before starting or switching a video message to the front camera. Countdown timer selfie round video.": "Selfiekameran ajastin: 3 sekunnin lähtölaskenta ennen videoviestin aloittamista etukameralla tai siihen vaihtamista."
+  },
+  "nb": {
+    "The 10 most recent crash logs are displayed here.": "De 10 nyeste krasjloggene vises her.",
+    "Selfie camera timer. Three seconds before starting or switching a video message to the front camera. Countdown timer selfie round video.": "Selvutløser for selfiekamera: nedtelling på 3 sekunder før en videomelding startes med frontkameraet, eller det byttes til det.",
+    "Start Call?": "Starte samtale?",
+    "Send Crash Log?": "Sende krasjlogg?",
+    "Crash Log": "Krasjlogg",
+    "NagramiX Crash Report": "NagramiX-krasjrapport",
+    "Debug": "Feilsøking",
+    "Rating Debug": "Feilsøk rangering",
+    "PlayerV2": "Mediespiller, versjon 2"
+  },
+  "sl": {
+    "The 10 most recent crash logs are displayed here.": "Tukaj je prikazanih 10 najnovejših dnevnikov zrušitev.",
+    "Input V3": "Vnos V3",
+    "Uppercase capital letters caps from 4 letters HELLO EVERYONE → Hello everyone": "Velike črke od 4 črk naprej: HELLO EVERYONE → Hello everyone",
+    "Selfie camera timer. Three seconds before starting or switching a video message to the front camera. Countdown timer selfie round video.": "Časovnik za selfije: odštevanje 3 sekund pred začetkom videosporočila s sprednjo kamero ali preklopom nanjo.",
+    "Model Download": "Prenos modela",
+    "Via NagramiX": "Prek NagramiX",
+    "Via Telegram": "Prek Telegram"
+  },
+  "ml": {
+    "PlayerV2": "മീഡിയ പ്ലെയർ V2",
+    "Selfie camera timer. Three seconds before starting or switching a video message to the front camera. Countdown timer selfie round video.": "സെൽഫി ക്യാമറ ടൈമർ: മുൻ ക്യാമറയിൽ വീഡിയോ സന്ദേശം ആരംഭിക്കുന്നതിനോ അതിലേക്ക് മാറുന്നതിനോ മുമ്പ് 3 സെക്കൻഡ് കൗണ്ട്ഡൗൺ."
+  },
+  "my": {
+    "Up to 4 MB": "4 MB အထိ",
+    "Uppercase capital letters caps from 4 letters HELLO EVERYONE → Hello everyone": "စာလုံးအကြီး 4 လုံးနှင့်အထက်ကို ပြောင်းပါ: HELLO EVERYONE → Hello everyone",
+    "Selfie camera timer. Three seconds before starting or switching a video message to the front camera. Countdown timer selfie round video.": "ဆယ်လ်ဖီ ကင်မရာ အချိန်ရေတွက်မှု: ရှေ့ကင်မရာဖြင့် ဗီဒီယိုမက်ဆေ့ချ် စတင်ခြင်း သို့မဟုတ် ရှေ့ကင်မရာသို့ ပြောင်းခြင်းမတိုင်မီ 3 စက္ကန့်။"
+  },
+  "ja": {
+    "Replay View-Once Messages": "一度だけ表示するメッセージを再生する",
+    "Selfie camera timer. Three seconds before starting or switching a video message to the front camera. Countdown timer selfie round video.": "自撮りカメラのタイマー：前面カメラでビデオメッセージの録画を開始する前、または前面カメラに切り替える前に3秒カウントダウンします。",
+    "Smaller avatars and one line for the last message. Additional details and larger text are included in the row height. Turn off to restore the standard Telegram layout.": "アバターを小さくし、最後のメッセージを一行で表示します。追加情報や大きな文字に合わせて行の高さを調整します。オフにすると標準のTelegramレイアウトに戻ります。"
+  },
+  "pl": {
+    "Uppercase capital letters caps from 4 letters HELLO EVERYONE → Hello everyone": "Wielkie litery, co najmniej 4 litery: HELLO EVERYONE → Hello everyone",
+    "Selfie camera timer. Three seconds before starting or switching a video message to the front camera. Countdown timer selfie round video.": "Samowyzwalacz aparatu do selfie: odliczanie 3 sekund przed rozpoczęciem wiadomości wideo przednim aparatem lub przełączeniem na niego."
+  },
+  "zh-hans": {
+    "Uppercase capital letters caps from 4 letters HELLO EVERYONE → Hello everyone": "大写字母转换：从 4 个字母起，HELLO EVERYONE → Hello everyone",
+    "Selfie camera timer. Three seconds before starting or switching a video message to the front camera. Countdown timer selfie round video.": "自拍相机倒计时：使用前置相机开始录制视频消息或切换到前置相机前倒计时 3 秒。"
+  },
+  "zh-hant": {
+    "Uppercase capital letters caps from 4 letters HELLO EVERYONE → Hello everyone": "大寫字母轉換：從 4 個字母起，HELLO EVERYONE → Hello everyone",
+    "Selfie camera timer. Three seconds before starting or switching a video message to the front camera. Countdown timer selfie round video.": "自拍相機倒數計時：使用前置相機開始錄製影片訊息或切換到前置相機前倒數 3 秒。"
+  },
+  "ne": {
+    "Uppercase capital letters caps from 4 letters HELLO EVERYONE → Hello everyone": "कम्तीमा 4 अक्षर भएका ठूला अक्षरहरू रूपान्तरण गर्नुहोस्: HELLO EVERYONE → Hello everyone",
+    "Selfie camera timer. Three seconds before starting or switching a video message to the front camera. Countdown timer selfie round video.": "सेल्फी क्यामेरा टाइमर: अगाडिको क्यामेरामा भिडियो सन्देश सुरु गर्नु वा त्यसमा स्विच गर्नुअघि 3 सेकेन्डको उल्टो गणना।"
+  },
+  "kk": {
+    "Reopen the camera to apply. VGA and HD use the Modern Video Message Pipeline and record 480×480 at 30 FPS.": "Қолдану үшін камераны қайта ашыңыз. VGA және HD заманауи бейнехабарлар жүйесін пайдаланып, 480×480 өлшемінде 30 FPS жиілігімен жазады.",
+    "Selfie camera timer. Three seconds before starting or switching a video message to the front camera. Countdown timer selfie round video.": "Селфи камерасының таймері: алдыңғы камерамен бейнехабарды бастамас немесе оған ауыспас бұрын 3 секунд кері санау."
+  },
+  "uz": {
+    "Reopen the camera to apply. VGA and HD use the Modern Video Message Pipeline and record 480×480 at 30 FPS.": "O‘zgarishni qo‘llash uchun kamerani qayta oching. VGA va HD zamonaviy video xabarlar tizimidan foydalanadi va 480×480 o‘lchamda 30 FPS tezlikda yozadi.",
+    "Selfie camera timer. Three seconds before starting or switching a video message to the front camera. Countdown timer selfie round video.": "Selfi kamerasi taymeri: old kamera bilan video xabarni boshlash yoki unga o‘tishdan oldin 3 soniya teskari sanoq."
+  },
+  "af": {
+    "Selfie camera timer. Three seconds before starting or switching a video message to the front camera. Countdown timer selfie round video.": "Selfiekamera-aftelling: 3 sekondes voordat ’n videoboodskap met die voorkamera begin of daarna oorgeskakel word."
+  },
+  "sq": {
+    "Selfie camera timer. Three seconds before starting or switching a video message to the front camera. Countdown timer selfie round video.": "Kohëmatësi i kamerës selfie: 3 sekonda para nisjes së një videomesazhi ose kalimit te kamera e përparme.",
+    "Edit History": "Historiku i ndryshimeve",
+    "Repost": "Ripubliko",
+    "NagramiX Logs": "Regjistrat NagramiX",
+    "Debug Data Display": "Shfaq të dhënat e korrigjimit",
+    "Disable Relogin Tokens": "Çaktivizo kodet e rihyrjes",
+    "PlayerV2": "Luajtësi, versioni 2",
+    "Anti-Caps": "Kthe shkronjat e mëdha në shkronja të vogla",
+    "Voice Auto-Next": "Luaj automatikisht mesazhin tjetër zanor",
+    "Rating Debug": "Korrigjimi i renditjes",
+    "Debug Ripple": "Korrigjimi i efektit të valëzimit"
+  },
+  "am": {
+    "Selfie camera timer. Three seconds before starting or switching a video message to the front camera. Countdown timer selfie round video.": "የሴልፊ ካሜራ ቆጠራ፦ የቪዲዮ መልዕክትን በፊት ካሜራ ከመጀመር ወይም ወደዚያ ከመቀየር በፊት 3 ሰከንዶች።"
+  },
+  "ar": {
+    "Selfie camera timer. Three seconds before starting or switching a video message to the front camera. Countdown timer selfie round video.": "مؤقت كاميرا السيلفي: عد تنازلي 3 ثوانٍ قبل بدء رسالة فيديو بالكاميرا الأمامية أو التبديل إليها."
+  },
+  "hy": {
+    "Selfie camera timer. Three seconds before starting or switching a video message to the front camera. Countdown timer selfie round video.": "Սելֆիի տեսախցիկի հետհաշվարկ՝ 3 վայրկյան մինչև առջևի տեսախցիկով տեսահաղորդագրություն սկսելը կամ դրան անցնելը։"
+  },
+  "az": {
+    "Selfie camera timer. Three seconds before starting or switching a video message to the front camera. Countdown timer selfie round video.": "Selfi kamerasının geri sayımı: video mesajı ön kamera ilə başlatmadan və ya ona keçmədən əvvəl 3 saniyə."
+  },
+  "be": {
+    "Selfie camera timer. Three seconds before starting or switching a video message to the front camera. Countdown timer selfie round video.": "Таймер сэлфі-камеры: адлік 3 секунд перад пачаткам відэапаведамлення на пярэднюю камеру або пераключэннем на яе."
+  },
+  "bg": {
+    "Selfie camera timer. Three seconds before starting or switching a video message to the front camera. Countdown timer selfie round video.": "Таймер на селфи камерата: обратно броене от 3 секунди преди започване на видеосъобщение с предната камера или превключване към нея."
+  },
+  "ca": {
+    "Selfie camera timer. Three seconds before starting or switching a video message to the front camera. Countdown timer selfie round video.": "Temporitzador de la càmera de selfies: compte enrere de 3 segons abans d’iniciar un missatge de vídeo amb la càmera frontal o canviar-hi.",
+    "Debug Data Display": "Mostra les dades de depuració",
+    "Reset Tag Holes": "Restableix els buits d’etiquetes"
+  },
+  "nl": {
+    "Selfie camera timer. Three seconds before starting or switching a video message to the front camera. Countdown timer selfie round video.": "Selfiecamera-aftelling: 3 seconden vóór het starten van een videobericht met de voorcamera of het overschakelen daarnaar.",
+    "Model Download": "Model downloaden",
+    "NagramiX Updates": "NagramiX-updates",
+    "NagramiX Crash Report": "NagramiX-crashrapport"
+  },
+  "eo": {
+    "Selfie camera timer. Three seconds before starting or switching a video message to the front camera. Countdown timer selfie round video.": "Tempigilo de la memfota kamerao: retronombrado de 3 sekundoj antaŭ komenci videomesaĝon per la antaŭa kamerao aŭ ŝanĝi al ĝi.",
+    "Saved Version": "Konservita versio",
+    "Debug Data Display": "Montri sencimigajn datumojn",
+    "Reset Cache Index [!]": "Restarigi la kaŝmemoran indekson [!]",
+    "Custom DoH": "Propra DoH"
+  },
+  "fil": {
+    "Selfie camera timer. Three seconds before starting or switching a video message to the front camera. Countdown timer selfie round video.": "Timer ng selfie camera: countdown na 3 segundo bago magsimula ng video message gamit ang front camera o lumipat dito.",
+    "Automatic Proxy Switching": "Awtomatikong paglipat ng proxy",
+    "Compact Chat List": "Siksik na listahan ng chat",
+    "Selfie camera timer": "Timer ng kamera para sa selfie",
+    "Keyboard": "Tipaan",
+    "Video Message Camera": "Kamera ng mensaheng video",
+    "Standard Compression": "Karaniwang pagsisiksik",
+    "[WIP] OS mic mute": "[Ginagawa pa] I-mute ang mikropono ng sistema",
+    "API Key": "Susi ng API"
+  },
+  "gl": {
+    "Selfie camera timer. Three seconds before starting or switching a video message to the front camera. Countdown timer selfie round video.": "Temporizador da cámara de selfies: conta atrás de 3 segundos antes de iniciar unha mensaxe de vídeo coa cámara frontal ou cambiar a ela.",
+    "Reset Tag Holes": "Restablecer ocos de etiquetas",
+    "Reset Cache Index [!]": "Restablecer o índice da caché [!]",
+    "NagramiX Logs": "Rexistros de NagramiX"
+  },
+  "el": {
+    "Selfie camera timer. Three seconds before starting or switching a video message to the front camera. Countdown timer selfie round video.": "Χρονοδιακόπτης κάμερας selfie: αντίστροφη μέτρηση 3 δευτερολέπτων πριν από την έναρξη βιντεομηνύματος με την μπροστινή κάμερα ή την εναλλαγή σε αυτή.",
+    "Translation": "Μετάφραση",
+    "Standard": "Τυπική",
+    "Selfie camera timer": "Χρονοδιακόπτης κάμερας selfie"
+  },
+  "he": {
+    "Selfie camera timer. Three seconds before starting or switching a video message to the front camera. Countdown timer selfie round video.": "טיימר מצלמת סלפי: ספירה לאחור של 3 שניות לפני התחלת הודעת וידאו במצלמה הקדמית או מעבר אליה.",
+    "Model Download": "הורדת מודל"
+  },
+  "hi": {
+    "Selfie camera timer. Three seconds before starting or switching a video message to the front camera. Countdown timer selfie round video.": "सेल्फी कैमरा टाइमर: सामने के कैमरे से वीडियो संदेश शुरू करने या उस पर जाने से पहले 3 सेकंड की उलटी गिनती।"
+  },
+  "hu": {
+    "Selfie camera timer. Three seconds before starting or switching a video message to the front camera. Countdown timer selfie round video.": "Szelfikamera-időzítő: 3 másodperces visszaszámlálás az előlapi kamerás videóüzenet indítása vagy az erre váltás előtt.",
+    "Transcribe": "Átírás"
+  },
+  "id": {
+    "Selfie camera timer. Three seconds before starting or switching a video message to the front camera. Countdown timer selfie round video.": "Pewaktu kamera swafoto: hitung mundur 3 detik sebelum memulai pesan video dengan kamera depan atau beralih ke kamera depan.",
+    "Reset Holes": "Atur ulang celah data",
+    "Reset Tag Holes": "Atur ulang celah tag",
+    "Debug Data Display": "Tampilkan data awakutu",
+    "Crash Log": "Log kerusakan"
+  },
+  "ga": {
+    "Selfie camera timer. Three seconds before starting or switching a video message to the front camera. Countdown timer selfie round video.": "Amadóir an cheamara féinphortráide: comhaireamh síos 3 shoicind sula dtosaítear teachtaireacht físe leis an gceamara tosaigh nó sula n-aistrítear chuige.",
+    "View Story?": "Féach ar an scéal?",
+    "Crash Logs": "Logaí tuairteála",
+    "Debug Settings": "Socruithe dífhabhtaithe",
+    "Via NagramiX": "Trí NagramiX",
+    "Via Telegram": "Trí Telegram",
+    "Crash Log Bot Is Blocked": "Tá bota na logaí tuairteála bactha",
+    "Crash Log": "Loga tuairteála",
+    "Video Cropping Optimization": "Barrfheabhsú bearrtha físe",
+    "TEMPERATURE": "TEOCHT",
+    "Strike": "Líne tríd",
+    "Debug Ripple": "Dífhabhtaigh éifeacht na gcuilithíní",
+    "Anti-Caps": "Tiontaigh ceannlitreacha go gnáthchás abairte"
+  },
+  "km": {
+    "Selfie camera timer. Three seconds before starting or switching a video message to the front camera. Countdown timer selfie round video.": "កម្មវិធីកំណត់ពេលកាមេរ៉ាសែលហ្វី៖ រាប់ថយក្រោយ 3 វិនាទី មុនចាប់ផ្ដើមសារវីដេអូដោយកាមេរ៉ាខាងមុខ ឬប្ដូរទៅកាមេរ៉ាខាងមុខ។",
+    "NagramiX Settings": "ការកំណត់ NagramiX",
+    "Custom DoH": "DoH ផ្ទាល់ខ្លួន",
+    "Keyboard": "ក្ដារចុច",
+    "Debug Settings": "ការកំណត់បំបាត់កំហុស",
+    "LOGS": "កំណត់ហេតុ",
+    "RESET APP": "កំណត់កម្មវិធីឡើងវិញ",
+    "NagramiX Logs": "កំណត់ហេតុ NagramiX",
+    "NagramiX CPU Profiles": "ទម្រង់ការប្រើប្រាស់ CPU របស់ NagramiX",
+    "Crash Log": "កំណត់ហេតុគាំង",
+    "Clear Web View Cache": "សម្អាតឃ្លាំងសម្ងាត់ទិដ្ឋភាពបណ្ដាញ",
+    "Reset Holes": "កំណត់ចន្លោះទិន្នន័យឡើងវិញ",
+    "Reset Tag Holes": "កំណត់ចន្លោះស្លាកឡើងវិញ",
+    "Force Text Field v2": "បង្ខំប្រើប្រអប់អត្ថបទកំណែ 2",
+    "OK": "យល់ព្រម",
+    "PlayerV2": "កម្មវិធីចាក់មេឌៀ កំណែ 2",
+    "Basic": "មូលដ្ឋាន",
+    "Vosk License · Apache 2.0": "អាជ្ញាបណ្ណ Vosk · Apache 2.0",
+    "Anti-Caps": "ប្ដូរអក្សរធំទៅជាអក្សរតូច"
+  },
+  "ko": {
+    "Selfie camera timer. Three seconds before starting or switching a video message to the front camera. Countdown timer selfie round video.": "셀카 카메라 타이머: 전면 카메라로 동영상 메시지를 시작하거나 전면 카메라로 전환하기 전에 3초 카운트다운합니다.",
+    "DevRequests": "개발자 요청"
+  },
+  "lv": {
+    "Selfie camera timer. Three seconds before starting or switching a video message to the front camera. Countdown timer selfie round video.": "Pašbildes kameras taimeris: 3 sekunžu atskaite pirms videoziņas sākšanas ar priekšējo kameru vai pārslēgšanās uz to.",
+    "Log Language Recognition": "Reģistrēt valodas atpazīšanu"
+  },
+  "lt": {
+    "Selfie camera timer. Three seconds before starting or switching a video message to the front camera. Countdown timer selfie round video.": "Asmenukių kameros laikmatis: 3 sekundžių atgalinis skaičiavimas prieš pradedant vaizdo žinutę priekine kamera arba perjungiant į ją."
+  },
+  "or": {
+    "Selfie camera timer. Three seconds before starting or switching a video message to the front camera. Countdown timer selfie round video.": "ସେଲ୍ଫୀ କ୍ୟାମେରା ଟାଇମର: ସାମ୍ନା କ୍ୟାମେରାରେ ଭିଡିଓ ବାର୍ତ୍ତା ଆରମ୍ଭ କରିବା କିମ୍ବା ସେଠାକୁ ବଦଳାଇବା ପୂର୍ବରୁ 3 ସେକେଣ୍ଡ ଓଲଟା ଗଣନା।"
+  },
+  "pt-br": {
+    "Selfie camera timer. Three seconds before starting or switching a video message to the front camera. Countdown timer selfie round video.": "Temporizador de selfie: contagem regressiva de 3 segundos antes de iniciar uma mensagem de vídeo com a câmera frontal ou alternar para ela.",
+    "Reset Tag Holes": "Redefinir lacunas de tags",
+    "Reset Cache Index [!]": "Redefinir o índice do cache [!]"
+  },
+  "pt-pt": {
+    "Selfie camera timer. Three seconds before starting or switching a video message to the front camera. Countdown timer selfie round video.": "Temporizador de selfie: contagem decrescente de 3 segundos antes de iniciar uma mensagem de vídeo com a câmara frontal ou mudar para ela.",
+    "Reset Tag Holes": "Repor lacunas de etiquetas",
+    "Reset Cache Index [!]": "Repor o índice da cache [!]"
+  },
+  "ro": {
+    "Selfie camera timer. Three seconds before starting or switching a video message to the front camera. Countdown timer selfie round video.": "Temporizator selfie: numărătoare inversă de 3 secunde înainte de pornirea unui mesaj video cu camera frontală sau de comutarea la aceasta.",
+    "Prefer IPv6": "Preferă IPv6",
+    "API Token": "Token API"
+  },
+  "sr": {
+    "Selfie camera timer. Three seconds before starting or switching a video message to the front camera. Countdown timer selfie round video.": "Тајмер селфи камере: одбројавање од 3 секунде пре почетка видео-поруке предњом камером или пребацивања на њу.",
+    "API Key": "API кључ"
+  },
+  "sk": {
+    "Selfie camera timer. Three seconds before starting or switching a video message to the front camera. Countdown timer selfie round video.": "Časovač selfie kamery: odpočítavanie 3 sekúnd pred začatím videosprávy prednou kamerou alebo prepnutím na ňu.",
+    "Model Download": "Stiahnutie modelu"
+  },
+  "sw": {
+    "Selfie camera timer. Three seconds before starting or switching a video message to the front camera. Countdown timer selfie round video.": "Kipima muda cha kamera ya selfie: hesabu ya kurudi nyuma ya sekunde 3 kabla ya kuanza ujumbe wa video kwa kamera ya mbele au kubadili kwenda kwake.",
+    "View counted": "Utazamaji umehesabiwa",
+    "NagramiX Logs": "Kumbukumbu za NagramiX",
+    "NagramiX CPU Profiles": "Wasifu wa CPU wa NagramiX",
+    "Custom DoH": "DoH maalum",
+    "API Token": "Tokeni ya API"
+  },
+  "sv": {
+    "Selfie camera timer. Three seconds before starting or switching a video message to the front camera. Countdown timer selfie round video.": "Selfiekamerans timer: nedräkning på 3 sekunder innan ett videomeddelande startas med den främre kameran eller kameran växlas till den.",
+    "Debug": "Felsökning",
+    "Crash Log": "Kraschlogg",
+    "NagramiX Crash Report": "NagramiX-kraschrapport",
+    "Rating Debug": "Felsök rangordning",
+    "PlayerV2": "Mediespelare, version 2",
+    "API Token": "API-token"
+  },
+  "tg": {
+    "Selfie camera timer. Three seconds before starting or switching a video message to the front camera. Countdown timer selfie round video.": "Таймери камераи селфӣ: ҳисоби баръакси 3 сония пеш аз оғози паёми видеоӣ бо камераи пеш ё гузариш ба он."
+  },
+  "ta": {
+    "Selfie camera timer. Three seconds before starting or switching a video message to the front camera. Countdown timer selfie round video.": "செல்ஃபி கேமரா நேரக்கருவி: முன்பக்க கேமராவில் காணொளிச் செய்தியைத் தொடங்கும் முன் அல்லது அதற்கு மாறும் முன் 3 வினாடிகள் பின்னோக்கி எண்ணுதல்."
+  },
+  "te": {
+    "Selfie camera timer. Three seconds before starting or switching a video message to the front camera. Countdown timer selfie round video.": "సెల్ఫీ కెమెరా టైమర్: ముందు కెమెరాతో వీడియో సందేశాన్ని ప్రారంభించే లేదా దానికి మారే ముందు 3 సెకన్ల కౌంట్‌డౌన్."
+  },
+  "th": {
+    "Selfie camera timer. Three seconds before starting or switching a video message to the front camera. Countdown timer selfie round video.": "ตัวตั้งเวลากล้องเซลฟี: นับถอยหลัง 3 วินาทีก่อนเริ่มข้อความวิดีโอด้วยกล้องหน้าหรือสลับไปยังกล้องหน้า",
+    "Reload Saved Messages": "โหลดข้อความที่บันทึกไว้อีกครั้ง",
+    "Vosk License · Apache 2.0": "สัญญาอนุญาต Vosk · Apache 2.0",
+    "BITRATE": "อัตราบิต",
+    "Bitrate": "อัตราบิต"
+  },
+  "tr": {
+    "Selfie camera timer. Three seconds before starting or switching a video message to the front camera. Countdown timer selfie round video.": "Selfie kamerası zamanlayıcısı: ön kamerayla video mesajı başlatmadan veya ön kameraya geçmeden önce 3 saniyelik geri sayım."
+  },
+  "tk": {
+    "Selfie camera timer. Three seconds before starting or switching a video message to the front camera. Countdown timer selfie round video.": "Selfi kamerasynyň taýmeri: öňdäki kamera bilen wideo habaryny başlamazdan ýa-da şol kamera geçmezden öň 3 sekuntlyk tersine sanaw.",
+    "Translate to ": "Terjime et: ",
+    "Forum Tabs Debug": "Forum goýmalaryny sazlamak"
+  },
+  "ur": {
+    "Selfie camera timer. Three seconds before starting or switching a video message to the front camera. Countdown timer selfie round video.": "سیلفی کیمرہ ٹائمر: سامنے والے کیمرے سے ویڈیو پیغام شروع کرنے یا اس پر منتقل ہونے سے پہلے 3 سیکنڈ کی الٹی گنتی۔"
+  },
+  "vi": {
+    "Selfie camera timer. Three seconds before starting or switching a video message to the front camera. Countdown timer selfie round video.": "Hẹn giờ camera selfie: đếm ngược 3 giây trước khi bắt đầu tin nhắn video bằng camera trước hoặc chuyển sang camera trước.",
+    "Test1": "Thử nghiệm 1",
+    "NagramiX Settings": "Cài đặt NagramiX",
+    "Debug Settings": "Cài đặt gỡ lỗi",
+    "Forum Tabs Debug": "Gỡ lỗi thẻ diễn đàn",
+    "Reset Tag Holes": "Đặt lại khoảng trống thẻ",
+    "Text Field v2: InputDec backend": "Trường văn bản v2: bộ xử lý InputDec",
+    "Force Text Field v2": "Buộc dùng trường văn bản v2",
+    "Debug": "Gỡ lỗi",
+    "Voice Auto-Next": "Tự động phát tin nhắn thoại tiếp theo"
+  }
+}

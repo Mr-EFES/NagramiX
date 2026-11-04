@@ -1,0 +1,26 @@
+{
+  "selection": [
+    "base",
+    "small-full",
+    "large-v3-turbo-q8_0"
+  ],
+  "limitations": "Linux x86_64 CPU; natural public narrowband Russian sample without a published transcript reference. These tests prove successful loading/decoding/cancellation, not iPhone latency or general word error rates. Small full was reported working by the owner and its file/model selection is preserved.",
+  "runs": [
+    {
+      "model": "base",
+      "bytes": 59707625,
+      "sha256": "422f1ae452ade6f30a004d7e5c6a43195e4433bc370bf23fac9cc591f01a8898",
+      "sample": "public decoder-test.wav from official Vosk ru-0.10-lgraph, resampled to16k, natural narrowband Russian; no transcript reference provided",
+      "platform": "Linux x86_64 CPU three threads, not iPhone",
+      "output": "status=0 seconds=51.3314 maxrss_kib=150944 text= Радион Потапович высчитывал каждый новый вершок углубление и давно определил про себя."
+    },
+    {
+      "model": "large_v3_turbo_q8_0",
+      "bytes": 874188075,
+      "sha256": "317eb69c11673c9de1e1f0d459b253999804ec71ac4c23c17ecf5fbe24e259a1",
+      "sample": "public decoder-test.wav from official Vosk ru-0.10-lgraph, resampled to16k, natural narrowband Russian; no transcript reference provided",
+      "platform": "Linux x86_64 CPU three threads, not iPhone",
+      "output": "status=0 seconds=114.91 maxrss_kib=1029008 text= Родион Потапыч высчитывал каждый новый вершок углубления и давно определил про себя"
+    }
+  ]
+}

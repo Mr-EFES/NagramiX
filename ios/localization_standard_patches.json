@@ -1,0 +1,30 @@
+{
+  "inputs": {
+    "submodules/NagramiXTranscription/Sources/Preferences.swift": "51eb3fb367a147431cac99a7873271a451c4daf4d72faa8fb8ab88eb3a254408"
+  },
+  "outputs": {
+    "submodules/NagramiXTranscription/Sources/Preferences.swift": "bcf5912d2cd2df45b01720160a39d489b6340f83f5b3780aba0f3c1764c25c19"
+  },
+  "guards": {
+    "submodules/NagramiXTranscription/BUILD": "f7e6352e9950459f20eafd0431dc7e9f23a2c4cbed744305ecb5f13c376decf6",
+    "submodules/NagramiXCore/BUILD": "869e31310cc925b84ceb827a3c0b8503f3a22614acb4abeeec4a4ad435cf56e2",
+    "submodules/NagramiXCore/Sources/NagramiXPresentationStrings.swift": "1963ef991aac6f373ef1db44a6f67a5817bdf6c7aba1c7f86f67d88df95d93d9",
+    "submodules/NagramiXCore/Resources/en.lproj/Localizable.strings": "1458011bc962e7d884bf0422831a6a520d4d4106ab972a3168083f61639fd584",
+    "submodules/NagramiXCore/Resources/ru.lproj/Localizable.strings": "3ca986861db8a15982ec5d98e89b513712a8251303551385620d73691233a934"
+  },
+  "templates": {
+    "localization_standard/Before0.inc": "51eb3fb367a147431cac99a7873271a451c4daf4d72faa8fb8ab88eb3a254408"
+  },
+  "previous": {
+    "submodules/NagramiXTranscription/Sources/Preferences.swift": "localization_standard/Before0.inc"
+  },
+  "operations": {
+    "submodules/NagramiXTranscription/Sources/Preferences.swift": [
+      [
+        "UIAlertAction(title:\"OK\",style:.default)",
+        "UIAlertAction(title:self.presentationData.strings.Common_OK,style:.default)"
+      ]
+    ]
+  },
+  "copies": {}
+}

@@ -36,8 +36,8 @@ def verify(source):
         assert sha((OVERLAY / name).read_bytes()) == digest, name
 
 
-def reverse(source, prior):
-    names = set(PLAN['inputs'])
+def reverse(source, prior, plan=PLAN):
+    names = set(plan['inputs'])
     for path in OVERLAY.glob('*_patches.json'):
         item = json.loads(path.read_text())
         for field in ('inputs', 'outputs', 'guards', 'copies'):
@@ -46,15 +46,52 @@ def reverse(source, prior):
     names.update(['Telegram/Telegram-iOS/en.lproj/Localizable.strings',
                   'submodules/TelegramPresentationData/Sources/PresentationData.swift',
                   'submodules/GalleryUI/Sources/ZoomableContentGalleryItemNode.swift'])
-    for name in names:
-        path = OVERLAY / PLAN['previous'][name] if name in PLAN['previous'] else source / name
+    for name in names - set(plan.get('copies', {})):
+        path = OVERLAY / plan['previous'][name] if name in plan['previous'] else source / name
         if path.is_file():
             target = prior / name
             target.parent.mkdir(parents=True, exist_ok=True)
             target.write_bytes(path.read_bytes())
 
 
+def delegate_icon_stage_if_applied(args, script, stage):
+    plan = json.loads((OVERLAY / (stage + '_patches.json')).read_text())
+    expected = {**plan['outputs'], **{name: item['sha256'] for name, item in plan.get('copies', {}).items()}}
+    # Copy-only stages must be recognized by their resources; all({}) must
+    # never mistake an unapplied stage for an applied one.
+    if not expected or not all((args.source / name).is_file() and sha((args.source / name).read_bytes()) == digest
+                              for name, digest in expected.items()):
+        return False
+    for name, digest in plan['guards'].items():
+        assert sha((args.source / name).read_bytes()) == digest, name
+    for name, digest in plan['templates'].items():
+        assert sha((OVERLAY / name).read_bytes()) == digest, name
+    for name, item in plan.get('copies', {}).items():
+        assert sha((args.source / name).read_bytes()) == item['sha256'], name
+    with tempfile.TemporaryDirectory(prefix=stage + '-prior-') as folder:
+        prior = Path(folder)
+        reverse(args.source, prior, plan)
+        arguments = []
+        for key, value in vars(args).items():
+            if key == 'source': arguments += ['--source', str(prior)]
+            elif value is True: arguments.append('--' + key.replace('_', '-'))
+            elif value is not None and value is not False: arguments += ['--' + key.replace('_', '-'), str(value)]
+        if getattr(args, 'swiftc', None) and hasattr(args, 'upstream') and args.upstream is None:
+            arguments += ['--upstream', str(args.source)]
+        subprocess.run([sys.executable, str(script), *arguments], check=True)
+    return True
+
+
+def delegate_icons_if_applied(args, script):
+    for stage in ('pip_first_request', 'vosk_model_naming', 'local_asr_memory', 'archive_post_lifecycle', 'expanded_keyboard_timing', 'expanded_panel_animation', 'all_language_catalogs', 'localization_standard', 'temporary_voice_transcription', 'app_language_localization', 'broadcast_icon_order', 'author_head_alignment'):
+        if delegate_icon_stage_if_applied(args, script, stage):
+            return True
+    return False
+
+
 def delegate_if_applied(args, script):
+    if delegate_icons_if_applied(args, script):
+        return True
     if not is_applied(args.source):
         return False
     verify(args.source)
@@ -219,7 +256,10 @@ def contracts(source):
 def main():
     parser=argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--source',type=Path,required=True);parser.add_argument('--swiftc',type=Path);parser.add_argument('--report',type=Path)
-    args=parser.parse_args();verify(args.source);contracts(args.source)
+    args=parser.parse_args()
+    if delegate_icons_if_applied(args, Path(__file__)):
+        return
+    verify(args.source);contracts(args.source)
     with tempfile.TemporaryDirectory(prefix='nagramix-system-video-pip-') as folder:
         temp=Path(folder);rejected=guard_checks(args.source,temp)
         runs=run_swift(args.source,args.swiftc,temp) if args.swiftc else []

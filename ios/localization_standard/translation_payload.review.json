@@ -1,0 +1,9 @@
+{
+  "destination": "Google Translate (translate.googleapis.com)",
+  "scope": "Только значения UI: подписи, подсказки, ошибки, debug. Без ключей каталога, кода, переписки и credentials.",
+  "count": 612,
+  "unique_texts": 597,
+  "sha256": "2a370a5b139aeff02969ac5b7958d83fba5972ed66266be8ed694da750a7b854",
+  "network_used": false,
+  "external_transfer_status": "awaiting_explicit_payload_and_destination_approval"
+}

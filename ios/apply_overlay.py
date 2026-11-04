@@ -439,6 +439,30 @@ def main() -> None:
     apply_system_video_pip(source, Path(__file__).resolve().parent)
     from release_085_validation_support import apply_release_085_validation_support
     apply_release_085_validation_support(source, Path(__file__).resolve().parent)
+    from author_head_alignment import apply_author_head_alignment
+    apply_author_head_alignment(source, Path(__file__).resolve().parent)
+    from broadcast_icon_order import apply_broadcast_icon_order
+    apply_broadcast_icon_order(source, Path(__file__).resolve().parent)
+    from app_language_localization import apply_app_language_localization
+    apply_app_language_localization(source, Path(__file__).resolve().parent)
+    from temporary_voice_transcription import apply_temporary_voice_transcription
+    apply_temporary_voice_transcription(source, Path(__file__).resolve().parent)
+    from localization_standard import apply_localization_standard
+    apply_localization_standard(source, Path(__file__).resolve().parent)
+    from all_language_catalogs import apply_all_language_catalogs
+    apply_all_language_catalogs(source, Path(__file__).resolve().parent)
+    from expanded_panel_animation import apply_expanded_panel_animation
+    apply_expanded_panel_animation(source, Path(__file__).resolve().parent)
+    from expanded_keyboard_timing import apply_expanded_keyboard_timing
+    apply_expanded_keyboard_timing(source, Path(__file__).resolve().parent)
+    from archive_post_lifecycle import apply_archive_post_lifecycle
+    apply_archive_post_lifecycle(source, Path(__file__).resolve().parent)
+    from local_asr_memory import apply_local_asr_memory
+    apply_local_asr_memory(source, Path(__file__).resolve().parent)
+    from vosk_model_naming import apply_vosk_model_naming
+    apply_vosk_model_naming(source, Path(__file__).resolve().parent)
+    from pip_first_request import apply_pip_first_request
+    apply_pip_first_request(source, Path(__file__).resolve().parent)
     # Системный PiP: экспериментальный hybrid_pip больше не включается в приложение.
 
     api_id = os.environ.get("TELEGRAM_API_ID", "")

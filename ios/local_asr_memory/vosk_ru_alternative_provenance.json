@@ -1,0 +1,85 @@
+{
+  "catalog_url": "https://alphacephei.com/vosk/models/model-list.json",
+  "model": {
+    "lang": "ru",
+    "lang_text": "Russian",
+    "md5": "dc070919ee619c3c928e8cd939dc5f5b",
+    "name": "vosk-model-ru-0.10-lgraph",
+    "obsolete": "true",
+    "size": 175747869,
+    "size_text": "167.6MiB",
+    "type": "big-lgraph",
+    "url": "https://alphacephei.com/vosk/models/vosk-model-ru-0.10-lgraph.zip",
+    "version": "0.10-lgraph",
+    "license": "Apache 2.0"
+  },
+  "license_basis": {
+    "url": "https://alphacephei.com/vosk/models",
+    "scope": "The official table explicitly marks model family vosk-model-ru-0.10 as Apache 2.0. The official lgraph catalog entry identifies the graph variant; its README states the same ru0.10 family and AC Technologies copyright. The API catalog itself omits a license field.",
+    "obsolete": true
+  },
+  "archive_md5_verified": true,
+  "unpacked_bytes": 395313338,
+  "tests": {
+    "library": "Linux Vosk0.3.45; app pins iOS0.3.50 and remains device_pending",
+    "natural_sample": {
+      "model": "vosk-model-ru-0.10-lgraph",
+      "sample": "ru-model-sample.wav",
+      "code": 0,
+      "seconds": 9.129,
+      "duration": 7.08,
+      "maxrss_kib": 575512,
+      "result": [
+        {
+          "text": "родион потапыч высчитывать каждый новый вершок углубление и давно определил про себя"
+        }
+      ]
+    },
+    "synthetic_sample": {
+      "model": "vosk-model-ru-0.10-lgraph",
+      "sample": "synthetic-ru.wav",
+      "code": 0,
+      "seconds": 11.187,
+      "duration": 5.22,
+      "maxrss_kib": 651592,
+      "result": [
+        {
+          "text": "погибнуть века"
+        },
+        {
+          "text": "эта метка паспорт"
+        },
+        {
+          "text": "эти меня хорошая подруга"
+        }
+      ]
+    },
+    "comparison_compact_natural": {
+      "model": "vosk-model-small-ru-0.22",
+      "sample": "ru-model-sample.wav",
+      "code": 0,
+      "seconds": 4.684,
+      "duration": 7.08,
+      "maxrss_kib": 228288,
+      "result": [
+        {
+          "text": "родион потапыч высчитывал каждый новый вершок углубление и давно определил про себя"
+        }
+      ]
+    },
+    "comparison_compact_synthetic": {
+      "model": "vosk-model-small-ru-0.22",
+      "sample": "synthetic-ru.wav",
+      "code": 0,
+      "seconds": 9.297,
+      "duration": 5.22,
+      "maxrss_kib": 256796,
+      "result": [
+        {
+          "text": "один два три четыре пять это пирамидка господам андрей русско-английский сегодня хорошая погода"
+        }
+      ]
+    }
+  },
+  "interpretation": "Alternative older narrowband graph, not claimed newer or more accurate. Compact ru0.22 remains the default; this model is selected explicitly."
+}

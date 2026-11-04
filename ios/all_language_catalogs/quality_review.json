@@ -1,0 +1,786 @@
+{
+  "method": "Локальная ONNX/LaBSE эвристика и просмотр отмеченных коротких подписей; не сертификация перевода носителями языков.",
+  "languages": 69,
+  "checked_values": 42228,
+  "low_similarity_threshold": 0.56,
+  "remaining_reviewed_flags": [
+    {
+      "key": "NagramiX.Icon.Neon",
+      "source": "Ruby",
+      "value": "Yaqut",
+      "score": 0.5299,
+      "language": "az",
+      "disposition": "accepted_after_review",
+      "reason": "Корректное местное название цвета/камня из словаря терминов."
+    },
+    {
+      "key": "NagramiX.Restart.Action",
+      "source": "Restart",
+      "value": "YENİDƏN BAŞLAT",
+      "score": 0.5472,
+      "language": "az",
+      "disposition": "accepted_after_review",
+      "reason": "Корректная короткая команда перезапуска; эвристика чувствительна к регистру и длине."
+    },
+    {
+      "key": "NagramiX.Restart.Action",
+      "source": "Restart",
+      "value": "BERRABIARAZI",
+      "score": 0.5333,
+      "language": "eu",
+      "disposition": "accepted_after_review",
+      "reason": "Корректная короткая команда перезапуска; эвристика чувствительна к регистру и длине."
+    },
+    {
+      "key": "NagramiX.Restart.Action",
+      "source": "Restart",
+      "value": "REINICIA",
+      "score": 0.5551,
+      "language": "ca",
+      "disposition": "accepted_after_review",
+      "reason": "Корректная короткая команда перезапуска; эвристика чувствительна к регистру и длине."
+    },
+    {
+      "key": "NagramiX.UI.767739fab295492a",
+      "source": "AUTO",
+      "value": "AŬTOMATA",
+      "score": 0.1453,
+      "language": "eo",
+      "disposition": "accepted_after_review",
+      "reason": "Корректный местный термин; низкая близость короткой подписи сама по себе не означает ошибку."
+    },
+    {
+      "key": "NagramiX.Icon.Sunset",
+      "source": "Amber",
+      "value": "Sukceno",
+      "score": 0.5374,
+      "language": "eo",
+      "disposition": "accepted_after_review",
+      "reason": "Корректное местное название цвета/камня из словаря терминов."
+    },
+    {
+      "key": "NagramiX.Debug.Failed",
+      "source": "Failed",
+      "value": "Nabigo",
+      "score": 0.5231,
+      "language": "fil",
+      "disposition": "accepted_after_review",
+      "reason": "Корректный местный термин; низкая близость короткой подписи сама по себе не означает ошибку."
+    },
+    {
+      "key": "NagramiX.Restart.Action",
+      "source": "Restart",
+      "value": "ÚJRAINDÍTÁS",
+      "score": 0.5155,
+      "language": "hu",
+      "disposition": "accepted_after_review",
+      "reason": "Корректная короткая команда перезапуска; эвристика чувствительна к регистру и длине."
+    },
+    {
+      "key": "NagramiX.Restart.Action",
+      "source": "Restart",
+      "value": "MULAI ULANG",
+      "score": 0.4158,
+      "language": "id",
+      "disposition": "accepted_after_review",
+      "reason": "Корректная короткая команда перезапуска; эвристика чувствительна к регистру и длине."
+    },
+    {
+      "key": "NagramiX.Icon.Amber",
+      "source": "Amethyst",
+      "value": "Kecubung",
+      "score": 0.5515,
+      "language": "id",
+      "disposition": "accepted_after_review",
+      "reason": "Корректное местное название цвета/камня из словаря терминов."
+    },
+    {
+      "key": "NagramiX.Restart.Action",
+      "source": "Restart",
+      "value": "ATOSAIGH",
+      "score": 0.4593,
+      "language": "ga",
+      "disposition": "accepted_after_review",
+      "reason": "Корректная короткая команда перезапуска; эвристика чувствительна к регистру и длине."
+    },
+    {
+      "key": "NagramiX.UI.0be7f62cdd90bbc1",
+      "source": "Do not translate ",
+      "value": "Ná Aistriú ",
+      "score": 0.5079,
+      "language": "ga",
+      "disposition": "accepted_after_review",
+      "reason": "Корректный языковой префикс запрета перевода; конечный пробел сохранён."
+    },
+    {
+      "key": "NagramiX.Restart.Action",
+      "source": "Restart",
+      "value": "ҚАЙТАДАН ІСКЕ ҚОСУ",
+      "score": 0.5226,
+      "language": "kk",
+      "disposition": "accepted_after_review",
+      "reason": "Корректная короткая команда перезапуска; эвристика чувствительна к регистру и длине."
+    },
+    {
+      "key": "NagramiX.UI.0be7f62cdd90bbc1",
+      "source": "Do not translate ",
+      "value": "Аудармау ",
+      "score": 0.5246,
+      "language": "kk",
+      "disposition": "accepted_after_review",
+      "reason": "Корректный языковой префикс запрета перевода; конечный пробел сохранён."
+    },
+    {
+      "key": "NagramiX.UI.c581c83538fbccbd",
+      "source": "Translation",
+      "value": "Аударма",
+      "score": 0.5557,
+      "language": "kk",
+      "disposition": "accepted_after_review",
+      "reason": "Корректный местный термин; низкая близость короткой подписи сама по себе не означает ошибку."
+    },
+    {
+      "key": "NagramiX.UI.0be7f62cdd90bbc1",
+      "source": "Do not translate ",
+      "value": "Neversk ",
+      "score": 0.5176,
+      "language": "lt",
+      "disposition": "accepted_after_review",
+      "reason": "Корректный языковой префикс запрета перевода; конечный пробел сохранён."
+    },
+    {
+      "key": "NagramiX.Restart.Action",
+      "source": "Restart",
+      "value": "MULAKAN SEMULA",
+      "score": 0.4797,
+      "language": "ms",
+      "disposition": "accepted_after_review",
+      "reason": "Корректная короткая команда перезапуска; эвристика чувствительна к регистру и длине."
+    },
+    {
+      "key": "NagramiX.Icon.Neon",
+      "source": "Ruby",
+      "value": "Delima",
+      "score": 0.5441,
+      "language": "ms",
+      "disposition": "accepted_after_review",
+      "reason": "Корректное местное название цвета/камня из словаря терминов."
+    },
+    {
+      "key": "NagramiX.Icon.Amber",
+      "source": "Amethyst",
+      "value": "Kecubung",
+      "score": 0.5573,
+      "language": "ms",
+      "disposition": "accepted_after_review",
+      "reason": "Корректное местное название цвета/камня из словаря терминов."
+    },
+    {
+      "key": "NagramiX.Icon.Neon",
+      "source": "Ruby",
+      "value": "ମାଣିକ୍ୟ",
+      "score": 0.5472,
+      "language": "or",
+      "disposition": "accepted_after_review",
+      "reason": "Корректное местное название цвета/камня из словаря терминов."
+    },
+    {
+      "key": "NagramiX.Restart.Action",
+      "source": "Restart",
+      "value": "ПОКРЕНИ ПОНОВО",
+      "score": 0.5516,
+      "language": "sr",
+      "disposition": "accepted_after_review",
+      "reason": "Корректная короткая команда перезапуска; эвристика чувствительна к регистру и длине."
+    },
+    {
+      "key": "NagramiX.Restart.Action",
+      "source": "Restart",
+      "value": "ANZA UPYA",
+      "score": 0.4296,
+      "language": "sw",
+      "disposition": "accepted_after_review",
+      "reason": "Корректная короткая команда перезапуска; эвристика чувствительна к регистру и длине."
+    },
+    {
+      "key": "NagramiX.Settings.Page.Interface",
+      "source": "Interface",
+      "value": "Kiolesura",
+      "score": 0.552,
+      "language": "sw",
+      "disposition": "accepted_after_review",
+      "reason": "Корректный местный термин; низкая близость короткой подписи сама по себе не означает ошибку."
+    },
+    {
+      "key": "NagramiX.Privacy.Title",
+      "source": "Privacy",
+      "value": "Faragha",
+      "score": 0.5594,
+      "language": "sw",
+      "disposition": "accepted_after_review",
+      "reason": "Корректный местный термин; низкая близость короткой подписи сама по себе не означает ошибку."
+    },
+    {
+      "key": "NagramiX.Restart.Action",
+      "source": "Restart",
+      "value": "QAYTA ISHGA TUSHIRISH",
+      "score": 0.51,
+      "language": "uz",
+      "disposition": "accepted_after_review",
+      "reason": "Корректная короткая команда перезапуска; эвристика чувствительна к регистру и длине."
+    },
+    {
+      "key": "NagramiX.Debug.Accounts",
+      "source": "Accounts",
+      "value": "Hisoblar",
+      "score": 0.5446,
+      "language": "uz",
+      "disposition": "accepted_after_review",
+      "reason": "Корректный местный термин; низкая близость короткой подписи сама по себе не означает ошибку."
+    },
+    {
+      "key": "NagramiX.Restart.Action",
+      "source": "Restart",
+      "value": "KHỞI ĐỘNG LẠI",
+      "score": 0.5448,
+      "language": "vi",
+      "disposition": "accepted_after_review",
+      "reason": "Корректная короткая команда перезапуска; эвристика чувствительна к регистру и длине."
+    }
+  ],
+  "remaining_reviewed_numeric_brand_flags": [
+    {
+      "key": "NagramiX.UI.5400fc2e46ecfab6",
+      "source": "The model requires significant storage. Connect to Wi-Fi in iPhone Settings or continue downloading.",
+      "value": "Modeloak biltegiratze handia behar du. Konektatu Wi-Fiera iPhone ezarpenetan edo jarrai ezazue deskargatzen.",
+      "reason": "brand:Wi-Fi",
+      "language": "eu",
+      "disposition": "accepted_after_review",
+      "review": "View once передано числом 1 в японском; в остальных случаях сохранённая марка/единица имеет грамматическое окончание баскского или узбекского языка."
+    },
+    {
+      "key": "NagramiX.UI.3fe7a2b6a5838ae1",
+      "source": "Your device does not support recording video messages at the selected quality at 60 FPS. The frame rate has been set to 30 FPS. ",
+      "value": "Zure gailuak ez ditu bideo mezuak grabatzen 60 FPS kaliteate hautatuarekin. Marko-tasa 30 FPSra ezarri da. ",
+      "reason": "brand:FPS",
+      "language": "eu",
+      "disposition": "accepted_after_review",
+      "review": "View once передано числом 1 в японском; в остальных случаях сохранённая марка/единица имеет грамматическое окончание баскского или узбекского языка."
+    },
+    {
+      "key": "NagramiX.Messages.ViewOnceReplay",
+      "source": "View once",
+      "value": "1回のみ",
+      "reason": "numbers",
+      "language": "ja",
+      "disposition": "accepted_after_review",
+      "review": "View once передано числом 1 в японском; в остальных случаях сохранённая марка/единица имеет грамматическое окончание баскского или узбекского языка."
+    },
+    {
+      "key": "NagramiX.Restart.Text",
+      "source": "NagramiX must be restarted to apply this change.",
+      "value": "Ushbu o'zgarish uchun NagramiXni qayta ishga tushirish kerak.",
+      "reason": "brand:NagramiX",
+      "language": "uz",
+      "disposition": "accepted_after_review",
+      "review": "View once передано числом 1 в японском; в остальных случаях сохранённая марка/единица имеет грамматическое окончание баскского или узбекского языка."
+    },
+    {
+      "key": "NagramiX.Settings.Downloads.Info",
+      "source": "Increases parallel requests, connections and part sizes for large files. If your network struggles with the load, choose a less intensive mode. Actual speed depends on your connection and Telegram. New parameters apply when a file download starts.",
+      "value": "Katta fayllar uchun parallel talablar, ulanishlar va qismlarning o'lchamlarini oshiradi. Agar tarmoqingiz yuk bilan kurashayotgan bo'lsa, kamroq intensiv rejimni tanlang. Aslida tezlik sizning ulanishingizga va Telegramga bog'liq. Faylni yuklab olish boshlanganida yangi parametrlar qo'llaniladi.",
+      "reason": "brand:Telegram",
+      "language": "uz",
+      "disposition": "accepted_after_review",
+      "review": "View once передано числом 1 в японском; в остальных случаях сохранённая марка/единица имеет грамматическое окончание баскского или узбекского языка."
+    },
+    {
+      "key": "NagramiX.Debug.Up to 4 MB",
+      "source": "Up to 4 MB",
+      "value": "4 MBgacha",
+      "reason": "brand:MB",
+      "language": "uz",
+      "disposition": "accepted_after_review",
+      "review": "View once передано числом 1 в японском; в остальных случаях сохранённая марка/единица имеет грамматическое окончание баскского или узбекского языка."
+    },
+    {
+      "key": "NagramiX.Debug.Thank you for helping make Telegram better!",
+      "source": "Thank you for helping make Telegram better!",
+      "value": "Telegramni yaxshilashga yordam berganingiz uchun rahmat!",
+      "reason": "brand:Telegram",
+      "language": "uz",
+      "disposition": "accepted_after_review",
+      "review": "View once передано числом 1 в японском; в остальных случаях сохранённая марка/единица имеет грамматическое окончание баскского или узбекского языка."
+    },
+    {
+      "key": "NagramiX.Debug.Send Logs (Up to 40 MB)",
+      "source": "Send Logs (Up to 40 MB)",
+      "value": "Jo'natish loglari (40 MBgacha)",
+      "reason": "brand:MB",
+      "language": "uz",
+      "disposition": "accepted_after_review",
+      "review": "View once передано числом 1 в японском; в остальных случаях сохранённая марка/единица имеет грамматическое окончание баскского или узбекского языка."
+    },
+    {
+      "key": "NagramiX.Debug.Send Share Logs (Up to 40 MB)",
+      "source": "Send Share Logs (Up to 40 MB)",
+      "value": "Xabarlar logini yuborish (40 MBgacha)",
+      "reason": "brand:MB",
+      "language": "uz",
+      "disposition": "accepted_after_review",
+      "review": "View once передано числом 1 в японском; в остальных случаях сохранённая марка/единица имеет грамматическое окончание баскского или узбекского языка."
+    },
+    {
+      "key": "NagramiX.Debug.Send Group Call Logs (Up to 40 MB)",
+      "source": "Send Group Call Logs (Up to 40 MB)",
+      "value": "Guruhda qo'ng'iroqlar logini yuborish (ko'pchiligidan 40 MBgacha)",
+      "reason": "brand:MB",
+      "language": "uz",
+      "disposition": "accepted_after_review",
+      "review": "View once передано числом 1 в японском; в остальных случаях сохранённая марка/единица имеет грамматическое окончание баскского или узбекского языка."
+    },
+    {
+      "key": "NagramiX.UI.56db85a2e4bbcd13",
+      "source": "Enter a valid CloudFlare Account ID.",
+      "value": "CloudFlare hisob raqami IDni kiriting.",
+      "reason": "brand:ID",
+      "language": "uz",
+      "disposition": "accepted_after_review",
+      "review": "View once передано числом 1 в японском; в остальных случаях сохранённая марка/единица имеет грамматическое окончание баскского или узбекского языка."
+    },
+    {
+      "key": "NagramiX.UI.a93979fe47a0992d",
+      "source": "Enter ID",
+      "value": "IDni kiriting",
+      "reason": "brand:ID",
+      "language": "uz",
+      "disposition": "accepted_after_review",
+      "review": "View once передано числом 1 в японском; в остальных случаях сохранённая марка/единица имеет грамматическое окончание баскского или узбекского языка."
+    },
+    {
+      "key": "NagramiX.UI.28ff65832667b5ed",
+      "source": "The recording is too large. Recordings up to 15 minutes and audio files up to 25 MB are supported.",
+      "value": "Yozuv juda katta. 15 daqiqagacha qisqa va 25 MBgacha audio fayllar qo'llab-quvvatlanadi.",
+      "reason": "brand:MB",
+      "language": "uz",
+      "disposition": "accepted_after_review",
+      "review": "View once передано числом 1 в японском; в остальных случаях сохранённая марка/единица имеет грамматическое окончание баскского или узбекского языка."
+    }
+  ],
+  "catalog_scores": [
+    {
+      "language": "af",
+      "sha256": "5684ecdecab87a7ce09fe6fa26822c4b40c7e9a970eea7469c7f9df9c01281a1",
+      "mean": 0.9076544046401978,
+      "minimum": 0.5676433444023132
+    },
+    {
+      "language": "sq",
+      "sha256": "32bc34ba7be19ebc99cb9cad3055625cd8bbc9cd6859443579af04fba9a556a3",
+      "mean": 0.8987827897071838,
+      "minimum": 0.5632925629615784
+    },
+    {
+      "language": "am",
+      "sha256": "514bd938049b790a268eade76aafa7e99f6bb0a13ead3924deae7d92e0bd1ea0",
+      "mean": 0.9015191793441772,
+      "minimum": 0.5622806549072266
+    },
+    {
+      "language": "ar",
+      "sha256": "eeb0c4304c7401adcd4e61ca3db66b01d5cdb650e1d7df8e8ef034c8da074ead",
+      "mean": 0.9070358872413635,
+      "minimum": 0.5967655777931213
+    },
+    {
+      "language": "hy",
+      "sha256": "a808b0d9c22f229916f4eea73cbd1edfce1dbfce507b3f93ec2d470677717173",
+      "mean": 0.8941522836685181,
+      "minimum": 0.5600072145462036
+    },
+    {
+      "language": "az",
+      "sha256": "9235f94cf48f52d9369687131ddcfd7367a724db8366a36aac7babf43f550dbc",
+      "mean": 0.9030008912086487,
+      "minimum": 0.5299134254455566
+    },
+    {
+      "language": "eu",
+      "sha256": "81628da10e9e7875f67b3c715f8784654b5b680a5ca59048058130b39d2ee603",
+      "mean": 0.8824424743652344,
+      "minimum": 0.5333359837532043
+    },
+    {
+      "language": "be",
+      "sha256": "e412ee59af39c8dcaac178ee20894d8ad547ea44062a92889b6ad3c564b36137",
+      "mean": 0.8982177972793579,
+      "minimum": 0.5684900283813477
+    },
+    {
+      "language": "bn",
+      "sha256": "36a8aae02bcfab86b7a73d7ccc11d51f5d989c1c35bd5c6bf65a47ddf102b3d1",
+      "mean": 0.8927211165428162,
+      "minimum": 0.5652169585227966
+    },
+    {
+      "language": "bg",
+      "sha256": "8ca9e0157273a465afbb61eaa7105b420294a1fc8142246987184c620e270b5b",
+      "mean": 0.9005332589149475,
+      "minimum": 0.605705201625824
+    },
+    {
+      "language": "my",
+      "sha256": "d0082780174de879d81266ac24756991a8576692c04aaee1b3523fd36e237eb4",
+      "mean": 0.8980122208595276,
+      "minimum": 0.5626058578491211
+    },
+    {
+      "language": "ca",
+      "sha256": "a87b241c7c64b189f6768e2575b10c1d0f5fb32bc2c9a447bae7055311d17152",
+      "mean": 0.9169674515724182,
+      "minimum": 0.5551236867904663
+    },
+    {
+      "language": "zh-hans",
+      "sha256": "a825e27fa73ad9ea966a3c1cfb467c18e553b4c9c012c286a8c38add42678411",
+      "mean": 0.9102996587753296,
+      "minimum": 0.6142188906669617
+    },
+    {
+      "language": "zh-hant",
+      "sha256": "323c5e7ca8c69959fa374186116a9f796ba2e0b33b3dccf37e4d43595df23f5b",
+      "mean": 0.904715359210968,
+      "minimum": 0.6231017112731934
+    },
+    {
+      "language": "hr",
+      "sha256": "f57a7c838faa55913a2d99bc76af1f7bfd1c2320461682ab228f03802f07dd66",
+      "mean": 0.9104472398757935,
+      "minimum": 0.5804451704025269
+    },
+    {
+      "language": "cs",
+      "sha256": "c3f97958af34fb4909bec0a8f51fee957522b39d4188d4bfff674b827a4f6234",
+      "mean": 0.9176297783851624,
+      "minimum": 0.6642829179763794
+    },
+    {
+      "language": "da",
+      "sha256": "10eabc9fa9cf59fc44f478c051dbe89b37829ad451f1315ffcbc3d0139eb675a",
+      "mean": 0.8964667320251465,
+      "minimum": 0.5734843015670776
+    },
+    {
+      "language": "nl",
+      "sha256": "8b35e889ebefa597d932ac3b31088174ce096b706ab732941189d0f60641a139",
+      "mean": 0.913343071937561,
+      "minimum": 0.5875757932662964
+    },
+    {
+      "language": "eo",
+      "sha256": "307fbcada40d8fd5a26f9defea98d870317584e4417d7c2648852fcccef265b0",
+      "mean": 0.8979839086532593,
+      "minimum": 0.14532533288002014
+    },
+    {
+      "language": "et",
+      "sha256": "c2328ad1b1eed7f0c2feeb1b9048f370ef825f63b0a61185105258cc94ea8de2",
+      "mean": 0.8914310932159424,
+      "minimum": 0.5855515003204346
+    },
+    {
+      "language": "fil",
+      "sha256": "28e2b16c689d17a604e946cc0cf1243eed0f235b685ae3bd4aa6a0c8fa8ceb87",
+      "mean": 0.9082210659980774,
+      "minimum": 0.5230823755264282
+    },
+    {
+      "language": "fi",
+      "sha256": "9f916cc759dba044bba6df7d0ad52859ba97c310cab909b25f036a82bef9b4e4",
+      "mean": 0.8936546444892883,
+      "minimum": 0.6110821962356567
+    },
+    {
+      "language": "fr",
+      "sha256": "b7235cac50f78ae44e1d64e1416b61f4ebf4aa6fbbad16aea485efe288fc778e",
+      "mean": 0.9194401502609253,
+      "minimum": 0.597663164138794
+    },
+    {
+      "language": "gl",
+      "sha256": "e491409a04c33f4409d99e4a553df40dbca292b352b59b776868b3ddbb9fad17",
+      "mean": 0.9203196167945862,
+      "minimum": 0.5916789174079895
+    },
+    {
+      "language": "ka",
+      "sha256": "4e1afb2781f954b0cac9f38cee8a5d34a8996a76092964b0b094316a93a69adc",
+      "mean": 0.8875584006309509,
+      "minimum": 0.5824421644210815
+    },
+    {
+      "language": "de",
+      "sha256": "b0d0473bc3326f6bfbaa9f6dcb8cabfc3e110b956f80dd3939543b20fe402867",
+      "mean": 0.9160345792770386,
+      "minimum": 0.5858745574951172
+    },
+    {
+      "language": "el",
+      "sha256": "d063838bd75c0c0e8bccc4ed6ef85460d13243443259a262f42b752a58a348c1",
+      "mean": 0.89352947473526,
+      "minimum": 0.5850011110305786
+    },
+    {
+      "language": "gu",
+      "sha256": "157df2b9c937c2399cb4a24d6c2c367b82e32458bb0e8181ccb7f95a3275d4b8",
+      "mean": 0.9123376607894897,
+      "minimum": 0.5631980895996094
+    },
+    {
+      "language": "he",
+      "sha256": "1ebac63f7e3062b8c9096e33f8efa4a03561f7069a7740a78014767e8c05d2bd",
+      "mean": 0.9029340744018555,
+      "minimum": 0.6125897169113159
+    },
+    {
+      "language": "hi",
+      "sha256": "edca05b7fe8452ac1f4582b9595a8c2429248ff7682b070c854a58ea1f746a41",
+      "mean": 0.906435489654541,
+      "minimum": 0.6115162372589111
+    },
+    {
+      "language": "hu",
+      "sha256": "a9fd052dc298d9b18f019f06aaa089ab443cb02129735c92d69fc443a33c9bfb",
+      "mean": 0.9037906527519226,
+      "minimum": 0.5155240297317505
+    },
+    {
+      "language": "id",
+      "sha256": "ca61794af01c11b9a770033cf960475c5e152e0635ea85e428b932797f3101f1",
+      "mean": 0.9239001274108887,
+      "minimum": 0.4157533049583435
+    },
+    {
+      "language": "ga",
+      "sha256": "69e3a33cbf1bbb910c1884340e374d5993450b1edfe77cbc9d8618ab4f0640f1",
+      "mean": 0.8772340416908264,
+      "minimum": 0.45933210849761963
+    },
+    {
+      "language": "it",
+      "sha256": "134bbfbb3b4d29d44e43c9831ad78baab6f713ab23ed82f11e87852bee30c386",
+      "mean": 0.9228569269180298,
+      "minimum": 0.5607519745826721
+    },
+    {
+      "language": "ja",
+      "sha256": "93309152d3d9250513546445790bb1d64956a95df099a0883f4f2b54742ef228",
+      "mean": 0.9055048227310181,
+      "minimum": 0.627345860004425
+    },
+    {
+      "language": "kn",
+      "sha256": "49655be692433a1c24fcf9cab52c454e1a6c9aea26be1fa9661f35f6a9d519ca",
+      "mean": 0.9046221971511841,
+      "minimum": 0.5863087177276611
+    },
+    {
+      "language": "kk",
+      "sha256": "093e8a03cb2abec85cc4da5130c4217c347c7505f9da803261a90893fc7e2be7",
+      "mean": 0.8894206285476685,
+      "minimum": 0.5226041674613953
+    },
+    {
+      "language": "km",
+      "sha256": "5d9fa30f40ba5abd18e111fdececb182333b4a2c35642e82b647532834e605a5",
+      "mean": 0.8987177610397339,
+      "minimum": 0.6252077221870422
+    },
+    {
+      "language": "ko",
+      "sha256": "2eccf50a0f774eb53fe2e64d289f5d424c273453d87268564045a7e67edfc61b",
+      "mean": 0.9077053666114807,
+      "minimum": 0.626261830329895
+    },
+    {
+      "language": "lv",
+      "sha256": "6eb33a385599f6b62b5de1b92e2307924df57dea8648658664e68da6dba3dffe",
+      "mean": 0.8851649761199951,
+      "minimum": 0.5667564868927002
+    },
+    {
+      "language": "lt",
+      "sha256": "005a0763dc66e6902a23fbb52b1337055ad8e7472815b4e5fbdcf9179e41093a",
+      "mean": 0.8975502848625183,
+      "minimum": 0.5176228284835815
+    },
+    {
+      "language": "ms",
+      "sha256": "3e5b72dde02ebf751eebff4dc164acb63adb8765eb146c3269d8213202bef2d2",
+      "mean": 0.9157424569129944,
+      "minimum": 0.479695200920105
+    },
+    {
+      "language": "ml",
+      "sha256": "c776d6b9432ad27c96162f3f927fc22ff601ee34f2b7e592af6193743a023345",
+      "mean": 0.9044286012649536,
+      "minimum": 0.6372451186180115
+    },
+    {
+      "language": "mt",
+      "sha256": "ad594bb289e29db000599ab3768eb972b4f752bbf422be5aaa7c32d98406abfb",
+      "mean": 0.8762280941009521,
+      "minimum": 0.5693178772926331
+    },
+    {
+      "language": "mr",
+      "sha256": "9b46960cf9d2ed2c03f4f48153e2eac8de11046ce6571c53ca064a684e5d4fe5",
+      "mean": 0.8962919116020203,
+      "minimum": 0.5682692527770996
+    },
+    {
+      "language": "ne",
+      "sha256": "d9db17da8685091027cca31db77e2359ed7cbaf600fc25f0918468e470992622",
+      "mean": 0.9145306348800659,
+      "minimum": 0.6082010269165039
+    },
+    {
+      "language": "nb",
+      "sha256": "149b1d56dace2a0c83f1a0fedfd1eba288cfe3ebcc9cd55f1a5f2af70be01690",
+      "mean": 0.9132908582687378,
+      "minimum": 0.5959134101867676
+    },
+    {
+      "language": "or",
+      "sha256": "bdec2ba8c37f859ec90b3d8b1c2f0c20b08ad9effe231a636deb0714091ebeef",
+      "mean": 0.900435209274292,
+      "minimum": 0.5472382307052612
+    },
+    {
+      "language": "fa",
+      "sha256": "cb5492ef8b6be40926d8e276b4fdc7acebc20268e8e26e878129499d7eba81e7",
+      "mean": 0.9079083204269409,
+      "minimum": 0.62284916639328
+    },
+    {
+      "language": "pl",
+      "sha256": "cc74cff1afe7da37e7b9bd69dc20e29a0277c8d0049c5c2b923fa2df4f634f70",
+      "mean": 0.9093051552772522,
+      "minimum": 0.5786755084991455
+    },
+    {
+      "language": "pt-br",
+      "sha256": "af32949db2ea5aead2b7ca7ad70c102433abf84ad6848f2230cdcdb671b60441",
+      "mean": 0.9248934388160706,
+      "minimum": 0.604398250579834
+    },
+    {
+      "language": "pt-pt",
+      "sha256": "9238dd75137b9710a026f6c38a259098ecbd485e24002d81594b837ba47f3332",
+      "mean": 0.9244598150253296,
+      "minimum": 0.5912855267524719
+    },
+    {
+      "language": "ro",
+      "sha256": "5db1ee1fba388c261abfbbccbf5e1665834b4118c7364821191bebdbc2dd4fca",
+      "mean": 0.9154782891273499,
+      "minimum": 0.6250123977661133
+    },
+    {
+      "language": "sr",
+      "sha256": "7b5a1f18fa9c8210dfb6bed4db5a5f9526ecd392328c04b99b8b96babd7c7149",
+      "mean": 0.9039134979248047,
+      "minimum": 0.5516060590744019
+    },
+    {
+      "language": "sk",
+      "sha256": "351f71010564cc942a3ef8e392de9b432affd158f209229e77e665e8decf4e1a",
+      "mean": 0.9124755859375,
+      "minimum": 0.6265848875045776
+    },
+    {
+      "language": "sl",
+      "sha256": "46133f7ef394aa6e2cb10a378963c1250dfead1add9b6f72539e1e021f6a96b3",
+      "mean": 0.9055008292198181,
+      "minimum": 0.6286090612411499
+    },
+    {
+      "language": "es",
+      "sha256": "e84a922911fce94f32e56f9580cbe20053dfda9bd0e21829f92e39a3736c8708",
+      "mean": 0.9190930128097534,
+      "minimum": 0.6228464841842651
+    },
+    {
+      "language": "sw",
+      "sha256": "61a37e4c8b82d43fb191dbd1197c3febfcedfed8cabe44277730393f22aadb47",
+      "mean": 0.8779000639915466,
+      "minimum": 0.42958396673202515
+    },
+    {
+      "language": "sv",
+      "sha256": "cc47a7a89fc94bc555fe07441896422db97489c54fe21c72eb4a2a0dc1cd6fc3",
+      "mean": 0.9082533121109009,
+      "minimum": 0.577536940574646
+    },
+    {
+      "language": "tg",
+      "sha256": "0d0b225f8e0a1aca482619eb38709da853b7cd451c26a4f25f724dda44c92ba4",
+      "mean": 0.8821539878845215,
+      "minimum": 0.6195636987686157
+    },
+    {
+      "language": "ta",
+      "sha256": "14a5e1c64529225a70c676a8077b9df415c5e6f289d1644df5aacbe42fbf88a6",
+      "mean": 0.9066701531410217,
+      "minimum": 0.5862634181976318
+    },
+    {
+      "language": "te",
+      "sha256": "8e49fbb28da6a5cd8eed88f44c4123a1b646545aebf161c3c04c454a641223cc",
+      "mean": 0.9198512434959412,
+      "minimum": 0.589482307434082
+    },
+    {
+      "language": "th",
+      "sha256": "0a11b7fc95ea82c6ee375fd72e18b9bf169e9aec11fda723e6c4f0df85b4ced1",
+      "mean": 0.8808097243309021,
+      "minimum": 0.5884928107261658
+    },
+    {
+      "language": "tr",
+      "sha256": "69e691f910975dfea5cef77bc14fa24fe741cd3e9b70fd843a104fae4db8d7d1",
+      "mean": 0.9048981666564941,
+      "minimum": 0.5838990211486816
+    },
+    {
+      "language": "tk",
+      "sha256": "5c08bb1cfb0c0888e57a81d881cd6d620704648a729af31cf0010c76f23116c4",
+      "mean": 0.8487057089805603,
+      "minimum": 0.5732077360153198
+    },
+    {
+      "language": "uk",
+      "sha256": "d95090f3bb81680ef31804d2b43999f4104686ad2772f4902a67e5e11a2c948c",
+      "mean": 0.9094579219818115,
+      "minimum": 0.6383211612701416
+    },
+    {
+      "language": "ur",
+      "sha256": "04c996b6ab30148bed04f89b11e3cf783b7f522cb978fb36b75de03342e81c45",
+      "mean": 0.9156058430671692,
+      "minimum": 0.5931315422058105
+    },
+    {
+      "language": "uz",
+      "sha256": "8f69583ac6ae4947ea4cf8f7b18928f8ad1e1d09232c57aa8b614cd805328159",
+      "mean": 0.8786775469779968,
+      "minimum": 0.5100124478340149
+    },
+    {
+      "language": "vi",
+      "sha256": "f1b28aaec6db5fe429f11e9475e06eab061661f1fe2f583e49a39df206511317",
+      "mean": 0.8995215892791748,
+      "minimum": 0.544826865196228
+    }
+  ]
+}

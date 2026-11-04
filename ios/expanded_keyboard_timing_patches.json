@@ -1,0 +1,36 @@
+{
+  "inputs": {
+    "submodules/TelegramUI/Components/RichTextAttachmentScreen/Sources/RichTextEmojiKeyboardController.swift": "1fa535d39394f6229654f4224c366660f5f0d65742a9cce1df8d2255b45ae455"
+  },
+  "outputs": {
+    "submodules/TelegramUI/Components/RichTextAttachmentScreen/Sources/RichTextEmojiKeyboardController.swift": "112089e89af2cfbeeb53dcf16d5d2bbb1b728b03d120919d1d2a9c86737a1f30"
+  },
+  "previous": {
+    "submodules/TelegramUI/Components/RichTextAttachmentScreen/Sources/RichTextEmojiKeyboardController.swift": "expanded_keyboard_timing/Before0.inc"
+  },
+  "operations": {
+    "submodules/TelegramUI/Components/RichTextAttachmentScreen/Sources/RichTextEmojiKeyboardController.swift": [
+      [
+        "        if changesMode && transition.animation.isImmediate { return .spring(duration: 0.4) }",
+        "        if changesMode {\n            let duration: Double\n            switch transition.animation {\n            case .none:\n                duration = 0.0\n            case let .curve(value, _):\n                duration = value\n            }\n            // Keyboard notifications can carry an animated transition whose\n            // duration is zero. Its enum case alone does not imply motion.\n            if !duration.isFinite || duration <= Double.ulpOfOne { return .spring(duration: 0.4) }\n        }",
+        1
+      ]
+    ]
+  },
+  "guards": {
+    "submodules/TelegramUI/Components/RichTextAttachmentScreen/BUILD": "b567c3892df5ba02d96045b534b6a1fb57d3108edea111af453df5d9baee1144",
+    "submodules/ComponentFlow/Source/Base/Transition.swift": "ffd0854a4a1e2a04168920dfcc644c7d5bb21dadebe4007884ec5121d12a235f",
+    "submodules/Components/ViewControllerComponent/Sources/ViewControllerComponent.swift": "7cc622777cbef939eb2377707bdeb9213112389c5ee488ef477d5fd96ed5eee6",
+    "submodules/TelegramUI/Components/Chat/ChatTextInputPanelNode/Sources/ChatTextInputPanelNode.swift": "e70fe5f26de73a56933f9a606e3f33d54199b1cc461778fe0c5ef4157fccf93d",
+    "submodules/TelegramUI/Sources/ChatControllerNode.swift": "43b102a1dbe76434d8e65ea04389d39e783d92c1ca845fc1c7da12cadb5ee379",
+    "submodules/TelegramUI/Components/ChatEntityKeyboardInputNode/Sources/ChatEntityKeyboardInputNode.swift": "b4040cb76ce98cf9e3bd2f2c14cbb2a3202750240f188dbac81b337735f7f637",
+    "submodules/TelegramUI/Components/RichTextEditor/Sources/RichTextEditorUIKit/RichTextEditorView.swift": "14847c4c49b5391c20f00cf7796a2897480ac0d2307ab459077d51335acd0bce",
+    "submodules/TelegramUI/Components/RichTextEditor/Sources/RichTextEngineEditor/RichTextEngineEditorView+Responder.swift": "bcdd64d19c99ff6abff79b55ff68ccb3f1141bc7f5c56617577226aea8f2d3d4",
+    "submodules/Display/Source/WindowContent.swift": "2dc1fec753da9171182b10fb793e49764bf21e85bcaa0fd4db65ff153b81780a",
+    "submodules/Components/ComponentDisplayAdapters/Sources/ComponentDisplayAdapters.swift": "1e13399f8eb47eb41788210501573f70f1a7474f74028f87e337cf5e0c4ad13c",
+    "submodules/TelegramUI/Components/RichTextAttachmentScreen/Sources/RichTextAttachmentScreen.swift": "8f68ee0bdc33acdbdeacab0fa4f128283ef8d502b6a1fa57cfaa21592f03bbfa"
+  },
+  "templates": {
+    "expanded_keyboard_timing/Before0.inc": "1fa535d39394f6229654f4224c366660f5f0d65742a9cce1df8d2255b45ae455"
+  }
+}

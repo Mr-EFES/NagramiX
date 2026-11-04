@@ -1,0 +1,67 @@
+{
+  "prepared_at": "2026-11-04",
+  "payload_sha256": "2a370a5b139aeff02969ac5b7958d83fba5972ed66266be8ed694da750a7b854",
+  "method": "offline authoring, native Telegram terminology, local contextual retries and reviewed corrections",
+  "ui_text_transmitted_to_remote_services": false,
+  "runtime_translation_dependency": false,
+  "models_shipped": false,
+  "translation_model": {
+    "repository": "JustFrederik/nllb-200-distilled-600M-ct2-int8",
+    "revision": "302d78f00e6fdb50a1064059df7c392b735e9d05",
+    "files": {
+      "config.json": {
+        "sha256": "0c2f6fa2057c7264d052fb4a62ba3476eeae70487acddfa8e779a53a00cbf44c",
+        "size": 159
+      },
+      "model.bin": {
+        "sha256": "ed1beaf75134de7505315a5223162f56acff397eff6b50638a500d3936fe707b",
+        "size": 622595991
+      },
+      "sentencepiece.bpe.model": {
+        "sha256": "14bb8dfb35c0ffdea7bc01e56cea38b9e3d5efcdcb9c251d6b40538e1aab555a",
+        "size": 4852054
+      },
+      "shared_vocabulary.txt": {
+        "sha256": "a132a83330f45514c2476eb81d1d69b3c41762264d16ce0a7ea982e5d6c728e5",
+        "size": 2568098
+      },
+      "tokenizer_config.json": {
+        "sha256": "d1aa8c3697d3e35674f97b5b7e9c99d22b010f528e80140257d97316be90d044",
+        "size": 564
+      },
+      "README.md": {
+        "sha256": "7c9ab4af8da4a3e82a1dcf6014318a540e3509f31051c470610767521f0b1993",
+        "size": 3435
+      }
+    }
+  },
+  "semantic_review_model": {
+    "repository": "Xenova/LaBSE",
+    "revision": "147002d501fc76ecd313c631999ea796520fea74",
+    "files": {
+      "config.json": {
+        "sha256": "bab57c9b7a4956c5105dd94f49606da285e346ad744d54e73126f6a97a19958e",
+        "size": 837
+      },
+      "onnx/model_quantized.onnx": {
+        "sha256": "2d209704455c8e5718dbef9c46ca22c823eb35256b74b4122d90845310c7ef82",
+        "size": 471527949
+      },
+      "tokenizer.json": {
+        "sha256": "09216b42d2697b7b4a26ac05ff09ba8bf52dc19b896c5ceee8bbff9f39055322",
+        "size": 13631919
+      },
+      "tokenizer_config.json": {
+        "sha256": "b80e4c989ab2237fc841ec90cb4ee6735c93f9e17d2de4050c87adb668d977aa",
+        "size": 398
+      }
+    }
+  },
+  "translation_model_license": "CC-BY-NC-4.0; public research authoring model used offline; model and weights are not included in repository or application",
+  "public_terminology": "https://translations.telegram.org/ (public iOS/Android catalogs read anonymously by public language code; no private project text sent)",
+  "regional_adaptation": [
+    "pt-pt: regional Portuguese terms and wording",
+    "zh-hant: Traditional Chinese plus native terminology; zh-hans simplified separately"
+  ],
+  "review_scope": "Key/format/numeric/brand checks, local semantic heuristic, reviewed terms/errors; no claim of native-speaker review in every language or physical UI verification"
+}

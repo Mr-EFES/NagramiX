@@ -1,0 +1,29 @@
+{
+  "inputs": {
+    "submodules/GalleryUI/Sources/Items/UniversalVideoGalleryItem.swift": "0aeeab2bb3cbefb713eec43aa187f198cc7730ed233542c7ffb519c2681db164"
+  },
+  "outputs": {
+    "submodules/GalleryUI/Sources/Items/UniversalVideoGalleryItem.swift": "50341de889fc1f3bc75ffde74aa68f9a212e3ab4fdbe4c07e30abdd441afc2ef"
+  },
+  "previous": {
+    "submodules/GalleryUI/Sources/Items/UniversalVideoGalleryItem.swift": "pip_first_request/Before.inc"
+  },
+  "replacements": {
+    "submodules/GalleryUI/Sources/Items/UniversalVideoGalleryItem.swift": "pip_first_request/After.inc"
+  },
+  "copies": {},
+  "guards": {
+    "submodules/GalleryUI/BUILD": "b40ed813ad5f84ab3bbeccbb6b37794c365054b63ff46ae3e18607b66cba8662",
+    "submodules/GalleryUI/Sources/GalleryPagerNode.swift": "836dff62717cb6a4d8832b95f009230a0267c9fdf6804467e105837c6a6abb31",
+    "submodules/GalleryUI/Sources/GalleryControllerNode.swift": "1ccb397332bd386ead111175051348da4892c056c0e6e23b95ff021b244645f8",
+    "submodules/GalleryUI/Sources/GalleryVideoDecoration.swift": "ac2dffb5034212c0a995ac619e02f1819489d790ff9780a230c97039218f7c90",
+    "submodules/AccountContext/Sources/UniversalVideoNode.swift": "c354dd6110225b9a689f8e8bdd5a8e709b99952c25a5794258ae171ee8164d68",
+    "submodules/TelegramUniversalVideoContent/Sources/NativeVideoContent.swift": "528f20337b832f9dcc01b58511a7639e54a757afffb7477ed2e8c054674bae10",
+    "submodules/MediaPlayer/Sources/MediaPlayerNode.swift": "bce51daf3b616a7e4b109a001fba0f7621bfcf93a3c65b1db9a26e29e4d85a9e",
+    "submodules/NagramiXCore/Sources/NagramiXTabSettings.swift": "6d4631a3dc92c3d8140f221553d7657de32b3c825341b5d98f96b7d0f70d24d2"
+  },
+  "templates": {
+    "pip_first_request/Before.inc": "0aeeab2bb3cbefb713eec43aa187f198cc7730ed233542c7ffb519c2681db164",
+    "pip_first_request/After.inc": "50341de889fc1f3bc75ffde74aa68f9a212e3ab4fdbe4c07e30abdd441afc2ef"
+  }
+}

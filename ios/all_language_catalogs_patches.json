@@ -1,0 +1,441 @@
+{
+  "inputs": {},
+  "outputs": {},
+  "previous": {},
+  "guards": {
+    "submodules/NagramiXCore/BUILD": "869e31310cc925b84ceb827a3c0b8503f3a22614acb4abeeec4a4ad435cf56e2",
+    "submodules/NagramiXCore/Sources/NagramiXAppLocalization.swift": "c27d2d470c70568e9a80e0e38c509befea549c99afd47215e0024949fe67a67c",
+    "submodules/NagramiXCore/Sources/NagramiXPresentationStrings.swift": "1963ef991aac6f373ef1db44a6f67a5817bdf6c7aba1c7f86f67d88df95d93d9",
+    "submodules/NagramiXCore/Resources/en.lproj/Localizable.strings": "1458011bc962e7d884bf0422831a6a520d4d4106ab972a3168083f61639fd584",
+    "submodules/NagramiXCore/Resources/ru.lproj/Localizable.strings": "3ca986861db8a15982ec5d98e89b513712a8251303551385620d73691233a934",
+    "submodules/DebugSettingsUI/BUILD": "c78ac972a846cbd16a0dc9cef0d704f3d2001c9fb6bd83b73b7d642c9a422c92",
+    "submodules/SettingsUI/Sources/NagramiXSettingsController.swift": "c185b86a93d4c1bc00ac67b1be37334969176e35784866e85a2764c243ce296f",
+    "submodules/NagramiXTranscription/Sources/Preferences.swift": "bcf5912d2cd2df45b01720160a39d489b6340f83f5b3780aba0f3c1764c25c19",
+    "submodules/DebugSettingsUI/Sources/CrashReportsController.swift": "0779b1ef8039f18b051f9b78357c9cd68fa6180e23416ad7df43d17bc0e9137c",
+    "submodules/DebugSettingsUI/Sources/DebugAccountsController.swift": "2334bca4db640863eb5cf0c56864c8b08bb3d4c43029ecc2100627a8978e9a5a",
+    "submodules/DebugSettingsUI/Sources/DebugController.swift": "340fa999d77a431eae158a5893fae36bde604393102c402a0f202172329d6bc7"
+  },
+  "templates": {
+    "all_language_catalogs/af.lproj/Localizable.strings": "5684ecdecab87a7ce09fe6fa26822c4b40c7e9a970eea7469c7f9df9c01281a1",
+    "all_language_catalogs/am.lproj/Localizable.strings": "514bd938049b790a268eade76aafa7e99f6bb0a13ead3924deae7d92e0bd1ea0",
+    "all_language_catalogs/ar.lproj/Localizable.strings": "eeb0c4304c7401adcd4e61ca3db66b01d5cdb650e1d7df8e8ef034c8da074ead",
+    "all_language_catalogs/az.lproj/Localizable.strings": "9235f94cf48f52d9369687131ddcfd7367a724db8366a36aac7babf43f550dbc",
+    "all_language_catalogs/be.lproj/Localizable.strings": "e412ee59af39c8dcaac178ee20894d8ad547ea44062a92889b6ad3c564b36137",
+    "all_language_catalogs/bg.lproj/Localizable.strings": "8ca9e0157273a465afbb61eaa7105b420294a1fc8142246987184c620e270b5b",
+    "all_language_catalogs/bn.lproj/Localizable.strings": "36a8aae02bcfab86b7a73d7ccc11d51f5d989c1c35bd5c6bf65a47ddf102b3d1",
+    "all_language_catalogs/ca.lproj/Localizable.strings": "a87b241c7c64b189f6768e2575b10c1d0f5fb32bc2c9a447bae7055311d17152",
+    "all_language_catalogs/cs.lproj/Localizable.strings": "c3f97958af34fb4909bec0a8f51fee957522b39d4188d4bfff674b827a4f6234",
+    "all_language_catalogs/da.lproj/Localizable.strings": "10eabc9fa9cf59fc44f478c051dbe89b37829ad451f1315ffcbc3d0139eb675a",
+    "all_language_catalogs/de.lproj/Localizable.strings": "b0d0473bc3326f6bfbaa9f6dcb8cabfc3e110b956f80dd3939543b20fe402867",
+    "all_language_catalogs/el.lproj/Localizable.strings": "d063838bd75c0c0e8bccc4ed6ef85460d13243443259a262f42b752a58a348c1",
+    "all_language_catalogs/eo.lproj/Localizable.strings": "307fbcada40d8fd5a26f9defea98d870317584e4417d7c2648852fcccef265b0",
+    "all_language_catalogs/es.lproj/Localizable.strings": "e84a922911fce94f32e56f9580cbe20053dfda9bd0e21829f92e39a3736c8708",
+    "all_language_catalogs/et.lproj/Localizable.strings": "c2328ad1b1eed7f0c2feeb1b9048f370ef825f63b0a61185105258cc94ea8de2",
+    "all_language_catalogs/eu.lproj/Localizable.strings": "81628da10e9e7875f67b3c715f8784654b5b680a5ca59048058130b39d2ee603",
+    "all_language_catalogs/fa.lproj/Localizable.strings": "cb5492ef8b6be40926d8e276b4fdc7acebc20268e8e26e878129499d7eba81e7",
+    "all_language_catalogs/fi.lproj/Localizable.strings": "9f916cc759dba044bba6df7d0ad52859ba97c310cab909b25f036a82bef9b4e4",
+    "all_language_catalogs/fil.lproj/Localizable.strings": "28e2b16c689d17a604e946cc0cf1243eed0f235b685ae3bd4aa6a0c8fa8ceb87",
+    "all_language_catalogs/fr.lproj/Localizable.strings": "b7235cac50f78ae44e1d64e1416b61f4ebf4aa6fbbad16aea485efe288fc778e",
+    "all_language_catalogs/ga.lproj/Localizable.strings": "69e3a33cbf1bbb910c1884340e374d5993450b1edfe77cbc9d8618ab4f0640f1",
+    "all_language_catalogs/gl.lproj/Localizable.strings": "e491409a04c33f4409d99e4a553df40dbca292b352b59b776868b3ddbb9fad17",
+    "all_language_catalogs/gu.lproj/Localizable.strings": "157df2b9c937c2399cb4a24d6c2c367b82e32458bb0e8181ccb7f95a3275d4b8",
+    "all_language_catalogs/he.lproj/Localizable.strings": "1ebac63f7e3062b8c9096e33f8efa4a03561f7069a7740a78014767e8c05d2bd",
+    "all_language_catalogs/hi.lproj/Localizable.strings": "edca05b7fe8452ac1f4582b9595a8c2429248ff7682b070c854a58ea1f746a41",
+    "all_language_catalogs/hr.lproj/Localizable.strings": "f57a7c838faa55913a2d99bc76af1f7bfd1c2320461682ab228f03802f07dd66",
+    "all_language_catalogs/hu.lproj/Localizable.strings": "a9fd052dc298d9b18f019f06aaa089ab443cb02129735c92d69fc443a33c9bfb",
+    "all_language_catalogs/hy.lproj/Localizable.strings": "a808b0d9c22f229916f4eea73cbd1edfce1dbfce507b3f93ec2d470677717173",
+    "all_language_catalogs/id.lproj/Localizable.strings": "ca61794af01c11b9a770033cf960475c5e152e0635ea85e428b932797f3101f1",
+    "all_language_catalogs/it.lproj/Localizable.strings": "134bbfbb3b4d29d44e43c9831ad78baab6f713ab23ed82f11e87852bee30c386",
+    "all_language_catalogs/ja.lproj/Localizable.strings": "93309152d3d9250513546445790bb1d64956a95df099a0883f4f2b54742ef228",
+    "all_language_catalogs/ka.lproj/Localizable.strings": "4e1afb2781f954b0cac9f38cee8a5d34a8996a76092964b0b094316a93a69adc",
+    "all_language_catalogs/kk.lproj/Localizable.strings": "093e8a03cb2abec85cc4da5130c4217c347c7505f9da803261a90893fc7e2be7",
+    "all_language_catalogs/km.lproj/Localizable.strings": "5d9fa30f40ba5abd18e111fdececb182333b4a2c35642e82b647532834e605a5",
+    "all_language_catalogs/kn.lproj/Localizable.strings": "49655be692433a1c24fcf9cab52c454e1a6c9aea26be1fa9661f35f6a9d519ca",
+    "all_language_catalogs/ko.lproj/Localizable.strings": "2eccf50a0f774eb53fe2e64d289f5d424c273453d87268564045a7e67edfc61b",
+    "all_language_catalogs/lt.lproj/Localizable.strings": "005a0763dc66e6902a23fbb52b1337055ad8e7472815b4e5fbdcf9179e41093a",
+    "all_language_catalogs/lv.lproj/Localizable.strings": "6eb33a385599f6b62b5de1b92e2307924df57dea8648658664e68da6dba3dffe",
+    "all_language_catalogs/ml.lproj/Localizable.strings": "c776d6b9432ad27c96162f3f927fc22ff601ee34f2b7e592af6193743a023345",
+    "all_language_catalogs/mr.lproj/Localizable.strings": "9b46960cf9d2ed2c03f4f48153e2eac8de11046ce6571c53ca064a684e5d4fe5",
+    "all_language_catalogs/ms.lproj/Localizable.strings": "3e5b72dde02ebf751eebff4dc164acb63adb8765eb146c3269d8213202bef2d2",
+    "all_language_catalogs/mt.lproj/Localizable.strings": "ad594bb289e29db000599ab3768eb972b4f752bbf422be5aaa7c32d98406abfb",
+    "all_language_catalogs/my.lproj/Localizable.strings": "d0082780174de879d81266ac24756991a8576692c04aaee1b3523fd36e237eb4",
+    "all_language_catalogs/nb.lproj/Localizable.strings": "149b1d56dace2a0c83f1a0fedfd1eba288cfe3ebcc9cd55f1a5f2af70be01690",
+    "all_language_catalogs/ne.lproj/Localizable.strings": "d9db17da8685091027cca31db77e2359ed7cbaf600fc25f0918468e470992622",
+    "all_language_catalogs/nl.lproj/Localizable.strings": "8b35e889ebefa597d932ac3b31088174ce096b706ab732941189d0f60641a139",
+    "all_language_catalogs/or.lproj/Localizable.strings": "bdec2ba8c37f859ec90b3d8b1c2f0c20b08ad9effe231a636deb0714091ebeef",
+    "all_language_catalogs/pl.lproj/Localizable.strings": "cc74cff1afe7da37e7b9bd69dc20e29a0277c8d0049c5c2b923fa2df4f634f70",
+    "all_language_catalogs/provenance.json": "a94f955298fe4038b06ca19612d6ed114babbff0b8b4cfa789ee30339ac08c14",
+    "all_language_catalogs/pt-br.lproj/Localizable.strings": "af32949db2ea5aead2b7ca7ad70c102433abf84ad6848f2230cdcdb671b60441",
+    "all_language_catalogs/pt-pt.lproj/Localizable.strings": "9238dd75137b9710a026f6c38a259098ecbd485e24002d81594b837ba47f3332",
+    "all_language_catalogs/reviewed_overrides.json": "edc16ddc64f943f236b383b0685b1973d854f0a72816288571dfe11ce0ce5b47",
+    "all_language_catalogs/ro.lproj/Localizable.strings": "5db1ee1fba388c261abfbbccbf5e1665834b4118c7364821191bebdbc2dd4fca",
+    "all_language_catalogs/sk.lproj/Localizable.strings": "351f71010564cc942a3ef8e392de9b432affd158f209229e77e665e8decf4e1a",
+    "all_language_catalogs/sl.lproj/Localizable.strings": "46133f7ef394aa6e2cb10a378963c1250dfead1add9b6f72539e1e021f6a96b3",
+    "all_language_catalogs/sq.lproj/Localizable.strings": "32bc34ba7be19ebc99cb9cad3055625cd8bbc9cd6859443579af04fba9a556a3",
+    "all_language_catalogs/sr.lproj/Localizable.strings": "7b5a1f18fa9c8210dfb6bed4db5a5f9526ecd392328c04b99b8b96babd7c7149",
+    "all_language_catalogs/sv.lproj/Localizable.strings": "cc47a7a89fc94bc555fe07441896422db97489c54fe21c72eb4a2a0dc1cd6fc3",
+    "all_language_catalogs/sw.lproj/Localizable.strings": "61a37e4c8b82d43fb191dbd1197c3febfcedfed8cabe44277730393f22aadb47",
+    "all_language_catalogs/ta.lproj/Localizable.strings": "14a5e1c64529225a70c676a8077b9df415c5e6f289d1644df5aacbe42fbf88a6",
+    "all_language_catalogs/te.lproj/Localizable.strings": "8e49fbb28da6a5cd8eed88f44c4123a1b646545aebf161c3c04c454a641223cc",
+    "all_language_catalogs/terminology.json": "1cb128487aeca3c68732512730d863eac1ff8e41d1e2696e4f633ca832d4233f",
+    "all_language_catalogs/tg.lproj/Localizable.strings": "0d0b225f8e0a1aca482619eb38709da853b7cd451c26a4f25f724dda44c92ba4",
+    "all_language_catalogs/th.lproj/Localizable.strings": "0a11b7fc95ea82c6ee375fd72e18b9bf169e9aec11fda723e6c4f0df85b4ced1",
+    "all_language_catalogs/tk.lproj/Localizable.strings": "5c08bb1cfb0c0888e57a81d881cd6d620704648a729af31cf0010c76f23116c4",
+    "all_language_catalogs/tr.lproj/Localizable.strings": "69e691f910975dfea5cef77bc14fa24fe741cd3e9b70fd843a104fae4db8d7d1",
+    "all_language_catalogs/uk.lproj/Localizable.strings": "d95090f3bb81680ef31804d2b43999f4104686ad2772f4902a67e5e11a2c948c",
+    "all_language_catalogs/ur.lproj/Localizable.strings": "04c996b6ab30148bed04f89b11e3cf783b7f522cb978fb36b75de03342e81c45",
+    "all_language_catalogs/uz.lproj/Localizable.strings": "8f69583ac6ae4947ea4cf8f7b18928f8ad1e1d09232c57aa8b614cd805328159",
+    "all_language_catalogs/vi.lproj/Localizable.strings": "f1b28aaec6db5fe429f11e9475e06eab061661f1fe2f583e49a39df206511317",
+    "all_language_catalogs/zh-hans.lproj/Localizable.strings": "a825e27fa73ad9ea966a3c1cfb467c18e553b4c9c012c286a8c38add42678411",
+    "all_language_catalogs/zh-hant.lproj/Localizable.strings": "323c5e7ca8c69959fa374186116a9f796ba2e0b33b3dccf37e4d43595df23f5b"
+  },
+  "copies": {
+    "submodules/NagramiXCore/Resources/af.lproj/Localizable.strings": {
+      "source": "all_language_catalogs/af.lproj/Localizable.strings",
+      "sha256": "5684ecdecab87a7ce09fe6fa26822c4b40c7e9a970eea7469c7f9df9c01281a1"
+    },
+    "submodules/NagramiXCore/Resources/sq.lproj/Localizable.strings": {
+      "source": "all_language_catalogs/sq.lproj/Localizable.strings",
+      "sha256": "32bc34ba7be19ebc99cb9cad3055625cd8bbc9cd6859443579af04fba9a556a3"
+    },
+    "submodules/NagramiXCore/Resources/am.lproj/Localizable.strings": {
+      "source": "all_language_catalogs/am.lproj/Localizable.strings",
+      "sha256": "514bd938049b790a268eade76aafa7e99f6bb0a13ead3924deae7d92e0bd1ea0"
+    },
+    "submodules/NagramiXCore/Resources/ar.lproj/Localizable.strings": {
+      "source": "all_language_catalogs/ar.lproj/Localizable.strings",
+      "sha256": "eeb0c4304c7401adcd4e61ca3db66b01d5cdb650e1d7df8e8ef034c8da074ead"
+    },
+    "submodules/NagramiXCore/Resources/hy.lproj/Localizable.strings": {
+      "source": "all_language_catalogs/hy.lproj/Localizable.strings",
+      "sha256": "a808b0d9c22f229916f4eea73cbd1edfce1dbfce507b3f93ec2d470677717173"
+    },
+    "submodules/NagramiXCore/Resources/az.lproj/Localizable.strings": {
+      "source": "all_language_catalogs/az.lproj/Localizable.strings",
+      "sha256": "9235f94cf48f52d9369687131ddcfd7367a724db8366a36aac7babf43f550dbc"
+    },
+    "submodules/NagramiXCore/Resources/eu.lproj/Localizable.strings": {
+      "source": "all_language_catalogs/eu.lproj/Localizable.strings",
+      "sha256": "81628da10e9e7875f67b3c715f8784654b5b680a5ca59048058130b39d2ee603"
+    },
+    "submodules/NagramiXCore/Resources/be.lproj/Localizable.strings": {
+      "source": "all_language_catalogs/be.lproj/Localizable.strings",
+      "sha256": "e412ee59af39c8dcaac178ee20894d8ad547ea44062a92889b6ad3c564b36137"
+    },
+    "submodules/NagramiXCore/Resources/bn.lproj/Localizable.strings": {
+      "source": "all_language_catalogs/bn.lproj/Localizable.strings",
+      "sha256": "36a8aae02bcfab86b7a73d7ccc11d51f5d989c1c35bd5c6bf65a47ddf102b3d1"
+    },
+    "submodules/NagramiXCore/Resources/bg.lproj/Localizable.strings": {
+      "source": "all_language_catalogs/bg.lproj/Localizable.strings",
+      "sha256": "8ca9e0157273a465afbb61eaa7105b420294a1fc8142246987184c620e270b5b"
+    },
+    "submodules/NagramiXCore/Resources/my.lproj/Localizable.strings": {
+      "source": "all_language_catalogs/my.lproj/Localizable.strings",
+      "sha256": "d0082780174de879d81266ac24756991a8576692c04aaee1b3523fd36e237eb4"
+    },
+    "submodules/NagramiXCore/Resources/ca.lproj/Localizable.strings": {
+      "source": "all_language_catalogs/ca.lproj/Localizable.strings",
+      "sha256": "a87b241c7c64b189f6768e2575b10c1d0f5fb32bc2c9a447bae7055311d17152"
+    },
+    "submodules/NagramiXCore/Resources/zh-hans.lproj/Localizable.strings": {
+      "source": "all_language_catalogs/zh-hans.lproj/Localizable.strings",
+      "sha256": "a825e27fa73ad9ea966a3c1cfb467c18e553b4c9c012c286a8c38add42678411"
+    },
+    "submodules/NagramiXCore/Resources/zh-hant.lproj/Localizable.strings": {
+      "source": "all_language_catalogs/zh-hant.lproj/Localizable.strings",
+      "sha256": "323c5e7ca8c69959fa374186116a9f796ba2e0b33b3dccf37e4d43595df23f5b"
+    },
+    "submodules/NagramiXCore/Resources/hr.lproj/Localizable.strings": {
+      "source": "all_language_catalogs/hr.lproj/Localizable.strings",
+      "sha256": "f57a7c838faa55913a2d99bc76af1f7bfd1c2320461682ab228f03802f07dd66"
+    },
+    "submodules/NagramiXCore/Resources/cs.lproj/Localizable.strings": {
+      "source": "all_language_catalogs/cs.lproj/Localizable.strings",
+      "sha256": "c3f97958af34fb4909bec0a8f51fee957522b39d4188d4bfff674b827a4f6234"
+    },
+    "submodules/NagramiXCore/Resources/da.lproj/Localizable.strings": {
+      "source": "all_language_catalogs/da.lproj/Localizable.strings",
+      "sha256": "10eabc9fa9cf59fc44f478c051dbe89b37829ad451f1315ffcbc3d0139eb675a"
+    },
+    "submodules/NagramiXCore/Resources/nl.lproj/Localizable.strings": {
+      "source": "all_language_catalogs/nl.lproj/Localizable.strings",
+      "sha256": "8b35e889ebefa597d932ac3b31088174ce096b706ab732941189d0f60641a139"
+    },
+    "submodules/NagramiXCore/Resources/eo.lproj/Localizable.strings": {
+      "source": "all_language_catalogs/eo.lproj/Localizable.strings",
+      "sha256": "307fbcada40d8fd5a26f9defea98d870317584e4417d7c2648852fcccef265b0"
+    },
+    "submodules/NagramiXCore/Resources/et.lproj/Localizable.strings": {
+      "source": "all_language_catalogs/et.lproj/Localizable.strings",
+      "sha256": "c2328ad1b1eed7f0c2feeb1b9048f370ef825f63b0a61185105258cc94ea8de2"
+    },
+    "submodules/NagramiXCore/Resources/fil.lproj/Localizable.strings": {
+      "source": "all_language_catalogs/fil.lproj/Localizable.strings",
+      "sha256": "28e2b16c689d17a604e946cc0cf1243eed0f235b685ae3bd4aa6a0c8fa8ceb87"
+    },
+    "submodules/NagramiXCore/Resources/fi.lproj/Localizable.strings": {
+      "source": "all_language_catalogs/fi.lproj/Localizable.strings",
+      "sha256": "9f916cc759dba044bba6df7d0ad52859ba97c310cab909b25f036a82bef9b4e4"
+    },
+    "submodules/NagramiXCore/Resources/fr.lproj/Localizable.strings": {
+      "source": "all_language_catalogs/fr.lproj/Localizable.strings",
+      "sha256": "b7235cac50f78ae44e1d64e1416b61f4ebf4aa6fbbad16aea485efe288fc778e"
+    },
+    "submodules/NagramiXCore/Resources/gl.lproj/Localizable.strings": {
+      "source": "all_language_catalogs/gl.lproj/Localizable.strings",
+      "sha256": "e491409a04c33f4409d99e4a553df40dbca292b352b59b776868b3ddbb9fad17"
+    },
+    "submodules/NagramiXCore/Resources/ka.lproj/Localizable.strings": {
+      "source": "all_language_catalogs/ka.lproj/Localizable.strings",
+      "sha256": "4e1afb2781f954b0cac9f38cee8a5d34a8996a76092964b0b094316a93a69adc"
+    },
+    "submodules/NagramiXCore/Resources/de.lproj/Localizable.strings": {
+      "source": "all_language_catalogs/de.lproj/Localizable.strings",
+      "sha256": "b0d0473bc3326f6bfbaa9f6dcb8cabfc3e110b956f80dd3939543b20fe402867"
+    },
+    "submodules/NagramiXCore/Resources/el.lproj/Localizable.strings": {
+      "source": "all_language_catalogs/el.lproj/Localizable.strings",
+      "sha256": "d063838bd75c0c0e8bccc4ed6ef85460d13243443259a262f42b752a58a348c1"
+    },
+    "submodules/NagramiXCore/Resources/gu.lproj/Localizable.strings": {
+      "source": "all_language_catalogs/gu.lproj/Localizable.strings",
+      "sha256": "157df2b9c937c2399cb4a24d6c2c367b82e32458bb0e8181ccb7f95a3275d4b8"
+    },
+    "submodules/NagramiXCore/Resources/he.lproj/Localizable.strings": {
+      "source": "all_language_catalogs/he.lproj/Localizable.strings",
+      "sha256": "1ebac63f7e3062b8c9096e33f8efa4a03561f7069a7740a78014767e8c05d2bd"
+    },
+    "submodules/NagramiXCore/Resources/hi.lproj/Localizable.strings": {
+      "source": "all_language_catalogs/hi.lproj/Localizable.strings",
+      "sha256": "edca05b7fe8452ac1f4582b9595a8c2429248ff7682b070c854a58ea1f746a41"
+    },
+    "submodules/NagramiXCore/Resources/hu.lproj/Localizable.strings": {
+      "source": "all_language_catalogs/hu.lproj/Localizable.strings",
+      "sha256": "a9fd052dc298d9b18f019f06aaa089ab443cb02129735c92d69fc443a33c9bfb"
+    },
+    "submodules/NagramiXCore/Resources/id.lproj/Localizable.strings": {
+      "source": "all_language_catalogs/id.lproj/Localizable.strings",
+      "sha256": "ca61794af01c11b9a770033cf960475c5e152e0635ea85e428b932797f3101f1"
+    },
+    "submodules/NagramiXCore/Resources/ga.lproj/Localizable.strings": {
+      "source": "all_language_catalogs/ga.lproj/Localizable.strings",
+      "sha256": "69e3a33cbf1bbb910c1884340e374d5993450b1edfe77cbc9d8618ab4f0640f1"
+    },
+    "submodules/NagramiXCore/Resources/it.lproj/Localizable.strings": {
+      "source": "all_language_catalogs/it.lproj/Localizable.strings",
+      "sha256": "134bbfbb3b4d29d44e43c9831ad78baab6f713ab23ed82f11e87852bee30c386"
+    },
+    "submodules/NagramiXCore/Resources/ja.lproj/Localizable.strings": {
+      "source": "all_language_catalogs/ja.lproj/Localizable.strings",
+      "sha256": "93309152d3d9250513546445790bb1d64956a95df099a0883f4f2b54742ef228"
+    },
+    "submodules/NagramiXCore/Resources/kn.lproj/Localizable.strings": {
+      "source": "all_language_catalogs/kn.lproj/Localizable.strings",
+      "sha256": "49655be692433a1c24fcf9cab52c454e1a6c9aea26be1fa9661f35f6a9d519ca"
+    },
+    "submodules/NagramiXCore/Resources/kk.lproj/Localizable.strings": {
+      "source": "all_language_catalogs/kk.lproj/Localizable.strings",
+      "sha256": "093e8a03cb2abec85cc4da5130c4217c347c7505f9da803261a90893fc7e2be7"
+    },
+    "submodules/NagramiXCore/Resources/km.lproj/Localizable.strings": {
+      "source": "all_language_catalogs/km.lproj/Localizable.strings",
+      "sha256": "5d9fa30f40ba5abd18e111fdececb182333b4a2c35642e82b647532834e605a5"
+    },
+    "submodules/NagramiXCore/Resources/ko.lproj/Localizable.strings": {
+      "source": "all_language_catalogs/ko.lproj/Localizable.strings",
+      "sha256": "2eccf50a0f774eb53fe2e64d289f5d424c273453d87268564045a7e67edfc61b"
+    },
+    "submodules/NagramiXCore/Resources/lv.lproj/Localizable.strings": {
+      "source": "all_language_catalogs/lv.lproj/Localizable.strings",
+      "sha256": "6eb33a385599f6b62b5de1b92e2307924df57dea8648658664e68da6dba3dffe"
+    },
+    "submodules/NagramiXCore/Resources/lt.lproj/Localizable.strings": {
+      "source": "all_language_catalogs/lt.lproj/Localizable.strings",
+      "sha256": "005a0763dc66e6902a23fbb52b1337055ad8e7472815b4e5fbdcf9179e41093a"
+    },
+    "submodules/NagramiXCore/Resources/ms.lproj/Localizable.strings": {
+      "source": "all_language_catalogs/ms.lproj/Localizable.strings",
+      "sha256": "3e5b72dde02ebf751eebff4dc164acb63adb8765eb146c3269d8213202bef2d2"
+    },
+    "submodules/NagramiXCore/Resources/ml.lproj/Localizable.strings": {
+      "source": "all_language_catalogs/ml.lproj/Localizable.strings",
+      "sha256": "c776d6b9432ad27c96162f3f927fc22ff601ee34f2b7e592af6193743a023345"
+    },
+    "submodules/NagramiXCore/Resources/mt.lproj/Localizable.strings": {
+      "source": "all_language_catalogs/mt.lproj/Localizable.strings",
+      "sha256": "ad594bb289e29db000599ab3768eb972b4f752bbf422be5aaa7c32d98406abfb"
+    },
+    "submodules/NagramiXCore/Resources/mr.lproj/Localizable.strings": {
+      "source": "all_language_catalogs/mr.lproj/Localizable.strings",
+      "sha256": "9b46960cf9d2ed2c03f4f48153e2eac8de11046ce6571c53ca064a684e5d4fe5"
+    },
+    "submodules/NagramiXCore/Resources/ne.lproj/Localizable.strings": {
+      "source": "all_language_catalogs/ne.lproj/Localizable.strings",
+      "sha256": "d9db17da8685091027cca31db77e2359ed7cbaf600fc25f0918468e470992622"
+    },
+    "submodules/NagramiXCore/Resources/nb.lproj/Localizable.strings": {
+      "source": "all_language_catalogs/nb.lproj/Localizable.strings",
+      "sha256": "149b1d56dace2a0c83f1a0fedfd1eba288cfe3ebcc9cd55f1a5f2af70be01690"
+    },
+    "submodules/NagramiXCore/Resources/or.lproj/Localizable.strings": {
+      "source": "all_language_catalogs/or.lproj/Localizable.strings",
+      "sha256": "bdec2ba8c37f859ec90b3d8b1c2f0c20b08ad9effe231a636deb0714091ebeef"
+    },
+    "submodules/NagramiXCore/Resources/fa.lproj/Localizable.strings": {
+      "source": "all_language_catalogs/fa.lproj/Localizable.strings",
+      "sha256": "cb5492ef8b6be40926d8e276b4fdc7acebc20268e8e26e878129499d7eba81e7"
+    },
+    "submodules/NagramiXCore/Resources/pl.lproj/Localizable.strings": {
+      "source": "all_language_catalogs/pl.lproj/Localizable.strings",
+      "sha256": "cc74cff1afe7da37e7b9bd69dc20e29a0277c8d0049c5c2b923fa2df4f634f70"
+    },
+    "submodules/NagramiXCore/Resources/pt-br.lproj/Localizable.strings": {
+      "source": "all_language_catalogs/pt-br.lproj/Localizable.strings",
+      "sha256": "af32949db2ea5aead2b7ca7ad70c102433abf84ad6848f2230cdcdb671b60441"
+    },
+    "submodules/NagramiXCore/Resources/pt-pt.lproj/Localizable.strings": {
+      "source": "all_language_catalogs/pt-pt.lproj/Localizable.strings",
+      "sha256": "9238dd75137b9710a026f6c38a259098ecbd485e24002d81594b837ba47f3332"
+    },
+    "submodules/NagramiXCore/Resources/ro.lproj/Localizable.strings": {
+      "source": "all_language_catalogs/ro.lproj/Localizable.strings",
+      "sha256": "5db1ee1fba388c261abfbbccbf5e1665834b4118c7364821191bebdbc2dd4fca"
+    },
+    "submodules/NagramiXCore/Resources/sr.lproj/Localizable.strings": {
+      "source": "all_language_catalogs/sr.lproj/Localizable.strings",
+      "sha256": "7b5a1f18fa9c8210dfb6bed4db5a5f9526ecd392328c04b99b8b96babd7c7149"
+    },
+    "submodules/NagramiXCore/Resources/sk.lproj/Localizable.strings": {
+      "source": "all_language_catalogs/sk.lproj/Localizable.strings",
+      "sha256": "351f71010564cc942a3ef8e392de9b432affd158f209229e77e665e8decf4e1a"
+    },
+    "submodules/NagramiXCore/Resources/sl.lproj/Localizable.strings": {
+      "source": "all_language_catalogs/sl.lproj/Localizable.strings",
+      "sha256": "46133f7ef394aa6e2cb10a378963c1250dfead1add9b6f72539e1e021f6a96b3"
+    },
+    "submodules/NagramiXCore/Resources/es.lproj/Localizable.strings": {
+      "source": "all_language_catalogs/es.lproj/Localizable.strings",
+      "sha256": "e84a922911fce94f32e56f9580cbe20053dfda9bd0e21829f92e39a3736c8708"
+    },
+    "submodules/NagramiXCore/Resources/sw.lproj/Localizable.strings": {
+      "source": "all_language_catalogs/sw.lproj/Localizable.strings",
+      "sha256": "61a37e4c8b82d43fb191dbd1197c3febfcedfed8cabe44277730393f22aadb47"
+    },
+    "submodules/NagramiXCore/Resources/sv.lproj/Localizable.strings": {
+      "source": "all_language_catalogs/sv.lproj/Localizable.strings",
+      "sha256": "cc47a7a89fc94bc555fe07441896422db97489c54fe21c72eb4a2a0dc1cd6fc3"
+    },
+    "submodules/NagramiXCore/Resources/tg.lproj/Localizable.strings": {
+      "source": "all_language_catalogs/tg.lproj/Localizable.strings",
+      "sha256": "0d0b225f8e0a1aca482619eb38709da853b7cd451c26a4f25f724dda44c92ba4"
+    },
+    "submodules/NagramiXCore/Resources/ta.lproj/Localizable.strings": {
+      "source": "all_language_catalogs/ta.lproj/Localizable.strings",
+      "sha256": "14a5e1c64529225a70c676a8077b9df415c5e6f289d1644df5aacbe42fbf88a6"
+    },
+    "submodules/NagramiXCore/Resources/te.lproj/Localizable.strings": {
+      "source": "all_language_catalogs/te.lproj/Localizable.strings",
+      "sha256": "8e49fbb28da6a5cd8eed88f44c4123a1b646545aebf161c3c04c454a641223cc"
+    },
+    "submodules/NagramiXCore/Resources/th.lproj/Localizable.strings": {
+      "source": "all_language_catalogs/th.lproj/Localizable.strings",
+      "sha256": "0a11b7fc95ea82c6ee375fd72e18b9bf169e9aec11fda723e6c4f0df85b4ced1"
+    },
+    "submodules/NagramiXCore/Resources/tr.lproj/Localizable.strings": {
+      "source": "all_language_catalogs/tr.lproj/Localizable.strings",
+      "sha256": "69e691f910975dfea5cef77bc14fa24fe741cd3e9b70fd843a104fae4db8d7d1"
+    },
+    "submodules/NagramiXCore/Resources/tk.lproj/Localizable.strings": {
+      "source": "all_language_catalogs/tk.lproj/Localizable.strings",
+      "sha256": "5c08bb1cfb0c0888e57a81d881cd6d620704648a729af31cf0010c76f23116c4"
+    },
+    "submodules/NagramiXCore/Resources/uk.lproj/Localizable.strings": {
+      "source": "all_language_catalogs/uk.lproj/Localizable.strings",
+      "sha256": "d95090f3bb81680ef31804d2b43999f4104686ad2772f4902a67e5e11a2c948c"
+    },
+    "submodules/NagramiXCore/Resources/ur.lproj/Localizable.strings": {
+      "source": "all_language_catalogs/ur.lproj/Localizable.strings",
+      "sha256": "04c996b6ab30148bed04f89b11e3cf783b7f522cb978fb36b75de03342e81c45"
+    },
+    "submodules/NagramiXCore/Resources/uz.lproj/Localizable.strings": {
+      "source": "all_language_catalogs/uz.lproj/Localizable.strings",
+      "sha256": "8f69583ac6ae4947ea4cf8f7b18928f8ad1e1d09232c57aa8b614cd805328159"
+    },
+    "submodules/NagramiXCore/Resources/vi.lproj/Localizable.strings": {
+      "source": "all_language_catalogs/vi.lproj/Localizable.strings",
+      "sha256": "f1b28aaec6db5fe429f11e9475e06eab061661f1fe2f583e49a39df206511317"
+    }
+  },
+  "languages": [
+    "af",
+    "sq",
+    "am",
+    "ar",
+    "hy",
+    "az",
+    "eu",
+    "be",
+    "bn",
+    "bg",
+    "my",
+    "ca",
+    "zh-hans",
+    "zh-hant",
+    "hr",
+    "cs",
+    "da",
+    "nl",
+    "eo",
+    "et",
+    "fil",
+    "fi",
+    "fr",
+    "gl",
+    "ka",
+    "de",
+    "el",
+    "gu",
+    "he",
+    "hi",
+    "hu",
+    "id",
+    "ga",
+    "it",
+    "ja",
+    "kn",
+    "kk",
+    "km",
+    "ko",
+    "lv",
+    "lt",
+    "ms",
+    "ml",
+    "mt",
+    "mr",
+    "ne",
+    "nb",
+    "or",
+    "fa",
+    "pl",
+    "pt-br",
+    "pt-pt",
+    "ro",
+    "sr",
+    "sk",
+    "sl",
+    "es",
+    "sw",
+    "sv",
+    "tg",
+    "ta",
+    "te",
+    "th",
+    "tr",
+    "tk",
+    "uk",
+    "ur",
+    "uz",
+    "vi"
+  ]
+}

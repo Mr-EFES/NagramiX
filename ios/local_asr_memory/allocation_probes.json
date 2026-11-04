@@ -1,0 +1,137 @@
+{
+  "whisper_commit": "a8d002cfd879315632a579e73f0148d06959de36",
+  "platform": "Linux x86_64 CPU; not iOS/Accelerate",
+  "method": "Actual upstream model/state allocations using empty upstream for-tests fixtures, no inference or real weights. Each family and flash flag measured independently.",
+  "observations": [
+    {
+      "model": "tiny",
+      "flash": false,
+      "allocations": [
+        "whisper_init_state: kv self size  =    3.15 MB",
+        "whisper_init_state: kv cross size =    9.44 MB",
+        "whisper_init_state: kv pad  size  =    2.36 MB",
+        "whisper_init_state: compute buffer (conv)   =   13.19 MB",
+        "whisper_init_state: compute buffer (encode) =   64.79 MB",
+        "whisper_init_state: compute buffer (cross)  =    3.88 MB",
+        "whisper_init_state: compute buffer (decode) =   95.89 MB"
+      ]
+    },
+    {
+      "model": "tiny",
+      "flash": true,
+      "allocations": [
+        "whisper_init_state: kv self size  =    3.15 MB",
+        "whisper_init_state: kv cross size =    9.44 MB",
+        "whisper_init_state: kv pad  size  =    2.36 MB",
+        "whisper_init_state: compute buffer (conv)   =   13.19 MB",
+        "whisper_init_state: compute buffer (encode) =   17.70 MB",
+        "whisper_init_state: compute buffer (cross)  =    3.88 MB",
+        "whisper_init_state: compute buffer (decode) =   95.89 MB"
+      ]
+    },
+    {
+      "model": "base",
+      "flash": false,
+      "allocations": [
+        "whisper_init_state: kv self size  =    6.29 MB",
+        "whisper_init_state: kv cross size =   18.87 MB",
+        "whisper_init_state: kv pad  size  =    3.15 MB",
+        "whisper_init_state: compute buffer (conv)   =   16.26 MB",
+        "whisper_init_state: compute buffer (encode) =   85.86 MB",
+        "whisper_init_state: compute buffer (cross)  =    4.65 MB",
+        "whisper_init_state: compute buffer (decode) =   96.35 MB"
+      ]
+    },
+    {
+      "model": "base",
+      "flash": true,
+      "allocations": [
+        "whisper_init_state: kv self size  =    6.29 MB",
+        "whisper_init_state: kv cross size =   18.87 MB",
+        "whisper_init_state: kv pad  size  =    3.15 MB",
+        "whisper_init_state: compute buffer (conv)   =   16.26 MB",
+        "whisper_init_state: compute buffer (encode) =   23.08 MB",
+        "whisper_init_state: compute buffer (cross)  =    4.65 MB",
+        "whisper_init_state: compute buffer (decode) =   96.35 MB"
+      ]
+    },
+    {
+      "model": "small",
+      "flash": false,
+      "allocations": [
+        "whisper_init_state: kv self size  =   18.87 MB",
+        "whisper_init_state: kv cross size =   56.62 MB",
+        "whisper_init_state: kv pad  size  =    4.72 MB",
+        "whisper_init_state: compute buffer (conv)   =   22.41 MB",
+        "whisper_init_state: compute buffer (encode) =  128.01 MB",
+        "whisper_init_state: compute buffer (cross)  =    6.18 MB",
+        "whisper_init_state: compute buffer (decode) =   97.27 MB"
+      ]
+    },
+    {
+      "model": "small",
+      "flash": true,
+      "allocations": [
+        "whisper_init_state: kv self size  =   18.87 MB",
+        "whisper_init_state: kv cross size =   56.62 MB",
+        "whisper_init_state: kv pad  size  =    4.72 MB",
+        "whisper_init_state: compute buffer (conv)   =   22.41 MB",
+        "whisper_init_state: compute buffer (encode) =   33.83 MB",
+        "whisper_init_state: compute buffer (cross)  =    6.18 MB",
+        "whisper_init_state: compute buffer (decode) =   97.27 MB"
+      ]
+    },
+    {
+      "model": "medium",
+      "flash": false,
+      "allocations": [
+        "whisper_init_state: kv self size  =   50.33 MB",
+        "whisper_init_state: kv cross size =  150.99 MB",
+        "whisper_init_state: kv pad  size  =    6.29 MB",
+        "whisper_init_state: compute buffer (conv)   =   28.55 MB",
+        "whisper_init_state: compute buffer (encode) =  170.15 MB",
+        "whisper_init_state: compute buffer (cross)  =    7.72 MB",
+        "whisper_init_state: compute buffer (decode) =   98.19 MB"
+      ]
+    },
+    {
+      "model": "medium",
+      "flash": true,
+      "allocations": [
+        "whisper_init_state: kv self size  =   50.33 MB",
+        "whisper_init_state: kv cross size =  150.99 MB",
+        "whisper_init_state: kv pad  size  =    6.29 MB",
+        "whisper_init_state: compute buffer (conv)   =   28.55 MB",
+        "whisper_init_state: compute buffer (encode) =   44.58 MB",
+        "whisper_init_state: compute buffer (cross)  =    7.72 MB",
+        "whisper_init_state: compute buffer (decode) =   98.19 MB"
+      ]
+    },
+    {
+      "model": "large",
+      "flash": false,
+      "allocations": [
+        "whisper_init_state: kv self size  =   83.89 MB",
+        "whisper_init_state: kv cross size =  251.66 MB",
+        "whisper_init_state: kv pad  size  =    7.86 MB",
+        "whisper_init_state: compute buffer (conv)   =   34.69 MB",
+        "whisper_init_state: compute buffer (encode) =  212.29 MB",
+        "whisper_init_state: compute buffer (cross)  =    9.25 MB",
+        "whisper_init_state: compute buffer (decode) =   99.10 MB"
+      ]
+    },
+    {
+      "model": "large",
+      "flash": true,
+      "allocations": [
+        "whisper_init_state: kv self size  =   83.89 MB",
+        "whisper_init_state: kv cross size =  251.66 MB",
+        "whisper_init_state: kv pad  size  =    7.86 MB",
+        "whisper_init_state: compute buffer (conv)   =   34.69 MB",
+        "whisper_init_state: compute buffer (encode) =   55.33 MB",
+        "whisper_init_state: compute buffer (cross)  =    9.25 MB",
+        "whisper_init_state: compute buffer (decode) =   99.10 MB"
+      ]
+    }
+  ]
+}

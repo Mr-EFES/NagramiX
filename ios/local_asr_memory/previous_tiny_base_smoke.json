@@ -1,0 +1,31 @@
+{
+  "limitations": "One public clean English sample; speed and quality do not generalize to Russian or iPhone. Both chosen Q5 files match existing pinned SHA256.",
+  "runs": [
+    {
+      "id": "tiny_q5_1",
+      "file": "ggml-tiny-q5_1.bin",
+      "bytes": 32152673,
+      "sha256": "818710568da3ca15689e31a743197b520007872ff9576237bda97bd1b469c3d7",
+      "sample": "upstream samples/jfk.wav; English clean speech, 11 seconds",
+      "seconds": 13.588,
+      "maxrss_kib": 103332,
+      "transcript": "And so my fellow Americans ask not what your country can do for you, ask what you can do for your country.",
+      "word_errors": 0,
+      "reference_words": 22,
+      "platform": "Linux x86_64 CPU, 3 threads; not an iPhone benchmark"
+    },
+    {
+      "id": "base",
+      "file": "ggml-base-q5_1.bin",
+      "bytes": 59707625,
+      "sha256": "422f1ae452ade6f30a004d7e5c6a43195e4433bc370bf23fac9cc591f01a8898",
+      "sample": "upstream samples/jfk.wav; English clean speech, 11 seconds",
+      "seconds": 6.852,
+      "maxrss_kib": 153148,
+      "transcript": "And so my fellow Americans ask not what your country can do for you, ask what you can do for your country.",
+      "word_errors": 0,
+      "reference_words": 22,
+      "platform": "Linux x86_64 CPU, 3 threads; not an iPhone benchmark"
+    }
+  ]
+}

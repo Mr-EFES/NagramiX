@@ -20,6 +20,25 @@ def require(condition: bool, message: str) -> None:
         raise SystemExit(message)
 
 
+def validate_settings_localizations(archive: zipfile.ZipFile, prefix: str) -> int:
+    """Проверить все переводы в готовом пакете, включая новый ключ Vosk."""
+    plan = json.loads((ROOT / 'ios/vosk_model_naming_patches.json').read_text())
+    labels = json.loads((ROOT / 'ios/vosk_model_naming/labels.json').read_text())
+    codes = {item['code'] for item in json.loads((ROOT / 'ios/app_language_localization/languages.json').read_text())['languages']}
+    require(set(labels) == codes, 'Неполный контракт языков IPA')
+    for code in sorted(codes):
+        name = f'submodules/NagramiXCore/Resources/{code}.lproj/Localizable.strings'
+        text = (ROOT / 'ios' / plan['previous'][name]).read_text()
+        pairs = re.findall(r'^"((?:[^"\\]|\\.)*)"\s*=\s*"((?:[^"\\]|\\.)*)";', text, re.MULTILINE)
+        expected = {json.loads('"' + key + '"'): json.loads('"' + value + '"') for key, value in pairs}
+        expected['NagramiX.Transcription.Vosk.Alternative'] = labels[code]
+        resource = prefix + f'Frameworks/TelegramUIFramework.framework/NagramiXLocalization.bundle/{code}.lproj/Localizable.strings'
+        require(resource in archive.namelist(), f'В IPA отсутствует язык настроек: {code}')
+        packed = plistlib.loads(archive.read(resource))
+        require(len(expected) == 613 and packed == expected, f'Переводы настроек/debug в IPA изменены или неполны: {code}')
+    return len(codes)
+
+
 def validate_device_compatibility(archive: zipfile.ZipFile) -> int:
     count = 0
     for entry in archive.infolist():
@@ -229,6 +248,10 @@ def main() -> None:
             for language, packed, title in (("ru", custom, "Быстрое форматирование"), ("en", english_custom, "Quick formatting")):
                 require(packed.get("NagramiX.QuickFormatting.PanelTitle") == title, f"Неверный заголовок панели: {language}")
                 require(bool(packed.get("NagramiX.Icon.ChangeFailed")), f"Нет сообщения об отказе смены иконки: {language}")
+
+        if tuple(int(part) for part in args.version.split(".")) >= (0, 8, 6):
+            language_count = validate_settings_localizations(archive, prefix)
+            print(f"Переводы IPA проверены: {language_count} языков, по 613 ключей настроек/debug")
 
     print(f"IPA проверен: {args.version}, build {args.build_number}, iOS15+, ARM64/iPhoneOS файлов {device_binary_count}, RU {len(russian)}/{len(custom)}, мелодий {sound_count}, иконок {icon_count}, checksum/provenance, без профилей")
     print(f"SHA256: {digest}; размер: {args.ipa.stat().st_size} байт")

@@ -1,0 +1,80 @@
+{
+  "inputs": {
+    "submodules/NagramiXTranscription/Sources/Whisper.swift": "41eb178781a4d076e488af257b0d6dfb07d1fc210429aead96da815b437076bc",
+    "submodules/NagramiXTranscription/Sources/VoskRecognizer.swift": "1648f398460e4b401ea09e5286ab5714bb4bca369290166ac31114e50b3187eb",
+    "submodules/NagramiXTranscription/Sources/MediaPreparation.swift": "ad19175ebfd1ad0c45841eaf3acb15f2efe909e7bf847b582f1f011cf802c8e6",
+    "submodules/NagramiXTranscription/Whisper/Bridge.cpp": "c348df8f43b5f46eebeeb9ef06ec2c32dd9b34f2e8d0b69c72c6f8e5bbecdf6a",
+    "submodules/NagramiXTranscription/Whisper/Bridge.h": "e15ce20f4339d63ff46904245279e27ab2af88b41b06d4927690a2d121222bc3",
+    "submodules/NagramiXTranscription/Sources/Preferences.swift": "bcf5912d2cd2df45b01720160a39d489b6340f83f5b3780aba0f3c1764c25c19",
+    "submodules/NagramiXTranscription/Sources/Settings.swift": "b6a49ae2c0b0b66e5a528c8b76f08eec1cfa47c31c9b46c0ad56c63bde84b32e",
+    "submodules/NagramiXTranscription/Sources/VoskModels.swift": "f28b2db3b19957f32245cd54056c9f3900413a40d0f62127a4e100b50658f5d9"
+  },
+  "outputs": {
+    "submodules/NagramiXTranscription/Sources/Whisper.swift": "0ad0a82e203ee41cc242403d043f4f2b399670f101d5df77e8440b9a998df774",
+    "submodules/NagramiXTranscription/Sources/VoskRecognizer.swift": "c82f89e56cb4e70911e75f63146726ab84b64cd1a256b656ffaa2ea246bf9baa",
+    "submodules/NagramiXTranscription/Sources/MediaPreparation.swift": "3251d6810ffb3e206abcf74fe527171ca02081296fdece3cfc1fc41b4f4aa7c3",
+    "submodules/NagramiXTranscription/Whisper/Bridge.cpp": "8921590b9b02ea0306d8444d4c06df0c3361f87aa785959617f6dbce194d0434",
+    "submodules/NagramiXTranscription/Whisper/Bridge.h": "c912e11e45a268936f17fae450e5662570e448f579541eedbac6abbb0d57bc28",
+    "submodules/NagramiXTranscription/Sources/Preferences.swift": "2e975944948c3231eaa01a45925bd4706390fc06751f91bece1496238f78281c",
+    "submodules/NagramiXTranscription/Sources/Settings.swift": "be43e5a4cc0200d01695730cdd7e27a4e817c0ade5bdebb06d77ef972f811dac",
+    "submodules/NagramiXTranscription/Sources/VoskModels.swift": "17eabbedbd6f820840ab4ce2ef846d0e8261ec8a20df64dcecfa32b52991f64e"
+  },
+  "previous": {
+    "submodules/NagramiXTranscription/Sources/Whisper.swift": "local_asr_memory/Before0.inc",
+    "submodules/NagramiXTranscription/Sources/VoskRecognizer.swift": "local_asr_memory/Before1.inc",
+    "submodules/NagramiXTranscription/Sources/MediaPreparation.swift": "local_asr_memory/Before2.inc",
+    "submodules/NagramiXTranscription/Whisper/Bridge.cpp": "local_asr_memory/Before3.inc",
+    "submodules/NagramiXTranscription/Whisper/Bridge.h": "local_asr_memory/Before4.inc",
+    "submodules/NagramiXTranscription/Sources/Preferences.swift": "local_asr_memory/Before5.inc",
+    "submodules/NagramiXTranscription/Sources/Settings.swift": "local_asr_memory/Before6.inc",
+    "submodules/NagramiXTranscription/Sources/VoskModels.swift": "local_asr_memory/Before7.inc"
+  },
+  "replacements": {
+    "submodules/NagramiXTranscription/Sources/Whisper.swift": "local_asr_memory/After0.inc",
+    "submodules/NagramiXTranscription/Sources/VoskRecognizer.swift": "local_asr_memory/After1.inc",
+    "submodules/NagramiXTranscription/Sources/MediaPreparation.swift": "local_asr_memory/After2.inc",
+    "submodules/NagramiXTranscription/Whisper/Bridge.cpp": "local_asr_memory/After3.inc",
+    "submodules/NagramiXTranscription/Whisper/Bridge.h": "local_asr_memory/After4.inc",
+    "submodules/NagramiXTranscription/Sources/Preferences.swift": "local_asr_memory/After5.inc",
+    "submodules/NagramiXTranscription/Sources/Settings.swift": "local_asr_memory/After6.inc",
+    "submodules/NagramiXTranscription/Sources/VoskModels.swift": "local_asr_memory/After7.inc"
+  },
+  "copies": {
+    "submodules/NagramiXTranscription/Sources/LocalInferenceMemory.swift": {
+      "source": "local_asr_memory/LocalInferenceMemory.swift",
+      "sha256": "aaf07a65b1f6f5c834a6bee36dcdae6d231ec84758737d2745c19320fea8eb65"
+    }
+  },
+  "templates": {
+    "local_asr_memory/Before0.inc": "41eb178781a4d076e488af257b0d6dfb07d1fc210429aead96da815b437076bc",
+    "local_asr_memory/After0.inc": "0ad0a82e203ee41cc242403d043f4f2b399670f101d5df77e8440b9a998df774",
+    "local_asr_memory/Before1.inc": "1648f398460e4b401ea09e5286ab5714bb4bca369290166ac31114e50b3187eb",
+    "local_asr_memory/After1.inc": "c82f89e56cb4e70911e75f63146726ab84b64cd1a256b656ffaa2ea246bf9baa",
+    "local_asr_memory/Before2.inc": "ad19175ebfd1ad0c45841eaf3acb15f2efe909e7bf847b582f1f011cf802c8e6",
+    "local_asr_memory/After2.inc": "3251d6810ffb3e206abcf74fe527171ca02081296fdece3cfc1fc41b4f4aa7c3",
+    "local_asr_memory/Before3.inc": "c348df8f43b5f46eebeeb9ef06ec2c32dd9b34f2e8d0b69c72c6f8e5bbecdf6a",
+    "local_asr_memory/After3.inc": "8921590b9b02ea0306d8444d4c06df0c3361f87aa785959617f6dbce194d0434",
+    "local_asr_memory/Before4.inc": "e15ce20f4339d63ff46904245279e27ab2af88b41b06d4927690a2d121222bc3",
+    "local_asr_memory/After4.inc": "c912e11e45a268936f17fae450e5662570e448f579541eedbac6abbb0d57bc28",
+    "local_asr_memory/Before5.inc": "bcf5912d2cd2df45b01720160a39d489b6340f83f5b3780aba0f3c1764c25c19",
+    "local_asr_memory/After5.inc": "2e975944948c3231eaa01a45925bd4706390fc06751f91bece1496238f78281c",
+    "local_asr_memory/Before6.inc": "b6a49ae2c0b0b66e5a528c8b76f08eec1cfa47c31c9b46c0ad56c63bde84b32e",
+    "local_asr_memory/After6.inc": "be43e5a4cc0200d01695730cdd7e27a4e817c0ade5bdebb06d77ef972f811dac",
+    "local_asr_memory/LocalInferenceMemory.swift": "aaf07a65b1f6f5c834a6bee36dcdae6d231ec84758737d2745c19320fea8eb65",
+    "local_asr_memory/Before7.inc": "f28b2db3b19957f32245cd54056c9f3900413a40d0f62127a4e100b50658f5d9",
+    "local_asr_memory/After7.inc": "17eabbedbd6f820840ab4ce2ef846d0e8261ec8a20df64dcecfa32b52991f64e"
+  },
+  "guards": {
+    "submodules/NagramiXTranscription/BUILD": "f7e6352e9950459f20eafd0431dc7e9f23a2c4cbed744305ecb5f13c376decf6",
+    "submodules/NagramiXTranscription/Sources/Models.swift": "bdbfb43f78a02b31a217a5db1910f81b06c741b3422f2517ff7b4df83abf4a65",
+    "submodules/NagramiXTranscription/Sources/Coordinator.swift": "337fca53ada806134c4cd98e1af9e0ec7171619fa0a2f092aa7a7d78371878e9",
+    "submodules/NagramiXTranscription/Sources/Runtime.swift": "892ffc98e245ab6504d1b257704de928f6b0c5f9123b8253f59e342c4f3aa7f3",
+    "submodules/NagramiXTranscription/Whisper/BUILD": "75ba2c38b20af3719a59805b208f42eabaa0f9aada0fee22de4f97bb29f3e7df",
+    "submodules/NagramiXTranscription/Whisper/upstream.BUILD": "7849768ddd5d83301b1046cb0b8640e27f5a1ce336ce9423c7b1ff0fd4c23863",
+    "submodules/NagramiXTranscription/Vosk/Bridge.cpp": "05383540d3a34921dd49e7267603f60a2132d85f678bb1d39e83e4e08eb2dc25",
+    "submodules/NagramiXTranscription/Vosk/BUILD": "f0abcc053fc35ddbaca48756d437b442d9d16b2e9e217c77a4407b7a6c705b9b",
+    "submodules/NagramiXTranscription/Vosk/Bridge.h": "470ba946b71f9a8045914904d63dca876270227a609ed8dea52ef0f3680af271",
+    "submodules/NagramiXCore/Resources/en.lproj/Localizable.strings": "1458011bc962e7d884bf0422831a6a520d4d4106ab972a3168083f61639fd584",
+    "submodules/NagramiXCore/Resources/ru.lproj/Localizable.strings": "3ca986861db8a15982ec5d98e89b513712a8251303551385620d73691233a934"
+  }
+}

@@ -2,6 +2,8 @@
 
 Текущая реализация находится в финальных этапах `transcription_whisper_safety`, `transcription_cloud_ui`, `transcription_local_fallback`, `transcription_cloudflare`, `transcription_vosk`. Ранние проверенные входы сохранены; Actions/IPA/SDK не запускались.
 
+Актуальный контракт моделей и памяти заменён [LOCAL_ASR_MODELS](LOCAL_ASR_MODELS.md): BaseQ5/Small full/TurboQ8 и compactru0.22/архивный graph-вариант ru0.10. Предыдущие четыре полные модели и multiplier-memory guard ниже относятся к историческому входу; новые исходники проверены отдельно, SDK/iPhone pending.
+
 ## Поведение
 
 В «Прочее» группа «РАСШИФРОВКА ГОЛОСОВЫХ», включение и условные настройки с выбранным способом. На странице «Расшифровка» короткие подписи «Авторасшифровка» и «Резервный способ». Telegram Premium виден только после подтверждения подписки текущего аккаунта. Apple, Whisper, Vosk расположены в группе на устройстве; Cloudflare, Gemini, ChatGPT, Grok — через интернет. Legacy Groq не сбрасывается. Перевода текста на другой язык этот экран не выполняет.

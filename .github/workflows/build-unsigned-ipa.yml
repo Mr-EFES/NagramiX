@@ -25,7 +25,7 @@ on:
         default: true
 
 env:
-  NAGRAMIX_VERSION: 0.8.5
+  NAGRAMIX_VERSION: 0.8.6
 
 permissions:
   contents: read
@@ -133,6 +133,17 @@ jobs:
             --source Telegram-iOS \
             --legacy-source Telegram-overlay-input \
             --configuration "$RUNNER_TEMP/nagramix-configuration.json"
+          python3 scripts/validate_pip_first_request.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)"
+          python3 scripts/validate_vosk_model_naming.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)"
+          python3 scripts/validate_local_asr_memory.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)"
+          python3 scripts/validate_archive_post_lifecycle.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)"
+          python3 scripts/validate_expanded_keyboard_timing.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)"
+          python3 scripts/validate_expanded_panel_animation.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)"
+          python3 scripts/validate_temporary_voice_transcription.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)"
+          python3 scripts/tests/test_localization_literals.py
+          python3 scripts/tests/test_localization_standard.py
+          python3 scripts/validate_all_language_catalogs.py --source Telegram-iOS
+          python3 scripts/validate_localization_standard.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)"
           python3 scripts/validate_archive_chat_scope.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)"
           python3 scripts/validate_free_content.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)"
           python3 scripts/validate_recipient_copy_isolation.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)"
