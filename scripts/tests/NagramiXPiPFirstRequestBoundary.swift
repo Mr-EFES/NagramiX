@@ -1,4 +1,7 @@
 import Foundation
+#if canImport(CoreGraphics)
+import CoreGraphics
+#endif
 
 // AVKit/KVO, UIKit, account data and scheduling are explicit test boundaries.
 // Full production controller/delegate, setup, button, swipe and restore bodies run.
