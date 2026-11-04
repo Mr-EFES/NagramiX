@@ -990,7 +990,7 @@ public final class NagramiXMessageArchive {
     /// Only the explicit second-stage UI action calls this method. Native and
     /// server deletion paths continue to retain snapshots rather than purge them.
     public func deleteArchivedPosts(messageIds: Set<MessageId>) -> Signal<Void, NoError> {
-        return Signal { subscriber in
+        return Signal { [self] subscriber in
             let records = self.state.with { $0.records }
             let deleted = messageIds.filter { records[Self.key($0)]?.deletedAt != nil }
             let groups = Set(deleted.compactMap { id -> NagramiXArchivePostKey? in

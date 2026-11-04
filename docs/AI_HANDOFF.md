@@ -2,6 +2,10 @@
 
 ## Разрешена сборка и публикация0.8.6
 
+Для совместимости подготовлен официальный Linux Swift6.3 в task-owned `/tmp/nagramix-release-086/swift63`. На нём typecheck actual archive/panel/timing bodies с warnings-as-errors пройден;129 temporary-ASR checks/режим и строгий71×613 gate с runtime lookup тоже проходят. Исправление167 проверено полным48 archive suite/режим, отрицательными контролями и50 fail-closed входами; проверки не ослаблены.
+
+Попытка167/1, run41926538367, source9c42e20ac359112763a10fb8e7c8b3776fde4603 прошла PiP/CoreGraphics и ASR, затем остановилась до SDK на новом Swift diagnostic ImplicitStrongCapture в deleteArchivedPosts. В ещё не выпущенном output новой archive_post_lifecycle добавлен явный сильный [self] у внешнего Signal, внутренний weak self и runtime-логика прежние. Согласованы точные output/template SHA; published/старые canonical inputs не менялись. Следующая чистая попытка0.8.6 разрешена той же командой.
+
 Попытка166/1, run41925833701, source5ba72417c6b396456485646bddcdd5a3eda86407 остановилась до SDK в новом PiP standalone-тесте: macOS Foundation без явного CoreGraphics не предоставляет CGRect(x:y:width:height:) и zero. В тестовую границу добавлен conditional import CoreGraphics; production overlay не менялся. Авторизованная чистая повторная сборка с публикацией продолжается, версия0.8.6 сохраняется.
 
 После завершения PiP владелец прямо поручил запуск IPA со всеми разрешениями и публикацией в репозитории. Прежняя пауза заменена этой командой. Режим: clean_build=true, publish_release=true, prerelease=false; main, commit «Релиз 0.8.6», author/committer Mr_EFES с подтверждённой noreply-почтой. GitHub API сейчас public, gh api user — Mr-EFES. Ранее владелец уже открыл репозиторий; новая явная команда запуска разрешает продолжать без повторного вопроса. Завершить SDK/проверку пакета/owner release и дать ссылку Make private. Новых вопросов между разрешёнными сборкой и публикацией не нужно.

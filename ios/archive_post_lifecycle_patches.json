@@ -9,7 +9,7 @@
     "submodules/TelegramCore/Sources/TelegramEngine/Messages/NagramiXLocalMessageData.swift": "e3befa55ef250ca1ddb2653d315bd7660b02866cdd77e5eb994eef22d9d5562c"
   },
   "outputs": {
-    "submodules/TelegramCore/Sources/Utils/NagramiXMessageArchive.swift": "180ed788e1ace8427a3c081568db346e6455ed3c2438ff8352209c894e63a6e4",
+    "submodules/TelegramCore/Sources/Utils/NagramiXMessageArchive.swift": "a06b14b283b439d6f150d503eb941d6f9b61385666917d3de6f983083b46d9a4",
     "submodules/TelegramUI/Sources/ChatControllerAdminBanUsers.swift": "5251797cb38cff8aeb4f837279ef1ca01715bb15ef8bf3f48a66ae0b64ea5e6e",
     "submodules/TelegramUI/Sources/ChatController.swift": "1456ec455fd4945695e6996e4b7b4eec59a195c32bb649df94427d88a0e02736",
     "submodules/TelegramUI/Sources/Chat/ChatControllerLoadDisplayNode.swift": "e92e86b96339f8e87c08135ad76342d0e93b889c0ccc45cf54e51c528d0d74e2",
@@ -37,7 +37,7 @@
   },
   "templates": {
     "archive_post_lifecycle/Before0.inc": "552a6142031da1a5c72521ff92e293d0b03793295fc96b3791476c7c1d97b83e",
-    "archive_post_lifecycle/After0.inc": "180ed788e1ace8427a3c081568db346e6455ed3c2438ff8352209c894e63a6e4",
+    "archive_post_lifecycle/After0.inc": "a06b14b283b439d6f150d503eb941d6f9b61385666917d3de6f983083b46d9a4",
     "archive_post_lifecycle/Before1.inc": "772c983455140cde15c02325be7fa795e11d63e63ac255c9a5ac0a5fa9befd8d",
     "archive_post_lifecycle/After1.inc": "5251797cb38cff8aeb4f837279ef1ca01715bb15ef8bf3f48a66ae0b64ea5e6e",
     "archive_post_lifecycle/Before2.inc": "45e6fbdb50197f735f6f176b8377bc30116f3627815bad9ef160099913dce12f",
