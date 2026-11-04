@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import copy
+import hashlib
 import importlib.util
 import json
 from pathlib import Path
@@ -45,6 +46,8 @@ class PublicationTests(unittest.TestCase):
         self.artifact = {"name": "NagramiX-0.8.5-unsigned-arm64", "expired": False,
                          "digest": pub.digest(self.archive)}
         self.release, self.ref = None, None
+        self.tag_lookup_missing = False
+        self.release_pages = {}
         self.writes, self.uploads = [], []
         for name, replacement in (("ROOT", self.root), ("api", self.api), ("upload", self.upload)):
             patch = mock.patch.object(pub, name, replacement)
@@ -69,7 +72,10 @@ class PublicationTests(unittest.TestCase):
         if "/git/ref/tags/" in path:
             return copy.deepcopy(self.ref)
         if "/releases/tags/" in path:
-            return copy.deepcopy(self.release)
+            return None if self.tag_lookup_missing else copy.deepcopy(self.release)
+        if path.startswith(pub.API + "/releases?per_page=100&page="):
+            page = int(path.rsplit("=", 1)[1])
+            return copy.deepcopy(self.release_pages.get(page, []))
         if path == pub.API + "/releases" and method == "POST":
             self.release = {**data, "id": 99, "author": {"login": pub.OWNER}, "assets": [],
                             "html_url": "https://github.com/" + pub.REPO + "/releases/tag/v0.8.5"}
@@ -86,9 +92,9 @@ class PublicationTests(unittest.TestCase):
         self.release["assets"] = [{"name": p.name, "size": p.stat().st_size,
                                    "digest": pub.digest(p), "uploader": {"login": pub.OWNER}} for p in paths]
 
-    def reject(self):
+    def reject(self, finalize_uploaded=False):
         with self.assertRaises(RuntimeError):
-            pub.publish(10, self.archive)
+            pub.publish(10, self.archive, finalize_uploaded=finalize_uploaded)
         self.assertEqual(self.writes, [])
         self.assertEqual(self.uploads, [])
 
@@ -115,6 +121,83 @@ class PublicationTests(unittest.TestCase):
         self.release = {"draft": True, "author": {"login": pub.OWNER},
                         "target_commitish": self.source, "assets": [{"name": "partial-upload"}]}
         self.reject()
+
+    def uploaded_owner_draft(self):
+        with zipfile.ZipFile(self.archive) as archive:
+            assets = [{"name": name, "size": len(archive.read(name)),
+                       "digest": "sha256:" + hashlib.sha256(archive.read(name)).hexdigest(),
+                       "uploader": {"login": pub.OWNER}} for name in self.names]
+        return {"id": 99, "draft": True, "author": {"login": pub.OWNER},
+                "target_commitish": self.source, "assets": assets, "html_url": "verified"}
+
+    def test_finalize_complete_owner_draft_without_uploading(self):
+        self.release = self.uploaded_owner_draft()
+        self.assertEqual(pub.publish(10, self.archive, finalize_uploaded=True), "verified")
+        self.assertEqual(self.uploads, [])
+        self.assertEqual([item[0] for item in self.writes], ["PATCH"])
+        self.assertFalse(self.release["draft"])
+        self.package.assert_called_once()
+
+    def test_finalize_requires_existing_draft(self):
+        self.reject(finalize_uploaded=True)
+
+    def test_finalize_rejects_unverified_assets_before_writes(self):
+        for change in ("empty", "partial", "extra", "digest", "size", "uploader"):
+            with self.subTest(change=change):
+                self.release = self.uploaded_owner_draft()
+                assets = self.release["assets"]
+                if change == "empty":
+                    assets.clear()
+                elif change == "partial":
+                    assets.pop()
+                elif change == "extra":
+                    assets.append(copy.deepcopy(assets[0]))
+                elif change == "digest":
+                    assets[0]["digest"] = "sha256:" + "0" * 64
+                elif change == "size":
+                    assets[0]["size"] += 1
+                elif change == "uploader":
+                    assets[0]["uploader"]["login"] = "github-actions[bot]"
+                self.reject(finalize_uploaded=True)
+
+    def test_finalize_never_replaces_published_or_foreign_release(self):
+        for change in ("published", "author", "source"):
+            with self.subTest(change=change):
+                self.release = self.uploaded_owner_draft()
+                if change == "published":
+                    self.release["draft"] = False
+                elif change == "author":
+                    self.release["author"]["login"] = "github-actions[bot]"
+                else:
+                    self.release["target_commitish"] = "b" * 40
+                self.reject(finalize_uploaded=True)
+
+    def test_finalize_preserves_existing_tag_source(self):
+        self.release = self.uploaded_owner_draft()
+        self.ref = {"object": {"type": "commit", "sha": "b" * 40}}
+        self.reject(finalize_uploaded=True)
+
+    def test_finalize_finds_unpublished_draft_after_tag_lookup_404(self):
+        self.release = {**self.uploaded_owner_draft(), "tag_name": "v0.8.5"}
+        self.tag_lookup_missing = True
+        self.release_pages[1] = [{"tag_name": "v0.8.4", "draft": False}, self.release]
+        self.assertEqual(pub.publish(10, self.archive, finalize_uploaded=True), "verified")
+        self.assertEqual(self.uploads, [])
+        self.assertEqual([item[0] for item in self.writes], ["PATCH"])
+
+    def test_draft_lookup_checks_later_pages(self):
+        self.release = {**self.uploaded_owner_draft(), "tag_name": "v0.8.5"}
+        self.tag_lookup_missing = True
+        self.release_pages[1] = [{"tag_name": "unrelated"}] * 100
+        self.release_pages[2] = [self.release]
+        self.assertEqual(pub.publish(10, self.archive, finalize_uploaded=True), "verified")
+        self.assertEqual([item[0] for item in self.writes], ["PATCH"])
+
+    def test_ambiguous_drafts_are_rejected_before_writes(self):
+        self.release = {**self.uploaded_owner_draft(), "tag_name": "v0.8.5"}
+        self.tag_lookup_missing = True
+        self.release_pages[1] = [self.release, {**self.release, "id": 100}]
+        self.reject(finalize_uploaded=True)
 
     def test_wrong_account(self):
         self.login = "github-actions[bot]"

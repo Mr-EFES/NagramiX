@@ -1,6 +1,8 @@
 # Временные голосовые в переписке
 
-Исправление после 0.8.4: `source_checked / native_compile_pending / device_pending`. При включённых «Временных сообщениях» поддерживаемое одноразовое голосовое воспроизводится в своей строке переписки. Отдельное окно с размытой подложкой и кнопкой «Закрыть» для него не создаётся. Используются штатные огонь, обратный отсчёт и исчезающая дорожка Telegram.
+Сборка **0.8.5/build165** и пакет проверены; физическая приёмка — device_pending. Публикация и точные подтверждения — [RELEASE_STATUS](RELEASE_STATUS.md).
+
+Исправление после 0.8.4: `source_checked / native_compile_passed / device_pending`. При включённых «Временных сообщениях» поддерживаемое одноразовое голосовое воспроизводится в своей строке переписки. Отдельное окно с размытой подложкой и кнопкой «Закрыть» для него не создаётся. Используются штатные огонь, обратный отсчёт и исчезающая дорожка Telegram.
 
 ## Условия и поведение
 
@@ -28,7 +30,7 @@ python3 scripts/validate_inline_temporary_voice.py --source <native> --swiftc <s
 
 39 некорректных входов отклоняются без частичной записи. Swift parse трёх файлов проходит. Свежая полная композиция закреплённого Telegram 13.1.2 побайтно воспроизводит последние четыре стадии; финальный post-port сохраняет их, upstream PostboxImportCheck проходит. Прежние проверки «Свободного контента» и view-once consumption guard проходят на актуальной цепочке.
 
-Артефакты сессии вне Git: `/tmp/nagramix-inline-temporary-voice/verification.json`, `verification.log`, `composition.log`, `free-content-regression.log`, `consumption-regression.log`. Временные файлы не являются постоянным архивом доказательств. SDK/IPA, commit/push и публикация в этой задаче не выполнялись; опубликованный 0.8.4 не менялся.
+Артефакты сессии вне Git: `/tmp/nagramix-inline-temporary-voice/verification.json`, `verification.log`, `composition.log`, `free-content-regression.log`, `consumption-regression.log`. Временные файлы не являются постоянным архивом доказательств. SDK и IPA подтверждены поздней сборкой 0.8.5/build165; состояние публикации — в RELEASE_STATUS. Опубликованный 0.8.4 сохранён.
 
 ## Проверка на iPhone
 

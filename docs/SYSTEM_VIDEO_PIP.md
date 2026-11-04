@@ -1,6 +1,8 @@
 # Системный режим «Картинка в Картинке»
 
-Актуальная реализация после 0.8.4: `source_checked / native_compile_pending / device_pending`. Эталон зафиксирован на [b2b82cb4e30228aa6c02567a058df94e9f3745ab](https://github.com/NextAlone/Nagram-iOS/tree/b2b82cb4e30228aa6c02567a058df94e9f3745ab). Проверены GalleryUI, UniversalVideoNode, NativeVideoContent и настройка свайпа. Корневой LICENSE и обязательные уведомления не менялись; комментарии с маркерами другого приложения в новые активные блоки не включены.
+Сборка **0.8.5/build165** и пакет проверены; физическая приёмка — device_pending. Публикация и точные подтверждения — [RELEASE_STATUS](RELEASE_STATUS.md).
+
+Актуальная реализация после 0.8.4: `source_checked / native_compile_passed / device_pending`. Эталон зафиксирован на [b2b82cb4e30228aa6c02567a058df94e9f3745ab](https://github.com/NextAlone/Nagram-iOS/tree/b2b82cb4e30228aa6c02567a058df94e9f3745ab). Проверены GalleryUI, UniversalVideoNode, NativeVideoContent и настройка свайпа. Корневой LICENSE и обязательные уведомления не менялись; комментарии с маркерами другого приложения в новые активные блоки не включены.
 
 ## Управление
 
@@ -29,6 +31,6 @@ python3 scripts/validate_system_video_pip.py --source <native> --swiftc <swiftc>
 
 27 некорректных входов отвергаются без частичной записи; Swift parse полного файла проходит. Новая стадия применена к независимому полному post-port дереву, выход совпадает с pre-post деревом побайтно. Финальный post-port не меняет этот файл; upstream PostboxImportCheck проходит. Legacy validators снимают новую стадию; прежняя проверка PiP compile fix и gallery export gate проходят.
 
-Доказательства вне Git — `/tmp/nagramix-system-pip/verification.json`, `verification.log`, `composition.log`, `previous-pip.log`, `gallery-regression.log`, полученные файлы эталона. Временные файлы не считать долговременным архивом. Apple SDK/IPA, commit/push и публикация не выполнялись. Опубликованная 0.8.4 содержит прежнее поведение; новый выпуск — только по отдельной команде.
+Доказательства вне Git — `/tmp/nagramix-system-pip/verification.json`, `verification.log`, `composition.log`, `previous-pip.log`, `gallery-regression.log`, полученные файлы эталона. Временные файлы не считать долговременным архивом. SDK и IPA подтверждены поздней сборкой 0.8.5/build165; физическая приёмка остаётся pending. Опубликованный 0.8.4 содержит прежнее поведение; состояние новой публикации — в RELEASE_STATUS.
 
 На iPhone проверить кнопку и первый/повторный свайп вверх при готовом видеослое, свайп вниз, перелистывание, фон/возврат и автоматический запуск, KVO-ready после создания, паузу/продолжение/перемотку, закрытие/восстановление исходной галереи, поворот, смену видео и ограничения форматов. При OFF жест выключен, кнопка и авто-PiP сохраняются. Сопоставить с эталонным приложением на том же устройстве/iOS. Source checks подтверждают совпадение блоков и поведение на тестовых границах; 100% совпадение анимаций и жизненного цикла AVKit на устройстве пока не подтверждено.

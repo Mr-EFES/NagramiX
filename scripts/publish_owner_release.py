@@ -73,7 +73,23 @@ def check_remote_assets(release, paths):
                 f"Размер или SHA256 опубликованного файла не совпадает: {path.name}")
 
 
-def publish(source_run_id, artifact_zip, prerelease=False):
+def find_release(tag):
+    release = api(f"{API}/releases/tags/{tag}", optional=True)
+    if release is not None:
+        return release
+    # GitHub не возвращает собственный неопубликованный черновик по тегу.
+    matches, page = [], 1
+    while True:
+        releases = api(f"{API}/releases?per_page=100&page={page}")
+        matches.extend(item for item in releases if item["tag_name"] == tag)
+        if len(releases) < 100:
+            break
+        page += 1
+    require(len(matches) <= 1, "Найдено несколько релизов с выбранным тегом")
+    return matches[0] if matches else None
+
+
+def publish(source_run_id, artifact_zip, prerelease=False, finalize_uploaded=False):
     # Эта проверка выполняется до создания тегов, черновиков или загрузки файлов.
     require(api("user")["login"] == OWNER, f"Нужна авторизация gh как {OWNER}")
     version = json.loads((ROOT / "product/features/registry.json").read_text())["release"]
@@ -117,11 +133,17 @@ def publish(source_run_id, artifact_zip, prerelease=False):
                 "Provenance указывает другой запуск")
         validate_package(folder, version, build, source)
 
-        existing = api(f"{API}/releases/tags/{tag}", optional=True)
+        paths = [folder / name for name in sorted(names)]
+        existing = find_release(tag)
         if existing is not None:
             require(existing["draft"] and existing["author"]["login"] == OWNER
-                    and existing["target_commitish"] == source and not existing["assets"],
-                    "Замена опубликованного релиза, чужого или непустого черновика запрещена")
+                    and existing["target_commitish"] == source,
+                    "Замена опубликованного релиза или чужого черновика запрещена")
+            require(finalize_uploaded or not existing["assets"],
+                    "Перезапись непустого черновика запрещена; для готовых файлов нужен --finalize-uploaded")
+        if finalize_uploaded:
+            require(existing is not None, "Нет собственного черновика для завершения публикации")
+            check_remote_assets(existing, paths)
         ref = api(f"{API}/git/ref/tags/{tag}", optional=True)
         require(ref is None or (ref["object"]["type"] == "commit" and ref["object"]["sha"] == source),
                 "Существующий тег указывает другой исходник")
@@ -133,8 +155,15 @@ def publish(source_run_id, artifact_zip, prerelease=False):
         require(existing["author"]["login"] == OWNER and existing["draft"],
                 "Черновик создан не от имени владельца")
         release_path = f"{API}/releases/{existing['id']}"
-        paths = [folder / name for name in sorted(names)]
-        upload(tag, paths)
+        if not finalize_uploaded:
+            try:
+                upload(tag, paths)
+            except subprocess.CalledProcessError as error:
+                raise RuntimeError(
+                    "Загрузка файлов не завершена. Собственный черновик сохранён: "
+                    + existing["html_url"]
+                    + ". После загрузки трёх исходных файлов через браузер использовать --finalize-uploaded."
+                ) from error
         check_remote_assets(api(release_path), paths)
         result = api(release_path, "PATCH", {
             "name": f"Релиз {version}", "body": annotation, "draft": False,
@@ -151,9 +180,12 @@ def main():
     parser.add_argument("--source-run-id", required=True, type=int)
     parser.add_argument("--artifact-zip", required=True, type=Path)
     parser.add_argument("--prerelease", action="store_true")
+    parser.add_argument("--finalize-uploaded", action="store_true",
+                        help="Опубликовать собственный черновик с тремя уже загруженными проверенными файлами, без их перезаписи")
     args = parser.parse_args()
     try:
-        print(publish(args.source_run_id, args.artifact_zip, args.prerelease))
+        print(publish(args.source_run_id, args.artifact_zip, args.prerelease,
+                      finalize_uploaded=args.finalize_uploaded))
     except (RuntimeError, subprocess.CalledProcessError, OSError, ValueError, zipfile.BadZipFile) as error:
         parser.exit(1, f"Публикация не выполнена: {error}\n")
 
