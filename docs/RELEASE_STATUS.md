@@ -1,8 +1,8 @@
 # Сборка 0.8.5/build165
 
-**Нативная компиляция и проверка IPA пройдены. Публикация файлов GitHub Release пока не завершена. Физическая проверка на iPhone ожидается.**
+**Обычный релиз 0.8.5/build165 опубликован. Нативная компиляция и проверка скачанного release IPA пройдены. Физическая проверка на iPhone ожидается.**
 
-[Успешная сборка, попытка 2](https://github.com/Mr-EFES/NagramiX/actions/runs/41734603786/attempts/2) · [Исходный ZIP с IPA и метаданными](https://github.com/Mr-EFES/NagramiX/actions/runs/41734603786/artifacts/13288720208) · [Собственный черновик](https://github.com/Mr-EFES/NagramiX/releases/tag/untagged-0a39f6e91f40f7fe6917).
+[Успешная сборка, попытка 2](https://github.com/Mr-EFES/NagramiX/actions/runs/41734603786/attempts/2) · [Исходный ZIP с IPA и метаданными](https://github.com/Mr-EFES/NagramiX/actions/runs/41734603786/artifacts/13288720208) · [Релиз 0.8.5](https://github.com/Mr-EFES/NagramiX/releases/tag/v0.8.5) · [Скачать IPA](https://github.com/Mr-EFES/NagramiX/releases/download/v0.8.5/NagramiX-0.8.5-unsigned.ipa).
 
 База Telegram-iOS **13.1.2**, commit `279f89e4d4f63f17227bf877dc3d8990f22ecd58`, минимум iOS15.0. Оба задания Actions завершены успешно 4 ноября 2026 года. Actor и triggering_actor — Mr-EFES. Режим clean_build/publish_release включён; восстановление кеша отключено, cold gate пройден.
 
@@ -15,22 +15,24 @@
 - В ZIP ровно три файла: IPA, `BUILD-PROVENANCE.txt`, `SHA256SUMS`. Локально подтверждены CRC, checksum, версия/build/источник, 6 ARM64/iPhoneOS Mach-O с iOS15+, отсутствие временных подписей и профилей, RU/EN, 31 мелодия и 8 иконок.
 - Символы: Actions artifact `NagramiX-0.8.5-symbols-arm64`, ID **13287751850**. Отдельное локальное сопоставление UUID dSYM не выполнялось.
 
-Статус: **native_compile_passed / package_verified / release_upload_blocked / device_pending**. Подпись для установки выполняется отдельно. Физические сценарии — [проверка 0.8.5 на iPhone](DEVICE_CHECK_085.md).
+Статус: **native_compile_passed / package_verified / release_published_verified / device_pending**. Подпись для установки выполняется отдельно. Физические сценарии — [проверка 0.8.5 на iPhone](DEVICE_CHECK_085.md).
 
-## Завершение публикации
+## Подтверждённая публикация
 
-Создан обычный собственный черновик **433416662**, автор Mr-EFES, tag_name `v0.8.5`, target `a75ab958d67c6b0aea0ef214e27175da9ace8358`. Публикация остановилась до загрузки первого файла: CLI и стандартный SDK получают HTTP401 от uploads.github.com, хотя API подтверждает аккаунт владельца и позволяет создать черновик. На момент проверки в нём нет assets. GET по тегу не видит неопубликованный черновик; скрипт находит его в постраничном списке релизов и отклоняет неоднозначные совпадения. Не объявлять выпуск опубликованным до фактической проверки API.
+Релиз **433416662** опубликован **4 ноября 2026, 06:21:29 UTC**, draft=false, prerelease=false, latest. Автор и uploader каждого файла — **Mr-EFES**. Тег `v0.8.5` указывает commit `a75ab958d67c6b0aea0ef214e27175da9ace8358`, из которого собран IPA; последующие изменения main относятся к публикации и документации. Body содержит только утверждённое описание приложения.
 
-Через браузер можно прикрепить к этому черновику три неизменённых файла из исходного ZIP. Затем агент завершает уже разрешённую публикацию:
+| Файл | Asset ID | Байт | SHA256 |
+| --- | --- | --- | --- |
+| BUILD-PROVENANCE.txt | 708473521 | 219 | `7b75a7480e8ae1cc5ba45fea60e97100a5b67c8dcc6561db259d6d23c862f46e` |
+| NagramiX-0.8.5-unsigned.ipa | 708473519 | 86539866 | `1386cf0a4610a50fd4d32de2061a056fc2ed3277fc8acd2f4e571fbd0e4041bb` |
+| SHA256SUMS | 708473528 | 94 | `8b336e0c5c5a8aff26cc413c240d98bce596c8510065106038e2a35d5b1d9517` |
 
-```sh
-python3 scripts/publish_owner_release.py --source-run-id 41734603786 --artifact-zip <оригинальный-ZIP> --finalize-uploaded
-```
+Все три файла повторно скачаны из опубликованного релиза. Их состав, размеры и digest совпали с исходным Actions ZIP; validate_unsigned_ipa повторно подтвердил версию/build/source, CRC/checksum/provenance, платформу и ресурсы. Проверены latest, источник тега, автор и uploader каждого файла. Повторно запускать publisher для этого опубликованного релиза нельзя: его замена запрещена.
 
-Режим проверяет CI, cold gate, ZIP, IPA, источник, полный набор assets, размер/SHA256 и uploader Mr-EFES до открытия релиза. Он не загружает и не перезаписывает файлы. Пустой, неполный, изменённый, чужой или уже опубликованный набор отклоняется. Новая SDK-сборка для завершения публикации не требуется; токены и коды в чат не запрашивать.
+Предыдущий HTTP401 uploads.github.com устранён официальным повторным входом GitHub CLI, подтверждённым владельцем через сайт GitHub. Исходный runtime GH_TOKEN работал для API, но отклонялся сервером загрузки. Для команды публикации выбран подтверждённый профиль CLI без приоритетного GH_TOKEN; общая среда и её credentials не менялись. Токены не запрашивались в чат, не извлекались и не коммитились. Пересборка приложения для этого не выполнялась. Порядок выбора профиля и защиты от замены файлов — [RELEASE_VERSIONING](RELEASE_VERSIONING.md).
 
 ## Сохранённый опубликованный 0.8.4
 
 Релиз/tag/IPA **0.8.4/build162** сохранены: [релиз](https://github.com/Mr-EFES/NagramiX/releases/tag/v0.8.4), [успешная сборка](https://github.com/Mr-EFES/NagramiX/actions/runs/41355923502). Размер IPA **86523244 байта**, SHA256 `bf9bc20d42a130c2f211210636cab6f523882201df56be335581f57202d2efe4`. Его исходный provenance — `9d66a823b8b8af2bcaf663f9b9ead9db47843123`; свёрнутый корневой commit/tag `fd14548b7517c1619db44c9a1f6bbb9a55b48b9c` не подменяет исходник уже собранного пакета. Оригинальный ZIP: 86252784 байта, SHA256 `e87fe90aefdfbef8f0ac2c2363707472828f64e76f6c736707aec5da513c96e5`. Исторический автор/uploaders github-actions[bot] не менялись; старые assets не заменяются.
 
-После завершения публикации или остановки работы пользователь вручную закрывает репозиторий по [порядку](REPOSITORY_VISIBILITY.md).
+После публикации GitHub API подтвердил видимость **private**. Репозиторий закрыт; ручной [порядок переключения](REPOSITORY_VISIBILITY.md) сохраняется для следующих сборок.
