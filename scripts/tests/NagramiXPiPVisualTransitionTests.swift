@@ -1,3 +1,8 @@
+final class WeakGalleryProbe {
+    weak var value: GalleryHarness?
+    init(_ value: GalleryHarness?) { self.value = value }
+}
+
 @main enum Tests {
     static var count = 0
     static func check(_ value: @autoclosure () -> Bool, _ message: String) {
@@ -280,12 +285,12 @@
         AVPictureInPictureController.supported = true
 
         var released: GalleryHarness? = GalleryHarness()
-        weak var weakGallery = released
+        let weakGallery = WeakGalleryProbe(released)
         released!.centralityUpdated(isCentral: true); TestScheduler.advance()
         let releaseAV = AVPictureInPictureController.instances.last!, releaseNode = released!.videoNode!
         released!.pictureInPictureButtonPressed(); TestScheduler.advance()
         released = nil; TestScheduler.advance(6)
-        check(weakGallery == nil && releaseAV.delegate == nil && releaseAV.contentSource == nil && releaseAV.observers.isEmpty && releaseNode.status.handlers.isEmpty, "waiting transition and subscriptions do not retain released gallery")
+        check(weakGallery.value == nil && releaseAV.delegate == nil && releaseAV.contentSource == nil && releaseAV.observers.isEmpty && releaseNode.status.handlers.isEmpty, "waiting transition and subscriptions do not retain released gallery")
         print("PASS: \(count) PiP visual transition checks; UIKit/AVKit rendering are boundaries")
     }
 }

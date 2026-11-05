@@ -1,3 +1,7 @@
+# NagramiX0.8.6: попытка172 остановлена до SDK
+
+Новая чистая [172](https://github.com/Mr-EFES/NagramiX/actions/runs/42078683279), sourceb0c60937cc793ed13c8363a606e00896099b3a1a, завершилась ошибкой17:54UTC5 ноября в первом новом тесте PiP. Swift/Xcode27.1 отклонил local weak var как never mutated при -warnings-as-errors. SDK не начинался, нового IPA и опубликованного релиза0.8.6 нет. Test-only исправление WeakGalleryProbe прошло85 checks/режим,13negative variants/режим,44fail-closed; post-port/import также проходят. Приложение/overlay не менялись. НовыйSwift/Xcode повторно не запускался, полная151 проверка ожидается вCI; локальный historical unwrap ограничен диском. ЕДИНСТВЕННЫЙ разрешённый запуск использован: следующая SDK попытка/Actions/rerun только по новой личной команде владельца. Draft435043558 и tag/assets не менялись.
+
 # NagramiX 0.8.6/build171 — исправление PiP собрано и пакет проверен
 
 По новой личной команде владельца готовится **новая чистая0.8.6 со всеми накопленными исправлениями**: temporary/copy/archive visibility/model menu и визуальный PiP. Локально прошли26 проверок, включая все новые стадии, и post-port/import. Остальной полный151 прогон остаётся обязательным в Actions до SDK; локальный historical unwrap упёрся в диск, не в assertion. Новая Actions готовится к запуску, нового IPA пока нет. Режим clean/publish=true, prerelease=false; owner authorization проверяется отдельно. Следующие сведения о171 остаются историческими и не описывают новый пакет.
