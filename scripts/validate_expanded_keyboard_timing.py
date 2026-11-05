@@ -143,6 +143,14 @@ def run_swift(source,swiftc,temp):
 def main():
     parser=argparse.ArgumentParser(description=__doc__);parser.add_argument('--source',type=Path,required=True);parser.add_argument('--swiftc',type=Path);parser.add_argument('--report',type=Path);args=parser.parse_args()
     from validate_system_video_pip import delegate_icon_stage_if_applied
+    if delegate_icon_stage_if_applied(args, Path(__file__), 'pip_visual_handoff'):
+        return
+    if delegate_icon_stage_if_applied(args, Path(__file__), 'local_model_menu'):
+        return
+    if delegate_icon_stage_if_applied(args, Path(__file__), 'archive_deletion_visibility'):
+        return
+    if delegate_icon_stage_if_applied(args, Path(__file__), 'temporary_media_actions'):
+        return
     if delegate_icon_stage_if_applied(args, Path(__file__), 'message_copy_availability'):
         return
     verify(args.source)

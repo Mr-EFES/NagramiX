@@ -1,0 +1,52 @@
+{
+  "inputs": {
+    "submodules/GalleryUI/Sources/Items/UniversalVideoGalleryItem.swift": "cb8c1de6f9ff97e8e35e372ce1d21d674d6353b992d9881ce4712a973dce4881",
+    "submodules/GalleryUI/Sources/GalleryControllerNode.swift": "1ccb397332bd386ead111175051348da4892c056c0e6e23b95ff021b244645f8",
+    "submodules/GalleryUI/Sources/GalleryController.swift": "d8ea3637cae939f7f72a8913d9fb82fd888327ccbcf83e754341a14b68b26e33",
+    "submodules/GalleryUI/Sources/GalleryItemNode.swift": "3e4dcba5bb87c338522606291025226fec1272e0985ad17df0b166e942291032"
+  },
+  "outputs": {
+    "submodules/GalleryUI/Sources/Items/UniversalVideoGalleryItem.swift": "79d4c2240121f2a989d536b1cc448127405313ed4c9850c63eeda709d5420c6f",
+    "submodules/GalleryUI/Sources/GalleryControllerNode.swift": "90097b4dae7ac941942107e90b4a27c68d7a10cf2a4caf2f50168f10a3be5fff",
+    "submodules/GalleryUI/Sources/GalleryController.swift": "03c041fd5543943958cfa38ba49600c96ec4bb179d540f95186ed48a84dab6e9",
+    "submodules/GalleryUI/Sources/GalleryItemNode.swift": "73a8aa2eabefcecf834bd58d360f44ffa25677bebfc937ac20b4ab1d97ecbed5"
+  },
+  "previous": {
+    "submodules/GalleryUI/Sources/Items/UniversalVideoGalleryItem.swift": "pip_visual_handoff/Before0.inc",
+    "submodules/GalleryUI/Sources/GalleryControllerNode.swift": "pip_visual_handoff/Before1.inc",
+    "submodules/GalleryUI/Sources/GalleryController.swift": "pip_visual_handoff/Before2.inc",
+    "submodules/GalleryUI/Sources/GalleryItemNode.swift": "pip_visual_handoff/Before3.inc"
+  },
+  "replacements": {
+    "submodules/GalleryUI/Sources/Items/UniversalVideoGalleryItem.swift": "pip_visual_handoff/After0.inc",
+    "submodules/GalleryUI/Sources/GalleryControllerNode.swift": "pip_visual_handoff/After1.inc",
+    "submodules/GalleryUI/Sources/GalleryController.swift": "pip_visual_handoff/After2.inc",
+    "submodules/GalleryUI/Sources/GalleryItemNode.swift": "pip_visual_handoff/After3.inc"
+  },
+  "copies": {},
+  "guards": {
+    "submodules/GalleryUI/BUILD": "b40ed813ad5f84ab3bbeccbb6b37794c365054b63ff46ae3e18607b66cba8662",
+    "submodules/GalleryUI/Sources/GalleryPagerNode.swift": "836dff62717cb6a4d8832b95f009230a0267c9fdf6804467e105837c6a6abb31",
+    "submodules/GalleryUI/Sources/ZoomableContentGalleryItemNode.swift": "aa3622cb64a22ff92877f236a45d8b080ab73b4f7c67828f1de7d1d0fb70c424",
+    "submodules/GalleryUI/Sources/GalleryVideoDecoration.swift": "ac2dffb5034212c0a995ac619e02f1819489d790ff9780a230c97039218f7c90",
+    "submodules/AccountContext/Sources/UniversalVideoNode.swift": "c354dd6110225b9a689f8e8bdd5a8e709b99952c25a5794258ae171ee8164d68",
+    "submodules/TelegramUniversalVideoContent/Sources/NativeVideoContent.swift": "528f20337b832f9dcc01b58511a7639e54a757afffb7477ed2e8c054674bae10",
+    "submodules/MediaPlayer/Sources/MediaPlayerNode.swift": "bce51daf3b616a7e4b109a001fba0f7621bfcf93a3c65b1db9a26e29e4d85a9e",
+    "submodules/TelegramUI/Sources/GalleryHiddenMediaManager.swift": "50d2f10693aa3cd8f179e7d9f7a27e45b2894b6465d1abd80492b21d1983ba78",
+    "submodules/Display/Source/WindowContent.swift": "2dc1fec753da9171182b10fb793e49764bf21e85bcaa0fd4db65ff153b81780a",
+    "submodules/Display/Source/ViewController.swift": "906dc689c32c820d092cd8f1ea2d8ac393ecb823f51acfd5543a3d10dbcd8d68",
+    "submodules/Display/Source/PresentationContext.swift": "a7fc1b45f49be45e8764942de7040c657303a4ed676d23a456755b2615cfea9b",
+    "submodules/NagramiXCore/Sources/NagramiXTabSettings.swift": "6d4631a3dc92c3d8140f221553d7657de32b3c825341b5d98f96b7d0f70d24d2",
+    "submodules/NagramiXTranscription/Sources/Preferences.swift": "22cd304a71c4f7f01b1ae9663ff80709a3a55a7ae7219d436a9d9f341b452007"
+  },
+  "templates": {
+    "pip_visual_handoff/Before0.inc": "cb8c1de6f9ff97e8e35e372ce1d21d674d6353b992d9881ce4712a973dce4881",
+    "pip_visual_handoff/After0.inc": "79d4c2240121f2a989d536b1cc448127405313ed4c9850c63eeda709d5420c6f",
+    "pip_visual_handoff/Before1.inc": "1ccb397332bd386ead111175051348da4892c056c0e6e23b95ff021b244645f8",
+    "pip_visual_handoff/After1.inc": "90097b4dae7ac941942107e90b4a27c68d7a10cf2a4caf2f50168f10a3be5fff",
+    "pip_visual_handoff/Before2.inc": "d8ea3637cae939f7f72a8913d9fb82fd888327ccbcf83e754341a14b68b26e33",
+    "pip_visual_handoff/After2.inc": "03c041fd5543943958cfa38ba49600c96ec4bb179d540f95186ed48a84dab6e9",
+    "pip_visual_handoff/Before3.inc": "3e4dcba5bb87c338522606291025226fec1272e0985ad17df0b166e942291032",
+    "pip_visual_handoff/After3.inc": "73a8aa2eabefcecf834bd58d360f44ffa25677bebfc937ac20b4ab1d97ecbed5"
+  }
+}

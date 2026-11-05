@@ -289,7 +289,17 @@ def run_swift(source, swiftc, temp):
 
 def main():
     p = argparse.ArgumentParser(description=__doc__); p.add_argument('--source', type=Path, required=True); p.add_argument('--swiftc', type=Path); p.add_argument('--report', type=Path)
-    args = p.parse_args(); verify(args.source)
+    args = p.parse_args()
+    from validate_system_video_pip import delegate_icon_stage_if_applied
+    if delegate_icon_stage_if_applied(args, Path(__file__), 'pip_visual_handoff'):
+        return
+    if delegate_icon_stage_if_applied(args, Path(__file__), 'local_model_menu'):
+        return
+    if delegate_icon_stage_if_applied(args, Path(__file__), 'archive_deletion_visibility'):
+        return
+    if delegate_icon_stage_if_applied(args, Path(__file__), 'temporary_media_actions'):
+        return
+    verify(args.source)
     with tempfile.TemporaryDirectory(prefix='nagramix-copy-availability-') as folder:
         temp = Path(folder); rejected = guard_checks(args.source, temp)
         runs = run_swift(args.source, args.swiftc, temp) if args.swiftc else []

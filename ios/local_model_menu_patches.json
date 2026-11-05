@@ -1,0 +1,33 @@
+{
+  "inputs": {
+    "submodules/NagramiXTranscription/Sources/Preferences.swift": "360fda61ef8d5ec62989ceb6e21e46ef4d8bbf99ed3daddd0b6c3ad90c643da8"
+  },
+  "outputs": {
+    "submodules/NagramiXTranscription/Sources/Preferences.swift": "22cd304a71c4f7f01b1ae9663ff80709a3a55a7ae7219d436a9d9f341b452007"
+  },
+  "previous": {
+    "submodules/NagramiXTranscription/Sources/Preferences.swift": "local_model_menu/Before0.inc"
+  },
+  "replacements": {
+    "submodules/NagramiXTranscription/Sources/Preferences.swift": "local_model_menu/After0.inc"
+  },
+  "copies": {},
+  "guards": {
+    "submodules/NagramiXTranscription/BUILD": "f7e6352e9950459f20eafd0431dc7e9f23a2c4cbed744305ecb5f13c376decf6",
+    "submodules/NagramiXTranscription/Sources/Models.swift": "bdbfb43f78a02b31a217a5db1910f81b06c741b3422f2517ff7b4df83abf4a65",
+    "submodules/NagramiXTranscription/Sources/VoskModels.swift": "17eabbedbd6f820840ab4ce2ef846d0e8261ec8a20df64dcecfa32b52991f64e",
+    "submodules/NagramiXTranscription/Sources/Settings.swift": "be43e5a4cc0200d01695730cdd7e27a4e817c0ade5bdebb06d77ef972f811dac",
+    "submodules/NagramiXTranscription/Sources/LocalInferenceMemory.swift": "aaf07a65b1f6f5c834a6bee36dcdae6d231ec84758737d2745c19320fea8eb65",
+    "submodules/NagramiXTranscription/Sources/Coordinator.swift": "337fca53ada806134c4cd98e1af9e0ec7171619fa0a2f092aa7a7d78371878e9",
+    "submodules/NagramiXTranscription/Sources/Runtime.swift": "2e4dc88a7ca0d4d9b08d9e7fe5f83e81f295db42e680697304ffeee0d502030b",
+    "submodules/NagramiXCore/Resources/ru.lproj/Localizable.strings": "737cdc81160a95932371d108c4a0d16f9b0dcf96994bf64e80c185eaec30a491",
+    "submodules/NagramiXCore/Resources/en.lproj/Localizable.strings": "6c785306b99352179eda3bfba6b3e95e8fef9b21d759d2d6739ba0181612b9d7",
+    "submodules/NagramiXCore/Sources/NagramiXAppLocalization.swift": "c27d2d470c70568e9a80e0e38c509befea549c99afd47215e0024949fe67a67c",
+    "submodules/NagramiXCore/Sources/NagramiXPresentationStrings.swift": "1963ef991aac6f373ef1db44a6f67a5817bdf6c7aba1c7f86f67d88df95d93d9",
+    "submodules/NagramiXTranscription/Sources/VoskRecognizer.swift": "c82f89e56cb4e70911e75f63146726ab84b64cd1a256b656ffaa2ea246bf9baa"
+  },
+  "templates": {
+    "local_model_menu/Before0.inc": "360fda61ef8d5ec62989ceb6e21e46ef4d8bbf99ed3daddd0b6c3ad90c643da8",
+    "local_model_menu/After0.inc": "22cd304a71c4f7f01b1ae9663ff80709a3a55a7ae7219d436a9d9f341b452007"
+  }
+}

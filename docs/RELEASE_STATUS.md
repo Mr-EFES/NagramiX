@@ -1,5 +1,18 @@
 # NagramiX 0.8.6/build171 — исправление PiP собрано и пакет проверен
 
+По новой личной команде владельца готовится **новая чистая0.8.6 со всеми накопленными исправлениями**: temporary/copy/archive visibility/model menu и визуальный PiP. Локально прошли26 проверок, включая все новые стадии, и post-port/import. Остальной полный151 прогон остаётся обязательным в Actions до SDK; локальный historical unwrap упёрся в диск, не в assertion. Новая Actions готовится к запуску, нового IPA пока нет. Режим clean/publish=true, prerelease=false; owner authorization проверяется отдельно. Следующие сведения о171 остаются историческими и не описывают новый пакет.
+
+Новая правка [PIP_VISUAL_HANDOFF](PIP_VISUAL_HANDOFF.md) согласует вход/возврат PiP, жесты, hidden-media и сохранение воспроизведения по двум утверждённым видео. **В IPA171 её нет**; новая SDK/device pending. Сборка/Actions/публикация этой задачи не запускались.
+
+Правка [LOCAL_MODEL_MENU](LOCAL_MODEL_MENU.md) реализует утверждённые короткие названия Whisper/Vosk, проценты только до установки и native галочку выбранного ID. **В IPA171 её нет**; новая SDK/device pending, сборку этой задачи не запускали.
+
+
+Правка [ARCHIVE_DELETION_VISIBILITY](ARCHIVE_DELETION_VISIBILITY.md) устраняет в исходниках скрытую ячейку сохранённого альбома после удаления оригинала. **В IPA171 её нет**; новая SDK/device pending. Ни сборку, ни Actions/rerun для этой задачи не запускали.
+
+
+Последующая исходная правка [TEMPORARY_MEDIA_ACTIONS](TEMPORARY_MEDIA_ACTIONS.md) также **не входит в IPA171**: постоянная →A, кружки, архив после server deletion и обычные действия временных вложений. Новая SDK/device pending; Actions не запускались.
+
+
 Последующая исходная правка [MESSAGE_COPY_AVAILABILITY](MESSAGE_COPY_AVAILABILITY.md) в этот IPA171 **не входит**; у неё compile_pending/device_pending. Следующая сборка только по отдельной личной команде владельца.
 
 **native_compile_passed / package_verified / owner_publication_pending / device_pending**.

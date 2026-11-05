@@ -465,6 +465,14 @@ def main() -> None:
     apply_pip_first_request(source, Path(__file__).resolve().parent)
     from message_copy_availability import apply_message_copy_availability
     apply_message_copy_availability(source, Path(__file__).resolve().parent)
+    from temporary_media_actions import apply_temporary_media_actions
+    apply_temporary_media_actions(source, Path(__file__).resolve().parent)
+    from archive_deletion_visibility import apply_archive_deletion_visibility
+    apply_archive_deletion_visibility(source, Path(__file__).resolve().parent)
+    from local_model_menu import apply_local_model_menu
+    apply_local_model_menu(source, Path(__file__).resolve().parent)
+    from pip_visual_handoff import apply_pip_visual_handoff
+    apply_pip_visual_handoff(source, Path(__file__).resolve().parent)
     # Системный PiP: экспериментальный hybrid_pip больше не включается в приложение.
 
     api_id = os.environ.get("TELEGRAM_API_ID", "")

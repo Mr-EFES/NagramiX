@@ -83,7 +83,7 @@ def delegate_icon_stage_if_applied(args, script, stage):
 
 
 def delegate_icons_if_applied(args, script):
-    for stage in ('message_copy_availability', 'pip_first_request', 'vosk_model_naming', 'local_asr_memory', 'archive_post_lifecycle', 'expanded_keyboard_timing', 'expanded_panel_animation', 'all_language_catalogs', 'localization_standard', 'temporary_voice_transcription', 'app_language_localization', 'broadcast_icon_order', 'author_head_alignment'):
+    for stage in ('pip_visual_handoff', 'local_model_menu', 'archive_deletion_visibility', 'temporary_media_actions', 'message_copy_availability', 'pip_first_request', 'vosk_model_naming', 'local_asr_memory', 'archive_post_lifecycle', 'expanded_keyboard_timing', 'expanded_panel_animation', 'all_language_catalogs', 'localization_standard', 'temporary_voice_transcription', 'app_language_localization', 'broadcast_icon_order', 'author_head_alignment'):
         if delegate_icon_stage_if_applied(args, script, stage):
             return True
     return False

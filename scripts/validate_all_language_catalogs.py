@@ -94,7 +94,7 @@ def rejected_inputs(source,plan):
 def main():
     parser=argparse.ArgumentParser(description=__doc__);parser.add_argument('--source',type=Path,required=True);args=parser.parse_args()
     from validate_system_video_pip import delegate_icon_stage_if_applied
-    for stage in ('message_copy_availability', 'vosk_model_naming', 'local_asr_memory'):
+    for stage in ('pip_visual_handoff', 'local_model_menu', 'archive_deletion_visibility', 'temporary_media_actions', 'message_copy_availability', 'vosk_model_naming', 'local_asr_memory'):
         if delegate_icon_stage_if_applied(args,Path(__file__),stage):
             return
     plan=verify(args.source);rejected_inputs(args.source,plan)
