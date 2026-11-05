@@ -118,7 +118,16 @@ class CALayer {
     func add(_ animation: CABasicAnimation, forKey key: String) { animations[key] = animation }
     func removeAnimation(forKey key: String) { animations.removeValue(forKey: key) }
 }
-final class AVSampleBufferDisplayLayer: CALayer {}
+final class AVSampleBufferDisplayLayer: CALayer {
+    // MediaPlayerNodeLayer does not implement init(layer:). Core Animation
+    // presentation copies trap in that initializer on the real video layer.
+    override func presentation() -> CALayer? {
+        fatalError("first PiP regression: sample-buffer presentation copy invokes unsupported init(layer:)")
+    }
+    override func add(_ animation: CABasicAnimation, forKey key: String) {
+        fatalError("first PiP regression: custom sample-buffer animation requires an unsupported presentation copy")
+    }
+}
 typealias VideoLayer = AVSampleBufferDisplayLayer
 enum UIAccessibility { static var isReduceMotionEnabled = false }
 enum CATransaction {

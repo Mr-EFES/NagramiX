@@ -107,7 +107,6 @@
         layer.masksToBounds = false
         layer.isOpaque = true
         let originalBackground = layer.backgroundColor
-        let presentation = CALayer(); presentation.cornerRadius = 5; layer.presented = presentation
         transitionAV.completesStart = false
         transitionAV.isPictureInPicturePossible = true
         transition.pictureInPictureButtonPressed()
@@ -116,9 +115,8 @@
         check(transition.gallery.view.alpha == 1 && transition.dismissals == 0 && transition.videoNode!.nativePictureInPictureActive, "source geometry and opacity remain stable during AVKit transition")
         check(layer.maskedCorners.rawValue == 15 && layer.masksToBounds && layer.cornerCurve == .continuous, "all four source corners use one continuous clip")
         check(!layer.isOpaque && layer.backgroundColor == nil, "source corners cannot carry opaque black backing")
-        let animation = layer.animations["nagramiXPiPSourceCorners"]
-        check(animation?.keyPath == "cornerRadius" && animation?.duration == 0.3, "corner curve starts in same native transition")
-        check((animation?.fromValue as? CGFloat) == 5 && abs((animation?.toValue as? CGFloat ?? 0) - 64.8) < 0.000001, "interrupted corner animation continues from presentation radius")
+        check(abs(layer.cornerRadius - 64.8) < 0.000001, "source model clip is ready before the AVKit transition")
+        check(layer.animations.isEmpty, "AVKit alone animates the live video layer without a presentation copy")
         transition.pictureInPictureButtonPressed()
         TestScheduler.advance()
         check(transitionAV.starts == 1 && transition.gallery.dismissals == 0, "second tap during animation cannot detach source")
@@ -212,9 +210,20 @@
         UIAccessibility.isReduceMotionEnabled = true
         reducedAV.completesStart = false; reducedAV.isPictureInPicturePossible = true
         reduced.pictureInPictureButtonPressed(); TestScheduler.advance()
-        check(reduced.videoNode!.layer.animations["nagramiXPiPSourceCorners"]?.duration == 0, "Reduce Motion avoids custom corner motion")
+        check(reduced.videoNode!.layer.animations.isEmpty && reduced.videoNode!.layer.maskedCorners.rawValue == 15, "Reduce Motion keeps the common clip without custom corner motion")
         reducedAV.finishStart(); reducedContent.stop()
         UIAccessibility.isReduceMotionEnabled = false
+
+        let (automatic, automaticContent, automaticAV) = prepared()
+        let automaticLayer = automatic.videoNode!.layer
+        automaticLayer.cornerRadius = 100
+        automaticAV.completesStart = false
+        automaticAV.startPictureInPicture()
+        check(automaticLayer.cornerRadius == 100 && automaticLayer.maskedCorners.rawValue == 15, "automatic PiP preserves an existing larger radius without copying the source")
+        check(automaticLayer.animations.isEmpty && automatic.videoNode!.nativePictureInPictureActive, "automatic start uses only the native transition")
+        automaticAV.finishStart()
+        check(automaticLayer.cornerRadius == 100 && automaticLayer.maskedCorners.rawValue == 1, "automatic handoff restores the original appearance")
+        automaticContent.stop()
 
         let (stalled, stalledContent, stalledAV) = prepared()
         stalledAV.completesStart = false; stalledAV.isPictureInPicturePossible = true

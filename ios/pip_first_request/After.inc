@@ -773,7 +773,6 @@ private final class NativePictureInPictureContentImpl: NSObject, AVPictureInPict
         private let clips: Bool
         private let opaque: Bool
         private let background: CGColor?
-        private let animationKey = "nagramiXPiPSourceCorners"
 
         init(_ layer: AVSampleBufferDisplayLayer) {
             self.layer = layer
@@ -784,8 +783,9 @@ private final class NativePictureInPictureContentImpl: NSObject, AVPictureInPict
             self.opaque = layer.isOpaque
             self.background = layer.backgroundColor
 
-            let fromRadius = layer.presentation()?.cornerRadius ?? layer.cornerRadius
-            let toRadius = max(fromRadius, min(layer.bounds.width, layer.bounds.height) * 0.06)
+            // The live video layer cannot be copied for a presentation layer.
+            // Prepare its model appearance without actions; AVKit owns the transition.
+            let toRadius = max(self.radius, min(layer.bounds.width, layer.bounds.height) * 0.06)
             CATransaction.begin()
             CATransaction.setDisableActions(true)
             layer.isOpaque = false
@@ -795,12 +795,6 @@ private final class NativePictureInPictureContentImpl: NSObject, AVPictureInPict
             layer.masksToBounds = true
             layer.cornerRadius = toRadius
             CATransaction.commit()
-            let animation = CABasicAnimation(keyPath: "cornerRadius")
-            animation.fromValue = fromRadius
-            animation.toValue = toRadius
-            animation.duration = UIAccessibility.isReduceMotionEnabled ? 0.0 : 0.3
-            animation.timingFunction = CAMediaTimingFunction(name: .easeInEaseOut)
-            layer.add(animation, forKey: self.animationKey)
         }
 
         func restore() {
@@ -808,7 +802,6 @@ private final class NativePictureInPictureContentImpl: NSObject, AVPictureInPict
             self.layer = nil
             CATransaction.begin()
             CATransaction.setDisableActions(true)
-            layer.removeAnimation(forKey: self.animationKey)
             layer.cornerRadius = self.radius
             layer.cornerCurve = self.curve
             layer.maskedCorners = self.corners

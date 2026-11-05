@@ -1,6 +1,6 @@
-# NagramiX 0.8.6/build170 — сборка и IPA проверены
+# NagramiX 0.8.6 — исправление падения PiP после сборки170
 
-**native_compile_passed / package_verified / owner_publication_pending / device_pending**.
+**Сборка170: native_compile_passed / package_verified; runtime PiP crash confirmed, публикация запрещена. Исправленный кандидат: source_checked / compile_pending / device_pending.**
 
 [Успешная сборка №170](https://github.com/Mr-EFES/NagramiX/actions/runs/41971313591) · [Исходный Actions ZIP](https://github.com/Mr-EFES/NagramiX/actions/runs/41971313591/artifacts/13394808694).
 
@@ -10,15 +10,15 @@
 - Исходник бинарного пакета: `19bbb2b2a7f463315daa1fb4389a9605984206e9`. Последующая документация в main не меняет этот provenance.
 - Исходный Actions ZIP: artifact13394808694, **88078096 байт**, SHA256 `fa5e1e8561aa4580178bde7d42f08cac1979dc9f9e13c30f839da2a1cd25949a`. Скачан через GitHub artifact tool без перепаковки, digest API совпал; CRC и ровно три плоских файла проверены локально.
 - Локальный валидатор подтвердил checksum/provenance/version/build/source,6 ARM64/iPhoneOS Mach-O, iOS15+,71 каталог по613 ключей настроек/debug,31 мелодию,8 иконок, отсутствие профилей и временных подписей.
-- Символы: artifact13394818659 `NagramiX-0.8.6-symbols-arm64`. Отдельное сопоставление UUID dSYM не выполнялось.
+- Символы: artifact13394818659 `NagramiX-0.8.6-symbols-arm64`, SHA256 ZIP `1530f9ce03e1e6565e06b689f423ac031a96333d19594ed601aa5d6f42e63788`. UUID dSYM совпал с IPA и обоими crash-отчётами: `A616A3B2-D778-3FD2-87FC-A90312CF9BCF`.
 
-## Публикация владельцем ожидает восстановления входа
+## Новый кандидат вместо аварийной сборки170
 
-API CLI подтверждает Mr-EFES, но uploads.github.com вернул HTTP401. Создан только собственный пустой draft434878552, tag_name=v0.8.6, target_commitish=19bbb2b2a7f463315daa1fb4389a9605984206e9; файлов в нём нет. Публичного релиза0.8.6 пока нет. Начат официальный device flow владельца, без запроса токенов в чат. После входа проверить Mr-EFES и запустить owner publisher для source-run41971313591; пустой собственный draft можно завершить без пересборки. Не заменять опубликованные0.8.4/0.8.5 и не публиковать через токен бота.
+API CLI подтверждает Mr-EFES, но uploads.github.com вернул HTTP401. Создан только собственный пустой draft434878552, tag_name=v0.8.6, target_commitish=19bbb2b2a7f463315daa1fb4389a9605984206e9; файлов в нём нет. Публичного релиза0.8.6 пока нет. Начат официальный device flow владельца, без запроса токенов в чат. После двух crash-отчётов170 исключена из публикации. Причина символицирована: SourceAppearance.init:787 → presentation() → отсутствующий MediaPlayerNodeLayer.init(layer:). Удалены lookup и отдельная CA-анимация live видеослоя; [контракт и проверки](PIP_FIRST_REQUEST.md). Нужны новая чистая SDK-сборка и пакет. После их успеха повторно проверить собственный пустой draft и согласовать target с новым source перед защищённым owner publisher; старый source-run41971313591 для публикации не использовать. Не заменять опубликованные0.8.4/0.8.5 и не публиковать через токен бота.
 
 Оригинальный проверенный ZIP сохранён также в `/workspace/.codex-release-086/original-actions.zip`, чтобы пережить очистку /tmp. Несекретные параметры восстановления — `/workspace/.codex-release-086/owner-release-recovery.json`; профиль можно использовать только после проверки owner и profile_verified. Содержимое credential-файлов не читать.
 
-Физическая проверка на iPhone остаётся ожидаемой: [сценарии0.8.6](DEVICE_CHECK_086.md). Подпись для установки выполняется отдельно.
+Повторная проверка PiP на iPhone после исправления обязательна; остальные физические проверки ожидаются: [сценарии0.8.6](DEVICE_CHECK_086.md). Подпись для установки выполняется отдельно.
 
 ## Опубликованная сборка0.8.5/build165
 

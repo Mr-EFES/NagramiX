@@ -37,6 +37,11 @@ def verify(source):
     assert text.count('AVPictureInPictureController(contentSource:') == 1
     assert 'AVPlayer(' not in text and 'UIWindow(' not in text
     assert 'guard item.content is NativeVideoContent || videoNode.getVideoLayer() != nil' in text
+    appearance = block(text, 'private final class SourceAppearance {')
+    assert '.presentation(' not in appearance and 'CABasicAnimation(' not in appearance
+    assert 'layer.add(' not in appearance and 'setDisableActions(true)' in appearance
+    player = (source / 'submodules/MediaPlayer/Sources/MediaPlayerNode.swift').read_text()
+    assert 'init(layer:' not in block(player, 'private final class MediaPlayerNodeLayer:')
 
 
 def guard_checks(source, temp):
@@ -123,12 +128,18 @@ def runtime_source(source, mode):
     elif mode == 'square-corners':
         assert text.count('        self.prepareSourceAppearance()') == 2
         text = text.replace('        self.prepareSourceAppearance()', '')
+    elif mode in ['sample-buffer-presentation', 'sample-buffer-animation']:
+        marker = '            let toRadius = max(self.radius, min(layer.bounds.width, layer.bounds.height) * 0.06)'
+        assert text.count(marker) == 1
+        old = ('            let _ = layer.presentation()' if mode == 'sample-buffer-presentation' else
+               '            layer.add(CABasicAnimation(keyPath: "cornerRadius"), forKey: "nagramiXPiPSourceCorners")')
+        text = text.replace(marker, old + '\n' + marker)
     return text
 
 
 def execute(source, swiftc, temp):
     runs = []
-    for mode in ['current', 'discarded-request', 'cold-swipe', 'early-dismiss', 'square-corners']:
+    for mode in ['current', 'discarded-request', 'cold-swipe', 'early-dismiss', 'square-corners', 'sample-buffer-presentation', 'sample-buffer-animation']:
         suite = temp / (mode + '.swift'); suite.write_text(runtime_source(source, mode))
         for optimized in [False, True]:
             name = mode + ('-O' if optimized else '-debug'); binary = temp / name
@@ -141,6 +152,8 @@ def execute(source, swiftc, temp):
                 message = result.stdout.strip()
             else:
                 assert result.returncode != 0 and 'first PiP regression:' in result.stderr, result.stdout + result.stderr
+                if mode.startswith('sample-buffer-'):
+                    assert 'unsupported' in result.stderr and 'copy' in result.stderr, result.stderr
                 message = 'previous behavior reproduced and rejected'
             print(name + ': ' + message, flush=True)
             runs.append(name + ': ' + message)

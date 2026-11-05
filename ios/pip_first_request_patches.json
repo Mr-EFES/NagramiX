@@ -3,7 +3,7 @@
     "submodules/GalleryUI/Sources/Items/UniversalVideoGalleryItem.swift": "0aeeab2bb3cbefb713eec43aa187f198cc7730ed233542c7ffb519c2681db164"
   },
   "outputs": {
-    "submodules/GalleryUI/Sources/Items/UniversalVideoGalleryItem.swift": "50341de889fc1f3bc75ffde74aa68f9a212e3ab4fdbe4c07e30abdd441afc2ef"
+    "submodules/GalleryUI/Sources/Items/UniversalVideoGalleryItem.swift": "cb8c1de6f9ff97e8e35e372ce1d21d674d6353b992d9881ce4712a973dce4881"
   },
   "previous": {
     "submodules/GalleryUI/Sources/Items/UniversalVideoGalleryItem.swift": "pip_first_request/Before.inc"
@@ -24,6 +24,6 @@
   },
   "templates": {
     "pip_first_request/Before.inc": "0aeeab2bb3cbefb713eec43aa187f198cc7730ed233542c7ffb519c2681db164",
-    "pip_first_request/After.inc": "50341de889fc1f3bc75ffde74aa68f9a212e3ab4fdbe4c07e30abdd441afc2ef"
+    "pip_first_request/After.inc": "cb8c1de6f9ff97e8e35e372ce1d21d674d6353b992d9881ce4712a973dce4881"
   }
 }
