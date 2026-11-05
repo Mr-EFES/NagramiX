@@ -1,5 +1,17 @@
 # Контекст разработки NagramiX 0.8.6
 
+## Текущая задача: Переслать/Рассылка и Free Content
+
+Последнее уточнение владельца: ON разрешает копии доступного защищённого содержимого из закрытых каналов/групп и обычных секретных сообщений; OFF — штатные ограничения, запрещённые copy пункты СКРЫТЫ. Раннее «независимо от флажка» отменено, не восстанавливать unconditional bypass. Новая стадия message_copy_availability после pip_first_request,6 full snapshots/17 guards; [контракт](MESSAGE_COPY_AVAILABILITY.md). В build171 этого кода нет. Источник compile_pending/device_pending; SDK/Actions/IPA/публикацию в текущей задаче НЕ запускать. Сборки и rerun только по отдельной личной команде.
+
+Найден screenshot poll: прежний helper отвергал TelegramMediaPoll. Добавлены независимые интерактивные poll copies, нулевые голоса/новый ID/сохранённый вопрос/варианты/entities/media/flags, без старого deadline/hash/авторов. Secret source теперь доступен только при ON через живой ContentSettings privacy accessor; native SecretFile fetch/decryption и стейджер прежние. Единый requiresFreeContent учитывает namespace/protection/Ephemeral flag/private-left/kicked/missing peer. Три поздних guard в forward controller сохранены; Core policy повторяется в destination Send. Одиночный custom path становится copyToSingleRecipient, все hideNames drafts копируют реальные bytes; recipient group/file isolation прежняя. Меню и selection panel при OFF скрывают запрещённые команды, при ON снимают unconditional SecretChat ban. Native Repost ограничивается реальными source правами, его callback прежний. Gallery/capture export gates, paid/expiry/view-once exceptions не расширены.
+
+153 actual-helper/UI-expression checks/debug и-O,7 negative behavior variants,56 fail-closed; recipient63 и rich18 на новом copier/режим. Старые standalone validators сначала снимают новую позднюю стадию по точным SHA; их прежние guards не ослаблены. Source/fresh/legacy/localization/PiP отчёты в /tmp/nagramix-copy-availability. Финальные свежая композиция566 путей/точный post-port/739 Core imports/PostboxImportCheck и строгая71×613 локализация пройдены; не приписывать предыдущей IPA новые изменения. Конфигурация с dummy API только для локальных source checks.
+
+На async вопрос владелец ЯВНО выбрал: «Сохранять викторину только когда правильный ответ доступен». Не превращать неизвестную викторину в обычный опрос/текст, не угадывать ответ; текущий guard этому соответствует. Обычный анонимный опрос со скриншота поддержан. Не обещать доступ к отсутствующим серверным данным/байтам.
+
+Владелец сообщил, что падение PiP устранено, другие замечания по PiP обсудит позже. Старый owner-publication171 остаётся историческим pending401, к нему в этой задаче не возвращаться автоматически: текущие copy изменения ещё не в IPA, предыдущий device code мог истечь. Старые опубликованные0.8.4/0.8.5 и сохранённый171 пакет не изменять.
+
 ## Исправление PiP:171 успешно собрана, owner publication ожидает входа
 
 **Последнее прямое правило владельца:** НИКОГДА не запускать новую сборку, повторную попытку или rerun без отдельной личной команды. Запуск171 без новой команды был ошибкой агента; владелец отдельно разрешил «Эту уже продолжай», она успешно завершена. Это правило уже сохранено в AGENTS.md/RELEASE_VERSIONING и отменяет прежние исторические разрешения на автоматические повторы. При ошибках можно исправлять исходники/локально проверять, но новый SDK запуск требует команды.

@@ -463,6 +463,8 @@ def main() -> None:
     apply_vosk_model_naming(source, Path(__file__).resolve().parent)
     from pip_first_request import apply_pip_first_request
     apply_pip_first_request(source, Path(__file__).resolve().parent)
+    from message_copy_availability import apply_message_copy_availability
+    apply_message_copy_availability(source, Path(__file__).resolve().parent)
     # Системный PiP: экспериментальный hybrid_pip больше не включается в приложение.
 
     api_id = os.environ.get("TELEGRAM_API_ID", "")

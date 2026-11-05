@@ -142,6 +142,9 @@ def run_swift(source,swiftc,temp):
 
 def main():
     parser=argparse.ArgumentParser(description=__doc__);parser.add_argument('--source',type=Path,required=True);parser.add_argument('--swiftc',type=Path);parser.add_argument('--report',type=Path);args=parser.parse_args()
+    from validate_system_video_pip import delegate_icon_stage_if_applied
+    if delegate_icon_stage_if_applied(args, Path(__file__), 'message_copy_availability'):
+        return
     verify(args.source)
     with tempfile.TemporaryDirectory(prefix='nagramix-expanded-timing-') as folder:
         temp=Path(folder);rejected=guard_checks(args.source,temp);runs=run_swift(args.source,args.swiftc,temp) if args.swiftc else []

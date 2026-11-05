@@ -1,5 +1,7 @@
 # NagramiX 0.8.6/build171 — исправление PiP собрано и пакет проверен
 
+Последующая исходная правка [MESSAGE_COPY_AVAILABILITY](MESSAGE_COPY_AVAILABILITY.md) в этот IPA171 **не входит**; у неё compile_pending/device_pending. Следующая сборка только по отдельной личной команде владельца.
+
 **native_compile_passed / package_verified / owner_publication_pending / device_pending**.
 
 [Успешная сборка171](https://github.com/Mr-EFES/NagramiX/actions/runs/41991272414) · [Исходный ZIP с IPA](https://github.com/Mr-EFES/NagramiX/actions/runs/41991272414/artifacts/13405168153).
