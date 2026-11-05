@@ -472,7 +472,7 @@ public final class NagramiXTranscriptionSettingsController: ViewController, UITa
            let model = NagramiXVoskModel.all.first(where: { $0.name == id }) {
             let remove = UIContextualAction(style:.destructive,title:self.presentationData.strings.nagramiXUILocalized("Удалить")) { [weak self] _,_,finish in
                 let removed = NagramiXVoskModels.shared.remove(model)
-                if !removed { NagramiXVoskModels.shared.cancel(model); self?.alert(self.presentationData.strings.nagramiXUILocalized("Модель используется или загружается. Повторите удаление после завершения.")) }
+                if !removed { NagramiXVoskModels.shared.cancel(model); if let self { self.alert(self.presentationData.strings.nagramiXUILocalized("Модель используется или загружается. Повторите удаление после завершения.")) } }
                 finish(removed)
             }
             return UISwipeActionsConfiguration(actions:[remove])
@@ -482,7 +482,7 @@ public final class NagramiXTranscriptionSettingsController: ViewController, UITa
               NagramiXWhisperModels.shared.installed(model) else { return nil }
         let remove = UIContextualAction(style:.destructive,title:self.presentationData.strings.nagramiXUILocalized("Удалить")) { [weak self] _,_,completion in
             let success = NagramiXWhisperModels.shared.remove(model); completion(success)
-            if !success { self?.alert(self.presentationData.strings.nagramiXUILocalized("Модель используется или загружается. Попробуйте позже.")) }
+            if !success, let self { self.alert(self.presentationData.strings.nagramiXUILocalized("Модель используется или загружается. Попробуйте позже.")) }
         }
         return UISwipeActionsConfiguration(actions:[remove])
     }

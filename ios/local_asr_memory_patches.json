@@ -15,7 +15,7 @@
     "submodules/NagramiXTranscription/Sources/MediaPreparation.swift": "3251d6810ffb3e206abcf74fe527171ca02081296fdece3cfc1fc41b4f4aa7c3",
     "submodules/NagramiXTranscription/Whisper/Bridge.cpp": "8921590b9b02ea0306d8444d4c06df0c3361f87aa785959617f6dbce194d0434",
     "submodules/NagramiXTranscription/Whisper/Bridge.h": "c912e11e45a268936f17fae450e5662570e448f579541eedbac6abbb0d57bc28",
-    "submodules/NagramiXTranscription/Sources/Preferences.swift": "2e975944948c3231eaa01a45925bd4706390fc06751f91bece1496238f78281c",
+    "submodules/NagramiXTranscription/Sources/Preferences.swift": "23713335fdc9ca75e66cd05462539b0cc0e13c2c49f6053cfa712c933511424e",
     "submodules/NagramiXTranscription/Sources/Settings.swift": "be43e5a4cc0200d01695730cdd7e27a4e817c0ade5bdebb06d77ef972f811dac",
     "submodules/NagramiXTranscription/Sources/VoskModels.swift": "17eabbedbd6f820840ab4ce2ef846d0e8261ec8a20df64dcecfa32b52991f64e"
   },
@@ -57,7 +57,7 @@
     "local_asr_memory/Before4.inc": "e15ce20f4339d63ff46904245279e27ab2af88b41b06d4927690a2d121222bc3",
     "local_asr_memory/After4.inc": "c912e11e45a268936f17fae450e5662570e448f579541eedbac6abbb0d57bc28",
     "local_asr_memory/Before5.inc": "bcf5912d2cd2df45b01720160a39d489b6340f83f5b3780aba0f3c1764c25c19",
-    "local_asr_memory/After5.inc": "2e975944948c3231eaa01a45925bd4706390fc06751f91bece1496238f78281c",
+    "local_asr_memory/After5.inc": "23713335fdc9ca75e66cd05462539b0cc0e13c2c49f6053cfa712c933511424e",
     "local_asr_memory/Before6.inc": "b6a49ae2c0b0b66e5a528c8b76f08eec1cfa47c31c9b46c0ad56c63bde84b32e",
     "local_asr_memory/After6.inc": "be43e5a4cc0200d01695730cdd7e27a4e817c0ade5bdebb06d77ef972f811dac",
     "local_asr_memory/LocalInferenceMemory.swift": "aaf07a65b1f6f5c834a6bee36dcdae6d231ec84758737d2745c19320fea8eb65",

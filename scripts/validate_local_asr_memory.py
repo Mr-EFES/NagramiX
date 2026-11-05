@@ -141,9 +141,36 @@ def runtime_source(source, mode='current'):
 
 def no_core():resource.setrlimit(resource.RLIMIT_CORE,(0,0))
 
+def preferences_actions_checks(source, swiftc, temp):
+    name=P+'Sources/Preferences.swift'
+    boundary=(ROOT/'scripts/tests/NagramiXModelDeletionActions.swift').read_text()
+    results=[]
+    for previous in [False, True]:
+        code=(OVERLAY/PLAN['previous'][name] if previous else source/name).read_text()
+        method=block(code,'    public func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt')
+        method=method.replace('public func tableView(', 'func tableView(', 1)
+        path=temp/('previous-model-actions.swift' if previous else 'model-actions.swift')
+        path.write_text(boundary.replace('    // ACTUAL_SWIPE_ACTIONS',method))
+        command=[str(swiftc),'-parse-as-library','-warnings-as-errors','-module-cache-path',str(temp/'cache')]
+        if previous:
+            result=subprocess.run([*command,'-typecheck',str(path)],capture_output=True,text=True)
+            errors=[line for line in result.stderr.splitlines() if 'previous-model-actions.swift:' in line and ': error:' in line]
+            assert result.returncode!=0 and len(errors)==2 and all("must be unwrapped to refer to member 'presentationData'" in line for line in errors),result.stderr
+            message='Previous weak-self localization SDK error reproduced and rejected'
+            print(message,flush=True);results.append(message)
+        else:
+            for optimized in [False,True]:
+                binary=temp/('model-actions-O' if optimized else 'model-actions-debug')
+                subprocess.run([*command,*(['-O'] if optimized else []),str(path),'-o',str(binary)],check=True)
+                result=subprocess.run([str(binary)],capture_output=True,text=True,timeout=10,preexec_fn=no_core)
+                assert result.returncode==0,result.stdout+result.stderr
+                print(result.stdout.strip(),flush=True);results.append(result.stdout.strip())
+    return results
+
 def execute(source,swiftc,cxx,temp):
     runs=[]
     if swiftc:
+        runs.extend(preferences_actions_checks(source,swiftc,temp))
         for mode in ['current','old-budget','old-pcm']:
             path=temp/(mode+'.swift');path.write_text(runtime_source(source,mode))
             for optimized in [False,True]:

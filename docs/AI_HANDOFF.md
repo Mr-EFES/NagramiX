@@ -1,5 +1,11 @@
 # Контекст разработки NagramiX 0.8.6
 
+## Исправление нативной попытки168
+
+Run41928753756/build168, source5b0755864a981f9682024540557baaf3fc30844a прошёл весь pre-SDK набор144 команд и cold gate, но SDK остановился на двух optional-self ошибках Preferences.swift:475/485. Локализация добавила self.presentationData в аргумент self?.alert внутри weak-self обработчиков удаления моделей. В ещё не выпущенном local_asr_memory/After5.inc добавлено безопасное связывание self только для alert; remove/cancel/completion выполняются и после закрытия экрана. Согласованы точные output/template SHA этого этапа и последующего vosk_model_naming. Старые canonical входы и опубликованные выпуски не менялись.
+
+В validate_local_asr_memory добавлена компиляция полного фактического swipe-action метода и51 runtime-проверка в debug/-O: успех/ошибка обоих движков, закрытый экран, отсутствие удержания контроллера, однократный completion, прежний cancel и актуальный язык предупреждения. Старый метод обязан воспроизводить ровно две первичные optional-self диагностики. Swift6.3: новый suite,139 прежних ASR checks/режим,52 fail-closed входа и C++ boundary проходят. Строгий71×613 gate и Vosk naming/runtime checks повторно пройдены. Отчёты: /tmp/nagramix-release-086/{asr,localization,vosk}-sdk-fix.*. Это локальные границы, новая SDK/IPA и iPhone ещё pending. Разрешена следующая чистая попытка той же версии0.8.6 с owner publication, без нового запроса разрешения.
+
 ## Разрешена сборка и публикация0.8.6
 
 Для совместимости подготовлен официальный Linux Swift6.3 в task-owned `/tmp/nagramix-release-086/swift63`. На нём typecheck actual archive/panel/timing bodies с warnings-as-errors пройден;129 temporary-ASR checks/режим и строгий71×613 gate с runtime lookup тоже проходят. Исправление167 проверено полным48 archive suite/режим, отрицательными контролями и50 fail-closed входами; проверки не ослаблены.

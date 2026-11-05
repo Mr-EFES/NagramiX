@@ -71,7 +71,7 @@
     "submodules/NagramiXCore/Resources/vi.lproj/Localizable.strings": "f1b28aaec6db5fe429f11e9475e06eab061661f1fe2f583e49a39df206511317",
     "submodules/NagramiXCore/Resources/zh-hans.lproj/Localizable.strings": "a825e27fa73ad9ea966a3c1cfb467c18e553b4c9c012c286a8c38add42678411",
     "submodules/NagramiXCore/Resources/zh-hant.lproj/Localizable.strings": "323c5e7ca8c69959fa374186116a9f796ba2e0b33b3dccf37e4d43595df23f5b",
-    "submodules/NagramiXTranscription/Sources/Preferences.swift": "2e975944948c3231eaa01a45925bd4706390fc06751f91bece1496238f78281c"
+    "submodules/NagramiXTranscription/Sources/Preferences.swift": "23713335fdc9ca75e66cd05462539b0cc0e13c2c49f6053cfa712c933511424e"
   },
   "outputs": {
     "submodules/NagramiXCore/Resources/af.lproj/Localizable.strings": "48332117d450814d8552e8153723c6acb4dfcc824f1eb967447def15fa601677",
@@ -145,7 +145,7 @@
     "submodules/NagramiXCore/Resources/vi.lproj/Localizable.strings": "30aea72dc5b84aab1affdc77ef368ab7732242c8a18c1549148f8f0eaed0126c",
     "submodules/NagramiXCore/Resources/zh-hans.lproj/Localizable.strings": "c13c2ecbac656a43a9a99c379d89899a50df38fd584408f3756c56a967bc146f",
     "submodules/NagramiXCore/Resources/zh-hant.lproj/Localizable.strings": "305d8c03bea5aab5fe2d6e094dd00b2d88af17f6a3ba351005c9e2d992091f13",
-    "submodules/NagramiXTranscription/Sources/Preferences.swift": "fce395a4180afe541e4303e144b17e5ac6049d331f7e0e176d160f724633a84b"
+    "submodules/NagramiXTranscription/Sources/Preferences.swift": "360fda61ef8d5ec62989ceb6e21e46ef4d8bbf99ed3daddd0b6c3ad90c643da8"
   },
   "previous": {
     "submodules/NagramiXCore/Resources/af.lproj/Localizable.strings": "all_language_catalogs/af.lproj/Localizable.strings",
@@ -299,7 +299,7 @@
     "all_language_catalogs/vi.lproj/Localizable.strings": "f1b28aaec6db5fe429f11e9475e06eab061661f1fe2f583e49a39df206511317",
     "all_language_catalogs/zh-hans.lproj/Localizable.strings": "a825e27fa73ad9ea966a3c1cfb467c18e553b4c9c012c286a8c38add42678411",
     "all_language_catalogs/zh-hant.lproj/Localizable.strings": "323c5e7ca8c69959fa374186116a9f796ba2e0b33b3dccf37e4d43595df23f5b",
-    "local_asr_memory/After5.inc": "2e975944948c3231eaa01a45925bd4706390fc06751f91bece1496238f78281c",
+    "local_asr_memory/After5.inc": "23713335fdc9ca75e66cd05462539b0cc0e13c2c49f6053cfa712c933511424e",
     "app_language_localization/languages.json": "0b57a8924d47a2a19a256020cb55049a5037a51696617104fbd217f2cd439c37",
     "vosk_model_naming/labels.json": "397d6e7312299397c2084f3f61f04f1802343545e4f3681f3ed96e6336438c4d"
   },
