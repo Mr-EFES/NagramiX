@@ -47,8 +47,8 @@ import ChatInterfaceState
 import WalletContext
  
 // Keep the author action distinct from both single selection and album selection.
-private func nagramiXWholePostMessages(_ message: Message, messages: [Message]) -> [Message] {
-    guard NagramiXMessageArchiveSettings.current.showDeletedMessages, let key = message.groupingKey else { return [message] }
+private func nagramiXWholePostMessages(_ message: EngineRawMessage, messages: [EngineRawMessage]) -> [EngineRawMessage] {
+    guard NagramiXTabSettings.current.showDeletedMessages, let key = message.groupingKey else { return [message] }
     let members = messages.filter { $0.id.peerId == message.id.peerId && $0.id.namespace == message.id.namespace && $0.threadId == message.threadId && $0.groupingKey == key }
     return members.contains(where: { $0.id == message.id }) ? members : [message]
 }
@@ -2592,7 +2592,7 @@ func contextMenuForChatPresentationInterfaceState(chatPresentationInterfaceState
         }
         if archivedAttribute != nil {
             actions.removeAll()
-            if NagramiXMessageArchiveSettings.current.showDeletedMessages, context.account.nagramiXMessageArchive.isLocallyDeletedMessage(id: message.id) {
+            if NagramiXTabSettings.current.showDeletedMessages, context.account.nagramiXMessageArchive.isLocallyDeletedMessage(id: message.id) {
                 actions.append(.action(ContextMenuActionItem(text: chatPresentationInterfaceState.strings.Conversation_ContextMenuDelete, textColor: .destructive, icon: { theme in
                     return generateTintedImage(image: UIImage(bundleImageName: "Chat/Context Menu/Delete"), color: theme.actionSheet.destructiveActionTextColor)
                 }, action: { controller, f in

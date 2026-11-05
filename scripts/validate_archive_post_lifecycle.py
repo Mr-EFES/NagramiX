@@ -24,6 +24,7 @@ def verify(source):
     for name,digest in {**PLAN['outputs'],**PLAN['guards']}.items():assert sha((source/name).read_bytes())==digest,name
     for name,digest in PLAN['templates'].items():assert sha((OVERLAY/name).read_bytes())==digest,name
     old=(OVERLAY/PLAN['previous'][A]).read_text();new=(source/A).read_text()
+    assert block(old,'private struct NagramiXMessageArchiveSettings')==block(new,'private struct NagramiXMessageArchiveSettings'), 'Core settings visibility must remain private'
     # Native/server deletion remains retaining; explicit UI purge is separate.
     for marker in ['public func removeLocal(', 'public func clear(peerId:', 'public func archiveServerDeletion(messageIds:', 'private func archiveHistoryDeletion(', 'public func transcriptionMessage(', 'public func updateTranscriptionAttributes(']:
         assert block(old,marker)==block(new,marker),marker
@@ -33,6 +34,7 @@ def verify(source):
     panel=(source/'submodules/TelegramUI/Components/Chat/ChatMessageSelectionInputPanelNode/Sources/ChatMessageSelectionInputPanelNode.swift').read_text()
     assert 'if archiveOnlySelection {\n                self.deleteButton.isEnabled = true' in panel
     menus=(source/M).read_text()
+    assert 'NagramiXMessageArchiveSettings' not in controller+menus, 'UI must use public NagramiXTabSettings'
     assert menus.count('nagramiXWholePostMessages(message, messages: messages)')==3
     load=(source/'submodules/TelegramUI/Sources/Chat/ChatControllerLoadDisplayNode.swift').read_text()
     selected=load[load.index('        }, deleteSelectedMessages: {'):load.index('        }, reportSelectedMessages:')]
@@ -170,6 +172,8 @@ def runtime_source(native, mode='current'):
     source+='''
     private typealias NagramiXMessageArchive=Archive
     enum EngineMessage {typealias Id=MessageId}
+    typealias EngineRawMessage=Message
+    private typealias NagramiXTabSettings=NagramiXMessageArchiveSettings
     private final class BoundaryPostbox {
         var archive:Archive?
         let value:Transaction
@@ -211,6 +215,44 @@ def run_swift(source,swiftc,temp):
             print(label+': '+message,flush=True);runs.append(label+': '+message)
     return runs
 
+def check_public_ui_types(source, swiftc, temp):
+    """Compile actual UI helpers across module boundaries, without importing Postbox."""
+    fixtures=ROOT/'scripts/tests/archive_ui_modules'
+    modules=temp/'ui-modules';modules.mkdir()
+    common=[str(swiftc),'-warnings-as-errors','-module-cache-path',str(temp/'cache')]
+    for name in ['Postbox','SwiftSignalKit','TelegramCore','NagramiXCore','AccountContext']:
+        subprocess.run([*common,'-emit-module','-parse-as-library','-module-name',name,
+                        '-I',str(modules),str(fixtures/(name+'.swift')),
+                        '-emit-module-path',str(modules/(name+'.swiftmodule'))],check=True)
+    admin=(source/B).read_text();menus=(source/M).read_text()
+    assert 'import NagramiXCore' in admin and 'import NagramiXCore' in menus
+    assert 'import AccountContext' in admin and 'import AccountContext' in menus
+    functions='\n'.join(block(admin, marker) for marker in [
+        'private var nagramiXArchivePostScope:', 'func nagramiXPostSelectionIds(',
+        'private func nagramiXLocalDeletionCandidates(', 'func nagramiXDeletionActions('])
+    signature=block(admin,'func presentDeleteMessageOptions(').split('{',1)[0]
+    functions+='\n'+signature+'{ fatalError("signature-only interface check") }\n'
+    whole=block(menus,'private func nagramiXWholePostMessages(')
+    boundary=(fixtures/'UI.swift').read_text()
+    results=[]
+    for mode in ['current','bare-id','bare-message','private-settings']:
+        methods=functions;post=whole
+        if mode=='bare-id':methods=methods.replace('EngineMessage.Id','MessageId')
+        elif mode=='bare-message':post=post.replace('EngineRawMessage','Message')
+        elif mode=='private-settings':
+            methods=methods.replace('NagramiXTabSettings','NagramiXMessageArchiveSettings')
+            post=post.replace('NagramiXTabSettings','NagramiXMessageArchiveSettings')
+        suite=modules/(mode+'.swift')
+        suite.write_text(boundary.replace('// ACTUAL_METHODS',methods).replace('// ACTUAL_POST',post))
+        result=subprocess.run([*common,'-typecheck','-I',str(modules),str(suite)],capture_output=True,text=True)
+        if mode=='current':assert result.returncode==0,result.stderr
+        else:
+            symbol={'bare-id':'MessageId','bare-message':'Message','private-settings':'NagramiXMessageArchiveSettings'}[mode]
+            assert result.returncode!=0 and 'error:' in result.stderr and ("'"+symbol+"'") in result.stderr,result.stderr
+        results.append(mode+': '+('actual UI public interfaces typechecked' if mode=='current' else 'SDK visibility regression reproduced and rejected'))
+    for item in results:print(item,flush=True)
+    return results
+
 
 def main():
     parser=argparse.ArgumentParser(description=__doc__);parser.add_argument('--source',type=Path,required=True);parser.add_argument('--swiftc',type=Path);parser.add_argument('--report',type=Path);args=parser.parse_args()
@@ -219,7 +261,8 @@ def main():
         return
     verify(args.source)
     with tempfile.TemporaryDirectory(prefix='nagramix-archive-posts-') as folder:
-        temp=Path(folder);rejected=guard_checks(args.source,temp);runs=run_swift(args.source,args.swiftc,temp) if args.swiftc else []
+        temp=Path(folder);rejected=guard_checks(args.source,temp)
+        runs=(check_public_ui_types(args.source,args.swiftc,temp)+run_swift(args.source,args.swiftc,temp)) if args.swiftc else []
     if args.swiftc:
         for name in PLAN['outputs']:subprocess.run([str(args.swiftc),'-frontend','-parse',str(args.source/name)],check=True)
     result={'changed_files':len(PLAN['outputs']),'guards':len(PLAN['guards']),'fail_closed':rejected,'executions':runs,'sdk':'not run','device':'pending iPhone verification','boundaries':'Actual post planning/rendering/capture queue/purge/JSON persistence and UI selection/commit/Undo. Postbox codec, media IO, native engine submission, UIKit and signal scheduling are boundaries.'}

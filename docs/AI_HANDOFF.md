@@ -1,5 +1,13 @@
 # Контекст разработки NagramiX 0.8.6
 
+## Исправление нативной попытки169
+
+Run41946979343/build169, source90e13a2f699a7e804aa95316c090bbb819890e26 прошёл pre-SDK/cold gate и прежнюю ошибку Preferences, но SDK остановился в TelegramUI. Новые archive_post_lifecycle helpers использовали bare MessageId/Message в файлах без Postbox и private NagramiXMessageArchiveSettings из TelegramCore. В unpublished After1.inc/After4.inc заменены только типы на публичные EngineMessage.Id/EngineRawMessage и флаг на NagramiXTabSettings.current.showDeletedMessages (тот же persisted key). Core settings остаются private и побайтно прежними; новые импорты/доступ Postbox в UI не добавляются. Согласованы точные output/template SHA, прежние Before и опубликованные выпуски сохранены. Остальные inference diagnostics могут быть каскадными; подтвердить новой SDK, не объявлять её заранее успешной.
+
+Обязательный archive validator теперь компилирует фактические helpers и сигнатуру presentDeleteMessageOptions через пять отдельных Swift-модулей. Три прежних варианта с bare IDs, bare Message и private settings обязаны не компилироваться. Локальный Swift6.1.2: этот gate, прежние48 runtime checks/режим и отрицательные контроли,50 fail-closed входов проходят. Полная свежая композиция pinned13.1.2+legacy13.0, финальный post-port,739 Core imports и строгая71×613 локализация проходят. Отчёты восстановлены после переподключения среды в /tmp/nagramix-release-086/{archive-ui-fix,archive-ui-static-final,localization-ui-fix}.*. upstream — итоговый post-port, legacy — чистый13.0. Test-only configuration содержит явные dummy API values, не использовать её для IPA; workflow использует GitHub Secrets.
+
+Владелец повторно потребовал положительную сборку и переподключил среду. Недоступность терминала устранена; разрешены commit/push, следующие чистые попытки0.8.6 и owner publication. Продолжать контроль до SDK/проверки пакета/публикации. IPA0.8.6 ещё не получена.
+
 ## Исправление нативной попытки168
 
 Run41928753756/build168, source5b0755864a981f9682024540557baaf3fc30844a прошёл весь pre-SDK набор144 команд и cold gate, но SDK остановился на двух optional-self ошибках Preferences.swift:475/485. Локализация добавила self.presentationData в аргумент self?.alert внутри weak-self обработчиков удаления моделей. В ещё не выпущенном local_asr_memory/After5.inc добавлено безопасное связывание self только для alert; remove/cancel/completion выполняются и после закрытия экрана. Согласованы точные output/template SHA этого этапа и последующего vosk_model_naming. Старые canonical входы и опубликованные выпуски не менялись.

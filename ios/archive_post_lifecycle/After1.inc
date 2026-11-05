@@ -420,7 +420,7 @@ extension ChatControllerImpl {
     }
         
     private var nagramiXArchivePostScope: Bool {
-        guard !self.nagramiXReadHistoryDisabled, NagramiXMessageArchiveSettings.current.showDeletedMessages,
+        guard !self.nagramiXReadHistoryDisabled, NagramiXTabSettings.current.showDeletedMessages,
               let peerId = self.chatLocation.peerId, peerId.namespace != Namespaces.Peer.SecretChat else { return false }
         switch self.presentationInterfaceState.subject {
         case nil, .message: return true
@@ -428,19 +428,19 @@ extension ChatControllerImpl {
         }
     }
 
-    func nagramiXPostSelectionIds(_ ids: [MessageId]) -> [MessageId] {
+    func nagramiXPostSelectionIds(_ ids: [EngineMessage.Id]) -> [EngineMessage.Id] {
         guard self.isNodeLoaded, self.nagramiXArchivePostScope else { return ids }
         let messages = ids.flatMap { self.chatDisplayNode.historyNode.messageGroupInCurrentHistoryView($0) ?? [] }
         return self.context.account.nagramiXMessageArchive.postMessageIds(messageIds: Set(ids), messages: messages).sorted()
     }
 
-    private func nagramiXLocalDeletionCandidates(_ ids: Set<MessageId>) -> Set<MessageId> {
+    private func nagramiXLocalDeletionCandidates(_ ids: Set<EngineMessage.Id>) -> Set<EngineMessage.Id> {
         guard self.isNodeLoaded else { return [] }
         let messages = ids.flatMap { self.chatDisplayNode.historyNode.messageGroupInCurrentHistoryView($0) ?? [] }
         return self.context.account.nagramiXMessageArchive.localPostDeletionCandidates(messages: messages).intersection(ids)
     }
 
-    func nagramiXDeletionActions(messageIds: Set<MessageId>, localCandidates: Set<MessageId>) -> Signal<ChatAvailableMessageActions, NoError> {
+    func nagramiXDeletionActions(messageIds: Set<EngineMessage.Id>, localCandidates: Set<EngineMessage.Id>) -> Signal<ChatAvailableMessageActions, NoError> {
         guard self.nagramiXArchivePostScope else {
             return self.context.sharedContext.chatAvailableMessageActions(engine: self.context.engine, accountPeerId: self.context.account.peerId, messageIds: messageIds, keepUpdated: false)
         }
@@ -526,7 +526,7 @@ extension ChatControllerImpl {
         }), in: .current)
     }
     
-    func presentDeleteMessageOptions(messageIds: Set<EngineMessage.Id>, options: ChatAvailableMessageActionOptions, contextController: ContextControllerProtocol?, sourceView: UIView? = nil, completion: @escaping (ContextMenuActionResult) -> Void, nagramiXLocalCandidates: Set<MessageId>? = nil, nagramiXPlan: NagramiXArchivePostDeletionPlan? = nil) {
+    func presentDeleteMessageOptions(messageIds: Set<EngineMessage.Id>, options: ChatAvailableMessageActionOptions, contextController: ContextControllerProtocol?, sourceView: UIView? = nil, completion: @escaping (ContextMenuActionResult) -> Void, nagramiXLocalCandidates: Set<EngineMessage.Id>? = nil, nagramiXPlan: NagramiXArchivePostDeletionPlan? = nil) {
         if self.nagramiXArchivePostScope && nagramiXPlan == nil {
             let candidates = nagramiXLocalCandidates ?? self.nagramiXLocalDeletionCandidates(messageIds)
             let _ = (self.context.engine.messages.nagramiXArchivePostDeletionPlan(messageIds: messageIds, localCandidates: candidates) |> deliverOnMainQueue).startStandalone(next: { [weak self] plan in
