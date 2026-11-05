@@ -1,5 +1,7 @@
 # Удалённые сообщения
 
+Актуальный SDK/пакет:0.8.7/build173 — compile_passed, package_verified, owner_published; физическая проверка device_pending. [Итог выпуска](../../docs/RELEASE_STATUS.md), [проверка на iPhone](../../docs/DEVICE_CHECK_087.md).
+
 Добавлена [правка пустого места после удаления](../../docs/ARCHIVE_DELETION_VISIBILITY.md): сохранённый пост обновляется на месте, ячейка не остаётся скрытой эффектом удаления оригинала. Один снимок на альбом, обычное схлопывание при недоступном snapshot. Source checks пройдены; новая Apple SDK и проверка iPhone ожидаются, в IPA171 правки нет.
 
 

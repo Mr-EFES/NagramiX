@@ -1,6 +1,12 @@
-# NagramiX 0.8.7 — подготовка новой чистой сборки
+# NagramiX 0.8.7/build173 — опубликован
 
-Владелец явно выбрал0.8.7 и разрешил новый запуск/commit/push/обычную публикацию с IPA. Новая SDK ещё не запущена. Все накопленные исходные исправления и test-only исправление предупреждения Swift входят в выбранныйsource. АвторизацияMr-EFES проверена заранее реальной загрузкой: own draft435547506/v0.8.7, uploaderMr-EFES, размер/SHA256 совпали, temporary probe удалён; draft пустой. Сохранённый профиль CLI действует, повторный вход не нужен. Ниже только история0.8.6; её IPA171 не является новым0.8.7.
+**native_compile_passed / package_verified / owner_published / device_pending**
+
+**0.8.7/build173 опубликован обычным latest релизом5 ноября2026,20:19:04UTC.** [Release](https://github.com/Mr-EFES/NagramiX/releases/tag/v0.8.7), [IPA](https://github.com/Mr-EFES/NagramiX/releases/download/v0.8.7/NagramiX-0.8.7-unsigned.ipa), [Actions](https://github.com/Mr-EFES/NagramiX/actions/runs/42081412326). Source27217997bd5a691cfc2013b733e7be5646ed7479/main. Полный pre-SDK151 и cold gate успешны; нативная ARM64-компиляция19:10:47–20:15:25UTC, упаковка и независимый CI package job success. Оригинальный ZIP получен GitHub artifact tool после отказа CLI redirect, не перепакован: artifact13450251752,88094086bytes,SHA256d639b57e4a37fbc66631b8738fd229511bdadfc6ba2e09989edb9023c5038b09. IPA88438985bytes,SHA25642bd29773a4670a4d24083ae29cae789e38baccd68c76aa6567f8f6b10f9bc3d;0.8.7/build173/iOS15+/ARM64,71×613 языков настроек/debug, RU15004/613,31мелодия,8иконок, без профилей. Package validator локально и в owner publisher успешен; ZIP CI digest, checksum/provenance/source проверены. Release435547506, authorMr-EFES, uploader всех3файловMr-EFES, exact remote size/digest совпали; normal/latest, tagv0.8.7 указывает source2721799. Assets: IPA714687170, provenance714687171, SHA256SUMS714687169. Опубликованные старые релизы и исторический собственный пустой draft0.8.6/id435043558 не менялись.
+
+Личный CLI profile `/workspace/.codex-nagramix-owner-gh` сохранён и доказан реальной загрузкой, повторный login не нужен при действующем профиле. Env-uGH_TOKEN-uGITHUB_TOKEN, git GIT_CONFIG_GLOBAL=/workspace/.codex-release-086/gitconfig; current non-secret selector `/workspace/.codex-release-087/owner-release-recovery.json`. Секреты не читать/выводить/коммитить. Текущая команда полностью выполнена; новый SDK/Actions/rerun только по новой личной команде. Все реализованные iOS compile_pending обновлены до compile_passed; physicaldevice_pending сохранён. [Проверка на iPhone](DEVICE_CHECK_087.md) ещё ожидается, UIKit/AVKit поведение физически не подтверждать. Владелец вручную закрывает repo через settings#danger-zone → Make private; не переключать автоматически.
+
+## История0.8.6
 
 # NagramiX0.8.6: попытка172 остановлена до SDK
 
