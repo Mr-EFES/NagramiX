@@ -1,4 +1,14 @@
-# Контекст разработки NagramiX 0.8.6
+# Контекст разработки NagramiX 0.8.7
+
+## Актуальная команда: чистая0.8.7 и публикация IPA
+
+Владелец дал новую личную команду и полное разрешение: версия0.8.7, чистая сборка и обычный GitHub Release с IPA. Старое ожидание после172 отменено для этого нового запуска; последующие attempts/reruns требуют личной команды по сохранённому правилу. User explicitly chose0.8.7 despite unpublished0.8.6; source incorporates all previous fixes plus test-only WeakGalleryProbe fromb3d73c71b9dc4a376d167897156227a0ffab2685. Не публиковать171/старыеIPA за новуюверсию.
+
+5 ноября18:06UTC GitHub подтвердил public иMr-EFES; profile `/workspace/.codex-nagramix-owner-gh`, gitconfig `/workspace/.codex-release-086/gitconfig`. Использовать env-uGH_TOKEN-uGITHUB_TOKEN с этими selectors. Предварительная реальная owner upload успешна: собственный новый draft435547506/v0.8.7, temporary probe714319825 загруженMr-EFES, размер/digest подтверждены, probe удалён, draft пустой. Это доказанная рабочая upload authorization, а не только GETuser; повторный device login не нужен, пока профиль действует. CLI хранит credentials, не читать/выводить/коммитить их. Несекретные сведения `/tmp/nagramix-build-087/owner-upload-check.json` и recovery selector.
+
+Workflow/registry/current annotation/metadata синхронизируются на0.8.7; README/LICENSE immutable. Все source checks новых стадий и PiP fix пройдены ранее на том же production tree;151 остаётся обязательным вCI, не повторять локально глубокий historical unwrap, который ENOSPC. До dispatch metadata/build-mode/owner checks, current upstream иremote-source identity; один разрешённый новыйPOST сclean=true,publish=true,prerelease=false,artifact_run_id пустой. RunID/number определить послеPOST и сохранить. После success скачать ORIGINAL ActionsZIP, сверитьdigest/package/source/build; проверить собственный пустой435547506draft и ретаргетировать его на новый source (tag/name/body вместе), затем owner publisher из0.8.7checkout. Старый0.8.6draft435043558 остаётся историческим и не меняется.
+
+
 
 ## Новая команда: собрать IPA и опубликовать0.8.6 со всеми исправлениями
 
