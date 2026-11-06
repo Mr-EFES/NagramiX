@@ -81,7 +81,7 @@ def main():
                         help='Локальная проверка механизма во время подготовки; не проверка готовности релиза')
     args = parser.parse_args()
     from validate_system_video_pip import delegate_icon_stage_if_applied
-    for stage in ('rich_draft_upload_retry', 'pip_transition_geometry', 'transfer_consistency', 'editor_attachment_delivery', 'local_model_size', 'archive_deletion_effect', 'pip_visual_handoff', 'local_model_menu', 'archive_deletion_visibility', 'temporary_media_actions', 'message_copy_availability', 'vosk_model_naming', 'local_asr_memory', 'archive_post_lifecycle', 'localization_standard', 'temporary_voice_transcription'):
+    for stage in ('pip_playback_commands', 'round_caption_transport', 'repost_copy_integrity', 'native_pip_baseline', 'copy_delivery', 'rich_draft_upload_retry', 'pip_transition_geometry', 'transfer_consistency', 'editor_attachment_delivery', 'local_model_size', 'archive_deletion_effect', 'pip_visual_handoff', 'local_model_menu', 'archive_deletion_visibility', 'temporary_media_actions', 'message_copy_availability', 'vosk_model_naming', 'local_asr_memory', 'archive_post_lifecycle', 'localization_standard', 'temporary_voice_transcription'):
         if delegate_icon_stage_if_applied(args, Path(__file__), stage):
             return
     for name, digest in {**PLAN['outputs'], **PLAN['guards']}.items():

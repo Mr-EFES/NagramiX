@@ -1,0 +1,49 @@
+{
+  "inputs": {
+    "submodules/TelegramCore/Sources/Utils/NagramiXOutgoingCopy.swift": "41784df15ffde0b29ca0e47c888c31a72ea1a16567e59ab1ba272463a0cf2847"
+  },
+  "outputs": {
+    "submodules/TelegramCore/Sources/Utils/NagramiXOutgoingCopy.swift": "a36e23a58ac93e4fb4b2e8167f629531c5f246febd5a0d13ba2526118996f8ad"
+  },
+  "previous": {
+    "submodules/TelegramCore/Sources/Utils/NagramiXOutgoingCopy.swift": "round_caption_transport/Before0.inc"
+  },
+  "replacements": {
+    "submodules/TelegramCore/Sources/Utils/NagramiXOutgoingCopy.swift": "round_caption_transport/After0.inc"
+  },
+  "copies": {},
+  "guards": {
+    "submodules/ChatListUI/Sources/Node/ChatListNode.swift": "79c72024b70d600d74ccb4f09127e1137717b469a62ed5c0ec766346c2b0a8b9",
+    "submodules/ChatListUI/Sources/Node/ChatListNodeEntries.swift": "46942b069375d784483747fbcb6a33b4f57c229b1248037139c1a29bac731db9",
+    "submodules/ContactListUI/Sources/ContactListNode.swift": "1a0753256e857306f979923240ddc1f14a010534ea6993ef7dfe2b334bab157b",
+    "submodules/ContactsPeerItem/Sources/ContactsPeerItem.swift": "d98092ff485a78501aa8880ee1edc87ef7e1ef921b9c0f0d5081e8f112c38f1e",
+    "submodules/GalleryUI/Sources/GalleryController.swift": "d8ea3637cae939f7f72a8913d9fb82fd888327ccbcf83e754341a14b68b26e33",
+    "submodules/GalleryUI/Sources/GalleryControllerNode.swift": "58cc53fddbee71a760a2ce40b8678f1091f673b3f7da0614e46a6b0374bf8f69",
+    "submodules/GalleryUI/Sources/GalleryItemNode.swift": "4d5fa2b87a4f81c3cc31302761c98adc04cbc2023260561096221c0c8914b046",
+    "submodules/GalleryUI/Sources/Items/UniversalVideoGalleryItem.swift": "4b31d51017b416f893c0135fc8af2d878d33c5479e27f63f79381ac21751454d",
+    "submodules/SlotMachineAnimationNode/Sources/SlotMachineAnimationNode.swift": "3410d22aab97172a9222f5b791dd2411eec229e19eb21702581a9706da2d66eb",
+    "submodules/TelegramCore/BUILD": "81e6c1d9dceab5da57124381fce03665a449bcb7904e66c884269dacdd584fbf",
+    "submodules/TelegramCore/Sources/PendingMessages/EnqueueMessage.swift": "242fd8ed7aad443b816c6d8a5cacf387747cdc9c6f9bf94471215a683dff39bf",
+    "submodules/TelegramCore/Sources/PendingMessages/PendingMessageUploadedContent.swift": "cf034aa047d570c7c9e7999573670fd9907648928496e6876e278739fcb31a2f",
+    "submodules/TelegramCore/Sources/State/PendingMessageManager.swift": "d55cc3e3e0a8508e88f1a48adb4e3fa3d72b779264cd915b9b291fa11b9f90eb",
+    "submodules/TelegramCore/Sources/SyncCore/SyncCore_OutgoingContentInfoMessageAttribute.swift": "6e9c62dbdfa812cc9243e77102395cc52589937a25c18321922ef75a272b5672",
+    "submodules/TelegramCore/Sources/TelegramEngine/Resources/NagramiXResourceAccess.swift": "71d86809fd6000b561e97f1d831a92284dcb08086637d53877a71549cf5b2d05",
+    "submodules/TelegramCore/Sources/Utils/NagramiXArchivedMediaCopy.swift": "687d9ddc8b0a31cf2652a614c0c01aa2896b817787da91ccf3922d2727fa9f5d",
+    "submodules/TelegramCore/Sources/Utils/NagramiXCaptureProtectionPolicy.swift": "9c317bf122eda39dc9aad6e16a7001673a9555e8b6a6aa169a213d81e4679d35",
+    "submodules/TelegramCore/Sources/Utils/NagramiXContentCopy.swift": "b8d05e7d6b8f5bbdf32bd8443c420baf4c7d3160620893204b73902dbb97374c",
+    "submodules/TelegramUI/BUILD": "f4ae55a27c3a5e486a0fe9c768c70b65b974c505125d91a1215645179de54926",
+    "submodules/TelegramUI/Components/Chat/ChatMessageSelectionInputPanelNode/Sources/ChatMessageSelectionInputPanelNode.swift": "63c0b57872954074135fff6065e8c540bc53a694a6e3c92dc62da029829086b3",
+    "submodules/TelegramUI/Components/Chat/ManagedDiceAnimationNode/Sources/ManagedDiceAnimationNode.swift": "f42a0dee36260f8b80c4f58acddedeb3a8e9160405800cd43b0550865ce09dc6",
+    "submodules/TelegramUI/Components/PeerSelectionController/Sources/PeerSelectionController.swift": "8ebc9c3044d523b4b95ad3b259257f646433e1e959ba2d234f8fad7ff87acae7",
+    "submodules/TelegramUI/Components/PeerSelectionController/Sources/PeerSelectionControllerNode.swift": "a2d5b565c968e6e9e8d5f6e41ef8f71c46a33d01b62860706f9fbeef6ec2b83f",
+    "submodules/TelegramUI/Sources/Chat/ChatControllerPaidMessage.swift": "64dab398c0ee59f6e46bbf38242105d69991f1b8109fdb186e595e70b057dad6",
+    "submodules/TelegramUI/Sources/Chat/NagramiXCopyDelivery.swift": "f06857f28c5f6acb0bb840ef54202af24d9a4ceef99f5cdeb0b3e0edf800df5c",
+    "submodules/TelegramUI/Sources/ChatControllerForwardMessages.swift": "781d0cdbf1ca5cabe380d183424dd8fa17732a4c2173cfd492b7286fa00ca115",
+    "submodules/TelegramUI/Sources/ChatInterfaceStateContextMenus.swift": "3e035ab2f4b7d9579890cd485b7e7efc3520f59fbdcce1c3760200a1bb5f9c44",
+    "submodules/TelegramUI/Sources/ChatControllerNode.swift": "5167d22569c154e0962a139979f08104d9eb6ea600b1091df0bc632095810912"
+  },
+  "templates": {
+    "round_caption_transport/Before0.inc": "41784df15ffde0b29ca0e47c888c31a72ea1a16567e59ab1ba272463a0cf2847",
+    "round_caption_transport/After0.inc": "a36e23a58ac93e4fb4b2e8167f629531c5f246febd5a0d13ba2526118996f8ad"
+  }
+}

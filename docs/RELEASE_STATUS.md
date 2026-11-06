@@ -1,4 +1,10 @@
-# NagramiX 0.8.8 — опубликованный релиз
+# NagramiX 0.8.9 — подготовка переноса и релиза
+
+**migration_source_checked / native_compile_pending / package_pending / device_pending**
+
+Полный перенос на13.2 завершён в исходниках: [контракт/проверки](UPSTREAM_132_089_MIGRATION.md). Локально423Swift parse,47 fail-closed checks,14 runtime исполнений PiP/R1/R2/R3,strict71×629/44828lookup checks на режим,6 IPA-localization regression tests и release checks прошли. Владелец разрешил main commit/push и чистые повторы0.8.9 до успешной owner publication. SDK ещё не запускался; нового IPA пока нет. Предыдущий опубликованный0.8.8/175 ниже не является новым пакетом.
+
+## Предыдущий опубликованный выпуск0.8.8
 
 **native_compile_passed / package_verified / owner_published / device_pending**
 

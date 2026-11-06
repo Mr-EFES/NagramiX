@@ -1,5 +1,7 @@
 # Переход в системный PiP и обратно
 
+**Историческая стадия.** Актуальна последняя команда владельца: [штатный PiP Telegram 13.1.2 и быстрый свайп](NATIVE_PIP_BASELINE.md). Поздняя `native_pip_baseline` заменяет описанные ниже custom handoff/readiness/restore надстройки официальными переходами Telegram; canonical snapshots и прежние проверки сохранены.
+
 Новая исходная правка по видео от6 ноября: [геометрия переходов](PIP_TRANSITION_GEOMETRY.md). Она заменяет прежнее удержание смещённого свайпом source rect на устойчивую центральную область, откладывает controls до DidStop и усиливает готовность возврата. Для новой стадии compile_pending/device_pending; результат build173 ниже относится к прежнему коду.
 
 **Текущий статус: нативная чистая0.8.7/build173 и пакет проверены, релиз опубликован.** Source27217997bd5a691cfc2013b733e7be5646ed7479, run42081412326; полный pre-SDK151/cold gate/native/package/owner publication passed. Физическая работа на iPhone остаётся device_pending; [проверка0.8.7](DEVICE_CHECK_087.md). Сведения о pending/IPA171 ниже — история предыдущих исходных этапов.

@@ -141,6 +141,8 @@ def main() -> None:
     if not (source / "Telegram" / "BUILD").exists() and not (source / "Telegram" / "BUILD.bazel").exists():
         raise SystemExit(f"Not a Telegram-iOS source tree: {source}")
 
+    from upstream_13_2_release_pre import apply_upstream_13_2_release_pre
+    apply_upstream_13_2_release_pre(source, Path(__file__).resolve().parent)
     from upstream_13_2_pre import apply_upstream_13_2_pre
     apply_upstream_13_2_pre(source, Path(__file__).resolve().parent)
     from upstream_13_1 import apply_upstream_131
@@ -485,6 +487,16 @@ def main() -> None:
     apply_pip_transition_geometry(source, Path(__file__).resolve().parent)
     from rich_draft_upload_retry import apply_rich_draft_upload_retry
     apply_rich_draft_upload_retry(source, Path(__file__).resolve().parent)
+    from copy_delivery import apply_copy_delivery
+    apply_copy_delivery(source, Path(__file__).resolve().parent)
+    from native_pip_baseline import apply_native_pip_baseline
+    apply_native_pip_baseline(source, Path(__file__).resolve().parent)
+    from repost_copy_integrity import apply_repost_copy_integrity
+    apply_repost_copy_integrity(source, Path(__file__).resolve().parent)
+    from round_caption_transport import apply_round_caption_transport
+    apply_round_caption_transport(source, Path(__file__).resolve().parent)
+    from pip_playback_commands import apply_pip_playback_commands
+    apply_pip_playback_commands(source, Path(__file__).resolve().parent)
     # Системный PiP: экспериментальный hybrid_pip больше не включается в приложение.
 
     api_id = os.environ.get("TELEGRAM_API_ID", "")

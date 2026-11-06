@@ -25,7 +25,7 @@ on:
         default: true
 
 env:
-  NAGRAMIX_VERSION: 0.8.8
+  NAGRAMIX_VERSION: 0.8.9
 
 permissions:
   contents: read
@@ -65,6 +65,7 @@ jobs:
           python3 scripts/validate_release_metadata.py
           python3 scripts/validate_release_build_mode.py
           python3 scripts/validate_owner_publication.py
+          python3 scripts/validate_ipa_localization_contract.py
 
       - name: Проверить актуальность официальной базы Telegram-iOS
         run: python3 scripts/check_upstreams.py --platform ios --require-current
@@ -133,6 +134,11 @@ jobs:
             --source Telegram-iOS \
             --legacy-source Telegram-overlay-input \
             --configuration "$RUNNER_TEMP/nagramix-configuration.json"
+          python3 scripts/validate_pip_playback_commands.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)"
+          python3 scripts/validate_round_caption_transport.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)"
+          python3 scripts/validate_repost_copy_integrity.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)"
+          python3 scripts/validate_native_pip_baseline.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)"
+          python3 scripts/validate_copy_delivery.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)"
           python3 scripts/validate_rich_draft_upload_retry.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)"
           python3 scripts/validate_pip_transition_geometry.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)"
           python3 scripts/validate_transfer_consistency.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)"
@@ -290,6 +296,9 @@ jobs:
           python3 scripts/validate_ghostgram_pip_compile_fix.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)"
           python3 scripts/validate_upstream_13_2.py --swiftc "$(xcrun --find swiftc)"
           PYTHONPATH=ios python3 -c 'from pathlib import Path; from upstream_13_2_post import apply_upstream_13_2_post; apply_upstream_13_2_post(Path("Telegram-iOS").resolve(), Path("ios").resolve())'
+          PYTHONPATH=ios python3 -c 'from pathlib import Path; from upstream_13_2_release_post import apply_upstream_13_2_release_post; apply_upstream_13_2_release_post(Path("Telegram-iOS").resolve(), Path("ios").resolve())'
+          python3 scripts/validate_upstream_13_2_release.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)"
+          python3 scripts/validate_localization_standard.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)" --final-upstream-13-2
           python3 Telegram-iOS/build-system/Make/PostboxImportCheck.py Telegram-iOS
 
       - name: Восстановить кеш Bazel

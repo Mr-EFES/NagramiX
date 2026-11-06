@@ -20,22 +20,40 @@ def require(condition: bool, message: str) -> None:
         raise SystemExit(message)
 
 
-def validate_settings_localizations(archive: zipfile.ZipFile, prefix: str) -> int:
-    """Проверить все переводы в готовом пакете, включая новый ключ Vosk."""
+def validate_settings_localizations(archive: zipfile.ZipFile, prefix: str, version: str | None = None) -> int:
+    """Проверить точные переводы текущего выпуска и прежний контракт пакетов."""
     plan = json.loads((ROOT / 'ios/vosk_model_naming_patches.json').read_text())
     labels = json.loads((ROOT / 'ios/vosk_model_naming/labels.json').read_text())
     codes = {item['code'] for item in json.loads((ROOT / 'ios/app_language_localization/languages.json').read_text())['languages']}
     require(set(labels) == codes, 'Неполный контракт языков IPA')
+    additions = None
+    if version is not None and tuple(int(part) for part in version.split('.')) >= (0, 8, 9):
+        migration = json.loads((ROOT / 'ios/upstream_13_2_release_post_patches.json').read_text())
+        name = 'upstream_13_2_release/localization.json'
+        data = (ROOT / 'ios' / name).read_bytes()
+        require(hashlib.sha256(data).hexdigest() == migration['templates'][name], 'Контракт новых переводов IPA изменён')
+        additions = json.loads(data)
+        require(additions['previous_key_count'] == 613 and additions['key_count'] == migration['localization_key_count'] == 629,
+                'Неверный размер каталога новых переводов IPA')
+        require(set(additions['translations']) == codes and len(set(additions['keys'])) == 16,
+                'Неполный контракт новых языков IPA')
     for code in sorted(codes):
         name = f'submodules/NagramiXCore/Resources/{code}.lproj/Localizable.strings'
         text = (ROOT / 'ios' / plan['previous'][name]).read_text()
         pairs = re.findall(r'^"((?:[^"\\]|\\.)*)"\s*=\s*"((?:[^"\\]|\\.)*)";', text, re.MULTILINE)
         expected = {json.loads('"' + key + '"'): json.loads('"' + value + '"') for key, value in pairs}
         expected['NagramiX.Transcription.Vosk.Alternative'] = labels[code]
+        if additions is not None:
+            values = additions['translations'][code]
+            require(len(values) == len(additions['keys']) and all(value.strip() for value in values), 'Неполные новые переводы: ' + code)
+            extra = {'NagramiX.Debug.' + key: value for key, value in zip(additions['keys'], values)}
+            require(not expected.keys() & extra.keys(), 'Повтор ключа перевода IPA: ' + code)
+            expected.update(extra)
         resource = prefix + f'Frameworks/TelegramUIFramework.framework/NagramiXLocalization.bundle/{code}.lproj/Localizable.strings'
         require(resource in archive.namelist(), f'В IPA отсутствует язык настроек: {code}')
         packed = plistlib.loads(archive.read(resource))
-        require(len(expected) == 613 and packed == expected, f'Переводы настроек/debug в IPA изменены или неполны: {code}')
+        expected_count = additions['key_count'] if additions is not None else 613
+        require(len(expected) == expected_count and packed == expected, f'Переводы настроек/debug в IPA изменены или неполны: {code}')
     return len(codes)
 
 
@@ -250,8 +268,9 @@ def main() -> None:
                 require(bool(packed.get("NagramiX.Icon.ChangeFailed")), f"Нет сообщения об отказе смены иконки: {language}")
 
         if tuple(int(part) for part in args.version.split(".")) >= (0, 8, 6):
-            language_count = validate_settings_localizations(archive, prefix)
-            print(f"Переводы IPA проверены: {language_count} языков, по 613 ключей настроек/debug")
+            language_count = validate_settings_localizations(archive, prefix, args.version)
+            key_count = 629 if tuple(int(part) for part in args.version.split('.')) >= (0, 8, 9) else 613
+            print(f"Переводы IPA проверены: {language_count} языков, по {key_count} ключей настроек/debug")
 
     print(f"IPA проверен: {args.version}, build {args.build_number}, iOS15+, ARM64/iPhoneOS файлов {device_binary_count}, RU {len(russian)}/{len(custom)}, мелодий {sound_count}, иконок {icon_count}, checksum/provenance, без профилей")
     print(f"SHA256: {digest}; размер: {args.ipa.stat().st_size} байт")

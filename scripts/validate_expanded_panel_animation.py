@@ -201,6 +201,16 @@ def run_swift(source,swiftc,temp):
 def main():
     parser=argparse.ArgumentParser(description=__doc__);parser.add_argument('--source',type=Path,required=True);parser.add_argument('--swiftc',type=Path);parser.add_argument('--report',type=Path);args=parser.parse_args()
     from validate_system_video_pip import delegate_icon_stage_if_applied
+    if delegate_icon_stage_if_applied(args, Path(__file__), 'pip_playback_commands'):
+        return
+    if delegate_icon_stage_if_applied(args, Path(__file__), 'round_caption_transport'):
+        return
+    if delegate_icon_stage_if_applied(args, Path(__file__), 'repost_copy_integrity'):
+        return
+    if delegate_icon_stage_if_applied(args, Path(__file__), 'native_pip_baseline'):
+        return
+    if delegate_icon_stage_if_applied(args, Path(__file__), 'copy_delivery'):
+        return
     if delegate_icon_stage_if_applied(args, Path(__file__), 'rich_draft_upload_retry'):
         return
     if delegate_icon_stage_if_applied(args, Path(__file__), 'pip_transition_geometry'):

@@ -1,0 +1,92 @@
+{
+  "inputs": {
+    "submodules/GalleryUI/Sources/GalleryController.swift": "9b3b2c2b1a0923f4bec0e50b51674de9da503932e135e80fa2beae8378a0d535",
+    "submodules/GalleryUI/Sources/GalleryControllerNode.swift": "9cfd7c541f235b6a79ae1ca1d2384b11e44cb177b7bf37e652b93a3b930c07a2",
+    "submodules/GalleryUI/Sources/GalleryItemNode.swift": "77e180f45b089ce1a1148cc94bf9bef424e00ff7fb2b306999592dd26264902e",
+    "submodules/GalleryUI/Sources/Items/UniversalVideoGalleryItem.swift": "5b91c849bb3b0e8ecb5d47469ed7d13ff3b799cdaed5bd0257d2db0dc34413f3"
+  },
+  "outputs": {
+    "submodules/GalleryUI/Sources/GalleryController.swift": "d8ea3637cae939f7f72a8913d9fb82fd888327ccbcf83e754341a14b68b26e33",
+    "submodules/GalleryUI/Sources/GalleryControllerNode.swift": "58cc53fddbee71a760a2ce40b8678f1091f673b3f7da0614e46a6b0374bf8f69",
+    "submodules/GalleryUI/Sources/GalleryItemNode.swift": "4d5fa2b87a4f81c3cc31302761c98adc04cbc2023260561096221c0c8914b046",
+    "submodules/GalleryUI/Sources/Items/UniversalVideoGalleryItem.swift": "4b31d51017b416f893c0135fc8af2d878d33c5479e27f63f79381ac21751454d"
+  },
+  "previous": {
+    "submodules/GalleryUI/Sources/GalleryController.swift": "native_pip_baseline/Before0.inc",
+    "submodules/GalleryUI/Sources/GalleryControllerNode.swift": "native_pip_baseline/Before1.inc",
+    "submodules/GalleryUI/Sources/GalleryItemNode.swift": "native_pip_baseline/Before2.inc",
+    "submodules/GalleryUI/Sources/Items/UniversalVideoGalleryItem.swift": "native_pip_baseline/Before3.inc"
+  },
+  "replacements": {
+    "submodules/GalleryUI/Sources/GalleryController.swift": "native_pip_baseline/After0.inc",
+    "submodules/GalleryUI/Sources/GalleryControllerNode.swift": "native_pip_baseline/After1.inc",
+    "submodules/GalleryUI/Sources/GalleryItemNode.swift": "native_pip_baseline/After2.inc",
+    "submodules/GalleryUI/Sources/Items/UniversalVideoGalleryItem.swift": "native_pip_baseline/After3.inc"
+  },
+  "copies": {},
+  "guards": {
+    "submodules/GalleryUI/BUILD": "b40ed813ad5f84ab3bbeccbb6b37794c365054b63ff46ae3e18607b66cba8662",
+    "submodules/AccountContext/BUILD": "5f3668ee2377aa5ed6b17e1584b99110b7b9e84258b345a1ba886470aa4b3d65",
+    "submodules/TelegramUniversalVideoContent/BUILD": "d38670dca3473d371530778e0af8f0aba485011dfdb113ac3fc95e73afbfd4d8",
+    "submodules/MediaPlayer/BUILD": "25c20c2c6710de8374007778dda11e0e8fa9b4ab5e46caf80cbb7a028f4f4042",
+    "submodules/AccountContext/Sources/UniversalVideoNode.swift": "c354dd6110225b9a689f8e8bdd5a8e709b99952c25a5794258ae171ee8164d68",
+    "submodules/TelegramUniversalVideoContent/Sources/NativeVideoContent.swift": "528f20337b832f9dcc01b58511a7639e54a757afffb7477ed2e8c054674bae10",
+    "submodules/MediaPlayer/Sources/MediaPlayerNode.swift": "bce51daf3b616a7e4b109a001fba0f7621bfcf93a3c65b1db9a26e29e4d85a9e",
+    "submodules/MediaPlayer/Sources/MediaPlayer.swift": "ff4a2555142c9c53290c9deb7ea9ef1cfc529e0d8bd183604cc1abbb4389fe99",
+    "submodules/GalleryUI/Sources/GalleryPagerNode.swift": "836dff62717cb6a4d8832b95f009230a0267c9fdf6804467e105837c6a6abb31",
+    "submodules/GalleryUI/Sources/ZoomableContentGalleryItemNode.swift": "aa3622cb64a22ff92877f236a45d8b080ab73b4f7c67828f1de7d1d0fb70c424",
+    "submodules/NagramiXCore/Sources/NagramiXTabSettings.swift": "6d4631a3dc92c3d8140f221553d7657de32b3c825341b5d98f96b7d0f70d24d2",
+    "submodules/GalleryUI/Sources/GalleryVideoDecoration.swift": "ac2dffb5034212c0a995ac619e02f1819489d790ff9780a230c97039218f7c90",
+    "submodules/ChatListUI/Sources/Node/ChatListNode.swift": "79c72024b70d600d74ccb4f09127e1137717b469a62ed5c0ec766346c2b0a8b9",
+    "submodules/ChatListUI/Sources/Node/ChatListNodeEntries.swift": "46942b069375d784483747fbcb6a33b4f57c229b1248037139c1a29bac731db9",
+    "submodules/ContactListUI/Sources/ContactListNode.swift": "1a0753256e857306f979923240ddc1f14a010534ea6993ef7dfe2b334bab157b",
+    "submodules/ContactsPeerItem/Sources/ContactsPeerItem.swift": "d98092ff485a78501aa8880ee1edc87ef7e1ef921b9c0f0d5081e8f112c38f1e",
+    "submodules/SlotMachineAnimationNode/Sources/SlotMachineAnimationNode.swift": "3410d22aab97172a9222f5b791dd2411eec229e19eb21702581a9706da2d66eb",
+    "submodules/TelegramCore/Sources/PendingMessages/PendingMessageUploadedContent.swift": "cf034aa047d570c7c9e7999573670fd9907648928496e6876e278739fcb31a2f",
+    "submodules/TelegramCore/Sources/State/PendingMessageManager.swift": "d55cc3e3e0a8508e88f1a48adb4e3fa3d72b779264cd915b9b291fa11b9f90eb",
+    "submodules/TelegramCore/Sources/SyncCore/SyncCore_OutgoingContentInfoMessageAttribute.swift": "6e9c62dbdfa812cc9243e77102395cc52589937a25c18321922ef75a272b5672",
+    "submodules/TelegramCore/Sources/TelegramEngine/Resources/NagramiXResourceAccess.swift": "71d86809fd6000b561e97f1d831a92284dcb08086637d53877a71549cf5b2d05",
+    "submodules/TelegramCore/Sources/Utils/NagramiXContentCopy.swift": "b8d05e7d6b8f5bbdf32bd8443c420baf4c7d3160620893204b73902dbb97374c",
+    "submodules/TelegramCore/Sources/Utils/NagramiXOutgoingCopy.swift": "9fd353cc98660961a2596cc591dfc85a606f20680480cb8ef5175e3d880c71c3",
+    "submodules/TelegramUI/Components/Chat/ChatMessageSelectionInputPanelNode/Sources/ChatMessageSelectionInputPanelNode.swift": "63c0b57872954074135fff6065e8c540bc53a694a6e3c92dc62da029829086b3",
+    "submodules/TelegramUI/Components/Chat/ManagedDiceAnimationNode/Sources/ManagedDiceAnimationNode.swift": "f42a0dee36260f8b80c4f58acddedeb3a8e9160405800cd43b0550865ce09dc6",
+    "submodules/TelegramUI/Components/PeerSelectionController/Sources/PeerSelectionController.swift": "8ebc9c3044d523b4b95ad3b259257f646433e1e959ba2d234f8fad7ff87acae7",
+    "submodules/TelegramUI/Components/PeerSelectionController/Sources/PeerSelectionControllerNode.swift": "a2d5b565c968e6e9e8d5f6e41ef8f71c46a33d01b62860706f9fbeef6ec2b83f",
+    "submodules/TelegramUI/Sources/ChatControllerForwardMessages.swift": "781d0cdbf1ca5cabe380d183424dd8fa17732a4c2173cfd492b7286fa00ca115",
+    "submodules/TelegramUI/Sources/ChatInterfaceStateContextMenus.swift": "3e035ab2f4b7d9579890cd485b7e7efc3520f59fbdcce1c3760200a1bb5f9c44",
+    "submodules/TelegramUI/Sources/Chat/NagramiXCopyDelivery.swift": "f06857f28c5f6acb0bb840ef54202af24d9a4ceef99f5cdeb0b3e0edf800df5c"
+  },
+  "templates": {
+    "native_pip_baseline/Before0.inc": "9b3b2c2b1a0923f4bec0e50b51674de9da503932e135e80fa2beae8378a0d535",
+    "native_pip_baseline/After0.inc": "d8ea3637cae939f7f72a8913d9fb82fd888327ccbcf83e754341a14b68b26e33",
+    "native_pip_baseline/Native0.inc": "98fafe199cbcc581845f8581c21f06fda40f630ef98f22199aca7b23a37ec88b",
+    "native_pip_baseline/Before1.inc": "9cfd7c541f235b6a79ae1ca1d2384b11e44cb177b7bf37e652b93a3b930c07a2",
+    "native_pip_baseline/After1.inc": "58cc53fddbee71a760a2ce40b8678f1091f673b3f7da0614e46a6b0374bf8f69",
+    "native_pip_baseline/Native1.inc": "e8837f4712afb276d367c9437717587376af1cbc0d42569b6a4564889d30d064",
+    "native_pip_baseline/Before2.inc": "77e180f45b089ce1a1148cc94bf9bef424e00ff7fb2b306999592dd26264902e",
+    "native_pip_baseline/After2.inc": "4d5fa2b87a4f81c3cc31302761c98adc04cbc2023260561096221c0c8914b046",
+    "native_pip_baseline/Native2.inc": "93c62f351aad2f2420a9737ec7e590bfecc9017e7e3770523051b6aa5d968117",
+    "native_pip_baseline/Before3.inc": "5b91c849bb3b0e8ecb5d47469ed7d13ff3b799cdaed5bd0257d2db0dc34413f3",
+    "native_pip_baseline/After3.inc": "4b31d51017b416f893c0135fc8af2d878d33c5479e27f63f79381ac21751454d",
+    "native_pip_baseline/Native3.inc": "f67ef9b8a2b8aab3bca7b84fb6a2a8cc0a1b82ff5d24e25a47d3f5305137e389"
+  },
+  "native": {
+    "submodules/GalleryUI/Sources/GalleryController.swift": {
+      "source": "native_pip_baseline/Native0.inc",
+      "sha256": "98fafe199cbcc581845f8581c21f06fda40f630ef98f22199aca7b23a37ec88b"
+    },
+    "submodules/GalleryUI/Sources/GalleryControllerNode.swift": {
+      "source": "native_pip_baseline/Native1.inc",
+      "sha256": "e8837f4712afb276d367c9437717587376af1cbc0d42569b6a4564889d30d064"
+    },
+    "submodules/GalleryUI/Sources/GalleryItemNode.swift": {
+      "source": "native_pip_baseline/Native2.inc",
+      "sha256": "93c62f351aad2f2420a9737ec7e590bfecc9017e7e3770523051b6aa5d968117"
+    },
+    "submodules/GalleryUI/Sources/Items/UniversalVideoGalleryItem.swift": {
+      "source": "native_pip_baseline/Native3.inc",
+      "sha256": "f67ef9b8a2b8aab3bca7b84fb6a2a8cc0a1b82ff5d24e25a47d3f5305137e389"
+    }
+  },
+  "reviewed": {}
+}

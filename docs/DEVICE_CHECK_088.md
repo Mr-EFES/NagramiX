@@ -1,4 +1,4 @@
-# Проверка NagramiX 0.8.8 на iPhone
+# Проверка выпуска 0.8.8 на iPhone
 
 Проверять новый [IPA0.8.8/build175](https://github.com/Mr-EFES/NagramiX/releases/download/v0.8.8/NagramiX-0.8.8-unsigned.ipa) из [Actions](https://github.com/Mr-EFES/NagramiX/actions/runs/42197139124),source`2e01f89ca5c5d4a87d9d8f8e1bc267713bdf5650`. ПолнаяSDK/CIpackage/owner publication прошли. IPA SHA256`8505ff723fabdc557475b8c9516d9a7028b536f50594b7c33c62207c80e92545`,88449040байт; минимальнаяiOS15.0,ARM64. Физическая приёмка ещёdevice_pending. Символы175: artifact13500584303 в этомrun. Не использовать старый173 или несуществующийIPA174.
 

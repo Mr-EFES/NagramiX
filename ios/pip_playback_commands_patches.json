@@ -1,0 +1,33 @@
+{
+  "inputs": {
+    "submodules/GalleryUI/Sources/Items/UniversalVideoGalleryItem.swift": "4b31d51017b416f893c0135fc8af2d878d33c5479e27f63f79381ac21751454d"
+  },
+  "outputs": {
+    "submodules/GalleryUI/Sources/Items/UniversalVideoGalleryItem.swift": "7a8377384d1a72522ce5c9d4be0adfe0b5ab6bf395e73a03698dd2f63ab2be23"
+  },
+  "previous": {
+    "submodules/GalleryUI/Sources/Items/UniversalVideoGalleryItem.swift": "pip_playback_commands/Before0.inc"
+  },
+  "replacements": {
+    "submodules/GalleryUI/Sources/Items/UniversalVideoGalleryItem.swift": "pip_playback_commands/After0.inc"
+  },
+  "copies": {},
+  "guards": {
+    "submodules/AccountContext/BUILD": "5f3668ee2377aa5ed6b17e1584b99110b7b9e84258b345a1ba886470aa4b3d65",
+    "submodules/AccountContext/Sources/UniversalVideoNode.swift": "c354dd6110225b9a689f8e8bdd5a8e709b99952c25a5794258ae171ee8164d68",
+    "submodules/GalleryUI/BUILD": "b40ed813ad5f84ab3bbeccbb6b37794c365054b63ff46ae3e18607b66cba8662",
+    "submodules/GalleryUI/Sources/GalleryController.swift": "d8ea3637cae939f7f72a8913d9fb82fd888327ccbcf83e754341a14b68b26e33",
+    "submodules/GalleryUI/Sources/GalleryControllerNode.swift": "58cc53fddbee71a760a2ce40b8678f1091f673b3f7da0614e46a6b0374bf8f69",
+    "submodules/GalleryUI/Sources/GalleryItemNode.swift": "4d5fa2b87a4f81c3cc31302761c98adc04cbc2023260561096221c0c8914b046",
+    "submodules/MediaPlayer/BUILD": "25c20c2c6710de8374007778dda11e0e8fa9b4ab5e46caf80cbb7a028f4f4042",
+    "submodules/MediaPlayer/Sources/MediaPlayer.swift": "ff4a2555142c9c53290c9deb7ea9ef1cfc529e0d8bd183604cc1abbb4389fe99",
+    "submodules/TelegramCore/Sources/Utils/NagramiXOutgoingCopy.swift": "a36e23a58ac93e4fb4b2e8167f629531c5f246febd5a0d13ba2526118996f8ad",
+    "submodules/TelegramUI/Sources/ChatControllerNode.swift": "5167d22569c154e0962a139979f08104d9eb6ea600b1091df0bc632095810912",
+    "submodules/TelegramUniversalVideoContent/BUILD": "d38670dca3473d371530778e0af8f0aba485011dfdb113ac3fc95e73afbfd4d8",
+    "submodules/TelegramUniversalVideoContent/Sources/NativeVideoContent.swift": "528f20337b832f9dcc01b58511a7639e54a757afffb7477ed2e8c054674bae10"
+  },
+  "templates": {
+    "pip_playback_commands/Before0.inc": "4b31d51017b416f893c0135fc8af2d878d33c5479e27f63f79381ac21751454d",
+    "pip_playback_commands/After0.inc": "7a8377384d1a72522ce5c9d4be0adfe0b5ab6bf395e73a03698dd2f63ab2be23"
+  }
+}

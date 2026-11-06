@@ -2,6 +2,7 @@
 """Проверить единый стандарт строк настроек/debug и полноту всех языков."""
 import argparse
 from collections import Counter
+import hashlib
 import json
 from pathlib import Path
 import re
@@ -9,7 +10,7 @@ import subprocess
 import sys
 
 from localization_literals import canonical,literals
-from validate_app_language_localization import strings
+from validate_app_language_localization import strings, runtime_checks
 
 ROOT=Path(__file__).resolve().parents[1]
 OVERLAY=ROOT/'ios'
@@ -88,12 +89,43 @@ def source_contract(source):
     return len(paths),calls
 
 
+def final_upstream_catalog_contract(source):
+    """Verify the exact late 13.2 catalogs, without unwrapping historical stages."""
+    plan=json.loads((OVERLAY/'upstream_13_2_release_post_patches.json').read_text())
+    name='upstream_13_2_release/localization.json'
+    data=(OVERLAY/name).read_bytes()
+    if hashlib.sha256(data).hexdigest()!=plan['templates'][name]:
+        raise ValueError('Изменён реестр новых переводов Telegram13.2')
+    localization=json.loads(data)
+    codes={item['code'] for item in json.loads((OVERLAY/'app_language_localization/languages.json').read_text())['languages']}
+    if set(localization['translations'])!=codes or len(localization['keys'])!=16:
+        raise ValueError('Неполный реестр новых переводов Telegram13.2')
+    for code in sorted(codes):
+        path='submodules/NagramiXCore/Resources/'+code+'.lproj/Localizable.strings'
+        if hashlib.sha256((source/path).read_bytes()).hexdigest()!=plan['outputs'][path]:
+            raise ValueError('Изменён итоговый каталог: '+code)
+        values=strings(source/path)
+        translations=localization['translations'][code]
+        if len(translations)!=len(localization['keys']):
+            raise ValueError('Неполные новые переводы: '+code)
+        for key,value in zip(localization['keys'],translations):
+            if values.get('NagramiX.Debug.'+key)!=value:
+                raise ValueError('Неверный новый перевод: '+code+' '+key)
+    languages,keys=catalog_contract(source,codes)
+    if languages!=71 or keys!=629 or keys!=localization['key_count']:
+        raise ValueError('Неполный итоговый набор языков/ключей Telegram13.2')
+    return languages,keys
+
+
 def main():
     parser=argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--source',type=Path,required=True)
     parser.add_argument('--swiftc',type=Path)
     parser.add_argument('--source-contract-only',action='store_true',help='Только локальная проверка исходников; не готовность локализации к выпуску')
+    parser.add_argument('--final-upstream-13-2',action='store_true',help='Проверить итоговые 71×629 каталоги после полного переноса на Telegram13.2')
     args=parser.parse_args()
+    if args.final_upstream_13_2 and (args.source_contract_only or not args.swiftc):
+        parser.error('--final-upstream-13-2 требует --swiftc и полную проверку')
     paths,calls=source_contract(args.source)
     print(f'PASS: {paths} файлов настроек/debug/NagramiX; {calls} обращений к локализации; новых raw UI-строк нет.',flush=True)
     if args.source_contract_only:
@@ -101,8 +133,11 @@ def main():
         return
     # Inspect the final tree before historical validators unwrap late stages.
     # A future feature cannot hide a missing new key by restoring old resources.
-    languages,keys=catalog_contract(args.source)
+    languages,keys=final_upstream_catalog_contract(args.source) if args.final_upstream_13_2 else catalog_contract(args.source)
     print(f'PASS: текущая композиция — {languages} языков по {keys} ключей.',flush=True)
+    if args.final_upstream_13_2:
+        runtime_checks(args.source,args.swiftc)
+        return
     command=[sys.executable,str(ROOT/'scripts/validate_app_language_localization.py'),'--source',str(args.source)]
     if args.swiftc:command+=['--swiftc',str(args.swiftc)]
     subprocess.run(command,check=True)
