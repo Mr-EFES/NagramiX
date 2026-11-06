@@ -197,6 +197,10 @@ def main() -> None:
         f"Telegram-iOS commit: {pin}",
     ):
         require(expected in provenance, f"Не совпадает происхождение сборки: {expected}")
+    if tuple(int(part) for part in args.version.split('.')) >= (0, 8, 9):
+        from fetch_upstream_submodules import load_plan, provenance_lines
+        for expected in provenance_lines(load_plan()):
+            require(expected in provenance, 'Не указана точная замена зависимости Telegram13.2')
 
     prefix = "Payload/NagramiX.app/"
     with zipfile.ZipFile(args.ipa) as archive:

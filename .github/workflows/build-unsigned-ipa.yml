@@ -66,6 +66,7 @@ jobs:
           python3 scripts/validate_release_build_mode.py
           python3 scripts/validate_owner_publication.py
           python3 scripts/validate_ipa_localization_contract.py
+          python3 scripts/validate_upstream_dependencies.py
 
       - name: Проверить актуальность официальной базы Telegram-iOS
         run: python3 scripts/check_upstreams.py --platform ios --require-current
@@ -91,8 +92,11 @@ jobs:
           repository: TelegramMessenger/Telegram-iOS
           ref: ${{ steps.upstream.outputs.ref }}
           path: Telegram-iOS
-          submodules: recursive
+          submodules: false
           fetch-depth: 1
+
+      - name: Получить закреплённые зависимости Telegram13.2
+        run: python3 scripts/fetch_upstream_submodules.py --source Telegram-iOS --provenance "$RUNNER_TEMP/nagramix-dependencies.txt"
 
       - name: Проверить ожидаемую версию upstream
         shell: bash
@@ -396,6 +400,7 @@ jobs:
           printf 'NagramiX version: %s\nNagramiX commit: %s\nTelegram-iOS commit: %s\nWorkflow run: %s/%s/actions/runs/%s\n' \
             "$NAGRAMIX_VERSION" "$GITHUB_SHA" "$upstream_sha" \
             "$GITHUB_SERVER_URL" "$GITHUB_REPOSITORY" "$GITHUB_RUN_ID" > BUILD-PROVENANCE.txt
+          cat "$RUNNER_TEMP/nagramix-dependencies.txt" >> BUILD-PROVENANCE.txt
           shasum -a 256 "NagramiX-${NAGRAMIX_VERSION}-unsigned.ipa" > SHA256SUMS
           echo "version=$NAGRAMIX_VERSION" >> "$GITHUB_OUTPUT"
 

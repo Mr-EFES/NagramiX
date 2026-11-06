@@ -1,0 +1,99 @@
+{
+  "target_pin": "24638bc69bd083981b178dd1e7f921eebbf7fc46",
+  "gitmodules_sha256": "4952705195522392af2b9ead93b927e5de20009834184a96e1c046cfd5a11ec9",
+  "submodules": [
+    {
+      "path": "build-system/bazel-rules/apple_support",
+      "declared_url": "https://github.com/bazelbuild/apple_support.git",
+      "repository": "https://github.com/bazelbuild/apple_support.git",
+      "expected_ref": "872de7149cfbcaaf854c7867e98b6d4798ba0d27",
+      "checkout_ref": "872de7149cfbcaaf854c7867e98b6d4798ba0d27"
+    },
+    {
+      "path": "build-system/bazel-rules/rules_apple",
+      "declared_url": "https://github.com/ali-fareed/rules_apple.git",
+      "repository": "https://github.com/ali-fareed/rules_apple.git",
+      "expected_ref": "485016eb5b0948cc17307064e7977a6d68e94046",
+      "checkout_ref": "485016eb5b0948cc17307064e7977a6d68e94046"
+    },
+    {
+      "path": "build-system/bazel-rules/rules_swift",
+      "declared_url": "https://github.com/bazelbuild/rules_swift.git",
+      "repository": "https://github.com/bazelbuild/rules_swift.git",
+      "expected_ref": "dd10a2497a691237eb9716586acee1a9c4fe3e59",
+      "checkout_ref": "dd10a2497a691237eb9716586acee1a9c4fe3e59"
+    },
+    {
+      "path": "build-system/bazel-rules/rules_xcodeproj",
+      "declared_url": "https://github.com/MobileNativeFoundation/rules_xcodeproj.git",
+      "repository": "https://github.com/MobileNativeFoundation/rules_xcodeproj.git",
+      "expected_ref": "f6a54168d19f917d0630e7d4efa8f2f9fa0ddc36",
+      "checkout_ref": "f6a54168d19f917d0630e7d4efa8f2f9fa0ddc36"
+    },
+    {
+      "path": "submodules/TgVoipWebrtc/tgcalls",
+      "declared_url": "../tgcalls.git",
+      "repository": "https://github.com/TelegramMessenger/tgcalls.git",
+      "expected_ref": "c1de0882de9013df246252129b95430f48b20eec",
+      "checkout_ref": "38dcea121f10638c42098f226f05c298a392f95c",
+      "reason": "Official13.2 gitlink is unavailable (git fetch128/API422); pin the published official development revision with the required v2wasm production interface.",
+      "required_files": {
+        "tgcalls/Instance.h": "a26e0f93063b772971abcbcb8d638337a10678ec3809c0c4886c9bcd678dc75f",
+        "tgcalls/v2wasm/CallCoreABI.h": "5ba629e599948797f355c64498709eba3143211bf39b398179ec7009ba71827d",
+        "tgcalls/v2wasm/InstanceV2PumpImpl.h": "fd4d8161c60ba0d5943c8f07d5a1f8c8a61002e519c3905acac3da4881bbffdd",
+        "tgcalls/v2wasm/InstanceV2PumpImpl.cpp": "06119fc98d9da52659235367debb5799e575c6c7a86967abf047b588bfed6b9e",
+        "tgcalls/v2wasm/ReferenceCallCore.cpp": "f55dd63765f71f3b96351ff585e2cdf275a614d31b35575bcc07851216de9d02",
+        "tgcalls/v2wasm/CallCoreHost.h": "1455804d3d7fc830a995014b8b0628ded62688ae8dbd2f496a74456d096c9157"
+      }
+    },
+    {
+      "path": "submodules/tlottie/tlottie",
+      "declared_url": "https://github.com/dkaraush/tlottie.git",
+      "repository": "https://github.com/dkaraush/tlottie.git",
+      "expected_ref": "92df98dc209bc39b1e567ec74a8c86a0af5239de",
+      "checkout_ref": "92df98dc209bc39b1e567ec74a8c86a0af5239de"
+    },
+    {
+      "path": "third-party/dav1d/dav1d",
+      "declared_url": "https://github.com/ali-fareed/dav1d.git",
+      "repository": "https://github.com/ali-fareed/dav1d.git",
+      "expected_ref": "330e20672e85f9de1678dccd6957845898ef57a1",
+      "checkout_ref": "330e20672e85f9de1678dccd6957845898ef57a1"
+    },
+    {
+      "path": "third-party/libvpx/libvpx",
+      "declared_url": "https://github.com/webmproject/libvpx.git",
+      "repository": "https://github.com/webmproject/libvpx.git",
+      "expected_ref": "e7bfd8b6c230a6824e7fd1efa2378a7322986128",
+      "checkout_ref": "e7bfd8b6c230a6824e7fd1efa2378a7322986128"
+    },
+    {
+      "path": "third-party/mtproto-engine",
+      "declared_url": "https://github.com/TelegramMessenger/mtproto-engine.git",
+      "repository": "https://github.com/TelegramMessenger/mtproto-engine.git",
+      "expected_ref": "da4b2170210aab0430c4ff18c032991f3030cf45",
+      "checkout_ref": "da4b2170210aab0430c4ff18c032991f3030cf45"
+    },
+    {
+      "path": "third-party/td/td",
+      "declared_url": "https://github.com/tdlib/td",
+      "repository": "https://github.com/tdlib/td",
+      "expected_ref": "e894536b2f46caad93f997448d2daff9431b19dd",
+      "checkout_ref": "e894536b2f46caad93f997448d2daff9431b19dd"
+    },
+    {
+      "path": "third-party/wallet-engine/wallet-engine",
+      "declared_url": "https://github.com/i582/wallet-engine.git",
+      "repository": "https://github.com/i582/wallet-engine.git",
+      "expected_ref": "e59e0d89d7ee90c388bf36e3334c5b276f396697",
+      "checkout_ref": "e59e0d89d7ee90c388bf36e3334c5b276f396697"
+    },
+    {
+      "path": "third-party/webrtc/webrtc",
+      "declared_url": "https://github.com/ali-fareed/webrtc.git",
+      "repository": "https://github.com/ali-fareed/webrtc.git",
+      "expected_ref": "590a8b23dd8ee1b747217645f300cb2a8bb26f30",
+      "checkout_ref": "590a8b23dd8ee1b747217645f300cb2a8bb26f30"
+    }
+  ]
+}

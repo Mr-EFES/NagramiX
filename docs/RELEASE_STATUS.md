@@ -1,5 +1,7 @@
 # NagramiX 0.8.9 — подготовка переноса и релиза
 
+**Попытка176: до SDK остановилась загрузка неопубликованного tgcalls gitlinkc1de0882.** Исправлен только checkout зависимости: официальный опубликованный38dcea12 закреплён SHA,все11прочих native refs прежние;проверены root pin/.gitmodules/gitlinks,6production digests и8negative/contract tests. Обязательная строка override включается в provenance и IPA gate; [подробности](UPSTREAM_132_089_MIGRATION.md). Exact fetch38dcea12 локально успешен. Следующая чистая попытка0.8.9 разрешена исходной командой;не спрашивать повторно.
+
 **migration_source_checked / native_compile_pending / package_pending / device_pending**
 
 Полный перенос на13.2 завершён в исходниках: [контракт/проверки](UPSTREAM_132_089_MIGRATION.md). Локально423Swift parse,47 fail-closed checks,14 runtime исполнений PiP/R1/R2/R3,strict71×629/44828lookup checks на режим,6 IPA-localization regression tests и release checks прошли. Владелец разрешил main commit/push и чистые повторы0.8.9 до успешной owner publication. SDK ещё не запускался; нового IPA пока нет. Предыдущий опубликованный0.8.8/175 ниже не является новым пакетом.
