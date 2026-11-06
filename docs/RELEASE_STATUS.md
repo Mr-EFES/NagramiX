@@ -1,5 +1,7 @@
 # NagramiX 0.8.9 — подготовка переноса и релиза
 
+**Попытка178 остановилась до SDK на final migration input guard; исправлена причина.** Все прежние проверки до final post прошли. Для AccountIntermediateState.swift был ошибочно выбран Before13.1.2 вместо неизменённого входа13.2; добавлен новый точный native snapshot,старый Before148.inc сохранён. Конечные274outputs и код функций не менялись. Полный реальный apply_overlay от чистой13.2 с legacy13.0,всеми историческими стадиями и обоими post теперь выполнен локально:37641файл,0 отличий от reviewed candidate;37289 исходных файлов pristine проверены.47fail-closed checks на настоящем результате повторно passed. Ранний CI gate сверяет7native git blobs и отвергает2регрессии происхождения до длинного набора тестов. Strict actual-source71×629/113files610calls passed. [Подробности](UPSTREAM_132_089_MIGRATION.md). Далее main commit/push и новая чистая0.8.9 по текущему разрешению; native SDK/IPA ещёpending.
+
 **Попытка176: до SDK остановилась загрузка неопубликованного tgcalls gitlinkc1de0882.** Исправлен только checkout зависимости: официальный опубликованный38dcea12 закреплён SHA,все11прочих native refs прежние;проверены root pin/.gitmodules/gitlinks,6production digests и8negative/contract tests. Обязательная строка override включается в provenance и IPA gate; [подробности](UPSTREAM_132_089_MIGRATION.md). Exact fetch38dcea12 локально успешен. Следующая чистая попытка0.8.9 разрешена исходной командой;не спрашивать повторно.
 
 **migration_source_checked / native_compile_pending / package_pending / device_pending**

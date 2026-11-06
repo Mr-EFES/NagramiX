@@ -25,6 +25,15 @@ def digest(path):
     return hashlib.sha256(path.read_bytes()).hexdigest()
 
 
+def native_input_contract(plan):
+    account = 'submodules/TelegramCore/Sources/Account/AccountIntermediateState.swift'
+    assert account in plan['native_inputs'], 'Missing native13.2 account-state origin'
+    for name, expected_blob in plan['native_inputs'].items():
+        data = (OVERLAY / plan['previous'][name]).read_bytes()
+        blob = hashlib.sha1(b'blob ' + str(len(data)).encode() + b'\0' + data).hexdigest()
+        assert blob == expected_blob, 'Native13.2 input origin mismatch: ' + name
+
+
 def checked_plan(stage):
     plan = json.loads((OVERLAY / (stage + '_patches.json')).read_text())
     assert plan['target_pin'] == PIN and plan['overlay_base_pin'] == BASE
@@ -38,6 +47,8 @@ def checked_plan(stage):
     for name, expected in plan['inputs'].items():
         assert digest(OVERLAY / plan['previous'][name]) == expected, name
         assert digest(OVERLAY / plan['replacements'][name]) == plan['outputs'][name], name
+    if stage == 'upstream_13_2_release_post':
+        native_input_contract(plan)
     for name, item in plan['deletions'].items():
         assert plan['guards'][name] == item['sha256']
         assert digest(OVERLAY / item['source']) == item['sha256']

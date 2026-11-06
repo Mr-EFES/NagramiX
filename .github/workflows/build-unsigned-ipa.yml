@@ -67,6 +67,7 @@ jobs:
           python3 scripts/validate_owner_publication.py
           python3 scripts/validate_ipa_localization_contract.py
           python3 scripts/validate_upstream_dependencies.py
+          python3 scripts/validate_upstream_13_2_input_origins.py
 
       - name: Проверить актуальность официальной базы Telegram-iOS
         run: python3 scripts/check_upstreams.py --platform ios --require-current
