@@ -1,0 +1,60 @@
+{
+  "inputs": {
+    "submodules/TelegramUI/Sources/ChatControllerForwardMessages.swift": "34ca561ff65e73007ef61616b3bde9f3bc29a5b735230ac48a9d4a3166e1864e",
+    "submodules/TelegramUI/Components/PeerSelectionController/Sources/PeerSelectionControllerNode.swift": "dff3d4afbeac1bbad2bff200d744d308dda75972bb12d500efa9fade74416c51",
+    "submodules/TelegramUI/Sources/Chat/ChatControllerLoadDisplayNode.swift": "300b829149e6077fa154874341d831f72ae498bbc91884b682fe9295eb57d593",
+    "submodules/TelegramUI/Sources/ChatInterfaceStateContextMenus.swift": "60061a1d6e3f68eb0e3a46b4e7805f982956a4e15fedd1406ed28c514a805fff"
+  },
+  "outputs": {
+    "submodules/TelegramUI/Sources/ChatControllerForwardMessages.swift": "63420700ad9b000f580ca6b72aa3d38719f1ba060ad6d69a89aff35e10c0250d",
+    "submodules/TelegramUI/Components/PeerSelectionController/Sources/PeerSelectionControllerNode.swift": "bf09cdf348ce73e13191366ce1e3bd08e70b30aa9cac010cda57589c9aeffcd2",
+    "submodules/TelegramUI/Sources/Chat/ChatControllerLoadDisplayNode.swift": "d1735d027a2281b8d87745e644c0b914ccfd78d93834cbfac1d7108ef4fbae79",
+    "submodules/TelegramUI/Sources/ChatInterfaceStateContextMenus.swift": "55618417662411b6b8e2aa55b17f288f3fd0750dc9cde7b142cefb644392ed95"
+  },
+  "previous": {
+    "submodules/TelegramUI/Sources/ChatControllerForwardMessages.swift": "transfer_consistency/Before0.inc",
+    "submodules/TelegramUI/Components/PeerSelectionController/Sources/PeerSelectionControllerNode.swift": "transfer_consistency/Before1.inc",
+    "submodules/TelegramUI/Sources/Chat/ChatControllerLoadDisplayNode.swift": "transfer_consistency/Before2.inc",
+    "submodules/TelegramUI/Sources/ChatInterfaceStateContextMenus.swift": "transfer_consistency/Before3.inc"
+  },
+  "replacements": {
+    "submodules/TelegramUI/Sources/ChatControllerForwardMessages.swift": "transfer_consistency/After0.inc",
+    "submodules/TelegramUI/Components/PeerSelectionController/Sources/PeerSelectionControllerNode.swift": "transfer_consistency/After1.inc",
+    "submodules/TelegramUI/Sources/Chat/ChatControllerLoadDisplayNode.swift": "transfer_consistency/After2.inc",
+    "submodules/TelegramUI/Sources/ChatInterfaceStateContextMenus.swift": "transfer_consistency/After3.inc"
+  },
+  "copies": {},
+  "guards": {
+    "submodules/TelegramUI/Sources/ChatControllerNode.swift": "39b41b700de852ba844200faad2d6456d971b4adb5fb2f905dec192cdea94fcc",
+    "submodules/TelegramUI/Components/PeerSelectionController/Sources/PeerSelectionController.swift": "cba2b8bbfb158631946c7747fef00dba77013dbd1154c7945f552d829908cad1",
+    "submodules/AccountContext/Sources/PeerSelectionController.swift": "0d378c63f02c2c37e3452894c7681e536a12bb74ad42080de3e75c025b342544",
+    "submodules/TelegramUI/Sources/Chat/NagramiXProtectedCopyPreparation.swift": "9e266d61a4ef0e267acfa68e3d6e2a6fae8b1f0eb7efe93ff08f3a1b8cf9f18d",
+    "submodules/ChatListUI/Sources/Node/ChatListNodeEntries.swift": "27c45908a4a4cceb67ea51f1232cb418e8d67874120e0194c72d10b7b4986ec4",
+    "submodules/ContactListUI/Sources/ContactListNode.swift": "63c1f210cb7db642b4abae4aad41701ec523899d1a1bc9e432e124b67fc47a8e",
+    "submodules/TelegramCore/Sources/Utils/StoredMessageFromSearchPeer.swift": "359a8aebff9451e06ec5587ad0ff7ec38a9ab6fd01eccbe5fbdb93fd1fc121c5",
+    "submodules/TelegramCore/Sources/TelegramEngine/Peers/TelegramEnginePeers.swift": "97216ee4418fee7c7bec841fb744917f485c39142bc3ca6273a29ed51cb1892a",
+    "submodules/TelegramCore/Sources/Utils/NagramiXOutgoingCopy.swift": "fe081075085ed5063daa7b3be9ad8dc63cdd940e0a63d929098ff66e9b0a8df1",
+    "submodules/TelegramCore/Sources/Utils/NagramiXContentCopy.swift": "bf8629027f0c5617600730616100f388fc7d4a90f0290da1917a7f16e0426f65",
+    "submodules/TelegramCore/Sources/Utils/NagramiXArchivedMediaCopy.swift": "687d9ddc8b0a31cf2652a614c0c01aa2896b817787da91ccf3922d2727fa9f5d",
+    "submodules/TelegramCore/Sources/Utils/NagramiXCaptureProtectionPolicy.swift": "9c317bf122eda39dc9aad6e16a7001673a9555e8b6a6aa169a213d81e4679d35",
+    "submodules/TelegramCore/Sources/PendingMessages/EnqueueMessage.swift": "242fd8ed7aad443b816c6d8a5cacf387747cdc9c6f9bf94471215a683dff39bf",
+    "submodules/TelegramCore/Sources/PendingMessages/PendingMessageUploadedContent.swift": "8ff0f834d11fdca8162196884bf060cf73550cb5088e7d4dccff3351744e8328",
+    "submodules/NagramiXCore/Sources/NagramiXPresentationStrings.swift": "1963ef991aac6f373ef1db44a6f67a5817bdf6c7aba1c7f86f67d88df95d93d9",
+    "submodules/NagramiXCore/Resources/ru.lproj/Localizable.strings": "737cdc81160a95932371d108c4a0d16f9b0dcf96994bf64e80c185eaec30a491",
+    "submodules/NagramiXCore/Resources/en.lproj/Localizable.strings": "6c785306b99352179eda3bfba6b3e95e8fef9b21d759d2d6739ba0181612b9d7",
+    "submodules/TelegramUI/Sources/ChatHistoryListNode.swift": "83cb087824d609a815f734fa8ac9dc3f86e5b273d27e224d1b2024e52c10a827",
+    "submodules/NagramiXTranscription/Sources/Preferences.swift": "cb1fe859c13da3e8864849b559b832c07acd2bcef84edeac9993e296df7cf354",
+    "submodules/TelegramUI/BUILD": "f4ae55a27c3a5e486a0fe9c768c70b65b974c505125d91a1215645179de54926",
+    "submodules/TelegramUI/Components/PeerSelectionController/BUILD": "a317b5c8efa26d7b4db7aa2b4c997dc992b6505b9b05130945bed9b3ef2dfa7d"
+  },
+  "templates": {
+    "transfer_consistency/Before0.inc": "34ca561ff65e73007ef61616b3bde9f3bc29a5b735230ac48a9d4a3166e1864e",
+    "transfer_consistency/After0.inc": "63420700ad9b000f580ca6b72aa3d38719f1ba060ad6d69a89aff35e10c0250d",
+    "transfer_consistency/Before1.inc": "dff3d4afbeac1bbad2bff200d744d308dda75972bb12d500efa9fade74416c51",
+    "transfer_consistency/After1.inc": "bf09cdf348ce73e13191366ce1e3bd08e70b30aa9cac010cda57589c9aeffcd2",
+    "transfer_consistency/Before2.inc": "300b829149e6077fa154874341d831f72ae498bbc91884b682fe9295eb57d593",
+    "transfer_consistency/After2.inc": "d1735d027a2281b8d87745e644c0b914ccfd78d93834cbfac1d7108ef4fbae79",
+    "transfer_consistency/Before3.inc": "60061a1d6e3f68eb0e3a46b4e7805f982956a4e15fedd1406ed28c514a805fff",
+    "transfer_consistency/After3.inc": "55618417662411b6b8e2aa55b17f288f3fd0750dc9cde7b142cefb644392ed95"
+  }
+}

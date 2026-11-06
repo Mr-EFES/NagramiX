@@ -1,4 +1,4 @@
-# Проверка NagramiX 0.8.7 на iPhone
+# Проверка NagramiX0.8.7 на iPhone
 
 Пакет:0.8.7/build173, source27217997bd5a691cfc2013b733e7be5646ed7479, [релиз](https://github.com/Mr-EFES/NagramiX/releases/tag/v0.8.7). Минимум iOS15.0. Нативная сборка, полный151 pre-SDK набор, чистая основа и независимая проверка IPA успешны; работа UIKit/AVKit на физическом устройстве ещё не подтверждена.
 

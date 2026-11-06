@@ -210,6 +210,16 @@ def main():
     parser.add_argument('--report', type=Path)
     args = parser.parse_args()
     from validate_system_video_pip import delegate_icon_stage_if_applied
+    if delegate_icon_stage_if_applied(args, Path(__file__), 'pip_transition_geometry'):
+        return
+    if delegate_icon_stage_if_applied(args, Path(__file__), 'transfer_consistency'):
+        return
+    if delegate_icon_stage_if_applied(args, Path(__file__), 'editor_attachment_delivery'):
+        return
+    if delegate_icon_stage_if_applied(args, Path(__file__), 'local_model_size'):
+        return
+    if delegate_icon_stage_if_applied(args, Path(__file__), 'archive_deletion_effect'):
+        return
     if delegate_icon_stage_if_applied(args, Path(__file__), 'pip_visual_handoff'):
         return
     verify(args.source)

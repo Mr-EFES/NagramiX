@@ -1,0 +1,34 @@
+{
+  "inputs": {
+    "submodules/TelegramUI/Sources/ChatHistoryListNode.swift": "a61b31f71097730aed425ab1bb462363228fb3eb4eef2aa220d68bd5decf831b"
+  },
+  "outputs": {
+    "submodules/TelegramUI/Sources/ChatHistoryListNode.swift": "83cb087824d609a815f734fa8ac9dc3f86e5b273d27e224d1b2024e52c10a827"
+  },
+  "previous": {
+    "submodules/TelegramUI/Sources/ChatHistoryListNode.swift": "archive_deletion_effect/Before0.inc"
+  },
+  "replacements": {
+    "submodules/TelegramUI/Sources/ChatHistoryListNode.swift": "archive_deletion_effect/After0.inc"
+  },
+  "copies": {},
+  "guards": {
+    "submodules/TelegramUI/BUILD": "f4ae55a27c3a5e486a0fe9c768c70b65b974c505125d91a1215645179de54926",
+    "submodules/TelegramUI/Sources/ChatHistoryEntriesForView.swift": "7c4be17475b9c5d3148a851887142f38dd077b03b9216ac0775705a36d10b2c6",
+    "submodules/TelegramUI/Sources/ChatControllerAdminBanUsers.swift": "7b6b82c28b0ab92fdca3a16d459f213bc43c487dd6f110c74e8d4aa0b02c9696",
+    "submodules/TelegramUI/Sources/Chat/ChatControllerLoadDisplayNode.swift": "300b829149e6077fa154874341d831f72ae498bbc91884b682fe9295eb57d593",
+    "submodules/TelegramCore/Sources/Utils/NagramiXMessageArchive.swift": "bf1ba7275521df9d4f98981620972b8e3dbf9417bd6feba1a084a4e567eda1da",
+    "submodules/TelegramCore/Sources/Utils/NagramiXArchivedMediaStore.swift": "cc0352b82b9e944884453ca1c9dd4ca9876413002090dd29083edddf4004996b",
+    "submodules/TelegramCore/Sources/Utils/NagramiXArchivePersistence.swift": "172f87ec61020c59777190b1d36a5de25d2b3cd2f7f6243033499077b60ee2db",
+    "submodules/TelegramCore/Sources/TelegramEngine/Messages/DeleteMessagesInteractively.swift": "c88d6a7d73549c4c95d0187c32f4d568139375f8845e76695688b9393c2a83f9",
+    "submodules/TelegramCore/Sources/Utils/MessageUtils.swift": "00c0dc1c4d82a1c6368bc02ed95acf36cbc5980c98ee7f3d04ed326eff3b17cc",
+    "submodules/TelegramUI/Components/Chat/ChatMessageBubbleItemNode/Sources/ChatMessageBubbleItemNode.swift": "144b8ce2f372ad6e84a54d6eb7656a31eb4e1eb67800f308fc7f14271f8ce306",
+    "submodules/TelegramUI/Sources/ChatMessageContextControllerContentSource.swift": "151a78b7eba33c07d8a7d1143a2171a7795c2a7135f8df670d1f896c22421b89",
+    "submodules/NagramiXCore/Sources/NagramiXTabSettings.swift": "6d4631a3dc92c3d8140f221553d7657de32b3c825341b5d98f96b7d0f70d24d2",
+    "submodules/TelegramUI/Components/Chat/ChatHistoryEntry/Sources/ChatHistoryEntry.swift": "77de4f2b139cc0cc5e192e9c38b443e3fff4c35d07672f9a37cf2729c9f3c1cb"
+  },
+  "templates": {
+    "archive_deletion_effect/Before0.inc": "a61b31f71097730aed425ab1bb462363228fb3eb4eef2aa220d68bd5decf831b",
+    "archive_deletion_effect/After0.inc": "83cb087824d609a815f734fa8ac9dc3f86e5b273d27e224d1b2024e52c10a827"
+  }
+}

@@ -1,4 +1,18 @@
-# NagramiX 0.8.7/build173 — опубликован
+# NagramiX 0.8.8 — подготовка разрешённого релиза
+
+Получена новая личная команда владельца: чистая сборка0.8.8 и обычная публикация IPA врепозитории. ВходMr-EFES и public проверены; требуется ОДИН новый clean_build=true/publish_release=true/prerelease=false запуск наmain. Включаются все5pending исправлений, включая последнюю геометриюPiP. Авторизация публикации проверяется заранее;156pre-SDK проверок/cold gate/nativeARM64/пакет обязательны. Новый IPA пока не создан, CI/SDK не завершены. После сборки дать owner ссылку Make private. Повтор/rerun только по новой команде.
+
+## История:0.8.7/build173 опубликован
+
+Новая исходная правка [геометрии PiP](PIP_TRANSITION_GEOMETRY.md) добавлена после четырёх предыдущих pending исправлений. Source checks отдельно от Apple SDK/iPhone; новый compile_pending/device_pending. В IPA0.8.7/build173 этой правки нет, релиз/tag/assets не менялись. Новый SDK/Actions/IPA только по новой личной команде.
+
+Новая исходная [правка пересылки/рассылки, заголовков и получателей из поиска](TRANSFER_CONSISTENCY.md) **не входит в опубликованную0.8.7/build173**. Обе copy-команды используют общий batch; данные новых получателей сохраняются до enqueue, заголовки соответствуют действию. Source checked/native_compile_pending/device_pending. Все предыдущие pending fixes сохранены; новый SDK/Actions/IPA/commit/push не запускался и требует отдельной личной команды.
+
+Новая исходная [правка вложений расширенного редактора и карточек ссылок](EDITOR_ATTACHMENT_DELIVERY.md) **не входит в опубликованную0.8.7/build173**. Source checks пройдены; native_compile_pending/device_pending. Предыдущие fixes первого удаления и размеров моделей сохранены. Новые SDK/Actions/IPA/commit/push не запускались, на сборку нужна новая личная команда.
+
+Новая исходная [правка размеров моделей](LOCAL_MODEL_SIZE.md) пока **не входит в опубликованную0.8.7/build173**: idle=размер, downloading=%, installed=без подписи/selectedcheckmark. Source checks пройдены, новаяSDK/device pending. Предыдущая анимация первого удаления сохранена; опубликованные IPA/tag не менялись.
+
+Новая исходная [правка первого удаления](ARCHIVE_DELETION_EFFECT.md) ещё **не входит в этот опубликованный0.8.7/build173**. Source checks пройдены, native_compile_pending/device_pending; новых SDK/Actions/rerun/IPA/commit/push без отдельной команды не выполнялось. Текущие файлы и tag0.8.7 сохранены.
 
 **native_compile_passed / package_verified / owner_published / device_pending**
 

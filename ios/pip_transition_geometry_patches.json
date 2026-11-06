@@ -1,0 +1,63 @@
+{
+  "inputs": {
+    "submodules/GalleryUI/Sources/Items/UniversalVideoGalleryItem.swift": "79d4c2240121f2a989d536b1cc448127405313ed4c9850c63eeda709d5420c6f",
+    "submodules/GalleryUI/Sources/GalleryControllerNode.swift": "90097b4dae7ac941942107e90b4a27c68d7a10cf2a4caf2f50168f10a3be5fff",
+    "submodules/GalleryUI/Sources/GalleryController.swift": "03c041fd5543943958cfa38ba49600c96ec4bb179d540f95186ed48a84dab6e9",
+    "submodules/GalleryUI/Sources/GalleryItemNode.swift": "73a8aa2eabefcecf834bd58d360f44ffa25677bebfc937ac20b4ab1d97ecbed5"
+  },
+  "outputs": {
+    "submodules/GalleryUI/Sources/Items/UniversalVideoGalleryItem.swift": "5b91c849bb3b0e8ecb5d47469ed7d13ff3b799cdaed5bd0257d2db0dc34413f3",
+    "submodules/GalleryUI/Sources/GalleryControllerNode.swift": "9cfd7c541f235b6a79ae1ca1d2384b11e44cb177b7bf37e652b93a3b930c07a2",
+    "submodules/GalleryUI/Sources/GalleryController.swift": "9b3b2c2b1a0923f4bec0e50b51674de9da503932e135e80fa2beae8378a0d535",
+    "submodules/GalleryUI/Sources/GalleryItemNode.swift": "77e180f45b089ce1a1148cc94bf9bef424e00ff7fb2b306999592dd26264902e"
+  },
+  "previous": {
+    "submodules/GalleryUI/Sources/Items/UniversalVideoGalleryItem.swift": "pip_transition_geometry/Before0.inc",
+    "submodules/GalleryUI/Sources/GalleryControllerNode.swift": "pip_transition_geometry/Before1.inc",
+    "submodules/GalleryUI/Sources/GalleryController.swift": "pip_transition_geometry/Before2.inc",
+    "submodules/GalleryUI/Sources/GalleryItemNode.swift": "pip_transition_geometry/Before3.inc"
+  },
+  "replacements": {
+    "submodules/GalleryUI/Sources/Items/UniversalVideoGalleryItem.swift": "pip_transition_geometry/After0.inc",
+    "submodules/GalleryUI/Sources/GalleryControllerNode.swift": "pip_transition_geometry/After1.inc",
+    "submodules/GalleryUI/Sources/GalleryController.swift": "pip_transition_geometry/After2.inc",
+    "submodules/GalleryUI/Sources/GalleryItemNode.swift": "pip_transition_geometry/After3.inc"
+  },
+  "copies": {},
+  "guards": {
+    "submodules/GalleryUI/BUILD": "b40ed813ad5f84ab3bbeccbb6b37794c365054b63ff46ae3e18607b66cba8662",
+    "submodules/GalleryUI/Sources/GalleryPagerNode.swift": "836dff62717cb6a4d8832b95f009230a0267c9fdf6804467e105837c6a6abb31",
+    "submodules/GalleryUI/Sources/ZoomableContentGalleryItemNode.swift": "aa3622cb64a22ff92877f236a45d8b080ab73b4f7c67828f1de7d1d0fb70c424",
+    "submodules/GalleryUI/Sources/GalleryVideoDecoration.swift": "ac2dffb5034212c0a995ac619e02f1819489d790ff9780a230c97039218f7c90",
+    "submodules/AccountContext/Sources/UniversalVideoNode.swift": "c354dd6110225b9a689f8e8bdd5a8e709b99952c25a5794258ae171ee8164d68",
+    "submodules/TelegramUniversalVideoContent/Sources/NativeVideoContent.swift": "528f20337b832f9dcc01b58511a7639e54a757afffb7477ed2e8c054674bae10",
+    "submodules/MediaPlayer/Sources/MediaPlayerNode.swift": "bce51daf3b616a7e4b109a001fba0f7621bfcf93a3c65b1db9a26e29e4d85a9e",
+    "submodules/TelegramUI/Sources/GalleryHiddenMediaManager.swift": "50d2f10693aa3cd8f179e7d9f7a27e45b2894b6465d1abd80492b21d1983ba78",
+    "submodules/Display/Source/WindowContent.swift": "2dc1fec753da9171182b10fb793e49764bf21e85bcaa0fd4db65ff153b81780a",
+    "submodules/Display/Source/ViewController.swift": "906dc689c32c820d092cd8f1ea2d8ac393ecb823f51acfd5543a3d10dbcd8d68",
+    "submodules/Display/Source/PresentationContext.swift": "a7fc1b45f49be45e8764942de7040c657303a4ed676d23a456755b2615cfea9b",
+    "submodules/NagramiXCore/Sources/NagramiXTabSettings.swift": "6d4631a3dc92c3d8140f221553d7657de32b3c825341b5d98f96b7d0f70d24d2",
+    "submodules/NagramiXTranscription/Sources/Preferences.swift": "cb1fe859c13da3e8864849b559b832c07acd2bcef84edeac9993e296df7cf354",
+    "submodules/TelegramUI/Sources/ChatHistoryListNode.swift": "83cb087824d609a815f734fa8ac9dc3f86e5b273d27e224d1b2024e52c10a827",
+    "submodules/TelegramCore/Sources/PendingMessages/PendingMessageUploadedContent.swift": "8ff0f834d11fdca8162196884bf060cf73550cb5088e7d4dccff3351744e8328",
+    "submodules/TelegramCore/Sources/State/PendingMessageManager.swift": "c22c8aba7e334e75a289154db60e04fe9a102e3bdf95eab355a20203d630ca58",
+    "submodules/TelegramCore/Sources/PendingMessages/StandaloneSendMessage.swift": "a6fa4a49219588a99c9bd18fc95e8fa55e520e6122101ac9a019a2273c77076c",
+    "submodules/TelegramCore/Sources/TelegramEngine/Messages/EphemeralMessages.swift": "e62beafc82d4cc3e4f5d14fc86ec22a35f1261675e050fcc002d1a8403596d4d",
+    "submodules/TelegramCore/Sources/PendingMessages/RequestEditMessage.swift": "1bda829a99925d4d484b084558b5f8815f853cc121d35d313ba03e494f3ab53a",
+    "submodules/TelegramCore/Sources/Utils/NagramiXOutgoingCopy.swift": "fe081075085ed5063daa7b3be9ad8dc63cdd940e0a63d929098ff66e9b0a8df1",
+    "submodules/TelegramUI/Sources/ChatControllerForwardMessages.swift": "63420700ad9b000f580ca6b72aa3d38719f1ba060ad6d69a89aff35e10c0250d",
+    "submodules/TelegramUI/Components/PeerSelectionController/Sources/PeerSelectionControllerNode.swift": "bf09cdf348ce73e13191366ce1e3bd08e70b30aa9cac010cda57589c9aeffcd2",
+    "submodules/TelegramUI/Sources/Chat/ChatControllerLoadDisplayNode.swift": "d1735d027a2281b8d87745e644c0b914ccfd78d93834cbfac1d7108ef4fbae79",
+    "submodules/TelegramUI/Sources/ChatInterfaceStateContextMenus.swift": "55618417662411b6b8e2aa55b17f288f3fd0750dc9cde7b142cefb644392ed95"
+  },
+  "templates": {
+    "pip_transition_geometry/Before0.inc": "79d4c2240121f2a989d536b1cc448127405313ed4c9850c63eeda709d5420c6f",
+    "pip_transition_geometry/After0.inc": "5b91c849bb3b0e8ecb5d47469ed7d13ff3b799cdaed5bd0257d2db0dc34413f3",
+    "pip_transition_geometry/Before1.inc": "90097b4dae7ac941942107e90b4a27c68d7a10cf2a4caf2f50168f10a3be5fff",
+    "pip_transition_geometry/After1.inc": "9cfd7c541f235b6a79ae1ca1d2384b11e44cb177b7bf37e652b93a3b930c07a2",
+    "pip_transition_geometry/Before2.inc": "03c041fd5543943958cfa38ba49600c96ec4bb179d540f95186ed48a84dab6e9",
+    "pip_transition_geometry/After2.inc": "9b3b2c2b1a0923f4bec0e50b51674de9da503932e135e80fa2beae8378a0d535",
+    "pip_transition_geometry/Before3.inc": "73a8aa2eabefcecf834bd58d360f44ffa25677bebfc937ac20b4ab1d97ecbed5",
+    "pip_transition_geometry/After3.inc": "77e180f45b089ce1a1148cc94bf9bef424e00ff7fb2b306999592dd26264902e"
+  }
+}

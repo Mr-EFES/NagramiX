@@ -1,0 +1,67 @@
+{
+  "inputs": {
+    "submodules/TelegramCore/Sources/PendingMessages/PendingMessageUploadedContent.swift": "50d1769e636a9e7541308ab56b9ddd0e176d62af1819e46c79c3cab8a304754a",
+    "submodules/TelegramCore/Sources/State/PendingMessageManager.swift": "e5fd04ed9a3d11f615d9eee5f17fa184768fa1c51ced79103b0068f1ffbc92c2",
+    "submodules/TelegramCore/Sources/PendingMessages/StandaloneSendMessage.swift": "7714da9a955664b87eb8c64aa987ada37003dcc447139b5db43c6b449cd54840",
+    "submodules/TelegramCore/Sources/TelegramEngine/Messages/EphemeralMessages.swift": "32604a30fe6c1877aeff5b597b3aafa3d5f0a133dd795f6af28d17cca8f51303",
+    "submodules/TelegramCore/Sources/PendingMessages/RequestEditMessage.swift": "d9b01936dd1bc7b17182b19074003d1a4685ef66cdbfb89087b1bba5834d0a6f",
+    "submodules/TelegramCore/Sources/Utils/NagramiXOutgoingCopy.swift": "f6e00bcc20ca942bc4ac267a16f1c3610f5a7a93c803378f02ba2dd040e7e34c"
+  },
+  "outputs": {
+    "submodules/TelegramCore/Sources/PendingMessages/PendingMessageUploadedContent.swift": "8ff0f834d11fdca8162196884bf060cf73550cb5088e7d4dccff3351744e8328",
+    "submodules/TelegramCore/Sources/State/PendingMessageManager.swift": "c22c8aba7e334e75a289154db60e04fe9a102e3bdf95eab355a20203d630ca58",
+    "submodules/TelegramCore/Sources/PendingMessages/StandaloneSendMessage.swift": "a6fa4a49219588a99c9bd18fc95e8fa55e520e6122101ac9a019a2273c77076c",
+    "submodules/TelegramCore/Sources/TelegramEngine/Messages/EphemeralMessages.swift": "e62beafc82d4cc3e4f5d14fc86ec22a35f1261675e050fcc002d1a8403596d4d",
+    "submodules/TelegramCore/Sources/PendingMessages/RequestEditMessage.swift": "1bda829a99925d4d484b084558b5f8815f853cc121d35d313ba03e494f3ab53a",
+    "submodules/TelegramCore/Sources/Utils/NagramiXOutgoingCopy.swift": "fe081075085ed5063daa7b3be9ad8dc63cdd940e0a63d929098ff66e9b0a8df1"
+  },
+  "previous": {
+    "submodules/TelegramCore/Sources/PendingMessages/PendingMessageUploadedContent.swift": "editor_attachment_delivery/Before0.inc",
+    "submodules/TelegramCore/Sources/State/PendingMessageManager.swift": "editor_attachment_delivery/Before1.inc",
+    "submodules/TelegramCore/Sources/PendingMessages/StandaloneSendMessage.swift": "editor_attachment_delivery/Before2.inc",
+    "submodules/TelegramCore/Sources/TelegramEngine/Messages/EphemeralMessages.swift": "editor_attachment_delivery/Before3.inc",
+    "submodules/TelegramCore/Sources/PendingMessages/RequestEditMessage.swift": "editor_attachment_delivery/Before4.inc",
+    "submodules/TelegramCore/Sources/Utils/NagramiXOutgoingCopy.swift": "editor_attachment_delivery/Before5.inc"
+  },
+  "replacements": {
+    "submodules/TelegramCore/Sources/PendingMessages/PendingMessageUploadedContent.swift": "editor_attachment_delivery/After0.inc",
+    "submodules/TelegramCore/Sources/State/PendingMessageManager.swift": "editor_attachment_delivery/After1.inc",
+    "submodules/TelegramCore/Sources/PendingMessages/StandaloneSendMessage.swift": "editor_attachment_delivery/After2.inc",
+    "submodules/TelegramCore/Sources/TelegramEngine/Messages/EphemeralMessages.swift": "editor_attachment_delivery/After3.inc",
+    "submodules/TelegramCore/Sources/PendingMessages/RequestEditMessage.swift": "editor_attachment_delivery/After4.inc",
+    "submodules/TelegramCore/Sources/Utils/NagramiXOutgoingCopy.swift": "editor_attachment_delivery/After5.inc"
+  },
+  "copies": {},
+  "guards": {
+    "submodules/TelegramUI/Sources/ChatControllerNode.swift": "39b41b700de852ba844200faad2d6456d971b4adb5fb2f905dec192cdea94fcc",
+    "submodules/TelegramUI/Sources/ChatControllerForwardMessages.swift": "34ca561ff65e73007ef61616b3bde9f3bc29a5b735230ac48a9d4a3166e1864e",
+    "submodules/TelegramUI/Sources/ChatControllerOpenAttachmentMenu.swift": "8a31b9a5fcdcb13df90be2d8e64caf9a35624508e26676d5e3bc3019df23cec3",
+    "submodules/TelegramUI/Sources/Chat/ChatControllerLoadDisplayNode.swift": "300b829149e6077fa154874341d831f72ae498bbc91884b682fe9295eb57d593",
+    "submodules/TelegramUI/Components/RichTextAttachmentScreen/Sources/RichTextAttachmentScreen.swift": "8f68ee0bdc33acdbdeacab0fa4f128283ef8d502b6a1fa57cfaa21592f03bbfa",
+    "submodules/TelegramUI/Components/Chat/ChatRichTextEditorComposer/Sources/ComposerExpandedEditorBridge.swift": "a0d9ba7be77110ed7bc4ec46a173ad6b2b4016fcdfd679960c7a2606926ced3e",
+    "submodules/TelegramCore/Sources/PendingMessages/UploadMediaToCloud.swift": "3f4040aa40e5053a5390a2f93d0acef591cd1cddf33da9eab48ea4af998c93ce",
+    "submodules/TelegramCore/Sources/State/MessageMediaPreuploadManager+Media.swift": "7def50f26223518d8f621ba1cd53228871186a0767a6548e56862833fa0e3b17",
+    "submodules/TelegramCore/Sources/ChatInputContent/ChatInputContentInstantPage.swift": "be2ba767d65df61e102363559f969cef53e736c9bba27f1ef97bb1f7123c3130",
+    "submodules/TelegramCore/Sources/ApiUtils/InstantPage.swift": "82c5ab37c80515df6fede46f654ff161ef76d6c0007dc172a97d9f534db7725d",
+    "submodules/TelegramCore/Sources/PendingMessages/EnqueueMessage.swift": "242fd8ed7aad443b816c6d8a5cacf387747cdc9c6f9bf94471215a683dff39bf",
+    "submodules/TelegramCore/Sources/PendingMessages/PendingUpdateMessageManager.swift": "c68d5c83d8f516d05084870b23b5ccdab19cbcb199b03b55f520a06ab11e6f1a",
+    "submodules/TelegramCore/Sources/SyncCore/SyncCore_RichTextMessageAttribute.swift": "ca524be6566145bceb0f78ea9bed08e88af5bbbef10dfcc74d523c2d6a36d607",
+    "submodules/TelegramCore/BUILD": "81e6c1d9dceab5da57124381fce03665a449bcb7904e66c884269dacdd584fbf",
+    "submodules/TelegramUI/Sources/ChatHistoryListNode.swift": "83cb087824d609a815f734fa8ac9dc3f86e5b273d27e224d1b2024e52c10a827",
+    "submodules/NagramiXTranscription/Sources/Preferences.swift": "cb1fe859c13da3e8864849b559b832c07acd2bcef84edeac9993e296df7cf354"
+  },
+  "templates": {
+    "editor_attachment_delivery/Before0.inc": "50d1769e636a9e7541308ab56b9ddd0e176d62af1819e46c79c3cab8a304754a",
+    "editor_attachment_delivery/After0.inc": "8ff0f834d11fdca8162196884bf060cf73550cb5088e7d4dccff3351744e8328",
+    "editor_attachment_delivery/Before1.inc": "e5fd04ed9a3d11f615d9eee5f17fa184768fa1c51ced79103b0068f1ffbc92c2",
+    "editor_attachment_delivery/After1.inc": "c22c8aba7e334e75a289154db60e04fe9a102e3bdf95eab355a20203d630ca58",
+    "editor_attachment_delivery/Before2.inc": "7714da9a955664b87eb8c64aa987ada37003dcc447139b5db43c6b449cd54840",
+    "editor_attachment_delivery/After2.inc": "a6fa4a49219588a99c9bd18fc95e8fa55e520e6122101ac9a019a2273c77076c",
+    "editor_attachment_delivery/Before3.inc": "32604a30fe6c1877aeff5b597b3aafa3d5f0a133dd795f6af28d17cca8f51303",
+    "editor_attachment_delivery/After3.inc": "e62beafc82d4cc3e4f5d14fc86ec22a35f1261675e050fcc002d1a8403596d4d",
+    "editor_attachment_delivery/Before4.inc": "d9b01936dd1bc7b17182b19074003d1a4685ef66cdbfb89087b1bba5834d0a6f",
+    "editor_attachment_delivery/After4.inc": "1bda829a99925d4d484b084558b5f8815f853cc121d35d313ba03e494f3ab53a",
+    "editor_attachment_delivery/Before5.inc": "f6e00bcc20ca942bc4ac267a16f1c3610f5a7a93c803378f02ba2dd040e7e34c",
+    "editor_attachment_delivery/After5.inc": "fe081075085ed5063daa7b3be9ad8dc63cdd940e0a63d929098ff66e9b0a8df1"
+  }
+}

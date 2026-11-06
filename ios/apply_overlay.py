@@ -473,6 +473,16 @@ def main() -> None:
     apply_local_model_menu(source, Path(__file__).resolve().parent)
     from pip_visual_handoff import apply_pip_visual_handoff
     apply_pip_visual_handoff(source, Path(__file__).resolve().parent)
+    from archive_deletion_effect import apply_archive_deletion_effect
+    apply_archive_deletion_effect(source, Path(__file__).resolve().parent)
+    from local_model_size import apply_local_model_size
+    apply_local_model_size(source, Path(__file__).resolve().parent)
+    from editor_attachment_delivery import apply_editor_attachment_delivery
+    apply_editor_attachment_delivery(source, Path(__file__).resolve().parent)
+    from transfer_consistency import apply_transfer_consistency
+    apply_transfer_consistency(source, Path(__file__).resolve().parent)
+    from pip_transition_geometry import apply_pip_transition_geometry
+    apply_pip_transition_geometry(source, Path(__file__).resolve().parent)
     # Системный PiP: экспериментальный hybrid_pip больше не включается в приложение.
 
     api_id = os.environ.get("TELEGRAM_API_ID", "")
