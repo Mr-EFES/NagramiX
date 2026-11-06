@@ -36,7 +36,7 @@ jobs:
     outputs:
       version: ${{ steps.provenance.outputs.version }}
     runs-on: xcode-27
-    timeout-minutes: 180
+    timeout-minutes: 300
     env:
       TELEGRAM_API_ID: ${{ secrets.TELEGRAM_API_ID }}
       TELEGRAM_API_HASH: ${{ secrets.TELEGRAM_API_HASH }}
