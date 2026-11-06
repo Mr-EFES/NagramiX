@@ -29,6 +29,7 @@ import Foundation
         add([poll()],"")
         let page=InstantPage(blocks:["paragraph:post","image:1","document:2"],rawMedia:[MediaId(namespace:0,id:1):image,MediaId(namespace:0,id:2):TelegramMediaFile(resource:CloudResource("document"),size:4)],isComplete:true,rtl:false,url:"",views:40)
         add([],"",nil,[RichTextMessageAttribute(instantPage:page,fullInstantPage:nil)])
+        add([TelegramMediaFile(resource:CloudResource("video"),size:4,attributes:["video"])],"Видео с текстом 😀 https://example.org",nil,[TextEntitiesMessageAttribute(entities:[Entity(value:"bold")])])
         for sourceKind in ["open","protected","closed"] {
             let restricted=sourceKind != "open"
             let messages=originals.map{m -> Message in
@@ -51,7 +52,8 @@ import Foundation
                     check(cloned.results.totalVoters==nil && cloned.options.map{$0.text}==(messages[7].media[0] as! TelegramMediaPoll).options.map{$0.text},"poll is a fresh interactive copy with original options")
                     let rich=(list[8].attributes.first{$0 is RichTextMessageAttribute} as! RichTextMessageAttribute).instantPage
                     check(rich.blocks==page.blocks && rich.rawMedia.count==2,"structured post preserves all embedded media")
-                    for index in [1,2,3,4] {
+                    check(list[9].text==messages[9].text && list[9].attributes.contains{$0 is TextEntitiesMessageAttribute},"standalone video keeps caption and entities")
+                    for index in [1,2,3,4,9] {
                         let medium=list[index].mediaReference!.media
                         let resource:LocalFileReferenceMediaResource
                         if let file=medium as? TelegramMediaFile {resource=file.resource as! LocalFileReferenceMediaResource}

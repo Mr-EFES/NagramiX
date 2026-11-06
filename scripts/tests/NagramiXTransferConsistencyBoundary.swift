@@ -47,7 +47,22 @@ final class Chats {
 }
 final class Container { let currentItemNode=Chats();var nagramiXPreserveCopyRecipients=false }
 final class SelectionController {var multipleSelectionLimit:Int?}
-final class SendPanel {var enabled=false;func updateSendButtonEnabled(_ value:Bool,animated:Bool){enabled=value}}
+enum SendMode: Equatable {case generic,silent,schedule,whenOnline}
+typealias SendRequest=([EnginePeer],[Int:EnginePeer],NSAttributedString,SendMode,Int?,Int?)->Void
+struct InputState {var inputText=NSAttributedString(string:"")}
+struct InterfaceState {var composeInputState=InputState();var forwardOptionsState:Int?=nil}
+struct PresentationInterfaceState {var interfaceState=InterfaceState()}
+final class SendPanel {
+    var enabled=false
+    var sendMessage:((SendMode,Int?)->Void)?
+    func updateSendButtonEnabled(_ value:Bool,animated:Bool){enabled=value}
+}
+final class SendRequestBridge {
+    var multiplePeersSelected:SendRequest?
+    func connect(_ node:SelectionNode) {
+        node.requestSend = // PRODUCTION_SEND_REQUEST_BRIDGE
+    }
+}
 final class SelectionNode {
     var contactListActive=false
     let controller:SelectionController?=SelectionController()
@@ -56,6 +71,11 @@ final class SelectionNode {
     let chatListNode:Chats?=nil
     let textInputPanelNode:SendPanel?=SendPanel()
     let forwardedMessageIds:[Int]=[]
+    var presentationInterfaceState=PresentationInterfaceState()
+    var requestSend:SendRequest?
+    func installSendButton() {
+        textInputPanelNode!.sendMessage = // PRODUCTION_SEND_BUTTON_CALLBACK
+    }
     // PRODUCTION_SELECTION_PROPERTIES
     // PRODUCTION_SELECT_RECIPIENT
     // PRODUCTION_SELECTED_PROPERTIES
@@ -192,6 +212,32 @@ func includeQueuedChat(_ transaction:Transaction,peerId:Int) {
         var checks=0
         func check(_ ok:@autoclosure()->Bool,_ label:String){if !ok(){fatalError("Transfer consistency regression: "+label)};checks+=1}
         let a=EnginePeer.user(User(id:10)),b=EnginePeer.user(User(id:20)),forum=EnginePeer.channel(Channel(id:30,isForumOrMonoForum:true))
+        for isContacts in [false,true] {
+            for single in [false,true] {
+                let node=SelectionNode(),bridge=SendRequestBridge()
+                node.nagramiXCopySelection=true;node.contactListActive=isContacts
+                node.controller!.multipleSelectionLimit=single ? 1:nil
+                node.beginSelection();node.installSendButton();bridge.connect(node)
+                var sends=0
+                let caption=NSAttributedString(string:"Видео и текст 😀",attributes:[NSAttributedString.Key("bold"):true])
+                node.presentationInterfaceState.interfaceState.composeInputState.inputText=caption
+                node.presentationInterfaceState.interfaceState.forwardOptionsState=7
+                bridge.multiplePeersSelected={peers,map,text,mode,options,effect in
+                    check(Set(peers.map{$0.id})==(single ? [10]:[10,20]),"send button passes every chosen recipient")
+                    check(Set(map.keys)==Set(peers.map{$0.id}),"send bridge keeps all peer records")
+                    check(text.isEqual(to:caption) && options==7 && effect==9,"send button preserves text/entities and options")
+                    check([SendMode.generic,.silent,.schedule,.whenOnline].contains(mode),"native send mode reaches transfer callback")
+                    sends+=1
+                }
+                node.textInputPanelNode!.sendMessage?(.generic,9)
+                check(sends==0,"empty selection cannot send")
+                node.nagramiXSelectCopyRecipient(a,threadId:nil)
+                if !single {node.nagramiXSelectCopyRecipient(b,threadId:nil)}
+                check(node.textInputPanelNode!.enabled,"send button enabled with chosen recipients")
+                for mode in [SendMode.generic,.silent,.schedule,.whenOnline] {node.textInputPanelNode!.sendMessage?(mode,9)}
+                check(sends==4,"each tap reaches the real transfer callback exactly once")
+            }
+        }
         for startContacts in [false,true] {
             let node=SelectionNode();node.nagramiXCopySelection=true;node.contactListActive=startContacts;node.beginSelection()
             node.nagramiXSelectCopyRecipient(a,threadId:nil)

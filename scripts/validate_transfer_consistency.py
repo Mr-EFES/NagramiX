@@ -122,6 +122,10 @@ def routing_fixture(source):
     search=n.index('contentNode: ContactsSearchContainerNode(')
     contacts=block(n[search:],'                    strongSelf.contactListNode?.updateSelectionState { state -> ContactListNodeGroupSelectionState? in')
     copies=block(f,'                if transferMode.copiesAsNew {\n                    // Assign nil as well:')
+    send=block(n,'                textInputPanelNode.sendMessage = ')
+    bridge=block((source/'submodules/TelegramUI/Components/PeerSelectionController/Sources/PeerSelectionController.swift').read_text(),'        self.peerSelectionNode.requestSend = ')
+    send=send[send.index('{'):]
+    bridge=bridge[bridge.index('{'):]
     predicate=copies[copies.index('if ')+3:copies.index(' {')]
     line=next(line for line in f.splitlines() if 'multipleSelection: !transferMode.singleRecipient' in line)
     limit=line.split('multipleSelectionLimit: ',1)[1].split(', forwardedMessageIds:',1)[0]
@@ -136,6 +140,7 @@ def routing_fixture(source):
         ('COPY_PICKER_PREDICATE','return '+predicate),('PICKER_LIMIT','return '+limit),('PEERS_TO_STORE',peers),('PEER_BARRIER',barrier),
         ('STORE_PEER',block((source/STORE).read_text(),'public func _internal_storedMessageFromSearchPeer(').replace('public ','')),('CHAT_INCLUSION',include),
         ('ENGINE_STORE_WRAPPER',block((source/ENGINE).read_text(),'        public func ensurePeerIsLocallyAvailable(').replace('public ','')),
+        ('SEND_BUTTON_CALLBACK',send),('SEND_REQUEST_BRIDGE',bridge),
     ]:
         assert '// PRODUCTION_'+marker in fixture,marker
         fixture=fixture.replace('// PRODUCTION_'+marker,body)
@@ -170,6 +175,7 @@ def run_swift(source,swiftc,temp):
         'store-step-skipped':fixture.replace('context.engine.peers.ensurePeerIsLocallyAvailable(peer: peer)','Signal<EnginePeer, NoError>.single(peer)'),
         'single-limit-removed':fixture.replace('guard selected.isEmpty || selected.contains(where: { $0.id == peer.id }) else { return }','_ = selected'),
         'contact-topic-forgotten':fixture.replace('        self.nagramiXCopyThreads[peer.id] = threadId\n',''),
+        'send-button-disconnected':fixture.replace('strongSelf.requestSend?(selectedPeers, selectedPeerMap, effectiveInputText, mode, forwardOptionsState, messageEffect)','_ = (selectedPeers, selectedPeerMap, effectiveInputText, mode, forwardOptionsState, messageEffect)'),
     }
     runs=[]
     for label,text in variants.items():
