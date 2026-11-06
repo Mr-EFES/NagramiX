@@ -1,6 +1,16 @@
 # Контекст разработки NagramiX 0.8.8
 
+## Актуальный итог174: ошибка исправлена в исходнике, новый SDK ждёт команды
+
+[Причина и исправление](RELEASE_088_DRAFT_UPLOAD_FIX.md). Run42174985406/source de0d369 завершилсяfailure08:25UTC6ноября.156pre-SDK checks/cold gate прошли; SDK07:35:57→08:24:57 не собралTelegramCore. Единственная diagnostic: ManagedSynchronizeChatInputStateOperations.swift:270, mapToSignal NoError против PendingMessageUploadError после uploadedRichMessage. Журнал `/tmp/nagramix-build-088/build174.log`. IPA/asset нет, release job skipped; latest0.8.7/173 прежний, собственный draft0.8.8/id436175279 пустой и пока targetde0d369. Не запускать новые SDK/Actions/rerun без новой личной команды: разрешённая попытка использована.
+
+Новая late rich_draft_upload_retry послеpip_transition_geometry:1Managed replacement/27guards. Нативный retry0.2,max5,concurrent queue переводит upload→NoError доmapper; держит полную draft/operation, не отправляетbare fallback, отменяется поdispose. Общий uploader/edit error API прежний. Настоящие SignalKit Signal/Subscriber/Atomic/Disposable/Meta/retry/catch/take/mapError и оба production consumer chains:18checks/режим,3negative variants/режим (исходный mismatch отклонён компилятором),66fail-closed. FullSwiftparse/imports/priorPiPeditorunwrap и625manifest entries проверены; предыдущие615entry и5fixes неизменны, stage disjoint с7post. Code full source `/tmp/nagramix-pip-transition/fresh`,prepostfixture `/tmp/nagramix-pip-transition/incremental` ужесfix. All new docs/reports under `/tmp/nagramix-build-088`, filename rich-draft-final-report.json/fixed-composition-hashes.json. Теперь157обязательных CI source-команд; никакие старые проверки не ослаблять. Следующий выбранный номер остаётся0.8.8, не0.8.9, поскольку выпуск ещё не опубликован.
+
+**0.8.8/build174: все156pre-SDK проверки и cold gate прошли; нативная ARM64-компиляция началась.** Run42174985406/source de0d369c6b0a4349ad04994bafa51af0691353c6. Не отменять по устаревшему имени шага API. Единственная разрешённая попытка уже использована, новый dispatch/rerun требует новой команды. Завершить этот запуск и owner publication; IPA/package пока ожидаются.
+
 ## Новая команда: чистая0.8.8 и owner publication
+
+**Запуск174/run42174985406 идёт:** source de0d369c6b0a4349ad04994bafa51af0691353c6/main, titleРелиз0.8.8, author/committerMr_EFES. Разрешённый dispatch уже использован. Вход/APIаккаунта, public, отсутствие иных active runs и draft targetSHA проверены перед запуском; clean/publish=true,prerelease=false. Новых dispatch/rerun без новой личной команды не делать. Build job127751273195. Проверки metadata/buildmode/28publisher tests и5latestguard wrappers локально passed; все156native source tests ждёмCI. Только завершаем этот запуск и owner publication. Draft0.8.8/id436175279 пустой, targetde0d369; olddraft0.8.6не трогать. State/probe proof `/tmp/nagramix-build-088/release-state.json`.
 
 Проверка uploads до сборки успешна: собственный draft0.8.8/id436175279 созданMr-EFES; маленький проверочный файл загружен владельцем, размер/SHA/uploader проверены и только этот probe удалён. Draft снова пустой; перед публикацией target должен быть точным sourceSHA новой сборки. CLIcredentials не менялись. Проверки metadata/buildmode и28publisher tests прошли.
 

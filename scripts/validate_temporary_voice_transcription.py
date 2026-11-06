@@ -115,7 +115,7 @@ def main():
     parser.add_argument('--swiftc',type=Path)
     args=parser.parse_args()
     from validate_system_video_pip import delegate_icon_stage_if_applied
-    for stage in ('pip_transition_geometry', 'transfer_consistency', 'editor_attachment_delivery', 'local_model_size', 'archive_deletion_effect', 'pip_visual_handoff', 'local_model_menu', 'archive_deletion_visibility', 'temporary_media_actions', 'message_copy_availability', 'vosk_model_naming', 'local_asr_memory', 'archive_post_lifecycle'):
+    for stage in ('rich_draft_upload_retry', 'pip_transition_geometry', 'transfer_consistency', 'editor_attachment_delivery', 'local_model_size', 'archive_deletion_effect', 'pip_visual_handoff', 'local_model_menu', 'archive_deletion_visibility', 'temporary_media_actions', 'message_copy_availability', 'vosk_model_naming', 'local_asr_memory', 'archive_post_lifecycle'):
         if delegate_icon_stage_if_applied(args, Path(__file__), stage):
             return
     for name,digest in {**PLAN['outputs'],**PLAN['guards']}.items():assert sha((args.source/name).read_bytes())==digest,name

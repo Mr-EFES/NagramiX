@@ -133,6 +133,7 @@ jobs:
             --source Telegram-iOS \
             --legacy-source Telegram-overlay-input \
             --configuration "$RUNNER_TEMP/nagramix-configuration.json"
+          python3 scripts/validate_rich_draft_upload_retry.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)"
           python3 scripts/validate_pip_transition_geometry.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)"
           python3 scripts/validate_transfer_consistency.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)"
           python3 scripts/validate_editor_attachment_delivery.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)"

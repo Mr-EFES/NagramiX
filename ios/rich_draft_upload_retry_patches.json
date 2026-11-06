@@ -1,0 +1,48 @@
+{
+  "inputs": {
+    "submodules/TelegramCore/Sources/State/ManagedSynchronizeChatInputStateOperations.swift": "c50725be0013ce070db32f056d1411e5f33668b69e27033fb4f8bb4b43ca3687"
+  },
+  "outputs": {
+    "submodules/TelegramCore/Sources/State/ManagedSynchronizeChatInputStateOperations.swift": "c34b1eb9947d5fd142702321f493bda28f38199e6c2d1a511d12f9841114ed14"
+  },
+  "previous": {
+    "submodules/TelegramCore/Sources/State/ManagedSynchronizeChatInputStateOperations.swift": "rich_draft_upload_retry/Before0.inc"
+  },
+  "replacements": {
+    "submodules/TelegramCore/Sources/State/ManagedSynchronizeChatInputStateOperations.swift": "rich_draft_upload_retry/After0.inc"
+  },
+  "copies": {},
+  "guards": {
+    "submodules/TelegramUI/Sources/ChatHistoryListNode.swift": "83cb087824d609a815f734fa8ac9dc3f86e5b273d27e224d1b2024e52c10a827",
+    "submodules/NagramiXTranscription/Sources/Preferences.swift": "cb1fe859c13da3e8864849b559b832c07acd2bcef84edeac9993e296df7cf354",
+    "submodules/TelegramCore/Sources/PendingMessages/PendingMessageUploadedContent.swift": "8ff0f834d11fdca8162196884bf060cf73550cb5088e7d4dccff3351744e8328",
+    "submodules/TelegramCore/Sources/State/PendingMessageManager.swift": "c22c8aba7e334e75a289154db60e04fe9a102e3bdf95eab355a20203d630ca58",
+    "submodules/TelegramCore/Sources/PendingMessages/StandaloneSendMessage.swift": "a6fa4a49219588a99c9bd18fc95e8fa55e520e6122101ac9a019a2273c77076c",
+    "submodules/TelegramCore/Sources/TelegramEngine/Messages/EphemeralMessages.swift": "e62beafc82d4cc3e4f5d14fc86ec22a35f1261675e050fcc002d1a8403596d4d",
+    "submodules/TelegramCore/Sources/PendingMessages/RequestEditMessage.swift": "1bda829a99925d4d484b084558b5f8815f853cc121d35d313ba03e494f3ab53a",
+    "submodules/TelegramCore/Sources/Utils/NagramiXOutgoingCopy.swift": "fe081075085ed5063daa7b3be9ad8dc63cdd940e0a63d929098ff66e9b0a8df1",
+    "submodules/TelegramUI/Sources/ChatControllerForwardMessages.swift": "63420700ad9b000f580ca6b72aa3d38719f1ba060ad6d69a89aff35e10c0250d",
+    "submodules/TelegramUI/Components/PeerSelectionController/Sources/PeerSelectionControllerNode.swift": "bf09cdf348ce73e13191366ce1e3bd08e70b30aa9cac010cda57589c9aeffcd2",
+    "submodules/TelegramUI/Sources/Chat/ChatControllerLoadDisplayNode.swift": "d1735d027a2281b8d87745e644c0b914ccfd78d93834cbfac1d7108ef4fbae79",
+    "submodules/TelegramUI/Sources/ChatInterfaceStateContextMenus.swift": "55618417662411b6b8e2aa55b17f288f3fd0750dc9cde7b142cefb644392ed95",
+    "submodules/GalleryUI/Sources/Items/UniversalVideoGalleryItem.swift": "5b91c849bb3b0e8ecb5d47469ed7d13ff3b799cdaed5bd0257d2db0dc34413f3",
+    "submodules/GalleryUI/Sources/GalleryControllerNode.swift": "9cfd7c541f235b6a79ae1ca1d2384b11e44cb177b7bf37e652b93a3b930c07a2",
+    "submodules/GalleryUI/Sources/GalleryController.swift": "9b3b2c2b1a0923f4bec0e50b51674de9da503932e135e80fa2beae8378a0d535",
+    "submodules/GalleryUI/Sources/GalleryItemNode.swift": "77e180f45b089ce1a1148cc94bf9bef424e00ff7fb2b306999592dd26264902e",
+    "submodules/TelegramCore/BUILD": "81e6c1d9dceab5da57124381fce03665a449bcb7904e66c884269dacdd584fbf",
+    "submodules/TelegramCore/Sources/Network/Network.swift": "afee1120c9eb609926ce8002ca06b843ba1846074e8e9855029b257e4ddbe826",
+    "submodules/SSignalKit/SwiftSignalKit/Source/Atomic.swift": "ad76eb0a708bdf77301d7d11787a06f33029c67412e6485616534c4faf2e8a9d",
+    "submodules/SSignalKit/SwiftSignalKit/Source/Disposable.swift": "60e53d9fa32a1b1ba47897467077cf22fcdc0458c20b646a35c75fb76484209b",
+    "submodules/SSignalKit/SwiftSignalKit/Source/Subscriber.swift": "eb28ad26bda8b4a8ff1aad73b949d4c3d24132db3aebdd1f5a4c67a5962718ee",
+    "submodules/SSignalKit/SwiftSignalKit/Source/Signal.swift": "c1fee825012eace4710eab53f32faa1d49efe38b01e7ad709054f26695494cb6",
+    "submodules/SSignalKit/SwiftSignalKit/Source/Signal_Catch.swift": "da304f997aa514dffd836987562da5f377e2a30471be1de187f8983b826079b9",
+    "submodules/SSignalKit/SwiftSignalKit/Source/Signal_Meta.swift": "12778c0abb3608d73ed2630d9b2de426a2bf96ddd61d45216e5537ac26ab4770",
+    "submodules/SSignalKit/SwiftSignalKit/Source/Signal_Take.swift": "f7edb85f3327c4263c6f9ebe9f4e9339661eaebf85ab062acb92faf0f3bce999",
+    "submodules/SSignalKit/SwiftSignalKit/Source/Signal_Mapping.swift": "4740a3a616679ad0f65c6341a0498bf42e120dcaddd2c281694188b47e075017",
+    "submodules/SSignalKit/SwiftSignalKit/BUILD": "47f5335a0d79420414cd9260af4d08ccb4e39a32c81f0812bef16d05f349f20f"
+  },
+  "templates": {
+    "rich_draft_upload_retry/Before0.inc": "c50725be0013ce070db32f056d1411e5f33668b69e27033fb4f8bb4b43ca3687",
+    "rich_draft_upload_retry/After0.inc": "c34b1eb9947d5fd142702321f493bda28f38199e6c2d1a511d12f9841114ed14"
+  }
+}

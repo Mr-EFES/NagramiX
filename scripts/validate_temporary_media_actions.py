@@ -188,6 +188,8 @@ def main():
     p=argparse.ArgumentParser(description=__doc__);p.add_argument('--source',type=Path,required=True);p.add_argument('--swiftc',type=Path);p.add_argument('--report',type=Path)
     args=p.parse_args()
     from validate_system_video_pip import delegate_icon_stage_if_applied
+    if delegate_icon_stage_if_applied(args, Path(__file__), 'rich_draft_upload_retry'):
+        return
     if delegate_icon_stage_if_applied(args, Path(__file__), 'pip_transition_geometry'):
         return
     if delegate_icon_stage_if_applied(args, Path(__file__), 'transfer_consistency'):

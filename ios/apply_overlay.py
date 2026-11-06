@@ -483,6 +483,8 @@ def main() -> None:
     apply_transfer_consistency(source, Path(__file__).resolve().parent)
     from pip_transition_geometry import apply_pip_transition_geometry
     apply_pip_transition_geometry(source, Path(__file__).resolve().parent)
+    from rich_draft_upload_retry import apply_rich_draft_upload_retry
+    apply_rich_draft_upload_retry(source, Path(__file__).resolve().parent)
     # Системный PiP: экспериментальный hybrid_pip больше не включается в приложение.
 
     api_id = os.environ.get("TELEGRAM_API_ID", "")
