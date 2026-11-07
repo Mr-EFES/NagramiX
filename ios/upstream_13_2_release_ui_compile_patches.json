@@ -1,0 +1,42 @@
+{
+  "inputs": {
+    "submodules/TelegramUI/Components/ChatTitleView/Sources/ChatTitleView.swift": "af17b37425d58004362bc8fc5aa7ac310f74aaef5c3dd43d613493f8b507499e",
+    "submodules/DebugSettingsUI/Sources/CrashReportsController.swift": "0779b1ef8039f18b051f9b78357c9cd68fa6180e23416ad7df43d17bc0e9137c",
+    "submodules/TelegramUI/Components/Chat/ChatMessageInteractiveMediaNode/Sources/ChatMessageInteractiveMediaNode.swift": "361a4e418cccb0471f9fbbd091094283e71ca66c966d640c8135518ec2b806b0"
+  },
+  "outputs": {
+    "submodules/TelegramUI/Components/ChatTitleView/Sources/ChatTitleView.swift": "a462ba740ba508e604c36465ff20283e8ecbe750d9e0f0f4553de2d8813a49a7",
+    "submodules/DebugSettingsUI/Sources/CrashReportsController.swift": "adad71f8c47ffd450a63c3e6e9f159a1353b3d6adcc0a5f5803a41a62a0a2167",
+    "submodules/TelegramUI/Components/Chat/ChatMessageInteractiveMediaNode/Sources/ChatMessageInteractiveMediaNode.swift": "e57b09860285bdb0ef1df115ad2aa55178221e552a70cb50e4f3ad6f10912371"
+  },
+  "previous": {
+    "submodules/TelegramUI/Components/ChatTitleView/Sources/ChatTitleView.swift": "upstream_13_2_release_post/After218.inc",
+    "submodules/DebugSettingsUI/Sources/CrashReportsController.swift": "upstream_13_2_release_ui_compile/Before1.inc",
+    "submodules/TelegramUI/Components/Chat/ChatMessageInteractiveMediaNode/Sources/ChatMessageInteractiveMediaNode.swift": "upstream_13_2_release_post/After205.inc"
+  },
+  "replacements": {
+    "submodules/TelegramUI/Components/ChatTitleView/Sources/ChatTitleView.swift": "upstream_13_2_release_ui_compile/After0.inc",
+    "submodules/DebugSettingsUI/Sources/CrashReportsController.swift": "upstream_13_2_release_ui_compile/After1.inc",
+    "submodules/TelegramUI/Components/Chat/ChatMessageInteractiveMediaNode/Sources/ChatMessageInteractiveMediaNode.swift": "upstream_13_2_release_ui_compile/After2.inc"
+  },
+  "copies": {},
+  "guards": {
+    "submodules/TelegramUI/Components/ChatTitleView/BUILD": "d58552f1ea21a818067ba5e876cef5198188c3d31ace0142f2550d10153f8d38",
+    "submodules/DebugSettingsUI/BUILD": "631698da91ac128f99fe9e3e1a54541117e126a03181b84bdb7ec083acb55224",
+    "submodules/TelegramUI/Components/Chat/ChatMessageInteractiveMediaNode/BUILD": "f6aeba73bcd5ff2c6a0b1a78c0f3cc90830601a7bf4686874b494eb09a2167fc",
+    "submodules/TelegramCore/Sources/Utils/MessageUtils.swift": "78475ef798aa8293dd84fabffa82cd97fc277da7c324f9b07c0fa939af7e973a",
+    "submodules/CrashReporting/Sources/CrashReport.swift": "ec7a57b420d44f777c8b60eb7b6c04c5ba7f2963b3d1dc4c1fe9a4bb0e791164",
+    "submodules/TelegramUniversalVideoContent/Sources/NativeVideoContent.swift": "528f20337b832f9dcc01b58511a7639e54a757afffb7477ed2e8c054674bae10"
+  },
+  "templates": {
+    "upstream_13_2_release_post/After218.inc": "af17b37425d58004362bc8fc5aa7ac310f74aaef5c3dd43d613493f8b507499e",
+    "upstream_13_2_release_ui_compile/After0.inc": "a462ba740ba508e604c36465ff20283e8ecbe750d9e0f0f4553de2d8813a49a7",
+    "upstream_13_2_release_ui_compile/Before1.inc": "0779b1ef8039f18b051f9b78357c9cd68fa6180e23416ad7df43d17bc0e9137c",
+    "upstream_13_2_release_ui_compile/After1.inc": "adad71f8c47ffd450a63c3e6e9f159a1353b3d6adcc0a5f5803a41a62a0a2167",
+    "upstream_13_2_release_post/After205.inc": "361a4e418cccb0471f9fbbd091094283e71ca66c966d640c8135518ec2b806b0",
+    "upstream_13_2_release_ui_compile/After2.inc": "e57b09860285bdb0ef1df115ad2aa55178221e552a70cb50e4f3ad6f10912371"
+  },
+  "deletions": {},
+  "target_pin": "24638bc69bd083981b178dd1e7f921eebbf7fc46",
+  "overlay_base_pin": "279f89e4d4f63f17227bf877dc3d8990f22ecd58"
+}

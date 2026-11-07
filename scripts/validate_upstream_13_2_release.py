@@ -55,20 +55,33 @@ def checked_plan(stage):
     return plan
 
 
+def checked_sdk_plans(post):
+    expected = {**post['outputs'], **post['guards']}
+    plans = []
+    for stage in ('upstream_13_2_release_compile', 'upstream_13_2_release_ui_compile'):
+        plan = checked_plan(stage)
+        assert not plan['copies'] and not plan['deletions']
+        for name, value in plan['inputs'].items():
+            assert expected[name] == value, 'Broken SDK stage chain: ' + name
+        for name, value in plan['guards'].items():
+            assert expected.get(name, value) == value, name
+        expected.update(plan['outputs'])
+        plans.append(plan)
+    return plans, expected
+
+
 def verify(source):
     pre = checked_plan('upstream_13_2_release_pre')
     post = checked_plan('upstream_13_2_release_post')
-    compile_plan = checked_plan('upstream_13_2_release_compile')
-    for name, expected in compile_plan['inputs'].items():
-        assert expected == {**post['outputs'], **post['guards']}[name], 'Broken SDK stage chain: ' + name
-    for name, expected in compile_plan['guards'].items():
-        assert expected == {**post['outputs'], **post['guards']}.get(name, expected), name
-        assert digest(source / name) == expected, name
+    sdk_plans, final_outputs = checked_sdk_plans(post)
+    for plan in sdk_plans:
+        for name, expected in plan['guards'].items():
+            assert digest(source / name) == final_outputs.get(name, expected), name
     for name, expected in {**post['outputs'], **post['guards']}.items():
         if name in post['deletions']:
             assert not (source / name).exists(), name
         else:
-            assert digest(source / name) == compile_plan['outputs'].get(name, expected), name
+            assert digest(source / name) == final_outputs[name], name
     assert set(pre['copies']) == set(post['deletions'])
     versions = json.loads((source / 'versions.json').read_text())
     assert versions['app'] == '13.2' and versions['xcode'] == '27.1'
@@ -79,6 +92,7 @@ def verify(source):
     workflow = (ROOT / '.github/workflows/build-unsigned-ipa.yml').read_text()
     assert workflow.index('apply_upstream_13_2_post(') < workflow.index('apply_upstream_13_2_release_post(')
     assert workflow.index('apply_upstream_13_2_release_post(') < workflow.index('apply_upstream_13_2_release_compile(') < workflow.index('validate_upstream_13_2_release.py')
+    assert workflow.index('apply_upstream_13_2_release_compile(') < workflow.index('apply_upstream_13_2_release_ui_compile(') < workflow.index('validate_upstream_13_2_release.py')
     assert workflow.index('validate_upstream_13_2_release.py') < workflow.index('--final-upstream-13-2')
     messages = (source / (STATE + 'StateReplay+Messages.swift')).read_text()
     for hook in ('captureIncoming', 'recordIncomingEdit', 'archiveMessagesBeforeDeletion',
@@ -128,6 +142,16 @@ def guard_checks(source, stage, plan, folder):
             origin = OVERLAY / plan['deletions'][name]['source']
         else:
             origin = source / name
+            if digest(origin) != plan['guards'][name]:
+                # A later SDK fix can replace an otherwise guarded post file.
+                # Reconstruct that earlier stage's exact input, never relax SHA.
+                candidates = []
+                for sdk_stage in ('upstream_13_2_release_compile', 'upstream_13_2_release_ui_compile'):
+                    sdk = checked_plan(sdk_stage)
+                    if sdk['inputs'].get(name) == plan['guards'][name]:
+                        candidates.append(OVERLAY / sdk['previous'][name])
+                assert len(candidates) == 1, 'Cannot reconstruct guarded input: ' + name
+                origin = candidates[0]
         path.write_bytes(origin.read_bytes())
 
     def seed(label):

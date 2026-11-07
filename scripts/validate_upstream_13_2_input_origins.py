@@ -2,17 +2,13 @@
 """Reject wrong native13.2 input origins before the lengthy CI source suite."""
 import copy
 import hashlib
-from validate_upstream_13_2_release import OVERLAY, checked_plan, native_input_contract
+from validate_upstream_13_2_release import OVERLAY, checked_plan, checked_sdk_plans, native_input_contract
 
 
 def main():
     checked_plan('upstream_13_2_release_pre')
     plan = checked_plan('upstream_13_2_release_post')
-    compile_plan = checked_plan('upstream_13_2_release_compile')
-    for name, expected in compile_plan['inputs'].items():
-        assert expected == {**plan['outputs'], **plan['guards']}[name], 'Broken SDK stage chain: ' + name
-    for name, expected in compile_plan['guards'].items():
-        assert expected == {**plan['outputs'], **plan['guards']}.get(name, expected), name
+    checked_sdk_plans(plan)
     rejected = 0
     for name, snapshot in plan['rejected_native_before'].items():
         wrong = copy.deepcopy(plan)
