@@ -1,0 +1,35 @@
+{
+  "inputs": {
+    "submodules/TelegramUI/Sources/Chat/NagramiXCopyDelivery.swift": "7e9e596815fa66caeee0d91d0506bc341040f6dcba618187728e18938bad30cb",
+    "submodules/TelegramUI/Sources/ChatControllerForwardMessages.swift": "fda831299583423e694d9c5fce67cd628522e8d89df9ebc8112c464085b6079c"
+  },
+  "outputs": {
+    "submodules/TelegramUI/Sources/Chat/NagramiXCopyDelivery.swift": "25fc6bf88df17b507a76675a6e7279b48bc5f146bfa4e9b50d5178a87a082128",
+    "submodules/TelegramUI/Sources/ChatControllerForwardMessages.swift": "39953fd5ca16e9dc5abdca687780ed74e904e1c104d1578fad762becccd910ac"
+  },
+  "previous": {
+    "submodules/TelegramUI/Sources/Chat/NagramiXCopyDelivery.swift": "upstream_13_2_release_delivery_compile/After0.inc",
+    "submodules/TelegramUI/Sources/ChatControllerForwardMessages.swift": "upstream_13_2_release_delivery_compile/After1.inc"
+  },
+  "replacements": {
+    "submodules/TelegramUI/Sources/Chat/NagramiXCopyDelivery.swift": "upstream_13_2_release_ack_compile/After0.inc",
+    "submodules/TelegramUI/Sources/ChatControllerForwardMessages.swift": "upstream_13_2_release_ack_compile/After1.inc"
+  },
+  "copies": {},
+  "guards": {
+    "submodules/TelegramUI/BUILD": "c819263cd1c2d6407308fe3f172f9f564b40e26f3b688da39739577bae792f52",
+    "submodules/AccountContext/Sources/PeerSelectionController.swift": "88e33ebc55d9f47b22e4bca4e617c2e896c7c478ead7f1c5b822ff727d549355",
+    "submodules/TelegramCore/Sources/TelegramEngine/Messages/Message.swift": "ffddee32acbc80607fbf5c96ab339a8c600cae57e055337cab8d672c734ff4a7",
+    "submodules/TelegramCore/Sources/PendingMessages/EnqueueMessage.swift": "af4e79283b36e58169eac5363dbf1639718047bc1dc68aae729a761c239ffd8e",
+    "submodules/SSignalKit/SwiftSignalKit/Source/Signal.swift": "c1fee825012eace4710eab53f32faa1d49efe38b01e7ad709054f26695494cb6"
+  },
+  "templates": {
+    "upstream_13_2_release_delivery_compile/After0.inc": "7e9e596815fa66caeee0d91d0506bc341040f6dcba618187728e18938bad30cb",
+    "upstream_13_2_release_ack_compile/After0.inc": "25fc6bf88df17b507a76675a6e7279b48bc5f146bfa4e9b50d5178a87a082128",
+    "upstream_13_2_release_delivery_compile/After1.inc": "fda831299583423e694d9c5fce67cd628522e8d89df9ebc8112c464085b6079c",
+    "upstream_13_2_release_ack_compile/After1.inc": "39953fd5ca16e9dc5abdca687780ed74e904e1c104d1578fad762becccd910ac"
+  },
+  "deletions": {},
+  "target_pin": "24638bc69bd083981b178dd1e7f921eebbf7fc46",
+  "overlay_base_pin": "279f89e4d4f63f17227bf877dc3d8990f22ecd58"
+}
