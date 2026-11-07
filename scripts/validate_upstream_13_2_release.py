@@ -19,7 +19,7 @@ OVERLAY = ROOT / 'ios'
 PIN = '24638bc69bd083981b178dd1e7f921eebbf7fc46'
 BASE = '279f89e4d4f63f17227bf877dc3d8990f22ecd58'
 STATE = 'submodules/TelegramCore/Sources/State/Sync/'
-SDK_STAGES = ('upstream_13_2_release_compile', 'upstream_13_2_release_ui_compile', 'upstream_13_2_release_auth_compile')
+SDK_STAGES = ('upstream_13_2_release_compile', 'upstream_13_2_release_ui_compile', 'upstream_13_2_release_auth_compile', 'upstream_13_2_release_delivery_compile')
 
 
 def digest(path):
@@ -95,6 +95,7 @@ def verify(source):
     assert workflow.index('apply_upstream_13_2_release_post(') < workflow.index('apply_upstream_13_2_release_compile(') < workflow.index('validate_upstream_13_2_release.py')
     assert workflow.index('apply_upstream_13_2_release_compile(') < workflow.index('apply_upstream_13_2_release_ui_compile(') < workflow.index('validate_upstream_13_2_release.py')
     assert workflow.index('apply_upstream_13_2_release_ui_compile(') < workflow.index('apply_upstream_13_2_release_auth_compile(') < workflow.index('validate_upstream_13_2_release.py')
+    assert workflow.index('apply_upstream_13_2_release_auth_compile(') < workflow.index('apply_upstream_13_2_release_delivery_compile(') < workflow.index('validate_upstream_13_2_release.py')
     assert workflow.index('validate_upstream_13_2_release.py') < workflow.index('--final-upstream-13-2')
     messages = (source / (STATE + 'StateReplay+Messages.swift')).read_text()
     for hook in ('captureIncoming', 'recordIncomingEdit', 'archiveMessagesBeforeDeletion',
