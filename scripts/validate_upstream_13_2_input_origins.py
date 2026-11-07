@@ -8,6 +8,11 @@ from validate_upstream_13_2_release import OVERLAY, checked_plan, native_input_c
 def main():
     checked_plan('upstream_13_2_release_pre')
     plan = checked_plan('upstream_13_2_release_post')
+    compile_plan = checked_plan('upstream_13_2_release_compile')
+    for name, expected in compile_plan['inputs'].items():
+        assert expected == {**plan['outputs'], **plan['guards']}[name], 'Broken SDK stage chain: ' + name
+    for name, expected in compile_plan['guards'].items():
+        assert expected == {**plan['outputs'], **plan['guards']}.get(name, expected), name
     rejected = 0
     for name, snapshot in plan['rejected_native_before'].items():
         wrong = copy.deepcopy(plan)

@@ -1,0 +1,34 @@
+{
+  "inputs": {
+    "submodules/RMIntro/Sources/platform/ios/RMIntroViewController.m": "8ace6470035619c9ebb491b3c8eaf5dff5ceeeb3c7867b564dbfc6ebf02181de",
+    "submodules/TelegramCore/Sources/PendingMessages/PendingMessageUploadedContent.swift": "4f45566103d7c88e6c77de8307227ed58fd81edd0d766969c2b15b59cc454640"
+  },
+  "outputs": {
+    "submodules/RMIntro/Sources/platform/ios/RMIntroViewController.m": "8e3f9bdc83c8dbb2f273c5aca053ba5afeb381d9e137666445e875bd511256bf",
+    "submodules/TelegramCore/Sources/PendingMessages/PendingMessageUploadedContent.swift": "388a43e2c0963442993dbca1b30d334e48b986d4e4b4f6b2b50d46b40bb06f18"
+  },
+  "previous": {
+    "submodules/RMIntro/Sources/platform/ios/RMIntroViewController.m": "upstream_13_2_release_post/After127.inc",
+    "submodules/TelegramCore/Sources/PendingMessages/PendingMessageUploadedContent.swift": "upstream_13_2_release_post/After155.inc"
+  },
+  "replacements": {
+    "submodules/RMIntro/Sources/platform/ios/RMIntroViewController.m": "upstream_13_2_release_compile/After0.inc",
+    "submodules/TelegramCore/Sources/PendingMessages/PendingMessageUploadedContent.swift": "upstream_13_2_release_compile/After1.inc"
+  },
+  "copies": {},
+  "guards": {
+    "submodules/RMIntro/BUILD": "dca0ef9e765a752458aad96f2c53dce41b7725f79a0ca137df7b8affb56dab95",
+    "submodules/RMIntro/PublicHeaders/RMIntro/RMIntroViewController.h": "aaff226a64200dae3c592bc43401b239375aa03ede67aa5690fe3ebba3a7881c",
+    "submodules/TelegramCore/BUILD": "bf9342baf193366c8997afb547c074592af8247348f59e25e5e6ca9bfb3806a9",
+    "submodules/TelegramCore/Sources/ApiUtils/TelegramMediaPoll.swift": "a6f026a4ca75850b60a29ca39fc5b5037982ede3d5c292495c6113c3d448c0c3"
+  },
+  "templates": {
+    "upstream_13_2_release_post/After127.inc": "8ace6470035619c9ebb491b3c8eaf5dff5ceeeb3c7867b564dbfc6ebf02181de",
+    "upstream_13_2_release_compile/After0.inc": "8e3f9bdc83c8dbb2f273c5aca053ba5afeb381d9e137666445e875bd511256bf",
+    "upstream_13_2_release_post/After155.inc": "4f45566103d7c88e6c77de8307227ed58fd81edd0d766969c2b15b59cc454640",
+    "upstream_13_2_release_compile/After1.inc": "388a43e2c0963442993dbca1b30d334e48b986d4e4b4f6b2b50d46b40bb06f18"
+  },
+  "deletions": {},
+  "target_pin": "24638bc69bd083981b178dd1e7f921eebbf7fc46",
+  "overlay_base_pin": "279f89e4d4f63f17227bf877dc3d8990f22ecd58"
+}

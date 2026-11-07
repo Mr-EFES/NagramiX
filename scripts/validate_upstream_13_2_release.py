@@ -58,11 +58,17 @@ def checked_plan(stage):
 def verify(source):
     pre = checked_plan('upstream_13_2_release_pre')
     post = checked_plan('upstream_13_2_release_post')
+    compile_plan = checked_plan('upstream_13_2_release_compile')
+    for name, expected in compile_plan['inputs'].items():
+        assert expected == {**post['outputs'], **post['guards']}[name], 'Broken SDK stage chain: ' + name
+    for name, expected in compile_plan['guards'].items():
+        assert expected == {**post['outputs'], **post['guards']}.get(name, expected), name
+        assert digest(source / name) == expected, name
     for name, expected in {**post['outputs'], **post['guards']}.items():
         if name in post['deletions']:
             assert not (source / name).exists(), name
         else:
-            assert digest(source / name) == expected, name
+            assert digest(source / name) == compile_plan['outputs'].get(name, expected), name
     assert set(pre['copies']) == set(post['deletions'])
     versions = json.loads((source / 'versions.json').read_text())
     assert versions['app'] == '13.2' and versions['xcode'] == '27.1'
@@ -72,6 +78,7 @@ def verify(source):
     assert pipeline.index('    apply_upstream_13_2_release_pre(') < pipeline.index('    apply_upstream_13_2_pre(')
     workflow = (ROOT / '.github/workflows/build-unsigned-ipa.yml').read_text()
     assert workflow.index('apply_upstream_13_2_post(') < workflow.index('apply_upstream_13_2_release_post(')
+    assert workflow.index('apply_upstream_13_2_release_post(') < workflow.index('apply_upstream_13_2_release_compile(') < workflow.index('validate_upstream_13_2_release.py')
     assert workflow.index('validate_upstream_13_2_release.py') < workflow.index('--final-upstream-13-2')
     messages = (source / (STATE + 'StateReplay+Messages.swift')).read_text()
     for hook in ('captureIncoming', 'recordIncomingEdit', 'archiveMessagesBeforeDeletion',
