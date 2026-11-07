@@ -306,6 +306,8 @@ jobs:
           python3 scripts/validate_upstream_13_2_release_compile.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)" --clang "$(xcrun --find clang)"
           PYTHONPATH=ios python3 -c 'from pathlib import Path; from upstream_13_2_release_ui_compile import apply_upstream_13_2_release_ui_compile; apply_upstream_13_2_release_ui_compile(Path("Telegram-iOS").resolve(), Path("ios").resolve())'
           python3 scripts/validate_upstream_13_2_release_ui_compile.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)"
+          PYTHONPATH=ios python3 -c 'from pathlib import Path; from upstream_13_2_release_auth_compile import apply_upstream_13_2_release_auth_compile; apply_upstream_13_2_release_auth_compile(Path("Telegram-iOS").resolve(), Path("ios").resolve())'
+          python3 scripts/validate_upstream_13_2_release_auth_compile.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)"
           python3 scripts/validate_upstream_13_2_release.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)"
           python3 scripts/validate_localization_standard.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)" --final-upstream-13-2
           python3 Telegram-iOS/build-system/Make/PostboxImportCheck.py Telegram-iOS

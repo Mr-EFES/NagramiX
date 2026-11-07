@@ -1,0 +1,29 @@
+{
+  "inputs": {
+    "submodules/AuthorizationUI/Sources/AuthorizationSequencePhoneEntryControllerNode.swift": "dcd5589a82b0a06d2343731db2f9ccd761d676a58cd59b610fba5a0a425ab521"
+  },
+  "outputs": {
+    "submodules/AuthorizationUI/Sources/AuthorizationSequencePhoneEntryControllerNode.swift": "fc9754026c60b0f643b4b2439cdade3f40ac5e3d10504c65670fe9348f44a92a"
+  },
+  "previous": {
+    "submodules/AuthorizationUI/Sources/AuthorizationSequencePhoneEntryControllerNode.swift": "upstream_13_2_release_post/After9.inc"
+  },
+  "replacements": {
+    "submodules/AuthorizationUI/Sources/AuthorizationSequencePhoneEntryControllerNode.swift": "upstream_13_2_release_auth_compile/After0.inc"
+  },
+  "copies": {},
+  "guards": {
+    "submodules/AuthorizationUI/BUILD": "a71d6359d94efe8369bfa80f9054c80070b7538410cec0969cff2709aecf82a9",
+    "submodules/AuthorizationUI/Sources/AuthorizationSequenceEmailEntryControllerNode.swift": "6983b3910c8647f4fd04031e1d2bf94b468deb6f1d9c9d7df123c0c96d22f66a",
+    "submodules/AuthorizationUI/Sources/AuthorizationSequenceCodeEntryControllerNode.swift": "c64413e8cad4ebbb9f71574771b25c702c94d24063f422ecc82b3ba5143f3e32",
+    "submodules/AuthorizationUI/Sources/AuthorizationSequencePasswordEntryControllerNode.swift": "d3c28b98ac3818b4ecd057b56f73813e540ed15c2f03c0805bad9a694b56d40f",
+    "submodules/RMIntro/Sources/platform/ios/RMIntroViewController.m": "8e3f9bdc83c8dbb2f273c5aca053ba5afeb381d9e137666445e875bd511256bf"
+  },
+  "templates": {
+    "upstream_13_2_release_post/After9.inc": "dcd5589a82b0a06d2343731db2f9ccd761d676a58cd59b610fba5a0a425ab521",
+    "upstream_13_2_release_auth_compile/After0.inc": "fc9754026c60b0f643b4b2439cdade3f40ac5e3d10504c65670fe9348f44a92a"
+  },
+  "deletions": {},
+  "target_pin": "24638bc69bd083981b178dd1e7f921eebbf7fc46",
+  "overlay_base_pin": "279f89e4d4f63f17227bf877dc3d8990f22ecd58"
+}
