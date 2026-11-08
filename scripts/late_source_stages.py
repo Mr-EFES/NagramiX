@@ -24,6 +24,7 @@ LATE_SOURCE_STAGES = (
     'pip_swipe_handoff',
     'temporary_message_interaction',
     'account_settings_entry',
+    'release_090_preflight_fixes',
 )
 TEMPORARY_INTERACTION_STAGE = 'temporary_message_interaction'
 TEMPORARY_REPLY_HELPER = 'submodules/TelegramUI/Sources/Chat/NagramiXTemporaryReplySend.swift'

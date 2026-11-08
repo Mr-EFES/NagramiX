@@ -1,0 +1,88 @@
+{
+  "inputs": {
+    "submodules/TelegramCore/Sources/Utils/NagramiXMessageArchive.swift": "810c5de70671af00ee1de7eebfd595bae461654d9b35851aa4de5f2291a0f6e8",
+    "submodules/TelegramUI/Sources/Chat/ChatControllerLoadDisplayNode.swift": "8d8fa8354773e873603e49c654cefe946a6de96a0222d14dfc1353ddd58debf1"
+  },
+  "outputs": {
+    "submodules/TelegramCore/Sources/Utils/NagramiXMessageArchive.swift": "f7c69c069954ccda27d9e68a1b7f7ace7378789bd4520dee2074086dabd6df32",
+    "submodules/TelegramUI/Sources/Chat/ChatControllerLoadDisplayNode.swift": "e4b987cbd34765fe9cb29c3f2a4581ef17bc6e05ac765fe455b3bad674d809a2"
+  },
+  "previous": {
+    "submodules/TelegramCore/Sources/Utils/NagramiXMessageArchive.swift": "release_090_preflight_fixes/Before0.inc",
+    "submodules/TelegramUI/Sources/Chat/ChatControllerLoadDisplayNode.swift": "release_090_preflight_fixes/Before1.inc"
+  },
+  "replacements": {
+    "submodules/TelegramCore/Sources/Utils/NagramiXMessageArchive.swift": "release_090_preflight_fixes/After0.inc",
+    "submodules/TelegramUI/Sources/Chat/ChatControllerLoadDisplayNode.swift": "release_090_preflight_fixes/After1.inc"
+  },
+  "copies": {},
+  "deletions": {},
+  "guards": {
+    "submodules/TelegramUI/BUILD": "c819263cd1c2d6407308fe3f172f9f564b40e26f3b688da39739577bae792f52",
+    "submodules/TelegramCore/BUILD": "bf9342baf193366c8997afb547c074592af8247348f59e25e5e6ca9bfb3806a9",
+    "submodules/TelegramUI/Sources/Chat/NagramiXTemporaryReplySend.swift": "d854c35006818792a160556fc0a9c16fb94207c7bde1212eaec929cb7dc829f7",
+    "submodules/TelegramUI/Sources/ChatControllerNode.swift": "5e6a331eb82d009a58bf32a20d7c8a2b69b669c9400ed3c0226e145feb62b4f3",
+    "submodules/TelegramCore/Sources/PendingMessages/EnqueueMessage.swift": "af4e79283b36e58169eac5363dbf1639718047bc1dc68aae729a761c239ffd8e",
+    "submodules/TelegramCore/Sources/Utils/NagramiXArchivedMediaStore.swift": "cc0352b82b9e944884453ca1c9dd4ca9876413002090dd29083edddf4004996b",
+    "submodules/TelegramCore/Sources/Utils/NagramiXCaptureProtectionPolicy.swift": "3a101a9df4262f9eea878273ddeb8d4438c777611b66febb5b3b979c2b281f45",
+    "submodules/TelegramCore/Sources/Utils/NagramiXArchivePersistence.swift": "172f87ec61020c59777190b1d36a5de25d2b3cd2f7f6243033499077b60ee2db",
+    "submodules/TelegramCore/Sources/Utils/MessageUtils.swift": "78475ef798aa8293dd84fabffa82cd97fc277da7c324f9b07c0fa939af7e973a",
+    "submodules/Postbox/Sources/Coding.swift": "33a43a51e3cea199af4fead0a64d85e711490360683e90313e8c7eb2bac41131",
+    "submodules/Postbox/Sources/Media.swift": "9a531c20351025c23a5667d819db12e025da5482839ca2c5733a957f34bfe980",
+    "submodules/Postbox/Sources/Message.swift": "c382cdf51199878336bf65c396cc56aeebaf74685b00a941211676e07c2e476e",
+    "submodules/TelegramCore/Sources/Account/AccountManager.swift": "b86257c590d01e62edde1a3e18190b898885c050931e6ebd66fb3cf6c2714255",
+    "submodules/TelegramCore/Sources/SyncCore/SyncCore_TelegramMediaContact.swift": "214a74b9a834933917df549d7d5a61d6030527250ce01f118604bd4e2f347929",
+    "submodules/TelegramCore/Sources/SyncCore/SyncCore_TelegramMediaMap.swift": "e0ccd2710977d2a641bef9e70b0b454234e02dd217528e42ab4eefa9d8425753",
+    "submodules/TelegramCore/Sources/SyncCore/SyncCore_TelegramMediaDice.swift": "106cc640300a9fc94770d609d112974e212e8450ca2c68c44c25787317702975",
+    "submodules/TelegramCore/Sources/SyncCore/SyncCore_TelegramMediaGame.swift": "e9b8c9f7fe98ae387bb280ee65bf44b2f7be0ad5ddeeb709a24b5a5d2a77eb6a",
+    "submodules/TelegramCore/Sources/SyncCore/SyncCore_TelegramMediaWebpage.swift": "cc1ad7107d11ba83ef8aa03e9f61b4e03f01bf7b1b1654d95ff8cdca53f8fe3e"
+  },
+  "guard_sources": {
+    "submodules/TelegramUI/BUILD": "release_090_preflight_fixes/Guard0.inc",
+    "submodules/TelegramCore/BUILD": "release_090_preflight_fixes/Guard1.inc",
+    "submodules/TelegramUI/Sources/Chat/NagramiXTemporaryReplySend.swift": "release_090_preflight_fixes/Guard2.inc",
+    "submodules/TelegramUI/Sources/ChatControllerNode.swift": "release_090_preflight_fixes/Guard3.inc",
+    "submodules/TelegramCore/Sources/PendingMessages/EnqueueMessage.swift": "release_090_preflight_fixes/Guard4.inc",
+    "submodules/TelegramCore/Sources/Utils/NagramiXArchivedMediaStore.swift": "release_090_preflight_fixes/Guard5.inc",
+    "submodules/TelegramCore/Sources/Utils/NagramiXCaptureProtectionPolicy.swift": "release_090_preflight_fixes/Guard6.inc",
+    "submodules/TelegramCore/Sources/Utils/NagramiXArchivePersistence.swift": "release_090_preflight_fixes/Guard7.inc",
+    "submodules/TelegramCore/Sources/Utils/MessageUtils.swift": "release_090_preflight_fixes/Guard8.inc",
+    "submodules/Postbox/Sources/Coding.swift": "release_090_preflight_fixes/Guard9.inc",
+    "submodules/Postbox/Sources/Media.swift": "release_090_preflight_fixes/Guard10.inc",
+    "submodules/Postbox/Sources/Message.swift": "release_090_preflight_fixes/Guard11.inc",
+    "submodules/TelegramCore/Sources/Account/AccountManager.swift": "release_090_preflight_fixes/Guard12.inc",
+    "submodules/TelegramCore/Sources/SyncCore/SyncCore_TelegramMediaContact.swift": "release_090_preflight_fixes/Guard13.inc",
+    "submodules/TelegramCore/Sources/SyncCore/SyncCore_TelegramMediaMap.swift": "release_090_preflight_fixes/Guard14.inc",
+    "submodules/TelegramCore/Sources/SyncCore/SyncCore_TelegramMediaDice.swift": "release_090_preflight_fixes/Guard15.inc",
+    "submodules/TelegramCore/Sources/SyncCore/SyncCore_TelegramMediaGame.swift": "release_090_preflight_fixes/Guard16.inc",
+    "submodules/TelegramCore/Sources/SyncCore/SyncCore_TelegramMediaWebpage.swift": "release_090_preflight_fixes/Guard17.inc"
+  },
+  "templates": {
+    "release_090_preflight_fixes/Before0.inc": "810c5de70671af00ee1de7eebfd595bae461654d9b35851aa4de5f2291a0f6e8",
+    "release_090_preflight_fixes/After0.inc": "f7c69c069954ccda27d9e68a1b7f7ace7378789bd4520dee2074086dabd6df32",
+    "release_090_preflight_fixes/Before1.inc": "8d8fa8354773e873603e49c654cefe946a6de96a0222d14dfc1353ddd58debf1",
+    "release_090_preflight_fixes/After1.inc": "e4b987cbd34765fe9cb29c3f2a4581ef17bc6e05ac765fe455b3bad674d809a2",
+    "release_090_preflight_fixes/Guard0.inc": "c819263cd1c2d6407308fe3f172f9f564b40e26f3b688da39739577bae792f52",
+    "release_090_preflight_fixes/Guard1.inc": "bf9342baf193366c8997afb547c074592af8247348f59e25e5e6ca9bfb3806a9",
+    "release_090_preflight_fixes/Guard2.inc": "d854c35006818792a160556fc0a9c16fb94207c7bde1212eaec929cb7dc829f7",
+    "release_090_preflight_fixes/Guard3.inc": "5e6a331eb82d009a58bf32a20d7c8a2b69b669c9400ed3c0226e145feb62b4f3",
+    "release_090_preflight_fixes/Guard4.inc": "af4e79283b36e58169eac5363dbf1639718047bc1dc68aae729a761c239ffd8e",
+    "release_090_preflight_fixes/Guard5.inc": "cc0352b82b9e944884453ca1c9dd4ca9876413002090dd29083edddf4004996b",
+    "release_090_preflight_fixes/Guard6.inc": "3a101a9df4262f9eea878273ddeb8d4438c777611b66febb5b3b979c2b281f45",
+    "release_090_preflight_fixes/Guard7.inc": "172f87ec61020c59777190b1d36a5de25d2b3cd2f7f6243033499077b60ee2db",
+    "release_090_preflight_fixes/Guard8.inc": "78475ef798aa8293dd84fabffa82cd97fc277da7c324f9b07c0fa939af7e973a",
+    "release_090_preflight_fixes/Guard9.inc": "33a43a51e3cea199af4fead0a64d85e711490360683e90313e8c7eb2bac41131",
+    "release_090_preflight_fixes/Guard10.inc": "9a531c20351025c23a5667d819db12e025da5482839ca2c5733a957f34bfe980",
+    "release_090_preflight_fixes/Guard11.inc": "c382cdf51199878336bf65c396cc56aeebaf74685b00a941211676e07c2e476e",
+    "release_090_preflight_fixes/Guard12.inc": "b86257c590d01e62edde1a3e18190b898885c050931e6ebd66fb3cf6c2714255",
+    "release_090_preflight_fixes/Guard13.inc": "214a74b9a834933917df549d7d5a61d6030527250ce01f118604bd4e2f347929",
+    "release_090_preflight_fixes/Guard14.inc": "e0ccd2710977d2a641bef9e70b0b454234e02dd217528e42ab4eefa9d8425753",
+    "release_090_preflight_fixes/Guard15.inc": "106cc640300a9fc94770d609d112974e212e8450ca2c68c44c25787317702975",
+    "release_090_preflight_fixes/Guard16.inc": "e9b8c9f7fe98ae387bb280ee65bf44b2f7be0ad5ddeeb709a24b5a5d2a77eb6a",
+    "release_090_preflight_fixes/Guard17.inc": "cc1ad7107d11ba83ef8aa03e9f61b4e03f01bf7b1b1654d95ff8cdca53f8fe3e"
+  },
+  "native_inputs": {},
+  "target_pin": "24638bc69bd083981b178dd1e7f921eebbf7fc46",
+  "overlay_base_pin": "279f89e4d4f63f17227bf877dc3d8990f22ecd58",
+  "required_previous_stage": "account_settings_entry"
+}

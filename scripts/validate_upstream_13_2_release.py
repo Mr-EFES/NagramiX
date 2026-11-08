@@ -135,7 +135,7 @@ def verify(source):
         next_stage = LATE_SOURCE_STAGES[index + 1] if index + 1 < len(LATE_SOURCE_STAGES) else None
         boundary = workflow.index('apply_' + next_stage + '(') if next_stage else workflow.index('python3 scripts/validate_upstream_13_2_release.py')
         assert workflow.index('apply_' + stage + '(') < validation < boundary
-    assert workflow.index('python3 scripts/validate_temporary_message_interaction.py') < workflow.index('python3 scripts/validate_account_settings_entry.py') < workflow.index('python3 scripts/validate_late_source_stages.py') < workflow.index('python3 scripts/validate_upstream_13_2_release.py')
+    assert workflow.index('python3 scripts/validate_temporary_message_interaction.py') < workflow.index('python3 scripts/validate_account_settings_entry.py') < workflow.index('python3 scripts/validate_release_090_preflight_fixes.py') < workflow.index('python3 scripts/validate_late_source_stages.py') < workflow.index('python3 scripts/validate_upstream_13_2_release.py')
     assert workflow.index('validate_custom_member_references.py --canonical') < workflow.index('Применить overlay NagramiX')
     assert workflow.index('validate_upstream_13_2_release.py') < workflow.index('--final-upstream-13-2')
     messages = (source / (STATE + 'StateReplay+Messages.swift')).read_text()

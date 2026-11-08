@@ -64,6 +64,13 @@ def check(source, published=None):
         assert late.verified_prefix(before_tenth, late_plans) == tenth_index
         ninth_plan = late_plans[late.LATE_SOURCE_STAGES.index(late.TEMPORARY_INTERACTION_STAGE)]
         assert release.digest(before_tenth / late.TEMPORARY_REPLY_HELPER) == ninth_plan['copies'][late.TEMPORARY_REPLY_HELPER]['sha256'], 'Stage ten changed the existing temporary-reply helper'
+    with late.historical_source(source, before_stage='release_090_preflight_fixes') as before_eleventh:
+        eleventh_index = late.LATE_SOURCE_STAGES.index('release_090_preflight_fixes')
+        assert late.verified_prefix(before_eleventh, late_plans) == eleventh_index
+        eleventh_plan = late_plans[eleventh_index]
+        for name, value in eleventh_plan['inputs'].items():
+            assert release.digest(before_eleventh / name) == value, 'Stage eleven did not restore its exact input: ' + name
+        assert release.digest(before_eleventh / late.TEMPORARY_REPLY_HELPER) == ninth_plan['copies'][late.TEMPORARY_REPLY_HELPER]['sha256'], 'Stage eleven changed the existing temporary-reply helper'
 
     rejected = []
     with tempfile.TemporaryDirectory(prefix='nagramix-late-source-checks-') as temporary:
@@ -204,6 +211,8 @@ def check(source, published=None):
         'introduced_helpers_absent_from_history': sorted(introduced),
         'pre_ninth_checkpoint_verified': True,
         'pre_tenth_checkpoint_verified': True,
+        'pre_eleventh_checkpoint_verified': True,
+        'pre_eleventh_inputs_restored': sorted(eleventh_plan['inputs']),
         'negative_projection_verified_before_mutation': True,
         'fail_closed': rejected,
         'sdk': 'not_run',
