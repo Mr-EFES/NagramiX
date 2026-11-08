@@ -1,0 +1,472 @@
+{
+  "task": "release_090_owner_publication",
+  "status": "native_compile_passed_package_verified_owner_published_device_pending",
+  "recorded_at_utc": "2026-11-08T17:10:38.817995+00:00",
+  "version": "0.9.0",
+  "build": 187,
+  "source": "76b232c120674a70bfc3f4afabd31810411a9b03",
+  "publication": {
+    "release_id": 438390536,
+    "published_at": "2026-11-08T17:07:26Z",
+    "url": "https://github.com/Mr-EFES/NagramiX/releases/tag/v0.9.0",
+    "latest": true,
+    "prerelease": false,
+    "author": "Mr-EFES",
+    "assets": [
+      {
+        "id": 724607609,
+        "name": "BUILD-PROVENANCE.txt",
+        "size": 408,
+        "digest": "sha256:cb11a97fb3d0f0970b2dead2dca79d7b730d59922048e4a94c54abf25db88aa2",
+        "uploader": "Mr-EFES",
+        "browser_download_url": "https://github.com/Mr-EFES/NagramiX/releases/download/v0.9.0/BUILD-PROVENANCE.txt"
+      },
+      {
+        "id": 724607605,
+        "name": "NagramiX-0.9.0-unsigned.ipa",
+        "size": 93819099,
+        "digest": "sha256:be173c213c97b883d77296369c154300a06911fb9494555b683418cc2e37fe8f",
+        "uploader": "Mr-EFES",
+        "browser_download_url": "https://github.com/Mr-EFES/NagramiX/releases/download/v0.9.0/NagramiX-0.9.0-unsigned.ipa"
+      },
+      {
+        "id": 724607604,
+        "name": "SHA256SUMS",
+        "size": 94,
+        "digest": "sha256:d3ca2c02095554f834eedea1f68a86b0d6d8125d5e4093ebb2506ebb85f25e55",
+        "uploader": "Mr-EFES",
+        "browser_download_url": "https://github.com/Mr-EFES/NagramiX/releases/download/v0.9.0/SHA256SUMS"
+      }
+    ],
+    "run": 42485515942,
+    "build": 187,
+    "source": "76b232c120674a70bfc3f4afabd31810411a9b03",
+    "verified_at_utc": "2026-11-08T17:08:14.211245+00:00"
+  },
+  "upstream": {
+    "version": "13.2",
+    "pin": "24638bc69bd083981b178dd1e7f921eebbf7fc46",
+    "xcode": "27.1",
+    "minimum_ios": "15.0"
+  },
+  "jobs": [
+    {
+      "id": 128746387865,
+      "name": "build",
+      "conclusion": "success",
+      "steps": [
+        {
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 1,
+          "started_at": "2026-11-08T13:33:24Z",
+          "completed_at": "2026-11-08T13:33:27Z"
+        },
+        {
+          "name": "Проверить аккаунт запуска сборки",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 2,
+          "started_at": "2026-11-08T13:33:27Z",
+          "completed_at": "2026-11-08T13:33:27Z"
+        },
+        {
+          "name": "Получить overlay NagramiX",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 3,
+          "started_at": "2026-11-08T13:33:27Z",
+          "completed_at": "2026-11-08T13:33:34Z"
+        },
+        {
+          "name": "Подготовить чистую SDK-сборку",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 4,
+          "started_at": "2026-11-08T13:33:34Z",
+          "completed_at": "2026-11-08T13:33:34Z"
+        },
+        {
+          "name": "Проверить метаданные релиза",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 5,
+          "started_at": "2026-11-08T13:33:34Z",
+          "completed_at": "2026-11-08T13:33:58Z"
+        },
+        {
+          "name": "Проверить актуальность официальной базы Telegram-iOS",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 6,
+          "started_at": "2026-11-08T13:33:58Z",
+          "completed_at": "2026-11-08T13:33:59Z"
+        },
+        {
+          "name": "Загрузить закреплённую ссылку upstream",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 7,
+          "started_at": "2026-11-08T13:33:59Z",
+          "completed_at": "2026-11-08T13:33:59Z"
+        },
+        {
+          "name": "Проверить обязательные учётные данные Telegram API",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 8,
+          "started_at": "2026-11-08T13:33:59Z",
+          "completed_at": "2026-11-08T13:34:00Z"
+        },
+        {
+          "name": "Получить Telegram-iOS",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 9,
+          "started_at": "2026-11-08T13:34:00Z",
+          "completed_at": "2026-11-08T13:34:15Z"
+        },
+        {
+          "name": "Получить закреплённые зависимости Telegram13.2",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 10,
+          "started_at": "2026-11-08T13:34:15Z",
+          "completed_at": "2026-11-08T13:34:44Z"
+        },
+        {
+          "name": "Проверить ожидаемую версию upstream",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 11,
+          "started_at": "2026-11-08T13:34:44Z",
+          "completed_at": "2026-11-08T13:34:44Z"
+        },
+        {
+          "name": "Получить закреплённую базу преобразования overlay",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 12,
+          "started_at": "2026-11-08T13:34:44Z",
+          "completed_at": "2026-11-08T13:34:59Z"
+        },
+        {
+          "name": "Выбрать требуемую версию Xcode",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 13,
+          "started_at": "2026-11-08T13:34:59Z",
+          "completed_at": "2026-11-08T13:34:59Z"
+        },
+        {
+          "name": "Подготовить Metal Toolchain для Xcode",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 14,
+          "started_at": "2026-11-08T13:34:59Z",
+          "completed_at": "2026-11-08T13:35:10Z"
+        },
+        {
+          "name": "Применить overlay NagramiX",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 15,
+          "started_at": "2026-11-08T13:35:10Z",
+          "completed_at": "2026-11-08T15:27:40Z"
+        },
+        {
+          "name": "Восстановить кеш Bazel",
+          "status": "completed",
+          "conclusion": "skipped",
+          "number": 16,
+          "started_at": "2026-11-08T15:27:40Z",
+          "completed_at": "2026-11-08T15:27:40Z"
+        },
+        {
+          "name": "Подтвердить холодную основу релизной сборки",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 17,
+          "started_at": "2026-11-08T15:27:40Z",
+          "completed_at": "2026-11-08T15:27:40Z"
+        },
+        {
+          "name": "Создать временные профили NagramiX для сборки",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 18,
+          "started_at": "2026-11-08T15:27:40Z",
+          "completed_at": "2026-11-08T15:27:42Z"
+        },
+        {
+          "name": "Собрать нативное ARM64-приложение NagramiX без профилей",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 19,
+          "started_at": "2026-11-08T15:27:42Z",
+          "completed_at": "2026-11-08T17:04:12Z"
+        },
+        {
+          "name": "Сохранить кеш Bazel",
+          "status": "completed",
+          "conclusion": "skipped",
+          "number": 20,
+          "started_at": "2026-11-08T17:04:12Z",
+          "completed_at": "2026-11-08T17:04:12Z"
+        },
+        {
+          "name": "Сохранить символы для диагностики вылетов",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 21,
+          "started_at": "2026-11-08T17:04:12Z",
+          "completed_at": "2026-11-08T17:04:28Z"
+        },
+        {
+          "name": "Найти и упаковать неподписанное приложение",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 22,
+          "started_at": "2026-11-08T17:04:28Z",
+          "completed_at": "2026-11-08T17:04:51Z"
+        },
+        {
+          "name": "Записать происхождение сборки",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 23,
+          "started_at": "2026-11-08T17:04:51Z",
+          "completed_at": "2026-11-08T17:04:52Z"
+        },
+        {
+          "name": "Загрузить неподписанный IPA",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 24,
+          "started_at": "2026-11-08T17:04:52Z",
+          "completed_at": "2026-11-08T17:04:56Z"
+        },
+        {
+          "name": "Post Получить закреплённую базу преобразования overlay",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 46,
+          "started_at": "2026-11-08T17:04:56Z",
+          "completed_at": "2026-11-08T17:04:57Z"
+        },
+        {
+          "name": "Post Получить Telegram-iOS",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 47,
+          "started_at": "2026-11-08T17:04:57Z",
+          "completed_at": "2026-11-08T17:04:58Z"
+        },
+        {
+          "name": "Post Получить overlay NagramiX",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 48,
+          "started_at": "2026-11-08T17:04:58Z",
+          "completed_at": "2026-11-08T17:04:58Z"
+        },
+        {
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 49,
+          "started_at": "2026-11-08T17:04:58Z",
+          "completed_at": "2026-11-08T17:05:02Z"
+        }
+      ]
+    },
+    {
+      "id": 128800022842,
+      "name": "Проверить IPA для публикации Mr_EFES",
+      "conclusion": "success",
+      "steps": [
+        {
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 1,
+          "started_at": "2026-11-08T17:05:09Z",
+          "completed_at": "2026-11-08T17:05:10Z"
+        },
+        {
+          "name": "Проверить аккаунт подготовки релиза",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 2,
+          "started_at": "2026-11-08T17:05:10Z",
+          "completed_at": "2026-11-08T17:05:10Z"
+        },
+        {
+          "name": "Получить аннотацию и валидатор",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 3,
+          "started_at": "2026-11-08T17:05:10Z",
+          "completed_at": "2026-11-08T17:05:15Z"
+        },
+        {
+          "name": "Проверить источник готового IPA",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 4,
+          "started_at": "2026-11-08T17:05:15Z",
+          "completed_at": "2026-11-08T17:05:15Z"
+        },
+        {
+          "name": "Скачать результат проверенной сборки",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 5,
+          "started_at": "2026-11-08T17:05:15Z",
+          "completed_at": "2026-11-08T17:05:19Z"
+        },
+        {
+          "name": "Проверить артефакт для публикации владельцем",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 6,
+          "started_at": "2026-11-08T17:05:19Z",
+          "completed_at": "2026-11-08T17:05:21Z"
+        },
+        {
+          "name": "Post Получить аннотацию и валидатор",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 12,
+          "started_at": "2026-11-08T17:05:21Z",
+          "completed_at": "2026-11-08T17:05:21Z"
+        },
+        {
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 13,
+          "started_at": "2026-11-08T17:05:21Z",
+          "completed_at": "2026-11-08T17:05:21Z"
+        }
+      ]
+    }
+  ],
+  "artifacts": [
+    {
+      "id": 13626622374,
+      "node_id": "MDg6QXJ0aWZhY3QxMzYyNjYyMjM3NA==",
+      "name": "NagramiX-0.9.0-unsigned-arm64",
+      "size_in_bytes": 93425168,
+      "url": "https://api.github.com/repos/Mr-EFES/NagramiX/actions/artifacts/13626622374",
+      "archive_download_url": "https://api.github.com/repos/Mr-EFES/NagramiX/actions/artifacts/13626622374/zip",
+      "expired": false,
+      "digest": "sha256:cfdd1fd318b91233899e22797ea3b5a719ef1609d28c9de07037bb6e4f46614f",
+      "created_at": "2026-11-08T17:04:56Z",
+      "updated_at": "2026-11-08T17:04:56Z",
+      "expires_at": "2026-11-22T17:04:52Z",
+      "workflow_run": {
+        "id": 42485515942,
+        "repository_id": 1345092316,
+        "head_repository_id": 1345092316,
+        "head_branch": "main",
+        "head_sha": "76b232c120674a70bfc3f4afabd31810411a9b03"
+      }
+    },
+    {
+      "id": 13626600642,
+      "node_id": "MDg6QXJ0aWZhY3QxMzYyNjYwMDY0Mg==",
+      "name": "NagramiX-0.9.0-symbols-arm64",
+      "size_in_bytes": 203084268,
+      "url": "https://api.github.com/repos/Mr-EFES/NagramiX/actions/artifacts/13626600642",
+      "archive_download_url": "https://api.github.com/repos/Mr-EFES/NagramiX/actions/artifacts/13626600642/zip",
+      "expired": false,
+      "digest": "sha256:e45d02d67b4d2fe3c68ee79f92642875aa43d1acee30c4900106fdc5dcde13e5",
+      "created_at": "2026-11-08T17:04:28Z",
+      "updated_at": "2026-11-08T17:04:28Z",
+      "expires_at": "2026-11-22T17:04:14Z",
+      "workflow_run": {
+        "id": 42485515942,
+        "repository_id": 1345092316,
+        "head_repository_id": 1345092316,
+        "head_branch": "main",
+        "head_sha": "76b232c120674a70bfc3f4afabd31810411a9b03"
+      }
+    }
+  ],
+  "original_zip": {
+    "file_service_id": "file_000000002204820ab978a51377f95f19",
+    "size": 93425168,
+    "sha256": "cfdd1fd318b91233899e22797ea3b5a719ef1609d28c9de07037bb6e4f46614f",
+    "unchanged_original_archive": true
+  },
+  "ipa_validation_log": "Переводы IPA проверены: 71 языков, по 630 ключей настроек/debug\nIPA проверен: 0.9.0, build 187, iOS15+, ARM64/iPhoneOS файлов 6, RU 15004/630, мелодий 31, иконок 8, checksum/provenance, без профилей\nSHA256: be173c213c97b883d77296369c154300a06911fb9494555b683418cc2e37fe8f; размер: 93819099 байт\n",
+  "validated_package_facts": {
+    "minimum_os": "15.0",
+    "platform": "iPhoneOS",
+    "arm64_macho_files": 6,
+    "ru_base_strings": 15004,
+    "nagramix_keys": 630,
+    "resource_catalogs": 71,
+    "notification_sounds": 31,
+    "app_icons": 8,
+    "embedded_temporary_profiles": false,
+    "signing": "unsigned"
+  },
+  "registry_compile_status_updated": 73,
+  "registry_device_status": "all73device_pending",
+  "failed_attempt": {
+    "number": 186,
+    "run": 42472042232,
+    "fix_source_receipt": "RELEASE_090_SDK186_CHECKS.json",
+    "successful_retry": 187
+  },
+  "checked_application_code_unchanged_after_sdk": true,
+  "checked_code_sha256": {
+    ".github/workflows/build-unsigned-ipa.yml": "01f059877693b48e769ba33310660872a8bdda861a956d519d177fe7de706382",
+    "ios/release_090_author_compile.py": "ea50f7647bea3672b01acc8b83bc905af03aed4c378c900ed1aafc182b4cb8ec",
+    "ios/release_090_author_compile/After0.inc": "76e8bad1438cc04763a46bc13d5779810354e74853ab1ce00ee99a42a821c2d8",
+    "ios/release_090_author_compile/Before0.inc": "e4b987cbd34765fe9cb29c3f2a4581ef17bc6e05ac765fe455b3bad674d809a2",
+    "ios/release_090_author_compile/Guard0.inc": "c819263cd1c2d6407308fe3f172f9f564b40e26f3b688da39739577bae792f52",
+    "ios/release_090_author_compile/Guard1.inc": "869e31310cc925b84ceb827a3c0b8503f3a22614acb4abeeec4a4ad435cf56e2",
+    "ios/release_090_author_compile/Guard10.inc": "55727748205aa6989ab1758ee20bc81274ae0f4df0f89b53c626a62409a82b7a",
+    "ios/release_090_author_compile/Guard11.inc": "e8ff5139c23b9555edf974e106674466cb0ee3ec4a422f95d60029eb945c564c",
+    "ios/release_090_author_compile/Guard12.inc": "25d97ecb7f113d04ceb7b9ecc21bf6c5a0fab4fab86fb99887af5bd5fd3a838d",
+    "ios/release_090_author_compile/Guard13.inc": "6c30b32400dc626fc9b01c5369e65897d3d8039fb0c0fedc8697dd14f82fca9f",
+    "ios/release_090_author_compile/Guard14.inc": "ec162bef39311ab536cd236803394e79b1aa23bb85b021a3f0e1483b8f894e63",
+    "ios/release_090_author_compile/Guard15.inc": "3c3c2dcb3eceeca1d1f2d1bf7d0f80c6d2e48393a9ba9f1c7c9ebd064b5ca790",
+    "ios/release_090_author_compile/Guard2.inc": "70fac4e58cb33b69abc9a60098cb114a9396c03e39d02569f6bdbad5296d07fb",
+    "ios/release_090_author_compile/Guard3.inc": "ffddee32acbc80607fbf5c96ab339a8c600cae57e055337cab8d672c734ff4a7",
+    "ios/release_090_author_compile/Guard4.inc": "ad994763b8a881956c40084903aa07e200db90035842d39b48749a62136b5b83",
+    "ios/release_090_author_compile/Guard5.inc": "7341241f07af85af0753ac9f65e331d3e1e7eeda2bc3635aa73768fdef9b8781",
+    "ios/release_090_author_compile/Guard6.inc": "e235b1de47270479fd071ffae7862136a7e55bed44875fd79ddabe65c57d8674",
+    "ios/release_090_author_compile/Guard7.inc": "ec2710c6e1ec8312743a9f080ad2cf82219330447c3599de3fbf258c799289c9",
+    "ios/release_090_author_compile/Guard8.inc": "67dde4b3214944909e2b06d258157ab428f8d1244708b98ea26f5e0bc4d4fa99",
+    "ios/release_090_author_compile/Guard9.inc": "9df17d845803b1b6272490fc4eabef9b4147a29a268c725211bf27de769331f1",
+    "ios/release_090_author_compile_patches.json": "a274a3dd9f6cbbfac4795719faf94a7885f4e0a05ba7e9cf3270f92acae764d3",
+    "scripts/late_source_stages.py": "c7b8b8f7010133f7b1087e8419e84f264a76944f3ed9115f32659833fa41a187",
+    "scripts/validate_release_090_author_compile.py": "8f52fc92be5afe38af9d61cac931843e95cf89f36434cedcfd1740c28b32239f"
+  },
+  "release_files_not_replaced": true,
+  "not_done": [
+    "Physical iPhone acceptance",
+    "Real Telegram delivery/Keychain/PiP runtime acceptance"
+  ],
+  "next_new_version": "0.9.1_requires_new_personal_command",
+  "symbols": {
+    "file_id": "file_0000000075b881f48f7411a30122534f",
+    "size": 203084268,
+    "sha256": "e45d02d67b4d2fe3c68ee79f92642875aa43d1acee30c4900106fdc5dcde13e5",
+    "artifact_id": 13626600642,
+    "source": "76b232c120674a70bfc3f4afabd31810411a9b03"
+  },
+  "final_metadata_checks": {
+    "release_metadata": "passed",
+    "clean_build_mode": "passed",
+    "diff_check": "passed",
+    "all73_compile_statuses": "compile_passed",
+    "all73_device_statuses": "device_pending",
+    "app_ci_code_unchanged_after_sdk": true
+  }
+}

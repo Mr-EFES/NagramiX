@@ -1,4 +1,16 @@
-# NagramiX 0.9.0 — подготовка исходников
+# NagramiX 0.9.0 — опубликованный релиз
+
+**Команда на выпуск 0.9.0 выполнена: native_compile_passed / package_verified / owner_published / device_pending.** Обычный latest [релиз0.9.0/build187](https://github.com/Mr-EFES/NagramiX/releases/tag/v0.9.0) опубликован8 ноября2026 в17:07:26UTC; [IPA](https://github.com/Mr-EFES/NagramiX/releases/download/v0.9.0/NagramiX-0.9.0-unsigned.ipa), [Actions](https://github.com/Mr-EFES/NagramiX/actions/runs/42485515942). Source/tag `76b232c120674a70bfc3f4afabd31810411a9b03`, Telegram13.2, Xcode27.1, iOS15+/ARM64. Автор и uploader всех трёх файлов — Mr-EFES; source/tag/latest/размеры/SHA256 подтверждены API. Все73 реализованные функции имеют compile_passed, физическая приёмка остаётся pending. Следующая новая версия —0.9.1, только по новой личной команде; успешная публикация исчерпала разрешение на повторы0.9.0. Ниже сохраняется история подготовки, которая не разрешает новый SDK/Actions/rerun.
+
+IPA: **93 819 099 байт**  SHA256 `be173c213c97b883d77296369c154300a06911fb9494555b683418cc2e37fe8f`. Проверены0.9.0/build187  iOS15+/ARM64/iPhoneOS 6 Mach-O  RU15004/630 71 ресурсный каталог по630 ключей 31 мелодия 8 иконок и отсутствие временных профилей. Число каталогов включает варианты и не означает число официальных языков Telegram. IPA не подписан.
+
+Оригинальный ZIP: artifact13626622374,93 425 168байт,SHA256 `cfdd1fd318b91233899e22797ea3b5a719ef1609d28c9de07037bb6e4f46614f`, без перепаковки. Release438390536: IPA724607605, provenance724607609, checksums724607604. Автор всех файлов Mr-EFES, normal/latest и tag подтверждены. Файлы и журналы `/workspace/.codex-release-090/`; [receipt](RELEASE_090_PUBLICATION_CHECKS.json).
+
+186 прошла source/cold gate, но SDK выявил пропущенные import/public alias в «По автору» и timeout большого initializer. Stage12 исправлена и повторно проверена,187 завершилась успешным SDK/пакетом/публикацией. Прежние опубликованные релизы и assets не менялись. [Приёмка на iPhone](DEVICE_CHECK_090.md) ещё предстоит.
+
+Символы именно187: artifact13626600642,203 084 268байт,SHA256 `e45d02d67b4d2fe3c68ee79f92642875aa43d1acee30c4900106fdc5dcde13e5`; сохранены без распаковки в `/workspace/.codex-release-090/symbols-build187.zip`, FileServiceID `file_0000000075b881f48f7411a30122534f`, тот же source/run. Это отдельный диагностический архив, состав трёх release assets не меняется.
+
+## История подготовки0.9.0
 
 **0.9.0/build186: source/cold gate passed, SDK failed, IPA отсутствует.** TelegramUI обнаружил пропущенный import и аннотацию типа в «По автору», а также timeout большого initializer. [Исправление stage12](RELEASE_090_SDK186_FIX.md) проверяется перед разрешённым чистым повтором этой же версии. Сведения ниже о выполняющейся186 исторические. Последним опубликованным остаётся 0.8.9/build185.
 
