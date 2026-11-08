@@ -346,6 +346,8 @@ jobs:
           PYTHONPATH=ios python3 -c 'from pathlib import Path; from release_090_preflight_fixes import apply_release_090_preflight_fixes; apply_release_090_preflight_fixes(Path("Telegram-iOS").resolve(), Path("ios").resolve())'
           python3 scripts/validate_release_090_preflight_fixes.py --source Telegram-iOS --baseline "$RUNNER_TEMP/nagramix-pre-release-090-preflight" --swiftc "$(xcrun --find swiftc)" --report "$RUNNER_TEMP/release-090-preflight-fixes.json"
           python3 scripts/cleanup_source_checkpoint.py --root "$RUNNER_TEMP" --name nagramix-pre-release-090-preflight --active-source Telegram-iOS
+          PYTHONPATH=ios python3 -c 'from pathlib import Path; from release_090_author_compile import apply_release_090_author_compile; apply_release_090_author_compile(Path("Telegram-iOS").resolve(), Path("ios").resolve())'
+          python3 scripts/validate_release_090_author_compile.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)" --report "$RUNNER_TEMP/release-090-author-compile.json"
           python3 scripts/validate_late_source_stages.py --source Telegram-iOS --report "$RUNNER_TEMP/late-source-stages.json"
           python3 scripts/validate_custom_member_references.py --source Telegram-iOS
           python3 scripts/validate_upstream_13_2_release.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)"

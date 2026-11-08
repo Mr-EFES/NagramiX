@@ -1,0 +1,76 @@
+{
+  "inputs": {
+    "submodules/TelegramUI/Sources/Chat/ChatControllerLoadDisplayNode.swift": "e4b987cbd34765fe9cb29c3f2a4581ef17bc6e05ac765fe455b3bad674d809a2"
+  },
+  "outputs": {
+    "submodules/TelegramUI/Sources/Chat/ChatControllerLoadDisplayNode.swift": "76e8bad1438cc04763a46bc13d5779810354e74853ab1ce00ee99a42a821c2d8"
+  },
+  "previous": {
+    "submodules/TelegramUI/Sources/Chat/ChatControllerLoadDisplayNode.swift": "release_090_author_compile/Before0.inc"
+  },
+  "replacements": {
+    "submodules/TelegramUI/Sources/Chat/ChatControllerLoadDisplayNode.swift": "release_090_author_compile/After0.inc"
+  },
+  "guards": {
+    "submodules/TelegramUI/BUILD": "c819263cd1c2d6407308fe3f172f9f564b40e26f3b688da39739577bae792f52",
+    "submodules/NagramiXCore/BUILD": "869e31310cc925b84ceb827a3c0b8503f3a22614acb4abeeec4a4ad435cf56e2",
+    "submodules/NagramiXCore/Sources/NagramiXTabSettings.swift": "70fac4e58cb33b69abc9a60098cb114a9396c03e39d02569f6bdbad5296d07fb",
+    "submodules/TelegramCore/Sources/TelegramEngine/Messages/Message.swift": "ffddee32acbc80607fbf5c96ab339a8c600cae57e055337cab8d672c734ff4a7",
+    "submodules/NagramiXMediaSettings/Sources/NagramiXAdvertisingSettings.swift": "ad994763b8a881956c40084903aa07e200db90035842d39b48749a62136b5b83",
+    "submodules/NagramiXMediaSettings/Sources/NagramiXCallSettings.swift": "7341241f07af85af0753ac9f65e331d3e1e7eeda2bc3635aa73768fdef9b8781",
+    "submodules/NagramiXMediaSettings/Sources/NagramiXDownloadSettings.swift": "e235b1de47270479fd071ffae7862136a7e55bed44875fd79ddabe65c57d8674",
+    "submodules/NagramiXMediaSettings/Sources/NagramiXGhostSettings.swift": "ec2710c6e1ec8312743a9f080ad2cf82219330447c3599de3fbf258c799289c9",
+    "submodules/NagramiXMediaSettings/Sources/NagramiXMediaSettings.swift": "67dde4b3214944909e2b06d258157ab428f8d1244708b98ea26f5e0bc4d4fa99",
+    "submodules/NagramiXMediaSettings/Sources/NagramiXNumberSettings.swift": "9df17d845803b1b6272490fc4eabef9b4147a29a268c725211bf27de769331f1",
+    "submodules/NagramiXMediaSettings/Sources/NagramiXPrivacySettings.swift": "55727748205aa6989ab1758ee20bc81274ae0f4df0f89b53c626a62409a82b7a",
+    "submodules/NagramiXMediaSettings/Sources/NagramiXProxyPreferences.swift": "e8ff5139c23b9555edf974e106674466cb0ee3ec4a422f95d60029eb945c564c",
+    "submodules/NagramiXMediaSettings/Sources/NagramiXReadModeSettings.swift": "25d97ecb7f113d04ceb7b9ecc21bf6c5a0fab4fab86fb99887af5bd5fd3a838d",
+    "submodules/NagramiXMediaSettings/Sources/NagramiXRoundVideoSettings.swift": "6c30b32400dc626fc9b01c5369e65897d3d8039fb0c0fedc8697dd14f82fca9f",
+    "submodules/NagramiXMediaSettings/Sources/NagramiXSendSettings.swift": "ec162bef39311ab536cd236803394e79b1aa23bb85b021a3f0e1483b8f894e63",
+    "submodules/NagramiXMediaSettings/Sources/NagramiXStorySettings.swift": "3c3c2dcb3eceeca1d1f2d1bf7d0f80c6d2e48393a9ba9f1c7c9ebd064b5ca790"
+  },
+  "guard_sources": {
+    "submodules/TelegramUI/BUILD": "release_090_author_compile/Guard0.inc",
+    "submodules/NagramiXCore/BUILD": "release_090_author_compile/Guard1.inc",
+    "submodules/NagramiXCore/Sources/NagramiXTabSettings.swift": "release_090_author_compile/Guard2.inc",
+    "submodules/TelegramCore/Sources/TelegramEngine/Messages/Message.swift": "release_090_author_compile/Guard3.inc",
+    "submodules/NagramiXMediaSettings/Sources/NagramiXAdvertisingSettings.swift": "release_090_author_compile/Guard4.inc",
+    "submodules/NagramiXMediaSettings/Sources/NagramiXCallSettings.swift": "release_090_author_compile/Guard5.inc",
+    "submodules/NagramiXMediaSettings/Sources/NagramiXDownloadSettings.swift": "release_090_author_compile/Guard6.inc",
+    "submodules/NagramiXMediaSettings/Sources/NagramiXGhostSettings.swift": "release_090_author_compile/Guard7.inc",
+    "submodules/NagramiXMediaSettings/Sources/NagramiXMediaSettings.swift": "release_090_author_compile/Guard8.inc",
+    "submodules/NagramiXMediaSettings/Sources/NagramiXNumberSettings.swift": "release_090_author_compile/Guard9.inc",
+    "submodules/NagramiXMediaSettings/Sources/NagramiXPrivacySettings.swift": "release_090_author_compile/Guard10.inc",
+    "submodules/NagramiXMediaSettings/Sources/NagramiXProxyPreferences.swift": "release_090_author_compile/Guard11.inc",
+    "submodules/NagramiXMediaSettings/Sources/NagramiXReadModeSettings.swift": "release_090_author_compile/Guard12.inc",
+    "submodules/NagramiXMediaSettings/Sources/NagramiXRoundVideoSettings.swift": "release_090_author_compile/Guard13.inc",
+    "submodules/NagramiXMediaSettings/Sources/NagramiXSendSettings.swift": "release_090_author_compile/Guard14.inc",
+    "submodules/NagramiXMediaSettings/Sources/NagramiXStorySettings.swift": "release_090_author_compile/Guard15.inc"
+  },
+  "templates": {
+    "release_090_author_compile/Before0.inc": "e4b987cbd34765fe9cb29c3f2a4581ef17bc6e05ac765fe455b3bad674d809a2",
+    "release_090_author_compile/After0.inc": "76e8bad1438cc04763a46bc13d5779810354e74853ab1ce00ee99a42a821c2d8",
+    "release_090_author_compile/Guard0.inc": "c819263cd1c2d6407308fe3f172f9f564b40e26f3b688da39739577bae792f52",
+    "release_090_author_compile/Guard1.inc": "869e31310cc925b84ceb827a3c0b8503f3a22614acb4abeeec4a4ad435cf56e2",
+    "release_090_author_compile/Guard2.inc": "70fac4e58cb33b69abc9a60098cb114a9396c03e39d02569f6bdbad5296d07fb",
+    "release_090_author_compile/Guard3.inc": "ffddee32acbc80607fbf5c96ab339a8c600cae57e055337cab8d672c734ff4a7",
+    "release_090_author_compile/Guard4.inc": "ad994763b8a881956c40084903aa07e200db90035842d39b48749a62136b5b83",
+    "release_090_author_compile/Guard5.inc": "7341241f07af85af0753ac9f65e331d3e1e7eeda2bc3635aa73768fdef9b8781",
+    "release_090_author_compile/Guard6.inc": "e235b1de47270479fd071ffae7862136a7e55bed44875fd79ddabe65c57d8674",
+    "release_090_author_compile/Guard7.inc": "ec2710c6e1ec8312743a9f080ad2cf82219330447c3599de3fbf258c799289c9",
+    "release_090_author_compile/Guard8.inc": "67dde4b3214944909e2b06d258157ab428f8d1244708b98ea26f5e0bc4d4fa99",
+    "release_090_author_compile/Guard9.inc": "9df17d845803b1b6272490fc4eabef9b4147a29a268c725211bf27de769331f1",
+    "release_090_author_compile/Guard10.inc": "55727748205aa6989ab1758ee20bc81274ae0f4df0f89b53c626a62409a82b7a",
+    "release_090_author_compile/Guard11.inc": "e8ff5139c23b9555edf974e106674466cb0ee3ec4a422f95d60029eb945c564c",
+    "release_090_author_compile/Guard12.inc": "25d97ecb7f113d04ceb7b9ecc21bf6c5a0fab4fab86fb99887af5bd5fd3a838d",
+    "release_090_author_compile/Guard13.inc": "6c30b32400dc626fc9b01c5369e65897d3d8039fb0c0fedc8697dd14f82fca9f",
+    "release_090_author_compile/Guard14.inc": "ec162bef39311ab536cd236803394e79b1aa23bb85b021a3f0e1483b8f894e63",
+    "release_090_author_compile/Guard15.inc": "3c3c2dcb3eceeca1d1f2d1bf7d0f80c6d2e48393a9ba9f1c7c9ebd064b5ca790"
+  },
+  "copies": {},
+  "deletions": {},
+  "native_inputs": {},
+  "required_previous_stage": "release_090_preflight_fixes",
+  "target_pin": "24638bc69bd083981b178dd1e7f921eebbf7fc46",
+  "overlay_base_pin": "279f89e4d4f63f17227bf877dc3d8990f22ecd58"
+}

@@ -1,0 +1,321 @@
+{
+  "task": "sdk186_author_selection_module_boundary_fix",
+  "version": "0.9.0",
+  "recorded_at_utc": "2026-11-08T13:32:03.551668+00:00",
+  "status": "source_checked_native_retry_required",
+  "failed_sdk": {
+    "run_id": 42472042232,
+    "build": 186,
+    "source": "08550222185d4d27cc17eb6f0bb66094ca2771ac",
+    "source_gate": "success",
+    "cold_gate": "success",
+    "sdk": "failure",
+    "ipa": "not_created",
+    "log_sha256": "8a14c91105bd694247353aee66a7e3fc005604810a5780f0f35b29594bc8388a",
+    "diagnostics": [
+      "NagramiXTabSettings not in scope (two lines)",
+      "MessageId not in scope",
+      "compiler typecheck time limit in giant interface initializer"
+    ]
+  },
+  "authorization": "Owner authorized clean0.9.0 builds, checked fixes and retries until successful IPA and normal owner publication; no additional retry approval required.",
+  "stage": "release_090_author_compile",
+  "previous_stage": "release_090_preflight_fixes",
+  "source": "/workspace/.codex-release-090/fix186/source",
+  "input_application_sha256": {
+    "submodules/TelegramUI/Sources/Chat/ChatControllerLoadDisplayNode.swift": "e4b987cbd34765fe9cb29c3f2a4581ef17bc6e05ac765fe455b3bad674d809a2"
+  },
+  "output_application_sha256": {
+    "submodules/TelegramUI/Sources/Chat/ChatControllerLoadDisplayNode.swift": "76e8bad1438cc04763a46bc13d5779810354e74853ab1ce00ee99a42a821c2d8"
+  },
+  "dependency_guards": {
+    "submodules/TelegramUI/BUILD": "c819263cd1c2d6407308fe3f172f9f564b40e26f3b688da39739577bae792f52",
+    "submodules/NagramiXCore/BUILD": "869e31310cc925b84ceb827a3c0b8503f3a22614acb4abeeec4a4ad435cf56e2",
+    "submodules/NagramiXCore/Sources/NagramiXTabSettings.swift": "70fac4e58cb33b69abc9a60098cb114a9396c03e39d02569f6bdbad5296d07fb",
+    "submodules/TelegramCore/Sources/TelegramEngine/Messages/Message.swift": "ffddee32acbc80607fbf5c96ab339a8c600cae57e055337cab8d672c734ff4a7",
+    "submodules/NagramiXMediaSettings/Sources/NagramiXAdvertisingSettings.swift": "ad994763b8a881956c40084903aa07e200db90035842d39b48749a62136b5b83",
+    "submodules/NagramiXMediaSettings/Sources/NagramiXCallSettings.swift": "7341241f07af85af0753ac9f65e331d3e1e7eeda2bc3635aa73768fdef9b8781",
+    "submodules/NagramiXMediaSettings/Sources/NagramiXDownloadSettings.swift": "e235b1de47270479fd071ffae7862136a7e55bed44875fd79ddabe65c57d8674",
+    "submodules/NagramiXMediaSettings/Sources/NagramiXGhostSettings.swift": "ec2710c6e1ec8312743a9f080ad2cf82219330447c3599de3fbf258c799289c9",
+    "submodules/NagramiXMediaSettings/Sources/NagramiXMediaSettings.swift": "67dde4b3214944909e2b06d258157ab428f8d1244708b98ea26f5e0bc4d4fa99",
+    "submodules/NagramiXMediaSettings/Sources/NagramiXNumberSettings.swift": "9df17d845803b1b6272490fc4eabef9b4147a29a268c725211bf27de769331f1",
+    "submodules/NagramiXMediaSettings/Sources/NagramiXPrivacySettings.swift": "55727748205aa6989ab1758ee20bc81274ae0f4df0f89b53c626a62409a82b7a",
+    "submodules/NagramiXMediaSettings/Sources/NagramiXProxyPreferences.swift": "e8ff5139c23b9555edf974e106674466cb0ee3ec4a422f95d60029eb945c564c",
+    "submodules/NagramiXMediaSettings/Sources/NagramiXReadModeSettings.swift": "25d97ecb7f113d04ceb7b9ecc21bf6c5a0fab4fab86fb99887af5bd5fd3a838d",
+    "submodules/NagramiXMediaSettings/Sources/NagramiXRoundVideoSettings.swift": "6c30b32400dc626fc9b01c5369e65897d3d8039fb0c0fedc8697dd14f82fca9f",
+    "submodules/NagramiXMediaSettings/Sources/NagramiXSendSettings.swift": "ec162bef39311ab536cd236803394e79b1aa23bb85b021a3f0e1483b8f894e63",
+    "submodules/NagramiXMediaSettings/Sources/NagramiXStorySettings.swift": "3c3c2dcb3eceeca1d1f2d1bf7d0f80c6d2e48393a9ba9f1c7c9ebd064b5ca790"
+  },
+  "new_feature_checks": {
+    "stage": "release_090_author_compile",
+    "source_output_sha256": {
+      "submodules/TelegramUI/Sources/Chat/ChatControllerLoadDisplayNode.swift": "76e8bad1438cc04763a46bc13d5779810354e74853ab1ce00ee99a42a821c2d8"
+    },
+    "guards": 16,
+    "fail_closed": 12,
+    "api_boundary": {
+      "actual_media_files": 12,
+      "actual_settings_file": "submodules/NagramiXCore/Sources/NagramiXTabSettings.swift",
+      "native_alias": "public typealias Id = MessageId",
+      "native_peer_alias": "public typealias Id = PeerId",
+      "native_peer_protected_by_post_plan": true,
+      "cases": [
+        {
+          "mode": "debug",
+          "case": "production-imports",
+          "expected_diagnostic": null
+        },
+        {
+          "mode": "debug",
+          "case": "missing-settings-import",
+          "expected_diagnostic": "cannot find 'NagramiXTabSettings'"
+        },
+        {
+          "mode": "debug",
+          "case": "private-postbox-name",
+          "expected_diagnostic": "cannot find type 'MessageId'"
+        },
+        {
+          "mode": "optimized",
+          "case": "production-imports",
+          "expected_diagnostic": null
+        },
+        {
+          "mode": "optimized",
+          "case": "missing-settings-import",
+          "expected_diagnostic": "cannot find 'NagramiXTabSettings'"
+        },
+        {
+          "mode": "optimized",
+          "case": "private-postbox-name",
+          "expected_diagnostic": "cannot find type 'MessageId'"
+        }
+      ],
+      "boundary": "Actual settings files compile as independent modules. Postbox backing storage is an explicit adapter; no UIKit/Apple SDK typecheck is claimed."
+    },
+    "author_behavior": [
+      {
+        "mode": "debug",
+        "case": "production",
+        "production_assertions": 34
+      },
+      {
+        "mode": "debug",
+        "case": "stale-archive",
+        "production_assertions": 0
+      },
+      {
+        "mode": "debug",
+        "case": "late-local-deletion",
+        "production_assertions": 0
+      },
+      {
+        "mode": "optimized",
+        "case": "production",
+        "production_assertions": 34
+      },
+      {
+        "mode": "optimized",
+        "case": "stale-archive",
+        "production_assertions": 0
+      },
+      {
+        "mode": "optimized",
+        "case": "late-local-deletion",
+        "production_assertions": 0
+      }
+    ],
+    "source_files_unchanged_during_checks": 37655,
+    "swift_parse": 1,
+    "native_postbox_import_check": "passed",
+    "whole_module_sdk": "pending",
+    "physical_iphone": "pending",
+    "sdk186_typecheck_timeout": "Handler extracted out of the giant initializer; native SDK retry remains required."
+  },
+  "global_gate": {
+    "target_pin": "24638bc69bd083981b178dd1e7f921eebbf7fc46",
+    "pre_replacements": 196,
+    "post_replacements": 274,
+    "deleted_obsolete_files": 2,
+    "fail_closed": {
+      "pre": 17,
+      "post": 33
+    },
+    "parsed_swift": 451,
+    "executions": [
+      "current-debug: PiP playback command checks: 113",
+      "current-O: PiP playback command checks: 113",
+      "previous-native-debug: Native PiP baseline checks: 37",
+      "previous-native-O: Native PiP baseline checks: 37",
+      "previous-caption-debug: Round caption transport checks: 118",
+      "previous-caption-O: Round caption transport checks: 118",
+      "previous-composer-debug: Repost copy integrity checks: 48",
+      "previous-composer-O: Repost copy integrity checks: 48",
+      "old-toggle-command-debug: regression reproduced and rejected",
+      "old-toggle-command-O: regression reproduced and rejected",
+      "cached-status-toggle-debug: regression reproduced and rejected",
+      "cached-status-toggle-O: regression reproduced and rejected",
+      "inverted-command-debug: regression reproduced and rejected",
+      "inverted-command-O: regression reproduced and rejected"
+    ],
+    "historical_runtime_boundary": "exact published bytes after verified inverse of all registered late source stages",
+    "late_source_stages": [
+      "wide_bottom_bar",
+      "author_selection_no_restore",
+      "preview_reply_intent",
+      "cloud_credential_entry",
+      "extended_poll_integrity",
+      "bot_delete_without_block",
+      "wide_tab_bar_setting",
+      "pip_swipe_handoff",
+      "temporary_message_interaction",
+      "account_settings_entry",
+      "release_090_preflight_fixes",
+      "release_090_author_compile"
+    ],
+    "native_postbox_imports": "passed",
+    "apple_sdk": "pending",
+    "device": "pending"
+  },
+  "inverse": {
+    "late_source_stages": [
+      "wide_bottom_bar",
+      "author_selection_no_restore",
+      "preview_reply_intent",
+      "cloud_credential_entry",
+      "extended_poll_integrity",
+      "bot_delete_without_block",
+      "wide_tab_bar_setting",
+      "pip_swipe_handoff",
+      "temporary_message_interaction",
+      "account_settings_entry",
+      "release_090_preflight_fixes",
+      "release_090_author_compile"
+    ],
+    "published_contract_paths": 666,
+    "actual_published_pipeline_compared": true,
+    "full_source_files_preserved": 37655,
+    "introduced_helpers_absent_from_history": [
+      "submodules/TelegramUI/Sources/Chat/NagramiXTemporaryReplySend.swift"
+    ],
+    "pre_ninth_checkpoint_verified": true,
+    "pre_tenth_checkpoint_verified": true,
+    "pre_eleventh_checkpoint_verified": true,
+    "pre_eleventh_inputs_restored": [
+      "submodules/TelegramCore/Sources/Utils/NagramiXMessageArchive.swift",
+      "submodules/TelegramUI/Sources/Chat/ChatControllerLoadDisplayNode.swift"
+    ],
+    "negative_projection_verified_before_mutation": true,
+    "fail_closed": [
+      "wide_bottom_bar/output-drift",
+      "author_selection_no_restore/output-drift",
+      "preview_reply_intent/output-drift",
+      "cloud_credential_entry/output-drift",
+      "extended_poll_integrity/output-drift",
+      "bot_delete_without_block/output-drift",
+      "wide_tab_bar_setting/output-drift",
+      "pip_swipe_handoff/output-drift",
+      "temporary_message_interaction/output-drift",
+      "account_settings_entry/output-drift",
+      "release_090_preflight_fixes/output-drift",
+      "release_090_author_compile/output-drift",
+      "native-guard-missing",
+      "copied-helper-drift",
+      "copied-helper-missing",
+      "copied-helper-external-symlink",
+      "template-drift-before-inverse",
+      "pip_swipe_handoff/previous-stage-missing",
+      "pip_swipe_handoff/previous-stage-drift",
+      "temporary_message_interaction/previous-stage-missing",
+      "temporary_message_interaction/previous-stage-drift",
+      "account_settings_entry/previous-stage-missing",
+      "account_settings_entry/previous-stage-drift",
+      "release_090_preflight_fixes/previous-stage-missing",
+      "release_090_preflight_fixes/previous-stage-drift",
+      "release_090_author_compile/previous-stage-missing",
+      "release_090_author_compile/previous-stage-drift",
+      "wide_bottom_bar/native-blob-proof-missing",
+      "wide_bottom_bar/native-blob-drift/submodules/TelegramUI/Components/TabBarComponent/Sources/TabBarComponent.swift",
+      "temporary_message_interaction/native-blob-proof-missing",
+      "temporary_message_interaction/native-blob-drift/submodules/GalleryData/Sources/GalleryData.swift",
+      "temporary_message_interaction/native-blob-drift/submodules/TelegramCore/Sources/State/ManagedSecretChatOutgoingOperations.swift",
+      "temporary_message_interaction/native-blob-drift/submodules/TelegramCore/Sources/State/ProcessSecretChatIncomingDecryptedOperations.swift",
+      "temporary_message_interaction/native-blob-drift/submodules/TelegramUI/Components/Chat/ChatMessageReplyInfoNode/Sources/ChatMessageReplyInfoNode.swift",
+      "temporary_message_interaction/native-blob-drift/submodules/TelegramUI/Components/Chat/ReplyAccessoryPanelNode/Sources/ReplyAccessoryPanelNode.swift",
+      "account_settings_entry/native-blob-proof-missing",
+      "account_settings_entry/native-blob-drift/submodules/SettingsUI/Sources/Search/SettingsSearchableItems.swift"
+    ],
+    "sdk": "not_run",
+    "device": "pending"
+  },
+  "fresh_replay": {
+    "actual_fresh_loader": "passed",
+    "files": 37655,
+    "differences": 0,
+    "old_baseline_preserved": true
+  },
+  "custom_members_canonical": {
+    "swift_files": 195,
+    "string_accesses": 755,
+    "distinct_string_members": 203,
+    "actual_string_declarations": 245,
+    "custom_declarations": 678,
+    "full_custom_name_audit": false
+  },
+  "custom_members_full": {
+    "swift_files": 7321,
+    "string_accesses": 848,
+    "distinct_string_members": 230,
+    "actual_string_declarations": 245,
+    "custom_declarations": 810,
+    "full_custom_name_audit": true
+  },
+  "localization": {
+    "settings_source_files": 114,
+    "source_calls": 611,
+    "resource_catalogs": 71,
+    "keys": 630,
+    "lookups_per_mode": 44899,
+    "log_sha256": "2f2494e5b15bc5cf19662197694d5da258d24908738729c65e533f63e9c01d48",
+    "new_strings": 0
+  },
+  "historical_snapshots_preserved": 2092,
+  "checked_code_sha256": {
+    ".github/workflows/build-unsigned-ipa.yml": "01f059877693b48e769ba33310660872a8bdda861a956d519d177fe7de706382",
+    "ios/release_090_author_compile.py": "ea50f7647bea3672b01acc8b83bc905af03aed4c378c900ed1aafc182b4cb8ec",
+    "ios/release_090_author_compile/After0.inc": "76e8bad1438cc04763a46bc13d5779810354e74853ab1ce00ee99a42a821c2d8",
+    "ios/release_090_author_compile/Before0.inc": "e4b987cbd34765fe9cb29c3f2a4581ef17bc6e05ac765fe455b3bad674d809a2",
+    "ios/release_090_author_compile/Guard0.inc": "c819263cd1c2d6407308fe3f172f9f564b40e26f3b688da39739577bae792f52",
+    "ios/release_090_author_compile/Guard1.inc": "869e31310cc925b84ceb827a3c0b8503f3a22614acb4abeeec4a4ad435cf56e2",
+    "ios/release_090_author_compile/Guard10.inc": "55727748205aa6989ab1758ee20bc81274ae0f4df0f89b53c626a62409a82b7a",
+    "ios/release_090_author_compile/Guard11.inc": "e8ff5139c23b9555edf974e106674466cb0ee3ec4a422f95d60029eb945c564c",
+    "ios/release_090_author_compile/Guard12.inc": "25d97ecb7f113d04ceb7b9ecc21bf6c5a0fab4fab86fb99887af5bd5fd3a838d",
+    "ios/release_090_author_compile/Guard13.inc": "6c30b32400dc626fc9b01c5369e65897d3d8039fb0c0fedc8697dd14f82fca9f",
+    "ios/release_090_author_compile/Guard14.inc": "ec162bef39311ab536cd236803394e79b1aa23bb85b021a3f0e1483b8f894e63",
+    "ios/release_090_author_compile/Guard15.inc": "3c3c2dcb3eceeca1d1f2d1bf7d0f80c6d2e48393a9ba9f1c7c9ebd064b5ca790",
+    "ios/release_090_author_compile/Guard2.inc": "70fac4e58cb33b69abc9a60098cb114a9396c03e39d02569f6bdbad5296d07fb",
+    "ios/release_090_author_compile/Guard3.inc": "ffddee32acbc80607fbf5c96ab339a8c600cae57e055337cab8d672c734ff4a7",
+    "ios/release_090_author_compile/Guard4.inc": "ad994763b8a881956c40084903aa07e200db90035842d39b48749a62136b5b83",
+    "ios/release_090_author_compile/Guard5.inc": "7341241f07af85af0753ac9f65e331d3e1e7eeda2bc3635aa73768fdef9b8781",
+    "ios/release_090_author_compile/Guard6.inc": "e235b1de47270479fd071ffae7862136a7e55bed44875fd79ddabe65c57d8674",
+    "ios/release_090_author_compile/Guard7.inc": "ec2710c6e1ec8312743a9f080ad2cf82219330447c3599de3fbf258c799289c9",
+    "ios/release_090_author_compile/Guard8.inc": "67dde4b3214944909e2b06d258157ab428f8d1244708b98ea26f5e0bc4d4fa99",
+    "ios/release_090_author_compile/Guard9.inc": "9df17d845803b1b6272490fc4eabef9b4147a29a268c725211bf27de769331f1",
+    "ios/release_090_author_compile_patches.json": "a274a3dd9f6cbbfac4795719faf94a7885f4e0a05ba7e9cf3270f92acae764d3",
+    "scripts/late_source_stages.py": "c7b8b8f7010133f7b1087e8419e84f264a76944f3ed9115f32659833fa41a187",
+    "scripts/validate_release_090_author_compile.py": "8f52fc92be5afe38af9d61cac931843e95cf89f36434cedcfd1740c28b32239f"
+  },
+  "limits": [
+    "Actual settings files and native aliases cross module boundaries in the new probe. Backing Postbox storage and UI/runtime scheduling remain explicit adapters.",
+    "Extracting the author handler reduces the SDK-reported giant expression; this is not a successful Apple SDK retry yet.",
+    "Physical iPhone acceptance is pending."
+  ],
+  "static": {
+    "manual_only": true,
+    "bash_blocks": 19,
+    "python_syntax": 523,
+    "metadata": "passed",
+    "clean_release_mode": "passed",
+    "diff_check": "passed"
+  }
+}
