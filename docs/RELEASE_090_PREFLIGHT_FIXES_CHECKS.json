@@ -4,7 +4,7 @@
   "version": "0.9.0",
   "recorded_at_utc": "2026-11-08T10:11:04.145375+00:00",
   "status": "source_checked",
-  "whole_main_audit": "historical_direct_runtime_in_progress; readiness not yet declared",
+  "whole_main_audit": "completed; source ready for separately authorized SDK build; four Apple-framework suites and whole-module SDK/iPhone remain pending; see SOURCE_PREFLIGHT_090_CHECKS.json",
   "authorization": "Checked fixes are saved to main under standing owner instruction. No SDK, Actions, app build, IPA or publication.",
   "target_pin": "24638bc69bd083981b178dd1e7f921eebbf7fc46",
   "modified_application_sha256": {
