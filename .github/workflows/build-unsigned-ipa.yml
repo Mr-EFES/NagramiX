@@ -332,6 +332,9 @@ jobs:
           python3 -c 'import os, shutil; from pathlib import Path; shutil.copytree("Telegram-iOS", Path(os.environ["RUNNER_TEMP"]) / "nagramix-pre-pip", symlinks=True)'
           PYTHONPATH=ios python3 -c 'from pathlib import Path; from pip_swipe_handoff import apply_pip_swipe_handoff; apply_pip_swipe_handoff(Path("Telegram-iOS").resolve(), Path("ios").resolve())'
           python3 scripts/validate_pip_swipe_handoff.py --source Telegram-iOS --baseline "$RUNNER_TEMP/nagramix-pre-pip" --integrated --swiftc "$(xcrun --find swiftc)" --report "$RUNNER_TEMP/pip-swipe-handoff.json"
+          python3 -c 'import os, shutil; from pathlib import Path; shutil.copytree("Telegram-iOS", Path(os.environ["RUNNER_TEMP"]) / "nagramix-pre-temporary-interaction", symlinks=True)'
+          PYTHONPATH=ios python3 -c 'from pathlib import Path; from temporary_message_interaction import apply_temporary_message_interaction; apply_temporary_message_interaction(Path("Telegram-iOS").resolve(), Path("ios").resolve())'
+          python3 scripts/validate_temporary_message_interaction.py --source Telegram-iOS --baseline "$RUNNER_TEMP/nagramix-pre-temporary-interaction" --swiftc "$(xcrun --find swiftc)" --report "$RUNNER_TEMP/temporary-message-interaction.json"
           python3 scripts/validate_late_source_stages.py --source Telegram-iOS --report "$RUNNER_TEMP/late-source-stages.json"
           python3 scripts/validate_custom_member_references.py --source Telegram-iOS
           python3 scripts/validate_upstream_13_2_release.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)"

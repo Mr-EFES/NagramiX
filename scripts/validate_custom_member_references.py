@@ -46,6 +46,7 @@ def canonical_texts():
     sources = dict(post['replacements'])
     for plan in plans:
         sources.update(plan['replacements'])
+        sources.update({name: item['source'] for name, item in plan['copies'].items()})
     missing = {expected[name] for name in (STRINGS, RESOLVER) if name not in sources}
     by_hash = {}
     for path in [*OVERLAY.rglob('*.inc'), *OVERLAY.rglob('*.swift')]:

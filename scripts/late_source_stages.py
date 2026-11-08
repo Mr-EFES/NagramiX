@@ -22,7 +22,30 @@ LATE_SOURCE_STAGES = (
     'bot_delete_without_block',
     'wide_tab_bar_setting',
     'pip_swipe_handoff',
+    'temporary_message_interaction',
 )
+TEMPORARY_INTERACTION_STAGE = 'temporary_message_interaction'
+TEMPORARY_REPLY_HELPER = 'submodules/TelegramUI/Sources/Chat/NagramiXTemporaryReplySend.swift'
+TEMPORARY_REPLY_BUILD = 'submodules/TelegramUI/BUILD'
+TEMPORARY_REPLY_BUILD_SHA = 'c819263cd1c2d6407308fe3f172f9f564b40e26f3b688da39739577bae792f52'
+
+
+def copy_outputs(plan):
+    return {name: item['sha256'] for name, item in plan['copies'].items()}
+
+
+def check_copy_contract(stage, plan):
+    """Only stage nine may introduce the one source covered by the native glob."""
+    assert not plan['deletions'], stage
+    if stage != TEMPORARY_INTERACTION_STAGE:
+        assert not plan['copies'], stage
+        return
+    assert plan['required_previous_stage'] == 'pip_swipe_handoff', stage
+    assert set(plan['copies']) == {TEMPORARY_REPLY_HELPER}, 'Unexpected temporary interaction copy'
+    assert plan['guards'].get(TEMPORARY_REPLY_BUILD) == TEMPORARY_REPLY_BUILD_SHA, 'Temporary reply helper lacks exact BUILD glob guard'
+    item = plan['copies'][TEMPORARY_REPLY_HELPER]
+    assert set(item) == {'source', 'sha256'}, 'Invalid temporary reply copy record'
+    assert plan['templates'].get(item['source']) == item['sha256'], 'Temporary reply copy template is not pinned'
 
 
 def digest(data):
@@ -34,8 +57,9 @@ def checked_late_plans():
     from validate_upstream_13_2_release import checked_plan
     plans = [checked_plan(stage) for stage in LATE_SOURCE_STAGES]
     for stage, plan in zip(LATE_SOURCE_STAGES, plans):
-        assert not plan['copies'] and not plan['deletions'], stage
-    assert plans[-1]['required_previous_stage'] == LATE_SOURCE_STAGES[-2]
+        check_copy_contract(stage, plan)
+    for index in (7, 8):
+        assert plans[index]['required_previous_stage'] == LATE_SOURCE_STAGES[index - 1]
     return plans
 
 
@@ -44,13 +68,16 @@ def verified_prefix(source, plans=None):
     plans = checked_late_plans() if plans is None else plans
     count = 0
     for index in range(len(plans) - 1, -1, -1):
-        outputs = plans[index]['outputs']
+        outputs = {**plans[index]['outputs'], **copy_outputs(plans[index])}
         if outputs and all((source / name).is_file()
                            and digest((source / name).read_bytes()) == value
                            for name, value in outputs.items()):
             count = index + 1
             break
     if not count:
+        for plan in plans:
+            for name in plan['copies']:
+                assert not (source / name).exists() and not (source / name).is_symlink(), 'Helper exists without its source stage: ' + name
         return 0
     expected = {}
     for plan in plans[:count]:
@@ -59,8 +86,15 @@ def verified_prefix(source, plans=None):
                 assert expected[name] == value, 'Broken late source chain: ' + name
         expected.update(plan['guards'])
         expected.update(plan['outputs'])
+        expected.update(copy_outputs(plan))
     for name, value in expected.items():
         assert (source / name).is_file() and digest((source / name).read_bytes()) == value, 'Late source checkpoint differs: ' + name
+    for plan in plans[:count]:
+        for name in plan['copies']:
+            assert not (source / name).is_symlink(), 'Copied helper is not a regular source: ' + name
+    for plan in plans[count:]:
+        for name in plan['copies']:
+            assert not (source / name).exists() and not (source / name).is_symlink(), 'Future helper exists before its source stage: ' + name
     return count
 
 
@@ -97,14 +131,17 @@ def historical_source(source, before_stage=None):
         yield source
         return
     overrides = {}
+    removed = set()
 
     def data(name):
+        assert name not in removed, 'Historical source unexpectedly depends on a removed helper: ' + name
         return overrides[name] if name in overrides else (source / name).read_bytes()
 
     for index in range(count - 1, stop - 1, -1):
         plan = plans[index]
-        for name, value in {**plan['outputs'], **plan['guards']}.items():
+        for name, value in {**plan['outputs'], **plan['guards'], **copy_outputs(plan)}.items():
             assert digest(data(name)) == value, 'Cannot reverse ' + LATE_SOURCE_STAGES[index] + ': ' + name
+        removed.update(plan['copies'])
         for name, template in plan['previous'].items():
             previous = (OVERLAY / template).read_bytes()
             assert digest(previous) == plan['inputs'][name], name
@@ -112,6 +149,8 @@ def historical_source(source, before_stage=None):
     with tempfile.TemporaryDirectory(prefix='nagramix-late-source-prior-') as temporary:
         prior = Path(temporary)
         for name in validation_names():
+            if name in removed:
+                continue
             path = source / name
             if name in overrides or path.is_file():
                 target = prior / name
@@ -120,4 +159,6 @@ def historical_source(source, before_stage=None):
                 target.write_bytes(data(name))
         for name, previous in overrides.items():
             assert (prior / name).read_bytes() == previous, name
+        for name in removed:
+            assert not (prior / name).exists() and not (prior / name).is_symlink(), name
         yield prior

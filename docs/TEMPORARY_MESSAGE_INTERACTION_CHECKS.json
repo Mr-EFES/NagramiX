@@ -1,0 +1,1299 @@
+{
+  "task": "temporary_message_interaction",
+  "task_number": 9,
+  "version": "0.9.0",
+  "recorded_at_utc": "2026-11-08T08:33:58.852046+00:00",
+  "status": "source_checked",
+  "base_main": "8f3f7382e1f732c71c181df55f19d121aeb2a205",
+  "target_pin": "24638bc69bd083981b178dd1e7f921eebbf7fc46",
+  "overlay_base_pin": "279f89e4d4f63f17227bf877dc3d8990f22ecd58",
+  "authorization": "Commit/push checked task to main under standing owner instruction. No SDK, Actions, IPA or release authorization for this task.",
+  "decisions": {
+    "all_temporary_including_secret_text_documents": true,
+    "deleted_reply": "Real retained file as ordinary signed-author copy alongside reply; no invalid server reply ID",
+    "secret_text": "Suppress secret chat read-history receipts while TEMP ON so text TTL does not begin",
+    "off": "Preserve native future actions, do not backfill private reads silently"
+  },
+  "manifest_sha256": "62f821eaeda771d45058dece9f324c5683ee1d7f4a421003538b30848f261188",
+  "modified_application_sha256": {
+    "submodules/GalleryData/Sources/GalleryData.swift": "e3ff3b4a250f667e129bb876df746bdb7cc7d823d9a68c6628ed8bb306ccf961",
+    "submodules/NagramiXTranscription/Sources/Runtime.swift": "e82c7b928ab72f9e3aa8e43afb12d8a3a2cdaf3ea20710b66d3ade3558e3ffeb",
+    "submodules/TelegramCore/Sources/State/AccountViewTracker.swift": "d711817c36850b7332cead2ce0b51669f01c68fd6be4ae851cfeee0ae76ff1c8",
+    "submodules/TelegramCore/Sources/State/ManagedConsumePersonalMessagesActions.swift": "7044329bc98df033c72f10118afc92d3e07231e728ec80c2d09413c6a562db65",
+    "submodules/TelegramCore/Sources/State/ManagedSecretChatOutgoingOperations.swift": "8ccf31e6f2bfe5a93ecad52a533186e7b2b2dab1a6d4cdb716e8259dc646d571",
+    "submodules/TelegramCore/Sources/State/ManagedSynchronizeConsumeMessageContentsOperations.swift": "6835b27f67d58d0c235b1106b7716a4042fe3509e441ce13878379331e09c37b",
+    "submodules/TelegramCore/Sources/State/ManagedSynchronizeMarkAllUnseenPersonalMessagesOperations.swift": "0093761168fc0f4298ee4aaf570b61078b22ca1c9a56b7cdd9af495926f4a546",
+    "submodules/TelegramCore/Sources/State/ProcessSecretChatIncomingDecryptedOperations.swift": "53a6123da869fc96c129eea27ba03c1398bc23a2104a7fa4915c026d0bab6e17",
+    "submodules/TelegramCore/Sources/State/Sync/StateReplay+Messages.swift": "14484111f6c117cc9c37397d9317a2bb82ad23cc5b0402da8feabb2ca096c583",
+    "submodules/TelegramCore/Sources/State/SynchronizePeerReadState.swift": "799209ebea265e540fe22c677f5c9654d4032610fddf5446d1db4575e6715e1d",
+    "submodules/TelegramCore/Sources/TelegramEngine/Messages/ApplyMaxReadIndexInteractively.swift": "2c5b45b15e57c0eeca9c0a2ed2ded3f0ff96d35605e75bd2b16e320a111f2e69",
+    "submodules/TelegramCore/Sources/TelegramEngine/Messages/MarkMessageContentAsConsumedInteractively.swift": "b49f7d7be8171b43eb707ee171667fe3bbdca917d3599d5817b28a1342bb1ff7",
+    "submodules/TelegramCore/Sources/TelegramEngine/Messages/NagramiXLocalMessageData.swift": "a3628f19e16174db14917393ec14373fec7c4923843b01cf7d82d579c4f72a23",
+    "submodules/TelegramCore/Sources/TelegramEngine/Messages/TelegramEngineMessages.swift": "1f9ea5c7cd9b4fa2601ecafa478f10e99241235f06e982809575d8b67bfe00b0",
+    "submodules/TelegramCore/Sources/Utils/NagramiXCaptureProtectionPolicy.swift": "3a101a9df4262f9eea878273ddeb8d4438c777611b66febb5b3b979c2b281f45",
+    "submodules/TelegramCore/Sources/Utils/NagramiXMessageArchive.swift": "810c5de70671af00ee1de7eebfd595bae461654d9b35851aa4de5f2291a0f6e8",
+    "submodules/TelegramUI/Components/Chat/ChatMessageInstantVideoBubbleContentNode/Sources/ChatMessageInstantVideoBubbleContentNode.swift": "5c5002093df9d3bd698eca74dd9ac3c7265e87360e2e498157c847c33d73a75c",
+    "submodules/TelegramUI/Components/Chat/ChatMessageInteractiveInstantVideoNode/Sources/ChatMessageInteractiveInstantVideoNode.swift": "7b540c53c3a06b6280f25774d6c865dee01fb0d27541212aa17bbcdf321db8ef",
+    "submodules/TelegramUI/Components/Chat/ChatMessageReplyInfoNode/Sources/ChatMessageReplyInfoNode.swift": "59278f8773caa3cf5cb64c533d1fde1c1dadc7533d94d0c5720c512ba61178e6",
+    "submodules/TelegramUI/Components/Chat/ReplyAccessoryPanelNode/Sources/ReplyAccessoryPanelNode.swift": "4d88e9071d0e791b18f7754324c6247377c7218a3225a7cb6ee225ee104505f5",
+    "submodules/TelegramUI/Sources/Chat/ChatControllerLoadDisplayNode.swift": "8d8fa8354773e873603e49c654cefe946a6de96a0222d14dfc1353ddd58debf1",
+    "submodules/TelegramUI/Sources/Chat/ChatControllerOpenViewOnceMediaMessage.swift": "69e723126c40cc2c73d1fdd614289a3924a229aa59f8ee938ee50405475949db",
+    "submodules/TelegramUI/Sources/ChatControllerAdminBanUsers.swift": "b6303b593b5bdbd74c2b15f0fdf3c324fefb13f1a510c3ef11c675ebf7af386f",
+    "submodules/TelegramUI/Sources/ChatControllerForwardMessages.swift": "fe0c25f4597fa5cfc92aa5962a20aa0cd32a28ec7d76494aa2d84701b09382a0",
+    "submodules/TelegramUI/Sources/ChatControllerNode.swift": "5e6a331eb82d009a58bf32a20d7c8a2b69b669c9400ed3c0226e145feb62b4f3",
+    "submodules/TelegramUI/Sources/ChatHistoryEntriesForView.swift": "6e2a139a68ea11283e7fb92aacfbd69b95efec5f598621a9b1e68ff8764d249c",
+    "submodules/TelegramUI/Sources/ChatInterfaceStateContextMenus.swift": "0124a6241a7ed1f5a942114aa3e28e95d9354dfa291184419f1ae913e0df1af1",
+    "submodules/TelegramUI/Sources/Chat/NagramiXTemporaryReplySend.swift": "d854c35006818792a160556fc0a9c16fb94207c7bde1212eaec929cb7dc829f7"
+  },
+  "checked_code_sha256": {
+    ".github/workflows/build-unsigned-ipa.yml": "2edcc7cfabc2d3ba10f9f606f26c3019d1ca8dfbee3e3dcf9b6b89f092229f9e",
+    "ios/temporary_message_interaction.py": "c9222b639d4dafbf6b8994b5861681e841ae87f2983e26835e72d78144c6ef06",
+    "ios/temporary_message_interaction/After0.inc": "e3ff3b4a250f667e129bb876df746bdb7cc7d823d9a68c6628ed8bb306ccf961",
+    "ios/temporary_message_interaction/After1.inc": "e82c7b928ab72f9e3aa8e43afb12d8a3a2cdaf3ea20710b66d3ade3558e3ffeb",
+    "ios/temporary_message_interaction/After10.inc": "2c5b45b15e57c0eeca9c0a2ed2ded3f0ff96d35605e75bd2b16e320a111f2e69",
+    "ios/temporary_message_interaction/After11.inc": "b49f7d7be8171b43eb707ee171667fe3bbdca917d3599d5817b28a1342bb1ff7",
+    "ios/temporary_message_interaction/After12.inc": "a3628f19e16174db14917393ec14373fec7c4923843b01cf7d82d579c4f72a23",
+    "ios/temporary_message_interaction/After13.inc": "1f9ea5c7cd9b4fa2601ecafa478f10e99241235f06e982809575d8b67bfe00b0",
+    "ios/temporary_message_interaction/After14.inc": "3a101a9df4262f9eea878273ddeb8d4438c777611b66febb5b3b979c2b281f45",
+    "ios/temporary_message_interaction/After15.inc": "810c5de70671af00ee1de7eebfd595bae461654d9b35851aa4de5f2291a0f6e8",
+    "ios/temporary_message_interaction/After16.inc": "5c5002093df9d3bd698eca74dd9ac3c7265e87360e2e498157c847c33d73a75c",
+    "ios/temporary_message_interaction/After17.inc": "7b540c53c3a06b6280f25774d6c865dee01fb0d27541212aa17bbcdf321db8ef",
+    "ios/temporary_message_interaction/After18.inc": "59278f8773caa3cf5cb64c533d1fde1c1dadc7533d94d0c5720c512ba61178e6",
+    "ios/temporary_message_interaction/After19.inc": "4d88e9071d0e791b18f7754324c6247377c7218a3225a7cb6ee225ee104505f5",
+    "ios/temporary_message_interaction/After2.inc": "d711817c36850b7332cead2ce0b51669f01c68fd6be4ae851cfeee0ae76ff1c8",
+    "ios/temporary_message_interaction/After20.inc": "8d8fa8354773e873603e49c654cefe946a6de96a0222d14dfc1353ddd58debf1",
+    "ios/temporary_message_interaction/After21.inc": "69e723126c40cc2c73d1fdd614289a3924a229aa59f8ee938ee50405475949db",
+    "ios/temporary_message_interaction/After23.inc": "b6303b593b5bdbd74c2b15f0fdf3c324fefb13f1a510c3ef11c675ebf7af386f",
+    "ios/temporary_message_interaction/After24.inc": "fe0c25f4597fa5cfc92aa5962a20aa0cd32a28ec7d76494aa2d84701b09382a0",
+    "ios/temporary_message_interaction/After25.inc": "5e6a331eb82d009a58bf32a20d7c8a2b69b669c9400ed3c0226e145feb62b4f3",
+    "ios/temporary_message_interaction/After26.inc": "6e2a139a68ea11283e7fb92aacfbd69b95efec5f598621a9b1e68ff8764d249c",
+    "ios/temporary_message_interaction/After27.inc": "0124a6241a7ed1f5a942114aa3e28e95d9354dfa291184419f1ae913e0df1af1",
+    "ios/temporary_message_interaction/After3.inc": "7044329bc98df033c72f10118afc92d3e07231e728ec80c2d09413c6a562db65",
+    "ios/temporary_message_interaction/After4.inc": "8ccf31e6f2bfe5a93ecad52a533186e7b2b2dab1a6d4cdb716e8259dc646d571",
+    "ios/temporary_message_interaction/After5.inc": "6835b27f67d58d0c235b1106b7716a4042fe3509e441ce13878379331e09c37b",
+    "ios/temporary_message_interaction/After6.inc": "0093761168fc0f4298ee4aaf570b61078b22ca1c9a56b7cdd9af495926f4a546",
+    "ios/temporary_message_interaction/After7.inc": "53a6123da869fc96c129eea27ba03c1398bc23a2104a7fa4915c026d0bab6e17",
+    "ios/temporary_message_interaction/After8.inc": "14484111f6c117cc9c37397d9317a2bb82ad23cc5b0402da8feabb2ca096c583",
+    "ios/temporary_message_interaction/After9.inc": "799209ebea265e540fe22c677f5c9654d4032610fddf5446d1db4575e6715e1d",
+    "ios/temporary_message_interaction/Before0.inc": "2402671d2e78836c8bb1ef0039795aa9f01070059c6a81ee2f086d8bb4556c11",
+    "ios/temporary_message_interaction/Before1.inc": "2e4dc88a7ca0d4d9b08d9e7fe5f83e81f295db42e680697304ffeee0d502030b",
+    "ios/temporary_message_interaction/Before10.inc": "8bb0218e3896273ba8aebbb85de7a3ae14cc23224a9d75d59964c1277bb04456",
+    "ios/temporary_message_interaction/Before11.inc": "e5dd8780b176b170e13111d5b854b2cee87bf95535c86fb1ed2d70d36ba07eff",
+    "ios/temporary_message_interaction/Before12.inc": "a75226053736c72656292752306b5e7074a1b95e7ffb3c8eb48d4b777d720a43",
+    "ios/temporary_message_interaction/Before13.inc": "fde1f1f7891673484593d26f90bd0cd7f4c7eb12656f0ee2f88a1027412d1bd1",
+    "ios/temporary_message_interaction/Before14.inc": "9c317bf122eda39dc9aad6e16a7001673a9555e8b6a6aa169a213d81e4679d35",
+    "ios/temporary_message_interaction/Before15.inc": "95ca1b4e374ffc6515bda2516e5c116db0beed92183a91f9f4c953449fe9a88d",
+    "ios/temporary_message_interaction/Before16.inc": "28a51ac72ec5107f6a173ec70a3dc5c7070e0cb680b29d9c8153d4624e1b3a47",
+    "ios/temporary_message_interaction/Before17.inc": "77fc8d5c791324b365310e3a6dabd1c94c78e56fba026f64192bf1c484801597",
+    "ios/temporary_message_interaction/Before18.inc": "565c759ca25ffdc8a6778ee3be9d9f1f4b6a36967f769b97e78d493271323f23",
+    "ios/temporary_message_interaction/Before19.inc": "5b63a8b472ee986da4c585fe1eec1a16545d2c3c3c28e364c42b5c5655c2e25e",
+    "ios/temporary_message_interaction/Before2.inc": "134b087639e7a5ea7b6d6559d83355e906469b5434c14b6eee2ecb13874b7284",
+    "ios/temporary_message_interaction/Before20.inc": "be04db62fd3476fc1a07252e8e599b1686ff499fffe83c0b24d3a65a024b2f50",
+    "ios/temporary_message_interaction/Before21.inc": "74a3ca019e3df6c0f49166c6bd523d0c7f1de6c0958f41bab68fe6c0fe6ca1f3",
+    "ios/temporary_message_interaction/Before23.inc": "7b6b82c28b0ab92fdca3a16d459f213bc43c487dd6f110c74e8d4aa0b02c9696",
+    "ios/temporary_message_interaction/Before24.inc": "62d95143bf0fcc206d411e87eafd1a67c0106f700e94f1317213360c38de004b",
+    "ios/temporary_message_interaction/Before25.inc": "f3c644a748f379fdeb305da4bd7bfd7d17fc8c15401868a47753be7783eeaa08",
+    "ios/temporary_message_interaction/Before26.inc": "1074c9c3f7915d01efaab0d19b59563b0d3dd3e39e7af1ff872743d2777f3b15",
+    "ios/temporary_message_interaction/Before27.inc": "93f1202a3da830e7ea510be7b57e05190a1502a16a5a451caf27039af79f6761",
+    "ios/temporary_message_interaction/Before3.inc": "b115415ffef8eb298faa9fe02a39db432dd1f4c44715a2888dd636066f79f975",
+    "ios/temporary_message_interaction/Before4.inc": "6b17f1d7860d2273075886d6a0ecbfe23276e3e01ed564405e0e907209a230ec",
+    "ios/temporary_message_interaction/Before5.inc": "b5233b4798ab6c3337f4e088bec75601ee638ef684e8baefcd36effa94b8839d",
+    "ios/temporary_message_interaction/Before6.inc": "fc0daaa8edbd9ace500925449daba699417881ff3fe7d74709d04c55727c0c6d",
+    "ios/temporary_message_interaction/Before7.inc": "93c48208fb398902fc1c03f9adb1772ce842f8dfddcedd3ef2d5a32ebbae8c0a",
+    "ios/temporary_message_interaction/Before8.inc": "5430716b22f4bebf6df7932d276f38d081546eb8e845469747b081413d24213f",
+    "ios/temporary_message_interaction/Before9.inc": "88a48ee28c62dc3ec591a554d98139414b2b972a97d802f4ccfeb2e6060a5c31",
+    "ios/temporary_message_interaction/Copy0.inc": "d854c35006818792a160556fc0a9c16fb94207c7bde1212eaec929cb7dc829f7",
+    "ios/temporary_message_interaction/Guard0.inc": "bf9342baf193366c8997afb547c074592af8247348f59e25e5e6ca9bfb3806a9",
+    "ios/temporary_message_interaction/Guard1.inc": "c819263cd1c2d6407308fe3f172f9f564b40e26f3b688da39739577bae792f52",
+    "ios/temporary_message_interaction/Guard10.inc": "a0aec2e00029cd01793838e4e28a50df873afc2abd147fad92c160e58f3fe0b1",
+    "ios/temporary_message_interaction/Guard11.inc": "a37145040d31d9c5e8ccefb97dd0da6b8c3f854cce52e73586527542ae2c2cc8",
+    "ios/temporary_message_interaction/Guard12.inc": "644b5fd139845c6a6b9c5f6ca99b142db954a0b9c93d051e73b81f8937ab1fae",
+    "ios/temporary_message_interaction/Guard13.inc": "a781ef1d5402dfd51fa1dceaaac0b7e3ee1de615eeb793a2f1f732aaf2a70804",
+    "ios/temporary_message_interaction/Guard14.inc": "be43e5a4cc0200d01695730cdd7e27a4e817c0ade5bdebb06d77ef972f811dac",
+    "ios/temporary_message_interaction/Guard15.inc": "70fac4e58cb33b69abc9a60098cb114a9396c03e39d02569f6bdbad5296d07fb",
+    "ios/temporary_message_interaction/Guard16.inc": "8c8a86ebc4552d20c2a0f4e6d24ff83c880eaa0fb2dc8083f63dc96b29e38a1f",
+    "ios/temporary_message_interaction/Guard17.inc": "c27d2d470c70568e9a80e0e38c509befea549c99afd47215e0024949fe67a67c",
+    "ios/temporary_message_interaction/Guard18.inc": "0bc5844d30a869b78024487f14176dd8d69d76fc28b7cd502df42b3e443a4216",
+    "ios/temporary_message_interaction/Guard19.inc": "729101daef967ad1790986a354d4604f4c5323651028ec23ef34a1dde37497b8",
+    "ios/temporary_message_interaction/Guard2.inc": "91f2d247c6bd11973c28d2a1a84bf823180871223c424799ba5f0147bf366a50",
+    "ios/temporary_message_interaction/Guard20.inc": "e4745dc4c92630f58580b3e331be9f0aafaf865e38210e94ab07354c29a05e82",
+    "ios/temporary_message_interaction/Guard21.inc": "cc0352b82b9e944884453ca1c9dd4ca9876413002090dd29083edddf4004996b",
+    "ios/temporary_message_interaction/Guard22.inc": "2c26cc5593a306c4bf41628370fa0036bc86818cda6b7a1428667046ec95afec",
+    "ios/temporary_message_interaction/Guard3.inc": "731fbc242faa0ee2cdd64f06c8f96911c9cfd2931d1799888c5ba09ca2dc0c4e",
+    "ios/temporary_message_interaction/Guard4.inc": "24f6ebe875dd53d344b1189c26e6d3df5947a6918ec6a43acc2b6f0c765f5932",
+    "ios/temporary_message_interaction/Guard5.inc": "e3307deaae9edbdfd294a75b4a9461fe1bdc46bd2fef88fa8c3d52f4ae4ce6c7",
+    "ios/temporary_message_interaction/Guard6.inc": "55bed76ba4d25bb88a9a522a1cf588a7481dfbb427b230a44a68e1c0bf620766",
+    "ios/temporary_message_interaction/Guard7.inc": "f7e6352e9950459f20eafd0431dc7e9f23a2c4cbed744305ecb5f13c376decf6",
+    "ios/temporary_message_interaction/Guard8.inc": "e3ec0a96e45891721f72009f392510859bebbc52db17798ea0126b6fec8bf47d",
+    "ios/temporary_message_interaction/Guard9.inc": "c382cdf51199878336bf65c396cc56aeebaf74685b00a941211676e07c2e476e",
+    "ios/temporary_message_interaction_patches.json": "62f821eaeda771d45058dece9f324c5683ee1d7f4a421003538b30848f261188",
+    "scripts/late_source_stages.py": "83afc779ba829bc295ac0422f67138a028f392b2bc774b50a057a10c8fb32a4d",
+    "scripts/validate_custom_member_references.py": "060e1b152b509ee08bdebceb611d4a0160bd36b69e6d77cfe68ef9250ff15c41",
+    "scripts/validate_late_source_stages.py": "ade87dd71d0ff989dfe40d252ca8ceda9f18ff7f5ac72bbd3774cfb50bcec23a",
+    "scripts/validate_pip_swipe_handoff.py": "5ceab414bb612c62e789109b01706a80f78f04dd9e95c013900794bae2dbac10",
+    "scripts/validate_system_video_pip.py": "00736f56c6cded5e7e7c6d77e202f589fd5afd289515641021044fa3794805df",
+    "scripts/validate_temporary_interaction_archive.py": "ecd52354703a6d6d7fc89deebdcab238048f9657a103dbef393e9f61227d70de",
+    "scripts/validate_temporary_interaction_asr.py": "adf8e2c4f251da3b16163656ad4af71eb1b3819611c3ed18c8b7fa532b6b1af7",
+    "scripts/validate_temporary_interaction_consumption.py": "c3960e773d9fde17546e2093354481533ab95e141661357e84a9ff20d6a0d122",
+    "scripts/validate_temporary_interaction_delete.py": "16066c4f0d8b0e0ee0d439a2a3bb78087578264de9277b105b7e7c84f489bb8e",
+    "scripts/validate_temporary_interaction_engine_opening.py": "cb6116114366b7fe1c7f39a6c78155aa9b3b5d575ad46bafb31121b337a2b264",
+    "scripts/validate_temporary_interaction_forward_source.py": "d19d801d2dcf59c8039d11d37c5358d560f0954b2763f45c2a7965145c47f266",
+    "scripts/validate_temporary_interaction_reply.py": "0b17c3a022086c84f9128629dde5c799b6c8fd99df39d420230424400ef29b09",
+    "scripts/validate_temporary_interaction_repost.py": "27bf28cf0f90b41d103687e18568f812d048569f5eb2ba4126a60cea0cdd294f",
+    "scripts/validate_temporary_interaction_send.py": "34564d98257c9d09fcde01135abf4aab5ac27db67a120aa76917bcc574bf8c3d",
+    "scripts/validate_temporary_message_interaction.py": "7c5a5051efc250d067c8642237ec77ff084ca8b3a0e9d70821c65b900e43765b",
+    "scripts/validate_upstream_13_2_release.py": "8af7b4cb3014c7ff464620ca3ec984a12a2c635b508f858ad2eb41634cd5907e"
+  },
+  "full_source": {
+    "baseline_files": 37654,
+    "final_files": 37655,
+    "changed_files": [
+      "submodules/GalleryData/Sources/GalleryData.swift",
+      "submodules/NagramiXTranscription/Sources/Runtime.swift",
+      "submodules/TelegramCore/Sources/State/AccountViewTracker.swift",
+      "submodules/TelegramCore/Sources/State/ManagedConsumePersonalMessagesActions.swift",
+      "submodules/TelegramCore/Sources/State/ManagedSecretChatOutgoingOperations.swift",
+      "submodules/TelegramCore/Sources/State/ManagedSynchronizeConsumeMessageContentsOperations.swift",
+      "submodules/TelegramCore/Sources/State/ManagedSynchronizeMarkAllUnseenPersonalMessagesOperations.swift",
+      "submodules/TelegramCore/Sources/State/ProcessSecretChatIncomingDecryptedOperations.swift",
+      "submodules/TelegramCore/Sources/State/Sync/StateReplay+Messages.swift",
+      "submodules/TelegramCore/Sources/State/SynchronizePeerReadState.swift",
+      "submodules/TelegramCore/Sources/TelegramEngine/Messages/ApplyMaxReadIndexInteractively.swift",
+      "submodules/TelegramCore/Sources/TelegramEngine/Messages/MarkMessageContentAsConsumedInteractively.swift",
+      "submodules/TelegramCore/Sources/TelegramEngine/Messages/NagramiXLocalMessageData.swift",
+      "submodules/TelegramCore/Sources/TelegramEngine/Messages/TelegramEngineMessages.swift",
+      "submodules/TelegramCore/Sources/Utils/NagramiXCaptureProtectionPolicy.swift",
+      "submodules/TelegramCore/Sources/Utils/NagramiXMessageArchive.swift",
+      "submodules/TelegramUI/Components/Chat/ChatMessageInstantVideoBubbleContentNode/Sources/ChatMessageInstantVideoBubbleContentNode.swift",
+      "submodules/TelegramUI/Components/Chat/ChatMessageInteractiveInstantVideoNode/Sources/ChatMessageInteractiveInstantVideoNode.swift",
+      "submodules/TelegramUI/Components/Chat/ChatMessageReplyInfoNode/Sources/ChatMessageReplyInfoNode.swift",
+      "submodules/TelegramUI/Components/Chat/ReplyAccessoryPanelNode/Sources/ReplyAccessoryPanelNode.swift",
+      "submodules/TelegramUI/Sources/Chat/ChatControllerLoadDisplayNode.swift",
+      "submodules/TelegramUI/Sources/Chat/ChatControllerOpenViewOnceMediaMessage.swift",
+      "submodules/TelegramUI/Sources/ChatControllerAdminBanUsers.swift",
+      "submodules/TelegramUI/Sources/ChatControllerForwardMessages.swift",
+      "submodules/TelegramUI/Sources/ChatControllerNode.swift",
+      "submodules/TelegramUI/Sources/ChatHistoryEntriesForView.swift",
+      "submodules/TelegramUI/Sources/ChatInterfaceStateContextMenus.swift"
+    ],
+    "added_files": [
+      "submodules/TelegramUI/Sources/Chat/NagramiXTemporaryReplySend.swift"
+    ],
+    "previous_files_preserved": 37627,
+    "baseline_regular_files": 37641,
+    "final_regular_files": 37642
+  },
+  "component_gate": {
+    "stage": "temporary_message_interaction",
+    "source_outputs": {
+      "submodules/GalleryData/Sources/GalleryData.swift": "e3ff3b4a250f667e129bb876df746bdb7cc7d823d9a68c6628ed8bb306ccf961",
+      "submodules/NagramiXTranscription/Sources/Runtime.swift": "e82c7b928ab72f9e3aa8e43afb12d8a3a2cdaf3ea20710b66d3ade3558e3ffeb",
+      "submodules/TelegramCore/Sources/State/AccountViewTracker.swift": "d711817c36850b7332cead2ce0b51669f01c68fd6be4ae851cfeee0ae76ff1c8",
+      "submodules/TelegramCore/Sources/State/ManagedConsumePersonalMessagesActions.swift": "7044329bc98df033c72f10118afc92d3e07231e728ec80c2d09413c6a562db65",
+      "submodules/TelegramCore/Sources/State/ManagedSecretChatOutgoingOperations.swift": "8ccf31e6f2bfe5a93ecad52a533186e7b2b2dab1a6d4cdb716e8259dc646d571",
+      "submodules/TelegramCore/Sources/State/ManagedSynchronizeConsumeMessageContentsOperations.swift": "6835b27f67d58d0c235b1106b7716a4042fe3509e441ce13878379331e09c37b",
+      "submodules/TelegramCore/Sources/State/ManagedSynchronizeMarkAllUnseenPersonalMessagesOperations.swift": "0093761168fc0f4298ee4aaf570b61078b22ca1c9a56b7cdd9af495926f4a546",
+      "submodules/TelegramCore/Sources/State/ProcessSecretChatIncomingDecryptedOperations.swift": "53a6123da869fc96c129eea27ba03c1398bc23a2104a7fa4915c026d0bab6e17",
+      "submodules/TelegramCore/Sources/State/Sync/StateReplay+Messages.swift": "14484111f6c117cc9c37397d9317a2bb82ad23cc5b0402da8feabb2ca096c583",
+      "submodules/TelegramCore/Sources/State/SynchronizePeerReadState.swift": "799209ebea265e540fe22c677f5c9654d4032610fddf5446d1db4575e6715e1d",
+      "submodules/TelegramCore/Sources/TelegramEngine/Messages/ApplyMaxReadIndexInteractively.swift": "2c5b45b15e57c0eeca9c0a2ed2ded3f0ff96d35605e75bd2b16e320a111f2e69",
+      "submodules/TelegramCore/Sources/TelegramEngine/Messages/MarkMessageContentAsConsumedInteractively.swift": "b49f7d7be8171b43eb707ee171667fe3bbdca917d3599d5817b28a1342bb1ff7",
+      "submodules/TelegramCore/Sources/TelegramEngine/Messages/NagramiXLocalMessageData.swift": "a3628f19e16174db14917393ec14373fec7c4923843b01cf7d82d579c4f72a23",
+      "submodules/TelegramCore/Sources/TelegramEngine/Messages/TelegramEngineMessages.swift": "1f9ea5c7cd9b4fa2601ecafa478f10e99241235f06e982809575d8b67bfe00b0",
+      "submodules/TelegramCore/Sources/Utils/NagramiXCaptureProtectionPolicy.swift": "3a101a9df4262f9eea878273ddeb8d4438c777611b66febb5b3b979c2b281f45",
+      "submodules/TelegramCore/Sources/Utils/NagramiXMessageArchive.swift": "810c5de70671af00ee1de7eebfd595bae461654d9b35851aa4de5f2291a0f6e8",
+      "submodules/TelegramUI/Components/Chat/ChatMessageInstantVideoBubbleContentNode/Sources/ChatMessageInstantVideoBubbleContentNode.swift": "5c5002093df9d3bd698eca74dd9ac3c7265e87360e2e498157c847c33d73a75c",
+      "submodules/TelegramUI/Components/Chat/ChatMessageInteractiveInstantVideoNode/Sources/ChatMessageInteractiveInstantVideoNode.swift": "7b540c53c3a06b6280f25774d6c865dee01fb0d27541212aa17bbcdf321db8ef",
+      "submodules/TelegramUI/Components/Chat/ChatMessageReplyInfoNode/Sources/ChatMessageReplyInfoNode.swift": "59278f8773caa3cf5cb64c533d1fde1c1dadc7533d94d0c5720c512ba61178e6",
+      "submodules/TelegramUI/Components/Chat/ReplyAccessoryPanelNode/Sources/ReplyAccessoryPanelNode.swift": "4d88e9071d0e791b18f7754324c6247377c7218a3225a7cb6ee225ee104505f5",
+      "submodules/TelegramUI/Sources/Chat/ChatControllerLoadDisplayNode.swift": "8d8fa8354773e873603e49c654cefe946a6de96a0222d14dfc1353ddd58debf1",
+      "submodules/TelegramUI/Sources/Chat/ChatControllerOpenViewOnceMediaMessage.swift": "69e723126c40cc2c73d1fdd614289a3924a229aa59f8ee938ee50405475949db",
+      "submodules/TelegramUI/Sources/ChatControllerAdminBanUsers.swift": "b6303b593b5bdbd74c2b15f0fdf3c324fefb13f1a510c3ef11c675ebf7af386f",
+      "submodules/TelegramUI/Sources/ChatControllerForwardMessages.swift": "fe0c25f4597fa5cfc92aa5962a20aa0cd32a28ec7d76494aa2d84701b09382a0",
+      "submodules/TelegramUI/Sources/ChatControllerNode.swift": "5e6a331eb82d009a58bf32a20d7c8a2b69b669c9400ed3c0226e145feb62b4f3",
+      "submodules/TelegramUI/Sources/ChatHistoryEntriesForView.swift": "6e2a139a68ea11283e7fb92aacfbd69b95efec5f598621a9b1e68ff8764d249c",
+      "submodules/TelegramUI/Sources/ChatInterfaceStateContextMenus.swift": "0124a6241a7ed1f5a942114aa3e28e95d9354dfa291184419f1ae913e0df1af1"
+    },
+    "copies": {
+      "submodules/TelegramUI/Sources/Chat/NagramiXTemporaryReplySend.swift": {
+        "source": "temporary_message_interaction/Copy0.inc",
+        "sha256": "d854c35006818792a160556fc0a9c16fb94207c7bde1212eaec929cb7dc829f7"
+      }
+    },
+    "guards": 23,
+    "fail_closed": 22,
+    "full_source": {
+      "baseline_files": 37654,
+      "final_files": 37655,
+      "changed_files": [
+        "submodules/GalleryData/Sources/GalleryData.swift",
+        "submodules/NagramiXTranscription/Sources/Runtime.swift",
+        "submodules/TelegramCore/Sources/State/AccountViewTracker.swift",
+        "submodules/TelegramCore/Sources/State/ManagedConsumePersonalMessagesActions.swift",
+        "submodules/TelegramCore/Sources/State/ManagedSecretChatOutgoingOperations.swift",
+        "submodules/TelegramCore/Sources/State/ManagedSynchronizeConsumeMessageContentsOperations.swift",
+        "submodules/TelegramCore/Sources/State/ManagedSynchronizeMarkAllUnseenPersonalMessagesOperations.swift",
+        "submodules/TelegramCore/Sources/State/ProcessSecretChatIncomingDecryptedOperations.swift",
+        "submodules/TelegramCore/Sources/State/Sync/StateReplay+Messages.swift",
+        "submodules/TelegramCore/Sources/State/SynchronizePeerReadState.swift",
+        "submodules/TelegramCore/Sources/TelegramEngine/Messages/ApplyMaxReadIndexInteractively.swift",
+        "submodules/TelegramCore/Sources/TelegramEngine/Messages/MarkMessageContentAsConsumedInteractively.swift",
+        "submodules/TelegramCore/Sources/TelegramEngine/Messages/NagramiXLocalMessageData.swift",
+        "submodules/TelegramCore/Sources/TelegramEngine/Messages/TelegramEngineMessages.swift",
+        "submodules/TelegramCore/Sources/Utils/NagramiXCaptureProtectionPolicy.swift",
+        "submodules/TelegramCore/Sources/Utils/NagramiXMessageArchive.swift",
+        "submodules/TelegramUI/Components/Chat/ChatMessageInstantVideoBubbleContentNode/Sources/ChatMessageInstantVideoBubbleContentNode.swift",
+        "submodules/TelegramUI/Components/Chat/ChatMessageInteractiveInstantVideoNode/Sources/ChatMessageInteractiveInstantVideoNode.swift",
+        "submodules/TelegramUI/Components/Chat/ChatMessageReplyInfoNode/Sources/ChatMessageReplyInfoNode.swift",
+        "submodules/TelegramUI/Components/Chat/ReplyAccessoryPanelNode/Sources/ReplyAccessoryPanelNode.swift",
+        "submodules/TelegramUI/Sources/Chat/ChatControllerLoadDisplayNode.swift",
+        "submodules/TelegramUI/Sources/Chat/ChatControllerOpenViewOnceMediaMessage.swift",
+        "submodules/TelegramUI/Sources/ChatControllerAdminBanUsers.swift",
+        "submodules/TelegramUI/Sources/ChatControllerForwardMessages.swift",
+        "submodules/TelegramUI/Sources/ChatControllerNode.swift",
+        "submodules/TelegramUI/Sources/ChatHistoryEntriesForView.swift",
+        "submodules/TelegramUI/Sources/ChatInterfaceStateContextMenus.swift"
+      ],
+      "added_files": [
+        "submodules/TelegramUI/Sources/Chat/NagramiXTemporaryReplySend.swift"
+      ],
+      "previous_files_preserved": 37627
+    },
+    "components": [
+      {
+        "component": "archive",
+        "exit_code": 0,
+        "evidence": {
+          "outputs": {
+            "submodules/TelegramCore/Sources/Utils/NagramiXMessageArchive.swift": "810c5de70671af00ee1de7eebfd595bae461654d9b35851aa4de5f2291a0f6e8",
+            "submodules/TelegramUI/Sources/ChatHistoryEntriesForView.swift": "6e2a139a68ea11283e7fb92aacfbd69b95efec5f598621a9b1e68ff8764d249c",
+            "submodules/TelegramCore/Sources/State/ProcessSecretChatIncomingDecryptedOperations.swift": "53a6123da869fc96c129eea27ba03c1398bc23a2104a7fa4915c026d0bab6e17",
+            "submodules/TelegramCore/Sources/State/Sync/StateReplay+Messages.swift": "14484111f6c117cc9c37397d9317a2bb82ad23cc5b0402da8feabb2ca096c583"
+          },
+          "executions": [
+            "current-debug: Temporary archive actual-method checks: 463",
+            "current-O: Temporary archive actual-method checks: 463",
+            "old-capture-debug: Temporary archive regression: all temporary directions and kinds captured without deleted feature",
+            "old-capture-O: Temporary archive regression: all temporary directions and kinds captured without deleted feature",
+            "old-serialize-debug: Temporary archive regression: secret/global identity preserved",
+            "old-serialize-O: Temporary archive regression: secret/global identity preserved",
+            "old-render-debug: Temporary archive regression: secret/global identity preserved",
+            "old-render-O: Temporary archive regression: secret/global identity preserved",
+            "old-clear-debug: Temporary archive regression: clear barrier rejects preempted formerly live capture after clear",
+            "old-clear-O: Temporary archive regression: clear barrier rejects preempted formerly live capture after clear",
+            "old-plan-debug: Temporary archive regression: TEMP-only explicit live deletion freezes native and purge ownership",
+            "old-plan-O: Temporary archive regression: TEMP-only explicit live deletion freezes native and purge ownership",
+            "old-receipt-debug: Temporary archive regression: missing Postbox row proven incoming temporary suppresses content receipt",
+            "old-receipt-O: Temporary archive regression: missing Postbox row proven incoming temporary suppresses content receipt",
+            "corrupt-media-debug: Temporary archive regression: unknown or invalid media rejects entire post instead of dropping attachments",
+            "corrupt-media-O: Temporary archive regression: unknown or invalid media rejects entire post instead of dropping attachments",
+            "corrupt-attributes-debug: Temporary archive regression: unknown or invalid required content attribute rejects entire post",
+            "corrupt-attributes-O: Temporary archive regression: unknown or invalid required content attribute rejects entire post",
+            "clear-inverse-debug: Temporary archive regression: capture newer than barrier committed before clear enqueue survives clear",
+            "clear-inverse-O: Temporary archive regression: capture newer than barrier committed before clear enqueue survives clear",
+            "expired-plan-debug: Temporary archive regression: explicit expired placeholder deletes native stub and retained copy together",
+            "expired-plan-O: Temporary archive regression: explicit expired placeholder deletes native stub and retained copy together",
+            "attribute-edit-debug: Temporary archive regression: display-only attribute edits replace retained metadata without requiring text edit",
+            "attribute-edit-O: Temporary archive regression: display-only attribute edits replace retained metadata without requiring text edit",
+            "attribute-removal-debug: Temporary archive regression: known empty attribute list removes old spoiler/rich attributes on refresh",
+            "attribute-removal-O: Temporary archive regression: known empty attribute list removes old spoiler/rich attributes on refresh",
+            "expired-archive-plan-debug: Temporary archive regression: full flag/placeholder/live/deletionphase matrix keeps exact local ownership",
+            "expired-archive-plan-O: Temporary archive regression: full flag/placeholder/live/deletionphase matrix keeps exact local ownership",
+            "restored-capture-debug: Temporary archive regression: clear removes newer reservation made by old initialization after barrier; later capture commit cannot forget cleanup",
+            "restored-capture-O: Temporary archive regression: clear removes newer reservation made by old initialization after barrier; later capture commit cannot forget cleanup",
+            "restored-clear-debug: Temporary archive regression: clear removes newer reservation made by old initialization after barrier; later capture commit cannot forget cleanup",
+            "restored-clear-O: Temporary archive regression: clear removes newer reservation made by old initialization after barrier; later capture commit cannot forget cleanup",
+            "resource-current-debug: Temporary native constructor/resource checks: 39",
+            "resource-current-O: Temporary native constructor/resource checks: 39",
+            "resource-old-requests-debug: Temporary resource regression: all metadata and rich nested resources reserved exactly once",
+            "resource-old-requests-O: Temporary resource regression: all metadata and rich nested resources reserved exactly once",
+            "resource-old-local-debug: Temporary resource regression: all known nested primary bytes map to retained resources",
+            "resource-old-local-O: Temporary resource regression: all known nested primary bytes map to retained resources",
+            "resource-attribute-resources-debug: Temporary resource regression: file-bearing webpage attributes cannot claim complete before retention",
+            "resource-attribute-resources-O: Temporary resource regression: file-bearing webpage attributes cannot claim complete before retention",
+            "resource-invoice-primary-debug: Temporary resource regression: invoice photo alone is a real primary resource",
+            "resource-invoice-primary-O: Temporary resource regression: invoice photo alone is a real primary resource"
+          ],
+          "swift_parse": 4,
+          "boundaries": "Actual capture/edit/delete, record metadata, phase planning, both clear/capture interleavings, purge and late ASR, readonly resolver, receipt proofs, render and unchanged durable writer; real Foundation atomic JSON/failure/retry. Nested resource collectors/remappers compile against extracted native constructors and native field declarations. Postbox codec, Signal delivery, media store, theme/gift leaf metadata and UIKit are explicit adapters; no native crypto/network/SDK/device/build claim.",
+          "native_compile": "pending",
+          "physical_device": "pending"
+        }
+      },
+      {
+        "component": "asr",
+        "exit_code": 0,
+        "evidence": {
+          "source_sha256": "7b540c53c3a06b6280f25774d6c865dee01fb0d27541212aa17bbcdf321db8ef",
+          "baseline_sha256": "77fc8d5c791324b365310e3a6dabd1c94c78e56fba026f64192bf1c484801597",
+          "production_runs": [
+            {
+              "mode": "debug",
+              "result": "PASS temporary ASR UI production checks: 4482"
+            },
+            {
+              "mode": "optimized",
+              "result": "PASS temporary ASR UI production checks: 4482"
+            }
+          ],
+          "semantic_negative_runs": [
+            {
+              "mode": "debug",
+              "variant": "expanded_hidden"
+            },
+            {
+              "mode": "debug",
+              "variant": "bubble_hidden"
+            },
+            {
+              "mode": "debug",
+              "variant": "preview_leak"
+            },
+            {
+              "mode": "debug",
+              "variant": "expanded_layout_flag"
+            },
+            {
+              "mode": "debug",
+              "variant": "narrow_frame"
+            },
+            {
+              "mode": "optimized",
+              "variant": "expanded_hidden"
+            },
+            {
+              "mode": "optimized",
+              "variant": "bubble_hidden"
+            },
+            {
+              "mode": "optimized",
+              "variant": "preview_leak"
+            },
+            {
+              "mode": "optimized",
+              "variant": "expanded_layout_flag"
+            },
+            {
+              "mode": "optimized",
+              "variant": "narrow_frame"
+            }
+          ],
+          "runtime_runs": [
+            {
+              "mode": "debug",
+              "result": "PASS temporary ASR runtime production checks: 320"
+            },
+            {
+              "mode": "optimized",
+              "result": "PASS temporary ASR runtime production checks: 320"
+            }
+          ],
+          "runtime_semantic_negative_runs": [
+            {
+              "mode": "debug",
+              "variant": "cloud_only_file"
+            },
+            {
+              "mode": "debug",
+              "variant": "secret_premium"
+            },
+            {
+              "mode": "debug",
+              "variant": "resource_cache_reset"
+            },
+            {
+              "mode": "optimized",
+              "variant": "cloud_only_file"
+            },
+            {
+              "mode": "optimized",
+              "variant": "secret_premium"
+            },
+            {
+              "mode": "optimized",
+              "variant": "resource_cache_reset"
+            }
+          ],
+          "full_swift_parse_files": 2,
+          "ordinary_layout": "Old/new production blocks compared over complete fixture matrix; native playback, hit-test and lifetime byte-identical. ASR handler changes only explicit temporary namespace admission.",
+          "boundaries": "Actual eligibility/button/color/frame/alpha/removal/pressed blocks and Runtime file/Premium/cache/Settings bodies execute. UIKit/ComponentFlow/animation, Core policy, Defaults/CodableEntry, network/decoder/frame presentation are boundaries. No playback, consume, TTL or network request is generated by this validation.",
+          "apple_sdk": "pending",
+          "physical_device": "pending"
+        }
+      },
+      {
+        "component": "consumption",
+        "exit_code": 0,
+        "evidence": {
+          "production_runs": [
+            {
+              "mode": "debug",
+              "checks": 1363
+            },
+            {
+              "mode": "optimized",
+              "checks": 1363
+            }
+          ],
+          "negative_runs": 22,
+          "negative_details": [
+            {
+              "mode": "debug",
+              "variant": "legacy-flags-and",
+              "assertion": "FAIL legacy flags OR"
+            },
+            {
+              "mode": "debug",
+              "variant": "sixty-second-limit",
+              "assertion": "FAIL raw temporary independent ON OFF"
+            },
+            {
+              "mode": "debug",
+              "variant": "media-only-whitelist",
+              "assertion": "FAIL all delivered temporary text"
+            },
+            {
+              "mode": "debug",
+              "variant": "secret-namespace-omitted",
+              "assertion": "FAIL all delivered temporary text"
+            },
+            {
+              "mode": "debug",
+              "variant": "outgoing-receipt-suppressed",
+              "assertion": "FAIL outgoing content not consumed by local view"
+            },
+            {
+              "mode": "debug",
+              "variant": "retained-id-forgotten",
+              "assertion": "FAIL missing retained receipt proof"
+            },
+            {
+              "mode": "debug",
+              "variant": "producer-gate-bypassed",
+              "assertion": "FAIL temporary play never marks or starts TTL text"
+            },
+            {
+              "mode": "debug",
+              "variant": "producer-only-live-classifier",
+              "assertion": "FAIL retained expired placeholder cannot emit receipt or restart TTL"
+            },
+            {
+              "mode": "debug",
+              "variant": "secret-noop-not-wired",
+              "assertion": "FAIL native noop on each sequence layer"
+            },
+            {
+              "mode": "debug",
+              "variant": "secret-native-ack-skipped",
+              "assertion": "FAIL native sequence acknowledgement keeps resend entry"
+            },
+            {
+              "mode": "debug",
+              "variant": "retained-global-id-forgotten",
+              "assertion": "FAIL archived globallyUniqueId proof blocks stale receipt"
+            },
+            {
+              "mode": "debug",
+              "variant": "secret-history-gate-forgotten",
+              "assertion": "FAIL secret local read retained without text countdown"
+            },
+            {
+              "mode": "debug",
+              "variant": "cloud-history-blanket-suppressed",
+              "assertion": "FAIL ordinary cloud history remains native"
+            },
+            {
+              "mode": "debug",
+              "variant": "secret-late-recheck-forgotten",
+              "assertion": "FAIL secret policy rechecked after async peer lookup"
+            },
+            {
+              "mode": "debug",
+              "variant": "secret-local-read-discarded",
+              "assertion": "FAIL secret local read retained without text countdown"
+            },
+            {
+              "mode": "debug",
+              "variant": "secret-incoming-timer-started",
+              "assertion": "FAIL secret local read retained without text countdown"
+            },
+            {
+              "mode": "debug",
+              "variant": "secret-outgoing-timer-started",
+              "assertion": "FAIL ON no local outgoing secret text timer"
+            },
+            {
+              "mode": "debug",
+              "variant": "invented-layer8-noop",
+              "compiler_refusal": "real SecretChatSequenceBasedLayer has no layer8"
+            },
+            {
+              "mode": "optimized",
+              "variant": "producer-gate-bypassed",
+              "assertion": "FAIL temporary play never marks or starts TTL text"
+            },
+            {
+              "mode": "optimized",
+              "variant": "secret-noop-not-wired",
+              "assertion": "FAIL native noop on each sequence layer"
+            },
+            {
+              "mode": "optimized",
+              "variant": "cloud-history-blanket-suppressed",
+              "assertion": "FAIL ordinary cloud history remains native"
+            },
+            {
+              "mode": "optimized",
+              "variant": "invented-layer8-noop",
+              "compiler_refusal": "real SecretChatSequenceBasedLayer has no layer8"
+            }
+          ],
+          "full_swift_parse": 9,
+          "outputs": {
+            "submodules/TelegramCore/Sources/Utils/NagramiXCaptureProtectionPolicy.swift": "3a101a9df4262f9eea878273ddeb8d4438c777611b66febb5b3b979c2b281f45",
+            "submodules/TelegramCore/Sources/TelegramEngine/Messages/MarkMessageContentAsConsumedInteractively.swift": "b49f7d7be8171b43eb707ee171667fe3bbdca917d3599d5817b28a1342bb1ff7",
+            "submodules/TelegramCore/Sources/State/ManagedSynchronizeConsumeMessageContentsOperations.swift": "6835b27f67d58d0c235b1106b7716a4042fe3509e441ce13878379331e09c37b",
+            "submodules/TelegramCore/Sources/State/ManagedConsumePersonalMessagesActions.swift": "7044329bc98df033c72f10118afc92d3e07231e728ec80c2d09413c6a562db65",
+            "submodules/TelegramCore/Sources/State/ManagedSynchronizeMarkAllUnseenPersonalMessagesOperations.swift": "0093761168fc0f4298ee4aaf570b61078b22ca1c9a56b7cdd9af495926f4a546",
+            "submodules/TelegramCore/Sources/State/ManagedSecretChatOutgoingOperations.swift": "8ccf31e6f2bfe5a93ecad52a533186e7b2b2dab1a6d4cdb716e8259dc646d571",
+            "submodules/TelegramCore/Sources/State/AccountViewTracker.swift": "d711817c36850b7332cead2ce0b51669f01c68fd6be4ae851cfeee0ae76ff1c8",
+            "submodules/TelegramCore/Sources/TelegramEngine/Messages/ApplyMaxReadIndexInteractively.swift": "2c5b45b15e57c0eeca9c0a2ed2ded3f0ff96d35605e75bd2b16e320a111f2e69",
+            "submodules/TelegramCore/Sources/State/SynchronizePeerReadState.swift": "799209ebea265e540fe22c677f5c9654d4032610fddf5446d1db4575e6715e1d"
+          },
+          "archive_interface_source_sha256": "810c5de70671af00ee1de7eebfd595bae461654d9b35851aa4de5f2291a0f6e8",
+          "actual_production_bodies": [
+            "shared classifiers and both model overloads",
+            "local consume producer",
+            "queued consume/mention/location predicates",
+            "secret service filtering",
+            "native secret Read/Noop boxing branches",
+            "native service dispatch and ACK bookkeeping",
+            "native incoming/outgoing read actions",
+            "native push/validate/confirm history functions"
+          ],
+          "boundaries": "UserDefaults, synchronous signal/Postbox queue, archive storage, peer lookup, RPC, crypto/socket and non-target packet constructors are explicit adapters; no real server/SDK/iPhone operation",
+          "off_policy": "Future native actions resume; no automatic backfill of already suppressed secret history receipts",
+          "new_ui_strings": 0,
+          "apple_sdk": "not_run",
+          "physical_iphone": "pending"
+        }
+      },
+      {
+        "component": "delete",
+        "exit_code": 0,
+        "evidence": {
+          "production_runs": [
+            "PASS temporary delete UI checks: 29",
+            "PASS temporary delete UI checks: 29"
+          ],
+          "semantic_negatives": [
+            {
+              "mode": "native-first",
+              "optimized": false,
+              "diagnostic": "delete UI regression: purge precedes native capture"
+            },
+            {
+              "mode": "native-first",
+              "optimized": true,
+              "diagnostic": "delete UI regression: purge precedes native capture"
+            },
+            {
+              "mode": "intersection-only",
+              "optimized": false,
+              "diagnostic": "delete UI regression: retained temporary with no native row remains explicitly approved"
+            },
+            {
+              "mode": "intersection-only",
+              "optimized": true,
+              "diagnostic": "delete UI regression: retained temporary with no native row remains explicitly approved"
+            },
+            {
+              "mode": "early-purge",
+              "optimized": false,
+              "diagnostic": "delete UI regression: no mutation before Undo choice"
+            },
+            {
+              "mode": "early-purge",
+              "optimized": true,
+              "diagnostic": "delete UI regression: no mutation before Undo choice"
+            },
+            {
+              "mode": "no-native-ordinary",
+              "optimized": false,
+              "diagnostic": "delete UI regression: ordinary TEMP-only uses exact native path"
+            },
+            {
+              "mode": "no-native-ordinary",
+              "optimized": true,
+              "diagnostic": "delete UI regression: ordinary TEMP-only uses exact native path"
+            },
+            {
+              "mode": "no-secret-scope",
+              "optimized": false,
+              "diagnostic": "delete UI regression: TEMP secret scope"
+            },
+            {
+              "mode": "no-secret-scope",
+              "optimized": true,
+              "diagnostic": "delete UI regression: TEMP secret scope"
+            },
+            {
+              "mode": "mutate-undo",
+              "optimized": false,
+              "diagnostic": "delete UI regression: Undo rolls back before purge and native"
+            },
+            {
+              "mode": "mutate-undo",
+              "optimized": true,
+              "diagnostic": "delete UI regression: Undo rolls back before purge and native"
+            },
+            {
+              "mode": "readonly-bypass",
+              "optimized": false,
+              "diagnostic": "delete UI regression: readonly never mutates"
+            },
+            {
+              "mode": "readonly-bypass",
+              "optimized": true,
+              "diagnostic": "delete UI regression: readonly never mutates"
+            }
+          ],
+          "source_sha256": "b6303b593b5bdbd74c2b15f0fdf3c324fefb13f1a510c3ef11c675ebf7af386f",
+          "parse_files": 1,
+          "boundary": "Actual UI scope, commit/Undo and unchanged native delete methods execute; cold Signals, UIKit overlay, native Postbox delete and archive persistence are adapters. Core deletion plan/tombstone behavior is tested separately.",
+          "sdk": "not run",
+          "device": "pending"
+        }
+      },
+      {
+        "component": "engine_opening",
+        "exit_code": 0,
+        "evidence": {
+          "production_runs": [
+            {
+              "mode": "debug",
+              "suite": "engine",
+              "result": "PASS temporary engine production checks: 41"
+            },
+            {
+              "mode": "debug",
+              "suite": "opening",
+              "result": "PASS temporary opening production checks: 192"
+            },
+            {
+              "mode": "optimized",
+              "suite": "engine",
+              "result": "PASS temporary engine production checks: 41"
+            },
+            {
+              "mode": "optimized",
+              "suite": "opening",
+              "result": "PASS temporary opening production checks: 192"
+            }
+          ],
+          "semantic_negative_runs": [
+            {
+              "mode": "debug",
+              "suite": "engine",
+              "variant": "preflight_off_bypass"
+            },
+            {
+              "mode": "debug",
+              "suite": "engine",
+              "variant": "mirror_missing"
+            },
+            {
+              "mode": "debug",
+              "suite": "engine",
+              "variant": "pending_overwrite"
+            },
+            {
+              "mode": "debug",
+              "suite": "engine",
+              "variant": "off_archive_write"
+            },
+            {
+              "mode": "debug",
+              "suite": "opening",
+              "variant": "round_one_time_window"
+            },
+            {
+              "mode": "debug",
+              "suite": "opening",
+              "variant": "temporary_secret_gallery"
+            },
+            {
+              "mode": "debug",
+              "suite": "opening",
+              "variant": "lost_standalone_snapshot"
+            },
+            {
+              "mode": "optimized",
+              "suite": "engine",
+              "variant": "preflight_off_bypass"
+            },
+            {
+              "mode": "optimized",
+              "suite": "engine",
+              "variant": "mirror_missing"
+            },
+            {
+              "mode": "optimized",
+              "suite": "engine",
+              "variant": "pending_overwrite"
+            },
+            {
+              "mode": "optimized",
+              "suite": "engine",
+              "variant": "off_archive_write"
+            },
+            {
+              "mode": "optimized",
+              "suite": "opening",
+              "variant": "round_one_time_window"
+            },
+            {
+              "mode": "optimized",
+              "suite": "opening",
+              "variant": "temporary_secret_gallery"
+            },
+            {
+              "mode": "optimized",
+              "suite": "opening",
+              "variant": "lost_standalone_snapshot"
+            }
+          ],
+          "full_swift_parse_files": 5,
+          "source_sha256": {
+            "submodules/TelegramCore/Sources/TelegramEngine/Messages/NagramiXLocalMessageData.swift": "a3628f19e16174db14917393ec14373fec7c4923843b01cf7d82d579c4f72a23",
+            "submodules/TelegramCore/Sources/TelegramEngine/Messages/TelegramEngineMessages.swift": "1f9ea5c7cd9b4fa2601ecafa478f10e99241235f06e982809575d8b67bfe00b0",
+            "submodules/GalleryData/Sources/GalleryData.swift": "e3ff3b4a250f667e129bb876df746bdb7cc7d823d9a68c6628ed8bb306ccf961",
+            "submodules/TelegramUI/Sources/Chat/ChatControllerOpenViewOnceMediaMessage.swift": "69e723126c40cc2c73d1fdd614289a3924a229aa59f8ee938ee50405475949db",
+            "submodules/TelegramUI/Components/Chat/ChatMessageInstantVideoBubbleContentNode/Sources/ChatMessageInstantVideoBubbleContentNode.swift": "5c5002093df9d3bd698eca74dd9ac3c7265e87360e2e498157c847c33d73a75c",
+            "submodules/TelegramCore/Sources/Utils/NagramiXCaptureProtectionPolicy.swift": "3a101a9df4262f9eea878273ddeb8d4438c777611b66febb5b3b979c2b281f45",
+            "submodules/TelegramCore/Sources/Utils/NagramiXMessageArchive.swift": "810c5de70671af00ee1de7eebfd595bae461654d9b35851aa4de5f2291a0f6e8"
+          },
+          "native_rest": "Five full files restored byte-exact after removing only the agreed new enum/preflight/mirror/route expressions",
+          "boundaries": "Actual reply transaction, native storeLocallyTranscribedAudio, archive public guards/transforms, full view-once open method and gallery/round route expressions execute. Postbox scheduling, archive serialization/rendering/persistence, UIKit/AVKit, and policy for opening routes are explicit adapters. Core policy executes in engine suite. No account, network, consume, read receipt or Apple SDK invoked.",
+          "apple_sdk": "pending",
+          "physical_device": "pending"
+        }
+      },
+      {
+        "component": "forward_source",
+        "exit_code": 0,
+        "evidence": {
+          "production_runs": [
+            {
+              "optimized": false,
+              "result": "PASS forward source checks: 47"
+            },
+            {
+              "optimized": true,
+              "result": "PASS forward source checks: 47"
+            }
+          ],
+          "semantic_negatives": [
+            {
+              "mode": "unconditional-archive-loader",
+              "optimized": false,
+              "diagnostic": "forward source regression: native loader preserves live ID/author without retained query"
+            },
+            {
+              "mode": "unconditional-archive-loader",
+              "optimized": true,
+              "diagnostic": "forward source regression: native loader preserves live ID/author without retained query"
+            },
+            {
+              "mode": "unconditional-archive-preview",
+              "optimized": false,
+              "diagnostic": "forward source regression: native preview preserves live ID/author without retained query"
+            },
+            {
+              "mode": "unconditional-archive-preview",
+              "optimized": true,
+              "diagnostic": "forward source regression: native preview preserves live ID/author without retained query"
+            },
+            {
+              "mode": "wrong-native-eligibility",
+              "optimized": false,
+              "diagnostic": "forward source regression: secret-media source is ineligible"
+            },
+            {
+              "mode": "wrong-native-eligibility",
+              "optimized": true,
+              "diagnostic": "forward source regression: secret-media source is ineligible"
+            }
+          ],
+          "source_sha256": {
+            "submodules/TelegramUI/Sources/ChatControllerForwardMessages.swift": "fe0c25f4597fa5cfc92aa5962a20aa0cd32a28ec7d76494aa2d84701b09382a0",
+            "submodules/TelegramUI/Sources/ChatControllerNode.swift": "5e6a331eb82d009a58bf32a20d7c8a2b69b669c9400ed3c0226e145feb62b4f3"
+          },
+          "source_boundaries": "Forward whole file reverses exactly to stage 8; Node enclosing native forward-preview map reverses exactly to stage 8.",
+          "runtime_boundaries": "Actual helper and both compactMap closures execute. Engine snapshots, immutable Message flags/media/attributes, archive preference and transfer options are adapters; sender and server are not executed.",
+          "parse_files": 2,
+          "native_sdk": "not run",
+          "physical_device": "pending"
+        }
+      },
+      {
+        "component": "reply",
+        "exit_code": 0,
+        "evidence": {
+          "production_runs": [
+            "PASS temporary reply UI checks: 33",
+            "PASS temporary reply UI checks: 33"
+          ],
+          "semantic_negatives": [
+            {
+              "mode": "old-panel-gate",
+              "optimized": false,
+              "diagnostic": "reply UI regression: ON original panel thumbnail"
+            },
+            {
+              "mode": "old-panel-gate",
+              "optimized": true,
+              "diagnostic": "reply UI regression: ON original panel thumbnail"
+            },
+            {
+              "mode": "old-info-gate",
+              "optimized": false,
+              "diagnostic": "reply UI regression: ON original sent reply thumbnail"
+            },
+            {
+              "mode": "old-info-gate",
+              "optimized": true,
+              "diagnostic": "reply UI regression: ON original sent reply thumbnail"
+            },
+            {
+              "mode": "no-parent-target",
+              "optimized": false,
+              "diagnostic": "reply UI regression: missing associated reply resolved by parent ID"
+            },
+            {
+              "mode": "no-parent-target",
+              "optimized": true,
+              "diagnostic": "reply UI regression: missing associated reply resolved by parent ID"
+            },
+            {
+              "mode": "stale-generation",
+              "optimized": false,
+              "diagnostic": "reply UI regression: stale nil cannot cancel newer reply"
+            },
+            {
+              "mode": "stale-generation",
+              "optimized": true,
+              "diagnostic": "reply UI regression: stale nil cannot cancel newer reply"
+            },
+            {
+              "mode": "no-cancel-recheck",
+              "optimized": false,
+              "diagnostic": "reply UI regression: late archive availability prevents cancellation"
+            },
+            {
+              "mode": "no-cancel-recheck",
+              "optimized": true,
+              "diagnostic": "reply UI regression: late archive availability prevents cancellation"
+            },
+            {
+              "mode": "strong-cancel",
+              "optimized": false,
+              "diagnostic": "reply UI regression: queued cancel does not retain panel"
+            },
+            {
+              "mode": "strong-cancel",
+              "optimized": true,
+              "diagnostic": "reply UI regression: queued cancel does not retain panel"
+            },
+            {
+              "mode": "duplicate-sound",
+              "optimized": false,
+              "diagnostic": "reply UI regression: one save sound for retained voice"
+            },
+            {
+              "mode": "duplicate-sound",
+              "optimized": true,
+              "diagnostic": "reply UI regression: one save sound for retained voice"
+            },
+            {
+              "mode": "text-only-reply",
+              "optimized": false,
+              "diagnostic": "reply UI regression: native real Reply target for retained file"
+            },
+            {
+              "mode": "text-only-reply",
+              "optimized": true,
+              "diagnostic": "reply UI regression: native real Reply target for retained file"
+            },
+            {
+              "mode": "no-retained-delete",
+              "optimized": false,
+              "diagnostic": "reply UI regression: TEMP-only retained record can be deleted without Deleted Messages"
+            },
+            {
+              "mode": "no-retained-delete",
+              "optimized": true,
+              "diagnostic": "reply UI regression: TEMP-only retained record can be deleted without Deleted Messages"
+            },
+            {
+              "mode": "unowned-delete",
+              "optimized": false,
+              "diagnostic": "reply UI regression: unowned temporary-looking message cannot purge"
+            },
+            {
+              "mode": "unowned-delete",
+              "optimized": true,
+              "diagnostic": "reply UI regression: unowned temporary-looking message cannot purge"
+            },
+            {
+              "mode": "duplicate-delete",
+              "optimized": false,
+              "diagnostic": "reply UI regression: native local delete not duplicated"
+            },
+            {
+              "mode": "duplicate-delete",
+              "optimized": true,
+              "diagnostic": "reply UI regression: native local delete not duplicated"
+            }
+          ],
+          "parse_files": 3,
+          "source_hashes": {
+            "submodules/TelegramUI/Components/Chat/ReplyAccessoryPanelNode/Sources/ReplyAccessoryPanelNode.swift": "4d88e9071d0e791b18f7754324c6247377c7218a3225a7cb6ee225ee104505f5",
+            "submodules/TelegramUI/Components/Chat/ChatMessageReplyInfoNode/Sources/ChatMessageReplyInfoNode.swift": "59278f8773caa3cf5cb64c533d1fde1c1dadc7533d94d0c5720c512ba61178e6",
+            "submodules/TelegramUI/Sources/ChatInterfaceStateContextMenus.swift": "0124a6241a7ed1f5a942114aa3e28e95d9354dfa291184419f1ae913e0df1af1"
+          },
+          "boundaries": "Actual reply-info resolver, native Reply action, thumbnail predicates, nil-cancel closure and Save Sound gate execute. UIKit, signal scheduling, archive and shared eligibility are bounded adapters tested separately. Live IDs/quotes/server attributes are unchanged; no receipt or RPC added.",
+          "native_sdk": "not run",
+          "physical_device": "pending"
+        }
+      },
+      {
+        "component": "repost",
+        "exit_code": 0,
+        "evidence": {
+          "production_runs": [
+            "PASS temporary repost checks: 41",
+            "PASS temporary repost checks: 41"
+          ],
+          "semantic_negatives": [
+            {
+              "mode": "old-native-routing",
+              "optimized": false,
+              "diagnostic": "temporary repost regression: live TTL text keeps native repost even with retention"
+            },
+            {
+              "mode": "old-native-routing",
+              "optimized": true,
+              "diagnostic": "temporary repost regression: live TTL text keeps native repost even with retention"
+            },
+            {
+              "mode": "generic-signed-callback",
+              "optimized": false,
+              "diagnostic": "temporary repost regression: signed action calls actual copy-mode controller directly"
+            },
+            {
+              "mode": "generic-signed-callback",
+              "optimized": true,
+              "diagnostic": "temporary repost regression: signed action calls actual copy-mode controller directly"
+            },
+            {
+              "mode": "old-photo-gate",
+              "optimized": false,
+              "diagnostic": "temporary repost regression: ON temporary photo resource lookup available"
+            },
+            {
+              "mode": "old-photo-gate",
+              "optimized": true,
+              "diagnostic": "temporary repost regression: ON temporary photo resource lookup available"
+            },
+            {
+              "mode": "wrong-entity-offset",
+              "optimized": false,
+              "diagnostic": "temporary repost regression: entity offsets use UTF16 author length"
+            },
+            {
+              "mode": "wrong-entity-offset",
+              "optimized": true,
+              "diagnostic": "temporary repost regression: entity offsets use UTF16 author length"
+            },
+            {
+              "mode": "missing-rich-signature",
+              "optimized": false,
+              "diagnostic": "temporary repost regression: rich visible page has author paragraph before full original blocks"
+            },
+            {
+              "mode": "missing-rich-signature",
+              "optimized": true,
+              "diagnostic": "temporary repost regression: rich visible page has author paragraph before full original blocks"
+            },
+            {
+              "mode": "lost-rich-media",
+              "optimized": false,
+              "diagnostic": "temporary repost regression: rich attachment media map preserved"
+            },
+            {
+              "mode": "lost-rich-media",
+              "optimized": true,
+              "diagnostic": "temporary repost regression: rich attachment media map preserved"
+            },
+            {
+              "mode": "no-frozen-check",
+              "optimized": false,
+              "diagnostic": "temporary repost regression: frozen account cannot enqueue signed copy"
+            },
+            {
+              "mode": "no-frozen-check",
+              "optimized": true,
+              "diagnostic": "temporary repost regression: frozen account cannot enqueue signed copy"
+            }
+          ],
+          "source_sha256": "0124a6241a7ed1f5a942114aa3e28e95d9354dfa291184419f1ae913e0df1af1",
+          "helper_sha256": "d854c35006818792a160556fc0a9c16fb94207c7bde1212eaec929cb7dc829f7",
+          "parse_files": 2,
+          "boundaries": "Actual signing helper, native-source classifier, signed/native menu callbacks and photo resource lookup execute; shared eligibility, immutable Message wrappers, UIKit strings/dismiss and copy transport are adapters. Source and callback modes are checked against actual declarations.",
+          "native_sdk": "not run",
+          "physical_device": "pending"
+        }
+      },
+      {
+        "component": "send",
+        "exit_code": 0,
+        "evidence": {
+          "production_runs": [
+            "PASS temporary reply send production checks: 63",
+            "PASS temporary reply send production checks: 63"
+          ],
+          "semantic_negative_runs": 10,
+          "module_boundary": {
+            "full_exact_ui_helper_typecheck": "passed without direct Postbox import",
+            "old_internal_api_compiler_rejections": 2,
+            "native_instant_page_surface_sha256": "7933d9b4d73602177657e9a06cbb68706293c5ccab940c1e95ed9af49bd7f8e5",
+            "scope": "exact full helper imports public TelegramCore API backed by a separate Postbox module; native InstantPage fields/factories and Enqueue cases; bounded other implementations"
+          },
+          "source_bodies": {
+            "submodules/TelegramUI/Sources/ChatControllerNode.swift": "5e6a331eb82d009a58bf32a20d7c8a2b69b669c9400ed3c0226e145feb62b4f3",
+            "submodules/TelegramUI/Sources/Chat/ChatControllerLoadDisplayNode.swift": "8d8fa8354773e873603e49c654cefe946a6de96a0222d14dfc1353ddd58debf1",
+            "submodules/TelegramUI/Sources/Chat/NagramiXTemporaryReplySend.swift": "d854c35006818792a160556fc0a9c16fb94207c7bde1212eaec929cb7dc829f7",
+            "submodules/TelegramCore/Sources/TelegramEngine/Messages/NagramiXLocalMessageData.swift": "a3628f19e16174db14917393ec14373fec7c4923843b01cf7d82d579c4f72a23",
+            "submodules/TelegramCore/Sources/PendingMessages/EnqueueMessage.swift": "af4e79283b36e58169eac5363dbf1639718047bc1dc68aae729a761c239ffd8e",
+            "submodules/TelegramCore/Sources/Utils/NagramiXArchivedMediaCopy.swift": "0bc5844d30a869b78024487f14176dd8d69d76fc28b7cd502df42b3e443a4216",
+            "submodules/TelegramCore/Sources/TelegramEngine/Resources/NagramiXResourceAccess.swift": "71d86809fd6000b561e97f1d831a92284dcb08086637d53877a71549cf5b2d05",
+            "submodules/TelegramUI/Sources/Chat/NagramiXCopyDelivery.swift": "2c26cc5593a306c4bf41628370fa0036bc86818cda6b7a1428667046ec95afec",
+            "submodules/TelegramCore/Sources/SyncCore/SyncCore_InstantPage.swift": "99cdb89f02a40edc1f8dc4f4c46e78c65cd3cc85f903b12d128b302819d0a34c",
+            "submodules/TelegramCore/Sources/TelegramEngine/Messages/Media.swift": "5fc9538fe63eb92cd40f5c1905f3fc89ee665f1258248c933eb18bf07582bfea",
+            "submodules/TelegramCore/Sources/SyncCore/SyncCore_RichTextMessageAttribute.swift": "bae4535e56ef9cbc6336136ae58d61382bbb59a3aca03d705c26995247eb37fc",
+            "submodules/TelegramCore/Sources/SyncCore/SyncCore_TextEntitiesMessageAttribute.swift": "cbd4efb28f2be877a5fcc3d6050524afe31d741e8c2b50c9554cef01b5a3ea59",
+            "submodules/Postbox/Sources/Message.swift": "c382cdf51199878336bf65c396cc56aeebaf74685b00a941211676e07c2e476e",
+            "submodules/TelegramCore/Sources/TelegramEngine/Utils/EnginePostboxCoding.swift": "d6b67a8397271403c5f611cf23a68217953a3c3e1000c9a5805bd028e1231247",
+            "submodules/TelegramCore/Sources/SyncCore/SyncCore_RichText.swift": "c0ed8cebda71ca7cb5aea14c8976fc72556a15340986ac2579d82798f48120c4"
+          },
+          "native_ordinary_queue": "unchanged ordinary branch; exact associated media/attributes preserved",
+          "object_resolver": "unchanged common resolver; fixed image/card continuation covered through bounded callback",
+          "ownership": "real temporary files; native commit and rollback bodies with release counters; staging constructor is bounded",
+          "apple_sdk": "pending",
+          "device": "pending",
+          "live_delivery": "not exercised"
+        }
+      }
+    ],
+    "swift_parse": 28,
+    "native_postbox_imports": "passed",
+    "boundaries": "Production bodies execute in explicit adapters; UIKit/AVKit, cryptography delivery, Postbox storage, external services and physical playback are not a live application test.",
+    "apple_sdk": "not_run",
+    "ipa": "not_built",
+    "device": "pending"
+  },
+  "shared_chain": {
+    "source": "/workspace/scratch/temporary-message-interaction/source-working-3",
+    "registered_plans": 15,
+    "replacements": 27,
+    "copies": {
+      "submodules/TelegramUI/Sources/Chat/NagramiXTemporaryReplySend.swift": {
+        "source": "temporary_message_interaction/Copy0.inc",
+        "sha256": "d854c35006818792a160556fc0a9c16fb94207c7bde1212eaec929cb7dc829f7"
+      }
+    },
+    "guards": 23,
+    "native_origin_blobs": {
+      "submodules/GalleryData/Sources/GalleryData.swift": "b9274cc23eae00653ca4378bd41eb9c5086ff02f",
+      "submodules/TelegramCore/Sources/State/ManagedSecretChatOutgoingOperations.swift": "e42181a76f27b91bb5892fcfe64204e9996a83e3",
+      "submodules/TelegramCore/Sources/State/ProcessSecretChatIncomingDecryptedOperations.swift": "ad9e443fef01254fac50d498351649afa5ac85b8",
+      "submodules/TelegramUI/Components/Chat/ChatMessageReplyInfoNode/Sources/ChatMessageReplyInfoNode.swift": "490443fc48020618cc67bd9c1b0cd8580e1a6710",
+      "submodules/TelegramUI/Components/Chat/ReplyAccessoryPanelNode/Sources/ReplyAccessoryPanelNode.swift": "41a391e88c611386b7e07ca34a65d9e3a410fe74"
+    },
+    "final_contract_paths": 663,
+    "loader_fail_closed": [
+      "repeat",
+      "inputs/submodules/GalleryData/Sources/GalleryData.swift/missing",
+      "inputs/submodules/GalleryData/Sources/GalleryData.swift/drift",
+      "inputs/submodules/TelegramCore/Sources/State/Sync/StateReplay+Messages.swift/missing",
+      "inputs/submodules/TelegramCore/Sources/State/Sync/StateReplay+Messages.swift/drift",
+      "inputs/submodules/TelegramCore/Sources/TelegramEngine/Messages/TelegramEngineMessages.swift/missing",
+      "inputs/submodules/TelegramCore/Sources/TelegramEngine/Messages/TelegramEngineMessages.swift/drift",
+      "inputs/submodules/TelegramUI/Sources/ChatInterfaceStateContextMenus.swift/missing",
+      "inputs/submodules/TelegramUI/Sources/ChatInterfaceStateContextMenus.swift/drift",
+      "guards/submodules/AccountContext/BUILD/missing",
+      "guards/submodules/AccountContext/BUILD/drift",
+      "guards/submodules/TelegramCore/Sources/SyncCore/SyncCore_AutoremoveTimeoutMessageAttribute.swift/missing",
+      "guards/submodules/TelegramCore/Sources/SyncCore/SyncCore_AutoremoveTimeoutMessageAttribute.swift/drift",
+      "guards/submodules/TelegramUI/Sources/Chat/NagramiXCopyDelivery.swift/missing",
+      "guards/submodules/TelegramUI/Sources/Chat/NagramiXCopyDelivery.swift/drift",
+      "existing-copy/submodules/TelegramUI/Sources/Chat/NagramiXTemporaryReplySend.swift",
+      "template-drift",
+      "unsafe-output",
+      "invalid-manifest",
+      "copy-template-drift",
+      "unsafe-copy",
+      "invalid-copy"
+    ],
+    "manifest_sha256": "62f821eaeda771d45058dece9f324c5683ee1d7f4a421003538b30848f261188",
+    "outputs_digest_sha256": "8f2debc423fccf305d7f66e663e9077170cc6ff2bd17f09794e3e6b776127d10",
+    "native_post_origins": "passed:7blobs+2negative",
+    "sdk": "not_run",
+    "device": "pending"
+  },
+  "inverse": {
+    "late_source_stages": [
+      "wide_bottom_bar",
+      "author_selection_no_restore",
+      "preview_reply_intent",
+      "cloud_credential_entry",
+      "extended_poll_integrity",
+      "bot_delete_without_block",
+      "wide_tab_bar_setting",
+      "pip_swipe_handoff",
+      "temporary_message_interaction"
+    ],
+    "published_contract_paths": 660,
+    "actual_published_pipeline_compared": true,
+    "full_source_files_preserved": 37655,
+    "introduced_helpers_absent_from_history": [
+      "submodules/TelegramUI/Sources/Chat/NagramiXTemporaryReplySend.swift"
+    ],
+    "pre_ninth_checkpoint_verified": true,
+    "negative_projection_verified_before_mutation": true,
+    "fail_closed": [
+      "wide_bottom_bar/output-drift",
+      "author_selection_no_restore/output-drift",
+      "preview_reply_intent/output-drift",
+      "cloud_credential_entry/output-drift",
+      "extended_poll_integrity/output-drift",
+      "bot_delete_without_block/output-drift",
+      "wide_tab_bar_setting/output-drift",
+      "pip_swipe_handoff/output-drift",
+      "temporary_message_interaction/output-drift",
+      "native-guard-missing",
+      "copied-helper-drift",
+      "copied-helper-missing",
+      "copied-helper-external-symlink",
+      "template-drift-before-inverse",
+      "wide_bottom_bar/native-blob-proof-missing",
+      "wide_bottom_bar/native-blob-drift/submodules/TelegramUI/Components/TabBarComponent/Sources/TabBarComponent.swift",
+      "temporary_message_interaction/native-blob-proof-missing",
+      "temporary_message_interaction/native-blob-drift/submodules/GalleryData/Sources/GalleryData.swift",
+      "temporary_message_interaction/native-blob-drift/submodules/TelegramCore/Sources/State/ManagedSecretChatOutgoingOperations.swift",
+      "temporary_message_interaction/native-blob-drift/submodules/TelegramCore/Sources/State/ProcessSecretChatIncomingDecryptedOperations.swift",
+      "temporary_message_interaction/native-blob-drift/submodules/TelegramUI/Components/Chat/ChatMessageReplyInfoNode/Sources/ChatMessageReplyInfoNode.swift",
+      "temporary_message_interaction/native-blob-drift/submodules/TelegramUI/Components/Chat/ReplyAccessoryPanelNode/Sources/ReplyAccessoryPanelNode.swift"
+    ],
+    "sdk": "not_run",
+    "device": "pending"
+  },
+  "final_migration_gate": {
+    "target_pin": "24638bc69bd083981b178dd1e7f921eebbf7fc46",
+    "pre_replacements": 196,
+    "post_replacements": 274,
+    "deleted_obsolete_files": 2,
+    "fail_closed": {
+      "pre": 17,
+      "post": 33
+    },
+    "parsed_swift": 445,
+    "executions": [
+      "current-debug: PiP playback command checks: 113",
+      "current-O: PiP playback command checks: 113",
+      "previous-native-debug: Native PiP baseline checks: 37",
+      "previous-native-O: Native PiP baseline checks: 37",
+      "previous-caption-debug: Round caption transport checks: 118",
+      "previous-caption-O: Round caption transport checks: 118",
+      "previous-composer-debug: Repost copy integrity checks: 48",
+      "previous-composer-O: Repost copy integrity checks: 48",
+      "old-toggle-command-debug: regression reproduced and rejected",
+      "old-toggle-command-O: regression reproduced and rejected",
+      "cached-status-toggle-debug: regression reproduced and rejected",
+      "cached-status-toggle-O: regression reproduced and rejected",
+      "inverted-command-debug: regression reproduced and rejected",
+      "inverted-command-O: regression reproduced and rejected"
+    ],
+    "historical_runtime_boundary": "exact published bytes after verified inverse of all registered late source stages",
+    "late_source_stages": [
+      "wide_bottom_bar",
+      "author_selection_no_restore",
+      "preview_reply_intent",
+      "cloud_credential_entry",
+      "extended_poll_integrity",
+      "bot_delete_without_block",
+      "wide_tab_bar_setting",
+      "pip_swipe_handoff",
+      "temporary_message_interaction"
+    ],
+    "native_postbox_imports": "passed",
+    "apple_sdk": "pending",
+    "device": "pending"
+  },
+  "static": {
+    "yaml": "passed",
+    "workflow_trigger": "workflow_dispatch_only",
+    "bash_blocks": 19,
+    "python_compile": [
+      "ios/temporary_message_interaction.py",
+      "scripts/validate_temporary_interaction_archive.py",
+      "scripts/validate_temporary_interaction_asr.py",
+      "scripts/validate_temporary_interaction_consumption.py",
+      "scripts/validate_temporary_interaction_delete.py",
+      "scripts/validate_temporary_interaction_engine_opening.py",
+      "scripts/validate_temporary_interaction_forward_source.py",
+      "scripts/validate_temporary_interaction_reply.py",
+      "scripts/validate_temporary_interaction_repost.py",
+      "scripts/validate_temporary_interaction_send.py",
+      "scripts/validate_temporary_message_interaction.py",
+      "scripts/late_source_stages.py",
+      "scripts/validate_custom_member_references.py",
+      "scripts/validate_late_source_stages.py",
+      "scripts/validate_pip_swipe_handoff.py",
+      "scripts/validate_system_video_pip.py",
+      "scripts/validate_upstream_13_2_release.py"
+    ],
+    "build_mode": "passed (four parameter combinations)",
+    "custom_member_canonical": {
+      "swift_files": 194,
+      "string_accesses": 755,
+      "custom_declarations": 677
+    },
+    "custom_member_full": {
+      "swift_files": 7321,
+      "string_accesses": 848,
+      "custom_declarations": 809,
+      "actual_string_declarations": 245
+    }
+  },
+  "localization": {
+    "resource_catalogs": 71,
+    "keys_per_catalog": 630,
+    "ui_source_files": 114,
+    "localized_accesses": 611,
+    "runtime_checks_per_mode": 44899,
+    "meaning": "NagramiX resource catalogs including regional variants, not a verified count of official Telegram UI languages or linguistic quality.",
+    "report_sha256": "2f2494e5b15bc5cf19662197694d5da258d24908738729c65e533f63e9c01d48"
+  },
+  "corrected_gate_failure": "Repost validator now reads the pinned helper SHA from copies, not replacements. Native PostboxImportCheck rejected the initial helper direct import. It was removed; exact full helper now typechecks through public TelegramCore EngineRawMessage alias with a separate Postbox module. Allowlist and native checker unchanged.",
+  "not_run": [
+    "Apple SDK build",
+    "Actions dispatch",
+    "IPA packaging",
+    "release publication",
+    "physical iPhone",
+    "real Telegram service or secret-chat delivery"
+  ],
+  "last_published_release": "0.8.9/build185, unchanged"
+}

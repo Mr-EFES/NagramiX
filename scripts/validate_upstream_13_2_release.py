@@ -13,7 +13,7 @@ import tempfile
 
 from validate_quick_format import block, manifest
 from validate_pip_playback_commands import execute
-from late_source_stages import LATE_SOURCE_STAGES
+from late_source_stages import LATE_SOURCE_STAGES, check_copy_contract, copy_outputs
 
 ROOT = Path(__file__).resolve().parents[1]
 OVERLAY = ROOT / 'ios'
@@ -51,6 +51,14 @@ def checked_plan(stage):
     for name, expected in plan['inputs'].items():
         assert digest(OVERLAY / plan['previous'][name]) == expected, name
         assert digest(OVERLAY / plan['replacements'][name]) == plan['outputs'][name], name
+    for name, item in plan['copies'].items():
+        destination = Path(name)
+        assert not destination.is_absolute() and '..' not in destination.parts, name
+        path = OVERLAY / item['source']
+        assert path.resolve().is_relative_to(OVERLAY.resolve()), name
+        assert digest(path) == item['sha256'], name
+    if stage in LATE_SOURCE_STAGES:
+        check_copy_contract(stage, plan)
     if stage == 'upstream_13_2_release_post':
         native_input_contract(plan, require_account=True)
     elif plan.get('native_inputs'):
@@ -67,7 +75,11 @@ def checked_sdk_plans(post):
     plans = []
     for stage in SDK_STAGES:
         plan = checked_plan(stage)
-        assert not plan['copies'] and not plan['deletions']
+        if stage in LATE_SOURCE_STAGES:
+            check_copy_contract(stage, plan)
+        else:
+            assert not plan['copies'] and not plan['deletions']
+        assert not set(plan['copies']) & set(expected), 'Copy replaces an existing SDK stage path'
         for name, value in plan['inputs'].items():
             if name not in expected:
                 assert name in plan.get('native_inputs', {}), 'Unproven native SDK stage input: ' + name
@@ -79,6 +91,7 @@ def checked_sdk_plans(post):
             assert expected.get(name, value) == value, name
         expected.update(plan['guards'])
         expected.update(plan['outputs'])
+        expected.update(copy_outputs(plan))
         plans.append(plan)
     return plans, expected
 
@@ -88,6 +101,8 @@ def verify(source):
     post = checked_plan('upstream_13_2_release_post')
     sdk_plans, final_outputs = checked_sdk_plans(post)
     for plan in sdk_plans:
+        for name in plan['copies']:
+            assert not (source / name).is_symlink(), 'Copied helper is not a regular source: ' + name
         for name, expected in plan['guards'].items():
             assert digest(source / name) == final_outputs.get(name, expected), name
     for name, expected in final_outputs.items():
@@ -120,7 +135,7 @@ def verify(source):
         next_stage = LATE_SOURCE_STAGES[index + 1] if index + 1 < len(LATE_SOURCE_STAGES) else None
         boundary = workflow.index('apply_' + next_stage + '(') if next_stage else workflow.index('python3 scripts/validate_upstream_13_2_release.py')
         assert workflow.index('apply_' + stage + '(') < validation < boundary
-    assert workflow.index('python3 scripts/validate_pip_swipe_handoff.py') < workflow.index('python3 scripts/validate_late_source_stages.py') < workflow.index('python3 scripts/validate_upstream_13_2_release.py')
+    assert workflow.index('python3 scripts/validate_temporary_message_interaction.py') < workflow.index('python3 scripts/validate_late_source_stages.py') < workflow.index('python3 scripts/validate_upstream_13_2_release.py')
     assert workflow.index('validate_custom_member_references.py --canonical') < workflow.index('Применить overlay NagramiX')
     assert workflow.index('validate_upstream_13_2_release.py') < workflow.index('--final-upstream-13-2')
     messages = (source / (STATE + 'StateReplay+Messages.swift')).read_text()
@@ -183,6 +198,9 @@ def guard_checks(source, stage, plan, folder):
                     if sdk['outputs'].get(name) == plan['guards'][name]:
                         candidate = OVERLAY / sdk['replacements'][name]
                         candidates[candidate.read_bytes()] = candidate
+                    if sdk['copies'].get(name, {}).get('sha256') == plan['guards'][name]:
+                        candidate = OVERLAY / sdk['copies'][name]['source']
+                        candidates[candidate.read_bytes()] = candidate
                 assert len(candidates) == 1, 'Cannot reconstruct guarded input: ' + name
                 data, origin = next(iter(candidates.items()))
                 assert hashlib.sha256(data).hexdigest() == plan['guards'][name], name
@@ -239,8 +257,10 @@ def guard_checks(source, stage, plan, folder):
         tree = seed('copy-' + str(index))
         detach_write(tree / name, b'existing destination')
         reject(tree, 'existing-copy/' + name)
-    for kind in ('template-drift', 'unsafe-output', 'invalid-manifest', 'invalid-deletion'):
+    for kind in ('template-drift', 'unsafe-output', 'invalid-manifest', 'invalid-deletion', 'copy-template-drift', 'unsafe-copy', 'invalid-copy'):
         if kind == 'invalid-deletion' and not plan['deletions']:
+            continue
+        if kind in ('copy-template-drift', 'unsafe-copy', 'invalid-copy') and not plan['copies']:
             continue
         local = folder / ('overlay-' + kind)
         for name in plan['templates']:
@@ -256,8 +276,14 @@ def guard_checks(source, stage, plan, folder):
         elif kind == 'unsafe-output':
             for field in ('inputs', 'outputs', 'previous', 'replacements'):
                 changed[field]['../escape'] = changed[field].pop(name)
-        else:
+        elif kind == 'invalid-deletion':
             changed['deletions'][next(iter(changed['deletions']))]['sha256'] = '0' * 64
+        elif kind == 'copy-template-drift':
+            detach_write(local / next(iter(plan['copies'].values()))['source'], b'changed copy template')
+        elif kind == 'unsafe-copy':
+            changed['copies']['../escape.swift'] = changed['copies'].pop(next(iter(changed['copies'])))
+        else:
+            changed['copies'][next(iter(changed['copies']))]['sha256'] = '0' * 64
         (local / (stage + '_patches.json')).write_text(json.dumps(changed))
         reject(seed(kind), kind, local)
         shutil.rmtree(local)
@@ -291,7 +317,7 @@ def main():
     subprocess.run([os.sys.executable, str(args.source / 'build-system/Make/PostboxImportCheck.py'), str(args.source)], check=True)
     report = {'target_pin': PIN, 'pre_replacements': len(pre['outputs']), 'post_replacements': len(post['outputs']),
               'deleted_obsolete_files': len(post['deletions']), 'fail_closed': rejected, 'parsed_swift': len(paths),
-              'executions': executions, 'historical_runtime_boundary': 'exact published bytes after verified inverse of eight late source stages',
+              'executions': executions, 'historical_runtime_boundary': 'exact published bytes after verified inverse of all registered late source stages',
               'late_source_stages': list(LATE_SOURCE_STAGES), 'native_postbox_imports': 'passed', 'apple_sdk': 'pending', 'device': 'pending'}
     if args.report:
         args.report.write_text(json.dumps(report, ensure_ascii=False, indent=2) + '\n')

@@ -24,7 +24,8 @@ def historical_late_source(source):
 
     The old standalone validators keep their pre-migration CI checkpoints.
     The final 13.2 gate verifies current outputs before using this view for its
-    historical R1/R2/R3 fixture bodies; no current code is replaced on disk.
+    historical R1/R2/R3 fixture bodies. Sources introduced by a late stage are
+    absent from that historical view; no current code is replaced on disk.
     """
     from late_source_stages import historical_source
     return historical_source(source)

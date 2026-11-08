@@ -594,12 +594,13 @@ def verify_integrated_baseline(source, baseline):
     required=('wide_bottom_bar','author_selection_no_restore','preview_reply_intent',
               'cloud_credential_entry','extended_poll_integrity','bot_delete_without_block',
               'wide_tab_bar_setting','pip_swipe_handoff')
-    assert tuple(SDK_STAGES[-len(required):])==required, 'Incomplete or reordered eight-stage chain'
+    pip_index=SDK_STAGES.index('pip_swipe_handoff')
+    assert tuple(SDK_STAGES[pip_index-len(required)+1:pip_index+1])==required, 'Incomplete or reordered eight-stage PiP prefix'
     post=checked_plan('upstream_13_2_release_post')
     plans,_=checked_sdk_plans(post)
     assert len(plans)==len(SDK_STAGES)
     expected={**post['outputs'],**post['guards']}
-    for plan in plans[:-1]:
+    for plan in plans[:pip_index]:
         for name,value in {**plan['guards'],**plan['inputs']}.items():
             if name in expected:
                 assert expected[name]==value, 'Broken pre-PiP dependency: '+name
