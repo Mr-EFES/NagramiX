@@ -1,0 +1,414 @@
+{
+  "task": "account_settings_entry",
+  "task_number": 10,
+  "version": "0.9.0",
+  "status": "source_checked",
+  "recorded_at_utc": "2026-11-08T09:21:20.238502+00:00",
+  "base_main": "dc014693c296e85991185d88385adf12587efb46",
+  "target_pin": "24638bc69bd083981b178dd1e7f921eebbf7fc46",
+  "approval": {
+    "option": 2,
+    "name": "Круглый аватар",
+    "image_sha256": "f4e6cd95551dddabe84bebb5600fe2eac5fe383f600f6cebd691b818b9aa4f8a"
+  },
+  "authorization": "Owner approved implementation and immediate checked commit/push main. No SDK, Actions, IPA or release.",
+  "manifest_sha256": "eeb5d65a5b5cc691772e10e1e9d11ce2d531486e59fbea91c7f65cf9e8c35014",
+  "modified_application_sha256": {
+    "submodules/AccountContext/Sources/ChatController.swift": "0abfb2a1a0d0c0d61eaa38471e1c9376c6b82fcea4836bec1b27584aace194a8",
+    "submodules/SettingsUI/Sources/Search/SettingsSearchableItems.swift": "3f30490e02bcbfb8d54cd03d8af0ea047a66fde275c5447dda229cedd8c9de07",
+    "submodules/TelegramPresentationData/Sources/Resources/PresentationResourcesSettings.swift": "984662acbfda95369796094bfd9ce644b2c66ada6d803ea0d9e6d15b6f0b2116",
+    "submodules/TelegramUI/Components/PeerInfo/PeerInfoScreen/Sources/PeerInfoScreen.swift": "209e8556197bf9843f7fb6a5591d8c0e992ca2ce6810692d5e0f417bf702d074",
+    "submodules/TelegramUI/Components/PeerInfo/PeerInfoScreen/Sources/PeerInfoSettingsItems.swift": "47a73690e083f7f98f5718aef808fb0846b4456e296a1fabf549ab679937b05b"
+  },
+  "checked_code_sha256": {
+    ".github/workflows/build-unsigned-ipa.yml": "f52c66e16c79d70250e35780b8a569498a53d1c4e28fb28565d9361414bb5128",
+    "ios/account_settings_entry.py": "7050ee5e3c3bb84a93666c05c6690d4087c7392b11f6f0cc1bf89d8700603a16",
+    "ios/account_settings_entry/After0.inc": "0abfb2a1a0d0c0d61eaa38471e1c9376c6b82fcea4836bec1b27584aace194a8",
+    "ios/account_settings_entry/After1.inc": "3f30490e02bcbfb8d54cd03d8af0ea047a66fde275c5447dda229cedd8c9de07",
+    "ios/account_settings_entry/After2.inc": "984662acbfda95369796094bfd9ce644b2c66ada6d803ea0d9e6d15b6f0b2116",
+    "ios/account_settings_entry/After3.inc": "209e8556197bf9843f7fb6a5591d8c0e992ca2ce6810692d5e0f417bf702d074",
+    "ios/account_settings_entry/After4.inc": "47a73690e083f7f98f5718aef808fb0846b4456e296a1fabf549ab679937b05b",
+    "ios/account_settings_entry/Before0.inc": "7ef5509e09b937568fb89f1211f5b765f61bd83b82c8c7c0d2cf322c601e3315",
+    "ios/account_settings_entry/Before1.inc": "b4569830e7299d9ad43398a6294423142d3291aaf452fe06a41c2a62bd7be4e9",
+    "ios/account_settings_entry/Before2.inc": "640baf9a0e7fd0ed5b460942ae566b3e282681e55bd87f604491eb5d908488e0",
+    "ios/account_settings_entry/Before3.inc": "58b93214e07d83c959df674503c92d70e54ae0243dc84bca22dba730bd2d08ee",
+    "ios/account_settings_entry/Before4.inc": "2710350655e1b262395be0df3b8630af52431dc8a0cbba861fac20e8fa71ab2f",
+    "ios/account_settings_entry/Guard0.inc": "e3ec0a96e45891721f72009f392510859bebbc52db17798ea0126b6fec8bf47d",
+    "ios/account_settings_entry/Guard1.inc": "b229ff1580a1e8e13770d400a1c0c9e1cf56ef05b831659c3422a6141b50f489",
+    "ios/account_settings_entry/Guard10.inc": "d854c35006818792a160556fc0a9c16fb94207c7bde1212eaec929cb7dc829f7",
+    "ios/account_settings_entry/Guard2.inc": "9e4b255c8e1a4baf573b03887f828008e15ccc88c93da911e3862f59a53f422d",
+    "ios/account_settings_entry/Guard3.inc": "c819263cd1c2d6407308fe3f172f9f564b40e26f3b688da39739577bae792f52",
+    "ios/account_settings_entry/Guard4.inc": "af4f1f75d592aacfb7ba3b2408eb2979667387d6c05522bf5287779f277f6e50",
+    "ios/account_settings_entry/Guard5.inc": "46ec1b50e9a4d301f661719822812bb8a9d4d2c51d7855dc9500f31bb603f5b1",
+    "ios/account_settings_entry/Guard6.inc": "ec59267a677ec1622c5c826e7a715a4dbc3580634b7e4f53617c3d4c8d272289",
+    "ios/account_settings_entry/Guard7.inc": "18590d2344a6479faa9c72b1a4b80260ab1dd512610ad34de24aa99ce57786eb",
+    "ios/account_settings_entry/Guard8.inc": "d9e52a9ea7dd8cd641c655618e6add9ecf158777440e9e28ad24b5e562b1c6e8",
+    "ios/account_settings_entry/Guard9.inc": "ef6f0bee58b8fea23141d64b98587ec77a7e997695d0177c8a7d4583bfc8a3b1",
+    "ios/account_settings_entry_patches.json": "eeb5d65a5b5cc691772e10e1e9d11ce2d531486e59fbea91c7f65cf9e8c35014",
+    "scripts/late_source_stages.py": "9bad3b38e103120dcac0747d5cb42c33b1b0c79cc203d9db4ba9a934d84f0ca6",
+    "scripts/validate_account_settings_entry.py": "c75f37882af3e165151f3bde02fda60db0c371a45d0e1b78f8bd1c45b6798e37",
+    "scripts/validate_late_source_stages.py": "48f3ae90a76579ef37f654ea665f0ddde80b7061f2bbc52b4b9c329e0072c62d",
+    "scripts/validate_temporary_message_interaction.py": "9376844d59f7bd63440886e8a666f959ca4d669c2f3721fdfd02619d40a34bb2",
+    "scripts/validate_upstream_13_2_release.py": "d0dbe202af2efa18ed1b3e14a120c70c1a0d986958e1b2339abc1a72063acfdb"
+  },
+  "feature_gate": {
+    "stage": "account_settings_entry",
+    "outputs": {
+      "submodules/AccountContext/Sources/ChatController.swift": "0abfb2a1a0d0c0d61eaa38471e1c9376c6b82fcea4836bec1b27584aace194a8",
+      "submodules/SettingsUI/Sources/Search/SettingsSearchableItems.swift": "3f30490e02bcbfb8d54cd03d8af0ea047a66fde275c5447dda229cedd8c9de07",
+      "submodules/TelegramPresentationData/Sources/Resources/PresentationResourcesSettings.swift": "984662acbfda95369796094bfd9ce644b2c66ada6d803ea0d9e6d15b6f0b2116",
+      "submodules/TelegramUI/Components/PeerInfo/PeerInfoScreen/Sources/PeerInfoScreen.swift": "209e8556197bf9843f7fb6a5591d8c0e992ca2ce6810692d5e0f417bf702d074",
+      "submodules/TelegramUI/Components/PeerInfo/PeerInfoScreen/Sources/PeerInfoSettingsItems.swift": "47a73690e083f7f98f5718aef808fb0846b4456e296a1fabf549ab679937b05b"
+    },
+    "guards": 11,
+    "full_source": {
+      "baseline_files": 37655,
+      "final_files": 37655,
+      "changed_files": [
+        "submodules/AccountContext/Sources/ChatController.swift",
+        "submodules/SettingsUI/Sources/Search/SettingsSearchableItems.swift",
+        "submodules/TelegramPresentationData/Sources/Resources/PresentationResourcesSettings.swift",
+        "submodules/TelegramUI/Components/PeerInfo/PeerInfoScreen/Sources/PeerInfoScreen.swift",
+        "submodules/TelegramUI/Components/PeerInfo/PeerInfoScreen/Sources/PeerInfoSettingsItems.swift"
+      ],
+      "previous_files_preserved": 37650,
+      "baseline_prefix": 9,
+      "final_prefix": 10
+    },
+    "production_runs": [
+      {
+        "mode": "debug",
+        "result": "PASS account settings route checks: 13"
+      },
+      {
+        "mode": "optimized",
+        "result": "PASS account settings route checks: 13"
+      }
+    ],
+    "semantic_negatives": [
+      {
+        "mode": "debug",
+        "variant": "wrong-row-action",
+        "diagnostic": "FAIL row uses native add callback"
+      },
+      {
+        "mode": "debug",
+        "variant": "wrong-bridge",
+        "diagnostic": "FAIL search invokes public native bridge"
+      },
+      {
+        "mode": "debug",
+        "variant": "edit-search",
+        "diagnostic": "FAIL search opens standard settings"
+      },
+      {
+        "mode": "optimized",
+        "variant": "wrong-row-action",
+        "diagnostic": "FAIL row uses native add callback"
+      },
+      {
+        "mode": "optimized",
+        "variant": "wrong-bridge",
+        "diagnostic": "FAIL search invokes public native bridge"
+      },
+      {
+        "mode": "optimized",
+        "variant": "edit-search",
+        "diagnostic": "FAIL search opens standard settings"
+      }
+    ],
+    "fail_closed": [
+      "repeat",
+      "inputs/submodules/AccountContext/Sources/ChatController.swift/missing",
+      "inputs/submodules/AccountContext/Sources/ChatController.swift/drift",
+      "inputs/submodules/TelegramPresentationData/Sources/Resources/PresentationResourcesSettings.swift/missing",
+      "inputs/submodules/TelegramPresentationData/Sources/Resources/PresentationResourcesSettings.swift/drift",
+      "inputs/submodules/TelegramUI/Components/PeerInfo/PeerInfoScreen/Sources/PeerInfoSettingsItems.swift/missing",
+      "inputs/submodules/TelegramUI/Components/PeerInfo/PeerInfoScreen/Sources/PeerInfoSettingsItems.swift/drift",
+      "guards/submodules/AccountContext/BUILD/missing",
+      "guards/submodules/AccountContext/BUILD/drift",
+      "guards/submodules/SettingsUI/BUILD/missing",
+      "guards/submodules/SettingsUI/BUILD/drift",
+      "guards/submodules/TelegramUI/Sources/SharedAccountContext.swift/missing",
+      "guards/submodules/TelegramUI/Sources/SharedAccountContext.swift/drift",
+      "template-drift",
+      "unsafe-output",
+      "invalid-manifest"
+    ],
+    "swift_parse": 5,
+    "icon_geometry": {
+      "tile_points": [
+        30,
+        30
+      ],
+      "native_pixel_dimensions": [
+        [
+          60,
+          60
+        ],
+        [
+          90,
+          90
+        ]
+      ],
+      "native_scale_selection": "unchanged Display factory",
+      "ring_rect": [
+        5.0,
+        5.5,
+        18.5,
+        18.5
+      ],
+      "head_rect": [
+        11.25,
+        9.0,
+        6.0,
+        6.0
+      ],
+      "badge_rect": [
+        18.5,
+        18.0,
+        7.0,
+        7.0
+      ],
+      "avatar_center_x": 14.25,
+      "rendering": "vector source geometry only; UIKit rasterization and device visuals not exercised"
+    },
+    "source_boundary": "All five files reverse exactly to pre-account bytes except the approved row, section move, editing removal, public bridge, search callback and icon insertion. Existing linked-account loop is byte-exact after dedent.",
+    "runtime_boundary": "Actual section enum, Add Account row action, public bridge and search callback execute with bounded navigation/queue adapters. Native authentication, limits, UIKit, icon rasterization and account network traffic are not executed.",
+    "localization": "Existing Settings_AddAccount and search synonym getters; no new literal UI strings or custom locale keys.",
+    "apple_sdk": "not_run",
+    "physical_iphone": "pending"
+  },
+  "shared_chain": {
+    "source": "/workspace/scratch/add-account-settings/source-working-1",
+    "registered_plans": 16,
+    "replacements": 5,
+    "copies": {},
+    "guards": 11,
+    "native_origin_blobs": {
+      "submodules/SettingsUI/Sources/Search/SettingsSearchableItems.swift": "6e0c6d0f71f373a830a6746306d93d6d334ec387"
+    },
+    "final_contract_paths": 664,
+    "loader_fail_closed": [
+      "repeat",
+      "inputs/submodules/AccountContext/Sources/ChatController.swift/missing",
+      "inputs/submodules/AccountContext/Sources/ChatController.swift/drift",
+      "inputs/submodules/TelegramPresentationData/Sources/Resources/PresentationResourcesSettings.swift/missing",
+      "inputs/submodules/TelegramPresentationData/Sources/Resources/PresentationResourcesSettings.swift/drift",
+      "inputs/submodules/TelegramUI/Components/PeerInfo/PeerInfoScreen/Sources/PeerInfoSettingsItems.swift/missing",
+      "inputs/submodules/TelegramUI/Components/PeerInfo/PeerInfoScreen/Sources/PeerInfoSettingsItems.swift/drift",
+      "guards/submodules/AccountContext/BUILD/missing",
+      "guards/submodules/AccountContext/BUILD/drift",
+      "guards/submodules/SettingsUI/BUILD/missing",
+      "guards/submodules/SettingsUI/BUILD/drift",
+      "guards/submodules/TelegramUI/Sources/SharedAccountContext.swift/missing",
+      "guards/submodules/TelegramUI/Sources/SharedAccountContext.swift/drift",
+      "template-drift",
+      "unsafe-output",
+      "invalid-manifest"
+    ],
+    "manifest_sha256": "eeb5d65a5b5cc691772e10e1e9d11ce2d531486e59fbea91c7f65cf9e8c35014",
+    "outputs": {
+      "submodules/AccountContext/Sources/ChatController.swift": "0abfb2a1a0d0c0d61eaa38471e1c9376c6b82fcea4836bec1b27584aace194a8",
+      "submodules/SettingsUI/Sources/Search/SettingsSearchableItems.swift": "3f30490e02bcbfb8d54cd03d8af0ea047a66fde275c5447dda229cedd8c9de07",
+      "submodules/TelegramPresentationData/Sources/Resources/PresentationResourcesSettings.swift": "984662acbfda95369796094bfd9ce644b2c66ada6d803ea0d9e6d15b6f0b2116",
+      "submodules/TelegramUI/Components/PeerInfo/PeerInfoScreen/Sources/PeerInfoScreen.swift": "209e8556197bf9843f7fb6a5591d8c0e992ca2ce6810692d5e0f417bf702d074",
+      "submodules/TelegramUI/Components/PeerInfo/PeerInfoScreen/Sources/PeerInfoSettingsItems.swift": "47a73690e083f7f98f5718aef808fb0846b4456e296a1fabf549ab679937b05b"
+    },
+    "full_source_files_preserved": 37655,
+    "historical_snapshots_preserved": 2049,
+    "historical_snapshot_digest": "14037549f947a37232ff01b28f1b709e43e7a712497c9a67e3102182c375b9e0",
+    "stage9_aggregator_source_contract": {
+      "baseline_files": 37654,
+      "final_files": 37655,
+      "changed_files": [
+        "submodules/GalleryData/Sources/GalleryData.swift",
+        "submodules/NagramiXTranscription/Sources/Runtime.swift",
+        "submodules/TelegramCore/Sources/State/AccountViewTracker.swift",
+        "submodules/TelegramCore/Sources/State/ManagedConsumePersonalMessagesActions.swift",
+        "submodules/TelegramCore/Sources/State/ManagedSecretChatOutgoingOperations.swift",
+        "submodules/TelegramCore/Sources/State/ManagedSynchronizeConsumeMessageContentsOperations.swift",
+        "submodules/TelegramCore/Sources/State/ManagedSynchronizeMarkAllUnseenPersonalMessagesOperations.swift",
+        "submodules/TelegramCore/Sources/State/ProcessSecretChatIncomingDecryptedOperations.swift",
+        "submodules/TelegramCore/Sources/State/Sync/StateReplay+Messages.swift",
+        "submodules/TelegramCore/Sources/State/SynchronizePeerReadState.swift",
+        "submodules/TelegramCore/Sources/TelegramEngine/Messages/ApplyMaxReadIndexInteractively.swift",
+        "submodules/TelegramCore/Sources/TelegramEngine/Messages/MarkMessageContentAsConsumedInteractively.swift",
+        "submodules/TelegramCore/Sources/TelegramEngine/Messages/NagramiXLocalMessageData.swift",
+        "submodules/TelegramCore/Sources/TelegramEngine/Messages/TelegramEngineMessages.swift",
+        "submodules/TelegramCore/Sources/Utils/NagramiXCaptureProtectionPolicy.swift",
+        "submodules/TelegramCore/Sources/Utils/NagramiXMessageArchive.swift",
+        "submodules/TelegramUI/Components/Chat/ChatMessageInstantVideoBubbleContentNode/Sources/ChatMessageInstantVideoBubbleContentNode.swift",
+        "submodules/TelegramUI/Components/Chat/ChatMessageInteractiveInstantVideoNode/Sources/ChatMessageInteractiveInstantVideoNode.swift",
+        "submodules/TelegramUI/Components/Chat/ChatMessageReplyInfoNode/Sources/ChatMessageReplyInfoNode.swift",
+        "submodules/TelegramUI/Components/Chat/ReplyAccessoryPanelNode/Sources/ReplyAccessoryPanelNode.swift",
+        "submodules/TelegramUI/Sources/Chat/ChatControllerLoadDisplayNode.swift",
+        "submodules/TelegramUI/Sources/Chat/ChatControllerOpenViewOnceMediaMessage.swift",
+        "submodules/TelegramUI/Sources/ChatControllerAdminBanUsers.swift",
+        "submodules/TelegramUI/Sources/ChatControllerForwardMessages.swift",
+        "submodules/TelegramUI/Sources/ChatControllerNode.swift",
+        "submodules/TelegramUI/Sources/ChatHistoryEntriesForView.swift",
+        "submodules/TelegramUI/Sources/ChatInterfaceStateContextMenus.swift"
+      ],
+      "added_files": [
+        "submodules/TelegramUI/Sources/Chat/NagramiXTemporaryReplySend.swift"
+      ],
+      "previous_files_preserved": 37627
+    },
+    "stage9_prefix": "exact8to9_after_registering10",
+    "sdk": "not_run",
+    "device": "pending",
+    "native_post_origins": "passed:7 native migration blobs +2 regressions; checked full16-plan chain also verifies stage10 Search blob"
+  },
+  "inverse": {
+    "late_source_stages": [
+      "wide_bottom_bar",
+      "author_selection_no_restore",
+      "preview_reply_intent",
+      "cloud_credential_entry",
+      "extended_poll_integrity",
+      "bot_delete_without_block",
+      "wide_tab_bar_setting",
+      "pip_swipe_handoff",
+      "temporary_message_interaction",
+      "account_settings_entry"
+    ],
+    "published_contract_paths": 661,
+    "actual_published_pipeline_compared": true,
+    "full_source_files_preserved": 37655,
+    "introduced_helpers_absent_from_history": [
+      "submodules/TelegramUI/Sources/Chat/NagramiXTemporaryReplySend.swift"
+    ],
+    "pre_ninth_checkpoint_verified": true,
+    "pre_tenth_checkpoint_verified": true,
+    "negative_projection_verified_before_mutation": true,
+    "fail_closed": [
+      "wide_bottom_bar/output-drift",
+      "author_selection_no_restore/output-drift",
+      "preview_reply_intent/output-drift",
+      "cloud_credential_entry/output-drift",
+      "extended_poll_integrity/output-drift",
+      "bot_delete_without_block/output-drift",
+      "wide_tab_bar_setting/output-drift",
+      "pip_swipe_handoff/output-drift",
+      "temporary_message_interaction/output-drift",
+      "account_settings_entry/output-drift",
+      "native-guard-missing",
+      "copied-helper-drift",
+      "copied-helper-missing",
+      "copied-helper-external-symlink",
+      "template-drift-before-inverse",
+      "pip_swipe_handoff/previous-stage-missing",
+      "pip_swipe_handoff/previous-stage-drift",
+      "temporary_message_interaction/previous-stage-missing",
+      "temporary_message_interaction/previous-stage-drift",
+      "account_settings_entry/previous-stage-missing",
+      "account_settings_entry/previous-stage-drift",
+      "wide_bottom_bar/native-blob-proof-missing",
+      "wide_bottom_bar/native-blob-drift/submodules/TelegramUI/Components/TabBarComponent/Sources/TabBarComponent.swift",
+      "temporary_message_interaction/native-blob-proof-missing",
+      "temporary_message_interaction/native-blob-drift/submodules/GalleryData/Sources/GalleryData.swift",
+      "temporary_message_interaction/native-blob-drift/submodules/TelegramCore/Sources/State/ManagedSecretChatOutgoingOperations.swift",
+      "temporary_message_interaction/native-blob-drift/submodules/TelegramCore/Sources/State/ProcessSecretChatIncomingDecryptedOperations.swift",
+      "temporary_message_interaction/native-blob-drift/submodules/TelegramUI/Components/Chat/ChatMessageReplyInfoNode/Sources/ChatMessageReplyInfoNode.swift",
+      "temporary_message_interaction/native-blob-drift/submodules/TelegramUI/Components/Chat/ReplyAccessoryPanelNode/Sources/ReplyAccessoryPanelNode.swift",
+      "account_settings_entry/native-blob-proof-missing",
+      "account_settings_entry/native-blob-drift/submodules/SettingsUI/Sources/Search/SettingsSearchableItems.swift"
+    ],
+    "sdk": "not_run",
+    "device": "pending"
+  },
+  "migration_gate": {
+    "target_pin": "24638bc69bd083981b178dd1e7f921eebbf7fc46",
+    "pre_replacements": 196,
+    "post_replacements": 274,
+    "deleted_obsolete_files": 2,
+    "fail_closed": {
+      "pre": 17,
+      "post": 33
+    },
+    "parsed_swift": 446,
+    "executions": [
+      "current-debug: PiP playback command checks: 113",
+      "current-O: PiP playback command checks: 113",
+      "previous-native-debug: Native PiP baseline checks: 37",
+      "previous-native-O: Native PiP baseline checks: 37",
+      "previous-caption-debug: Round caption transport checks: 118",
+      "previous-caption-O: Round caption transport checks: 118",
+      "previous-composer-debug: Repost copy integrity checks: 48",
+      "previous-composer-O: Repost copy integrity checks: 48",
+      "old-toggle-command-debug: regression reproduced and rejected",
+      "old-toggle-command-O: regression reproduced and rejected",
+      "cached-status-toggle-debug: regression reproduced and rejected",
+      "cached-status-toggle-O: regression reproduced and rejected",
+      "inverted-command-debug: regression reproduced and rejected",
+      "inverted-command-O: regression reproduced and rejected"
+    ],
+    "historical_runtime_boundary": "exact published bytes after verified inverse of all registered late source stages",
+    "late_source_stages": [
+      "wide_bottom_bar",
+      "author_selection_no_restore",
+      "preview_reply_intent",
+      "cloud_credential_entry",
+      "extended_poll_integrity",
+      "bot_delete_without_block",
+      "wide_tab_bar_setting",
+      "pip_swipe_handoff",
+      "temporary_message_interaction",
+      "account_settings_entry"
+    ],
+    "native_postbox_imports": "passed",
+    "apple_sdk": "pending",
+    "device": "pending"
+  },
+  "custom_members_canonical": {
+    "swift_files": 195,
+    "string_accesses": 755,
+    "distinct_string_members": 203,
+    "actual_string_declarations": 245,
+    "custom_declarations": 677,
+    "full_custom_name_audit": false
+  },
+  "custom_members_full": {
+    "swift_files": 7321,
+    "string_accesses": 848,
+    "distinct_string_members": 230,
+    "actual_string_declarations": 245,
+    "custom_declarations": 809,
+    "full_custom_name_audit": true
+  },
+  "static": {
+    "manual_only": "passed",
+    "bash_blocks": 19,
+    "python_compile_files": 6,
+    "release_build_mode": "passed",
+    "release_metadata": "passed",
+    "diff_check": "passed"
+  },
+  "localization": {
+    "resource_catalogs": 71,
+    "keys_per_catalog": 630,
+    "runtime_checks_per_mode": 44899,
+    "new_keys": 0,
+    "meaning": "NagramiX resource catalogs including regional variants; not the count of official Telegram UI languages or a translation-quality audit."
+  },
+  "native_limits": {
+    "handler_without_premium": 3,
+    "handler_with_premium": 4,
+    "shared_maximum_constant": 5,
+    "policy": "unchanged; discrepancy reported to owner, no promise of five concurrent accounts"
+  },
+  "boundaries": [
+    "Production route bodies run in bounded adapters; native UI composition is structurally checked, not rendered by UIKit.",
+    "Icon geometry and real image-factory declarations checked; device screenshot and pixel rendering pending.",
+    "Authorisation services, secret storage, live account login and iPhone behaviour were not exercised."
+  ],
+  "not_run": [
+    "Apple SDK",
+    "Actions dispatch",
+    "IPA packaging",
+    "release publication",
+    "physical iPhone"
+  ],
+  "last_published_release": "0.8.9/build185, unchanged"
+}

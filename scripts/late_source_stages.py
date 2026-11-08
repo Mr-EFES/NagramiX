@@ -23,6 +23,7 @@ LATE_SOURCE_STAGES = (
     'wide_tab_bar_setting',
     'pip_swipe_handoff',
     'temporary_message_interaction',
+    'account_settings_entry',
 )
 TEMPORARY_INTERACTION_STAGE = 'temporary_message_interaction'
 TEMPORARY_REPLY_HELPER = 'submodules/TelegramUI/Sources/Chat/NagramiXTemporaryReplySend.swift'
@@ -37,6 +38,9 @@ def copy_outputs(plan):
 def check_copy_contract(stage, plan):
     """Only stage nine may introduce the one source covered by the native glob."""
     assert not plan['deletions'], stage
+    index = LATE_SOURCE_STAGES.index(stage)
+    if index >= 7:
+        assert plan.get('required_previous_stage') == LATE_SOURCE_STAGES[index - 1], stage
     if stage != TEMPORARY_INTERACTION_STAGE:
         assert not plan['copies'], stage
         return
@@ -58,8 +62,6 @@ def checked_late_plans():
     plans = [checked_plan(stage) for stage in LATE_SOURCE_STAGES]
     for stage, plan in zip(LATE_SOURCE_STAGES, plans):
         check_copy_contract(stage, plan)
-    for index in (7, 8):
-        assert plans[index]['required_previous_stage'] == LATE_SOURCE_STAGES[index - 1]
     return plans
 
 

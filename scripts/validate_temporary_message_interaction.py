@@ -40,9 +40,10 @@ def source_contract(source, baseline):
     assert changed == set(plan['outputs']), 'Previous eight fixes changed outside the reviewed scope'
     # The earlier eight stages must be present, not merely the wide-setting key.
     from late_source_stages import LATE_SOURCE_STAGES, verified_prefix
-    assert LATE_SOURCE_STAGES[-1] == STAGE
-    assert verified_prefix(baseline) == len(LATE_SOURCE_STAGES) - 1
-    assert verified_prefix(source) == len(LATE_SOURCE_STAGES)
+    stage_index = LATE_SOURCE_STAGES.index(STAGE)
+    assert stage_index == 8 and LATE_SOURCE_STAGES[stage_index - 1] == 'pip_swipe_handoff'
+    assert verified_prefix(baseline) == stage_index
+    assert verified_prefix(source) == stage_index + 1
     return plan, {
         'baseline_files': len(before), 'final_files': len(after),
         'changed_files': sorted(changed), 'added_files': sorted(plan['copies']),

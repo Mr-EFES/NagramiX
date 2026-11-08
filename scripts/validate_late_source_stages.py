@@ -57,8 +57,13 @@ def check(source, published=None):
             if published is not None:
                 assert not (published / name).exists() and not (published / name).is_symlink(), name
     with late.historical_source(source, before_stage=late.TEMPORARY_INTERACTION_STAGE) as before_ninth:
-        assert late.verified_prefix(before_ninth, late_plans) == len(late.LATE_SOURCE_STAGES) - 1
+        assert late.verified_prefix(before_ninth, late_plans) == late.LATE_SOURCE_STAGES.index(late.TEMPORARY_INTERACTION_STAGE)
         assert not (before_ninth / late.TEMPORARY_REPLY_HELPER).exists(), 'New helper leaked into pre-ninth checkpoint'
+    with late.historical_source(source, before_stage='account_settings_entry') as before_tenth:
+        tenth_index = late.LATE_SOURCE_STAGES.index('account_settings_entry')
+        assert late.verified_prefix(before_tenth, late_plans) == tenth_index
+        ninth_plan = late_plans[late.LATE_SOURCE_STAGES.index(late.TEMPORARY_INTERACTION_STAGE)]
+        assert release.digest(before_tenth / late.TEMPORARY_REPLY_HELPER) == ninth_plan['copies'][late.TEMPORARY_REPLY_HELPER]['sha256'], 'Stage ten changed the existing temporary-reply helper'
 
     rejected = []
     with tempfile.TemporaryDirectory(prefix='nagramix-late-source-checks-') as temporary:
@@ -136,6 +141,29 @@ def check(source, published=None):
         finally:
             release.OVERLAY = original
 
+        # Pin the later checkpoints to their actual predecessor even when a
+        # future stage is registered. A missing declaration must not silently
+        # turn stage nine into "whatever is last" or let ten skip its input.
+        for index in range(7, len(late_plans)):
+            stage = late.LATE_SOURCE_STAGES[index]
+            for mode in ('missing', 'drift'):
+                changed = copy.deepcopy(late_plans[index])
+                if mode == 'missing':
+                    changed.pop('required_previous_stage')
+                else:
+                    changed['required_previous_stage'] = 'wide_bottom_bar'
+                checked_plan = release.checked_plan
+                try:
+                    release.checked_plan = lambda name: changed if name == stage else checked_plan(name)
+                    try:
+                        late.checked_late_plans()
+                    except AssertionError:
+                        rejected.append(stage + '/previous-stage-' + mode)
+                    else:
+                        raise AssertionError('Invalid predecessor accepted: ' + stage + '/' + mode)
+                finally:
+                    release.checked_plan = checked_plan
+
         # Every newly reached native input requires its exact Git blob proof.
         # The wide component and stage-nine native hooks have separate origins;
         # rejecting only the first stage would mask missing later proofs.
@@ -175,6 +203,7 @@ def check(source, published=None):
         'full_source_files_preserved': len(before),
         'introduced_helpers_absent_from_history': sorted(introduced),
         'pre_ninth_checkpoint_verified': True,
+        'pre_tenth_checkpoint_verified': True,
         'negative_projection_verified_before_mutation': True,
         'fail_closed': rejected,
         'sdk': 'not_run',

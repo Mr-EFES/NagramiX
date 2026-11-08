@@ -1,0 +1,87 @@
+{
+  "inputs": {
+    "submodules/AccountContext/Sources/ChatController.swift": "7ef5509e09b937568fb89f1211f5b765f61bd83b82c8c7c0d2cf322c601e3315",
+    "submodules/SettingsUI/Sources/Search/SettingsSearchableItems.swift": "b4569830e7299d9ad43398a6294423142d3291aaf452fe06a41c2a62bd7be4e9",
+    "submodules/TelegramPresentationData/Sources/Resources/PresentationResourcesSettings.swift": "640baf9a0e7fd0ed5b460942ae566b3e282681e55bd87f604491eb5d908488e0",
+    "submodules/TelegramUI/Components/PeerInfo/PeerInfoScreen/Sources/PeerInfoScreen.swift": "58b93214e07d83c959df674503c92d70e54ae0243dc84bca22dba730bd2d08ee",
+    "submodules/TelegramUI/Components/PeerInfo/PeerInfoScreen/Sources/PeerInfoSettingsItems.swift": "2710350655e1b262395be0df3b8630af52431dc8a0cbba861fac20e8fa71ab2f"
+  },
+  "outputs": {
+    "submodules/AccountContext/Sources/ChatController.swift": "0abfb2a1a0d0c0d61eaa38471e1c9376c6b82fcea4836bec1b27584aace194a8",
+    "submodules/SettingsUI/Sources/Search/SettingsSearchableItems.swift": "3f30490e02bcbfb8d54cd03d8af0ea047a66fde275c5447dda229cedd8c9de07",
+    "submodules/TelegramPresentationData/Sources/Resources/PresentationResourcesSettings.swift": "984662acbfda95369796094bfd9ce644b2c66ada6d803ea0d9e6d15b6f0b2116",
+    "submodules/TelegramUI/Components/PeerInfo/PeerInfoScreen/Sources/PeerInfoScreen.swift": "209e8556197bf9843f7fb6a5591d8c0e992ca2ce6810692d5e0f417bf702d074",
+    "submodules/TelegramUI/Components/PeerInfo/PeerInfoScreen/Sources/PeerInfoSettingsItems.swift": "47a73690e083f7f98f5718aef808fb0846b4456e296a1fabf549ab679937b05b"
+  },
+  "previous": {
+    "submodules/AccountContext/Sources/ChatController.swift": "account_settings_entry/Before0.inc",
+    "submodules/SettingsUI/Sources/Search/SettingsSearchableItems.swift": "account_settings_entry/Before1.inc",
+    "submodules/TelegramPresentationData/Sources/Resources/PresentationResourcesSettings.swift": "account_settings_entry/Before2.inc",
+    "submodules/TelegramUI/Components/PeerInfo/PeerInfoScreen/Sources/PeerInfoScreen.swift": "account_settings_entry/Before3.inc",
+    "submodules/TelegramUI/Components/PeerInfo/PeerInfoScreen/Sources/PeerInfoSettingsItems.swift": "account_settings_entry/Before4.inc"
+  },
+  "replacements": {
+    "submodules/AccountContext/Sources/ChatController.swift": "account_settings_entry/After0.inc",
+    "submodules/SettingsUI/Sources/Search/SettingsSearchableItems.swift": "account_settings_entry/After1.inc",
+    "submodules/TelegramPresentationData/Sources/Resources/PresentationResourcesSettings.swift": "account_settings_entry/After2.inc",
+    "submodules/TelegramUI/Components/PeerInfo/PeerInfoScreen/Sources/PeerInfoScreen.swift": "account_settings_entry/After3.inc",
+    "submodules/TelegramUI/Components/PeerInfo/PeerInfoScreen/Sources/PeerInfoSettingsItems.swift": "account_settings_entry/After4.inc"
+  },
+  "copies": {},
+  "guards": {
+    "submodules/AccountContext/BUILD": "e3ec0a96e45891721f72009f392510859bebbc52db17798ea0126b6fec8bf47d",
+    "submodules/SettingsUI/BUILD": "b229ff1580a1e8e13770d400a1c0c9e1cf56ef05b831659c3422a6141b50f489",
+    "submodules/TelegramPresentationData/BUILD": "9e4b255c8e1a4baf573b03887f828008e15ccc88c93da911e3862f59a53f422d",
+    "submodules/TelegramUI/BUILD": "c819263cd1c2d6407308fe3f172f9f564b40e26f3b688da39739577bae792f52",
+    "submodules/Display/BUILD": "af4f1f75d592aacfb7ba3b2408eb2979667387d6c05522bf5287779f277f6e50",
+    "submodules/TelegramUI/Components/PeerInfo/PeerInfoScreen/Sources/PeerInfoScreenSettingsActions.swift": "46ec1b50e9a4d301f661719822812bb8a9d4d2c51d7855dc9500f31bb603f5b1",
+    "submodules/TelegramUI/Sources/SharedAccountContext.swift": "ec59267a677ec1622c5c826e7a715a4dbc3580634b7e4f53617c3d4c8d272289",
+    "submodules/AccountUtils/Sources/AccountUtils.swift": "18590d2344a6479faa9c72b1a4b80260ab1dd512610ad34de24aa99ce57786eb",
+    "submodules/Display/Source/GenerateImage.swift": "d9e52a9ea7dd8cd641c655618e6add9ecf158777440e9e28ad24b5e562b1c6e8",
+    "submodules/AccountContext/Sources/AccountContext.swift": "ef6f0bee58b8fea23141d64b98587ec77a7e997695d0177c8a7d4583bfc8a3b1",
+    "submodules/TelegramUI/Sources/Chat/NagramiXTemporaryReplySend.swift": "d854c35006818792a160556fc0a9c16fb94207c7bde1212eaec929cb7dc829f7"
+  },
+  "guard_sources": {
+    "submodules/AccountContext/BUILD": "account_settings_entry/Guard0.inc",
+    "submodules/SettingsUI/BUILD": "account_settings_entry/Guard1.inc",
+    "submodules/TelegramPresentationData/BUILD": "account_settings_entry/Guard2.inc",
+    "submodules/TelegramUI/BUILD": "account_settings_entry/Guard3.inc",
+    "submodules/Display/BUILD": "account_settings_entry/Guard4.inc",
+    "submodules/TelegramUI/Components/PeerInfo/PeerInfoScreen/Sources/PeerInfoScreenSettingsActions.swift": "account_settings_entry/Guard5.inc",
+    "submodules/TelegramUI/Sources/SharedAccountContext.swift": "account_settings_entry/Guard6.inc",
+    "submodules/AccountUtils/Sources/AccountUtils.swift": "account_settings_entry/Guard7.inc",
+    "submodules/Display/Source/GenerateImage.swift": "account_settings_entry/Guard8.inc",
+    "submodules/AccountContext/Sources/AccountContext.swift": "account_settings_entry/Guard9.inc",
+    "submodules/TelegramUI/Sources/Chat/NagramiXTemporaryReplySend.swift": "account_settings_entry/Guard10.inc"
+  },
+  "templates": {
+    "account_settings_entry/Before0.inc": "7ef5509e09b937568fb89f1211f5b765f61bd83b82c8c7c0d2cf322c601e3315",
+    "account_settings_entry/After0.inc": "0abfb2a1a0d0c0d61eaa38471e1c9376c6b82fcea4836bec1b27584aace194a8",
+    "account_settings_entry/Before1.inc": "b4569830e7299d9ad43398a6294423142d3291aaf452fe06a41c2a62bd7be4e9",
+    "account_settings_entry/After1.inc": "3f30490e02bcbfb8d54cd03d8af0ea047a66fde275c5447dda229cedd8c9de07",
+    "account_settings_entry/Before2.inc": "640baf9a0e7fd0ed5b460942ae566b3e282681e55bd87f604491eb5d908488e0",
+    "account_settings_entry/After2.inc": "984662acbfda95369796094bfd9ce644b2c66ada6d803ea0d9e6d15b6f0b2116",
+    "account_settings_entry/Before3.inc": "58b93214e07d83c959df674503c92d70e54ae0243dc84bca22dba730bd2d08ee",
+    "account_settings_entry/After3.inc": "209e8556197bf9843f7fb6a5591d8c0e992ca2ce6810692d5e0f417bf702d074",
+    "account_settings_entry/Before4.inc": "2710350655e1b262395be0df3b8630af52431dc8a0cbba861fac20e8fa71ab2f",
+    "account_settings_entry/After4.inc": "47a73690e083f7f98f5718aef808fb0846b4456e296a1fabf549ab679937b05b",
+    "account_settings_entry/Guard0.inc": "e3ec0a96e45891721f72009f392510859bebbc52db17798ea0126b6fec8bf47d",
+    "account_settings_entry/Guard1.inc": "b229ff1580a1e8e13770d400a1c0c9e1cf56ef05b831659c3422a6141b50f489",
+    "account_settings_entry/Guard2.inc": "9e4b255c8e1a4baf573b03887f828008e15ccc88c93da911e3862f59a53f422d",
+    "account_settings_entry/Guard3.inc": "c819263cd1c2d6407308fe3f172f9f564b40e26f3b688da39739577bae792f52",
+    "account_settings_entry/Guard4.inc": "af4f1f75d592aacfb7ba3b2408eb2979667387d6c05522bf5287779f277f6e50",
+    "account_settings_entry/Guard5.inc": "46ec1b50e9a4d301f661719822812bb8a9d4d2c51d7855dc9500f31bb603f5b1",
+    "account_settings_entry/Guard6.inc": "ec59267a677ec1622c5c826e7a715a4dbc3580634b7e4f53617c3d4c8d272289",
+    "account_settings_entry/Guard7.inc": "18590d2344a6479faa9c72b1a4b80260ab1dd512610ad34de24aa99ce57786eb",
+    "account_settings_entry/Guard8.inc": "d9e52a9ea7dd8cd641c655618e6add9ecf158777440e9e28ad24b5e562b1c6e8",
+    "account_settings_entry/Guard9.inc": "ef6f0bee58b8fea23141d64b98587ec77a7e997695d0177c8a7d4583bfc8a3b1",
+    "account_settings_entry/Guard10.inc": "d854c35006818792a160556fc0a9c16fb94207c7bde1212eaec929cb7dc829f7"
+  },
+  "deletions": {},
+  "native_inputs": {
+    "submodules/SettingsUI/Sources/Search/SettingsSearchableItems.swift": "6e0c6d0f71f373a830a6746306d93d6d334ec387"
+  },
+  "target_pin": "24638bc69bd083981b178dd1e7f921eebbf7fc46",
+  "overlay_base_pin": "279f89e4d4f63f17227bf877dc3d8990f22ecd58",
+  "required_previous_stage": "temporary_message_interaction"
+}
