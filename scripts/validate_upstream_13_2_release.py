@@ -13,22 +13,25 @@ import tempfile
 
 from validate_quick_format import block, manifest
 from validate_pip_playback_commands import execute
+from late_source_stages import LATE_SOURCE_STAGES
 
 ROOT = Path(__file__).resolve().parents[1]
 OVERLAY = ROOT / 'ios'
 PIN = '24638bc69bd083981b178dd1e7f921eebbf7fc46'
 BASE = '279f89e4d4f63f17227bf877dc3d8990f22ecd58'
 STATE = 'submodules/TelegramCore/Sources/State/Sync/'
-SDK_STAGES = ('upstream_13_2_release_compile', 'upstream_13_2_release_ui_compile', 'upstream_13_2_release_auth_compile', 'upstream_13_2_release_delivery_compile', 'upstream_13_2_release_ack_compile', 'upstream_13_2_release_string_compile')
+SDK_COMPILE_STAGES = ('upstream_13_2_release_compile', 'upstream_13_2_release_ui_compile', 'upstream_13_2_release_auth_compile', 'upstream_13_2_release_delivery_compile', 'upstream_13_2_release_ack_compile', 'upstream_13_2_release_string_compile')
+SDK_STAGES = SDK_COMPILE_STAGES + LATE_SOURCE_STAGES
 
 
 def digest(path):
     return hashlib.sha256(path.read_bytes()).hexdigest()
 
 
-def native_input_contract(plan):
+def native_input_contract(plan, require_account=True):
     account = 'submodules/TelegramCore/Sources/Account/AccountIntermediateState.swift'
-    assert account in plan['native_inputs'], 'Missing native13.2 account-state origin'
+    if require_account:
+        assert account in plan['native_inputs'], 'Missing native13.2 account-state origin'
     for name, expected_blob in plan['native_inputs'].items():
         data = (OVERLAY / plan['previous'][name]).read_bytes()
         blob = hashlib.sha1(b'blob ' + str(len(data)).encode() + b'\0' + data).hexdigest()
@@ -49,7 +52,10 @@ def checked_plan(stage):
         assert digest(OVERLAY / plan['previous'][name]) == expected, name
         assert digest(OVERLAY / plan['replacements'][name]) == plan['outputs'][name], name
     if stage == 'upstream_13_2_release_post':
-        native_input_contract(plan)
+        native_input_contract(plan, require_account=True)
+    elif plan.get('native_inputs'):
+        assert set(plan['native_inputs']) <= set(plan['inputs']), stage
+        native_input_contract(plan, require_account=False)
     for name, item in plan['deletions'].items():
         assert plan['guards'][name] == item['sha256']
         assert digest(OVERLAY / item['source']) == item['sha256']
@@ -63,9 +69,15 @@ def checked_sdk_plans(post):
         plan = checked_plan(stage)
         assert not plan['copies'] and not plan['deletions']
         for name, value in plan['inputs'].items():
+            if name not in expected:
+                assert name in plan.get('native_inputs', {}), 'Unproven native SDK stage input: ' + name
+                # checked_plan verified both SHA256 and Git's blob origin for
+                # the exact pinned native snapshot; unknown inputs cannot pass.
+                expected[name] = value
             assert expected[name] == value, 'Broken SDK stage chain: ' + name
         for name, value in plan['guards'].items():
             assert expected.get(name, value) == value, name
+        expected.update(plan['guards'])
         expected.update(plan['outputs'])
         plans.append(plan)
     return plans, expected
@@ -78,6 +90,9 @@ def verify(source):
     for plan in sdk_plans:
         for name, expected in plan['guards'].items():
             assert digest(source / name) == final_outputs.get(name, expected), name
+    for name, expected in final_outputs.items():
+        if name not in post['deletions']:
+            assert digest(source / name) == expected, 'Final source output differs: ' + name
     for name, expected in {**post['outputs'], **post['guards']}.items():
         if name in post['deletions']:
             assert not (source / name).exists(), name
@@ -98,6 +113,14 @@ def verify(source):
     assert workflow.index('apply_upstream_13_2_release_auth_compile(') < workflow.index('apply_upstream_13_2_release_delivery_compile(') < workflow.index('validate_upstream_13_2_release.py')
     assert workflow.index('apply_upstream_13_2_release_delivery_compile(') < workflow.index('apply_upstream_13_2_release_ack_compile(') < workflow.index('validate_upstream_13_2_release.py')
     assert workflow.index('apply_upstream_13_2_release_ack_compile(') < workflow.index('apply_upstream_13_2_release_string_compile(') < workflow.index('validate_upstream_13_2_release.py')
+    order = [workflow.index('apply_' + stage + '(') for stage in SDK_STAGES]
+    assert order == sorted(order) and len(order) == len(set(order))
+    for index, stage in enumerate(LATE_SOURCE_STAGES):
+        validation = workflow.index('python3 scripts/validate_' + stage + '.py')
+        next_stage = LATE_SOURCE_STAGES[index + 1] if index + 1 < len(LATE_SOURCE_STAGES) else None
+        boundary = workflow.index('apply_' + next_stage + '(') if next_stage else workflow.index('python3 scripts/validate_upstream_13_2_release.py')
+        assert workflow.index('apply_' + stage + '(') < validation < boundary
+    assert workflow.index('python3 scripts/validate_pip_swipe_handoff.py') < workflow.index('python3 scripts/validate_late_source_stages.py') < workflow.index('python3 scripts/validate_upstream_13_2_release.py')
     assert workflow.index('validate_custom_member_references.py --canonical') < workflow.index('Применить overlay NagramiX')
     assert workflow.index('validate_upstream_13_2_release.py') < workflow.index('--final-upstream-13-2')
     messages = (source / (STATE + 'StateReplay+Messages.swift')).read_text()
@@ -151,13 +174,18 @@ def guard_checks(source, stage, plan, folder):
             if digest(origin) != plan['guards'][name]:
                 # A later SDK fix can replace an otherwise guarded post file.
                 # Reconstruct that earlier stage's exact input, never relax SHA.
-                candidates = []
+                candidates = {}
                 for sdk_stage in SDK_STAGES:
                     sdk = checked_plan(sdk_stage)
                     if sdk['inputs'].get(name) == plan['guards'][name]:
-                        candidates.append(OVERLAY / sdk['previous'][name])
+                        candidate = OVERLAY / sdk['previous'][name]
+                        candidates[candidate.read_bytes()] = candidate
+                    if sdk['outputs'].get(name) == plan['guards'][name]:
+                        candidate = OVERLAY / sdk['replacements'][name]
+                        candidates[candidate.read_bytes()] = candidate
                 assert len(candidates) == 1, 'Cannot reconstruct guarded input: ' + name
-                origin = candidates[0]
+                data, origin = next(iter(candidates.items()))
+                assert hashlib.sha256(data).hexdigest() == plan['guards'][name], name
         path.write_bytes(origin.read_bytes())
 
     def seed(label):
@@ -253,14 +281,18 @@ def main():
             rejected[suffix] = len(guard_checks(args.source, 'upstream_13_2_release_' + suffix, plan, folder))
         run = temp / 'runtime'
         run.mkdir()
-        executions = execute(args.source, args.swiftc, run)
-        paths = {name for name in {**post['outputs'], **post['guards']} if name.endswith('.swift') and name not in post['deletions']}
+        from validate_system_video_pip import historical_late_source
+        with historical_late_source(args.source) as historical:
+            executions = execute(historical, args.swiftc, run)
+        _, final_outputs = checked_sdk_plans(post)
+        paths = {name for name in final_outputs if name.endswith('.swift') and name not in post['deletions']}
         for name in sorted(paths):
             subprocess.run([str(args.swiftc), '-frontend', '-parse', str(args.source / name)], check=True)
     subprocess.run([os.sys.executable, str(args.source / 'build-system/Make/PostboxImportCheck.py'), str(args.source)], check=True)
     report = {'target_pin': PIN, 'pre_replacements': len(pre['outputs']), 'post_replacements': len(post['outputs']),
               'deleted_obsolete_files': len(post['deletions']), 'fail_closed': rejected, 'parsed_swift': len(paths),
-              'executions': executions, 'native_postbox_imports': 'passed', 'apple_sdk': 'pending', 'device': 'pending'}
+              'executions': executions, 'historical_runtime_boundary': 'exact published bytes after verified inverse of eight late source stages',
+              'late_source_stages': list(LATE_SOURCE_STAGES), 'native_postbox_imports': 'passed', 'apple_sdk': 'pending', 'device': 'pending'}
     if args.report:
         args.report.write_text(json.dumps(report, ensure_ascii=False, indent=2) + '\n')
     print(json.dumps(report, ensure_ascii=False, indent=2), flush=True)

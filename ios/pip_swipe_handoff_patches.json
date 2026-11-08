@@ -1,0 +1,54 @@
+{
+  "inputs": {
+    "submodules/GalleryUI/Sources/GalleryController.swift": "de5a777bea0b221b7147141d92ea65626e4e3958f8e1bf4ecf0fe9cd3a3f58ac",
+    "submodules/GalleryUI/Sources/GalleryControllerNode.swift": "0c47ad650f8c76d0bcc920bb1ce731d6366c5c6278aab266f6622531bca16e3d",
+    "submodules/GalleryUI/Sources/GalleryItemNode.swift": "4d5fa2b87a4f81c3cc31302761c98adc04cbc2023260561096221c0c8914b046",
+    "submodules/GalleryUI/Sources/Items/UniversalVideoGalleryItem.swift": "9aed41e87a12a297f9f551f1a8ea347ab641b1df22edec5f46424763f37517ed"
+  },
+  "outputs": {
+    "submodules/GalleryUI/Sources/GalleryController.swift": "73f774d31be232765009535b238f273b26c36ec5c88b79fc76387ec0c5723527",
+    "submodules/GalleryUI/Sources/GalleryControllerNode.swift": "9a562952fdfef5bc48ffdb60f6ccbd211784c2fde9f147e493a1b70dafb574eb",
+    "submodules/GalleryUI/Sources/GalleryItemNode.swift": "ddd018dd0e63d022e0ac76d6a82bd703c52ed376f0509ce078ded8e361cbc0ef",
+    "submodules/GalleryUI/Sources/Items/UniversalVideoGalleryItem.swift": "5b97259b7ff0e2431a23cfc242b8560f4ebde802b0a6b8f18697c6ddbd671547"
+  },
+  "previous": {
+    "submodules/GalleryUI/Sources/GalleryController.swift": "upstream_13_2_release_post/After42.inc",
+    "submodules/GalleryUI/Sources/GalleryControllerNode.swift": "upstream_13_2_release_post/After43.inc",
+    "submodules/GalleryUI/Sources/GalleryItemNode.swift": "native_pip_baseline/After2.inc",
+    "submodules/GalleryUI/Sources/Items/UniversalVideoGalleryItem.swift": "upstream_13_2_release_post/After45.inc"
+  },
+  "replacements": {
+    "submodules/GalleryUI/Sources/GalleryController.swift": "pip_swipe_handoff/After0.inc",
+    "submodules/GalleryUI/Sources/GalleryControllerNode.swift": "pip_swipe_handoff/After1.inc",
+    "submodules/GalleryUI/Sources/GalleryItemNode.swift": "pip_swipe_handoff/After2.inc",
+    "submodules/GalleryUI/Sources/Items/UniversalVideoGalleryItem.swift": "pip_swipe_handoff/After3.inc"
+  },
+  "copies": {},
+  "guards": {
+    "submodules/GalleryUI/BUILD": "24b043774f3a99f7403ca7f7352d0190c5224994b44134774ba625ffae9666fe",
+    "submodules/AccountContext/BUILD": "e3ec0a96e45891721f72009f392510859bebbc52db17798ea0126b6fec8bf47d",
+    "submodules/AccountContext/Sources/UniversalVideoNode.swift": "c354dd6110225b9a689f8e8bdd5a8e709b99952c25a5794258ae171ee8164d68",
+    "submodules/GalleryUI/Sources/GalleryPagerNode.swift": "bcc9dc0f29ec327f22d099593b1f4ca6163a5392e44021c51cae4e863d8a8e01",
+    "submodules/GalleryUI/Sources/ZoomableContentGalleryItemNode.swift": "aa3622cb64a22ff92877f236a45d8b080ab73b4f7c67828f1de7d1d0fb70c424",
+    "submodules/TelegramUniversalVideoContent/Sources/NativeVideoContent.swift": "528f20337b832f9dcc01b58511a7639e54a757afffb7477ed2e8c054674bae10",
+    "submodules/TelegramUniversalVideoContent/Sources/HLSVideoNativeContentNode.swift": "0fa0658a254c6970ae9a06946759d3c8ac8cfd33c742402653088dfff3d28361",
+    "submodules/MediaPlayer/Sources/MediaPlayerNode.swift": "bdbc51a35471e26ab43a945ef28166c0ab0aa140c2ed18586ac04fd26be28133",
+    "submodules/NagramiXCore/Sources/NagramiXTabSettings.swift": "70fac4e58cb33b69abc9a60098cb114a9396c03e39d02569f6bdbad5296d07fb"
+  },
+  "templates": {
+    "upstream_13_2_release_post/After42.inc": "de5a777bea0b221b7147141d92ea65626e4e3958f8e1bf4ecf0fe9cd3a3f58ac",
+    "pip_swipe_handoff/After0.inc": "73f774d31be232765009535b238f273b26c36ec5c88b79fc76387ec0c5723527",
+    "upstream_13_2_release_post/After43.inc": "0c47ad650f8c76d0bcc920bb1ce731d6366c5c6278aab266f6622531bca16e3d",
+    "pip_swipe_handoff/After1.inc": "9a562952fdfef5bc48ffdb60f6ccbd211784c2fde9f147e493a1b70dafb574eb",
+    "native_pip_baseline/After2.inc": "4d5fa2b87a4f81c3cc31302761c98adc04cbc2023260561096221c0c8914b046",
+    "pip_swipe_handoff/After2.inc": "ddd018dd0e63d022e0ac76d6a82bd703c52ed376f0509ce078ded8e361cbc0ef",
+    "upstream_13_2_release_post/After45.inc": "9aed41e87a12a297f9f551f1a8ea347ab641b1df22edec5f46424763f37517ed",
+    "pip_swipe_handoff/After3.inc": "5b97259b7ff0e2431a23cfc242b8560f4ebde802b0a6b8f18697c6ddbd671547",
+    "pip_swipe_handoff/RequiredWideSettings.inc": "70fac4e58cb33b69abc9a60098cb114a9396c03e39d02569f6bdbad5296d07fb",
+    "pip_swipe_handoff/integration.json": "27bdcdd3e1464197956582d19538b78b28d856aeb1946e1dcd5d95afdd5d5864"
+  },
+  "deletions": {},
+  "target_pin": "24638bc69bd083981b178dd1e7f921eebbf7fc46",
+  "overlay_base_pin": "279f89e4d4f63f17227bf877dc3d8990f22ecd58",
+  "required_previous_stage": "wide_tab_bar_setting"
+}

@@ -1,0 +1,71 @@
+{
+  "inputs": {
+    "submodules/TelegramCore/Sources/TelegramEngine/Messages/NagramiXAuthorSelection.swift": "849b6fd8358bb70300a8018fd87bbe1b213fc8c12c4202d399315b2997f9141c",
+    "submodules/TelegramUI/Sources/Chat/ChatControllerLoadDisplayNode.swift": "d1e1bf2d407ff37b8148ee75e25e67c365ed4050fffa16e4a1b44f72d19f97cf"
+  },
+  "outputs": {
+    "submodules/TelegramCore/Sources/TelegramEngine/Messages/NagramiXAuthorSelection.swift": "1465a7d01d19a2696c32c7d2ffa0a6967e915cb92feb0d80b521345de6575ab9",
+    "submodules/TelegramUI/Sources/Chat/ChatControllerLoadDisplayNode.swift": "2c972f0e7352f76c6b1a5d8f9e5d5c4e6ed03cd0b500f098fddfd7221b297173"
+  },
+  "previous": {
+    "submodules/TelegramCore/Sources/TelegramEngine/Messages/NagramiXAuthorSelection.swift": "author_selection_no_restore/Before0.inc",
+    "submodules/TelegramUI/Sources/Chat/ChatControllerLoadDisplayNode.swift": "author_selection_no_restore/Before1.inc"
+  },
+  "replacements": {
+    "submodules/TelegramCore/Sources/TelegramEngine/Messages/NagramiXAuthorSelection.swift": "author_selection_no_restore/After0.inc",
+    "submodules/TelegramUI/Sources/Chat/ChatControllerLoadDisplayNode.swift": "author_selection_no_restore/After1.inc"
+  },
+  "copies": {},
+  "guards": {
+    "submodules/TelegramCore/BUILD": "bf9342baf193366c8997afb547c074592af8247348f59e25e5e6ca9bfb3806a9",
+    "submodules/TelegramUI/BUILD": "c819263cd1c2d6407308fe3f172f9f564b40e26f3b688da39739577bae792f52",
+    "submodules/TelegramUI/Sources/ChatController.swift": "6071c8f1f54927f53d254fa33fb48806f0f241ac5369d7870020f391acdfcffc",
+    "submodules/TelegramUI/Sources/ChatInterfaceStateContextMenus.swift": "93f1202a3da830e7ea510be7b57e05190a1502a16a5a451caf27039af79f6761",
+    "submodules/TelegramUI/Sources/ChatHistoryListNode.swift": "10d1d594535826a57ed313ef0a6531abcbcf9e029e850dbb52fdeae3f7a95107",
+    "submodules/TelegramUI/Sources/ChatControllerAdminBanUsers.swift": "7b6b82c28b0ab92fdca3a16d459f213bc43c487dd6f110c74e8d4aa0b02c9696",
+    "submodules/TelegramUI/Components/Chat/ChatMessageSelectionInputPanelNode/Sources/ChatMessageSelectionInputPanelNode.swift": "d5f83730b6cd33d63ebc98bf5e148553e884d61416469604620a308884b64190",
+    "submodules/NagramiXCore/Sources/NagramiXPresentationStrings.swift": "1963ef991aac6f373ef1db44a6f67a5817bdf6c7aba1c7f86f67d88df95d93d9",
+    "submodules/TelegramUI/Sources/Chat/UpdateChatPresentationInterfaceState.swift": "1d38d159067b31462078c06b78d955f4a8570b53c2738ac5717ebfc080993040",
+    "submodules/TelegramUI/Components/ChatControllerInteraction/Sources/ChatControllerInteraction.swift": "e6b9127ffb137c53b182c8e5595392458a7cc41ba864ebaca6b24c7649c3e83d",
+    "submodules/NagramiXCore/BUILD": "869e31310cc925b84ceb827a3c0b8503f3a22614acb4abeeec4a4ad435cf56e2",
+    "submodules/TelegramUI/Sources/ChatHistoryEntriesForView.swift": "1074c9c3f7915d01efaab0d19b59563b0d3dd3e39e7af1ff872743d2777f3b15",
+    "submodules/TelegramUI/Sources/ChatHistoryViewForLocation.swift": "5804ff0e64c19a9204cf414de28b72c8695b0de20d793094ced3915a5b9848e0"
+  },
+  "guard_sources": {
+    "submodules/TelegramCore/BUILD": "upstream_13_2_release_post/After146.inc",
+    "submodules/TelegramUI/BUILD": "upstream_13_2_release_post/After188.inc",
+    "submodules/TelegramUI/Sources/ChatController.swift": "upstream_13_2_release_post/After249.inc",
+    "submodules/TelegramUI/Sources/ChatInterfaceStateContextMenus.swift": "upstream_13_2_release_post/After258.inc",
+    "submodules/TelegramUI/Sources/ChatHistoryListNode.swift": "upstream_13_2_release_post/After254.inc",
+    "submodules/TelegramUI/Sources/ChatControllerAdminBanUsers.swift": "archive_post_lifecycle/After1.inc",
+    "submodules/TelegramUI/Components/Chat/ChatMessageSelectionInputPanelNode/Sources/ChatMessageSelectionInputPanelNode.swift": "upstream_13_2_release_post/After206.inc",
+    "submodules/NagramiXCore/Sources/NagramiXPresentationStrings.swift": "app_language_localization/After2.inc",
+    "submodules/TelegramUI/Sources/Chat/UpdateChatPresentationInterfaceState.swift": "upstream_13_2_release_pre/Native171.inc",
+    "submodules/TelegramUI/Components/ChatControllerInteraction/Sources/ChatControllerInteraction.swift": "upstream_13_2_release_post/After215.inc",
+    "submodules/NagramiXCore/BUILD": "story_preview_copy/Guard0.inc",
+    "submodules/TelegramUI/Sources/ChatHistoryEntriesForView.swift": "upstream_13_2_release_post/After253.inc",
+    "submodules/TelegramUI/Sources/ChatHistoryViewForLocation.swift": "upstream_13_2_release_pre/Native178.inc"
+  },
+  "templates": {
+    "author_selection_no_restore/Before0.inc": "849b6fd8358bb70300a8018fd87bbe1b213fc8c12c4202d399315b2997f9141c",
+    "author_selection_no_restore/Before1.inc": "d1e1bf2d407ff37b8148ee75e25e67c365ed4050fffa16e4a1b44f72d19f97cf",
+    "author_selection_no_restore/After0.inc": "1465a7d01d19a2696c32c7d2ffa0a6967e915cb92feb0d80b521345de6575ab9",
+    "author_selection_no_restore/After1.inc": "2c972f0e7352f76c6b1a5d8f9e5d5c4e6ed03cd0b500f098fddfd7221b297173",
+    "upstream_13_2_release_post/After146.inc": "bf9342baf193366c8997afb547c074592af8247348f59e25e5e6ca9bfb3806a9",
+    "upstream_13_2_release_post/After188.inc": "c819263cd1c2d6407308fe3f172f9f564b40e26f3b688da39739577bae792f52",
+    "upstream_13_2_release_post/After249.inc": "6071c8f1f54927f53d254fa33fb48806f0f241ac5369d7870020f391acdfcffc",
+    "upstream_13_2_release_post/After258.inc": "93f1202a3da830e7ea510be7b57e05190a1502a16a5a451caf27039af79f6761",
+    "upstream_13_2_release_post/After254.inc": "10d1d594535826a57ed313ef0a6531abcbcf9e029e850dbb52fdeae3f7a95107",
+    "archive_post_lifecycle/After1.inc": "7b6b82c28b0ab92fdca3a16d459f213bc43c487dd6f110c74e8d4aa0b02c9696",
+    "upstream_13_2_release_post/After206.inc": "d5f83730b6cd33d63ebc98bf5e148553e884d61416469604620a308884b64190",
+    "app_language_localization/After2.inc": "1963ef991aac6f373ef1db44a6f67a5817bdf6c7aba1c7f86f67d88df95d93d9",
+    "upstream_13_2_release_pre/Native171.inc": "1d38d159067b31462078c06b78d955f4a8570b53c2738ac5717ebfc080993040",
+    "upstream_13_2_release_post/After215.inc": "e6b9127ffb137c53b182c8e5595392458a7cc41ba864ebaca6b24c7649c3e83d",
+    "story_preview_copy/Guard0.inc": "869e31310cc925b84ceb827a3c0b8503f3a22614acb4abeeec4a4ad435cf56e2",
+    "upstream_13_2_release_post/After253.inc": "1074c9c3f7915d01efaab0d19b59563b0d3dd3e39e7af1ff872743d2777f3b15",
+    "upstream_13_2_release_pre/Native178.inc": "5804ff0e64c19a9204cf414de28b72c8695b0de20d793094ced3915a5b9848e0"
+  },
+  "deletions": {},
+  "target_pin": "24638bc69bd083981b178dd1e7f921eebbf7fc46",
+  "overlay_base_pin": "279f89e4d4f63f17227bf877dc3d8990f22ecd58"
+}

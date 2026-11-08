@@ -25,7 +25,7 @@ on:
         default: true
 
 env:
-  NAGRAMIX_VERSION: 0.8.9
+  NAGRAMIX_VERSION: 0.9.0
 
 permissions:
   contents: read
@@ -315,6 +315,24 @@ jobs:
           python3 scripts/validate_upstream_13_2_release_ack_compile.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)"
           PYTHONPATH=ios python3 -c 'from pathlib import Path; from upstream_13_2_release_string_compile import apply_upstream_13_2_release_string_compile; apply_upstream_13_2_release_string_compile(Path("Telegram-iOS").resolve(), Path("ios").resolve())'
           python3 scripts/validate_upstream_13_2_release_string_compile.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)"
+          PYTHONPATH=ios python3 -c 'from pathlib import Path; from wide_bottom_bar import apply_wide_bottom_bar; apply_wide_bottom_bar(Path("Telegram-iOS").resolve(), Path("ios").resolve())'
+          python3 scripts/validate_wide_bottom_bar.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)" --report "$RUNNER_TEMP/wide-bottom-bar.json"
+          PYTHONPATH=ios python3 -c 'from pathlib import Path; from author_selection_no_restore import apply_author_selection_no_restore; apply_author_selection_no_restore(Path("Telegram-iOS").resolve(), Path("ios").resolve())'
+          python3 scripts/validate_author_selection_no_restore.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)" --report "$RUNNER_TEMP/author-selection-no-restore.json"
+          PYTHONPATH=ios python3 -c 'from pathlib import Path; from preview_reply_intent import apply_preview_reply_intent; apply_preview_reply_intent(Path("Telegram-iOS").resolve(), Path("ios").resolve())'
+          python3 scripts/validate_preview_reply_intent.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)" --report "$RUNNER_TEMP/preview-reply-intent.json"
+          PYTHONPATH=ios python3 -c 'from pathlib import Path; from cloud_credential_entry import apply_cloud_credential_entry; apply_cloud_credential_entry(Path("Telegram-iOS").resolve(), Path("ios").resolve())'
+          python3 scripts/validate_cloud_credential_entry.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)" --report "$RUNNER_TEMP/cloud-credential-entry.json"
+          PYTHONPATH=ios python3 -c 'from pathlib import Path; from extended_poll_integrity import apply_extended_poll_integrity; apply_extended_poll_integrity(Path("Telegram-iOS").resolve(), Path("ios").resolve())'
+          python3 scripts/validate_extended_poll_integrity.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)" --report "$RUNNER_TEMP/extended-poll-integrity.json"
+          PYTHONPATH=ios python3 -c 'from pathlib import Path; from bot_delete_without_block import apply_bot_delete_without_block; apply_bot_delete_without_block(Path("Telegram-iOS").resolve(), Path("ios").resolve())'
+          python3 scripts/validate_bot_delete_without_block.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)" --report "$RUNNER_TEMP/bot-delete-without-block.json"
+          PYTHONPATH=ios python3 -c 'from pathlib import Path; from wide_tab_bar_setting import apply_wide_tab_bar_setting; apply_wide_tab_bar_setting(Path("Telegram-iOS").resolve(), Path("ios").resolve())'
+          python3 scripts/validate_wide_tab_bar_setting.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)" --report "$RUNNER_TEMP/wide-tab-bar-setting.json"
+          python3 -c 'import os, shutil; from pathlib import Path; shutil.copytree("Telegram-iOS", Path(os.environ["RUNNER_TEMP"]) / "nagramix-pre-pip", symlinks=True)'
+          PYTHONPATH=ios python3 -c 'from pathlib import Path; from pip_swipe_handoff import apply_pip_swipe_handoff; apply_pip_swipe_handoff(Path("Telegram-iOS").resolve(), Path("ios").resolve())'
+          python3 scripts/validate_pip_swipe_handoff.py --source Telegram-iOS --baseline "$RUNNER_TEMP/nagramix-pre-pip" --integrated --swiftc "$(xcrun --find swiftc)" --report "$RUNNER_TEMP/pip-swipe-handoff.json"
+          python3 scripts/validate_late_source_stages.py --source Telegram-iOS --report "$RUNNER_TEMP/late-source-stages.json"
           python3 scripts/validate_custom_member_references.py --source Telegram-iOS
           python3 scripts/validate_upstream_13_2_release.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)"
           python3 scripts/validate_localization_standard.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)" --final-upstream-13-2

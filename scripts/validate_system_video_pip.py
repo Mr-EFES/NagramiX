@@ -19,6 +19,17 @@ PLAN = json.loads((OVERLAY / 'system_video_pip_patches.json').read_text())
 I = 'submodules/GalleryUI/Sources/Items/UniversalVideoGalleryItem.swift'
 
 
+def historical_late_source(source):
+    """Guarded inverse for legacy runtime fixtures after source-only fixes.
+
+    The old standalone validators keep their pre-migration CI checkpoints.
+    The final 13.2 gate verifies current outputs before using this view for its
+    historical R1/R2/R3 fixture bodies; no current code is replaced on disk.
+    """
+    from late_source_stages import historical_source
+    return historical_source(source)
+
+
 def sha(data):
     return hashlib.sha256(data).hexdigest()
 

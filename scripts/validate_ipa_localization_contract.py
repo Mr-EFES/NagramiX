@@ -5,10 +5,11 @@ import json
 from pathlib import Path
 import plistlib
 import unittest
+from unittest import mock
 import zipfile
 
 from validate_app_language_localization import strings
-from validate_unsigned_ipa import validate_settings_localizations
+from validate_unsigned_ipa import expected_nagramix_catalogs, validate_settings_localizations
 
 ROOT = Path(__file__).resolve().parents[1]
 PREFIX = 'Payload/Telegram.app/'
@@ -27,8 +28,14 @@ class CatalogTests(unittest.TestCase):
                 code = Path(name).parent.name.removesuffix('.lproj')
                 cls.current[code] = strings(overlay / plan['replacements'][name])
                 cls.previous[code] = strings(overlay / plan['previous'][name])
+        cls.wide_plan = json.loads((overlay / 'wide_tab_bar_setting_patches.json').read_text())
+        cls.latest = {}
+        for name, snapshot in cls.wide_plan['replacements'].items():
+            if name.startswith('submodules/NagramiXCore/Resources/') and name.endswith('.lproj/Localizable.strings'):
+                code = Path(name).parent.name.removesuffix('.lproj')
+                cls.latest[code] = strings(overlay / snapshot)
 
-    def archive(self, catalogs, change=None):
+    def archive(self, catalogs, change=None, extra=None):
         target = io.BytesIO()
         with zipfile.ZipFile(target, 'w', zipfile.ZIP_DEFLATED) as archive:
             for code, original in catalogs.items():
@@ -36,6 +43,9 @@ class CatalogTests(unittest.TestCase):
                 if change and not change(code, values):
                     continue
                 archive.writestr(RESOURCE + code + '.lproj/Localizable.strings', plistlib.dumps(values, fmt=plistlib.FMT_BINARY))
+            if extra:
+                for code, values in extra.items():
+                    archive.writestr(RESOURCE + code + '.lproj/Localizable.strings', plistlib.dumps(values, fmt=plistlib.FMT_BINARY))
         target.seek(0)
         return zipfile.ZipFile(target)
 
@@ -73,6 +83,69 @@ class CatalogTests(unittest.TestCase):
             return True
         with self.archive(self.current, change) as archive, self.assertRaises(SystemExit):
             validate_settings_localizations(archive, PREFIX, '0.8.9')
+
+    def test_090_exact_71_by_630(self):
+        self.assertEqual(len(self.latest), 71)
+        self.assertTrue(all(len(values) == 630 for values in self.latest.values()))
+        self.assertEqual(expected_nagramix_catalogs('0.9.0'), self.latest)
+        with self.archive(self.latest) as archive:
+            self.assertEqual(validate_settings_localizations(archive, PREFIX, '0.9.0'), 71)
+
+    def test_later_version_keeps_630_contract(self):
+        with self.archive(self.latest) as archive:
+            self.assertEqual(validate_settings_localizations(archive, PREFIX, '0.10.0'), 71)
+
+    def test_629_catalog_rejected_for_090(self):
+        with self.archive(self.current) as archive, self.assertRaises(SystemExit):
+            validate_settings_localizations(archive, PREFIX, '0.9.0')
+
+    def test_630_catalog_rejected_for_089(self):
+        with self.archive(self.latest) as archive, self.assertRaises(SystemExit):
+            validate_settings_localizations(archive, PREFIX, '0.8.9')
+
+    def test_wide_key_missing_rejected_for_090(self):
+        def change(code, values):
+            if code == 'ru':
+                del values['NagramiX.Settings.Tabs.WideBar']
+            return True
+        with self.archive(self.latest, change) as archive, self.assertRaises(SystemExit):
+            validate_settings_localizations(archive, PREFIX, '0.9.0')
+
+    def test_old_key_replaced_at_same_count_rejected_for_090(self):
+        def change(code, values):
+            if code == 'de':
+                del values['NagramiX.Settings.Page.Other']
+                values['NagramiX.Unexpected.Placeholder'] = 'unchanged count'
+                self.assertEqual(len(values), 630)
+            return True
+        with self.archive(self.latest, change) as archive, self.assertRaises(SystemExit):
+            validate_settings_localizations(archive, PREFIX, '0.9.0')
+
+    def test_extra_language_rejected_for_090(self):
+        with self.archive(self.latest, extra={'zz': self.latest['en']}) as archive, self.assertRaises(SystemExit):
+            validate_settings_localizations(archive, PREFIX, '0.9.0')
+
+    def test_missing_language_rejected_for_090(self):
+        with self.archive(self.latest, lambda code, values: code != 'de') as archive, self.assertRaises(SystemExit):
+            validate_settings_localizations(archive, PREFIX, '0.9.0')
+
+    def test_modified_wide_translation_rejected_for_090(self):
+        def change(code, values):
+            if code == 'ru':
+                values['NagramiX.Settings.Tabs.WideBar'] = 'changed'
+            return True
+        with self.archive(self.latest, change) as archive, self.assertRaises(SystemExit):
+            validate_settings_localizations(archive, PREFIX, '0.9.0')
+
+    def test_wide_source_snapshot_sha_is_checked(self):
+        name = 'submodules/NagramiXCore/Resources/en.lproj/Localizable.strings'
+        source = ROOT / 'ios' / self.wide_plan['replacements'][name]
+        original = Path.read_bytes
+        def corrupted(path):
+            data = original(path)
+            return data + b'\n// drift\n' if path == source else data
+        with mock.patch.object(Path, 'read_bytes', new=corrupted), self.assertRaisesRegex(SystemExit, 'каталог широкой панели изменён'):
+            expected_nagramix_catalogs('0.9.0')
 
 
 if __name__ == '__main__':

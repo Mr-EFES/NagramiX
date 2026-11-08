@@ -1,0 +1,68 @@
+{
+  "inputs": {
+    "submodules/TelegramCore/Sources/Utils/NagramiXContentCopy.swift": "b8d05e7d6b8f5bbdf32bd8443c420baf4c7d3160620893204b73902dbb97374c",
+    "submodules/TelegramCore/Sources/Utils/NagramiXOutgoingCopy.swift": "a36e23a58ac93e4fb4b2e8167f629531c5f246febd5a0d13ba2526118996f8ad",
+    "submodules/TelegramCore/Sources/Utils/NagramiXArchivedMediaCopy.swift": "687d9ddc8b0a31cf2652a614c0c01aa2896b817787da91ccf3922d2727fa9f5d",
+    "submodules/TelegramCore/Sources/Utils/NagramiXMessageArchive.swift": "bf1ba7275521df9d4f98981620972b8e3dbf9417bd6feba1a084a4e567eda1da",
+    "submodules/TelegramUI/Sources/ChatControllerNode.swift": "0eca869f73b65e154772d269a41742fb6b988113a255c6404c4abf6fbfd108e8",
+    "submodules/TelegramCore/Sources/PendingMessages/PendingMessageUploadedContent.swift": "388a43e2c0963442993dbca1b30d334e48b986d4e4b4f6b2b50d46b40bb06f18"
+  },
+  "outputs": {
+    "submodules/TelegramCore/Sources/Utils/NagramiXContentCopy.swift": "729101daef967ad1790986a354d4604f4c5323651028ec23ef34a1dde37497b8",
+    "submodules/TelegramCore/Sources/Utils/NagramiXOutgoingCopy.swift": "e4745dc4c92630f58580b3e331be9f0aafaf865e38210e94ab07354c29a05e82",
+    "submodules/TelegramCore/Sources/Utils/NagramiXArchivedMediaCopy.swift": "0bc5844d30a869b78024487f14176dd8d69d76fc28b7cd502df42b3e443a4216",
+    "submodules/TelegramCore/Sources/Utils/NagramiXMessageArchive.swift": "95ca1b4e374ffc6515bda2516e5c116db0beed92183a91f9f4c953449fe9a88d",
+    "submodules/TelegramUI/Sources/ChatControllerNode.swift": "f3c644a748f379fdeb305da4bd7bfd7d17fc8c15401868a47753be7783eeaa08",
+    "submodules/TelegramCore/Sources/PendingMessages/PendingMessageUploadedContent.swift": "28b1b4190b7265dffc5df76679244df92142ea2955f0ced435d31eb7df67415c"
+  },
+  "previous": {
+    "submodules/TelegramCore/Sources/Utils/NagramiXContentCopy.swift": "extended_poll_integrity/Before0.inc",
+    "submodules/TelegramCore/Sources/Utils/NagramiXOutgoingCopy.swift": "extended_poll_integrity/Before1.inc",
+    "submodules/TelegramCore/Sources/Utils/NagramiXArchivedMediaCopy.swift": "extended_poll_integrity/Before2.inc",
+    "submodules/TelegramCore/Sources/Utils/NagramiXMessageArchive.swift": "extended_poll_integrity/Before3.inc",
+    "submodules/TelegramUI/Sources/ChatControllerNode.swift": "extended_poll_integrity/Before4.inc",
+    "submodules/TelegramCore/Sources/PendingMessages/PendingMessageUploadedContent.swift": "extended_poll_integrity/Before5.inc"
+  },
+  "replacements": {
+    "submodules/TelegramCore/Sources/Utils/NagramiXContentCopy.swift": "extended_poll_integrity/After0.inc",
+    "submodules/TelegramCore/Sources/Utils/NagramiXOutgoingCopy.swift": "extended_poll_integrity/After1.inc",
+    "submodules/TelegramCore/Sources/Utils/NagramiXArchivedMediaCopy.swift": "extended_poll_integrity/After2.inc",
+    "submodules/TelegramCore/Sources/Utils/NagramiXMessageArchive.swift": "extended_poll_integrity/After3.inc",
+    "submodules/TelegramUI/Sources/ChatControllerNode.swift": "extended_poll_integrity/After4.inc",
+    "submodules/TelegramCore/Sources/PendingMessages/PendingMessageUploadedContent.swift": "extended_poll_integrity/After5.inc"
+  },
+  "copies": {},
+  "guards": {
+    "submodules/TelegramCore/BUILD": "bf9342baf193366c8997afb547c074592af8247348f59e25e5e6ca9bfb3806a9",
+    "submodules/TelegramUI/BUILD": "c819263cd1c2d6407308fe3f172f9f564b40e26f3b688da39739577bae792f52",
+    "submodules/TelegramCore/Sources/SyncCore/SyncCore_TelegramMediaPoll.swift": "80ef774a63927e2e8c651481c1ba4a63bb1f2a37bc74a7a57d830e4691044587",
+    "submodules/TelegramCore/Sources/TelegramEngine/Messages/Polls.swift": "c9920262f809c1b04f1e4dd873341927aebecd89606dcfbb6dd4510eeb9e9698",
+    "submodules/TelegramCore/Sources/SyncCore/SyncCore_OutgoingContentInfoMessageAttribute.swift": "6e9c62dbdfa812cc9243e77102395cc52589937a25c18321922ef75a272b5672",
+    "submodules/TelegramCore/Sources/Utils/NagramiXArchivePersistence.swift": "172f87ec61020c59777190b1d36a5de25d2b3cd2f7f6243033499077b60ee2db",
+    "submodules/TelegramCore/Sources/Utils/NagramiXArchivedMediaStore.swift": "cc0352b82b9e944884453ca1c9dd4ca9876413002090dd29083edddf4004996b",
+    "submodules/TelegramCore/Sources/PendingMessages/EnqueueMessage.swift": "af4e79283b36e58169eac5363dbf1639718047bc1dc68aae729a761c239ffd8e",
+    "submodules/TelegramCore/Sources/State/PendingMessageManager.swift": "dd4b0b7438520257e7784b37d74586b784da8687df9b1be35b9b1ebb36be29c0",
+    "submodules/Postbox/Sources/MediaBox.swift": "67fec306a9828dca4015bc20ee9bfa26eeb0b19efa5506fa34df5924ec24e27b",
+    "submodules/Postbox/Sources/Message.swift": "c382cdf51199878336bf65c396cc56aeebaf74685b00a941211676e07c2e476e",
+    "submodules/TelegramCore/Sources/TelegramEngine/Resources/NagramiXResourceAccess.swift": "71d86809fd6000b561e97f1d831a92284dcb08086637d53877a71549cf5b2d05",
+    "submodules/TelegramCore/Sources/Settings/ContentSettings.swift": "c212e880c7e522c3fd23cdbe2ec37c3174b9e0925d339a14681f3912fc1a1f95",
+    "submodules/TelegramCore/Sources/Utils/NagramiXCaptureProtectionPolicy.swift": "9c317bf122eda39dc9aad6e16a7001673a9555e8b6a6aa169a213d81e4679d35"
+  },
+  "templates": {
+    "extended_poll_integrity/Before0.inc": "b8d05e7d6b8f5bbdf32bd8443c420baf4c7d3160620893204b73902dbb97374c",
+    "extended_poll_integrity/After0.inc": "729101daef967ad1790986a354d4604f4c5323651028ec23ef34a1dde37497b8",
+    "extended_poll_integrity/Before1.inc": "a36e23a58ac93e4fb4b2e8167f629531c5f246febd5a0d13ba2526118996f8ad",
+    "extended_poll_integrity/After1.inc": "e4745dc4c92630f58580b3e331be9f0aafaf865e38210e94ab07354c29a05e82",
+    "extended_poll_integrity/Before2.inc": "687d9ddc8b0a31cf2652a614c0c01aa2896b817787da91ccf3922d2727fa9f5d",
+    "extended_poll_integrity/After2.inc": "0bc5844d30a869b78024487f14176dd8d69d76fc28b7cd502df42b3e443a4216",
+    "extended_poll_integrity/Before3.inc": "bf1ba7275521df9d4f98981620972b8e3dbf9417bd6feba1a084a4e567eda1da",
+    "extended_poll_integrity/After3.inc": "95ca1b4e374ffc6515bda2516e5c116db0beed92183a91f9f4c953449fe9a88d",
+    "extended_poll_integrity/Before4.inc": "0eca869f73b65e154772d269a41742fb6b988113a255c6404c4abf6fbfd108e8",
+    "extended_poll_integrity/After4.inc": "f3c644a748f379fdeb305da4bd7bfd7d17fc8c15401868a47753be7783eeaa08",
+    "extended_poll_integrity/Before5.inc": "388a43e2c0963442993dbca1b30d334e48b986d4e4b4f6b2b50d46b40bb06f18",
+    "extended_poll_integrity/After5.inc": "28b1b4190b7265dffc5df76679244df92142ea2955f0ced435d31eb7df67415c"
+  },
+  "deletions": {},
+  "target_pin": "24638bc69bd083981b178dd1e7f921eebbf7fc46",
+  "overlay_base_pin": "279f89e4d4f63f17227bf877dc3d8990f22ecd58"
+}

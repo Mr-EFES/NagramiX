@@ -1,0 +1,51 @@
+{
+  "inputs": {
+    "submodules/ChatListUI/Sources/ChatListController.swift": "fa8b5a998f632712a4aaa4f4869b0538bf5748f0cfc2d1129d43ed337e79f222"
+  },
+  "outputs": {
+    "submodules/ChatListUI/Sources/ChatListController.swift": "5dcd588c09b5907f43e6006ddaf27fdab041a9ecafb09873862b9d24a1817b45"
+  },
+  "previous": {
+    "submodules/ChatListUI/Sources/ChatListController.swift": "bot_delete_without_block/Before0.inc"
+  },
+  "replacements": {
+    "submodules/ChatListUI/Sources/ChatListController.swift": "bot_delete_without_block/After0.inc"
+  },
+  "copies": {},
+  "guards": {
+    "submodules/ChatListUI/BUILD": "65a8d8a33c9dfc262b1b8e98b639b68d89973f3b1ee1e52f004cb38e53122a2a",
+    "submodules/TelegramCore/Sources/TelegramEngine/Peers/TelegramEnginePeers.swift": "6785f286b5864c67ae4b78817d2ffc5f91767bcee715886929687c0db4040641",
+    "submodules/TelegramCore/Sources/TelegramEngine/Peers/RemovePeerChat.swift": "e24b3bebaa0e15081e1ed74e8fa78848bd0c3dd0a0c037fc122330f240116ac6",
+    "submodules/TelegramCore/Sources/TelegramEngine/Messages/TelegramEngineMessages.swift": "fde1f1f7891673484593d26f90bd0cd7f4c7eb12656f0ee2f88a1027412d1bd1",
+    "submodules/TelegramCore/Sources/TelegramEngine/Privacy/BlockedPeers.swift": "3c5e611d3431f8b3cf628bc799e8eb6842d4b21e390f8fc153abf1bb3ac3e865",
+    "submodules/TelegramCore/Sources/TelegramEngine/Privacy/BlockedPeersContext.swift": "f58522c0561e8000e7eef70d098758b513ce9eee739df00b635edbd04ad3757d",
+    "submodules/TelegramPresentationData/Sources/DefaultPresentationStrings.swift": "e19b8a31efb650ab1331669b066f6f092306f78f48cf8595612db3ad1abfd238",
+    "Telegram/Telegram-iOS/en.lproj/Localizable.strings": "6a1db564f18af1407da2067bea3d8743c06b3742320fbf04b60307e3cbc30b8c"
+  },
+  "guard_sources": {
+    "submodules/TelegramCore/Sources/TelegramEngine/Privacy/BlockedPeersContext.swift": "upstream_13_2_release_post/After178.inc",
+    "submodules/TelegramPresentationData/Sources/DefaultPresentationStrings.swift": "upstream_13_2_release_post/After184.inc",
+    "submodules/ChatListUI/BUILD": "upstream_13_2_release_post/After18.inc",
+    "submodules/TelegramCore/Sources/TelegramEngine/Messages/TelegramEngineMessages.swift": "upstream_13_2_release_post/After173.inc",
+    "Telegram/Telegram-iOS/en.lproj/Localizable.strings": "upstream_13_2_release_post/After2.inc",
+    "submodules/TelegramCore/Sources/TelegramEngine/Peers/TelegramEnginePeers.swift": "upstream_13_2_release_pre/Native101.inc",
+    "submodules/TelegramCore/Sources/TelegramEngine/Peers/RemovePeerChat.swift": "bot_delete_without_block/Guard2.inc",
+    "submodules/TelegramCore/Sources/TelegramEngine/Privacy/BlockedPeers.swift": "bot_delete_without_block/Guard4.inc"
+  },
+  "templates": {
+    "upstream_13_2_release_pre/Native101.inc": "6785f286b5864c67ae4b78817d2ffc5f91767bcee715886929687c0db4040641",
+    "upstream_13_2_release_post/After18.inc": "65a8d8a33c9dfc262b1b8e98b639b68d89973f3b1ee1e52f004cb38e53122a2a",
+    "bot_delete_without_block/Guard2.inc": "e24b3bebaa0e15081e1ed74e8fa78848bd0c3dd0a0c037fc122330f240116ac6",
+    "bot_delete_without_block/After0.inc": "5dcd588c09b5907f43e6006ddaf27fdab041a9ecafb09873862b9d24a1817b45",
+    "bot_delete_without_block/Before0.inc": "fa8b5a998f632712a4aaa4f4869b0538bf5748f0cfc2d1129d43ed337e79f222",
+    "bot_delete_without_block/Guard4.inc": "3c5e611d3431f8b3cf628bc799e8eb6842d4b21e390f8fc153abf1bb3ac3e865",
+    "upstream_13_2_release_post/After173.inc": "fde1f1f7891673484593d26f90bd0cd7f4c7eb12656f0ee2f88a1027412d1bd1",
+    "upstream_13_2_release_post/After2.inc": "6a1db564f18af1407da2067bea3d8743c06b3742320fbf04b60307e3cbc30b8c",
+    "upstream_13_2_release_post/After178.inc": "f58522c0561e8000e7eef70d098758b513ce9eee739df00b635edbd04ad3757d",
+    "upstream_13_2_release_post/After184.inc": "e19b8a31efb650ab1331669b066f6f092306f78f48cf8595612db3ad1abfd238"
+  },
+  "deletions": {},
+  "target_pin": "24638bc69bd083981b178dd1e7f921eebbf7fc46",
+  "overlay_base_pin": "279f89e4d4f63f17227bf877dc3d8990f22ecd58",
+  "required_previous_stage": "extended_poll_integrity"
+}

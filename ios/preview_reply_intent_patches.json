@@ -1,0 +1,43 @@
+{
+  "inputs": {
+    "submodules/TelegramUI/Sources/Chat/ChatControllerLoadDisplayNode.swift": "2c972f0e7352f76c6b1a5d8f9e5d5c4e6ed03cd0b500f098fddfd7221b297173",
+    "submodules/TelegramUI/Sources/ChatController.swift": "6071c8f1f54927f53d254fa33fb48806f0f241ac5369d7870020f391acdfcffc"
+  },
+  "outputs": {
+    "submodules/TelegramUI/Sources/Chat/ChatControllerLoadDisplayNode.swift": "be04db62fd3476fc1a07252e8e599b1686ff499fffe83c0b24d3a65a024b2f50",
+    "submodules/TelegramUI/Sources/ChatController.swift": "285aeee771cdbc09762b16d501c8de40efa48d3276e8a5ebe965a13c4c1a53dd"
+  },
+  "previous": {
+    "submodules/TelegramUI/Sources/Chat/ChatControllerLoadDisplayNode.swift": "preview_reply_intent/Before0.inc",
+    "submodules/TelegramUI/Sources/ChatController.swift": "preview_reply_intent/Before1.inc"
+  },
+  "replacements": {
+    "submodules/TelegramUI/Sources/Chat/ChatControllerLoadDisplayNode.swift": "preview_reply_intent/After0.inc",
+    "submodules/TelegramUI/Sources/ChatController.swift": "preview_reply_intent/After1.inc"
+  },
+  "copies": {},
+  "guards": {
+    "submodules/TelegramUI/BUILD": "c819263cd1c2d6407308fe3f172f9f564b40e26f3b688da39739577bae792f52",
+    "submodules/AccountContext/BUILD": "e3ec0a96e45891721f72009f392510859bebbc52db17798ea0126b6fec8bf47d",
+    "submodules/AccountContext/Sources/AccountContext.swift": "ef6f0bee58b8fea23141d64b98587ec77a7e997695d0177c8a7d4583bfc8a3b1",
+    "submodules/TelegramUI/Sources/NavigateToChatController.swift": "5fd10ebed345ac8969cf84fb5652e459b4c7d65073ed91e4391be8d95ced1f42",
+    "submodules/Display/Source/Navigation/NavigationController.swift": "949f8a1c7a89aa2026b3c1c1509898f8898c40175eff0b0d87db2c13dc6f9e32",
+    "submodules/TelegramUI/Sources/ChatControllerContentData.swift": "dc308ca5798786c182863800d90019839490932484bacb2f62c41f6afc30ac28",
+    "submodules/ChatInterfaceState/Sources/ChatInterfaceState.swift": "3797ecbc78fd2994f118272d7d93a49400ee4ade499dcc4700d28052ca55ec2a",
+    "submodules/ChatPresentationInterfaceState/Sources/ChatPresentationInterfaceState.swift": "3b79a985791a2c48debf717d77802756c1ec05201f6150ea093886ebe6bc047f",
+    "submodules/TelegramUI/Sources/ChatControllerNode.swift": "0eca869f73b65e154772d269a41742fb6b988113a255c6404c4abf6fbfd108e8",
+    "submodules/ChatListUI/Sources/ChatListController.swift": "fa8b5a998f632712a4aaa4f4869b0538bf5748f0cfc2d1129d43ed337e79f222",
+    "submodules/ChatListUI/Sources/Node/ChatListItem.swift": "3d4e96def07bfef0d80b16eadd912ec7648d63bf5383eca749736a86076aaf53",
+    "submodules/ChatListUI/BUILD": "65a8d8a33c9dfc262b1b8e98b639b68d89973f3b1ee1e52f004cb38e53122a2a"
+  },
+  "templates": {
+    "preview_reply_intent/Before0.inc": "2c972f0e7352f76c6b1a5d8f9e5d5c4e6ed03cd0b500f098fddfd7221b297173",
+    "preview_reply_intent/After0.inc": "be04db62fd3476fc1a07252e8e599b1686ff499fffe83c0b24d3a65a024b2f50",
+    "preview_reply_intent/Before1.inc": "6071c8f1f54927f53d254fa33fb48806f0f241ac5369d7870020f391acdfcffc",
+    "preview_reply_intent/After1.inc": "285aeee771cdbc09762b16d501c8de40efa48d3276e8a5ebe965a13c4c1a53dd"
+  },
+  "deletions": {},
+  "target_pin": "24638bc69bd083981b178dd1e7f921eebbf7fc46",
+  "overlay_base_pin": "279f89e4d4f63f17227bf877dc3d8990f22ecd58",
+  "required_previous_stage": "author_selection_no_restore"
+}

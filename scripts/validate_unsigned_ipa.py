@@ -20,14 +20,15 @@ def require(condition: bool, message: str) -> None:
         raise SystemExit(message)
 
 
-def validate_settings_localizations(archive: zipfile.ZipFile, prefix: str, version: str | None = None) -> int:
-    """Проверить точные переводы текущего выпуска и прежний контракт пакетов."""
+def expected_nagramix_catalogs(version: str | None = None) -> dict[str, dict[str, str]]:
+    """Получить точные каталоги нужного выпуска, сохраняя контракты старых IPA."""
     plan = json.loads((ROOT / 'ios/vosk_model_naming_patches.json').read_text())
     labels = json.loads((ROOT / 'ios/vosk_model_naming/labels.json').read_text())
     codes = {item['code'] for item in json.loads((ROOT / 'ios/app_language_localization/languages.json').read_text())['languages']}
     require(set(labels) == codes, 'Неполный контракт языков IPA')
+    version_parts = tuple(int(part) for part in version.split('.')) if version is not None else None
     additions = None
-    if version is not None and tuple(int(part) for part in version.split('.')) >= (0, 8, 9):
+    if version_parts is not None and version_parts >= (0, 8, 9):
         migration = json.loads((ROOT / 'ios/upstream_13_2_release_post_patches.json').read_text())
         name = 'upstream_13_2_release/localization.json'
         data = (ROOT / 'ios' / name).read_bytes()
@@ -37,11 +38,38 @@ def validate_settings_localizations(archive: zipfile.ZipFile, prefix: str, versi
                 'Неверный размер каталога новых переводов IPA')
         require(set(additions['translations']) == codes and len(set(additions['keys'])) == 16,
                 'Неполный контракт новых языков IPA')
+    wide = None
+    if version_parts is not None and version_parts >= (0, 9, 0):
+        wide = json.loads((ROOT / 'ios/wide_tab_bar_setting_patches.json').read_text())
+        require(wide['target_pin'] == '24638bc69bd083981b178dd1e7f921eebbf7fc46'
+                and wide['overlay_base_pin'] == '279f89e4d4f63f17227bf877dc3d8990f22ecd58',
+                'Неверная база новых переводов широкой панели')
+        require(all(wide['inputs'].keys() == wide[field].keys() for field in ('outputs', 'previous', 'replacements')),
+                'Неполный контракт переводов широкой панели')
+        resources = {f'submodules/NagramiXCore/Resources/{code}.lproj/Localizable.strings' for code in codes}
+        actual_resources = {name for name in wide['outputs'] if name.startswith('submodules/NagramiXCore/Resources/')
+                            and name.endswith('.lproj/Localizable.strings')}
+        require(actual_resources == resources, 'Неверный набор языков широкой панели')
+
+    def catalog(text: str) -> dict[str, str]:
+        pairs = re.findall(r'^"((?:[^"\\]|\\.)*)"\s*=\s*"((?:[^"\\]|\\.)*)";', text, re.MULTILINE)
+        return {json.loads('"' + key + '"'): json.loads('"' + value + '"') for key, value in pairs}
+
+    def checked_snapshot(name: str, digest: str) -> dict[str, str]:
+        relative = Path(name)
+        path = ROOT / 'ios' / relative
+        require(not relative.is_absolute() and '..' not in relative.parts
+                and path.resolve().is_relative_to((ROOT / 'ios').resolve()), 'Небезопасный путь каталога IPA')
+        data = path.read_bytes()
+        require(hashlib.sha256(data).hexdigest() == digest, 'Исходный каталог широкой панели изменён: ' + name)
+        require(wide is not None and wide['templates'].get(name) == digest, 'Не закреплён SHA каталога широкой панели: ' + name)
+        return catalog(data.decode('utf-8'))
+
+    catalogs = {}
     for code in sorted(codes):
         name = f'submodules/NagramiXCore/Resources/{code}.lproj/Localizable.strings'
         text = (ROOT / 'ios' / plan['previous'][name]).read_text()
-        pairs = re.findall(r'^"((?:[^"\\]|\\.)*)"\s*=\s*"((?:[^"\\]|\\.)*)";', text, re.MULTILINE)
-        expected = {json.loads('"' + key + '"'): json.loads('"' + value + '"') for key, value in pairs}
+        expected = catalog(text)
         expected['NagramiX.Transcription.Vosk.Alternative'] = labels[code]
         if additions is not None:
             values = additions['translations'][code]
@@ -49,12 +77,37 @@ def validate_settings_localizations(archive: zipfile.ZipFile, prefix: str, versi
             extra = {'NagramiX.Debug.' + key: value for key, value in zip(additions['keys'], values)}
             require(not expected.keys() & extra.keys(), 'Повтор ключа перевода IPA: ' + code)
             expected.update(extra)
-        resource = prefix + f'Frameworks/TelegramUIFramework.framework/NagramiXLocalization.bundle/{code}.lproj/Localizable.strings'
-        require(resource in archive.namelist(), f'В IPA отсутствует язык настроек: {code}')
-        packed = plistlib.loads(archive.read(resource))
         expected_count = additions['key_count'] if additions is not None else 613
-        require(len(expected) == expected_count and packed == expected, f'Переводы настроек/debug в IPA изменены или неполны: {code}')
-    return len(codes)
+        require(len(expected) == expected_count, 'Неверный размер исходного каталога IPA: ' + code)
+        if wide is not None:
+            previous = checked_snapshot(wide['previous'][name], wide['inputs'][name])
+            current = checked_snapshot(wide['replacements'][name], wide['outputs'][name])
+            key = 'NagramiX.Settings.Tabs.WideBar'
+            require(previous == expected and len(previous) == 629, 'Изменён прежний контракт 0.8.9: ' + code)
+            require(len(current) == 630 and current.keys() - previous.keys() == {key}
+                    and all(current.get(old) == value for old, value in previous.items())
+                    and bool(current[key].strip()), 'Неполный каталог 0.9.0 широкой панели: ' + code)
+            expected = current
+        catalogs[code] = expected
+    return catalogs
+
+
+def validate_settings_localizations(archive: zipfile.ZipFile, prefix: str, version: str | None = None) -> int:
+    """Проверить точные переводы текущего выпуска и прежний контракт пакетов."""
+    catalogs = expected_nagramix_catalogs(version)
+    resource_root = prefix + 'Frameworks/TelegramUIFramework.framework/NagramiXLocalization.bundle/'
+    names = archive.namelist()
+    if version is not None and tuple(int(part) for part in version.split('.')) >= (0, 9, 0):
+        expected_resources = {resource_root + f'{code}.lproj/Localizable.strings' for code in catalogs}
+        packed_resources = [name for name in names if name.startswith(resource_root) and name.endswith('.lproj/Localizable.strings')]
+        require(len(packed_resources) == len(expected_resources) and set(packed_resources) == expected_resources,
+                'В IPA неполный, лишний или дублированный набор языков настроек')
+    for code, expected in catalogs.items():
+        resource = resource_root + f'{code}.lproj/Localizable.strings'
+        require(resource in names, f'В IPA отсутствует язык настроек: {code}')
+        packed = plistlib.loads(archive.read(resource))
+        require(packed == expected, f'Переводы настроек/debug в IPA изменены или неполны: {code}')
+    return len(catalogs)
 
 
 def validate_device_compatibility(archive: zipfile.ZipFile) -> int:
@@ -273,7 +326,7 @@ def main() -> None:
 
         if tuple(int(part) for part in args.version.split(".")) >= (0, 8, 6):
             language_count = validate_settings_localizations(archive, prefix, args.version)
-            key_count = 629 if tuple(int(part) for part in args.version.split('.')) >= (0, 8, 9) else 613
+            key_count = 630 if tuple(int(part) for part in args.version.split('.')) >= (0, 9, 0) else 629 if tuple(int(part) for part in args.version.split('.')) >= (0, 8, 9) else 613
             print(f"Переводы IPA проверены: {language_count} языков, по {key_count} ключей настроек/debug")
 
     print(f"IPA проверен: {args.version}, build {args.build_number}, iOS15+, ARM64/iPhoneOS файлов {device_binary_count}, RU {len(russian)}/{len(custom)}, мелодий {sound_count}, иконок {icon_count}, checksum/provenance, без профилей")

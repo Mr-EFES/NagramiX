@@ -1,4 +1,8 @@
-# NagramiX 0.8.9 — релиз опубликован
+# NagramiX 0.9.0 — подготовка исходников
+
+Восемь исправлений восстановлены, объединены и прошли source gate перед отправкой в main по отдельной команде владельца. SDK/IPA/Actions и публикация 0.9.0 не запускались и пока запрещены. Сводка и точные SHA: [PREPARATION_090](PREPARATION_090.md), [CHECKS](PREPARATION_090_CHECKS.json). Последний опубликованный IPA — 0.8.9/build185, его файлы и тег не меняются.
+
+## Последний опубликованный выпуск 0.8.9
 
 **Команда на выпуск 0.8.9 завершена: native_compile_passed / package_verified / owner_published / device_pending.** Обычный latest [релиз 0.8.9/185](https://github.com/Mr-EFES/NagramiX/releases/tag/v0.8.9) опубликован 7 ноября 2026 в 19:24:08 UTC. [IPA](https://github.com/Mr-EFES/NagramiX/releases/download/v0.8.9/NagramiX-0.8.9-unsigned.ipa), [Actions](https://github.com/Mr-EFES/NagramiX/actions/runs/42390556415). Исходник и tag v0.8.9: `1584858a852baa6003982f8c99fbdbce57a74d6c`; официальная база Telegram 13.2: `24638bc69bd083981b178dd1e7f921eebbf7fc46`, Xcode 27.1. Все проверки до SDK, cold gate, нативная ARM64-компиляция 17:38:17–19:21:25 UTC, упаковка, независимая CI-проверка и локальная проверка IPA прошли. Автор релиза и uploader всех трёх файлов — Mr-EFES; API подтвердил latest, source/tag, SHA256 и размеры. Наработки находятся в main. Физическая приёмка на iPhone ожидается по [DEVICE_CHECK_089](DEVICE_CHECK_089.md). Команда на этот выпуск исчерпана успешной публикацией; следующая новая версия — 0.9.0, только по новой личной команде. Документационные коммиты после сборки не меняют tag/IPA и не разрешают новый SDK-запуск.
 

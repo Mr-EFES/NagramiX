@@ -1,0 +1,18 @@
+{
+  "required_after": "wide_tab_bar_setting",
+  "status": "eight_stage_source_composition",
+  "published_head": "c8a914d091c7947692655ff8cffe86e70fe083d0",
+  "source_scope": "Full Telegram 13.2 source composition; seven preceding restored stages and four GalleryUI replacements",
+  "preceding_stages": [
+    "wide_bottom_bar",
+    "author_selection_no_restore",
+    "preview_reply_intent",
+    "cloud_credential_entry",
+    "extended_poll_integrity",
+    "bot_delete_without_block",
+    "wide_tab_bar_setting"
+  ],
+  "missing_local_stages": [],
+  "recovery": "Seven preceding stages reimplemented from agreed requirements. Original vanished bytes are not claimed. Exact prior Core wide model restored with SHA70fac4e58cb33b69abc9a60098cb114a9396c03e39d02569f6bdbad5296d07fb.",
+  "note": "Стадия применяется после семи восстановленных исправлений. Полная проверка интеграции выполняется validate_pip_swipe_handoff.py --integrated и общими source gates. Это не разрешение на SDK/IPA/Actions или публикацию релиза."
+}

@@ -1,0 +1,50 @@
+{
+  "inputs": {
+    "submodules/TabBarUI/Sources/TabBarContollerNode.swift": "c7c894ebb109a4914b38d076e647bc701aeb3305eb151d07bd13cd95e3405ffe",
+    "submodules/TelegramUI/Components/TabBarComponent/Sources/TabBarComponent.swift": "5048a028c02e61e0f30564cd7d4f34d7d940810ce86d544698203671260f7bef"
+  },
+  "outputs": {
+    "submodules/TabBarUI/Sources/TabBarContollerNode.swift": "6985589f8e343a883b62d5108a4d7e8c5a3e4b8570f5b4481ce1104683f8344b",
+    "submodules/TelegramUI/Components/TabBarComponent/Sources/TabBarComponent.swift": "80aa57393cd33b517bdff74bc1d091a6b1605320e55f3423b0296d19efc9bea0"
+  },
+  "previous": {
+    "submodules/TabBarUI/Sources/TabBarContollerNode.swift": "wide_bottom_bar/Before0.inc",
+    "submodules/TelegramUI/Components/TabBarComponent/Sources/TabBarComponent.swift": "wide_bottom_bar/Before1.inc"
+  },
+  "replacements": {
+    "submodules/TabBarUI/Sources/TabBarContollerNode.swift": "wide_bottom_bar/After0.inc",
+    "submodules/TelegramUI/Components/TabBarComponent/Sources/TabBarComponent.swift": "wide_bottom_bar/After1.inc"
+  },
+  "copies": {},
+  "guards": {
+    "submodules/TelegramUI/Components/TabBarComponent/BUILD": "df23b5b1a2e8ba0e2b85f514b879d5d31772f6886a973a19880f182064a292af",
+    "submodules/TabBarUI/BUILD": "e17e3ef1d30b45fc378db5540e6aa8ccc59fae328e61c6ce633f55a47bf88a68",
+    "submodules/TelegramUI/Components/TabBarLayout/Sources/TabBarItemsLayout.swift": "d981f7ed636fe5bdde53a337a8f96024581e9bd8ad5946d7d42ce5c449139aef",
+    "submodules/TelegramUI/Components/TabBarLayout/Sources/TabBarSidePlacement.swift": "7e7e9077fd8ddc1f301633f535e62b455a7890498f3a28e35c2ce08adeff6da4",
+    "submodules/TabBarUI/Sources/TabBarController.swift": "6fb4a6bbb500b34250f11e1f2da217218fe90214e285c27e184d056caa57fa53",
+    "submodules/TelegramUI/Sources/TelegramRootController.swift": "75b02127c93a7f2a208d76a095c87d59b55f8100ebba55fb389a993a0bfb7fd9",
+    "submodules/NagramiXCore/Sources/NagramiXTabSettings.swift": "6d4631a3dc92c3d8140f221553d7657de32b3c825341b5d98f96b7d0f70d24d2",
+    "submodules/SettingsUI/Sources/NagramiXSettingsController.swift": "c185b86a93d4c1bc00ac67b1be37334969176e35784866e85a2764c243ce296f"
+  },
+  "templates": {
+    "wide_bottom_bar/Before0.inc": "c7c894ebb109a4914b38d076e647bc701aeb3305eb151d07bd13cd95e3405ffe",
+    "wide_bottom_bar/After0.inc": "6985589f8e343a883b62d5108a4d7e8c5a3e4b8570f5b4481ce1104683f8344b",
+    "wide_bottom_bar/Before1.inc": "5048a028c02e61e0f30564cd7d4f34d7d940810ce86d544698203671260f7bef",
+    "wide_bottom_bar/After1.inc": "80aa57393cd33b517bdff74bc1d091a6b1605320e55f3423b0296d19efc9bea0",
+    "wide_bottom_bar/Guard0.inc": "df23b5b1a2e8ba0e2b85f514b879d5d31772f6886a973a19880f182064a292af",
+    "wide_bottom_bar/Guard1.inc": "e17e3ef1d30b45fc378db5540e6aa8ccc59fae328e61c6ce633f55a47bf88a68",
+    "wide_bottom_bar/Guard2.inc": "d981f7ed636fe5bdde53a337a8f96024581e9bd8ad5946d7d42ce5c449139aef",
+    "wide_bottom_bar/Guard3.inc": "7e7e9077fd8ddc1f301633f535e62b455a7890498f3a28e35c2ce08adeff6da4",
+    "wide_bottom_bar/Guard4.inc": "6fb4a6bbb500b34250f11e1f2da217218fe90214e285c27e184d056caa57fa53",
+    "wide_bottom_bar/Guard5.inc": "75b02127c93a7f2a208d76a095c87d59b55f8100ebba55fb389a993a0bfb7fd9",
+    "wide_bottom_bar/Guard6.inc": "6d4631a3dc92c3d8140f221553d7657de32b3c825341b5d98f96b7d0f70d24d2",
+    "wide_bottom_bar/Guard7.inc": "c185b86a93d4c1bc00ac67b1be37334969176e35784866e85a2764c243ce296f"
+  },
+  "deletions": {},
+  "target_pin": "24638bc69bd083981b178dd1e7f921eebbf7fc46",
+  "overlay_base_pin": "279f89e4d4f63f17227bf877dc3d8990f22ecd58",
+  "required_previous_stage": "upstream_13_2_release_string_compile",
+  "native_inputs": {
+    "submodules/TelegramUI/Components/TabBarComponent/Sources/TabBarComponent.swift": "523cfcd00c2bad14273f57dbc29db7c60c19c7a3"
+  }
+}
