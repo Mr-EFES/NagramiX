@@ -1,0 +1,104 @@
+{
+  "task": "release_091_ci188_fixture_import_fix",
+  "checked_at_utc": "2026-11-09T08:49:34.392730+00:00",
+  "failed_run": 42577726626,
+  "failed_build": 188,
+  "failed_source": "9cd39dad97b1a5e7825a6594779d9a08638d9f96",
+  "failed_step": "Применить overlay NagramiX",
+  "diagnostic": "binary operator '!=' cannot be applied to two 'CGSize' operands",
+  "cause": "Apple Swift test boundary needs explicit CoreGraphics import; Linux Foundation already exposes geometry equality",
+  "application_source_changed": false,
+  "overlay_snapshots_changed": false,
+  "checks_weakened_or_removed": false,
+  "conditional_import_boundaries": [
+    "round row",
+    "PiP handoff",
+    "PiP snapshot",
+    "download layout"
+  ],
+  "early_geometry_gate": {
+    "boundaries": [
+      {
+        "name": "round-row",
+        "mode": "debug",
+        "passed": true
+      },
+      {
+        "name": "round-row",
+        "mode": "optimized",
+        "passed": true
+      },
+      {
+        "name": "pip-handoff",
+        "mode": "debug",
+        "passed": true
+      },
+      {
+        "name": "pip-handoff",
+        "mode": "optimized",
+        "passed": true
+      },
+      {
+        "name": "pip-snapshot",
+        "mode": "debug",
+        "passed": true
+      },
+      {
+        "name": "pip-snapshot",
+        "mode": "optimized",
+        "passed": true
+      },
+      {
+        "name": "download-layout",
+        "mode": "debug",
+        "passed": true
+      },
+      {
+        "name": "download-layout",
+        "mode": "optimized",
+        "passed": true
+      }
+    ],
+    "apple_import_negatives": [],
+    "boundary": "Actual test boundary imports and geometry operators; no UIKit or whole-app SDK build.",
+    "apple_import_negative_boundary": "Runs only with Apple Swift; Linux Foundation differs."
+  },
+  "full_modified_suites": [
+    {
+      "stage": "round_video_replay_stability",
+      "status": "passed",
+      "executions": 16,
+      "fail_closed": 16,
+      "native_postbox_imports": "passed",
+      "source_unchanged_by_checks": true
+    },
+    {
+      "stage": "pip_gallery_placeholder",
+      "status": "passed",
+      "executions": 12,
+      "fail_closed": 14,
+      "native_postbox_imports": "passed",
+      "source_unchanged_by_checks": true
+    },
+    {
+      "stage": "download_sheet_edge",
+      "status": "passed",
+      "executions": 14,
+      "fail_closed": 16,
+      "native_postbox_imports": "passed",
+      "source_unchanged_by_checks": true
+    }
+  ],
+  "upstream": "13.2 / 24638bc69bd083981b178dd1e7f921eebbf7fc46 / CURRENT",
+  "owner": "Mr-EFES",
+  "version_for_retry": "0.9.1",
+  "next_attempt_mode": {
+    "clean_build": true,
+    "publish_release": true,
+    "prerelease": false
+  },
+  "apple_swift_import_negative": "pending CI; not claimed on Linux",
+  "native_sdk": "pending",
+  "ipa": "not_built",
+  "device": "pending"
+}

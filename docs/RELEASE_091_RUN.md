@@ -14,7 +14,7 @@
 
 Сценарии приёмки пяти новых доработок и сохранения прежних настроек: [DEVICE_CHECK_091](DEVICE_CHECK_091.md). До готового IPA эта инструкция не означает успешный тест на устройстве.
 
-Текущий статус: `owner_authorized / source_checks_passed / build_in_progress / sdk_pending / package_pending / publication_pending / device_pending`. Журнал выполнения и отчёты — `/workspace/.codex-release-091/`.
+Текущий статус: `owner_authorized / source_checks_passed / ci188_fixture_import_fixed / clean_retry_pending / sdk_pending / package_pending / publication_pending / device_pending`. Журнал выполнения и отчёты — `/workspace/.codex-release-091/`.
 
 Для освобождения места удалены только сгенерированные embedded/bare-metal библиотеки локального Swift toolchain, не используемые Linux Foundation-проверками. Host Swift после очистки проходит typecheck. Исходники, snapshots, логи, старые IPA, dSYM, credentials и pinned inputs сохранены; inventory записан в task receipt.
 
@@ -23,3 +23,7 @@
 ## Запуск188
 
 [сборка188](https://github.com/Mr-EFES/NagramiX/actions/runs/42577726626) (run42577726626) принята9 ноября2026 в07:11:28UTC. Точный source9cd39dad97b1a5e7825a6594779d9a08638d9f96, main, actor и triggering_actorMr-EFES. Параметры clean=true/publish=true/prerelease=false подтверждены командой dispatch. Нового IPA пока нет; выполнять мониторинг до результата.
+
+188 завершилась ошибкой до SDK на `validate_round_video_replay_stability.py`: Foundation на macOS не экспортирует операторы сравнения CGSize без CoreGraphics. В production уже есть UIKit; проблема находилась в UI test boundary. Добавлен условный CoreGraphics import в реальные тестовые boundaries кружка, PiP и download layout. Исходники приложения, .inc и manifests не менялись; ни одна проверка поведения не отключалась. Соседние проверки имеют ту же платформенную зависимость и исправлены вместе.
+
+Новый ранний `validate_swift_geometry_boundaries.py` компилирует четыре настоящих test boundary в debug/-O до применения overlay и длинной исторической цепочки. На Apple Swift дополнительно обязан отвергать старый вариант без импорта; Linux явно не выдаётся за подтверждение этой платформенной отрицательной проверки. Все три затронутых полных suite с прежними semantic mutants, loader refusals, Postbox checks и source immutability повторно пройдены локально. [Receipt исправления](RELEASE_091_CI188_CHECKS.json). Следующая разрешённая попытка сохраняет0.9.1 и чистый режим; Apple Swift/SDK/IPA ещё требуют успешного CI.

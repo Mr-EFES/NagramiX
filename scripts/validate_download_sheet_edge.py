@@ -84,6 +84,9 @@ final class SHEET {
 
 LAYOUT_BOUNDARY=r'''
 import Foundation
+#if canImport(CoreGraphics)
+import CoreGraphics
+#endif
 struct UIEdgeInsets:Equatable {
     var top:CGFloat=0,left:CGFloat=0,bottom:CGFloat=0,right:CGFloat=0
     init(top:CGFloat=0,left:CGFloat=0,bottom:CGFloat=0,right:CGFloat=0){self.top=top;self.left=left;self.bottom=bottom;self.right=right}

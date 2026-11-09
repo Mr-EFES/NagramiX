@@ -167,6 +167,9 @@ let playerNode=PlayerNode()
 
 UI_BOUNDARY = r'''
 import Foundation
+#if canImport(CoreGraphics)
+import CoreGraphics
+#endif
 let viewOnceTimeout:Int32 = .max
 protocol MessageAttribute {}
 struct NagramiXArchivedMessageAttribute:MessageAttribute {}

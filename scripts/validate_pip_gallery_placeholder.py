@@ -17,6 +17,7 @@ ROOT=Path(__file__).resolve().parents[1]
 STAGE='pip_gallery_placeholder'
 D='submodules/GalleryUI/Sources/GalleryVideoDecoration.swift'
 V='submodules/AccountContext/Sources/UniversalVideoNode.swift'
+CORE_GRAPHICS_IMPORT='#if canImport(CoreGraphics)\nimport CoreGraphics\n#endif\n'
 
 
 def run(command, **kwargs):
@@ -26,7 +27,7 @@ def run(command, **kwargs):
 
 
 def handoff_fixture(source):
-    text=runtime(source)
+    text=CORE_GRAPHICS_IMPORT+runtime(source)
     u=(source/U).read_text()
     methods='\n'.join(clean(block(u,marker)) for marker in (
         '    private func updateDisplayPlaceholder() {',
@@ -138,6 +139,9 @@ final class GalleryVideoDecoration {
 
 DECORATION_BOUNDARY=r'''
 import Foundation
+#if canImport(CoreGraphics)
+import CoreGraphics
+#endif
 final class Layer {
     weak var view:UIView?
     var mask:Layer?
