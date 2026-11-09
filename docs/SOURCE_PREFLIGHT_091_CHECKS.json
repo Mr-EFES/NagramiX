@@ -1,0 +1,758 @@
+{
+  "version": "0.9.1",
+  "checked_at_utc": "2026-11-09T07:10:14.472081+00:00",
+  "parent_main": "16c1bcf987ea883986d4f9fdd1c6d9f95a871eea",
+  "app_source": "source17: /workspace/scratch/copy-reference-recovery/source-working-1",
+  "application_source_changed_during_release_preparation": false,
+  "five_post_090_suites": [
+    {
+      "stage": "round_video_replay_stability",
+      "source": "/workspace/scratch/round-media-091/source-working-1",
+      "command": [
+        "python3",
+        "/workspace/NagramiX/scripts/validate_round_video_replay_stability.py",
+        "--source",
+        "/workspace/scratch/round-media-091/source-working-1",
+        "--swiftc",
+        "/workspace/scratch/swift-toolchain/usr/bin/swiftc",
+        "--report",
+        "/workspace/.codex-release-091/round_video_replay_stability.json"
+      ],
+      "exit_code": 0,
+      "seconds": 83.8
+    },
+    {
+      "stage": "pip_gallery_placeholder",
+      "source": "/workspace/scratch/pip-gallery-placeholder/source-working-1",
+      "command": [
+        "python3",
+        "/workspace/NagramiX/scripts/validate_pip_gallery_placeholder.py",
+        "--source",
+        "/workspace/scratch/pip-gallery-placeholder/source-working-1",
+        "--swiftc",
+        "/workspace/scratch/swift-toolchain/usr/bin/swiftc",
+        "--report",
+        "/workspace/.codex-release-091/pip_gallery_placeholder.json"
+      ],
+      "exit_code": 0,
+      "seconds": 30.1
+    },
+    {
+      "stage": "download_sheet_edge",
+      "source": "/workspace/scratch/download-sheet-edge/source-working-1",
+      "command": [
+        "python3",
+        "/workspace/NagramiX/scripts/validate_download_sheet_edge.py",
+        "--source",
+        "/workspace/scratch/download-sheet-edge/source-working-1",
+        "--swiftc",
+        "/workspace/scratch/swift-toolchain/usr/bin/swiftc",
+        "--report",
+        "/workspace/.codex-release-091/download_sheet_edge.json"
+      ],
+      "exit_code": 0,
+      "seconds": 29.5
+    },
+    {
+      "stage": "edit_history_cards",
+      "source": "/workspace/scratch/edit-history-cards/source-working-1",
+      "command": [
+        "python3",
+        "/workspace/NagramiX/scripts/validate_edit_history_cards.py",
+        "--source",
+        "/workspace/scratch/edit-history-cards/source-working-1",
+        "--swiftc",
+        "/workspace/scratch/swift-toolchain/usr/bin/swiftc",
+        "--report",
+        "/workspace/.codex-release-091/edit_history_cards.json"
+      ],
+      "exit_code": 0,
+      "seconds": 5.9
+    },
+    {
+      "stage": "copy_reference_recovery",
+      "source": "/workspace/scratch/copy-reference-recovery/source-working-1",
+      "command": [
+        "python3",
+        "/workspace/NagramiX/scripts/validate_copy_reference_recovery.py",
+        "--source",
+        "/workspace/scratch/copy-reference-recovery/source-working-1",
+        "--swiftc",
+        "/workspace/scratch/swift-toolchain/usr/bin/swiftc",
+        "--report",
+        "/workspace/.codex-release-091/copy_reference_recovery.json"
+      ],
+      "exit_code": 0,
+      "seconds": 18.8
+    }
+  ],
+  "suite_reports": {
+    "round_video_replay_stability": {
+      "stage": "round_video_replay_stability",
+      "source_files": 37655,
+      "outputs": {
+        "submodules/TelegramCore/Sources/Utils/NagramiXMessageArchive.swift": "0d07e0ef8ff0d753a4477c6be33106c75e86bd1beb9701e0a1e2b5d7222b29af",
+        "submodules/TelegramUI/Components/Chat/ChatMessageBubbleItemNode/Sources/ChatMessageBubbleItemNode.swift": "a6192f623096f3db4c83eeb56729abc022de0cc358214f081b588717281de66b",
+        "submodules/TelegramUI/Components/MediaManager/PeerMessagesMediaPlaylist/Sources/PeerMessagesMediaPlaylist.swift": "c7ac3830f83f723b8bbb38dc713c5460b5d5c5564bfefbfbf5e9e87b01198985",
+        "submodules/TelegramUI/Components/Chat/ChatMessageInteractiveInstantVideoNode/Sources/ChatMessageInteractiveInstantVideoNode.swift": "c8abde0f77376ff4c59172aa73727a3333d2efc351561ccd1da6a9a082b6ed84",
+        "submodules/AccountContext/Sources/NagramiXArchivedPlaybackAction.swift": "441c53d4cfa128523c5af40caa3a529a526f0be73f71e4f10bd70576271cfd64",
+        "submodules/TelegramUI/Sources/Chat/ChatControllerOpenViewOnceMediaMessage.swift": "25aad7b147f1a2094d06822caab4588db4f3e4f9bbbb7857779f5442191f0519",
+        "submodules/TelegramUI/Sources/SharedMediaPlayer.swift": "632316080cb2f15e5c15e75ab4239605c77c9a6432404b9ab3d4aa678c2d2744",
+        "submodules/TelegramUniversalVideoContent/Sources/NativeVideoContent.swift": "186da7c73827f35eb6df0c6f77500b33e9b700f601cc7a8b252490183b4c403f"
+      },
+      "guards": 22,
+      "fail_closed": 16,
+      "executions": [
+        {
+          "name": "archive",
+          "mode": "debug",
+          "exit_code": 0,
+          "output": "Temporary archive actual-method checks: 463\nRound archive regression checks: 101"
+        },
+        {
+          "name": "archive",
+          "mode": "optimized",
+          "exit_code": 0,
+          "output": "Temporary archive actual-method checks: 463\nRound archive regression checks: 101"
+        },
+        {
+          "name": "ui",
+          "mode": "debug",
+          "exit_code": 0,
+          "output": "Round UI regression checks: 34"
+        },
+        {
+          "name": "ui",
+          "mode": "optimized",
+          "exit_code": 0,
+          "output": "Round UI regression checks: 34"
+        },
+        {
+          "name": "old-deleted-identity",
+          "mode": "debug",
+          "exit_code": 94,
+          "output": "Temporary archive actual-method checks: 463\nRound archive regression: native first deletion does not reinsert a different stable row"
+        },
+        {
+          "name": "old-deleted-identity",
+          "mode": "optimized",
+          "exit_code": 94,
+          "output": "Temporary archive actual-method checks: 463\nRound archive regression: native first deletion does not reinsert a different stable row"
+        },
+        {
+          "name": "old-live-deletion-timestamp",
+          "mode": "debug",
+          "exit_code": 94,
+          "output": "Temporary archive actual-method checks: 463\nRound archive regression: retaining a live temporary message is not deletion"
+        },
+        {
+          "name": "old-live-deletion-timestamp",
+          "mode": "optimized",
+          "exit_code": 94,
+          "output": "Temporary archive actual-method checks: 463\nRound archive regression: retaining a live temporary message is not deletion"
+        },
+        {
+          "name": "old-once-playlist",
+          "mode": "debug",
+          "exit_code": 95,
+          "output": "Round UI regression: layout/status/playlist agree on effective once state"
+        },
+        {
+          "name": "old-once-playlist",
+          "mode": "optimized",
+          "exit_code": 95,
+          "output": "Round UI regression: layout/status/playlist agree on effective once state"
+        },
+        {
+          "name": "old-fetch-only",
+          "mode": "debug",
+          "exit_code": 95,
+          "output": "Round UI regression: central status tap opens retained player in one action instead of fetch-only"
+        },
+        {
+          "name": "old-fetch-only",
+          "mode": "optimized",
+          "exit_code": 95,
+          "output": "Round UI regression: central status tap opens retained player in one action instead of fetch-only"
+        },
+        {
+          "name": "old-opacity",
+          "mode": "debug",
+          "exit_code": 95,
+          "output": "Round UI regression: deleted once receives 50 percent and deleted label"
+        },
+        {
+          "name": "old-opacity",
+          "mode": "optimized",
+          "exit_code": 95,
+          "output": "Round UI regression: deleted once receives 50 percent and deleted label"
+        },
+        {
+          "name": "old-handoff-transform",
+          "mode": "debug",
+          "exit_code": 95,
+          "output": "Round UI regression: obsolete inner resize cleared on small-to-large ownership handoff"
+        },
+        {
+          "name": "old-handoff-transform",
+          "mode": "optimized",
+          "exit_code": 95,
+          "output": "Round UI regression: obsolete inner resize cleared on small-to-large ownership handoff"
+        }
+      ],
+      "module_playback": [
+        {
+          "mode": "debug",
+          "case": "production-helper-native-identities",
+          "output": "Round player regression checks: 10"
+        },
+        {
+          "mode": "optimized",
+          "case": "production-helper-native-identities",
+          "output": "Round player regression checks: 10"
+        },
+        {
+          "case": "old-helper-wrong-playlist",
+          "exit_code": 96,
+          "output": "Round player regression: native single-message playlist toggles instead of recreating decoder"
+        },
+        {
+          "case": "missing-helper-core-import",
+          "expected_compiler_rejection": true
+        }
+      ],
+      "swift_parse": 8,
+      "native_postbox_imports": "passed",
+      "source_unchanged_by_checks": true,
+      "boundaries": "Production archive, row flags, retained activation and handoff guard execute in explicit storage/signals/UI adapters. No AVFoundation decoder or UIKit execution.",
+      "apple_sdk": "not_run",
+      "ipa": "not_built",
+      "physical_iphone": "pending"
+    },
+    "pip_gallery_placeholder": {
+      "stage": "pip_gallery_placeholder",
+      "outputs": {
+        "submodules/GalleryUI/Sources/Items/UniversalVideoGalleryItem.swift": "c7cd7b6a5936dc7966e2e651cd72a072f11e3d29c15e64c00f26b0aabe7d9def",
+        "submodules/GalleryUI/Sources/GalleryVideoDecoration.swift": "152eec6dbd5037312d63ea07cfc797c67f3547c2dcfbae1be044cef647fac60b"
+      },
+      "guards": 12,
+      "fail_closed": 14,
+      "executions": [
+        {
+          "name": "handoff",
+          "mode": "debug",
+          "exit_code": 0,
+          "output": "Error Domain=fixture Code=1 \"(null)\"\nError Domain=fixture Code=1 \"(null)\"\nError Domain=fixture Code=1 \"(null)\"\nError Domain=fixture Code=1 \"(null)\"\nError Domain=fixture Code=1 \"(null)\"\nError Domain=fixture Code=1 \"(null)\"\nError Domain=fixture Code=1 \"(null)\"\nError Domain=fixture Code=1 \"(null)\"\nError Domain=fixture Code=1 \"(null)\"\nError Domain=fixture Code=1 \"(null)\"\nPASS PiP swipe/handoff production checks: 68\nError Domain=fixture Code=1 \"(null)\"\nPiP placeholder lifecycle checks: 20"
+        },
+        {
+          "name": "handoff",
+          "mode": "optimized",
+          "exit_code": 0,
+          "output": "Error Domain=fixture Code=1 \"(null)\"\nError Domain=fixture Code=1 \"(null)\"\nError Domain=fixture Code=1 \"(null)\"\nError Domain=fixture Code=1 \"(null)\"\nError Domain=fixture Code=1 \"(null)\"\nError Domain=fixture Code=1 \"(null)\"\nError Domain=fixture Code=1 \"(null)\"\nError Domain=fixture Code=1 \"(null)\"\nError Domain=fixture Code=1 \"(null)\"\nError Domain=fixture Code=1 \"(null)\"\nPASS PiP swipe/handoff production checks: 68\nError Domain=fixture Code=1 \"(null)\"\nPiP placeholder lifecycle checks: 20"
+        },
+        {
+          "name": "snapshot",
+          "mode": "debug",
+          "exit_code": 0,
+          "output": "PiP frame snapshot checks: 10"
+        },
+        {
+          "name": "snapshot",
+          "mode": "optimized",
+          "exit_code": 0,
+          "output": "PiP frame snapshot checks: 10"
+        },
+        {
+          "name": "technical-card",
+          "mode": "debug",
+          "exit_code": 91,
+          "output": "Error Domain=fixture Code=1 \"(null)\"\nError Domain=fixture Code=1 \"(null)\"\nError Domain=fixture Code=1 \"(null)\"\nError Domain=fixture Code=1 \"(null)\"\nError Domain=fixture Code=1 \"(null)\"\nError Domain=fixture Code=1 \"(null)\"\nError Domain=fixture Code=1 \"(null)\"\nError Domain=fixture Code=1 \"(null)\"\nError Domain=fixture Code=1 \"(null)\"\nError Domain=fixture Code=1 \"(null)\"\nPASS PiP swipe/handoff production checks: 68\nREGRESSION: native request suppresses technical card before handoff"
+        },
+        {
+          "name": "technical-card",
+          "mode": "optimized",
+          "exit_code": 91,
+          "output": "Error Domain=fixture Code=1 \"(null)\"\nError Domain=fixture Code=1 \"(null)\"\nError Domain=fixture Code=1 \"(null)\"\nError Domain=fixture Code=1 \"(null)\"\nError Domain=fixture Code=1 \"(null)\"\nError Domain=fixture Code=1 \"(null)\"\nError Domain=fixture Code=1 \"(null)\"\nError Domain=fixture Code=1 \"(null)\"\nError Domain=fixture Code=1 \"(null)\"\nError Domain=fixture Code=1 \"(null)\"\nPASS PiP swipe/handoff production checks: 68\nREGRESSION: native request suppresses technical card before handoff"
+        },
+        {
+          "name": "early-release",
+          "mode": "debug",
+          "exit_code": 91,
+          "output": "Error Domain=fixture Code=1 \"(null)\"\nError Domain=fixture Code=1 \"(null)\"\nError Domain=fixture Code=1 \"(null)\"\nError Domain=fixture Code=1 \"(null)\"\nError Domain=fixture Code=1 \"(null)\"\nError Domain=fixture Code=1 \"(null)\"\nError Domain=fixture Code=1 \"(null)\"\nError Domain=fixture Code=1 \"(null)\"\nError Domain=fixture Code=1 \"(null)\"\nError Domain=fixture Code=1 \"(null)\"\nPASS PiP swipe/handoff production checks: 68\nError Domain=fixture Code=1 \"(null)\"\nREGRESSION: failed start without source cannot flash technical card"
+        },
+        {
+          "name": "early-release",
+          "mode": "optimized",
+          "exit_code": 91,
+          "output": "Error Domain=fixture Code=1 \"(null)\"\nError Domain=fixture Code=1 \"(null)\"\nError Domain=fixture Code=1 \"(null)\"\nError Domain=fixture Code=1 \"(null)\"\nError Domain=fixture Code=1 \"(null)\"\nError Domain=fixture Code=1 \"(null)\"\nError Domain=fixture Code=1 \"(null)\"\nError Domain=fixture Code=1 \"(null)\"\nError Domain=fixture Code=1 \"(null)\"\nError Domain=fixture Code=1 \"(null)\"\nPASS PiP swipe/handoff production checks: 68\nError Domain=fixture Code=1 \"(null)\"\nREGRESSION: failed start without source cannot flash technical card"
+        },
+        {
+          "name": "lost-frame",
+          "mode": "debug",
+          "exit_code": 92,
+          "output": "Snapshot regression: snapshot attached without requiring valid layout"
+        },
+        {
+          "name": "lost-frame",
+          "mode": "optimized",
+          "exit_code": 92,
+          "output": "Snapshot regression: snapshot attached without requiring valid layout"
+        },
+        {
+          "name": "stale-frame",
+          "mode": "debug",
+          "exit_code": 92,
+          "output": "Snapshot regression: replacement releases previous snapshot"
+        },
+        {
+          "name": "stale-frame",
+          "mode": "optimized",
+          "exit_code": 92,
+          "output": "Snapshot regression: replacement releases previous snapshot"
+        }
+      ],
+      "swift_parse": 2,
+      "source_files": 37655,
+      "source_unchanged_by_checks": true,
+      "native_postbox_imports": "passed",
+      "boundary": "Production PiP/delegate/swipe/placeholder bodies and snapshot attachment/layout execute in explicit AVKit/UIKit/scheduling adapters. The UIKit snapshot pixels and physical animation are not exercised.",
+      "apple_sdk": "not_run",
+      "ipa": "not_built",
+      "physical_iphone": "pending"
+    },
+    "download_sheet_edge": {
+      "stage": "download_sheet_edge",
+      "outputs": {
+        "submodules/Display/Source/ActionSheetController.swift": "367729526279622bdf79dc7ddf6b5994847183cf3f463bb21f7cf47d75d8c809",
+        "submodules/Display/Source/ActionSheetControllerNode.swift": "7d556ee3387d296a17c283d6aab38e6a48b6bae90d090d0e3fbda6659a210cd8",
+        "submodules/Display/Source/ActionSheetItemGroupsContainerNode.swift": "0671a01b2ceb8228dceadd9d24bf467bc932c6c5f88260a47e9aee3572da0ec2",
+        "submodules/Display/Source/ActionSheetItemGroupNode.swift": "0aed3a11c1d56a9cadb95963d40290be5ba9688dd04e35fa03b02e540fa79141",
+        "submodules/SettingsUI/Sources/NagramiXOptionSheet.swift": "38649bb37aeb7c328792c89e71fe9751d0d23a189a9ea8ee70472b4b97fb1bf1",
+        "submodules/SettingsUI/Sources/NagramiXSettingsController.swift": "856714a7b25c5bef0ca0a6ca5fda7a3cdd8b7cf0bb4bf49fd194121356fb37c7"
+      },
+      "guards": 10,
+      "native_input_proofs": 4,
+      "fail_closed": 16,
+      "executions": [
+        {
+          "name": "layout",
+          "mode": "debug",
+          "exit_code": 0,
+          "output": "Native sheet layout checks: 633"
+        },
+        {
+          "name": "layout",
+          "mode": "optimized",
+          "exit_code": 0,
+          "output": "Native sheet layout checks: 633"
+        },
+        {
+          "name": "selection",
+          "mode": "debug",
+          "exit_code": 0,
+          "output": "Option sheet selection checks: 28"
+        },
+        {
+          "name": "selection",
+          "mode": "optimized",
+          "exit_code": 0,
+          "output": "Option sheet selection checks: 28"
+        },
+        {
+          "name": "old-bottom-gap",
+          "mode": "debug",
+          "exit_code": 91,
+          "output": "Sheet regression: attached panel reaches screen bottom"
+        },
+        {
+          "name": "old-bottom-gap",
+          "mode": "optimized",
+          "exit_code": 91,
+          "output": "Sheet regression: attached panel reaches screen bottom"
+        },
+        {
+          "name": "old-safe-inset",
+          "mode": "debug",
+          "exit_code": 91,
+          "output": "Sheet regression: safe area does not shift content down from a false leading inset"
+        },
+        {
+          "name": "old-safe-inset",
+          "mode": "optimized",
+          "exit_code": 91,
+          "output": "Sheet regression: safe area does not shift content down from a false leading inset"
+        },
+        {
+          "name": "old-upward-bounce",
+          "mode": "debug",
+          "exit_code": 91,
+          "output": "Sheet regression: upward outer bounce cannot lift attached panel"
+        },
+        {
+          "name": "old-upward-bounce",
+          "mode": "optimized",
+          "exit_code": 91,
+          "output": "Sheet regression: upward outer bounce cannot lift attached panel"
+        },
+        {
+          "name": "old-four-corners",
+          "mode": "debug",
+          "exit_code": 91,
+          "output": "Sheet regression: only upper corners clipped and dimmed"
+        },
+        {
+          "name": "old-four-corners",
+          "mode": "optimized",
+          "exit_code": 91,
+          "output": "Sheet regression: only upper corners clipped and dimmed"
+        },
+        {
+          "name": "lost-selection-guard",
+          "mode": "debug",
+          "exit_code": 92,
+          "output": "Selection regression: selection saves and dismisses once"
+        },
+        {
+          "name": "lost-selection-guard",
+          "mode": "optimized",
+          "exit_code": 92,
+          "output": "Selection regression: selection saves and dismisses once"
+        }
+      ],
+      "api_boundary": {
+        "production_public_property_and_caller": "passed",
+        "private_property_negative": "rejected",
+        "boundary": "Display public setter compiled as its own module against SettingsUI caller; UIKit lifecycle is adapted."
+      },
+      "swift_parse": 6,
+      "source_files": 37655,
+      "source_unchanged_by_checks": true,
+      "native_postbox_imports": "passed",
+      "boundary": "Production native layout, group padding/corners, factory and callback bodies execute in explicit UIKit/text-measurement adapters. Native drawing pixels, gestures and UIKit presentation are not exercised.",
+      "apple_sdk": "not_run",
+      "ipa": "not_built",
+      "physical_iphone": "pending"
+    },
+    "edit_history_cards": {
+      "stage": "edit_history_cards",
+      "outputs": {
+        "submodules/TelegramUI/Sources/Chat/NagramiXEditHistoryController.swift": "e61ce9c2ce3133f90a52389d011ac3691f702d09e4d44bdc1fd4f683a35cb688"
+      },
+      "guards": 5,
+      "fail_closed": 12,
+      "executions": [
+        {
+          "mode": "debug",
+          "output": "Revision state checks: 1420; catalogs: 71"
+        },
+        {
+          "mode": "optimized",
+          "output": "Revision state checks: 1420; catalogs: 71"
+        }
+      ],
+      "snapshot_copy_forward_archive_bodies": "byte-identical",
+      "localization": "real custom getters and 71 resource catalogs",
+      "boundary": "UIKit configuration state modeled; no Auto Layout solver, pixels or Apple SDK",
+      "apple_sdk": "pending",
+      "device": "pending"
+    },
+    "copy_reference_recovery": {
+      "stage": "copy_reference_recovery",
+      "outputs": {
+        "submodules/TelegramCore/Sources/State/PendingMessageManager.swift": "34d2138936a6698cc9e1534358c094c3979be171333cfa054330e6dfd02c2e9e",
+        "submodules/TelegramCore/Sources/PendingMessages/PendingMessageUploadedContent.swift": "8472d9062ac9160cbdd39fdc3880fd12d0fce9f9e8f4559b501a2b28170d77d4",
+        "submodules/TelegramCore/Sources/Utils/NagramiXOutgoingCopy.swift": "6bb23f7b95b65f368794fc7343637af78c15c53d6a33689fb4bdf9059f52f7e2"
+      },
+      "guards": 32,
+      "fail_closed": 16,
+      "executions": [
+        {
+          "name": "manager",
+          "mode": "debug",
+          "exit_code": 0,
+          "output": "Copy retry state checks: 90"
+        },
+        {
+          "name": "manager",
+          "mode": "optimized",
+          "exit_code": 0,
+          "output": "Copy retry state checks: 90"
+        },
+        {
+          "name": "album-parser",
+          "mode": "debug",
+          "exit_code": 0,
+          "output": "Native album error parser checks: 9"
+        },
+        {
+          "name": "album-parser",
+          "mode": "optimized",
+          "exit_code": 0,
+          "output": "Native album error parser checks: 9"
+        },
+        {
+          "name": "CopyReferenceRecovery.swift",
+          "mode": "debug",
+          "exit_code": 0,
+          "output": "Copy reference recovery production/runtime checks: 78"
+        },
+        {
+          "name": "CopyReferenceRecovery.swift",
+          "mode": "optimized",
+          "exit_code": 0,
+          "output": "Copy reference recovery production/runtime checks: 78"
+        },
+        {
+          "name": "temporary-notice",
+          "mode": "debug",
+          "exit_code": 0,
+          "output": "Temporary notice regression checks: 621"
+        },
+        {
+          "name": "temporary-notice",
+          "mode": "optimized",
+          "exit_code": 0,
+          "output": "Temporary notice regression checks: 621"
+        },
+        {
+          "name": "old-live-notice",
+          "mode": "debug",
+          "exit_code": 97,
+          "output": "Temporary notice regression: live retained media has no deletion notice"
+        },
+        {
+          "name": "old-live-notice",
+          "mode": "optimized",
+          "exit_code": 97,
+          "output": "Temporary notice regression: live retained media has no deletion notice"
+        },
+        {
+          "name": "old-once-label",
+          "mode": "debug",
+          "exit_code": 97,
+          "output": "Temporary notice regression: deletion uses configured or default label"
+        },
+        {
+          "name": "old-once-label",
+          "mode": "optimized",
+          "exit_code": 97,
+          "output": "Temporary notice regression: deletion uses configured or default label"
+        },
+        {
+          "name": "stale-footer-nodes",
+          "mode": "debug",
+          "exit_code": 97,
+          "output": "Temporary notice regression: reused live row removes label and icon from hierarchy"
+        },
+        {
+          "name": "stale-footer-nodes",
+          "mode": "optimized",
+          "exit_code": 97,
+          "output": "Temporary notice regression: reused live row removes label and icon from hierarchy"
+        }
+      ],
+      "apple_sdk": "pending",
+      "device": "pending",
+      "boundary": "Real production helpers and SignalKit with native network/Postbox/UI adapters; no real Telegram RPC or UIKit rendering"
+    }
+  },
+  "source_final_gate": {
+    "target_pin": "24638bc69bd083981b178dd1e7f921eebbf7fc46",
+    "pre_replacements": 196,
+    "post_replacements": 274,
+    "deleted_obsolete_files": 2,
+    "fail_closed": {
+      "pre": 17,
+      "post": 33
+    },
+    "parsed_swift": 467,
+    "executions": [
+      "current-debug: PiP playback command checks: 113",
+      "current-O: PiP playback command checks: 113",
+      "previous-native-debug: Native PiP baseline checks: 37",
+      "previous-native-O: Native PiP baseline checks: 37",
+      "previous-caption-debug: Round caption transport checks: 118",
+      "previous-caption-O: Round caption transport checks: 118",
+      "previous-composer-debug: Repost copy integrity checks: 48",
+      "previous-composer-O: Repost copy integrity checks: 48",
+      "old-toggle-command-debug: regression reproduced and rejected",
+      "old-toggle-command-O: regression reproduced and rejected",
+      "cached-status-toggle-debug: regression reproduced and rejected",
+      "cached-status-toggle-O: regression reproduced and rejected",
+      "inverted-command-debug: regression reproduced and rejected",
+      "inverted-command-O: regression reproduced and rejected"
+    ],
+    "historical_runtime_boundary": "exact published bytes after verified inverse of all registered late source stages",
+    "late_source_stages": [
+      "wide_bottom_bar",
+      "author_selection_no_restore",
+      "preview_reply_intent",
+      "cloud_credential_entry",
+      "extended_poll_integrity",
+      "bot_delete_without_block",
+      "wide_tab_bar_setting",
+      "pip_swipe_handoff",
+      "temporary_message_interaction",
+      "account_settings_entry",
+      "release_090_preflight_fixes",
+      "release_090_author_compile",
+      "round_video_replay_stability",
+      "pip_gallery_placeholder",
+      "download_sheet_edge",
+      "edit_history_cards",
+      "copy_reference_recovery"
+    ],
+    "native_postbox_imports": "passed",
+    "apple_sdk": "pending",
+    "device": "pending"
+  },
+  "inverse": {
+    "late_source_stages": [
+      "wide_bottom_bar",
+      "author_selection_no_restore",
+      "preview_reply_intent",
+      "cloud_credential_entry",
+      "extended_poll_integrity",
+      "bot_delete_without_block",
+      "wide_tab_bar_setting",
+      "pip_swipe_handoff",
+      "temporary_message_interaction",
+      "account_settings_entry",
+      "release_090_preflight_fixes",
+      "release_090_author_compile",
+      "round_video_replay_stability",
+      "pip_gallery_placeholder",
+      "download_sheet_edge",
+      "edit_history_cards",
+      "copy_reference_recovery"
+    ],
+    "published_contract_paths": 683,
+    "actual_published_pipeline_compared": true,
+    "full_source_files_preserved": 37655,
+    "introduced_helpers_absent_from_history": [
+      "submodules/TelegramUI/Sources/Chat/NagramiXTemporaryReplySend.swift"
+    ],
+    "pre_ninth_checkpoint_verified": true,
+    "pre_tenth_checkpoint_verified": true,
+    "pre_eleventh_checkpoint_verified": true,
+    "pre_eleventh_inputs_restored": [
+      "submodules/TelegramCore/Sources/Utils/NagramiXMessageArchive.swift",
+      "submodules/TelegramUI/Sources/Chat/ChatControllerLoadDisplayNode.swift"
+    ],
+    "negative_projection_verified_before_mutation": true,
+    "fail_closed": [
+      "wide_bottom_bar/output-drift",
+      "author_selection_no_restore/output-drift",
+      "preview_reply_intent/output-drift",
+      "cloud_credential_entry/output-drift",
+      "extended_poll_integrity/output-drift",
+      "bot_delete_without_block/output-drift",
+      "wide_tab_bar_setting/output-drift",
+      "pip_swipe_handoff/output-drift",
+      "temporary_message_interaction/output-drift",
+      "account_settings_entry/output-drift",
+      "release_090_preflight_fixes/output-drift",
+      "release_090_author_compile/output-drift",
+      "round_video_replay_stability/output-drift",
+      "pip_gallery_placeholder/output-drift",
+      "download_sheet_edge/output-drift",
+      "edit_history_cards/output-drift",
+      "copy_reference_recovery/output-drift",
+      "native-guard-missing",
+      "copied-helper-drift",
+      "copied-helper-missing",
+      "copied-helper-external-symlink",
+      "template-drift-before-inverse",
+      "pip_swipe_handoff/previous-stage-missing",
+      "pip_swipe_handoff/previous-stage-drift",
+      "temporary_message_interaction/previous-stage-missing",
+      "temporary_message_interaction/previous-stage-drift",
+      "account_settings_entry/previous-stage-missing",
+      "account_settings_entry/previous-stage-drift",
+      "release_090_preflight_fixes/previous-stage-missing",
+      "release_090_preflight_fixes/previous-stage-drift",
+      "release_090_author_compile/previous-stage-missing",
+      "release_090_author_compile/previous-stage-drift",
+      "round_video_replay_stability/previous-stage-missing",
+      "round_video_replay_stability/previous-stage-drift",
+      "pip_gallery_placeholder/previous-stage-missing",
+      "pip_gallery_placeholder/previous-stage-drift",
+      "download_sheet_edge/previous-stage-missing",
+      "download_sheet_edge/previous-stage-drift",
+      "edit_history_cards/previous-stage-missing",
+      "edit_history_cards/previous-stage-drift",
+      "copy_reference_recovery/previous-stage-missing",
+      "copy_reference_recovery/previous-stage-drift",
+      "wide_bottom_bar/native-blob-proof-missing",
+      "wide_bottom_bar/native-blob-drift/submodules/TelegramUI/Components/TabBarComponent/Sources/TabBarComponent.swift",
+      "temporary_message_interaction/native-blob-proof-missing",
+      "temporary_message_interaction/native-blob-drift/submodules/GalleryData/Sources/GalleryData.swift",
+      "temporary_message_interaction/native-blob-drift/submodules/TelegramCore/Sources/State/ManagedSecretChatOutgoingOperations.swift",
+      "temporary_message_interaction/native-blob-drift/submodules/TelegramCore/Sources/State/ProcessSecretChatIncomingDecryptedOperations.swift",
+      "temporary_message_interaction/native-blob-drift/submodules/TelegramUI/Components/Chat/ChatMessageReplyInfoNode/Sources/ChatMessageReplyInfoNode.swift",
+      "temporary_message_interaction/native-blob-drift/submodules/TelegramUI/Components/Chat/ReplyAccessoryPanelNode/Sources/ReplyAccessoryPanelNode.swift",
+      "account_settings_entry/native-blob-proof-missing",
+      "account_settings_entry/native-blob-drift/submodules/SettingsUI/Sources/Search/SettingsSearchableItems.swift",
+      "download_sheet_edge/native-blob-proof-missing",
+      "download_sheet_edge/native-blob-drift/submodules/Display/Source/ActionSheetController.swift",
+      "download_sheet_edge/native-blob-drift/submodules/Display/Source/ActionSheetControllerNode.swift",
+      "download_sheet_edge/native-blob-drift/submodules/Display/Source/ActionSheetItemGroupsContainerNode.swift",
+      "download_sheet_edge/native-blob-drift/submodules/Display/Source/ActionSheetItemGroupNode.swift"
+    ],
+    "sdk": "not_run",
+    "device": "pending"
+  },
+  "custom_members": {
+    "swift_files": 7321,
+    "string_accesses": 845,
+    "distinct_string_members": 228,
+    "actual_string_declarations": 245,
+    "custom_declarations": 825,
+    "full_custom_name_audit": true
+  },
+  "canonical_members": {
+    "swift_files": 206,
+    "string_accesses": 759,
+    "distinct_string_members": 207,
+    "actual_string_declarations": 245,
+    "custom_declarations": 697,
+    "full_custom_name_audit": false
+  },
+  "localization": {
+    "strict": true,
+    "catalogs": 71,
+    "keys": 630,
+    "runtime_checks_per_mode": 44899,
+    "new_ui_literals": false
+  },
+  "infrastructure": {
+    "owner_publication_tests": 28,
+    "ipa_catalog_tests": 16,
+    "dependency_tests": 8,
+    "native_origins": 7,
+    "origin_regressions_rejected": 2,
+    "metadata": "passed",
+    "clean_build_mode": "passed",
+    "diff_check": "passed"
+  },
+  "upstream": [
+    {
+      "platform": "ios",
+      "repository": "https://github.com/TelegramMessenger/Telegram-iOS.git",
+      "pinnedCommit": "24638bc69bd083981b178dd1e7f921eebbf7fc46",
+      "pinnedVersion": "13.2",
+      "officialCommit": "24638bc69bd083981b178dd1e7f921eebbf7fc46",
+      "officialVersion": "13.2",
+      "minimumOS": "15.0",
+      "current": true
+    }
+  ],
+  "identity": "Mr-EFES",
+  "repository_visibility": "public",
+  "workflow": "active",
+  "existing_release_v091": false,
+  "sdk": "not_run_yet",
+  "package": "pending",
+  "publication": "pending",
+  "device": "pending"
+}

@@ -1,4 +1,4 @@
-# Выпуск NagramiX 0.9.0
+# Выпуск 0.9.0 — исторический журнал
 
 **Команда на выпуск 0.9.0 выполнена: native_compile_passed / package_verified / owner_published / device_pending.** Обычный latest [релиз0.9.0/build187](https://github.com/Mr-EFES/NagramiX/releases/tag/v0.9.0) опубликован8 ноября2026 в17:07:26UTC; [IPA](https://github.com/Mr-EFES/NagramiX/releases/download/v0.9.0/NagramiX-0.9.0-unsigned.ipa), [Actions](https://github.com/Mr-EFES/NagramiX/actions/runs/42485515942). Source/tag `76b232c120674a70bfc3f4afabd31810411a9b03`, Telegram13.2, Xcode27.1, iOS15+/ARM64. Автор и uploader всех трёх файлов — Mr-EFES; source/tag/latest/размеры/SHA256 подтверждены API. Все73 реализованные функции имеют compile_passed, физическая приёмка остаётся pending. Следующая новая версия —0.9.1, только по новой личной команде; успешная публикация исчерпала разрешение на повторы0.9.0. Ниже сохраняется история подготовки, которая не разрешает новый SDK/Actions/rerun. [Доказательства](RELEASE_090_PUBLICATION_CHECKS.json).
 
