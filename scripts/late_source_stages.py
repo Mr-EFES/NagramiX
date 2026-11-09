@@ -30,6 +30,7 @@ LATE_SOURCE_STAGES = (
     'pip_gallery_placeholder',
     'download_sheet_edge',
     'edit_history_cards',
+    'copy_reference_recovery',
 )
 TEMPORARY_INTERACTION_STAGE = 'temporary_message_interaction'
 TEMPORARY_REPLY_HELPER = 'submodules/TelegramUI/Sources/Chat/NagramiXTemporaryReplySend.swift'
