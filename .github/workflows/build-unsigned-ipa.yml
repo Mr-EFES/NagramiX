@@ -379,6 +379,8 @@ jobs:
           python3 scripts/validate_proxy_doh_editor.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)" --report "$RUNNER_TEMP/proxy-doh-editor.json"
           PYTHONPATH=ios python3 -c 'from pathlib import Path; from download_sheet_corners import apply_download_sheet_corners; apply_download_sheet_corners(Path("Telegram-iOS").resolve(), Path("ios").resolve())'
           python3 scripts/validate_download_sheet_corners.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)" --report "$RUNNER_TEMP/download-sheet-corners.json"
+          PYTHONPATH=ios python3 -c 'from pathlib import Path; from hide_premium_offers import apply_hide_premium_offers; apply_hide_premium_offers(Path("Telegram-iOS").resolve(), Path("ios").resolve())'
+          python3 scripts/validate_hide_premium_offers.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)" --report "$RUNNER_TEMP/hide-premium-offers.json"
           python3 scripts/validate_late_source_stages.py --source Telegram-iOS --report "$RUNNER_TEMP/late-source-stages.json"
           python3 scripts/validate_custom_member_references.py --source Telegram-iOS
           python3 scripts/validate_upstream_13_2_release.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)"

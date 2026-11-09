@@ -68,6 +68,23 @@ def expected_nagramix_catalogs(version: str | None = None) -> dict[str, dict[str
         round_translations = json.loads(data)
         require(set(round_translations) == codes, 'Неполный контракт переводов круглого видео')
 
+    premium = None
+    premium_translations = None
+    if version_parts is not None and version_parts >= (0, 9, 2):
+        premium = json.loads((ROOT / 'ios/hide_premium_offers_patches.json').read_text())
+        require(premium['target_pin'] == '24638bc69bd083981b178dd1e7f921eebbf7fc46'
+                and premium['required_previous_stage'] == 'download_sheet_corners',
+                'Неверная база переводов скрытия Premium')
+        resources = {f'submodules/NagramiXCore/Resources/{code}.lproj/Localizable.strings' for code in codes}
+        actual_resources = {name for name in premium['outputs'] if name.startswith('submodules/NagramiXCore/Resources/')
+                            and name.endswith('.lproj/Localizable.strings')}
+        require(actual_resources == resources, 'Неверный набор языков скрытия Premium')
+        name = 'hide_premium_offers/localization.json'
+        data = (ROOT / 'ios' / name).read_bytes()
+        require(hashlib.sha256(data).hexdigest() == premium['templates'][name], 'Контракт переводов скрытия Premium изменён')
+        premium_translations = json.loads(data)
+        require(set(premium_translations) == codes, 'Неполный контракт переводов скрытия Premium')
+
     def catalog(text: str) -> dict[str, str]:
         pairs = re.findall(r'^"((?:[^"\\]|\\.)*)"\s*=\s*"((?:[^"\\]|\\.)*)";', text, re.MULTILINE)
         return {json.loads('"' + key + '"'): json.loads('"' + value + '"') for key, value in pairs}
@@ -117,6 +134,18 @@ def expected_nagramix_catalogs(version: str | None = None) -> dict[str, dict[str
                     and all(current.get(old) == value for old, value in previous.items())
                     and all(current.get(key) == value for key, value in zip(keys, values)),
                     'Неполный каталог круглого видео: ' + code)
+            expected = current
+        if premium is not None:
+            previous = checked_snapshot(premium['previous'][name], premium['inputs'][name], premium, 'скрытия Premium')
+            current = checked_snapshot(premium['replacements'][name], premium['outputs'][name], premium, 'скрытия Premium')
+            keys = ['NagramiX.Settings.HidePremiumOffers', 'NagramiX.Settings.HidePremiumOffersInfo']
+            values = premium_translations[code]
+            require(previous == expected and len(previous) == 632, 'Изменён промежуточный контракт круглого видео: ' + code)
+            require(len(values) == 2 and all(value.strip() for value in values)
+                    and len(current) == 634 and current.keys() - previous.keys() == set(keys)
+                    and all(current.get(old) == value for old, value in previous.items())
+                    and all(current.get(key) == value for key, value in zip(keys, values)),
+                    'Неполный каталог скрытия Premium: ' + code)
             expected = current
         catalogs[code] = expected
     return catalogs
@@ -356,7 +385,7 @@ def main() -> None:
 
         if tuple(int(part) for part in args.version.split(".")) >= (0, 8, 6):
             language_count = validate_settings_localizations(archive, prefix, args.version)
-            key_count = 632 if tuple(int(part) for part in args.version.split('.')) >= (0, 9, 2) else 630 if tuple(int(part) for part in args.version.split('.')) >= (0, 9, 0) else 629 if tuple(int(part) for part in args.version.split('.')) >= (0, 8, 9) else 613
+            key_count = 634 if tuple(int(part) for part in args.version.split('.')) >= (0, 9, 2) else 630 if tuple(int(part) for part in args.version.split('.')) >= (0, 9, 0) else 629 if tuple(int(part) for part in args.version.split('.')) >= (0, 8, 9) else 613
             print(f"Переводы IPA проверены: {language_count} языков, по {key_count} ключей настроек/debug")
 
     print(f"IPA проверен: {args.version}, build {args.build_number}, iOS15+, ARM64/iPhoneOS файлов {device_binary_count}, RU {len(russian)}/{len(custom)}, мелодий {sound_count}, иконок {icon_count}, checksum/provenance, без профилей")

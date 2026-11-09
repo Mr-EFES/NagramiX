@@ -367,6 +367,16 @@
       }
     },
     {
+      "id": "hide_premium_offers",
+      "title": "Скрыть предложения Premium: без баннеров подарка, покупки и продления над чатами",
+      "specification": "specified",
+      "ios": {
+        "implementation": "implemented",
+        "compile": "compile_pending",
+        "device": "device_pending"
+      }
+    },
+    {
       "id": "recorder_keep_music",
       "title": "Не останавливать музыку при записи кружка",
       "specification": "specified",

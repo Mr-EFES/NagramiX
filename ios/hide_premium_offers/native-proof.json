@@ -1,0 +1,16 @@
+{
+  "repository": "TelegramMessenger/Telegram-iOS",
+  "pin": "24638bc69bd083981b178dd1e7f921eebbf7fc46",
+  "files": [
+    {
+      "path": "submodules/TelegramUI/Components/GlobalControlPanelsContext/Sources/GlobalControlPanelsContext.swift",
+      "sha": "5a9fab0f155ae18c9ab08f895163da1f892fceb4",
+      "url": "https://github.com/TelegramMessenger/Telegram-iOS/blob/24638bc69bd083981b178dd1e7f921eebbf7fc46/submodules/TelegramUI/Components/GlobalControlPanelsContext/Sources/GlobalControlPanelsContext.swift"
+    },
+    {
+      "path": "submodules/TelegramUI/Components/GlobalControlPanelsContext/BUILD",
+      "sha": "a168dbd45aedfa0a2db4d8faf1797c139b843e26",
+      "url": "https://github.com/TelegramMessenger/Telegram-iOS/blob/24638bc69bd083981b178dd1e7f921eebbf7fc46/submodules/TelegramUI/Components/GlobalControlPanelsContext/BUILD"
+    }
+  ]
+}
