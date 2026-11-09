@@ -34,6 +34,12 @@ class CatalogTests(unittest.TestCase):
             if name.startswith('submodules/NagramiXCore/Resources/') and name.endswith('.lproj/Localizable.strings'):
                 code = Path(name).parent.name.removesuffix('.lproj')
                 cls.latest[code] = strings(overlay / snapshot)
+        cls.round_plan = json.loads((overlay / 'round_video_editor_patches.json').read_text())
+        cls.round_video = {}
+        for name, snapshot in cls.round_plan['replacements'].items():
+            if name.startswith('submodules/NagramiXCore/Resources/') and name.endswith('.lproj/Localizable.strings'):
+                code = Path(name).parent.name.removesuffix('.lproj')
+                cls.round_video[code] = strings(overlay / snapshot)
 
     def archive(self, catalogs, change=None, extra=None):
         target = io.BytesIO()
@@ -91,9 +97,72 @@ class CatalogTests(unittest.TestCase):
         with self.archive(self.latest) as archive:
             self.assertEqual(validate_settings_localizations(archive, PREFIX, '0.9.0'), 71)
 
-    def test_later_version_keeps_630_contract(self):
+    def test_published_091_keeps_630_contract(self):
         with self.archive(self.latest) as archive:
+            self.assertEqual(validate_settings_localizations(archive, PREFIX, '0.9.1'), 71)
+
+    def test_092_exact_71_by_632(self):
+        self.assertEqual(len(self.round_video), 71)
+        self.assertTrue(all(len(values) == 632 for values in self.round_video.values()))
+        self.assertEqual(expected_nagramix_catalogs('0.9.2'), self.round_video)
+        with self.archive(self.round_video) as archive:
+            self.assertEqual(validate_settings_localizations(archive, PREFIX, '0.9.2'), 71)
+
+    def test_later_version_keeps_632_contract(self):
+        with self.archive(self.round_video) as archive:
             self.assertEqual(validate_settings_localizations(archive, PREFIX, '0.10.0'), 71)
+
+    def test_old_catalog_rejected_for_092(self):
+        with self.archive(self.latest) as archive, self.assertRaises(SystemExit):
+            validate_settings_localizations(archive, PREFIX, '0.9.2')
+
+    def test_round_catalog_rejected_for_published_091(self):
+        with self.archive(self.round_video) as archive, self.assertRaises(SystemExit):
+            validate_settings_localizations(archive, PREFIX, '0.9.1')
+
+    def test_round_hint_missing_rejected(self):
+        def change(code, values):
+            if code == 'ru':
+                del values['NagramiX.RoundVideo.CropHint']
+            return True
+        with self.archive(self.round_video, change) as archive, self.assertRaises(SystemExit):
+            validate_settings_localizations(archive, PREFIX, '0.9.2')
+
+    def test_round_title_modified_rejected(self):
+        def change(code, values):
+            if code == 'en':
+                values['NagramiX.RoundVideo.Title'] = 'changed'
+            return True
+        with self.archive(self.round_video, change) as archive, self.assertRaises(SystemExit):
+            validate_settings_localizations(archive, PREFIX, '0.9.2')
+
+    def test_old_key_replaced_at_same_count_rejected_for_092(self):
+        def change(code, values):
+            if code == 'de':
+                del values['NagramiX.Settings.Page.Other']
+                values['NagramiX.Unexpected.Placeholder'] = 'unchanged count'
+                self.assertEqual(len(values), 632)
+            return True
+        with self.archive(self.round_video, change) as archive, self.assertRaises(SystemExit):
+            validate_settings_localizations(archive, PREFIX, '0.9.2')
+
+    def test_missing_language_rejected_for_092(self):
+        with self.archive(self.round_video, lambda code, values: code != 'de') as archive, self.assertRaises(SystemExit):
+            validate_settings_localizations(archive, PREFIX, '0.9.2')
+
+    def test_extra_language_rejected_for_092(self):
+        with self.archive(self.round_video, extra={'zz': self.round_video['en']}) as archive, self.assertRaises(SystemExit):
+            validate_settings_localizations(archive, PREFIX, '0.9.2')
+
+    def test_round_source_snapshot_sha_is_checked(self):
+        name = 'submodules/NagramiXCore/Resources/en.lproj/Localizable.strings'
+        source = ROOT / 'ios' / self.round_plan['replacements'][name]
+        original = Path.read_bytes
+        def corrupted(path):
+            data = original(path)
+            return data + b'\n// drift\n' if path == source else data
+        with mock.patch.object(Path, 'read_bytes', new=corrupted), self.assertRaisesRegex(SystemExit, 'каталог круглого видео изменён'):
+            expected_nagramix_catalogs('0.9.2')
 
     def test_629_catalog_rejected_for_090(self):
         with self.archive(self.current) as archive, self.assertRaises(SystemExit):

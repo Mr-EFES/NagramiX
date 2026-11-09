@@ -51,18 +51,36 @@ def expected_nagramix_catalogs(version: str | None = None) -> dict[str, dict[str
                             and name.endswith('.lproj/Localizable.strings')}
         require(actual_resources == resources, 'Неверный набор языков широкой панели')
 
+    round_video = None
+    round_translations = None
+    if version_parts is not None and version_parts >= (0, 9, 2):
+        round_video = json.loads((ROOT / 'ios/round_video_editor_patches.json').read_text())
+        require(round_video['target_pin'] == '24638bc69bd083981b178dd1e7f921eebbf7fc46'
+                and round_video['required_previous_stage'] == 'temporary_playback_identity',
+                'Неверная база переводов круглого видео')
+        resources = {f'submodules/NagramiXCore/Resources/{code}.lproj/Localizable.strings' for code in codes}
+        actual_resources = {name for name in round_video['outputs'] if name.startswith('submodules/NagramiXCore/Resources/')
+                            and name.endswith('.lproj/Localizable.strings')}
+        require(actual_resources == resources, 'Неверный набор языков круглого видео')
+        name = 'round_video_editor/localization.json'
+        data = (ROOT / 'ios' / name).read_bytes()
+        require(hashlib.sha256(data).hexdigest() == round_video['templates'][name], 'Контракт переводов круглого видео изменён')
+        round_translations = json.loads(data)
+        require(set(round_translations) == codes, 'Неполный контракт переводов круглого видео')
+
     def catalog(text: str) -> dict[str, str]:
         pairs = re.findall(r'^"((?:[^"\\]|\\.)*)"\s*=\s*"((?:[^"\\]|\\.)*)";', text, re.MULTILINE)
         return {json.loads('"' + key + '"'): json.loads('"' + value + '"') for key, value in pairs}
 
-    def checked_snapshot(name: str, digest: str) -> dict[str, str]:
+    def checked_snapshot(name: str, digest: str, contract=None, description='широкой панели') -> dict[str, str]:
         relative = Path(name)
         path = ROOT / 'ios' / relative
         require(not relative.is_absolute() and '..' not in relative.parts
                 and path.resolve().is_relative_to((ROOT / 'ios').resolve()), 'Небезопасный путь каталога IPA')
         data = path.read_bytes()
-        require(hashlib.sha256(data).hexdigest() == digest, 'Исходный каталог широкой панели изменён: ' + name)
-        require(wide is not None and wide['templates'].get(name) == digest, 'Не закреплён SHA каталога широкой панели: ' + name)
+        require(hashlib.sha256(data).hexdigest() == digest, 'Исходный каталог ' + description + ' изменён: ' + name)
+        contract = wide if contract is None else contract
+        require(contract is not None and contract['templates'].get(name) == digest, 'Не закреплён SHA каталога ' + description + ': ' + name)
         return catalog(data.decode('utf-8'))
 
     catalogs = {}
@@ -87,6 +105,18 @@ def expected_nagramix_catalogs(version: str | None = None) -> dict[str, dict[str
             require(len(current) == 630 and current.keys() - previous.keys() == {key}
                     and all(current.get(old) == value for old, value in previous.items())
                     and bool(current[key].strip()), 'Неполный каталог 0.9.0 широкой панели: ' + code)
+            expected = current
+        if round_video is not None:
+            previous = checked_snapshot(round_video['previous'][name], round_video['inputs'][name], round_video, 'круглого видео')
+            current = checked_snapshot(round_video['replacements'][name], round_video['outputs'][name], round_video, 'круглого видео')
+            keys = ['NagramiX.RoundVideo.Title', 'NagramiX.RoundVideo.CropHint']
+            values = round_translations[code]
+            require(previous == expected and len(previous) == 630, 'Изменён прежний контракт 0.9.1: ' + code)
+            require(len(values) == 2 and all(value.strip() for value in values)
+                    and len(current) == 632 and current.keys() - previous.keys() == set(keys)
+                    and all(current.get(old) == value for old, value in previous.items())
+                    and all(current.get(key) == value for key, value in zip(keys, values)),
+                    'Неполный каталог круглого видео: ' + code)
             expected = current
         catalogs[code] = expected
     return catalogs
@@ -326,7 +356,7 @@ def main() -> None:
 
         if tuple(int(part) for part in args.version.split(".")) >= (0, 8, 6):
             language_count = validate_settings_localizations(archive, prefix, args.version)
-            key_count = 630 if tuple(int(part) for part in args.version.split('.')) >= (0, 9, 0) else 629 if tuple(int(part) for part in args.version.split('.')) >= (0, 8, 9) else 613
+            key_count = 632 if tuple(int(part) for part in args.version.split('.')) >= (0, 9, 2) else 630 if tuple(int(part) for part in args.version.split('.')) >= (0, 9, 0) else 629 if tuple(int(part) for part in args.version.split('.')) >= (0, 8, 9) else 613
             print(f"Переводы IPA проверены: {language_count} языков, по {key_count} ключей настроек/debug")
 
     print(f"IPA проверен: {args.version}, build {args.build_number}, iOS15+, ARM64/iPhoneOS файлов {device_binary_count}, RU {len(russian)}/{len(custom)}, мелодий {sound_count}, иконок {icon_count}, checksum/provenance, без профилей")

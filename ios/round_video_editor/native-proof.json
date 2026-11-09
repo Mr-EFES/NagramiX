@@ -1,0 +1,71 @@
+{
+  "repository": "TelegramMessenger/Telegram-iOS",
+  "pin": "24638bc69bd083981b178dd1e7f921eebbf7fc46",
+  "files": [
+    {
+      "path": "submodules/TelegramUI/Components/ChatMediaEditorScreen/BUILD",
+      "sha": "205b193e637b7d697eb29c5dc5a34b27269ef2e5",
+      "url": "https://github.com/TelegramMessenger/Telegram-iOS/blob/24638bc69bd083981b178dd1e7f921eebbf7fc46/submodules/TelegramUI/Components/ChatMediaEditorScreen/BUILD"
+    },
+    {
+      "path": "submodules/TelegramUI/Components/ChatMediaSend/Sources/ChatMediaEditorItemStore.swift",
+      "sha": "b2ff22c0f88a67ba14698aa66bd7ef79d6f8dad0",
+      "url": "https://github.com/TelegramMessenger/Telegram-iOS/blob/24638bc69bd083981b178dd1e7f921eebbf7fc46/submodules/TelegramUI/Components/ChatMediaSend/Sources/ChatMediaEditorItemStore.swift"
+    },
+    {
+      "path": "submodules/TelegramUI/Components/ChatMediaEditorScreen/Sources/ChatMediaEditorBottomControls.swift",
+      "sha": "e0d766e0ea07db88abb31390c5625eedec153f1f",
+      "url": "https://github.com/TelegramMessenger/Telegram-iOS/blob/24638bc69bd083981b178dd1e7f921eebbf7fc46/submodules/TelegramUI/Components/ChatMediaEditorScreen/Sources/ChatMediaEditorBottomControls.swift"
+    },
+    {
+      "path": "submodules/TelegramUI/Components/ChatMediaEditorScreen/Sources/ChatMediaEditorBottomControlsComponent.swift",
+      "sha": "2dd73b1b637dfba153b022a142a22fbee15fee85",
+      "url": "https://github.com/TelegramMessenger/Telegram-iOS/blob/24638bc69bd083981b178dd1e7f921eebbf7fc46/submodules/TelegramUI/Components/ChatMediaEditorScreen/Sources/ChatMediaEditorBottomControlsComponent.swift"
+    },
+    {
+      "path": "submodules/TelegramUI/Components/ChatMediaEditorScreen/Sources/ChatMediaEditorScreen.swift",
+      "sha": "05b888cf7bac4877a69dd81fbb3ccefdfc1ea48c",
+      "url": "https://github.com/TelegramMessenger/Telegram-iOS/blob/24638bc69bd083981b178dd1e7f921eebbf7fc46/submodules/TelegramUI/Components/ChatMediaEditorScreen/Sources/ChatMediaEditorScreen.swift"
+    },
+    {
+      "path": "submodules/TelegramUI/Components/ChatMediaEditorScreen/Sources/ChatMediaEditorScreenVideo.swift",
+      "sha": "a8c61a4b18d92cab9adf42b6e764a6bf8b36b362",
+      "url": "https://github.com/TelegramMessenger/Telegram-iOS/blob/24638bc69bd083981b178dd1e7f921eebbf7fc46/submodules/TelegramUI/Components/ChatMediaEditorScreen/Sources/ChatMediaEditorScreenVideo.swift"
+    },
+    {
+      "path": "submodules/TelegramUI/Components/ChatMediaEditorScreen/Sources/ChatMediaEditorScreenCrop.swift",
+      "sha": "2c98d6b4e5e0837c0717eafebbd55ecf466f29ec",
+      "url": "https://github.com/TelegramMessenger/Telegram-iOS/blob/24638bc69bd083981b178dd1e7f921eebbf7fc46/submodules/TelegramUI/Components/ChatMediaEditorScreen/Sources/ChatMediaEditorScreenCrop.swift"
+    },
+    {
+      "path": "submodules/TelegramUI/Components/ChatMediaEditorScreen/Sources/ChatMediaEditorScreenQuality.swift",
+      "sha": "d7728fdb37e2d0bd4b9462d818ee7a7c2ae5b63b",
+      "url": "https://github.com/TelegramMessenger/Telegram-iOS/blob/24638bc69bd083981b178dd1e7f921eebbf7fc46/submodules/TelegramUI/Components/ChatMediaEditorScreen/Sources/ChatMediaEditorScreenQuality.swift"
+    },
+    {
+      "path": "submodules/TelegramUI/Components/ChatMediaSend/Sources/ChatMediaSendPlan.swift",
+      "sha": "3d9e915cf043d41093eb4167a08ec125ef0291b7",
+      "url": "https://github.com/TelegramMessenger/Telegram-iOS/blob/24638bc69bd083981b178dd1e7f921eebbf7fc46/submodules/TelegramUI/Components/ChatMediaSend/Sources/ChatMediaSendPlan.swift"
+    },
+    {
+      "path": "submodules/TelegramUI/Components/ChatMediaSend/Sources/ChatMediaSendItem.swift",
+      "sha": "89ae155da8c258e12768283be1b784baa6f2b163",
+      "url": "https://github.com/TelegramMessenger/Telegram-iOS/blob/24638bc69bd083981b178dd1e7f921eebbf7fc46/submodules/TelegramUI/Components/ChatMediaSend/Sources/ChatMediaSendItem.swift"
+    },
+    {
+      "path": "submodules/TelegramUI/Components/ChatMediaSend/Sources/ChatMediaSendMessages.swift",
+      "sha": "ae7e80b22f600eca1d70c38ce755b99be61b1367",
+      "url": "https://github.com/TelegramMessenger/Telegram-iOS/blob/24638bc69bd083981b178dd1e7f921eebbf7fc46/submodules/TelegramUI/Components/ChatMediaSend/Sources/ChatMediaSendMessages.swift"
+    },
+    {
+      "path": "submodules/TelegramUI/Components/ChatMediaSend/Sources/ChatMediaSendSingleItem.swift",
+      "sha": "7aef49d1a49dac9d624fd33d46d823282cf6e584",
+      "url": "https://github.com/TelegramMessenger/Telegram-iOS/blob/24638bc69bd083981b178dd1e7f921eebbf7fc46/submodules/TelegramUI/Components/ChatMediaSend/Sources/ChatMediaSendSingleItem.swift"
+    },
+    {
+      "path": "submodules/TelegramUI/Components/ChatMediaEditorScreen/Sources/ChatMediaEditorLandscape.swift",
+      "sha": "7eeb893e6958aee1da1ad25feeb8557ab6ed13a7",
+      "url": "https://github.com/TelegramMessenger/Telegram-iOS/blob/24638bc69bd083981b178dd1e7f921eebbf7fc46/submodules/TelegramUI/Components/ChatMediaEditorScreen/Sources/ChatMediaEditorLandscape.swift"
+    }
+  ]
+}

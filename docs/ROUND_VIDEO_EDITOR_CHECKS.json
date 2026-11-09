@@ -1,0 +1,779 @@
+{
+  "задача": "Круглое видео по утверждённому эскизу",
+  "родительский_main": "992c77389103d06e2ac4e0b59786483f10b26977",
+  "статус": "source_checked / compile_pending / device_pending",
+  "версия_метаданных": "0.9.1",
+  "опубликованный_IPA": "0.9.1/build190, не изменён",
+  "следующий_релиз": "0.9.2, только по отдельной команде",
+  "исходник": "/tmp/nagramix-round-video/source",
+  "независимое_применение": "/tmp/nagramix-round-video/source-applied-final",
+  "проверок_на_режим": 16272,
+  "смысловых_отрицательных_вариантов_на_режим": 12,
+  "валидация": {
+    "stage": "round_video_editor",
+    "outputs": {
+      "submodules/NagramiXMediaSettings/Sources/NagramiXMediaSettings.swift": "0bbd969f903181cb1f3caa2d43aefae3a46965dd670dde1a8c3cbced2335275f",
+      "submodules/NagramiXCore/Sources/NagramiXTabSettings.swift": "ebeac047976a263593c97236dba3a0c9c9b5c4865e6095c3d596a77985e7182e",
+      "submodules/NagramiXCore/Sources/NagramiXPresentationStrings.swift": "39dd6b628e7f1cb867c3e022ae8bb7b3eb48a36203c172867460162e7bb0b906",
+      "submodules/SettingsUI/Sources/NagramiXSettingsController.swift": "a38a465a868b7cefd0b96ef7454cf46b9a689ff8558bfc5b55edb1bf060dc32b",
+      "submodules/TelegramUI/Components/ChatMediaEditorScreen/BUILD": "6ad6aad5a66dfb24132f9e4f8eb595a0c23134fd59bf96e848b65aaeb5d08666",
+      "submodules/TelegramUI/Components/ChatMediaSend/Sources/ChatMediaEditorItemStore.swift": "9c0fc1bd916c592f2673414a253b806fa95d3dd01a935be7d299657b8e7735a0",
+      "submodules/TelegramUI/Components/ChatMediaEditorScreen/Sources/ChatMediaEditorBottomControls.swift": "e2b298eacc1002e758458236ab8f923ce99837ad305ecb7f7cfca95c8b89a88e",
+      "submodules/TelegramUI/Components/ChatMediaEditorScreen/Sources/ChatMediaEditorBottomControlsComponent.swift": "fcc460cfe55803cc6c2c684bc90c88957611e5169492f2268447609c061c1699",
+      "submodules/TelegramUI/Components/ChatMediaEditorScreen/Sources/ChatMediaEditorScreen.swift": "b8b1235db6e7f45404766cfb60d2a0673df45a5e81100ab860406893fe909a66",
+      "submodules/TelegramUI/Components/ChatMediaEditorScreen/Sources/ChatMediaEditorScreenVideo.swift": "38bdea1712c1a490b75b1605b970f5a2d955b86bad2da2b7012e871d0bfc51ab",
+      "submodules/TelegramUI/Components/ChatMediaEditorScreen/Sources/ChatMediaEditorScreenCrop.swift": "e973af84a4543028adf74ae9b39d96e5d638778107010752378ef42120bb2eda",
+      "submodules/TelegramUI/Components/ChatMediaEditorScreen/Sources/ChatMediaEditorLandscape.swift": "ce2220491827a9fcdca9981b86246ee1fb48ad75f8988bb3354209b119094571",
+      "submodules/TelegramUI/Components/ChatMediaEditorScreen/Sources/ChatMediaEditorScreenQuality.swift": "a28c95df080ce8ba25e187c58c643cbabeed56a12a7d87588b929bca14677d72",
+      "submodules/TelegramUI/Components/MediaEditor/Sources/MediaEditorValues.swift": "12afc45519253321d2fea24b5bd496ce7615deddfa063532fbcc2e50c3edc4d2",
+      "submodules/TelegramUI/Components/ChatMediaSend/Sources/ChatMediaSendPlan.swift": "61be59ec4f23c1cdbea46fdda99b5bbc82d0cbc84f7170b47f03168468291510",
+      "submodules/TelegramUI/Components/ChatMediaSend/Sources/ChatMediaSendItem.swift": "611a293e6b2d9f6c66c1747d4658556f891180851a256f954734079bc8b85706",
+      "submodules/TelegramUI/Components/ChatMediaSend/Sources/ChatMediaSendMessages.swift": "536302b3bf622727c63060e7163037753bf29da17c4f1b472e615f10f254c5ad",
+      "submodules/TelegramUI/Components/ChatMediaSend/Sources/ChatMediaSendSingleItem.swift": "a9eca4950cf19b64634afc369415b31cb7782edb5ad362db422bf3da2aaf3781",
+      "submodules/NagramiXCore/Resources/en.lproj/Localizable.strings": "8819c3c8463aac4e29e8c5b0976f0eda00fbdb6bcc38c247525c318d74571e4e",
+      "submodules/NagramiXCore/Resources/af.lproj/Localizable.strings": "e5733cd871aa4bea57db47accf006621d41848f746608effe3e365eeb1b4e021",
+      "submodules/NagramiXCore/Resources/sq.lproj/Localizable.strings": "ec1a054cd1b0ab75e7499bb5fc746632f17013c4ead804f1b86c35d49fb1e77b",
+      "submodules/NagramiXCore/Resources/am.lproj/Localizable.strings": "9f3c9217c3f502167ee7db7b12e9d29dcd0255ea5353252842a8d1b682d03ad5",
+      "submodules/NagramiXCore/Resources/ar.lproj/Localizable.strings": "d582d29d47fb06c0e3c35713c7fb936be054e1641150a061150e573ffa4d07e7",
+      "submodules/NagramiXCore/Resources/hy.lproj/Localizable.strings": "09ae78f5b5f140955c3e00d0c5f994a8bc2d4d928a6b2898609cd256c0230d1b",
+      "submodules/NagramiXCore/Resources/az.lproj/Localizable.strings": "ff5e1a92668dca0b4b04e028a45cb15c9df2e0ebf4ac10a19fd974b3bffb456c",
+      "submodules/NagramiXCore/Resources/eu.lproj/Localizable.strings": "36ccec4164e078950a320705b66b7a86cd0ad2a82f7227ced6c47089b4607ab7",
+      "submodules/NagramiXCore/Resources/be.lproj/Localizable.strings": "900555fa044803acfc42139490456bfc825634ff17a28a120fc02696bc076c6e",
+      "submodules/NagramiXCore/Resources/bn.lproj/Localizable.strings": "aa20f510def9b4e24097969ab593c6aa774954edacd35b7ac6515f68f0e1b548",
+      "submodules/NagramiXCore/Resources/bg.lproj/Localizable.strings": "f1ad72fa97a31e39b6fe9c60c48c87e4eb913c433dd2217f0c687dc775255c70",
+      "submodules/NagramiXCore/Resources/my.lproj/Localizable.strings": "3dbd65ee50e222ddf0c618eeef187a0f7859bd141c0f92197aba9e062d039d61",
+      "submodules/NagramiXCore/Resources/ca.lproj/Localizable.strings": "638440725bb77c0061f1625e6d28afd1466f99743486e8a12eb5dbd4e88f3454",
+      "submodules/NagramiXCore/Resources/zh-hans.lproj/Localizable.strings": "58d4265f90bc8eb35253a6fcbfe6cbd79dc9e5ab623bf13637ff3b3ea52953c0",
+      "submodules/NagramiXCore/Resources/zh-hant.lproj/Localizable.strings": "4b76a941102ef5c6a5c40f39c8aba11374fab607826805c89074c5c946e68a15",
+      "submodules/NagramiXCore/Resources/hr.lproj/Localizable.strings": "e23a19db7eb91804af91d1c93d4becc56a7a05a4bb6bad1a7ff55a419b139782",
+      "submodules/NagramiXCore/Resources/cs.lproj/Localizable.strings": "a8e8fa1942881cf1d1569ceb451e984fe6df6f95d49081747210bf9837c85e34",
+      "submodules/NagramiXCore/Resources/da.lproj/Localizable.strings": "0f63bdb6705d1bc08997ebf71d4d4660afeee8d6e06b785957dd5153b5a2555d",
+      "submodules/NagramiXCore/Resources/nl.lproj/Localizable.strings": "a22f4def7d4628eaeafb8385fac94f94af209573f06708476074e8967e191188",
+      "submodules/NagramiXCore/Resources/eo.lproj/Localizable.strings": "e41718b18735b10ea4ccd519a4b3d91fd607b54c670177a1246da9e5e6cc5d50",
+      "submodules/NagramiXCore/Resources/et.lproj/Localizable.strings": "72d9ab02956b2e8bb60f6d88dd0d8f967fa10a696d8f0cffc0ef04af8c8df89d",
+      "submodules/NagramiXCore/Resources/fil.lproj/Localizable.strings": "871eec71d5732654f781266e85e4bd5bc18bedf5c4676301ee866bf0d1350d7e",
+      "submodules/NagramiXCore/Resources/fi.lproj/Localizable.strings": "a806608370e60451547ad7d926f3058fc51fc3251f32f681d3cb82dddf4ba8f2",
+      "submodules/NagramiXCore/Resources/fr.lproj/Localizable.strings": "54fb34fee37229f09a69b605a9440a85b111988c057747e18d335f94fe22affa",
+      "submodules/NagramiXCore/Resources/gl.lproj/Localizable.strings": "69728870d0bcaddbb13b2b98f11b84189bc884a2525c25016ddf0290d9144ffb",
+      "submodules/NagramiXCore/Resources/ka.lproj/Localizable.strings": "d69cffbe57a0df35b03ba7f069970f0450a4b138f56422baebd9f51e18374991",
+      "submodules/NagramiXCore/Resources/de.lproj/Localizable.strings": "b6114fc16d5930af2d377aeea780ac28ed37a63fe9faef551e5886b685100765",
+      "submodules/NagramiXCore/Resources/el.lproj/Localizable.strings": "0d5c7defdefe367de140fb7b6159fd572b9b00fa2f13a0485a1d581609ea1750",
+      "submodules/NagramiXCore/Resources/gu.lproj/Localizable.strings": "1a750c765c3705b75ec7da7ad2fa0a7758cca0ecf28f6c7a9b24d000afb84063",
+      "submodules/NagramiXCore/Resources/he.lproj/Localizable.strings": "0ab158803b828521b96fe29a645337ad8af8947abeedc91367b78b21f7cc4cb0",
+      "submodules/NagramiXCore/Resources/hi.lproj/Localizable.strings": "d0ff904b2e68f6da5994858f0f88f9896965576858414e9718f507d49dc4aaf2",
+      "submodules/NagramiXCore/Resources/hu.lproj/Localizable.strings": "5b9c249a5a743b11bea4757ce2c429c3f985123b81e5ddc62d126a9d06d1b387",
+      "submodules/NagramiXCore/Resources/id.lproj/Localizable.strings": "d410c82608d27824bc93430dd26517fa6fd4af32c451a255b7cce23908e74886",
+      "submodules/NagramiXCore/Resources/ga.lproj/Localizable.strings": "7f2fa8a41d477df0f1ffee236c32dc2707ce5f00c34b2d1caa0fa2de0ecec2d9",
+      "submodules/NagramiXCore/Resources/it.lproj/Localizable.strings": "7f84558bb75fffc34901df66d9ebed9f97f64ac90506d3a6a8a2231750cc15a6",
+      "submodules/NagramiXCore/Resources/ja.lproj/Localizable.strings": "a698e32f25de651f30c35c0b3f378cbc966ee3a922f1a240579950f4a296fdf0",
+      "submodules/NagramiXCore/Resources/kn.lproj/Localizable.strings": "f711a69b6d5eaa500d9c80a9ee03d48f42bb94ade99d732d774881c8637a6629",
+      "submodules/NagramiXCore/Resources/kk.lproj/Localizable.strings": "e9e7c22b20155926cc135b78eadb28e8b11d3cc06f65ecd9d669de38783d28e5",
+      "submodules/NagramiXCore/Resources/km.lproj/Localizable.strings": "a03c63bd1fbd2af4d38eb2a398f2df28ae64f380ee173b1879b8e8162dddcad8",
+      "submodules/NagramiXCore/Resources/ko.lproj/Localizable.strings": "1130c806e5112e459217344a3c4a88b56ce1c220fed7da01ba94241c9c56e5e1",
+      "submodules/NagramiXCore/Resources/lv.lproj/Localizable.strings": "ccd884256fe5aca5cb4c6f622ff0febbd4deed61b003984f895ce0c85a41aa4c",
+      "submodules/NagramiXCore/Resources/lt.lproj/Localizable.strings": "91b891a1c3843eb8cb7d958b6b7ce49d4aded8fe1111d95f75cf0f5e8bab5d08",
+      "submodules/NagramiXCore/Resources/ms.lproj/Localizable.strings": "bc9da1d30b1cafb54f745560aa017e292c7a4e065c428affccfb7e41c83d9f31",
+      "submodules/NagramiXCore/Resources/ml.lproj/Localizable.strings": "dfb8b76112564789767b83441d2b68746ffc69837624c259472500be02a88df2",
+      "submodules/NagramiXCore/Resources/mt.lproj/Localizable.strings": "118ea3006d82c87a663894d8e303bbf4d7da267086221ccdad8097b62ffa5ca1",
+      "submodules/NagramiXCore/Resources/mr.lproj/Localizable.strings": "bcccd882be9e5c80a8bb56caf7637f7bae883ee1811a74c444e0d6647f301a0c",
+      "submodules/NagramiXCore/Resources/ne.lproj/Localizable.strings": "c8b52d2aa0f507df77d8783802a73b15d59393fe6440a53da9edff0a9161276b",
+      "submodules/NagramiXCore/Resources/nb.lproj/Localizable.strings": "ec20e0451c99b0bfac7a2cad6de1775f41ac05b7480965c674772add43248683",
+      "submodules/NagramiXCore/Resources/or.lproj/Localizable.strings": "61d77f313cab868175a04e9808f81211b4a52683b0044e2215a81232e6334bdf",
+      "submodules/NagramiXCore/Resources/fa.lproj/Localizable.strings": "509752d74dfa66d9a588e033328a1d132d55f441fd152cd7299438570c1a83c9",
+      "submodules/NagramiXCore/Resources/pl.lproj/Localizable.strings": "095f5e5f24d9167c1ea444919b365db15fdfb681c7ebd3937a4e4e0aad0974d5",
+      "submodules/NagramiXCore/Resources/pt-br.lproj/Localizable.strings": "d32a863183726d10ecc36f43566edd6f207e4921e74798dc709b16680c9158e5",
+      "submodules/NagramiXCore/Resources/pt-pt.lproj/Localizable.strings": "1998fc494d4d4eb4c73f10da37127f80d45b404ee2d699ea08dd9e73051dc8dc",
+      "submodules/NagramiXCore/Resources/ro.lproj/Localizable.strings": "97a90b2f10d9a7f564e9d3f5d976dfdc3bb422a3dbd0ed131dea2b4ed9f9cdea",
+      "submodules/NagramiXCore/Resources/ru.lproj/Localizable.strings": "e5ab3af10485126682c3bb9eb06ac59ad87e21132a1d25c83a679b15b0b54030",
+      "submodules/NagramiXCore/Resources/sr.lproj/Localizable.strings": "92cd99426a04c3fa35b1a0a406bf15b1bcd61016e36e9003eba4adcb723860f4",
+      "submodules/NagramiXCore/Resources/sk.lproj/Localizable.strings": "18daeb5f1a2d50aba08560b28e5913aa08ea8c7750e31e1962c1b7640b47b255",
+      "submodules/NagramiXCore/Resources/sl.lproj/Localizable.strings": "4ffcde3261a1f49ee90955fbb2d748cdb18aa072dc349c42496a7de52364fba9",
+      "submodules/NagramiXCore/Resources/es.lproj/Localizable.strings": "6355fef9f000503e4b758cb10b337c012ad8ab5f5ec6771f1b76cb6f798fe353",
+      "submodules/NagramiXCore/Resources/sw.lproj/Localizable.strings": "5c9156234d953e56ab372fe77f5b94c6fcc5ac8c93181e01db919530ffa78d77",
+      "submodules/NagramiXCore/Resources/sv.lproj/Localizable.strings": "71abe74ecb5f3f2d7487a6947ed80322a2c8d84a37092ea1a2cdd15c706bb6e2",
+      "submodules/NagramiXCore/Resources/tg.lproj/Localizable.strings": "f6a67456407587500993062268572f555c9397af48708f4c32460f040c5df643",
+      "submodules/NagramiXCore/Resources/ta.lproj/Localizable.strings": "19c07ac531fa97fc5b79ddd1afd99a1b0e941bee6228d584decd0b38a014813c",
+      "submodules/NagramiXCore/Resources/te.lproj/Localizable.strings": "900efa94bee89a4db28fe9e6df53ab240e9d6ace37fa9f5dbc7fc74a26c8dbdc",
+      "submodules/NagramiXCore/Resources/th.lproj/Localizable.strings": "185331d18f524cc8609677731fb5147002e60f911d3c3809358f561b73db1b4f",
+      "submodules/NagramiXCore/Resources/tr.lproj/Localizable.strings": "5be901db365084c183fea82c21bbed5d1edd37afd2dcd28472f4fd15a472118e",
+      "submodules/NagramiXCore/Resources/tk.lproj/Localizable.strings": "6bb7975f715e4a414d6ec19eafc3ad73dd798828bc311aa89752af0a27e8254b",
+      "submodules/NagramiXCore/Resources/uk.lproj/Localizable.strings": "0fa4d269efa474b83094ccb896f18b55be27bfd88069200723cd104c313b729a",
+      "submodules/NagramiXCore/Resources/ur.lproj/Localizable.strings": "f7669d81cbb128bc6545f47cdd68de0c3cb033e725fe3882a5373a9d6bff3d6a",
+      "submodules/NagramiXCore/Resources/uz.lproj/Localizable.strings": "8552b0502ac416eed6a38a2d5c2e09732f0cdbe7fbf53100f92e979e32f016df",
+      "submodules/NagramiXCore/Resources/vi.lproj/Localizable.strings": "b30faaa63ef18b1340324986d07293df751320b35a352bb1b6b81649c8414cf9"
+    },
+    "guards": 75,
+    "fail_closed": 18,
+    "native_origin_refusals": 13,
+    "executions": [
+      {
+        "name": "range",
+        "mode": "debug",
+        "exit_code": 0,
+        "output": "PASS round range/resource checks: 6028"
+      },
+      {
+        "name": "range",
+        "mode": "optimized",
+        "exit_code": 0,
+        "output": "PASS round range/resource checks: 6028"
+      },
+      {
+        "name": "prefs",
+        "mode": "debug",
+        "exit_code": 0,
+        "output": "PASS round preference checks: 6"
+      },
+      {
+        "name": "prefs",
+        "mode": "optimized",
+        "exit_code": 0,
+        "output": "PASS round preference checks: 6"
+      },
+      {
+        "name": "geometry",
+        "mode": "debug",
+        "exit_code": 0,
+        "output": "PASS round native crop checks: 9602"
+      },
+      {
+        "name": "geometry",
+        "mode": "optimized",
+        "exit_code": 0,
+        "output": "PASS round native crop checks: 9602"
+      },
+      {
+        "name": "plan",
+        "mode": "debug",
+        "exit_code": 0,
+        "output": "PASS round album plan checks: 13"
+      },
+      {
+        "name": "plan",
+        "mode": "optimized",
+        "exit_code": 0,
+        "output": "PASS round album plan checks: 13"
+      },
+      {
+        "name": "toolbar",
+        "mode": "debug",
+        "exit_code": 0,
+        "output": "PASS round toolbar geometry checks: 563"
+      },
+      {
+        "name": "toolbar",
+        "mode": "optimized",
+        "exit_code": 0,
+        "output": "PASS round toolbar geometry checks: 563"
+      },
+      {
+        "name": "ui",
+        "mode": "debug",
+        "exit_code": 0,
+        "output": "PASS round production editor state checks: 22"
+      },
+      {
+        "name": "ui",
+        "mode": "optimized",
+        "exit_code": 0,
+        "output": "PASS round production editor state checks: 22"
+      },
+      {
+        "name": "payload",
+        "mode": "debug",
+        "exit_code": 0,
+        "output": "PASS round production payload checks: 33"
+      },
+      {
+        "name": "payload",
+        "mode": "optimized",
+        "exit_code": 0,
+        "output": "PASS round production payload checks: 33"
+      },
+      {
+        "name": "item",
+        "mode": "debug",
+        "exit_code": 0,
+        "output": "PASS round production item checks: 5"
+      },
+      {
+        "name": "item",
+        "mode": "optimized",
+        "exit_code": 0,
+        "output": "PASS round production item checks: 5"
+      },
+      {
+        "name": "lost-minute-cap",
+        "mode": "debug",
+        "exit_code": 91,
+        "output": "Round video regression: whole source selects at most 60 seconds without stretching"
+      },
+      {
+        "name": "lost-minute-cap",
+        "mode": "optimized",
+        "exit_code": 91,
+        "output": "Round video regression: whole source selects at most 60 seconds without stretching"
+      },
+      {
+        "name": "lost-selected-start",
+        "mode": "debug",
+        "exit_code": 91,
+        "output": "Round video regression: selected start never resets to zero"
+      },
+      {
+        "name": "lost-selected-start",
+        "mode": "optimized",
+        "exit_code": 91,
+        "output": "Round video regression: selected start never resets to zero"
+      },
+      {
+        "name": "floating-minute-overrun",
+        "mode": "debug",
+        "exit_code": 91,
+        "output": "Round video regression: strict cap including floating point starts"
+      },
+      {
+        "name": "floating-minute-overrun",
+        "mode": "optimized",
+        "exit_code": 91,
+        "output": "Round video regression: strict cap including floating point starts"
+      },
+      {
+        "name": "cold-default-off",
+        "mode": "debug",
+        "exit_code": 91,
+        "output": "Round video regression: absent key enables the function"
+      },
+      {
+        "name": "cold-default-off",
+        "mode": "optimized",
+        "exit_code": 91,
+        "output": "Round video regression: absent key enables the function"
+      },
+      {
+        "name": "saved-off-ignored",
+        "mode": "debug",
+        "exit_code": 91,
+        "output": "Round video regression: saved OFF survives reread"
+      },
+      {
+        "name": "saved-off-ignored",
+        "mode": "optimized",
+        "exit_code": 91,
+        "output": "Round video regression: saved OFF survives reread"
+      },
+      {
+        "name": "ordinary-file-flag",
+        "mode": "debug",
+        "exit_code": 91,
+        "output": "Round video regression: real round document attribute; no animated fallback"
+      },
+      {
+        "name": "ordinary-file-flag",
+        "mode": "optimized",
+        "exit_code": 91,
+        "output": "Round video regression: real round document attribute; no animated fallback"
+      },
+      {
+        "name": "muted-round-is-gif",
+        "mode": "debug",
+        "exit_code": 91,
+        "output": "Round video regression: muted circle never becomes a GIF"
+      },
+      {
+        "name": "muted-round-is-gif",
+        "mode": "optimized",
+        "exit_code": 91,
+        "output": "Round video regression: muted circle never becomes a GIF"
+      },
+      {
+        "name": "round-album",
+        "mode": "debug",
+        "exit_code": 91,
+        "output": "Round video regression: round messages never enter an album"
+      },
+      {
+        "name": "round-album",
+        "mode": "optimized",
+        "exit_code": 91,
+        "output": "Round video regression: round messages never enter an album"
+      },
+      {
+        "name": "restores-current-crop",
+        "mode": "debug",
+        "exit_code": 91,
+        "output": "Round video regression: turning off restores pre-round crop and segment"
+      },
+      {
+        "name": "restores-current-crop",
+        "mode": "optimized",
+        "exit_code": 91,
+        "output": "Round video regression: turning off restores pre-round crop and segment"
+      },
+      {
+        "name": "stale-gesture-writes-next",
+        "mode": "debug",
+        "exit_code": 91,
+        "output": "Round video regression: stale gesture never changes or restores another source"
+      },
+      {
+        "name": "stale-gesture-writes-next",
+        "mode": "optimized",
+        "exit_code": 91,
+        "output": "Round video regression: stale gesture never changes or restores another source"
+      },
+      {
+        "name": "native-row-overlap",
+        "mode": "debug",
+        "exit_code": 91,
+        "output": "Round video regression: five toolbar targets never overlap back/send"
+      },
+      {
+        "name": "native-row-overlap",
+        "mode": "optimized",
+        "exit_code": 91,
+        "output": "Round video regression: five toolbar targets never overlap back/send"
+      },
+      {
+        "name": "lost-caption",
+        "mode": "debug",
+        "exit_code": 91,
+        "output": "Round video regression: caption is preserved as ordinary adjacent text"
+      },
+      {
+        "name": "lost-caption",
+        "mode": "optimized",
+        "exit_code": 91,
+        "output": "Round video regression: caption is preserved as ordinary adjacent text"
+      }
+    ],
+    "swift_parse": 17,
+    "public_api": {
+      "media_settings_module": "passed",
+      "separate_core_caller": "passed"
+    },
+    "source_files": 37655,
+    "source_unchanged_by_checks": true,
+    "native_postbox_imports": "passed",
+    "boundary": "Production trim/validation, preferences, crop placement/cover-fit, toggle/gesture lease, item store, album planner, file attributes, resource JSON and both send builders execute in explicit Foundation/UI/AVFoundation/Signal adapters. Scalar geometry does not render perspective. Encoders, UIKit, live RPC and device frame timing are not emulated or proven.",
+    "apple_sdk": "not_run",
+    "ipa": "not_built",
+    "physical_iphone": "pending"
+  },
+  "независимая_композиция": {
+    "previous_source_preserved": true,
+    "independent_actual_apply_matches_all_files": 37655,
+    "changed_paths": [
+      "submodules/NagramiXCore/Resources/af.lproj/Localizable.strings",
+      "submodules/NagramiXCore/Resources/am.lproj/Localizable.strings",
+      "submodules/NagramiXCore/Resources/ar.lproj/Localizable.strings",
+      "submodules/NagramiXCore/Resources/az.lproj/Localizable.strings",
+      "submodules/NagramiXCore/Resources/be.lproj/Localizable.strings",
+      "submodules/NagramiXCore/Resources/bg.lproj/Localizable.strings",
+      "submodules/NagramiXCore/Resources/bn.lproj/Localizable.strings",
+      "submodules/NagramiXCore/Resources/ca.lproj/Localizable.strings",
+      "submodules/NagramiXCore/Resources/cs.lproj/Localizable.strings",
+      "submodules/NagramiXCore/Resources/da.lproj/Localizable.strings",
+      "submodules/NagramiXCore/Resources/de.lproj/Localizable.strings",
+      "submodules/NagramiXCore/Resources/el.lproj/Localizable.strings",
+      "submodules/NagramiXCore/Resources/en.lproj/Localizable.strings",
+      "submodules/NagramiXCore/Resources/eo.lproj/Localizable.strings",
+      "submodules/NagramiXCore/Resources/es.lproj/Localizable.strings",
+      "submodules/NagramiXCore/Resources/et.lproj/Localizable.strings",
+      "submodules/NagramiXCore/Resources/eu.lproj/Localizable.strings",
+      "submodules/NagramiXCore/Resources/fa.lproj/Localizable.strings",
+      "submodules/NagramiXCore/Resources/fi.lproj/Localizable.strings",
+      "submodules/NagramiXCore/Resources/fil.lproj/Localizable.strings",
+      "submodules/NagramiXCore/Resources/fr.lproj/Localizable.strings",
+      "submodules/NagramiXCore/Resources/ga.lproj/Localizable.strings",
+      "submodules/NagramiXCore/Resources/gl.lproj/Localizable.strings",
+      "submodules/NagramiXCore/Resources/gu.lproj/Localizable.strings",
+      "submodules/NagramiXCore/Resources/he.lproj/Localizable.strings",
+      "submodules/NagramiXCore/Resources/hi.lproj/Localizable.strings",
+      "submodules/NagramiXCore/Resources/hr.lproj/Localizable.strings",
+      "submodules/NagramiXCore/Resources/hu.lproj/Localizable.strings",
+      "submodules/NagramiXCore/Resources/hy.lproj/Localizable.strings",
+      "submodules/NagramiXCore/Resources/id.lproj/Localizable.strings",
+      "submodules/NagramiXCore/Resources/it.lproj/Localizable.strings",
+      "submodules/NagramiXCore/Resources/ja.lproj/Localizable.strings",
+      "submodules/NagramiXCore/Resources/ka.lproj/Localizable.strings",
+      "submodules/NagramiXCore/Resources/kk.lproj/Localizable.strings",
+      "submodules/NagramiXCore/Resources/km.lproj/Localizable.strings",
+      "submodules/NagramiXCore/Resources/kn.lproj/Localizable.strings",
+      "submodules/NagramiXCore/Resources/ko.lproj/Localizable.strings",
+      "submodules/NagramiXCore/Resources/lt.lproj/Localizable.strings",
+      "submodules/NagramiXCore/Resources/lv.lproj/Localizable.strings",
+      "submodules/NagramiXCore/Resources/ml.lproj/Localizable.strings",
+      "submodules/NagramiXCore/Resources/mr.lproj/Localizable.strings",
+      "submodules/NagramiXCore/Resources/ms.lproj/Localizable.strings",
+      "submodules/NagramiXCore/Resources/mt.lproj/Localizable.strings",
+      "submodules/NagramiXCore/Resources/my.lproj/Localizable.strings",
+      "submodules/NagramiXCore/Resources/nb.lproj/Localizable.strings",
+      "submodules/NagramiXCore/Resources/ne.lproj/Localizable.strings",
+      "submodules/NagramiXCore/Resources/nl.lproj/Localizable.strings",
+      "submodules/NagramiXCore/Resources/or.lproj/Localizable.strings",
+      "submodules/NagramiXCore/Resources/pl.lproj/Localizable.strings",
+      "submodules/NagramiXCore/Resources/pt-br.lproj/Localizable.strings",
+      "submodules/NagramiXCore/Resources/pt-pt.lproj/Localizable.strings",
+      "submodules/NagramiXCore/Resources/ro.lproj/Localizable.strings",
+      "submodules/NagramiXCore/Resources/ru.lproj/Localizable.strings",
+      "submodules/NagramiXCore/Resources/sk.lproj/Localizable.strings",
+      "submodules/NagramiXCore/Resources/sl.lproj/Localizable.strings",
+      "submodules/NagramiXCore/Resources/sq.lproj/Localizable.strings",
+      "submodules/NagramiXCore/Resources/sr.lproj/Localizable.strings",
+      "submodules/NagramiXCore/Resources/sv.lproj/Localizable.strings",
+      "submodules/NagramiXCore/Resources/sw.lproj/Localizable.strings",
+      "submodules/NagramiXCore/Resources/ta.lproj/Localizable.strings",
+      "submodules/NagramiXCore/Resources/te.lproj/Localizable.strings",
+      "submodules/NagramiXCore/Resources/tg.lproj/Localizable.strings",
+      "submodules/NagramiXCore/Resources/th.lproj/Localizable.strings",
+      "submodules/NagramiXCore/Resources/tk.lproj/Localizable.strings",
+      "submodules/NagramiXCore/Resources/tr.lproj/Localizable.strings",
+      "submodules/NagramiXCore/Resources/uk.lproj/Localizable.strings",
+      "submodules/NagramiXCore/Resources/ur.lproj/Localizable.strings",
+      "submodules/NagramiXCore/Resources/uz.lproj/Localizable.strings",
+      "submodules/NagramiXCore/Resources/vi.lproj/Localizable.strings",
+      "submodules/NagramiXCore/Resources/zh-hans.lproj/Localizable.strings",
+      "submodules/NagramiXCore/Resources/zh-hant.lproj/Localizable.strings",
+      "submodules/NagramiXCore/Sources/NagramiXPresentationStrings.swift",
+      "submodules/NagramiXCore/Sources/NagramiXTabSettings.swift",
+      "submodules/NagramiXMediaSettings/Sources/NagramiXMediaSettings.swift",
+      "submodules/SettingsUI/Sources/NagramiXSettingsController.swift",
+      "submodules/TelegramUI/Components/ChatMediaEditorScreen/BUILD",
+      "submodules/TelegramUI/Components/ChatMediaEditorScreen/Sources/ChatMediaEditorBottomControls.swift",
+      "submodules/TelegramUI/Components/ChatMediaEditorScreen/Sources/ChatMediaEditorBottomControlsComponent.swift",
+      "submodules/TelegramUI/Components/ChatMediaEditorScreen/Sources/ChatMediaEditorLandscape.swift",
+      "submodules/TelegramUI/Components/ChatMediaEditorScreen/Sources/ChatMediaEditorScreen.swift",
+      "submodules/TelegramUI/Components/ChatMediaEditorScreen/Sources/ChatMediaEditorScreenCrop.swift",
+      "submodules/TelegramUI/Components/ChatMediaEditorScreen/Sources/ChatMediaEditorScreenQuality.swift",
+      "submodules/TelegramUI/Components/ChatMediaEditorScreen/Sources/ChatMediaEditorScreenVideo.swift",
+      "submodules/TelegramUI/Components/ChatMediaSend/Sources/ChatMediaEditorItemStore.swift",
+      "submodules/TelegramUI/Components/ChatMediaSend/Sources/ChatMediaSendItem.swift",
+      "submodules/TelegramUI/Components/ChatMediaSend/Sources/ChatMediaSendMessages.swift",
+      "submodules/TelegramUI/Components/ChatMediaSend/Sources/ChatMediaSendPlan.swift",
+      "submodules/TelegramUI/Components/ChatMediaSend/Sources/ChatMediaSendSingleItem.swift",
+      "submodules/TelegramUI/Components/MediaEditor/Sources/MediaEditorValues.swift"
+    ],
+    "added_files": 0,
+    "removed_files": 0,
+    "verified_prefix": 22,
+    "previous_snapshots_unchanged": 2368,
+    "new_snapshots": 253
+  },
+  "общий_gate": {
+    "target_pin": "24638bc69bd083981b178dd1e7f921eebbf7fc46",
+    "pre_replacements": 196,
+    "post_replacements": 274,
+    "deleted_obsolete_files": 2,
+    "fail_closed": {
+      "pre": 17,
+      "post": 33
+    },
+    "parsed_swift": 496,
+    "executions": [
+      "current-debug: PiP playback command checks: 113",
+      "current-O: PiP playback command checks: 113",
+      "previous-native-debug: Native PiP baseline checks: 37",
+      "previous-native-O: Native PiP baseline checks: 37",
+      "previous-caption-debug: Round caption transport checks: 118",
+      "previous-caption-O: Round caption transport checks: 118",
+      "previous-composer-debug: Repost copy integrity checks: 48",
+      "previous-composer-O: Repost copy integrity checks: 48",
+      "old-toggle-command-debug: regression reproduced and rejected",
+      "old-toggle-command-O: regression reproduced and rejected",
+      "cached-status-toggle-debug: regression reproduced and rejected",
+      "cached-status-toggle-O: regression reproduced and rejected",
+      "inverted-command-debug: regression reproduced and rejected",
+      "inverted-command-O: regression reproduced and rejected"
+    ],
+    "historical_runtime_boundary": "exact published bytes after verified inverse of all registered late source stages",
+    "late_source_stages": [
+      "wide_bottom_bar",
+      "author_selection_no_restore",
+      "preview_reply_intent",
+      "cloud_credential_entry",
+      "extended_poll_integrity",
+      "bot_delete_without_block",
+      "wide_tab_bar_setting",
+      "pip_swipe_handoff",
+      "temporary_message_interaction",
+      "account_settings_entry",
+      "release_090_preflight_fixes",
+      "release_090_author_compile",
+      "round_video_replay_stability",
+      "pip_gallery_placeholder",
+      "download_sheet_edge",
+      "edit_history_cards",
+      "copy_reference_recovery",
+      "edit_history_number_badges",
+      "pip_visual_continuity",
+      "local_copy_delivery",
+      "temporary_playback_identity",
+      "round_video_editor"
+    ],
+    "native_postbox_imports": "passed",
+    "apple_sdk": "pending",
+    "device": "pending"
+  },
+  "обратимость": {
+    "late_source_stages": [
+      "wide_bottom_bar",
+      "author_selection_no_restore",
+      "preview_reply_intent",
+      "cloud_credential_entry",
+      "extended_poll_integrity",
+      "bot_delete_without_block",
+      "wide_tab_bar_setting",
+      "pip_swipe_handoff",
+      "temporary_message_interaction",
+      "account_settings_entry",
+      "release_090_preflight_fixes",
+      "release_090_author_compile",
+      "round_video_replay_stability",
+      "pip_gallery_placeholder",
+      "download_sheet_edge",
+      "edit_history_cards",
+      "copy_reference_recovery",
+      "edit_history_number_badges",
+      "pip_visual_continuity",
+      "local_copy_delivery",
+      "temporary_playback_identity",
+      "round_video_editor"
+    ],
+    "published_contract_paths": 715,
+    "actual_published_pipeline_compared": false,
+    "full_source_files_preserved": 37655,
+    "introduced_helpers_absent_from_history": [
+      "submodules/TelegramUI/Sources/Chat/NagramiXTemporaryReplySend.swift"
+    ],
+    "pre_ninth_checkpoint_verified": true,
+    "pre_tenth_checkpoint_verified": true,
+    "pre_eleventh_checkpoint_verified": true,
+    "pre_eleventh_inputs_restored": [
+      "submodules/TelegramCore/Sources/Utils/NagramiXMessageArchive.swift",
+      "submodules/TelegramUI/Sources/Chat/ChatControllerLoadDisplayNode.swift"
+    ],
+    "negative_projection_verified_before_mutation": true,
+    "fail_closed": [
+      "wide_bottom_bar/output-drift",
+      "author_selection_no_restore/output-drift",
+      "preview_reply_intent/output-drift",
+      "cloud_credential_entry/output-drift",
+      "extended_poll_integrity/output-drift",
+      "bot_delete_without_block/output-drift",
+      "wide_tab_bar_setting/output-drift",
+      "pip_swipe_handoff/output-drift",
+      "temporary_message_interaction/output-drift",
+      "account_settings_entry/output-drift",
+      "release_090_preflight_fixes/output-drift",
+      "release_090_author_compile/output-drift",
+      "round_video_replay_stability/output-drift",
+      "pip_gallery_placeholder/output-drift",
+      "download_sheet_edge/output-drift",
+      "edit_history_cards/output-drift",
+      "copy_reference_recovery/output-drift",
+      "edit_history_number_badges/output-drift",
+      "pip_visual_continuity/output-drift",
+      "local_copy_delivery/output-drift",
+      "temporary_playback_identity/output-drift",
+      "round_video_editor/output-drift",
+      "native-guard-missing",
+      "copied-helper-drift",
+      "copied-helper-missing",
+      "copied-helper-external-symlink",
+      "template-drift-before-inverse",
+      "pip_swipe_handoff/previous-stage-missing",
+      "pip_swipe_handoff/previous-stage-drift",
+      "temporary_message_interaction/previous-stage-missing",
+      "temporary_message_interaction/previous-stage-drift",
+      "account_settings_entry/previous-stage-missing",
+      "account_settings_entry/previous-stage-drift",
+      "release_090_preflight_fixes/previous-stage-missing",
+      "release_090_preflight_fixes/previous-stage-drift",
+      "release_090_author_compile/previous-stage-missing",
+      "release_090_author_compile/previous-stage-drift",
+      "round_video_replay_stability/previous-stage-missing",
+      "round_video_replay_stability/previous-stage-drift",
+      "pip_gallery_placeholder/previous-stage-missing",
+      "pip_gallery_placeholder/previous-stage-drift",
+      "download_sheet_edge/previous-stage-missing",
+      "download_sheet_edge/previous-stage-drift",
+      "edit_history_cards/previous-stage-missing",
+      "edit_history_cards/previous-stage-drift",
+      "copy_reference_recovery/previous-stage-missing",
+      "copy_reference_recovery/previous-stage-drift",
+      "edit_history_number_badges/previous-stage-missing",
+      "edit_history_number_badges/previous-stage-drift",
+      "pip_visual_continuity/previous-stage-missing",
+      "pip_visual_continuity/previous-stage-drift",
+      "local_copy_delivery/previous-stage-missing",
+      "local_copy_delivery/previous-stage-drift",
+      "temporary_playback_identity/previous-stage-missing",
+      "temporary_playback_identity/previous-stage-drift",
+      "round_video_editor/previous-stage-missing",
+      "round_video_editor/previous-stage-drift",
+      "wide_bottom_bar/native-blob-proof-missing",
+      "wide_bottom_bar/native-blob-drift/submodules/TelegramUI/Components/TabBarComponent/Sources/TabBarComponent.swift",
+      "temporary_message_interaction/native-blob-proof-missing",
+      "temporary_message_interaction/native-blob-drift/submodules/GalleryData/Sources/GalleryData.swift",
+      "temporary_message_interaction/native-blob-drift/submodules/TelegramCore/Sources/State/ManagedSecretChatOutgoingOperations.swift",
+      "temporary_message_interaction/native-blob-drift/submodules/TelegramCore/Sources/State/ProcessSecretChatIncomingDecryptedOperations.swift",
+      "temporary_message_interaction/native-blob-drift/submodules/TelegramUI/Components/Chat/ChatMessageReplyInfoNode/Sources/ChatMessageReplyInfoNode.swift",
+      "temporary_message_interaction/native-blob-drift/submodules/TelegramUI/Components/Chat/ReplyAccessoryPanelNode/Sources/ReplyAccessoryPanelNode.swift",
+      "account_settings_entry/native-blob-proof-missing",
+      "account_settings_entry/native-blob-drift/submodules/SettingsUI/Sources/Search/SettingsSearchableItems.swift",
+      "download_sheet_edge/native-blob-proof-missing",
+      "download_sheet_edge/native-blob-drift/submodules/Display/Source/ActionSheetController.swift",
+      "download_sheet_edge/native-blob-drift/submodules/Display/Source/ActionSheetControllerNode.swift",
+      "download_sheet_edge/native-blob-drift/submodules/Display/Source/ActionSheetItemGroupsContainerNode.swift",
+      "download_sheet_edge/native-blob-drift/submodules/Display/Source/ActionSheetItemGroupNode.swift",
+      "round_video_editor/native-blob-proof-missing",
+      "round_video_editor/native-blob-drift/submodules/TelegramUI/Components/ChatMediaEditorScreen/BUILD",
+      "round_video_editor/native-blob-drift/submodules/TelegramUI/Components/ChatMediaSend/Sources/ChatMediaEditorItemStore.swift",
+      "round_video_editor/native-blob-drift/submodules/TelegramUI/Components/ChatMediaEditorScreen/Sources/ChatMediaEditorBottomControls.swift",
+      "round_video_editor/native-blob-drift/submodules/TelegramUI/Components/ChatMediaEditorScreen/Sources/ChatMediaEditorBottomControlsComponent.swift",
+      "round_video_editor/native-blob-drift/submodules/TelegramUI/Components/ChatMediaEditorScreen/Sources/ChatMediaEditorScreen.swift",
+      "round_video_editor/native-blob-drift/submodules/TelegramUI/Components/ChatMediaEditorScreen/Sources/ChatMediaEditorScreenVideo.swift",
+      "round_video_editor/native-blob-drift/submodules/TelegramUI/Components/ChatMediaEditorScreen/Sources/ChatMediaEditorScreenCrop.swift",
+      "round_video_editor/native-blob-drift/submodules/TelegramUI/Components/ChatMediaEditorScreen/Sources/ChatMediaEditorScreenQuality.swift",
+      "round_video_editor/native-blob-drift/submodules/TelegramUI/Components/ChatMediaSend/Sources/ChatMediaSendPlan.swift",
+      "round_video_editor/native-blob-drift/submodules/TelegramUI/Components/ChatMediaSend/Sources/ChatMediaSendItem.swift",
+      "round_video_editor/native-blob-drift/submodules/TelegramUI/Components/ChatMediaSend/Sources/ChatMediaSendMessages.swift",
+      "round_video_editor/native-blob-drift/submodules/TelegramUI/Components/ChatMediaSend/Sources/ChatMediaSendSingleItem.swift",
+      "round_video_editor/native-blob-drift/submodules/TelegramUI/Components/ChatMediaEditorScreen/Sources/ChatMediaEditorLandscape.swift"
+    ],
+    "sdk": "not_run",
+    "device": "pending"
+  },
+  "импорты_геометрии": {
+    "boundaries": [
+      {
+        "name": "round-row",
+        "mode": "debug",
+        "passed": true
+      },
+      {
+        "name": "round-row",
+        "mode": "optimized",
+        "passed": true
+      },
+      {
+        "name": "pip-handoff",
+        "mode": "debug",
+        "passed": true
+      },
+      {
+        "name": "pip-handoff",
+        "mode": "optimized",
+        "passed": true
+      },
+      {
+        "name": "pip-snapshot",
+        "mode": "debug",
+        "passed": true
+      },
+      {
+        "name": "pip-snapshot",
+        "mode": "optimized",
+        "passed": true
+      },
+      {
+        "name": "download-layout",
+        "mode": "debug",
+        "passed": true
+      },
+      {
+        "name": "download-layout",
+        "mode": "optimized",
+        "passed": true
+      },
+      {
+        "name": "temporary-notice",
+        "mode": "debug",
+        "passed": true
+      },
+      {
+        "name": "temporary-notice",
+        "mode": "optimized",
+        "passed": true
+      },
+      {
+        "name": "revision-badge",
+        "mode": "debug",
+        "passed": true
+      },
+      {
+        "name": "revision-badge",
+        "mode": "optimized",
+        "passed": true
+      },
+      {
+        "name": "pip-continuity",
+        "mode": "debug",
+        "passed": true
+      },
+      {
+        "name": "pip-continuity",
+        "mode": "optimized",
+        "passed": true
+      },
+      {
+        "name": "round-video-editor",
+        "mode": "debug",
+        "passed": true
+      },
+      {
+        "name": "round-video-editor",
+        "mode": "optimized",
+        "passed": true
+      }
+    ],
+    "apple_import_negatives": [],
+    "boundary": "Actual test boundary imports and geometry operators; no UIKit or whole-app SDK build.",
+    "apple_import_negative_boundary": "Runs only with Apple Swift; Linux Foundation differs."
+  },
+  "локализация": {
+    "ресурсных_каталогов": 71,
+    "ключей_в_каталоге": 632,
+    "lookup_проверок_на_режим": 45041,
+    "строгая_проверка": true
+  },
+  "аудит_членов": {
+    "swift_files": 7321,
+    "string_accesses": 851,
+    "distinct_string_members": 230,
+    "actual_string_declarations": 247,
+    "custom_declarations": 889,
+    "full_custom_name_audit": true
+  },
+  "canonical_аудит": {
+    "swift_files": 219,
+    "string_accesses": 765,
+    "distinct_string_members": 209,
+    "actual_string_declarations": 247,
+    "custom_declarations": 761,
+    "full_custom_name_audit": false
+  },
+  "проверка_каталогов_IPA": {
+    "тестов": 26,
+    "результат": "passed",
+    "контракты": "613 для 0.8.8, 629 для 0.8.9, 630 для 0.9.0/0.9.1, 632 с 0.9.2; точные значения и SHA, неполные и изменённые ресурсы отвергаются",
+    "граница": "Синтетические ZIP только с языковыми ресурсами; нового приложения/IPA не создают"
+  },
+  "проверенные_файлы": {
+    "ios/round_video_editor.py": "84122f81e4de0a9d55356a0d9e55f1d1aa7b7d130efc8346101c34ae08fdc41d",
+    "ios/round_video_editor_patches.json": "c5367436ef524346987af19a7fed69df3439aa10e9c48a54bde84e72fc4249e0",
+    "scripts/validate_round_video_editor.py": "363b6160b89af8ef1aa06b2a022c033f35f713739ae37647e0f71d8eab354834",
+    "scripts/round_video_editor_runtime.py": "20e32703564c87654b98067ea3fad7a95440252cb32d7790ae0f2769e580d746",
+    "scripts/round_video_editor_ui_runtime.py": "e62b6abb6b7da3cd22208bb43dad78c92b06346e5ea16a3ec84ddb5063c6d7be",
+    "scripts/round_video_editor_payload_runtime.py": "0b98a9a5b7b5c0413ef8c9a560fee8871e25f2530098d85356d023db63f6f87e",
+    "scripts/validate_localization_standard.py": "39249e669afb5abf2eff10adabc0d2703ea35802d50b1c87267aa2391cc9b0e6",
+    "scripts/validate_swift_geometry_boundaries.py": "3551ce0807640935f64d46df33b078708eddece05c2e2fc44f16189876713416",
+    "scripts/validate_unsigned_ipa.py": "46cfbb2a24595e4ffc7ccf99c140058ae7b822b477234d88e02ea3ce09906b31",
+    "scripts/validate_ipa_localization_contract.py": "3f104234c94a3210d8036f47ef14e5c4d467c43017f4655dd41dbdc880968669",
+    "scripts/late_source_stages.py": "b27d5d624eba2cf29d2b464efd2b7ea58f0327944ec8095a52a0030dcf6d9b94",
+    ".github/workflows/build-unsigned-ipa.yml": "bfe6da2778584cb97cd85cd3b5129429b6b5415c500e32b570279fba9dbad733"
+  },
+  "SDK_Actions_IPA_релиз": "не запускались",
+  "проверка_iPhone": "ожидается: UIKit, реальная перекодировка, получение кружка и жесты на устройстве"
+}
