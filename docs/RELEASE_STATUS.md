@@ -1,4 +1,16 @@
-# NagramiX 0.9.1 — подготовка разрешённого релиза
+# NagramiX 0.9.1 — опубликованный релиз
+
+**Обычный latest релиз0.9.1/build190 опубликован и проверен.** [Скачать IPA](https://github.com/Mr-EFES/NagramiX/releases/download/v0.9.1/NagramiX-0.9.1-unsigned.ipa) · [Релиз](https://github.com/Mr-EFES/NagramiX/releases/tag/v0.9.1) · [Успешная сборка190](https://github.com/Mr-EFES/NagramiX/actions/runs/42604575423).
+
+Source/tag`beeb0675c5bb7ecc3dc81f6af7896e37dde888c9`, Telegram13.2, Xcode27.1, iOS15+/ARM64. Source gate и чистая SDK-компиляция пройдены, оба задания Actions success. Публикация9ноября2026 в14:18:29UTC; автор и uploader всех трёх файловMr-EFES. Latest/tag/body/digest/размеры подтверждены API. IPA не подписан.
+
+IPA93 834 805байт, SHA256`95b6f7087f2d3269f59591f3ef2646fb620049f645b8bdcd59e5b28ae5360dce`. Исходный Actions ZIP artifact13681831645:93 446 531байт, SHA256`60e4e5dbdc0e5c75bec6c8938af7f97fd2a761fd4b65198d8a8a9fedc295f450`, без перепаковки. Проверены CRC, версия/build/source, зависимости,6iPhoneOS/ARM64 Mach-O, отсутствие временных профилей/подписей,71ресурсный каталог по630ключей,31мелодия и8иконок. Каталоги включают языковые варианты и не означают число официальных языков Telegram.
+
+Символы artifact13682226024 сохранены:203 098 312байт, SHA256`fe55475c5861a93a810d79263633a5b5ee6a21d7c17130ff5ee747a009177959`; все6UUID dSYM совпадают с IPA. Старые релизы, исходники и символы сохранены. Файлы и журналы `/workspace/.codex-release-091/`; [receipt](RELEASE_091_PUBLICATION_CHECKS.json), [сценарии iPhone](DEVICE_CHECK_091.md).
+
+Все73 реализованные функции compile_passed; физическая приёмка остаётсяdevice_pending. Две предыдущие попытки188/189 остановились на тестовых CoreGraphics imports до SDK;190 подтвердила исправления и прошла полностью. Новая0.9.2 только по новой личной команде. После скачивания владелец вручную выбирает Make private: https://github.com/Mr-EFES/NagramiX/settings#danger-zone.
+
+## История подготовки и предыдущих выпусков
 
 **Текущая чистая сборка190: ранняя Apple Swift проверка passed.** [Actions](https://github.com/Mr-EFES/NagramiX/actions/runs/42604575423), source`beeb0675c5bb7ecc3dc81f6af7896e37dde888c9`,0.9.1, ownerMr-EFES, clean=true/publish=true/prerelease=false. Отдельный geometry gate на macOS прошёл2026-11-09T10:56:01Z: все5boundaries/10исполнений и5missing-import negatives. Причины остановок188/189 закрыты; полная цепочка исходников выполняется. SDK/IPA/publication/device пока pending. Мониторить до успешного IPA и owner publication, новые повторы этой же версии разрешены.
 

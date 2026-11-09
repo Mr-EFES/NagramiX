@@ -14,7 +14,7 @@
 
 Сценарии приёмки пяти новых доработок и сохранения прежних настроек: [DEVICE_CHECK_091](DEVICE_CHECK_091.md). До готового IPA эта инструкция не означает успешный тест на устройстве.
 
-Текущий статус: `owner_authorized / source_checks_passed / ci188_fixture_import_fixed / ci189_transitive_fixture_fixed / retry190_in_progress / early_apple_geometry_passed / sdk_pending / package_pending / publication_pending / device_pending`. Журнал выполнения и отчёты — `/workspace/.codex-release-091/`.
+Текущий статус: `native_compile_passed / package_verified / owner_published / device_pending`. Сборка190 и релиз0.9.1 успешны; [итоговый receipt](RELEASE_091_PUBLICATION_CHECKS.json). Следующая0.9.2 требует новой команды.
 
 Для освобождения места удалены только сгенерированные embedded/bare-metal библиотеки локального Swift toolchain, не используемые Linux Foundation-проверками. Host Swift после очистки проходит typecheck. Исходники, snapshots, логи, старые IPA, dSYM, credentials и pinned inputs сохранены; inventory записан в task receipt.
 
@@ -37,3 +37,11 @@
 ## Чистый повтор190
 
 [Сборка190](https://github.com/Mr-EFES/NagramiX/actions/runs/42604575423), run42604575423, source`beeb0675c5bb7ecc3dc81f6af7896e37dde888c9`, принята2026-11-09T10:53:34.058350+00:00. Owner actor/triggering_actor проверены, remote main SHA и public подтверждены; native13.2 CURRENT. Отдельный ранний Apple Swift gate успешно завершён2026-11-09T10:56:01Z: все5реальных geometry boundaries/10debug/-O запусков и5отрицательных вариантов без CoreGraphics прошли. Причины188/189 устранены без изменения production/snapshots. Полный source gate выполняется; SDK/IPA/publication/device pending.
+
+## Итог выпуска
+
+190 прошла всю source-цепочку и cold gate, Apple SDK успешно завершён14:14:42UTC, оба задания Actions success. Локально скачан исходный Actions ZIP через подключённый GitHub artifact tool после отказа прямого Azure download; его байты/digest совпали с API, перепаковки не было. IPA0.9.1/build190 соответствуетsource`beeb0675c5bb7ecc3dc81f6af7896e37dde888c9`, iOS15+/ARM64; CRC/checksum/provenance/localizations/resources и отсутствие временных подписей/профилей проверены.
+
+Owner publisher завершился успешно. Релиз439221760 опубликован14:18:29UTC как latest/v0.9.1. Author и uploader трёх файловMr-EFES; source/tag/body/latest/размеры/SHA256 повторно подтверждены API. Assets:IPA727745294, provenance727745293, checksums727745481. Символы artifact13682226024 сохранены,6UUID dSYM совпали с6Mach-O IPA. [Полный receipt](RELEASE_091_PUBLICATION_CHECKS.json).
+
+Все73 функции имеют compile_passed, физический iPhone/device_pending не заменён результатами SDK. Опубликованная0.9.0 не менялась. Успешная публикация исчерпала разрешение на повторы0.9.1; следующая0.9.2 только по новой личной команде. После скачивания напомнить владельцу Make private, не переключать автоматически. Финальный main после собираемого source дополняется только журналами, receipt и compile flags; тег остаётся на фактически собранном commit.

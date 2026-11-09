@@ -1,6 +1,6 @@
 # Проверка 0.9.1 на iPhone
 
-Физическая приёмка остаётся `device_pending`. Проверять IPA только после успешной SDK-сборки, проверки пакета и публикации: [процесс выпуска](RELEASE_091_RUN.md). Версия фиксирована на 0.9.1, технический build указывается в provenance готового IPA. До получения пакета этот документ не подтверждает его работоспособность на устройстве.
+Опубликован [IPA0.9.1/build190](https://github.com/Mr-EFES/NagramiX/releases/download/v0.9.1/NagramiX-0.9.1-unsigned.ipa), source`beeb0675c5bb7ecc3dc81f6af7896e37dde888c9`, Telegram13.2, iOS15+/ARM64. Source gate, Apple SDK, пакет и owner publication проверены: [receipt](RELEASE_091_PUBLICATION_CHECKS.json). Физическая приёмка остаётся `device_pending`; результаты сборки не подтверждают реальное поведение на iPhone.
 
 ## Пять доработок после0.9.0
 
