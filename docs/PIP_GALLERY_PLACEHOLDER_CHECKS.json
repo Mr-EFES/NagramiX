@@ -1,0 +1,271 @@
+{
+  "task": "Hide technical gallery card during native PiP handoff",
+  "parent_main": "13c0e6ece92637838426c5934b4c70c0635d6a37",
+  "checked_at_utc": "2026-11-09T00:06:49.452535+00:00",
+  "stage": "pip_gallery_placeholder",
+  "full_application": {
+    "regular_source_files": 37642,
+    "changed_files": [
+      "submodules/GalleryUI/Sources/GalleryVideoDecoration.swift",
+      "submodules/GalleryUI/Sources/Items/UniversalVideoGalleryItem.swift"
+    ],
+    "actual_apply_matches_working": true,
+    "source13_preserved": true,
+    "added_or_removed_app_files": false
+  },
+  "regression": {
+    "stage": "pip_gallery_placeholder",
+    "outputs": {
+      "submodules/GalleryUI/Sources/Items/UniversalVideoGalleryItem.swift": "c7cd7b6a5936dc7966e2e651cd72a072f11e3d29c15e64c00f26b0aabe7d9def",
+      "submodules/GalleryUI/Sources/GalleryVideoDecoration.swift": "152eec6dbd5037312d63ea07cfc797c67f3547c2dcfbae1be044cef647fac60b"
+    },
+    "guards": 12,
+    "fail_closed": 14,
+    "executions": [
+      {
+        "name": "handoff",
+        "mode": "debug",
+        "exit_code": 0,
+        "output": "Error Domain=fixture Code=1 \"(null)\"\nError Domain=fixture Code=1 \"(null)\"\nError Domain=fixture Code=1 \"(null)\"\nError Domain=fixture Code=1 \"(null)\"\nError Domain=fixture Code=1 \"(null)\"\nError Domain=fixture Code=1 \"(null)\"\nError Domain=fixture Code=1 \"(null)\"\nError Domain=fixture Code=1 \"(null)\"\nError Domain=fixture Code=1 \"(null)\"\nError Domain=fixture Code=1 \"(null)\"\nPASS PiP swipe/handoff production checks: 68\nError Domain=fixture Code=1 \"(null)\"\nPiP placeholder lifecycle checks: 20"
+      },
+      {
+        "name": "handoff",
+        "mode": "optimized",
+        "exit_code": 0,
+        "output": "Error Domain=fixture Code=1 \"(null)\"\nError Domain=fixture Code=1 \"(null)\"\nError Domain=fixture Code=1 \"(null)\"\nError Domain=fixture Code=1 \"(null)\"\nError Domain=fixture Code=1 \"(null)\"\nError Domain=fixture Code=1 \"(null)\"\nError Domain=fixture Code=1 \"(null)\"\nError Domain=fixture Code=1 \"(null)\"\nError Domain=fixture Code=1 \"(null)\"\nError Domain=fixture Code=1 \"(null)\"\nPASS PiP swipe/handoff production checks: 68\nError Domain=fixture Code=1 \"(null)\"\nPiP placeholder lifecycle checks: 20"
+      },
+      {
+        "name": "snapshot",
+        "mode": "debug",
+        "exit_code": 0,
+        "output": "PiP frame snapshot checks: 10"
+      },
+      {
+        "name": "snapshot",
+        "mode": "optimized",
+        "exit_code": 0,
+        "output": "PiP frame snapshot checks: 10"
+      },
+      {
+        "name": "technical-card",
+        "mode": "debug",
+        "exit_code": 91,
+        "output": "Error Domain=fixture Code=1 \"(null)\"\nError Domain=fixture Code=1 \"(null)\"\nError Domain=fixture Code=1 \"(null)\"\nError Domain=fixture Code=1 \"(null)\"\nError Domain=fixture Code=1 \"(null)\"\nError Domain=fixture Code=1 \"(null)\"\nError Domain=fixture Code=1 \"(null)\"\nError Domain=fixture Code=1 \"(null)\"\nError Domain=fixture Code=1 \"(null)\"\nError Domain=fixture Code=1 \"(null)\"\nPASS PiP swipe/handoff production checks: 68\nREGRESSION: native request suppresses technical card before handoff"
+      },
+      {
+        "name": "technical-card",
+        "mode": "optimized",
+        "exit_code": 91,
+        "output": "Error Domain=fixture Code=1 \"(null)\"\nError Domain=fixture Code=1 \"(null)\"\nError Domain=fixture Code=1 \"(null)\"\nError Domain=fixture Code=1 \"(null)\"\nError Domain=fixture Code=1 \"(null)\"\nError Domain=fixture Code=1 \"(null)\"\nError Domain=fixture Code=1 \"(null)\"\nError Domain=fixture Code=1 \"(null)\"\nError Domain=fixture Code=1 \"(null)\"\nError Domain=fixture Code=1 \"(null)\"\nPASS PiP swipe/handoff production checks: 68\nREGRESSION: native request suppresses technical card before handoff"
+      },
+      {
+        "name": "early-release",
+        "mode": "debug",
+        "exit_code": 91,
+        "output": "Error Domain=fixture Code=1 \"(null)\"\nError Domain=fixture Code=1 \"(null)\"\nError Domain=fixture Code=1 \"(null)\"\nError Domain=fixture Code=1 \"(null)\"\nError Domain=fixture Code=1 \"(null)\"\nError Domain=fixture Code=1 \"(null)\"\nError Domain=fixture Code=1 \"(null)\"\nError Domain=fixture Code=1 \"(null)\"\nError Domain=fixture Code=1 \"(null)\"\nError Domain=fixture Code=1 \"(null)\"\nPASS PiP swipe/handoff production checks: 68\nError Domain=fixture Code=1 \"(null)\"\nREGRESSION: failed start without source cannot flash technical card"
+      },
+      {
+        "name": "early-release",
+        "mode": "optimized",
+        "exit_code": 91,
+        "output": "Error Domain=fixture Code=1 \"(null)\"\nError Domain=fixture Code=1 \"(null)\"\nError Domain=fixture Code=1 \"(null)\"\nError Domain=fixture Code=1 \"(null)\"\nError Domain=fixture Code=1 \"(null)\"\nError Domain=fixture Code=1 \"(null)\"\nError Domain=fixture Code=1 \"(null)\"\nError Domain=fixture Code=1 \"(null)\"\nError Domain=fixture Code=1 \"(null)\"\nError Domain=fixture Code=1 \"(null)\"\nPASS PiP swipe/handoff production checks: 68\nError Domain=fixture Code=1 \"(null)\"\nREGRESSION: failed start without source cannot flash technical card"
+      },
+      {
+        "name": "lost-frame",
+        "mode": "debug",
+        "exit_code": 92,
+        "output": "Snapshot regression: snapshot attached without requiring valid layout"
+      },
+      {
+        "name": "lost-frame",
+        "mode": "optimized",
+        "exit_code": 92,
+        "output": "Snapshot regression: snapshot attached without requiring valid layout"
+      },
+      {
+        "name": "stale-frame",
+        "mode": "debug",
+        "exit_code": 92,
+        "output": "Snapshot regression: replacement releases previous snapshot"
+      },
+      {
+        "name": "stale-frame",
+        "mode": "optimized",
+        "exit_code": 92,
+        "output": "Snapshot regression: replacement releases previous snapshot"
+      }
+    ],
+    "swift_parse": 2,
+    "source_files": 37655,
+    "source_unchanged_by_checks": true,
+    "native_postbox_imports": "passed",
+    "boundary": "Production PiP/delegate/swipe/placeholder bodies and snapshot attachment/layout execute in explicit AVKit/UIKit/scheduling adapters. The UIKit snapshot pixels and physical animation are not exercised.",
+    "apple_sdk": "not_run",
+    "ipa": "not_built",
+    "physical_iphone": "pending"
+  },
+  "global_source_gate": {
+    "target_pin": "24638bc69bd083981b178dd1e7f921eebbf7fc46",
+    "pre_replacements": 196,
+    "post_replacements": 274,
+    "deleted_obsolete_files": 2,
+    "fail_closed": {
+      "pre": 17,
+      "post": 33
+    },
+    "parsed_swift": 455,
+    "executions": [
+      "current-debug: PiP playback command checks: 113",
+      "current-O: PiP playback command checks: 113",
+      "previous-native-debug: Native PiP baseline checks: 37",
+      "previous-native-O: Native PiP baseline checks: 37",
+      "previous-caption-debug: Round caption transport checks: 118",
+      "previous-caption-O: Round caption transport checks: 118",
+      "previous-composer-debug: Repost copy integrity checks: 48",
+      "previous-composer-O: Repost copy integrity checks: 48",
+      "old-toggle-command-debug: regression reproduced and rejected",
+      "old-toggle-command-O: regression reproduced and rejected",
+      "cached-status-toggle-debug: regression reproduced and rejected",
+      "cached-status-toggle-O: regression reproduced and rejected",
+      "inverted-command-debug: regression reproduced and rejected",
+      "inverted-command-O: regression reproduced and rejected"
+    ],
+    "historical_runtime_boundary": "exact published bytes after verified inverse of all registered late source stages",
+    "late_source_stages": [
+      "wide_bottom_bar",
+      "author_selection_no_restore",
+      "preview_reply_intent",
+      "cloud_credential_entry",
+      "extended_poll_integrity",
+      "bot_delete_without_block",
+      "wide_tab_bar_setting",
+      "pip_swipe_handoff",
+      "temporary_message_interaction",
+      "account_settings_entry",
+      "release_090_preflight_fixes",
+      "release_090_author_compile",
+      "round_video_replay_stability",
+      "pip_gallery_placeholder"
+    ],
+    "native_postbox_imports": "passed",
+    "apple_sdk": "pending",
+    "device": "pending"
+  },
+  "historical_inverse": {
+    "late_source_stages": [
+      "wide_bottom_bar",
+      "author_selection_no_restore",
+      "preview_reply_intent",
+      "cloud_credential_entry",
+      "extended_poll_integrity",
+      "bot_delete_without_block",
+      "wide_tab_bar_setting",
+      "pip_swipe_handoff",
+      "temporary_message_interaction",
+      "account_settings_entry",
+      "release_090_preflight_fixes",
+      "release_090_author_compile",
+      "round_video_replay_stability",
+      "pip_gallery_placeholder"
+    ],
+    "published_contract_paths": 671,
+    "actual_published_pipeline_compared": true,
+    "full_source_files_preserved": 37655,
+    "introduced_helpers_absent_from_history": [
+      "submodules/TelegramUI/Sources/Chat/NagramiXTemporaryReplySend.swift"
+    ],
+    "pre_ninth_checkpoint_verified": true,
+    "pre_tenth_checkpoint_verified": true,
+    "pre_eleventh_checkpoint_verified": true,
+    "pre_eleventh_inputs_restored": [
+      "submodules/TelegramCore/Sources/Utils/NagramiXMessageArchive.swift",
+      "submodules/TelegramUI/Sources/Chat/ChatControllerLoadDisplayNode.swift"
+    ],
+    "negative_projection_verified_before_mutation": true,
+    "fail_closed": [
+      "wide_bottom_bar/output-drift",
+      "author_selection_no_restore/output-drift",
+      "preview_reply_intent/output-drift",
+      "cloud_credential_entry/output-drift",
+      "extended_poll_integrity/output-drift",
+      "bot_delete_without_block/output-drift",
+      "wide_tab_bar_setting/output-drift",
+      "pip_swipe_handoff/output-drift",
+      "temporary_message_interaction/output-drift",
+      "account_settings_entry/output-drift",
+      "release_090_preflight_fixes/output-drift",
+      "release_090_author_compile/output-drift",
+      "round_video_replay_stability/output-drift",
+      "pip_gallery_placeholder/output-drift",
+      "native-guard-missing",
+      "copied-helper-drift",
+      "copied-helper-missing",
+      "copied-helper-external-symlink",
+      "template-drift-before-inverse",
+      "pip_swipe_handoff/previous-stage-missing",
+      "pip_swipe_handoff/previous-stage-drift",
+      "temporary_message_interaction/previous-stage-missing",
+      "temporary_message_interaction/previous-stage-drift",
+      "account_settings_entry/previous-stage-missing",
+      "account_settings_entry/previous-stage-drift",
+      "release_090_preflight_fixes/previous-stage-missing",
+      "release_090_preflight_fixes/previous-stage-drift",
+      "release_090_author_compile/previous-stage-missing",
+      "release_090_author_compile/previous-stage-drift",
+      "round_video_replay_stability/previous-stage-missing",
+      "round_video_replay_stability/previous-stage-drift",
+      "pip_gallery_placeholder/previous-stage-missing",
+      "pip_gallery_placeholder/previous-stage-drift",
+      "wide_bottom_bar/native-blob-proof-missing",
+      "wide_bottom_bar/native-blob-drift/submodules/TelegramUI/Components/TabBarComponent/Sources/TabBarComponent.swift",
+      "temporary_message_interaction/native-blob-proof-missing",
+      "temporary_message_interaction/native-blob-drift/submodules/GalleryData/Sources/GalleryData.swift",
+      "temporary_message_interaction/native-blob-drift/submodules/TelegramCore/Sources/State/ManagedSecretChatOutgoingOperations.swift",
+      "temporary_message_interaction/native-blob-drift/submodules/TelegramCore/Sources/State/ProcessSecretChatIncomingDecryptedOperations.swift",
+      "temporary_message_interaction/native-blob-drift/submodules/TelegramUI/Components/Chat/ChatMessageReplyInfoNode/Sources/ChatMessageReplyInfoNode.swift",
+      "temporary_message_interaction/native-blob-drift/submodules/TelegramUI/Components/Chat/ReplyAccessoryPanelNode/Sources/ReplyAccessoryPanelNode.swift",
+      "account_settings_entry/native-blob-proof-missing",
+      "account_settings_entry/native-blob-drift/submodules/SettingsUI/Sources/Search/SettingsSearchableItems.swift"
+    ],
+    "sdk": "not_run",
+    "device": "pending"
+  },
+  "integration": {
+    "workflow_dispatch_only": true,
+    "bash_blocks_parsed": 19,
+    "python_modules_compiled": 3,
+    "historical_snapshots_preserved": 2148,
+    "new_snapshots": 16
+  },
+  "custom_member_audit": {
+    "full": {
+      "swift_files": 7321,
+      "string_accesses": 846,
+      "distinct_string_members": 229,
+      "actual_string_declarations": 245,
+      "custom_declarations": 814,
+      "full_custom_name_audit": true
+    },
+    "canonical": {
+      "swift_files": 200,
+      "string_accesses": 753,
+      "distinct_string_members": 202,
+      "actual_string_declarations": 245,
+      "custom_declarations": 684,
+      "full_custom_name_audit": false
+    }
+  },
+  "localization": "No new strings or changed resource catalogs. Existing technical text remains for unrelated non-PiP ownership loss.",
+  "native_api": "Exact UniversalVideoNode initializer/snapshot implementation and native PiP/delegate bodies guarded; no public API or module dependencies added.",
+  "apple_sdk": "not_run",
+  "ipa": "not_built",
+  "physical_iphone": "pending",
+  "publication_scope": "Owner commit/push main only; do not dispatch a build or change published 0.9.0.",
+  "validation_and_integration_sha256": {
+    "scripts/validate_pip_gallery_placeholder.py": "daebc621f567de6c4795bed66958ccfdf549da4ecc4abbd6e43124152869cb87",
+    "ios/pip_gallery_placeholder.py": "7ab2b112560afa869e450309828705a383842b185448bd6a53deba528755ae36",
+    "ios/pip_gallery_placeholder_patches.json": "f0b091a3db7c54603a3ef390e361f17e9cebd72cff7feba1a6b63e681fe8e394",
+    "scripts/late_source_stages.py": "c12f039501cd735ffb36afaa0ee770bd5ced88c86caf7a1cb684f270a1270a51",
+    ".github/workflows/build-unsigned-ipa.yml": "13052e8c389ed7feb215f9853214202567ef4808ab89fcaed22bd0a4e3d56257"
+  }
+}
