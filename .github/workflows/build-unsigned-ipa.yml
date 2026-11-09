@@ -13,6 +13,11 @@ on:
         type: boolean
         required: true
         default: false
+      extended_patch_tests:
+        description: Повторить длительные исторические тесты патчей перед SDK
+        type: boolean
+        required: true
+        default: false
       publish_release:
         description: Подготовить проверенный релиз для публикации от Mr_EFES
         type: boolean
@@ -64,6 +69,7 @@ jobs:
         run: |
           python3 scripts/validate_release_metadata.py
           python3 scripts/validate_release_build_mode.py
+          python3 scripts/validate_patch_validation_mode.py
           python3 scripts/validate_owner_publication.py
           python3 scripts/validate_ipa_localization_contract.py
           python3 scripts/validate_upstream_dependencies.py
@@ -139,250 +145,264 @@ jobs:
           python3 scripts/validate_swift_geometry_boundaries.py --swiftc "$(xcrun --find swiftc)" --report "$RUNNER_TEMP/swift-geometry-boundaries.json"
 
       - name: Применить overlay NagramiX
+        env:
+          NAGRAMIX_EXTENDED_PATCH_TESTS: ${{ inputs.extended_patch_tests }}
         shell: bash
         run: |
+          # BEGIN optional historical regressions
+          echo "Расширенные исторические тесты патчей: $NAGRAMIX_EXTENDED_PATCH_TESTS"
+          case "$NAGRAMIX_EXTENDED_PATCH_TESTS" in
+            true|false) ;;
+            *) exit 64 ;;
+          esac
+          nagramix_extended_check() {
+            if [ "$NAGRAMIX_EXTENDED_PATCH_TESTS" = true ]; then
+              "$@"
+            fi
+          }
+          # END optional historical regressions
           export SDKROOT="$(xcrun --sdk macosx --show-sdk-path)"
           export MACOSX_DEPLOYMENT_TARGET=13.0
           python3 ios/apply_overlay.py \
             --source Telegram-iOS \
             --legacy-source Telegram-overlay-input \
             --configuration "$RUNNER_TEMP/nagramix-configuration.json"
-          python3 scripts/validate_pip_playback_commands.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)"
-          python3 scripts/validate_round_caption_transport.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)"
-          python3 scripts/validate_repost_copy_integrity.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)"
-          python3 scripts/validate_native_pip_baseline.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)"
-          python3 scripts/validate_copy_delivery.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)"
-          python3 scripts/validate_rich_draft_upload_retry.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)"
-          python3 scripts/validate_pip_transition_geometry.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)"
-          python3 scripts/validate_transfer_consistency.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)"
-          python3 scripts/validate_editor_attachment_delivery.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)"
-          python3 scripts/validate_local_model_size.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)"
-          python3 scripts/validate_archive_deletion_effect.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)"
-          python3 scripts/validate_pip_visual_handoff.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)"
-          python3 scripts/validate_local_model_menu.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)"
-          python3 scripts/validate_archive_deletion_visibility.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)"
-          python3 scripts/validate_temporary_media_actions.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)"
-          python3 scripts/validate_message_copy_availability.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)"
-          python3 scripts/validate_pip_first_request.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)"
-          python3 scripts/validate_vosk_model_naming.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)"
-          python3 scripts/validate_local_asr_memory.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)"
-          python3 scripts/validate_archive_post_lifecycle.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)"
-          python3 scripts/validate_expanded_keyboard_timing.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)"
-          python3 scripts/validate_expanded_panel_animation.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)"
-          python3 scripts/validate_temporary_voice_transcription.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)"
+          nagramix_extended_check python3 scripts/validate_pip_playback_commands.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)"
+          nagramix_extended_check python3 scripts/validate_round_caption_transport.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)"
+          nagramix_extended_check python3 scripts/validate_repost_copy_integrity.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)"
+          nagramix_extended_check python3 scripts/validate_native_pip_baseline.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)"
+          nagramix_extended_check python3 scripts/validate_copy_delivery.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)"
+          nagramix_extended_check python3 scripts/validate_rich_draft_upload_retry.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)"
+          nagramix_extended_check python3 scripts/validate_pip_transition_geometry.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)"
+          nagramix_extended_check python3 scripts/validate_transfer_consistency.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)"
+          nagramix_extended_check python3 scripts/validate_editor_attachment_delivery.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)"
+          nagramix_extended_check python3 scripts/validate_local_model_size.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)"
+          nagramix_extended_check python3 scripts/validate_archive_deletion_effect.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)"
+          nagramix_extended_check python3 scripts/validate_pip_visual_handoff.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)"
+          nagramix_extended_check python3 scripts/validate_local_model_menu.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)"
+          nagramix_extended_check python3 scripts/validate_archive_deletion_visibility.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)"
+          nagramix_extended_check python3 scripts/validate_temporary_media_actions.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)"
+          nagramix_extended_check python3 scripts/validate_message_copy_availability.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)"
+          nagramix_extended_check python3 scripts/validate_pip_first_request.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)"
+          nagramix_extended_check python3 scripts/validate_vosk_model_naming.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)"
+          nagramix_extended_check python3 scripts/validate_local_asr_memory.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)"
+          nagramix_extended_check python3 scripts/validate_archive_post_lifecycle.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)"
+          nagramix_extended_check python3 scripts/validate_expanded_keyboard_timing.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)"
+          nagramix_extended_check python3 scripts/validate_expanded_panel_animation.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)"
+          nagramix_extended_check python3 scripts/validate_temporary_voice_transcription.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)"
           python3 scripts/tests/test_localization_literals.py
           python3 scripts/tests/test_localization_standard.py
-          python3 scripts/validate_all_language_catalogs.py --source Telegram-iOS
+          nagramix_extended_check python3 scripts/validate_all_language_catalogs.py --source Telegram-iOS
           python3 scripts/validate_localization_standard.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)"
-          python3 scripts/validate_archive_chat_scope.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)"
-          python3 scripts/validate_free_content.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)"
-          python3 scripts/validate_recipient_copy_isolation.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)"
-          python3 scripts/validate_inline_temporary_voice.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)"
-          python3 scripts/validate_expanded_keyboard_handoff.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)"
-          python3 scripts/validate_avatar_preview_navigation.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)"
-          python3 scripts/validate_system_video_pip.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)"
-          python3 scripts/validate_intro_localization.py \
+          nagramix_extended_check python3 scripts/validate_archive_chat_scope.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)"
+          nagramix_extended_check python3 scripts/validate_free_content.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)"
+          nagramix_extended_check python3 scripts/validate_recipient_copy_isolation.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)"
+          nagramix_extended_check python3 scripts/validate_inline_temporary_voice.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)"
+          nagramix_extended_check python3 scripts/validate_expanded_keyboard_handoff.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)"
+          nagramix_extended_check python3 scripts/validate_avatar_preview_navigation.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)"
+          nagramix_extended_check python3 scripts/validate_system_video_pip.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)"
+          nagramix_extended_check python3 scripts/validate_intro_localization.py \
             Telegram-iOS/Telegram/Telegram-iOS/ru.lproj/Localizable.strings
-          python3 scripts/validate_debug_localization.py --source Telegram-iOS
-          python3 scripts/validate_import_access.py --source Telegram-iOS
-          python3 scripts/validate_video_rotation_layout.py --source Telegram-iOS
-          python3 scripts/validate_round_video_sheet.py --source Telegram-iOS
-          python3 scripts/validate_quick_format_spacing.py --source Telegram-iOS
-          python3 scripts/validate_pip_presentation.py --source Telegram-iOS
-          python3 scripts/validate_round_video_page.py --source Telegram-iOS
-          python3 scripts/validate_story_explicit_view.py --source Telegram-iOS
-          python3 scripts/validate_story_download_quality.py --source Telegram-iOS
-          python3 scripts/validate_story_icon_consistency.py --source Telegram-iOS
-          python3 scripts/validate_pip_native_transaction.py --source Telegram-iOS
-          python3 scripts/validate_round_video_refinement.py --source Telegram-iOS
-          python3 scripts/validate_recovery_storage_fixes.py --source Telegram-iOS
-          python3 scripts/validate_scheduled_archive_isolation.py --source Telegram-iOS
-          python3 scripts/validate_round_video_bitrate.py --source Telegram-iOS
-          python3 scripts/validate_pip_native_entry.py --source Telegram-iOS
-          python3 scripts/validate_message_translation.py --source Telegram-iOS
-          python3 scripts/validate_translation_free_modes.py --source Telegram-iOS
-          python3 scripts/validate_translation_gpt_oss.py --source Telegram-iOS
-          python3 scripts/validate_voice_transcription.py --source Telegram-iOS
-          python3 scripts/validate_release_076_sdk.py --source Telegram-iOS
-          python3 scripts/validate_release_076_dependencies.py --source Telegram-iOS
-          python3 scripts/validate_release_076_compile.py --source Telegram-iOS
-          python3 scripts/validate_release_076_import.py --source Telegram-iOS
-          python3 scripts/validate_video_ownership_fix.py --source Telegram-iOS
-          python3 scripts/validate_transcription_settings_refinement.py --source Telegram-iOS
-          python3 scripts/validate_transcription_settings_complete.py --source Telegram-iOS
-          python3 scripts/validate_translation_completion.py --source Telegram-iOS
-          python3 scripts/validate_translation_sdk_fix.py --source Telegram-iOS
-          python3 scripts/validate_pip_removal_work.py --source Telegram-iOS
-          python3 scripts/validate_native_player_pip.py --source Telegram-iOS
-          python3 scripts/validate_media_privacy_fixes.py --source Telegram-iOS --standalone --swiftc "$(xcrun --find swiftc)"
-          python3 scripts/validate_translation_simplification.py --source Telegram-iOS --standalone --swiftc "$(xcrun --find swiftc)"
-          python3 scripts/validate_translation_inline_telegram.py --source Telegram-iOS --standalone --swiftc "$(xcrun --find swiftc)"
-          python3 scripts/validate_translation_premium_visibility.py --source Telegram-iOS --standalone --swiftc "$(xcrun --find swiftc)"
-          python3 scripts/validate_broadcast_stable_order.py --source Telegram-iOS --standalone --swiftc "$(xcrun --find swiftc)"
-          python3 scripts/validate_transcription_whisper_safety.py --source Telegram-iOS --standalone --swiftc "$(xcrun --find swiftc)"
-          python3 scripts/validate_transcription_cloud_ui.py --source Telegram-iOS --standalone --swiftc "$(xcrun --find swiftc)"
-          python3 scripts/validate_transcription_local_fallback.py --source Telegram-iOS --standalone --swiftc "$(xcrun --find swiftc)"
-          python3 scripts/validate_transcription_cloudflare.py --source Telegram-iOS --standalone --swiftc "$(xcrun --find swiftc)"
-          python3 scripts/validate_transcription_vosk.py --source Telegram-iOS --standalone --swiftc "$(xcrun --find swiftc)"
-          python3 scripts/validate_keyboard_transition.py --swiftc "$(xcrun --find swiftc)"
-          python3 scripts/validate_pip_readiness_fix.py --swiftc "$(xcrun --find swiftc)"
-          python3 scripts/validate_keyboard_handoff.py --swiftc "$(xcrun --find swiftc)"
-          python3 scripts/validate_transcription_context_refresh.py --swiftc "$(xcrun --find swiftc)"
-          python3 scripts/validate_repost_schedule.py --swiftc "$(xcrun --find swiftc)"
-          python3 scripts/validate_file_bubble_spacing.py --swiftc "$(xcrun --find swiftc)"
-          python3 scripts/validate_translation_speech_ui.py --swiftc "$(xcrun --find swiftc)"
-          python3 scripts/validate_speech_model_display.py --swiftc "$(xcrun --find swiftc)"
-          python3 scripts/validate_speech_cloudflare_display.py --swiftc "$(xcrun --find swiftc)"
-          python3 scripts/validate_speech_provider_permission.py --swiftc "$(xcrun --find swiftc)"
-          python3 scripts/validate_translation_chat_language.py --swiftc "$(xcrun --find swiftc)"
-          python3 scripts/validate_whisper_three_models.py --swiftc "$(xcrun --find swiftc)"
-          python3 scripts/validate_pip_asset_audio_recovery.py --swiftc "$(xcrun --find swiftc)"
-          python3 scripts/validate_formatting_keyboard_height.py --swiftc "$(xcrun --find swiftc)"
-          python3 scripts/validate_license_readable.py --swiftc "$(xcrun --find swiftc)"
-          python3 scripts/validate_pip_transition_surface.py --swiftc "$(xcrun --find swiftc)"
-          python3 scripts/validate_round_slider_touch.py --swiftc "$(xcrun --find swiftc)"
-          python3 scripts/validate_round_slider_kbps.py --swiftc "$(xcrun --find swiftc)"
-          python3 scripts/validate_speech_download_no_bar.py --swiftc "$(xcrun --find swiftc)"
-          python3 scripts/validate_whisper_footer_removal.py --swiftc "$(xcrun --find swiftc)"
-          python3 scripts/validate_provider_settings_consistency.py --swiftc "$(xcrun --find swiftc)"
-          python3 scripts/validate_remote_model_catalog.py --swiftc "$(xcrun --find swiftc)"
-          python3 scripts/validate_chat_russian_language_guard.py --swiftc "$(xcrun --find swiftc)"
-          python3 scripts/validate_translation_preferred_layout.py --swiftc "$(xcrun --find swiftc)"
-          python3 scripts/validate_translation_speech_text_only.py --swiftc "$(xcrun --find swiftc)"
-          python3 scripts/validate_translation_auto_flow.py --swiftc "$(xcrun --find swiftc)"
-          python3 scripts/validate_translation_language_search_alignment.py --swiftc "$(xcrun --find swiftc)"
-          python3 scripts/validate_translation_panel_visibility.py --swiftc "$(xcrun --find swiftc)"
-          python3 scripts/validate_transcription_link_accent.py --swiftc "$(xcrun --find swiftc)"
-          python3 scripts/validate_remove_groq.py
-          python3 scripts/validate_pip_readiness_observation.py
-          python3 scripts/validate_pip_playback_handoff.py --swiftc "$(xcrun --find swiftc)"
-          python3 scripts/validate_view_once_consumption_guard.py --swiftc "$(xcrun --find swiftc)"
-          python3 scripts/validate_view_once_archive_foundation.py --swiftc "$(xcrun --find swiftc)"
-          python3 scripts/validate_view_once_archive_render.py --swiftc "$(xcrun --find swiftc)"
-          python3 scripts/validate_view_once_copy_actions.py --swiftc "$(xcrun --find swiftc)"
-          python3 scripts/validate_view_once_receipt_queue.py --swiftc "$(xcrun --find swiftc)"
-          python3 scripts/validate_view_once_copy_marker.py --swiftc "$(xcrun --find swiftc)"
-          python3 scripts/validate_view_once_capture_on_receive.py --swiftc "$(xcrun --find swiftc)"
-          python3 scripts/validate_view_once_setting.py --swiftc "$(xcrun --find swiftc)"
-          python3 scripts/validate_view_once_preserve_capture.py --swiftc "$(xcrun --find swiftc)"
-          python3 scripts/validate_view_once_short_media.py --swiftc "$(xcrun --find swiftc)"
-          python3 scripts/validate_view_once_server_deletion.py --swiftc "$(xcrun --find swiftc)"
-          python3 scripts/validate_view_once_existing_in_chat.py --swiftc "$(xcrun --find swiftc)"
-          python3 scripts/validate_onboarding_privacy_text.py
-          python3 scripts/validate_unified_temporary_messages.py --swiftc "$(xcrun --find swiftc)"
-          python3 scripts/validate_copy_actions_consistency.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)"
-          python3 scripts/validate_pip_streaming.py --swiftc "$(xcrun --find swiftc)"
-          python3 scripts/validate_translation_manual_always.py --swiftc "$(xcrun --find swiftc)"
-          python3 scripts/validate_transcription_context_telegram.py --swiftc "$(xcrun --find swiftc)"
-          python3 scripts/validate_context_translation_toggles.py --swiftc "$(xcrun --find swiftc)"
-          python3 scripts/validate_emoji_keyboard_stability.py --swiftc "$(xcrun --find swiftc)"
-          python3 scripts/validate_story_preview_copy.py
-          python3 scripts/validate_author_selection_fix.py --swiftc "$(xcrun --find swiftc)"
-          python3 scripts/validate_pip_stream_request_lifetime.py --swiftc "$(xcrun --find swiftc)"
-          python3 scripts/validate_pip_transition_lifecycle.py --swiftc "$(xcrun --find swiftc)"
-          python3 scripts/validate_settings_labels.py --source Telegram-iOS
-          python3 scripts/validate_telegram_translation_defaults.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)"
-          python3 scripts/validate_single_player_pip.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)"
-          python3 scripts/validate_author_selection_icon.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)"
-          python3 scripts/validate_forward_single_person_icon.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)"
-          python3 scripts/validate_disable_next_swipe.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)"
-          python3 scripts/validate_deletion_effect_setting.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)"
-          python3 scripts/validate_pip_gallery_capture_fix.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)"
-          python3 scripts/validate_upright_author_icon.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)"
-          python3 scripts/validate_pip_mode_label.py --source Telegram-iOS
-          python3 scripts/validate_pip_caption_quotes.py --source Telegram-iOS
-          python3 scripts/validate_pip_gallery_native_gesture.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)"
-          python3 scripts/validate_pip_ghost_handoff.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)"
-          python3 scripts/validate_pip_active_gallery_restore.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)"
-          python3 scripts/validate_pip_ghost_source_layer.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)"
-          python3 scripts/validate_pip_no_status_wait.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)"
-          python3 scripts/validate_expanded_editor_stability.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)"
-          python3 scripts/validate_protected_copy_draft.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)"
-          python3 scripts/validate_author_check_badge_icon.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)"
-          python3 scripts/validate_protected_copy_selection_flow.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)"
-          python3 scripts/validate_protected_copy_send_timing.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)"
-          python3 scripts/validate_ghostgram_pip_replacement.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)"
-          python3 scripts/validate_ghostgram_pip_gallery_exact.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)"
-          python3 scripts/validate_ghostgram_pip_cleanup.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)"
-          python3 scripts/validate_rich_content_copy.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)"
-          python3 scripts/validate_gallery_export_privacy_gate.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)"
-          python3 scripts/validate_ghostgram_pip_compile_fix.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)"
-          python3 scripts/validate_upstream_13_2.py --swiftc "$(xcrun --find swiftc)"
+          nagramix_extended_check python3 scripts/validate_debug_localization.py --source Telegram-iOS
+          nagramix_extended_check python3 scripts/validate_import_access.py --source Telegram-iOS
+          nagramix_extended_check python3 scripts/validate_video_rotation_layout.py --source Telegram-iOS
+          nagramix_extended_check python3 scripts/validate_round_video_sheet.py --source Telegram-iOS
+          nagramix_extended_check python3 scripts/validate_quick_format_spacing.py --source Telegram-iOS
+          nagramix_extended_check python3 scripts/validate_pip_presentation.py --source Telegram-iOS
+          nagramix_extended_check python3 scripts/validate_round_video_page.py --source Telegram-iOS
+          nagramix_extended_check python3 scripts/validate_story_explicit_view.py --source Telegram-iOS
+          nagramix_extended_check python3 scripts/validate_story_download_quality.py --source Telegram-iOS
+          nagramix_extended_check python3 scripts/validate_story_icon_consistency.py --source Telegram-iOS
+          nagramix_extended_check python3 scripts/validate_pip_native_transaction.py --source Telegram-iOS
+          nagramix_extended_check python3 scripts/validate_round_video_refinement.py --source Telegram-iOS
+          nagramix_extended_check python3 scripts/validate_recovery_storage_fixes.py --source Telegram-iOS
+          nagramix_extended_check python3 scripts/validate_scheduled_archive_isolation.py --source Telegram-iOS
+          nagramix_extended_check python3 scripts/validate_round_video_bitrate.py --source Telegram-iOS
+          nagramix_extended_check python3 scripts/validate_pip_native_entry.py --source Telegram-iOS
+          nagramix_extended_check python3 scripts/validate_message_translation.py --source Telegram-iOS
+          nagramix_extended_check python3 scripts/validate_translation_free_modes.py --source Telegram-iOS
+          nagramix_extended_check python3 scripts/validate_translation_gpt_oss.py --source Telegram-iOS
+          nagramix_extended_check python3 scripts/validate_voice_transcription.py --source Telegram-iOS
+          nagramix_extended_check python3 scripts/validate_release_076_sdk.py --source Telegram-iOS
+          nagramix_extended_check python3 scripts/validate_release_076_dependencies.py --source Telegram-iOS
+          nagramix_extended_check python3 scripts/validate_release_076_compile.py --source Telegram-iOS
+          nagramix_extended_check python3 scripts/validate_release_076_import.py --source Telegram-iOS
+          nagramix_extended_check python3 scripts/validate_video_ownership_fix.py --source Telegram-iOS
+          nagramix_extended_check python3 scripts/validate_transcription_settings_refinement.py --source Telegram-iOS
+          nagramix_extended_check python3 scripts/validate_transcription_settings_complete.py --source Telegram-iOS
+          nagramix_extended_check python3 scripts/validate_translation_completion.py --source Telegram-iOS
+          nagramix_extended_check python3 scripts/validate_translation_sdk_fix.py --source Telegram-iOS
+          nagramix_extended_check python3 scripts/validate_pip_removal_work.py --source Telegram-iOS
+          nagramix_extended_check python3 scripts/validate_native_player_pip.py --source Telegram-iOS
+          nagramix_extended_check python3 scripts/validate_media_privacy_fixes.py --source Telegram-iOS --standalone --swiftc "$(xcrun --find swiftc)"
+          nagramix_extended_check python3 scripts/validate_translation_simplification.py --source Telegram-iOS --standalone --swiftc "$(xcrun --find swiftc)"
+          nagramix_extended_check python3 scripts/validate_translation_inline_telegram.py --source Telegram-iOS --standalone --swiftc "$(xcrun --find swiftc)"
+          nagramix_extended_check python3 scripts/validate_translation_premium_visibility.py --source Telegram-iOS --standalone --swiftc "$(xcrun --find swiftc)"
+          nagramix_extended_check python3 scripts/validate_broadcast_stable_order.py --source Telegram-iOS --standalone --swiftc "$(xcrun --find swiftc)"
+          nagramix_extended_check python3 scripts/validate_transcription_whisper_safety.py --source Telegram-iOS --standalone --swiftc "$(xcrun --find swiftc)"
+          nagramix_extended_check python3 scripts/validate_transcription_cloud_ui.py --source Telegram-iOS --standalone --swiftc "$(xcrun --find swiftc)"
+          nagramix_extended_check python3 scripts/validate_transcription_local_fallback.py --source Telegram-iOS --standalone --swiftc "$(xcrun --find swiftc)"
+          nagramix_extended_check python3 scripts/validate_transcription_cloudflare.py --source Telegram-iOS --standalone --swiftc "$(xcrun --find swiftc)"
+          nagramix_extended_check python3 scripts/validate_transcription_vosk.py --source Telegram-iOS --standalone --swiftc "$(xcrun --find swiftc)"
+          nagramix_extended_check python3 scripts/validate_keyboard_transition.py --swiftc "$(xcrun --find swiftc)"
+          nagramix_extended_check python3 scripts/validate_pip_readiness_fix.py --swiftc "$(xcrun --find swiftc)"
+          nagramix_extended_check python3 scripts/validate_keyboard_handoff.py --swiftc "$(xcrun --find swiftc)"
+          nagramix_extended_check python3 scripts/validate_transcription_context_refresh.py --swiftc "$(xcrun --find swiftc)"
+          nagramix_extended_check python3 scripts/validate_repost_schedule.py --swiftc "$(xcrun --find swiftc)"
+          nagramix_extended_check python3 scripts/validate_file_bubble_spacing.py --swiftc "$(xcrun --find swiftc)"
+          nagramix_extended_check python3 scripts/validate_translation_speech_ui.py --swiftc "$(xcrun --find swiftc)"
+          nagramix_extended_check python3 scripts/validate_speech_model_display.py --swiftc "$(xcrun --find swiftc)"
+          nagramix_extended_check python3 scripts/validate_speech_cloudflare_display.py --swiftc "$(xcrun --find swiftc)"
+          nagramix_extended_check python3 scripts/validate_speech_provider_permission.py --swiftc "$(xcrun --find swiftc)"
+          nagramix_extended_check python3 scripts/validate_translation_chat_language.py --swiftc "$(xcrun --find swiftc)"
+          nagramix_extended_check python3 scripts/validate_whisper_three_models.py --swiftc "$(xcrun --find swiftc)"
+          nagramix_extended_check python3 scripts/validate_pip_asset_audio_recovery.py --swiftc "$(xcrun --find swiftc)"
+          nagramix_extended_check python3 scripts/validate_formatting_keyboard_height.py --swiftc "$(xcrun --find swiftc)"
+          nagramix_extended_check python3 scripts/validate_license_readable.py --swiftc "$(xcrun --find swiftc)"
+          nagramix_extended_check python3 scripts/validate_pip_transition_surface.py --swiftc "$(xcrun --find swiftc)"
+          nagramix_extended_check python3 scripts/validate_round_slider_touch.py --swiftc "$(xcrun --find swiftc)"
+          nagramix_extended_check python3 scripts/validate_round_slider_kbps.py --swiftc "$(xcrun --find swiftc)"
+          nagramix_extended_check python3 scripts/validate_speech_download_no_bar.py --swiftc "$(xcrun --find swiftc)"
+          nagramix_extended_check python3 scripts/validate_whisper_footer_removal.py --swiftc "$(xcrun --find swiftc)"
+          nagramix_extended_check python3 scripts/validate_provider_settings_consistency.py --swiftc "$(xcrun --find swiftc)"
+          nagramix_extended_check python3 scripts/validate_remote_model_catalog.py --swiftc "$(xcrun --find swiftc)"
+          nagramix_extended_check python3 scripts/validate_chat_russian_language_guard.py --swiftc "$(xcrun --find swiftc)"
+          nagramix_extended_check python3 scripts/validate_translation_preferred_layout.py --swiftc "$(xcrun --find swiftc)"
+          nagramix_extended_check python3 scripts/validate_translation_speech_text_only.py --swiftc "$(xcrun --find swiftc)"
+          nagramix_extended_check python3 scripts/validate_translation_auto_flow.py --swiftc "$(xcrun --find swiftc)"
+          nagramix_extended_check python3 scripts/validate_translation_language_search_alignment.py --swiftc "$(xcrun --find swiftc)"
+          nagramix_extended_check python3 scripts/validate_translation_panel_visibility.py --swiftc "$(xcrun --find swiftc)"
+          nagramix_extended_check python3 scripts/validate_transcription_link_accent.py --swiftc "$(xcrun --find swiftc)"
+          nagramix_extended_check python3 scripts/validate_remove_groq.py
+          nagramix_extended_check python3 scripts/validate_pip_readiness_observation.py
+          nagramix_extended_check python3 scripts/validate_pip_playback_handoff.py --swiftc "$(xcrun --find swiftc)"
+          nagramix_extended_check python3 scripts/validate_view_once_consumption_guard.py --swiftc "$(xcrun --find swiftc)"
+          nagramix_extended_check python3 scripts/validate_view_once_archive_foundation.py --swiftc "$(xcrun --find swiftc)"
+          nagramix_extended_check python3 scripts/validate_view_once_archive_render.py --swiftc "$(xcrun --find swiftc)"
+          nagramix_extended_check python3 scripts/validate_view_once_copy_actions.py --swiftc "$(xcrun --find swiftc)"
+          nagramix_extended_check python3 scripts/validate_view_once_receipt_queue.py --swiftc "$(xcrun --find swiftc)"
+          nagramix_extended_check python3 scripts/validate_view_once_copy_marker.py --swiftc "$(xcrun --find swiftc)"
+          nagramix_extended_check python3 scripts/validate_view_once_capture_on_receive.py --swiftc "$(xcrun --find swiftc)"
+          nagramix_extended_check python3 scripts/validate_view_once_setting.py --swiftc "$(xcrun --find swiftc)"
+          nagramix_extended_check python3 scripts/validate_view_once_preserve_capture.py --swiftc "$(xcrun --find swiftc)"
+          nagramix_extended_check python3 scripts/validate_view_once_short_media.py --swiftc "$(xcrun --find swiftc)"
+          nagramix_extended_check python3 scripts/validate_view_once_server_deletion.py --swiftc "$(xcrun --find swiftc)"
+          nagramix_extended_check python3 scripts/validate_view_once_existing_in_chat.py --swiftc "$(xcrun --find swiftc)"
+          nagramix_extended_check python3 scripts/validate_onboarding_privacy_text.py
+          nagramix_extended_check python3 scripts/validate_unified_temporary_messages.py --swiftc "$(xcrun --find swiftc)"
+          nagramix_extended_check python3 scripts/validate_copy_actions_consistency.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)"
+          nagramix_extended_check python3 scripts/validate_pip_streaming.py --swiftc "$(xcrun --find swiftc)"
+          nagramix_extended_check python3 scripts/validate_translation_manual_always.py --swiftc "$(xcrun --find swiftc)"
+          nagramix_extended_check python3 scripts/validate_transcription_context_telegram.py --swiftc "$(xcrun --find swiftc)"
+          nagramix_extended_check python3 scripts/validate_context_translation_toggles.py --swiftc "$(xcrun --find swiftc)"
+          nagramix_extended_check python3 scripts/validate_emoji_keyboard_stability.py --swiftc "$(xcrun --find swiftc)"
+          nagramix_extended_check python3 scripts/validate_story_preview_copy.py
+          nagramix_extended_check python3 scripts/validate_author_selection_fix.py --swiftc "$(xcrun --find swiftc)"
+          nagramix_extended_check python3 scripts/validate_pip_stream_request_lifetime.py --swiftc "$(xcrun --find swiftc)"
+          nagramix_extended_check python3 scripts/validate_pip_transition_lifecycle.py --swiftc "$(xcrun --find swiftc)"
+          nagramix_extended_check python3 scripts/validate_settings_labels.py --source Telegram-iOS
+          nagramix_extended_check python3 scripts/validate_telegram_translation_defaults.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)"
+          nagramix_extended_check python3 scripts/validate_single_player_pip.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)"
+          nagramix_extended_check python3 scripts/validate_author_selection_icon.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)"
+          nagramix_extended_check python3 scripts/validate_forward_single_person_icon.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)"
+          nagramix_extended_check python3 scripts/validate_disable_next_swipe.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)"
+          nagramix_extended_check python3 scripts/validate_deletion_effect_setting.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)"
+          nagramix_extended_check python3 scripts/validate_pip_gallery_capture_fix.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)"
+          nagramix_extended_check python3 scripts/validate_upright_author_icon.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)"
+          nagramix_extended_check python3 scripts/validate_pip_mode_label.py --source Telegram-iOS
+          nagramix_extended_check python3 scripts/validate_pip_caption_quotes.py --source Telegram-iOS
+          nagramix_extended_check python3 scripts/validate_pip_gallery_native_gesture.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)"
+          nagramix_extended_check python3 scripts/validate_pip_ghost_handoff.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)"
+          nagramix_extended_check python3 scripts/validate_pip_active_gallery_restore.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)"
+          nagramix_extended_check python3 scripts/validate_pip_ghost_source_layer.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)"
+          nagramix_extended_check python3 scripts/validate_pip_no_status_wait.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)"
+          nagramix_extended_check python3 scripts/validate_expanded_editor_stability.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)"
+          nagramix_extended_check python3 scripts/validate_protected_copy_draft.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)"
+          nagramix_extended_check python3 scripts/validate_author_check_badge_icon.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)"
+          nagramix_extended_check python3 scripts/validate_protected_copy_selection_flow.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)"
+          nagramix_extended_check python3 scripts/validate_protected_copy_send_timing.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)"
+          nagramix_extended_check python3 scripts/validate_ghostgram_pip_replacement.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)"
+          nagramix_extended_check python3 scripts/validate_ghostgram_pip_gallery_exact.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)"
+          nagramix_extended_check python3 scripts/validate_ghostgram_pip_cleanup.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)"
+          nagramix_extended_check python3 scripts/validate_rich_content_copy.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)"
+          nagramix_extended_check python3 scripts/validate_gallery_export_privacy_gate.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)"
+          nagramix_extended_check python3 scripts/validate_ghostgram_pip_compile_fix.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)"
+          nagramix_extended_check python3 scripts/validate_upstream_13_2.py --swiftc "$(xcrun --find swiftc)"
           PYTHONPATH=ios python3 -c 'from pathlib import Path; from upstream_13_2_post import apply_upstream_13_2_post; apply_upstream_13_2_post(Path("Telegram-iOS").resolve(), Path("ios").resolve())'
           PYTHONPATH=ios python3 -c 'from pathlib import Path; from upstream_13_2_release_post import apply_upstream_13_2_release_post; apply_upstream_13_2_release_post(Path("Telegram-iOS").resolve(), Path("ios").resolve())'
           PYTHONPATH=ios python3 -c 'from pathlib import Path; from upstream_13_2_release_compile import apply_upstream_13_2_release_compile; apply_upstream_13_2_release_compile(Path("Telegram-iOS").resolve(), Path("ios").resolve())'
-          python3 scripts/validate_upstream_13_2_release_compile.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)" --clang "$(xcrun --find clang)"
+          nagramix_extended_check python3 scripts/validate_upstream_13_2_release_compile.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)" --clang "$(xcrun --find clang)"
           PYTHONPATH=ios python3 -c 'from pathlib import Path; from upstream_13_2_release_ui_compile import apply_upstream_13_2_release_ui_compile; apply_upstream_13_2_release_ui_compile(Path("Telegram-iOS").resolve(), Path("ios").resolve())'
-          python3 scripts/validate_upstream_13_2_release_ui_compile.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)"
+          nagramix_extended_check python3 scripts/validate_upstream_13_2_release_ui_compile.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)"
           PYTHONPATH=ios python3 -c 'from pathlib import Path; from upstream_13_2_release_auth_compile import apply_upstream_13_2_release_auth_compile; apply_upstream_13_2_release_auth_compile(Path("Telegram-iOS").resolve(), Path("ios").resolve())'
-          python3 scripts/validate_upstream_13_2_release_auth_compile.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)"
+          nagramix_extended_check python3 scripts/validate_upstream_13_2_release_auth_compile.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)"
           PYTHONPATH=ios python3 -c 'from pathlib import Path; from upstream_13_2_release_delivery_compile import apply_upstream_13_2_release_delivery_compile; apply_upstream_13_2_release_delivery_compile(Path("Telegram-iOS").resolve(), Path("ios").resolve())'
-          python3 scripts/validate_upstream_13_2_release_delivery_compile.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)"
+          nagramix_extended_check python3 scripts/validate_upstream_13_2_release_delivery_compile.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)"
           PYTHONPATH=ios python3 -c 'from pathlib import Path; from upstream_13_2_release_ack_compile import apply_upstream_13_2_release_ack_compile; apply_upstream_13_2_release_ack_compile(Path("Telegram-iOS").resolve(), Path("ios").resolve())'
-          python3 scripts/validate_upstream_13_2_release_ack_compile.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)"
+          nagramix_extended_check python3 scripts/validate_upstream_13_2_release_ack_compile.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)"
           PYTHONPATH=ios python3 -c 'from pathlib import Path; from upstream_13_2_release_string_compile import apply_upstream_13_2_release_string_compile; apply_upstream_13_2_release_string_compile(Path("Telegram-iOS").resolve(), Path("ios").resolve())'
-          python3 scripts/validate_upstream_13_2_release_string_compile.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)"
+          nagramix_extended_check python3 scripts/validate_upstream_13_2_release_string_compile.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)"
           PYTHONPATH=ios python3 -c 'from pathlib import Path; from wide_bottom_bar import apply_wide_bottom_bar; apply_wide_bottom_bar(Path("Telegram-iOS").resolve(), Path("ios").resolve())'
-          python3 scripts/validate_wide_bottom_bar.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)" --report "$RUNNER_TEMP/wide-bottom-bar.json"
+          nagramix_extended_check python3 scripts/validate_wide_bottom_bar.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)" --report "$RUNNER_TEMP/wide-bottom-bar.json"
           PYTHONPATH=ios python3 -c 'from pathlib import Path; from author_selection_no_restore import apply_author_selection_no_restore; apply_author_selection_no_restore(Path("Telegram-iOS").resolve(), Path("ios").resolve())'
-          python3 scripts/validate_author_selection_no_restore.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)" --report "$RUNNER_TEMP/author-selection-no-restore.json"
+          nagramix_extended_check python3 scripts/validate_author_selection_no_restore.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)" --report "$RUNNER_TEMP/author-selection-no-restore.json"
           PYTHONPATH=ios python3 -c 'from pathlib import Path; from preview_reply_intent import apply_preview_reply_intent; apply_preview_reply_intent(Path("Telegram-iOS").resolve(), Path("ios").resolve())'
-          python3 scripts/validate_preview_reply_intent.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)" --report "$RUNNER_TEMP/preview-reply-intent.json"
+          nagramix_extended_check python3 scripts/validate_preview_reply_intent.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)" --report "$RUNNER_TEMP/preview-reply-intent.json"
           PYTHONPATH=ios python3 -c 'from pathlib import Path; from cloud_credential_entry import apply_cloud_credential_entry; apply_cloud_credential_entry(Path("Telegram-iOS").resolve(), Path("ios").resolve())'
-          python3 scripts/validate_cloud_credential_entry.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)" --report "$RUNNER_TEMP/cloud-credential-entry.json"
+          nagramix_extended_check python3 scripts/validate_cloud_credential_entry.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)" --report "$RUNNER_TEMP/cloud-credential-entry.json"
           PYTHONPATH=ios python3 -c 'from pathlib import Path; from extended_poll_integrity import apply_extended_poll_integrity; apply_extended_poll_integrity(Path("Telegram-iOS").resolve(), Path("ios").resolve())'
-          python3 scripts/validate_extended_poll_integrity.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)" --report "$RUNNER_TEMP/extended-poll-integrity.json"
+          nagramix_extended_check python3 scripts/validate_extended_poll_integrity.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)" --report "$RUNNER_TEMP/extended-poll-integrity.json"
           PYTHONPATH=ios python3 -c 'from pathlib import Path; from bot_delete_without_block import apply_bot_delete_without_block; apply_bot_delete_without_block(Path("Telegram-iOS").resolve(), Path("ios").resolve())'
-          python3 scripts/validate_bot_delete_without_block.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)" --report "$RUNNER_TEMP/bot-delete-without-block.json"
+          nagramix_extended_check python3 scripts/validate_bot_delete_without_block.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)" --report "$RUNNER_TEMP/bot-delete-without-block.json"
           PYTHONPATH=ios python3 -c 'from pathlib import Path; from wide_tab_bar_setting import apply_wide_tab_bar_setting; apply_wide_tab_bar_setting(Path("Telegram-iOS").resolve(), Path("ios").resolve())'
-          python3 scripts/validate_wide_tab_bar_setting.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)" --report "$RUNNER_TEMP/wide-tab-bar-setting.json"
+          nagramix_extended_check python3 scripts/validate_wide_tab_bar_setting.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)" --report "$RUNNER_TEMP/wide-tab-bar-setting.json"
           python3 -m unittest discover -s scripts/tests -p test_cleanup_source_checkpoint.py
           python3 -c 'import os, shutil; from pathlib import Path; shutil.copytree("Telegram-iOS", Path(os.environ["RUNNER_TEMP"]) / "nagramix-pre-pip", symlinks=True)'
           PYTHONPATH=ios python3 -c 'from pathlib import Path; from pip_swipe_handoff import apply_pip_swipe_handoff; apply_pip_swipe_handoff(Path("Telegram-iOS").resolve(), Path("ios").resolve())'
-          python3 scripts/validate_pip_swipe_handoff.py --source Telegram-iOS --baseline "$RUNNER_TEMP/nagramix-pre-pip" --integrated --swiftc "$(xcrun --find swiftc)" --report "$RUNNER_TEMP/pip-swipe-handoff.json"
+          nagramix_extended_check python3 scripts/validate_pip_swipe_handoff.py --source Telegram-iOS --baseline "$RUNNER_TEMP/nagramix-pre-pip" --integrated --swiftc "$(xcrun --find swiftc)" --report "$RUNNER_TEMP/pip-swipe-handoff.json"
           python3 scripts/cleanup_source_checkpoint.py --root "$RUNNER_TEMP" --name nagramix-pre-pip --active-source Telegram-iOS
           python3 -c 'import os, shutil; from pathlib import Path; shutil.copytree("Telegram-iOS", Path(os.environ["RUNNER_TEMP"]) / "nagramix-pre-temporary-interaction", symlinks=True)'
           PYTHONPATH=ios python3 -c 'from pathlib import Path; from temporary_message_interaction import apply_temporary_message_interaction; apply_temporary_message_interaction(Path("Telegram-iOS").resolve(), Path("ios").resolve())'
-          python3 scripts/validate_temporary_message_interaction.py --source Telegram-iOS --baseline "$RUNNER_TEMP/nagramix-pre-temporary-interaction" --swiftc "$(xcrun --find swiftc)" --report "$RUNNER_TEMP/temporary-message-interaction.json"
+          nagramix_extended_check python3 scripts/validate_temporary_message_interaction.py --source Telegram-iOS --baseline "$RUNNER_TEMP/nagramix-pre-temporary-interaction" --swiftc "$(xcrun --find swiftc)" --report "$RUNNER_TEMP/temporary-message-interaction.json"
           python3 scripts/cleanup_source_checkpoint.py --root "$RUNNER_TEMP" --name nagramix-pre-temporary-interaction --active-source Telegram-iOS
           python3 -c 'import os, shutil; from pathlib import Path; shutil.copytree("Telegram-iOS", Path(os.environ["RUNNER_TEMP"]) / "nagramix-pre-account-settings-entry", symlinks=True)'
           PYTHONPATH=ios python3 -c 'from pathlib import Path; from account_settings_entry import apply_account_settings_entry; apply_account_settings_entry(Path("Telegram-iOS").resolve(), Path("ios").resolve())'
-          python3 scripts/validate_account_settings_entry.py --source Telegram-iOS --baseline "$RUNNER_TEMP/nagramix-pre-account-settings-entry" --swiftc "$(xcrun --find swiftc)" --report "$RUNNER_TEMP/account-settings-entry.json"
+          nagramix_extended_check python3 scripts/validate_account_settings_entry.py --source Telegram-iOS --baseline "$RUNNER_TEMP/nagramix-pre-account-settings-entry" --swiftc "$(xcrun --find swiftc)" --report "$RUNNER_TEMP/account-settings-entry.json"
           python3 scripts/cleanup_source_checkpoint.py --root "$RUNNER_TEMP" --name nagramix-pre-account-settings-entry --active-source Telegram-iOS
           python3 -c 'import os, shutil; from pathlib import Path; shutil.copytree("Telegram-iOS", Path(os.environ["RUNNER_TEMP"]) / "nagramix-pre-release-090-preflight", symlinks=True)'
           PYTHONPATH=ios python3 -c 'from pathlib import Path; from release_090_preflight_fixes import apply_release_090_preflight_fixes; apply_release_090_preflight_fixes(Path("Telegram-iOS").resolve(), Path("ios").resolve())'
-          python3 scripts/validate_release_090_preflight_fixes.py --source Telegram-iOS --baseline "$RUNNER_TEMP/nagramix-pre-release-090-preflight" --swiftc "$(xcrun --find swiftc)" --report "$RUNNER_TEMP/release-090-preflight-fixes.json"
+          nagramix_extended_check python3 scripts/validate_release_090_preflight_fixes.py --source Telegram-iOS --baseline "$RUNNER_TEMP/nagramix-pre-release-090-preflight" --swiftc "$(xcrun --find swiftc)" --report "$RUNNER_TEMP/release-090-preflight-fixes.json"
           python3 scripts/cleanup_source_checkpoint.py --root "$RUNNER_TEMP" --name nagramix-pre-release-090-preflight --active-source Telegram-iOS
           PYTHONPATH=ios python3 -c 'from pathlib import Path; from release_090_author_compile import apply_release_090_author_compile; apply_release_090_author_compile(Path("Telegram-iOS").resolve(), Path("ios").resolve())'
-          python3 scripts/validate_release_090_author_compile.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)" --report "$RUNNER_TEMP/release-090-author-compile.json"
+          nagramix_extended_check python3 scripts/validate_release_090_author_compile.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)" --report "$RUNNER_TEMP/release-090-author-compile.json"
           PYTHONPATH=ios python3 -c 'from pathlib import Path; from round_video_replay_stability import apply_round_video_replay_stability; apply_round_video_replay_stability(Path("Telegram-iOS").resolve(), Path("ios").resolve())'
-          python3 scripts/validate_round_video_replay_stability.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)" --report "$RUNNER_TEMP/round-video-replay-stability.json"
+          nagramix_extended_check python3 scripts/validate_round_video_replay_stability.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)" --report "$RUNNER_TEMP/round-video-replay-stability.json"
           PYTHONPATH=ios python3 -c 'from pathlib import Path; from pip_gallery_placeholder import apply_pip_gallery_placeholder; apply_pip_gallery_placeholder(Path("Telegram-iOS").resolve(), Path("ios").resolve())'
-          python3 scripts/validate_pip_gallery_placeholder.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)" --report "$RUNNER_TEMP/pip-gallery-placeholder.json"
+          nagramix_extended_check python3 scripts/validate_pip_gallery_placeholder.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)" --report "$RUNNER_TEMP/pip-gallery-placeholder.json"
           PYTHONPATH=ios python3 -c 'from pathlib import Path; from download_sheet_edge import apply_download_sheet_edge; apply_download_sheet_edge(Path("Telegram-iOS").resolve(), Path("ios").resolve())'
-          python3 scripts/validate_download_sheet_edge.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)" --report "$RUNNER_TEMP/download-sheet-edge.json"
+          nagramix_extended_check python3 scripts/validate_download_sheet_edge.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)" --report "$RUNNER_TEMP/download-sheet-edge.json"
           PYTHONPATH=ios python3 -c 'from pathlib import Path; from edit_history_cards import apply_edit_history_cards; apply_edit_history_cards(Path("Telegram-iOS").resolve(), Path("ios").resolve())'
-          python3 scripts/validate_edit_history_cards.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)" --report "$RUNNER_TEMP/edit-history-cards.json"
+          nagramix_extended_check python3 scripts/validate_edit_history_cards.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)" --report "$RUNNER_TEMP/edit-history-cards.json"
           PYTHONPATH=ios python3 -c 'from pathlib import Path; from copy_reference_recovery import apply_copy_reference_recovery; apply_copy_reference_recovery(Path("Telegram-iOS").resolve(), Path("ios").resolve())'
-          python3 scripts/validate_copy_reference_recovery.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)" --report "$RUNNER_TEMP/copy-reference-recovery.json"
+          nagramix_extended_check python3 scripts/validate_copy_reference_recovery.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)" --report "$RUNNER_TEMP/copy-reference-recovery.json"
           PYTHONPATH=ios python3 -c 'from pathlib import Path; from edit_history_number_badges import apply_edit_history_number_badges; apply_edit_history_number_badges(Path("Telegram-iOS").resolve(), Path("ios").resolve())'
-          python3 scripts/validate_edit_history_number_badges.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)" --report "$RUNNER_TEMP/edit-history-number-badges.json"
+          nagramix_extended_check python3 scripts/validate_edit_history_number_badges.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)" --report "$RUNNER_TEMP/edit-history-number-badges.json"
           PYTHONPATH=ios python3 -c 'from pathlib import Path; from pip_visual_continuity import apply_pip_visual_continuity; apply_pip_visual_continuity(Path("Telegram-iOS").resolve(), Path("ios").resolve())'
-          python3 scripts/validate_pip_visual_continuity.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)" --report "$RUNNER_TEMP/pip-visual-continuity.json"
+          nagramix_extended_check python3 scripts/validate_pip_visual_continuity.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)" --report "$RUNNER_TEMP/pip-visual-continuity.json"
           PYTHONPATH=ios python3 -c 'from pathlib import Path; from local_copy_delivery import apply_local_copy_delivery; apply_local_copy_delivery(Path("Telegram-iOS").resolve(), Path("ios").resolve())'
-          python3 scripts/validate_local_copy_delivery.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)" --report "$RUNNER_TEMP/local-copy-delivery.json"
+          nagramix_extended_check python3 scripts/validate_local_copy_delivery.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)" --report "$RUNNER_TEMP/local-copy-delivery.json"
           PYTHONPATH=ios python3 -c 'from pathlib import Path; from temporary_playback_identity import apply_temporary_playback_identity; apply_temporary_playback_identity(Path("Telegram-iOS").resolve(), Path("ios").resolve())'
-          python3 scripts/validate_temporary_playback_identity.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)" --report "$RUNNER_TEMP/temporary-playback-identity.json"
+          nagramix_extended_check python3 scripts/validate_temporary_playback_identity.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)" --report "$RUNNER_TEMP/temporary-playback-identity.json"
           PYTHONPATH=ios python3 -c 'from pathlib import Path; from round_video_editor import apply_round_video_editor; apply_round_video_editor(Path("Telegram-iOS").resolve(), Path("ios").resolve())'
-          python3 scripts/validate_round_video_editor.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)" --report "$RUNNER_TEMP/round-video-editor.json"
+          nagramix_extended_check python3 scripts/validate_round_video_editor.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)" --report "$RUNNER_TEMP/round-video-editor.json"
           PYTHONPATH=ios python3 -c 'from pathlib import Path; from proxy_doh_editor import apply_proxy_doh_editor; apply_proxy_doh_editor(Path("Telegram-iOS").resolve(), Path("ios").resolve())'
-          python3 scripts/validate_proxy_doh_editor.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)" --report "$RUNNER_TEMP/proxy-doh-editor.json"
+          nagramix_extended_check python3 scripts/validate_proxy_doh_editor.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)" --report "$RUNNER_TEMP/proxy-doh-editor.json"
           PYTHONPATH=ios python3 -c 'from pathlib import Path; from download_sheet_corners import apply_download_sheet_corners; apply_download_sheet_corners(Path("Telegram-iOS").resolve(), Path("ios").resolve())'
-          python3 scripts/validate_download_sheet_corners.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)" --report "$RUNNER_TEMP/download-sheet-corners.json"
+          nagramix_extended_check python3 scripts/validate_download_sheet_corners.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)" --report "$RUNNER_TEMP/download-sheet-corners.json"
           PYTHONPATH=ios python3 -c 'from pathlib import Path; from hide_premium_offers import apply_hide_premium_offers; apply_hide_premium_offers(Path("Telegram-iOS").resolve(), Path("ios").resolve())'
-          python3 scripts/validate_hide_premium_offers.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)" --report "$RUNNER_TEMP/hide-premium-offers.json"
+          nagramix_extended_check python3 scripts/validate_hide_premium_offers.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)" --report "$RUNNER_TEMP/hide-premium-offers.json"
           PYTHONPATH=ios python3 -c 'from pathlib import Path; from content_interaction_consent import apply_content_interaction_consent; apply_content_interaction_consent(Path("Telegram-iOS").resolve(), Path("ios").resolve())'
-          python3 scripts/validate_content_interaction_consent.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)" --report "$RUNNER_TEMP/content-interaction-consent.json"
+          nagramix_extended_check python3 scripts/validate_content_interaction_consent.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)" --report "$RUNNER_TEMP/content-interaction-consent.json"
           python3 scripts/validate_late_source_stages.py --source Telegram-iOS --report "$RUNNER_TEMP/late-source-stages.json"
           python3 scripts/validate_custom_member_references.py --source Telegram-iOS
           python3 scripts/validate_upstream_13_2_release.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)"
