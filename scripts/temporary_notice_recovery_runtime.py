@@ -95,6 +95,9 @@ func applyNotice(_ strongSelf: BubbleNode, _ item: Item, incoming: Bool) {
 
 BOUNDARY = r'''
 import Foundation
+#if canImport(CoreGraphics)
+import CoreGraphics
+#endif
 
 public protocol MessageAttribute {}
 public struct NagramiXArchivedMessageAttribute: MessageAttribute {

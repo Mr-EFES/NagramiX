@@ -1,0 +1,181 @@
+{
+  "task": "release_091_ci189_transitive_fixture_import",
+  "checked_at_utc": "2026-11-09T10:52:44.772410+00:00",
+  "failed_run": 42588893329,
+  "failed_build": 189,
+  "failed_source": "e45f91daf3d2f5bad810ae21ee9d2cc3973064cf",
+  "failure": "temporary_notice_recovery_runtime.BOUNDARY imported Foundation without CoreGraphics; Apple CGRect Swift overlay constructors/properties unavailable",
+  "scope": "test helper and early test gate only",
+  "application_source_changed": false,
+  "overlay_snapshots_changed": false,
+  "checks_weakened_or_removed": false,
+  "actual_apple_swift_in189": {
+    "early_boundary_executions_passed": 8,
+    "old_missing_import_mutants_rejected": 4,
+    "full_suites_passed": [
+      "round_video_replay_stability",
+      "pip_gallery_placeholder",
+      "download_sheet_edge",
+      "edit_history_cards"
+    ],
+    "copy_reference_recovery": "manager/parser/reference runtime passed before temporary notice fixture compiler rejection"
+  },
+  "all_geometry_fixture_files_changed_since090_audited": true,
+  "early_geometry_after_fix": {
+    "boundaries": [
+      {
+        "name": "round-row",
+        "mode": "debug",
+        "passed": true
+      },
+      {
+        "name": "round-row",
+        "mode": "optimized",
+        "passed": true
+      },
+      {
+        "name": "pip-handoff",
+        "mode": "debug",
+        "passed": true
+      },
+      {
+        "name": "pip-handoff",
+        "mode": "optimized",
+        "passed": true
+      },
+      {
+        "name": "pip-snapshot",
+        "mode": "debug",
+        "passed": true
+      },
+      {
+        "name": "pip-snapshot",
+        "mode": "optimized",
+        "passed": true
+      },
+      {
+        "name": "download-layout",
+        "mode": "debug",
+        "passed": true
+      },
+      {
+        "name": "download-layout",
+        "mode": "optimized",
+        "passed": true
+      },
+      {
+        "name": "temporary-notice",
+        "mode": "debug",
+        "passed": true
+      },
+      {
+        "name": "temporary-notice",
+        "mode": "optimized",
+        "passed": true
+      }
+    ],
+    "apple_import_negatives": [],
+    "boundary": "Actual test boundary imports and geometry operators; no UIKit or whole-app SDK build.",
+    "apple_import_negative_boundary": "Runs only with Apple Swift; Linux Foundation differs."
+  },
+  "copy_suite_after_fix": {
+    "executions": 14,
+    "fail_closed": 16,
+    "outputs": {
+      "submodules/TelegramCore/Sources/State/PendingMessageManager.swift": "34d2138936a6698cc9e1534358c094c3979be171333cfa054330e6dfd02c2e9e",
+      "submodules/TelegramCore/Sources/PendingMessages/PendingMessageUploadedContent.swift": "8472d9062ac9160cbdd39fdc3880fd12d0fce9f9e8f4559b501a2b28170d77d4",
+      "submodules/TelegramCore/Sources/Utils/NagramiXOutgoingCopy.swift": "6bb23f7b95b65f368794fc7343637af78c15c53d6a33689fb4bdf9059f52f7e2"
+    },
+    "runtime": [
+      {
+        "name": "manager",
+        "mode": "debug",
+        "exit_code": 0,
+        "output": "Copy retry state checks: 90"
+      },
+      {
+        "name": "manager",
+        "mode": "optimized",
+        "exit_code": 0,
+        "output": "Copy retry state checks: 90"
+      },
+      {
+        "name": "album-parser",
+        "mode": "debug",
+        "exit_code": 0,
+        "output": "Native album error parser checks: 9"
+      },
+      {
+        "name": "album-parser",
+        "mode": "optimized",
+        "exit_code": 0,
+        "output": "Native album error parser checks: 9"
+      },
+      {
+        "name": "CopyReferenceRecovery.swift",
+        "mode": "debug",
+        "exit_code": 0,
+        "output": "Copy reference recovery production/runtime checks: 78"
+      },
+      {
+        "name": "CopyReferenceRecovery.swift",
+        "mode": "optimized",
+        "exit_code": 0,
+        "output": "Copy reference recovery production/runtime checks: 78"
+      },
+      {
+        "name": "temporary-notice",
+        "mode": "debug",
+        "exit_code": 0,
+        "output": "Temporary notice regression checks: 621"
+      },
+      {
+        "name": "temporary-notice",
+        "mode": "optimized",
+        "exit_code": 0,
+        "output": "Temporary notice regression checks: 621"
+      },
+      {
+        "name": "old-live-notice",
+        "mode": "debug",
+        "exit_code": 97,
+        "output": "Temporary notice regression: live retained media has no deletion notice"
+      },
+      {
+        "name": "old-live-notice",
+        "mode": "optimized",
+        "exit_code": 97,
+        "output": "Temporary notice regression: live retained media has no deletion notice"
+      },
+      {
+        "name": "old-once-label",
+        "mode": "debug",
+        "exit_code": 97,
+        "output": "Temporary notice regression: deletion uses configured or default label"
+      },
+      {
+        "name": "old-once-label",
+        "mode": "optimized",
+        "exit_code": 97,
+        "output": "Temporary notice regression: deletion uses configured or default label"
+      },
+      {
+        "name": "stale-footer-nodes",
+        "mode": "debug",
+        "exit_code": 97,
+        "output": "Temporary notice regression: reused live row removes label and icon from hierarchy"
+      },
+      {
+        "name": "stale-footer-nodes",
+        "mode": "optimized",
+        "exit_code": 97,
+        "output": "Temporary notice regression: reused live row removes label and icon from hierarchy"
+      }
+    ]
+  },
+  "next_attempt_version": "0.9.1",
+  "native_sdk": "not_started",
+  "ipa": "not_built",
+  "publication": "pending",
+  "device": "pending"
+}

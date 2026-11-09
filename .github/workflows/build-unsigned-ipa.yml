@@ -131,12 +131,18 @@ jobs:
           xcrun --find metal
           xcrun metal --version
 
-      - name: Применить overlay NagramiX
+      - name: Проверить геометрию тестов на Apple Swift
         shell: bash
         run: |
           export SDKROOT="$(xcrun --sdk macosx --show-sdk-path)"
           export MACOSX_DEPLOYMENT_TARGET=13.0
           python3 scripts/validate_swift_geometry_boundaries.py --swiftc "$(xcrun --find swiftc)" --report "$RUNNER_TEMP/swift-geometry-boundaries.json"
+
+      - name: Применить overlay NagramiX
+        shell: bash
+        run: |
+          export SDKROOT="$(xcrun --sdk macosx --show-sdk-path)"
+          export MACOSX_DEPLOYMENT_TARGET=13.0
           python3 ios/apply_overlay.py \
             --source Telegram-iOS \
             --legacy-source Telegram-overlay-input \

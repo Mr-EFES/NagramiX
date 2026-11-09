@@ -10,6 +10,7 @@ import tempfile
 from validate_round_video_replay_stability import UI_BOUNDARY
 from validate_pip_gallery_placeholder import CORE_GRAPHICS_IMPORT, DECORATION_BOUNDARY
 from validate_download_sheet_edge import LAYOUT_BOUNDARY
+from temporary_notice_recovery_runtime import BOUNDARY as TEMPORARY_NOTICE_BOUNDARY
 
 
 PROBE = r'''
@@ -33,6 +34,7 @@ def check(swiftc):
         'pip-handoff': CORE_GRAPHICS_IMPORT + 'import Foundation\n',
         'pip-snapshot': DECORATION_BOUNDARY,
         'download-layout': LAYOUT_BOUNDARY,
+        'temporary-notice': TEMPORARY_NOTICE_BOUNDARY,
     }
     report = {'boundaries': [], 'apple_import_negatives': [],
               'boundary': 'Actual test boundary imports and geometry operators; no UIKit or whole-app SDK build.'}
@@ -61,7 +63,7 @@ def check(swiftc):
                 assert result.returncode != 0 and any(
                     phrase in result.stderr for phrase in
                     ("cannot be applied to two 'CGSize'", "cannot be applied to two 'CGRect'",
-                     "cannot be applied to two 'CGPoint'")), result.stdout + result.stderr
+                     "cannot be applied to two 'CGPoint'", "type 'CGRect' has no member 'zero'")), result.stdout + result.stderr
                 report['apple_import_negatives'].append({'name': name, 'old_missing_import_rejected': True})
     if sys.platform != 'darwin':
         report['apple_import_negative_boundary'] = 'Runs only with Apple Swift; Linux Foundation differs.'

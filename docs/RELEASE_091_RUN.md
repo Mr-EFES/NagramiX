@@ -14,7 +14,7 @@
 
 Сценарии приёмки пяти новых доработок и сохранения прежних настроек: [DEVICE_CHECK_091](DEVICE_CHECK_091.md). До готового IPA эта инструкция не означает успешный тест на устройстве.
 
-Текущий статус: `owner_authorized / source_checks_passed / ci188_fixture_import_fixed / retry189_in_progress / sdk_pending / package_pending / publication_pending / device_pending`. Журнал выполнения и отчёты — `/workspace/.codex-release-091/`.
+Текущий статус: `owner_authorized / source_checks_passed / ci188_fixture_import_fixed / ci189_transitive_fixture_fixed / clean_retry_pending / sdk_pending / package_pending / publication_pending / device_pending`. Журнал выполнения и отчёты — `/workspace/.codex-release-091/`.
 
 Для освобождения места удалены только сгенерированные embedded/bare-metal библиотеки локального Swift toolchain, не используемые Linux Foundation-проверками. Host Swift после очистки проходит typecheck. Исходники, snapshots, логи, старые IPA, dSYM, credentials и pinned inputs сохранены; inventory записан в task receipt.
 
@@ -31,3 +31,5 @@
 ## Чистый повтор189
 
 [Сборка189](https://github.com/Mr-EFES/NagramiX/actions/runs/42588893329), run42588893329, source`e45f91daf3d2f5bad810ae21ee9d2cc3973064cf`, принята2026-11-09T08:50:41.457598+00:00. Owner actor/triggering_actor проверены. Clean/publish включены, prerelease выключен; перед dispatch вновь подтверждены native13.2 CURRENT, public и точный remote main SHA. Это разрешённый повтор того же0.9.1. Метаданные и источники приложения прежние; после source-коммита main содержит только журнал. SDK/IPA/publication/device пока pending.
+
+189 завершилась до SDK: четыре новых suites и ранние8geometry/4negative на Apple Swift прошли; затем temporary-notice fixture не нашёл Swift overlay CGRect из-за отсутствия CoreGraphics в импортируемом helper. Этот транзитивный boundary пропущен в исправлении188; исправлен с расширением раннего gate до5boundaries/10исполнений. Все новые geometry fixtures после0.9.0 проверены. Ранний Apple gate теперь отдельный шаг до длинной цепочки. Повторный copy suite сохраняет все14исполнений/16loader refusals и621notice checks на режим; ни production, ни snapshots не менялись. [Receipt189](RELEASE_091_CI189_CHECKS.json). Следующая чистая попытка той же0.9.1 разрешена.
