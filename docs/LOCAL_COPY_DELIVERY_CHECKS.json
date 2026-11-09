@@ -1,0 +1,665 @@
+{
+  "stage": "local_copy_delivery",
+  "release_metadata_unchanged": "0.9.1",
+  "next_release_requires_command": "0.9.2",
+  "target_pin": "24638bc69bd083981b178dd1e7f921eebbf7fc46",
+  "source_root": "/workspace/.codex-local-copy-delivery/source",
+  "outputs": {
+    "submodules/TelegramCore/Sources/PendingMessages/PendingMessageUploadedContent.swift": "f56eaa74918a7fdac919c8921c416d6267a16c7a8d7308141de5f51250cfca1c",
+    "submodules/TelegramCore/Sources/State/PendingMessageManager.swift": "edcadccb038981b99560ee55ed98de38ce09c2097c31dc8409ca2938328ee5b8",
+    "submodules/TelegramCore/Sources/Utils/NagramiXOutgoingCopy.swift": "64b8184c3a180f09426146832bc0e31e4f9fc38091a50d9c4f106d43996c1cdf"
+  },
+  "guards": 39,
+  "new_snapshots": 45,
+  "previous_snapshots_unchanged": 2260,
+  "feature_checks": {
+    "stage": "local_copy_delivery",
+    "outputs": {
+      "submodules/TelegramCore/Sources/PendingMessages/PendingMessageUploadedContent.swift": "f56eaa74918a7fdac919c8921c416d6267a16c7a8d7308141de5f51250cfca1c",
+      "submodules/TelegramCore/Sources/State/PendingMessageManager.swift": "edcadccb038981b99560ee55ed98de38ce09c2097c31dc8409ca2938328ee5b8",
+      "submodules/TelegramCore/Sources/Utils/NagramiXOutgoingCopy.swift": "64b8184c3a180f09426146832bc0e31e4f9fc38091a50d9c4f106d43996c1cdf"
+    },
+    "guards": 39,
+    "fail_closed": 16,
+    "executions": [
+      {
+        "name": "signal",
+        "mode": "debug",
+        "exit_code": 0,
+        "output": "Local copy delivery SignalKit checks: 176"
+      },
+      {
+        "name": "signal",
+        "mode": "optimized",
+        "exit_code": 0,
+        "output": "Local copy delivery SignalKit checks: 176"
+      },
+      {
+        "name": "request-policy",
+        "mode": "debug",
+        "exit_code": 0,
+        "output": "Local copy request-policy checks: 30"
+      },
+      {
+        "name": "request-policy",
+        "mode": "optimized",
+        "exit_code": 0,
+        "output": "Local copy request-policy checks: 30"
+      },
+      {
+        "name": "queued-manager",
+        "mode": "debug",
+        "exit_code": 0,
+        "output": "Queued local-copy manager routing checks: 74"
+      },
+      {
+        "name": "queued-manager",
+        "mode": "optimized",
+        "exit_code": 0,
+        "output": "Queued local-copy manager routing checks: 74"
+      },
+      {
+        "name": "admission",
+        "mode": "debug",
+        "exit_code": 0,
+        "output": "Local-copy escaping admission checks: 94"
+      },
+      {
+        "name": "admission",
+        "mode": "optimized",
+        "exit_code": 0,
+        "output": "Local-copy escaping admission checks: 94"
+      },
+      {
+        "name": "failure-reason",
+        "mode": "debug",
+        "exit_code": 0,
+        "output": "Local-copy native error reason checks: 26"
+      },
+      {
+        "name": "failure-reason",
+        "mode": "optimized",
+        "exit_code": 0,
+        "output": "Local-copy native error reason checks: 26"
+      },
+      {
+        "name": "video-preview",
+        "mode": "debug",
+        "exit_code": 0,
+        "output": "Local copy video/preview checks: 51"
+      },
+      {
+        "name": "video-preview",
+        "mode": "optimized",
+        "exit_code": 0,
+        "output": "Local copy video/preview checks: 51"
+      },
+      {
+        "name": "atomic-group",
+        "mode": "debug",
+        "exit_code": 0,
+        "output": "Local copy atomic album-failure checks: 105"
+      },
+      {
+        "name": "atomic-group",
+        "mode": "optimized",
+        "exit_code": 0,
+        "output": "Local copy atomic album-failure checks: 105"
+      },
+      {
+        "name": "LocalCopyPayload.swift",
+        "mode": "debug",
+        "exit_code": 0,
+        "output": "Local copy payload checks: 330"
+      },
+      {
+        "name": "LocalCopyPayload.swift",
+        "mode": "optimized",
+        "exit_code": 0,
+        "output": "Local copy payload checks: 330"
+      },
+      {
+        "name": "empty-completion",
+        "mode": "debug",
+        "exit_code": 91,
+        "output": "FAIL: empty completion becomes a real failure"
+      },
+      {
+        "name": "empty-completion",
+        "mode": "optimized",
+        "exit_code": 91,
+        "output": "FAIL: empty completion becomes a real failure"
+      },
+      {
+        "name": "duplicate-progress",
+        "mode": "debug",
+        "exit_code": 91,
+        "output": "FAIL: duplicate or invalid progress cannot renew idle budget"
+      },
+      {
+        "name": "duplicate-progress",
+        "mode": "optimized",
+        "exit_code": 91,
+        "output": "FAIL: duplicate or invalid progress cannot renew idle budget"
+      },
+      {
+        "name": "absolute-timeout",
+        "mode": "debug",
+        "exit_code": 91,
+        "output": "FAIL: advancing large file has no absolute timeout"
+      },
+      {
+        "name": "absolute-timeout",
+        "mode": "optimized",
+        "exit_code": 91,
+        "output": "FAIL: advancing large file has no absolute timeout"
+      },
+      {
+        "name": "missing-completion",
+        "mode": "debug",
+        "exit_code": 91,
+        "output": "FAIL: content terminates successfully"
+      },
+      {
+        "name": "missing-completion",
+        "mode": "optimized",
+        "exit_code": 91,
+        "output": "FAIL: content terminates successfully"
+      },
+      {
+        "name": "offline-budget",
+        "mode": "debug",
+        "exit_code": 91,
+        "output": "FAIL: disconnected time pauses existing budget"
+      },
+      {
+        "name": "offline-budget",
+        "mode": "optimized",
+        "exit_code": 91,
+        "output": "FAIL: disconnected time pauses existing budget"
+      },
+      {
+        "name": "offline-reset",
+        "mode": "debug",
+        "exit_code": 91,
+        "output": "FAIL: offline pause does not reset the accumulated online budget"
+      },
+      {
+        "name": "offline-reset",
+        "mode": "optimized",
+        "exit_code": 91,
+        "output": "FAIL: offline pause does not reset the accumulated online budget"
+      },
+      {
+        "name": "suspended-wall-clock",
+        "mode": "debug",
+        "exit_code": 91,
+        "output": "FAIL: late tick after OS suspension cannot fail resumed copy"
+      },
+      {
+        "name": "suspended-wall-clock",
+        "mode": "optimized",
+        "exit_code": 91,
+        "output": "FAIL: late tick after OS suspension cannot fail resumed copy"
+      },
+      {
+        "name": "nonrepeating-idle",
+        "mode": "debug",
+        "exit_code": 91,
+        "output": "FAIL: duplicate or invalid progress cannot renew idle budget"
+      },
+      {
+        "name": "nonrepeating-idle",
+        "mode": "optimized",
+        "exit_code": 91,
+        "output": "FAIL: duplicate or invalid progress cannot renew idle budget"
+      },
+      {
+        "name": "native-forward",
+        "mode": "debug",
+        "exit_code": 91,
+        "output": "FAIL: native forward of copied content is not a local-copy RPC"
+      },
+      {
+        "name": "native-forward",
+        "mode": "optimized",
+        "exit_code": 91,
+        "output": "FAIL: native forward of copied content is not a local-copy RPC"
+      },
+      {
+        "name": "premature-ack",
+        "mode": "debug",
+        "exit_code": 91,
+        "output": "FAIL: RPC ack cannot complete or discard an authored copy"
+      },
+      {
+        "name": "premature-ack",
+        "mode": "optimized",
+        "exit_code": 91,
+        "output": "FAIL: RPC ack cannot complete or discard an authored copy"
+      },
+      {
+        "name": "mixed-group",
+        "mode": "debug",
+        "exit_code": 91,
+        "output": "FAIL: mixed native group keeps stock transport policy"
+      },
+      {
+        "name": "mixed-group",
+        "mode": "optimized",
+        "exit_code": 91,
+        "output": "FAIL: mixed native group keeps stock transport policy"
+      },
+      {
+        "name": "queued-copy-common-starter",
+        "mode": "debug",
+        "exit_code": 93,
+        "output": "queued copy uses common error-handling starter"
+      },
+      {
+        "name": "queued-copy-common-starter",
+        "mode": "optimized",
+        "exit_code": 93,
+        "output": "queued copy uses common error-handling starter"
+      },
+      {
+        "name": "native-forward-scope",
+        "mode": "debug",
+        "exit_code": 93,
+        "output": "native forward of copied content stays outside copy policy"
+      },
+      {
+        "name": "native-forward-scope",
+        "mode": "optimized",
+        "exit_code": 93,
+        "output": "native forward of copied content stays outside copy policy"
+      },
+      {
+        "name": "transform-composer",
+        "mode": "debug",
+        "exit_code": 91,
+        "output": "FAIL: composer video keeps native transform"
+      },
+      {
+        "name": "transform-composer",
+        "mode": "optimized",
+        "exit_code": 91,
+        "output": "FAIL: composer video keeps native transform"
+      },
+      {
+        "name": "remote-preview",
+        "mode": "debug",
+        "exit_code": 91,
+        "output": "FAIL: copy with absent optional preview does not wait for it"
+      },
+      {
+        "name": "remote-preview",
+        "mode": "optimized",
+        "exit_code": 91,
+        "output": "FAIL: copy with absent optional preview does not wait for it"
+      },
+      {
+        "name": "incomplete-preview",
+        "mode": "debug",
+        "exit_code": 91,
+        "output": "FAIL: missing or incomplete preview cannot start remote fetch"
+      },
+      {
+        "name": "incomplete-preview",
+        "mode": "optimized",
+        "exit_code": 91,
+        "output": "FAIL: missing or incomplete preview cannot start remote fetch"
+      },
+      {
+        "name": "partial-album-failure",
+        "mode": "debug",
+        "exit_code": 91,
+        "output": "FAIL: database and live context fallback fail the whole pending copy album atomically"
+      },
+      {
+        "name": "partial-album-failure",
+        "mode": "optimized",
+        "exit_code": 91,
+        "output": "FAIL: database and live context fallback fail the whole pending copy album atomically"
+      },
+      {
+        "name": "cross-peer-failure",
+        "mode": "debug",
+        "exit_code": 91,
+        "output": "FAIL: failure selector isolates peer namespace group thread and local-copy scope"
+      },
+      {
+        "name": "cross-peer-failure",
+        "mode": "optimized",
+        "exit_code": 91,
+        "output": "FAIL: failure selector isolates peer namespace group thread and local-copy scope"
+      },
+      {
+        "name": "lost-retry-identity",
+        "mode": "debug",
+        "exit_code": 91,
+        "output": "FAIL: atomic failure preserves original retry identity"
+      },
+      {
+        "name": "lost-retry-identity",
+        "mode": "optimized",
+        "exit_code": 91,
+        "output": "FAIL: atomic failure preserves original retry identity"
+      },
+      {
+        "name": "premature-copy-flag",
+        "mode": "debug",
+        "exit_code": 91,
+        "output": "FAIL: fallback includes collecting members before their copy flag is initialized"
+      },
+      {
+        "name": "premature-copy-flag",
+        "mode": "optimized",
+        "exit_code": 91,
+        "output": "FAIL: fallback includes collecting members before their copy flag is initialized"
+      },
+      {
+        "name": "early-partial-send",
+        "mode": "debug",
+        "exit_code": 91,
+        "output": "FAIL: late sibling content cannot race the pending atomic failure"
+      },
+      {
+        "name": "early-partial-send",
+        "mode": "optimized",
+        "exit_code": 91,
+        "output": "FAIL: late sibling content cannot race the pending atomic failure"
+      },
+      {
+        "name": "LocalCopyPayload.swift-webpage-only-caption-position",
+        "mode": "debug",
+        "exit_code": 93,
+        "output": "Local copy payload regression: caption placement is retained for ordinary media: photo"
+      },
+      {
+        "name": "LocalCopyPayload.swift-webpage-only-caption-position",
+        "mode": "optimized",
+        "exit_code": 93,
+        "output": "Local copy payload regression: caption placement is retained for ordinary media: photo"
+      },
+      {
+        "name": "LocalCopyPayload.swift-unconditional-preview-attributes",
+        "mode": "debug",
+        "exit_code": 93,
+        "output": "Local copy payload regression: preview attributes require a source webpage"
+      },
+      {
+        "name": "LocalCopyPayload.swift-unconditional-preview-attributes",
+        "mode": "optimized",
+        "exit_code": 93,
+        "output": "Local copy payload regression: preview attributes require a source webpage"
+      },
+      {
+        "name": "LocalCopyPayload.swift-hidden-caption-position",
+        "mode": "debug",
+        "exit_code": 93,
+        "output": "Local copy payload regression: hidden caption removes its placement flag"
+      },
+      {
+        "name": "LocalCopyPayload.swift-hidden-caption-position",
+        "mode": "optimized",
+        "exit_code": 93,
+        "output": "Local copy payload regression: hidden caption removes its placement flag"
+      }
+    ],
+    "capture_typecheck_negatives": [
+      {
+        "name": "escaping-upload-network-capture",
+        "typecheck_rejected": true,
+        "diagnostic": "reference to property 'network'"
+      }
+    ],
+    "swift_parse": 3,
+    "source_files": 37655,
+    "source_unchanged_by_checks": true,
+    "native_postbox_imports": "passed",
+    "native_signalkit": {
+      "Atomic.swift": "ad76eb0a708bdf77301d7d11787a06f33029c67412e6485616534c4faf2e8a9d",
+      "Disposable.swift": "60e53d9fa32a1b1ba47897467077cf22fcdc0458c20b646a35c75fb76484209b",
+      "Subscriber.swift": "eb28ad26bda8b4a8ff1aad73b949d4c3d24132db3aebdd1f5a4c67a5962718ee",
+      "Signal.swift": "c1fee825012eace4710eab53f32faa1d49efe38b01e7ad709054f26695494cb6",
+      "Signal_Mapping.swift": "4740a3a616679ad0f65c6341a0498bf42e120dcaddd2c281694188b47e075017",
+      "Signal_Meta.swift": "26b5a93e32c3bc35a5234d3b7c03ed1cd9cea271abc43b34d1b475e1f3655c9f"
+    },
+    "boundary": "Actual production copy/watchdog helpers, RPC policy, queue admission and payload and atomic album-failure snippets execute with native SignalKit primitives/operators. Time/Queue/Timer, peer/resource values, Postbox side effects, network RPC and UIKit are explicit adapters. Filesystem preview checks use real temporary regular files. No Telegram RPC, full native app typecheck, Apple SDK or physical-device delivery is proven.",
+    "apple_sdk": "not_run",
+    "ipa": "not_built",
+    "physical_iphone": "pending"
+  },
+  "source_gate": {
+    "target_pin": "24638bc69bd083981b178dd1e7f921eebbf7fc46",
+    "pre_replacements": 196,
+    "post_replacements": 274,
+    "deleted_obsolete_files": 2,
+    "fail_closed": {
+      "pre": 17,
+      "post": 33
+    },
+    "parsed_swift": 468,
+    "executions": [
+      "current-debug: PiP playback command checks: 113",
+      "current-O: PiP playback command checks: 113",
+      "previous-native-debug: Native PiP baseline checks: 37",
+      "previous-native-O: Native PiP baseline checks: 37",
+      "previous-caption-debug: Round caption transport checks: 118",
+      "previous-caption-O: Round caption transport checks: 118",
+      "previous-composer-debug: Repost copy integrity checks: 48",
+      "previous-composer-O: Repost copy integrity checks: 48",
+      "old-toggle-command-debug: regression reproduced and rejected",
+      "old-toggle-command-O: regression reproduced and rejected",
+      "cached-status-toggle-debug: regression reproduced and rejected",
+      "cached-status-toggle-O: regression reproduced and rejected",
+      "inverted-command-debug: regression reproduced and rejected",
+      "inverted-command-O: regression reproduced and rejected"
+    ],
+    "historical_runtime_boundary": "exact published bytes after verified inverse of all registered late source stages",
+    "late_source_stages": [
+      "wide_bottom_bar",
+      "author_selection_no_restore",
+      "preview_reply_intent",
+      "cloud_credential_entry",
+      "extended_poll_integrity",
+      "bot_delete_without_block",
+      "wide_tab_bar_setting",
+      "pip_swipe_handoff",
+      "temporary_message_interaction",
+      "account_settings_entry",
+      "release_090_preflight_fixes",
+      "release_090_author_compile",
+      "round_video_replay_stability",
+      "pip_gallery_placeholder",
+      "download_sheet_edge",
+      "edit_history_cards",
+      "copy_reference_recovery",
+      "edit_history_number_badges",
+      "pip_visual_continuity",
+      "local_copy_delivery"
+    ],
+    "native_postbox_imports": "passed",
+    "apple_sdk": "pending",
+    "device": "pending"
+  },
+  "inverse_gate": {
+    "late_source_stages": [
+      "wide_bottom_bar",
+      "author_selection_no_restore",
+      "preview_reply_intent",
+      "cloud_credential_entry",
+      "extended_poll_integrity",
+      "bot_delete_without_block",
+      "wide_tab_bar_setting",
+      "pip_swipe_handoff",
+      "temporary_message_interaction",
+      "account_settings_entry",
+      "release_090_preflight_fixes",
+      "release_090_author_compile",
+      "round_video_replay_stability",
+      "pip_gallery_placeholder",
+      "download_sheet_edge",
+      "edit_history_cards",
+      "copy_reference_recovery",
+      "edit_history_number_badges",
+      "pip_visual_continuity",
+      "local_copy_delivery"
+    ],
+    "published_contract_paths": 684,
+    "actual_published_pipeline_compared": false,
+    "full_source_files_preserved": 37655,
+    "introduced_helpers_absent_from_history": [
+      "submodules/TelegramUI/Sources/Chat/NagramiXTemporaryReplySend.swift"
+    ],
+    "pre_ninth_checkpoint_verified": true,
+    "pre_tenth_checkpoint_verified": true,
+    "pre_eleventh_checkpoint_verified": true,
+    "pre_eleventh_inputs_restored": [
+      "submodules/TelegramCore/Sources/Utils/NagramiXMessageArchive.swift",
+      "submodules/TelegramUI/Sources/Chat/ChatControllerLoadDisplayNode.swift"
+    ],
+    "negative_projection_verified_before_mutation": true,
+    "fail_closed": [
+      "wide_bottom_bar/output-drift",
+      "author_selection_no_restore/output-drift",
+      "preview_reply_intent/output-drift",
+      "cloud_credential_entry/output-drift",
+      "extended_poll_integrity/output-drift",
+      "bot_delete_without_block/output-drift",
+      "wide_tab_bar_setting/output-drift",
+      "pip_swipe_handoff/output-drift",
+      "temporary_message_interaction/output-drift",
+      "account_settings_entry/output-drift",
+      "release_090_preflight_fixes/output-drift",
+      "release_090_author_compile/output-drift",
+      "round_video_replay_stability/output-drift",
+      "pip_gallery_placeholder/output-drift",
+      "download_sheet_edge/output-drift",
+      "edit_history_cards/output-drift",
+      "copy_reference_recovery/output-drift",
+      "edit_history_number_badges/output-drift",
+      "pip_visual_continuity/output-drift",
+      "local_copy_delivery/output-drift",
+      "native-guard-missing",
+      "copied-helper-drift",
+      "copied-helper-missing",
+      "copied-helper-external-symlink",
+      "template-drift-before-inverse",
+      "pip_swipe_handoff/previous-stage-missing",
+      "pip_swipe_handoff/previous-stage-drift",
+      "temporary_message_interaction/previous-stage-missing",
+      "temporary_message_interaction/previous-stage-drift",
+      "account_settings_entry/previous-stage-missing",
+      "account_settings_entry/previous-stage-drift",
+      "release_090_preflight_fixes/previous-stage-missing",
+      "release_090_preflight_fixes/previous-stage-drift",
+      "release_090_author_compile/previous-stage-missing",
+      "release_090_author_compile/previous-stage-drift",
+      "round_video_replay_stability/previous-stage-missing",
+      "round_video_replay_stability/previous-stage-drift",
+      "pip_gallery_placeholder/previous-stage-missing",
+      "pip_gallery_placeholder/previous-stage-drift",
+      "download_sheet_edge/previous-stage-missing",
+      "download_sheet_edge/previous-stage-drift",
+      "edit_history_cards/previous-stage-missing",
+      "edit_history_cards/previous-stage-drift",
+      "copy_reference_recovery/previous-stage-missing",
+      "copy_reference_recovery/previous-stage-drift",
+      "edit_history_number_badges/previous-stage-missing",
+      "edit_history_number_badges/previous-stage-drift",
+      "pip_visual_continuity/previous-stage-missing",
+      "pip_visual_continuity/previous-stage-drift",
+      "local_copy_delivery/previous-stage-missing",
+      "local_copy_delivery/previous-stage-drift",
+      "wide_bottom_bar/native-blob-proof-missing",
+      "wide_bottom_bar/native-blob-drift/submodules/TelegramUI/Components/TabBarComponent/Sources/TabBarComponent.swift",
+      "temporary_message_interaction/native-blob-proof-missing",
+      "temporary_message_interaction/native-blob-drift/submodules/GalleryData/Sources/GalleryData.swift",
+      "temporary_message_interaction/native-blob-drift/submodules/TelegramCore/Sources/State/ManagedSecretChatOutgoingOperations.swift",
+      "temporary_message_interaction/native-blob-drift/submodules/TelegramCore/Sources/State/ProcessSecretChatIncomingDecryptedOperations.swift",
+      "temporary_message_interaction/native-blob-drift/submodules/TelegramUI/Components/Chat/ChatMessageReplyInfoNode/Sources/ChatMessageReplyInfoNode.swift",
+      "temporary_message_interaction/native-blob-drift/submodules/TelegramUI/Components/Chat/ReplyAccessoryPanelNode/Sources/ReplyAccessoryPanelNode.swift",
+      "account_settings_entry/native-blob-proof-missing",
+      "account_settings_entry/native-blob-drift/submodules/SettingsUI/Sources/Search/SettingsSearchableItems.swift",
+      "download_sheet_edge/native-blob-proof-missing",
+      "download_sheet_edge/native-blob-drift/submodules/Display/Source/ActionSheetController.swift",
+      "download_sheet_edge/native-blob-drift/submodules/Display/Source/ActionSheetControllerNode.swift",
+      "download_sheet_edge/native-blob-drift/submodules/Display/Source/ActionSheetItemGroupsContainerNode.swift",
+      "download_sheet_edge/native-blob-drift/submodules/Display/Source/ActionSheetItemGroupNode.swift"
+    ],
+    "sdk": "not_run",
+    "device": "pending"
+  },
+  "actual_apply": {
+    "compared_regular_files": 37642,
+    "changed": [
+      "submodules/TelegramCore/Sources/Utils/NagramiXOutgoingCopy.swift",
+      "submodules/TelegramCore/Sources/PendingMessages/PendingMessageUploadedContent.swift",
+      "submodules/TelegramCore/Sources/State/PendingMessageManager.swift"
+    ],
+    "outputs": {
+      "submodules/TelegramCore/Sources/PendingMessages/PendingMessageUploadedContent.swift": "f56eaa74918a7fdac919c8921c416d6267a16c7a8d7308141de5f51250cfca1c",
+      "submodules/TelegramCore/Sources/State/PendingMessageManager.swift": "edcadccb038981b99560ee55ed98de38ce09c2097c31dc8409ca2938328ee5b8",
+      "submodules/TelegramCore/Sources/Utils/NagramiXOutgoingCopy.swift": "64b8184c3a180f09426146832bc0e31e4f9fc38091a50d9c4f106d43996c1cdf"
+    },
+    "actual_apply_equals_final_source": true,
+    "baseline_preserved": true,
+    "sdk": "not_run"
+  },
+  "custom_members": {
+    "full": {
+      "swift_files": 7321,
+      "string_accesses": 845,
+      "distinct_string_members": 228,
+      "actual_string_declarations": 245,
+      "custom_declarations": 855,
+      "full_custom_name_audit": true
+    },
+    "canonical": {
+      "swift_files": 206,
+      "string_accesses": 759,
+      "distinct_string_members": 207,
+      "actual_string_declarations": 245,
+      "custom_declarations": 727,
+      "full_custom_name_audit": false
+    }
+  },
+  "localization": {
+    "catalogs": 71,
+    "keys_per_catalog": 630,
+    "checks_per_mode": 44899,
+    "modes": [
+      "debug",
+      "optimized"
+    ],
+    "strict_source_contract": "passed",
+    "new_user_visible_keys": 0
+  },
+  "observed_video": {
+    "duration_seconds": 56.866667,
+    "definite_case": "own copy of a poll with video remains pending",
+    "destinations_confirmed_by_user": [
+      "Saved Messages",
+      "ordinary chats"
+    ],
+    "rpc_error_code": "not_available_from_video"
+  },
+  "independent_review": {
+    "blockers_remaining": 0,
+    "verified": [
+      "terminal/disposal/reentrant SignalKit lifecycle",
+      "copy-only native-forward exclusion",
+      "process suspension and offline idle budget",
+      "atomic pending album failure and preserved message fields",
+      "retry uses existing IDs and random_id"
+    ]
+  },
+  "source_checked": true,
+  "apple_sdk": "not_run",
+  "ipa": "not_built",
+  "actions": "not_dispatched",
+  "physical_iphone": "pending",
+  "physical_limits": "Production bodies execute in explicit SignalKit/queue/clock/network-status/Postbox boundaries. Live Telegram RPC, iPhone decoding and actual OS suspension are not exercised; the exact device RPC error is unknown."
+}
