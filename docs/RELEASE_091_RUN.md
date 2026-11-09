@@ -12,6 +12,8 @@
 
 После успешного build/package/CI verify сохранить исходный ZIP артефакта без перепаковки, сверить версию/build/source/provenance/SHA256, выполнить `scripts/publish_owner_release.py` от владельца, проверить author/uploader/digest/tag/latest. Физическая приёмка на iPhone остаётся отдельной. После выдачи результата напомнить владельцу про Make private.
 
+Сценарии приёмки пяти новых доработок и сохранения прежних настроек: [DEVICE_CHECK_091](DEVICE_CHECK_091.md). До готового IPA эта инструкция не означает успешный тест на устройстве.
+
 Текущий статус: `owner_authorized / source_checks_passed / build_in_progress / sdk_pending / package_pending / publication_pending / device_pending`. Журнал выполнения и отчёты — `/workspace/.codex-release-091/`.
 
 Для освобождения места удалены только сгенерированные embedded/bare-metal библиотеки локального Swift toolchain, не используемые Linux Foundation-проверками. Host Swift после очистки проходит typecheck. Исходники, snapshots, логи, старые IPA, dSYM, credentials и pinned inputs сохранены; inventory записан в task receipt.
