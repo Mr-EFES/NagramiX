@@ -1,0 +1,10 @@
+{
+  "ref": "24638bc69bd083981b178dd1e7f921eebbf7fc46",
+  "files": [
+    {
+      "path": "submodules/TelegramCore/Sources/SecretChats/SetSecretChatMessageAutoremoveTimeoutInteractively.swift",
+      "sha": "1474df556a7472eb162b625702d0906275c83edd",
+      "url": "https://github.com/TelegramMessenger/Telegram-iOS/blob/24638bc69bd083981b178dd1e7f921eebbf7fc46/submodules/TelegramCore/Sources/SecretChats/SetSecretChatMessageAutoremoveTimeoutInteractively.swift"
+    }
+  ]
+}

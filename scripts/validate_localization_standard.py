@@ -110,6 +110,13 @@ def final_upstream_catalog_contract(source):
     if hashlib.sha256(premium_data).hexdigest()!=premium['templates'][premium_name]:
         raise ValueError('Изменён реестр переводов скрытия Premium')
     premium_translations=json.loads(premium_data)
+    consent=checked_plan('content_interaction_consent')
+    consent_key='NagramiX.Temporary.MarkOpened'
+    consent_name='content_interaction_consent/localization.json'
+    consent_data=(OVERLAY/consent_name).read_bytes()
+    if hashlib.sha256(consent_data).hexdigest()!=consent['templates'][consent_name]:
+        raise ValueError('Изменён реестр переводов явного открытия')
+    consent_translations=json.loads(consent_data)
     name='upstream_13_2_release/localization.json'
     data=(OVERLAY/name).read_bytes()
     if hashlib.sha256(data).hexdigest()!=plan['templates'][name]:
@@ -120,6 +127,8 @@ def final_upstream_catalog_contract(source):
         raise ValueError('Неполный реестр новых переводов Telegram13.2')
     if set(round_translations)!=codes:
         raise ValueError('Неполные переводы круглого видео')
+    if set(consent_translations)!=codes:
+        raise ValueError('Неполные переводы явного открытия')
     if set(premium_translations)!=codes:
         raise ValueError('Неполные переводы скрытия Premium')
     for code in sorted(codes):
@@ -128,9 +137,9 @@ def final_upstream_catalog_contract(source):
             raise ValueError('Изменён итоговый каталог: '+code)
         values=strings(source/path)
         original=strings(OVERLAY/plan['replacements'][path])
-        if values.keys()!=original.keys()|{wide_key}|set(round_keys)|set(premium_keys) or any(values.get(key)!=value for key,value in original.items()):
+        if values.keys()!=original.keys()|{wide_key}|set(round_keys)|set(premium_keys)|{consent_key} or any(values.get(key)!=value for key,value in original.items()):
             raise ValueError('Изменены прежние переводы или набор новых ключей: '+code)
-        if path not in wide['outputs'] or round_video['inputs'].get(path)!=wide['outputs'][path] or premium['inputs'].get(path)!=round_video['outputs'].get(path) or final_outputs[path]!=premium['outputs'].get(path):
+        if path not in wide['outputs'] or round_video['inputs'].get(path)!=wide['outputs'][path] or premium['inputs'].get(path)!=round_video['outputs'].get(path) or consent['inputs'].get(path)!=premium['outputs'].get(path) or final_outputs[path]!=consent['outputs'].get(path):
             raise ValueError('Нет точного позднего контракта перевода широкой панели: '+code)
         prior=strings(OVERLAY/round_video['previous'][path])
         if any(values.get(key)!=value for key,value in prior.items()):
@@ -142,6 +151,9 @@ def final_upstream_catalog_contract(source):
             raise ValueError('Изменены прежние переводы перед скрытием Premium: '+code)
         if len(premium_translations[code])!=2 or any(values.get(key)!=value for key,value in zip(premium_keys,premium_translations[code])):
             raise ValueError('Неверный перевод скрытия Premium: '+code)
+        prior=strings(OVERLAY/consent['previous'][path])
+        if any(values.get(key)!=value for key,value in prior.items()) or consent_translations[code]!=[values.get(consent_key)]:
+            raise ValueError('Изменён каталог явного открытия: '+code)
         translations=localization['translations'][code]
         if len(translations)!=len(localization['keys']):
             raise ValueError('Неполные новые переводы: '+code)
@@ -149,7 +161,7 @@ def final_upstream_catalog_contract(source):
             if values.get('NagramiX.Debug.'+key)!=value:
                 raise ValueError('Неверный новый перевод: '+code+' '+key)
     languages,keys=catalog_contract(source,codes)
-    if languages!=71 or keys!=634 or keys!=localization['key_count']+5:
+    if languages!=71 or keys!=635 or keys!=localization['key_count']+6:
         raise ValueError('Неполный итоговый набор языков/ключей Telegram13.2')
     return languages,keys
 
@@ -159,7 +171,7 @@ def main():
     parser.add_argument('--source',type=Path,required=True)
     parser.add_argument('--swiftc',type=Path)
     parser.add_argument('--source-contract-only',action='store_true',help='Только локальная проверка исходников; не готовность локализации к выпуску')
-    parser.add_argument('--final-upstream-13-2',action='store_true',help='Проверить итоговые 71×634 каталоги после переноса на Telegram13.2 и поздних исходных стадий')
+    parser.add_argument('--final-upstream-13-2',action='store_true',help='Проверить итоговые 71×635 каталоги после переноса на Telegram13.2 и поздних исходных стадий')
     args=parser.parse_args()
     if args.final_upstream_13_2 and (args.source_contract_only or not args.swiftc):
         parser.error('--final-upstream-13-2 требует --swiftc и полную проверку')

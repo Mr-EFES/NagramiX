@@ -42,8 +42,9 @@ class CatalogTests(unittest.TestCase):
                 cls.round_video[code] = strings(overlay / snapshot)
 
         cls.premium_plan = json.loads((overlay / 'hide_premium_offers_patches.json').read_text())
+        cls.consent_plan = json.loads((overlay / 'content_interaction_consent_patches.json').read_text())
         cls.next_catalogs = {}
-        for name, snapshot in cls.premium_plan['replacements'].items():
+        for name, snapshot in cls.consent_plan['replacements'].items():
             if name.startswith('submodules/NagramiXCore/Resources/') and name.endswith('.lproj/Localizable.strings'):
                 code = Path(name).parent.name.removesuffix('.lproj')
                 cls.next_catalogs[code] = strings(overlay / snapshot)
@@ -108,14 +109,14 @@ class CatalogTests(unittest.TestCase):
         with self.archive(self.latest) as archive:
             self.assertEqual(validate_settings_localizations(archive, PREFIX, '0.9.1'), 71)
 
-    def test_092_exact_71_by_634(self):
+    def test_092_exact_71_by_635(self):
         self.assertEqual(len(self.next_catalogs), 71)
-        self.assertTrue(all(len(values) == 634 for values in self.next_catalogs.values()))
+        self.assertTrue(all(len(values) == 635 for values in self.next_catalogs.values()))
         self.assertEqual(expected_nagramix_catalogs('0.9.2'), self.next_catalogs)
         with self.archive(self.next_catalogs) as archive:
             self.assertEqual(validate_settings_localizations(archive, PREFIX, '0.9.2'), 71)
 
-    def test_later_version_keeps_634_contract(self):
+    def test_later_version_keeps_635_contract(self):
         with self.archive(self.next_catalogs) as archive:
             self.assertEqual(validate_settings_localizations(archive, PREFIX, '0.10.0'), 71)
 
@@ -148,7 +149,7 @@ class CatalogTests(unittest.TestCase):
             if code == 'de':
                 del values['NagramiX.Settings.Page.Other']
                 values['NagramiX.Unexpected.Placeholder'] = 'unchanged count'
-                self.assertEqual(len(values), 634)
+                self.assertEqual(len(values), 635)
             return True
         with self.archive(self.next_catalogs, change) as archive, self.assertRaises(SystemExit):
             validate_settings_localizations(archive, PREFIX, '0.9.2')
@@ -226,6 +227,22 @@ class CatalogTests(unittest.TestCase):
 
     def test_intermediate_632_rejected_for_092(self):
         with self.archive(self.round_video) as archive, self.assertRaises(SystemExit):
+            validate_settings_localizations(archive, PREFIX, '0.9.2')
+
+    def test_intermediate_634_rejected_for_092(self):
+        catalogs = {}
+        for name, snapshot in self.premium_plan['replacements'].items():
+            if name.endswith('.lproj/Localizable.strings'):
+                catalogs[Path(name).parent.name.removesuffix('.lproj')] = strings(ROOT / 'ios' / snapshot)
+        with self.archive(catalogs) as archive, self.assertRaises(SystemExit):
+            validate_settings_localizations(archive, PREFIX, '0.9.2')
+
+    def test_explicit_open_label_missing_rejected(self):
+        def change(code, values):
+            if code == 'ru':
+                del values['NagramiX.Temporary.MarkOpened']
+            return True
+        with self.archive(self.next_catalogs, change) as archive, self.assertRaises(SystemExit):
             validate_settings_localizations(archive, PREFIX, '0.9.2')
 
     def test_premium_hint_missing_rejected(self):

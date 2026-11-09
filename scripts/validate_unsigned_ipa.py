@@ -100,6 +100,19 @@ def expected_nagramix_catalogs(version: str | None = None) -> dict[str, dict[str
         require(contract is not None and contract['templates'].get(name) == digest, 'Не закреплён SHA каталога ' + description + ': ' + name)
         return catalog(data.decode('utf-8'))
 
+    consent = None
+    consent_translations = None
+    if version_parts is not None and version_parts >= (0, 9, 2):
+        consent = json.loads((ROOT / 'ios/content_interaction_consent_patches.json').read_text())
+        require(consent['target_pin'] == '24638bc69bd083981b178dd1e7f921eebbf7fc46'
+                and consent['required_previous_stage'] == 'hide_premium_offers', 'Неверная база явного открытия')
+        resources = {f'submodules/NagramiXCore/Resources/{code}.lproj/Localizable.strings' for code in codes}
+        require({name for name in consent['outputs'] if name.endswith('.lproj/Localizable.strings')} == resources, 'Неверный набор языков явного открытия')
+        consent_name = 'content_interaction_consent/localization.json'
+        data = (ROOT / 'ios' / consent_name).read_bytes()
+        require(hashlib.sha256(data).hexdigest() == consent['templates'][consent_name], 'Изменён реестр явного открытия')
+        consent_translations = json.loads(data)
+        require(set(consent_translations) == codes, 'Неполный реестр явного открытия')
     catalogs = {}
     for code in sorted(codes):
         name = f'submodules/NagramiXCore/Resources/{code}.lproj/Localizable.strings'
@@ -146,6 +159,17 @@ def expected_nagramix_catalogs(version: str | None = None) -> dict[str, dict[str
                     and all(current.get(old) == value for old, value in previous.items())
                     and all(current.get(key) == value for key, value in zip(keys, values)),
                     'Неполный каталог скрытия Premium: ' + code)
+            expected = current
+        if consent is not None:
+            previous = checked_snapshot(consent['previous'][name], consent['inputs'][name], consent, 'явного открытия')
+            current = checked_snapshot(consent['replacements'][name], consent['outputs'][name], consent, 'явного открытия')
+            key = 'NagramiX.Temporary.MarkOpened'
+            values = consent_translations[code]
+            require(previous == expected and len(previous) == 634, 'Изменён промежуточный контракт Premium: ' + code)
+            require(len(values) == 1 and values[0].strip() and len(current) == 635
+                    and current.keys() - previous.keys() == {key}
+                    and all(current.get(old) == value for old, value in previous.items())
+                    and current.get(key) == values[0], 'Неполный каталог явного открытия: ' + code)
             expected = current
         catalogs[code] = expected
     return catalogs
@@ -385,7 +409,7 @@ def main() -> None:
 
         if tuple(int(part) for part in args.version.split(".")) >= (0, 8, 6):
             language_count = validate_settings_localizations(archive, prefix, args.version)
-            key_count = 634 if tuple(int(part) for part in args.version.split('.')) >= (0, 9, 2) else 630 if tuple(int(part) for part in args.version.split('.')) >= (0, 9, 0) else 629 if tuple(int(part) for part in args.version.split('.')) >= (0, 8, 9) else 613
+            key_count = 635 if tuple(int(part) for part in args.version.split('.')) >= (0, 9, 2) else 630 if tuple(int(part) for part in args.version.split('.')) >= (0, 9, 0) else 629 if tuple(int(part) for part in args.version.split('.')) >= (0, 8, 9) else 613
             print(f"Переводы IPA проверены: {language_count} языков, по {key_count} ключей настроек/debug")
 
     print(f"IPA проверен: {args.version}, build {args.build_number}, iOS15+, ARM64/iPhoneOS файлов {device_binary_count}, RU {len(russian)}/{len(custom)}, мелодий {sound_count}, иконок {icon_count}, checksum/provenance, без профилей")
