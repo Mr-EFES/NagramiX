@@ -1,0 +1,457 @@
+{
+  "stage": "pip_visual_continuity",
+  "release_metadata_unchanged": "0.9.1",
+  "next_release_requires_command": "0.9.2",
+  "target_pin": "24638bc69bd083981b178dd1e7f921eebbf7fc46",
+  "source_root": "/workspace/.codex-pip-continuity/source",
+  "outputs": {
+    "submodules/GalleryUI/Sources/Items/UniversalVideoGalleryItem.swift": "143eae8df1c504cb0999e5e670b19a3db277fb52768ba6d51d445e957e1f88a0",
+    "submodules/GalleryUI/Sources/GalleryController.swift": "f67a17c3859584603147ad79c82d122e5c3a626b49b6b97cbf95edba1be5a148"
+  },
+  "guards": 15,
+  "new_snapshots": 19,
+  "previous_snapshots_unchanged": 2241,
+  "feature_checks": {
+    "stage": "pip_visual_continuity",
+    "outputs": {
+      "submodules/GalleryUI/Sources/Items/UniversalVideoGalleryItem.swift": "143eae8df1c504cb0999e5e670b19a3db277fb52768ba6d51d445e957e1f88a0",
+      "submodules/GalleryUI/Sources/GalleryController.swift": "f67a17c3859584603147ad79c82d122e5c3a626b49b6b97cbf95edba1be5a148"
+    },
+    "guards": 15,
+    "fail_closed": 14,
+    "executions": [
+      {
+        "name": "native-continuity",
+        "mode": "debug",
+        "exit_code": 0,
+        "output": "Error Domain=fixture Code=1 \"(null)\"\nError Domain=fixture Code=1 \"(null)\"\nError Domain=fixture Code=1 \"(null)\"\nError Domain=fixture Code=1 \"(null)\"\nError Domain=fixture Code=1 \"(null)\"\nError Domain=fixture Code=1 \"(null)\"\nError Domain=fixture Code=1 \"(null)\"\nError Domain=fixture Code=1 \"(null)\"\nError Domain=fixture Code=1 \"(null)\"\nPiP continuity checks: 699"
+      },
+      {
+        "name": "native-continuity",
+        "mode": "optimized",
+        "exit_code": 0,
+        "output": "Error Domain=fixture Code=1 \"(null)\"\nError Domain=fixture Code=1 \"(null)\"\nError Domain=fixture Code=1 \"(null)\"\nError Domain=fixture Code=1 \"(null)\"\nError Domain=fixture Code=1 \"(null)\"\nError Domain=fixture Code=1 \"(null)\"\nError Domain=fixture Code=1 \"(null)\"\nError Domain=fixture Code=1 \"(null)\"\nError Domain=fixture Code=1 \"(null)\"\nPiP continuity checks: 699"
+      },
+      {
+        "name": "before-stop",
+        "mode": "debug",
+        "exit_code": 93,
+        "output": "PiP continuity regression: all restore readiness gates required"
+      },
+      {
+        "name": "before-stop",
+        "mode": "optimized",
+        "exit_code": 93,
+        "output": "PiP continuity regression: all restore readiness gates required"
+      },
+      {
+        "name": "stale-presentation",
+        "mode": "debug",
+        "exit_code": 93,
+        "output": "PiP continuity regression: stale presentation rejected"
+      },
+      {
+        "name": "stale-presentation",
+        "mode": "optimized",
+        "exit_code": 93,
+        "output": "PiP continuity regression: stale presentation rejected"
+      },
+      {
+        "name": "black-source",
+        "mode": "debug",
+        "exit_code": 93,
+        "output": "Error Domain=fixture Code=1 \"(null)\"\nPiP continuity regression: failed start restores exact optional background"
+      },
+      {
+        "name": "black-source",
+        "mode": "optimized",
+        "exit_code": 93,
+        "output": "Error Domain=fixture Code=1 \"(null)\"\nPiP continuity regression: failed start restores exact optional background"
+      },
+      {
+        "name": "missing-cover",
+        "mode": "debug",
+        "exit_code": 93,
+        "output": "PiP continuity regression: cover shown above source during native move"
+      },
+      {
+        "name": "missing-cover",
+        "mode": "optimized",
+        "exit_code": 93,
+        "output": "PiP continuity regression: cover shown above source during native move"
+      },
+      {
+        "name": "lost-completion-watchdog",
+        "mode": "debug",
+        "exit_code": 93,
+        "output": "Error Domain=fixture Code=1 \"(null)\"\nError Domain=fixture Code=1 \"(null)\"\nError Domain=fixture Code=1 \"(null)\"\nError Domain=fixture Code=1 \"(null)\"\nPiP continuity regression: attachment watchdog acknowledges one completed layout"
+      },
+      {
+        "name": "lost-completion-watchdog",
+        "mode": "optimized",
+        "exit_code": 93,
+        "output": "Error Domain=fixture Code=1 \"(null)\"\nError Domain=fixture Code=1 \"(null)\"\nError Domain=fixture Code=1 \"(null)\"\nError Domain=fixture Code=1 \"(null)\"\nPiP continuity regression: attachment watchdog acknowledges one completed layout"
+      },
+      {
+        "name": "repeat-acknowledgement",
+        "mode": "debug",
+        "exit_code": 93,
+        "output": "Error Domain=fixture Code=1 \"(null)\"\nError Domain=fixture Code=1 \"(null)\"\nError Domain=fixture Code=1 \"(null)\"\nPiP continuity regression: attachment watchdog acknowledges one completed layout"
+      },
+      {
+        "name": "repeat-acknowledgement",
+        "mode": "optimized",
+        "exit_code": 93,
+        "output": "Error Domain=fixture Code=1 \"(null)\"\nError Domain=fixture Code=1 \"(null)\"\nError Domain=fixture Code=1 \"(null)\"\nPiP continuity regression: attachment watchdog acknowledges one completed layout"
+      },
+      {
+        "name": "unready-renderer",
+        "mode": "debug",
+        "exit_code": 93,
+        "output": "Error Domain=fixture Code=1 \"(null)\"\nError Domain=fixture Code=1 \"(null)\"\nError Domain=fixture Code=1 \"(null)\"\nPiP continuity regression: unready native renderer cannot reveal technical surface"
+      },
+      {
+        "name": "unready-renderer",
+        "mode": "optimized",
+        "exit_code": 93,
+        "output": "Error Domain=fixture Code=1 \"(null)\"\nError Domain=fixture Code=1 \"(null)\"\nError Domain=fixture Code=1 \"(null)\"\nPiP continuity regression: unready native renderer cannot reveal technical surface"
+      },
+      {
+        "name": "unbounded-renderer",
+        "mode": "debug",
+        "exit_code": 93,
+        "output": "Error Domain=fixture Code=1 \"(null)\"\nError Domain=fixture Code=1 \"(null)\"\nError Domain=fixture Code=1 \"(null)\"\nError Domain=fixture Code=1 \"(null)\"\nError Domain=fixture Code=1 \"(null)\"\nError Domain=fixture Code=1 \"(null)\"\nError Domain=fixture Code=1 \"(null)\"\nError Domain=fixture Code=1 \"(null)\"\nError Domain=fixture Code=1 \"(null)\"\nPiP continuity regression: stalled renderer returns to chat without frozen veil"
+      },
+      {
+        "name": "unbounded-renderer",
+        "mode": "optimized",
+        "exit_code": 93,
+        "output": "Error Domain=fixture Code=1 \"(null)\"\nError Domain=fixture Code=1 \"(null)\"\nError Domain=fixture Code=1 \"(null)\"\nError Domain=fixture Code=1 \"(null)\"\nError Domain=fixture Code=1 \"(null)\"\nError Domain=fixture Code=1 \"(null)\"\nError Domain=fixture Code=1 \"(null)\"\nError Domain=fixture Code=1 \"(null)\"\nError Domain=fixture Code=1 \"(null)\"\nPiP continuity regression: stalled renderer returns to chat without frozen veil"
+      },
+      {
+        "name": "late-container",
+        "mode": "debug",
+        "exit_code": 93,
+        "output": "Error Domain=fixture Code=1 \"(null)\"\nError Domain=fixture Code=1 \"(null)\"\nError Domain=fixture Code=1 \"(null)\"\nError Domain=fixture Code=1 \"(null)\"\nError Domain=fixture Code=1 \"(null)\"\nError Domain=fixture Code=1 \"(null)\"\nError Domain=fixture Code=1 \"(null)\"\nError Domain=fixture Code=1 \"(null)\"\nError Domain=fixture Code=1 \"(null)\"\nPiP continuity regression: failed attachment cancels pending navigation container"
+      },
+      {
+        "name": "late-container",
+        "mode": "optimized",
+        "exit_code": 93,
+        "output": "Error Domain=fixture Code=1 \"(null)\"\nError Domain=fixture Code=1 \"(null)\"\nError Domain=fixture Code=1 \"(null)\"\nError Domain=fixture Code=1 \"(null)\"\nError Domain=fixture Code=1 \"(null)\"\nError Domain=fixture Code=1 \"(null)\"\nError Domain=fixture Code=1 \"(null)\"\nError Domain=fixture Code=1 \"(null)\"\nError Domain=fixture Code=1 \"(null)\"\nPiP continuity regression: failed attachment cancels pending navigation container"
+      },
+      {
+        "name": "stale-display-turn",
+        "mode": "debug",
+        "exit_code": 93,
+        "output": "Error Domain=fixture Code=1 \"(null)\"\nError Domain=fixture Code=1 \"(null)\"\nError Domain=fixture Code=1 \"(null)\"\nError Domain=fixture Code=1 \"(null)\"\nError Domain=fixture Code=1 \"(null)\"\nError Domain=fixture Code=1 \"(null)\"\nError Domain=fixture Code=1 \"(null)\"\nError Domain=fixture Code=1 \"(null)\"\nError Domain=fixture Code=1 \"(null)\"\nPiP continuity regression: stale display turn cannot clear next session"
+      },
+      {
+        "name": "stale-display-turn",
+        "mode": "optimized",
+        "exit_code": 93,
+        "output": "Error Domain=fixture Code=1 \"(null)\"\nError Domain=fixture Code=1 \"(null)\"\nError Domain=fixture Code=1 \"(null)\"\nError Domain=fixture Code=1 \"(null)\"\nError Domain=fixture Code=1 \"(null)\"\nError Domain=fixture Code=1 \"(null)\"\nError Domain=fixture Code=1 \"(null)\"\nError Domain=fixture Code=1 \"(null)\"\nError Domain=fixture Code=1 \"(null)\"\nPiP continuity regression: stale display turn cannot clear next session"
+      },
+      {
+        "name": "whole-navigation-snapshot",
+        "mode": "debug",
+        "exit_code": 93,
+        "output": "PiP continuity regression: cover captures chat instead of navigation gallery overlay"
+      },
+      {
+        "name": "whole-navigation-snapshot",
+        "mode": "optimized",
+        "exit_code": 93,
+        "output": "PiP continuity regression: cover captures chat instead of navigation gallery overlay"
+      }
+    ],
+    "swift_parse": 2,
+    "source_files": 37655,
+    "source_unchanged_by_checks": true,
+    "native_postbox_imports": "passed",
+    "boundary": "Production AVKit delegate/setup/button, visual state, presentation/restore and cover bodies execute unchanged in explicit UIKit/window/renderer/availability/scheduling adapters. This does not render UIKit pixels, exercise live AVKit or prove physical corner animation. Modern public readiness and older rendering-status fallback are separate modeled API branches.",
+    "apple_sdk": "not_run",
+    "ipa": "not_built",
+    "physical_iphone": "pending"
+  },
+  "source_gate": {
+    "target_pin": "24638bc69bd083981b178dd1e7f921eebbf7fc46",
+    "pre_replacements": 196,
+    "post_replacements": 274,
+    "deleted_obsolete_files": 2,
+    "fail_closed": {
+      "pre": 17,
+      "post": 33
+    },
+    "parsed_swift": 468,
+    "executions": [
+      "current-debug: PiP playback command checks: 113",
+      "current-O: PiP playback command checks: 113",
+      "previous-native-debug: Native PiP baseline checks: 37",
+      "previous-native-O: Native PiP baseline checks: 37",
+      "previous-caption-debug: Round caption transport checks: 118",
+      "previous-caption-O: Round caption transport checks: 118",
+      "previous-composer-debug: Repost copy integrity checks: 48",
+      "previous-composer-O: Repost copy integrity checks: 48",
+      "old-toggle-command-debug: regression reproduced and rejected",
+      "old-toggle-command-O: regression reproduced and rejected",
+      "cached-status-toggle-debug: regression reproduced and rejected",
+      "cached-status-toggle-O: regression reproduced and rejected",
+      "inverted-command-debug: regression reproduced and rejected",
+      "inverted-command-O: regression reproduced and rejected"
+    ],
+    "historical_runtime_boundary": "exact published bytes after verified inverse of all registered late source stages",
+    "late_source_stages": [
+      "wide_bottom_bar",
+      "author_selection_no_restore",
+      "preview_reply_intent",
+      "cloud_credential_entry",
+      "extended_poll_integrity",
+      "bot_delete_without_block",
+      "wide_tab_bar_setting",
+      "pip_swipe_handoff",
+      "temporary_message_interaction",
+      "account_settings_entry",
+      "release_090_preflight_fixes",
+      "release_090_author_compile",
+      "round_video_replay_stability",
+      "pip_gallery_placeholder",
+      "download_sheet_edge",
+      "edit_history_cards",
+      "copy_reference_recovery",
+      "edit_history_number_badges",
+      "pip_visual_continuity"
+    ],
+    "native_postbox_imports": "passed",
+    "apple_sdk": "pending",
+    "device": "pending"
+  },
+  "inverse_gate": {
+    "late_source_stages": [
+      "wide_bottom_bar",
+      "author_selection_no_restore",
+      "preview_reply_intent",
+      "cloud_credential_entry",
+      "extended_poll_integrity",
+      "bot_delete_without_block",
+      "wide_tab_bar_setting",
+      "pip_swipe_handoff",
+      "temporary_message_interaction",
+      "account_settings_entry",
+      "release_090_preflight_fixes",
+      "release_090_author_compile",
+      "round_video_replay_stability",
+      "pip_gallery_placeholder",
+      "download_sheet_edge",
+      "edit_history_cards",
+      "copy_reference_recovery",
+      "edit_history_number_badges",
+      "pip_visual_continuity"
+    ],
+    "published_contract_paths": 684,
+    "actual_published_pipeline_compared": false,
+    "full_source_files_preserved": 37655,
+    "introduced_helpers_absent_from_history": [
+      "submodules/TelegramUI/Sources/Chat/NagramiXTemporaryReplySend.swift"
+    ],
+    "pre_ninth_checkpoint_verified": true,
+    "pre_tenth_checkpoint_verified": true,
+    "pre_eleventh_checkpoint_verified": true,
+    "pre_eleventh_inputs_restored": [
+      "submodules/TelegramCore/Sources/Utils/NagramiXMessageArchive.swift",
+      "submodules/TelegramUI/Sources/Chat/ChatControllerLoadDisplayNode.swift"
+    ],
+    "negative_projection_verified_before_mutation": true,
+    "fail_closed": [
+      "wide_bottom_bar/output-drift",
+      "author_selection_no_restore/output-drift",
+      "preview_reply_intent/output-drift",
+      "cloud_credential_entry/output-drift",
+      "extended_poll_integrity/output-drift",
+      "bot_delete_without_block/output-drift",
+      "wide_tab_bar_setting/output-drift",
+      "pip_swipe_handoff/output-drift",
+      "temporary_message_interaction/output-drift",
+      "account_settings_entry/output-drift",
+      "release_090_preflight_fixes/output-drift",
+      "release_090_author_compile/output-drift",
+      "round_video_replay_stability/output-drift",
+      "pip_gallery_placeholder/output-drift",
+      "download_sheet_edge/output-drift",
+      "edit_history_cards/output-drift",
+      "copy_reference_recovery/output-drift",
+      "edit_history_number_badges/output-drift",
+      "pip_visual_continuity/output-drift",
+      "native-guard-missing",
+      "copied-helper-drift",
+      "copied-helper-missing",
+      "copied-helper-external-symlink",
+      "template-drift-before-inverse",
+      "pip_swipe_handoff/previous-stage-missing",
+      "pip_swipe_handoff/previous-stage-drift",
+      "temporary_message_interaction/previous-stage-missing",
+      "temporary_message_interaction/previous-stage-drift",
+      "account_settings_entry/previous-stage-missing",
+      "account_settings_entry/previous-stage-drift",
+      "release_090_preflight_fixes/previous-stage-missing",
+      "release_090_preflight_fixes/previous-stage-drift",
+      "release_090_author_compile/previous-stage-missing",
+      "release_090_author_compile/previous-stage-drift",
+      "round_video_replay_stability/previous-stage-missing",
+      "round_video_replay_stability/previous-stage-drift",
+      "pip_gallery_placeholder/previous-stage-missing",
+      "pip_gallery_placeholder/previous-stage-drift",
+      "download_sheet_edge/previous-stage-missing",
+      "download_sheet_edge/previous-stage-drift",
+      "edit_history_cards/previous-stage-missing",
+      "edit_history_cards/previous-stage-drift",
+      "copy_reference_recovery/previous-stage-missing",
+      "copy_reference_recovery/previous-stage-drift",
+      "edit_history_number_badges/previous-stage-missing",
+      "edit_history_number_badges/previous-stage-drift",
+      "pip_visual_continuity/previous-stage-missing",
+      "pip_visual_continuity/previous-stage-drift",
+      "wide_bottom_bar/native-blob-proof-missing",
+      "wide_bottom_bar/native-blob-drift/submodules/TelegramUI/Components/TabBarComponent/Sources/TabBarComponent.swift",
+      "temporary_message_interaction/native-blob-proof-missing",
+      "temporary_message_interaction/native-blob-drift/submodules/GalleryData/Sources/GalleryData.swift",
+      "temporary_message_interaction/native-blob-drift/submodules/TelegramCore/Sources/State/ManagedSecretChatOutgoingOperations.swift",
+      "temporary_message_interaction/native-blob-drift/submodules/TelegramCore/Sources/State/ProcessSecretChatIncomingDecryptedOperations.swift",
+      "temporary_message_interaction/native-blob-drift/submodules/TelegramUI/Components/Chat/ChatMessageReplyInfoNode/Sources/ChatMessageReplyInfoNode.swift",
+      "temporary_message_interaction/native-blob-drift/submodules/TelegramUI/Components/Chat/ReplyAccessoryPanelNode/Sources/ReplyAccessoryPanelNode.swift",
+      "account_settings_entry/native-blob-proof-missing",
+      "account_settings_entry/native-blob-drift/submodules/SettingsUI/Sources/Search/SettingsSearchableItems.swift",
+      "download_sheet_edge/native-blob-proof-missing",
+      "download_sheet_edge/native-blob-drift/submodules/Display/Source/ActionSheetController.swift",
+      "download_sheet_edge/native-blob-drift/submodules/Display/Source/ActionSheetControllerNode.swift",
+      "download_sheet_edge/native-blob-drift/submodules/Display/Source/ActionSheetItemGroupsContainerNode.swift",
+      "download_sheet_edge/native-blob-drift/submodules/Display/Source/ActionSheetItemGroupNode.swift"
+    ],
+    "sdk": "not_run",
+    "device": "pending"
+  },
+  "geometry_gate": {
+    "boundaries": [
+      {
+        "name": "round-row",
+        "mode": "debug",
+        "passed": true
+      },
+      {
+        "name": "round-row",
+        "mode": "optimized",
+        "passed": true
+      },
+      {
+        "name": "pip-handoff",
+        "mode": "debug",
+        "passed": true
+      },
+      {
+        "name": "pip-handoff",
+        "mode": "optimized",
+        "passed": true
+      },
+      {
+        "name": "pip-snapshot",
+        "mode": "debug",
+        "passed": true
+      },
+      {
+        "name": "pip-snapshot",
+        "mode": "optimized",
+        "passed": true
+      },
+      {
+        "name": "download-layout",
+        "mode": "debug",
+        "passed": true
+      },
+      {
+        "name": "download-layout",
+        "mode": "optimized",
+        "passed": true
+      },
+      {
+        "name": "temporary-notice",
+        "mode": "debug",
+        "passed": true
+      },
+      {
+        "name": "temporary-notice",
+        "mode": "optimized",
+        "passed": true
+      },
+      {
+        "name": "revision-badge",
+        "mode": "debug",
+        "passed": true
+      },
+      {
+        "name": "revision-badge",
+        "mode": "optimized",
+        "passed": true
+      },
+      {
+        "name": "pip-continuity",
+        "mode": "debug",
+        "passed": true
+      },
+      {
+        "name": "pip-continuity",
+        "mode": "optimized",
+        "passed": true
+      }
+    ],
+    "apple_import_negatives": [],
+    "boundary": "Actual test boundary imports and geometry operators; no UIKit or whole-app SDK build.",
+    "apple_import_negative_boundary": "Runs only with Apple Swift; Linux Foundation differs."
+  },
+  "actual_apply": {
+    "compared_files": 37642,
+    "changed": [
+      "submodules/GalleryUI/Sources/GalleryController.swift",
+      "submodules/GalleryUI/Sources/Items/UniversalVideoGalleryItem.swift"
+    ],
+    "outputs": {
+      "submodules/GalleryUI/Sources/Items/UniversalVideoGalleryItem.swift": "143eae8df1c504cb0999e5e670b19a3db277fb52768ba6d51d445e957e1f88a0",
+      "submodules/GalleryUI/Sources/GalleryController.swift": "f67a17c3859584603147ad79c82d122e5c3a626b49b6b97cbf95edba1be5a148"
+    },
+    "actual_apply_equals_working_source": true,
+    "baseline_preserved": true,
+    "sdk": "not_run"
+  },
+  "localization": {
+    "catalogs": 71,
+    "keys_per_catalog": 630,
+    "checks_per_mode": 44899,
+    "modes": [
+      "debug",
+      "optimized"
+    ],
+    "strict_source_contract": "passed",
+    "new_user_visible_keys": 0
+  },
+  "custom_members": {
+    "full_swift_files": 7321,
+    "canonical_files": 206,
+    "full": "passed",
+    "canonical": "passed"
+  },
+  "independent_review": {
+    "blockers_remaining": 0,
+    "resolved": [
+      "root presentation callback is not propagated by Telegram",
+      "presentation deadline is initialized before readiness publication",
+      "failed pending presentation is removed via its exact dismiss proxy",
+      "chat snapshot excludes gallery-containing navigation view"
+    ],
+    "playback_gesture_decoder_masks_unchanged": true
+  },
+  "source_checked": true,
+  "apple_sdk": "not_run",
+  "ipa": "not_built",
+  "actions": "not_dispatched",
+  "physical_iphone": "pending",
+  "physical_limits": "UIKit snapshot pixels, native AVKit compositor and physical top/bottom corner animation are not exercised by adapters. On iOS15–17.3 rendering status plus a display turn is a best-effort fallback, not a strict displayed-frame signal."
+}

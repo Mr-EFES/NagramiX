@@ -12,6 +12,7 @@ from validate_pip_gallery_placeholder import CORE_GRAPHICS_IMPORT, DECORATION_BO
 from validate_download_sheet_edge import LAYOUT_BOUNDARY
 from temporary_notice_recovery_runtime import BOUNDARY as TEMPORARY_NOTICE_BOUNDARY
 from validate_edit_history_number_badges import GEOMETRY_BOUNDARY as REVISION_BADGE_BOUNDARY
+from validate_pip_visual_continuity import GEOMETRY_BOUNDARY as PIP_CONTINUITY_BOUNDARY
 
 
 PROBE = r'''
@@ -37,6 +38,7 @@ def check(swiftc):
         'download-layout': LAYOUT_BOUNDARY,
         'temporary-notice': TEMPORARY_NOTICE_BOUNDARY,
         'revision-badge': REVISION_BADGE_BOUNDARY,
+        'pip-continuity': PIP_CONTINUITY_BOUNDARY,
     }
     report = {'boundaries': [], 'apple_import_negatives': [],
               'boundary': 'Actual test boundary imports and geometry operators; no UIKit or whole-app SDK build.'}
