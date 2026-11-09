@@ -12,8 +12,12 @@
 
 После успешного build/package/CI verify сохранить исходный ZIP артефакта без перепаковки, сверить версию/build/source/provenance/SHA256, выполнить `scripts/publish_owner_release.py` от владельца, проверить author/uploader/digest/tag/latest. Физическая приёмка на iPhone остаётся отдельной. После выдачи результата напомнить владельцу про Make private.
 
-Текущий статус: `owner_authorized / source_checks_passed / sdk_pending / package_pending / publication_pending / device_pending`. Журнал выполнения и отчёты — `/workspace/.codex-release-091/`.
+Текущий статус: `owner_authorized / source_checks_passed / build_in_progress / sdk_pending / package_pending / publication_pending / device_pending`. Журнал выполнения и отчёты — `/workspace/.codex-release-091/`.
 
 Для освобождения места удалены только сгенерированные embedded/bare-metal библиотеки локального Swift toolchain, не используемые Linux Foundation-проверками. Host Swift после очистки проходит typecheck. Исходники, snapshots, логи, старые IPA, dSYM, credentials и pinned inputs сохранены; inventory записан в task receipt.
 
 Повторный source preflight успешен: все пять suites в debug/-O,467 Swift parse/50 migration guards/14 historical runtime/Postbox, inverse683пути/57negative, custom members7321full/206canonical, strict71×630/44 899 lookup на режим,28 owner/16 IPA-catalog/8 dependency tests и7native origins. Проверенные файлы приложения не менялись. [Точный receipt](SOURCE_PREFLIGHT_091_CHECKS.json).
+
+## Запуск188
+
+[сборка188](https://github.com/Mr-EFES/NagramiX/actions/runs/42577726626) (run42577726626) принята9 ноября2026 в07:11:28UTC. Точный source9cd39dad97b1a5e7825a6594779d9a08638d9f96, main, actor и triggering_actorMr-EFES. Параметры clean=true/publish=true/prerelease=false подтверждены командой dispatch. Нового IPA пока нет; выполнять мониторинг до результата.
