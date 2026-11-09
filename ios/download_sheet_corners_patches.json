@@ -1,0 +1,73 @@
+{
+  "inputs": {
+    "submodules/Display/Source/ActionSheetItemGroupNode.swift": "0aed3a11c1d56a9cadb95963d40290be5ba9688dd04e35fa03b02e540fa79141"
+  },
+  "outputs": {
+    "submodules/Display/Source/ActionSheetItemGroupNode.swift": "4d4210713e11e7f6ffba597950543953c90febfdd14ea9f8ae28ad120b363fea"
+  },
+  "previous": {
+    "submodules/Display/Source/ActionSheetItemGroupNode.swift": "download_sheet_corners/Before0.inc"
+  },
+  "replacements": {
+    "submodules/Display/Source/ActionSheetItemGroupNode.swift": "download_sheet_corners/After0.inc"
+  },
+  "guards": {
+    "submodules/Display/Source/GenerateImage.swift": "d9e52a9ea7dd8cd641c655618e6add9ecf158777440e9e28ad24b5e562b1c6e8",
+    "submodules/Display/Source/ActionSheetController.swift": "367729526279622bdf79dc7ddf6b5994847183cf3f463bb21f7cf47d75d8c809",
+    "submodules/Display/Source/ActionSheetControllerNode.swift": "7d556ee3387d296a17c283d6aab38e6a48b6bae90d090d0e3fbda6659a210cd8",
+    "submodules/Display/Source/ActionSheetItemGroupsContainerNode.swift": "0671a01b2ceb8228dceadd9d24bf467bc932c6c5f88260a47e9aee3572da0ec2",
+    "submodules/Display/Source/ActionSheetItemNode.swift": "41de692f63005efec55d9b993ab0161bfbe597b612bdb72128010bd94973dbdb",
+    "submodules/Display/Source/ActionSheetTheme.swift": "2a8614793f7adab0a4caa23f2de9a89e8e1754cfb494cb52efe92b69446b2d9f",
+    "submodules/Display/BUILD": "af4f1f75d592aacfb7ba3b2408eb2979667387d6c05522bf5287779f277f6e50",
+    "submodules/AsyncDisplayKit/Source/ASCGImageBuffer.mm": "3f20deb4f78ddb1f23a955f246a5bf642bd35d08cf969120a0fd506ca82862df",
+    "submodules/SettingsUI/Sources/NagramiXOptionSheet.swift": "38649bb37aeb7c328792c89e71fe9751d0d23a189a9ea8ee70472b4b97fb1bf1",
+    "submodules/SettingsUI/Sources/NagramiXSettingsController.swift": "a38a465a868b7cefd0b96ef7454cf46b9a689ff8558bfc5b55edb1bf060dc32b",
+    "submodules/SettingsUI/BUILD": "b229ff1580a1e8e13770d400a1c0c9e1cf56ef05b831659c3422a6141b50f489",
+    "submodules/NagramiXMediaSettings/Sources/NagramiXDownloadSettings.swift": "e235b1de47270479fd071ffae7862136a7e55bed44875fd79ddabe65c57d8674",
+    "submodules/NagramiXCore/Sources/NagramiXTabSettings.swift": "359526e3acb7e2b840e73401d4094a863ca1f8a0349330737c11a83754956573",
+    "submodules/SettingsUI/Sources/Data and Storage/ProxyListSettingsController.swift": "fa33af05a67c9193c4be8792b5dd2a05a43479b1dee4dff7b018964a88234654",
+    "submodules/SettingsUI/Sources/NagramiXCustomDohController.swift": "51963fdc713ef9f1aede0e35b1f463bf2ad605876a0f3e359fe5ce156ed7e3fb"
+  },
+  "guard_sources": {
+    "submodules/Display/Source/GenerateImage.swift": "download_sheet_corners/Guard0.inc",
+    "submodules/Display/Source/ActionSheetController.swift": "download_sheet_corners/Guard1.inc",
+    "submodules/Display/Source/ActionSheetControllerNode.swift": "download_sheet_corners/Guard2.inc",
+    "submodules/Display/Source/ActionSheetItemGroupsContainerNode.swift": "download_sheet_corners/Guard3.inc",
+    "submodules/Display/Source/ActionSheetItemNode.swift": "download_sheet_corners/Guard4.inc",
+    "submodules/Display/Source/ActionSheetTheme.swift": "download_sheet_corners/Guard5.inc",
+    "submodules/Display/BUILD": "download_sheet_corners/Guard6.inc",
+    "submodules/AsyncDisplayKit/Source/ASCGImageBuffer.mm": "download_sheet_corners/Guard7.inc",
+    "submodules/SettingsUI/Sources/NagramiXOptionSheet.swift": "download_sheet_corners/Guard8.inc",
+    "submodules/SettingsUI/Sources/NagramiXSettingsController.swift": "download_sheet_corners/Guard9.inc",
+    "submodules/SettingsUI/BUILD": "download_sheet_corners/Guard10.inc",
+    "submodules/NagramiXMediaSettings/Sources/NagramiXDownloadSettings.swift": "download_sheet_corners/Guard11.inc",
+    "submodules/NagramiXCore/Sources/NagramiXTabSettings.swift": "download_sheet_corners/Guard12.inc",
+    "submodules/SettingsUI/Sources/Data and Storage/ProxyListSettingsController.swift": "download_sheet_corners/Guard13.inc",
+    "submodules/SettingsUI/Sources/NagramiXCustomDohController.swift": "download_sheet_corners/Guard14.inc"
+  },
+  "copies": {},
+  "deletions": {},
+  "native_inputs": {},
+  "templates": {
+    "download_sheet_corners/Before0.inc": "0aed3a11c1d56a9cadb95963d40290be5ba9688dd04e35fa03b02e540fa79141",
+    "download_sheet_corners/After0.inc": "4d4210713e11e7f6ffba597950543953c90febfdd14ea9f8ae28ad120b363fea",
+    "download_sheet_corners/Guard0.inc": "d9e52a9ea7dd8cd641c655618e6add9ecf158777440e9e28ad24b5e562b1c6e8",
+    "download_sheet_corners/Guard1.inc": "367729526279622bdf79dc7ddf6b5994847183cf3f463bb21f7cf47d75d8c809",
+    "download_sheet_corners/Guard2.inc": "7d556ee3387d296a17c283d6aab38e6a48b6bae90d090d0e3fbda6659a210cd8",
+    "download_sheet_corners/Guard3.inc": "0671a01b2ceb8228dceadd9d24bf467bc932c6c5f88260a47e9aee3572da0ec2",
+    "download_sheet_corners/Guard4.inc": "41de692f63005efec55d9b993ab0161bfbe597b612bdb72128010bd94973dbdb",
+    "download_sheet_corners/Guard5.inc": "2a8614793f7adab0a4caa23f2de9a89e8e1754cfb494cb52efe92b69446b2d9f",
+    "download_sheet_corners/Guard6.inc": "af4f1f75d592aacfb7ba3b2408eb2979667387d6c05522bf5287779f277f6e50",
+    "download_sheet_corners/Guard7.inc": "3f20deb4f78ddb1f23a955f246a5bf642bd35d08cf969120a0fd506ca82862df",
+    "download_sheet_corners/Guard8.inc": "38649bb37aeb7c328792c89e71fe9751d0d23a189a9ea8ee70472b4b97fb1bf1",
+    "download_sheet_corners/Guard9.inc": "a38a465a868b7cefd0b96ef7454cf46b9a689ff8558bfc5b55edb1bf060dc32b",
+    "download_sheet_corners/Guard10.inc": "b229ff1580a1e8e13770d400a1c0c9e1cf56ef05b831659c3422a6141b50f489",
+    "download_sheet_corners/Guard11.inc": "e235b1de47270479fd071ffae7862136a7e55bed44875fd79ddabe65c57d8674",
+    "download_sheet_corners/Guard12.inc": "359526e3acb7e2b840e73401d4094a863ca1f8a0349330737c11a83754956573",
+    "download_sheet_corners/Guard13.inc": "fa33af05a67c9193c4be8792b5dd2a05a43479b1dee4dff7b018964a88234654",
+    "download_sheet_corners/Guard14.inc": "51963fdc713ef9f1aede0e35b1f463bf2ad605876a0f3e359fe5ce156ed7e3fb"
+  },
+  "target_pin": "24638bc69bd083981b178dd1e7f921eebbf7fc46",
+  "overlay_base_pin": "279f89e4d4f63f17227bf877dc3d8990f22ecd58",
+  "required_previous_stage": "proxy_doh_editor"
+}
