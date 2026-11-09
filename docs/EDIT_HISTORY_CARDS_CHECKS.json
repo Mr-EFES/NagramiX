@@ -1,0 +1,220 @@
+{
+  "task": "Утверждён первый эскиз карточек истории правок",
+  "parent_main": "e202bb6bebf5d1c2a37559854802f20ba0bcadfe",
+  "checked_at_utc": "2026-11-09T05:10:37.791911+00:00",
+  "stage": "edit_history_cards",
+  "selected_reference": {
+    "name": "exec-e2d0ee6f-b167-4fb3-a83b-2567a40597ca.png",
+    "sha256": "e174b7d748563e51a6f15bd7e692c6db1b59f0a8561371bfd1da8fa57c87fc6d",
+    "first_original_concept": true,
+    "combined_timeline_selected": false
+  },
+  "full_application": {
+    "source_file_paths": 37655,
+    "changed_files": [
+      "submodules/TelegramUI/Sources/Chat/NagramiXEditHistoryController.swift"
+    ],
+    "actual_apply_matches_working": true,
+    "baseline_source15_preserved": true,
+    "added_removed_paths": false
+  },
+  "regression": {
+    "stage": "edit_history_cards",
+    "outputs": {
+      "submodules/TelegramUI/Sources/Chat/NagramiXEditHistoryController.swift": "e61ce9c2ce3133f90a52389d011ac3691f702d09e4d44bdc1fd4f683a35cb688"
+    },
+    "guards": 5,
+    "fail_closed": 12,
+    "executions": [
+      {
+        "mode": "debug",
+        "output": "Revision state checks: 1420; catalogs: 71"
+      },
+      {
+        "mode": "optimized",
+        "output": "Revision state checks: 1420; catalogs: 71"
+      }
+    ],
+    "snapshot_copy_forward_archive_bodies": "byte-identical",
+    "localization": "real custom getters and 71 resource catalogs",
+    "boundary": "UIKit configuration state modeled; no Auto Layout solver, pixels or Apple SDK",
+    "apple_sdk": "pending",
+    "device": "pending"
+  },
+  "global_source_gate": {
+    "target_pin": "24638bc69bd083981b178dd1e7f921eebbf7fc46",
+    "pre_replacements": 196,
+    "post_replacements": 274,
+    "deleted_obsolete_files": 2,
+    "fail_closed": {
+      "pre": 17,
+      "post": 33
+    },
+    "parsed_swift": 463,
+    "executions": [
+      "current-debug: PiP playback command checks: 113",
+      "current-O: PiP playback command checks: 113",
+      "previous-native-debug: Native PiP baseline checks: 37",
+      "previous-native-O: Native PiP baseline checks: 37",
+      "previous-caption-debug: Round caption transport checks: 118",
+      "previous-caption-O: Round caption transport checks: 118",
+      "previous-composer-debug: Repost copy integrity checks: 48",
+      "previous-composer-O: Repost copy integrity checks: 48",
+      "old-toggle-command-debug: regression reproduced and rejected",
+      "old-toggle-command-O: regression reproduced and rejected",
+      "cached-status-toggle-debug: regression reproduced and rejected",
+      "cached-status-toggle-O: regression reproduced and rejected",
+      "inverted-command-debug: regression reproduced and rejected",
+      "inverted-command-O: regression reproduced and rejected"
+    ],
+    "historical_runtime_boundary": "exact published bytes after verified inverse of all registered late source stages",
+    "late_source_stages": [
+      "wide_bottom_bar",
+      "author_selection_no_restore",
+      "preview_reply_intent",
+      "cloud_credential_entry",
+      "extended_poll_integrity",
+      "bot_delete_without_block",
+      "wide_tab_bar_setting",
+      "pip_swipe_handoff",
+      "temporary_message_interaction",
+      "account_settings_entry",
+      "release_090_preflight_fixes",
+      "release_090_author_compile",
+      "round_video_replay_stability",
+      "pip_gallery_placeholder",
+      "download_sheet_edge",
+      "edit_history_cards"
+    ],
+    "native_postbox_imports": "passed",
+    "apple_sdk": "pending",
+    "device": "pending"
+  },
+  "historical_inverse": {
+    "late_source_stages": [
+      "wide_bottom_bar",
+      "author_selection_no_restore",
+      "preview_reply_intent",
+      "cloud_credential_entry",
+      "extended_poll_integrity",
+      "bot_delete_without_block",
+      "wide_tab_bar_setting",
+      "pip_swipe_handoff",
+      "temporary_message_interaction",
+      "account_settings_entry",
+      "release_090_preflight_fixes",
+      "release_090_author_compile",
+      "round_video_replay_stability",
+      "pip_gallery_placeholder",
+      "download_sheet_edge",
+      "edit_history_cards"
+    ],
+    "published_contract_paths": 679,
+    "actual_published_pipeline_compared": true,
+    "full_source_files_preserved": 37655,
+    "introduced_helpers_absent_from_history": [
+      "submodules/TelegramUI/Sources/Chat/NagramiXTemporaryReplySend.swift"
+    ],
+    "pre_ninth_checkpoint_verified": true,
+    "pre_tenth_checkpoint_verified": true,
+    "pre_eleventh_checkpoint_verified": true,
+    "pre_eleventh_inputs_restored": [
+      "submodules/TelegramCore/Sources/Utils/NagramiXMessageArchive.swift",
+      "submodules/TelegramUI/Sources/Chat/ChatControllerLoadDisplayNode.swift"
+    ],
+    "negative_projection_verified_before_mutation": true,
+    "fail_closed": [
+      "wide_bottom_bar/output-drift",
+      "author_selection_no_restore/output-drift",
+      "preview_reply_intent/output-drift",
+      "cloud_credential_entry/output-drift",
+      "extended_poll_integrity/output-drift",
+      "bot_delete_without_block/output-drift",
+      "wide_tab_bar_setting/output-drift",
+      "pip_swipe_handoff/output-drift",
+      "temporary_message_interaction/output-drift",
+      "account_settings_entry/output-drift",
+      "release_090_preflight_fixes/output-drift",
+      "release_090_author_compile/output-drift",
+      "round_video_replay_stability/output-drift",
+      "pip_gallery_placeholder/output-drift",
+      "download_sheet_edge/output-drift",
+      "edit_history_cards/output-drift",
+      "native-guard-missing",
+      "copied-helper-drift",
+      "copied-helper-missing",
+      "copied-helper-external-symlink",
+      "template-drift-before-inverse",
+      "pip_swipe_handoff/previous-stage-missing",
+      "pip_swipe_handoff/previous-stage-drift",
+      "temporary_message_interaction/previous-stage-missing",
+      "temporary_message_interaction/previous-stage-drift",
+      "account_settings_entry/previous-stage-missing",
+      "account_settings_entry/previous-stage-drift",
+      "release_090_preflight_fixes/previous-stage-missing",
+      "release_090_preflight_fixes/previous-stage-drift",
+      "release_090_author_compile/previous-stage-missing",
+      "release_090_author_compile/previous-stage-drift",
+      "round_video_replay_stability/previous-stage-missing",
+      "round_video_replay_stability/previous-stage-drift",
+      "pip_gallery_placeholder/previous-stage-missing",
+      "pip_gallery_placeholder/previous-stage-drift",
+      "download_sheet_edge/previous-stage-missing",
+      "download_sheet_edge/previous-stage-drift",
+      "edit_history_cards/previous-stage-missing",
+      "edit_history_cards/previous-stage-drift",
+      "wide_bottom_bar/native-blob-proof-missing",
+      "wide_bottom_bar/native-blob-drift/submodules/TelegramUI/Components/TabBarComponent/Sources/TabBarComponent.swift",
+      "temporary_message_interaction/native-blob-proof-missing",
+      "temporary_message_interaction/native-blob-drift/submodules/GalleryData/Sources/GalleryData.swift",
+      "temporary_message_interaction/native-blob-drift/submodules/TelegramCore/Sources/State/ManagedSecretChatOutgoingOperations.swift",
+      "temporary_message_interaction/native-blob-drift/submodules/TelegramCore/Sources/State/ProcessSecretChatIncomingDecryptedOperations.swift",
+      "temporary_message_interaction/native-blob-drift/submodules/TelegramUI/Components/Chat/ChatMessageReplyInfoNode/Sources/ChatMessageReplyInfoNode.swift",
+      "temporary_message_interaction/native-blob-drift/submodules/TelegramUI/Components/Chat/ReplyAccessoryPanelNode/Sources/ReplyAccessoryPanelNode.swift",
+      "account_settings_entry/native-blob-proof-missing",
+      "account_settings_entry/native-blob-drift/submodules/SettingsUI/Sources/Search/SettingsSearchableItems.swift",
+      "download_sheet_edge/native-blob-proof-missing",
+      "download_sheet_edge/native-blob-drift/submodules/Display/Source/ActionSheetController.swift",
+      "download_sheet_edge/native-blob-drift/submodules/Display/Source/ActionSheetControllerNode.swift",
+      "download_sheet_edge/native-blob-drift/submodules/Display/Source/ActionSheetItemGroupsContainerNode.swift",
+      "download_sheet_edge/native-blob-drift/submodules/Display/Source/ActionSheetItemGroupNode.swift"
+    ],
+    "sdk": "not_run",
+    "device": "pending"
+  },
+  "custom_members": {
+    "full_swift_files": 7321,
+    "canonical_swift_files": 206,
+    "passed": true
+  },
+  "localization": {
+    "catalogs": 71,
+    "keys_per_catalog": 630,
+    "runtime_checks_per_mode": 44899,
+    "modes": [
+      "debug",
+      "optimized"
+    ],
+    "source_files": 114,
+    "lookups": 611,
+    "raw_ui_literals": "none",
+    "new_keys": false,
+    "strict": true
+  },
+  "historical_snapshots": {
+    "preserved": 2186,
+    "added": 7,
+    "rewritten": 0
+  },
+  "metadata_and_build_mode": "passed; 0.9.0 remains published metadata",
+  "python_syntax": "passed",
+  "diff_check": "passed",
+  "workflow_dispatch": "not_run",
+  "apple_sdk": "not_run",
+  "ipa": "not_run",
+  "device": "pending",
+  "visual_qa": {
+    "result": "pending",
+    "reason": "Нативный UIKit/Auto Layout и пиксели не исполняются в Linux; требуется отдельно разрешённая SDK-сборка и iPhone."
+  }
+}

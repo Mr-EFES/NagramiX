@@ -1,0 +1,43 @@
+{
+  "inputs": {
+    "submodules/TelegramUI/Sources/Chat/NagramiXEditHistoryController.swift": "391aa8dbe8cecfa6f4ba3a3a47f96c074ad8cc6d5929ea9d50b7a4c848adbbac"
+  },
+  "outputs": {
+    "submodules/TelegramUI/Sources/Chat/NagramiXEditHistoryController.swift": "e61ce9c2ce3133f90a52389d011ac3691f702d09e4d44bdc1fd4f683a35cb688"
+  },
+  "previous": {
+    "submodules/TelegramUI/Sources/Chat/NagramiXEditHistoryController.swift": "edit_history_cards/Before0.inc"
+  },
+  "replacements": {
+    "submodules/TelegramUI/Sources/Chat/NagramiXEditHistoryController.swift": "edit_history_cards/After0.inc"
+  },
+  "guards": {
+    "submodules/TelegramUI/BUILD": "c819263cd1c2d6407308fe3f172f9f564b40e26f3b688da39739577bae792f52",
+    "submodules/TelegramUI/Sources/Chat/NagramiXEditHistoryForwarding.swift": "bc65af13ea31dd3d5287aa1ab24580b70e39ba41fa1d56e82dbd0cb7fb2ce2fc",
+    "submodules/TelegramCore/Sources/Utils/NagramiXMessageArchive.swift": "0d07e0ef8ff0d753a4477c6be33106c75e86bd1beb9701e0a1e2b5d7222b29af",
+    "submodules/NagramiXCore/Sources/NagramiXPresentationStrings.swift": "8c8a86ebc4552d20c2a0f4e6d24ff83c880eaa0fb2dc8083f63dc96b29e38a1f",
+    "submodules/NagramiXCore/Sources/NagramiXAppLocalization.swift": "c27d2d470c70568e9a80e0e38c509befea549c99afd47215e0024949fe67a67c"
+  },
+  "guard_sources": {
+    "submodules/TelegramUI/BUILD": "edit_history_cards/Guard0.inc",
+    "submodules/TelegramUI/Sources/Chat/NagramiXEditHistoryForwarding.swift": "edit_history_cards/Guard1.inc",
+    "submodules/TelegramCore/Sources/Utils/NagramiXMessageArchive.swift": "edit_history_cards/Guard2.inc",
+    "submodules/NagramiXCore/Sources/NagramiXPresentationStrings.swift": "edit_history_cards/Guard3.inc",
+    "submodules/NagramiXCore/Sources/NagramiXAppLocalization.swift": "edit_history_cards/Guard4.inc"
+  },
+  "templates": {
+    "edit_history_cards/Before0.inc": "391aa8dbe8cecfa6f4ba3a3a47f96c074ad8cc6d5929ea9d50b7a4c848adbbac",
+    "edit_history_cards/After0.inc": "e61ce9c2ce3133f90a52389d011ac3691f702d09e4d44bdc1fd4f683a35cb688",
+    "edit_history_cards/Guard0.inc": "c819263cd1c2d6407308fe3f172f9f564b40e26f3b688da39739577bae792f52",
+    "edit_history_cards/Guard1.inc": "bc65af13ea31dd3d5287aa1ab24580b70e39ba41fa1d56e82dbd0cb7fb2ce2fc",
+    "edit_history_cards/Guard2.inc": "0d07e0ef8ff0d753a4477c6be33106c75e86bd1beb9701e0a1e2b5d7222b29af",
+    "edit_history_cards/Guard3.inc": "8c8a86ebc4552d20c2a0f4e6d24ff83c880eaa0fb2dc8083f63dc96b29e38a1f",
+    "edit_history_cards/Guard4.inc": "c27d2d470c70568e9a80e0e38c509befea549c99afd47215e0024949fe67a67c"
+  },
+  "copies": {},
+  "deletions": {},
+  "native_inputs": {},
+  "target_pin": "24638bc69bd083981b178dd1e7f921eebbf7fc46",
+  "overlay_base_pin": "279f89e4d4f63f17227bf877dc3d8990f22ecd58",
+  "required_previous_stage": "download_sheet_edge"
+}
