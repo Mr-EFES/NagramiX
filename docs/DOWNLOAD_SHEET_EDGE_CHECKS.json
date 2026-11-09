@@ -1,0 +1,306 @@
+{
+  "task": "Approved bottom-attached download parameters sheet",
+  "parent_main": "86951689d842b43c6e3f648f792cbe3ca85e1cee",
+  "checked_at_utc": "2026-11-09T04:37:38.131032+00:00",
+  "stage": "download_sheet_edge",
+  "full_application": {
+    "regular_source_files": 37642,
+    "changed_files": [
+      "submodules/Display/Source/ActionSheetController.swift",
+      "submodules/Display/Source/ActionSheetControllerNode.swift",
+      "submodules/Display/Source/ActionSheetItemGroupNode.swift",
+      "submodules/Display/Source/ActionSheetItemGroupsContainerNode.swift",
+      "submodules/SettingsUI/Sources/NagramiXOptionSheet.swift",
+      "submodules/SettingsUI/Sources/NagramiXSettingsController.swift"
+    ],
+    "actual_apply_matches_working": true,
+    "source14_preserved": true,
+    "added_or_removed_app_files": false
+  },
+  "regression": {
+    "stage": "download_sheet_edge",
+    "outputs": {
+      "submodules/Display/Source/ActionSheetController.swift": "367729526279622bdf79dc7ddf6b5994847183cf3f463bb21f7cf47d75d8c809",
+      "submodules/Display/Source/ActionSheetControllerNode.swift": "7d556ee3387d296a17c283d6aab38e6a48b6bae90d090d0e3fbda6659a210cd8",
+      "submodules/Display/Source/ActionSheetItemGroupsContainerNode.swift": "0671a01b2ceb8228dceadd9d24bf467bc932c6c5f88260a47e9aee3572da0ec2",
+      "submodules/Display/Source/ActionSheetItemGroupNode.swift": "0aed3a11c1d56a9cadb95963d40290be5ba9688dd04e35fa03b02e540fa79141",
+      "submodules/SettingsUI/Sources/NagramiXOptionSheet.swift": "38649bb37aeb7c328792c89e71fe9751d0d23a189a9ea8ee70472b4b97fb1bf1",
+      "submodules/SettingsUI/Sources/NagramiXSettingsController.swift": "856714a7b25c5bef0ca0a6ca5fda7a3cdd8b7cf0bb4bf49fd194121356fb37c7"
+    },
+    "guards": 10,
+    "native_input_proofs": 4,
+    "fail_closed": 16,
+    "executions": [
+      {
+        "name": "layout",
+        "mode": "debug",
+        "exit_code": 0,
+        "output": "Native sheet layout checks: 633"
+      },
+      {
+        "name": "layout",
+        "mode": "optimized",
+        "exit_code": 0,
+        "output": "Native sheet layout checks: 633"
+      },
+      {
+        "name": "selection",
+        "mode": "debug",
+        "exit_code": 0,
+        "output": "Option sheet selection checks: 28"
+      },
+      {
+        "name": "selection",
+        "mode": "optimized",
+        "exit_code": 0,
+        "output": "Option sheet selection checks: 28"
+      },
+      {
+        "name": "old-bottom-gap",
+        "mode": "debug",
+        "exit_code": 91,
+        "output": "Sheet regression: attached panel reaches screen bottom"
+      },
+      {
+        "name": "old-bottom-gap",
+        "mode": "optimized",
+        "exit_code": 91,
+        "output": "Sheet regression: attached panel reaches screen bottom"
+      },
+      {
+        "name": "old-safe-inset",
+        "mode": "debug",
+        "exit_code": 91,
+        "output": "Sheet regression: safe area does not shift content down from a false leading inset"
+      },
+      {
+        "name": "old-safe-inset",
+        "mode": "optimized",
+        "exit_code": 91,
+        "output": "Sheet regression: safe area does not shift content down from a false leading inset"
+      },
+      {
+        "name": "old-upward-bounce",
+        "mode": "debug",
+        "exit_code": 91,
+        "output": "Sheet regression: upward outer bounce cannot lift attached panel"
+      },
+      {
+        "name": "old-upward-bounce",
+        "mode": "optimized",
+        "exit_code": 91,
+        "output": "Sheet regression: upward outer bounce cannot lift attached panel"
+      },
+      {
+        "name": "old-four-corners",
+        "mode": "debug",
+        "exit_code": 91,
+        "output": "Sheet regression: only upper corners clipped and dimmed"
+      },
+      {
+        "name": "old-four-corners",
+        "mode": "optimized",
+        "exit_code": 91,
+        "output": "Sheet regression: only upper corners clipped and dimmed"
+      },
+      {
+        "name": "lost-selection-guard",
+        "mode": "debug",
+        "exit_code": 92,
+        "output": "Selection regression: selection saves and dismisses once"
+      },
+      {
+        "name": "lost-selection-guard",
+        "mode": "optimized",
+        "exit_code": 92,
+        "output": "Selection regression: selection saves and dismisses once"
+      }
+    ],
+    "api_boundary": {
+      "production_public_property_and_caller": "passed",
+      "private_property_negative": "rejected",
+      "boundary": "Display public setter compiled as its own module against SettingsUI caller; UIKit lifecycle is adapted."
+    },
+    "swift_parse": 6,
+    "source_files": 37655,
+    "source_unchanged_by_checks": true,
+    "native_postbox_imports": "passed",
+    "boundary": "Production native layout, group padding/corners, factory and callback bodies execute in explicit UIKit/text-measurement adapters. Native drawing pixels, gestures and UIKit presentation are not exercised.",
+    "apple_sdk": "not_run",
+    "ipa": "not_built",
+    "physical_iphone": "pending"
+  },
+  "global_source_gate": {
+    "target_pin": "24638bc69bd083981b178dd1e7f921eebbf7fc46",
+    "pre_replacements": 196,
+    "post_replacements": 274,
+    "deleted_obsolete_files": 2,
+    "fail_closed": {
+      "pre": 17,
+      "post": 33
+    },
+    "parsed_swift": 463,
+    "executions": [
+      "current-debug: PiP playback command checks: 113",
+      "current-O: PiP playback command checks: 113",
+      "previous-native-debug: Native PiP baseline checks: 37",
+      "previous-native-O: Native PiP baseline checks: 37",
+      "previous-caption-debug: Round caption transport checks: 118",
+      "previous-caption-O: Round caption transport checks: 118",
+      "previous-composer-debug: Repost copy integrity checks: 48",
+      "previous-composer-O: Repost copy integrity checks: 48",
+      "old-toggle-command-debug: regression reproduced and rejected",
+      "old-toggle-command-O: regression reproduced and rejected",
+      "cached-status-toggle-debug: regression reproduced and rejected",
+      "cached-status-toggle-O: regression reproduced and rejected",
+      "inverted-command-debug: regression reproduced and rejected",
+      "inverted-command-O: regression reproduced and rejected"
+    ],
+    "historical_runtime_boundary": "exact published bytes after verified inverse of all registered late source stages",
+    "late_source_stages": [
+      "wide_bottom_bar",
+      "author_selection_no_restore",
+      "preview_reply_intent",
+      "cloud_credential_entry",
+      "extended_poll_integrity",
+      "bot_delete_without_block",
+      "wide_tab_bar_setting",
+      "pip_swipe_handoff",
+      "temporary_message_interaction",
+      "account_settings_entry",
+      "release_090_preflight_fixes",
+      "release_090_author_compile",
+      "round_video_replay_stability",
+      "pip_gallery_placeholder",
+      "download_sheet_edge"
+    ],
+    "native_postbox_imports": "passed",
+    "apple_sdk": "pending",
+    "device": "pending"
+  },
+  "historical_inverse": {
+    "late_source_stages": [
+      "wide_bottom_bar",
+      "author_selection_no_restore",
+      "preview_reply_intent",
+      "cloud_credential_entry",
+      "extended_poll_integrity",
+      "bot_delete_without_block",
+      "wide_tab_bar_setting",
+      "pip_swipe_handoff",
+      "temporary_message_interaction",
+      "account_settings_entry",
+      "release_090_preflight_fixes",
+      "release_090_author_compile",
+      "round_video_replay_stability",
+      "pip_gallery_placeholder",
+      "download_sheet_edge"
+    ],
+    "published_contract_paths": 679,
+    "actual_published_pipeline_compared": true,
+    "full_source_files_preserved": 37655,
+    "introduced_helpers_absent_from_history": [
+      "submodules/TelegramUI/Sources/Chat/NagramiXTemporaryReplySend.swift"
+    ],
+    "pre_ninth_checkpoint_verified": true,
+    "pre_tenth_checkpoint_verified": true,
+    "pre_eleventh_checkpoint_verified": true,
+    "pre_eleventh_inputs_restored": [
+      "submodules/TelegramCore/Sources/Utils/NagramiXMessageArchive.swift",
+      "submodules/TelegramUI/Sources/Chat/ChatControllerLoadDisplayNode.swift"
+    ],
+    "negative_projection_verified_before_mutation": true,
+    "fail_closed": [
+      "wide_bottom_bar/output-drift",
+      "author_selection_no_restore/output-drift",
+      "preview_reply_intent/output-drift",
+      "cloud_credential_entry/output-drift",
+      "extended_poll_integrity/output-drift",
+      "bot_delete_without_block/output-drift",
+      "wide_tab_bar_setting/output-drift",
+      "pip_swipe_handoff/output-drift",
+      "temporary_message_interaction/output-drift",
+      "account_settings_entry/output-drift",
+      "release_090_preflight_fixes/output-drift",
+      "release_090_author_compile/output-drift",
+      "round_video_replay_stability/output-drift",
+      "pip_gallery_placeholder/output-drift",
+      "download_sheet_edge/output-drift",
+      "native-guard-missing",
+      "copied-helper-drift",
+      "copied-helper-missing",
+      "copied-helper-external-symlink",
+      "template-drift-before-inverse",
+      "pip_swipe_handoff/previous-stage-missing",
+      "pip_swipe_handoff/previous-stage-drift",
+      "temporary_message_interaction/previous-stage-missing",
+      "temporary_message_interaction/previous-stage-drift",
+      "account_settings_entry/previous-stage-missing",
+      "account_settings_entry/previous-stage-drift",
+      "release_090_preflight_fixes/previous-stage-missing",
+      "release_090_preflight_fixes/previous-stage-drift",
+      "release_090_author_compile/previous-stage-missing",
+      "release_090_author_compile/previous-stage-drift",
+      "round_video_replay_stability/previous-stage-missing",
+      "round_video_replay_stability/previous-stage-drift",
+      "pip_gallery_placeholder/previous-stage-missing",
+      "pip_gallery_placeholder/previous-stage-drift",
+      "download_sheet_edge/previous-stage-missing",
+      "download_sheet_edge/previous-stage-drift",
+      "wide_bottom_bar/native-blob-proof-missing",
+      "wide_bottom_bar/native-blob-drift/submodules/TelegramUI/Components/TabBarComponent/Sources/TabBarComponent.swift",
+      "temporary_message_interaction/native-blob-proof-missing",
+      "temporary_message_interaction/native-blob-drift/submodules/GalleryData/Sources/GalleryData.swift",
+      "temporary_message_interaction/native-blob-drift/submodules/TelegramCore/Sources/State/ManagedSecretChatOutgoingOperations.swift",
+      "temporary_message_interaction/native-blob-drift/submodules/TelegramCore/Sources/State/ProcessSecretChatIncomingDecryptedOperations.swift",
+      "temporary_message_interaction/native-blob-drift/submodules/TelegramUI/Components/Chat/ChatMessageReplyInfoNode/Sources/ChatMessageReplyInfoNode.swift",
+      "temporary_message_interaction/native-blob-drift/submodules/TelegramUI/Components/Chat/ReplyAccessoryPanelNode/Sources/ReplyAccessoryPanelNode.swift",
+      "account_settings_entry/native-blob-proof-missing",
+      "account_settings_entry/native-blob-drift/submodules/SettingsUI/Sources/Search/SettingsSearchableItems.swift",
+      "download_sheet_edge/native-blob-proof-missing",
+      "download_sheet_edge/native-blob-drift/submodules/Display/Source/ActionSheetController.swift",
+      "download_sheet_edge/native-blob-drift/submodules/Display/Source/ActionSheetControllerNode.swift",
+      "download_sheet_edge/native-blob-drift/submodules/Display/Source/ActionSheetItemGroupsContainerNode.swift",
+      "download_sheet_edge/native-blob-drift/submodules/Display/Source/ActionSheetItemGroupNode.swift"
+    ],
+    "sdk": "not_run",
+    "device": "pending"
+  },
+  "integration": {
+    "workflow_dispatch_only": true,
+    "bash_blocks_parsed": 19,
+    "python_modules_compiled": 3,
+    "historical_snapshots_preserved": 2164,
+    "new_snapshots": 22
+  },
+  "custom_member_audit": {
+    "full": {
+      "swift_files": 7321,
+      "string_accesses": 846,
+      "distinct_string_members": 229,
+      "actual_string_declarations": 245,
+      "custom_declarations": 821,
+      "full_custom_name_audit": true
+    },
+    "canonical": {
+      "swift_files": 205,
+      "string_accesses": 754,
+      "distinct_string_members": 203,
+      "actual_string_declarations": 245,
+      "custom_declarations": 692,
+      "full_custom_name_audit": false
+    }
+  },
+  "localization": "Existing option/header/close/footnote strings and catalogs unchanged; no new visible text.",
+  "apple_sdk": "not_run",
+  "ipa": "not_built",
+  "physical_iphone": "pending",
+  "publication_scope": "Owner commit/push main only; do not dispatch a build or change published release0.9.0.",
+  "validation_and_integration_sha256": {
+    "scripts/validate_download_sheet_edge.py": "9c4f9f66dc705a4766c3e20f3c9a37d0e708ff32b8645b44b8db9d0aff3b2678",
+    "ios/download_sheet_edge.py": "846b0dece79fe034d01ad2f3a031ccc8b5537e0fa25f0c9de9c89f57583a84aa",
+    "ios/download_sheet_edge_patches.json": "b31fba62ea975751224bc8fdcbece3bfed998b889ec9f1826423c9864e82825d",
+    "scripts/late_source_stages.py": "37962b7db9baed8f3c4c45672820f76bcf38cdd841ff4090188e4250ba070afa",
+    ".github/workflows/build-unsigned-ipa.yml": "a60e8f9887f0e389d4ae99dea52b71f4dea64c3b76c8fd831c6acab9335e0a83"
+  }
+}
