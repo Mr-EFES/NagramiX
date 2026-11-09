@@ -14,7 +14,7 @@
 
 Сценарии приёмки пяти новых доработок и сохранения прежних настроек: [DEVICE_CHECK_091](DEVICE_CHECK_091.md). До готового IPA эта инструкция не означает успешный тест на устройстве.
 
-Текущий статус: `owner_authorized / source_checks_passed / ci188_fixture_import_fixed / clean_retry_pending / sdk_pending / package_pending / publication_pending / device_pending`. Журнал выполнения и отчёты — `/workspace/.codex-release-091/`.
+Текущий статус: `owner_authorized / source_checks_passed / ci188_fixture_import_fixed / retry189_in_progress / sdk_pending / package_pending / publication_pending / device_pending`. Журнал выполнения и отчёты — `/workspace/.codex-release-091/`.
 
 Для освобождения места удалены только сгенерированные embedded/bare-metal библиотеки локального Swift toolchain, не используемые Linux Foundation-проверками. Host Swift после очистки проходит typecheck. Исходники, snapshots, логи, старые IPA, dSYM, credentials и pinned inputs сохранены; inventory записан в task receipt.
 
@@ -27,3 +27,7 @@
 188 завершилась ошибкой до SDK на `validate_round_video_replay_stability.py`: Foundation на macOS не экспортирует операторы сравнения CGSize без CoreGraphics. В production уже есть UIKit; проблема находилась в UI test boundary. Добавлен условный CoreGraphics import в реальные тестовые boundaries кружка, PiP и download layout. Исходники приложения, .inc и manifests не менялись; ни одна проверка поведения не отключалась. Соседние проверки имеют ту же платформенную зависимость и исправлены вместе.
 
 Новый ранний `validate_swift_geometry_boundaries.py` компилирует четыре настоящих test boundary в debug/-O до применения overlay и длинной исторической цепочки. На Apple Swift дополнительно обязан отвергать старый вариант без импорта; Linux явно не выдаётся за подтверждение этой платформенной отрицательной проверки. Все три затронутых полных suite с прежними semantic mutants, loader refusals, Postbox checks и source immutability повторно пройдены локально. [Receipt исправления](RELEASE_091_CI188_CHECKS.json). Следующая разрешённая попытка сохраняет0.9.1 и чистый режим; Apple Swift/SDK/IPA ещё требуют успешного CI.
+
+## Чистый повтор189
+
+[Сборка189](https://github.com/Mr-EFES/NagramiX/actions/runs/42588893329), run42588893329, source`e45f91daf3d2f5bad810ae21ee9d2cc3973064cf`, принята2026-11-09T08:50:41.457598+00:00. Owner actor/triggering_actor проверены. Clean/publish включены, prerelease выключен; перед dispatch вновь подтверждены native13.2 CURRENT, public и точный remote main SHA. Это разрешённый повтор того же0.9.1. Метаданные и источники приложения прежние; после source-коммита main содержит только журнал. SDK/IPA/publication/device пока pending.

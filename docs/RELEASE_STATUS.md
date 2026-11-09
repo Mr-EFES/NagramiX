@@ -1,8 +1,10 @@
 # NagramiX 0.9.1 — подготовка разрешённого релиза
 
+**Чистый повтор189 запущен после исправления тестовых импортов.** [Actions](https://github.com/Mr-EFES/NagramiX/actions/runs/42588893329), source `e45f91daf3d2f5bad810ae21ee9d2cc3973064cf`,0.9.1, actor/triggering_actorMr-EFES, clean=true/publish=true/prerelease=false. Следить до готового IPA и owner publication.188 остановилась до SDK; новый IPA пока pending. Источники приложения/source17 и все snapshots прежние; текущий main после source-коммита дополняется только журналом.
+
 **Исправлена причина остановки188 перед SDK.** Проверочный UI fixture кружков не импортировал CoreGraphics: на Apple Swift это необходимо для CGSize equality. Условные импорты добавлены в четыре реальные test boundaries кружка/PiP/download, ранняя проверка поставлена до длинной цепочки; debug/-O и все прежние негативные проверки трёх suites повторно прошли локально. Приложение, snapshots и manifests не менялись, проверки не ослаблены. [Receipt](RELEASE_091_CI188_CHECKS.json). Разрешён чистый повтор0.9.1 до успешного IPA и owner publication; новая команда не нужна. Apple Swift negative/SDK/package/device пока pending.
 
-**Получена личная команда на чистую сборку и обычный релиз0.9.1.** Source17, owner/visibility/upstream preflight прошли; [сборка188](https://github.com/Mr-EFES/NagramiX/actions/runs/42577726626) выполняется отMr-EFES на9cd39dad97b1a5e7825a6594779d9a08638d9f96. SDK/IPA/публикация пока pending; успешный выпуск не заявлен. Ошибки исправлять и повторять текущий выпуск до успеха. [Текущий журнал](RELEASE_091_RUN.md). Предыдущий0.9.0/build187 остаётся опубликованным до проверки нового IPA; ниже его неизменённые факты.
+**Получена личная команда на чистую сборку и обычный релиз0.9.1.** Source17, owner/visibility/upstream preflight прошли; [первая попытка188](https://github.com/Mr-EFES/NagramiX/actions/runs/42577726626) отMr-EFES на9cd39dad97b1a5e7825a6594779d9a08638d9f96 остановилась на тестовом импорте до SDK; исправление проверено для нового повтора. SDK/IPA/публикация пока pending; успешный выпуск не заявлен. Ошибки исправлять и повторять текущий выпуск до успеха. [Текущий журнал](RELEASE_091_RUN.md). Предыдущий0.9.0/build187 остаётся опубликованным до проверки нового IPA; ниже его неизменённые факты.
 
 ## Предыдущий опубликованный выпуск0.9.0
 
