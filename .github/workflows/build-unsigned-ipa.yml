@@ -371,6 +371,8 @@ jobs:
           python3 scripts/validate_pip_visual_continuity.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)" --report "$RUNNER_TEMP/pip-visual-continuity.json"
           PYTHONPATH=ios python3 -c 'from pathlib import Path; from local_copy_delivery import apply_local_copy_delivery; apply_local_copy_delivery(Path("Telegram-iOS").resolve(), Path("ios").resolve())'
           python3 scripts/validate_local_copy_delivery.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)" --report "$RUNNER_TEMP/local-copy-delivery.json"
+          PYTHONPATH=ios python3 -c 'from pathlib import Path; from temporary_playback_identity import apply_temporary_playback_identity; apply_temporary_playback_identity(Path("Telegram-iOS").resolve(), Path("ios").resolve())'
+          python3 scripts/validate_temporary_playback_identity.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)" --report "$RUNNER_TEMP/temporary-playback-identity.json"
           python3 scripts/validate_late_source_stages.py --source Telegram-iOS --report "$RUNNER_TEMP/late-source-stages.json"
           python3 scripts/validate_custom_member_references.py --source Telegram-iOS
           python3 scripts/validate_upstream_13_2_release.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)"

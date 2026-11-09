@@ -1,0 +1,460 @@
+{
+  "stage": "temporary_playback_identity",
+  "recorded_at": "2026-11-09T18:23:43.713968+00:00",
+  "release_metadata_unchanged": "0.9.1",
+  "next_release_requires_command": "0.9.2",
+  "target_pin": "24638bc69bd083981b178dd1e7f921eebbf7fc46",
+  "source_root": "/workspace/.codex-temporary-playback-identity/source",
+  "outputs": {
+    "submodules/TelegramCore/Sources/Utils/NagramiXCaptureProtectionPolicy.swift": "d35e0ec1d2b9c6f90e78a89545898f5121bf23fe370db3c98dfe40c976f3b6cf",
+    "submodules/TelegramCore/Sources/Utils/NagramiXMessageArchive.swift": "a690a3ed9b85512dbc0ab54c7a2480e33a93e3afc43477525f4b0077be6fb78e",
+    "submodules/TelegramUI/Sources/ChatController.swift": "4898250908c305485e67f09381c04f23bc0de6c8f48f1edd76e29385a903af39",
+    "submodules/TelegramUI/Sources/Chat/ChatControllerOpenViewOnceMediaMessage.swift": "e90e22842a9ef46e3aa13773e19da40d3da2e67248661167695ed16d9299b330",
+    "submodules/TelegramUI/Components/MediaManager/PeerMessagesMediaPlaylist/Sources/PeerMessagesMediaPlaylist.swift": "479adddc7edd1f582ac54e3d151b2e524085af006021bfbdae1246f455a6440e",
+    "submodules/TelegramUI/Components/Chat/ChatMessageInteractiveInstantVideoNode/Sources/ChatMessageInteractiveInstantVideoNode.swift": "b9e84e09c0919d75fd414b190a28a1cc74b897e64ed476de05ce327c885bc8f8",
+    "submodules/TelegramUI/Components/Chat/ChatMessageInteractiveFileNode/Sources/ChatMessageInteractiveFileNode.swift": "c92a03396cb227c7981533542ac6dcd9df16ea1922bb710a88b306099fdc58c6",
+    "submodules/GalleryData/Sources/GalleryData.swift": "6696d882aa648d1f3d1c7c4ae16d4f88da64eb63cdb981e035df922f14802493",
+    "submodules/TelegramUI/Components/Chat/ChatMessageInteractiveMediaNode/Sources/ChatMessageInteractiveMediaNode.swift": "0b78d98514ac612f461a29b188888d1e72c8dc80a705927e24982dabfcda0dfc"
+  },
+  "guards": 45,
+  "new_snapshots": 63,
+  "previous_snapshots_unchanged": 2305,
+  "checks_per_mode": 4273,
+  "semantic_negative_variants": 12,
+  "feature_checks": {
+    "stage": "temporary_playback_identity",
+    "outputs": {
+      "submodules/TelegramCore/Sources/Utils/NagramiXCaptureProtectionPolicy.swift": "d35e0ec1d2b9c6f90e78a89545898f5121bf23fe370db3c98dfe40c976f3b6cf",
+      "submodules/TelegramCore/Sources/Utils/NagramiXMessageArchive.swift": "a690a3ed9b85512dbc0ab54c7a2480e33a93e3afc43477525f4b0077be6fb78e",
+      "submodules/TelegramUI/Sources/ChatController.swift": "4898250908c305485e67f09381c04f23bc0de6c8f48f1edd76e29385a903af39",
+      "submodules/TelegramUI/Sources/Chat/ChatControllerOpenViewOnceMediaMessage.swift": "e90e22842a9ef46e3aa13773e19da40d3da2e67248661167695ed16d9299b330",
+      "submodules/TelegramUI/Components/MediaManager/PeerMessagesMediaPlaylist/Sources/PeerMessagesMediaPlaylist.swift": "479adddc7edd1f582ac54e3d151b2e524085af006021bfbdae1246f455a6440e",
+      "submodules/TelegramUI/Components/Chat/ChatMessageInteractiveInstantVideoNode/Sources/ChatMessageInteractiveInstantVideoNode.swift": "b9e84e09c0919d75fd414b190a28a1cc74b897e64ed476de05ce327c885bc8f8",
+      "submodules/TelegramUI/Components/Chat/ChatMessageInteractiveFileNode/Sources/ChatMessageInteractiveFileNode.swift": "c92a03396cb227c7981533542ac6dcd9df16ea1922bb710a88b306099fdc58c6",
+      "submodules/GalleryData/Sources/GalleryData.swift": "6696d882aa648d1f3d1c7c4ae16d4f88da64eb63cdb981e035df922f14802493",
+      "submodules/TelegramUI/Components/Chat/ChatMessageInteractiveMediaNode/Sources/ChatMessageInteractiveMediaNode.swift": "0b78d98514ac612f461a29b188888d1e72c8dc80a705927e24982dabfcda0dfc"
+    },
+    "guards": 45,
+    "fail_closed": 18,
+    "executions": [
+      {
+        "name": "archive",
+        "mode": "debug",
+        "exit_code": 0,
+        "output": "PASS temporary archive identity checks: 2853"
+      },
+      {
+        "name": "archive",
+        "mode": "optimized",
+        "exit_code": 0,
+        "output": "PASS temporary archive identity checks: 2853"
+      },
+      {
+        "name": "native-routing",
+        "mode": "debug",
+        "exit_code": 0,
+        "output": "PASS temporary native routing checks: 57"
+      },
+      {
+        "name": "native-routing",
+        "mode": "optimized",
+        "exit_code": 0,
+        "output": "PASS temporary native routing checks: 57"
+      },
+      {
+        "name": "consumption",
+        "mode": "debug",
+        "exit_code": 0,
+        "output": "PASS temporary consumption production checks: 1363"
+      },
+      {
+        "name": "consumption",
+        "mode": "optimized",
+        "exit_code": 0,
+        "output": "PASS temporary consumption production checks: 1363"
+      },
+      {
+        "name": "live-shadow",
+        "mode": "debug",
+        "exit_code": 91,
+        "output": "Temporary identity regression: valid live original is never replaced by a synthetic snapshot"
+      },
+      {
+        "name": "live-shadow",
+        "mode": "optimized",
+        "exit_code": 91,
+        "output": "Temporary identity regression: valid live original is never replaced by a synthetic snapshot"
+      },
+      {
+        "name": "deletion-race",
+        "mode": "debug",
+        "exit_code": 91,
+        "output": "Temporary identity regression: pending persistence cannot remove deleted presentation"
+      },
+      {
+        "name": "deletion-race",
+        "mode": "optimized",
+        "exit_code": 91,
+        "output": "Temporary identity regression: pending persistence cannot remove deleted presentation"
+      },
+      {
+        "name": "origin-lost",
+        "mode": "debug",
+        "exit_code": 91,
+        "output": "Temporary identity regression: deleted round/voice/photo/video retains exact once provenance"
+      },
+      {
+        "name": "origin-lost",
+        "mode": "optimized",
+        "exit_code": 91,
+        "output": "Temporary identity regression: deleted round/voice/photo/video retains exact once provenance"
+      },
+      {
+        "name": "origin-guessed",
+        "mode": "debug",
+        "exit_code": 91,
+        "output": "Temporary identity regression: deleted round/voice/photo/video retains exact once provenance"
+      },
+      {
+        "name": "origin-guessed",
+        "mode": "optimized",
+        "exit_code": 91,
+        "output": "Temporary identity regression: deleted round/voice/photo/video retains exact once provenance"
+      },
+      {
+        "name": "deleted-hidden-by-temp",
+        "mode": "debug",
+        "exit_code": 91,
+        "output": "Temporary identity regression: genuine deletion always remains available with deleted ON"
+      },
+      {
+        "name": "deleted-hidden-by-temp",
+        "mode": "optimized",
+        "exit_code": 91,
+        "output": "Temporary identity regression: genuine deletion always remains available with deleted ON"
+      },
+      {
+        "name": "local-actions-off",
+        "mode": "debug",
+        "exit_code": 91,
+        "output": "Temporary identity regression: deleted local snapshot supports actions even with temporary OFF"
+      },
+      {
+        "name": "local-actions-off",
+        "mode": "optimized",
+        "exit_code": 91,
+        "output": "Temporary identity regression: deleted local snapshot supports actions even with temporary OFF"
+      },
+      {
+        "name": "hidden-expired-asr",
+        "mode": "debug",
+        "exit_code": 91,
+        "output": "Temporary identity regression: hidden expired ASR cannot resolve a fresh unmarked snapshot"
+      },
+      {
+        "name": "hidden-expired-asr",
+        "mode": "optimized",
+        "exit_code": 91,
+        "output": "Temporary identity regression: hidden expired ASR cannot resolve a fresh unmarked snapshot"
+      },
+      {
+        "name": "badge-hidden",
+        "mode": "debug",
+        "exit_code": 91,
+        "output": "Temporary player regression: once badge independent of retention"
+      },
+      {
+        "name": "badge-hidden",
+        "mode": "optimized",
+        "exit_code": 91,
+        "output": "Temporary player regression: once badge independent of retention"
+      },
+      {
+        "name": "live-archive-player",
+        "mode": "debug",
+        "exit_code": 91,
+        "output": "Temporary player regression: live retained first tap uses normal open and native identity"
+      },
+      {
+        "name": "live-archive-player",
+        "mode": "optimized",
+        "exit_code": 91,
+        "output": "Temporary player regression: live retained first tap uses normal open and native identity"
+      },
+      {
+        "name": "pause-resets-player",
+        "mode": "debug",
+        "exit_code": 91,
+        "output": "Temporary player regression: playing and paused retained circle uses native pause/resume without replacing playlist"
+      },
+      {
+        "name": "pause-resets-player",
+        "mode": "optimized",
+        "exit_code": 91,
+        "output": "Temporary player regression: playing and paused retained circle uses native pause/resume without replacing playlist"
+      },
+      {
+        "name": "playlist-exclusion",
+        "mode": "debug",
+        "exit_code": 91,
+        "output": "Temporary player regression: around playlist includes selected retained view-once original"
+      },
+      {
+        "name": "playlist-exclusion",
+        "mode": "optimized",
+        "exit_code": 91,
+        "output": "Temporary player regression: around playlist includes selected retained view-once original"
+      },
+      {
+        "name": "disposable-retained",
+        "mode": "debug",
+        "exit_code": 91,
+        "output": "Temporary player regression: retained circle uses full native navigation and transition callbacks"
+      },
+      {
+        "name": "disposable-retained",
+        "mode": "optimized",
+        "exit_code": 91,
+        "output": "Temporary player regression: retained circle uses full native navigation and transition callbacks"
+      }
+    ],
+    "swift_parse": 9,
+    "source_files": 37655,
+    "source_unchanged_by_checks": true,
+    "native_postbox_imports": "passed",
+    "boundary": "Production archive persistence, source provenance, attribute codec, eligibility, route/activation and playlist filter snippets execute in explicit storage/UI/network adapters. Original sending and receipt/secret-history producers remain pinned. No Apple SDK, UIKit rendering, live Telegram RPC or physical device is proven.",
+    "apple_sdk": "not_run",
+    "ipa": "not_built",
+    "physical_iphone": "pending"
+  },
+  "overall_gate": {
+    "target_pin": "24638bc69bd083981b178dd1e7f921eebbf7fc46",
+    "pre_replacements": 196,
+    "post_replacements": 274,
+    "deleted_obsolete_files": 2,
+    "fail_closed": {
+      "pre": 17,
+      "post": 33
+    },
+    "parsed_swift": 469,
+    "executions": [
+      "current-debug: PiP playback command checks: 113",
+      "current-O: PiP playback command checks: 113",
+      "previous-native-debug: Native PiP baseline checks: 37",
+      "previous-native-O: Native PiP baseline checks: 37",
+      "previous-caption-debug: Round caption transport checks: 118",
+      "previous-caption-O: Round caption transport checks: 118",
+      "previous-composer-debug: Repost copy integrity checks: 48",
+      "previous-composer-O: Repost copy integrity checks: 48",
+      "old-toggle-command-debug: regression reproduced and rejected",
+      "old-toggle-command-O: regression reproduced and rejected",
+      "cached-status-toggle-debug: regression reproduced and rejected",
+      "cached-status-toggle-O: regression reproduced and rejected",
+      "inverted-command-debug: regression reproduced and rejected",
+      "inverted-command-O: regression reproduced and rejected"
+    ],
+    "historical_runtime_boundary": "exact published bytes after verified inverse of all registered late source stages",
+    "late_source_stages": [
+      "wide_bottom_bar",
+      "author_selection_no_restore",
+      "preview_reply_intent",
+      "cloud_credential_entry",
+      "extended_poll_integrity",
+      "bot_delete_without_block",
+      "wide_tab_bar_setting",
+      "pip_swipe_handoff",
+      "temporary_message_interaction",
+      "account_settings_entry",
+      "release_090_preflight_fixes",
+      "release_090_author_compile",
+      "round_video_replay_stability",
+      "pip_gallery_placeholder",
+      "download_sheet_edge",
+      "edit_history_cards",
+      "copy_reference_recovery",
+      "edit_history_number_badges",
+      "pip_visual_continuity",
+      "local_copy_delivery",
+      "temporary_playback_identity"
+    ],
+    "native_postbox_imports": "passed",
+    "apple_sdk": "pending",
+    "device": "pending"
+  },
+  "inverse": {
+    "late_source_stages": [
+      "wide_bottom_bar",
+      "author_selection_no_restore",
+      "preview_reply_intent",
+      "cloud_credential_entry",
+      "extended_poll_integrity",
+      "bot_delete_without_block",
+      "wide_tab_bar_setting",
+      "pip_swipe_handoff",
+      "temporary_message_interaction",
+      "account_settings_entry",
+      "release_090_preflight_fixes",
+      "release_090_author_compile",
+      "round_video_replay_stability",
+      "pip_gallery_placeholder",
+      "download_sheet_edge",
+      "edit_history_cards",
+      "copy_reference_recovery",
+      "edit_history_number_badges",
+      "pip_visual_continuity",
+      "local_copy_delivery",
+      "temporary_playback_identity"
+    ],
+    "published_contract_paths": 685,
+    "actual_published_pipeline_compared": false,
+    "full_source_files_preserved": 37655,
+    "introduced_helpers_absent_from_history": [
+      "submodules/TelegramUI/Sources/Chat/NagramiXTemporaryReplySend.swift"
+    ],
+    "pre_ninth_checkpoint_verified": true,
+    "pre_tenth_checkpoint_verified": true,
+    "pre_eleventh_checkpoint_verified": true,
+    "pre_eleventh_inputs_restored": [
+      "submodules/TelegramCore/Sources/Utils/NagramiXMessageArchive.swift",
+      "submodules/TelegramUI/Sources/Chat/ChatControllerLoadDisplayNode.swift"
+    ],
+    "negative_projection_verified_before_mutation": true,
+    "fail_closed": [
+      "wide_bottom_bar/output-drift",
+      "author_selection_no_restore/output-drift",
+      "preview_reply_intent/output-drift",
+      "cloud_credential_entry/output-drift",
+      "extended_poll_integrity/output-drift",
+      "bot_delete_without_block/output-drift",
+      "wide_tab_bar_setting/output-drift",
+      "pip_swipe_handoff/output-drift",
+      "temporary_message_interaction/output-drift",
+      "account_settings_entry/output-drift",
+      "release_090_preflight_fixes/output-drift",
+      "release_090_author_compile/output-drift",
+      "round_video_replay_stability/output-drift",
+      "pip_gallery_placeholder/output-drift",
+      "download_sheet_edge/output-drift",
+      "edit_history_cards/output-drift",
+      "copy_reference_recovery/output-drift",
+      "edit_history_number_badges/output-drift",
+      "pip_visual_continuity/output-drift",
+      "local_copy_delivery/output-drift",
+      "temporary_playback_identity/output-drift",
+      "native-guard-missing",
+      "copied-helper-drift",
+      "copied-helper-missing",
+      "copied-helper-external-symlink",
+      "template-drift-before-inverse",
+      "pip_swipe_handoff/previous-stage-missing",
+      "pip_swipe_handoff/previous-stage-drift",
+      "temporary_message_interaction/previous-stage-missing",
+      "temporary_message_interaction/previous-stage-drift",
+      "account_settings_entry/previous-stage-missing",
+      "account_settings_entry/previous-stage-drift",
+      "release_090_preflight_fixes/previous-stage-missing",
+      "release_090_preflight_fixes/previous-stage-drift",
+      "release_090_author_compile/previous-stage-missing",
+      "release_090_author_compile/previous-stage-drift",
+      "round_video_replay_stability/previous-stage-missing",
+      "round_video_replay_stability/previous-stage-drift",
+      "pip_gallery_placeholder/previous-stage-missing",
+      "pip_gallery_placeholder/previous-stage-drift",
+      "download_sheet_edge/previous-stage-missing",
+      "download_sheet_edge/previous-stage-drift",
+      "edit_history_cards/previous-stage-missing",
+      "edit_history_cards/previous-stage-drift",
+      "copy_reference_recovery/previous-stage-missing",
+      "copy_reference_recovery/previous-stage-drift",
+      "edit_history_number_badges/previous-stage-missing",
+      "edit_history_number_badges/previous-stage-drift",
+      "pip_visual_continuity/previous-stage-missing",
+      "pip_visual_continuity/previous-stage-drift",
+      "local_copy_delivery/previous-stage-missing",
+      "local_copy_delivery/previous-stage-drift",
+      "temporary_playback_identity/previous-stage-missing",
+      "temporary_playback_identity/previous-stage-drift",
+      "wide_bottom_bar/native-blob-proof-missing",
+      "wide_bottom_bar/native-blob-drift/submodules/TelegramUI/Components/TabBarComponent/Sources/TabBarComponent.swift",
+      "temporary_message_interaction/native-blob-proof-missing",
+      "temporary_message_interaction/native-blob-drift/submodules/GalleryData/Sources/GalleryData.swift",
+      "temporary_message_interaction/native-blob-drift/submodules/TelegramCore/Sources/State/ManagedSecretChatOutgoingOperations.swift",
+      "temporary_message_interaction/native-blob-drift/submodules/TelegramCore/Sources/State/ProcessSecretChatIncomingDecryptedOperations.swift",
+      "temporary_message_interaction/native-blob-drift/submodules/TelegramUI/Components/Chat/ChatMessageReplyInfoNode/Sources/ChatMessageReplyInfoNode.swift",
+      "temporary_message_interaction/native-blob-drift/submodules/TelegramUI/Components/Chat/ReplyAccessoryPanelNode/Sources/ReplyAccessoryPanelNode.swift",
+      "account_settings_entry/native-blob-proof-missing",
+      "account_settings_entry/native-blob-drift/submodules/SettingsUI/Sources/Search/SettingsSearchableItems.swift",
+      "download_sheet_edge/native-blob-proof-missing",
+      "download_sheet_edge/native-blob-drift/submodules/Display/Source/ActionSheetController.swift",
+      "download_sheet_edge/native-blob-drift/submodules/Display/Source/ActionSheetControllerNode.swift",
+      "download_sheet_edge/native-blob-drift/submodules/Display/Source/ActionSheetItemGroupsContainerNode.swift",
+      "download_sheet_edge/native-blob-drift/submodules/Display/Source/ActionSheetItemGroupNode.swift"
+    ],
+    "sdk": "not_run",
+    "device": "pending"
+  },
+  "composition": {
+    "source_files": 37655,
+    "changed": [
+      "submodules/GalleryData/Sources/GalleryData.swift",
+      "submodules/TelegramCore/Sources/Utils/NagramiXCaptureProtectionPolicy.swift",
+      "submodules/TelegramCore/Sources/Utils/NagramiXMessageArchive.swift",
+      "submodules/TelegramUI/Components/Chat/ChatMessageInteractiveFileNode/Sources/ChatMessageInteractiveFileNode.swift",
+      "submodules/TelegramUI/Components/Chat/ChatMessageInteractiveInstantVideoNode/Sources/ChatMessageInteractiveInstantVideoNode.swift",
+      "submodules/TelegramUI/Components/Chat/ChatMessageInteractiveMediaNode/Sources/ChatMessageInteractiveMediaNode.swift",
+      "submodules/TelegramUI/Components/MediaManager/PeerMessagesMediaPlaylist/Sources/PeerMessagesMediaPlaylist.swift",
+      "submodules/TelegramUI/Sources/Chat/ChatControllerOpenViewOnceMediaMessage.swift",
+      "submodules/TelegramUI/Sources/ChatController.swift"
+    ],
+    "independent_actual_apply_matches": true,
+    "unchanged_previous_snapshots": 2305,
+    "new_snapshots": 63,
+    "previous_source_preserved": true,
+    "outputs": {
+      "submodules/TelegramCore/Sources/Utils/NagramiXCaptureProtectionPolicy.swift": "d35e0ec1d2b9c6f90e78a89545898f5121bf23fe370db3c98dfe40c976f3b6cf",
+      "submodules/TelegramCore/Sources/Utils/NagramiXMessageArchive.swift": "a690a3ed9b85512dbc0ab54c7a2480e33a93e3afc43477525f4b0077be6fb78e",
+      "submodules/TelegramUI/Sources/ChatController.swift": "4898250908c305485e67f09381c04f23bc0de6c8f48f1edd76e29385a903af39",
+      "submodules/TelegramUI/Sources/Chat/ChatControllerOpenViewOnceMediaMessage.swift": "e90e22842a9ef46e3aa13773e19da40d3da2e67248661167695ed16d9299b330",
+      "submodules/TelegramUI/Components/MediaManager/PeerMessagesMediaPlaylist/Sources/PeerMessagesMediaPlaylist.swift": "479adddc7edd1f582ac54e3d151b2e524085af006021bfbdae1246f455a6440e",
+      "submodules/TelegramUI/Components/Chat/ChatMessageInteractiveInstantVideoNode/Sources/ChatMessageInteractiveInstantVideoNode.swift": "b9e84e09c0919d75fd414b190a28a1cc74b897e64ed476de05ce327c885bc8f8",
+      "submodules/TelegramUI/Components/Chat/ChatMessageInteractiveFileNode/Sources/ChatMessageInteractiveFileNode.swift": "c92a03396cb227c7981533542ac6dcd9df16ea1922bb710a88b306099fdc58c6",
+      "submodules/GalleryData/Sources/GalleryData.swift": "6696d882aa648d1f3d1c7c4ae16d4f88da64eb63cdb981e035df922f14802493",
+      "submodules/TelegramUI/Components/Chat/ChatMessageInteractiveMediaNode/Sources/ChatMessageInteractiveMediaNode.swift": "0b78d98514ac612f461a29b188888d1e72c8dc80a705927e24982dabfcda0dfc"
+    }
+  },
+  "custom_members_full": {
+    "swift_files": 7321,
+    "string_accesses": 845,
+    "distinct_string_members": 228,
+    "actual_string_declarations": 245,
+    "custom_declarations": 858,
+    "full_custom_name_audit": true
+  },
+  "custom_members_canonical": {
+    "swift_files": 206,
+    "string_accesses": 759,
+    "distinct_string_members": 207,
+    "actual_string_declarations": 245,
+    "custom_declarations": 730,
+    "full_custom_name_audit": false
+  },
+  "localization": {
+    "catalogs": 71,
+    "keys": 630,
+    "lookup_checks_per_mode": 44899,
+    "log_sha256": "2f2494e5b15bc5cf19662197694d5da258d24908738729c65e533f63e9c01d48",
+    "new_ui_strings": 0,
+    "final_source_rechecked": true
+  },
+  "authorization": "Постоянная команда владельца разрешает commit/push завершённой проверенной правки в main; SDK/Actions/IPA/релиз этой задачей не разрешены.",
+  "apple_sdk": "not_run",
+  "actions": "not_dispatched",
+  "ipa": "not_built",
+  "physical_iphone": "pending",
+  "visual_frame_recording": "pending; Linux environment has no iOS simulator",
+  "limits": [
+    "Сетевой ответ Telegram и отрисовка UIKit/плеера на устройстве не проверены.",
+    "Точный признак одноразовости старого архива без originalViewOnce не угадывается; доступный оригинал дополняет его.",
+    "Содержимое, которого приложение не получило до удаления, нельзя восстановить из отсутствующих байтов."
+  ]
+}
