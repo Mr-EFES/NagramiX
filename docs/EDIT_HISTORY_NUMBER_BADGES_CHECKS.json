@@ -1,0 +1,438 @@
+{
+  "task": "edit_history_number_badges",
+  "status": "source_checked_native_compile_pending_device_pending",
+  "checked_at_utc": "2026-11-09T15:56:30.431258+00:00",
+  "parent_main": "6067d57f2305301d5b5b25ec3141d69286b32397",
+  "approved_reference": "docs/design/edit-history-number-badges-approved.png",
+  "approved_reference_sha256": "57ecbe1d3d623f2045ee8ab7d2d940ead09dc8c77139758d0b08741ca2b4a4c5",
+  "stage_index": 18,
+  "stage": "edit_history_number_badges",
+  "required_previous_stage": "copy_reference_recovery",
+  "source": "/workspace/.codex-history-badges/source",
+  "preserved_source17": "/workspace/scratch/copy-reference-recovery/source-working-1",
+  "inputs": {
+    "submodules/TelegramUI/Sources/Chat/NagramiXEditHistoryController.swift": "e61ce9c2ce3133f90a52389d011ac3691f702d09e4d44bdc1fd4f683a35cb688"
+  },
+  "outputs": {
+    "submodules/TelegramUI/Sources/Chat/NagramiXEditHistoryController.swift": "3245ed5bd673c5599acf74828a41fa6c3cac4ef5164be071b54b122b2709bab6"
+  },
+  "guards": 8,
+  "scope": {
+    "files": 37655,
+    "changed": {
+      "submodules/TelegramUI/Sources/Chat/NagramiXEditHistoryController.swift": {
+        "before": "e61ce9c2ce3133f90a52389d011ac3691f702d09e4d44bdc1fd4f683a35cb688",
+        "after": "3245ed5bd673c5599acf74828a41fa6c3cac4ef5164be071b54b122b2709bab6"
+      }
+    },
+    "historical_snapshots_preserved": 2231,
+    "new_snapshots": 10
+  },
+  "runtime_checks": {
+    "stage": "edit_history_number_badges",
+    "outputs": {
+      "submodules/TelegramUI/Sources/Chat/NagramiXEditHistoryController.swift": "3245ed5bd673c5599acf74828a41fa6c3cac4ef5164be071b54b122b2709bab6"
+    },
+    "guards": 8,
+    "fail_closed": 12,
+    "executions": [
+      {
+        "name": "production",
+        "mode": "debug",
+        "exit_code": 0,
+        "output": "Revision badge geometry/state checks: 2571; catalogs: 71"
+      },
+      {
+        "name": "production",
+        "mode": "optimized",
+        "exit_code": 0,
+        "output": "Revision badge geometry/state checks: 2571; catalogs: 71"
+      },
+      {
+        "name": "old-visible-fraction",
+        "mode": "debug",
+        "exit_code": 91,
+        "output": "Badge regression: application language numeral and saved heading"
+      },
+      {
+        "name": "old-visible-fraction",
+        "mode": "optimized",
+        "exit_code": 91,
+        "output": "Badge regression: application language numeral and saved heading"
+      },
+      {
+        "name": "old-stretched-badge",
+        "mode": "debug",
+        "exit_code": 91,
+        "output": "Badge regression: badge has equal width and height"
+      },
+      {
+        "name": "old-stretched-badge",
+        "mode": "optimized",
+        "exit_code": 91,
+        "output": "Badge regression: badge has equal width and height"
+      },
+      {
+        "name": "old-fixed-radius",
+        "mode": "debug",
+        "exit_code": 91,
+        "output": "Badge regression: circle radius tracks bounds"
+      },
+      {
+        "name": "old-fixed-radius",
+        "mode": "optimized",
+        "exit_code": 91,
+        "output": "Badge regression: circle radius tracks bounds"
+      },
+      {
+        "name": "missing-aspect-constraint",
+        "mode": "debug",
+        "exit_code": 91,
+        "output": "Badge regression: explicit circle aspect constraint"
+      },
+      {
+        "name": "missing-aspect-constraint",
+        "mode": "optimized",
+        "exit_code": 91,
+        "output": "Badge regression: explicit circle aspect constraint"
+      },
+      {
+        "name": "stale-current-tint",
+        "mode": "debug",
+        "exit_code": 91,
+        "output": "Badge regression: reuse restores saved badge color"
+      },
+      {
+        "name": "stale-current-tint",
+        "mode": "optimized",
+        "exit_code": 91,
+        "output": "Badge regression: reuse restores saved badge color"
+      },
+      {
+        "name": "grouped-ordinal",
+        "mode": "debug",
+        "exit_code": 91,
+        "output": "Badge regression: large ordinals have no grouping or total"
+      },
+      {
+        "name": "grouped-ordinal",
+        "mode": "optimized",
+        "exit_code": 91,
+        "output": "Badge regression: large ordinals have no grouping or total"
+      },
+      {
+        "name": "wrong-locale",
+        "mode": "debug",
+        "exit_code": 91,
+        "output": "Badge regression: application language numeral and saved heading"
+      },
+      {
+        "name": "wrong-locale",
+        "mode": "optimized",
+        "exit_code": 91,
+        "output": "Badge regression: application language numeral and saved heading"
+      },
+      {
+        "name": "stale-glyph-size",
+        "mode": "debug",
+        "exit_code": 91,
+        "output": "Badge regression: configuration invalidates reused glyph metrics"
+      },
+      {
+        "name": "stale-glyph-size",
+        "mode": "optimized",
+        "exit_code": 91,
+        "output": "Badge regression: configuration invalidates reused glyph metrics"
+      }
+    ],
+    "interaction_snapshot_controller_bodies": "byte-identical",
+    "localization": "real custom getters and all 71 resource catalogs",
+    "source_unchanged_by_checks": true,
+    "native_postbox_imports": "passed",
+    "swift_parse": 1,
+    "boundary": "Production badge class and cell configure; explicit UIKit text metrics and constraint recorder, not Auto Layout solver or pixels.",
+    "apple_sdk": "pending",
+    "device": "pending"
+  },
+  "early_geometry_boundary": {
+    "boundaries": [
+      {
+        "name": "round-row",
+        "mode": "debug",
+        "passed": true
+      },
+      {
+        "name": "round-row",
+        "mode": "optimized",
+        "passed": true
+      },
+      {
+        "name": "pip-handoff",
+        "mode": "debug",
+        "passed": true
+      },
+      {
+        "name": "pip-handoff",
+        "mode": "optimized",
+        "passed": true
+      },
+      {
+        "name": "pip-snapshot",
+        "mode": "debug",
+        "passed": true
+      },
+      {
+        "name": "pip-snapshot",
+        "mode": "optimized",
+        "passed": true
+      },
+      {
+        "name": "download-layout",
+        "mode": "debug",
+        "passed": true
+      },
+      {
+        "name": "download-layout",
+        "mode": "optimized",
+        "passed": true
+      },
+      {
+        "name": "temporary-notice",
+        "mode": "debug",
+        "passed": true
+      },
+      {
+        "name": "temporary-notice",
+        "mode": "optimized",
+        "passed": true
+      },
+      {
+        "name": "revision-badge",
+        "mode": "debug",
+        "passed": true
+      },
+      {
+        "name": "revision-badge",
+        "mode": "optimized",
+        "passed": true
+      }
+    ],
+    "apple_import_negatives": [],
+    "boundary": "Actual test boundary imports and geometry operators; no UIKit or whole-app SDK build.",
+    "apple_import_negative_boundary": "Runs only with Apple Swift; Linux Foundation differs."
+  },
+  "historical_stage16": {
+    "stage": "edit_history_cards",
+    "outputs": {
+      "submodules/TelegramUI/Sources/Chat/NagramiXEditHistoryController.swift": "e61ce9c2ce3133f90a52389d011ac3691f702d09e4d44bdc1fd4f683a35cb688"
+    },
+    "guards": 5,
+    "fail_closed": 12,
+    "executions": [
+      {
+        "mode": "debug",
+        "output": "Revision state checks: 1420; catalogs: 71"
+      },
+      {
+        "mode": "optimized",
+        "output": "Revision state checks: 1420; catalogs: 71"
+      }
+    ],
+    "snapshot_copy_forward_archive_bodies": "byte-identical",
+    "localization": "real custom getters and 71 resource catalogs",
+    "boundary": "UIKit configuration state modeled; no Auto Layout solver, pixels or Apple SDK",
+    "apple_sdk": "pending",
+    "device": "pending"
+  },
+  "final_source_gate": {
+    "target_pin": "24638bc69bd083981b178dd1e7f921eebbf7fc46",
+    "pre_replacements": 196,
+    "post_replacements": 274,
+    "deleted_obsolete_files": 2,
+    "fail_closed": {
+      "pre": 17,
+      "post": 33
+    },
+    "parsed_swift": 467,
+    "executions": [
+      "current-debug: PiP playback command checks: 113",
+      "current-O: PiP playback command checks: 113",
+      "previous-native-debug: Native PiP baseline checks: 37",
+      "previous-native-O: Native PiP baseline checks: 37",
+      "previous-caption-debug: Round caption transport checks: 118",
+      "previous-caption-O: Round caption transport checks: 118",
+      "previous-composer-debug: Repost copy integrity checks: 48",
+      "previous-composer-O: Repost copy integrity checks: 48",
+      "old-toggle-command-debug: regression reproduced and rejected",
+      "old-toggle-command-O: regression reproduced and rejected",
+      "cached-status-toggle-debug: regression reproduced and rejected",
+      "cached-status-toggle-O: regression reproduced and rejected",
+      "inverted-command-debug: regression reproduced and rejected",
+      "inverted-command-O: regression reproduced and rejected"
+    ],
+    "historical_runtime_boundary": "exact published bytes after verified inverse of all registered late source stages",
+    "late_source_stages": [
+      "wide_bottom_bar",
+      "author_selection_no_restore",
+      "preview_reply_intent",
+      "cloud_credential_entry",
+      "extended_poll_integrity",
+      "bot_delete_without_block",
+      "wide_tab_bar_setting",
+      "pip_swipe_handoff",
+      "temporary_message_interaction",
+      "account_settings_entry",
+      "release_090_preflight_fixes",
+      "release_090_author_compile",
+      "round_video_replay_stability",
+      "pip_gallery_placeholder",
+      "download_sheet_edge",
+      "edit_history_cards",
+      "copy_reference_recovery",
+      "edit_history_number_badges"
+    ],
+    "native_postbox_imports": "passed",
+    "apple_sdk": "pending",
+    "device": "pending"
+  },
+  "inverse": {
+    "late_source_stages": [
+      "wide_bottom_bar",
+      "author_selection_no_restore",
+      "preview_reply_intent",
+      "cloud_credential_entry",
+      "extended_poll_integrity",
+      "bot_delete_without_block",
+      "wide_tab_bar_setting",
+      "pip_swipe_handoff",
+      "temporary_message_interaction",
+      "account_settings_entry",
+      "release_090_preflight_fixes",
+      "release_090_author_compile",
+      "round_video_replay_stability",
+      "pip_gallery_placeholder",
+      "download_sheet_edge",
+      "edit_history_cards",
+      "copy_reference_recovery",
+      "edit_history_number_badges"
+    ],
+    "published_contract_paths": 683,
+    "actual_published_pipeline_compared": true,
+    "full_source_files_preserved": 37655,
+    "introduced_helpers_absent_from_history": [
+      "submodules/TelegramUI/Sources/Chat/NagramiXTemporaryReplySend.swift"
+    ],
+    "pre_ninth_checkpoint_verified": true,
+    "pre_tenth_checkpoint_verified": true,
+    "pre_eleventh_checkpoint_verified": true,
+    "pre_eleventh_inputs_restored": [
+      "submodules/TelegramCore/Sources/Utils/NagramiXMessageArchive.swift",
+      "submodules/TelegramUI/Sources/Chat/ChatControllerLoadDisplayNode.swift"
+    ],
+    "negative_projection_verified_before_mutation": true,
+    "fail_closed": [
+      "wide_bottom_bar/output-drift",
+      "author_selection_no_restore/output-drift",
+      "preview_reply_intent/output-drift",
+      "cloud_credential_entry/output-drift",
+      "extended_poll_integrity/output-drift",
+      "bot_delete_without_block/output-drift",
+      "wide_tab_bar_setting/output-drift",
+      "pip_swipe_handoff/output-drift",
+      "temporary_message_interaction/output-drift",
+      "account_settings_entry/output-drift",
+      "release_090_preflight_fixes/output-drift",
+      "release_090_author_compile/output-drift",
+      "round_video_replay_stability/output-drift",
+      "pip_gallery_placeholder/output-drift",
+      "download_sheet_edge/output-drift",
+      "edit_history_cards/output-drift",
+      "copy_reference_recovery/output-drift",
+      "edit_history_number_badges/output-drift",
+      "native-guard-missing",
+      "copied-helper-drift",
+      "copied-helper-missing",
+      "copied-helper-external-symlink",
+      "template-drift-before-inverse",
+      "pip_swipe_handoff/previous-stage-missing",
+      "pip_swipe_handoff/previous-stage-drift",
+      "temporary_message_interaction/previous-stage-missing",
+      "temporary_message_interaction/previous-stage-drift",
+      "account_settings_entry/previous-stage-missing",
+      "account_settings_entry/previous-stage-drift",
+      "release_090_preflight_fixes/previous-stage-missing",
+      "release_090_preflight_fixes/previous-stage-drift",
+      "release_090_author_compile/previous-stage-missing",
+      "release_090_author_compile/previous-stage-drift",
+      "round_video_replay_stability/previous-stage-missing",
+      "round_video_replay_stability/previous-stage-drift",
+      "pip_gallery_placeholder/previous-stage-missing",
+      "pip_gallery_placeholder/previous-stage-drift",
+      "download_sheet_edge/previous-stage-missing",
+      "download_sheet_edge/previous-stage-drift",
+      "edit_history_cards/previous-stage-missing",
+      "edit_history_cards/previous-stage-drift",
+      "copy_reference_recovery/previous-stage-missing",
+      "copy_reference_recovery/previous-stage-drift",
+      "edit_history_number_badges/previous-stage-missing",
+      "edit_history_number_badges/previous-stage-drift",
+      "wide_bottom_bar/native-blob-proof-missing",
+      "wide_bottom_bar/native-blob-drift/submodules/TelegramUI/Components/TabBarComponent/Sources/TabBarComponent.swift",
+      "temporary_message_interaction/native-blob-proof-missing",
+      "temporary_message_interaction/native-blob-drift/submodules/GalleryData/Sources/GalleryData.swift",
+      "temporary_message_interaction/native-blob-drift/submodules/TelegramCore/Sources/State/ManagedSecretChatOutgoingOperations.swift",
+      "temporary_message_interaction/native-blob-drift/submodules/TelegramCore/Sources/State/ProcessSecretChatIncomingDecryptedOperations.swift",
+      "temporary_message_interaction/native-blob-drift/submodules/TelegramUI/Components/Chat/ChatMessageReplyInfoNode/Sources/ChatMessageReplyInfoNode.swift",
+      "temporary_message_interaction/native-blob-drift/submodules/TelegramUI/Components/Chat/ReplyAccessoryPanelNode/Sources/ReplyAccessoryPanelNode.swift",
+      "account_settings_entry/native-blob-proof-missing",
+      "account_settings_entry/native-blob-drift/submodules/SettingsUI/Sources/Search/SettingsSearchableItems.swift",
+      "download_sheet_edge/native-blob-proof-missing",
+      "download_sheet_edge/native-blob-drift/submodules/Display/Source/ActionSheetController.swift",
+      "download_sheet_edge/native-blob-drift/submodules/Display/Source/ActionSheetControllerNode.swift",
+      "download_sheet_edge/native-blob-drift/submodules/Display/Source/ActionSheetItemGroupsContainerNode.swift",
+      "download_sheet_edge/native-blob-drift/submodules/Display/Source/ActionSheetItemGroupNode.swift"
+    ],
+    "sdk": "not_run",
+    "device": "pending"
+  },
+  "member_audits": {
+    "full": {
+      "swift_files": 7321,
+      "string_accesses": 845,
+      "distinct_string_members": 228,
+      "actual_string_declarations": 245,
+      "custom_declarations": 825,
+      "full_custom_name_audit": true
+    },
+    "canonical": {
+      "swift_files": 206,
+      "string_accesses": 759,
+      "distinct_string_members": 207,
+      "actual_string_declarations": 245,
+      "custom_declarations": 697,
+      "full_custom_name_audit": false
+    }
+  },
+  "localization": {
+    "strict": true,
+    "resource_catalogs": 71,
+    "keys": 630,
+    "runtime_lookups_per_mode": 44899,
+    "new_ui_keys": 0,
+    "new_ui_literals": 0,
+    "new_numerals": "NumberFormatter locale follows app language; no grouping"
+  },
+  "checks": {
+    "metadata": "passed after receipt creation",
+    "clean_build_mode": "passed",
+    "owner_publication_tests": 28,
+    "diff_check": "passed"
+  },
+  "unused_toolchain_cleanup": "Only generated unused static Linux libraries inventoried and removed; dynamic Foundation typecheck passed. Project sources, old IPA and dSYM preserved.",
+  "published_release": "0.9.1/build190 unchanged",
+  "next_release": "0.9.2 only on a new personal command",
+  "sdk": "not_run",
+  "ipa": "not_built",
+  "physical_iphone": "pending",
+  "visual_boundary": "No UIKit renderer or Auto Layout solver on this Linux host; source bodies tested with explicit metrics/constraint recording."
+}

@@ -1,0 +1,52 @@
+{
+  "inputs": {
+    "submodules/TelegramUI/Sources/Chat/NagramiXEditHistoryController.swift": "e61ce9c2ce3133f90a52389d011ac3691f702d09e4d44bdc1fd4f683a35cb688"
+  },
+  "outputs": {
+    "submodules/TelegramUI/Sources/Chat/NagramiXEditHistoryController.swift": "3245ed5bd673c5599acf74828a41fa6c3cac4ef5164be071b54b122b2709bab6"
+  },
+  "previous": {
+    "submodules/TelegramUI/Sources/Chat/NagramiXEditHistoryController.swift": "edit_history_number_badges/Before0.inc"
+  },
+  "replacements": {
+    "submodules/TelegramUI/Sources/Chat/NagramiXEditHistoryController.swift": "edit_history_number_badges/After0.inc"
+  },
+  "guards": {
+    "submodules/TelegramUI/BUILD": "c819263cd1c2d6407308fe3f172f9f564b40e26f3b688da39739577bae792f52",
+    "submodules/TelegramUI/Sources/Chat/NagramiXEditHistoryForwarding.swift": "bc65af13ea31dd3d5287aa1ab24580b70e39ba41fa1d56e82dbd0cb7fb2ce2fc",
+    "submodules/TelegramCore/Sources/Utils/NagramiXMessageArchive.swift": "0d07e0ef8ff0d753a4477c6be33106c75e86bd1beb9701e0a1e2b5d7222b29af",
+    "submodules/NagramiXCore/Sources/NagramiXPresentationStrings.swift": "8c8a86ebc4552d20c2a0f4e6d24ff83c880eaa0fb2dc8083f63dc96b29e38a1f",
+    "submodules/NagramiXCore/Sources/NagramiXAppLocalization.swift": "c27d2d470c70568e9a80e0e38c509befea549c99afd47215e0024949fe67a67c",
+    "submodules/TelegramCore/Sources/State/PendingMessageManager.swift": "34d2138936a6698cc9e1534358c094c3979be171333cfa054330e6dfd02c2e9e",
+    "submodules/TelegramCore/Sources/PendingMessages/PendingMessageUploadedContent.swift": "8472d9062ac9160cbdd39fdc3880fd12d0fce9f9e8f4559b501a2b28170d77d4",
+    "submodules/TelegramCore/Sources/Utils/NagramiXOutgoingCopy.swift": "6bb23f7b95b65f368794fc7343637af78c15c53d6a33689fb4bdf9059f52f7e2"
+  },
+  "guard_sources": {
+    "submodules/TelegramUI/BUILD": "edit_history_number_badges/Guard0.inc",
+    "submodules/TelegramUI/Sources/Chat/NagramiXEditHistoryForwarding.swift": "edit_history_number_badges/Guard1.inc",
+    "submodules/TelegramCore/Sources/Utils/NagramiXMessageArchive.swift": "edit_history_number_badges/Guard2.inc",
+    "submodules/NagramiXCore/Sources/NagramiXPresentationStrings.swift": "edit_history_number_badges/Guard3.inc",
+    "submodules/NagramiXCore/Sources/NagramiXAppLocalization.swift": "edit_history_number_badges/Guard4.inc",
+    "submodules/TelegramCore/Sources/State/PendingMessageManager.swift": "edit_history_number_badges/Guard5.inc",
+    "submodules/TelegramCore/Sources/PendingMessages/PendingMessageUploadedContent.swift": "edit_history_number_badges/Guard6.inc",
+    "submodules/TelegramCore/Sources/Utils/NagramiXOutgoingCopy.swift": "edit_history_number_badges/Guard7.inc"
+  },
+  "templates": {
+    "edit_history_number_badges/Before0.inc": "e61ce9c2ce3133f90a52389d011ac3691f702d09e4d44bdc1fd4f683a35cb688",
+    "edit_history_number_badges/After0.inc": "3245ed5bd673c5599acf74828a41fa6c3cac4ef5164be071b54b122b2709bab6",
+    "edit_history_number_badges/Guard0.inc": "c819263cd1c2d6407308fe3f172f9f564b40e26f3b688da39739577bae792f52",
+    "edit_history_number_badges/Guard1.inc": "bc65af13ea31dd3d5287aa1ab24580b70e39ba41fa1d56e82dbd0cb7fb2ce2fc",
+    "edit_history_number_badges/Guard2.inc": "0d07e0ef8ff0d753a4477c6be33106c75e86bd1beb9701e0a1e2b5d7222b29af",
+    "edit_history_number_badges/Guard3.inc": "8c8a86ebc4552d20c2a0f4e6d24ff83c880eaa0fb2dc8083f63dc96b29e38a1f",
+    "edit_history_number_badges/Guard4.inc": "c27d2d470c70568e9a80e0e38c509befea549c99afd47215e0024949fe67a67c",
+    "edit_history_number_badges/Guard5.inc": "34d2138936a6698cc9e1534358c094c3979be171333cfa054330e6dfd02c2e9e",
+    "edit_history_number_badges/Guard6.inc": "8472d9062ac9160cbdd39fdc3880fd12d0fce9f9e8f4559b501a2b28170d77d4",
+    "edit_history_number_badges/Guard7.inc": "6bb23f7b95b65f368794fc7343637af78c15c53d6a33689fb4bdf9059f52f7e2"
+  },
+  "copies": {},
+  "deletions": {},
+  "native_inputs": {},
+  "target_pin": "24638bc69bd083981b178dd1e7f921eebbf7fc46",
+  "overlay_base_pin": "279f89e4d4f63f17227bf877dc3d8990f22ecd58",
+  "required_previous_stage": "copy_reference_recovery"
+}
