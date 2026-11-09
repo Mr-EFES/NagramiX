@@ -1,0 +1,511 @@
+import Foundation
+import NagramiXMediaSettings
+
+public enum NagramiXDnsProvider: Int, CaseIterable, Equatable {
+    // Keep persisted IDs stable. Former providers 2 and 4 decode as System.
+    case system = 0
+    case telegram = 7
+    case google = 1
+    case adGuard = 3
+    case cloudflare = 5
+    case customDoh = 6
+
+    public var dohEndpoint: String? {
+        switch self {
+        case .system, .telegram:
+            return nil
+        case .google:
+            return "https://dns.google/dns-query"
+        case .adGuard:
+            return "https://dns.adguard-dns.com/dns-query"
+        case .cloudflare:
+            return "https://cloudflare-dns.com/dns-query"
+        case .customDoh:
+            return nil
+        }
+    }
+}
+
+// The user's choice is stored independently of the aggregate tab settings.
+public enum NagramiXNextSwipeSettings {
+    private static let key = "nagramix.chats.disableNextChannelSwipe"
+    public static func isDisabled(in defaults: UserDefaults = .standard) -> Bool {
+        return defaults.object(forKey: self.key) as? Bool ?? true
+    }
+    public static func setDisabled(_ value: Bool, in defaults: UserDefaults = .standard) {
+        defaults.set(value, forKey: self.key)
+    }
+}
+
+public enum NagramiXDeletionEffectSettings {
+    private static let key = "nagramix.chats.deletionEffectEnabled"
+    public static func isEnabled(in defaults: UserDefaults = .standard) -> Bool {
+        return defaults.object(forKey: self.key) as? Bool ?? true
+    }
+    public static func setEnabled(_ value: Bool, in defaults: UserDefaults = .standard) {
+        defaults.set(value, forKey: self.key)
+    }
+}
+
+public struct NagramiXTabSettings: Equatable {
+    public static let changedNotification = Notification.Name("NagramiXSettingsChanged")
+    public static let advertisingChangedNotification = NagramiXAdvertisingSettings.changedNotification
+    public static let wideChannelPostsChangedNotification = Notification.Name("NagramiXWideChannelPostsChanged")
+    public static let deletedMessageLabelChangedNotification = Notification.Name("NagramiXDeletedMessageLabelChanged")
+    public static let dnsChangedNotification = Notification.Name("NagramiXDnsSettingsChanged")
+    public static let softRestartRequestedNotification = Notification.Name("NagramiXTabInterfaceSoftRestartRequested")
+
+    public static let unreadChatsFirstChangedNotification = Notification.Name("NagramiXUnreadChatsFirstChanged")
+    public static let compactChatListChangedNotification = Notification.Name("NagramiXCompactChatListChanged")
+    public static let channelBottomPanelChangedNotification = Notification.Name("NagramiXChannelBottomPanelChanged")
+    public static let hideReactionsChangedNotification = Notification.Name("NagramiXHideReactionsChanged")
+
+    private enum Key {
+        static let wideTabBar = "nagramix.tabs.wideBar"
+        static let hideContacts = "nagramix.tabs.hideContacts"
+        static let hideCalls = "nagramix.tabs.hideCalls"
+        static let showSearchButton = "nagramix.tabs.showSearchButton"
+        static let wideChannelPosts = "nagramix.interface.wideChannelPosts"
+        static let videoPiPSwipe = "nagramix.video.pipSwipe"
+        static let backgroundVideoPlayback = "nagramix.video.backgroundPlayback"
+        static let unreadChatsFirst = "nagramix.interface.unreadChatsFirst"
+        static let compactChatList = "nagramix.interface.compactChatList"
+        static let showChannelBottomPanel = "nagramix.interface.showChannelBottomPanel"
+        static let doubleTapEdit = "nagramix.features.doubleTapEdit"
+        static let hideReactions = "nagramix.interface.hideReactions"
+        static let hideGreetingSticker = "nagramix.interface.hideGreetingSticker"
+        // Keep the existing inverse storage key so updates preserve the user's behavior.
+        static let legacyDisableVoiceAutoplay = "nagramix.messages.disableVoiceAutoplay"
+        static let autoMuteNewChannels = "nagramix.messages.autoMuteNewChannels"
+        static let anonymousStickers = "nagramix.stickers.anonymous"
+        static let hideBlockedMessages = "nagramix.messages.hideBlocked"
+        static let antiCaps = "nagramix.messages.antiCaps"
+        static let showExactLastSeen = "nagramix.profiles.showExactLastSeen"
+        static let chatActionsOnHold = "nagramix.interface.chatActionsOnHold"
+        static let showForwardWithoutAuthor = "nagramix.contextMenu.showForwardWithoutAuthor"
+        static let showBroadcastMessages = "nagramix.contextMenu.showBroadcastMessages"
+        static let showSelectByAuthor = "nagramix.contextMenu.showSelectByAuthor"
+        static let selfieCountdown = "nagramix.videoMessages.selfieCountdown"
+        static let useRearCameraForVideoMessages = "nagramix.videoMessages.useRearCamera"
+        static let hideStories = "nagramix.stories.hide"
+        static let disableStoryCameraSwipe = "nagramix.stories.disableCameraSwipe"
+        static let confirmStoryViewing = "nagramix.stories.confirmViewing"
+        static let enableStoryRepost = "nagramix.stories.enableRepost"
+        static let dnsProvider = "nagramix.network.dnsProvider"
+        static let customDohUrl = "nagramix.network.customDohUrl"
+        static let proxyAutoSwitchEnabled = "nagramix.network.proxyAutoSwitchEnabled"
+        static let proxyAutoSwitchTimeout = "nagramix.network.proxyAutoSwitchTimeout"
+        static let avoidProxyWithVPN = "nagramix.network.avoidProxyWithVPN"
+        static let showProxyButton = "nagramix.interface.showProxyButton"
+        static let hideProxySponsorChannel = "nagramix.interface.hideProxySponsorChannel"
+        static let legacyShowProxySponsorChannel = "nagramix.interface.showProxySponsorChannel"
+        static let showProfileIds = "nagramix.profiles.showIds"
+        static let showRegistrationDate = "nagramix.profiles.showRegistrationDate"
+        static let showMutualContactIcon = "nagramix.profiles.showMutualContactIcon"
+        static let confirmOutgoingCalls = "nagramix.calls.confirmOutgoing"
+        static let skipCallRating = NagramiXCallSettings.skipRatingKey
+        static let forceTcpCalls = "nagramix.calls.forceTcp"
+        static let showDeletedMessages = "nagramix.messages.showDeletedMessages"
+        static let saveTemporaryMessages = "nagramix.messages.saveTemporaryMessages"
+        static let replayViewOnce = "nagramix.messages.replayViewOnce"
+        static let deletedMessageLabel = "nagramix.messages.deletedMessageLabel"
+        static let messageEditHistory = "nagramix.messages.editHistory"
+    }
+
+    public var wideTabBar: Bool
+    public var hideContacts: Bool
+    public var hideCalls: Bool
+    public var showSearchButton: Bool
+    public var wideChannelPosts: Bool
+    public var videoPiPSwipe: Bool
+    public var backgroundVideoPlayback: Bool
+    public var unreadChatsFirst: Bool
+    public var compactChatList: Bool
+    public var showChannelBottomPanel: Bool
+    public var doubleTapEdit: Bool
+    public var hideReactions: Bool
+    public var hideGreetingSticker: Bool
+    public var anonymousStickers: Bool
+    public var hideBlockedMessages: Bool
+    public var antiCaps: Bool
+    public var voiceAutoplay: Bool
+    public var autoMuteNewChannels: Bool
+    public var showExactLastSeen: Bool
+    public var downloads: NagramiXDownloadSettings
+    public var chatActionsOnHold: Bool
+    public var showForwardWithoutAuthor: Bool
+    public var showBroadcastMessages: Bool
+    public var showSelectByAuthor: Bool
+    public var selfieCountdown: Bool
+    public var useRearCameraForVideoMessages: Bool
+    public var hideStories: Bool
+    public var disableStoryCameraSwipe: Bool
+    public var confirmStoryViewing: Bool
+    public var enableStoryRepost: Bool
+    public var anonymousStoryViewing: Bool
+    public var dnsProvider: NagramiXDnsProvider
+    public var customDohUrl: String
+    public var proxyAutoSwitchEnabled: Bool
+    public var proxyAutoSwitchTimeout: Int
+    public var avoidProxyWithVPN: Bool
+    public var showProxyButton: Bool
+    public var hideProxySponsorChannel: Bool
+    public var showAdvertising: Bool {
+        get { return !self.hideProxySponsorChannel }
+        set { self.hideProxySponsorChannel = !newValue }
+    }
+    public var showProfileIds: Bool
+    public var showRegistrationDate: Bool
+    public var showMutualContactIcon: Bool
+    public var confirmOutgoingCalls: Bool
+    public var skipCallRating: Bool
+    public var forceTcpCalls: Bool
+    public var showDeletedMessages: Bool
+    public var saveTemporaryMessages: Bool
+    public var replayViewOnce: Bool
+    public var deletedMessageLabel: String
+    public var messageEditHistory: Bool
+    public var media: NagramiXMediaSettings
+
+    public init(
+        hideContacts: Bool,
+        hideCalls: Bool,
+        showSearchButton: Bool,
+        wideChannelPosts: Bool,
+        useRearCameraForVideoMessages: Bool,
+        hideStories: Bool,
+        disableStoryCameraSwipe: Bool,
+        confirmStoryViewing: Bool,
+        enableStoryRepost: Bool,
+        dnsProvider: NagramiXDnsProvider,
+        customDohUrl: String,
+        proxyAutoSwitchEnabled: Bool,
+        proxyAutoSwitchTimeout: Int,
+        showProxyButton: Bool,
+        hideProxySponsorChannel: Bool,
+        showProfileIds: Bool,
+        showRegistrationDate: Bool,
+        showMutualContactIcon: Bool,
+        confirmOutgoingCalls: Bool,
+        skipCallRating: Bool = true,
+        forceTcpCalls: Bool,
+        showDeletedMessages: Bool,
+        deletedMessageLabel: String,
+        messageEditHistory: Bool,
+        showForwardWithoutAuthor: Bool = true,
+        showSelectByAuthor: Bool = true,
+        chatActionsOnHold: Bool = true,
+        media: NagramiXMediaSettings = .default,
+        compactChatList: Bool = false,
+        saveTemporaryMessages: Bool = false,
+        replayViewOnce: Bool = false,
+        videoPiPSwipe: Bool = true,
+        backgroundVideoPlayback: Bool = true,
+        showChannelBottomPanel: Bool = false,
+        doubleTapEdit: Bool = true,
+        hideReactions: Bool = false,
+        downloads: NagramiXDownloadSettings = .default,
+        showBroadcastMessages: Bool = true,
+        anonymousStoryViewing: Bool = false,
+        avoidProxyWithVPN: Bool = false,
+        hideGreetingSticker: Bool = true,
+        anonymousStickers: Bool = true,
+        hideBlockedMessages: Bool = true,
+        antiCaps: Bool = true,
+        selfieCountdown: Bool = true,
+        voiceAutoplay: Bool = false,
+        autoMuteNewChannels: Bool = true,
+        showExactLastSeen: Bool = false,
+        unreadChatsFirst: Bool = true,
+        wideTabBar: Bool = true
+    ) {
+        self.wideTabBar = wideTabBar
+        self.hideContacts = hideContacts
+        self.hideCalls = hideCalls
+        self.showSearchButton = showSearchButton
+        self.wideChannelPosts = wideChannelPosts
+        self.videoPiPSwipe = videoPiPSwipe
+        self.backgroundVideoPlayback = backgroundVideoPlayback
+        self.unreadChatsFirst = unreadChatsFirst
+        self.compactChatList = compactChatList
+        self.showChannelBottomPanel = showChannelBottomPanel
+        self.doubleTapEdit = doubleTapEdit
+        self.hideReactions = hideReactions
+        self.hideGreetingSticker = hideGreetingSticker
+        self.anonymousStickers = anonymousStickers
+        self.hideBlockedMessages = hideBlockedMessages
+        self.antiCaps = antiCaps
+        self.selfieCountdown = selfieCountdown
+        self.voiceAutoplay = voiceAutoplay
+        self.autoMuteNewChannels = autoMuteNewChannels
+        self.showExactLastSeen = showExactLastSeen
+        self.downloads = downloads
+        self.chatActionsOnHold = chatActionsOnHold
+        self.media = media
+        self.useRearCameraForVideoMessages = useRearCameraForVideoMessages
+        self.hideStories = hideStories
+        self.disableStoryCameraSwipe = disableStoryCameraSwipe
+        self.confirmStoryViewing = confirmStoryViewing
+        self.enableStoryRepost = enableStoryRepost
+        self.anonymousStoryViewing = anonymousStoryViewing
+        self.dnsProvider = dnsProvider
+        self.customDohUrl = customDohUrl
+        self.proxyAutoSwitchEnabled = proxyAutoSwitchEnabled
+        self.proxyAutoSwitchTimeout = proxyAutoSwitchTimeout
+        self.avoidProxyWithVPN = avoidProxyWithVPN
+        self.showProxyButton = showProxyButton
+        self.hideProxySponsorChannel = hideProxySponsorChannel
+        self.showProfileIds = showProfileIds
+        self.showRegistrationDate = showRegistrationDate
+        self.showMutualContactIcon = showMutualContactIcon
+        self.confirmOutgoingCalls = confirmOutgoingCalls
+        self.skipCallRating = skipCallRating
+        self.forceTcpCalls = forceTcpCalls
+        self.showDeletedMessages = showDeletedMessages
+        self.saveTemporaryMessages = saveTemporaryMessages
+        self.replayViewOnce = replayViewOnce
+        self.deletedMessageLabel = deletedMessageLabel
+        self.messageEditHistory = messageEditHistory
+        self.showForwardWithoutAuthor = showForwardWithoutAuthor
+        self.showBroadcastMessages = showBroadcastMessages
+        self.showSelectByAuthor = showSelectByAuthor
+    }
+
+    public static var videoPiPSwipeEnabled: Bool {
+        return UserDefaults.standard.object(forKey: Key.videoPiPSwipe) as? Bool ?? true
+    }
+
+    public static var roundVideoEditorEnabled: Bool {
+        return NagramiXMediaSettings.current.roundVideo
+    }
+
+    public static var backgroundVideoPlaybackEnabled: Bool {
+        return UserDefaults.standard.object(forKey: Key.backgroundVideoPlayback) as? Bool ?? true
+    }
+
+    public static var unreadChatsFirstEnabled: Bool {
+        return UserDefaults.standard.object(forKey: Key.unreadChatsFirst) as? Bool ?? true
+    }
+
+    public static var compactChatListEnabled: Bool {
+        return UserDefaults.standard.object(forKey: Key.compactChatList) as? Bool ?? false
+    }
+
+    public static var doubleTapEditEnabled: Bool {
+        return UserDefaults.standard.object(forKey: Key.doubleTapEdit) as? Bool ?? true
+    }
+
+    public static var autoMuteNewChannelsEnabled: Bool {
+        return UserDefaults.standard.object(forKey: Key.autoMuteNewChannels) as? Bool ?? true
+    }
+
+    public static var exactLastSeenEnabled: Bool {
+        return UserDefaults.standard.object(forKey: Key.showExactLastSeen) as? Bool ?? false
+    }
+
+    public static var voiceAutoplayEnabled: Bool {
+        return !(UserDefaults.standard.object(forKey: Key.legacyDisableVoiceAutoplay) as? Bool ?? true)
+    }
+
+    public static var hideGreetingStickerEnabled: Bool {
+        return UserDefaults.standard.object(forKey: Key.hideGreetingSticker) as? Bool ?? true
+    }
+
+    public static var hideReactionsEnabled: Bool {
+        return UserDefaults.standard.object(forKey: Key.hideReactions) as? Bool ?? false
+    }
+
+    public static var channelBottomPanelEnabled: Bool {
+        return UserDefaults.standard.object(forKey: Key.showChannelBottomPanel) as? Bool ?? false
+    }
+
+    public static var anonymousStoryViewingEnabled: Bool {
+        return NagramiXStorySettings.anonymousViewingEnabled
+    }
+
+    public static var current: NagramiXTabSettings {
+        let defaults = UserDefaults.standard
+        let hideProxySponsorChannel = !NagramiXAdvertisingSettings.showAdvertising
+        return NagramiXTabSettings(
+            hideContacts: defaults.object(forKey: Key.hideContacts) as? Bool ?? true,
+            hideCalls: defaults.object(forKey: Key.hideCalls) as? Bool ?? true,
+            showSearchButton: defaults.object(forKey: Key.showSearchButton) as? Bool ?? false,
+            wideChannelPosts: defaults.object(forKey: Key.wideChannelPosts) as? Bool ?? true,
+            useRearCameraForVideoMessages: defaults.object(forKey: Key.useRearCameraForVideoMessages) as? Bool ?? true,
+            hideStories: defaults.object(forKey: Key.hideStories) as? Bool ?? true,
+            disableStoryCameraSwipe: defaults.object(forKey: Key.disableStoryCameraSwipe) as? Bool ?? true,
+            confirmStoryViewing: defaults.object(forKey: Key.confirmStoryViewing) as? Bool ?? true,
+            enableStoryRepost: defaults.object(forKey: Key.enableStoryRepost) as? Bool ?? true,
+            dnsProvider: defaults.object(forKey: Key.dnsProvider) == nil ? .telegram : (NagramiXDnsProvider(rawValue: defaults.integer(forKey: Key.dnsProvider)) ?? .system),
+            customDohUrl: defaults.string(forKey: Key.customDohUrl) ?? "",
+            proxyAutoSwitchEnabled: NagramiXProxyPreferences.autoSwitchEnabled,
+            proxyAutoSwitchTimeout: NagramiXProxyPreferences.autoSwitchTimeout,
+            showProxyButton: defaults.object(forKey: Key.showProxyButton) as? Bool ?? true,
+            hideProxySponsorChannel: hideProxySponsorChannel,
+            showProfileIds: defaults.object(forKey: Key.showProfileIds) as? Bool ?? true,
+            showRegistrationDate: defaults.object(forKey: Key.showRegistrationDate) as? Bool ?? true,
+            showMutualContactIcon: defaults.object(forKey: Key.showMutualContactIcon) as? Bool ?? true,
+            confirmOutgoingCalls: defaults.object(forKey: Key.confirmOutgoingCalls) as? Bool ?? true,
+            skipCallRating: NagramiXCallSettings.skipRating,
+            forceTcpCalls: defaults.object(forKey: Key.forceTcpCalls) as? Bool ?? false,
+            showDeletedMessages: defaults.object(forKey: Key.showDeletedMessages) as? Bool ?? false,
+            deletedMessageLabel: self.normalizedDeletedMessageLabel(defaults.string(forKey: Key.deletedMessageLabel) ?? ""),
+            messageEditHistory: defaults.object(forKey: Key.messageEditHistory) as? Bool ?? false,
+            showForwardWithoutAuthor: defaults.object(forKey: Key.showForwardWithoutAuthor) as? Bool ?? true,
+            showSelectByAuthor: defaults.object(forKey: Key.showSelectByAuthor) as? Bool ?? true,
+            chatActionsOnHold: defaults.object(forKey: Key.chatActionsOnHold) as? Bool ?? true,
+            media: .current,
+            compactChatList: self.compactChatListEnabled,
+            saveTemporaryMessages: (defaults.bool(forKey: Key.saveTemporaryMessages) || defaults.bool(forKey: Key.replayViewOnce)),
+            replayViewOnce: (defaults.bool(forKey: Key.saveTemporaryMessages) || defaults.bool(forKey: Key.replayViewOnce)),
+            videoPiPSwipe: self.videoPiPSwipeEnabled,
+            backgroundVideoPlayback: self.backgroundVideoPlaybackEnabled,
+            showChannelBottomPanel: self.channelBottomPanelEnabled,
+            doubleTapEdit: self.doubleTapEditEnabled,
+            hideReactions: self.hideReactionsEnabled,
+            downloads: .current,
+            // Preserve the previous copy-action visibility until explicitly changed.
+            showBroadcastMessages: defaults.object(forKey: Key.showBroadcastMessages) as? Bool ?? (defaults.object(forKey: Key.showForwardWithoutAuthor) as? Bool ?? true),
+            anonymousStoryViewing: self.anonymousStoryViewingEnabled,
+            avoidProxyWithVPN: defaults.object(forKey: Key.avoidProxyWithVPN) as? Bool ?? false,
+            hideGreetingSticker: self.hideGreetingStickerEnabled,
+            anonymousStickers: defaults.object(forKey: Key.anonymousStickers) as? Bool ?? true,
+            hideBlockedMessages: defaults.object(forKey: Key.hideBlockedMessages) as? Bool ?? true,
+            antiCaps: defaults.object(forKey: Key.antiCaps) as? Bool ?? true,
+            selfieCountdown: defaults.object(forKey: Key.selfieCountdown) as? Bool ?? true,
+            voiceAutoplay: self.voiceAutoplayEnabled,
+            autoMuteNewChannels: self.autoMuteNewChannelsEnabled,
+            showExactLastSeen: self.exactLastSeenEnabled,
+            unreadChatsFirst: self.unreadChatsFirstEnabled,
+            wideTabBar: defaults.object(forKey: Key.wideTabBar) as? Bool ?? true
+        )
+    }
+
+    public static func update(_ transform: (inout NagramiXTabSettings) -> Void) {
+        var value = self.current
+        let previousHideBlockedMessages = value.hideBlockedMessages
+        let previousUnreadChatsFirst = value.unreadChatsFirst
+        let previousCompactChatList = value.compactChatList
+        let previousChannelBottomPanel = value.showChannelBottomPanel
+        let previousHideReactions = value.hideReactions
+        let previousShowAdvertising = value.showAdvertising
+        let previousWideChannelPosts = value.wideChannelPosts
+        let previousDeletedMessageLabel = value.deletedMessageLabel
+        let previousDnsProvider = value.dnsProvider
+        let previousCustomDohUrl = value.customDohUrl
+        let previousProxyAutoSwitchEnabled = value.proxyAutoSwitchEnabled
+        let previousProxyAutoSwitchTimeout = value.proxyAutoSwitchTimeout
+        let previousAvoidProxyWithVPN = value.avoidProxyWithVPN
+        let previousSkipCallRating = value.skipCallRating
+        let previousAnonymousStoryViewing = value.anonymousStoryViewing
+        transform(&value)
+
+        let defaults = UserDefaults.standard
+        defaults.set(value.wideTabBar, forKey: Key.wideTabBar)
+        defaults.set(value.hideContacts, forKey: Key.hideContacts)
+        defaults.set(value.hideCalls, forKey: Key.hideCalls)
+        defaults.set(value.showSearchButton, forKey: Key.showSearchButton)
+        defaults.set(value.wideChannelPosts, forKey: Key.wideChannelPosts)
+        defaults.set(value.videoPiPSwipe, forKey: Key.videoPiPSwipe)
+        defaults.set(value.backgroundVideoPlayback, forKey: Key.backgroundVideoPlayback)
+        defaults.set(value.unreadChatsFirst, forKey: Key.unreadChatsFirst)
+        defaults.set(value.compactChatList, forKey: Key.compactChatList)
+        defaults.set(value.showChannelBottomPanel, forKey: Key.showChannelBottomPanel)
+        defaults.set(value.doubleTapEdit, forKey: Key.doubleTapEdit)
+        defaults.set(value.hideReactions, forKey: Key.hideReactions)
+        defaults.set(value.hideGreetingSticker, forKey: Key.hideGreetingSticker)
+        defaults.set(value.anonymousStickers, forKey: Key.anonymousStickers)
+        defaults.set(value.hideBlockedMessages, forKey: Key.hideBlockedMessages)
+        defaults.set(value.antiCaps, forKey: Key.antiCaps)
+        defaults.set(value.selfieCountdown, forKey: Key.selfieCountdown)
+        defaults.set(!value.voiceAutoplay, forKey: Key.legacyDisableVoiceAutoplay)
+        defaults.set(value.autoMuteNewChannels, forKey: Key.autoMuteNewChannels)
+        defaults.set(value.showExactLastSeen, forKey: Key.showExactLastSeen)
+        defaults.set(value.chatActionsOnHold, forKey: Key.chatActionsOnHold)
+        defaults.set(value.useRearCameraForVideoMessages, forKey: Key.useRearCameraForVideoMessages)
+        defaults.set(value.hideStories, forKey: Key.hideStories)
+        defaults.set(value.disableStoryCameraSwipe, forKey: Key.disableStoryCameraSwipe)
+        defaults.set(value.confirmStoryViewing, forKey: Key.confirmStoryViewing)
+        defaults.set(value.enableStoryRepost, forKey: Key.enableStoryRepost)
+        if previousAnonymousStoryViewing != value.anonymousStoryViewing {
+            NagramiXStorySettings.update(anonymousViewing: value.anonymousStoryViewing)
+        }
+        defaults.set(value.dnsProvider.rawValue, forKey: Key.dnsProvider)
+        defaults.set(value.customDohUrl, forKey: Key.customDohUrl)
+        // Unrelated settings must not persist absent proxy defaults or overwrite
+        // preferences initialized concurrently when proxy usage begins.
+        if previousProxyAutoSwitchEnabled != value.proxyAutoSwitchEnabled {
+            NagramiXProxyPreferences.setAutoSwitch(value.proxyAutoSwitchEnabled)
+        }
+        if previousProxyAutoSwitchTimeout != value.proxyAutoSwitchTimeout {
+            defaults.set([15, 30, 60].contains(value.proxyAutoSwitchTimeout) ? value.proxyAutoSwitchTimeout : 30, forKey: Key.proxyAutoSwitchTimeout)
+        }
+        if previousAvoidProxyWithVPN != value.avoidProxyWithVPN {
+            NagramiXProxyPreferences.setAvoidVPN(value.avoidProxyWithVPN)
+        }
+        defaults.set(value.showProxyButton, forKey: Key.showProxyButton)
+        defaults.set(value.hideProxySponsorChannel, forKey: Key.hideProxySponsorChannel)
+        defaults.set(value.showProfileIds, forKey: Key.showProfileIds)
+        defaults.set(value.showRegistrationDate, forKey: Key.showRegistrationDate)
+        defaults.set(value.showMutualContactIcon, forKey: Key.showMutualContactIcon)
+        defaults.set(value.confirmOutgoingCalls, forKey: Key.confirmOutgoingCalls)
+        if previousSkipCallRating != value.skipCallRating {
+            defaults.set(value.skipCallRating, forKey: Key.skipCallRating)
+        }
+        defaults.set(value.forceTcpCalls, forKey: Key.forceTcpCalls)
+        defaults.set(value.showDeletedMessages, forKey: Key.showDeletedMessages)
+        defaults.set(value.saveTemporaryMessages, forKey: Key.saveTemporaryMessages)
+        defaults.set(value.replayViewOnce, forKey: Key.replayViewOnce)
+        value.deletedMessageLabel = self.normalizedDeletedMessageLabel(value.deletedMessageLabel)
+        defaults.set(value.deletedMessageLabel, forKey: Key.deletedMessageLabel)
+        defaults.set(value.messageEditHistory, forKey: Key.messageEditHistory)
+        defaults.set(value.showForwardWithoutAuthor, forKey: Key.showForwardWithoutAuthor)
+        defaults.set(value.showBroadcastMessages, forKey: Key.showBroadcastMessages)
+        defaults.set(value.showSelectByAuthor, forKey: Key.showSelectByAuthor)
+        defaults.removeObject(forKey: Key.legacyShowProxySponsorChannel)
+
+        NagramiXMediaSettings.update(value.media)
+        NagramiXDownloadSettings.update(value.downloads)
+
+        if previousShowAdvertising != value.showAdvertising {
+            NotificationCenter.default.post(name: self.advertisingChangedNotification, object: nil)
+        }
+        NotificationCenter.default.post(name: self.changedNotification, object: nil)
+        if previousHideReactions != value.hideReactions {
+            NotificationCenter.default.post(name: self.hideReactionsChangedNotification, object: nil)
+        }
+        if previousChannelBottomPanel != value.showChannelBottomPanel {
+            NotificationCenter.default.post(name: self.channelBottomPanelChangedNotification, object: nil)
+        }
+        if previousHideBlockedMessages != value.hideBlockedMessages {
+            NotificationCenter.default.post(name: Notification.Name("NagramiXBlockedMessagesSettingsChanged"), object: nil)
+        }
+        if previousUnreadChatsFirst != value.unreadChatsFirst {
+            NotificationCenter.default.post(name: self.unreadChatsFirstChangedNotification, object: nil)
+        }
+        if previousCompactChatList != value.compactChatList {
+            NotificationCenter.default.post(name: self.compactChatListChangedNotification, object: nil)
+        }
+        if previousWideChannelPosts != value.wideChannelPosts {
+            NotificationCenter.default.post(name: self.wideChannelPostsChangedNotification, object: nil)
+        }
+        if previousDeletedMessageLabel != value.deletedMessageLabel {
+            NotificationCenter.default.post(name: self.deletedMessageLabelChangedNotification, object: nil)
+        }
+        if previousDnsProvider != value.dnsProvider || previousCustomDohUrl != value.customDohUrl {
+            NotificationCenter.default.post(name: self.dnsChangedNotification, object: nil)
+        }
+    }
+
+    public static func requestTabInterfaceSoftRestart() {
+        NotificationCenter.default.post(name: self.softRestartRequestedNotification, object: nil)
+    }
+
+    public static func normalizedDeletedMessageLabel(_ value: String) -> String {
+        let singleLine = value.replacingOccurrences(of: "\r\n", with: " ")
+            .replacingOccurrences(of: "\n", with: " ")
+            .replacingOccurrences(of: "\r", with: " ")
+            .trimmingCharacters(in: .whitespacesAndNewlines)
+        return String(singleLine.prefix(64))
+    }
+}

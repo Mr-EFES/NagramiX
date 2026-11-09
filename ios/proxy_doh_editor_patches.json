@@ -1,0 +1,91 @@
+{
+  "inputs": {
+    "submodules/NagramiXCore/Sources/NagramiXTabSettings.swift": "ebeac047976a263593c97236dba3a0c9c9b5c4865e6095c3d596a77985e7182e",
+    "submodules/SettingsUI/Sources/Data and Storage/ProxyListSettingsController.swift": "77baf0755eac5985decca9f084baa03c90871496b51c6da7804a869200755374",
+    "submodules/SettingsUI/Sources/NagramiXCustomDohController.swift": "16b90ec9c5a28986652d253d70c618669b312cbcacb8a4d4429204b91ae91c15"
+  },
+  "outputs": {
+    "submodules/NagramiXCore/Sources/NagramiXTabSettings.swift": "359526e3acb7e2b840e73401d4094a863ca1f8a0349330737c11a83754956573",
+    "submodules/SettingsUI/Sources/Data and Storage/ProxyListSettingsController.swift": "fa33af05a67c9193c4be8792b5dd2a05a43479b1dee4dff7b018964a88234654",
+    "submodules/SettingsUI/Sources/NagramiXCustomDohController.swift": "51963fdc713ef9f1aede0e35b1f463bf2ad605876a0f3e359fe5ce156ed7e3fb"
+  },
+  "previous": {
+    "submodules/NagramiXCore/Sources/NagramiXTabSettings.swift": "proxy_doh_editor/Before0.inc",
+    "submodules/SettingsUI/Sources/Data and Storage/ProxyListSettingsController.swift": "proxy_doh_editor/Before1.inc",
+    "submodules/SettingsUI/Sources/NagramiXCustomDohController.swift": "proxy_doh_editor/Before2.inc"
+  },
+  "replacements": {
+    "submodules/NagramiXCore/Sources/NagramiXTabSettings.swift": "proxy_doh_editor/After0.inc",
+    "submodules/SettingsUI/Sources/Data and Storage/ProxyListSettingsController.swift": "proxy_doh_editor/After1.inc",
+    "submodules/SettingsUI/Sources/NagramiXCustomDohController.swift": "proxy_doh_editor/After2.inc"
+  },
+  "guards": {
+    "submodules/NagramiXCore/BUILD": "869e31310cc925b84ceb827a3c0b8503f3a22614acb4abeeec4a4ad435cf56e2",
+    "submodules/SettingsUI/BUILD": "b229ff1580a1e8e13770d400a1c0c9e1cf56ef05b831659c3422a6141b50f489",
+    "submodules/NagramiXCore/Sources/NagramiXPresentationStrings.swift": "39dd6b628e7f1cb867c3e022ae8bb7b3eb48a36203c172867460162e7bb0b906",
+    "submodules/NagramiXCore/Resources/ru.lproj/Localizable.strings": "e5ab3af10485126682c3bb9eb06ac59ad87e21132a1d25c83a679b15b0b54030",
+    "submodules/NagramiXCore/Resources/en.lproj/Localizable.strings": "8819c3c8463aac4e29e8c5b0976f0eda00fbdb6bcc38c247525c318d74571e4e",
+    "submodules/NagramiXMediaSettings/Sources/NagramiXProxyPreferences.swift": "e8ff5139c23b9555edf974e106674466cb0ee3ec4a422f95d60029eb945c564c",
+    "submodules/NagramiXMediaSettings/Sources/NagramiXMediaSettings.swift": "0bbd969f903181cb1f3caa2d43aefae3a46965dd670dde1a8c3cbced2335275f",
+    "submodules/MtProtoKit/Sources/NagramiXDNSResolver.h": "811219189b16f3f2dea3574f8f9ac27758a988885572e9d9d95a16b893ce607b",
+    "submodules/MtProtoKit/Sources/NagramiXDNSResolver.m": "dc3dbc310572e6bbc584682d1fb748d6286704feec28208488aa449a52171cdd",
+    "submodules/MtProtoKit/PublicHeaders/MtProtoKit/NagramiXDNSResolver.h": "811219189b16f3f2dea3574f8f9ac27758a988885572e9d9d95a16b893ce607b",
+    "submodules/TelegramUI/Components/AlertComponent/Sources/AlertComponent.swift": "da6b2c860a791fa4fcc1e6f278f9b50ef4c3b8607fa2b97aaa0c0016b8e4b2fe",
+    "submodules/TelegramUI/Components/AlertComponent/Sources/AlertActionComponent.swift": "53e8f0446818590e30da2882930d83644b7cfb27fdfc1ae437ddba484f19dabb",
+    "submodules/TelegramUI/Components/AlertComponent/AlertInputFieldComponent/Sources/AlertInputFieldComponent.swift": "36f1da13c00ea4472615ff5bc773754cb5d7898eec2e2975f8d335407eddf40d",
+    "submodules/TelegramCore/Sources/Network/Network.swift": "b34938671803435398e4dcab0a546a53a3a337f08fff96bd3f7520a25794103f",
+    "submodules/TelegramCore/Sources/Account/Account.swift": "9b27c8f27c6ab8d6ff9c1922c80cf62a89a753b1dc0bcf1d7e3be5b941e25a6d",
+    "submodules/TelegramUI/Components/ChatMediaEditorScreen/Sources/ChatMediaEditorScreenVideo.swift": "38bdea1712c1a490b75b1605b970f5a2d955b86bad2da2b7012e871d0bfc51ab",
+    "submodules/TelegramUI/Components/ChatMediaSend/Sources/ChatMediaSendSingleItem.swift": "a9eca4950cf19b64634afc369415b31cb7782edb5ad362db422bf3da2aaf3781"
+  },
+  "guard_sources": {
+    "submodules/NagramiXCore/BUILD": "proxy_doh_editor/Guard0.inc",
+    "submodules/SettingsUI/BUILD": "proxy_doh_editor/Guard1.inc",
+    "submodules/NagramiXCore/Sources/NagramiXPresentationStrings.swift": "proxy_doh_editor/Guard2.inc",
+    "submodules/NagramiXCore/Resources/ru.lproj/Localizable.strings": "proxy_doh_editor/Guard3.inc",
+    "submodules/NagramiXCore/Resources/en.lproj/Localizable.strings": "proxy_doh_editor/Guard4.inc",
+    "submodules/NagramiXMediaSettings/Sources/NagramiXProxyPreferences.swift": "proxy_doh_editor/Guard5.inc",
+    "submodules/NagramiXMediaSettings/Sources/NagramiXMediaSettings.swift": "proxy_doh_editor/Guard6.inc",
+    "submodules/MtProtoKit/Sources/NagramiXDNSResolver.h": "proxy_doh_editor/Guard7.inc",
+    "submodules/MtProtoKit/Sources/NagramiXDNSResolver.m": "proxy_doh_editor/Guard8.inc",
+    "submodules/MtProtoKit/PublicHeaders/MtProtoKit/NagramiXDNSResolver.h": "proxy_doh_editor/Guard9.inc",
+    "submodules/TelegramUI/Components/AlertComponent/Sources/AlertComponent.swift": "proxy_doh_editor/Guard10.inc",
+    "submodules/TelegramUI/Components/AlertComponent/Sources/AlertActionComponent.swift": "proxy_doh_editor/Guard11.inc",
+    "submodules/TelegramUI/Components/AlertComponent/AlertInputFieldComponent/Sources/AlertInputFieldComponent.swift": "proxy_doh_editor/Guard12.inc",
+    "submodules/TelegramCore/Sources/Network/Network.swift": "proxy_doh_editor/Guard13.inc",
+    "submodules/TelegramCore/Sources/Account/Account.swift": "proxy_doh_editor/Guard14.inc",
+    "submodules/TelegramUI/Components/ChatMediaEditorScreen/Sources/ChatMediaEditorScreenVideo.swift": "proxy_doh_editor/Guard15.inc",
+    "submodules/TelegramUI/Components/ChatMediaSend/Sources/ChatMediaSendSingleItem.swift": "proxy_doh_editor/Guard16.inc"
+  },
+  "copies": {},
+  "deletions": {},
+  "native_inputs": {},
+  "templates": {
+    "proxy_doh_editor/Before0.inc": "ebeac047976a263593c97236dba3a0c9c9b5c4865e6095c3d596a77985e7182e",
+    "proxy_doh_editor/After0.inc": "359526e3acb7e2b840e73401d4094a863ca1f8a0349330737c11a83754956573",
+    "proxy_doh_editor/Before1.inc": "77baf0755eac5985decca9f084baa03c90871496b51c6da7804a869200755374",
+    "proxy_doh_editor/After1.inc": "fa33af05a67c9193c4be8792b5dd2a05a43479b1dee4dff7b018964a88234654",
+    "proxy_doh_editor/Before2.inc": "16b90ec9c5a28986652d253d70c618669b312cbcacb8a4d4429204b91ae91c15",
+    "proxy_doh_editor/After2.inc": "51963fdc713ef9f1aede0e35b1f463bf2ad605876a0f3e359fe5ce156ed7e3fb",
+    "proxy_doh_editor/Guard0.inc": "869e31310cc925b84ceb827a3c0b8503f3a22614acb4abeeec4a4ad435cf56e2",
+    "proxy_doh_editor/Guard1.inc": "b229ff1580a1e8e13770d400a1c0c9e1cf56ef05b831659c3422a6141b50f489",
+    "proxy_doh_editor/Guard2.inc": "39dd6b628e7f1cb867c3e022ae8bb7b3eb48a36203c172867460162e7bb0b906",
+    "proxy_doh_editor/Guard3.inc": "e5ab3af10485126682c3bb9eb06ac59ad87e21132a1d25c83a679b15b0b54030",
+    "proxy_doh_editor/Guard4.inc": "8819c3c8463aac4e29e8c5b0976f0eda00fbdb6bcc38c247525c318d74571e4e",
+    "proxy_doh_editor/Guard5.inc": "e8ff5139c23b9555edf974e106674466cb0ee3ec4a422f95d60029eb945c564c",
+    "proxy_doh_editor/Guard6.inc": "0bbd969f903181cb1f3caa2d43aefae3a46965dd670dde1a8c3cbced2335275f",
+    "proxy_doh_editor/Guard7.inc": "811219189b16f3f2dea3574f8f9ac27758a988885572e9d9d95a16b893ce607b",
+    "proxy_doh_editor/Guard8.inc": "dc3dbc310572e6bbc584682d1fb748d6286704feec28208488aa449a52171cdd",
+    "proxy_doh_editor/Guard9.inc": "811219189b16f3f2dea3574f8f9ac27758a988885572e9d9d95a16b893ce607b",
+    "proxy_doh_editor/Guard10.inc": "da6b2c860a791fa4fcc1e6f278f9b50ef4c3b8607fa2b97aaa0c0016b8e4b2fe",
+    "proxy_doh_editor/Guard11.inc": "53e8f0446818590e30da2882930d83644b7cfb27fdfc1ae437ddba484f19dabb",
+    "proxy_doh_editor/Guard12.inc": "36f1da13c00ea4472615ff5bc773754cb5d7898eec2e2975f8d335407eddf40d",
+    "proxy_doh_editor/Guard13.inc": "b34938671803435398e4dcab0a546a53a3a337f08fff96bd3f7520a25794103f",
+    "proxy_doh_editor/Guard14.inc": "9b27c8f27c6ab8d6ff9c1922c80cf62a89a753b1dc0bcf1d7e3be5b941e25a6d",
+    "proxy_doh_editor/Guard15.inc": "38bdea1712c1a490b75b1605b970f5a2d955b86bad2da2b7012e871d0bfc51ab",
+    "proxy_doh_editor/Guard16.inc": "a9eca4950cf19b64634afc369415b31cb7782edb5ad362db422bf3da2aaf3781"
+  },
+  "target_pin": "24638bc69bd083981b178dd1e7f921eebbf7fc46",
+  "overlay_base_pin": "279f89e4d4f63f17227bf877dc3d8990f22ecd58",
+  "required_previous_stage": "round_video_editor"
+}

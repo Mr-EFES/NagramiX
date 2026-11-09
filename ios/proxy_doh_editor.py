@@ -1,0 +1,63 @@
+"""Порядок DNS/DoH/IPv6 и двухкнопочный редактор пользовательского DoH."""
+import hashlib
+import json
+from pathlib import Path
+
+
+def apply_proxy_doh_editor(source: Path, overlay: Path) -> None:
+    plan = json.loads((overlay / 'proxy_doh_editor_patches.json').read_text())
+    expected_inputs = set(['submodules/NagramiXCore/Sources/NagramiXTabSettings.swift', 'submodules/SettingsUI/Sources/Data and Storage/ProxyListSettingsController.swift', 'submodules/SettingsUI/Sources/NagramiXCustomDohController.swift'])
+    required_guards = set(['submodules/NagramiXCore/BUILD', 'submodules/SettingsUI/BUILD', 'submodules/NagramiXCore/Sources/NagramiXPresentationStrings.swift', 'submodules/NagramiXCore/Resources/ru.lproj/Localizable.strings', 'submodules/NagramiXCore/Resources/en.lproj/Localizable.strings', 'submodules/NagramiXMediaSettings/Sources/NagramiXProxyPreferences.swift', 'submodules/NagramiXMediaSettings/Sources/NagramiXMediaSettings.swift', 'submodules/MtProtoKit/Sources/NagramiXDNSResolver.h', 'submodules/MtProtoKit/Sources/NagramiXDNSResolver.m', 'submodules/MtProtoKit/PublicHeaders/MtProtoKit/NagramiXDNSResolver.h', 'submodules/TelegramUI/Components/AlertComponent/Sources/AlertComponent.swift', 'submodules/TelegramUI/Components/AlertComponent/Sources/AlertActionComponent.swift', 'submodules/TelegramUI/Components/AlertComponent/AlertInputFieldComponent/Sources/AlertInputFieldComponent.swift', 'submodules/TelegramCore/Sources/Network/Network.swift', 'submodules/TelegramCore/Sources/Account/Account.swift', 'submodules/TelegramUI/Components/ChatMediaEditorScreen/Sources/ChatMediaEditorScreenVideo.swift', 'submodules/TelegramUI/Components/ChatMediaSend/Sources/ChatMediaSendSingleItem.swift'])
+    if (plan['target_pin'] != '24638bc69bd083981b178dd1e7f921eebbf7fc46'
+        or plan['overlay_base_pin'] != '279f89e4d4f63f17227bf877dc3d8990f22ecd58'
+        or plan.get('required_previous_stage') != 'round_video_editor'
+        or set(plan['inputs']) != expected_inputs
+        or any(plan['inputs'].keys() != plan[field].keys() for field in ('outputs', 'previous', 'replacements'))
+        or set(plan['inputs']) & set(plan['guards'])
+        or plan['copies'] or plan['deletions']
+        or not required_guards <= plan['guards'].keys()
+        or set(plan['guard_sources']) != set(plan['guards'])
+        or not set(plan.get('native_inputs', {})) <= set(plan['inputs'])):
+        raise SystemExit('proxy_doh_editor: inconsistent manifest')
+
+    def safe(root: Path, name: str) -> Path:
+        relative = Path(name)
+        path = root / relative
+        if relative.is_absolute() or '..' in relative.parts or not path.resolve().is_relative_to(root.resolve()):
+            raise SystemExit('proxy_doh_editor: unsafe path ' + name)
+        if path.is_symlink():
+            raise SystemExit('proxy_doh_editor: symlink ' + name)
+        return path
+
+    def checked(root: Path, name: str, expected: str) -> bytes:
+        path = safe(root, name)
+        if not path.is_file():
+            raise SystemExit('proxy_doh_editor: missing ' + name)
+        data = path.read_bytes()
+        if hashlib.sha256(data).hexdigest() != expected:
+            raise SystemExit('proxy_doh_editor: drift ' + name)
+        return data
+
+    def template(name: str, expected: str) -> bytes:
+        if plan['templates'].get(name) != expected:
+            raise SystemExit('proxy_doh_editor: unregistered template ' + name)
+        return checked(overlay, name, expected)
+
+    for name, expected in plan['templates'].items():
+        checked(overlay, name, expected)
+    for name, expected in plan['guards'].items():
+        if checked(source, name, expected) != template(plan['guard_sources'][name], expected):
+            raise SystemExit('proxy_doh_editor: guard mismatch ' + name)
+    prepared = {}
+    for name, expected in plan['inputs'].items():
+        before = template(plan['previous'][name], expected)
+        if checked(source, name, expected) != before:
+            raise SystemExit('proxy_doh_editor: previous mismatch ' + name)
+        if name in plan.get('native_inputs', {}):
+            blob = hashlib.sha1(b'blob ' + str(len(before)).encode() + b'\0' + before).hexdigest()
+            if blob != plan['native_inputs'][name]:
+                raise SystemExit('proxy_doh_editor: native input origin ' + name)
+        prepared[name] = template(plan['replacements'][name], plan['outputs'][name])
+    # Validate every preimage, dependency and destination before writing source.
+    for name, data in prepared.items():
+        safe(source, name).write_bytes(data)
