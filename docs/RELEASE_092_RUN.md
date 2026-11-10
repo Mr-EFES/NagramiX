@@ -11,3 +11,7 @@
 ## Изменение режима проверок по команде владельца
 
 №191 [run42718697198](https://github.com/Mr-EFES/NagramiX/actions/runs/42718697198), source`accd1f41df9845de92d7fc8116b459aeaa7f8362`, дошёл до применения overlay и остановлен по новой команде ускорить Apple Swift checks. Это отмена, а не зафиксированная ошибка исходников. [Новый режим](PATCH_VALIDATION_MODE.md): повторные исторические тесты необязательны, настоящие проверки кода/SDK/IPA сохранены. Следующий dispatch остаётся0.9.2, extended_patch_tests=false, clean_build=true, publish_release=true, prerelease=false.
+
+## SDK192 и проверенный повтор
+
+[№192](https://github.com/Mr-EFES/NagramiX/actions/runs/42721038519) отMr-EFES: source`0163da0b35d5bdb8f1dac4414b9d6b1901a79feb`, подготовка патчей403секунды, после успешных обязательных проверок нативная компиляция остановилась на неправильном порядке двух аргументов SettingsUI. [Исправление](RELEASE_092_SETTINGS_COMPILE.md): одна перестановка и новый обязательный compiler probe полного73-параметрового вызова до SDK. Повторяется та же0.9.2 в чистом режиме до успешного IPA и owner publication; неудачный192 не публикуется.

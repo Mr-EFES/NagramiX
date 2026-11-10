@@ -1,0 +1,43 @@
+{
+  "inputs": {
+    "submodules/SettingsUI/Sources/NagramiXSettingsController.swift": "93b2a50b34e443a731bd577ffe1bc2725a65f8084a1badfa3ae7927fcbcadb92"
+  },
+  "outputs": {
+    "submodules/SettingsUI/Sources/NagramiXSettingsController.swift": "be1ef9c53993ceaf0c2ce64d873530d525503920d7c8705cb3da4c0ce4069e05"
+  },
+  "previous": {
+    "submodules/SettingsUI/Sources/NagramiXSettingsController.swift": "release_092_settings_compile/Before0.inc"
+  },
+  "replacements": {
+    "submodules/SettingsUI/Sources/NagramiXSettingsController.swift": "release_092_settings_compile/After0.inc"
+  },
+  "guards": {
+    "submodules/SettingsUI/BUILD": "b229ff1580a1e8e13770d400a1c0c9e1cf56ef05b831659c3422a6141b50f489",
+    "submodules/NagramiXCore/Sources/NagramiXTabSettings.swift": "dfcc93bf238bb2441deb914f0b9008a1fecbbf0deaab8f58e95196d4e35a1545",
+    "submodules/NagramiXCore/Sources/NagramiXPresentationStrings.swift": "b9700aab8046faceae855dc3336cfb22869c71f2aa395c4a0258c544be895d50",
+    "submodules/NagramiXMediaSettings/Sources/NagramiXMediaSettings.swift": "0bbd969f903181cb1f3caa2d43aefae3a46965dd670dde1a8c3cbced2335275f",
+    "submodules/TelegramUI/Sources/ChatInterfaceStateContextMenus.swift": "b16127d4fdd64af0d3f9fec1d921391c51513f46492a0e5c122a3f935f005a77"
+  },
+  "guard_sources": {
+    "submodules/SettingsUI/BUILD": "release_092_settings_compile/Guard0.inc",
+    "submodules/NagramiXCore/Sources/NagramiXTabSettings.swift": "release_092_settings_compile/Guard1.inc",
+    "submodules/NagramiXCore/Sources/NagramiXPresentationStrings.swift": "release_092_settings_compile/Guard2.inc",
+    "submodules/NagramiXMediaSettings/Sources/NagramiXMediaSettings.swift": "release_092_settings_compile/Guard3.inc",
+    "submodules/TelegramUI/Sources/ChatInterfaceStateContextMenus.swift": "release_092_settings_compile/Guard4.inc"
+  },
+  "copies": {},
+  "deletions": {},
+  "native_inputs": {},
+  "templates": {
+    "release_092_settings_compile/Before0.inc": "93b2a50b34e443a731bd577ffe1bc2725a65f8084a1badfa3ae7927fcbcadb92",
+    "release_092_settings_compile/After0.inc": "be1ef9c53993ceaf0c2ce64d873530d525503920d7c8705cb3da4c0ce4069e05",
+    "release_092_settings_compile/Guard0.inc": "b229ff1580a1e8e13770d400a1c0c9e1cf56ef05b831659c3422a6141b50f489",
+    "release_092_settings_compile/Guard1.inc": "dfcc93bf238bb2441deb914f0b9008a1fecbbf0deaab8f58e95196d4e35a1545",
+    "release_092_settings_compile/Guard2.inc": "b9700aab8046faceae855dc3336cfb22869c71f2aa395c4a0258c544be895d50",
+    "release_092_settings_compile/Guard3.inc": "0bbd969f903181cb1f3caa2d43aefae3a46965dd670dde1a8c3cbced2335275f",
+    "release_092_settings_compile/Guard4.inc": "b16127d4fdd64af0d3f9fec1d921391c51513f46492a0e5c122a3f935f005a77"
+  },
+  "target_pin": "24638bc69bd083981b178dd1e7f921eebbf7fc46",
+  "overlay_base_pin": "279f89e4d4f63f17227bf877dc3d8990f22ecd58",
+  "required_previous_stage": "content_interaction_consent"
+}

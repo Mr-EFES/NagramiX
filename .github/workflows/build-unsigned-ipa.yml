@@ -143,6 +143,7 @@ jobs:
           export SDKROOT="$(xcrun --sdk macosx --show-sdk-path)"
           export MACOSX_DEPLOYMENT_TARGET=13.0
           python3 scripts/validate_swift_geometry_boundaries.py --swiftc "$(xcrun --find swiftc)" --report "$RUNNER_TEMP/swift-geometry-boundaries.json"
+          python3 scripts/validate_settings_argument_bindings.py --canonical --swiftc "$(xcrun --find swiftc)" --report "$RUNNER_TEMP/settings-argument-bindings.json"
 
       - name: Применить overlay NagramiX
         env:
@@ -403,6 +404,8 @@ jobs:
           nagramix_extended_check python3 scripts/validate_hide_premium_offers.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)" --report "$RUNNER_TEMP/hide-premium-offers.json"
           PYTHONPATH=ios python3 -c 'from pathlib import Path; from content_interaction_consent import apply_content_interaction_consent; apply_content_interaction_consent(Path("Telegram-iOS").resolve(), Path("ios").resolve())'
           nagramix_extended_check python3 scripts/validate_content_interaction_consent.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)" --report "$RUNNER_TEMP/content-interaction-consent.json"
+          PYTHONPATH=ios python3 -c 'from pathlib import Path; from release_092_settings_compile import apply_release_092_settings_compile; apply_release_092_settings_compile(Path("Telegram-iOS").resolve(), Path("ios").resolve())'
+          python3 scripts/validate_release_092_settings_compile.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)" --report "$RUNNER_TEMP/release-092-settings-compile.json"
           python3 scripts/validate_late_source_stages.py --source Telegram-iOS --report "$RUNNER_TEMP/late-source-stages.json"
           python3 scripts/validate_custom_member_references.py --source Telegram-iOS
           python3 scripts/validate_upstream_13_2_release.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)"
