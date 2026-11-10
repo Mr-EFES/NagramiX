@@ -53,6 +53,7 @@ LATE_SOURCE_STAGES = (
     'bubble_selection_edge',
     'composer_file_attachments',
     'archived_round_native_controls',
+    'transcription_account_defaults',
 )
 TEMPORARY_INTERACTION_STAGE = 'temporary_message_interaction'
 TEMPORARY_REPLY_HELPER = 'submodules/TelegramUI/Sources/Chat/NagramiXTemporaryReplySend.swift'
