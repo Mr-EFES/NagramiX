@@ -1,0 +1,249 @@
+{
+  "stage": "poll_copy_transport",
+  "outputs": {
+    "submodules/TelegramCore/Sources/PendingMessages/PendingMessageUploadedContent.swift": "7636bcac268d86457017ff367c7bb9fb7abd4a10926acbdd456086190dd97737",
+    "submodules/TelegramCore/Sources/Utils/NagramiXOutgoingCopy.swift": "b3004ebc8e6d939a9ab4917bf418e6b15e32466cc2c053ecb17e2ae1be507a7b"
+  },
+  "guards": 27,
+  "loader_refusals": 14,
+  "executions": [
+    {
+      "name": "poll-copy-transport",
+      "mode": "debug",
+      "exit_code": 0,
+      "output": "PASS poll copy transport checks: 67"
+    },
+    {
+      "name": "poll-copy-transport",
+      "mode": "optimized",
+      "exit_code": 0,
+      "output": "PASS poll copy transport checks: 67"
+    },
+    {
+      "name": "received-answer-form",
+      "mode": "debug",
+      "exit_code": 91,
+      "output": "Poll transport regression: new poll uses input answers"
+    },
+    {
+      "name": "received-answer-form",
+      "mode": "optimized",
+      "exit_code": 91,
+      "output": "Poll transport regression: new poll uses input answers"
+    },
+    {
+      "name": "source-subscriber-rule",
+      "mode": "debug",
+      "exit_code": 91,
+      "output": "Poll transport regression: source channel rule is not inherited"
+    },
+    {
+      "name": "source-subscriber-rule",
+      "mode": "optimized",
+      "exit_code": 91,
+      "output": "Poll transport regression: source channel rule is not inherited"
+    },
+    {
+      "name": "source-option-identities",
+      "mode": "debug",
+      "exit_code": 91,
+      "output": "Poll transport regression: fresh native option IDs"
+    },
+    {
+      "name": "source-option-identities",
+      "mode": "optimized",
+      "exit_code": 91,
+      "output": "Poll transport regression: fresh native option IDs"
+    },
+    {
+      "name": "skip-reference-registration",
+      "mode": "debug",
+      "exit_code": 91,
+      "output": "Poll transport regression: cloud video is registered without byte upload"
+    },
+    {
+      "name": "skip-reference-registration",
+      "mode": "optimized",
+      "exit_code": 91,
+      "output": "Poll transport regression: cloud video is registered without byte upload"
+    },
+    {
+      "name": "retry-permission-failure",
+      "mode": "debug",
+      "exit_code": 91,
+      "output": "Poll transport regression: permission failure remains a real failure"
+    },
+    {
+      "name": "retry-permission-failure",
+      "mode": "optimized",
+      "exit_code": 91,
+      "output": "Poll transport regression: permission failure remains a real failure"
+    },
+    {
+      "name": "drop-empty-refresh-fallback",
+      "mode": "debug",
+      "exit_code": 91,
+      "output": "Poll transport regression: empty refresh falls back to bytes"
+    },
+    {
+      "name": "drop-empty-refresh-fallback",
+      "mode": "optimized",
+      "exit_code": 91,
+      "output": "Poll transport regression: empty refresh falls back to bytes"
+    }
+  ],
+  "swift_parse": 2,
+  "source_files": 37655,
+  "source_unchanged_by_checks": true,
+  "native_postbox_imports": "passed",
+  "boundary": "Actual poll model fields, copier, complete poll sender branch, reference resolver, refresher and native SignalKit execute. Typed API/Postbox/network/byte I/O are explicit adapters. This verifies final payload and bounded fallback for the reported nine-option video poll, not live Telegram acceptance or device delivery.",
+  "apple_sdk": "not_run",
+  "ipa": "not_built",
+  "physical_iphone": "pending",
+  "exact_rpc_error_from_user_device": "not_available",
+  "source_parent": "08071f39383be08b1ae30a72940ea22980ab4166",
+  "independent": {
+    "files": 37655,
+    "changed_files": [
+      "submodules/TelegramCore/Sources/PendingMessages/PendingMessageUploadedContent.swift",
+      "submodules/TelegramCore/Sources/Utils/NagramiXOutgoingCopy.swift"
+    ],
+    "independent_apply_exact": true,
+    "source28_unchanged": true,
+    "previous_tracked_inc_unchanged": 3064
+  },
+  "global_source": {
+    "target_pin": "24638bc69bd083981b178dd1e7f921eebbf7fc46",
+    "pre_replacements": 196,
+    "post_replacements": 274,
+    "deleted_obsolete_files": 2,
+    "fail_closed": {
+      "pre": 17,
+      "post": 33
+    },
+    "parsed_swift": 507,
+    "executions": [
+      "current-debug: PiP playback command checks: 113",
+      "current-O: PiP playback command checks: 113",
+      "previous-native-debug: Native PiP baseline checks: 37",
+      "previous-native-O: Native PiP baseline checks: 37",
+      "previous-caption-debug: Round caption transport checks: 118",
+      "previous-caption-O: Round caption transport checks: 118",
+      "previous-composer-debug: Repost copy integrity checks: 48",
+      "previous-composer-O: Repost copy integrity checks: 48",
+      "old-toggle-command-debug: regression reproduced and rejected",
+      "old-toggle-command-O: regression reproduced and rejected",
+      "cached-status-toggle-debug: regression reproduced and rejected",
+      "cached-status-toggle-O: regression reproduced and rejected",
+      "inverted-command-debug: regression reproduced and rejected",
+      "inverted-command-O: regression reproduced and rejected"
+    ],
+    "historical_runtime_boundary": "exact published bytes after verified inverse of all registered late source stages",
+    "late_source_stages": [
+      "wide_bottom_bar",
+      "author_selection_no_restore",
+      "preview_reply_intent",
+      "cloud_credential_entry",
+      "extended_poll_integrity",
+      "bot_delete_without_block",
+      "wide_tab_bar_setting",
+      "pip_swipe_handoff",
+      "temporary_message_interaction",
+      "account_settings_entry",
+      "release_090_preflight_fixes",
+      "release_090_author_compile",
+      "round_video_replay_stability",
+      "pip_gallery_placeholder",
+      "download_sheet_edge",
+      "edit_history_cards",
+      "copy_reference_recovery",
+      "edit_history_number_badges",
+      "pip_visual_continuity",
+      "local_copy_delivery",
+      "temporary_playback_identity",
+      "round_video_editor",
+      "proxy_doh_editor",
+      "download_sheet_corners",
+      "hide_premium_offers",
+      "content_interaction_consent",
+      "release_092_settings_compile",
+      "round_native_playback",
+      "poll_copy_transport"
+    ],
+    "native_postbox_imports": "passed",
+    "apple_sdk": "pending",
+    "device": "pending"
+  },
+  "custom_members": {
+    "swift_files": 7321,
+    "string_accesses": 856,
+    "distinct_string_members": 233,
+    "actual_string_declarations": 250,
+    "custom_declarations": 900,
+    "full_custom_name_audit": true
+  },
+  "canonical_custom_members": {
+    "swift_files": 224,
+    "string_accesses": 798,
+    "distinct_string_members": 231,
+    "actual_string_declarations": 250,
+    "custom_declarations": 777,
+    "full_custom_name_audit": false
+  },
+  "inverse": {
+    "paths": 729,
+    "refusals": 112
+  },
+  "workflow": {
+    "optional_historical_calls": 189,
+    "unconditional_apply_calls": 37,
+    "mandatory_final_checks": [
+      "validate_late_source_stages.py",
+      "validate_custom_member_references.py",
+      "validate_upstream_13_2_release.py",
+      "validate_localization_standard.py",
+      "validate_release_092_settings_compile.py",
+      "validate_round_native_playback.py",
+      "validate_poll_copy_transport.py",
+      "PostboxImportCheck.py"
+    ],
+    "bash_syntax": "passed",
+    "runtime_cases": [
+      {
+        "extended": "false",
+        "exit_code": 0
+      },
+      {
+        "extended": "true",
+        "exit_code": 17
+      },
+      {
+        "extended": "true",
+        "exit_code": 0
+      },
+      {
+        "extended": "invalid",
+        "exit_code": 64
+      }
+    ]
+  },
+  "localization": {
+    "strict": true,
+    "resource_catalogs": 71,
+    "keys": 635,
+    "lookups_per_mode": 45254,
+    "modes": [
+      "debug",
+      "optimized"
+    ],
+    "new_keys": 0
+  },
+  "evidence": {
+    "video": "-2178744786051664071.mp4",
+    "duration_seconds": 41.2,
+    "observed": "copy enqueued in ordinary recipient chat, red send failure and retry; native repost succeeds",
+    "private_attachment_committed": false
+  },
+  "build_dispatched": false,
+  "published_release_unchanged": "0.9.2/build193"
+}
