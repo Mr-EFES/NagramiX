@@ -1,0 +1,132 @@
+{
+  "stage": "bubble_selection_edge",
+  "outputs": {
+    "submodules/TelegramUI/Components/Chat/ChatMessageBubbleItemNode/Sources/ChatMessageBubbleItemNode.swift": "70a82f2c2731f518acd73ceae405679c5559a2bb3355ff42ac2eb11c8bec16e7"
+  },
+  "guards": 14,
+  "loader_refusals": 12,
+  "executions": [
+    {
+      "name": "bubble-edge",
+      "mode": "debug",
+      "exit_code": 0,
+      "output": "Production bubble edge checks: 17296"
+    },
+    {
+      "name": "bubble-edge",
+      "mode": "optimized",
+      "exit_code": 0,
+      "output": "Production bubble edge checks: 17296"
+    },
+    {
+      "name": "missing-reserve",
+      "mode": "debug",
+      "exit_code": 91,
+      "output": "Bubble edge regression: selected filled bubble keeps the ordinary safe-edge gap"
+    },
+    {
+      "name": "missing-reserve",
+      "mode": "optimized",
+      "exit_code": 91,
+      "output": "Bubble edge regression: selected filled bubble keeps the ordinary safe-edge gap"
+    },
+    {
+      "name": "normal-mode-shrink",
+      "mode": "debug",
+      "exit_code": 91,
+      "output": "Bubble edge regression: ordinary geometry remains native"
+    },
+    {
+      "name": "normal-mode-shrink",
+      "mode": "optimized",
+      "exit_code": 91,
+      "output": "Bubble edge regression: ordinary geometry remains native"
+    },
+    {
+      "name": "unchecked-row-leak",
+      "mode": "debug",
+      "exit_code": 91,
+      "output": "Bubble edge regression: unchecked rows reserve the same column"
+    },
+    {
+      "name": "unchecked-row-leak",
+      "mode": "optimized",
+      "exit_code": 91,
+      "output": "Bubble edge regression: unchecked rows reserve the same column"
+    },
+    {
+      "name": "lost-eligibility",
+      "mode": "debug",
+      "exit_code": 91,
+      "output": "Bubble edge regression: non-selectable rows keep their native width"
+    },
+    {
+      "name": "lost-eligibility",
+      "mode": "optimized",
+      "exit_code": 91,
+      "output": "Bubble edge regression: non-selectable rows keep their native width"
+    },
+    {
+      "name": "wrong-offset",
+      "mode": "debug",
+      "exit_code": 91,
+      "output": "Bubble edge regression: selected filled bubble keeps the ordinary safe-edge gap"
+    },
+    {
+      "name": "wrong-offset",
+      "mode": "optimized",
+      "exit_code": 91,
+      "output": "Bubble edge regression: selected filled bubble keeps the ordinary safe-edge gap"
+    },
+    {
+      "name": "bubbleless-shrink",
+      "mode": "debug",
+      "exit_code": 91,
+      "output": "Bubble edge regression: bubbleless width remains native"
+    },
+    {
+      "name": "bubbleless-shrink",
+      "mode": "optimized",
+      "exit_code": 91,
+      "output": "Bubble edge regression: bubbleless width remains native"
+    }
+  ],
+  "swift_parse": 1,
+  "source_files": 37655,
+  "source_unchanged_by_checks": true,
+  "boundary": "Real width-fill, compact constants, native width preparation and final bubble/content placement execute together with actual item selection and native eligibility/translation. Text measurement is an explicit fixed-advance adapter; UIKit, CoreText pixels and actual transition frames require Apple SDK/iPhone. Every other byte of the parent file is reconstructed and compared with the proven baseline.",
+  "apple_sdk": "not_run",
+  "device": "pending",
+  "independent": {
+    "files": 37655,
+    "changed": [
+      "submodules/TelegramUI/Components/Chat/ChatMessageBubbleItemNode/Sources/ChatMessageBubbleItemNode.swift"
+    ],
+    "source36_unchanged": true,
+    "independent_apply_exact": true,
+    "old_snapshots_preserved": 3202
+  },
+  "global_checks": {
+    "swift_parse": 512,
+    "migration_refusals": 50,
+    "historical_executions": 14,
+    "postbox": "passed",
+    "inverse_contract_paths": 734,
+    "inverse_refusals": 136,
+    "custom_members": "full7321/canonical225 passed",
+    "localization": "71 resource catalogs x635 keys;45254lookups per debug/-O; passed",
+    "geometry_import_probes": 22
+  },
+  "source": "/tmp/nagramix-bubble-edge-selection/source",
+  "baseline": "/tmp/nagramix-download-sheet-vector-contour/source",
+  "reference": {
+    "video": "1-5767369643075360543.mp4",
+    "duration_seconds": 35.233333,
+    "viewport": [
+      384,
+      832
+    ],
+    "approved_mock": "/workspace/generated_images/exec-874a145c-8507-4b46-8750-6e1ae5af1532.png"
+  },
+  "release": "source only; published0.9.4/build195 unchanged, next0.9.5 on a new command"
+}

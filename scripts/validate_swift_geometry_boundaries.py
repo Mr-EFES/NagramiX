@@ -16,6 +16,7 @@ from validate_pip_visual_continuity import GEOMETRY_BOUNDARY as PIP_CONTINUITY_B
 from round_video_editor_runtime import GEOMETRY_BOUNDARY as ROUND_VIDEO_EDITOR_BOUNDARY
 from round_replacement_geometry_runtime import BOUNDARY as ROUND_REPLACEMENT_BOUNDARY
 from download_sheet_vector_contour_runtime import BOUNDARY as DOWNLOAD_CONTOUR_BOUNDARY
+from bubble_selection_edge_runtime import BOUNDARY as BUBBLE_EDGE_BOUNDARY
 
 
 PROBE = r'''
@@ -45,6 +46,7 @@ def check(swiftc):
         'round-video-editor': ROUND_VIDEO_EDITOR_BOUNDARY,
         'round-replacement': ROUND_REPLACEMENT_BOUNDARY.split('struct CATransform3D')[0],
         'download-contour': DOWNLOAD_CONTOUR_BOUNDARY.split('struct UIRectCorner')[0],
+        'bubble-selection-edge': BUBBLE_EDGE_BOUNDARY.split('struct UIEdgeInsets')[0],
     }
     report = {'boundaries': [], 'apple_import_negatives': [],
               'boundary': 'Actual test boundary imports and geometry operators; no UIKit or whole-app SDK build.'}
