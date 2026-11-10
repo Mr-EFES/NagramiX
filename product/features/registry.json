@@ -637,6 +637,16 @@
       }
     },
     {
+      "id": "composer_file_attachments",
+      "title": "Текст и файлы в общем черновике нового поста",
+      "specification": "specified",
+      "ios": {
+        "implementation": "implemented",
+        "compile": "compile_pending",
+        "device": "device_pending"
+      }
+    },
+    {
       "id": "quick_formatting",
       "title": "Быстрое форматирование выделенного текста из поля сообщения",
       "specification": "specified",
