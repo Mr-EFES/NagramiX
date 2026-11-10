@@ -1,0 +1,138 @@
+{
+  "version": "0.9.2",
+  "build": 193,
+  "source": "67090143af03c3d709b4283f2a4b037e61e87014",
+  "run_id": 42732784627,
+  "run_url": "https://github.com/Mr-EFES/NagramiX/actions/runs/42732784627",
+  "release_id": 439932109,
+  "release_url": "https://github.com/Mr-EFES/NagramiX/releases/tag/v0.9.2",
+  "owner": "Mr-EFES",
+  "published_at": "2026-11-10T04:04:25Z",
+  "latest_verified": true,
+  "tag_source_verified": true,
+  "normal_release": true,
+  "assets": [
+    {
+      "id": 730035927,
+      "name": "BUILD-PROVENANCE.txt",
+      "size": 408,
+      "digest": "sha256:3385b5d2d36362177561d33d9aa9852098f540f9d4beed12216280bdefce11ef",
+      "browser_download_url": "https://github.com/Mr-EFES/NagramiX/releases/download/v0.9.2/BUILD-PROVENANCE.txt"
+    },
+    {
+      "id": 730035928,
+      "name": "NagramiX-0.9.2-unsigned.ipa",
+      "size": 93892619,
+      "digest": "sha256:727ea808a237243f22672ebba46de1441b7a3ca847aa764a1f48c09a5e84c81e",
+      "browser_download_url": "https://github.com/Mr-EFES/NagramiX/releases/download/v0.9.2/NagramiX-0.9.2-unsigned.ipa"
+    },
+    {
+      "id": 730035926,
+      "name": "SHA256SUMS",
+      "size": 94,
+      "digest": "sha256:c796e52d934dfd11d380fa2faa057736bc5a6cf736598c4b9d30325a01a4221d",
+      "browser_download_url": "https://github.com/Mr-EFES/NagramiX/releases/download/v0.9.2/SHA256SUMS"
+    }
+  ],
+  "all_uploaders": "Mr-EFES",
+  "physical_iphone": "pending",
+  "private_visibility_not_changed": true,
+  "schema_version": 1,
+  "status": "native_compile_passed/package_verified/owner_published/device_pending",
+  "artifact": {
+    "id": 13730846722,
+    "size": 93468837,
+    "sha256": "4b0ffcb9e232a9b99a6d40afaffb87f54b67f40abeda7b3b919a4660dea2e01b",
+    "original_zip_preserved": true,
+    "file_service_id": "file_000000005cac820abae9182a4a8b3f89"
+  },
+  "symbols_artifact": {
+    "id": 13731056330,
+    "sha256": "a51c7e9711a6d5b4d43978c0ea85d83f1eafc936cc40d43c199ab9bdab06edee"
+  },
+  "official_base": {
+    "version": "13.2",
+    "commit": "24638bc69bd083981b178dd1e7f921eebbf7fc46",
+    "xcode": "27.1"
+  },
+  "package": {
+    "version": "0.9.2",
+    "build": 193,
+    "minimum_ios": "15.0",
+    "platform": "iPhoneOS",
+    "architecture": "ARM64",
+    "mach_o_files": 6,
+    "resource_catalogs": 71,
+    "keys_per_catalog": 635,
+    "official_language_count_claimed": false,
+    "melodies": 31,
+    "app_icons": 8,
+    "profiles_in_package": false,
+    "local_checksum_and_provenance_passed": true
+  },
+  "workflow": {
+    "clean_build": true,
+    "publish_release": true,
+    "prerelease": false,
+    "extended_patch_tests": false,
+    "early_settings_binding_passed": true,
+    "patch_preparation_seconds": 370,
+    "sdk_started_at": "2026-11-10T01:11:05Z",
+    "sdk_completed_at": "2026-11-10T02:41:58Z",
+    "jobs": [
+      {
+        "id": 129554677643,
+        "name": "build",
+        "conclusion": "success",
+        "completed_at": "2026-11-10T02:42:31Z"
+      },
+      {
+        "id": 129593546397,
+        "name": "Проверить IPA для публикации Mr_EFES",
+        "conclusion": "success",
+        "completed_at": "2026-11-10T02:42:49Z"
+      }
+    ]
+  },
+  "previous_attempts": [
+    {
+      "source": "accd1f41df9845de92d7fc8116b459aeaa7f8362",
+      "run_id": 42718697198,
+      "run_number": 191,
+      "run_url": "https://github.com/Mr-EFES/NagramiX/actions/runs/42718697198",
+      "conclusion": "cancelled",
+      "reason": "owner requested faster patch validation workflow"
+    },
+    {
+      "source": "0163da0b35d5bdb8f1dac4414b9d6b1901a79feb",
+      "run_id": 42721038519,
+      "run_number": 192,
+      "run_url": "https://github.com/Mr-EFES/NagramiX/actions/runs/42721038519",
+      "conclusion": "failure",
+      "reason": "SettingsUI memberwise argument order; guarded stage27 fixed and compiler-negative reproduced",
+      "patch_preparation_seconds": 403.0,
+      "patch_preparation_passed": true,
+      "sdk_started_at": "2026-11-09T23:40:24Z"
+    }
+  ],
+  "compile_status_updated_features": [
+    "forward_copy",
+    "deleted_messages",
+    "temporary_messages",
+    "edit_history",
+    "dns_doh",
+    "video_pip_swipe",
+    "download_acceleration",
+    "hide_premium_offers",
+    "protected_content_copy",
+    "own_view_once_copy",
+    "round_video_editor",
+    "voice_transcription"
+  ],
+  "limitations": [
+    "Физическая проверка на iPhone ожидается; успешная SDK-компиляция не подтверждает поведение интерфейса и сети на устройстве.",
+    "Расширенные исторические тесты отключены по команде владельца; применение патчей, обязательные исходные проверки, SDK и проверки IPA выполнены."
+  ],
+  "next_release": "0.9.3",
+  "new_build_requires_new_owner_command": true
+}
