@@ -1,0 +1,51 @@
+{
+  "version": "0.9.3",
+  "build": 194,
+  "run_id": 42775740029,
+  "run_url": "https://github.com/Mr-EFES/NagramiX/actions/runs/42775740029",
+  "source_commit": "66e31479579571ef49f1a827c71c80fba093d1e4",
+  "tag": "v0.9.3",
+  "release_id": 440158131,
+  "release_url": "https://github.com/Mr-EFES/NagramiX/releases/tag/v0.9.3",
+  "published_at": "2026-11-10T09:26:24Z",
+  "latest": true,
+  "draft": false,
+  "prerelease": false,
+  "owner": "Mr-EFES",
+  "all_asset_uploaders_owner": true,
+  "artifacts": {
+    "NagramiX-0.9.3-unsigned.ipa": {
+      "size": 93909680,
+      "sha256": "74cb7ed12be26be284522181e8945b0140e716fab5e311e6fc8b8f42032f0d30"
+    },
+    "BUILD-PROVENANCE.txt": {
+      "size": 408,
+      "sha256": "f5dab0214a48a50de46667f9759e2e6107be1e419f8f78a8ffc6303d75046c37"
+    },
+    "SHA256SUMS": {
+      "size": 94,
+      "sha256": "0e1c8bf15e933c44e75f9ec07d2764c9478c3ac829eeef61805df346efcfa4d5"
+    }
+  },
+  "native_compile": "passed",
+  "package": "verified",
+  "publication": "owner_published",
+  "device": "pending",
+  "provenance": "NagramiX version: 0.9.3\nNagramiX commit: 66e31479579571ef49f1a827c71c80fba093d1e4\nTelegram-iOS commit: 24638bc69bd083981b178dd1e7f921eebbf7fc46\nWorkflow run: https://github.com/Mr-EFES/NagramiX/actions/runs/42775740029\nDependency override: submodules/TgVoipWebrtc/tgcalls c1de0882de9013df246252129b95430f48b20eec -> 38dcea121f10638c42098f226f05c298a392f95c (https://github.com/TelegramMessenger/tgcalls.git)\n",
+  "checksums": "74cb7ed12be26be284522181e8945b0140e716fab5e311e6fc8b8f42032f0d30  NagramiX-0.9.3-unsigned.ipa\n",
+  "original_actions_zip": {
+    "file": "original-actions-build194.zip",
+    "size": 93482075,
+    "sha256": "97cf9aa0a93257927e9105a34f217bece0c026930b89e332d72e334ec3fac74f"
+  },
+  "native_compile_started_at": "2026-11-10T07:45:25Z",
+  "native_compile_completed_at": "2026-11-10T09:23:30Z",
+  "sdk_attempts_this_release": 1,
+  "actions_zip_artifact_id": 13750643686,
+  "crash_symbols_artifact": {
+    "id": 13750013629,
+    "name": "NagramiX-0.9.3-symbols-arm64",
+    "size": 203203167,
+    "sha256": "24491c521a68d88c7ba1b5542631b244e87c9562da2b00ea18860f1cfe81c2a3"
+  }
+}
