@@ -1,0 +1,87 @@
+{
+  "inputs": {
+    "submodules/TelegramCore/Sources/Utils/NagramiXOutgoingCopy.swift": "b3004ebc8e6d939a9ab4917bf418e6b15e32466cc2c053ecb17e2ae1be507a7b",
+    "submodules/TelegramUI/Sources/ChatControllerForwardMessages.swift": "fe0c25f4597fa5cfc92aa5962a20aa0cd32a28ec7d76494aa2d84701b09382a0",
+    "submodules/TelegramUI/Sources/Chat/NagramiXCopyDelivery.swift": "2c26cc5593a306c4bf41628370fa0036bc86818cda6b7a1428667046ec95afec"
+  },
+  "outputs": {
+    "submodules/TelegramCore/Sources/Utils/NagramiXOutgoingCopy.swift": "5bd957d697244f4a1d97794ff70ab8aa1e71b34b9e8af9a6b747db0c895b9d68",
+    "submodules/TelegramUI/Sources/ChatControllerForwardMessages.swift": "115780676318ba50113677ffb07e104788c33f95f9443cac64e9af15ff1992d1",
+    "submodules/TelegramUI/Sources/Chat/NagramiXCopyDelivery.swift": "c5695ff96d8ab2750ad9bdf8bf94e2ddef54670b549712e6fa2607626933f8b7"
+  },
+  "previous": {
+    "submodules/TelegramCore/Sources/Utils/NagramiXOutgoingCopy.swift": "ghostgram_authorless_transport/Before0.inc",
+    "submodules/TelegramUI/Sources/ChatControllerForwardMessages.swift": "ghostgram_authorless_transport/Before1.inc",
+    "submodules/TelegramUI/Sources/Chat/NagramiXCopyDelivery.swift": "ghostgram_authorless_transport/Before2.inc"
+  },
+  "replacements": {
+    "submodules/TelegramCore/Sources/Utils/NagramiXOutgoingCopy.swift": "ghostgram_authorless_transport/After0.inc",
+    "submodules/TelegramUI/Sources/ChatControllerForwardMessages.swift": "ghostgram_authorless_transport/After1.inc",
+    "submodules/TelegramUI/Sources/Chat/NagramiXCopyDelivery.swift": "ghostgram_authorless_transport/After2.inc"
+  },
+  "copies": {},
+  "deletions": {},
+  "guards": {
+    "submodules/TelegramCore/BUILD": "bf9342baf193366c8997afb547c074592af8247348f59e25e5e6ca9bfb3806a9",
+    "submodules/TelegramUI/BUILD": "c819263cd1c2d6407308fe3f172f9f564b40e26f3b688da39739577bae792f52",
+    "submodules/TelegramCore/Sources/Utils/NagramiXArchivedMediaCopy.swift": "0bc5844d30a869b78024487f14176dd8d69d76fc28b7cd502df42b3e443a4216",
+    "submodules/TelegramCore/Sources/Utils/NagramiXContentCopy.swift": "729101daef967ad1790986a354d4604f4c5323651028ec23ef34a1dde37497b8",
+    "submodules/TelegramCore/Sources/Utils/NagramiXCaptureProtectionPolicy.swift": "220953006e66c856e07c517b06490358e49b0bfd35622e28fa34b22e681278a8",
+    "submodules/TelegramCore/Sources/Utils/NagramiXMessageArchive.swift": "5ad90f7052639f0a52c0d48b08947c17f24cfa12300a69db5a4cd608a280c3c4",
+    "submodules/TelegramCore/Sources/TelegramEngine/Messages/Transcription.swift": "67ddc8871d7536a98ccc6ca26bab6d8f7cdef55f11c7efb7d772bb6848a62cd3",
+    "submodules/NagramiXTranscription/Sources/Runtime.swift": "f435f9f23428635a0e8c5746b96f370e4778f4ca0f592494d92e20082b5471e5",
+    "submodules/TelegramCore/Sources/PendingMessages/EnqueueMessage.swift": "af4e79283b36e58169eac5363dbf1639718047bc1dc68aae729a761c239ffd8e",
+    "submodules/TelegramCore/Sources/State/PendingMessageManager.swift": "edcadccb038981b99560ee55ed98de38ce09c2097c31dc8409ca2938328ee5b8",
+    "submodules/TelegramCore/Sources/PendingMessages/PendingMessageUploadedContent.swift": "7636bcac268d86457017ff367c7bb9fb7abd4a10926acbdd456086190dd97737",
+    "submodules/TelegramUI/Components/PeerSelectionController/Sources/PeerSelectionController.swift": "8ebc9c3044d523b4b95ad3b259257f646433e1e959ba2d234f8fad7ff87acae7",
+    "submodules/TelegramUI/Components/PeerSelectionController/Sources/PeerSelectionControllerNode.swift": "b77d944f257a076a711ce02a4470e4d9a616b23a87702a3f7f9781b6ba8f6be2",
+    "submodules/TelegramUI/Sources/Chat/ChatControllerOpenMessageContextMenu.swift": "078009be835799103cd7df1ea243b6d869f1fad3185162f421a9001aa2c12a80",
+    "submodules/TelegramUI/Sources/ChatControllerNode.swift": "5e6a331eb82d009a58bf32a20d7c8a2b69b669c9400ed3c0226e145feb62b4f3",
+    "submodules/TelegramUI/Sources/Chat/NagramiXProtectedCopyPreparation.swift": "9e266d61a4ef0e267acfa68e3d6e2a6fae8b1f0eb7efe93ff08f3a1b8cf9f18d"
+  },
+  "guard_sources": {
+    "submodules/TelegramCore/BUILD": "ghostgram_authorless_transport/Guard0.inc",
+    "submodules/TelegramUI/BUILD": "ghostgram_authorless_transport/Guard1.inc",
+    "submodules/TelegramCore/Sources/Utils/NagramiXArchivedMediaCopy.swift": "ghostgram_authorless_transport/Guard2.inc",
+    "submodules/TelegramCore/Sources/Utils/NagramiXContentCopy.swift": "ghostgram_authorless_transport/Guard3.inc",
+    "submodules/TelegramCore/Sources/Utils/NagramiXCaptureProtectionPolicy.swift": "ghostgram_authorless_transport/Guard4.inc",
+    "submodules/TelegramCore/Sources/Utils/NagramiXMessageArchive.swift": "ghostgram_authorless_transport/Guard5.inc",
+    "submodules/TelegramCore/Sources/TelegramEngine/Messages/Transcription.swift": "ghostgram_authorless_transport/Guard6.inc",
+    "submodules/NagramiXTranscription/Sources/Runtime.swift": "ghostgram_authorless_transport/Guard7.inc",
+    "submodules/TelegramCore/Sources/PendingMessages/EnqueueMessage.swift": "ghostgram_authorless_transport/Guard8.inc",
+    "submodules/TelegramCore/Sources/State/PendingMessageManager.swift": "ghostgram_authorless_transport/Guard9.inc",
+    "submodules/TelegramCore/Sources/PendingMessages/PendingMessageUploadedContent.swift": "ghostgram_authorless_transport/Guard10.inc",
+    "submodules/TelegramUI/Components/PeerSelectionController/Sources/PeerSelectionController.swift": "ghostgram_authorless_transport/Guard11.inc",
+    "submodules/TelegramUI/Components/PeerSelectionController/Sources/PeerSelectionControllerNode.swift": "ghostgram_authorless_transport/Guard12.inc",
+    "submodules/TelegramUI/Sources/Chat/ChatControllerOpenMessageContextMenu.swift": "ghostgram_authorless_transport/Guard13.inc",
+    "submodules/TelegramUI/Sources/ChatControllerNode.swift": "ghostgram_authorless_transport/Guard14.inc",
+    "submodules/TelegramUI/Sources/Chat/NagramiXProtectedCopyPreparation.swift": "ghostgram_authorless_transport/Guard15.inc"
+  },
+  "templates": {
+    "ghostgram_authorless_transport/Before0.inc": "b3004ebc8e6d939a9ab4917bf418e6b15e32466cc2c053ecb17e2ae1be507a7b",
+    "ghostgram_authorless_transport/After0.inc": "5bd957d697244f4a1d97794ff70ab8aa1e71b34b9e8af9a6b747db0c895b9d68",
+    "ghostgram_authorless_transport/Before1.inc": "fe0c25f4597fa5cfc92aa5962a20aa0cd32a28ec7d76494aa2d84701b09382a0",
+    "ghostgram_authorless_transport/After1.inc": "115780676318ba50113677ffb07e104788c33f95f9443cac64e9af15ff1992d1",
+    "ghostgram_authorless_transport/Before2.inc": "2c26cc5593a306c4bf41628370fa0036bc86818cda6b7a1428667046ec95afec",
+    "ghostgram_authorless_transport/After2.inc": "c5695ff96d8ab2750ad9bdf8bf94e2ddef54670b549712e6fa2607626933f8b7",
+    "ghostgram_authorless_transport/Guard0.inc": "bf9342baf193366c8997afb547c074592af8247348f59e25e5e6ca9bfb3806a9",
+    "ghostgram_authorless_transport/Guard1.inc": "c819263cd1c2d6407308fe3f172f9f564b40e26f3b688da39739577bae792f52",
+    "ghostgram_authorless_transport/Guard2.inc": "0bc5844d30a869b78024487f14176dd8d69d76fc28b7cd502df42b3e443a4216",
+    "ghostgram_authorless_transport/Guard3.inc": "729101daef967ad1790986a354d4604f4c5323651028ec23ef34a1dde37497b8",
+    "ghostgram_authorless_transport/Guard4.inc": "220953006e66c856e07c517b06490358e49b0bfd35622e28fa34b22e681278a8",
+    "ghostgram_authorless_transport/Guard5.inc": "5ad90f7052639f0a52c0d48b08947c17f24cfa12300a69db5a4cd608a280c3c4",
+    "ghostgram_authorless_transport/Guard6.inc": "67ddc8871d7536a98ccc6ca26bab6d8f7cdef55f11c7efb7d772bb6848a62cd3",
+    "ghostgram_authorless_transport/Guard7.inc": "f435f9f23428635a0e8c5746b96f370e4778f4ca0f592494d92e20082b5471e5",
+    "ghostgram_authorless_transport/Guard8.inc": "af4e79283b36e58169eac5363dbf1639718047bc1dc68aae729a761c239ffd8e",
+    "ghostgram_authorless_transport/Guard9.inc": "edcadccb038981b99560ee55ed98de38ce09c2097c31dc8409ca2938328ee5b8",
+    "ghostgram_authorless_transport/Guard10.inc": "7636bcac268d86457017ff367c7bb9fb7abd4a10926acbdd456086190dd97737",
+    "ghostgram_authorless_transport/Guard11.inc": "8ebc9c3044d523b4b95ad3b259257f646433e1e959ba2d234f8fad7ff87acae7",
+    "ghostgram_authorless_transport/Guard12.inc": "b77d944f257a076a711ce02a4470e4d9a616b23a87702a3f7f9781b6ba8f6be2",
+    "ghostgram_authorless_transport/Guard13.inc": "078009be835799103cd7df1ea243b6d869f1fad3185162f421a9001aa2c12a80",
+    "ghostgram_authorless_transport/Guard14.inc": "5e6a331eb82d009a58bf32a20d7c8a2b69b669c9400ed3c0226e145feb62b4f3",
+    "ghostgram_authorless_transport/Guard15.inc": "9e266d61a4ef0e267acfa68e3d6e2a6fae8b1f0eb7efe93ff08f3a1b8cf9f18d"
+  },
+  "target_pin": "24638bc69bd083981b178dd1e7f921eebbf7fc46",
+  "overlay_base_pin": "279f89e4d4f63f17227bf877dc3d8990f22ecd58",
+  "required_previous_stage": "private_temporary_transcription"
+}
