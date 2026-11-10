@@ -414,6 +414,8 @@ jobs:
           PYTHONPATH=ios python3 -c 'from pathlib import Path; from premium_label_spelling import apply_premium_label_spelling; apply_premium_label_spelling(Path("Telegram-iOS").resolve(), Path("ios").resolve())'
           PYTHONPATH=ios python3 -c 'from pathlib import Path; from pip_backdrop_stability import apply_pip_backdrop_stability; apply_pip_backdrop_stability(Path("Telegram-iOS").resolve(), Path("ios").resolve())'
           python3 scripts/validate_pip_backdrop_stability.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)" --report "$RUNNER_TEMP/pip-backdrop-stability.json"
+          PYTHONPATH=ios python3 -c 'from pathlib import Path; from private_temporary_transcription import apply_private_temporary_transcription; apply_private_temporary_transcription(Path("Telegram-iOS").resolve(), Path("ios").resolve())'
+          python3 scripts/validate_private_temporary_transcription.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)" --report "$RUNNER_TEMP/private-temporary-transcription.json"
           python3 scripts/validate_late_source_stages.py --source Telegram-iOS --report "$RUNNER_TEMP/late-source-stages.json"
           python3 scripts/validate_custom_member_references.py --source Telegram-iOS
           python3 scripts/validate_upstream_13_2_release.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)"

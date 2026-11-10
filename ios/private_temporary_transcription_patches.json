@@ -1,0 +1,81 @@
+{
+  "inputs": {
+    "submodules/TelegramCore/Sources/TelegramEngine/Messages/Transcription.swift": "0b2bfec3985c7e479ea241632b38ef1d7005d951eb20f8b49ce75ee7298b8dfe",
+    "submodules/NagramiXTranscription/Sources/Runtime.swift": "e82c7b928ab72f9e3aa8e43afb12d8a3a2cdaf3ea20710b66d3ade3558e3ffeb"
+  },
+  "outputs": {
+    "submodules/TelegramCore/Sources/TelegramEngine/Messages/Transcription.swift": "67ddc8871d7536a98ccc6ca26bab6d8f7cdef55f11c7efb7d772bb6848a62cd3",
+    "submodules/NagramiXTranscription/Sources/Runtime.swift": "f435f9f23428635a0e8c5746b96f370e4778f4ca0f592494d92e20082b5471e5"
+  },
+  "previous": {
+    "submodules/TelegramCore/Sources/TelegramEngine/Messages/Transcription.swift": "private_temporary_transcription/Before0.inc",
+    "submodules/NagramiXTranscription/Sources/Runtime.swift": "private_temporary_transcription/Before1.inc"
+  },
+  "replacements": {
+    "submodules/TelegramCore/Sources/TelegramEngine/Messages/Transcription.swift": "private_temporary_transcription/After0.inc",
+    "submodules/NagramiXTranscription/Sources/Runtime.swift": "private_temporary_transcription/After1.inc"
+  },
+  "copies": {},
+  "deletions": {},
+  "guards": {
+    "submodules/NagramiXTranscription/BUILD": "f7e6352e9950459f20eafd0431dc7e9f23a2c4cbed744305ecb5f13c376decf6",
+    "submodules/TelegramCore/BUILD": "bf9342baf193366c8997afb547c074592af8247348f59e25e5e6ca9bfb3806a9",
+    "submodules/NagramiXTranscription/Sources/Settings.swift": "be43e5a4cc0200d01695730cdd7e27a4e817c0ade5bdebb06d77ef972f811dac",
+    "submodules/NagramiXTranscription/Sources/Coordinator.swift": "337fca53ada806134c4cd98e1af9e0ec7171619fa0a2f092aa7a7d78371878e9",
+    "submodules/NagramiXTranscription/Sources/Apple.swift": "d1fcda81b534c9e4f3059160c7b0113d2a11fe5a566259590fb8a77d11d4aa5d",
+    "submodules/NagramiXTranscription/Sources/AppleAnalyzer.swift": "703a40a97114ddfe696b3656682aba5a2576b3bf5a254ebf63c300fb886e382f",
+    "submodules/NagramiXTranscription/Sources/Cloud.swift": "f2ca7d765222513f757bf301ec507b759e995a8841b6d65c5479c7f9a24710f2",
+    "submodules/NagramiXTranscription/Sources/MediaPreparation.swift": "3251d6810ffb3e206abcf74fe527171ca02081296fdece3cfc1fc41b4f4aa7c3",
+    "submodules/TelegramCore/Sources/Utils/NagramiXCaptureProtectionPolicy.swift": "220953006e66c856e07c517b06490358e49b0bfd35622e28fa34b22e681278a8",
+    "submodules/TelegramCore/Sources/Utils/NagramiXMessageArchive.swift": "5ad90f7052639f0a52c0d48b08947c17f24cfa12300a69db5a4cd608a280c3c4",
+    "submodules/TelegramCore/Sources/TelegramEngine/Messages/NagramiXLocalMessageData.swift": "a3628f19e16174db14917393ec14373fec7c4923843b01cf7d82d579c4f72a23",
+    "submodules/TelegramCore/Sources/TelegramEngine/Messages/TelegramEngineMessages.swift": "8ee9195e3b534c40c105704f609e0a9aba3ca2ffe5f6d03ef5f5f64fe3b611e9",
+    "submodules/TelegramCore/Sources/TelegramEngine/Messages/MarkMessageContentAsConsumedInteractively.swift": "b2b4fe6c087ea33a0112e7bbe6664f14d30bdab6d04d03384fae8dd7a65445ca",
+    "submodules/TelegramCore/Sources/State/ManagedSynchronizeConsumeMessageContentsOperations.swift": "0ca768377887538b0d8279dce706a5a1ff46f54c287a90a575e0296956323b8b",
+    "submodules/TelegramUI/Components/Chat/ChatMessageInteractiveFileNode/Sources/ChatMessageInteractiveFileNode.swift": "c92a03396cb227c7981533542ac6dcd9df16ea1922bb710a88b306099fdc58c6",
+    "submodules/TelegramUI/Components/Chat/ChatMessageInteractiveInstantVideoNode/Sources/ChatMessageInteractiveInstantVideoNode.swift": "20c7327b23d7cbe52bf43c48a845870e5117c195e4f5a8ecedfd88f497e58519"
+  },
+  "guard_sources": {
+    "submodules/NagramiXTranscription/BUILD": "private_temporary_transcription/Guard0.inc",
+    "submodules/TelegramCore/BUILD": "private_temporary_transcription/Guard1.inc",
+    "submodules/NagramiXTranscription/Sources/Settings.swift": "private_temporary_transcription/Guard2.inc",
+    "submodules/NagramiXTranscription/Sources/Coordinator.swift": "private_temporary_transcription/Guard3.inc",
+    "submodules/NagramiXTranscription/Sources/Apple.swift": "private_temporary_transcription/Guard4.inc",
+    "submodules/NagramiXTranscription/Sources/AppleAnalyzer.swift": "private_temporary_transcription/Guard5.inc",
+    "submodules/NagramiXTranscription/Sources/Cloud.swift": "private_temporary_transcription/Guard6.inc",
+    "submodules/NagramiXTranscription/Sources/MediaPreparation.swift": "private_temporary_transcription/Guard7.inc",
+    "submodules/TelegramCore/Sources/Utils/NagramiXCaptureProtectionPolicy.swift": "private_temporary_transcription/Guard8.inc",
+    "submodules/TelegramCore/Sources/Utils/NagramiXMessageArchive.swift": "private_temporary_transcription/Guard9.inc",
+    "submodules/TelegramCore/Sources/TelegramEngine/Messages/NagramiXLocalMessageData.swift": "private_temporary_transcription/Guard10.inc",
+    "submodules/TelegramCore/Sources/TelegramEngine/Messages/TelegramEngineMessages.swift": "private_temporary_transcription/Guard11.inc",
+    "submodules/TelegramCore/Sources/TelegramEngine/Messages/MarkMessageContentAsConsumedInteractively.swift": "private_temporary_transcription/Guard12.inc",
+    "submodules/TelegramCore/Sources/State/ManagedSynchronizeConsumeMessageContentsOperations.swift": "private_temporary_transcription/Guard13.inc",
+    "submodules/TelegramUI/Components/Chat/ChatMessageInteractiveFileNode/Sources/ChatMessageInteractiveFileNode.swift": "private_temporary_transcription/Guard14.inc",
+    "submodules/TelegramUI/Components/Chat/ChatMessageInteractiveInstantVideoNode/Sources/ChatMessageInteractiveInstantVideoNode.swift": "private_temporary_transcription/Guard15.inc"
+  },
+  "templates": {
+    "private_temporary_transcription/Before0.inc": "0b2bfec3985c7e479ea241632b38ef1d7005d951eb20f8b49ce75ee7298b8dfe",
+    "private_temporary_transcription/After0.inc": "67ddc8871d7536a98ccc6ca26bab6d8f7cdef55f11c7efb7d772bb6848a62cd3",
+    "private_temporary_transcription/Before1.inc": "e82c7b928ab72f9e3aa8e43afb12d8a3a2cdaf3ea20710b66d3ade3558e3ffeb",
+    "private_temporary_transcription/After1.inc": "f435f9f23428635a0e8c5746b96f370e4778f4ca0f592494d92e20082b5471e5",
+    "private_temporary_transcription/Guard0.inc": "f7e6352e9950459f20eafd0431dc7e9f23a2c4cbed744305ecb5f13c376decf6",
+    "private_temporary_transcription/Guard1.inc": "bf9342baf193366c8997afb547c074592af8247348f59e25e5e6ca9bfb3806a9",
+    "private_temporary_transcription/Guard2.inc": "be43e5a4cc0200d01695730cdd7e27a4e817c0ade5bdebb06d77ef972f811dac",
+    "private_temporary_transcription/Guard3.inc": "337fca53ada806134c4cd98e1af9e0ec7171619fa0a2f092aa7a7d78371878e9",
+    "private_temporary_transcription/Guard4.inc": "d1fcda81b534c9e4f3059160c7b0113d2a11fe5a566259590fb8a77d11d4aa5d",
+    "private_temporary_transcription/Guard5.inc": "703a40a97114ddfe696b3656682aba5a2576b3bf5a254ebf63c300fb886e382f",
+    "private_temporary_transcription/Guard6.inc": "f2ca7d765222513f757bf301ec507b759e995a8841b6d65c5479c7f9a24710f2",
+    "private_temporary_transcription/Guard7.inc": "3251d6810ffb3e206abcf74fe527171ca02081296fdece3cfc1fc41b4f4aa7c3",
+    "private_temporary_transcription/Guard8.inc": "220953006e66c856e07c517b06490358e49b0bfd35622e28fa34b22e681278a8",
+    "private_temporary_transcription/Guard9.inc": "5ad90f7052639f0a52c0d48b08947c17f24cfa12300a69db5a4cd608a280c3c4",
+    "private_temporary_transcription/Guard10.inc": "a3628f19e16174db14917393ec14373fec7c4923843b01cf7d82d579c4f72a23",
+    "private_temporary_transcription/Guard11.inc": "8ee9195e3b534c40c105704f609e0a9aba3ca2ffe5f6d03ef5f5f64fe3b611e9",
+    "private_temporary_transcription/Guard12.inc": "b2b4fe6c087ea33a0112e7bbe6664f14d30bdab6d04d03384fae8dd7a65445ca",
+    "private_temporary_transcription/Guard13.inc": "0ca768377887538b0d8279dce706a5a1ff46f54c287a90a575e0296956323b8b",
+    "private_temporary_transcription/Guard14.inc": "c92a03396cb227c7981533542ac6dcd9df16ea1922bb710a88b306099fdc58c6",
+    "private_temporary_transcription/Guard15.inc": "20c7327b23d7cbe52bf43c48a845870e5117c195e4f5a8ecedfd88f497e58519"
+  },
+  "target_pin": "24638bc69bd083981b178dd1e7f921eebbf7fc46",
+  "overlay_base_pin": "279f89e4d4f63f17227bf877dc3d8990f22ecd58",
+  "required_previous_stage": "pip_backdrop_stability"
+}
