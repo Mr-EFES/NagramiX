@@ -426,6 +426,8 @@ jobs:
           python3 scripts/validate_bubble_selection_edge.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)" --report "$RUNNER_TEMP/bubble-selection-edge.json"
           PYTHONPATH=ios python3 -c 'from pathlib import Path; from composer_file_attachments import apply_composer_file_attachments; apply_composer_file_attachments(Path("Telegram-iOS").resolve(), Path("ios").resolve())'
           python3 scripts/validate_composer_file_attachments.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)" --report "$RUNNER_TEMP/composer-file-attachments.json"
+          PYTHONPATH=ios python3 -c 'from pathlib import Path; from archived_round_native_controls import apply_archived_round_native_controls; apply_archived_round_native_controls(Path("Telegram-iOS").resolve(), Path("ios").resolve())'
+          python3 scripts/validate_archived_round_native_controls.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)" --report "$RUNNER_TEMP/archived-round-native-controls.json"
           python3 scripts/validate_late_source_stages.py --source Telegram-iOS --report "$RUNNER_TEMP/late-source-stages.json"
           python3 scripts/validate_custom_member_references.py --source Telegram-iOS
           python3 scripts/validate_upstream_13_2_release.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)"
