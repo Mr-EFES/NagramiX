@@ -1,0 +1,84 @@
+{
+  "version": "0.9.4",
+  "status": "native_compile_passed/package_verified/owner_published/device_pending",
+  "release_id": 440716220,
+  "published_at": "2026-11-10T17:59:08Z",
+  "release_url": "https://github.com/Mr-EFES/NagramiX/releases/tag/v0.9.4",
+  "latest": true,
+  "author": "Mr-EFES",
+  "source_commit": "a54d4990b17e64930c1f7248f93955686478d7a2",
+  "tag": "v0.9.4",
+  "tag_matches_source": true,
+  "workflow_run_id": 42847661854,
+  "workflow_url": "https://github.com/Mr-EFES/NagramiX/actions/runs/42847661854",
+  "build_number": 195,
+  "run_attempt": 1,
+  "native_sdk": {
+    "started_at": "2026-11-10T16:06:51Z",
+    "completed_at": "2026-11-10T17:56:08Z",
+    "conclusion": "success"
+  },
+  "jobs": [
+    {
+      "id": 129939424950,
+      "name": "build",
+      "conclusion": "success"
+    },
+    {
+      "id": 130018690157,
+      "name": "Проверить IPA для публикации Mr_EFES",
+      "conclusion": "success"
+    }
+  ],
+  "artifacts": {
+    "NagramiX-0.9.4-unsigned.ipa": {
+      "size": 93915810,
+      "sha256": "0a99927320acaa7afad2bbc97d6d5c0256540b28aa5cc39301b0d51d99923db2",
+      "uploader": "Mr-EFES",
+      "url": "https://github.com/Mr-EFES/NagramiX/releases/download/v0.9.4/NagramiX-0.9.4-unsigned.ipa"
+    },
+    "BUILD-PROVENANCE.txt": {
+      "size": 408,
+      "sha256": "4200ab5904139d5bc824a6e3d198b86ae3bd37f919d76006e6ebd22e0beb3277",
+      "uploader": "Mr-EFES",
+      "url": "https://github.com/Mr-EFES/NagramiX/releases/download/v0.9.4/BUILD-PROVENANCE.txt"
+    },
+    "SHA256SUMS": {
+      "size": 94,
+      "sha256": "3a3707e6173793209b3de136a50b3f2be0202a0391fd2ba8ebceebe0318fd8f4",
+      "uploader": "Mr-EFES",
+      "url": "https://github.com/Mr-EFES/NagramiX/releases/download/v0.9.4/SHA256SUMS"
+    }
+  },
+  "actions_zip": {
+    "artifact_id": 13788727365,
+    "size": 93494676,
+    "sha256": "e40adbe9152358ce3e866c1c2b40065348a8fb3ea275444b279a0ec7f0487f5f",
+    "local_path": "/tmp/nagramix-release-094/original-actions-build195.zip",
+    "original_bytes_verified": true
+  },
+  "crash_symbols_artifact": {
+    "id": 13789990205,
+    "name": "NagramiX-0.9.4-symbols-arm64",
+    "size": 203221251,
+    "sha256": "8e2e4e978241a9610bd4dbf51638554676000fb4d76e6dda1f5f20bbbc39280b"
+  },
+  "provenance": "NagramiX version: 0.9.4\nNagramiX commit: a54d4990b17e64930c1f7248f93955686478d7a2\nTelegram-iOS commit: 24638bc69bd083981b178dd1e7f921eebbf7fc46\nWorkflow run: https://github.com/Mr-EFES/NagramiX/actions/runs/42847661854\nDependency override: submodules/TgVoipWebrtc/tgcalls c1de0882de9013df246252129b95430f48b20eec -> 38dcea121f10638c42098f226f05c298a392f95c (https://github.com/TelegramMessenger/tgcalls.git)\n",
+  "checksums": "0a99927320acaa7afad2bbc97d6d5c0256540b28aa5cc39301b0d51d99923db2  NagramiX-0.9.4-unsigned.ipa\n",
+  "telegram": "13.2",
+  "xcode": "27.1",
+  "minimum_ios": "15.0",
+  "architecture": "ARM64/iPhoneOS",
+  "package_device_binaries": 6,
+  "localization_resource_catalogs": 71,
+  "keys_per_catalog": 635,
+  "new_late_stages": [
+    33,
+    34,
+    35,
+    36
+  ],
+  "physical_iphone": "pending",
+  "old_releases_unchanged": true,
+  "repository_visibility": "public; owner restores private manually"
+}

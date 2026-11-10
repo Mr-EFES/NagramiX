@@ -1,5 +1,7 @@
 # Геометрия кружка при переходе к сохранённой копии
 
+**Проверено сборкой0.9.4/build195:** Apple Swift и чистая нативная компиляция пройдены с первой попытки; IPA проверен и опубликован. [Результат](RELEASE_094_PUBLICATION_CHECKS.json). Compile_passed/device_pending. Ниже сохранена история source-проверок до SDK; физический iPhone ещё ожидает приёмки.
+
 Стадия35 `round_replacement_geometry` после `ghostgram_authorless_transport`. Исправление исходников для следующей сборки0.9.4; опубликованная0.9.3/build194 остаётся прежней. Новый Apple SDK/IPA не запускался.
 
 ## Сравнение с GhostGram
