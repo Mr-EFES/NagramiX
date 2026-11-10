@@ -118,7 +118,7 @@ class CatalogTests(unittest.TestCase):
 
     def test_later_version_keeps_635_contract(self):
         latest = {code: dict(values) for code, values in self.next_catalogs.items()}
-        label_plan = json.loads((ROOT / 'ios/premium_label_cleanup_patches.json').read_text())
+        label_plan = json.loads((ROOT / 'ios/premium_label_spelling_patches.json').read_text())
         resource = 'submodules/NagramiXCore/Resources/ru.lproj/Localizable.strings'
         latest['ru'] = strings(ROOT / 'ios' / label_plan['replacements'][resource])
         self.assertEqual(expected_nagramix_catalogs('0.9.3'), latest)

@@ -368,7 +368,7 @@
     },
     {
       "id": "hide_premium_offers",
-      "title": "Вскрыть рекламу премиум",
+      "title": "Скрыть рекламу Premium",
       "specification": "specified",
       "ios": {
         "implementation": "implemented",

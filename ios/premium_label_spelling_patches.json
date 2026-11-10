@@ -1,0 +1,34 @@
+{
+  "inputs": {
+    "submodules/NagramiXCore/Resources/ru.lproj/Localizable.strings": "f5f32ed200c549f148777c8059d509d866f5e18ce4b8b6eeda5cb3f679260a8d"
+  },
+  "outputs": {
+    "submodules/NagramiXCore/Resources/ru.lproj/Localizable.strings": "63cde74664731a24a32b171e5048f3eb0c81e1bc9e82fd0c1372fbc3c1596089"
+  },
+  "previous": {
+    "submodules/NagramiXCore/Resources/ru.lproj/Localizable.strings": "premium_label_spelling/Before.inc"
+  },
+  "replacements": {
+    "submodules/NagramiXCore/Resources/ru.lproj/Localizable.strings": "premium_label_spelling/After.inc"
+  },
+  "copies": {},
+  "deletions": {},
+  "guards": {
+    "submodules/SettingsUI/Sources/NagramiXSettingsController.swift": "7b8ce30950359ac71391b435401d8421567c2168bd74a577501c2ecabf8176df",
+    "submodules/NagramiXCore/Sources/NagramiXTabSettings.swift": "dfcc93bf238bb2441deb914f0b9008a1fecbbf0deaab8f58e95196d4e35a1545"
+  },
+  "guard_sources": {
+    "submodules/SettingsUI/Sources/NagramiXSettingsController.swift": "premium_label_spelling/Guard0.inc",
+    "submodules/NagramiXCore/Sources/NagramiXTabSettings.swift": "premium_label_spelling/Guard1.inc"
+  },
+  "templates": {
+    "premium_label_spelling/Before.inc": "f5f32ed200c549f148777c8059d509d866f5e18ce4b8b6eeda5cb3f679260a8d",
+    "premium_label_spelling/After.inc": "63cde74664731a24a32b171e5048f3eb0c81e1bc9e82fd0c1372fbc3c1596089",
+    "premium_label_spelling/Guard0.inc": "7b8ce30950359ac71391b435401d8421567c2168bd74a577501c2ecabf8176df",
+    "premium_label_spelling/Guard1.inc": "dfcc93bf238bb2441deb914f0b9008a1fecbbf0deaab8f58e95196d4e35a1545",
+    "premium_label_spelling/localization.json": "cbed93bec0f839bbac19f2cafb03770c1fb005830844b2b87c87ed7afbe2092a"
+  },
+  "target_pin": "24638bc69bd083981b178dd1e7f921eebbf7fc46",
+  "overlay_base_pin": "279f89e4d4f63f17227bf877dc3d8990f22ecd58",
+  "required_previous_stage": "premium_label_cleanup"
+}

@@ -44,6 +44,7 @@ LATE_SOURCE_STAGES = (
     'round_native_playback',
     'poll_copy_transport',
     'premium_label_cleanup',
+    'premium_label_spelling',
 )
 TEMPORARY_INTERACTION_STAGE = 'temporary_message_interaction'
 TEMPORARY_REPLY_HELPER = 'submodules/TelegramUI/Sources/Chat/NagramiXTemporaryReplySend.swift'

@@ -1,0 +1,44 @@
+{
+  "stage": "premium_label_spelling",
+  "parent": "88ca5e993cbfb114b2ac998e0dc68f4df46d5c6e",
+  "base": "/tmp/nagramix-premium-label-cleanup/source",
+  "source": "/tmp/nagramix-premium-label-spelling/source",
+  "files": 37655,
+  "changed_files": [
+    "submodules/NagramiXCore/Resources/ru.lproj/Localizable.strings"
+  ],
+  "independent_apply_exact": true,
+  "source30_preserved": true,
+  "status": "source_checks_passed",
+  "historical_snapshots": 3104,
+  "historical_snapshots_unchanged": true,
+  "title": "Скрыть рекламу Premium",
+  "annotation_visible": false,
+  "outputs": {
+    "submodules/NagramiXCore/Resources/ru.lproj/Localizable.strings": "63cde74664731a24a32b171e5048f3eb0c81e1bc9e82fd0c1372fbc3c1596089"
+  },
+  "guards": 2,
+  "new_snapshots": 4,
+  "only_native_change": "Значение существующего русского ключа NagramiX.Settings.HidePremiumOffers",
+  "other_catalogs_unchanged": 70,
+  "swift_sources_unchanged": true,
+  "final_source_hashes_and_workflow_order": "passed",
+  "late_stages": 31,
+  "inverse_contract_paths": 729,
+  "inverse_negative_cases": 118,
+  "localization": {
+    "catalogs": 71,
+    "keys": 635,
+    "production_lookups_per_mode": 45254,
+    "modes": [
+      "debug",
+      "optimized"
+    ]
+  },
+  "ipa_catalog_tests": 32,
+  "published_092_catalogs_preserved": true,
+  "next_093_final_title_verified": true,
+  "apple_sdk": "not_run",
+  "device": "pending",
+  "build_dispatched": false
+}
