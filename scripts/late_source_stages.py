@@ -48,6 +48,7 @@ LATE_SOURCE_STAGES = (
     'pip_backdrop_stability',
     'private_temporary_transcription',
     'ghostgram_authorless_transport',
+    'round_replacement_geometry',
 )
 TEMPORARY_INTERACTION_STAGE = 'temporary_message_interaction'
 TEMPORARY_REPLY_HELPER = 'submodules/TelegramUI/Sources/Chat/NagramiXTemporaryReplySend.swift'

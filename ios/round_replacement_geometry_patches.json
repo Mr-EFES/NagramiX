@@ -1,0 +1,75 @@
+{
+  "inputs": {
+    "submodules/TelegramUI/Components/Chat/ChatMessageInteractiveInstantVideoNode/Sources/ChatMessageInteractiveInstantVideoNode.swift": "20c7327b23d7cbe52bf43c48a845870e5117c195e4f5a8ecedfd88f497e58519"
+  },
+  "outputs": {
+    "submodules/TelegramUI/Components/Chat/ChatMessageInteractiveInstantVideoNode/Sources/ChatMessageInteractiveInstantVideoNode.swift": "d366a6312d84996c7b6a85ecf8e9e3f75068d72187a3735e08900974fc3b8edb"
+  },
+  "previous": {
+    "submodules/TelegramUI/Components/Chat/ChatMessageInteractiveInstantVideoNode/Sources/ChatMessageInteractiveInstantVideoNode.swift": "round_replacement_geometry/Before0.inc"
+  },
+  "replacements": {
+    "submodules/TelegramUI/Components/Chat/ChatMessageInteractiveInstantVideoNode/Sources/ChatMessageInteractiveInstantVideoNode.swift": "round_replacement_geometry/After0.inc"
+  },
+  "copies": {},
+  "deletions": {},
+  "guards": {
+    "submodules/TelegramUI/Components/Chat/ChatMessageInteractiveInstantVideoNode/BUILD": "e3307deaae9edbdfd294a75b4a9461fe1bdc46bd2fef88fa8c3d52f4ae4ce6c7",
+    "submodules/TelegramUniversalVideoContent/Sources/NativeVideoContent.swift": "528f20337b832f9dcc01b58511a7639e54a757afffb7477ed2e8c054674bae10",
+    "submodules/TelegramUniversalVideoContent/Sources/ChatBubbleInstantVideoDecoration.swift": "1d66e46675184ba32677044eeaa42ac2dadb80b4ba7422a66c017912d5adea36",
+    "submodules/AccountContext/Sources/UniversalVideoNode.swift": "c354dd6110225b9a689f8e8bdd5a8e709b99952c25a5794258ae171ee8164d68",
+    "submodules/TelegramUniversalVideoContent/Sources/UniversalVideoContentManager.swift": "cdcf2559e315e5bc5ba1a7a7519d82c9c95b71c4cfafc12c407b2934d778fadd",
+    "submodules/TelegramUI/Sources/SharedMediaPlayer.swift": "daf8a72f5a04d7a8667acba641e5b1b161bdd359ed6b6f33a448bf6ef280dfb4",
+    "submodules/TelegramUI/Components/Chat/ChatMessageInstantVideoBubbleContentNode/Sources/ChatMessageInstantVideoBubbleContentNode.swift": "5c5002093df9d3bd698eca74dd9ac3c7265e87360e2e498157c847c33d73a75c",
+    "submodules/TelegramUI/Components/Chat/ChatMessageBubbleItemNode/Sources/ChatMessageBubbleItemNode.swift": "de30ae8ba0079bc480edbf23769dc3842233a2987c6e46b2c754c948d8a13a54",
+    "submodules/TelegramUI/Components/Chat/ChatMessageInteractiveFileNode/Sources/ChatMessageInteractiveFileNode.swift": "c92a03396cb227c7981533542ac6dcd9df16ea1922bb710a88b306099fdc58c6",
+    "submodules/AccountContext/Sources/NagramiXArchivedPlaybackAction.swift": "441c53d4cfa128523c5af40caa3a529a526f0be73f71e4f10bd70576271cfd64",
+    "submodules/TelegramCore/Sources/Utils/NagramiXMessageArchive.swift": "5ad90f7052639f0a52c0d48b08947c17f24cfa12300a69db5a4cd608a280c3c4",
+    "submodules/TelegramCore/Sources/Utils/NagramiXCaptureProtectionPolicy.swift": "220953006e66c856e07c517b06490358e49b0bfd35622e28fa34b22e681278a8",
+    "submodules/TelegramCore/Sources/TelegramEngine/Messages/MarkMessageContentAsConsumedInteractively.swift": "b2b4fe6c087ea33a0112e7bbe6664f14d30bdab6d04d03384fae8dd7a65445ca",
+    "submodules/TelegramCore/Sources/TelegramEngine/Messages/Transcription.swift": "67ddc8871d7536a98ccc6ca26bab6d8f7cdef55f11c7efb7d772bb6848a62cd3",
+    "submodules/NagramiXTranscription/Sources/Runtime.swift": "f435f9f23428635a0e8c5746b96f370e4778f4ca0f592494d92e20082b5471e5",
+    "submodules/TelegramCore/Sources/Utils/NagramiXOutgoingCopy.swift": "5bd957d697244f4a1d97794ff70ab8aa1e71b34b9e8af9a6b747db0c895b9d68"
+  },
+  "guard_sources": {
+    "submodules/TelegramUI/Components/Chat/ChatMessageInteractiveInstantVideoNode/BUILD": "round_replacement_geometry/Guard0.inc",
+    "submodules/TelegramUniversalVideoContent/Sources/NativeVideoContent.swift": "round_replacement_geometry/Guard1.inc",
+    "submodules/TelegramUniversalVideoContent/Sources/ChatBubbleInstantVideoDecoration.swift": "round_replacement_geometry/Guard2.inc",
+    "submodules/AccountContext/Sources/UniversalVideoNode.swift": "round_replacement_geometry/Guard3.inc",
+    "submodules/TelegramUniversalVideoContent/Sources/UniversalVideoContentManager.swift": "round_replacement_geometry/Guard4.inc",
+    "submodules/TelegramUI/Sources/SharedMediaPlayer.swift": "round_replacement_geometry/Guard5.inc",
+    "submodules/TelegramUI/Components/Chat/ChatMessageInstantVideoBubbleContentNode/Sources/ChatMessageInstantVideoBubbleContentNode.swift": "round_replacement_geometry/Guard6.inc",
+    "submodules/TelegramUI/Components/Chat/ChatMessageBubbleItemNode/Sources/ChatMessageBubbleItemNode.swift": "round_replacement_geometry/Guard7.inc",
+    "submodules/TelegramUI/Components/Chat/ChatMessageInteractiveFileNode/Sources/ChatMessageInteractiveFileNode.swift": "round_replacement_geometry/Guard8.inc",
+    "submodules/AccountContext/Sources/NagramiXArchivedPlaybackAction.swift": "round_replacement_geometry/Guard9.inc",
+    "submodules/TelegramCore/Sources/Utils/NagramiXMessageArchive.swift": "round_replacement_geometry/Guard10.inc",
+    "submodules/TelegramCore/Sources/Utils/NagramiXCaptureProtectionPolicy.swift": "round_replacement_geometry/Guard11.inc",
+    "submodules/TelegramCore/Sources/TelegramEngine/Messages/MarkMessageContentAsConsumedInteractively.swift": "round_replacement_geometry/Guard12.inc",
+    "submodules/TelegramCore/Sources/TelegramEngine/Messages/Transcription.swift": "round_replacement_geometry/Guard13.inc",
+    "submodules/NagramiXTranscription/Sources/Runtime.swift": "round_replacement_geometry/Guard14.inc",
+    "submodules/TelegramCore/Sources/Utils/NagramiXOutgoingCopy.swift": "round_replacement_geometry/Guard15.inc"
+  },
+  "templates": {
+    "round_replacement_geometry/Before0.inc": "20c7327b23d7cbe52bf43c48a845870e5117c195e4f5a8ecedfd88f497e58519",
+    "round_replacement_geometry/After0.inc": "d366a6312d84996c7b6a85ecf8e9e3f75068d72187a3735e08900974fc3b8edb",
+    "round_replacement_geometry/Guard0.inc": "e3307deaae9edbdfd294a75b4a9461fe1bdc46bd2fef88fa8c3d52f4ae4ce6c7",
+    "round_replacement_geometry/Guard1.inc": "528f20337b832f9dcc01b58511a7639e54a757afffb7477ed2e8c054674bae10",
+    "round_replacement_geometry/Guard2.inc": "1d66e46675184ba32677044eeaa42ac2dadb80b4ba7422a66c017912d5adea36",
+    "round_replacement_geometry/Guard3.inc": "c354dd6110225b9a689f8e8bdd5a8e709b99952c25a5794258ae171ee8164d68",
+    "round_replacement_geometry/Guard4.inc": "cdcf2559e315e5bc5ba1a7a7519d82c9c95b71c4cfafc12c407b2934d778fadd",
+    "round_replacement_geometry/Guard5.inc": "daf8a72f5a04d7a8667acba641e5b1b161bdd359ed6b6f33a448bf6ef280dfb4",
+    "round_replacement_geometry/Guard6.inc": "5c5002093df9d3bd698eca74dd9ac3c7265e87360e2e498157c847c33d73a75c",
+    "round_replacement_geometry/Guard7.inc": "de30ae8ba0079bc480edbf23769dc3842233a2987c6e46b2c754c948d8a13a54",
+    "round_replacement_geometry/Guard8.inc": "c92a03396cb227c7981533542ac6dcd9df16ea1922bb710a88b306099fdc58c6",
+    "round_replacement_geometry/Guard9.inc": "441c53d4cfa128523c5af40caa3a529a526f0be73f71e4f10bd70576271cfd64",
+    "round_replacement_geometry/Guard10.inc": "5ad90f7052639f0a52c0d48b08947c17f24cfa12300a69db5a4cd608a280c3c4",
+    "round_replacement_geometry/Guard11.inc": "220953006e66c856e07c517b06490358e49b0bfd35622e28fa34b22e681278a8",
+    "round_replacement_geometry/Guard12.inc": "b2b4fe6c087ea33a0112e7bbe6664f14d30bdab6d04d03384fae8dd7a65445ca",
+    "round_replacement_geometry/Guard13.inc": "67ddc8871d7536a98ccc6ca26bab6d8f7cdef55f11c7efb7d772bb6848a62cd3",
+    "round_replacement_geometry/Guard14.inc": "f435f9f23428635a0e8c5746b96f370e4778f4ca0f592494d92e20082b5471e5",
+    "round_replacement_geometry/Guard15.inc": "5bd957d697244f4a1d97794ff70ab8aa1e71b34b9e8af9a6b747db0c895b9d68"
+  },
+  "target_pin": "24638bc69bd083981b178dd1e7f921eebbf7fc46",
+  "overlay_base_pin": "279f89e4d4f63f17227bf877dc3d8990f22ecd58",
+  "required_previous_stage": "ghostgram_authorless_transport"
+}
