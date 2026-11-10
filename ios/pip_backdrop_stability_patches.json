@@ -1,0 +1,75 @@
+{
+  "inputs": {
+    "submodules/GalleryUI/Sources/GalleryController.swift": "f67a17c3859584603147ad79c82d122e5c3a626b49b6b97cbf95edba1be5a148",
+    "submodules/GalleryUI/Sources/GalleryControllerNode.swift": "9a562952fdfef5bc48ffdb60f6ccbd211784c2fde9f147e493a1b70dafb574eb",
+    "submodules/GalleryUI/Sources/Items/UniversalVideoGalleryItem.swift": "143eae8df1c504cb0999e5e670b19a3db277fb52768ba6d51d445e957e1f88a0"
+  },
+  "outputs": {
+    "submodules/GalleryUI/Sources/GalleryController.swift": "25dec6da44df60758ae6e058350a1ddd4f243a62a176a2150f3a576e80215539",
+    "submodules/GalleryUI/Sources/GalleryControllerNode.swift": "316cf9af7a3b6cb97b7d1418409353677ad4dec5e5a5c8276100d8d4ce3ed8cd",
+    "submodules/GalleryUI/Sources/Items/UniversalVideoGalleryItem.swift": "b3a56c42fd6399dc28e0842eeacdc2653285b948af88825211e030cf9e51357b"
+  },
+  "previous": {
+    "submodules/GalleryUI/Sources/GalleryController.swift": "pip_backdrop_stability/Before0.inc",
+    "submodules/GalleryUI/Sources/GalleryControllerNode.swift": "pip_backdrop_stability/Before1.inc",
+    "submodules/GalleryUI/Sources/Items/UniversalVideoGalleryItem.swift": "pip_backdrop_stability/Before2.inc"
+  },
+  "replacements": {
+    "submodules/GalleryUI/Sources/GalleryController.swift": "pip_backdrop_stability/After0.inc",
+    "submodules/GalleryUI/Sources/GalleryControllerNode.swift": "pip_backdrop_stability/After1.inc",
+    "submodules/GalleryUI/Sources/Items/UniversalVideoGalleryItem.swift": "pip_backdrop_stability/After2.inc"
+  },
+  "copies": {},
+  "deletions": {},
+  "guards": {
+    "submodules/GalleryUI/BUILD": "24b043774f3a99f7403ca7f7352d0190c5224994b44134774ba625ffae9666fe",
+    "submodules/AccountContext/BUILD": "e3ec0a96e45891721f72009f392510859bebbc52db17798ea0126b6fec8bf47d",
+    "submodules/AccountContext/Sources/UniversalVideoNode.swift": "c354dd6110225b9a689f8e8bdd5a8e709b99952c25a5794258ae171ee8164d68",
+    "submodules/AccountContext/Sources/MediaManager.swift": "116e9b3c3d46f9b6aaa80e974d419b903d42b3705ac415057b81984127677e21",
+    "submodules/GalleryUI/Sources/GalleryVideoDecoration.swift": "152eec6dbd5037312d63ea07cfc797c67f3547c2dcfbae1be044cef647fac60b",
+    "submodules/GalleryUI/Sources/GalleryPagerNode.swift": "bcc9dc0f29ec327f22d099593b1f4ca6163a5392e44021c51cae4e863d8a8e01",
+    "submodules/GalleryUI/Sources/GalleryItemNode.swift": "ddd018dd0e63d022e0ac76d6a82bd703c52ed376f0509ce078ded8e361cbc0ef",
+    "submodules/GalleryUI/Sources/ZoomableContentGalleryItemNode.swift": "aa3622cb64a22ff92877f236a45d8b080ab73b4f7c67828f1de7d1d0fb70c424",
+    "submodules/TelegramUniversalVideoContent/Sources/NativeVideoContent.swift": "528f20337b832f9dcc01b58511a7639e54a757afffb7477ed2e8c054674bae10",
+    "submodules/MediaPlayer/Sources/MediaPlayerNode.swift": "bdbc51a35471e26ab43a945ef28166c0ab0aa140c2ed18586ac04fd26be28133",
+    "submodules/NagramiXCore/Sources/NagramiXTabSettings.swift": "dfcc93bf238bb2441deb914f0b9008a1fecbbf0deaab8f58e95196d4e35a1545",
+    "submodules/TelegramUI/Sources/ChatController.swift": "ec38fe26f8c5ebde214a5abe71828fa6899173ab7301ff4e41bc9ec7064e83e0"
+  },
+  "guard_sources": {
+    "submodules/GalleryUI/BUILD": "pip_backdrop_stability/Guard0.inc",
+    "submodules/AccountContext/BUILD": "pip_backdrop_stability/Guard1.inc",
+    "submodules/AccountContext/Sources/UniversalVideoNode.swift": "pip_backdrop_stability/Guard2.inc",
+    "submodules/AccountContext/Sources/MediaManager.swift": "pip_backdrop_stability/Guard3.inc",
+    "submodules/GalleryUI/Sources/GalleryVideoDecoration.swift": "pip_backdrop_stability/Guard4.inc",
+    "submodules/GalleryUI/Sources/GalleryPagerNode.swift": "pip_backdrop_stability/Guard5.inc",
+    "submodules/GalleryUI/Sources/GalleryItemNode.swift": "pip_backdrop_stability/Guard6.inc",
+    "submodules/GalleryUI/Sources/ZoomableContentGalleryItemNode.swift": "pip_backdrop_stability/Guard7.inc",
+    "submodules/TelegramUniversalVideoContent/Sources/NativeVideoContent.swift": "pip_backdrop_stability/Guard8.inc",
+    "submodules/MediaPlayer/Sources/MediaPlayerNode.swift": "pip_backdrop_stability/Guard9.inc",
+    "submodules/NagramiXCore/Sources/NagramiXTabSettings.swift": "pip_backdrop_stability/Guard10.inc",
+    "submodules/TelegramUI/Sources/ChatController.swift": "pip_backdrop_stability/Guard11.inc"
+  },
+  "templates": {
+    "pip_backdrop_stability/Before0.inc": "f67a17c3859584603147ad79c82d122e5c3a626b49b6b97cbf95edba1be5a148",
+    "pip_backdrop_stability/After0.inc": "25dec6da44df60758ae6e058350a1ddd4f243a62a176a2150f3a576e80215539",
+    "pip_backdrop_stability/Before1.inc": "9a562952fdfef5bc48ffdb60f6ccbd211784c2fde9f147e493a1b70dafb574eb",
+    "pip_backdrop_stability/After1.inc": "316cf9af7a3b6cb97b7d1418409353677ad4dec5e5a5c8276100d8d4ce3ed8cd",
+    "pip_backdrop_stability/Before2.inc": "143eae8df1c504cb0999e5e670b19a3db277fb52768ba6d51d445e957e1f88a0",
+    "pip_backdrop_stability/After2.inc": "b3a56c42fd6399dc28e0842eeacdc2653285b948af88825211e030cf9e51357b",
+    "pip_backdrop_stability/Guard0.inc": "24b043774f3a99f7403ca7f7352d0190c5224994b44134774ba625ffae9666fe",
+    "pip_backdrop_stability/Guard1.inc": "e3ec0a96e45891721f72009f392510859bebbc52db17798ea0126b6fec8bf47d",
+    "pip_backdrop_stability/Guard2.inc": "c354dd6110225b9a689f8e8bdd5a8e709b99952c25a5794258ae171ee8164d68",
+    "pip_backdrop_stability/Guard3.inc": "116e9b3c3d46f9b6aaa80e974d419b903d42b3705ac415057b81984127677e21",
+    "pip_backdrop_stability/Guard4.inc": "152eec6dbd5037312d63ea07cfc797c67f3547c2dcfbae1be044cef647fac60b",
+    "pip_backdrop_stability/Guard5.inc": "bcc9dc0f29ec327f22d099593b1f4ca6163a5392e44021c51cae4e863d8a8e01",
+    "pip_backdrop_stability/Guard6.inc": "ddd018dd0e63d022e0ac76d6a82bd703c52ed376f0509ce078ded8e361cbc0ef",
+    "pip_backdrop_stability/Guard7.inc": "aa3622cb64a22ff92877f236a45d8b080ab73b4f7c67828f1de7d1d0fb70c424",
+    "pip_backdrop_stability/Guard8.inc": "528f20337b832f9dcc01b58511a7639e54a757afffb7477ed2e8c054674bae10",
+    "pip_backdrop_stability/Guard9.inc": "bdbc51a35471e26ab43a945ef28166c0ab0aa140c2ed18586ac04fd26be28133",
+    "pip_backdrop_stability/Guard10.inc": "dfcc93bf238bb2441deb914f0b9008a1fecbbf0deaab8f58e95196d4e35a1545",
+    "pip_backdrop_stability/Guard11.inc": "ec38fe26f8c5ebde214a5abe71828fa6899173ab7301ff4e41bc9ec7064e83e0"
+  },
+  "target_pin": "24638bc69bd083981b178dd1e7f921eebbf7fc46",
+  "overlay_base_pin": "279f89e4d4f63f17227bf877dc3d8990f22ecd58",
+  "required_previous_stage": "premium_label_spelling"
+}
