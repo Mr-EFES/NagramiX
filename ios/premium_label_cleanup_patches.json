@@ -1,0 +1,49 @@
+{
+  "inputs": {
+    "submodules/SettingsUI/Sources/NagramiXSettingsController.swift": "be1ef9c53993ceaf0c2ce64d873530d525503920d7c8705cb3da4c0ce4069e05",
+    "submodules/NagramiXCore/Resources/ru.lproj/Localizable.strings": "899c091c3e0fd28b7a69283e477aa8991524bff35abbad35aaf88aff917abde7"
+  },
+  "outputs": {
+    "submodules/SettingsUI/Sources/NagramiXSettingsController.swift": "7b8ce30950359ac71391b435401d8421567c2168bd74a577501c2ecabf8176df",
+    "submodules/NagramiXCore/Resources/ru.lproj/Localizable.strings": "f5f32ed200c549f148777c8059d509d866f5e18ce4b8b6eeda5cb3f679260a8d"
+  },
+  "previous": {
+    "submodules/SettingsUI/Sources/NagramiXSettingsController.swift": "premium_label_cleanup/Before0.inc",
+    "submodules/NagramiXCore/Resources/ru.lproj/Localizable.strings": "premium_label_cleanup/Before1.inc"
+  },
+  "replacements": {
+    "submodules/SettingsUI/Sources/NagramiXSettingsController.swift": "premium_label_cleanup/After0.inc",
+    "submodules/NagramiXCore/Resources/ru.lproj/Localizable.strings": "premium_label_cleanup/After1.inc"
+  },
+  "copies": {},
+  "deletions": {},
+  "guards": {
+    "submodules/SettingsUI/BUILD": "b229ff1580a1e8e13770d400a1c0c9e1cf56ef05b831659c3422a6141b50f489",
+    "submodules/NagramiXCore/BUILD": "869e31310cc925b84ceb827a3c0b8503f3a22614acb4abeeec4a4ad435cf56e2",
+    "submodules/NagramiXCore/Sources/NagramiXTabSettings.swift": "dfcc93bf238bb2441deb914f0b9008a1fecbbf0deaab8f58e95196d4e35a1545",
+    "submodules/NagramiXCore/Sources/NagramiXPresentationStrings.swift": "b9700aab8046faceae855dc3336cfb22869c71f2aa395c4a0258c544be895d50",
+    "submodules/TelegramUI/Components/GlobalControlPanelsContext/Sources/GlobalControlPanelsContext.swift": "d6f166a2278cf2dba3ebc896b38c60f8a90ada3c969eac45be8229b291878cfa"
+  },
+  "guard_sources": {
+    "submodules/SettingsUI/BUILD": "premium_label_cleanup/Guard0.inc",
+    "submodules/NagramiXCore/BUILD": "premium_label_cleanup/Guard1.inc",
+    "submodules/NagramiXCore/Sources/NagramiXTabSettings.swift": "premium_label_cleanup/Guard2.inc",
+    "submodules/NagramiXCore/Sources/NagramiXPresentationStrings.swift": "premium_label_cleanup/Guard3.inc",
+    "submodules/TelegramUI/Components/GlobalControlPanelsContext/Sources/GlobalControlPanelsContext.swift": "premium_label_cleanup/Guard4.inc"
+  },
+  "templates": {
+    "premium_label_cleanup/Before0.inc": "be1ef9c53993ceaf0c2ce64d873530d525503920d7c8705cb3da4c0ce4069e05",
+    "premium_label_cleanup/After0.inc": "7b8ce30950359ac71391b435401d8421567c2168bd74a577501c2ecabf8176df",
+    "premium_label_cleanup/Before1.inc": "899c091c3e0fd28b7a69283e477aa8991524bff35abbad35aaf88aff917abde7",
+    "premium_label_cleanup/After1.inc": "f5f32ed200c549f148777c8059d509d866f5e18ce4b8b6eeda5cb3f679260a8d",
+    "premium_label_cleanup/Guard0.inc": "b229ff1580a1e8e13770d400a1c0c9e1cf56ef05b831659c3422a6141b50f489",
+    "premium_label_cleanup/Guard1.inc": "869e31310cc925b84ceb827a3c0b8503f3a22614acb4abeeec4a4ad435cf56e2",
+    "premium_label_cleanup/Guard2.inc": "dfcc93bf238bb2441deb914f0b9008a1fecbbf0deaab8f58e95196d4e35a1545",
+    "premium_label_cleanup/Guard3.inc": "b9700aab8046faceae855dc3336cfb22869c71f2aa395c4a0258c544be895d50",
+    "premium_label_cleanup/Guard4.inc": "d6f166a2278cf2dba3ebc896b38c60f8a90ada3c969eac45be8229b291878cfa",
+    "premium_label_cleanup/localization.json": "3518e29a98e6f8277ac9757f3503a977c549eca5f585f9d699f4b51c82a69885"
+  },
+  "target_pin": "24638bc69bd083981b178dd1e7f921eebbf7fc46",
+  "overlay_base_pin": "279f89e4d4f63f17227bf877dc3d8990f22ecd58",
+  "required_previous_stage": "poll_copy_transport"
+}

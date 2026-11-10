@@ -117,6 +117,15 @@ def final_upstream_catalog_contract(source):
     if hashlib.sha256(consent_data).hexdigest()!=consent['templates'][consent_name]:
         raise ValueError('Изменён реестр переводов явного открытия')
     consent_translations=json.loads(consent_data)
+    premium_label=checked_plan('premium_label_cleanup')
+    label_name='premium_label_cleanup/localization.json'
+    label_data=(OVERLAY/label_name).read_bytes()
+    if hashlib.sha256(label_data).hexdigest()!=premium_label['templates'][label_name]:
+        raise ValueError('Изменён реестр названия Premium-переключателя')
+    label_translations=json.loads(label_data)
+    label_resources={'submodules/NagramiXCore/Resources/ru.lproj/Localizable.strings'}
+    if set(label_translations)!={'ru'} or {p for p in premium_label['outputs'] if p.endswith('.lproj/Localizable.strings')}!=label_resources:
+        raise ValueError('Неверный набор ресурсов переименования Premium')
     name='upstream_13_2_release/localization.json'
     data=(OVERLAY/name).read_bytes()
     if hashlib.sha256(data).hexdigest()!=plan['templates'][name]:
@@ -135,12 +144,17 @@ def final_upstream_catalog_contract(source):
         path='submodules/NagramiXCore/Resources/'+code+'.lproj/Localizable.strings'
         if hashlib.sha256((source/path).read_bytes()).hexdigest()!=final_outputs[path]:
             raise ValueError('Изменён итоговый каталог: '+code)
-        values=strings(source/path)
+        final_values=strings(source/path)
+        # Validate historical translations against the exact pinned preimage;
+        # the new stage changes one existing Russian title, adding no keys.
+        values=strings(OVERLAY/premium_label['previous'][path]) if path in label_resources else final_values
         original=strings(OVERLAY/plan['replacements'][path])
         if values.keys()!=original.keys()|{wide_key}|set(round_keys)|set(premium_keys)|{consent_key} or any(values.get(key)!=value for key,value in original.items()):
             raise ValueError('Изменены прежние переводы или набор новых ключей: '+code)
-        if path not in wide['outputs'] or round_video['inputs'].get(path)!=wide['outputs'][path] or premium['inputs'].get(path)!=round_video['outputs'].get(path) or consent['inputs'].get(path)!=premium['outputs'].get(path) or final_outputs[path]!=consent['outputs'].get(path):
+        if path not in wide['outputs'] or round_video['inputs'].get(path)!=wide['outputs'][path] or premium['inputs'].get(path)!=round_video['outputs'].get(path) or consent['inputs'].get(path)!=premium['outputs'].get(path) or final_outputs[path]!=premium_label['outputs'].get(path,consent['outputs'].get(path)):
             raise ValueError('Нет точного позднего контракта перевода широкой панели: '+code)
+        if path in label_resources and (premium_label['inputs'][path]!=consent['outputs'].get(path) or final_values!={**values,premium_keys[0]:label_translations[code]}):
+            raise ValueError('Изменены другие переводы при переименовании Premium: '+code)
         prior=strings(OVERLAY/round_video['previous'][path])
         if any(values.get(key)!=value for key,value in prior.items()):
             raise ValueError('Изменены прежние переводы перед круглым видео: '+code)

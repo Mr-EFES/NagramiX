@@ -368,11 +368,11 @@
     },
     {
       "id": "hide_premium_offers",
-      "title": "Скрыть предложения Premium: без баннеров подарка, покупки и продления над чатами",
+      "title": "Вскрыть рекламу премиум",
       "specification": "specified",
       "ios": {
         "implementation": "implemented",
-        "compile": "compile_passed",
+        "compile": "compile_pending",
         "device": "device_pending"
       }
     },

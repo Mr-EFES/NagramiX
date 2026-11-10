@@ -131,7 +131,10 @@ def verify(source):
     order = [workflow.index('apply_' + stage + '(') for stage in SDK_STAGES]
     assert order == sorted(order) and len(order) == len(set(order))
     for index, stage in enumerate(LATE_SOURCE_STAGES):
-        validation = workflow.index('python3 scripts/validate_' + stage + '.py')
+        # This presentation-only stage uses the existing full inverse/SHA gate;
+        # final source parsing and strict localization still run below.
+        command = 'python3 scripts/validate_late_source_stages.py' if stage == 'premium_label_cleanup' else 'python3 scripts/validate_' + stage + '.py'
+        validation = workflow.index(command)
         next_stage = LATE_SOURCE_STAGES[index + 1] if index + 1 < len(LATE_SOURCE_STAGES) else None
         boundary = workflow.index('apply_' + next_stage + '(') if next_stage else workflow.index('python3 scripts/validate_upstream_13_2_release.py')
         assert workflow.index('apply_' + stage + '(') < validation < boundary

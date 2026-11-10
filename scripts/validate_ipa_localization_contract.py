@@ -117,8 +117,18 @@ class CatalogTests(unittest.TestCase):
             self.assertEqual(validate_settings_localizations(archive, PREFIX, '0.9.2'), 71)
 
     def test_later_version_keeps_635_contract(self):
-        with self.archive(self.next_catalogs) as archive:
+        latest = {code: dict(values) for code, values in self.next_catalogs.items()}
+        label_plan = json.loads((ROOT / 'ios/premium_label_cleanup_patches.json').read_text())
+        resource = 'submodules/NagramiXCore/Resources/ru.lproj/Localizable.strings'
+        latest['ru'] = strings(ROOT / 'ios' / label_plan['replacements'][resource])
+        self.assertEqual(expected_nagramix_catalogs('0.9.3'), latest)
+        with self.archive(latest) as archive:
+            self.assertEqual(validate_settings_localizations(archive, PREFIX, '0.9.3'), 71)
             self.assertEqual(validate_settings_localizations(archive, PREFIX, '0.10.0'), 71)
+        with self.archive(self.next_catalogs) as archive, self.assertRaises(SystemExit):
+            validate_settings_localizations(archive, PREFIX, '0.9.3')
+        with self.archive(latest) as archive, self.assertRaises(SystemExit):
+            validate_settings_localizations(archive, PREFIX, '0.9.2')
 
     def test_old_catalog_rejected_for_092(self):
         with self.archive(self.latest) as archive, self.assertRaises(SystemExit):

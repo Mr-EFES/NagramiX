@@ -113,6 +113,20 @@ def expected_nagramix_catalogs(version: str | None = None) -> dict[str, dict[str
         require(hashlib.sha256(data).hexdigest() == consent['templates'][consent_name], 'Изменён реестр явного открытия')
         consent_translations = json.loads(data)
         require(set(consent_translations) == codes, 'Неполный реестр явного открытия')
+    premium_label = None
+    label_translations = None
+    if version_parts is not None and version_parts >= (0, 9, 3):
+        premium_label = json.loads((ROOT / 'ios/premium_label_cleanup_patches.json').read_text())
+        require(premium_label['target_pin'] == '24638bc69bd083981b178dd1e7f921eebbf7fc46'
+                and premium_label['required_previous_stage'] == 'poll_copy_transport', 'Неверная база названия Premium')
+        resources = {'submodules/NagramiXCore/Resources/ru.lproj/Localizable.strings'}
+        require({name for name in premium_label['outputs'] if name.endswith('.lproj/Localizable.strings')} == resources,
+                'Неверный набор языков названия Premium')
+        label_name = 'premium_label_cleanup/localization.json'
+        data = (ROOT / 'ios' / label_name).read_bytes()
+        require(hashlib.sha256(data).hexdigest() == premium_label['templates'][label_name], 'Изменён реестр названия Premium')
+        label_translations = json.loads(data)
+        require(set(label_translations) == {'ru'} and label_translations['ru'].strip(), 'Неполный реестр названия Premium')
     catalogs = {}
     for code in sorted(codes):
         name = f'submodules/NagramiXCore/Resources/{code}.lproj/Localizable.strings'
@@ -170,6 +184,13 @@ def expected_nagramix_catalogs(version: str | None = None) -> dict[str, dict[str
                     and current.keys() - previous.keys() == {key}
                     and all(current.get(old) == value for old, value in previous.items())
                     and current.get(key) == values[0], 'Неполный каталог явного открытия: ' + code)
+            expected = current
+        if premium_label is not None and code in label_translations:
+            previous = checked_snapshot(premium_label['previous'][name], premium_label['inputs'][name], premium_label, 'названия Premium')
+            current = checked_snapshot(premium_label['replacements'][name], premium_label['outputs'][name], premium_label, 'названия Premium')
+            require(previous == expected and len(previous) == 635, 'Изменён прежний контракт 0.9.2: ' + code)
+            require(current == {**expected, 'NagramiX.Settings.HidePremiumOffers': label_translations[code]},
+                    'Изменены другие переводы при переименовании Premium: ' + code)
             expected = current
         catalogs[code] = expected
     return catalogs

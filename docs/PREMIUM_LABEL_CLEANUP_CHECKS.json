@@ -1,0 +1,84 @@
+{
+  "stage": "premium_label_cleanup",
+  "files": 37655,
+  "changed_files": [
+    "submodules/NagramiXCore/Resources/ru.lproj/Localizable.strings",
+    "submodules/SettingsUI/Sources/NagramiXSettingsController.swift"
+  ],
+  "independent_apply_exact": true,
+  "source29_preserved": true,
+  "swift_row_only_removed_subtitle": true,
+  "ru_only_renamed_title": true,
+  "existing_feature_key_default_callbacks_and_runtime_guards_unchanged": true,
+  "sdk_build_started": false,
+  "parent": "8e6d86ff2f4cb716d916689f20c1a636860c4c42",
+  "title": "Вскрыть рекламу премиум",
+  "annotation_visible": false,
+  "outputs": {
+    "submodules/SettingsUI/Sources/NagramiXSettingsController.swift": "7b8ce30950359ac71391b435401d8421567c2168bd74a577501c2ecabf8176df",
+    "submodules/NagramiXCore/Resources/ru.lproj/Localizable.strings": "f5f32ed200c549f148777c8059d509d866f5e18ce4b8b6eeda5cb3f679260a8d"
+  },
+  "guards": 5,
+  "new_snapshots": 9,
+  "historical_snapshots": 3095,
+  "historical_snapshots_unchanged": true,
+  "late_source_stages": 30,
+  "inverse_contract_paths": 729,
+  "inverse_negative_cases": 115,
+  "parsed_swift": 507,
+  "migration_negative_cases": {
+    "pre": 17,
+    "post": 33
+  },
+  "historical_runtime_executions": 14,
+  "native_postbox_imports": "passed",
+  "localization": {
+    "catalogs": 71,
+    "keys_per_catalog": 635,
+    "runtime_lookups_per_mode": 45254,
+    "modes": [
+      "debug",
+      "optimized"
+    ],
+    "new_keys": 0,
+    "other_resource_catalogs_unchanged": 70
+  },
+  "ipa_catalog_contract_tests": 32,
+  "published_092_catalogs_preserved": true,
+  "next_093_title_catalog_verified": true,
+  "custom_members": "canonical and full source passed",
+  "settings_bindings": {
+    "callback_fields": 73,
+    "whole_call_labels_checked": 73,
+    "executions": [
+      {
+        "name": "settings-bindings",
+        "mode": "debug",
+        "exit_code": 0,
+        "output": "PASS full settings constructor and independent callbacks"
+      },
+      {
+        "name": "settings-bindings",
+        "mode": "optimized",
+        "exit_code": 0,
+        "output": "PASS full settings constructor and independent callbacks"
+      }
+    ],
+    "negative_original_order": [
+      {
+        "mode": "debug",
+        "original_sdk_error_reproduced": true
+      },
+      {
+        "mode": "optimized",
+        "original_sdk_error_reproduced": true
+      }
+    ],
+    "fixture_sha256": "fd356d41020dc53b467696c5da6db69396a15028ac61b5c99ff381825c788c32",
+    "boundary": "Actual complete stored-property declaration and all labels from the production caller. Unrelated callback bodies are neutral; the real round/background callback bodies execute with a typed storage adapter. UIKit and the whole ItemListController graph require SDK compilation."
+  },
+  "apple_sdk": "not_run",
+  "device": "pending",
+  "published_release": "0.9.2/build193 unchanged",
+  "next_build_version": "0.9.3 only by separate user command"
+}
