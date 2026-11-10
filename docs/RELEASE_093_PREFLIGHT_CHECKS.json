@@ -1,0 +1,95 @@
+{
+  "version": "0.9.3",
+  "status": "pre_sdk_passed_native_sdk_package_publication_pending",
+  "feature_commit": "f2db7bc407d75201b4738c76a71a657dbbd0fe7c",
+  "upstream_current": true,
+  "telegram_pin": "24638bc69bd083981b178dd1e7f921eebbf7fc46",
+  "telegram_version": "13.2",
+  "xcode": "27.1",
+  "owner": "Mr-EFES",
+  "repository_visibility": "public",
+  "source_files": 37655,
+  "late_stages": 32,
+  "final_source_sha_verified": true,
+  "strict_093_catalogs_match_final_source": true,
+  "previous_092_catalog_contract_preserved": true,
+  "existing_runtime_receipts": {
+    "ROUND_NATIVE_PLAYBACK_CHECKS.json": {
+      "sha256": "a6efa28e344b4c561aa6114c630fb4194be6aa40e2ac9ed75acd8054155f1f76",
+      "status": "source_checks_passed"
+    },
+    "POLL_COPY_TRANSPORT_CHECKS.json": {
+      "sha256": "17e79119b639edd09b11f9e98ea2f85c65774cc9c2e76772003b25445119c2cd",
+      "status": "source_checks_passed"
+    },
+    "PREMIUM_LABEL_CLEANUP_CHECKS.json": {
+      "sha256": "b1f0e8eee3404ea27c6d92ba3f0b812355b2ac392346aa558f212a22e6084e2b",
+      "status": "source_checks_passed"
+    },
+    "PREMIUM_LABEL_SPELLING_CHECKS.json": {
+      "sha256": "99cbdafdf385dbb55d2e46d588d4ec17d36ea9e7d5bb1ae191323b5c596c16d5",
+      "status": "source_checks_passed"
+    },
+    "PIP_BACKDROP_STABILITY_CHECKS.json": {
+      "sha256": "9eb4598deb430842165fcdacc385d7513a618ade26e4246540da2c4f9779d705",
+      "status": "source_checks_passed"
+    }
+  },
+  "global_parse_and_runtime_receipt": "PIP_BACKDROP_STABILITY_CHECKS.json",
+  "native_source_changes_in_metadata_preparation": false,
+  "pending_compile_features": [
+    "forward_copy",
+    "deleted_messages",
+    "temporary_messages",
+    "video_pip_swipe",
+    "hide_premium_offers",
+    "protected_content_copy"
+  ],
+  "workflow": {
+    "clean_build": true,
+    "extended_patch_tests": false,
+    "publish_release": true,
+    "prerelease": false,
+    "artifact_run_id": ""
+  },
+  "apple_sdk": "pending",
+  "package": "pending",
+  "publication": "pending",
+  "device": "pending",
+  "settings_argument_bindings": {
+    "callback_fields": 73,
+    "whole_call_labels_checked": 73,
+    "executions": [
+      {
+        "name": "settings-bindings",
+        "mode": "debug",
+        "exit_code": 0,
+        "output": "PASS full settings constructor and independent callbacks"
+      },
+      {
+        "name": "settings-bindings",
+        "mode": "optimized",
+        "exit_code": 0,
+        "output": "PASS full settings constructor and independent callbacks"
+      }
+    ],
+    "negative_original_order": [
+      {
+        "mode": "debug",
+        "original_sdk_error_reproduced": true
+      },
+      {
+        "mode": "optimized",
+        "original_sdk_error_reproduced": true
+      }
+    ],
+    "fixture_sha256": "fd356d41020dc53b467696c5da6db69396a15028ac61b5c99ff381825c788c32",
+    "boundary": "Actual complete stored-property declaration and all labels from the production caller. Unrelated callback bodies are neutral; the real round/background callback bodies execute with a typed storage adapter. UIKit and the whole ItemListController graph require SDK compilation."
+  },
+  "owner_publication_tests": 28,
+  "ipa_catalog_contract_tests": 32,
+  "upstream_dependency_tests": 8,
+  "upstream_input_origin_regressions_rejected": 2,
+  "release_build_mode": "passed",
+  "patch_validation_mode": "passed"
+}

@@ -1,4 +1,4 @@
-# Выпуск NagramiX 0.9.2
+# Выпуск 0.9.2: NagramiX
 
 **Выпуск 0.9.2/build193 завершён: native_compile_passed / package_verified / owner_published / device_pending.** Обычный latest [релиз](https://github.com/Mr-EFES/NagramiX/releases/tag/v0.9.2) опубликован 10 ноября 2026 года в 04:04:25 UTC от Mr-EFES. [IPA](https://github.com/Mr-EFES/NagramiX/releases/download/v0.9.2/NagramiX-0.9.2-unsigned.ipa), [успешная сборка](https://github.com/Mr-EFES/NagramiX/actions/runs/42732784627), [проверка публикации](RELEASE_092_PUBLICATION_CHECKS.json). Source и tag v0.9.2: `67090143af03c3d709b4283f2a4b037e61e87014`, Telegram13.2/Xcode27.1. Чистая SDK-компиляция 01:11:05–02:41:58 UTC и оба задания Actions успешны. Ошибка порядка аргументов SettingsUI из №192 устранена; полный конструктор проверяется до SDK.
 
