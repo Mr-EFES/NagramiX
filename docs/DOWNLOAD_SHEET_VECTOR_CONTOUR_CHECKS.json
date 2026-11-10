@@ -1,0 +1,135 @@
+{
+  "stage": "download_sheet_vector_contour",
+  "outputs": {
+    "submodules/Display/Source/ActionSheetItemGroupNode.swift": "5e972265ccd819817b0b2ba90d70559bacd5cd4c03df5d94cb10ffdef6654e77"
+  },
+  "guards": 14,
+  "loader_refusals": 12,
+  "executions": [
+    {
+      "name": "group-contour",
+      "mode": "debug",
+      "exit_code": 0,
+      "output": "Production group contour checks: 40500"
+    },
+    {
+      "name": "group-contour",
+      "mode": "optimized",
+      "exit_code": 0,
+      "output": "Production group contour checks: 40500"
+    },
+    {
+      "name": "missing-common-mask",
+      "mode": "debug",
+      "exit_code": 91,
+      "output": "Contour regression: common ancestor clips blur, rows and highlights"
+    },
+    {
+      "name": "missing-common-mask",
+      "mode": "optimized",
+      "exit_code": 91,
+      "output": "Contour regression: common ancestor clips blur, rows and highlights"
+    },
+    {
+      "name": "nonzero-dim-fill",
+      "mode": "debug",
+      "exit_code": 91,
+      "output": "Contour regression: dim is the exact complement of content"
+    },
+    {
+      "name": "nonzero-dim-fill",
+      "mode": "optimized",
+      "exit_code": 91,
+      "output": "Contour regression: dim is the exact complement of content"
+    },
+    {
+      "name": "inverted-content",
+      "mode": "debug",
+      "exit_code": 91,
+      "output": "Contour regression: common ancestor clips blur, rows and highlights"
+    },
+    {
+      "name": "inverted-content",
+      "mode": "optimized",
+      "exit_code": 91,
+      "output": "Contour regression: common ancestor clips blur, rows and highlights"
+    },
+    {
+      "name": "stale-size",
+      "mode": "debug",
+      "exit_code": 91,
+      "output": "Contour regression: resized mask and dim use current bounds"
+    },
+    {
+      "name": "stale-size",
+      "mode": "optimized",
+      "exit_code": 91,
+      "output": "Contour regression: resized mask and dim use current bounds"
+    },
+    {
+      "name": "floating-mask-leak",
+      "mode": "debug",
+      "exit_code": 91,
+      "output": "Contour regression: floating reuse restores native corners and image"
+    },
+    {
+      "name": "floating-mask-leak",
+      "mode": "optimized",
+      "exit_code": 91,
+      "output": "Contour regression: floating reuse restores native corners and image"
+    },
+    {
+      "name": "double-dim",
+      "mode": "debug",
+      "exit_code": 91,
+      "output": "Contour regression: attached mode removes the legacy raster dim image"
+    },
+    {
+      "name": "double-dim",
+      "mode": "optimized",
+      "exit_code": 91,
+      "output": "Contour regression: attached mode removes the legacy raster dim image"
+    },
+    {
+      "name": "selection",
+      "mode": "debug",
+      "exit_code": 0,
+      "output": "Option sheet selection checks: 28"
+    },
+    {
+      "name": "selection",
+      "mode": "optimized",
+      "exit_code": 0,
+      "output": "Option sheet selection checks: 28"
+    }
+  ],
+  "swift_parse": 1,
+  "source_files": 37655,
+  "source_unchanged_by_checks": true,
+  "boundary": "Complete production ActionSheetItemGroupNode initializer, mode changes, hierarchy, layout, overscroll and dim animation execute with explicit UIKit/Texture/layer adapters. Analytical paths check alpha containment, complement and resizing; production option factory tests callbacks. These checks do not prove CoreAnimation/CoreGraphics pixels, live blur, frame timing or physical iPhone rendering.",
+  "apple_sdk": "not_run",
+  "device": "pending",
+  "independent": {
+    "files": 37655,
+    "changed": [
+      "submodules/Display/Source/ActionSheetItemGroupNode.swift"
+    ],
+    "source35_unchanged": true,
+    "independent_apply_exact": true,
+    "old_snapshots_preserved": 3186
+  },
+  "global_checks": {
+    "swift_parse": 507,
+    "migration_refusals": 50,
+    "historical_runtime_executions": 14,
+    "postbox": "passed",
+    "inverse_contract_paths": 729,
+    "inverse_refusals": 133,
+    "source_custom_members": "passed; 7321 Swift files",
+    "canonical_custom_members": "passed; 225 final snapshots",
+    "localization": "71 resource catalogs x 635 keys, 45254 lookups in each debug/-O; passed"
+  },
+  "metadata": "0.9.3 unchanged; next build 0.9.4 only on a new command",
+  "source": "/tmp/nagramix-download-sheet-vector-contour/source",
+  "baseline": "/tmp/nagramix-round-replacement-geometry/source"
+}

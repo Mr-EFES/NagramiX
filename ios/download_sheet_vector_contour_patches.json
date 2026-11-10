@@ -1,0 +1,70 @@
+{
+  "inputs": {
+    "submodules/Display/Source/ActionSheetItemGroupNode.swift": "4d4210713e11e7f6ffba597950543953c90febfdd14ea9f8ae28ad120b363fea"
+  },
+  "outputs": {
+    "submodules/Display/Source/ActionSheetItemGroupNode.swift": "5e972265ccd819817b0b2ba90d70559bacd5cd4c03df5d94cb10ffdef6654e77"
+  },
+  "previous": {
+    "submodules/Display/Source/ActionSheetItemGroupNode.swift": "download_sheet_vector_contour/Before0.inc"
+  },
+  "replacements": {
+    "submodules/Display/Source/ActionSheetItemGroupNode.swift": "download_sheet_vector_contour/After0.inc"
+  },
+  "copies": {},
+  "deletions": {},
+  "guards": {
+    "submodules/Display/BUILD": "af4f1f75d592aacfb7ba3b2408eb2979667387d6c05522bf5287779f277f6e50",
+    "submodules/Display/Source/ActionSheetController.swift": "367729526279622bdf79dc7ddf6b5994847183cf3f463bb21f7cf47d75d8c809",
+    "submodules/Display/Source/ActionSheetControllerNode.swift": "7d556ee3387d296a17c283d6aab38e6a48b6bae90d090d0e3fbda6659a210cd8",
+    "submodules/Display/Source/ActionSheetItemGroupsContainerNode.swift": "0671a01b2ceb8228dceadd9d24bf467bc932c6c5f88260a47e9aee3572da0ec2",
+    "submodules/Display/Source/ActionSheetItemNode.swift": "41de692f63005efec55d9b993ab0161bfbe597b612bdb72128010bd94973dbdb",
+    "submodules/Display/Source/ActionSheetTheme.swift": "2a8614793f7adab0a4caa23f2de9a89e8e1754cfb494cb52efe92b69446b2d9f",
+    "submodules/Display/Source/ContainedViewLayoutTransition.swift": "b8e26e807f79314823177f556ef268dc996dcb2c7a243d7175dcc8d9fd4630ae",
+    "submodules/SettingsUI/Sources/NagramiXOptionSheet.swift": "38649bb37aeb7c328792c89e71fe9751d0d23a189a9ea8ee70472b4b97fb1bf1",
+    "submodules/SettingsUI/Sources/NagramiXSettingsController.swift": "7b8ce30950359ac71391b435401d8421567c2168bd74a577501c2ecabf8176df",
+    "submodules/NagramiXMediaSettings/Sources/NagramiXDownloadSettings.swift": "e235b1de47270479fd071ffae7862136a7e55bed44875fd79ddabe65c57d8674",
+    "submodules/TelegramUI/Components/Chat/ChatMessageInteractiveInstantVideoNode/Sources/ChatMessageInteractiveInstantVideoNode.swift": "d366a6312d84996c7b6a85ecf8e9e3f75068d72187a3735e08900974fc3b8edb",
+    "submodules/TelegramCore/Sources/Utils/NagramiXOutgoingCopy.swift": "5bd957d697244f4a1d97794ff70ab8aa1e71b34b9e8af9a6b747db0c895b9d68",
+    "submodules/NagramiXTranscription/Sources/Runtime.swift": "f435f9f23428635a0e8c5746b96f370e4778f4ca0f592494d92e20082b5471e5",
+    "submodules/TelegramCore/Sources/TelegramEngine/Messages/Transcription.swift": "67ddc8871d7536a98ccc6ca26bab6d8f7cdef55f11c7efb7d772bb6848a62cd3"
+  },
+  "guard_sources": {
+    "submodules/Display/BUILD": "download_sheet_vector_contour/Guard0.inc",
+    "submodules/Display/Source/ActionSheetController.swift": "download_sheet_vector_contour/Guard1.inc",
+    "submodules/Display/Source/ActionSheetControllerNode.swift": "download_sheet_vector_contour/Guard2.inc",
+    "submodules/Display/Source/ActionSheetItemGroupsContainerNode.swift": "download_sheet_vector_contour/Guard3.inc",
+    "submodules/Display/Source/ActionSheetItemNode.swift": "download_sheet_vector_contour/Guard4.inc",
+    "submodules/Display/Source/ActionSheetTheme.swift": "download_sheet_vector_contour/Guard5.inc",
+    "submodules/Display/Source/ContainedViewLayoutTransition.swift": "download_sheet_vector_contour/Guard6.inc",
+    "submodules/SettingsUI/Sources/NagramiXOptionSheet.swift": "download_sheet_vector_contour/Guard7.inc",
+    "submodules/SettingsUI/Sources/NagramiXSettingsController.swift": "download_sheet_vector_contour/Guard8.inc",
+    "submodules/NagramiXMediaSettings/Sources/NagramiXDownloadSettings.swift": "download_sheet_vector_contour/Guard9.inc",
+    "submodules/TelegramUI/Components/Chat/ChatMessageInteractiveInstantVideoNode/Sources/ChatMessageInteractiveInstantVideoNode.swift": "download_sheet_vector_contour/Guard10.inc",
+    "submodules/TelegramCore/Sources/Utils/NagramiXOutgoingCopy.swift": "download_sheet_vector_contour/Guard11.inc",
+    "submodules/NagramiXTranscription/Sources/Runtime.swift": "download_sheet_vector_contour/Guard12.inc",
+    "submodules/TelegramCore/Sources/TelegramEngine/Messages/Transcription.swift": "download_sheet_vector_contour/Guard13.inc"
+  },
+  "templates": {
+    "download_sheet_vector_contour/Before0.inc": "4d4210713e11e7f6ffba597950543953c90febfdd14ea9f8ae28ad120b363fea",
+    "download_sheet_vector_contour/After0.inc": "5e972265ccd819817b0b2ba90d70559bacd5cd4c03df5d94cb10ffdef6654e77",
+    "download_sheet_vector_contour/Guard0.inc": "af4f1f75d592aacfb7ba3b2408eb2979667387d6c05522bf5287779f277f6e50",
+    "download_sheet_vector_contour/Guard1.inc": "367729526279622bdf79dc7ddf6b5994847183cf3f463bb21f7cf47d75d8c809",
+    "download_sheet_vector_contour/Guard2.inc": "7d556ee3387d296a17c283d6aab38e6a48b6bae90d090d0e3fbda6659a210cd8",
+    "download_sheet_vector_contour/Guard3.inc": "0671a01b2ceb8228dceadd9d24bf467bc932c6c5f88260a47e9aee3572da0ec2",
+    "download_sheet_vector_contour/Guard4.inc": "41de692f63005efec55d9b993ab0161bfbe597b612bdb72128010bd94973dbdb",
+    "download_sheet_vector_contour/Guard5.inc": "2a8614793f7adab0a4caa23f2de9a89e8e1754cfb494cb52efe92b69446b2d9f",
+    "download_sheet_vector_contour/Guard6.inc": "b8e26e807f79314823177f556ef268dc996dcb2c7a243d7175dcc8d9fd4630ae",
+    "download_sheet_vector_contour/Guard7.inc": "38649bb37aeb7c328792c89e71fe9751d0d23a189a9ea8ee70472b4b97fb1bf1",
+    "download_sheet_vector_contour/Guard8.inc": "7b8ce30950359ac71391b435401d8421567c2168bd74a577501c2ecabf8176df",
+    "download_sheet_vector_contour/Guard9.inc": "e235b1de47270479fd071ffae7862136a7e55bed44875fd79ddabe65c57d8674",
+    "download_sheet_vector_contour/Guard10.inc": "d366a6312d84996c7b6a85ecf8e9e3f75068d72187a3735e08900974fc3b8edb",
+    "download_sheet_vector_contour/Guard11.inc": "5bd957d697244f4a1d97794ff70ab8aa1e71b34b9e8af9a6b747db0c895b9d68",
+    "download_sheet_vector_contour/Guard12.inc": "f435f9f23428635a0e8c5746b96f370e4778f4ca0f592494d92e20082b5471e5",
+    "download_sheet_vector_contour/Guard13.inc": "67ddc8871d7536a98ccc6ca26bab6d8f7cdef55f11c7efb7d772bb6848a62cd3"
+  },
+  "target_pin": "24638bc69bd083981b178dd1e7f921eebbf7fc46",
+  "overlay_base_pin": "279f89e4d4f63f17227bf877dc3d8990f22ecd58",
+  "required_previous_stage": "round_replacement_geometry",
+  "native_inputs": {}
+}
