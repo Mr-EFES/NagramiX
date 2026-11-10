@@ -1,0 +1,320 @@
+{
+  "stage": "round_native_playback",
+  "outputs": {
+    "submodules/TelegramCore/Sources/Utils/NagramiXCaptureProtectionPolicy.swift": "220953006e66c856e07c517b06490358e49b0bfd35622e28fa34b22e681278a8",
+    "submodules/TelegramUI/Components/Chat/ChatMessageBubbleItemNode/Sources/ChatMessageBubbleItemNode.swift": "de30ae8ba0079bc480edbf23769dc3842233a2987c6e46b2c754c948d8a13a54",
+    "submodules/TelegramUI/Components/Chat/ChatMessageInteractiveInstantVideoNode/Sources/ChatMessageInteractiveInstantVideoNode.swift": "20c7327b23d7cbe52bf43c48a845870e5117c195e4f5a8ecedfd88f497e58519",
+    "submodules/TelegramUI/Sources/Chat/ChatControllerOpenViewOnceMediaMessage.swift": "b8146d704ea4facb66631cd97de879515e0d612894e64fed4711e5e52575d391",
+    "submodules/TelegramUI/Sources/ChatController.swift": "ec38fe26f8c5ebde214a5abe71828fa6899173ab7301ff4e41bc9ec7064e83e0",
+    "submodules/TelegramUI/Sources/SharedMediaPlayer.swift": "daf8a72f5a04d7a8667acba641e5b1b161bdd359ed6b6f33a448bf6ef280dfb4",
+    "submodules/TelegramUniversalVideoContent/Sources/NativeVideoContent.swift": "528f20337b832f9dcc01b58511a7639e54a757afffb7477ed2e8c054674bae10"
+  },
+  "guards": 26,
+  "loader_refusals": 16,
+  "executions": [
+    {
+      "name": "ownership",
+      "mode": "debug",
+      "exit_code": 0,
+      "output": "PASS native ownership checks: 56"
+    },
+    {
+      "name": "ownership",
+      "mode": "optimized",
+      "exit_code": 0,
+      "output": "PASS native ownership checks: 56"
+    },
+    {
+      "name": "recording",
+      "mode": "debug",
+      "exit_code": 0,
+      "output": "PASS recording route checks: 160"
+    },
+    {
+      "name": "recording",
+      "mode": "optimized",
+      "exit_code": 0,
+      "output": "PASS recording route checks: 160"
+    },
+    {
+      "name": "presentation",
+      "mode": "debug",
+      "exit_code": 0,
+      "output": "PASS round cover and footer checks: 43"
+    },
+    {
+      "name": "presentation",
+      "mode": "optimized",
+      "exit_code": 0,
+      "output": "PASS round cover and footer checks: 43"
+    },
+    {
+      "name": "activation",
+      "mode": "debug",
+      "exit_code": 0,
+      "output": "PASS selected playback activation checks: 16"
+    },
+    {
+      "name": "activation",
+      "mode": "optimized",
+      "exit_code": 0,
+      "output": "PASS selected playback activation checks: 16"
+    },
+    {
+      "name": "split-live-surface",
+      "mode": "debug",
+      "exit_code": 91,
+      "output": "Round native regression: both subscribers use one content id"
+    },
+    {
+      "name": "split-live-surface",
+      "mode": "optimized",
+      "exit_code": 91,
+      "output": "Round native regression: both subscribers use one content id"
+    },
+    {
+      "name": "recording-alert-ignores-free",
+      "mode": "debug",
+      "exit_code": 91,
+      "output": "Round native regression: free content does not show recording alert"
+    },
+    {
+      "name": "recording-alert-ignores-free",
+      "mode": "optimized",
+      "exit_code": 91,
+      "output": "Round native regression: free content does not show recording alert"
+    },
+    {
+      "name": "recording-route-ignores-free",
+      "mode": "debug",
+      "exit_code": 91,
+      "output": "Round native regression: retained recording route stays in native chat player"
+    },
+    {
+      "name": "recording-route-ignores-free",
+      "mode": "optimized",
+      "exit_code": 91,
+      "output": "Round native regression: retained recording route stays in native chat player"
+    },
+    {
+      "name": "cover-lost",
+      "mode": "debug",
+      "exit_code": 91,
+      "output": "Round native regression: stock dust exists while idle"
+    },
+    {
+      "name": "cover-lost",
+      "mode": "optimized",
+      "exit_code": 91,
+      "output": "Round native regression: stock dust exists while idle"
+    },
+    {
+      "name": "footer-jumps",
+      "mode": "debug",
+      "exit_code": 91,
+      "output": "Round native regression: existing deletion footer uses native animator"
+    },
+    {
+      "name": "footer-jumps",
+      "mode": "optimized",
+      "exit_code": 91,
+      "output": "Round native regression: existing deletion footer uses native animator"
+    },
+    {
+      "name": "live-skips-exact-player",
+      "mode": "debug",
+      "exit_code": 91,
+      "output": "Round native regression: live and archive activation resolve exact native playlist"
+    },
+    {
+      "name": "live-skips-exact-player",
+      "mode": "optimized",
+      "exit_code": 91,
+      "output": "Round native regression: live and archive activation resolve exact native playlist"
+    },
+    {
+      "mode": "debug",
+      "case": "production-helper-native-identities",
+      "output": "Round player regression checks: 10"
+    },
+    {
+      "mode": "optimized",
+      "case": "production-helper-native-identities",
+      "output": "Round player regression checks: 10"
+    },
+    {
+      "case": "old-helper-wrong-playlist",
+      "exit_code": 96,
+      "output": "Round player regression: native single-message playlist toggles instead of recreating decoder"
+    },
+    {
+      "case": "missing-helper-core-import",
+      "expected_compiler_rejection": true
+    }
+  ],
+  "swift_parse": 7,
+  "source_files": 37655,
+  "source_unchanged_by_checks": true,
+  "native_round_inner_geometry": "exact Telegram13.2 function",
+  "native_postbox_imports": "passed",
+  "boundary": "Production content identity, native manager attachment/subscriber handoff, capture gates, idle cover, footer frame code and activation execute in explicit media/UI/network adapters. The actual unchanged playlist action also compiles against separate Core/Signal modules. UIKit, decoder pixels, real time animation and live network/device behavior are not tested.",
+  "apple_sdk": "not_run",
+  "ipa": "not_built",
+  "physical_iphone": "pending",
+  "independent": {
+    "files": 37655,
+    "changed_files": [
+      "submodules/TelegramCore/Sources/Utils/NagramiXCaptureProtectionPolicy.swift",
+      "submodules/TelegramUI/Components/Chat/ChatMessageBubbleItemNode/Sources/ChatMessageBubbleItemNode.swift",
+      "submodules/TelegramUI/Components/Chat/ChatMessageInteractiveInstantVideoNode/Sources/ChatMessageInteractiveInstantVideoNode.swift",
+      "submodules/TelegramUI/Sources/Chat/ChatControllerOpenViewOnceMediaMessage.swift",
+      "submodules/TelegramUI/Sources/ChatController.swift",
+      "submodules/TelegramUI/Sources/SharedMediaPlayer.swift",
+      "submodules/TelegramUniversalVideoContent/Sources/NativeVideoContent.swift"
+    ],
+    "independent_apply_exact": true,
+    "source27_unchanged": true,
+    "previous_tracked_inc_unchanged": 3023
+  },
+  "native_origin": {
+    "commit": "24638bc69bd083981b178dd1e7f921eebbf7fc46",
+    "path": "submodules/TelegramUniversalVideoContent/Sources/NativeVideoContent.swift",
+    "git_blob": "d3e15e03e817fd3904d85938c98077b4bcea2849",
+    "sha256": "e95d09ec73c50241546b96d6a717d5b66b0d85cb9bba05479a9a460772ffc28a",
+    "exact_local_native_file_verified": true
+  },
+  "global_source": {
+    "target_pin": "24638bc69bd083981b178dd1e7f921eebbf7fc46",
+    "pre_replacements": 196,
+    "post_replacements": 274,
+    "deleted_obsolete_files": 2,
+    "fail_closed": {
+      "pre": 17,
+      "post": 33
+    },
+    "parsed_swift": 506,
+    "executions": [
+      "current-debug: PiP playback command checks: 113",
+      "current-O: PiP playback command checks: 113",
+      "previous-native-debug: Native PiP baseline checks: 37",
+      "previous-native-O: Native PiP baseline checks: 37",
+      "previous-caption-debug: Round caption transport checks: 118",
+      "previous-caption-O: Round caption transport checks: 118",
+      "previous-composer-debug: Repost copy integrity checks: 48",
+      "previous-composer-O: Repost copy integrity checks: 48",
+      "old-toggle-command-debug: regression reproduced and rejected",
+      "old-toggle-command-O: regression reproduced and rejected",
+      "cached-status-toggle-debug: regression reproduced and rejected",
+      "cached-status-toggle-O: regression reproduced and rejected",
+      "inverted-command-debug: regression reproduced and rejected",
+      "inverted-command-O: regression reproduced and rejected"
+    ],
+    "historical_runtime_boundary": "exact published bytes after verified inverse of all registered late source stages",
+    "late_source_stages": [
+      "wide_bottom_bar",
+      "author_selection_no_restore",
+      "preview_reply_intent",
+      "cloud_credential_entry",
+      "extended_poll_integrity",
+      "bot_delete_without_block",
+      "wide_tab_bar_setting",
+      "pip_swipe_handoff",
+      "temporary_message_interaction",
+      "account_settings_entry",
+      "release_090_preflight_fixes",
+      "release_090_author_compile",
+      "round_video_replay_stability",
+      "pip_gallery_placeholder",
+      "download_sheet_edge",
+      "edit_history_cards",
+      "copy_reference_recovery",
+      "edit_history_number_badges",
+      "pip_visual_continuity",
+      "local_copy_delivery",
+      "temporary_playback_identity",
+      "round_video_editor",
+      "proxy_doh_editor",
+      "download_sheet_corners",
+      "hide_premium_offers",
+      "content_interaction_consent",
+      "release_092_settings_compile",
+      "round_native_playback"
+    ],
+    "native_postbox_imports": "passed",
+    "apple_sdk": "pending",
+    "device": "pending"
+  },
+  "custom_members": {
+    "swift_files": 7321,
+    "string_accesses": 856,
+    "distinct_string_members": 233,
+    "actual_string_declarations": 250,
+    "custom_declarations": 898,
+    "full_custom_name_audit": true
+  },
+  "canonical_custom_members": {
+    "swift_files": 224,
+    "string_accesses": 798,
+    "distinct_string_members": 231,
+    "actual_string_declarations": 250,
+    "custom_declarations": 775,
+    "full_custom_name_audit": false
+  },
+  "inverse": {
+    "paths": 727,
+    "loader_and_inverse_refusals": 109,
+    "full_source_files_preserved": 37655
+  },
+  "localization": {
+    "strict": true,
+    "resource_catalogs": 71,
+    "keys": 635,
+    "lookups_per_mode": 45254,
+    "modes": [
+      "debug",
+      "optimized"
+    ],
+    "new_keys": 0,
+    "new_ui_literals": 0
+  },
+  "workflow": {
+    "optional_historical_calls": 189,
+    "unconditional_apply_calls": 36,
+    "mandatory_final_checks": [
+      "validate_late_source_stages.py",
+      "validate_custom_member_references.py",
+      "validate_upstream_13_2_release.py",
+      "validate_localization_standard.py",
+      "validate_release_092_settings_compile.py",
+      "validate_round_native_playback.py",
+      "PostboxImportCheck.py"
+    ],
+    "bash_syntax": "passed",
+    "runtime_cases": [
+      {
+        "extended": "false",
+        "exit_code": 0
+      },
+      {
+        "extended": "true",
+        "exit_code": 17
+      },
+      {
+        "extended": "true",
+        "exit_code": 0
+      },
+      {
+        "extended": "invalid",
+        "exit_code": 64
+      }
+    ]
+  },
+  "evidence": {
+    "video_count": 4,
+    "review": "Обзор всех четырёх записей; проблемные интервалы с индексами и временными метками ffprobe. Исправленная анимация не записана: Apple SDK/симулятор/физическое устройство недоступны в этой среде.",
+    "private_attachments_committed": false
+  },
+  "source_parent": "5b0d3c4b7776fd2ecfc9bbc1d687a7c4cd759f55",
+  "build_dispatched": false,
+  "published_release_unchanged": "0.9.2/build193"
+}

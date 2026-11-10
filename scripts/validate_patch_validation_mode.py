@@ -19,7 +19,7 @@ def check(text):
     begin=source.index('          # BEGIN optional historical regressions\n')
     finish=source.index('          # END optional historical regressions\n',begin)+len('          # END optional historical regressions\n')
     helper='\n'.join(line[10:] for line in source[begin:finish].splitlines())+'\n'
-    mandatory=['validate_late_source_stages.py','validate_custom_member_references.py','validate_upstream_13_2_release.py','validate_localization_standard.py','validate_release_092_settings_compile.py']
+    mandatory=['validate_late_source_stages.py','validate_custom_member_references.py','validate_upstream_13_2_release.py','validate_localization_standard.py','validate_release_092_settings_compile.py','validate_round_native_playback.py']
     for name in mandatory:
         assert re.search(r'^          python3 scripts/'+re.escape(name)+r'\b',source,re.M),name
         assert 'nagramix_extended_check python3 scripts/'+name not in source,name
