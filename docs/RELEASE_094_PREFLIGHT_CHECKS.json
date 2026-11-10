@@ -1,0 +1,324 @@
+{
+  "version": "0.9.4",
+  "feature_commit": "9d8da6ada07139f1f05d6cbde2d7bbd8c447cc16",
+  "source": "/tmp/nagramix-download-sheet-vector-contour/source",
+  "source_files": 37655,
+  "late_stages": 36,
+  "upstream_current": true,
+  "telegram_pin": "24638bc69bd083981b178dd1e7f921eebbf7fc46",
+  "telegram_version": "13.2",
+  "xcode": "27.1",
+  "owner": "Mr-EFES",
+  "repository_visibility": "public",
+  "existing_runtime_receipts": {
+    "PRIVATE_TEMPORARY_TRANSCRIPTION_CHECKS.json": {
+      "sha256": "297194a3f656e76fe30f7b64aebb158e0b515eaf2a9b767a93a7485238845dc5",
+      "production_outputs_match_final_source": true
+    },
+    "GHOSTGRAM_AUTHORLESS_TRANSPORT_CHECKS.json": {
+      "sha256": "755e80b4e9303182e81e0a93092455264c1399b8a912881ffd341344360232f5",
+      "production_outputs_match_final_source": true
+    },
+    "ROUND_REPLACEMENT_GEOMETRY_CHECKS.json": {
+      "sha256": "4f60e4f7ab7f31574e6f20179b1ecb810e91f7d03a708511eec561c1cd3c4911",
+      "production_outputs_match_final_source": true
+    },
+    "DOWNLOAD_SHEET_VECTOR_CONTOUR_CHECKS.json": {
+      "sha256": "78930d1a5a59b6bb6f91aab05d0e6fa764bc8903c296f7d53e1834c488c44313",
+      "production_outputs_match_final_source": true
+    }
+  },
+  "strict_094_catalogs_match_final_source": true,
+  "native_source_unchanged_since_stage36": true,
+  "compile_pending_features": [
+    "forward_copy",
+    "deleted_messages",
+    "temporary_messages",
+    "download_acceleration",
+    "broadcast_messages",
+    "protected_content_copy",
+    "own_view_once_copy",
+    "voice_transcription"
+  ],
+  "apple_sdk": "pending",
+  "device": "pending",
+  "status": "pre_sdk_passed_native_sdk_package_publication_pending",
+  "global_source_checks": {
+    "swift_parse": 507,
+    "migration_refusals": 50,
+    "historical_executions": 14,
+    "postbox": "passed",
+    "inverse_paths": 729,
+    "inverse_refusals": 133
+  },
+  "download_contour": {
+    "stage": "download_sheet_vector_contour",
+    "outputs": {
+      "submodules/Display/Source/ActionSheetItemGroupNode.swift": "5e972265ccd819817b0b2ba90d70559bacd5cd4c03df5d94cb10ffdef6654e77"
+    },
+    "guards": 14,
+    "loader_refusals": 12,
+    "executions": [
+      {
+        "name": "group-contour",
+        "mode": "debug",
+        "exit_code": 0,
+        "output": "Production group contour checks: 40500"
+      },
+      {
+        "name": "group-contour",
+        "mode": "optimized",
+        "exit_code": 0,
+        "output": "Production group contour checks: 40500"
+      },
+      {
+        "name": "missing-common-mask",
+        "mode": "debug",
+        "exit_code": 91,
+        "output": "Contour regression: common ancestor clips blur, rows and highlights"
+      },
+      {
+        "name": "missing-common-mask",
+        "mode": "optimized",
+        "exit_code": 91,
+        "output": "Contour regression: common ancestor clips blur, rows and highlights"
+      },
+      {
+        "name": "nonzero-dim-fill",
+        "mode": "debug",
+        "exit_code": 91,
+        "output": "Contour regression: dim is the exact complement of content"
+      },
+      {
+        "name": "nonzero-dim-fill",
+        "mode": "optimized",
+        "exit_code": 91,
+        "output": "Contour regression: dim is the exact complement of content"
+      },
+      {
+        "name": "inverted-content",
+        "mode": "debug",
+        "exit_code": 91,
+        "output": "Contour regression: common ancestor clips blur, rows and highlights"
+      },
+      {
+        "name": "inverted-content",
+        "mode": "optimized",
+        "exit_code": 91,
+        "output": "Contour regression: common ancestor clips blur, rows and highlights"
+      },
+      {
+        "name": "stale-size",
+        "mode": "debug",
+        "exit_code": 91,
+        "output": "Contour regression: resized mask and dim use current bounds"
+      },
+      {
+        "name": "stale-size",
+        "mode": "optimized",
+        "exit_code": 91,
+        "output": "Contour regression: resized mask and dim use current bounds"
+      },
+      {
+        "name": "floating-mask-leak",
+        "mode": "debug",
+        "exit_code": 91,
+        "output": "Contour regression: floating reuse restores native corners and image"
+      },
+      {
+        "name": "floating-mask-leak",
+        "mode": "optimized",
+        "exit_code": 91,
+        "output": "Contour regression: floating reuse restores native corners and image"
+      },
+      {
+        "name": "double-dim",
+        "mode": "debug",
+        "exit_code": 91,
+        "output": "Contour regression: attached mode removes the legacy raster dim image"
+      },
+      {
+        "name": "double-dim",
+        "mode": "optimized",
+        "exit_code": 91,
+        "output": "Contour regression: attached mode removes the legacy raster dim image"
+      },
+      {
+        "name": "selection",
+        "mode": "debug",
+        "exit_code": 0,
+        "output": "Option sheet selection checks: 28"
+      },
+      {
+        "name": "selection",
+        "mode": "optimized",
+        "exit_code": 0,
+        "output": "Option sheet selection checks: 28"
+      }
+    ],
+    "swift_parse": 1,
+    "source_files": 37655,
+    "source_unchanged_by_checks": true,
+    "boundary": "Complete production ActionSheetItemGroupNode initializer, mode changes, hierarchy, layout, overscroll and dim animation execute with explicit UIKit/Texture/layer adapters. Analytical paths check alpha containment, complement and resizing; production option factory tests callbacks. These checks do not prove CoreAnimation/CoreGraphics pixels, live blur, frame timing or physical iPhone rendering.",
+    "apple_sdk": "not_run",
+    "device": "pending"
+  },
+  "geometry_imports": {
+    "boundaries": [
+      {
+        "name": "round-row",
+        "mode": "debug",
+        "passed": true
+      },
+      {
+        "name": "round-row",
+        "mode": "optimized",
+        "passed": true
+      },
+      {
+        "name": "pip-handoff",
+        "mode": "debug",
+        "passed": true
+      },
+      {
+        "name": "pip-handoff",
+        "mode": "optimized",
+        "passed": true
+      },
+      {
+        "name": "pip-snapshot",
+        "mode": "debug",
+        "passed": true
+      },
+      {
+        "name": "pip-snapshot",
+        "mode": "optimized",
+        "passed": true
+      },
+      {
+        "name": "download-layout",
+        "mode": "debug",
+        "passed": true
+      },
+      {
+        "name": "download-layout",
+        "mode": "optimized",
+        "passed": true
+      },
+      {
+        "name": "temporary-notice",
+        "mode": "debug",
+        "passed": true
+      },
+      {
+        "name": "temporary-notice",
+        "mode": "optimized",
+        "passed": true
+      },
+      {
+        "name": "revision-badge",
+        "mode": "debug",
+        "passed": true
+      },
+      {
+        "name": "revision-badge",
+        "mode": "optimized",
+        "passed": true
+      },
+      {
+        "name": "pip-continuity",
+        "mode": "debug",
+        "passed": true
+      },
+      {
+        "name": "pip-continuity",
+        "mode": "optimized",
+        "passed": true
+      },
+      {
+        "name": "round-video-editor",
+        "mode": "debug",
+        "passed": true
+      },
+      {
+        "name": "round-video-editor",
+        "mode": "optimized",
+        "passed": true
+      },
+      {
+        "name": "round-replacement",
+        "mode": "debug",
+        "passed": true
+      },
+      {
+        "name": "round-replacement",
+        "mode": "optimized",
+        "passed": true
+      },
+      {
+        "name": "download-contour",
+        "mode": "debug",
+        "passed": true
+      },
+      {
+        "name": "download-contour",
+        "mode": "optimized",
+        "passed": true
+      }
+    ],
+    "apple_import_negatives": [],
+    "boundary": "Actual test boundary imports and geometry operators; no UIKit or whole-app SDK build.",
+    "apple_import_negative_boundary": "Runs only with Apple Swift; Linux Foundation differs."
+  },
+  "settings_bindings": {
+    "callback_fields": 73,
+    "whole_call_labels_checked": 73,
+    "executions": [
+      {
+        "name": "settings-bindings",
+        "mode": "debug",
+        "exit_code": 0,
+        "output": "PASS full settings constructor and independent callbacks"
+      },
+      {
+        "name": "settings-bindings",
+        "mode": "optimized",
+        "exit_code": 0,
+        "output": "PASS full settings constructor and independent callbacks"
+      }
+    ],
+    "negative_original_order": [
+      {
+        "mode": "debug",
+        "original_sdk_error_reproduced": true
+      },
+      {
+        "mode": "optimized",
+        "original_sdk_error_reproduced": true
+      }
+    ],
+    "fixture_sha256": "fd356d41020dc53b467696c5da6db69396a15028ac61b5c99ff381825c788c32",
+    "boundary": "Actual complete stored-property declaration and all labels from the production caller. Unrelated callback bodies are neutral; the real round/background callback bodies execute with a typed storage adapter. UIKit and the whole ItemListController graph require SDK compilation."
+  },
+  "custom_members": {
+    "swift_files": 7321,
+    "string_accesses": 855,
+    "distinct_string_members": 233,
+    "actual_string_declarations": 250,
+    "custom_declarations": 920,
+    "full_custom_name_audit": true
+  },
+  "strict_localization": {
+    "resource_catalogs": 71,
+    "keys_per_catalog": 635,
+    "runtime_checks_per_mode": 45254,
+    "debug": "passed",
+    "optimized": "passed"
+  },
+  "owner_publication_tests": 28,
+  "ipa_catalog_contract_tests": 32,
+  "upstream_dependency_tests": 8,
+  "upstream_input_origin_regressions_rejected": 2,
+  "release_build_mode": "passed",
+  "patch_validation_mode": "passed"
+}

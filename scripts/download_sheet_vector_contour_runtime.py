@@ -34,6 +34,9 @@ def negatives(text):
 
 BOUNDARY = r'''
 import Foundation
+#if canImport(CoreGraphics)
+import CoreGraphics
+#endif
 struct UIRectCorner:OptionSet {
     let rawValue:Int
     static let topLeft=Self(rawValue:1),topRight=Self(rawValue:2)
