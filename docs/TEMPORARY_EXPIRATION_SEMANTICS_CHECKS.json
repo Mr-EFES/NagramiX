@@ -1,0 +1,309 @@
+{
+  "task": "Remote viewing/expiry preserves ordinary temporary-media appearance; true deletion remains separate.",
+  "status": "source_checked/compile_pending/device_pending",
+  "runtime": {
+    "stage": "temporary_expiration_semantics",
+    "outputs": {
+      "submodules/TelegramCore/Sources/Utils/NagramiXMessageArchive.swift": "ebad9f38125fab449fc9e1f07fb90d3cc1345471505c70eff82b913a979eeb6b",
+      "submodules/TelegramCore/Sources/TelegramEngine/Messages/MarkMessageContentAsConsumedInteractively.swift": "c560d482218d987203ae99dc37fa3167cf72c7ffa601170f6d1d50e377573490",
+      "submodules/TelegramCore/Sources/State/ManagedAutoremoveMessageOperations.swift": "bd0bf77bfd769d1560c795713bb6d53f23ca1e37a024304d4af27ad04fbb2e2e",
+      "submodules/TelegramUI/Sources/ChatHistoryEntriesForView.swift": "114e32823b78ab72972e620696540ae82681a71572b56dba1533a56be57fa11c"
+    },
+    "guards": 19,
+    "loader_refusals": 18,
+    "executions": [
+      {
+        "name": "expiry-archive",
+        "mode": "debug",
+        "exit_code": 0,
+        "output": "temporary-expiry archive checks: 488"
+      },
+      {
+        "name": "expiry-archive",
+        "mode": "optimized",
+        "exit_code": 0,
+        "output": "temporary-expiry archive checks: 488"
+      },
+      {
+        "name": "expiry-consumption",
+        "mode": "debug",
+        "exit_code": 0,
+        "output": "temporary-expiry consumption checks: 731"
+      },
+      {
+        "name": "expiry-consumption",
+        "mode": "optimized",
+        "exit_code": 0,
+        "output": "temporary-expiry consumption checks: 731"
+      },
+      {
+        "name": "expiry-read-status",
+        "mode": "debug",
+        "exit_code": 0,
+        "output": "temporary-expiry native read checks: 126"
+      },
+      {
+        "name": "expiry-read-status",
+        "mode": "optimized",
+        "exit_code": 0,
+        "output": "temporary-expiry native read checks: 126"
+      },
+      {
+        "name": "expiry-is-delete",
+        "mode": "debug",
+        "exit_code": 96,
+        "output": "expiry is not a deletion"
+      },
+      {
+        "name": "expiry-is-delete",
+        "mode": "optimized",
+        "exit_code": 96,
+        "output": "expiry is not a deletion"
+      },
+      {
+        "name": "lost-expiry-row",
+        "mode": "debug",
+        "exit_code": 96,
+        "output": "missing expired native row remains visible as ordinary retained media"
+      },
+      {
+        "name": "lost-expiry-row",
+        "mode": "optimized",
+        "exit_code": 96,
+        "output": "missing expired native row remains visible as ordinary retained media"
+      },
+      {
+        "name": "clear-revival",
+        "mode": "debug",
+        "exit_code": 96,
+        "output": "full clear tombstones expired retained rows"
+      },
+      {
+        "name": "clear-revival",
+        "mode": "optimized",
+        "exit_code": 96,
+        "output": "full clear tombstones expired retained rows"
+      },
+      {
+        "name": "expiry-removal-ownership",
+        "mode": "debug",
+        "exit_code": 96,
+        "output": "expiry-only copy removal never sends a missing original to server"
+      },
+      {
+        "name": "expiry-removal-ownership",
+        "mode": "optimized",
+        "exit_code": 96,
+        "output": "expiry-only copy removal never sends a missing original to server"
+      },
+      {
+        "name": "remote-countdown",
+        "mode": "debug",
+        "exit_code": 96,
+        "output": "retained remote playback never expires media"
+      },
+      {
+        "name": "remote-countdown",
+        "mode": "optimized",
+        "exit_code": 96,
+        "output": "retained remote playback never expires media"
+      },
+      {
+        "name": "queued-timer",
+        "mode": "debug",
+        "exit_code": 96,
+        "output": "queued timer cannot erase approved media"
+      },
+      {
+        "name": "queued-timer",
+        "mode": "optimized",
+        "exit_code": 96,
+        "output": "queued timer cannot erase approved media"
+      },
+      {
+        "name": "fake-unread",
+        "mode": "debug",
+        "exit_code": 96,
+        "output": "remote consumption truth is preserved"
+      },
+      {
+        "name": "fake-unread",
+        "mode": "optimized",
+        "exit_code": 96,
+        "output": "remote consumption truth is preserved"
+      },
+      {
+        "name": "fake-read",
+        "mode": "debug",
+        "exit_code": 96,
+        "output": "another namespace cannot confirm reading"
+      },
+      {
+        "name": "fake-read",
+        "mode": "optimized",
+        "exit_code": 96,
+        "output": "another namespace cannot confirm reading"
+      }
+    ],
+    "swift_parse": 4,
+    "source_files": 37682,
+    "source_unchanged_by_checks": true,
+    "boundary": "Actual remote consumption and complete TTL-reset helpers execute with Postbox/media IO adapters. Actual archive models, JSON persistence and expiry/deletion/render/interaction/consent/clear methods execute in debug and optimized modes. Native read state and genuine deletion bodies, playback, ASR, layout and 50% predicate are unchanged. UIKit, server-delivery causality and physical iPhone playback require Apple SDK/device validation.",
+    "legacy": "Records without expiry provenance retain their existing deletion state; genuine old deletions are not guessed away.",
+    "server_delete_without_reason": "Still handled as deletion; Telegram delete updates do not identify sender intent or automatic expiry.",
+    "apple_sdk": "not_run",
+    "device": "pending"
+  },
+  "production_checks_per_mode": {
+    "archive_and_json": 488,
+    "remote_consumption_and_queued_timer": 731,
+    "native_read_state": 126,
+    "total": 1345
+  },
+  "semantic_mutants_per_mode": 8,
+  "composition": {
+    "source_files": 37682,
+    "replacements": 4,
+    "new_files": 0,
+    "historical_snapshots_unchanged": 3509,
+    "new_snapshots": 27,
+    "symlinks_preserved": 26,
+    "source_manifest_sha256": "32c075e1a995bc77e196db578b20b21776ee325e27d254bc5ec63b9a1eb2a396",
+    "previous_source_sha256": "f4d64861955b435051d59ccf87dcbe439dc15979e4d0aff733c446807a9d4699",
+    "retained_full_base_sha256": "a61abe438a2e1632b14f5138f4300e137ffaa56425cb186b9496e50d4ac6fb13",
+    "baseline42_reconstructible_from_full41_and_pinned_stage42": true,
+    "independent_full_apply_matches": true,
+    "full_base_unchanged": true,
+    "previous_baseline42_manifest_verified": true
+  },
+  "general_validation": {
+    "upstream": {
+      "target_pin": "24638bc69bd083981b178dd1e7f921eebbf7fc46",
+      "pre_replacements": 196,
+      "post_replacements": 274,
+      "deleted_obsolete_files": 2,
+      "fail_closed": {
+        "pre": 17,
+        "post": 33
+      },
+      "parsed_swift": 539,
+      "executions": [
+        "current-debug: PiP playback command checks: 113",
+        "current-O: PiP playback command checks: 113",
+        "previous-native-debug: Native PiP baseline checks: 37",
+        "previous-native-O: Native PiP baseline checks: 37",
+        "previous-caption-debug: Round caption transport checks: 118",
+        "previous-caption-O: Round caption transport checks: 118",
+        "previous-composer-debug: Repost copy integrity checks: 48",
+        "previous-composer-O: Repost copy integrity checks: 48",
+        "old-toggle-command-debug: regression reproduced and rejected",
+        "old-toggle-command-O: regression reproduced and rejected",
+        "cached-status-toggle-debug: regression reproduced and rejected",
+        "cached-status-toggle-O: regression reproduced and rejected",
+        "inverted-command-debug: regression reproduced and rejected",
+        "inverted-command-O: regression reproduced and rejected"
+      ],
+      "historical_runtime_boundary": "exact published bytes after verified inverse of all registered late source stages",
+      "late_source_stages": [
+        "wide_bottom_bar",
+        "author_selection_no_restore",
+        "preview_reply_intent",
+        "cloud_credential_entry",
+        "extended_poll_integrity",
+        "bot_delete_without_block",
+        "wide_tab_bar_setting",
+        "pip_swipe_handoff",
+        "temporary_message_interaction",
+        "account_settings_entry",
+        "release_090_preflight_fixes",
+        "release_090_author_compile",
+        "round_video_replay_stability",
+        "pip_gallery_placeholder",
+        "download_sheet_edge",
+        "edit_history_cards",
+        "copy_reference_recovery",
+        "edit_history_number_badges",
+        "pip_visual_continuity",
+        "local_copy_delivery",
+        "temporary_playback_identity",
+        "round_video_editor",
+        "proxy_doh_editor",
+        "download_sheet_corners",
+        "hide_premium_offers",
+        "content_interaction_consent",
+        "release_092_settings_compile",
+        "round_native_playback",
+        "poll_copy_transport",
+        "premium_label_cleanup",
+        "premium_label_spelling",
+        "pip_backdrop_stability",
+        "private_temporary_transcription",
+        "ghostgram_authorless_transport",
+        "round_replacement_geometry",
+        "download_sheet_vector_contour",
+        "bubble_selection_edge",
+        "composer_file_attachments",
+        "archived_round_native_controls",
+        "transcription_account_defaults",
+        "app_font_selection",
+        "web_video_picture_in_picture",
+        "temporary_expiration_semantics"
+      ],
+      "native_postbox_imports": "passed",
+      "apple_sdk": "pending",
+      "device": "pending"
+    },
+    "inverse": {
+      "stages": 43,
+      "published_contract_paths": 758,
+      "negative_cases": 241,
+      "full_source_files_preserved": 37682,
+      "actual_published_pipeline_compared": false
+    },
+    "canonical_members": {
+      "swift_files": 234,
+      "string_accesses": 812,
+      "distinct_string_members": 231,
+      "actual_string_declarations": 250,
+      "custom_declarations": 825,
+      "full_custom_name_audit": false
+    },
+    "full_source_members": {
+      "swift_files": 7324,
+      "string_accesses": 870,
+      "distinct_string_members": 233,
+      "actual_string_declarations": 250,
+      "custom_declarations": 948,
+      "full_custom_name_audit": true
+    },
+    "localization": {
+      "languages": 71,
+      "keys_per_catalog": 647,
+      "lookups_per_mode": 46106,
+      "modes": [
+        "debug",
+        "optimized"
+      ],
+      "new_visible_strings": 0
+    }
+  },
+  "contracts": {
+    "expired_field": "Optional mediaExpiredAt in existing archive JSON; no new Postbox attribute/schema.",
+    "read_checks": "Native per-peer/namespace CombinedPeerReadState and MessageIndex; unknown read state false. A double check means chat read, not proof of listening.",
+    "explicit_local_remove": "Expiry-only copies retain local removal ownership without a deletion notice; a missing synthetic original is not sent as a server delete target.",
+    "legacy": "Old deletedAt without provenance stays unchanged; no guessing that a real historical deletion was expiry.",
+    "server_delete_without_reason": "Telegram delete updates lack intent/reason and remain deletions; media expiry and consumption paths are separated where source evidence exists."
+  },
+  "release": {
+    "published_tag": "v0.9.4",
+    "published_build": 195,
+    "unchanged": true,
+    "new_actions_or_sdk": false,
+    "new_ipa": false,
+    "next_version_requires_command": "0.9.5"
+  },
+  "limits": [
+    "Postbox transactions/media IO/UI clocks are explicit adapters; JSON persistence and production decision bodies are real.",
+    "Apple SDK, UIKit/AVFoundation frames and server delivery require the next explicitly authorized IPA and physical device check."
+  ]
+}
