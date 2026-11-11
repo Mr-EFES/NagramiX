@@ -1,0 +1,53 @@
+{
+  "inputs": {
+    "submodules/SettingsUI/Sources/NagramiXFontsController.swift": "fa0dea468129143c3c12cdbe5da5d8411e93cdd722dd8ebb62688ae0315377ab"
+  },
+  "outputs": {
+    "submodules/SettingsUI/Sources/NagramiXFontsController.swift": "0670bb8511f93958a85f05a60f7f638d45f4b73edd3a662435dca5bd89539eab"
+  },
+  "previous": {
+    "submodules/SettingsUI/Sources/NagramiXFontsController.swift": "release_095_fonts_compile/Before0.inc"
+  },
+  "replacements": {
+    "submodules/SettingsUI/Sources/NagramiXFontsController.swift": "release_095_fonts_compile/After0.inc"
+  },
+  "guards": {
+    "submodules/Display/Source/NavigationBar.swift": "c5ed4d3ec855ba28b5e39f8d6b5d5d33b2c6cc32a25e02851735346f55c3be3c",
+    "submodules/Display/Source/ContainedViewLayoutTransition.swift": "b8e26e807f79314823177f556ef268dc996dcb2c7a243d7175dcc8d9fd4630ae",
+    "submodules/Display/Source/Font.swift": "e204eb5178031058d2e187662d1d979cf8e29dc85481d3ba9ee120dcfc016ed6",
+    "submodules/Display/Source/NagramiXFontManager.swift": "377668b2c2370ca346ae757b27d5c2797ee42d114dfb1b311c16bd39377f5bd1",
+    "submodules/NagramiXMediaSettings/Sources/NagramiXFontSettings.swift": "0757a85a74017368d8612587d10c9167febcce83a0d0f7d2a42a1dc375c097eb",
+    "submodules/SettingsUI/BUILD": "b229ff1580a1e8e13770d400a1c0c9e1cf56ef05b831659c3422a6141b50f489",
+    "submodules/Display/BUILD": "b1fc5ac3fc6de1dc029f6887d6c41caa87b4f46ca0f70962aeeee4454baf4e93"
+  },
+  "guard_sources": {
+    "submodules/Display/Source/NavigationBar.swift": "release_095_fonts_compile/Guard0.inc",
+    "submodules/Display/Source/ContainedViewLayoutTransition.swift": "release_095_fonts_compile/Guard1.inc",
+    "submodules/Display/Source/Font.swift": "release_095_fonts_compile/Guard2.inc",
+    "submodules/Display/Source/NagramiXFontManager.swift": "release_095_fonts_compile/Guard3.inc",
+    "submodules/NagramiXMediaSettings/Sources/NagramiXFontSettings.swift": "release_095_fonts_compile/Guard4.inc",
+    "submodules/SettingsUI/BUILD": "release_095_fonts_compile/Guard5.inc",
+    "submodules/Display/BUILD": "release_095_fonts_compile/Guard6.inc"
+  },
+  "copies": {},
+  "deletions": {},
+  "native_inputs": {},
+  "native_guards": {
+    "submodules/Display/Source/NavigationBar.swift": "3adf783b38566f2425aff0ed80f671701c46189b",
+    "submodules/Display/Source/ContainedViewLayoutTransition.swift": "bd13732698ca07b591ddd69187f6fb47583a948e"
+  },
+  "templates": {
+    "release_095_fonts_compile/Before0.inc": "fa0dea468129143c3c12cdbe5da5d8411e93cdd722dd8ebb62688ae0315377ab",
+    "release_095_fonts_compile/After0.inc": "0670bb8511f93958a85f05a60f7f638d45f4b73edd3a662435dca5bd89539eab",
+    "release_095_fonts_compile/Guard0.inc": "c5ed4d3ec855ba28b5e39f8d6b5d5d33b2c6cc32a25e02851735346f55c3be3c",
+    "release_095_fonts_compile/Guard1.inc": "b8e26e807f79314823177f556ef268dc996dcb2c7a243d7175dcc8d9fd4630ae",
+    "release_095_fonts_compile/Guard2.inc": "e204eb5178031058d2e187662d1d979cf8e29dc85481d3ba9ee120dcfc016ed6",
+    "release_095_fonts_compile/Guard3.inc": "377668b2c2370ca346ae757b27d5c2797ee42d114dfb1b311c16bd39377f5bd1",
+    "release_095_fonts_compile/Guard4.inc": "0757a85a74017368d8612587d10c9167febcce83a0d0f7d2a42a1dc375c097eb",
+    "release_095_fonts_compile/Guard5.inc": "b229ff1580a1e8e13770d400a1c0c9e1cf56ef05b831659c3422a6141b50f489",
+    "release_095_fonts_compile/Guard6.inc": "b1fc5ac3fc6de1dc029f6887d6c41caa87b4f46ca0f70962aeeee4454baf4e93"
+  },
+  "target_pin": "24638bc69bd083981b178dd1e7f921eebbf7fc46",
+  "overlay_base_pin": "279f89e4d4f63f17227bf877dc3d8990f22ecd58",
+  "required_previous_stage": "temporary_expiration_semantics"
+}

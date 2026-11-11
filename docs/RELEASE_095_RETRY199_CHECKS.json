@@ -1,0 +1,892 @@
+{
+  "sdk199_failure": {
+    "run": 43082027797,
+    "build": 199,
+    "source": "db32d3372f323f4236a133a30eeb630dc6fb4f64",
+    "native_sdk_started": "2026-11-11T19:26:26Z",
+    "native_sdk_failed": "2026-11-11T20:38:53Z",
+    "diagnostics": [
+      "2026-11-11T20:38:51.8235950Z submodules/SettingsUI/Sources/NagramiXFontsController.swift:113:110: error: missing argument for parameter 'transition' in call"
+    ],
+    "api_contract": "func updatePresentationData(_ presentationData: NavigationBarPresentationData, transition: ContainedViewLayoutTransition)",
+    "official_native_blob_ids": {
+      "NavigationBar.swift": "3adf783b38566f2425aff0ed80f671701c46189b",
+      "ContainedViewLayoutTransition.swift": "bd13732698ca07b591ddd69187f6fb47583a948e"
+    },
+    "telegram_pin": "24638bc69bd083981b178dd1e7f921eebbf7fc46",
+    "actions_major_outage": "confirmed; delayed logs/completion, not attributed as cause of compiler error"
+  },
+  "repair": "Native updatePresentationData now passes transition:.immediate. Adapter signature is derived verbatim from the pinned actual NavigationBar protocol. Final complete UIKit checks stay positive and mandatory. Immutable stage41 is a specifically expected historical compiler negative, never the final build target.",
+  "full_apply": {
+    "files": 37682,
+    "changed_files": [
+      "submodules/SettingsUI/Sources/NagramiXFontsController.swift"
+    ],
+    "symlinks_preserved": 26,
+    "source43_losslessly_checkpointed": true,
+    "stage41_ui_unchanged": true,
+    "final_source": "/tmp/nagramix-font-sdk199/source",
+    "final_source_manifest_sha256": "719bf32e97e52b0877466f546372f17829eb521351ca9d4c77d0bf3a36964c54"
+  },
+  "stage44": {
+    "stage": "release_095_fonts_compile",
+    "replacements": 1,
+    "guards": 7,
+    "native_guard_origins": {
+      "submodules/Display/Source/NavigationBar.swift": "3adf783b38566f2425aff0ed80f671701c46189b",
+      "submodules/Display/Source/ContainedViewLayoutTransition.swift": "bd13732698ca07b591ddd69187f6fb47583a948e"
+    },
+    "loader_refusals": 12,
+    "native_navigation_contract": {
+      "native_signature": "func updatePresentationData(_ presentationData: NavigationBarPresentationData, transition: ContainedViewLayoutTransition)",
+      "actual_caller": "self.navigationBar?.updatePresentationData(NavigationBarPresentationData(presentationData: value), transition: .immediate)",
+      "checks": [
+        {
+          "name": "current",
+          "expected_result": "passed",
+          "verified": true
+        },
+        {
+          "name": "sdk199-missing-transition",
+          "expected_result": "rejected",
+          "verified": true
+        },
+        {
+          "name": "wrong-transition-label",
+          "expected_result": "rejected",
+          "verified": true
+        }
+      ]
+    },
+    "public_override_contract": [
+      {
+        "name": "public-types",
+        "expected_result": "passed",
+        "verified": true
+      },
+      {
+        "name": "internal-layout",
+        "expected_result": "rejected",
+        "verified": true
+      },
+      {
+        "name": "internal-transition",
+        "expected_result": "rejected",
+        "verified": true
+      }
+    ],
+    "apple_uikit_precheck": {
+      "status": "not_run",
+      "reason": "Apple UIKit SDK unavailable on Linux"
+    },
+    "swift_parse": 1,
+    "source_files": 37682,
+    "source_unchanged_by_checks": true,
+    "whole_app_sdk": "pending",
+    "device": "pending"
+  },
+  "early_complete_fixtures": {
+    "canonical_swift_files_by_checkpoint": {
+      "bubble_selection_edge": {
+        "written": 396,
+        "pinned_native_dependencies": 7,
+        "unused_unavailable_native_guards": 116
+      },
+      "composer_file_attachments": {
+        "written": 408,
+        "pinned_native_dependencies": 7,
+        "unused_unavailable_native_guards": 116
+      },
+      "archived_round_native_controls": {
+        "written": 408,
+        "pinned_native_dependencies": 7,
+        "unused_unavailable_native_guards": 116
+      },
+      "transcription_account_defaults": {
+        "written": 409,
+        "pinned_native_dependencies": 7,
+        "unused_unavailable_native_guards": 116
+      },
+      "app_font_selection": {
+        "written": 415,
+        "pinned_native_dependencies": 7,
+        "unused_unavailable_native_guards": 116
+      },
+      "web_video_picture_in_picture": {
+        "written": 421,
+        "pinned_native_dependencies": 7,
+        "unused_unavailable_native_guards": 116
+      },
+      "temporary_expiration_semantics": {
+        "written": 423,
+        "pinned_native_dependencies": 7,
+        "unused_unavailable_native_guards": 116
+      },
+      "release_095_fonts_compile": {
+        "written": 424,
+        "pinned_native_dependencies": 7,
+        "unused_unavailable_native_guards": 116
+      }
+    },
+    "complete_fixtures": 9,
+    "executions": [
+      {
+        "name": "bubble-edge",
+        "mode": "debug",
+        "exit_code": 0,
+        "output": "Production bubble edge checks: 17300"
+      },
+      {
+        "name": "bubble-edge",
+        "mode": "optimized",
+        "exit_code": 0,
+        "output": "Production bubble edge checks: 17300"
+      },
+      {
+        "name": "composer-attachments",
+        "mode": "debug",
+        "exit_code": 0,
+        "output": "701 production composer-file checks passed"
+      },
+      {
+        "name": "composer-attachments",
+        "mode": "optimized",
+        "exit_code": 0,
+        "output": "701 production composer-file checks passed"
+      },
+      {
+        "name": "archived-round-controls",
+        "mode": "debug",
+        "exit_code": 0,
+        "output": "58 archived native-round checks passed"
+      },
+      {
+        "name": "archived-round-controls",
+        "mode": "optimized",
+        "exit_code": 0,
+        "output": "58 archived native-round checks passed"
+      },
+      {
+        "name": "transcription-defaults",
+        "mode": "debug",
+        "exit_code": 0,
+        "output": "Transcription account defaults checks: 38\nPrivate temporary transcription checks: 590"
+      },
+      {
+        "name": "transcription-defaults",
+        "mode": "optimized",
+        "exit_code": 0,
+        "output": "Transcription account defaults checks: 38\nPrivate temporary transcription checks: 590"
+      },
+      {
+        "name": "font-selection",
+        "mode": "debug",
+        "exit_code": 0,
+        "output": "App font selection checks: 58"
+      },
+      {
+        "name": "font-selection",
+        "mode": "optimized",
+        "exit_code": 0,
+        "output": "App font selection checks: 58"
+      },
+      {
+        "name": "web-video-pip",
+        "mode": "debug",
+        "exit_code": 0,
+        "output": "web-video-pip production checks: 402"
+      },
+      {
+        "name": "web-video-pip",
+        "mode": "optimized",
+        "exit_code": 0,
+        "output": "web-video-pip production checks: 402"
+      },
+      {
+        "name": "expiry-archive",
+        "mode": "debug",
+        "exit_code": 0,
+        "output": "temporary-expiry archive checks: 488"
+      },
+      {
+        "name": "expiry-archive",
+        "mode": "optimized",
+        "exit_code": 0,
+        "output": "temporary-expiry archive checks: 488"
+      },
+      {
+        "name": "expiry-consumption",
+        "mode": "debug",
+        "exit_code": 0,
+        "output": "temporary-expiry consumption checks: 731"
+      },
+      {
+        "name": "expiry-consumption",
+        "mode": "optimized",
+        "exit_code": 0,
+        "output": "temporary-expiry consumption checks: 731"
+      },
+      {
+        "name": "expiry-read",
+        "mode": "debug",
+        "exit_code": 0,
+        "output": "temporary-expiry native read checks: 126"
+      },
+      {
+        "name": "expiry-read",
+        "mode": "optimized",
+        "exit_code": 0,
+        "output": "temporary-expiry native read checks: 126"
+      }
+    ],
+    "native_navigation_contract": {
+      "native_signature": "func updatePresentationData(_ presentationData: NavigationBarPresentationData, transition: ContainedViewLayoutTransition)",
+      "actual_caller": "self.navigationBar?.updatePresentationData(NavigationBarPresentationData(presentationData: value), transition: .immediate)",
+      "checks": [
+        {
+          "name": "current",
+          "expected_result": "passed",
+          "verified": true
+        },
+        {
+          "name": "sdk199-missing-transition",
+          "expected_result": "rejected",
+          "verified": true
+        },
+        {
+          "name": "wrong-transition-label",
+          "expected_result": "rejected",
+          "verified": true
+        }
+      ]
+    },
+    "font_adapter_access_contract": [
+      {
+        "name": "public-types",
+        "expected_result": "passed",
+        "verified": true
+      },
+      {
+        "name": "internal-layout",
+        "expected_result": "rejected",
+        "verified": true
+      },
+      {
+        "name": "internal-transition",
+        "expected_result": "rejected",
+        "verified": true
+      }
+    ],
+    "apple_uikit_precheck": {
+      "status": "not_run",
+      "reason": "Apple UIKit SDK unavailable on Linux"
+    },
+    "warnings_as_errors": true,
+    "full_application_sdk": "pending",
+    "device": "pending"
+  },
+  "historical_fonts": {
+    "stage": "app_font_selection",
+    "replacements": 75,
+    "guards": 16,
+    "copies": 27,
+    "font_faces": 20,
+    "font_resources": {
+      "faces": 20,
+      "glyph_checks": 2560,
+      "names_licenses_and_copyright": "passed",
+      "library": "Python standard library; independent SFNT name/cmap parser"
+    },
+    "licenses": 4,
+    "languages": 71,
+    "keys_per_catalog": 647,
+    "loader_refusals": 46,
+    "executions": [
+      {
+        "name": "font-selection",
+        "mode": "debug",
+        "exit_code": 0,
+        "output": "App font selection checks: 58"
+      },
+      {
+        "name": "font-selection",
+        "mode": "optimized",
+        "exit_code": 0,
+        "output": "App font selection checks: 58"
+      },
+      {
+        "name": "fresh-off",
+        "mode": "debug",
+        "exit_code": 96,
+        "output": "Font regression: fresh default is native and enabled"
+      },
+      {
+        "name": "fresh-off",
+        "mode": "optimized",
+        "exit_code": 96,
+        "output": "Font regression: fresh default is native and enabled"
+      },
+      {
+        "name": "lost-disable",
+        "mode": "debug",
+        "exit_code": 96,
+        "output": "Font regression: OFF restores upstream font"
+      },
+      {
+        "name": "lost-disable",
+        "mode": "optimized",
+        "exit_code": 96,
+        "output": "Font regression: OFF restores upstream font"
+      },
+      {
+        "name": "stale-cache",
+        "mode": "debug",
+        "exit_code": 96,
+        "output": "Font regression: changing family invalidates cached selection"
+      },
+      {
+        "name": "stale-cache",
+        "mode": "optimized",
+        "exit_code": 96,
+        "output": "Font regression: changing family invalidates cached selection"
+      },
+      {
+        "name": "code-substitution",
+        "mode": "debug",
+        "exit_code": 96,
+        "output": "Font regression: semantic code preserves native monospace"
+      },
+      {
+        "name": "code-substitution",
+        "mode": "optimized",
+        "exit_code": 96,
+        "output": "Font regression: semantic code preserves native monospace"
+      },
+      {
+        "name": "lost-italic",
+        "mode": "debug",
+        "exit_code": 96,
+        "output": "Font regression: selected family keeps italic trait"
+      },
+      {
+        "name": "lost-italic",
+        "mode": "optimized",
+        "exit_code": 96,
+        "output": "Font regression: selected family keeps italic trait"
+      },
+      {
+        "name": "no-number-features",
+        "mode": "debug",
+        "exit_code": 96,
+        "output": "Font regression: number feature remains enabled"
+      },
+      {
+        "name": "no-number-features",
+        "mode": "optimized",
+        "exit_code": 96,
+        "output": "Font regression: number feature remains enabled"
+      },
+      {
+        "name": "native-scope-leak",
+        "mode": "debug",
+        "exit_code": 96,
+        "output": "Font regression: changing family invalidates cached selection"
+      },
+      {
+        "name": "native-scope-leak",
+        "mode": "optimized",
+        "exit_code": 96,
+        "output": "Font regression: changing family invalidates cached selection"
+      }
+    ],
+    "parsed_swift": 6,
+    "source_unchanged": true,
+    "apple_uikit_precheck": {
+      "status": "not_run",
+      "reason": "Apple UIKit SDK unavailable on Linux"
+    },
+    "apple_sdk_build": "not_run",
+    "device": "pending",
+    "boundary": "Actual complete Font factory, settings and resolver run with explicit UIKit/CoreText/resource adapters on Linux. Objective-C selector installation and UIKit rendering require Apple; the immutable historical screen must reproduce SDK199 missing-transition error; the final corrected screen is checked positively against real UIKit SDK in the early gate and release_095_fonts_compile before the native build. Real font bytes, names, licenses and glyphs are separately inspected; native full modules, live relayout and device pixels remain pending."
+  },
+  "inverse": {
+    "late_source_stages": [
+      "wide_bottom_bar",
+      "author_selection_no_restore",
+      "preview_reply_intent",
+      "cloud_credential_entry",
+      "extended_poll_integrity",
+      "bot_delete_without_block",
+      "wide_tab_bar_setting",
+      "pip_swipe_handoff",
+      "temporary_message_interaction",
+      "account_settings_entry",
+      "release_090_preflight_fixes",
+      "release_090_author_compile",
+      "round_video_replay_stability",
+      "pip_gallery_placeholder",
+      "download_sheet_edge",
+      "edit_history_cards",
+      "copy_reference_recovery",
+      "edit_history_number_badges",
+      "pip_visual_continuity",
+      "local_copy_delivery",
+      "temporary_playback_identity",
+      "round_video_editor",
+      "proxy_doh_editor",
+      "download_sheet_corners",
+      "hide_premium_offers",
+      "content_interaction_consent",
+      "release_092_settings_compile",
+      "round_native_playback",
+      "poll_copy_transport",
+      "premium_label_cleanup",
+      "premium_label_spelling",
+      "pip_backdrop_stability",
+      "private_temporary_transcription",
+      "ghostgram_authorless_transport",
+      "round_replacement_geometry",
+      "download_sheet_vector_contour",
+      "bubble_selection_edge",
+      "composer_file_attachments",
+      "archived_round_native_controls",
+      "transcription_account_defaults",
+      "app_font_selection",
+      "web_video_picture_in_picture",
+      "temporary_expiration_semantics",
+      "release_095_fonts_compile"
+    ],
+    "published_contract_paths": 759,
+    "actual_published_pipeline_compared": false,
+    "full_source_files_preserved": 37682,
+    "introduced_helpers_absent_from_history": [
+      "submodules/Display/Resources/NagramiXFonts/PTAstraSans-Bold.ttf",
+      "submodules/Display/Resources/NagramiXFonts/PTAstraSans-BoldItalic.ttf",
+      "submodules/Display/Resources/NagramiXFonts/PTAstraSans-Italic.ttf",
+      "submodules/Display/Resources/NagramiXFonts/PTAstraSans-LICENSE.txt",
+      "submodules/Display/Resources/NagramiXFonts/PTAstraSans-Regular.ttf",
+      "submodules/Display/Resources/NagramiXFonts/PTAstraSerif-Bold.ttf",
+      "submodules/Display/Resources/NagramiXFonts/PTAstraSerif-BoldItalic.ttf",
+      "submodules/Display/Resources/NagramiXFonts/PTAstraSerif-Italic.ttf",
+      "submodules/Display/Resources/NagramiXFonts/PTAstraSerif-LICENSE.txt",
+      "submodules/Display/Resources/NagramiXFonts/PTAstraSerif-Regular.ttf",
+      "submodules/Display/Resources/NagramiXFonts/Roboto-Black.ttf",
+      "submodules/Display/Resources/NagramiXFonts/Roboto-BlackItalic.ttf",
+      "submodules/Display/Resources/NagramiXFonts/Roboto-Bold.ttf",
+      "submodules/Display/Resources/NagramiXFonts/Roboto-BoldItalic.ttf",
+      "submodules/Display/Resources/NagramiXFonts/Roboto-Italic.ttf",
+      "submodules/Display/Resources/NagramiXFonts/Roboto-LICENSE.txt",
+      "submodules/Display/Resources/NagramiXFonts/Roboto-Light.ttf",
+      "submodules/Display/Resources/NagramiXFonts/Roboto-LightItalic.ttf",
+      "submodules/Display/Resources/NagramiXFonts/Roboto-Medium.ttf",
+      "submodules/Display/Resources/NagramiXFonts/Roboto-MediumItalic.ttf",
+      "submodules/Display/Resources/NagramiXFonts/Roboto-NOTICE.txt",
+      "submodules/Display/Resources/NagramiXFonts/Roboto-Regular.ttf",
+      "submodules/Display/Resources/NagramiXFonts/Roboto-Thin.ttf",
+      "submodules/Display/Resources/NagramiXFonts/Roboto-ThinItalic.ttf",
+      "submodules/Display/Source/NagramiXFontManager.swift",
+      "submodules/NagramiXMediaSettings/Sources/NagramiXFontSettings.swift",
+      "submodules/SettingsUI/Sources/NagramiXFontsController.swift",
+      "submodules/TelegramUI/Sources/Chat/NagramiXTemporaryReplySend.swift"
+    ],
+    "pre_ninth_checkpoint_verified": true,
+    "pre_tenth_checkpoint_verified": true,
+    "pre_eleventh_checkpoint_verified": true,
+    "pre_eleventh_inputs_restored": [
+      "submodules/TelegramCore/Sources/Utils/NagramiXMessageArchive.swift",
+      "submodules/TelegramUI/Sources/Chat/ChatControllerLoadDisplayNode.swift"
+    ],
+    "negative_projection_verified_before_mutation": true,
+    "fail_closed": [
+      "wide_bottom_bar/output-drift",
+      "author_selection_no_restore/output-drift",
+      "preview_reply_intent/output-drift",
+      "cloud_credential_entry/output-drift",
+      "extended_poll_integrity/output-drift",
+      "bot_delete_without_block/output-drift",
+      "wide_tab_bar_setting/output-drift",
+      "pip_swipe_handoff/output-drift",
+      "temporary_message_interaction/output-drift",
+      "account_settings_entry/output-drift",
+      "release_090_preflight_fixes/output-drift",
+      "release_090_author_compile/output-drift",
+      "round_video_replay_stability/output-drift",
+      "pip_gallery_placeholder/output-drift",
+      "download_sheet_edge/output-drift",
+      "edit_history_cards/output-drift",
+      "copy_reference_recovery/output-drift",
+      "edit_history_number_badges/output-drift",
+      "pip_visual_continuity/output-drift",
+      "local_copy_delivery/output-drift",
+      "temporary_playback_identity/output-drift",
+      "round_video_editor/output-drift",
+      "proxy_doh_editor/output-drift",
+      "download_sheet_corners/output-drift",
+      "hide_premium_offers/output-drift",
+      "content_interaction_consent/output-drift",
+      "release_092_settings_compile/output-drift",
+      "round_native_playback/output-drift",
+      "poll_copy_transport/output-drift",
+      "premium_label_cleanup/output-drift",
+      "premium_label_spelling/output-drift",
+      "pip_backdrop_stability/output-drift",
+      "private_temporary_transcription/output-drift",
+      "ghostgram_authorless_transport/output-drift",
+      "round_replacement_geometry/output-drift",
+      "download_sheet_vector_contour/output-drift",
+      "bubble_selection_edge/output-drift",
+      "composer_file_attachments/output-drift",
+      "archived_round_native_controls/output-drift",
+      "transcription_account_defaults/output-drift",
+      "app_font_selection/output-drift",
+      "web_video_picture_in_picture/output-drift",
+      "temporary_expiration_semantics/output-drift",
+      "release_095_fonts_compile/output-drift",
+      "native-guard-missing",
+      "copied-helper-drift",
+      "copied-helper-missing",
+      "copied-helper-external-symlink",
+      "copied-helper-drift",
+      "copied-helper-missing",
+      "copied-helper-external-symlink",
+      "copied-helper-drift",
+      "copied-helper-missing",
+      "copied-helper-external-symlink",
+      "copied-helper-drift",
+      "copied-helper-missing",
+      "copied-helper-external-symlink",
+      "copied-helper-drift",
+      "copied-helper-missing",
+      "copied-helper-external-symlink",
+      "copied-helper-drift",
+      "copied-helper-missing",
+      "copied-helper-external-symlink",
+      "copied-helper-drift",
+      "copied-helper-missing",
+      "copied-helper-external-symlink",
+      "copied-helper-drift",
+      "copied-helper-missing",
+      "copied-helper-external-symlink",
+      "copied-helper-drift",
+      "copied-helper-missing",
+      "copied-helper-external-symlink",
+      "copied-helper-drift",
+      "copied-helper-missing",
+      "copied-helper-external-symlink",
+      "copied-helper-drift",
+      "copied-helper-missing",
+      "copied-helper-external-symlink",
+      "copied-helper-drift",
+      "copied-helper-missing",
+      "copied-helper-external-symlink",
+      "copied-helper-drift",
+      "copied-helper-missing",
+      "copied-helper-external-symlink",
+      "copied-helper-drift",
+      "copied-helper-missing",
+      "copied-helper-external-symlink",
+      "copied-helper-drift",
+      "copied-helper-missing",
+      "copied-helper-external-symlink",
+      "copied-helper-drift",
+      "copied-helper-missing",
+      "copied-helper-external-symlink",
+      "copied-helper-drift",
+      "copied-helper-missing",
+      "copied-helper-external-symlink",
+      "copied-helper-drift",
+      "copied-helper-missing",
+      "copied-helper-external-symlink",
+      "copied-helper-drift",
+      "copied-helper-missing",
+      "copied-helper-external-symlink",
+      "copied-helper-drift",
+      "copied-helper-missing",
+      "copied-helper-external-symlink",
+      "copied-helper-drift",
+      "copied-helper-missing",
+      "copied-helper-external-symlink",
+      "copied-helper-drift",
+      "copied-helper-missing",
+      "copied-helper-external-symlink",
+      "copied-helper-drift",
+      "copied-helper-missing",
+      "copied-helper-external-symlink",
+      "copied-helper-drift",
+      "copied-helper-missing",
+      "copied-helper-external-symlink",
+      "copied-helper-drift",
+      "copied-helper-missing",
+      "copied-helper-external-symlink",
+      "copied-helper-drift",
+      "copied-helper-missing",
+      "copied-helper-external-symlink",
+      "copied-helper-drift",
+      "copied-helper-missing",
+      "copied-helper-external-symlink",
+      "copied-helper-drift",
+      "copied-helper-missing",
+      "copied-helper-external-symlink",
+      "template-drift-before-inverse",
+      "pip_swipe_handoff/previous-stage-missing",
+      "pip_swipe_handoff/previous-stage-drift",
+      "temporary_message_interaction/previous-stage-missing",
+      "temporary_message_interaction/previous-stage-drift",
+      "account_settings_entry/previous-stage-missing",
+      "account_settings_entry/previous-stage-drift",
+      "release_090_preflight_fixes/previous-stage-missing",
+      "release_090_preflight_fixes/previous-stage-drift",
+      "release_090_author_compile/previous-stage-missing",
+      "release_090_author_compile/previous-stage-drift",
+      "round_video_replay_stability/previous-stage-missing",
+      "round_video_replay_stability/previous-stage-drift",
+      "pip_gallery_placeholder/previous-stage-missing",
+      "pip_gallery_placeholder/previous-stage-drift",
+      "download_sheet_edge/previous-stage-missing",
+      "download_sheet_edge/previous-stage-drift",
+      "edit_history_cards/previous-stage-missing",
+      "edit_history_cards/previous-stage-drift",
+      "copy_reference_recovery/previous-stage-missing",
+      "copy_reference_recovery/previous-stage-drift",
+      "edit_history_number_badges/previous-stage-missing",
+      "edit_history_number_badges/previous-stage-drift",
+      "pip_visual_continuity/previous-stage-missing",
+      "pip_visual_continuity/previous-stage-drift",
+      "local_copy_delivery/previous-stage-missing",
+      "local_copy_delivery/previous-stage-drift",
+      "temporary_playback_identity/previous-stage-missing",
+      "temporary_playback_identity/previous-stage-drift",
+      "round_video_editor/previous-stage-missing",
+      "round_video_editor/previous-stage-drift",
+      "proxy_doh_editor/previous-stage-missing",
+      "proxy_doh_editor/previous-stage-drift",
+      "download_sheet_corners/previous-stage-missing",
+      "download_sheet_corners/previous-stage-drift",
+      "hide_premium_offers/previous-stage-missing",
+      "hide_premium_offers/previous-stage-drift",
+      "content_interaction_consent/previous-stage-missing",
+      "content_interaction_consent/previous-stage-drift",
+      "release_092_settings_compile/previous-stage-missing",
+      "release_092_settings_compile/previous-stage-drift",
+      "round_native_playback/previous-stage-missing",
+      "round_native_playback/previous-stage-drift",
+      "poll_copy_transport/previous-stage-missing",
+      "poll_copy_transport/previous-stage-drift",
+      "premium_label_cleanup/previous-stage-missing",
+      "premium_label_cleanup/previous-stage-drift",
+      "premium_label_spelling/previous-stage-missing",
+      "premium_label_spelling/previous-stage-drift",
+      "pip_backdrop_stability/previous-stage-missing",
+      "pip_backdrop_stability/previous-stage-drift",
+      "private_temporary_transcription/previous-stage-missing",
+      "private_temporary_transcription/previous-stage-drift",
+      "ghostgram_authorless_transport/previous-stage-missing",
+      "ghostgram_authorless_transport/previous-stage-drift",
+      "round_replacement_geometry/previous-stage-missing",
+      "round_replacement_geometry/previous-stage-drift",
+      "download_sheet_vector_contour/previous-stage-missing",
+      "download_sheet_vector_contour/previous-stage-drift",
+      "bubble_selection_edge/previous-stage-missing",
+      "bubble_selection_edge/previous-stage-drift",
+      "composer_file_attachments/previous-stage-missing",
+      "composer_file_attachments/previous-stage-drift",
+      "archived_round_native_controls/previous-stage-missing",
+      "archived_round_native_controls/previous-stage-drift",
+      "transcription_account_defaults/previous-stage-missing",
+      "transcription_account_defaults/previous-stage-drift",
+      "app_font_selection/previous-stage-missing",
+      "app_font_selection/previous-stage-drift",
+      "web_video_picture_in_picture/previous-stage-missing",
+      "web_video_picture_in_picture/previous-stage-drift",
+      "temporary_expiration_semantics/previous-stage-missing",
+      "temporary_expiration_semantics/previous-stage-drift",
+      "release_095_fonts_compile/previous-stage-missing",
+      "release_095_fonts_compile/previous-stage-drift",
+      "wide_bottom_bar/native-blob-proof-missing",
+      "wide_bottom_bar/native-blob-drift/submodules/TelegramUI/Components/TabBarComponent/Sources/TabBarComponent.swift",
+      "temporary_message_interaction/native-blob-proof-missing",
+      "temporary_message_interaction/native-blob-drift/submodules/GalleryData/Sources/GalleryData.swift",
+      "temporary_message_interaction/native-blob-drift/submodules/TelegramCore/Sources/State/ManagedSecretChatOutgoingOperations.swift",
+      "temporary_message_interaction/native-blob-drift/submodules/TelegramCore/Sources/State/ProcessSecretChatIncomingDecryptedOperations.swift",
+      "temporary_message_interaction/native-blob-drift/submodules/TelegramUI/Components/Chat/ChatMessageReplyInfoNode/Sources/ChatMessageReplyInfoNode.swift",
+      "temporary_message_interaction/native-blob-drift/submodules/TelegramUI/Components/Chat/ReplyAccessoryPanelNode/Sources/ReplyAccessoryPanelNode.swift",
+      "account_settings_entry/native-blob-proof-missing",
+      "account_settings_entry/native-blob-drift/submodules/SettingsUI/Sources/Search/SettingsSearchableItems.swift",
+      "download_sheet_edge/native-blob-proof-missing",
+      "download_sheet_edge/native-blob-drift/submodules/Display/Source/ActionSheetController.swift",
+      "download_sheet_edge/native-blob-drift/submodules/Display/Source/ActionSheetControllerNode.swift",
+      "download_sheet_edge/native-blob-drift/submodules/Display/Source/ActionSheetItemGroupsContainerNode.swift",
+      "download_sheet_edge/native-blob-drift/submodules/Display/Source/ActionSheetItemGroupNode.swift",
+      "round_video_editor/native-blob-proof-missing",
+      "round_video_editor/native-blob-drift/submodules/TelegramUI/Components/ChatMediaEditorScreen/BUILD",
+      "round_video_editor/native-blob-drift/submodules/TelegramUI/Components/ChatMediaSend/Sources/ChatMediaEditorItemStore.swift",
+      "round_video_editor/native-blob-drift/submodules/TelegramUI/Components/ChatMediaEditorScreen/Sources/ChatMediaEditorBottomControls.swift",
+      "round_video_editor/native-blob-drift/submodules/TelegramUI/Components/ChatMediaEditorScreen/Sources/ChatMediaEditorBottomControlsComponent.swift",
+      "round_video_editor/native-blob-drift/submodules/TelegramUI/Components/ChatMediaEditorScreen/Sources/ChatMediaEditorScreen.swift",
+      "round_video_editor/native-blob-drift/submodules/TelegramUI/Components/ChatMediaEditorScreen/Sources/ChatMediaEditorScreenVideo.swift",
+      "round_video_editor/native-blob-drift/submodules/TelegramUI/Components/ChatMediaEditorScreen/Sources/ChatMediaEditorScreenCrop.swift",
+      "round_video_editor/native-blob-drift/submodules/TelegramUI/Components/ChatMediaEditorScreen/Sources/ChatMediaEditorScreenQuality.swift",
+      "round_video_editor/native-blob-drift/submodules/TelegramUI/Components/ChatMediaSend/Sources/ChatMediaSendPlan.swift",
+      "round_video_editor/native-blob-drift/submodules/TelegramUI/Components/ChatMediaSend/Sources/ChatMediaSendItem.swift",
+      "round_video_editor/native-blob-drift/submodules/TelegramUI/Components/ChatMediaSend/Sources/ChatMediaSendMessages.swift",
+      "round_video_editor/native-blob-drift/submodules/TelegramUI/Components/ChatMediaSend/Sources/ChatMediaSendSingleItem.swift",
+      "round_video_editor/native-blob-drift/submodules/TelegramUI/Components/ChatMediaEditorScreen/Sources/ChatMediaEditorLandscape.swift",
+      "hide_premium_offers/native-blob-proof-missing",
+      "hide_premium_offers/native-blob-drift/submodules/TelegramUI/Components/GlobalControlPanelsContext/Sources/GlobalControlPanelsContext.swift",
+      "hide_premium_offers/native-blob-drift/submodules/TelegramUI/Components/GlobalControlPanelsContext/BUILD",
+      "content_interaction_consent/native-blob-proof-missing",
+      "content_interaction_consent/native-blob-drift/submodules/TelegramCore/Sources/SecretChats/SetSecretChatMessageAutoremoveTimeoutInteractively.swift",
+      "composer_file_attachments/native-blob-proof-missing",
+      "composer_file_attachments/native-blob-drift/submodules/TelegramUI/Sources/Chat/ChatControllerOpenDocumentScanner.swift",
+      "app_font_selection/native-blob-proof-missing",
+      "app_font_selection/native-blob-drift/submodules/Display/Source/Font.swift",
+      "web_video_picture_in_picture/native-blob-proof-missing",
+      "web_video_picture_in_picture/native-blob-drift/submodules/InstantPageUI/Sources/InstantPageGalleryController.swift"
+    ],
+    "sdk": "not_run",
+    "device": "pending"
+  },
+  "migration": {
+    "target_pin": "24638bc69bd083981b178dd1e7f921eebbf7fc46",
+    "pre_replacements": 196,
+    "post_replacements": 274,
+    "deleted_obsolete_files": 2,
+    "fail_closed": {
+      "pre": 17,
+      "post": 33
+    },
+    "parsed_swift": 540,
+    "executions": [
+      "current-debug: PiP playback command checks: 113",
+      "current-O: PiP playback command checks: 113",
+      "previous-native-debug: Native PiP baseline checks: 37",
+      "previous-native-O: Native PiP baseline checks: 37",
+      "previous-caption-debug: Round caption transport checks: 118",
+      "previous-caption-O: Round caption transport checks: 118",
+      "previous-composer-debug: Repost copy integrity checks: 48",
+      "previous-composer-O: Repost copy integrity checks: 48",
+      "old-toggle-command-debug: regression reproduced and rejected",
+      "old-toggle-command-O: regression reproduced and rejected",
+      "cached-status-toggle-debug: regression reproduced and rejected",
+      "cached-status-toggle-O: regression reproduced and rejected",
+      "inverted-command-debug: regression reproduced and rejected",
+      "inverted-command-O: regression reproduced and rejected"
+    ],
+    "historical_runtime_boundary": "exact published bytes after verified inverse of all registered late source stages",
+    "late_source_stages": [
+      "wide_bottom_bar",
+      "author_selection_no_restore",
+      "preview_reply_intent",
+      "cloud_credential_entry",
+      "extended_poll_integrity",
+      "bot_delete_without_block",
+      "wide_tab_bar_setting",
+      "pip_swipe_handoff",
+      "temporary_message_interaction",
+      "account_settings_entry",
+      "release_090_preflight_fixes",
+      "release_090_author_compile",
+      "round_video_replay_stability",
+      "pip_gallery_placeholder",
+      "download_sheet_edge",
+      "edit_history_cards",
+      "copy_reference_recovery",
+      "edit_history_number_badges",
+      "pip_visual_continuity",
+      "local_copy_delivery",
+      "temporary_playback_identity",
+      "round_video_editor",
+      "proxy_doh_editor",
+      "download_sheet_corners",
+      "hide_premium_offers",
+      "content_interaction_consent",
+      "release_092_settings_compile",
+      "round_native_playback",
+      "poll_copy_transport",
+      "premium_label_cleanup",
+      "premium_label_spelling",
+      "pip_backdrop_stability",
+      "private_temporary_transcription",
+      "ghostgram_authorless_transport",
+      "round_replacement_geometry",
+      "download_sheet_vector_contour",
+      "bubble_selection_edge",
+      "composer_file_attachments",
+      "archived_round_native_controls",
+      "transcription_account_defaults",
+      "app_font_selection",
+      "web_video_picture_in_picture",
+      "temporary_expiration_semantics",
+      "release_095_fonts_compile"
+    ],
+    "native_postbox_imports": "passed",
+    "apple_sdk": "pending",
+    "device": "pending"
+  },
+  "members": {
+    "swift_files": 7324,
+    "string_accesses": 870,
+    "distinct_string_members": 233,
+    "actual_string_declarations": 250,
+    "custom_declarations": 948,
+    "full_custom_name_audit": true
+  },
+  "canonical_members": {
+    "swift_files": 234,
+    "string_accesses": 812,
+    "distinct_string_members": 231,
+    "actual_string_declarations": 250,
+    "custom_declarations": 825,
+    "full_custom_name_audit": false
+  },
+  "mandatory_mode": {
+    "optional_historical_calls": 189,
+    "unconditional_apply_calls": 52,
+    "mandatory_final_checks": [
+      "validate_late_source_stages.py",
+      "validate_custom_member_references.py",
+      "validate_upstream_13_2_release.py",
+      "validate_localization_standard.py",
+      "validate_release_092_settings_compile.py",
+      "validate_round_native_playback.py",
+      "validate_poll_copy_transport.py",
+      "validate_release_095_fonts_compile.py",
+      "PostboxImportCheck.py"
+    ],
+    "complete_fixture_preflight_before_overlay": "mandatory",
+    "bash_syntax": "passed",
+    "runtime_cases": [
+      {
+        "extended": "false",
+        "exit_code": 0
+      },
+      {
+        "extended": "true",
+        "exit_code": 17
+      },
+      {
+        "extended": "true",
+        "exit_code": 0
+      },
+      {
+        "extended": "invalid",
+        "exit_code": 64
+      }
+    ]
+  },
+  "localization": {
+    "languages": 71,
+    "keys": 647,
+    "actual_getter_checks_per_mode": 46106,
+    "modes": [
+      "debug",
+      "optimized"
+    ],
+    "strict_full_validation": "passed"
+  },
+  "old_canonical_snapshots_unchanged": 3536,
+  "apple_retry": "pending",
+  "package": "pending",
+  "owner_publication": "pending",
+  "device": "pending"
+}

@@ -1,16 +1,49 @@
 """Ранний typecheck новых production шрифтов/экрана против реального UIKit SDK."""
 from pathlib import Path
-import subprocess,sys
+import subprocess,sys,re
 from app_font_selection_runtime import MODEL,FONT,MANAGER,UI
 
 ACCESS_IMPORTS = 'import Foundation\n#if canImport(CoreGraphics)\nimport CoreGraphics\n#endif\n'
+NAVIGATION = 'submodules/Display/Source/NavigationBar.swift'
+TRANSITION = 'submodules/Display/Source/ContainedViewLayoutTransition.swift'
+
+def navigation_signature(source):
+    lines=[line.strip() for line in (source/NAVIGATION).read_text().splitlines() if line.strip().startswith('func updatePresentationData(')]
+    assert len(lines)==1,lines
+    assert lines[0]=='func updatePresentationData(_ presentationData: NavigationBarPresentationData, transition: ContainedViewLayoutTransition)',lines
+    assert 'public enum ContainedViewLayoutTransition {\n    case immediate\n' in (source/TRANSITION).read_text()
+    return lines[0]
+
+def navigation_check(source,swiftc,folder):
+    """Compile the actual caller against the actual native protocol signature."""
+    signature=navigation_signature(source)
+    calls=[line.strip() for line in (source/UI).read_text().splitlines() if 'self.navigationBar?.updatePresentationData(' in line]
+    assert len(calls)==1,calls
+    call=calls[0]
+    assert ', transition: .immediate)' in call,call
+    prefix='''struct NavigationBarPresentationData {init(presentationData:Int){}}
+enum ContainedViewLayoutTransition {case immediate}
+final class NavigationBar {'''+signature+''' {}}
+final class ActualFontScreenCall {
+ var navigationBar:NavigationBar?=NavigationBar()
+ func update(_ value:Int){
+'''
+    reports=[]
+    cases=[('current',call,True),('sdk199-missing-transition',call.replace(', transition: .immediate','',1),False),('wrong-transition-label',call.replace('transition: .immediate','animation: .immediate',1),False)]
+    for name,body,expected in cases:
+        path=folder/(name+'.swift');path.write_text(prefix+body+'\n}}\n')
+        result=subprocess.run([str(swiftc),'-swift-version','5','-typecheck','-warnings-as-errors','-module-cache-path',str(folder/'navigation-cache'),str(path)],capture_output=True,text=True,timeout=60)
+        assert (result.returncode==0)==expected,result.stdout+result.stderr
+        if not expected: assert 'transition' in result.stderr,result.stderr
+        reports.append({'name':name,'expected_result':'passed' if expected else 'rejected','verified':True})
+    return {'native_signature':signature,'actual_caller':call,'checks':reports}
 
 def access_check(source,swiftc,folder):
     """Actual public override signature must use public adapter types too."""
     ui=(source/UI).read_text()
     signature=next(line.strip() for line in ui.splitlines() if 'public override func containerLayoutUpdated(' in line)
     signature=signature[:signature.index('{')+1]+'}\n'
-    declarations='\n'.join(next(line for line in UI_BOUNDARY.splitlines() if line.startswith('public struct '+name+' ')) for name in ['ContainerViewLayout','ContainedViewLayoutTransition'])
+    declarations='\n'.join(next(line for line in UI_BOUNDARY.splitlines() if line.startswith('public '+kind+' '+name+' ')) for kind,name in [('struct','ContainerViewLayout'),('enum','ContainedViewLayoutTransition')])
     code=ACCESS_IMPORTS+'struct UIEdgeInsets {static let zero=Self()}\n'+declarations+'''
 public class NativeViewControllerBoundary {
  func containerLayoutUpdated(_ layout:ContainerViewLayout,transition:ContainedViewLayoutTransition){}
@@ -18,7 +51,7 @@ public class NativeViewControllerBoundary {
 public final class ActualFontOverrideBoundary:NativeViewControllerBoundary {
 '''+signature+'}\n'
     checks=[]
-    for name,body,expected in [('public-types',code,True),('internal-layout',code.replace('public struct ContainerViewLayout','struct ContainerViewLayout',1),False),('internal-transition',code.replace('public struct ContainedViewLayoutTransition','struct ContainedViewLayoutTransition',1),False)]:
+    for name,body,expected in [('public-types',code,True),('internal-layout',code.replace('public struct ContainerViewLayout','struct ContainerViewLayout',1),False),('internal-transition',code.replace('public enum ContainedViewLayoutTransition','enum ContainedViewLayoutTransition',1),False)]:
         path=folder/(name+'.swift');path.write_text(body)
         result=subprocess.run([str(swiftc),'-swift-version','5','-typecheck','-warnings-as-errors','-module-cache-path',str(folder/'access-cache'),str(path)],capture_output=True,text=True,timeout=60)
         assert (result.returncode==0)==expected,result.stdout+result.stderr
@@ -26,15 +59,23 @@ public final class ActualFontOverrideBoundary:NativeViewControllerBoundary {
         checks.append({'name':name,'expected_result':'passed' if expected else 'rejected','verified':True})
     return checks
 
-def check(source,swiftc,folder):
+def check(source,swiftc,folder,expect_ui_transition_error=False):
     if sys.platform!='darwin':return {'status':'not_run','reason':'Apple UIKit SDK unavailable on Linux'}
     sdk=subprocess.check_output(['xcrun','--sdk','iphoneos','--show-sdk-path'],text=True).strip()
     clean=lambda text:'\n'.join(line for line in text.splitlines() if not line.startswith('import '))
     code='import Foundation\nimport UIKit\nimport CoreText\nimport ObjectiveC\n'+SIGNAL_BOUNDARY+'\n'+UI_BOUNDARY
+    code+='\nfinal class NavigationBar {'+navigation_signature(source)+' {}}\n'
     code+='\n'+'\n'.join(clean((source/n).read_text()) for n in [MODEL,FONT,MANAGER,UI])
     path=folder/'fonts-real-uikit.swift';path.write_text(code)
     command=[str(swiftc),'-swift-version','5','-typecheck','-warnings-as-errors','-sdk',sdk,'-target','arm64-apple-ios15.0','-module-cache-path',str(folder/'sdk-cache'),str(path)]
     p=subprocess.run(command,capture_output=True,text=True,timeout=120)
+    if expect_ui_transition_error:
+        # Stage41 is immutable historical input. It must reproduce SDK199's
+        # exact native API failure; the final corrected stage44 is checked
+        # positively here before overlay and again before the native build.
+        errors=re.findall(r'^.*:\d+:\d+: error: (.*)$',p.stderr,re.M)
+        assert p.returncode!=0 and errors==["missing argument for parameter 'transition' in call"],p.stdout+p.stderr
+        return {'status':'expected_historical_failure_verified','diagnostic':errors[0],'final_corrected_screen':'mandatory positive check in release_095_fonts_compile'}
     assert p.returncode==0,p.stdout+p.stderr
     return {'status':'passed','target':'arm64-apple-ios15.0','scope':'Complete actual model, Font.swift, resolver, Objective-C hooks and font-screen bodies; real UIKit/CoreText/Foundation/ObjectiveC APIs. Display/AccountContext/theme and SignalKit ownership interfaces are explicit adapters, whole native modules still require SDK build.'}
 
@@ -66,10 +107,9 @@ struct PresentationAtomic {func with<T>(_ f:(PresentationData)->T)->T{f(Presenta
 struct FontSharedContext {var currentPresentationData=PresentationAtomic();var presentationData=Signal<PresentationData,NoError>{_ in ActionDisposable{}}}
 public final class AccountContext {var sharedContext=FontSharedContext()}
 struct NavigationBarPresentationData {init(presentationData:PresentationData){}}
-final class NavigationBar {func updatePresentationData(_ data:NavigationBarPresentationData){}}
 class ASDisplayNode {var view=UIView();var backgroundColor:UIColor?{get{view.backgroundColor}set{view.backgroundColor=newValue}}}
 public struct ContainerViewLayout {var size=CGSize.zero;var intrinsicInsets=UIEdgeInsets.zero}
-public struct ContainedViewLayoutTransition {}
+public enum ContainedViewLayoutTransition {case immediate}
 struct NavigationLayout {var navigationFrame=CGRect.zero}
 public class ViewController:UIViewController {
  var displayNode=ASDisplayNode();var navigationBar:NavigationBar?;var isNodeLoaded:Bool{false}

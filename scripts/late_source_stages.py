@@ -57,6 +57,7 @@ LATE_SOURCE_STAGES = (
     'app_font_selection',
     'web_video_picture_in_picture',
     'temporary_expiration_semantics',
+    'release_095_fonts_compile',
 )
 TEMPORARY_INTERACTION_STAGE = 'temporary_message_interaction'
 TEMPORARY_REPLY_HELPER = 'submodules/TelegramUI/Sources/Chat/NagramiXTemporaryReplySend.swift'
@@ -199,7 +200,12 @@ def historical_source(source, before_stage=None):
         plan = plans[index]
         for name, value in {**plan['outputs'], **plan['guards'], **copy_outputs(plan)}.items():
             assert digest(data(name)) == value, 'Cannot reverse ' + LATE_SOURCE_STAGES[index] + ': ' + name
-        removed.update(plan['copies'])
+        # A later guarded stage may replace a helper introduced by this one.
+        # Once its introduction is unwound, that helper has no earlier bytes;
+        # discard the later replacement's preimage before materializing history.
+        for name in plan['copies']:
+            removed.add(name)
+            overrides.pop(name, None)
         for name, template in plan['previous'].items():
             previous = (OVERLAY / template).read_bytes()
             assert digest(previous) == plan['inputs'][name], name

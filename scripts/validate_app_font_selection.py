@@ -79,10 +79,10 @@ def main():
   for name,mutated,label in runtime.negatives(code):runs+=execute(a.swiftc,folder,name,mutated,label)
   parsed=[n for n in [*plan['outputs'],*plan['copies']] if n.endswith('.swift')]
   for n in parsed:run([a.swiftc,'-frontend','-parse',a.source/n])
-  apple=apple_check(a.source,a.swiftc,folder)
+  apple=apple_check(a.source,a.swiftc,folder,expect_ui_transition_error=True)
  assert manifest(a.source)==initial
  font_resources=validate_fonts(a.source,json.loads((ROOT/'ios/app_font_selection/fonts.json').read_text()))
- report={'stage':STAGE,'replacements':len(plan['outputs']),'guards':len(plan['guards']),'copies':len(plan['copies']),'font_faces':20,'font_resources':font_resources,'licenses':4,'languages':71,'keys_per_catalog':647,'loader_refusals':len(rejected),'executions':runs,'parsed_swift':len(parsed),'source_unchanged':True,'apple_uikit_precheck':apple,'apple_sdk_build':'not_run','device':'pending','boundary':'Actual complete Font factory, settings and resolver run with explicit UIKit/CoreText/resource adapters on Linux. Objective-C selector installation and UIKit rendering require Apple; the early Apple precheck compiles complete production bodies against real UIKit SDK before the native build. Real font bytes, names, licenses and glyphs are separately inspected; native full modules, live relayout and device pixels remain pending.'}
+ report={'stage':STAGE,'replacements':len(plan['outputs']),'guards':len(plan['guards']),'copies':len(plan['copies']),'font_faces':20,'font_resources':font_resources,'licenses':4,'languages':71,'keys_per_catalog':647,'loader_refusals':len(rejected),'executions':runs,'parsed_swift':len(parsed),'source_unchanged':True,'apple_uikit_precheck':apple,'apple_sdk_build':'not_run','device':'pending','boundary':'Actual complete Font factory, settings and resolver run with explicit UIKit/CoreText/resource adapters on Linux. Objective-C selector installation and UIKit rendering require Apple; the immutable historical screen must reproduce SDK199 missing-transition error; the final corrected screen is checked positively against real UIKit SDK in the early gate and release_095_fonts_compile before the native build. Real font bytes, names, licenses and glyphs are separately inspected; native full modules, live relayout and device pixels remain pending.'}
  if a.report:a.report.write_text(json.dumps(report,ensure_ascii=False,indent=2)+'\n')
  print(json.dumps({k:v for k,v in report.items() if k!='executions'},ensure_ascii=False,indent=2))
 if __name__=='__main__':main()
