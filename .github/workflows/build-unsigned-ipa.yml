@@ -144,6 +144,7 @@ jobs:
           export MACOSX_DEPLOYMENT_TARGET=13.0
           python3 scripts/validate_swift_geometry_boundaries.py --swiftc "$(xcrun --find swiftc)" --report "$RUNNER_TEMP/swift-geometry-boundaries.json"
           python3 scripts/validate_settings_argument_bindings.py --canonical --swiftc "$(xcrun --find swiftc)" --report "$RUNNER_TEMP/settings-argument-bindings.json"
+          python3 scripts/validate_release_095_apple_preflight.py --swiftc "$(xcrun --find swiftc)" --report "$RUNNER_TEMP/release-095-apple-preflight.json"
 
       - name: Применить overlay NagramiX
         env:

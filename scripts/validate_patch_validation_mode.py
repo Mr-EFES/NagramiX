@@ -11,6 +11,7 @@ ROOT=Path(__file__).resolve().parents[1]
 
 def check(text):
     start=text.index('      - name: Применить overlay NagramiX\n')
+    assert re.search(r'^          python3 scripts/validate_release_095_apple_preflight\.py --swiftc ',text[:start],re.M), 'Complete fixture preflight must run before overlay'
     end=text.index('      - name: Восстановить кеш Bazel\n',start)
     source=text[start:end]
     option=re.search(r'^      extended_patch_tests:\n(.*?)(?=^      \w+:)',text,re.M|re.S).group(1)
@@ -46,7 +47,7 @@ def check(text):
     script='\n'.join(line[10:] if line.startswith('          ') else line for line in script.splitlines())+'\n'
     result=subprocess.run(['bash','-n'],input=script,capture_output=True,text=True)
     assert result.returncode==0,result.stderr
-    return {'optional_historical_calls':len(wrapped),'unconditional_apply_calls':len(applications),'mandatory_final_checks':mandatory+['PostboxImportCheck.py'],'bash_syntax':'passed','runtime_cases':runs}
+    return {'optional_historical_calls':len(wrapped),'unconditional_apply_calls':len(applications),'mandatory_final_checks':mandatory+['PostboxImportCheck.py'],'complete_fixture_preflight_before_overlay':'mandatory','bash_syntax':'passed','runtime_cases':runs}
 
 
 def main():
@@ -56,6 +57,10 @@ def main():
     try:check(changed)
     except AssertionError:pass
     else:raise AssertionError('Optional final integrity gate accepted')
+    changed=text.replace('          python3 scripts/validate_release_095_apple_preflight.py','          nagramix_extended_check python3 scripts/validate_release_095_apple_preflight.py',1)
+    try:check(changed)
+    except AssertionError:pass
+    else:raise AssertionError('Optional early complete fixture gate accepted')
     print(json.dumps(report,ensure_ascii=False,indent=2))
 
 if __name__=='__main__':main()

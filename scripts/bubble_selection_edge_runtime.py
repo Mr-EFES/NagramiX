@@ -47,12 +47,12 @@ func FUNCTION(item:ChatMessageItem,params:Params,layoutConstants:Constants,avata
     assert budget.count(call) == 1
     text += shell.replace('FUNCTION', 'originalBudget').replace('BUDGET', budget.replace(call, ''))
     text += '''
-func place(params:Params,layoutConstants:Constants,avatarInset:CGFloat,incoming:Bool,width:CGFloat,height:CGFloat,alignment:Alignment = .none) -> CGRect {
+func place(params:Params,layoutConstants:Constants,avatarInset:CGFloat,incoming:Bool,width:CGFloat,height:CGFloat,alignment:Alignment = .none,hideBackground:Bool = false) -> CGRect {
  let contentSize=CGSize(width:width,height:height),headerSize=CGSize.zero
  let minimalContentSize=layoutConstants.bubble.minimumSize
  let detachedContentNodesHeight:CGFloat=0,additionalTopHeight:CGFloat=0,deliveryFailedInset:CGFloat=0
  let bubblelessColumn:(originX:CGFloat,width:CGFloat)?=nil,avatarOffset:CGFloat?=nil
- let bubbleStyle=Style.bubble,hideBackground=false
+ let bubbleStyle=Style.bubble
 ''' + placement + '\n _=contentOrigin;_=contentUpperRightCorner;return backgroundFrame\n}\n' + TESTS
     return text
 
@@ -163,6 +163,11 @@ TESTS = r'''
   check(nagramiXBubbleSelectionWidthInset(item:off,incoming:false,hasBubble:true)==0,"bubbleless outgoing translation never becomes a negative width reserve")
   let empty=ChatMessageItem(content:.group(messages:[]))
   check(nagramiXBubbleSelectionWidthInset(item:empty,incoming:true,hasBubble:true)==0,"empty group is not selecting")
+  for incoming in [false,true] {for hidden in [false,true] {
+   let p=Params(width:393),c=constants(fill:0.85)
+   let frame=place(params:p,layoutConstants:c,avatarInset:0,incoming:incoming,width:180,height:100,alignment:.center,hideBackground:hidden)
+   check(abs(frame.midX-196.5)<=0.5,"centered placement supports dynamic visible and hidden backgrounds")
+  }}
   print("Production bubble edge checks: \(checks)")
  }
 }

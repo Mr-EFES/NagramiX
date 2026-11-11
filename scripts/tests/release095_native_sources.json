@@ -1,0 +1,41 @@
+{
+  "repository": "TelegramMessenger/Telegram-iOS",
+  "pin": "24638bc69bd083981b178dd1e7f921eebbf7fc46",
+  "files": {
+    "submodules/TelegramApi/Sources/SecretApiLayer8.swift": {
+      "source": "release095_native_sources/Native0.inc",
+      "sha256": "f251a0780a8990d32af1cf57974ce41cb3099a01e935f0aa8166c9ad81fc7080",
+      "git_blob": "1b3acd81fab50daac97b2d869a1a89a3ad5afdca"
+    },
+    "submodules/TelegramApi/Sources/SecretApiLayer46.swift": {
+      "source": "release095_native_sources/Native1.inc",
+      "sha256": "ad2a68a079bebc4e826f8d1dca18e373acf9b8f99e2d4931bc8a0a9d5ebd14bb",
+      "git_blob": "4986c5444a023cdc0e1a464c2376fd3e1a2f9ac9"
+    },
+    "submodules/TelegramApi/Sources/SecretApiLayer73.swift": {
+      "source": "release095_native_sources/Native2.inc",
+      "sha256": "cb28175ee1791fea16c37734530ed6ef626020dd32d8762a948bee1d6238c753",
+      "git_blob": "5253a5c3c38f6a8a866fd1150098f19c49106601"
+    },
+    "submodules/TelegramApi/Sources/SecretApiLayer101.swift": {
+      "source": "release095_native_sources/Native3.inc",
+      "sha256": "1c6b745215baed76c6725fd75449e7fd00ef80ccb84c6df89baa2b5ef719f6ea",
+      "git_blob": "1d9d2acc95e69aa761f79b3abb6d7e3369a2b68f"
+    },
+    "submodules/TelegramApi/Sources/SecretApiLayer144.swift": {
+      "source": "release095_native_sources/Native4.inc",
+      "sha256": "d8c17cc1ba87a37ea1d4b6c4e5e0c5b6c95b5b19b10a3850b841884aa37bae73",
+      "git_blob": "99b74b877ceb59eb8fa9489c4f0da27a406c7ed3"
+    },
+    "submodules/TelegramCore/Sources/ChatInputContent/ChatInputContentRuns.swift": {
+      "source": "release095_native_sources/Native5.inc",
+      "sha256": "cd2d86f42953498a5a7cdf14085c128f14337e343dc7e3c0688f743f92b3e488",
+      "git_blob": "fc9c54c8a5eefe086be1ded16db18f67bafc28c0"
+    },
+    "submodules/TelegramCore/Sources/SyncCore/SyncCore_SecretChatState.swift": {
+      "source": "release095_native_sources/Native6.inc",
+      "sha256": "2483541af7a83368495bb007109aebeadf3e2cdba43926dc51d27296451af441",
+      "git_blob": "03fdf46bf90356615306bc0727fd0eb031734c6d"
+    }
+  }
+}
