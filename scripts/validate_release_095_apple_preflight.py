@@ -13,7 +13,7 @@ import tempfile
 
 from validate_upstream_13_2_release import OVERLAY, SDK_STAGES, checked_plan, checked_sdk_plans
 from validate_private_temporary_transcription import execute
-from app_font_selection_apple import check as apple_check
+from app_font_selection_apple import check as apple_check, access_check
 import bubble_selection_edge_runtime as bubble
 import composer_file_attachments_runtime as composer
 import archived_round_native_controls_runtime as archived
@@ -107,9 +107,10 @@ def main():
             for name, build in fixtures: runs += execute(args.swiftc, root, name, build(source))
         # This is the same real UIKit precheck retained inside the regular
         # font validator, now also before the long overlay/migration suite.
+        access = access_check(source, args.swiftc, root)
         apple = apple_check(source, args.swiftc, root)
     report = {'canonical_swift_files_by_checkpoint':files, 'complete_fixtures':9, 'executions':runs,
-              'apple_uikit_precheck':apple, 'warnings_as_errors':True,
+              'font_adapter_access_contract':access, 'apple_uikit_precheck':apple, 'warnings_as_errors':True,
               'full_application_sdk':'pending', 'device':'pending'}
     if args.report: args.report.write_text(json.dumps(report, ensure_ascii=False, indent=2)+'\n')
     print(json.dumps(report, ensure_ascii=False, indent=2))

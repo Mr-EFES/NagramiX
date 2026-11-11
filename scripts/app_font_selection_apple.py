@@ -3,6 +3,27 @@ from pathlib import Path
 import subprocess,sys
 from app_font_selection_runtime import MODEL,FONT,MANAGER,UI
 
+def access_check(source,swiftc,folder):
+    """Actual public override signature must use public adapter types too."""
+    ui=(source/UI).read_text()
+    signature=next(line.strip() for line in ui.splitlines() if 'public override func containerLayoutUpdated(' in line)
+    signature=signature[:signature.index('{')+1]+'}\n'
+    declarations='\n'.join(next(line for line in UI_BOUNDARY.splitlines() if line.startswith('public struct '+name+' ')) for name in ['ContainerViewLayout','ContainedViewLayoutTransition'])
+    code='import Foundation\nstruct UIEdgeInsets {static let zero=Self()}\n'+declarations+'''
+public class NativeViewControllerBoundary {
+ func containerLayoutUpdated(_ layout:ContainerViewLayout,transition:ContainedViewLayoutTransition){}
+}
+public final class ActualFontOverrideBoundary:NativeViewControllerBoundary {
+'''+signature+'}\n'
+    checks=[]
+    for name,body,expected in [('public-types',code,True),('internal-layout',code.replace('public struct ContainerViewLayout','struct ContainerViewLayout',1),False),('internal-transition',code.replace('public struct ContainedViewLayoutTransition','struct ContainedViewLayoutTransition',1),False)]:
+        path=folder/(name+'.swift');path.write_text(body)
+        result=subprocess.run([str(swiftc),'-swift-version','5','-typecheck','-warnings-as-errors','-module-cache-path',str(folder/'access-cache'),str(path)],capture_output=True,text=True,timeout=60)
+        assert (result.returncode==0)==expected,result.stdout+result.stderr
+        if not expected: assert 'parameter uses an internal type' in result.stderr,result.stderr
+        checks.append({'name':name,'expected_result':'passed' if expected else 'rejected','verified':True})
+    return checks
+
 def check(source,swiftc,folder):
     if sys.platform!='darwin':return {'status':'not_run','reason':'Apple UIKit SDK unavailable on Linux'}
     sdk=subprocess.check_output(['xcrun','--sdk','iphoneos','--show-sdk-path'],text=True).strip()
@@ -45,8 +66,8 @@ public final class AccountContext {var sharedContext=FontSharedContext()}
 struct NavigationBarPresentationData {init(presentationData:PresentationData){}}
 final class NavigationBar {func updatePresentationData(_ data:NavigationBarPresentationData){}}
 class ASDisplayNode {var view=UIView();var backgroundColor:UIColor?{get{view.backgroundColor}set{view.backgroundColor=newValue}}}
-struct ContainerViewLayout {var size=CGSize.zero;var intrinsicInsets=UIEdgeInsets.zero}
-struct ContainedViewLayoutTransition {}
+public struct ContainerViewLayout {var size=CGSize.zero;var intrinsicInsets=UIEdgeInsets.zero}
+public struct ContainedViewLayoutTransition {}
 struct NavigationLayout {var navigationFrame=CGRect.zero}
 public class ViewController:UIViewController {
  var displayNode=ASDisplayNode();var navigationBar:NavigationBar?;var isNodeLoaded:Bool{false}
