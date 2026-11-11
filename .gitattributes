@@ -47,3 +47,4 @@ ios/**/*.inc -whitespace
 # Preserve the original vendor license bytes, including their whitespace.
 ios/app_font_selection/PTAstraSans-LICENSE.txt -whitespace
 ios/app_font_selection/PTAstraSerif-LICENSE.txt -whitespace
+scripts/tests/release095_native_sources/*.inc -whitespace
