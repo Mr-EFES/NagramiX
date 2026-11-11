@@ -1,0 +1,49 @@
+{
+  "inputs": {
+    "submodules/TelegramUI/Sources/ChatControllerOpenAttachmentMenu.swift": "d4da3a5e0b03b9177508bb21fe295e3876a94bc7badce13c6720fa3f2b4c2caf"
+  },
+  "outputs": {
+    "submodules/TelegramUI/Sources/ChatControllerOpenAttachmentMenu.swift": "e2bb393f99ecde50affc20a3b006abb407b3579d48ba15fe6c59d39a5b8e3d79"
+  },
+  "previous": {
+    "submodules/TelegramUI/Sources/ChatControllerOpenAttachmentMenu.swift": "release_095_composer_strings_compile/Before0.inc"
+  },
+  "replacements": {
+    "submodules/TelegramUI/Sources/ChatControllerOpenAttachmentMenu.swift": "release_095_composer_strings_compile/After0.inc"
+  },
+  "guards": {
+    "Telegram/Telegram-iOS/en.lproj/Localizable.strings": "6a1db564f18af1407da2067bea3d8743c06b3742320fbf04b60307e3cbc30b8c",
+    "build-system/GenerateStrings/GenerateStrings.py": "79260ec2374cfbfcf8784f87fe688868369adb5f325dc4a083d9aea278834a48",
+    "Telegram/BUILD": "3cd1d39a6c7ad6d716baf5d3a84af19386b37a4cbcace99a1cff88a7923a0114",
+    "submodules/SettingsUI/Sources/NagramiXFontsController.swift": "0670bb8511f93958a85f05a60f7f638d45f4b73edd3a662435dca5bd89539eab",
+    "submodules/TelegramCore/Sources/ChatInputContent/ChatInputContentModel.swift": "2603a17b8f4fe579083717dc79a65241d524aeebc769d86137d2e6a083b1f5ef",
+    "submodules/TextFormat/Sources/ChatComposerSendPlan.swift": "0fa04f66f6afa3615d3469bfa8ec114eecd04915942f8d6bae3045759689069b"
+  },
+  "guard_sources": {
+    "Telegram/Telegram-iOS/en.lproj/Localizable.strings": "release_095_composer_strings_compile/Guard0.inc",
+    "build-system/GenerateStrings/GenerateStrings.py": "release_095_composer_strings_compile/Guard1.inc",
+    "Telegram/BUILD": "release_095_composer_strings_compile/Guard2.inc",
+    "submodules/SettingsUI/Sources/NagramiXFontsController.swift": "release_095_composer_strings_compile/Guard3.inc",
+    "submodules/TelegramCore/Sources/ChatInputContent/ChatInputContentModel.swift": "release_095_composer_strings_compile/Guard4.inc",
+    "submodules/TextFormat/Sources/ChatComposerSendPlan.swift": "release_095_composer_strings_compile/Guard5.inc"
+  },
+  "copies": {},
+  "deletions": {},
+  "native_inputs": {},
+  "native_guards": {
+    "build-system/GenerateStrings/GenerateStrings.py": "e10ff2b8a797200c6027b3310f66f5cf61000d4c"
+  },
+  "templates": {
+    "release_095_composer_strings_compile/Before0.inc": "d4da3a5e0b03b9177508bb21fe295e3876a94bc7badce13c6720fa3f2b4c2caf",
+    "release_095_composer_strings_compile/After0.inc": "e2bb393f99ecde50affc20a3b006abb407b3579d48ba15fe6c59d39a5b8e3d79",
+    "release_095_composer_strings_compile/Guard0.inc": "6a1db564f18af1407da2067bea3d8743c06b3742320fbf04b60307e3cbc30b8c",
+    "release_095_composer_strings_compile/Guard1.inc": "79260ec2374cfbfcf8784f87fe688868369adb5f325dc4a083d9aea278834a48",
+    "release_095_composer_strings_compile/Guard2.inc": "3cd1d39a6c7ad6d716baf5d3a84af19386b37a4cbcace99a1cff88a7923a0114",
+    "release_095_composer_strings_compile/Guard3.inc": "0670bb8511f93958a85f05a60f7f638d45f4b73edd3a662435dca5bd89539eab",
+    "release_095_composer_strings_compile/Guard4.inc": "2603a17b8f4fe579083717dc79a65241d524aeebc769d86137d2e6a083b1f5ef",
+    "release_095_composer_strings_compile/Guard5.inc": "0fa04f66f6afa3615d3469bfa8ec114eecd04915942f8d6bae3045759689069b"
+  },
+  "target_pin": "24638bc69bd083981b178dd1e7f921eebbf7fc46",
+  "overlay_base_pin": "279f89e4d4f63f17227bf877dc3d8990f22ecd58",
+  "required_previous_stage": "release_095_fonts_compile"
+}

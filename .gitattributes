@@ -51,3 +51,6 @@ scripts/tests/release095_native_sources/*.inc -whitespace
 
 # Неизменённые native guards и единственный исправленный вызов SDK199.
 ios/release_095_fonts_compile/*.inc -whitespace
+
+# Точные native catalog/generator inputs и две ссылки на строку SDK200.
+ios/release_095_composer_strings_compile/*.inc -whitespace

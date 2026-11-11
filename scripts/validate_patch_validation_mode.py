@@ -12,6 +12,7 @@ ROOT=Path(__file__).resolve().parents[1]
 def check(text):
     start=text.index('      - name: Применить overlay NagramiX\n')
     assert re.search(r'^          python3 scripts/validate_release_095_apple_preflight\.py --swiftc ',text[:start],re.M), 'Complete fixture preflight must run before overlay'
+    assert re.search(r'^          python3 scripts/validate_native_string_references\.py --canonical --swiftc ',text[:start],re.M), 'Native generated strings SDK check must run before overlay'
     end=text.index('      - name: Восстановить кеш Bazel\n',start)
     source=text[start:end]
     option=re.search(r'^      extended_patch_tests:\n(.*?)(?=^      \w+:)',text,re.M|re.S).group(1)
@@ -20,7 +21,7 @@ def check(text):
     begin=source.index('          # BEGIN optional historical regressions\n')
     finish=source.index('          # END optional historical regressions\n',begin)+len('          # END optional historical regressions\n')
     helper='\n'.join(line[10:] for line in source[begin:finish].splitlines())+'\n'
-    mandatory=['validate_late_source_stages.py','validate_custom_member_references.py','validate_upstream_13_2_release.py','validate_localization_standard.py','validate_release_092_settings_compile.py','validate_round_native_playback.py','validate_poll_copy_transport.py','validate_release_095_fonts_compile.py']
+    mandatory=['validate_late_source_stages.py','validate_custom_member_references.py','validate_upstream_13_2_release.py','validate_localization_standard.py','validate_release_092_settings_compile.py','validate_round_native_playback.py','validate_poll_copy_transport.py','validate_release_095_fonts_compile.py','validate_release_095_composer_strings_compile.py']
     for name in mandatory:
         assert re.search(r'^          python3 scripts/'+re.escape(name)+r'\b',source,re.M),name
         assert 'nagramix_extended_check python3 scripts/'+name not in source,name
@@ -65,6 +66,11 @@ def main():
     try:check(changed)
     except AssertionError:pass
     else:raise AssertionError('Optional final native font API gate accepted')
+    for script in ['validate_release_095_composer_strings_compile.py','validate_native_string_references.py']:
+        changed=text.replace('          python3 scripts/'+script,'          nagramix_extended_check python3 scripts/'+script)
+        try:check(changed)
+        except AssertionError:pass
+        else:raise AssertionError('Optional native generated strings gate accepted')
     print(json.dumps(report,ensure_ascii=False,indent=2))
 
 if __name__=='__main__':main()
