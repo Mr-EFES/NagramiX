@@ -3,13 +3,15 @@ from pathlib import Path
 import subprocess,sys
 from app_font_selection_runtime import MODEL,FONT,MANAGER,UI
 
+ACCESS_IMPORTS = 'import Foundation\n#if canImport(CoreGraphics)\nimport CoreGraphics\n#endif\n'
+
 def access_check(source,swiftc,folder):
     """Actual public override signature must use public adapter types too."""
     ui=(source/UI).read_text()
     signature=next(line.strip() for line in ui.splitlines() if 'public override func containerLayoutUpdated(' in line)
     signature=signature[:signature.index('{')+1]+'}\n'
     declarations='\n'.join(next(line for line in UI_BOUNDARY.splitlines() if line.startswith('public struct '+name+' ')) for name in ['ContainerViewLayout','ContainedViewLayoutTransition'])
-    code='import Foundation\nstruct UIEdgeInsets {static let zero=Self()}\n'+declarations+'''
+    code=ACCESS_IMPORTS+'struct UIEdgeInsets {static let zero=Self()}\n'+declarations+'''
 public class NativeViewControllerBoundary {
  func containerLayoutUpdated(_ layout:ContainerViewLayout,transition:ContainedViewLayoutTransition){}
 }

@@ -1,0 +1,312 @@
+{
+  "run198": {
+    "id": 43080826001,
+    "source": "748efbb36e12c3bccaa103a67f97af2e3fb28268",
+    "failure": "New access-contract fixture imported Foundation without CoreGraphics; Apple CGSize.zero extension unavailable. Full application SDK not started."
+  },
+  "repair": "Explicit conditional CoreGraphics import in the real access fixture; actual imports added as twelfth geometry boundary with mandatory Apple missing-import negative. Public native layout/transition contract preserved. No app runtime changes.",
+  "local_geometry": {
+    "boundaries": [
+      {
+        "name": "round-row",
+        "mode": "debug",
+        "passed": true
+      },
+      {
+        "name": "round-row",
+        "mode": "optimized",
+        "passed": true
+      },
+      {
+        "name": "pip-handoff",
+        "mode": "debug",
+        "passed": true
+      },
+      {
+        "name": "pip-handoff",
+        "mode": "optimized",
+        "passed": true
+      },
+      {
+        "name": "pip-snapshot",
+        "mode": "debug",
+        "passed": true
+      },
+      {
+        "name": "pip-snapshot",
+        "mode": "optimized",
+        "passed": true
+      },
+      {
+        "name": "download-layout",
+        "mode": "debug",
+        "passed": true
+      },
+      {
+        "name": "download-layout",
+        "mode": "optimized",
+        "passed": true
+      },
+      {
+        "name": "temporary-notice",
+        "mode": "debug",
+        "passed": true
+      },
+      {
+        "name": "temporary-notice",
+        "mode": "optimized",
+        "passed": true
+      },
+      {
+        "name": "revision-badge",
+        "mode": "debug",
+        "passed": true
+      },
+      {
+        "name": "revision-badge",
+        "mode": "optimized",
+        "passed": true
+      },
+      {
+        "name": "pip-continuity",
+        "mode": "debug",
+        "passed": true
+      },
+      {
+        "name": "pip-continuity",
+        "mode": "optimized",
+        "passed": true
+      },
+      {
+        "name": "round-video-editor",
+        "mode": "debug",
+        "passed": true
+      },
+      {
+        "name": "round-video-editor",
+        "mode": "optimized",
+        "passed": true
+      },
+      {
+        "name": "round-replacement",
+        "mode": "debug",
+        "passed": true
+      },
+      {
+        "name": "round-replacement",
+        "mode": "optimized",
+        "passed": true
+      },
+      {
+        "name": "download-contour",
+        "mode": "debug",
+        "passed": true
+      },
+      {
+        "name": "download-contour",
+        "mode": "optimized",
+        "passed": true
+      },
+      {
+        "name": "bubble-selection-edge",
+        "mode": "debug",
+        "passed": true
+      },
+      {
+        "name": "bubble-selection-edge",
+        "mode": "optimized",
+        "passed": true
+      },
+      {
+        "name": "font-public-access",
+        "mode": "debug",
+        "passed": true
+      },
+      {
+        "name": "font-public-access",
+        "mode": "optimized",
+        "passed": true
+      }
+    ],
+    "apple_import_negatives": [],
+    "boundary": "Actual test boundary imports and geometry operators; no UIKit or whole-app SDK build.",
+    "apple_import_negative_boundary": "Runs only with Apple Swift; Linux Foundation differs."
+  },
+  "local_full_fixture_gate": {
+    "canonical_swift_files_by_checkpoint": {
+      "bubble_selection_edge": {
+        "written": 396,
+        "pinned_native_dependencies": 7,
+        "unused_unavailable_native_guards": 116
+      },
+      "composer_file_attachments": {
+        "written": 408,
+        "pinned_native_dependencies": 7,
+        "unused_unavailable_native_guards": 116
+      },
+      "archived_round_native_controls": {
+        "written": 408,
+        "pinned_native_dependencies": 7,
+        "unused_unavailable_native_guards": 116
+      },
+      "transcription_account_defaults": {
+        "written": 409,
+        "pinned_native_dependencies": 7,
+        "unused_unavailable_native_guards": 116
+      },
+      "app_font_selection": {
+        "written": 415,
+        "pinned_native_dependencies": 7,
+        "unused_unavailable_native_guards": 116
+      },
+      "web_video_picture_in_picture": {
+        "written": 421,
+        "pinned_native_dependencies": 7,
+        "unused_unavailable_native_guards": 116
+      },
+      "temporary_expiration_semantics": {
+        "written": 423,
+        "pinned_native_dependencies": 7,
+        "unused_unavailable_native_guards": 116
+      }
+    },
+    "complete_fixtures": 9,
+    "executions": [
+      {
+        "name": "bubble-edge",
+        "mode": "debug",
+        "exit_code": 0,
+        "output": "Production bubble edge checks: 17300"
+      },
+      {
+        "name": "bubble-edge",
+        "mode": "optimized",
+        "exit_code": 0,
+        "output": "Production bubble edge checks: 17300"
+      },
+      {
+        "name": "composer-attachments",
+        "mode": "debug",
+        "exit_code": 0,
+        "output": "701 production composer-file checks passed"
+      },
+      {
+        "name": "composer-attachments",
+        "mode": "optimized",
+        "exit_code": 0,
+        "output": "701 production composer-file checks passed"
+      },
+      {
+        "name": "archived-round-controls",
+        "mode": "debug",
+        "exit_code": 0,
+        "output": "58 archived native-round checks passed"
+      },
+      {
+        "name": "archived-round-controls",
+        "mode": "optimized",
+        "exit_code": 0,
+        "output": "58 archived native-round checks passed"
+      },
+      {
+        "name": "transcription-defaults",
+        "mode": "debug",
+        "exit_code": 0,
+        "output": "Transcription account defaults checks: 38\nPrivate temporary transcription checks: 590"
+      },
+      {
+        "name": "transcription-defaults",
+        "mode": "optimized",
+        "exit_code": 0,
+        "output": "Transcription account defaults checks: 38\nPrivate temporary transcription checks: 590"
+      },
+      {
+        "name": "font-selection",
+        "mode": "debug",
+        "exit_code": 0,
+        "output": "App font selection checks: 58"
+      },
+      {
+        "name": "font-selection",
+        "mode": "optimized",
+        "exit_code": 0,
+        "output": "App font selection checks: 58"
+      },
+      {
+        "name": "web-video-pip",
+        "mode": "debug",
+        "exit_code": 0,
+        "output": "web-video-pip production checks: 402"
+      },
+      {
+        "name": "web-video-pip",
+        "mode": "optimized",
+        "exit_code": 0,
+        "output": "web-video-pip production checks: 402"
+      },
+      {
+        "name": "expiry-archive",
+        "mode": "debug",
+        "exit_code": 0,
+        "output": "temporary-expiry archive checks: 488"
+      },
+      {
+        "name": "expiry-archive",
+        "mode": "optimized",
+        "exit_code": 0,
+        "output": "temporary-expiry archive checks: 488"
+      },
+      {
+        "name": "expiry-consumption",
+        "mode": "debug",
+        "exit_code": 0,
+        "output": "temporary-expiry consumption checks: 731"
+      },
+      {
+        "name": "expiry-consumption",
+        "mode": "optimized",
+        "exit_code": 0,
+        "output": "temporary-expiry consumption checks: 731"
+      },
+      {
+        "name": "expiry-read",
+        "mode": "debug",
+        "exit_code": 0,
+        "output": "temporary-expiry native read checks: 126"
+      },
+      {
+        "name": "expiry-read",
+        "mode": "optimized",
+        "exit_code": 0,
+        "output": "temporary-expiry native read checks: 126"
+      }
+    ],
+    "font_adapter_access_contract": [
+      {
+        "name": "public-types",
+        "expected_result": "passed",
+        "verified": true
+      },
+      {
+        "name": "internal-layout",
+        "expected_result": "rejected",
+        "verified": true
+      },
+      {
+        "name": "internal-transition",
+        "expected_result": "rejected",
+        "verified": true
+      }
+    ],
+    "apple_uikit_precheck": {
+      "status": "not_run",
+      "reason": "Apple UIKit SDK unavailable on Linux"
+    },
+    "warnings_as_errors": true,
+    "full_application_sdk": "pending",
+    "device": "pending"
+  },
+  "apple_retry": "pending",
+  "ipa": "pending",
+  "device": "pending"
+}
