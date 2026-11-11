@@ -1,0 +1,267 @@
+{
+  "task": "YouTube and embedded-video PiP under the existing shared checkbox",
+  "status": "source_checked/compile_pending/device_pending",
+  "stage": "web_video_picture_in_picture",
+  "runtime": {
+    "stage": "web_video_picture_in_picture",
+    "outputs": {
+      "submodules/GalleryUI/Sources/GalleryController.swift": "bbd67ae06b5e813f885d9147e52cbf5040d452f4c8156e03f95bc84a085f3bd4",
+      "submodules/GalleryUI/Sources/Items/UniversalVideoGalleryItem.swift": "23f45864594eac78cfd104cd8e0464840dbe5d87f4cef13b670530ff6c97eb0c",
+      "submodules/InstantPageUI/Sources/InstantPageGalleryController.swift": "684f750f58f80cda5794429feefc41f943b9fa03bdbbc1f68cbaff6593d399c7"
+    },
+    "guards": 20,
+    "loader_refusals": 16,
+    "executions": [
+      {
+        "name": "web-video-pip",
+        "mode": "debug",
+        "exit_code": 0,
+        "output": "web-video-pip production checks: 402"
+      },
+      {
+        "name": "web-video-pip",
+        "mode": "optimized",
+        "exit_code": 0,
+        "output": "web-video-pip production checks: 402"
+      },
+      {
+        "name": "server-gate",
+        "mode": "debug",
+        "exit_code": 96,
+        "output": "shared switch overrides only YouTube server gate"
+      },
+      {
+        "name": "server-gate",
+        "mode": "optimized",
+        "exit_code": 96,
+        "output": "shared switch overrides only YouTube server gate"
+      },
+      {
+        "name": "duplicate-player",
+        "mode": "debug",
+        "exit_code": 96,
+        "output": "repeat tap cannot duplicate player"
+      },
+      {
+        "name": "duplicate-player",
+        "mode": "optimized",
+        "exit_code": 96,
+        "output": "repeat tap cannot duplicate player"
+      },
+      {
+        "name": "lost-ownership",
+        "mode": "debug",
+        "exit_code": 96,
+        "output": "preflight requires live ownership"
+      },
+      {
+        "name": "lost-ownership",
+        "mode": "optimized",
+        "exit_code": 96,
+        "output": "preflight requires live ownership"
+      },
+      {
+        "name": "failed-handoff-state",
+        "mode": "debug",
+        "exit_code": 96,
+        "output": "failed handoff restores local state"
+      },
+      {
+        "name": "failed-handoff-state",
+        "mode": "optimized",
+        "exit_code": 96,
+        "output": "failed handoff restores local state"
+      },
+      {
+        "name": "expansion-pauses",
+        "mode": "debug",
+        "exit_code": 96,
+        "output": "ownership transfer never pauses restored player"
+      },
+      {
+        "name": "expansion-pauses",
+        "mode": "optimized",
+        "exit_code": 96,
+        "output": "ownership transfer never pauses restored player"
+      },
+      {
+        "name": "stale-close",
+        "mode": "debug",
+        "exit_code": 96,
+        "output": "repeat close is inert"
+      },
+      {
+        "name": "stale-close",
+        "mode": "optimized",
+        "exit_code": 96,
+        "output": "repeat close is inert"
+      },
+      {
+        "name": "restore-restarts",
+        "mode": "debug",
+        "exit_code": 96,
+        "output": "web restore preserves paused state and position"
+      },
+      {
+        "name": "restore-restarts",
+        "mode": "optimized",
+        "exit_code": 96,
+        "output": "web restore preserves paused state and position"
+      }
+    ],
+    "swift_parse": 3,
+    "source_files": 37682,
+    "source_unchanged_by_checks": true,
+    "ghostgram_reference": "ichmagmaus111/ghostgram@2a6b08272b7da893f88986846022bafd0727df89",
+    "boundary": "Real GalleryConfiguration and web policy, complete start method, button/swipe dispatch prefixes, close closure and restore activation guards execute unchanged with explicit media-manager, ownership and UIKit IO adapters. Native AVKit/delegates/backdrop/clipping/visibility bodies remain byte-identical; web content is handed to the existing in-app overlay with the same content ID. WebKit frame rendering, background OS PiP, network playback and touch animations require Apple SDK/device validation.",
+    "apple_sdk": "not_run",
+    "device": "pending"
+  },
+  "composition": {
+    "previous_files": 37682,
+    "source_files": 37682,
+    "replacements": 3,
+    "new_files": 0,
+    "symlinks_preserved": 26,
+    "independent_full_apply_matches": true,
+    "previous_source_unchanged": true,
+    "previous_source_sha256": "a61abe438a2e1632b14f5138f4300e137ffaa56425cb186b9496e50d4ac6fb13",
+    "source_manifest_sha256": "f4d64861955b435051d59ccf87dcbe439dc15979e4d0aff733c446807a9d4699",
+    "historical_snapshots_unchanged": 3483,
+    "new_snapshots": 26,
+    "native_input_git_blob": {
+      "submodules/InstantPageUI/Sources/InstantPageGalleryController.swift": "741d3a964b797020b79c210395fe6816219930db"
+    },
+    "native_input_verified_against_pinned_github": true
+  },
+  "general_validation": {
+    "upstream": {
+      "target_pin": "24638bc69bd083981b178dd1e7f921eebbf7fc46",
+      "pre_replacements": 196,
+      "post_replacements": 274,
+      "deleted_obsolete_files": 2,
+      "fail_closed": {
+        "pre": 17,
+        "post": 33
+      },
+      "parsed_swift": 537,
+      "executions": [
+        "current-debug: PiP playback command checks: 113",
+        "current-O: PiP playback command checks: 113",
+        "previous-native-debug: Native PiP baseline checks: 37",
+        "previous-native-O: Native PiP baseline checks: 37",
+        "previous-caption-debug: Round caption transport checks: 118",
+        "previous-caption-O: Round caption transport checks: 118",
+        "previous-composer-debug: Repost copy integrity checks: 48",
+        "previous-composer-O: Repost copy integrity checks: 48",
+        "old-toggle-command-debug: regression reproduced and rejected",
+        "old-toggle-command-O: regression reproduced and rejected",
+        "cached-status-toggle-debug: regression reproduced and rejected",
+        "cached-status-toggle-O: regression reproduced and rejected",
+        "inverted-command-debug: regression reproduced and rejected",
+        "inverted-command-O: regression reproduced and rejected"
+      ],
+      "historical_runtime_boundary": "exact published bytes after verified inverse of all registered late source stages",
+      "late_source_stages": [
+        "wide_bottom_bar",
+        "author_selection_no_restore",
+        "preview_reply_intent",
+        "cloud_credential_entry",
+        "extended_poll_integrity",
+        "bot_delete_without_block",
+        "wide_tab_bar_setting",
+        "pip_swipe_handoff",
+        "temporary_message_interaction",
+        "account_settings_entry",
+        "release_090_preflight_fixes",
+        "release_090_author_compile",
+        "round_video_replay_stability",
+        "pip_gallery_placeholder",
+        "download_sheet_edge",
+        "edit_history_cards",
+        "copy_reference_recovery",
+        "edit_history_number_badges",
+        "pip_visual_continuity",
+        "local_copy_delivery",
+        "temporary_playback_identity",
+        "round_video_editor",
+        "proxy_doh_editor",
+        "download_sheet_corners",
+        "hide_premium_offers",
+        "content_interaction_consent",
+        "release_092_settings_compile",
+        "round_native_playback",
+        "poll_copy_transport",
+        "premium_label_cleanup",
+        "premium_label_spelling",
+        "pip_backdrop_stability",
+        "private_temporary_transcription",
+        "ghostgram_authorless_transport",
+        "round_replacement_geometry",
+        "download_sheet_vector_contour",
+        "bubble_selection_edge",
+        "composer_file_attachments",
+        "archived_round_native_controls",
+        "transcription_account_defaults",
+        "app_font_selection",
+        "web_video_picture_in_picture"
+      ],
+      "native_postbox_imports": "passed",
+      "apple_sdk": "pending",
+      "device": "pending"
+    },
+    "inverse": {
+      "stages": 42,
+      "published_contract_paths": 756,
+      "negative_cases": 238,
+      "full_source_files_preserved": 37682,
+      "actual_published_pipeline_compared": false
+    },
+    "canonical_members": {
+      "swift_files": 233,
+      "string_accesses": 812,
+      "distinct_string_members": 231,
+      "actual_string_declarations": 250,
+      "custom_declarations": 821,
+      "full_custom_name_audit": false
+    },
+    "full_source_members": {
+      "swift_files": 7324,
+      "string_accesses": 870,
+      "distinct_string_members": 233,
+      "actual_string_declarations": 250,
+      "custom_declarations": 944,
+      "full_custom_name_audit": true
+    },
+    "localization": {
+      "languages": 71,
+      "keys_per_catalog": 647,
+      "runtime_lookups_per_mode": 46106,
+      "modes": [
+        "debug",
+        "optimized"
+      ],
+      "new_visible_strings": 0
+    }
+  },
+  "ghostgram": {
+    "repository": "https://github.com/ichmagmaus111/ghostgram",
+    "commit": "2a6b08272b7da893f88986846022bafd0727df89",
+    "gallery_configuration_blob": "b08236e428550ed7336be7542898baa45e4f1b1a",
+    "gallery_item_blob": "defa7013132aa2cc30af49df02ee0aed0a66f51b",
+    "web_embed_player_blob": "781ebfeb9c61baf5147cd2d6ab9ba712a0b0ce0e",
+    "adapted_behavior": "Existing common switch forces YouTube permission before reading youtube_pip. Added retained in-app overlay route because the inspected native-only button cannot start a WebEmbed without a sample-buffer layer."
+  },
+  "release": {
+    "published_tag": "v0.9.4",
+    "published_build": 195,
+    "unchanged": true,
+    "new_sdk_or_actions_run": false,
+    "new_ipa": false,
+    "next_new_version_requires_command": "0.9.5"
+  },
+  "limits": [
+    "Web/AVPlayer wrapper fallback is an in-app overlay, not a YouTube OS background-PiP bridge.",
+    "UIKit/WebKit/AVFoundation network playback and physical iPhone frames remain untested in Linux."
+  ]
+}

@@ -258,11 +258,11 @@
     },
     {
       "id": "video_pip_swipe",
-      "title": "Системный режим «Картинка в Картинке»",
+      "title": "Картинка в картинке: штатный AVKit и встроенное видео, включая YouTube",
       "specification": "specified",
       "ios": {
         "implementation": "implemented",
-        "compile": "compile_passed",
+        "compile": "compile_pending",
         "device": "device_pending"
       }
     },

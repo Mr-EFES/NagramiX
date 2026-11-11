@@ -1,0 +1,102 @@
+{
+  "inputs": {
+    "submodules/GalleryUI/Sources/GalleryController.swift": "25dec6da44df60758ae6e058350a1ddd4f243a62a176a2150f3a576e80215539",
+    "submodules/GalleryUI/Sources/Items/UniversalVideoGalleryItem.swift": "b3a56c42fd6399dc28e0842eeacdc2653285b948af88825211e030cf9e51357b",
+    "submodules/InstantPageUI/Sources/InstantPageGalleryController.swift": "62726bf2d6cf5809dc70ca456e7183876445f0d8a5cb7092c00292ce8512891a"
+  },
+  "outputs": {
+    "submodules/GalleryUI/Sources/GalleryController.swift": "bbd67ae06b5e813f885d9147e52cbf5040d452f4c8156e03f95bc84a085f3bd4",
+    "submodules/GalleryUI/Sources/Items/UniversalVideoGalleryItem.swift": "23f45864594eac78cfd104cd8e0464840dbe5d87f4cef13b670530ff6c97eb0c",
+    "submodules/InstantPageUI/Sources/InstantPageGalleryController.swift": "684f750f58f80cda5794429feefc41f943b9fa03bdbbc1f68cbaff6593d399c7"
+  },
+  "previous": {
+    "submodules/GalleryUI/Sources/GalleryController.swift": "web_video_picture_in_picture/Before0.inc",
+    "submodules/GalleryUI/Sources/Items/UniversalVideoGalleryItem.swift": "web_video_picture_in_picture/Before1.inc",
+    "submodules/InstantPageUI/Sources/InstantPageGalleryController.swift": "web_video_picture_in_picture/Before2.inc"
+  },
+  "replacements": {
+    "submodules/GalleryUI/Sources/GalleryController.swift": "web_video_picture_in_picture/After0.inc",
+    "submodules/GalleryUI/Sources/Items/UniversalVideoGalleryItem.swift": "web_video_picture_in_picture/After1.inc",
+    "submodules/InstantPageUI/Sources/InstantPageGalleryController.swift": "web_video_picture_in_picture/After2.inc"
+  },
+  "copies": {},
+  "deletions": {},
+  "guards": {
+    "submodules/GalleryUI/BUILD": "24b043774f3a99f7403ca7f7352d0190c5224994b44134774ba625ffae9666fe",
+    "submodules/GalleryUI/Sources/GalleryControllerNode.swift": "316cf9af7a3b6cb97b7d1418409353677ad4dec5e5a5c8276100d8d4ce3ed8cd",
+    "submodules/GalleryUI/Sources/GalleryItemNode.swift": "ddd018dd0e63d022e0ac76d6a82bd703c52ed376f0509ce078ded8e361cbc0ef",
+    "submodules/AccountContext/Sources/UniversalVideoNode.swift": "c354dd6110225b9a689f8e8bdd5a8e709b99952c25a5794258ae171ee8164d68",
+    "submodules/AccountContext/Sources/MediaManager.swift": "116e9b3c3d46f9b6aaa80e974d419b903d42b3705ac415057b81984127677e21",
+    "submodules/AccountContext/Sources/AccountContext.swift": "ef6f0bee58b8fea23141d64b98587ec77a7e997695d0177c8a7d4583bfc8a3b1",
+    "submodules/AccountContext/Sources/OverlayMediaManager.swift": "05706ff4d30c4118a5b0b3cc7a2a01e9d7bee90d165a2dbbe76afdf16c8742fc",
+    "submodules/AccountContext/Sources/OverlayMediaItemNode.swift": "f73d064c9790e3f86cdf1baa825fde23da94d155c7337090d6e61aab452d4314",
+    "submodules/AccountContext/Sources/GalleryController.swift": "b995b93e7194864aedbecbee7e3645c41de7153d254e606fa457f839b3c59765",
+    "submodules/TelegramUniversalVideoContent/Sources/OverlayUniversalVideoNode.swift": "89d993d212eff4433d37511816905c67ae87aa9e4ad3150d17ecdadcdaf290df",
+    "submodules/TelegramUniversalVideoContent/Sources/WebEmbedVideoContent.swift": "5070501624416dd677c39a71177b73913d339c071991cbd2dec611bdb0db9478",
+    "submodules/TelegramUniversalVideoContent/Sources/SystemVideoContent.swift": "cb98190c99064b926c611ba896b53767fbb5125600a547d78f818b2c4af53eba",
+    "submodules/TelegramUniversalVideoContent/Sources/PlatformVideoContent.swift": "3e8a70f6a9a895763434b92e207ddc4d821101adf226f81695c22fa51d330679",
+    "submodules/TelegramUniversalVideoContent/Sources/WebEmbedPlayerNode.swift": "77b58645f0633af4d95721c3d1561280fbbf04c196e58b84b0f4d07a8de89583",
+    "submodules/TelegramUniversalVideoContent/Sources/UniversalVideoContentManager.swift": "cdcf2559e315e5bc5ba1a7a7519d82c9c95b71c4cfafc12c407b2934d778fadd",
+    "submodules/TelegramUI/Sources/MediaManager.swift": "fa030bfce1160d65b6f453b303a9759ff9614baa939b066045ada33840a52b48",
+    "submodules/NagramiXCore/Sources/NagramiXTabSettings.swift": "dfcc93bf238bb2441deb914f0b9008a1fecbbf0deaab8f58e95196d4e35a1545",
+    "submodules/TelegramUI/Sources/SharedMediaPlayer.swift": "93e1842abfb044eda1209ae43bfe6ca75042c967ffade1300e8d38ff9ab7fe1c",
+    "submodules/TelegramCore/Sources/TelegramEngine/Messages/Transcription.swift": "67ddc8871d7536a98ccc6ca26bab6d8f7cdef55f11c7efb7d772bb6848a62cd3",
+    "submodules/TelegramCore/Sources/Utils/NagramiXMessageArchive.swift": "5ad90f7052639f0a52c0d48b08947c17f24cfa12300a69db5a4cd608a280c3c4"
+  },
+  "guard_sources": {
+    "submodules/GalleryUI/BUILD": "web_video_picture_in_picture/Guard0.inc",
+    "submodules/GalleryUI/Sources/GalleryControllerNode.swift": "web_video_picture_in_picture/Guard1.inc",
+    "submodules/GalleryUI/Sources/GalleryItemNode.swift": "web_video_picture_in_picture/Guard2.inc",
+    "submodules/AccountContext/Sources/UniversalVideoNode.swift": "web_video_picture_in_picture/Guard3.inc",
+    "submodules/AccountContext/Sources/MediaManager.swift": "web_video_picture_in_picture/Guard4.inc",
+    "submodules/AccountContext/Sources/AccountContext.swift": "web_video_picture_in_picture/Guard5.inc",
+    "submodules/AccountContext/Sources/OverlayMediaManager.swift": "web_video_picture_in_picture/Guard6.inc",
+    "submodules/AccountContext/Sources/OverlayMediaItemNode.swift": "web_video_picture_in_picture/Guard7.inc",
+    "submodules/AccountContext/Sources/GalleryController.swift": "web_video_picture_in_picture/Guard8.inc",
+    "submodules/TelegramUniversalVideoContent/Sources/OverlayUniversalVideoNode.swift": "web_video_picture_in_picture/Guard9.inc",
+    "submodules/TelegramUniversalVideoContent/Sources/WebEmbedVideoContent.swift": "web_video_picture_in_picture/Guard10.inc",
+    "submodules/TelegramUniversalVideoContent/Sources/SystemVideoContent.swift": "web_video_picture_in_picture/Guard11.inc",
+    "submodules/TelegramUniversalVideoContent/Sources/PlatformVideoContent.swift": "web_video_picture_in_picture/Guard12.inc",
+    "submodules/TelegramUniversalVideoContent/Sources/WebEmbedPlayerNode.swift": "web_video_picture_in_picture/Guard13.inc",
+    "submodules/TelegramUniversalVideoContent/Sources/UniversalVideoContentManager.swift": "web_video_picture_in_picture/Guard14.inc",
+    "submodules/TelegramUI/Sources/MediaManager.swift": "web_video_picture_in_picture/Guard15.inc",
+    "submodules/NagramiXCore/Sources/NagramiXTabSettings.swift": "web_video_picture_in_picture/Guard16.inc",
+    "submodules/TelegramUI/Sources/SharedMediaPlayer.swift": "web_video_picture_in_picture/Guard17.inc",
+    "submodules/TelegramCore/Sources/TelegramEngine/Messages/Transcription.swift": "web_video_picture_in_picture/Guard18.inc",
+    "submodules/TelegramCore/Sources/Utils/NagramiXMessageArchive.swift": "web_video_picture_in_picture/Guard19.inc"
+  },
+  "native_inputs": {
+    "submodules/InstantPageUI/Sources/InstantPageGalleryController.swift": "741d3a964b797020b79c210395fe6816219930db"
+  },
+  "templates": {
+    "web_video_picture_in_picture/Before0.inc": "25dec6da44df60758ae6e058350a1ddd4f243a62a176a2150f3a576e80215539",
+    "web_video_picture_in_picture/After0.inc": "bbd67ae06b5e813f885d9147e52cbf5040d452f4c8156e03f95bc84a085f3bd4",
+    "web_video_picture_in_picture/Before1.inc": "b3a56c42fd6399dc28e0842eeacdc2653285b948af88825211e030cf9e51357b",
+    "web_video_picture_in_picture/After1.inc": "23f45864594eac78cfd104cd8e0464840dbe5d87f4cef13b670530ff6c97eb0c",
+    "web_video_picture_in_picture/Before2.inc": "62726bf2d6cf5809dc70ca456e7183876445f0d8a5cb7092c00292ce8512891a",
+    "web_video_picture_in_picture/After2.inc": "684f750f58f80cda5794429feefc41f943b9fa03bdbbc1f68cbaff6593d399c7",
+    "web_video_picture_in_picture/Guard0.inc": "24b043774f3a99f7403ca7f7352d0190c5224994b44134774ba625ffae9666fe",
+    "web_video_picture_in_picture/Guard1.inc": "316cf9af7a3b6cb97b7d1418409353677ad4dec5e5a5c8276100d8d4ce3ed8cd",
+    "web_video_picture_in_picture/Guard2.inc": "ddd018dd0e63d022e0ac76d6a82bd703c52ed376f0509ce078ded8e361cbc0ef",
+    "web_video_picture_in_picture/Guard3.inc": "c354dd6110225b9a689f8e8bdd5a8e709b99952c25a5794258ae171ee8164d68",
+    "web_video_picture_in_picture/Guard4.inc": "116e9b3c3d46f9b6aaa80e974d419b903d42b3705ac415057b81984127677e21",
+    "web_video_picture_in_picture/Guard5.inc": "ef6f0bee58b8fea23141d64b98587ec77a7e997695d0177c8a7d4583bfc8a3b1",
+    "web_video_picture_in_picture/Guard6.inc": "05706ff4d30c4118a5b0b3cc7a2a01e9d7bee90d165a2dbbe76afdf16c8742fc",
+    "web_video_picture_in_picture/Guard7.inc": "f73d064c9790e3f86cdf1baa825fde23da94d155c7337090d6e61aab452d4314",
+    "web_video_picture_in_picture/Guard8.inc": "b995b93e7194864aedbecbee7e3645c41de7153d254e606fa457f839b3c59765",
+    "web_video_picture_in_picture/Guard9.inc": "89d993d212eff4433d37511816905c67ae87aa9e4ad3150d17ecdadcdaf290df",
+    "web_video_picture_in_picture/Guard10.inc": "5070501624416dd677c39a71177b73913d339c071991cbd2dec611bdb0db9478",
+    "web_video_picture_in_picture/Guard11.inc": "cb98190c99064b926c611ba896b53767fbb5125600a547d78f818b2c4af53eba",
+    "web_video_picture_in_picture/Guard12.inc": "3e8a70f6a9a895763434b92e207ddc4d821101adf226f81695c22fa51d330679",
+    "web_video_picture_in_picture/Guard13.inc": "77b58645f0633af4d95721c3d1561280fbbf04c196e58b84b0f4d07a8de89583",
+    "web_video_picture_in_picture/Guard14.inc": "cdcf2559e315e5bc5ba1a7a7519d82c9c95b71c4cfafc12c407b2934d778fadd",
+    "web_video_picture_in_picture/Guard15.inc": "fa030bfce1160d65b6f453b303a9759ff9614baa939b066045ada33840a52b48",
+    "web_video_picture_in_picture/Guard16.inc": "dfcc93bf238bb2441deb914f0b9008a1fecbbf0deaab8f58e95196d4e35a1545",
+    "web_video_picture_in_picture/Guard17.inc": "93e1842abfb044eda1209ae43bfe6ca75042c967ffade1300e8d38ff9ab7fe1c",
+    "web_video_picture_in_picture/Guard18.inc": "67ddc8871d7536a98ccc6ca26bab6d8f7cdef55f11c7efb7d772bb6848a62cd3",
+    "web_video_picture_in_picture/Guard19.inc": "5ad90f7052639f0a52c0d48b08947c17f24cfa12300a69db5a4cd608a280c3c4"
+  },
+  "target_pin": "24638bc69bd083981b178dd1e7f921eebbf7fc46",
+  "overlay_base_pin": "279f89e4d4f63f17227bf877dc3d8990f22ecd58",
+  "required_previous_stage": "app_font_selection"
+}
