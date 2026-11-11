@@ -1,0 +1,232 @@
+{
+  "release": "0.9.5",
+  "preparation_parent": "8bfe698fdb75edb0bd430ef2d4940190fd6fa19f",
+  "owner": "Mr-EFES",
+  "repository_public_confirmed": true,
+  "upstream": [
+    {
+      "platform": "ios",
+      "repository": "https://github.com/TelegramMessenger/Telegram-iOS.git",
+      "pinnedCommit": "24638bc69bd083981b178dd1e7f921eebbf7fc46",
+      "pinnedVersion": "13.2",
+      "officialCommit": "24638bc69bd083981b178dd1e7f921eebbf7fc46",
+      "officialVersion": "13.2",
+      "minimumOS": "15.0",
+      "current": true
+    }
+  ],
+  "reviewed_source": {
+    "source_files": 37682,
+    "source_manifest_sha256": "32c075e1a995bc77e196db578b20b21776ee325e27d254bc5ec63b9a1eb2a396",
+    "late_source_stages": 43,
+    "final_stage_guards": "passed",
+    "runtime_source_unchanged_since_review": true,
+    "fonts": {
+      "faces": 20,
+      "glyph_checks": 2560,
+      "names_licenses_and_copyright": "passed",
+      "library": "Python standard library; independent SFNT name/cmap parser"
+    },
+    "new_sdk": "pending"
+  },
+  "members": {
+    "swift_files": 7324,
+    "string_accesses": 870,
+    "distinct_string_members": 233,
+    "actual_string_declarations": 250,
+    "custom_declarations": 948,
+    "full_custom_name_audit": true
+  },
+  "canonical": {
+    "swift_files": 234,
+    "string_accesses": 812,
+    "distinct_string_members": 231,
+    "actual_string_declarations": 250,
+    "custom_declarations": 825,
+    "full_custom_name_audit": false
+  },
+  "settings_bindings": {
+    "callback_fields": 75,
+    "whole_call_labels_checked": 75,
+    "executions": [
+      {
+        "name": "settings-bindings",
+        "mode": "debug",
+        "exit_code": 0,
+        "output": "PASS full settings constructor and independent callbacks"
+      },
+      {
+        "name": "settings-bindings",
+        "mode": "optimized",
+        "exit_code": 0,
+        "output": "PASS full settings constructor and independent callbacks"
+      }
+    ],
+    "negative_original_order": [
+      {
+        "mode": "debug",
+        "original_sdk_error_reproduced": true
+      },
+      {
+        "mode": "optimized",
+        "original_sdk_error_reproduced": true
+      }
+    ],
+    "fixture_sha256": "1ca94ecf7aea410a16ccab95538d136b27dc75cca0f8b94b341335d6906ebb24",
+    "boundary": "Actual complete stored-property declaration and all labels from the production caller. Unrelated callback bodies are neutral; the real round/background callback bodies execute with a typed storage adapter. UIKit and the whole ItemListController graph require SDK compilation."
+  },
+  "geometry": {
+    "boundaries": [
+      {
+        "name": "round-row",
+        "mode": "debug",
+        "passed": true
+      },
+      {
+        "name": "round-row",
+        "mode": "optimized",
+        "passed": true
+      },
+      {
+        "name": "pip-handoff",
+        "mode": "debug",
+        "passed": true
+      },
+      {
+        "name": "pip-handoff",
+        "mode": "optimized",
+        "passed": true
+      },
+      {
+        "name": "pip-snapshot",
+        "mode": "debug",
+        "passed": true
+      },
+      {
+        "name": "pip-snapshot",
+        "mode": "optimized",
+        "passed": true
+      },
+      {
+        "name": "download-layout",
+        "mode": "debug",
+        "passed": true
+      },
+      {
+        "name": "download-layout",
+        "mode": "optimized",
+        "passed": true
+      },
+      {
+        "name": "temporary-notice",
+        "mode": "debug",
+        "passed": true
+      },
+      {
+        "name": "temporary-notice",
+        "mode": "optimized",
+        "passed": true
+      },
+      {
+        "name": "revision-badge",
+        "mode": "debug",
+        "passed": true
+      },
+      {
+        "name": "revision-badge",
+        "mode": "optimized",
+        "passed": true
+      },
+      {
+        "name": "pip-continuity",
+        "mode": "debug",
+        "passed": true
+      },
+      {
+        "name": "pip-continuity",
+        "mode": "optimized",
+        "passed": true
+      },
+      {
+        "name": "round-video-editor",
+        "mode": "debug",
+        "passed": true
+      },
+      {
+        "name": "round-video-editor",
+        "mode": "optimized",
+        "passed": true
+      },
+      {
+        "name": "round-replacement",
+        "mode": "debug",
+        "passed": true
+      },
+      {
+        "name": "round-replacement",
+        "mode": "optimized",
+        "passed": true
+      },
+      {
+        "name": "download-contour",
+        "mode": "debug",
+        "passed": true
+      },
+      {
+        "name": "download-contour",
+        "mode": "optimized",
+        "passed": true
+      },
+      {
+        "name": "bubble-selection-edge",
+        "mode": "debug",
+        "passed": true
+      },
+      {
+        "name": "bubble-selection-edge",
+        "mode": "optimized",
+        "passed": true
+      }
+    ],
+    "apple_import_negatives": [],
+    "boundary": "Actual test boundary imports and geometry operators; no UIKit or whole-app SDK build.",
+    "apple_import_negative_boundary": "Runs only with Apple Swift; Linux Foundation differs."
+  },
+  "release_tests": {
+    "owner_publication": 28,
+    "old_and_new_ipa_localization": 32,
+    "dependency_contract": 8,
+    "native_input_origin_negatives": 2,
+    "font_ipa_contract": 6,
+    "cold_mode_combinations": 4,
+    "optional_gate_validation": "passed",
+    "metadata": "passed",
+    "diff": "passed"
+  },
+  "prior_source_receipts": {
+    "swift_parse": 539,
+    "migration_refusals": 50,
+    "historical_executions": 14,
+    "inverse_paths": 758,
+    "inverse_negatives": 241,
+    "postbox_imports": "passed",
+    "strict_locales": 71,
+    "keys_per_catalog": 647,
+    "lookups_per_mode": 46106,
+    "reused_because_runtime_bytes_unchanged": true
+  },
+  "dispatch": {
+    "ref": "main",
+    "artifact_run_id": "",
+    "clean_build": true,
+    "extended_patch_tests": false,
+    "publish_release": true,
+    "prerelease": false
+  },
+  "apple_only_gates": "pending in CI before native build; not disabled",
+  "sdk": "pending",
+  "package": "pending",
+  "publication": "pending",
+  "device": "pending",
+  "previous_release_unchanged": "v0.9.4/build195"
+}
