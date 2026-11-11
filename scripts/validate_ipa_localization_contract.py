@@ -116,7 +116,7 @@ class CatalogTests(unittest.TestCase):
         with self.archive(self.next_catalogs) as archive:
             self.assertEqual(validate_settings_localizations(archive, PREFIX, '0.9.2'), 71)
 
-    def test_later_version_keeps_635_contract(self):
+    def test_pre_fonts_version_keeps_635_contract(self):
         latest = {code: dict(values) for code, values in self.next_catalogs.items()}
         label_plan = json.loads((ROOT / 'ios/premium_label_spelling_patches.json').read_text())
         resource = 'submodules/NagramiXCore/Resources/ru.lproj/Localizable.strings'
@@ -124,7 +124,7 @@ class CatalogTests(unittest.TestCase):
         self.assertEqual(expected_nagramix_catalogs('0.9.3'), latest)
         with self.archive(latest) as archive:
             self.assertEqual(validate_settings_localizations(archive, PREFIX, '0.9.3'), 71)
-            self.assertEqual(validate_settings_localizations(archive, PREFIX, '0.10.0'), 71)
+            self.assertEqual(validate_settings_localizations(archive, PREFIX, '0.9.4'), 71)
         with self.archive(self.next_catalogs) as archive, self.assertRaises(SystemExit):
             validate_settings_localizations(archive, PREFIX, '0.9.3')
         with self.archive(latest) as archive, self.assertRaises(SystemExit):

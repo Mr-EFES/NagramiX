@@ -196,6 +196,23 @@ def expected_nagramix_catalogs(version: str | None = None) -> dict[str, dict[str
                     'Изменены другие переводы при переименовании Premium: ' + code)
             expected = current
         catalogs[code] = expected
+    if version_parts is not None and version_parts >= (0, 9, 5):
+        fonts = json.loads((ROOT / 'ios/app_font_selection_patches.json').read_text())
+        require(fonts['required_previous_stage'] == 'transcription_account_defaults', 'Неверная база шрифтов')
+        name = 'app_font_selection/localization.json'
+        data = (ROOT / 'ios' / name).read_bytes()
+        require(hashlib.sha256(data).hexdigest() == fonts['templates'][name], 'Изменён реестр переводов шрифтов')
+        translations = json.loads(data)
+        require(set(translations['translations']) == codes and len(translations['keys']) == 12, 'Неполные переводы шрифтов')
+        for code in codes:
+            path = 'submodules/NagramiXCore/Resources/' + code + '.lproj/Localizable.strings'
+            previous = checked_snapshot(fonts['previous'][path], fonts['inputs'][path], fonts, 'шрифтов')
+            require(previous == catalogs[code], 'Изменён предыдущий каталог перед шрифтами: ' + code)
+            values = translations['translations'][code]
+            require(len(values) == 12 and not set(translations['keys']) & previous.keys(), 'Неверные ключи шрифтов: ' + code)
+            current = checked_snapshot(fonts['replacements'][path], fonts['outputs'][path], fonts, 'шрифтов')
+            require(current == {**previous, **dict(zip(translations['keys'], values))}, 'Изменены другие переводы шрифтов: ' + code)
+            catalogs[code] = current
     return catalogs
 
 
@@ -382,6 +399,10 @@ def main() -> None:
         require(magic == 0xfeedfacf and cpu == 0x100000c, "Основной executable не является ARM64 Mach-O")
         sound_count = validate_notification_sound_resources(archive, prefix)
         icon_count = validate_app_icons(archive, prefix, info)
+        if tuple(int(part) for part in args.version.split('.')) >= (0, 9, 5):
+            from validate_ipa_fonts import validate_font_resources
+            validate_font_resources(archive, prefix)
+
 
         russian = plistlib.loads(archive.read(prefix + "ru.lproj/Localizable.strings"))
         required_keys = set(re.findall(r'^"([^"\n]+)"\s*=', (ROOT / "ios/Resources/ru.lproj/Localizable.strings").read_text(), re.MULTILINE))

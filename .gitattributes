@@ -43,3 +43,7 @@ ios/**/Guard*.inc linguist-generated=true
 ios/voice_transcription/Inputs/** linguist-generated=true
 # Точные копии upstream/reference сохраняются побайтно, включая пробелы.
 ios/**/*.inc -whitespace
+
+# Preserve the original vendor license bytes, including their whitespace.
+ios/app_font_selection/PTAstraSans-LICENSE.txt -whitespace
+ios/app_font_selection/PTAstraSerif-LICENSE.txt -whitespace

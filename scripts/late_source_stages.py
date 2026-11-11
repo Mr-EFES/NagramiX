@@ -54,6 +54,7 @@ LATE_SOURCE_STAGES = (
     'composer_file_attachments',
     'archived_round_native_controls',
     'transcription_account_defaults',
+    'app_font_selection',
 )
 TEMPORARY_INTERACTION_STAGE = 'temporary_message_interaction'
 TEMPORARY_REPLY_HELPER = 'submodules/TelegramUI/Sources/Chat/NagramiXTemporaryReplySend.swift'
@@ -66,11 +67,34 @@ def copy_outputs(plan):
 
 
 def check_copy_contract(stage, plan):
-    """Only stage nine may introduce the one source covered by the native glob."""
+    """Pin each explicitly allowed helper/resource set to its native BUILD contract."""
     assert not plan['deletions'], stage
     index = LATE_SOURCE_STAGES.index(stage)
     if index >= 7:
         assert plan.get('required_previous_stage') == LATE_SOURCE_STAGES[index - 1], stage
+    if stage == 'app_font_selection':
+        sources = {
+            'submodules/NagramiXMediaSettings/Sources/NagramiXFontSettings.swift',
+            'submodules/Display/Source/NagramiXFontManager.swift',
+            'submodules/SettingsUI/Sources/NagramiXFontsController.swift',
+        }
+        faces = {prefix + '-' + style + '.ttf'
+                 for prefix, styles in [('PTAstraSans', ['Regular', 'Italic', 'Bold', 'BoldItalic']),
+                                        ('PTAstraSerif', ['Regular', 'Italic', 'Bold', 'BoldItalic']),
+                                        ('Roboto', ['Regular', 'Italic', 'Medium', 'MediumItalic', 'Bold', 'BoldItalic', 'Light', 'LightItalic', 'Thin', 'ThinItalic', 'Black', 'BlackItalic'])]
+                 for style in styles}
+        faces.update(['PTAstraSans-LICENSE.txt', 'PTAstraSerif-LICENSE.txt', 'Roboto-LICENSE.txt', 'Roboto-NOTICE.txt'])
+        expected = sources | {'submodules/Display/Resources/NagramiXFonts/' + name for name in faces}
+        assert set(plan['copies']) == expected, 'Unexpected font source/resource copy'
+        assert plan['guards'].get('submodules/NagramiXMediaSettings/BUILD') == '083253dd17992220fe47c883d1c0686fea165a717703eec0b9f0860ab21ed65f'
+        assert plan['guards'].get('submodules/SettingsUI/BUILD') == 'b229ff1580a1e8e13770d400a1c0c9e1cf56ef05b831659c3422a6141b50f489'
+        assert 'submodules/Display/BUILD' in plan['outputs']
+        build = (OVERLAY / plan['replacements']['submodules/Display/BUILD']).read_text()
+        assert 'data = [":NagramiXFontsResources"]' in build and 'Resources/NagramiXFonts/*' in build
+        for item in plan['copies'].values():
+            assert set(item) == {'source', 'sha256'}
+            assert plan['templates'].get(item['source']) == item['sha256']
+        return
     if stage != TEMPORARY_INTERACTION_STAGE:
         assert not plan['copies'], stage
         return

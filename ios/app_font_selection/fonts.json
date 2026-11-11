@@ -1,0 +1,273 @@
+{
+  "fonts": [
+    {
+      "file": "PTAstraSans-Bold.ttf",
+      "sha256": "9f564f91cd4d42c0f6c81bec75027f4c7cc8a6ef9b589d03e6abeaae04802212",
+      "postscript": "PTAstraSans-Bold",
+      "family": "PT Astra Sans",
+      "license_url": "http://scripts.sil.org/OFL",
+      "copyright": "Copyright © 2016 JSC RPA RusBITech. All rights reserved.",
+      "bytes": 114908
+    },
+    {
+      "file": "PTAstraSans-BoldItalic.ttf",
+      "sha256": "6b743709ae7b4d536e4342f4d5abed1081a47687aab5424b2814804825238104",
+      "postscript": "PTAstraSans-BoldItalic",
+      "family": "PT Astra Sans",
+      "license_url": "http://scripts.sil.org/OFL",
+      "copyright": "Copyright © 2016 JSC RPA RusBITech. All rights reserved.",
+      "bytes": 120316
+    },
+    {
+      "file": "PTAstraSans-Italic.ttf",
+      "sha256": "33cdbc53605cb6381ccca73b93adbe25dad28dc555e88189c48a2370461f5475",
+      "postscript": "PTAstraSans-Italic",
+      "family": "PT Astra Sans",
+      "license_url": "http://scripts.sil.org/OFL",
+      "copyright": "Copyright © 2016 JSC RPA RusBITech. All rights reserved.",
+      "bytes": 117592
+    },
+    {
+      "file": "PTAstraSans-Regular.ttf",
+      "sha256": "f37f34095ae62732ec9dfa0ee8ec5f78fdc7b0d25ccde94466ef843ff3b7446a",
+      "postscript": "PTAstraSans-Regular",
+      "family": "PT Astra Sans",
+      "license_url": "http://scripts.sil.org/OFL",
+      "copyright": "Copyright © 2016 JSC RPA RusBITech. All rights reserved.",
+      "bytes": 114764
+    },
+    {
+      "file": "PTAstraSerif-Bold.ttf",
+      "sha256": "be947d21b85d8a027abedb3d1fc90c3ca025214bdbc55cc4fedd480627dce64e",
+      "postscript": "PTAstraSerif-Bold",
+      "family": "PT Astra Serif",
+      "license_url": "http://scripts.sil.org/OFL",
+      "copyright": "Copyright © 2016 JSC RPA RusBITech. All rights reserved.",
+      "bytes": 131864
+    },
+    {
+      "file": "PTAstraSerif-BoldItalic.ttf",
+      "sha256": "0645df162402f685b3f518bd8d9c1ff54857bfd059606a4c48057ec409726941",
+      "postscript": "PTAstraSerif-BoldItalic",
+      "family": "PT Astra Serif",
+      "license_url": "http://scripts.sil.org/OFL",
+      "copyright": "Copyright © 2016 JSC RPA RusBITech. All rights reserved.",
+      "bytes": 141976
+    },
+    {
+      "file": "PTAstraSerif-Italic.ttf",
+      "sha256": "6eeff477deaefed910381ea0a36f60b5a8c014bbc2d984480430547370bc71dd",
+      "postscript": "PTAstraSerif-Italic",
+      "family": "PT Astra Serif",
+      "license_url": "http://scripts.sil.org/OFL",
+      "copyright": "Copyright © 2016 JSC RPA RusBITech. All rights reserved.",
+      "bytes": 128424
+    },
+    {
+      "file": "PTAstraSerif-Regular.ttf",
+      "sha256": "de7889ec8571e9cf61d7468d9eef1518818ceec12febb784c8b74445e828ee49",
+      "postscript": "PTAstraSerif-Regular",
+      "family": "PT Astra Serif",
+      "license_url": "http://scripts.sil.org/OFL",
+      "copyright": "Copyright © 2016 JSC RPA RusBITech. All rights reserved.",
+      "bytes": 129656
+    },
+    {
+      "file": "Roboto-Black.ttf",
+      "sha256": "6ca9c892798579f5bf87a497bd9b9e087ecae16c75ee2209ae7bc86e27e8ff64",
+      "postscript": "Roboto-Black",
+      "family": "Roboto",
+      "license_url": "http://www.apache.org/licenses/LICENSE-2.0",
+      "copyright": "Copyright 2015 Google Inc. All Rights Reserved.",
+      "bytes": 508220
+    },
+    {
+      "file": "Roboto-BlackItalic.ttf",
+      "sha256": "5ac072b1f16adecb9ab44891f756bd689b5760a02c0c1b14f9b7afe2f68ebbe9",
+      "postscript": "Roboto-BlackItalic",
+      "family": "Roboto",
+      "license_url": "http://www.apache.org/licenses/LICENSE-2.0",
+      "copyright": "Copyright 2015 Google Inc. All Rights Reserved.",
+      "bytes": 525768
+    },
+    {
+      "file": "Roboto-Bold.ttf",
+      "sha256": "61f89f8db49261c2f6106e8dccc35df7b2f7ed909020db40a3fc905e95f99334",
+      "postscript": "Roboto-Bold",
+      "family": "Roboto",
+      "license_url": "http://www.apache.org/licenses/LICENSE-2.0",
+      "copyright": "Copyright 2015 Google Inc. All Rights Reserved.",
+      "bytes": 514260
+    },
+    {
+      "file": "Roboto-BoldItalic.ttf",
+      "sha256": "40083ed54338397cf49d2c49f59eddcd963a30fdb301813d4bd3abbb37a13d12",
+      "postscript": "Roboto-BoldItalic",
+      "family": "Roboto",
+      "license_url": "http://www.apache.org/licenses/LICENSE-2.0",
+      "copyright": "Copyright 2015 Google Inc. All Rights Reserved.",
+      "bytes": 532860
+    },
+    {
+      "file": "Roboto-Italic.ttf",
+      "sha256": "fa0b17bb4aaac4a1b2ee149dd4ca3b55e97d3077aa6ba9bb02541b316e7c46ce",
+      "postscript": "Roboto-Italic",
+      "family": "Roboto",
+      "license_url": "http://www.apache.org/licenses/LICENSE-2.0",
+      "copyright": "Copyright 2015 Google Inc. All Rights Reserved.",
+      "bytes": 533388
+    },
+    {
+      "file": "Roboto-Light.ttf",
+      "sha256": "028f843b1990ba46e2a1c4ef1b82729c4da9a946b0d9d8dbf59e623d1095e454",
+      "postscript": "Roboto-Light",
+      "family": "Roboto",
+      "license_url": "http://www.apache.org/licenses/LICENSE-2.0",
+      "copyright": "Copyright 2015 Google Inc. All Rights Reserved.",
+      "bytes": 518580
+    },
+    {
+      "file": "Roboto-LightItalic.ttf",
+      "sha256": "9806634e00cd65bfa5665cd6c443e0be53e485a1052ce06f0476b4b13e4e62b9",
+      "postscript": "Roboto-LightItalic",
+      "family": "Roboto",
+      "license_url": "http://www.apache.org/licenses/LICENSE-2.0",
+      "copyright": "Copyright 2015 Google Inc. All Rights Reserved.",
+      "bytes": 539560
+    },
+    {
+      "file": "Roboto-Medium.ttf",
+      "sha256": "2879a5ecb7fbfa13a7fc3e2cdd7fecbf73aa45e91b541dfdfa2c442eed0aac21",
+      "postscript": "Roboto-Medium",
+      "family": "Roboto",
+      "license_url": "http://www.apache.org/licenses/LICENSE-2.0",
+      "copyright": "Copyright 2015 Google Inc. All Rights Reserved.",
+      "bytes": 511592
+    },
+    {
+      "file": "Roboto-MediumItalic.ttf",
+      "sha256": "58465c79c1b3482e201ff6ef9250a5dd1a71b01ee1acab318800ccf79512ad37",
+      "postscript": "Roboto-MediumItalic",
+      "family": "Roboto",
+      "license_url": "http://www.apache.org/licenses/LICENSE-2.0",
+      "copyright": "Copyright 2015 Google Inc. All Rights Reserved.",
+      "bytes": 533488
+    },
+    {
+      "file": "Roboto-Regular.ttf",
+      "sha256": "56a45233d29f11b4dfb86d248e921939d115778f87325e7ae8cc108383d6664d",
+      "postscript": "Roboto-Regular",
+      "family": "Roboto",
+      "license_url": "http://www.apache.org/licenses/LICENSE-2.0",
+      "copyright": "Copyright 2015 Google Inc. All Rights Reserved.",
+      "bytes": 515100
+    },
+    {
+      "file": "Roboto-Thin.ttf",
+      "sha256": "4c0f29bd5bbc1097486a150894f33c547e4932db28bc09460450b1866f8ed2f3",
+      "postscript": "Roboto-Thin",
+      "family": "Roboto",
+      "license_url": "http://www.apache.org/licenses/LICENSE-2.0",
+      "copyright": "Copyright 2015 Google Inc. All Rights Reserved.",
+      "bytes": 522796
+    },
+    {
+      "file": "Roboto-ThinItalic.ttf",
+      "sha256": "c2a8794ba3c606b86a3619c21dbe7693e707edf7ae1cd13684375ec556373dd9",
+      "postscript": "Roboto-ThinItalic",
+      "family": "Roboto",
+      "license_url": "http://www.apache.org/licenses/LICENSE-2.0",
+      "copyright": "Copyright 2015 Google Inc. All Rights Reserved.",
+      "bytes": 538660
+    }
+  ],
+  "licenses": {
+    "Roboto-NOTICE.txt": "ad584a7ecf90d614c873028d1f76e5e5d5bdf8c80efe61148e6b4959a74b2921",
+    "Roboto-LICENSE.txt": "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4",
+    "PTAstraSerif-LICENSE.txt": "03a600e36d134b98a6af56012783289f1fea56f65e022387790f526a45445f4d",
+    "PTAstraSans-LICENSE.txt": "7c4c2da10208710b929ddce6a681459ae592db5feaba377b7e898155ff519503"
+  },
+  "sources": [
+    {
+      "url": "https://raw.githubusercontent.com/googlefonts/roboto-2/38062f4b4a0be4346d07a928408da21602545e9e/LICENSE",
+      "file": "Roboto/LICENSE",
+      "sha256": "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+    },
+    {
+      "url": "https://raw.githubusercontent.com/googlefonts/roboto-2/38062f4b4a0be4346d07a928408da21602545e9e/src/hinted/Roboto-Regular.ttf",
+      "file": "Roboto/Roboto-Regular.ttf",
+      "sha256": "56a45233d29f11b4dfb86d248e921939d115778f87325e7ae8cc108383d6664d"
+    },
+    {
+      "url": "https://raw.githubusercontent.com/googlefonts/roboto-2/38062f4b4a0be4346d07a928408da21602545e9e/src/hinted/Roboto-Italic.ttf",
+      "file": "Roboto/Roboto-Italic.ttf",
+      "sha256": "fa0b17bb4aaac4a1b2ee149dd4ca3b55e97d3077aa6ba9bb02541b316e7c46ce"
+    },
+    {
+      "url": "https://raw.githubusercontent.com/googlefonts/roboto-2/38062f4b4a0be4346d07a928408da21602545e9e/src/hinted/Roboto-Medium.ttf",
+      "file": "Roboto/Roboto-Medium.ttf",
+      "sha256": "2879a5ecb7fbfa13a7fc3e2cdd7fecbf73aa45e91b541dfdfa2c442eed0aac21"
+    },
+    {
+      "url": "https://raw.githubusercontent.com/googlefonts/roboto-2/38062f4b4a0be4346d07a928408da21602545e9e/src/hinted/Roboto-MediumItalic.ttf",
+      "file": "Roboto/Roboto-MediumItalic.ttf",
+      "sha256": "58465c79c1b3482e201ff6ef9250a5dd1a71b01ee1acab318800ccf79512ad37"
+    },
+    {
+      "url": "https://raw.githubusercontent.com/googlefonts/roboto-2/38062f4b4a0be4346d07a928408da21602545e9e/src/hinted/Roboto-Bold.ttf",
+      "file": "Roboto/Roboto-Bold.ttf",
+      "sha256": "61f89f8db49261c2f6106e8dccc35df7b2f7ed909020db40a3fc905e95f99334"
+    },
+    {
+      "url": "https://raw.githubusercontent.com/googlefonts/roboto-2/38062f4b4a0be4346d07a928408da21602545e9e/src/hinted/Roboto-BoldItalic.ttf",
+      "file": "Roboto/Roboto-BoldItalic.ttf",
+      "sha256": "40083ed54338397cf49d2c49f59eddcd963a30fdb301813d4bd3abbb37a13d12"
+    },
+    {
+      "url": "https://raw.githubusercontent.com/googlefonts/roboto-2/38062f4b4a0be4346d07a928408da21602545e9e/src/hinted/Roboto-Light.ttf",
+      "file": "Roboto/Roboto-Light.ttf",
+      "sha256": "028f843b1990ba46e2a1c4ef1b82729c4da9a946b0d9d8dbf59e623d1095e454"
+    },
+    {
+      "url": "https://raw.githubusercontent.com/googlefonts/roboto-2/38062f4b4a0be4346d07a928408da21602545e9e/src/hinted/Roboto-LightItalic.ttf",
+      "file": "Roboto/Roboto-LightItalic.ttf",
+      "sha256": "9806634e00cd65bfa5665cd6c443e0be53e485a1052ce06f0476b4b13e4e62b9"
+    },
+    {
+      "url": "https://raw.githubusercontent.com/googlefonts/roboto-2/38062f4b4a0be4346d07a928408da21602545e9e/src/hinted/Roboto-Thin.ttf",
+      "file": "Roboto/Roboto-Thin.ttf",
+      "sha256": "4c0f29bd5bbc1097486a150894f33c547e4932db28bc09460450b1866f8ed2f3"
+    },
+    {
+      "url": "https://raw.githubusercontent.com/googlefonts/roboto-2/38062f4b4a0be4346d07a928408da21602545e9e/src/hinted/Roboto-ThinItalic.ttf",
+      "file": "Roboto/Roboto-ThinItalic.ttf",
+      "sha256": "c2a8794ba3c606b86a3619c21dbe7693e707edf7ae1cd13684375ec556373dd9"
+    },
+    {
+      "url": "https://raw.githubusercontent.com/googlefonts/roboto-2/38062f4b4a0be4346d07a928408da21602545e9e/src/hinted/Roboto-Black.ttf",
+      "file": "Roboto/Roboto-Black.ttf",
+      "sha256": "6ca9c892798579f5bf87a497bd9b9e087ecae16c75ee2209ae7bc86e27e8ff64"
+    },
+    {
+      "url": "https://raw.githubusercontent.com/googlefonts/roboto-2/38062f4b4a0be4346d07a928408da21602545e9e/src/hinted/Roboto-BlackItalic.ttf",
+      "file": "Roboto/Roboto-BlackItalic.ttf",
+      "sha256": "5ac072b1f16adecb9ab44891f756bd689b5760a02c0c1b14f9b7afe2f68ebbe9"
+    },
+    {
+      "url": "https://dl.fedoraproject.org/pub/fedora/linux/releases/43/Everything/x86_64/os/Packages/p/pt-astra-sans-fonts-1.002-9.fc43.noarch.rpm",
+      "package_sha256": "e8c70a9b97c91a967373edab366988a29626c1f176491816a50adb5f728d7c32",
+      "upstream": "https://astralinux.ru/en/information/#section-fonts-astra",
+      "distribution": "Fedora 43",
+      "family": "PT Astra Sans",
+      "license": "OFL-1.1"
+    },
+    {
+      "url": "https://dl.fedoraproject.org/pub/fedora/linux/releases/43/Everything/x86_64/os/Packages/p/pt-astra-serif-fonts-1.003-9.fc43.noarch.rpm",
+      "package_sha256": "2ffb88633622217146728c49d733f16e6c9f4f72f144d2905915bafdff20e726",
+      "upstream": "https://astralinux.ru/en/information/#section-fonts-astra",
+      "distribution": "Fedora 43",
+      "family": "PT Astra Serif",
+      "license": "OFL-1.1"
+    }
+  ]
+}

@@ -92,8 +92,43 @@ def source_contract(source):
 def final_upstream_catalog_contract(source):
     """Verify the exact late 13.2 catalogs, without unwrapping historical stages."""
     from validate_upstream_13_2_release import checked_plan, checked_sdk_plans
+    from late_source_stages import LATE_SOURCE_STAGES, historical_source, verified_prefix
+    fonts = checked_plan('app_font_selection') if 'app_font_selection' in LATE_SOURCE_STAGES else None
+    font_helper = source / 'submodules/NagramiXMediaSettings/Sources/NagramiXFontSettings.swift'
+    if fonts is not None and font_helper.is_file():
+        if verified_prefix(source) < LATE_SOURCE_STAGES.index('app_font_selection') + 1:
+            raise ValueError('Шрифты существуют без полного guarded stage')
+        name = 'app_font_selection/localization.json'
+        data = (OVERLAY / name).read_bytes()
+        if hashlib.sha256(data).hexdigest() != fonts['templates'][name]:
+            raise ValueError('Изменён реестр переводов шрифтов')
+        localization = json.loads(data)
+        codes = {item['code'] for item in json.loads((OVERLAY/'app_language_localization/languages.json').read_text())['languages']}
+        if set(localization['translations']) != codes or len(localization['keys']) != 12:
+            raise ValueError('Неполные переводы шрифтов')
+        with historical_source(source, before_stage='app_font_selection') as prior:
+            previous_languages, previous_count = final_upstream_catalog_contract(prior)
+            for code in codes:
+                path = 'submodules/NagramiXCore/Resources/' + code + '.lproj/Localizable.strings'
+                before = strings(prior/path)
+                values = localization['translations'][code]
+                if len(values) != 12 or set(localization['keys']) & before.keys():
+                    raise ValueError('Некорректные новые ключи шрифтов: ' + code)
+                expected = {**before, **dict(zip(localization['keys'], values))}
+                if strings(source/path) != expected or hashlib.sha256((source/path).read_bytes()).hexdigest() != fonts['outputs'][path]:
+                    raise ValueError('Изменены прежние переводы при добавлении шрифтов: ' + code)
+        languages, count = catalog_contract(source, codes)
+        if languages != previous_languages or count != previous_count + 12:
+            raise ValueError('Неверный итоговый набор локализации шрифтов')
+        return languages, count
     plan=checked_plan('upstream_13_2_release_post')
     _,final_outputs=checked_sdk_plans(plan)
+    if fonts is not None:
+        # The exact inverse checkpoint still has the previous 635-key catalogs.
+        # Retain every historical assertion below against its pinned preimage.
+        for path, expected in fonts['inputs'].items():
+            if path.endswith('.lproj/Localizable.strings'):
+                final_outputs[path] = expected
     wide=checked_plan('wide_tab_bar_setting')
     wide_key='NagramiX.Settings.Tabs.WideBar'
     round_video=checked_plan('round_video_editor')

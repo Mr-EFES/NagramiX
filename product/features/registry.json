@@ -765,6 +765,16 @@
         "compile": "compile_passed",
         "device": "device_pending"
       }
+    },
+    {
+      "id": "app_fonts",
+      "title": "Шрифты приложения: системные, iOS, PT Astra и Roboto",
+      "specification": "specified",
+      "ios": {
+        "implementation": "implemented",
+        "compile": "compile_pending",
+        "device": "device_pending"
+      }
     }
   ]
 }
