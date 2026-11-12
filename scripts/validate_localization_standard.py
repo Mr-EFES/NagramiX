@@ -93,6 +93,31 @@ def final_upstream_catalog_contract(source):
     """Verify the exact late 13.2 catalogs, without unwrapping historical stages."""
     from validate_upstream_13_2_release import checked_plan, checked_sdk_plans
     from late_source_stages import LATE_SOURCE_STAGES, historical_source, verified_prefix
+    if verified_prefix(source) >= LATE_SOURCE_STAGES.index('input_effects') + 1:
+        effects = checked_plan('input_effects')
+        name = 'input_effects/localization.json'
+        data = (OVERLAY/name).read_bytes()
+        if hashlib.sha256(data).hexdigest() != effects['templates'][name]:
+            raise ValueError('Изменены переводы эффектов ввода')
+        loc = json.loads(data)
+        codes = {x['code'] for x in json.loads((OVERLAY/'app_language_localization/languages.json').read_text())['languages']}
+        if set(loc['translations']) != codes or len(loc['keys']) != 14:
+            raise ValueError('Неполные переводы эффектов ввода')
+        with historical_source(source, before_stage='input_effects') as prior:
+            previous_languages, previous_count = final_upstream_catalog_contract(prior)
+            for code in codes:
+                path = 'submodules/NagramiXCore/Resources/' + code + '.lproj/Localizable.strings'
+                before = strings(prior/path)
+                values = loc['translations'][code]
+                if len(values) != 14 or set(loc['keys']) & before.keys():
+                    raise ValueError('Некорректные ключи эффектов ввода: ' + code)
+                expected = {**before, **dict(zip(loc['keys'], values))}
+                if strings(source/path) != expected or hashlib.sha256((source/path).read_bytes()).hexdigest() != effects['outputs'][path]:
+                    raise ValueError('Изменены прежние переводы: ' + code)
+        languages, count = catalog_contract(source, codes)
+        if languages != previous_languages or count != previous_count + 14:
+            raise ValueError('Неверное число ключей эффектов ввода')
+        return languages, count
     if verified_prefix(source) >= LATE_SOURCE_STAGES.index('font_preview_apply') + 1:
         preview = checked_plan('font_preview_apply')
         name = 'font_preview_apply/localization.json'

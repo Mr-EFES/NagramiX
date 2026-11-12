@@ -68,6 +68,7 @@ LATE_SOURCE_STAGES = (
     'font_preview_apply',
     'edit_result_consistency',
     'youtube_playback_policy',
+    'input_effects',
 )
 TEMPORARY_INTERACTION_STAGE = 'temporary_message_interaction'
 TEMPORARY_REPLY_HELPER = 'submodules/TelegramUI/Sources/Chat/NagramiXTemporaryReplySend.swift'
@@ -107,6 +108,14 @@ def check_copy_contract(stage, plan):
         for item in plan['copies'].values():
             assert set(item) == {'source', 'sha256'}
             assert plan['templates'].get(item['source']) == item['sha256']
+        return
+    if stage == 'input_effects':
+        expected = {'submodules/NagramiXCore/Sources/NagramiXTypingSettings.swift', 'submodules/NagramiXCore/Sources/NagramiXTypingAnimation.swift'}
+        assert set(plan['copies']) == expected, 'Unexpected typing helper copy'
+        build = (OVERLAY / plan['guard_sources']['submodules/NagramiXCore/BUILD']).read_text()
+        assert '"Sources/**/*.swift"' in build and 'name = "NagramiXCore"' in build
+        for item in plan['copies'].values():
+            assert set(item) == {'source', 'sha256'} and plan['templates'].get(item['source']) == item['sha256']
         return
     if stage != TEMPORARY_INTERACTION_STAGE:
         assert not plan['copies'], stage

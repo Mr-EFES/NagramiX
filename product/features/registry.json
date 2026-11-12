@@ -775,6 +775,16 @@
         "compile": "compile_pending",
         "device": "device_pending"
       }
+    },
+    {
+      "id": "typing_animation",
+      "title": "Эффекты ввода: анимация при наборе, шесть эффектов и ручные параметры",
+      "specification": "specified",
+      "ios": {
+        "implementation": "implemented",
+        "compile": "compile_pending",
+        "device": "device_pending"
+      }
     }
   ]
 }

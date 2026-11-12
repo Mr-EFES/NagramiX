@@ -232,6 +232,23 @@ def expected_nagramix_catalogs(version: str | None = None) -> dict[str, dict[str
             require(current == {**previous, **dict(zip(translations['keys'], values)), **translations['replacements'].get(code, {})},
                     'Изменены другие переводы предпросмотра: ' + code)
             catalogs[code] = current
+    if version_parts is not None and version_parts >= (0, 9, 6):
+        effects = json.loads((ROOT/'ios/input_effects_patches.json').read_text())
+        require(effects['required_previous_stage'] == 'youtube_playback_policy', 'Неверная база эффектов ввода')
+        name = 'input_effects/localization.json'
+        data = (ROOT/'ios'/name).read_bytes()
+        require(hashlib.sha256(data).hexdigest() == effects['templates'][name], 'Изменён реестр эффектов ввода')
+        loc = json.loads(data)
+        require(set(loc['translations']) == codes and len(loc['keys']) == 14, 'Неполные переводы эффектов ввода')
+        for code in codes:
+            path = 'submodules/NagramiXCore/Resources/' + code + '.lproj/Localizable.strings'
+            previous = checked_snapshot(effects['previous'][path], effects['inputs'][path], effects, 'эффектов ввода')
+            require(previous == catalogs[code] and len(previous) == 650, 'Изменён каталог перед эффектами ввода: ' + code)
+            values = loc['translations'][code]
+            require(len(values) == 14 and not set(loc['keys']) & previous.keys(), 'Неверные ключи эффектов ввода')
+            current = checked_snapshot(effects['replacements'][path], effects['outputs'][path], effects, 'эффектов ввода')
+            require(current == {**previous, **dict(zip(loc['keys'], values))}, 'Изменены другие переводы эффектов ввода: ' + code)
+            catalogs[code] = current
     return catalogs
 
 

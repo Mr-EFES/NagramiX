@@ -281,6 +281,19 @@ class CatalogTests(unittest.TestCase):
         with mock.patch.object(Path, 'read_bytes', new=corrupted), self.assertRaisesRegex(SystemExit, 'каталог скрытия Premium изменён'):
             expected_nagramix_catalogs('0.9.2')
 
+    def test_effects_catalog_has_all_keys(self):
+        catalogs = expected_nagramix_catalogs('0.9.6')
+        self.assertEqual(len(catalogs), 71)
+        self.assertTrue(all(len(values) == 664 for values in catalogs.values()))
+        self.assertEqual(catalogs['ru']['NagramiX.InputEffects.Enabled'], 'Анимация при наборе')
+
+    def test_effects_keys_are_required(self):
+        def change(code, values):
+            if code == 'ja': del values['NagramiX.InputEffects.Preset.PanelWave']
+            return True
+        with self.archive(expected_nagramix_catalogs('0.9.6'), change) as archive, self.assertRaises(SystemExit):
+            validate_settings_localizations(archive, PREFIX, '0.9.6')
+
     def test_preview_096_exact_catalogs(self):
         with self.archive(expected_nagramix_catalogs('0.9.6')) as archive:
             self.assertEqual(validate_settings_localizations(archive, PREFIX, '0.9.6'), 71)
