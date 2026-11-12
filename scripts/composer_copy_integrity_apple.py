@@ -18,12 +18,17 @@ def foundation_check(swiftc,folder):
     geometry=conditional('#if canImport(CoreGraphics)')
     initializer=conditional('#if !canImport(')
     code='import Foundation\n'+geometry+'\n'+initializer+'''
+func nagramiXFoundationVerticalBounds(_ rect:CGRect)->CGFloat {
+ let top=rect.minY
+ let bottom=rect.maxY
+ return top+bottom
+}
 @main struct FoundationBoundaryProbe {
  static func main() {
   let text=NSMutableAttributedString()
   text.append(NSAttributedString(string:"baseline"))
   let rect=CGRect(x:1,y:2,width:4,height:3)
-  precondition(rect.minY+rect.maxY+CGFloat(text.length)==15)
+  precondition(nagramiXFoundationVerticalBounds(rect)+CGFloat(text.length)==15)
   print("Foundation fixture boundary: passed")
  }
 }
@@ -32,7 +37,9 @@ def foundation_check(swiftc,folder):
     negatives=[]
     if sys.platform=='darwin':
         for name,mutated,diagnostic in [
-            ('missing-coregraphics',code.replace(geometry,''),"has no member 'minY'"),
+            # Match the real caret reader from202, without a CGRect constructor
+            # that could fail first when the CoreGraphics overlay is absent.
+            ('missing-coregraphics',code.split('@main struct FoundationBoundaryProbe')[0].replace(geometry,''),"has no member 'minY'"),
             ('wrong-uikit-platform-guard',code.replace('canImport(ObjectiveC)','canImport(UIKit)'),"overriding declaration requires an 'override' keyword"),
         ]:
             assert mutated!=code,name

@@ -1,0 +1,34 @@
+{
+  "version": "0.9.6",
+  "failed_build": 203,
+  "run_id": 43287903465,
+  "job_id": 131426072181,
+  "source_commit": "7229837cc6fe551b2c5c45827c53af1a89cc22af",
+  "failure_stage": "New early Foundation negative, before large fixtures/overlay/SDK",
+  "actual_diagnostic": "missing-coregraphics.swift: argument passed to call that takes no arguments at CGRect(x:y:width:height:)",
+  "cause": "The intended missing-CoreGraphics variant was correctly rejected, but its constructor failed before the expected minY access diagnostic. The negative test asserted the wrong diagnostic for this program.",
+  "positive_apple_foundation": "Both debug/-O executions finished before the failing negative assertion, per pinned execution order. Full large composer fixture had not yet run in203.",
+  "fix": "Use a typed CGRect parameter getter function, matching the actual202 caret reader. The missing-import negative typechecks only that prefix, with no constructor that could fail earlier. Still requires nonzero exit and the exact missing-minY diagnostic. Wrong UIKit/Corelibs guard negative remains required; no warning/test suppression.",
+  "local_foundation": {
+    "executions": [
+      {
+        "name": "composer-foundation-boundary",
+        "mode": "debug",
+        "exit_code": 0,
+        "output": "Foundation fixture boundary: passed"
+      },
+      {
+        "name": "composer-foundation-boundary",
+        "mode": "optimized",
+        "exit_code": 0,
+        "output": "Foundation fixture boundary: passed"
+      }
+    ],
+    "native_negative_refusals": [],
+    "native_negative_status": "not_run; Objective-C Foundation/CoreGraphics requires Apple",
+    "scope": "Actual checked-in platform conditionals with real Foundation attributed string initialization and CGRect operators. No UIKit stand-ins in this probe; separate UIKit gate remains mandatory."
+  },
+  "unchanged": "Actual application source60,all4338canonical .inc/plans,25large fixtures/50executions and all real UIKit/global SDK gates unchanged. No new IPA or published release.",
+  "sdk_started": false,
+  "retry": "Current authorized0.9.6 continues with another clean attempt after checked commit/push. All8older releases preserved."
+}
