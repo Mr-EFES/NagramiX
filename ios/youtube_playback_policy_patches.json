@@ -1,0 +1,86 @@
+{
+  "target_pin": "24638bc69bd083981b178dd1e7f921eebbf7fc46",
+  "overlay_base_pin": "279f89e4d4f63f17227bf877dc3d8990f22ecd58",
+  "required_previous_stage": "edit_result_consistency",
+  "inputs": {
+    "submodules/TelegramUniversalVideoContent/Sources/WebEmbedPlayerNode.swift": "51287dc9364391b2fa1919a7c0a8ec3951cbb3c8367a7a2309add4f19b7193ab"
+  },
+  "outputs": {
+    "submodules/TelegramUniversalVideoContent/Sources/WebEmbedPlayerNode.swift": "0b89e86aff826e584756b2700abaeb52b71458cfab5707f66128ee6eb82385cc"
+  },
+  "previous": {
+    "submodules/TelegramUniversalVideoContent/Sources/WebEmbedPlayerNode.swift": "youtube_playback_policy/Before0.inc"
+  },
+  "replacements": {
+    "submodules/TelegramUniversalVideoContent/Sources/WebEmbedPlayerNode.swift": "youtube_playback_policy/After0.inc"
+  },
+  "guards": {
+    "submodules/TelegramUniversalVideoContent/BUILD": "5bcf30d4aaece7d795de255ffe220ab1c271f0565e24cb7b8a2dbcd6673c1451",
+    "submodules/NagramiXCore/BUILD": "869e31310cc925b84ceb827a3c0b8503f3a22614acb4abeeec4a4ad435cf56e2",
+    "submodules/NagramiXCore/Sources/NagramiXTabSettings.swift": "71328bb06d34937632e25bb2cf1e2c1adbb46371ca5f29b563721017326abec9",
+    "submodules/TelegramUniversalVideoContent/Sources/WebEmbedVideoContent.swift": "b59b2e12476852ed356c279ab1565fd68d9edd7997c1d99a0f4b005e238984be",
+    "submodules/TelegramUniversalVideoContent/Sources/YoutubeEmbedImplementation.swift": "baaa0e60a99f1478df778042240a5d1727b0f8928807a0e59b5d26c0d6e75788",
+    "submodules/TelegramUniversalVideoContent/Sources/NativeVideoContent.swift": "528f20337b832f9dcc01b58511a7639e54a757afffb7477ed2e8c054674bae10",
+    "submodules/TelegramUniversalVideoContent/Sources/HLSVideoNativeContentNode.swift": "0fa0658a254c6970ae9a06946759d3c8ac8cfd33c742402653088dfff3d28361",
+    "submodules/TelegramUniversalVideoContent/Sources/SystemVideoContent.swift": "770c63d660e33b255e9137f3b0ed243b46c0eca6c34950d094fe15f285554ad2",
+    "submodules/TelegramUniversalVideoContent/Sources/PlatformVideoContent.swift": "5a51345dd4756b447ad45ba6f718a363608686f85e5f4366391a1a5a1677f49e",
+    "submodules/TelegramUniversalVideoContent/Sources/OverlayUniversalVideoNode.swift": "89d993d212eff4433d37511816905c67ae87aa9e4ad3150d17ecdadcdaf290df",
+    "submodules/GalleryUI/Sources/GalleryController.swift": "bbd67ae06b5e813f885d9147e52cbf5040d452f4c8156e03f95bc84a085f3bd4",
+    "submodules/GalleryUI/Sources/Items/UniversalVideoGalleryItem.swift": "45a770b027382c10458507d6c3585fe0b2a97a7b04b88716a5a0c67b0fbf1317",
+    "submodules/GalleryUI/Sources/GalleryControllerNode.swift": "316cf9af7a3b6cb97b7d1418409353677ad4dec5e5a5c8276100d8d4ce3ed8cd",
+    "submodules/TelegramUI/Sources/MediaManager.swift": "5ed1dccd5f6d3890e60a5a5ccd83e35359293638c7a453c3e7899045c9275de9",
+    "submodules/TelegramUI/Sources/NagramiXVideoNowPlaying.swift": "9bb99ab1fd575e6c3dec32f331242fb7758527aedb637bb3ae3742a0b7d72f00",
+    "submodules/AccountContext/Sources/UniversalVideoNode.swift": "15d0ef47496191f0e5e2f642cd9303fd457cc6771594312fad3c408f46028d8d",
+    "submodules/TelegramUI/Resources/WebEmbed/Youtube.html": "86bbc454a0eeb7051b9ec14cbbae8b07e2b31d8052d570a4ee0528bed91b613f",
+    "submodules/TelegramUI/Resources/WebEmbed/YoutubeUserScript.js": "0c705b61ae09f90f8b1e193f92327c1311bb841b5bcc0c55b70556542f79d939",
+    "submodules/TelegramAudio/Sources/ManagedAudioSession.swift": "bc11a5d86d75496f6590757dd9849c19b71a733a0699c6daa08fd16fdc27a998"
+  },
+  "guard_sources": {
+    "submodules/TelegramUniversalVideoContent/BUILD": "youtube_playback_policy/Guard0.inc",
+    "submodules/NagramiXCore/BUILD": "youtube_playback_policy/Guard1.inc",
+    "submodules/NagramiXCore/Sources/NagramiXTabSettings.swift": "youtube_playback_policy/Guard2.inc",
+    "submodules/TelegramUniversalVideoContent/Sources/WebEmbedVideoContent.swift": "youtube_playback_policy/Guard3.inc",
+    "submodules/TelegramUniversalVideoContent/Sources/YoutubeEmbedImplementation.swift": "youtube_playback_policy/Guard4.inc",
+    "submodules/TelegramUniversalVideoContent/Sources/NativeVideoContent.swift": "youtube_playback_policy/Guard5.inc",
+    "submodules/TelegramUniversalVideoContent/Sources/HLSVideoNativeContentNode.swift": "youtube_playback_policy/Guard6.inc",
+    "submodules/TelegramUniversalVideoContent/Sources/SystemVideoContent.swift": "youtube_playback_policy/Guard7.inc",
+    "submodules/TelegramUniversalVideoContent/Sources/PlatformVideoContent.swift": "youtube_playback_policy/Guard8.inc",
+    "submodules/TelegramUniversalVideoContent/Sources/OverlayUniversalVideoNode.swift": "youtube_playback_policy/Guard9.inc",
+    "submodules/GalleryUI/Sources/GalleryController.swift": "youtube_playback_policy/Guard10.inc",
+    "submodules/GalleryUI/Sources/Items/UniversalVideoGalleryItem.swift": "youtube_playback_policy/Guard11.inc",
+    "submodules/GalleryUI/Sources/GalleryControllerNode.swift": "youtube_playback_policy/Guard12.inc",
+    "submodules/TelegramUI/Sources/MediaManager.swift": "youtube_playback_policy/Guard13.inc",
+    "submodules/TelegramUI/Sources/NagramiXVideoNowPlaying.swift": "youtube_playback_policy/Guard14.inc",
+    "submodules/AccountContext/Sources/UniversalVideoNode.swift": "youtube_playback_policy/Guard15.inc",
+    "submodules/TelegramUI/Resources/WebEmbed/Youtube.html": "youtube_playback_policy/Guard16.inc",
+    "submodules/TelegramUI/Resources/WebEmbed/YoutubeUserScript.js": "youtube_playback_policy/Guard17.inc",
+    "submodules/TelegramAudio/Sources/ManagedAudioSession.swift": "youtube_playback_policy/Guard18.inc"
+  },
+  "copies": {},
+  "deletions": {},
+  "native_inputs": {},
+  "native_guards": {},
+  "templates": {
+    "youtube_playback_policy/Before0.inc": "51287dc9364391b2fa1919a7c0a8ec3951cbb3c8367a7a2309add4f19b7193ab",
+    "youtube_playback_policy/After0.inc": "0b89e86aff826e584756b2700abaeb52b71458cfab5707f66128ee6eb82385cc",
+    "youtube_playback_policy/Guard0.inc": "5bcf30d4aaece7d795de255ffe220ab1c271f0565e24cb7b8a2dbcd6673c1451",
+    "youtube_playback_policy/Guard1.inc": "869e31310cc925b84ceb827a3c0b8503f3a22614acb4abeeec4a4ad435cf56e2",
+    "youtube_playback_policy/Guard2.inc": "71328bb06d34937632e25bb2cf1e2c1adbb46371ca5f29b563721017326abec9",
+    "youtube_playback_policy/Guard3.inc": "b59b2e12476852ed356c279ab1565fd68d9edd7997c1d99a0f4b005e238984be",
+    "youtube_playback_policy/Guard4.inc": "baaa0e60a99f1478df778042240a5d1727b0f8928807a0e59b5d26c0d6e75788",
+    "youtube_playback_policy/Guard5.inc": "528f20337b832f9dcc01b58511a7639e54a757afffb7477ed2e8c054674bae10",
+    "youtube_playback_policy/Guard6.inc": "0fa0658a254c6970ae9a06946759d3c8ac8cfd33c742402653088dfff3d28361",
+    "youtube_playback_policy/Guard7.inc": "770c63d660e33b255e9137f3b0ed243b46c0eca6c34950d094fe15f285554ad2",
+    "youtube_playback_policy/Guard8.inc": "5a51345dd4756b447ad45ba6f718a363608686f85e5f4366391a1a5a1677f49e",
+    "youtube_playback_policy/Guard9.inc": "89d993d212eff4433d37511816905c67ae87aa9e4ad3150d17ecdadcdaf290df",
+    "youtube_playback_policy/Guard10.inc": "bbd67ae06b5e813f885d9147e52cbf5040d452f4c8156e03f95bc84a085f3bd4",
+    "youtube_playback_policy/Guard11.inc": "45a770b027382c10458507d6c3585fe0b2a97a7b04b88716a5a0c67b0fbf1317",
+    "youtube_playback_policy/Guard12.inc": "316cf9af7a3b6cb97b7d1418409353677ad4dec5e5a5c8276100d8d4ce3ed8cd",
+    "youtube_playback_policy/Guard13.inc": "5ed1dccd5f6d3890e60a5a5ccd83e35359293638c7a453c3e7899045c9275de9",
+    "youtube_playback_policy/Guard14.inc": "9bb99ab1fd575e6c3dec32f331242fb7758527aedb637bb3ae3742a0b7d72f00",
+    "youtube_playback_policy/Guard15.inc": "15d0ef47496191f0e5e2f642cd9303fd457cc6771594312fad3c408f46028d8d",
+    "youtube_playback_policy/Guard16.inc": "86bbc454a0eeb7051b9ec14cbbae8b07e2b31d8052d570a4ee0528bed91b613f",
+    "youtube_playback_policy/Guard17.inc": "0c705b61ae09f90f8b1e193f92327c1311bb841b5bcc0c55b70556542f79d939",
+    "youtube_playback_policy/Guard18.inc": "bc11a5d86d75496f6590757dd9849c19b71a733a0699c6daa08fd16fdc27a998"
+  }
+}

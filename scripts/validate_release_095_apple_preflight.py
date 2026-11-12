@@ -21,6 +21,8 @@ import transcription_account_defaults_runtime as transcription
 import app_font_selection_runtime as fonts
 import font_preview_apply_runtime as font_preview
 import edit_result_consistency_runtime as edit_result
+import youtube_playback_policy_runtime as youtube_policy
+from youtube_playback_policy_js import check as youtube_js_check
 from font_preview_apply_native import check as font_node_check
 import web_video_picture_in_picture_runtime as pip
 import temporary_expiration_semantics_runtime as expiry
@@ -119,6 +121,7 @@ def main():
             ('premium_temporary_transcription', [('premium-file-asr', premium_asr.fixture)]),
             ('font_preview_apply', [('font-preview-apply', font_preview.fixture), ('final-font-resolver', fonts.fixture)]),
             ('edit_result_consistency', [('edit-result-consistency', edit_result.fixture)]),
+            ('youtube_playback_policy', [('youtube-policy-bridge', youtube_policy.bridge_fixture), ('youtube-policy-setting', youtube_policy.hook_fixture)]),
         ]
         for stage, fixtures in entries:
             source = root / stage
@@ -138,12 +141,17 @@ def main():
         system_source = root/'system_web_picture_in_picture'
         system_js = system_js_check(system_source, root)
         system_apple = system_apple_check(system_source, args.swiftc, root)
-    report = {'canonical_swift_files_by_checkpoint':files, 'complete_fixtures':18, 'executions':runs,
+        youtube_source = root/'youtube_playback_policy'
+        youtube_js = youtube_js_check(youtube_source, root)
+        youtube_apple = system_apple_check(youtube_source, args.swiftc, root)
+    report = {'canonical_swift_files_by_checkpoint':files, 'complete_fixtures':20, 'executions':runs,
               'font_apply_node_contract':node,'native_navigation_contract':navigation, 'font_adapter_access_contract':access, 'apple_uikit_precheck':apple, 'font_icon_uikit_precheck':icon, 'warnings_as_errors':True,
               'full_application_sdk':'pending', 'device':'pending'}
     report['actual_font_theme_adapter_members']=theme_members
     report['system_web_javascript']=system_js
     report['system_web_real_sdk']=system_apple
+    report['youtube_playback_policy_js']=youtube_js
+    report['youtube_playback_policy_apple']=youtube_apple
     if args.report: args.report.write_text(json.dumps(report, ensure_ascii=False, indent=2)+'\n')
     print(json.dumps(report, ensure_ascii=False, indent=2))
 
