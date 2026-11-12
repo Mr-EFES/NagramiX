@@ -1,0 +1,94 @@
+{
+  "target_pin": "24638bc69bd083981b178dd1e7f921eebbf7fc46",
+  "overlay_base_pin": "279f89e4d4f63f17227bf877dc3d8990f22ecd58",
+  "required_previous_stage": "snowfall",
+  "inputs": {
+    "submodules/NagramiXCore/Sources/NagramiXSnowSettings.swift": "4e56388dbd92d712d62faf195465b6f7977ee7e8c6e169b62f2f4a410c8f0bf8",
+    "submodules/SettingsUI/Sources/NagramiXSettingsController.swift": "f49ef50c5c3421d0cb69dd3987815a2cc366fa93adfbfb08ef1d7f1f07724339"
+  },
+  "outputs": {
+    "submodules/NagramiXCore/Sources/NagramiXSnowSettings.swift": "17447f5509142a3d208b9517aacc575f75cb98d6501a2972812f74bd10606193",
+    "submodules/SettingsUI/Sources/NagramiXSettingsController.swift": "9f6d6f82929d3c9acd03804f946f0ce182b7c568e968da845354b57b296754ad"
+  },
+  "previous": {
+    "submodules/NagramiXCore/Sources/NagramiXSnowSettings.swift": "snowfall_holidays/Before0.inc",
+    "submodules/SettingsUI/Sources/NagramiXSettingsController.swift": "snowfall_holidays/Before1.inc"
+  },
+  "replacements": {
+    "submodules/NagramiXCore/Sources/NagramiXSnowSettings.swift": "snowfall_holidays/After0.inc",
+    "submodules/SettingsUI/Sources/NagramiXSettingsController.swift": "snowfall_holidays/After1.inc"
+  },
+  "guards": {
+    "submodules/NagramiXCore/BUILD": "869e31310cc925b84ceb827a3c0b8503f3a22614acb4abeeec4a4ad435cf56e2",
+    "submodules/NagramiXCore/Sources/NagramiXSnowView.swift": "1fc411fbc4980cf2479379f9e891bde80390b3ff4784fddfaa56c803360add30",
+    "submodules/NagramiXCore/Sources/NagramiXTabSettings.swift": "71328bb06d34937632e25bb2cf1e2c1adbb46371ca5f29b563721017326abec9",
+    "submodules/NagramiXCore/Sources/NagramiXPresentationStrings.swift": "b9700aab8046faceae855dc3336cfb22869c71f2aa395c4a0258c544be895d50",
+    "submodules/NagramiXCore/Sources/NagramiXAppLocalization.swift": "c27d2d470c70568e9a80e0e38c509befea549c99afd47215e0024949fe67a67c",
+    "submodules/SettingsUI/BUILD": "b229ff1580a1e8e13770d400a1c0c9e1cf56ef05b831659c3422a6141b50f489",
+    "submodules/SettingsUI/Sources/NagramiXSnowDensityItem.swift": "2131382d2541f567c1137eaf46c861d8ec251e9d74030b13ca7e5f3328bdeccb",
+    "submodules/ChatListUI/Sources/ChatListControllerNode.swift": "2a7394caa6a3727573bd09ca94a252a1db04fc9c147ef2e7923b29f96610c8fb",
+    "submodules/ChatListUI/Sources/ChatListController.swift": "290934b915b09c458794348fde0f23be0b83a1b8d83f76bf7bda6ccecb9b2aec",
+    "submodules/TelegramUI/Sources/ChatControllerNode.swift": "ccfc40ee422ace2f0910f8174b17a5542ef9fdfc9251a1c05e83a35b368e3dd3",
+    "submodules/SSignalKit/SwiftSignalKit/Source/Atomic.swift": "ad76eb0a708bdf77301d7d11787a06f33029c67412e6485616534c4faf2e8a9d",
+    "submodules/SSignalKit/SwiftSignalKit/Source/Disposable.swift": "60e53d9fa32a1b1ba47897467077cf22fcdc0458c20b646a35c75fb76484209b",
+    "submodules/SSignalKit/SwiftSignalKit/Source/Subscriber.swift": "eb28ad26bda8b4a8ff1aad73b949d4c3d24132db3aebdd1f5a4c67a5962718ee",
+    "submodules/SSignalKit/SwiftSignalKit/Source/Signal.swift": "c1fee825012eace4710eab53f32faa1d49efe38b01e7ad709054f26695494cb6",
+    "submodules/SSignalKit/SwiftSignalKit/Source/Signal_Mapping.swift": "4740a3a616679ad0f65c6341a0498bf42e120dcaddd2c281694188b47e075017",
+    "submodules/SSignalKit/SwiftSignalKit/Source/Signal_Combine.swift": "994f52d6459d2251a2880f7d0827f853e74c4bd20ab7896386f4152215723450"
+  },
+  "guard_sources": {
+    "submodules/NagramiXCore/BUILD": "snowfall_holidays/Guard0.inc",
+    "submodules/NagramiXCore/Sources/NagramiXSnowView.swift": "snowfall_holidays/Guard1.inc",
+    "submodules/NagramiXCore/Sources/NagramiXTabSettings.swift": "snowfall_holidays/Guard2.inc",
+    "submodules/NagramiXCore/Sources/NagramiXPresentationStrings.swift": "snowfall_holidays/Guard3.inc",
+    "submodules/NagramiXCore/Sources/NagramiXAppLocalization.swift": "snowfall_holidays/Guard4.inc",
+    "submodules/SettingsUI/BUILD": "snowfall_holidays/Guard5.inc",
+    "submodules/SettingsUI/Sources/NagramiXSnowDensityItem.swift": "snowfall_holidays/Guard6.inc",
+    "submodules/ChatListUI/Sources/ChatListControllerNode.swift": "snowfall_holidays/Guard7.inc",
+    "submodules/ChatListUI/Sources/ChatListController.swift": "snowfall_holidays/Guard8.inc",
+    "submodules/TelegramUI/Sources/ChatControllerNode.swift": "snowfall_holidays/Guard9.inc",
+    "submodules/SSignalKit/SwiftSignalKit/Source/Atomic.swift": "snowfall_holidays/Guard10.inc",
+    "submodules/SSignalKit/SwiftSignalKit/Source/Disposable.swift": "snowfall_holidays/Guard11.inc",
+    "submodules/SSignalKit/SwiftSignalKit/Source/Subscriber.swift": "snowfall_holidays/Guard12.inc",
+    "submodules/SSignalKit/SwiftSignalKit/Source/Signal.swift": "snowfall_holidays/Guard13.inc",
+    "submodules/SSignalKit/SwiftSignalKit/Source/Signal_Mapping.swift": "snowfall_holidays/Guard14.inc",
+    "submodules/SSignalKit/SwiftSignalKit/Source/Signal_Combine.swift": "snowfall_holidays/Guard15.inc"
+  },
+  "copies": {
+    "submodules/NagramiXCore/Sources/NagramiXSnowHolidays.swift": {
+      "source": "snowfall_holidays/NagramiXSnowHolidays.swift",
+      "sha256": "d1a494830add31d10a50c469e28ea0dd99da16425ace8948f4ea98b5c65e979a"
+    },
+    "submodules/NagramiXCore/Sources/NagramiXSnowSchedule.swift": {
+      "source": "snowfall_holidays/NagramiXSnowSchedule.swift",
+      "sha256": "47d3b7045719b4806bc35e6950020b5ee3dfb10b5fcebb3ea37c3d4e2d5f5df5"
+    }
+  },
+  "deletions": {},
+  "native_inputs": {},
+  "native_guards": {},
+  "templates": {
+    "snowfall_holidays/Before0.inc": "4e56388dbd92d712d62faf195465b6f7977ee7e8c6e169b62f2f4a410c8f0bf8",
+    "snowfall_holidays/After0.inc": "17447f5509142a3d208b9517aacc575f75cb98d6501a2972812f74bd10606193",
+    "snowfall_holidays/Before1.inc": "f49ef50c5c3421d0cb69dd3987815a2cc366fa93adfbfb08ef1d7f1f07724339",
+    "snowfall_holidays/After1.inc": "9f6d6f82929d3c9acd03804f946f0ce182b7c568e968da845354b57b296754ad",
+    "snowfall_holidays/Guard0.inc": "869e31310cc925b84ceb827a3c0b8503f3a22614acb4abeeec4a4ad435cf56e2",
+    "snowfall_holidays/Guard1.inc": "1fc411fbc4980cf2479379f9e891bde80390b3ff4784fddfaa56c803360add30",
+    "snowfall_holidays/Guard2.inc": "71328bb06d34937632e25bb2cf1e2c1adbb46371ca5f29b563721017326abec9",
+    "snowfall_holidays/Guard3.inc": "b9700aab8046faceae855dc3336cfb22869c71f2aa395c4a0258c544be895d50",
+    "snowfall_holidays/Guard4.inc": "c27d2d470c70568e9a80e0e38c509befea549c99afd47215e0024949fe67a67c",
+    "snowfall_holidays/Guard5.inc": "b229ff1580a1e8e13770d400a1c0c9e1cf56ef05b831659c3422a6141b50f489",
+    "snowfall_holidays/Guard6.inc": "2131382d2541f567c1137eaf46c861d8ec251e9d74030b13ca7e5f3328bdeccb",
+    "snowfall_holidays/Guard7.inc": "2a7394caa6a3727573bd09ca94a252a1db04fc9c147ef2e7923b29f96610c8fb",
+    "snowfall_holidays/Guard8.inc": "290934b915b09c458794348fde0f23be0b83a1b8d83f76bf7bda6ccecb9b2aec",
+    "snowfall_holidays/Guard9.inc": "ccfc40ee422ace2f0910f8174b17a5542ef9fdfc9251a1c05e83a35b368e3dd3",
+    "snowfall_holidays/Guard10.inc": "ad76eb0a708bdf77301d7d11787a06f33029c67412e6485616534c4faf2e8a9d",
+    "snowfall_holidays/Guard11.inc": "60e53d9fa32a1b1ba47897467077cf22fcdc0458c20b646a35c75fb76484209b",
+    "snowfall_holidays/Guard12.inc": "eb28ad26bda8b4a8ff1aad73b949d4c3d24132db3aebdd1f5a4c67a5962718ee",
+    "snowfall_holidays/Guard13.inc": "c1fee825012eace4710eab53f32faa1d49efe38b01e7ad709054f26695494cb6",
+    "snowfall_holidays/Guard14.inc": "4740a3a616679ad0f65c6341a0498bf42e120dcaddd2c281694188b47e075017",
+    "snowfall_holidays/Guard15.inc": "994f52d6459d2251a2880f7d0827f853e74c4bd20ab7896386f4152215723450",
+    "snowfall_holidays/NagramiXSnowHolidays.swift": "d1a494830add31d10a50c469e28ea0dd99da16425ace8948f4ea98b5c65e979a",
+    "snowfall_holidays/NagramiXSnowSchedule.swift": "47d3b7045719b4806bc35e6950020b5ee3dfb10b5fcebb3ea37c3d4e2d5f5df5"
+  }
+}

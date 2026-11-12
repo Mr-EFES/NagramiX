@@ -16,7 +16,7 @@ ROOT=Path(__file__).resolve().parents[1];STAGE='snowfall'
 def contract(source,plan):
     assert plan['required_previous_stage']=='input_effects' and len(plan['inputs'])==75 and len(plan['guards'])==12
     assert set(plan['copies'])=={runtime.SETTINGS,runtime.VIEW,runtime.DENSITY}
-    assert verified_prefix(source)==len(LATE_SOURCE_STAGES)
+    assert verified_prefix(source)==LATE_SOURCE_STAGES.index(STAGE)+1
     for n,h in {**plan['outputs'],**plan['guards'],**{n:v['sha256'] for n,v in plan['copies'].items()}}.items():assert digest(source/n)==h,n
     def previous(n):return (ROOT/'ios'/plan['previous'][n]).read_text()
     text=(source/runtime.LIST).read_text()
