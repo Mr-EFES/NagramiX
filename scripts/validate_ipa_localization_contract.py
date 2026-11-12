@@ -281,6 +281,36 @@ class CatalogTests(unittest.TestCase):
         with mock.patch.object(Path, 'read_bytes', new=corrupted), self.assertRaisesRegex(SystemExit, 'каталог скрытия Premium изменён'):
             expected_nagramix_catalogs('0.9.2')
 
+    def test_preview_096_exact_catalogs(self):
+        with self.archive(expected_nagramix_catalogs('0.9.6')) as archive:
+            self.assertEqual(validate_settings_localizations(archive, PREFIX, '0.9.6'), 71)
+
+    def test_095_catalog_rejected_for_096(self):
+        with self.archive(expected_nagramix_catalogs('0.9.5')) as archive, self.assertRaises(SystemExit):
+            validate_settings_localizations(archive, PREFIX, '0.9.6')
+
+    def test_096_catalog_rejected_for_published_095(self):
+        with self.archive(expected_nagramix_catalogs('0.9.6')) as archive, self.assertRaises(SystemExit):
+            validate_settings_localizations(archive, PREFIX, '0.9.5')
+
+    def test_preview_key_missing_rejected(self):
+        def change(code, values):
+            if code == 'de': del values['NagramiX.Fonts.Current']
+            return True
+        with self.archive(expected_nagramix_catalogs('0.9.6'), change) as archive, self.assertRaises(SystemExit):
+            validate_settings_localizations(archive, PREFIX, '0.9.6')
+
+    def test_preview_source_snapshot_sha_is_checked(self):
+        plan = json.loads((ROOT/'ios/font_preview_apply_patches.json').read_text())
+        name = 'submodules/NagramiXCore/Resources/en.lproj/Localizable.strings'
+        source = ROOT/'ios'/plan['replacements'][name]
+        original = Path.read_bytes
+        def corrupted(path):
+            data = original(path)
+            return data + b'\n// drift\n' if path == source else data
+        with mock.patch.object(Path, 'read_bytes', new=corrupted), self.assertRaisesRegex(SystemExit, 'каталог предпросмотра шрифтов изменён'):
+            expected_nagramix_catalogs('0.9.6')
+
 
 if __name__ == '__main__':
     unittest.main()

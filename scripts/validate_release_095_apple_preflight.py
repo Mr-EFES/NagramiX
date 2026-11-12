@@ -19,6 +19,8 @@ import composer_file_attachments_runtime as composer
 import archived_round_native_controls_runtime as archived
 import transcription_account_defaults_runtime as transcription
 import app_font_selection_runtime as fonts
+import font_preview_apply_runtime as font_preview
+from font_preview_apply_native import check as font_node_check
 import web_video_picture_in_picture_runtime as pip
 import temporary_expiration_semantics_runtime as expiry
 import wide_channel_post_consistency_runtime as wide
@@ -114,6 +116,7 @@ def main():
             ('system_web_picture_in_picture', [('system-web-bridges', system_web.fixture), ('system-web-gallery', system_gallery.fixture)]),
             ('wide_panel_consistency', [('wide-panels', wide_panels.fixture)]),
             ('premium_temporary_transcription', [('premium-file-asr', premium_asr.fixture)]),
+            ('font_preview_apply', [('font-preview-apply', font_preview.fixture), ('final-font-resolver', fonts.fixture)]),
         ]
         for stage, fixtures in entries:
             source = root / stage
@@ -121,9 +124,10 @@ def main():
             for name, build in fixtures: runs += execute(args.swiftc, root, name, build(source))
         # Stage41 remains an immutable historical checkpoint with SDK199's
         # known invalid call. Only the corrected final screen is a build target.
-        stage='font_theme_contrast'
+        stage='font_preview_apply'
         source=root/stage
         files[stage]=canonical_projection(source,stage)
+        node=font_node_check(source,args.swiftc,root)
         navigation=navigation_check(source,args.swiftc,root)
         access = access_check(source, args.swiftc, root)
         apple = apple_check(source, args.swiftc, root)
@@ -132,8 +136,8 @@ def main():
         system_source = root/'system_web_picture_in_picture'
         system_js = system_js_check(system_source, root)
         system_apple = system_apple_check(system_source, args.swiftc, root)
-    report = {'canonical_swift_files_by_checkpoint':files, 'complete_fixtures':15, 'executions':runs,
-              'native_navigation_contract':navigation, 'font_adapter_access_contract':access, 'apple_uikit_precheck':apple, 'font_icon_uikit_precheck':icon, 'warnings_as_errors':True,
+    report = {'canonical_swift_files_by_checkpoint':files, 'complete_fixtures':17, 'executions':runs,
+              'font_apply_node_contract':node,'native_navigation_contract':navigation, 'font_adapter_access_contract':access, 'apple_uikit_precheck':apple, 'font_icon_uikit_precheck':icon, 'warnings_as_errors':True,
               'full_application_sdk':'pending', 'device':'pending'}
     report['actual_font_theme_adapter_members']=theme_members
     report['system_web_javascript']=system_js

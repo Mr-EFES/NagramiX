@@ -18,7 +18,9 @@ def navigation_check(source,swiftc,folder):
     """Compile the actual caller against the actual native protocol signature."""
     signature=navigation_signature(source)
     calls=[line.strip() for line in (source/UI).read_text().splitlines() if 'self.navigationBar?.updatePresentationData(' in line]
-    assert len(calls)==1,calls
+    expected = 2 if 'private func refreshLicense()' in (source/UI).read_text() else 1
+    assert len(calls)==expected,calls
+    assert all(', transition: .immediate)' in value for value in calls),calls
     call=calls[0]
     assert ', transition: .immediate)' in call,call
     prefix='''struct NavigationBarPresentationData {init(presentationData:Int){}}
@@ -67,6 +69,8 @@ def check(source,swiftc,folder,expect_ui_transition_error=False):
     if 'self.statusBar.statusBarStyle =' in (source/UI).read_text():
         from font_theme_contrast_apple import theme_boundary
         boundary=theme_boundary(source,boundary)
+    if 'NagramiXFontApplyNode' in (source/UI).read_text():
+        boundary=preview_boundary(source,boundary)
     code='import Foundation\nimport UIKit\nimport CoreText\nimport ObjectiveC\n'+SIGNAL_BOUNDARY+'\n'+boundary
     code+='\nfinal class NavigationBar {'+navigation_signature(source)+' {}}\n'
     code+='\n'+'\n'.join(clean((source/n).read_text()) for n in [MODEL,FONT,MANAGER,UI])
@@ -126,3 +130,33 @@ public class ViewController:UIViewController {
  func push(_ controller:ViewController){}
 }
 '''
+
+
+def preview_boundary(source, boundary):
+    """Adapt only app-owned interfaces; UIKit itself remains the real SDK."""
+    from validate_upstream_13_2_release import checked_plan,OVERLAY
+    import hashlib
+    plan=checked_plan('font_preview_apply')
+    names=['submodules/UIKitRuntimeUtils/Source/UIKitRuntimeUtils/UIBarButtonItem+Proxy.h',
+           'submodules/AsyncDisplayKit/Source/PublicHeaders/AsyncDisplayKit/ASDisplayNode.h',
+           'submodules/AsyncDisplayKit/Source/PublicHeaders/AsyncDisplayKit/ASDisplayNode+Subclasses.h',
+           'submodules/Display/Source/ContainerViewLayout.swift',
+           'submodules/TelegramPresentationData/Sources/PresentationTheme.swift']
+    texts={}
+    for name in names:
+        path=source/name
+        data=path.read_bytes() if path.exists() else (OVERLAY/plan['guard_sources'][name]).read_bytes()
+        assert hashlib.sha256(data).hexdigest()==plan['guards'][name],name
+        texts[name]=data.decode()
+    assert '- (instancetype)initWithCustomDisplayNode:(ASDisplayNode *)customDisplayNode;' in texts[names[0]]
+    assert '- (instancetype)initWithViewBlock:(ASDisplayNodeViewBlock)viewBlock;' in texts[names[1]]
+    assert '- (CGSize)calculateSizeThatFits:(CGSize)constrainedSize;' in texts[names[2]]
+    assert '- (void)invalidateCalculatedLayout;' in texts[names[2]]
+    assert 'public var safeInsets: UIEdgeInsets' in texts[names[3]]
+    assert 'public let itemCheckColors: PresentationThemeFillStrokeForeground' in texts[names[4]]
+    boundary=boundary.replace('struct PresentationStrings {','struct PresentationStrings {\n var Theme_Context_Apply:String {"Apply"}',1)
+    boundary=boundary.replace('struct ListTheme {','struct FontCheckColors {var foregroundColor=UIColor.white}\nstruct ListTheme {\n var itemCheckColors=FontCheckColors()',1)
+    boundary=boundary.replace('var intrinsicInsets=UIEdgeInsets.zero}', 'var intrinsicInsets=UIEdgeInsets.zero;var safeInsets=UIEdgeInsets.zero}',1)
+    boundary=boundary.replace('class ASDisplayNode {var view=UIView();', 'class ASDisplayNode {var view=UIView();init(){};init(viewBlock:()->UIView,didLoadBlock:(()->Void)?){view=viewBlock()};convenience init(viewBlock:()->UIView){self.init(viewBlock:viewBlock,didLoadBlock:nil)};var frame:CGRect{get{view.frame}set{view.frame=newValue}};func calculateSizeThatFits(_ constrainedSize:CGSize)->CGSize{.zero};func invalidateCalculatedLayout(){};',1)
+    boundary+='\nextension UIBarButtonItem {convenience init?(customDisplayNode:ASDisplayNode){self.init()};var staysInRow:Bool{get{false}set{}}}\n'
+    return boundary

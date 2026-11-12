@@ -30,6 +30,7 @@ def check(text):
     mandatory.append('validate_wide_panel_consistency.py')
     mandatory.append('validate_settings_section_header_case.py')
     mandatory.append('validate_premium_temporary_transcription.py')
+    mandatory.append('validate_font_preview_apply.py')
     for name in mandatory:
         assert re.search(r'^          python3 scripts/'+re.escape(name)+r'\b',source,re.M),name
         assert 'nagramix_extended_check python3 scripts/'+name not in source,name
@@ -74,7 +75,7 @@ def main():
     try:check(changed)
     except AssertionError:pass
     else:raise AssertionError('Optional final native font API gate accepted')
-    for script in ['validate_release_095_composer_strings_compile.py','validate_native_string_references.py','validate_wide_channel_post_consistency.py','validate_font_theme_contrast.py','validate_system_web_picture_in_picture.py','validate_wide_panel_consistency.py','validate_settings_section_header_case.py','validate_premium_temporary_transcription.py']:
+    for script in ['validate_release_095_composer_strings_compile.py','validate_native_string_references.py','validate_wide_channel_post_consistency.py','validate_font_theme_contrast.py','validate_system_web_picture_in_picture.py','validate_wide_panel_consistency.py','validate_settings_section_header_case.py','validate_premium_temporary_transcription.py','validate_font_preview_apply.py']:
         changed=text.replace('          python3 scripts/'+script,'          nagramix_extended_check python3 scripts/'+script)
         try:check(changed)
         except AssertionError:pass

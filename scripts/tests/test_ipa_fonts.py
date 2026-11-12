@@ -35,12 +35,22 @@ class FontsPackageTests(unittest.TestCase):
    with self.assertRaises(AssertionError):validate_font_resources(a,PREFIX)
  def test_versioned_catalogs(self):
   previous=expected_nagramix_catalogs('0.9.4');new=expected_nagramix_catalogs('0.9.5')
-  self.assertEqual(expected_nagramix_catalogs('0.10.0'),new)
-  self.assertEqual(expected_nagramix_catalogs('0.9.100'),new)
+  self.assertEqual(expected_nagramix_catalogs('0.10.0'),expected_nagramix_catalogs('0.9.6'))
+  self.assertEqual(expected_nagramix_catalogs('0.9.100'),expected_nagramix_catalogs('0.9.6'))
   self.assertEqual(set(previous),set(new));self.assertEqual(len(new),71)
   for code,values in new.items():
    self.assertEqual(len(values),647)
    self.assertEqual({k:v for k,v in values.items() if not k.startswith('NagramiX.Fonts.')},previous[code])
   self.assertEqual(new['ru']['NagramiX.Fonts.Title'],'Шрифты')
   self.assertEqual(new['en']['NagramiX.Fonts.Title'],'Fonts')
+ def test_preview_catalogs_preserve_published_095(self):
+  published=expected_nagramix_catalogs('0.9.5');next_release=expected_nagramix_catalogs('0.9.6')
+  self.assertEqual(len(next_release),71)
+  keys={'NagramiX.Fonts.Comparison','NagramiX.Fonts.Current','NagramiX.Fonts.Choose'}
+  for code,values in next_release.items():
+   self.assertEqual(len(values),650);self.assertEqual(values.keys()-published[code].keys(),keys)
+   previous={k:v for k,v in values.items() if k not in keys}
+   if code=='ru':previous['NagramiX.Fonts.Licenses']='Лицензии шрифтов'
+   self.assertEqual(previous,published[code])
+  self.assertEqual(next_release['ru']['NagramiX.Fonts.Licenses'],'Лицензия шрифтов')
 if __name__=='__main__':unittest.main()

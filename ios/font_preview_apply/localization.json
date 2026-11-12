@@ -1,0 +1,369 @@
+{
+  "keys": [
+    "NagramiX.Fonts.Comparison",
+    "NagramiX.Fonts.Current",
+    "NagramiX.Fonts.Choose"
+  ],
+  "translations": {
+    "en": [
+      "Comparison",
+      "Current",
+      "Choose font"
+    ],
+    "af": [
+      "Vergelyking",
+      "Huidige",
+      "Kies lettertipe"
+    ],
+    "sq": [
+      "Krahasimi",
+      "Aktual",
+      "Zgjidh fontin"
+    ],
+    "am": [
+      "ማወዳደሪያ",
+      "የአሁኑ",
+      "ቅርጸ ቁምፊ ይምረጡ"
+    ],
+    "ar": [
+      "مقارنة",
+      "الحالي",
+      "اختيار الخط"
+    ],
+    "hy": [
+      "Համեմատություն",
+      "Ընթացիկ",
+      "Ընտրել տառատեսակը"
+    ],
+    "az": [
+      "Müqayisə",
+      "Cari",
+      "Şrift seçin"
+    ],
+    "eu": [
+      "Konparazioa",
+      "Unekoa",
+      "Aukeratu letra-tipoa"
+    ],
+    "be": [
+      "Параўнанне",
+      "Бягучы",
+      "Выбар шрыфту"
+    ],
+    "bn": [
+      "তুলনা",
+      "বর্তমান",
+      "ফন্ট বেছে নিন"
+    ],
+    "bg": [
+      "Сравнение",
+      "Текущ",
+      "Избор на шрифт"
+    ],
+    "my": [
+      "နှိုင်းယှဉ်ခြင်း",
+      "လက်ရှိ",
+      "ဖောင့် ရွေးရန်"
+    ],
+    "ca": [
+      "Comparació",
+      "Actual",
+      "Tria el tipus de lletra"
+    ],
+    "zh-hans": [
+      "对比",
+      "当前",
+      "选择字体"
+    ],
+    "zh-hant": [
+      "比較",
+      "目前",
+      "選擇字體"
+    ],
+    "hr": [
+      "Usporedba",
+      "Trenutni",
+      "Odabir fonta"
+    ],
+    "cs": [
+      "Porovnání",
+      "Aktuální",
+      "Výběr písma"
+    ],
+    "da": [
+      "Sammenligning",
+      "Aktuel",
+      "Vælg skrifttype"
+    ],
+    "nl": [
+      "Vergelijking",
+      "Huidig",
+      "Lettertype kiezen"
+    ],
+    "eo": [
+      "Komparo",
+      "Nuna",
+      "Elektu tiparon"
+    ],
+    "et": [
+      "Võrdlus",
+      "Praegune",
+      "Vali font"
+    ],
+    "fil": [
+      "Paghahambing",
+      "Kasalukuyan",
+      "Pumili ng font"
+    ],
+    "fi": [
+      "Vertailu",
+      "Nykyinen",
+      "Valitse fontti"
+    ],
+    "fr": [
+      "Comparaison",
+      "Actuelle",
+      "Choisir une police"
+    ],
+    "gl": [
+      "Comparación",
+      "Actual",
+      "Escoller tipo de letra"
+    ],
+    "ka": [
+      "შედარება",
+      "მიმდინარე",
+      "შრიფტის არჩევა"
+    ],
+    "de": [
+      "Vergleich",
+      "Aktuell",
+      "Schrift auswählen"
+    ],
+    "el": [
+      "Σύγκριση",
+      "Τρέχουσα",
+      "Επιλογή γραμματοσειράς"
+    ],
+    "gu": [
+      "સરખામણી",
+      "વર્તમાન",
+      "ફૉન્ટ પસંદ કરો"
+    ],
+    "he": [
+      "השוואה",
+      "נוכחי",
+      "בחירת גופן"
+    ],
+    "hi": [
+      "तुलना",
+      "वर्तमान",
+      "फ़ॉन्ट चुनें"
+    ],
+    "hu": [
+      "Összehasonlítás",
+      "Jelenlegi",
+      "Betűtípus kiválasztása"
+    ],
+    "id": [
+      "Perbandingan",
+      "Saat ini",
+      "Pilih font"
+    ],
+    "ga": [
+      "Comparáid",
+      "Reatha",
+      "Roghnaigh cló"
+    ],
+    "it": [
+      "Confronto",
+      "Attuale",
+      "Scegli carattere"
+    ],
+    "ja": [
+      "比較",
+      "現在",
+      "フォントを選択"
+    ],
+    "kn": [
+      "ಹೋಲಿಕೆ",
+      "ಪ್ರಸ್ತುತ",
+      "ಅಕ್ಷರಶೈಲಿ ಆಯ್ಕೆಮಾಡಿ"
+    ],
+    "kk": [
+      "Салыстыру",
+      "Ағымдағы",
+      "Қаріпті таңдау"
+    ],
+    "km": [
+      "ការប្រៀបធៀប",
+      "បច្ចុប្បន្ន",
+      "ជ្រើសរើសពុម្ពអក្សរ"
+    ],
+    "ko": [
+      "비교",
+      "현재",
+      "글꼴 선택"
+    ],
+    "lv": [
+      "Salīdzinājums",
+      "Pašreizējais",
+      "Izvēlēties fontu"
+    ],
+    "lt": [
+      "Palyginimas",
+      "Dabartinis",
+      "Pasirinkti šriftą"
+    ],
+    "ms": [
+      "Perbandingan",
+      "Semasa",
+      "Pilih fon"
+    ],
+    "ml": [
+      "താരതമ്യം",
+      "നിലവിലെ",
+      "ഫോണ്ട് തിരഞ്ഞെടുക്കുക"
+    ],
+    "mt": [
+      "Tqabbil",
+      "Attwali",
+      "Agħżel tipa"
+    ],
+    "mr": [
+      "तुलना",
+      "सध्याचा",
+      "फॉन्ट निवडा"
+    ],
+    "ne": [
+      "तुलना",
+      "हालको",
+      "फन्ट छान्नुहोस्"
+    ],
+    "nb": [
+      "Sammenligning",
+      "Gjeldende",
+      "Velg skrifttype"
+    ],
+    "or": [
+      "ତୁଳନା",
+      "ବର୍ତ୍ତମାନର",
+      "ଫଣ୍ଟ ବାଛନ୍ତୁ"
+    ],
+    "fa": [
+      "مقایسه",
+      "فعلی",
+      "انتخاب قلم"
+    ],
+    "pl": [
+      "Porównanie",
+      "Obecna",
+      "Wybór czcionki"
+    ],
+    "pt-br": [
+      "Comparação",
+      "Atual",
+      "Escolher fonte"
+    ],
+    "pt-pt": [
+      "Comparação",
+      "Atual",
+      "Escolher tipo de letra"
+    ],
+    "ro": [
+      "Comparație",
+      "Actual",
+      "Alege fontul"
+    ],
+    "ru": [
+      "Сравнение",
+      "Текущий",
+      "Выбор шрифта"
+    ],
+    "sr": [
+      "Поређење",
+      "Тренутни",
+      "Избор фонта"
+    ],
+    "sk": [
+      "Porovnanie",
+      "Aktuálne",
+      "Výber písma"
+    ],
+    "sl": [
+      "Primerjava",
+      "Trenutna",
+      "Izberi pisavo"
+    ],
+    "es": [
+      "Comparación",
+      "Actual",
+      "Elegir fuente"
+    ],
+    "sw": [
+      "Ulinganisho",
+      "Ya sasa",
+      "Chagua fonti"
+    ],
+    "sv": [
+      "Jämförelse",
+      "Aktuellt",
+      "Välj typsnitt"
+    ],
+    "tg": [
+      "Муқоиса",
+      "Ҷорӣ",
+      "Интихоби ҳуруф"
+    ],
+    "ta": [
+      "ஒப்பீடு",
+      "தற்போதைய",
+      "எழுத்துருவைத் தேர்வுசெய்க"
+    ],
+    "te": [
+      "పోలిక",
+      "ప్రస్తుత",
+      "ఫాంట్‌ను ఎంచుకోండి"
+    ],
+    "th": [
+      "เปรียบเทียบ",
+      "ปัจจุบัน",
+      "เลือกแบบอักษร"
+    ],
+    "tr": [
+      "Karşılaştırma",
+      "Geçerli",
+      "Yazı tipi seç"
+    ],
+    "tk": [
+      "Deňeşdirme",
+      "Häzirki",
+      "Şrift saýlaň"
+    ],
+    "uk": [
+      "Порівняння",
+      "Поточний",
+      "Вибір шрифту"
+    ],
+    "ur": [
+      "موازنہ",
+      "موجودہ",
+      "فونٹ منتخب کریں"
+    ],
+    "uz": [
+      "Taqqoslash",
+      "Joriy",
+      "Shrift tanlash"
+    ],
+    "vi": [
+      "So sánh",
+      "Hiện tại",
+      "Chọn phông chữ"
+    ]
+  },
+  "replacements": {
+    "ru": {
+      "NagramiX.Fonts.Licenses": "Лицензия шрифтов"
+    }
+  }
+}

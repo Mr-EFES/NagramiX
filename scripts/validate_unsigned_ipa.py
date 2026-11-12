@@ -213,6 +213,25 @@ def expected_nagramix_catalogs(version: str | None = None) -> dict[str, dict[str
             current = checked_snapshot(fonts['replacements'][path], fonts['outputs'][path], fonts, 'шрифтов')
             require(current == {**previous, **dict(zip(translations['keys'], values))}, 'Изменены другие переводы шрифтов: ' + code)
             catalogs[code] = current
+    if version_parts is not None and version_parts >= (0, 9, 6):
+        preview = json.loads((ROOT / 'ios/font_preview_apply_patches.json').read_text())
+        require(preview['required_previous_stage'] == 'premium_temporary_transcription', 'Неверная база предпросмотра шрифтов')
+        name = 'font_preview_apply/localization.json'
+        data = (ROOT / 'ios' / name).read_bytes()
+        require(hashlib.sha256(data).hexdigest() == preview['templates'][name], 'Изменён реестр предпросмотра шрифтов')
+        translations = json.loads(data)
+        require(set(translations['translations']) == codes and len(translations['keys']) == 3, 'Неполные переводы предпросмотра')
+        require(translations['replacements'] == {'ru': {'NagramiX.Fonts.Licenses': 'Лицензия шрифтов'}}, 'Изменены незапрошенные подписи шрифтов')
+        for code in codes:
+            path = 'submodules/NagramiXCore/Resources/' + code + '.lproj/Localizable.strings'
+            previous = checked_snapshot(preview['previous'][path], preview['inputs'][path], preview, 'предпросмотра шрифтов')
+            require(previous == catalogs[code] and len(previous) == 647, 'Изменён прежний каталог перед предпросмотром: ' + code)
+            values = translations['translations'][code]
+            require(len(values) == 3 and not set(translations['keys']) & previous.keys(), 'Неверные ключи предпросмотра: ' + code)
+            current = checked_snapshot(preview['replacements'][path], preview['outputs'][path], preview, 'предпросмотра шрифтов')
+            require(current == {**previous, **dict(zip(translations['keys'], values)), **translations['replacements'].get(code, {})},
+                    'Изменены другие переводы предпросмотра: ' + code)
+            catalogs[code] = current
     return catalogs
 
 

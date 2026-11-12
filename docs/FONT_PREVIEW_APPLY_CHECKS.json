@@ -1,0 +1,1336 @@
+{
+  "stage": 52,
+  "name": "font_preview_apply",
+  "status": "source_checked / native_compile_pending / device_pending",
+  "approval": {
+    "font_design": 2,
+    "license_design": 4,
+    "reference": "Прикреплённый владельцем утверждённый экран сравнения с кнопкой Применить сверху; отдельный округлый reader лицензий."
+  },
+  "source": {
+    "path": "/tmp/nagramix-font-preview/source",
+    "manifest_sha256": "5f2afc0e892828dc4ef0e839d8c8401f514cd4e7685566f5d34f9b55b57413c7",
+    "files": 37682,
+    "symlinks": 26,
+    "changed_paths": 74,
+    "guards": 22,
+    "new_inc": 170,
+    "new_localization_registry": true,
+    "old_inc_unchanged": 3680,
+    "historical_checkpoints": [
+      {
+        "checkpoint": "/tmp/nagramix-premium-file-asr/source-checkpoint.json",
+        "manifest_sha256": "6f6e5eee53a7eb5df517486a3308a2699e980b12e0fe7e64a933b00d12a71159",
+        "exact_preimages": 74
+      },
+      {
+        "checkpoint": "/tmp/nagramix-section-headers/source-checkpoint.json",
+        "manifest_sha256": "a502069589d4128650082857d14869acbf5e020ffaeda46ec1004fcdc5e86a6a",
+        "exact_preimages": 78
+      },
+      {
+        "checkpoint": "/tmp/nagramix-wide-panels/source-checkpoint.json",
+        "manifest_sha256": "546d8889694c3bc3079dce138f401f0d90b4f6b5a3d6c5a69b21fb8ca803a09c",
+        "exact_preimages": 79
+      },
+      {
+        "checkpoint": "/tmp/nagramix-system-web-pip/source-checkpoint.json",
+        "manifest_sha256": "8c08b5a78807b07d6e18379bec2ea8e1c0068be435f4c073746ba98293fb759a",
+        "exact_preimages": 87
+      },
+      {
+        "checkpoint": "/tmp/nagramix-font-theme/source-checkpoint.json",
+        "manifest_sha256": "fc06c0fff3c83897d846bc28c41860d1b6efea86a20e0d7b96c2fe3c40940f45",
+        "exact_preimages": 95
+      },
+      {
+        "checkpoint": "/tmp/nagramix-wide-channel-posts/source-checkpoint.json",
+        "manifest_sha256": "f42f2e333a84c3cae0793b33a88563aeefef2c714ffcd8a48123c45c00de6d0e",
+        "exact_preimages": 95
+      },
+      {
+        "checkpoint": "/tmp/nagramix-composer-native-strings/source-checkpoint.json",
+        "manifest_sha256": "80e2ed1949ff89044d6e588cc847bf4616b6df8e5645c1a473190aec6e623672",
+        "exact_preimages": 96
+      },
+      {
+        "checkpoint": "/tmp/nagramix-font-sdk199/source-checkpoint.json",
+        "manifest_sha256": "719bf32e97e52b0877466f546372f17829eb521351ca9d4c77d0bf3a36964c54",
+        "exact_preimages": 97
+      },
+      {
+        "checkpoint": "/tmp/nagramix-temporary-expiration/source-checkpoint.json",
+        "manifest_sha256": "32c075e1a995bc77e196db578b20b21776ee325e27d254bc5ec63b9a1eb2a396",
+        "exact_preimages": 97
+      }
+    ]
+  },
+  "feature": {
+    "stage": "font_preview_apply",
+    "source_contract": {
+      "original_model_and_settings_preserved": true,
+      "original_font_factory_hooks_preserved": true,
+      "native_node_and_bar_item_contracts": "verified against pinned actual headers",
+      "license_resources": "four exact originals guarded",
+      "theme_and_status": "two live presentation subscriptions"
+    },
+    "inputs": 74,
+    "guards": 22,
+    "loader_refusals": 16,
+    "executions": [
+      {
+        "name": "font-preview",
+        "mode": "debug",
+        "exit_code": 0,
+        "output": "Font preview production checks: 5407"
+      },
+      {
+        "name": "font-preview",
+        "mode": "optimized",
+        "exit_code": 0,
+        "output": "Font preview production checks: 5407"
+      },
+      {
+        "name": "final-font-resolver",
+        "mode": "debug",
+        "exit_code": 0,
+        "output": "App font selection checks: 58"
+      },
+      {
+        "name": "final-font-resolver",
+        "mode": "optimized",
+        "exit_code": 0,
+        "output": "App font selection checks: 58"
+      },
+      {
+        "name": "row-immediate-save",
+        "mode": "debug",
+        "exit_code": 96,
+        "output": "Font preview regression: row selection never persists or notifies"
+      },
+      {
+        "name": "row-immediate-save",
+        "mode": "optimized",
+        "exit_code": 96,
+        "output": "Font preview regression: row selection never persists or notifies"
+      },
+      {
+        "name": "apply-does-not-save",
+        "mode": "debug",
+        "exit_code": 96,
+        "output": "Font preview regression: Apply persists once"
+      },
+      {
+        "name": "apply-does-not-save",
+        "mode": "optimized",
+        "exit_code": 96,
+        "output": "Font preview regression: Apply persists once"
+      },
+      {
+        "name": "external-overwrites-draft",
+        "mode": "debug",
+        "exit_code": 96,
+        "output": "Font preview regression: external change keeps pending candidate"
+      },
+      {
+        "name": "external-overwrites-draft",
+        "mode": "optimized",
+        "exit_code": 96,
+        "output": "Font preview regression: external change keeps pending candidate"
+      },
+      {
+        "name": "lost-legal-content",
+        "mode": "debug",
+        "exit_code": 96,
+        "output": "Font preview regression: every original legal word retained in order"
+      },
+      {
+        "name": "lost-legal-content",
+        "mode": "optimized",
+        "exit_code": 96,
+        "output": "Font preview regression: every original legal word retained in order"
+      },
+      {
+        "name": "no-accessibility-scroll",
+        "mode": "debug",
+        "exit_code": 96,
+        "output": "Font preview regression: font list remains accessible"
+      },
+      {
+        "name": "no-accessibility-scroll",
+        "mode": "optimized",
+        "exit_code": 96,
+        "output": "Font preview regression: font list remains accessible"
+      }
+    ],
+    "parsed_swift": 3,
+    "warnings_as_errors": true,
+    "native_node": {
+      "native_headers": "exact guarded actual Texture declarations",
+      "node_sizing_and_navigation_visibility": [
+        {
+          "mode": "debug",
+          "checks": 3,
+          "result": "passed"
+        },
+        {
+          "mode": "optimized",
+          "checks": 3,
+          "result": "passed"
+        }
+      ],
+      "production_uses_designated_two_argument_initializer": true,
+      "wrong_initializer_label": "rejected",
+      "real_uikit": "separate mandatory Apple precheck"
+    },
+    "native_navigation": {
+      "native_signature": "func updatePresentationData(_ presentationData: NavigationBarPresentationData, transition: ContainedViewLayoutTransition)",
+      "actual_caller": "self.navigationBar?.updatePresentationData(NavigationBarPresentationData(presentationData: value), transition: .immediate)",
+      "checks": [
+        {
+          "name": "current",
+          "expected_result": "passed",
+          "verified": true
+        },
+        {
+          "name": "sdk199-missing-transition",
+          "expected_result": "rejected",
+          "verified": true
+        },
+        {
+          "name": "wrong-transition-label",
+          "expected_result": "rejected",
+          "verified": true
+        }
+      ]
+    },
+    "public_adapter_access": [
+      {
+        "name": "public-types",
+        "expected_result": "passed",
+        "verified": true
+      },
+      {
+        "name": "internal-layout",
+        "expected_result": "rejected",
+        "verified": true
+      },
+      {
+        "name": "internal-transition",
+        "expected_result": "rejected",
+        "verified": true
+      }
+    ],
+    "apple_uikit": {
+      "status": "not_run",
+      "reason": "Apple UIKit SDK unavailable on Linux"
+    },
+    "source_unchanged_by_checks": true,
+    "whole_app_sdk": "not_run",
+    "device": "pending",
+    "boundary": "Actual full draft/settings, row/apply/tab/license handlers, preview-card layout and controller layout run with explicit UIKit/font-metric doubles. This is not pixel fidelity or physical iPhone acceptance; full real UIKit APIs are mandatory in the Apple preflight."
+  },
+  "early_preflight": {
+    "canonical_swift_files_by_checkpoint": {
+      "bubble_selection_edge": {
+        "written": 397,
+        "pinned_native_dependencies": 7,
+        "unused_unavailable_native_guards": 115
+      },
+      "composer_file_attachments": {
+        "written": 409,
+        "pinned_native_dependencies": 7,
+        "unused_unavailable_native_guards": 115
+      },
+      "archived_round_native_controls": {
+        "written": 409,
+        "pinned_native_dependencies": 7,
+        "unused_unavailable_native_guards": 115
+      },
+      "transcription_account_defaults": {
+        "written": 410,
+        "pinned_native_dependencies": 7,
+        "unused_unavailable_native_guards": 115
+      },
+      "app_font_selection": {
+        "written": 416,
+        "pinned_native_dependencies": 7,
+        "unused_unavailable_native_guards": 115
+      },
+      "web_video_picture_in_picture": {
+        "written": 422,
+        "pinned_native_dependencies": 7,
+        "unused_unavailable_native_guards": 115
+      },
+      "temporary_expiration_semantics": {
+        "written": 424,
+        "pinned_native_dependencies": 7,
+        "unused_unavailable_native_guards": 115
+      },
+      "wide_channel_post_consistency": {
+        "written": 428,
+        "pinned_native_dependencies": 7,
+        "unused_unavailable_native_guards": 115
+      },
+      "font_theme_contrast": {
+        "written": 430,
+        "pinned_native_dependencies": 7,
+        "unused_unavailable_native_guards": 115
+      },
+      "system_web_picture_in_picture": {
+        "written": 433,
+        "pinned_native_dependencies": 7,
+        "unused_unavailable_native_guards": 115
+      },
+      "wide_panel_consistency": {
+        "written": 437,
+        "pinned_native_dependencies": 7,
+        "unused_unavailable_native_guards": 115
+      },
+      "premium_temporary_transcription": {
+        "written": 437,
+        "pinned_native_dependencies": 7,
+        "unused_unavailable_native_guards": 115
+      },
+      "font_preview_apply": {
+        "written": 439,
+        "pinned_native_dependencies": 0,
+        "unused_unavailable_native_guards": 115
+      }
+    },
+    "complete_fixtures": 17,
+    "executions": [
+      {
+        "name": "bubble-edge",
+        "mode": "debug",
+        "exit_code": 0,
+        "output": "Production bubble edge checks: 17300"
+      },
+      {
+        "name": "bubble-edge",
+        "mode": "optimized",
+        "exit_code": 0,
+        "output": "Production bubble edge checks: 17300"
+      },
+      {
+        "name": "composer-attachments",
+        "mode": "debug",
+        "exit_code": 0,
+        "output": "701 production composer-file checks passed"
+      },
+      {
+        "name": "composer-attachments",
+        "mode": "optimized",
+        "exit_code": 0,
+        "output": "701 production composer-file checks passed"
+      },
+      {
+        "name": "archived-round-controls",
+        "mode": "debug",
+        "exit_code": 0,
+        "output": "58 archived native-round checks passed"
+      },
+      {
+        "name": "archived-round-controls",
+        "mode": "optimized",
+        "exit_code": 0,
+        "output": "58 archived native-round checks passed"
+      },
+      {
+        "name": "transcription-defaults",
+        "mode": "debug",
+        "exit_code": 0,
+        "output": "Transcription account defaults checks: 38\nPrivate temporary transcription checks: 590"
+      },
+      {
+        "name": "transcription-defaults",
+        "mode": "optimized",
+        "exit_code": 0,
+        "output": "Transcription account defaults checks: 38\nPrivate temporary transcription checks: 590"
+      },
+      {
+        "name": "font-selection",
+        "mode": "debug",
+        "exit_code": 0,
+        "output": "App font selection checks: 58"
+      },
+      {
+        "name": "font-selection",
+        "mode": "optimized",
+        "exit_code": 0,
+        "output": "App font selection checks: 58"
+      },
+      {
+        "name": "web-video-pip",
+        "mode": "debug",
+        "exit_code": 0,
+        "output": "web-video-pip production checks: 402"
+      },
+      {
+        "name": "web-video-pip",
+        "mode": "optimized",
+        "exit_code": 0,
+        "output": "web-video-pip production checks: 402"
+      },
+      {
+        "name": "expiry-archive",
+        "mode": "debug",
+        "exit_code": 0,
+        "output": "temporary-expiry archive checks: 488"
+      },
+      {
+        "name": "expiry-archive",
+        "mode": "optimized",
+        "exit_code": 0,
+        "output": "temporary-expiry archive checks: 488"
+      },
+      {
+        "name": "expiry-consumption",
+        "mode": "debug",
+        "exit_code": 0,
+        "output": "temporary-expiry consumption checks: 731"
+      },
+      {
+        "name": "expiry-consumption",
+        "mode": "optimized",
+        "exit_code": 0,
+        "output": "temporary-expiry consumption checks: 731"
+      },
+      {
+        "name": "expiry-read",
+        "mode": "debug",
+        "exit_code": 0,
+        "output": "temporary-expiry native read checks: 126"
+      },
+      {
+        "name": "expiry-read",
+        "mode": "optimized",
+        "exit_code": 0,
+        "output": "temporary-expiry native read checks: 126"
+      },
+      {
+        "name": "wide-channel-posts",
+        "mode": "debug",
+        "exit_code": 0,
+        "output": "wide channel post checks: 42672"
+      },
+      {
+        "name": "wide-channel-posts",
+        "mode": "optimized",
+        "exit_code": 0,
+        "output": "wide channel post checks: 42672"
+      },
+      {
+        "name": "font-theme-contrast",
+        "mode": "debug",
+        "exit_code": 0,
+        "output": "font theme production checks: 227"
+      },
+      {
+        "name": "font-theme-contrast",
+        "mode": "optimized",
+        "exit_code": 0,
+        "output": "font theme production checks: 227"
+      },
+      {
+        "name": "system-web-bridges",
+        "mode": "debug",
+        "exit_code": 0,
+        "output": "system web PiP production checks: 93"
+      },
+      {
+        "name": "system-web-bridges",
+        "mode": "optimized",
+        "exit_code": 0,
+        "output": "system web PiP production checks: 93"
+      },
+      {
+        "name": "system-web-gallery",
+        "mode": "debug",
+        "exit_code": 0,
+        "output": "system web gallery production checks: 48"
+      },
+      {
+        "name": "system-web-gallery",
+        "mode": "optimized",
+        "exit_code": 0,
+        "output": "system web gallery production checks: 48"
+      },
+      {
+        "name": "wide-panels",
+        "mode": "debug",
+        "exit_code": 0,
+        "output": "PASS wide panel production checks: 2723"
+      },
+      {
+        "name": "wide-panels",
+        "mode": "optimized",
+        "exit_code": 0,
+        "output": "PASS wide panel production checks: 2723"
+      },
+      {
+        "name": "premium-file-asr",
+        "mode": "debug",
+        "exit_code": 0,
+        "output": "PASS Premium file transcription checks: 307"
+      },
+      {
+        "name": "premium-file-asr",
+        "mode": "optimized",
+        "exit_code": 0,
+        "output": "PASS Premium file transcription checks: 307"
+      },
+      {
+        "name": "font-preview-apply",
+        "mode": "debug",
+        "exit_code": 0,
+        "output": "Font preview production checks: 5407"
+      },
+      {
+        "name": "font-preview-apply",
+        "mode": "optimized",
+        "exit_code": 0,
+        "output": "Font preview production checks: 5407"
+      },
+      {
+        "name": "final-font-resolver",
+        "mode": "debug",
+        "exit_code": 0,
+        "output": "App font selection checks: 58"
+      },
+      {
+        "name": "final-font-resolver",
+        "mode": "optimized",
+        "exit_code": 0,
+        "output": "App font selection checks: 58"
+      }
+    ],
+    "font_apply_node_contract": {
+      "native_headers": "exact guarded actual Texture declarations",
+      "node_sizing_and_navigation_visibility": [
+        {
+          "mode": "debug",
+          "checks": 3,
+          "result": "passed"
+        },
+        {
+          "mode": "optimized",
+          "checks": 3,
+          "result": "passed"
+        }
+      ],
+      "production_uses_designated_two_argument_initializer": true,
+      "wrong_initializer_label": "rejected",
+      "real_uikit": "separate mandatory Apple precheck"
+    },
+    "native_navigation_contract": {
+      "native_signature": "func updatePresentationData(_ presentationData: NavigationBarPresentationData, transition: ContainedViewLayoutTransition)",
+      "actual_caller": "self.navigationBar?.updatePresentationData(NavigationBarPresentationData(presentationData: value), transition: .immediate)",
+      "checks": [
+        {
+          "name": "current",
+          "expected_result": "passed",
+          "verified": true
+        },
+        {
+          "name": "sdk199-missing-transition",
+          "expected_result": "rejected",
+          "verified": true
+        },
+        {
+          "name": "wrong-transition-label",
+          "expected_result": "rejected",
+          "verified": true
+        }
+      ]
+    },
+    "font_adapter_access_contract": [
+      {
+        "name": "public-types",
+        "expected_result": "passed",
+        "verified": true
+      },
+      {
+        "name": "internal-layout",
+        "expected_result": "rejected",
+        "verified": true
+      },
+      {
+        "name": "internal-transition",
+        "expected_result": "rejected",
+        "verified": true
+      }
+    ],
+    "apple_uikit_precheck": {
+      "status": "not_run",
+      "reason": "Apple UIKit SDK unavailable on Linux"
+    },
+    "font_icon_uikit_precheck": {
+      "status": "not_run",
+      "reason": "Real UIKit renderer typecheck requires Apple SDK"
+    },
+    "warnings_as_errors": true,
+    "full_application_sdk": "pending",
+    "device": "pending",
+    "actual_font_theme_adapter_members": {
+      "status": "passed",
+      "scope": "Actual final font UIKit adapter root/status declarations with native enum cases/getter and actual caller; pixels not exercised"
+    },
+    "system_web_javascript": {
+      "status": "passed",
+      "output": "system web DOM production checks: 88",
+      "boundary": "Actual injected JavaScript in Node vm; explicit DOM/frame/video events, no real iOS WebKit or media pixels"
+    },
+    "system_web_real_sdk": {
+      "status": "not_run",
+      "reason": "Real AVKit/WebKit/AVFoundation SDK requires macOS"
+    }
+  },
+  "geometry_imports": {
+    "boundaries": [
+      {
+        "name": "round-row",
+        "mode": "debug",
+        "passed": true
+      },
+      {
+        "name": "round-row",
+        "mode": "optimized",
+        "passed": true
+      },
+      {
+        "name": "pip-handoff",
+        "mode": "debug",
+        "passed": true
+      },
+      {
+        "name": "pip-handoff",
+        "mode": "optimized",
+        "passed": true
+      },
+      {
+        "name": "pip-snapshot",
+        "mode": "debug",
+        "passed": true
+      },
+      {
+        "name": "pip-snapshot",
+        "mode": "optimized",
+        "passed": true
+      },
+      {
+        "name": "download-layout",
+        "mode": "debug",
+        "passed": true
+      },
+      {
+        "name": "download-layout",
+        "mode": "optimized",
+        "passed": true
+      },
+      {
+        "name": "temporary-notice",
+        "mode": "debug",
+        "passed": true
+      },
+      {
+        "name": "temporary-notice",
+        "mode": "optimized",
+        "passed": true
+      },
+      {
+        "name": "revision-badge",
+        "mode": "debug",
+        "passed": true
+      },
+      {
+        "name": "revision-badge",
+        "mode": "optimized",
+        "passed": true
+      },
+      {
+        "name": "pip-continuity",
+        "mode": "debug",
+        "passed": true
+      },
+      {
+        "name": "pip-continuity",
+        "mode": "optimized",
+        "passed": true
+      },
+      {
+        "name": "round-video-editor",
+        "mode": "debug",
+        "passed": true
+      },
+      {
+        "name": "round-video-editor",
+        "mode": "optimized",
+        "passed": true
+      },
+      {
+        "name": "round-replacement",
+        "mode": "debug",
+        "passed": true
+      },
+      {
+        "name": "round-replacement",
+        "mode": "optimized",
+        "passed": true
+      },
+      {
+        "name": "download-contour",
+        "mode": "debug",
+        "passed": true
+      },
+      {
+        "name": "download-contour",
+        "mode": "optimized",
+        "passed": true
+      },
+      {
+        "name": "bubble-selection-edge",
+        "mode": "debug",
+        "passed": true
+      },
+      {
+        "name": "bubble-selection-edge",
+        "mode": "optimized",
+        "passed": true
+      },
+      {
+        "name": "font-public-access",
+        "mode": "debug",
+        "passed": true
+      },
+      {
+        "name": "font-public-access",
+        "mode": "optimized",
+        "passed": true
+      },
+      {
+        "name": "font-preview-layout",
+        "mode": "debug",
+        "passed": true
+      },
+      {
+        "name": "font-preview-layout",
+        "mode": "optimized",
+        "passed": true
+      },
+      {
+        "name": "wide-panels",
+        "mode": "debug",
+        "passed": true
+      },
+      {
+        "name": "wide-panels",
+        "mode": "optimized",
+        "passed": true
+      },
+      {
+        "name": "system-web-bridges",
+        "mode": "debug",
+        "passed": true
+      },
+      {
+        "name": "system-web-bridges",
+        "mode": "optimized",
+        "passed": true
+      },
+      {
+        "name": "system-web-gallery",
+        "mode": "debug",
+        "passed": true
+      },
+      {
+        "name": "system-web-gallery",
+        "mode": "optimized",
+        "passed": true
+      }
+    ],
+    "apple_import_negatives": [],
+    "boundary": "Actual test boundary imports and geometry operators; no UIKit or whole-app SDK build.",
+    "apple_import_negative_boundary": "Runs only with Apple Swift; Linux Foundation differs."
+  },
+  "late_inverse": {
+    "late_source_stages": [
+      "wide_bottom_bar",
+      "author_selection_no_restore",
+      "preview_reply_intent",
+      "cloud_credential_entry",
+      "extended_poll_integrity",
+      "bot_delete_without_block",
+      "wide_tab_bar_setting",
+      "pip_swipe_handoff",
+      "temporary_message_interaction",
+      "account_settings_entry",
+      "release_090_preflight_fixes",
+      "release_090_author_compile",
+      "round_video_replay_stability",
+      "pip_gallery_placeholder",
+      "download_sheet_edge",
+      "edit_history_cards",
+      "copy_reference_recovery",
+      "edit_history_number_badges",
+      "pip_visual_continuity",
+      "local_copy_delivery",
+      "temporary_playback_identity",
+      "round_video_editor",
+      "proxy_doh_editor",
+      "download_sheet_corners",
+      "hide_premium_offers",
+      "content_interaction_consent",
+      "release_092_settings_compile",
+      "round_native_playback",
+      "poll_copy_transport",
+      "premium_label_cleanup",
+      "premium_label_spelling",
+      "pip_backdrop_stability",
+      "private_temporary_transcription",
+      "ghostgram_authorless_transport",
+      "round_replacement_geometry",
+      "download_sheet_vector_contour",
+      "bubble_selection_edge",
+      "composer_file_attachments",
+      "archived_round_native_controls",
+      "transcription_account_defaults",
+      "app_font_selection",
+      "web_video_picture_in_picture",
+      "temporary_expiration_semantics",
+      "release_095_fonts_compile",
+      "release_095_composer_strings_compile",
+      "wide_channel_post_consistency",
+      "font_theme_contrast",
+      "system_web_picture_in_picture",
+      "wide_panel_consistency",
+      "settings_section_header_case",
+      "premium_temporary_transcription",
+      "font_preview_apply"
+    ],
+    "published_contract_paths": 784,
+    "actual_published_pipeline_compared": false,
+    "full_source_files_preserved": 37682,
+    "introduced_helpers_absent_from_history": [
+      "submodules/Display/Resources/NagramiXFonts/PTAstraSans-Bold.ttf",
+      "submodules/Display/Resources/NagramiXFonts/PTAstraSans-BoldItalic.ttf",
+      "submodules/Display/Resources/NagramiXFonts/PTAstraSans-Italic.ttf",
+      "submodules/Display/Resources/NagramiXFonts/PTAstraSans-LICENSE.txt",
+      "submodules/Display/Resources/NagramiXFonts/PTAstraSans-Regular.ttf",
+      "submodules/Display/Resources/NagramiXFonts/PTAstraSerif-Bold.ttf",
+      "submodules/Display/Resources/NagramiXFonts/PTAstraSerif-BoldItalic.ttf",
+      "submodules/Display/Resources/NagramiXFonts/PTAstraSerif-Italic.ttf",
+      "submodules/Display/Resources/NagramiXFonts/PTAstraSerif-LICENSE.txt",
+      "submodules/Display/Resources/NagramiXFonts/PTAstraSerif-Regular.ttf",
+      "submodules/Display/Resources/NagramiXFonts/Roboto-Black.ttf",
+      "submodules/Display/Resources/NagramiXFonts/Roboto-BlackItalic.ttf",
+      "submodules/Display/Resources/NagramiXFonts/Roboto-Bold.ttf",
+      "submodules/Display/Resources/NagramiXFonts/Roboto-BoldItalic.ttf",
+      "submodules/Display/Resources/NagramiXFonts/Roboto-Italic.ttf",
+      "submodules/Display/Resources/NagramiXFonts/Roboto-LICENSE.txt",
+      "submodules/Display/Resources/NagramiXFonts/Roboto-Light.ttf",
+      "submodules/Display/Resources/NagramiXFonts/Roboto-LightItalic.ttf",
+      "submodules/Display/Resources/NagramiXFonts/Roboto-Medium.ttf",
+      "submodules/Display/Resources/NagramiXFonts/Roboto-MediumItalic.ttf",
+      "submodules/Display/Resources/NagramiXFonts/Roboto-NOTICE.txt",
+      "submodules/Display/Resources/NagramiXFonts/Roboto-Regular.ttf",
+      "submodules/Display/Resources/NagramiXFonts/Roboto-Thin.ttf",
+      "submodules/Display/Resources/NagramiXFonts/Roboto-ThinItalic.ttf",
+      "submodules/Display/Source/NagramiXFontManager.swift",
+      "submodules/NagramiXMediaSettings/Sources/NagramiXFontSettings.swift",
+      "submodules/SettingsUI/Sources/NagramiXFontsController.swift",
+      "submodules/TelegramUI/Sources/Chat/NagramiXTemporaryReplySend.swift"
+    ],
+    "pre_ninth_checkpoint_verified": true,
+    "pre_tenth_checkpoint_verified": true,
+    "pre_eleventh_checkpoint_verified": true,
+    "pre_eleventh_inputs_restored": [
+      "submodules/TelegramCore/Sources/Utils/NagramiXMessageArchive.swift",
+      "submodules/TelegramUI/Sources/Chat/ChatControllerLoadDisplayNode.swift"
+    ],
+    "negative_projection_verified_before_mutation": true,
+    "fail_closed": [
+      "wide_bottom_bar/output-drift",
+      "author_selection_no_restore/output-drift",
+      "preview_reply_intent/output-drift",
+      "cloud_credential_entry/output-drift",
+      "extended_poll_integrity/output-drift",
+      "bot_delete_without_block/output-drift",
+      "wide_tab_bar_setting/output-drift",
+      "pip_swipe_handoff/output-drift",
+      "temporary_message_interaction/output-drift",
+      "account_settings_entry/output-drift",
+      "release_090_preflight_fixes/output-drift",
+      "release_090_author_compile/output-drift",
+      "round_video_replay_stability/output-drift",
+      "pip_gallery_placeholder/output-drift",
+      "download_sheet_edge/output-drift",
+      "edit_history_cards/output-drift",
+      "copy_reference_recovery/output-drift",
+      "edit_history_number_badges/output-drift",
+      "pip_visual_continuity/output-drift",
+      "local_copy_delivery/output-drift",
+      "temporary_playback_identity/output-drift",
+      "round_video_editor/output-drift",
+      "proxy_doh_editor/output-drift",
+      "download_sheet_corners/output-drift",
+      "hide_premium_offers/output-drift",
+      "content_interaction_consent/output-drift",
+      "release_092_settings_compile/output-drift",
+      "round_native_playback/output-drift",
+      "poll_copy_transport/output-drift",
+      "premium_label_cleanup/output-drift",
+      "premium_label_spelling/output-drift",
+      "pip_backdrop_stability/output-drift",
+      "private_temporary_transcription/output-drift",
+      "ghostgram_authorless_transport/output-drift",
+      "round_replacement_geometry/output-drift",
+      "download_sheet_vector_contour/output-drift",
+      "bubble_selection_edge/output-drift",
+      "composer_file_attachments/output-drift",
+      "archived_round_native_controls/output-drift",
+      "transcription_account_defaults/output-drift",
+      "app_font_selection/output-drift",
+      "web_video_picture_in_picture/output-drift",
+      "temporary_expiration_semantics/output-drift",
+      "release_095_fonts_compile/output-drift",
+      "release_095_composer_strings_compile/output-drift",
+      "wide_channel_post_consistency/output-drift",
+      "font_theme_contrast/output-drift",
+      "system_web_picture_in_picture/output-drift",
+      "wide_panel_consistency/output-drift",
+      "settings_section_header_case/output-drift",
+      "premium_temporary_transcription/output-drift",
+      "font_preview_apply/output-drift",
+      "native-guard-missing",
+      "copied-helper-drift",
+      "copied-helper-missing",
+      "copied-helper-external-symlink",
+      "copied-helper-drift",
+      "copied-helper-missing",
+      "copied-helper-external-symlink",
+      "copied-helper-drift",
+      "copied-helper-missing",
+      "copied-helper-external-symlink",
+      "copied-helper-drift",
+      "copied-helper-missing",
+      "copied-helper-external-symlink",
+      "copied-helper-drift",
+      "copied-helper-missing",
+      "copied-helper-external-symlink",
+      "copied-helper-drift",
+      "copied-helper-missing",
+      "copied-helper-external-symlink",
+      "copied-helper-drift",
+      "copied-helper-missing",
+      "copied-helper-external-symlink",
+      "copied-helper-drift",
+      "copied-helper-missing",
+      "copied-helper-external-symlink",
+      "copied-helper-drift",
+      "copied-helper-missing",
+      "copied-helper-external-symlink",
+      "copied-helper-drift",
+      "copied-helper-missing",
+      "copied-helper-external-symlink",
+      "copied-helper-drift",
+      "copied-helper-missing",
+      "copied-helper-external-symlink",
+      "copied-helper-drift",
+      "copied-helper-missing",
+      "copied-helper-external-symlink",
+      "copied-helper-drift",
+      "copied-helper-missing",
+      "copied-helper-external-symlink",
+      "copied-helper-drift",
+      "copied-helper-missing",
+      "copied-helper-external-symlink",
+      "copied-helper-drift",
+      "copied-helper-missing",
+      "copied-helper-external-symlink",
+      "copied-helper-drift",
+      "copied-helper-missing",
+      "copied-helper-external-symlink",
+      "copied-helper-drift",
+      "copied-helper-missing",
+      "copied-helper-external-symlink",
+      "copied-helper-drift",
+      "copied-helper-missing",
+      "copied-helper-external-symlink",
+      "copied-helper-drift",
+      "copied-helper-missing",
+      "copied-helper-external-symlink",
+      "copied-helper-drift",
+      "copied-helper-missing",
+      "copied-helper-external-symlink",
+      "copied-helper-drift",
+      "copied-helper-missing",
+      "copied-helper-external-symlink",
+      "copied-helper-drift",
+      "copied-helper-missing",
+      "copied-helper-external-symlink",
+      "copied-helper-drift",
+      "copied-helper-missing",
+      "copied-helper-external-symlink",
+      "copied-helper-drift",
+      "copied-helper-missing",
+      "copied-helper-external-symlink",
+      "copied-helper-drift",
+      "copied-helper-missing",
+      "copied-helper-external-symlink",
+      "copied-helper-drift",
+      "copied-helper-missing",
+      "copied-helper-external-symlink",
+      "copied-helper-drift",
+      "copied-helper-missing",
+      "copied-helper-external-symlink",
+      "copied-helper-drift",
+      "copied-helper-missing",
+      "copied-helper-external-symlink",
+      "template-drift-before-inverse",
+      "pip_swipe_handoff/previous-stage-missing",
+      "pip_swipe_handoff/previous-stage-drift",
+      "temporary_message_interaction/previous-stage-missing",
+      "temporary_message_interaction/previous-stage-drift",
+      "account_settings_entry/previous-stage-missing",
+      "account_settings_entry/previous-stage-drift",
+      "release_090_preflight_fixes/previous-stage-missing",
+      "release_090_preflight_fixes/previous-stage-drift",
+      "release_090_author_compile/previous-stage-missing",
+      "release_090_author_compile/previous-stage-drift",
+      "round_video_replay_stability/previous-stage-missing",
+      "round_video_replay_stability/previous-stage-drift",
+      "pip_gallery_placeholder/previous-stage-missing",
+      "pip_gallery_placeholder/previous-stage-drift",
+      "download_sheet_edge/previous-stage-missing",
+      "download_sheet_edge/previous-stage-drift",
+      "edit_history_cards/previous-stage-missing",
+      "edit_history_cards/previous-stage-drift",
+      "copy_reference_recovery/previous-stage-missing",
+      "copy_reference_recovery/previous-stage-drift",
+      "edit_history_number_badges/previous-stage-missing",
+      "edit_history_number_badges/previous-stage-drift",
+      "pip_visual_continuity/previous-stage-missing",
+      "pip_visual_continuity/previous-stage-drift",
+      "local_copy_delivery/previous-stage-missing",
+      "local_copy_delivery/previous-stage-drift",
+      "temporary_playback_identity/previous-stage-missing",
+      "temporary_playback_identity/previous-stage-drift",
+      "round_video_editor/previous-stage-missing",
+      "round_video_editor/previous-stage-drift",
+      "proxy_doh_editor/previous-stage-missing",
+      "proxy_doh_editor/previous-stage-drift",
+      "download_sheet_corners/previous-stage-missing",
+      "download_sheet_corners/previous-stage-drift",
+      "hide_premium_offers/previous-stage-missing",
+      "hide_premium_offers/previous-stage-drift",
+      "content_interaction_consent/previous-stage-missing",
+      "content_interaction_consent/previous-stage-drift",
+      "release_092_settings_compile/previous-stage-missing",
+      "release_092_settings_compile/previous-stage-drift",
+      "round_native_playback/previous-stage-missing",
+      "round_native_playback/previous-stage-drift",
+      "poll_copy_transport/previous-stage-missing",
+      "poll_copy_transport/previous-stage-drift",
+      "premium_label_cleanup/previous-stage-missing",
+      "premium_label_cleanup/previous-stage-drift",
+      "premium_label_spelling/previous-stage-missing",
+      "premium_label_spelling/previous-stage-drift",
+      "pip_backdrop_stability/previous-stage-missing",
+      "pip_backdrop_stability/previous-stage-drift",
+      "private_temporary_transcription/previous-stage-missing",
+      "private_temporary_transcription/previous-stage-drift",
+      "ghostgram_authorless_transport/previous-stage-missing",
+      "ghostgram_authorless_transport/previous-stage-drift",
+      "round_replacement_geometry/previous-stage-missing",
+      "round_replacement_geometry/previous-stage-drift",
+      "download_sheet_vector_contour/previous-stage-missing",
+      "download_sheet_vector_contour/previous-stage-drift",
+      "bubble_selection_edge/previous-stage-missing",
+      "bubble_selection_edge/previous-stage-drift",
+      "composer_file_attachments/previous-stage-missing",
+      "composer_file_attachments/previous-stage-drift",
+      "archived_round_native_controls/previous-stage-missing",
+      "archived_round_native_controls/previous-stage-drift",
+      "transcription_account_defaults/previous-stage-missing",
+      "transcription_account_defaults/previous-stage-drift",
+      "app_font_selection/previous-stage-missing",
+      "app_font_selection/previous-stage-drift",
+      "web_video_picture_in_picture/previous-stage-missing",
+      "web_video_picture_in_picture/previous-stage-drift",
+      "temporary_expiration_semantics/previous-stage-missing",
+      "temporary_expiration_semantics/previous-stage-drift",
+      "release_095_fonts_compile/previous-stage-missing",
+      "release_095_fonts_compile/previous-stage-drift",
+      "release_095_composer_strings_compile/previous-stage-missing",
+      "release_095_composer_strings_compile/previous-stage-drift",
+      "wide_channel_post_consistency/previous-stage-missing",
+      "wide_channel_post_consistency/previous-stage-drift",
+      "font_theme_contrast/previous-stage-missing",
+      "font_theme_contrast/previous-stage-drift",
+      "system_web_picture_in_picture/previous-stage-missing",
+      "system_web_picture_in_picture/previous-stage-drift",
+      "wide_panel_consistency/previous-stage-missing",
+      "wide_panel_consistency/previous-stage-drift",
+      "settings_section_header_case/previous-stage-missing",
+      "settings_section_header_case/previous-stage-drift",
+      "premium_temporary_transcription/previous-stage-missing",
+      "premium_temporary_transcription/previous-stage-drift",
+      "font_preview_apply/previous-stage-missing",
+      "font_preview_apply/previous-stage-drift",
+      "wide_bottom_bar/native-blob-proof-missing",
+      "wide_bottom_bar/native-blob-drift/submodules/TelegramUI/Components/TabBarComponent/Sources/TabBarComponent.swift",
+      "temporary_message_interaction/native-blob-proof-missing",
+      "temporary_message_interaction/native-blob-drift/submodules/GalleryData/Sources/GalleryData.swift",
+      "temporary_message_interaction/native-blob-drift/submodules/TelegramCore/Sources/State/ManagedSecretChatOutgoingOperations.swift",
+      "temporary_message_interaction/native-blob-drift/submodules/TelegramCore/Sources/State/ProcessSecretChatIncomingDecryptedOperations.swift",
+      "temporary_message_interaction/native-blob-drift/submodules/TelegramUI/Components/Chat/ChatMessageReplyInfoNode/Sources/ChatMessageReplyInfoNode.swift",
+      "temporary_message_interaction/native-blob-drift/submodules/TelegramUI/Components/Chat/ReplyAccessoryPanelNode/Sources/ReplyAccessoryPanelNode.swift",
+      "account_settings_entry/native-blob-proof-missing",
+      "account_settings_entry/native-blob-drift/submodules/SettingsUI/Sources/Search/SettingsSearchableItems.swift",
+      "download_sheet_edge/native-blob-proof-missing",
+      "download_sheet_edge/native-blob-drift/submodules/Display/Source/ActionSheetController.swift",
+      "download_sheet_edge/native-blob-drift/submodules/Display/Source/ActionSheetControllerNode.swift",
+      "download_sheet_edge/native-blob-drift/submodules/Display/Source/ActionSheetItemGroupsContainerNode.swift",
+      "download_sheet_edge/native-blob-drift/submodules/Display/Source/ActionSheetItemGroupNode.swift",
+      "round_video_editor/native-blob-proof-missing",
+      "round_video_editor/native-blob-drift/submodules/TelegramUI/Components/ChatMediaEditorScreen/BUILD",
+      "round_video_editor/native-blob-drift/submodules/TelegramUI/Components/ChatMediaSend/Sources/ChatMediaEditorItemStore.swift",
+      "round_video_editor/native-blob-drift/submodules/TelegramUI/Components/ChatMediaEditorScreen/Sources/ChatMediaEditorBottomControls.swift",
+      "round_video_editor/native-blob-drift/submodules/TelegramUI/Components/ChatMediaEditorScreen/Sources/ChatMediaEditorBottomControlsComponent.swift",
+      "round_video_editor/native-blob-drift/submodules/TelegramUI/Components/ChatMediaEditorScreen/Sources/ChatMediaEditorScreen.swift",
+      "round_video_editor/native-blob-drift/submodules/TelegramUI/Components/ChatMediaEditorScreen/Sources/ChatMediaEditorScreenVideo.swift",
+      "round_video_editor/native-blob-drift/submodules/TelegramUI/Components/ChatMediaEditorScreen/Sources/ChatMediaEditorScreenCrop.swift",
+      "round_video_editor/native-blob-drift/submodules/TelegramUI/Components/ChatMediaEditorScreen/Sources/ChatMediaEditorScreenQuality.swift",
+      "round_video_editor/native-blob-drift/submodules/TelegramUI/Components/ChatMediaSend/Sources/ChatMediaSendPlan.swift",
+      "round_video_editor/native-blob-drift/submodules/TelegramUI/Components/ChatMediaSend/Sources/ChatMediaSendItem.swift",
+      "round_video_editor/native-blob-drift/submodules/TelegramUI/Components/ChatMediaSend/Sources/ChatMediaSendMessages.swift",
+      "round_video_editor/native-blob-drift/submodules/TelegramUI/Components/ChatMediaSend/Sources/ChatMediaSendSingleItem.swift",
+      "round_video_editor/native-blob-drift/submodules/TelegramUI/Components/ChatMediaEditorScreen/Sources/ChatMediaEditorLandscape.swift",
+      "hide_premium_offers/native-blob-proof-missing",
+      "hide_premium_offers/native-blob-drift/submodules/TelegramUI/Components/GlobalControlPanelsContext/Sources/GlobalControlPanelsContext.swift",
+      "hide_premium_offers/native-blob-drift/submodules/TelegramUI/Components/GlobalControlPanelsContext/BUILD",
+      "content_interaction_consent/native-blob-proof-missing",
+      "content_interaction_consent/native-blob-drift/submodules/TelegramCore/Sources/SecretChats/SetSecretChatMessageAutoremoveTimeoutInteractively.swift",
+      "composer_file_attachments/native-blob-proof-missing",
+      "composer_file_attachments/native-blob-drift/submodules/TelegramUI/Sources/Chat/ChatControllerOpenDocumentScanner.swift",
+      "app_font_selection/native-blob-proof-missing",
+      "app_font_selection/native-blob-drift/submodules/Display/Source/Font.swift",
+      "web_video_picture_in_picture/native-blob-proof-missing",
+      "web_video_picture_in_picture/native-blob-drift/submodules/InstantPageUI/Sources/InstantPageGalleryController.swift",
+      "wide_panel_consistency/native-blob-proof-missing",
+      "wide_panel_consistency/native-blob-drift/submodules/AttachmentUI/Sources/AttachmentPanel.swift",
+      "wide_panel_consistency/native-blob-drift/submodules/AttachmentUI/BUILD",
+      "wide_panel_consistency/native-blob-drift/submodules/TelegramUI/Components/TabSelectorComponent/Sources/TabSelectorComponent.swift",
+      "wide_panel_consistency/native-blob-drift/submodules/TelegramUI/Components/TabSelectorComponent/BUILD"
+    ],
+    "sdk": "not_run",
+    "device": "pending"
+  },
+  "upstream": {
+    "target_pin": "24638bc69bd083981b178dd1e7f921eebbf7fc46",
+    "pre_replacements": 196,
+    "post_replacements": 274,
+    "deleted_obsolete_files": 2,
+    "fail_closed": {
+      "pre": 17,
+      "post": 33
+    },
+    "parsed_swift": 554,
+    "executions": [
+      "current-debug: PiP playback command checks: 113",
+      "current-O: PiP playback command checks: 113",
+      "previous-native-debug: Native PiP baseline checks: 37",
+      "previous-native-O: Native PiP baseline checks: 37",
+      "previous-caption-debug: Round caption transport checks: 118",
+      "previous-caption-O: Round caption transport checks: 118",
+      "previous-composer-debug: Repost copy integrity checks: 48",
+      "previous-composer-O: Repost copy integrity checks: 48",
+      "old-toggle-command-debug: regression reproduced and rejected",
+      "old-toggle-command-O: regression reproduced and rejected",
+      "cached-status-toggle-debug: regression reproduced and rejected",
+      "cached-status-toggle-O: regression reproduced and rejected",
+      "inverted-command-debug: regression reproduced and rejected",
+      "inverted-command-O: regression reproduced and rejected"
+    ],
+    "historical_runtime_boundary": "exact published bytes after verified inverse of all registered late source stages",
+    "late_source_stages": [
+      "wide_bottom_bar",
+      "author_selection_no_restore",
+      "preview_reply_intent",
+      "cloud_credential_entry",
+      "extended_poll_integrity",
+      "bot_delete_without_block",
+      "wide_tab_bar_setting",
+      "pip_swipe_handoff",
+      "temporary_message_interaction",
+      "account_settings_entry",
+      "release_090_preflight_fixes",
+      "release_090_author_compile",
+      "round_video_replay_stability",
+      "pip_gallery_placeholder",
+      "download_sheet_edge",
+      "edit_history_cards",
+      "copy_reference_recovery",
+      "edit_history_number_badges",
+      "pip_visual_continuity",
+      "local_copy_delivery",
+      "temporary_playback_identity",
+      "round_video_editor",
+      "proxy_doh_editor",
+      "download_sheet_corners",
+      "hide_premium_offers",
+      "content_interaction_consent",
+      "release_092_settings_compile",
+      "round_native_playback",
+      "poll_copy_transport",
+      "premium_label_cleanup",
+      "premium_label_spelling",
+      "pip_backdrop_stability",
+      "private_temporary_transcription",
+      "ghostgram_authorless_transport",
+      "round_replacement_geometry",
+      "download_sheet_vector_contour",
+      "bubble_selection_edge",
+      "composer_file_attachments",
+      "archived_round_native_controls",
+      "transcription_account_defaults",
+      "app_font_selection",
+      "web_video_picture_in_picture",
+      "temporary_expiration_semantics",
+      "release_095_fonts_compile",
+      "release_095_composer_strings_compile",
+      "wide_channel_post_consistency",
+      "font_theme_contrast",
+      "system_web_picture_in_picture",
+      "wide_panel_consistency",
+      "settings_section_header_case",
+      "premium_temporary_transcription",
+      "font_preview_apply"
+    ],
+    "native_postbox_imports": "passed",
+    "apple_sdk": "pending",
+    "device": "pending"
+  },
+  "member_audits": {
+    "custom-canonical": {
+      "swift_files": 242,
+      "string_accesses": 815,
+      "distinct_string_members": 231,
+      "actual_string_declarations": 250,
+      "custom_declarations": 866,
+      "full_custom_name_audit": false,
+      "literal_parser_contract": {
+        "accepted_literals_and_comments": 8,
+        "missing_real_members_rejected": 7,
+        "unterminated_literal_rejected": true,
+        "interpolations_preserved": true
+      }
+    },
+    "custom-full": {
+      "swift_files": 7324,
+      "string_accesses": 873,
+      "distinct_string_members": 233,
+      "actual_string_declarations": 250,
+      "custom_declarations": 979,
+      "full_custom_name_audit": true,
+      "literal_parser_contract": {
+        "accepted_literals_and_comments": 8,
+        "missing_real_members_rejected": 7,
+        "unterminated_literal_rejected": true,
+        "interpolations_preserved": true
+      }
+    },
+    "native-canonical": {
+      "swift_files": 242,
+      "native_generated_members": 12190,
+      "native_string_uses": 4057,
+      "distinct_native_members": 2222,
+      "proven_other_typed_owner_reads": 0,
+      "sdk200_mutation_rejected": true,
+      "apple_actual_generated_header": {
+        "status": "not_run",
+        "reason": "Real Objective-C/Apple SDK import requires macOS and swiftc"
+      },
+      "boundary": "Actual native GenerateStrings.py, build rule and final English catalog; generated member existence through strings/namedStrings receivers. Other typed owners need source declaration evidence. Full Swift call arity/type checking and app runtime still require SDK/device."
+    },
+    "native-full": {
+      "swift_files": 7324,
+      "native_generated_members": 12190,
+      "native_string_uses": 18587,
+      "distinct_native_members": 10392,
+      "proven_other_typed_owner_reads": 8,
+      "sdk200_mutation_rejected": true,
+      "apple_actual_generated_header": {
+        "status": "not_run",
+        "reason": "Real Objective-C/Apple SDK import requires macOS and swiftc"
+      },
+      "boundary": "Actual native GenerateStrings.py, build rule and final English catalog; generated member existence through strings/namedStrings receivers. Other typed owners need source declaration evidence. Full Swift call arity/type checking and app runtime still require SDK/device."
+    }
+  },
+  "localization": {
+    "languages": 71,
+    "keys": 650,
+    "runtime_lookups_per_mode": 46319,
+    "modes": [
+      "debug",
+      "optimized"
+    ],
+    "section_headers_contract": 21,
+    "strict_full_source": "passed"
+  },
+  "package_contracts": {
+    "published_095": "71 × 647, exact historical values retained",
+    "next_from_096": "71 × 650, three added keys and requested RU license label only",
+    "fonts": "20 unchanged TTF / four exact original license documents",
+    "test_logs": {
+      "catalogs": ".....................................\n----------------------------------------------------------------------\nRan 37 tests in 93.761s\n\nOK\n",
+      "fonts": ".......\n----------------------------------------------------------------------\nRan 7 tests in 22.835s\n\nOK\n"
+    }
+  },
+  "workflow_mode": {
+    "optional_historical_calls": 189,
+    "unconditional_apply_calls": 60,
+    "mandatory_final_checks": [
+      "validate_late_source_stages.py",
+      "validate_custom_member_references.py",
+      "validate_upstream_13_2_release.py",
+      "validate_localization_standard.py",
+      "validate_release_092_settings_compile.py",
+      "validate_round_native_playback.py",
+      "validate_poll_copy_transport.py",
+      "validate_release_095_fonts_compile.py",
+      "validate_release_095_composer_strings_compile.py",
+      "validate_wide_channel_post_consistency.py",
+      "validate_font_theme_contrast.py",
+      "validate_system_web_picture_in_picture.py",
+      "validate_wide_panel_consistency.py",
+      "validate_settings_section_header_case.py",
+      "validate_premium_temporary_transcription.py",
+      "validate_font_preview_apply.py",
+      "PostboxImportCheck.py"
+    ],
+    "complete_fixture_preflight_before_overlay": "mandatory",
+    "bash_syntax": "passed",
+    "runtime_cases": [
+      {
+        "extended": "false",
+        "exit_code": 0
+      },
+      {
+        "extended": "true",
+        "exit_code": 17
+      },
+      {
+        "extended": "true",
+        "exit_code": 0
+      },
+      {
+        "extended": "invalid",
+        "exit_code": 64
+      }
+    ]
+  },
+  "unchanged_release": "v0.9.5/build201, tag, IPA, README, root LICENSE, annotation, version/build metadata; no Actions dispatch",
+  "ограничение": "Тесты используют настоящие обработчики, model/settings и расчёты layout, но явные UIKit/font-metric doubles. На Linux нет iPhoneOS SDK: реальное отображение, касания native панели, фактические метрики всех iOS-шрифтов и полный Apple SDK build не подтверждены. Обязательная Apple-проверка полного финального экрана находится в раннем gate; физическая приёмка на iPhone ожидается."
+}

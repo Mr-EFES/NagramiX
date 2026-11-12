@@ -93,6 +93,31 @@ def final_upstream_catalog_contract(source):
     """Verify the exact late 13.2 catalogs, without unwrapping historical stages."""
     from validate_upstream_13_2_release import checked_plan, checked_sdk_plans
     from late_source_stages import LATE_SOURCE_STAGES, historical_source, verified_prefix
+    if verified_prefix(source) >= LATE_SOURCE_STAGES.index('font_preview_apply') + 1:
+        preview = checked_plan('font_preview_apply')
+        name = 'font_preview_apply/localization.json'
+        data = (OVERLAY/name).read_bytes()
+        if hashlib.sha256(data).hexdigest() != preview['templates'][name]:
+            raise ValueError('Изменены переводы предпросмотра шрифтов')
+        loc = json.loads(data)
+        codes = {x['code'] for x in json.loads((OVERLAY/'app_language_localization/languages.json').read_text())['languages']}
+        if set(loc['translations']) != codes or len(loc['keys']) != 3:
+            raise ValueError('Неполный набор переводов предпросмотра')
+        with historical_source(source, before_stage='font_preview_apply') as prior:
+            previous_languages, previous_count = final_upstream_catalog_contract(prior)
+            for code in codes:
+                path = 'submodules/NagramiXCore/Resources/' + code + '.lproj/Localizable.strings'
+                before = strings(prior/path)
+                values = loc['translations'][code]
+                if len(values) != 3 or set(loc['keys']) & before.keys():
+                    raise ValueError('Некорректные новые ключи предпросмотра: ' + code)
+                expected = {**before, **dict(zip(loc['keys'], values)), **loc['replacements'].get(code, {})}
+                if strings(source/path) != expected or hashlib.sha256((source/path).read_bytes()).hexdigest() != preview['outputs'][path]:
+                    raise ValueError('Изменены прежние переводы: ' + code)
+        languages, count = catalog_contract(source, codes)
+        if languages != previous_languages or count != previous_count + 3:
+            raise ValueError('Неверное число ключей предпросмотра')
+        return languages, count
     fonts = checked_plan('app_font_selection') if 'app_font_selection' in LATE_SOURCE_STAGES else None
     font_helper = source / 'submodules/NagramiXMediaSettings/Sources/NagramiXFontSettings.swift'
     if fonts is not None and font_helper.is_file():
