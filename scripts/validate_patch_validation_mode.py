@@ -22,6 +22,7 @@ def check(text):
     finish=source.index('          # END optional historical regressions\n',begin)+len('          # END optional historical regressions\n')
     helper='\n'.join(line[10:] for line in source[begin:finish].splitlines())+'\n'
     mandatory=['validate_late_source_stages.py','validate_custom_member_references.py','validate_upstream_13_2_release.py','validate_localization_standard.py','validate_release_092_settings_compile.py','validate_round_native_playback.py','validate_poll_copy_transport.py','validate_release_095_fonts_compile.py','validate_release_095_composer_strings_compile.py']
+    mandatory.append('validate_wide_channel_post_consistency.py')
     for name in mandatory:
         assert re.search(r'^          python3 scripts/'+re.escape(name)+r'\b',source,re.M),name
         assert 'nagramix_extended_check python3 scripts/'+name not in source,name
@@ -66,7 +67,7 @@ def main():
     try:check(changed)
     except AssertionError:pass
     else:raise AssertionError('Optional final native font API gate accepted')
-    for script in ['validate_release_095_composer_strings_compile.py','validate_native_string_references.py']:
+    for script in ['validate_release_095_composer_strings_compile.py','validate_native_string_references.py','validate_wide_channel_post_consistency.py']:
         changed=text.replace('          python3 scripts/'+script,'          nagramix_extended_check python3 scripts/'+script)
         try:check(changed)
         except AssertionError:pass

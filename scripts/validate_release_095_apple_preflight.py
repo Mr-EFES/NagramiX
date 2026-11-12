@@ -21,6 +21,7 @@ import transcription_account_defaults_runtime as transcription
 import app_font_selection_runtime as fonts
 import web_video_picture_in_picture_runtime as pip
 import temporary_expiration_semantics_runtime as expiry
+import wide_channel_post_consistency_runtime as wide
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -100,6 +101,7 @@ def main():
             ('app_font_selection', [('font-selection', fonts.fixture)]),
             ('web_video_picture_in_picture', [('web-video-pip', pip.fixture)]),
             ('temporary_expiration_semantics', [('expiry-archive', expiry.archive), ('expiry-consumption', expiry.consumption), ('expiry-read', expiry.history)]),
+            ('wide_channel_post_consistency', [('wide-channel-posts', wide.fixture)]),
         ]
         for stage, fixtures in entries:
             source = root / stage
@@ -113,7 +115,7 @@ def main():
         navigation=navigation_check(source,args.swiftc,root)
         access = access_check(source, args.swiftc, root)
         apple = apple_check(source, args.swiftc, root)
-    report = {'canonical_swift_files_by_checkpoint':files, 'complete_fixtures':9, 'executions':runs,
+    report = {'canonical_swift_files_by_checkpoint':files, 'complete_fixtures':10, 'executions':runs,
               'native_navigation_contract':navigation, 'font_adapter_access_contract':access, 'apple_uikit_precheck':apple, 'warnings_as_errors':True,
               'full_application_sdk':'pending', 'device':'pending'}
     if args.report: args.report.write_text(json.dumps(report, ensure_ascii=False, indent=2)+'\n')

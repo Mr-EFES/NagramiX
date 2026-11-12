@@ -1,0 +1,62 @@
+{
+  "inputs": {
+    "submodules/TelegramUI/Components/Chat/ChatMessageBubbleItemNode/Sources/ChatMessageBubbleItemNode.swift": "70a82f2c2731f518acd73ceae405679c5559a2bb3355ff42ac2eb11c8bec16e7"
+  },
+  "outputs": {
+    "submodules/TelegramUI/Components/Chat/ChatMessageBubbleItemNode/Sources/ChatMessageBubbleItemNode.swift": "b01ebc5d17db74106eaee85a98efa4423f0ad2217b9d65a79ad3670ed3720f33"
+  },
+  "previous": {
+    "submodules/TelegramUI/Components/Chat/ChatMessageBubbleItemNode/Sources/ChatMessageBubbleItemNode.swift": "wide_channel_post_consistency/Before0.inc"
+  },
+  "replacements": {
+    "submodules/TelegramUI/Components/Chat/ChatMessageBubbleItemNode/Sources/ChatMessageBubbleItemNode.swift": "wide_channel_post_consistency/After0.inc"
+  },
+  "guards": {
+    "submodules/MosaicLayout/Sources/ChatMessageBubbleMosaicLayout.swift": "8cbcbe860467d69dbf230b597ed609954ffeeeb743c905431ab66f9b59cbfaab",
+    "submodules/TelegramUI/Components/Chat/ChatMessageItemCommon/Sources/ChatMessageItemCommon.swift": "1e3afdf13ed3058960f9a2338b66a2325a6fc1979a2b32c7a6bf07777c7726f6",
+    "submodules/TelegramUI/Components/Chat/ChatMessageItemCommon/Sources/ChatMessageBubblelessSelection.swift": "1c6b9ab70a7464fd3530910b06061a2c6e6f3ff2d9007ae3c3cfea1bca638534",
+    "submodules/TelegramUI/Components/Chat/ChatMessageItemCommon/Sources/ChatMessageBubblelessMetrics.swift": "b3ef2787378a8aedddce779fc89ec9f1d6c8afdac4ee5c1eaccc8c33e0554569",
+    "submodules/TelegramUI/Components/Chat/ChatMessageItem/Sources/ChatMessageItem.swift": "3d3b95ebb0387fa1d3ad333fb5a3e4af16d1fd8d32534e7d62ffa23618bfdd6b",
+    "submodules/TelegramUI/Components/Chat/ChatMessageMediaBubbleContentNode/Sources/ChatMessageMediaBubbleContentNode.swift": "bfc158c5b9b8915ef78ffb461e8b7dca66f005f539d28b40e64094ef36236011",
+    "submodules/TelegramUI/Components/Chat/ChatMessageInteractiveMediaNode/Sources/ChatMessageInteractiveMediaNode.swift": "0b78d98514ac612f461a29b188888d1e72c8dc80a705927e24982dabfcda0dfc",
+    "submodules/TelegramUI/Sources/ChatControllerNode.swift": "322d824a55859af7de8ea767c979a5dcf4097c51b21e4c89d72980f93e09f19f",
+    "submodules/NagramiXCore/Sources/NagramiXTabSettings.swift": "dfcc93bf238bb2441deb914f0b9008a1fecbbf0deaab8f58e95196d4e35a1545",
+    "submodules/TelegramUI/Components/Chat/ChatMessageBubbleItemNode/BUILD": "64613a1b52cdd8ebc0490d9a0a5986fd3d35f89f981ebcb0ae29565b953078b2",
+    "submodules/Display/Source/UIKitUtils.swift": "e4bad639084dc2173862d0f48bee6973c54262136d4dca3a1245279e2ed26963"
+  },
+  "guard_sources": {
+    "submodules/MosaicLayout/Sources/ChatMessageBubbleMosaicLayout.swift": "wide_channel_post_consistency/Guard0.inc",
+    "submodules/TelegramUI/Components/Chat/ChatMessageItemCommon/Sources/ChatMessageItemCommon.swift": "wide_channel_post_consistency/Guard1.inc",
+    "submodules/TelegramUI/Components/Chat/ChatMessageItemCommon/Sources/ChatMessageBubblelessSelection.swift": "wide_channel_post_consistency/Guard2.inc",
+    "submodules/TelegramUI/Components/Chat/ChatMessageItemCommon/Sources/ChatMessageBubblelessMetrics.swift": "wide_channel_post_consistency/Guard3.inc",
+    "submodules/TelegramUI/Components/Chat/ChatMessageItem/Sources/ChatMessageItem.swift": "wide_channel_post_consistency/Guard4.inc",
+    "submodules/TelegramUI/Components/Chat/ChatMessageMediaBubbleContentNode/Sources/ChatMessageMediaBubbleContentNode.swift": "wide_channel_post_consistency/Guard5.inc",
+    "submodules/TelegramUI/Components/Chat/ChatMessageInteractiveMediaNode/Sources/ChatMessageInteractiveMediaNode.swift": "wide_channel_post_consistency/Guard6.inc",
+    "submodules/TelegramUI/Sources/ChatControllerNode.swift": "wide_channel_post_consistency/Guard7.inc",
+    "submodules/NagramiXCore/Sources/NagramiXTabSettings.swift": "wide_channel_post_consistency/Guard8.inc",
+    "submodules/TelegramUI/Components/Chat/ChatMessageBubbleItemNode/BUILD": "wide_channel_post_consistency/Guard9.inc",
+    "submodules/Display/Source/UIKitUtils.swift": "wide_channel_post_consistency/Guard10.inc"
+  },
+  "copies": {},
+  "deletions": {},
+  "native_inputs": {},
+  "templates": {
+    "wide_channel_post_consistency/Before0.inc": "70a82f2c2731f518acd73ceae405679c5559a2bb3355ff42ac2eb11c8bec16e7",
+    "wide_channel_post_consistency/After0.inc": "b01ebc5d17db74106eaee85a98efa4423f0ad2217b9d65a79ad3670ed3720f33",
+    "wide_channel_post_consistency/Guard0.inc": "8cbcbe860467d69dbf230b597ed609954ffeeeb743c905431ab66f9b59cbfaab",
+    "wide_channel_post_consistency/Guard1.inc": "1e3afdf13ed3058960f9a2338b66a2325a6fc1979a2b32c7a6bf07777c7726f6",
+    "wide_channel_post_consistency/Guard2.inc": "1c6b9ab70a7464fd3530910b06061a2c6e6f3ff2d9007ae3c3cfea1bca638534",
+    "wide_channel_post_consistency/Guard3.inc": "b3ef2787378a8aedddce779fc89ec9f1d6c8afdac4ee5c1eaccc8c33e0554569",
+    "wide_channel_post_consistency/Guard4.inc": "3d3b95ebb0387fa1d3ad333fb5a3e4af16d1fd8d32534e7d62ffa23618bfdd6b",
+    "wide_channel_post_consistency/Guard5.inc": "bfc158c5b9b8915ef78ffb461e8b7dca66f005f539d28b40e64094ef36236011",
+    "wide_channel_post_consistency/Guard6.inc": "0b78d98514ac612f461a29b188888d1e72c8dc80a705927e24982dabfcda0dfc",
+    "wide_channel_post_consistency/Guard7.inc": "322d824a55859af7de8ea767c979a5dcf4097c51b21e4c89d72980f93e09f19f",
+    "wide_channel_post_consistency/Guard8.inc": "dfcc93bf238bb2441deb914f0b9008a1fecbbf0deaab8f58e95196d4e35a1545",
+    "wide_channel_post_consistency/Guard9.inc": "64613a1b52cdd8ebc0490d9a0a5986fd3d35f89f981ebcb0ae29565b953078b2",
+    "wide_channel_post_consistency/Guard10.inc": "e4bad639084dc2173862d0f48bee6973c54262136d4dca3a1245279e2ed26963"
+  },
+  "target_pin": "24638bc69bd083981b178dd1e7f921eebbf7fc46",
+  "overlay_base_pin": "279f89e4d4f63f17227bf877dc3d8990f22ecd58",
+  "required_previous_stage": "release_095_composer_strings_compile",
+  "native_guards": {}
+}
