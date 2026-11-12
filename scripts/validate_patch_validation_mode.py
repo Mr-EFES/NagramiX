@@ -10,6 +10,7 @@ ROOT=Path(__file__).resolve().parents[1]
 
 
 def check(text):
+    assert text.index('uses: actions/setup-node@v4') < text.index('python3 scripts/validate_release_095_apple_preflight.py')
     start=text.index('      - name: Применить overlay NagramiX\n')
     assert re.search(r'^          python3 scripts/validate_release_095_apple_preflight\.py --swiftc ',text[:start],re.M), 'Complete fixture preflight must run before overlay'
     assert re.search(r'^          python3 scripts/validate_native_string_references\.py --canonical --swiftc ',text[:start],re.M), 'Native generated strings SDK check must run before overlay'
@@ -24,6 +25,7 @@ def check(text):
     mandatory=['validate_late_source_stages.py','validate_custom_member_references.py','validate_upstream_13_2_release.py','validate_localization_standard.py','validate_release_092_settings_compile.py','validate_round_native_playback.py','validate_poll_copy_transport.py','validate_release_095_fonts_compile.py','validate_release_095_composer_strings_compile.py']
     mandatory.append('validate_wide_channel_post_consistency.py')
     mandatory.append('validate_font_theme_contrast.py')
+    mandatory.append('validate_system_web_picture_in_picture.py')
     for name in mandatory:
         assert re.search(r'^          python3 scripts/'+re.escape(name)+r'\b',source,re.M),name
         assert 'nagramix_extended_check python3 scripts/'+name not in source,name
@@ -68,7 +70,7 @@ def main():
     try:check(changed)
     except AssertionError:pass
     else:raise AssertionError('Optional final native font API gate accepted')
-    for script in ['validate_release_095_composer_strings_compile.py','validate_native_string_references.py','validate_wide_channel_post_consistency.py','validate_font_theme_contrast.py']:
+    for script in ['validate_release_095_composer_strings_compile.py','validate_native_string_references.py','validate_wide_channel_post_consistency.py','validate_font_theme_contrast.py','validate_system_web_picture_in_picture.py']:
         changed=text.replace('          python3 scripts/'+script,'          nagramix_extended_check python3 scripts/'+script)
         try:check(changed)
         except AssertionError:pass

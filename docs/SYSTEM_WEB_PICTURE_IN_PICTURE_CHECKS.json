@@ -1,0 +1,502 @@
+{
+  "задача": "Штатный PiP iOS и фон/блокировка для уже открытого YouTube/WebEmbed/System/Platform видео. Исходники; новая IPA не запускалась.",
+  "stage": "system_web_picture_in_picture",
+  "source_status": "source_checked",
+  "native_compile": "pending",
+  "device": "pending",
+  "source": {
+    "files": 37682,
+    "changed": [
+      "submodules/AccountContext/Sources/UniversalVideoNode.swift",
+      "submodules/GalleryUI/Sources/Items/UniversalVideoGalleryItem.swift",
+      "submodules/TelegramUI/Sources/MediaManager.swift",
+      "submodules/TelegramUniversalVideoContent/BUILD",
+      "submodules/TelegramUniversalVideoContent/Sources/PlatformVideoContent.swift",
+      "submodules/TelegramUniversalVideoContent/Sources/SystemVideoContent.swift",
+      "submodules/TelegramUniversalVideoContent/Sources/WebEmbedPlayerNode.swift",
+      "submodules/TelegramUniversalVideoContent/Sources/WebEmbedVideoContent.swift"
+    ],
+    "symlinks": 26,
+    "manifest_sha256": "8c08b5a78807b07d6e18379bec2ea8e1c0068be435f4c073746ba98293fb759a",
+    "unchanged_previous_inc": 3581,
+    "new_snapshots": 38,
+    "lossless_full_checkpoints_verified": [
+      43,
+      44,
+      45,
+      46,
+      47
+    ]
+  },
+  "regression": {
+    "stage": "system_web_picture_in_picture",
+    "inputs": 8,
+    "guards": 22,
+    "loader_refusals": 16,
+    "source_files": 37682,
+    "source_unchanged_by_checks": true,
+    "executions": [
+      {
+        "name": "system-web-bridges",
+        "mode": "debug",
+        "exit_code": 0,
+        "output": "system web PiP production checks: 93"
+      },
+      {
+        "name": "system-web-bridges",
+        "mode": "optimized",
+        "exit_code": 0,
+        "output": "system web PiP production checks: 93"
+      },
+      {
+        "name": "different-player",
+        "mode": "debug",
+        "exit_code": 91,
+        "output": "System web PiP regression: AVKit uses the original player layer"
+      },
+      {
+        "name": "different-player",
+        "mode": "optimized",
+        "exit_code": 91,
+        "output": "System web PiP regression: AVKit uses the original player layer"
+      },
+      {
+        "name": "foreground-only-policy",
+        "mode": "debug",
+        "exit_code": 91,
+        "output": "System web PiP regression: background owner enables AVPlayer background policy"
+      },
+      {
+        "name": "foreground-only-policy",
+        "mode": "optimized",
+        "exit_code": 91,
+        "output": "System web PiP regression: background owner enables AVPlayer background policy"
+      },
+      {
+        "name": "lost-other-owner",
+        "mode": "debug",
+        "exit_code": 91,
+        "output": "System web PiP regression: one owner cannot revoke another background session"
+      },
+      {
+        "name": "lost-other-owner",
+        "mode": "optimized",
+        "exit_code": 91,
+        "output": "System web PiP regression: one owner cannot revoke another background session"
+      },
+      {
+        "name": "accept-stale-web-state",
+        "mode": "debug",
+        "exit_code": 91,
+        "output": "System web PiP regression: stale WebKit callbacks cannot start PiP"
+      },
+      {
+        "name": "accept-stale-web-state",
+        "mode": "optimized",
+        "exit_code": 91,
+        "output": "System web PiP regression: stale WebKit callbacks cannot start PiP"
+      },
+      {
+        "name": "global-pip-audio-drop",
+        "mode": "debug",
+        "exit_code": 91,
+        "output": "System web PiP regression: global manager keeps system PiP audio independently of background checkbox"
+      },
+      {
+        "name": "global-pip-audio-drop",
+        "mode": "optimized",
+        "exit_code": 91,
+        "output": "System web PiP regression: global manager keeps system PiP audio independently of background checkbox"
+      },
+      {
+        "name": "web-background-off",
+        "mode": "debug",
+        "exit_code": 91,
+        "output": "System web PiP regression: web background policy reaches the live frame bridge"
+      },
+      {
+        "name": "web-background-off",
+        "mode": "optimized",
+        "exit_code": 91,
+        "output": "System web PiP regression: web background policy reaches the live frame bridge"
+      },
+      {
+        "name": "system-web-gallery",
+        "mode": "debug",
+        "exit_code": 0,
+        "output": "system web gallery production checks: 48"
+      },
+      {
+        "name": "system-web-gallery",
+        "mode": "optimized",
+        "exit_code": 0,
+        "output": "system web gallery production checks: 48"
+      },
+      {
+        "name": "lost-source-lease",
+        "mode": "debug",
+        "exit_code": 91,
+        "output": "System gallery PiP regression: system PiP retains its original content owner"
+      },
+      {
+        "name": "lost-source-lease",
+        "mode": "optimized",
+        "exit_code": 91,
+        "output": "System gallery PiP regression: system PiP retains its original content owner"
+      },
+      {
+        "name": "premature-gallery-dismiss",
+        "mode": "debug",
+        "exit_code": 91,
+        "output": "System gallery PiP regression: gallery stays visible until actual system PiP callback"
+      },
+      {
+        "name": "premature-gallery-dismiss",
+        "mode": "optimized",
+        "exit_code": 91,
+        "output": "System gallery PiP regression: gallery stays visible until actual system PiP callback"
+      },
+      {
+        "name": "pause-transferred-owner",
+        "mode": "debug",
+        "exit_code": 91,
+        "output": "System gallery PiP regression: stale owner cannot pause transferred content"
+      },
+      {
+        "name": "pause-transferred-owner",
+        "mode": "optimized",
+        "exit_code": 91,
+        "output": "System gallery PiP regression: stale owner cannot pause transferred content"
+      },
+      {
+        "name": "stale-gallery-restore",
+        "mode": "debug",
+        "exit_code": 91,
+        "output": "System gallery PiP regression: retired restore cannot change new owner"
+      },
+      {
+        "name": "stale-gallery-restore",
+        "mode": "optimized",
+        "exit_code": 91,
+        "output": "System gallery PiP regression: retired restore cannot change new owner"
+      }
+    ],
+    "javascript": {
+      "status": "passed",
+      "output": "system web DOM production checks: 88",
+      "boundary": "Actual injected JavaScript in Node vm; explicit DOM/frame/video events, no real iOS WebKit or media pixels"
+    },
+    "apple_real_sdk_precheck": {
+      "status": "not_run",
+      "reason": "Real AVKit/WebKit/AVFoundation SDK requires macOS"
+    },
+    "boundary": "Actual AVKit/WK bridge, managed audio and global keep-session policy; actual gallery begin/restore/finish, original visual-state/attachment acknowledgement; actual all-frame JavaScript. Explicit nominal framework/DOM and layout adapters on Linux; source controls remain single-owner. No device pixels, lock-screen scheduling or live YouTube transport tested here.",
+    "whole_app_sdk": "not_run",
+    "device": "pending"
+  },
+  "early_fixture_gate": {
+    "complete_fixtures": 13,
+    "executions": 26,
+    "warnings_as_errors": true,
+    "system_web_javascript": {
+      "status": "passed",
+      "output": "system web DOM production checks: 88",
+      "boundary": "Actual injected JavaScript in Node vm; explicit DOM/frame/video events, no real iOS WebKit or media pixels"
+    },
+    "system_web_real_sdk": {
+      "status": "not_run",
+      "reason": "Real AVKit/WebKit/AVFoundation SDK requires macOS"
+    },
+    "font_uikit": {
+      "status": "not_run",
+      "reason": "Apple UIKit SDK unavailable on Linux"
+    },
+    "font_icon_uikit": {
+      "status": "not_run",
+      "reason": "Real UIKit renderer typecheck requires Apple SDK"
+    },
+    "actual_font_theme_adapter_members": {
+      "status": "passed",
+      "scope": "Actual final font UIKit adapter root/status declarations with native enum cases/getter and actual caller; pixels not exercised"
+    }
+  },
+  "geometry_imports": {
+    "boundaries": [
+      {
+        "name": "round-row",
+        "mode": "debug",
+        "passed": true
+      },
+      {
+        "name": "round-row",
+        "mode": "optimized",
+        "passed": true
+      },
+      {
+        "name": "pip-handoff",
+        "mode": "debug",
+        "passed": true
+      },
+      {
+        "name": "pip-handoff",
+        "mode": "optimized",
+        "passed": true
+      },
+      {
+        "name": "pip-snapshot",
+        "mode": "debug",
+        "passed": true
+      },
+      {
+        "name": "pip-snapshot",
+        "mode": "optimized",
+        "passed": true
+      },
+      {
+        "name": "download-layout",
+        "mode": "debug",
+        "passed": true
+      },
+      {
+        "name": "download-layout",
+        "mode": "optimized",
+        "passed": true
+      },
+      {
+        "name": "temporary-notice",
+        "mode": "debug",
+        "passed": true
+      },
+      {
+        "name": "temporary-notice",
+        "mode": "optimized",
+        "passed": true
+      },
+      {
+        "name": "revision-badge",
+        "mode": "debug",
+        "passed": true
+      },
+      {
+        "name": "revision-badge",
+        "mode": "optimized",
+        "passed": true
+      },
+      {
+        "name": "pip-continuity",
+        "mode": "debug",
+        "passed": true
+      },
+      {
+        "name": "pip-continuity",
+        "mode": "optimized",
+        "passed": true
+      },
+      {
+        "name": "round-video-editor",
+        "mode": "debug",
+        "passed": true
+      },
+      {
+        "name": "round-video-editor",
+        "mode": "optimized",
+        "passed": true
+      },
+      {
+        "name": "round-replacement",
+        "mode": "debug",
+        "passed": true
+      },
+      {
+        "name": "round-replacement",
+        "mode": "optimized",
+        "passed": true
+      },
+      {
+        "name": "download-contour",
+        "mode": "debug",
+        "passed": true
+      },
+      {
+        "name": "download-contour",
+        "mode": "optimized",
+        "passed": true
+      },
+      {
+        "name": "bubble-selection-edge",
+        "mode": "debug",
+        "passed": true
+      },
+      {
+        "name": "bubble-selection-edge",
+        "mode": "optimized",
+        "passed": true
+      },
+      {
+        "name": "font-public-access",
+        "mode": "debug",
+        "passed": true
+      },
+      {
+        "name": "font-public-access",
+        "mode": "optimized",
+        "passed": true
+      },
+      {
+        "name": "system-web-bridges",
+        "mode": "debug",
+        "passed": true
+      },
+      {
+        "name": "system-web-bridges",
+        "mode": "optimized",
+        "passed": true
+      },
+      {
+        "name": "system-web-gallery",
+        "mode": "debug",
+        "passed": true
+      },
+      {
+        "name": "system-web-gallery",
+        "mode": "optimized",
+        "passed": true
+      }
+    ],
+    "apple_import_negatives": [],
+    "boundary": "Actual test boundary imports and geometry operators; no UIKit or whole-app SDK build.",
+    "apple_import_negative_boundary": "Runs only with Apple Swift; Linux Foundation differs."
+  },
+  "full_migration": {
+    "target_pin": "24638bc69bd083981b178dd1e7f921eebbf7fc46",
+    "pre_replacements": 196,
+    "post_replacements": 274,
+    "deleted_obsolete_files": 2,
+    "fail_closed": {
+      "pre": 17,
+      "post": 33
+    },
+    "parsed_swift": 548,
+    "historical_runtime_boundary": "exact published bytes after verified inverse of all registered late source stages",
+    "native_postbox_imports": "passed",
+    "apple_sdk": "pending",
+    "device": "pending"
+  },
+  "historical_runtime_executions": 14,
+  "late_stage_count": 48,
+  "inverse_bridge": {
+    "published_paths": 770,
+    "refusals": 256,
+    "full_source_files_preserved": 37682
+  },
+  "canonical_native_string_members": {
+    "swift_files": 240,
+    "native_generated_members": 12190,
+    "native_string_uses": 4025,
+    "distinct_native_members": 2208,
+    "proven_other_typed_owner_reads": 0,
+    "sdk200_mutation_rejected": true,
+    "apple_actual_generated_header": {
+      "status": "not_run",
+      "reason": "Real Objective-C/Apple SDK import requires macOS and swiftc"
+    },
+    "boundary": "Actual native GenerateStrings.py, build rule and final English catalog; generated member existence through strings/namedStrings receivers. Other typed owners need source declaration evidence. Full Swift call arity/type checking and app runtime still require SDK/device."
+  },
+  "final_native_string_members": {
+    "swift_files": 7324,
+    "native_generated_members": 12190,
+    "native_string_uses": 18586,
+    "distinct_native_members": 10391,
+    "proven_other_typed_owner_reads": 8,
+    "sdk200_mutation_rejected": true,
+    "apple_actual_generated_header": {
+      "status": "not_run",
+      "reason": "Real Objective-C/Apple SDK import requires macOS and swiftc"
+    },
+    "boundary": "Actual native GenerateStrings.py, build rule and final English catalog; generated member existence through strings/namedStrings receivers. Other typed owners need source declaration evidence. Full Swift call arity/type checking and app runtime still require SDK/device."
+  },
+  "custom_members": {
+    "canonical": {
+      "swift_files": 240,
+      "string_accesses": 812,
+      "distinct_string_members": 231,
+      "actual_string_declarations": 250,
+      "custom_declarations": 858,
+      "full_custom_name_audit": false,
+      "literal_parser_contract": {
+        "accepted_literals_and_comments": 8,
+        "missing_real_members_rejected": 7,
+        "unterminated_literal_rejected": true,
+        "interpolations_preserved": true
+      }
+    },
+    "final": {
+      "swift_files": 7324,
+      "string_accesses": 870,
+      "distinct_string_members": 233,
+      "actual_string_declarations": 250,
+      "custom_declarations": 971,
+      "full_custom_name_audit": true,
+      "literal_parser_contract": {
+        "accepted_literals_and_comments": 8,
+        "missing_real_members_rejected": 7,
+        "unterminated_literal_rejected": true,
+        "interpolations_preserved": true
+      }
+    }
+  },
+  "strict_localization": {
+    "languages": 71,
+    "keys_each": 647,
+    "runtime_lookups_per_mode": 46106,
+    "modes": [
+      "debug",
+      "optimized"
+    ],
+    "source_contract_only": false,
+    "allow_incomplete": false,
+    "passed": true
+  },
+  "workflow_mode": {
+    "optional_historical_calls": 189,
+    "unconditional_apply_calls": 56,
+    "mandatory_final_checks": [
+      "validate_late_source_stages.py",
+      "validate_custom_member_references.py",
+      "validate_upstream_13_2_release.py",
+      "validate_localization_standard.py",
+      "validate_release_092_settings_compile.py",
+      "validate_round_native_playback.py",
+      "validate_poll_copy_transport.py",
+      "validate_release_095_fonts_compile.py",
+      "validate_release_095_composer_strings_compile.py",
+      "validate_wide_channel_post_consistency.py",
+      "validate_font_theme_contrast.py",
+      "validate_system_web_picture_in_picture.py",
+      "PostboxImportCheck.py"
+    ],
+    "complete_fixture_preflight_before_overlay": "mandatory",
+    "bash_syntax": "passed",
+    "runtime_cases": [
+      {
+        "extended": "false",
+        "exit_code": 0
+      },
+      {
+        "extended": "true",
+        "exit_code": 17
+      },
+      {
+        "extended": "true",
+        "exit_code": 0
+      },
+      {
+        "extended": "invalid",
+        "exit_code": 64
+      }
+    ]
+  },
+  "release_metadata": "passed",
+  "diff_whitespace": "passed",
+  "python_syntax": "passed"
+}

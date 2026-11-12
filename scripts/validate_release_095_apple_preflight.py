@@ -24,6 +24,10 @@ import temporary_expiration_semantics_runtime as expiry
 import wide_channel_post_consistency_runtime as wide
 import font_theme_contrast_runtime as font_theme
 from font_theme_contrast_apple import icon_check,member_check
+import system_web_picture_in_picture_runtime as system_web
+import system_web_picture_in_picture_gallery_runtime as system_gallery
+from system_web_picture_in_picture_js import check as system_js_check
+from system_web_picture_in_picture_apple import check as system_apple_check
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -105,6 +109,7 @@ def main():
             ('temporary_expiration_semantics', [('expiry-archive', expiry.archive), ('expiry-consumption', expiry.consumption), ('expiry-read', expiry.history)]),
             ('wide_channel_post_consistency', [('wide-channel-posts', wide.fixture)]),
             ('font_theme_contrast', [('font-theme-contrast', font_theme.fixture)]),
+            ('system_web_picture_in_picture', [('system-web-bridges', system_web.fixture), ('system-web-gallery', system_gallery.fixture)]),
         ]
         for stage, fixtures in entries:
             source = root / stage
@@ -120,10 +125,15 @@ def main():
         apple = apple_check(source, args.swiftc, root)
         icon = icon_check(source, args.swiftc, root)
         theme_members = member_check(source, args.swiftc, root)
-    report = {'canonical_swift_files_by_checkpoint':files, 'complete_fixtures':11, 'executions':runs,
+        system_source = root/'system_web_picture_in_picture'
+        system_js = system_js_check(system_source, root)
+        system_apple = system_apple_check(system_source, args.swiftc, root)
+    report = {'canonical_swift_files_by_checkpoint':files, 'complete_fixtures':13, 'executions':runs,
               'native_navigation_contract':navigation, 'font_adapter_access_contract':access, 'apple_uikit_precheck':apple, 'font_icon_uikit_precheck':icon, 'warnings_as_errors':True,
               'full_application_sdk':'pending', 'device':'pending'}
     report['actual_font_theme_adapter_members']=theme_members
+    report['system_web_javascript']=system_js
+    report['system_web_real_sdk']=system_apple
     if args.report: args.report.write_text(json.dumps(report, ensure_ascii=False, indent=2)+'\n')
     print(json.dumps(report, ensure_ascii=False, indent=2))
 

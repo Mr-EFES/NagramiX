@@ -131,6 +131,11 @@ jobs:
           xcode_version="$(python3 -c 'import json; print(json.load(open("Telegram-iOS/versions.json"))["xcode"])')"
           sudo xcode-select -s "/Applications/Xcode_${xcode_version}.app/Contents/Developer"
 
+      - name: Подготовить Node для проверки встроенного JavaScript
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
       - name: Подготовить Metal Toolchain для Xcode
         shell: bash
         run: |
@@ -447,6 +452,8 @@ jobs:
           python3 scripts/validate_wide_channel_post_consistency.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)" --report "$RUNNER_TEMP/wide-channel-post-consistency.json"
           PYTHONPATH=ios python3 -c 'from pathlib import Path; from font_theme_contrast import apply_font_theme_contrast; apply_font_theme_contrast(Path("Telegram-iOS").resolve(), Path("ios").resolve())'
           python3 scripts/validate_font_theme_contrast.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)" --report "$RUNNER_TEMP/font-theme-contrast.json"
+          PYTHONPATH=ios python3 -c 'from pathlib import Path; from system_web_picture_in_picture import apply_system_web_picture_in_picture; apply_system_web_picture_in_picture(Path("Telegram-iOS").resolve(), Path("ios").resolve())'
+          python3 scripts/validate_system_web_picture_in_picture.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)" --report "$RUNNER_TEMP/system-web-picture-in-picture.json"
           python3 scripts/validate_late_source_stages.py --source Telegram-iOS --report "$RUNNER_TEMP/late-source-stages.json"
           python3 scripts/validate_custom_member_references.py --source Telegram-iOS
           python3 scripts/validate_upstream_13_2_release.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)"

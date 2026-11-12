@@ -258,11 +258,11 @@
     },
     {
       "id": "video_pip_swipe",
-      "title": "Картинка в картинке: штатный AVKit и встроенное видео, включая YouTube",
+      "title": "Системная «Картинка в картинке» iOS, включая YouTube",
       "specification": "specified",
       "ios": {
         "implementation": "implemented",
-        "compile": "compile_passed",
+        "compile": "compile_pending",
         "device": "device_pending"
       }
     },
@@ -272,7 +272,7 @@
       "specification": "specified",
       "ios": {
         "implementation": "implemented",
-        "compile": "compile_passed",
+        "compile": "compile_pending",
         "device": "device_pending"
       }
     },

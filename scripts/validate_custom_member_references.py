@@ -13,6 +13,7 @@ from pathlib import Path
 import re
 
 from validate_upstream_13_2_release import OVERLAY, checked_plan, checked_sdk_plans
+from swift_member_code import code_view, contract as literal_contract
 
 STRINGS = 'submodules/NagramiXCore/Sources/NagramiXPresentationStrings.swift'
 RESOLVER = 'submodules/NagramiXCore/Sources/NagramiXAppLocalization.swift'
@@ -22,6 +23,7 @@ STRING_USE = re.compile(r'\b\w*[sS]trings\s*\.\s*(nagramiX\w+)')
 
 
 def audit(texts, full=False):
+    texts = {name: code_view(text) if "nagramiX" in text else text for name, text in texts.items()}
     getters = set(DECL.findall(texts[STRINGS]) + DECL.findall(texts[RESOLVER]))
     declarations = set().union(*(set(DECL.findall(text)) for text in texts.values()))
     errors = []
@@ -71,6 +73,7 @@ def main():
     else:
         texts = {str(path.relative_to(args.source)): path.read_text() for path in args.source.rglob('*.swift') if not path.is_symlink()}
         result = audit(texts, full=True)
+    result["literal_parser_contract"] = literal_contract(audit, STRINGS, RESOLVER)
     print(json.dumps(result, indent=2), flush=True)
 
 
