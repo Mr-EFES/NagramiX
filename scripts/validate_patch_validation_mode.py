@@ -14,6 +14,7 @@ def check(text):
     start=text.index('      - name: Применить overlay NagramiX\n')
     assert re.search(r'^          python3 scripts/validate_release_095_apple_preflight\.py --swiftc ',text[:start],re.M), 'Complete fixture preflight must run before overlay'
     assert re.search(r'^          python3 scripts/validate_native_string_references\.py --canonical --swiftc ',text[:start],re.M), 'Native generated strings SDK check must run before overlay'
+    assert re.search(r'^          python3 scripts/validate_premium_temporary_transcription_native_api\.py --source Telegram-iOS ',text[:start],re.M), 'Actual native file ASR API probe must run before overlay'
     end=text.index('      - name: Восстановить кеш Bazel\n',start)
     source=text[start:end]
     option=re.search(r'^      extended_patch_tests:\n(.*?)(?=^      \w+:)',text,re.M|re.S).group(1)
@@ -28,6 +29,7 @@ def check(text):
     mandatory.append('validate_system_web_picture_in_picture.py')
     mandatory.append('validate_wide_panel_consistency.py')
     mandatory.append('validate_settings_section_header_case.py')
+    mandatory.append('validate_premium_temporary_transcription.py')
     for name in mandatory:
         assert re.search(r'^          python3 scripts/'+re.escape(name)+r'\b',source,re.M),name
         assert 'nagramix_extended_check python3 scripts/'+name not in source,name
@@ -72,11 +74,15 @@ def main():
     try:check(changed)
     except AssertionError:pass
     else:raise AssertionError('Optional final native font API gate accepted')
-    for script in ['validate_release_095_composer_strings_compile.py','validate_native_string_references.py','validate_wide_channel_post_consistency.py','validate_font_theme_contrast.py','validate_system_web_picture_in_picture.py','validate_wide_panel_consistency.py','validate_settings_section_header_case.py']:
+    for script in ['validate_release_095_composer_strings_compile.py','validate_native_string_references.py','validate_wide_channel_post_consistency.py','validate_font_theme_contrast.py','validate_system_web_picture_in_picture.py','validate_wide_panel_consistency.py','validate_settings_section_header_case.py','validate_premium_temporary_transcription.py']:
         changed=text.replace('          python3 scripts/'+script,'          nagramix_extended_check python3 scripts/'+script)
         try:check(changed)
         except AssertionError:pass
         else:raise AssertionError('Optional native generated strings gate accepted')
+    changed=text.replace('          python3 scripts/validate_premium_temporary_transcription_native_api.py','          nagramix_extended_check python3 scripts/validate_premium_temporary_transcription_native_api.py',1)
+    try:check(changed)
+    except AssertionError:pass
+    else:raise AssertionError('Optional early native file ASR API probe accepted')
     print(json.dumps(report,ensure_ascii=False,indent=2))
 
 if __name__=='__main__':main()

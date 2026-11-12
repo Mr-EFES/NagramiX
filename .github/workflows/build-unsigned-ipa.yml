@@ -152,6 +152,7 @@ jobs:
           python3 scripts/validate_swift_geometry_boundaries.py --swiftc "$(xcrun --find swiftc)" --report "$RUNNER_TEMP/swift-geometry-boundaries.json"
           python3 scripts/validate_settings_argument_bindings.py --canonical --swiftc "$(xcrun --find swiftc)" --report "$RUNNER_TEMP/settings-argument-bindings.json"
           python3 scripts/validate_release_095_apple_preflight.py --swiftc "$(xcrun --find swiftc)" --report "$RUNNER_TEMP/release-095-apple-preflight.json"
+          python3 scripts/validate_premium_temporary_transcription_native_api.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)" --report "$RUNNER_TEMP/premium-file-native-api-early.json"
 
       - name: Применить overlay NagramiX
         env:
@@ -458,6 +459,8 @@ jobs:
           python3 scripts/validate_wide_panel_consistency.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)" --report "$RUNNER_TEMP/wide-panel-consistency.json"
           PYTHONPATH=ios python3 -c 'from pathlib import Path; from settings_section_header_case import apply_settings_section_header_case; apply_settings_section_header_case(Path("Telegram-iOS").resolve(), Path("ios").resolve())'
           python3 scripts/validate_settings_section_header_case.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)" --report "$RUNNER_TEMP/settings-section-header-case.json"
+          PYTHONPATH=ios python3 -c 'from pathlib import Path; from premium_temporary_transcription import apply_premium_temporary_transcription; apply_premium_temporary_transcription(Path("Telegram-iOS").resolve(), Path("ios").resolve())'
+          python3 scripts/validate_premium_temporary_transcription.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)" --report "$RUNNER_TEMP/premium-temporary-transcription.json"
           python3 scripts/validate_late_source_stages.py --source Telegram-iOS --report "$RUNNER_TEMP/late-source-stages.json"
           python3 scripts/validate_custom_member_references.py --source Telegram-iOS
           python3 scripts/validate_upstream_13_2_release.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)"

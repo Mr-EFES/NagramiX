@@ -1,0 +1,270 @@
+{
+  "задача": "Telegram Premium для одноразового голоса и кружков без original-ID ASR и скрытой подмены Apple",
+  "stage": "premium_temporary_transcription",
+  "number": 51,
+  "previous_stage": "settings_section_header_case",
+  "status": {
+    "source": "checked",
+    "whole_app_sdk": "not_run",
+    "server_acceptance": "not_tested",
+    "device": "pending",
+    "new_ipa": "not_requested"
+  },
+  "changes": {
+    "inputs": 4,
+    "guards": 18,
+    "new_inc_snapshots": 27,
+    "all_templates": 28,
+    "old_inc_unchanged": 3653,
+    "new_ui_keys": 0
+  },
+  "full_source": {
+    "path": "/tmp/nagramix-premium-file-asr/source",
+    "files": 37682,
+    "symlinks": 26,
+    "changed_paths": 4,
+    "manifest_sha256": "6f6e5eee53a7eb5df517486a3308a2699e980b12e0fe7e64a933b00d12a71159",
+    "restored_historical_checkpoints": [
+      43,
+      44,
+      45,
+      46,
+      47,
+      48,
+      49,
+      50
+    ]
+  },
+  "asr_checks": {
+    "stage": "premium_temporary_transcription",
+    "contract": {
+      "inputs": 4,
+      "guards": 18,
+      "original_rpc_and_rating": "byte_identical",
+      "lifetime_storage_cache_identity": "byte_identical",
+      "secret_chat_cloud_export": "excluded",
+      "master_and_provider_overrides": "removed",
+      "new_ui_keys": 0,
+      "timeout_seconds": 120
+    },
+    "loader_refusals": 16,
+    "native_api": {
+      "native_schema_git_blob": "896c1c6a910edeaaa39811db5a53e3cb8d184581",
+      "actual_generator_sources": 60,
+      "generated_swift_files": 44,
+      "actual_generated_rpc_matches_fixture": true,
+      "real_input_file_cases": [
+        "inputFile",
+        "inputFileBig",
+        "inputFileStoryDocument"
+      ],
+      "native_upload_and_network_signatures": "checked",
+      "server_availability": "not_tested",
+      "whole_app_sdk": "not_run"
+    },
+    "executions": [
+      {
+        "name": "premium-file-asr",
+        "mode": "debug",
+        "exit_code": 0,
+        "output": "PASS Premium file transcription checks: 307"
+      },
+      {
+        "name": "premium-file-asr",
+        "mode": "optimized",
+        "exit_code": 0,
+        "output": "PASS Premium file transcription checks: 307"
+      },
+      {
+        "name": "missing-file-route",
+        "mode": "debug",
+        "exit_code": 91,
+        "output": "FAIL Premium transcript returned"
+      },
+      {
+        "name": "missing-file-route",
+        "mode": "optimized",
+        "exit_code": 91,
+        "output": "FAIL Premium transcript returned"
+      },
+      {
+        "name": "original-id-eligible",
+        "mode": "debug",
+        "exit_code": 91,
+        "output": "FAIL original remains blocked"
+      },
+      {
+        "name": "original-id-eligible",
+        "mode": "optimized",
+        "exit_code": 91,
+        "output": "FAIL original remains blocked"
+      },
+      {
+        "name": "partial-accepted",
+        "mode": "debug",
+        "exit_code": 91,
+        "output": "FAIL incomplete response is not stored"
+      },
+      {
+        "name": "partial-accepted",
+        "mode": "optimized",
+        "exit_code": 91,
+        "output": "FAIL incomplete response is not stored"
+      },
+      {
+        "name": "wrong-native-field",
+        "mode": "debug",
+        "exit_code": 91,
+        "output": "FAIL RPC contains only named file"
+      },
+      {
+        "name": "wrong-native-field",
+        "mode": "optimized",
+        "exit_code": 91,
+        "output": "FAIL RPC contains only named file"
+      }
+    ],
+    "source_files": 37682,
+    "source_unchanged_by_checks": true,
+    "whole_app_sdk": "not_run",
+    "telegram_server_acceptance": "not_tested",
+    "device": "pending",
+    "boundary": "Full production Settings/Runtime/Coordinator/Engine and unchanged original-ID guard execute with explicit IO/Postbox/network/TL-storage adapters. Actual native SwiftTL is rebuilt and the real generated file-RPC builder executes in the fixture. This proves request shape, routing, cancellation, lifetime and storage; it does not prove Telegram server availability, real speech quality or iPhone rendering."
+  },
+  "early_gate": {
+    "complete_fixtures": 15,
+    "executions": 30,
+    "warnings_as_errors": true,
+    "native_file_api_probe_before_overlay": "mandatory"
+  },
+  "migration": {
+    "parsed_swift": 552,
+    "refusals": {
+      "pre": 17,
+      "post": 33
+    },
+    "historical_executions": 14,
+    "PostboxImportCheck": "passed"
+  },
+  "inverse": {
+    "stages": 51,
+    "contract_paths": 779,
+    "negative_cases": 270
+  },
+  "members": {
+    "custom_canonical": {
+      "swift_files": 242,
+      "string_accesses": 812,
+      "distinct_string_members": 231,
+      "actual_string_declarations": 250,
+      "custom_declarations": 864,
+      "full_custom_name_audit": false,
+      "literal_parser_contract": {
+        "accepted_literals_and_comments": 8,
+        "missing_real_members_rejected": 7,
+        "unterminated_literal_rejected": true,
+        "interpolations_preserved": true
+      }
+    },
+    "custom_full": {
+      "swift_files": 7324,
+      "string_accesses": 870,
+      "distinct_string_members": 233,
+      "actual_string_declarations": 250,
+      "custom_declarations": 977,
+      "full_custom_name_audit": true,
+      "literal_parser_contract": {
+        "accepted_literals_and_comments": 8,
+        "missing_real_members_rejected": 7,
+        "unterminated_literal_rejected": true,
+        "interpolations_preserved": true
+      }
+    },
+    "native_canonical": {
+      "swift_files": 242,
+      "native_generated_members": 12190,
+      "native_string_uses": 4056,
+      "distinct_native_members": 2221,
+      "proven_other_typed_owner_reads": 0,
+      "sdk200_mutation_rejected": true,
+      "apple_actual_generated_header": {
+        "status": "not_run",
+        "reason": "Real Objective-C/Apple SDK import requires macOS and swiftc"
+      },
+      "boundary": "Actual native GenerateStrings.py, build rule and final English catalog; generated member existence through strings/namedStrings receivers. Other typed owners need source declaration evidence. Full Swift call arity/type checking and app runtime still require SDK/device."
+    },
+    "native_full": {
+      "swift_files": 7324,
+      "native_generated_members": 12190,
+      "native_string_uses": 18586,
+      "distinct_native_members": 10391,
+      "proven_other_typed_owner_reads": 8,
+      "sdk200_mutation_rejected": true,
+      "apple_actual_generated_header": {
+        "status": "not_run",
+        "reason": "Real Objective-C/Apple SDK import requires macOS and swiftc"
+      },
+      "boundary": "Actual native GenerateStrings.py, build rule and final English catalog; generated member existence through strings/namedStrings receivers. Other typed owners need source declaration evidence. Full Swift call arity/type checking and app runtime still require SDK/device."
+    }
+  },
+  "localization": {
+    "languages": 71,
+    "keys_each": 647,
+    "runtime_lookups_per_mode": 46106,
+    "modes": [
+      "debug",
+      "optimized"
+    ],
+    "raw_ui_check": "passed",
+    "header_case_contract": 21
+  },
+  "workflow": {
+    "optional_historical_calls": 189,
+    "unconditional_apply_calls": 59,
+    "mandatory_final_checks": [
+      "validate_late_source_stages.py",
+      "validate_custom_member_references.py",
+      "validate_upstream_13_2_release.py",
+      "validate_localization_standard.py",
+      "validate_release_092_settings_compile.py",
+      "validate_round_native_playback.py",
+      "validate_poll_copy_transport.py",
+      "validate_release_095_fonts_compile.py",
+      "validate_release_095_composer_strings_compile.py",
+      "validate_wide_channel_post_consistency.py",
+      "validate_font_theme_contrast.py",
+      "validate_system_web_picture_in_picture.py",
+      "validate_wide_panel_consistency.py",
+      "validate_settings_section_header_case.py",
+      "validate_premium_temporary_transcription.py",
+      "PostboxImportCheck.py"
+    ],
+    "complete_fixture_preflight_before_overlay": "mandatory",
+    "bash_syntax": "passed",
+    "runtime_cases": [
+      {
+        "extended": "false",
+        "exit_code": 0
+      },
+      {
+        "extended": "true",
+        "exit_code": 17
+      },
+      {
+        "extended": "true",
+        "exit_code": 0
+      },
+      {
+        "extended": "invalid",
+        "exit_code": 64
+      }
+    ]
+  },
+  "references": {
+    "official_schema": "https://github.com/TelegramMessenger/Telegram-iOS/blob/24638bc69bd083981b178dd1e7f921eebbf7fc46/submodules/TelegramApi/swift_scheme.tl#L2883",
+    "ghostgram_original_id_transport": "https://github.com/ichmagmaus111/ghostgram/blob/2a6b08272b7da893f88986846022bafd0727df89/submodules/TelegramCore/Sources/TelegramEngine/Messages/Transcription.swift",
+    "public_method_documentation": "Page not found / HTTP404 observed on 2026-11-12; no server success inferred"
+  },
+  "README_LICENSE_release_annotation_tag_IPA": "unchanged",
+  "ограничение": "Native схема, генератор, типы и request shape подтверждены. Настоящий Telegram RPC, серверная доступность файлового ASR для аккаунта, качество речи, Apple SDK и iPhone не проверялись. Серверный отказ не вызывает original-ID RPC или скрытый Apple при выключенном резерве."
+}

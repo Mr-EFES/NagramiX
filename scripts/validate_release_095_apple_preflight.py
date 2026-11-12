@@ -24,6 +24,7 @@ import temporary_expiration_semantics_runtime as expiry
 import wide_channel_post_consistency_runtime as wide
 import font_theme_contrast_runtime as font_theme
 from font_theme_contrast_apple import icon_check,member_check
+import premium_temporary_transcription_runtime as premium_asr
 import wide_panel_consistency_runtime as wide_panels
 import system_web_picture_in_picture_runtime as system_web
 import system_web_picture_in_picture_gallery_runtime as system_gallery
@@ -112,6 +113,7 @@ def main():
             ('font_theme_contrast', [('font-theme-contrast', font_theme.fixture)]),
             ('system_web_picture_in_picture', [('system-web-bridges', system_web.fixture), ('system-web-gallery', system_gallery.fixture)]),
             ('wide_panel_consistency', [('wide-panels', wide_panels.fixture)]),
+            ('premium_temporary_transcription', [('premium-file-asr', premium_asr.fixture)]),
         ]
         for stage, fixtures in entries:
             source = root / stage
@@ -130,7 +132,7 @@ def main():
         system_source = root/'system_web_picture_in_picture'
         system_js = system_js_check(system_source, root)
         system_apple = system_apple_check(system_source, args.swiftc, root)
-    report = {'canonical_swift_files_by_checkpoint':files, 'complete_fixtures':14, 'executions':runs,
+    report = {'canonical_swift_files_by_checkpoint':files, 'complete_fixtures':15, 'executions':runs,
               'native_navigation_contract':navigation, 'font_adapter_access_contract':access, 'apple_uikit_precheck':apple, 'font_icon_uikit_precheck':icon, 'warnings_as_errors':True,
               'full_application_sdk':'pending', 'device':'pending'}
     report['actual_font_theme_adapter_members']=theme_members
