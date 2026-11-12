@@ -1,0 +1,41 @@
+{
+  "target_pin": "24638bc69bd083981b178dd1e7f921eebbf7fc46",
+  "overlay_base_pin": "279f89e4d4f63f17227bf877dc3d8990f22ecd58",
+  "required_previous_stage": "release_096_calendar_compatibility",
+  "inputs": {
+    "submodules/TelegramCore/Sources/TelegramEngine/Messages/Transcription.swift": "a6eb035b06b6f3ce704fe5a509754904e706f564f5bcadb52e8753a83c76ab5e"
+  },
+  "outputs": {
+    "submodules/TelegramCore/Sources/TelegramEngine/Messages/Transcription.swift": "9f0550e0ac8e0355f73276feac08cdfc5ac5482f9c2821526afbf24abbac5819"
+  },
+  "previous": {
+    "submodules/TelegramCore/Sources/TelegramEngine/Messages/Transcription.swift": "release_096_transcription_compatibility/Before0.inc"
+  },
+  "replacements": {
+    "submodules/TelegramCore/Sources/TelegramEngine/Messages/Transcription.swift": "release_096_transcription_compatibility/After0.inc"
+  },
+  "guards": {
+    "submodules/MtProtoKit/PublicHeaders/MtProtoKit/MTRpcError.h": "6d3addd8404ac603837012de0b70ffff9a8b74d9da61fd5a0946c148d8f626ac",
+    "submodules/TelegramCore/Sources/Network/Network.swift": "b34938671803435398e4dcab0a546a53a3a337f08fff96bd3f7520a25794103f",
+    "submodules/NagramiXTranscription/Sources/Runtime.swift": "04aed081867d81a369ae86fa4d82149da5714949cfc241bda32787d0db73d307",
+    "submodules/NagramiXTranscription/Sources/Settings.swift": "7b2626746f5a907193a2aa929516fd3990bada2938a4fc9ac1b93cf7b2767122"
+  },
+  "guard_sources": {
+    "submodules/MtProtoKit/PublicHeaders/MtProtoKit/MTRpcError.h": "release_096_transcription_compatibility/Guard0.inc",
+    "submodules/TelegramCore/Sources/Network/Network.swift": "release_096_transcription_compatibility/Guard1.inc",
+    "submodules/NagramiXTranscription/Sources/Runtime.swift": "release_096_transcription_compatibility/Guard2.inc",
+    "submodules/NagramiXTranscription/Sources/Settings.swift": "release_096_transcription_compatibility/Guard3.inc"
+  },
+  "copies": {},
+  "deletions": {},
+  "native_inputs": {},
+  "native_guards": {},
+  "templates": {
+    "release_096_transcription_compatibility/Before0.inc": "a6eb035b06b6f3ce704fe5a509754904e706f564f5bcadb52e8753a83c76ab5e",
+    "release_096_transcription_compatibility/After0.inc": "9f0550e0ac8e0355f73276feac08cdfc5ac5482f9c2821526afbf24abbac5819",
+    "release_096_transcription_compatibility/Guard0.inc": "6d3addd8404ac603837012de0b70ffff9a8b74d9da61fd5a0946c148d8f626ac",
+    "release_096_transcription_compatibility/Guard1.inc": "b34938671803435398e4dcab0a546a53a3a337f08fff96bd3f7520a25794103f",
+    "release_096_transcription_compatibility/Guard2.inc": "04aed081867d81a369ae86fa4d82149da5714949cfc241bda32787d0db73d307",
+    "release_096_transcription_compatibility/Guard3.inc": "7b2626746f5a907193a2aa929516fd3990bada2938a4fc9ac1b93cf7b2767122"
+  }
+}

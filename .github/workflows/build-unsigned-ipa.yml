@@ -481,6 +481,8 @@ jobs:
           python3 scripts/validate_single_touch_message_selection.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)" --report "$RUNNER_TEMP/single-touch-message-selection.json"
           PYTHONPATH=ios python3 -c 'from pathlib import Path; from release_096_calendar_compatibility import apply_release_096_calendar_compatibility; apply_release_096_calendar_compatibility(Path("Telegram-iOS").resolve(), Path("ios").resolve())'
           python3 scripts/validate_release_096_calendar_compatibility.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)" --report "$RUNNER_TEMP/release-096-calendar-compatibility.json"
+          PYTHONPATH=ios python3 -c 'from pathlib import Path; from release_096_transcription_compatibility import apply_release_096_transcription_compatibility; apply_release_096_transcription_compatibility(Path("Telegram-iOS").resolve(), Path("ios").resolve())'
+          python3 scripts/validate_release_096_transcription_compatibility.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)" --report "$RUNNER_TEMP/release-096-transcription-compatibility.json"
           python3 scripts/validate_late_source_stages.py --source Telegram-iOS --report "$RUNNER_TEMP/late-source-stages.json"
           python3 scripts/validate_custom_member_references.py --source Telegram-iOS
           python3 scripts/validate_upstream_13_2_release.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)"

@@ -29,6 +29,8 @@ import snowfall_holidays_runtime as snowfall_holidays
 import composer_copy_integrity_runtime as composer_copy
 import single_touch_message_selection_runtime as single_selection
 import calendar_compatibility_runtime as calendar_compatibility
+import transcription_compatibility_runtime as transcription_compatibility
+from transcription_compatibility_apple import check as rpc_error_check
 from single_touch_message_selection_apple import check as single_selection_apple_check
 from composer_copy_integrity_apple import check as composer_copy_apple_check,foundation_check
 from snowfall_holidays_apple import check as snowfall_holidays_apple_check
@@ -67,7 +69,8 @@ def canonical_projection(destination, through_stage):
     else: raise AssertionError('Unknown checkpoint: '+through_stage)
     # Complete application trees are built by the normal guarded overlay.
     # This earlier fixture gate needs only real canonical Swift sources.
-    expected = {n:sha for n,sha in expected.items() if n.endswith('.swift') and n not in post['deletions']}
+    native_headers = {'submodules/MtProtoKit/PublicHeaders/MtProtoKit/MTRpcError.h'} if through_stage == 'release_096_transcription_compatibility' else set()
+    expected = {n:sha for n,sha in expected.items() if (n.endswith('.swift') or n in native_headers) and n not in post['deletions']}
     missing = {n:sha for n,sha in expected.items() if n not in sources}
     if missing:
         by_hash = {}
@@ -122,7 +125,9 @@ def main():
         # Check the final calendar at the actual iOS15 target before the large
         # runtime matrix. Stage57 remains an exact historical runtime checkpoint.
         calendar_source=root/'calendar-native-final'
-        files['calendar_native_final61']=canonical_projection(calendar_source,'release_096_calendar_compatibility')
+        files['native_final62']=canonical_projection(calendar_source,'release_096_transcription_compatibility')
+        rpc_error=rpc_error_check(calendar_source,args.swiftc,root/'rpc-error-native')
+        runs+=execute(args.swiftc,root,'nullable-premium-asr',transcription_compatibility.fixture(calendar_source))
         snowfall_holidays_apple=snowfall_holidays_apple_check(calendar_source,args.swiftc,root)
         composer_copy_apple=composer_copy_apple_check(calendar_source,args.swiftc,root)
         shutil.rmtree(calendar_source)
@@ -179,8 +184,8 @@ def main():
         youtube_apple = system_apple_check(youtube_source, args.swiftc, root)
         input_effects_apple = input_effects_apple_check(root/'input_effects', args.swiftc, root)
         snowfall_apple = snowfall_apple_check(root/'snowfall', args.swiftc, root)
-    report = {'canonical_swift_files_by_checkpoint':files, 'complete_fixtures':26, 'executions':runs,
-              'font_apply_node_contract':node,'native_navigation_contract':navigation, 'font_adapter_access_contract':access, 'apple_uikit_precheck':apple, 'font_icon_uikit_precheck':icon, 'warnings_as_errors':True, 'historical_projection_cleanup':'completed temporary checkpoints removed; four native-check projections retained; final61 calendar and clipboard SDK checks run first',
+    report = {'canonical_swift_files_by_checkpoint':files, 'complete_fixtures':27, 'executions':runs,
+              'font_apply_node_contract':node,'native_navigation_contract':navigation, 'font_adapter_access_contract':access, 'apple_uikit_precheck':apple, 'font_icon_uikit_precheck':icon, 'warnings_as_errors':True, 'historical_projection_cleanup':'completed temporary checkpoints removed; four native-check projections retained; final62 native RPC header/IUO fixture, final61 calendar and clipboard SDK checks run first',
               'full_application_sdk':'pending', 'device':'pending'}
     report['actual_font_theme_adapter_members']=theme_members
     report['system_web_javascript']=system_js
@@ -191,6 +196,7 @@ def main():
     report['snowfall_real_sdk']=snowfall_apple
     report['snowfall_holidays_real_sdk']=snowfall_holidays_apple
     report['composer_copy_real_sdk']=composer_copy_apple
+    report['rpc_error_nullability']=rpc_error
     report['foundation_fixture_precheck']=foundation
     report['single_touch_selection_real_sdk']=single_selection_apple
     if args.report: args.report.write_text(json.dumps(report, ensure_ascii=False, indent=2)+'\n')
