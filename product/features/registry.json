@@ -795,6 +795,16 @@
         "compile": "compile_pending",
         "device": "device_pending"
       }
+    },
+    {
+      "id": "single_touch_message_selection",
+      "title": "Выделение диапазона сообщений одним пальцем с возвратом и автопрокруткой",
+      "specification": "specified",
+      "ios": {
+        "implementation": "implemented",
+        "compile": "compile_pending",
+        "device": "device_pending"
+      }
     }
   ]
 }

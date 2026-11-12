@@ -27,6 +27,8 @@ import input_effects_runtime as input_effects
 import snowfall_runtime as snowfall
 import snowfall_holidays_runtime as snowfall_holidays
 import composer_copy_integrity_runtime as composer_copy
+import single_touch_message_selection_runtime as single_selection
+from single_touch_message_selection_apple import check as single_selection_apple_check
 from composer_copy_integrity_apple import check as composer_copy_apple_check
 from snowfall_holidays_apple import check as snowfall_holidays_apple_check
 from snowfall_apple import check as snowfall_apple_check
@@ -135,11 +137,14 @@ def main():
             ('snowfall', [('snowfall', snowfall.fixture)]),
             ('snowfall_holidays', [('snowfall-holidays', snowfall_holidays.fixture)]),
             ('composer_copy_integrity', [('composer-copy-integrity', composer_copy.fixture)]),
+            ('single_touch_message_selection', [('single-touch-message-selection', single_selection.fixture)]),
         ]
         for stage, fixtures in entries:
             source = root / stage
             files[stage] = canonical_projection(source, stage)
             for name, build in fixtures: runs += execute(args.swiftc, root, name, build(source))
+            if stage == 'single_touch_message_selection':
+                single_selection_apple = single_selection_apple_check(source, args.swiftc, root)
             # Only these projections are used again by the framework checks below.
             # Release completed historical projections instead of retaining every checkpoint.
             if stage not in {'system_web_picture_in_picture', 'youtube_playback_policy', 'input_effects', 'snowfall', 'snowfall_holidays', 'composer_copy_integrity'}:
@@ -166,7 +171,7 @@ def main():
         snowfall_apple = snowfall_apple_check(root/'snowfall', args.swiftc, root)
         snowfall_holidays_apple = snowfall_holidays_apple_check(root/'snowfall_holidays', args.swiftc, root)
         composer_copy_apple = composer_copy_apple_check(root/'composer_copy_integrity', args.swiftc, root)
-    report = {'canonical_swift_files_by_checkpoint':files, 'complete_fixtures':24, 'executions':runs,
+    report = {'canonical_swift_files_by_checkpoint':files, 'complete_fixtures':25, 'executions':runs,
               'font_apply_node_contract':node,'native_navigation_contract':navigation, 'font_adapter_access_contract':access, 'apple_uikit_precheck':apple, 'font_icon_uikit_precheck':icon, 'warnings_as_errors':True, 'historical_projection_cleanup':'completed temporary checkpoints removed; six native-check projections retained',
               'full_application_sdk':'pending', 'device':'pending'}
     report['actual_font_theme_adapter_members']=theme_members
@@ -178,6 +183,7 @@ def main():
     report['snowfall_real_sdk']=snowfall_apple
     report['snowfall_holidays_real_sdk']=snowfall_holidays_apple
     report['composer_copy_real_sdk']=composer_copy_apple
+    report['single_touch_selection_real_sdk']=single_selection_apple
     if args.report: args.report.write_text(json.dumps(report, ensure_ascii=False, indent=2)+'\n')
     print(json.dumps(report, ensure_ascii=False, indent=2))
 

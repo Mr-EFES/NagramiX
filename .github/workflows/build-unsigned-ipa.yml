@@ -477,6 +477,8 @@ jobs:
           PYTHONPATH=ios python3 -c 'from pathlib import Path; from local_read_label import apply_local_read_label; apply_local_read_label(Path("Telegram-iOS").resolve(), Path("ios").resolve())'
           PYTHONPATH=ios python3 -c 'from pathlib import Path; from composer_copy_integrity import apply_composer_copy_integrity; apply_composer_copy_integrity(Path("Telegram-iOS").resolve(), Path("ios").resolve())'
           python3 scripts/validate_composer_copy_integrity.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)" --report "$RUNNER_TEMP/composer-copy-integrity.json"
+          PYTHONPATH=ios python3 -c 'from pathlib import Path; from single_touch_message_selection import apply_single_touch_message_selection; apply_single_touch_message_selection(Path("Telegram-iOS").resolve(), Path("ios").resolve())'
+          python3 scripts/validate_single_touch_message_selection.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)" --report "$RUNNER_TEMP/single-touch-message-selection.json"
           python3 scripts/validate_late_source_stages.py --source Telegram-iOS --report "$RUNNER_TEMP/late-source-stages.json"
           python3 scripts/validate_custom_member_references.py --source Telegram-iOS
           python3 scripts/validate_upstream_13_2_release.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)"

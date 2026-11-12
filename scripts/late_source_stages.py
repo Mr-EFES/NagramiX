@@ -73,6 +73,7 @@ LATE_SOURCE_STAGES = (
     'snowfall_holidays',
     'local_read_label',
     'composer_copy_integrity',
+    'single_touch_message_selection',
 )
 TEMPORARY_INTERACTION_STAGE = 'temporary_message_interaction'
 TEMPORARY_REPLY_HELPER = 'submodules/TelegramUI/Sources/Chat/NagramiXTemporaryReplySend.swift'
@@ -133,6 +134,13 @@ def check_copy_contract(stage, plan):
         expected = {'submodules/NagramiXCore/Sources/NagramiXSnowHolidays.swift', 'submodules/NagramiXCore/Sources/NagramiXSnowSchedule.swift'}
         assert set(plan['copies']) == expected, 'Unexpected holiday helper copy'
         assert '"Sources/**/*.swift"' in (OVERLAY / plan['guard_sources']['submodules/NagramiXCore/BUILD']).read_text()
+        for item in plan['copies'].values():
+            assert set(item) == {'source', 'sha256'} and plan['templates'].get(item['source']) == item['sha256']
+        return
+    if stage == 'single_touch_message_selection':
+        expected = {'submodules/TelegramUI/Sources/Chat/NagramiXMessageDragSelection.swift'}
+        assert set(plan['copies']) == expected, 'Unexpected message selection helper copy'
+        assert '"Sources/**/*.swift"' in (OVERLAY / plan['guard_sources']['submodules/TelegramUI/BUILD']).read_text()
         for item in plan['copies'].values():
             assert set(item) == {'source', 'sha256'} and plan['templates'].get(item['source']) == item['sha256']
         return
