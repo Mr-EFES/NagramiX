@@ -28,6 +28,7 @@ import snowfall_runtime as snowfall
 import snowfall_holidays_runtime as snowfall_holidays
 import composer_copy_integrity_runtime as composer_copy
 import single_touch_message_selection_runtime as single_selection
+import calendar_compatibility_runtime as calendar_compatibility
 from single_touch_message_selection_apple import check as single_selection_apple_check
 from composer_copy_integrity_apple import check as composer_copy_apple_check,foundation_check
 from snowfall_holidays_apple import check as snowfall_holidays_apple_check
@@ -118,6 +119,13 @@ def main():
         root = Path(temporary)
         foundation=foundation_check(args.swiftc,root)
         files = {}
+        # Check the final calendar at the actual iOS15 target before the large
+        # runtime matrix. Stage57 remains an exact historical runtime checkpoint.
+        calendar_source=root/'calendar-native-final'
+        files['calendar_native_final61']=canonical_projection(calendar_source,'release_096_calendar_compatibility')
+        snowfall_holidays_apple=snowfall_holidays_apple_check(calendar_source,args.swiftc,root)
+        composer_copy_apple=composer_copy_apple_check(calendar_source,args.swiftc,root)
+        shutil.rmtree(calendar_source)
         entries = [
             ('bubble_selection_edge', [('bubble-edge', lambda s: bubble.fixture(s, (OVERLAY/checked_plan('bubble_selection_edge')['previous'][bubble.BUBBLE]).read_text()))]),
             ('composer_file_attachments', [('composer-attachments', composer.fixture)]),
@@ -139,6 +147,7 @@ def main():
             ('snowfall_holidays', [('snowfall-holidays', snowfall_holidays.fixture)]),
             ('composer_copy_integrity', [('composer-copy-integrity', composer_copy.fixture)]),
             ('single_touch_message_selection', [('single-touch-message-selection', single_selection.fixture)]),
+            ('release_096_calendar_compatibility', [('calendar-ios15', calendar_compatibility.fixture)]),
         ]
         for stage, fixtures in entries:
             source = root / stage
@@ -148,7 +157,7 @@ def main():
                 single_selection_apple = single_selection_apple_check(source, args.swiftc, root)
             # Only these projections are used again by the framework checks below.
             # Release completed historical projections instead of retaining every checkpoint.
-            if stage not in {'system_web_picture_in_picture', 'youtube_playback_policy', 'input_effects', 'snowfall', 'snowfall_holidays', 'composer_copy_integrity'}:
+            if stage not in {'system_web_picture_in_picture', 'youtube_playback_policy', 'input_effects', 'snowfall'}:
                 assert source.resolve().is_relative_to(root.resolve())
                 shutil.rmtree(source)
         # Stage41 remains an immutable historical checkpoint with SDK199's
@@ -170,10 +179,8 @@ def main():
         youtube_apple = system_apple_check(youtube_source, args.swiftc, root)
         input_effects_apple = input_effects_apple_check(root/'input_effects', args.swiftc, root)
         snowfall_apple = snowfall_apple_check(root/'snowfall', args.swiftc, root)
-        snowfall_holidays_apple = snowfall_holidays_apple_check(root/'snowfall_holidays', args.swiftc, root)
-        composer_copy_apple = composer_copy_apple_check(root/'composer_copy_integrity', args.swiftc, root)
-    report = {'canonical_swift_files_by_checkpoint':files, 'complete_fixtures':25, 'executions':runs,
-              'font_apply_node_contract':node,'native_navigation_contract':navigation, 'font_adapter_access_contract':access, 'apple_uikit_precheck':apple, 'font_icon_uikit_precheck':icon, 'warnings_as_errors':True, 'historical_projection_cleanup':'completed temporary checkpoints removed; six native-check projections retained',
+    report = {'canonical_swift_files_by_checkpoint':files, 'complete_fixtures':26, 'executions':runs,
+              'font_apply_node_contract':node,'native_navigation_contract':navigation, 'font_adapter_access_contract':access, 'apple_uikit_precheck':apple, 'font_icon_uikit_precheck':icon, 'warnings_as_errors':True, 'historical_projection_cleanup':'completed temporary checkpoints removed; four native-check projections retained; final61 calendar and clipboard SDK checks run first',
               'full_application_sdk':'pending', 'device':'pending'}
     report['actual_font_theme_adapter_members']=theme_members
     report['system_web_javascript']=system_js
