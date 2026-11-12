@@ -1,5 +1,7 @@
 # Вложения редактора и предпросмотр ссылок
 
+**Актуальное дополнение59:** [clipboard, верхние вложения и штатная отправка](COMPOSER_COPY_INTEGRITY.md). У поста с вложением preview отменяется также в общем интерфейсном состоянии и на текущем send path; URL/entities сохраняются. Общий uploader/error contract ниже не меняется.
+
 Интеграция с synchronizing drafts дополнительно исправлена после native failure174: [rich draft fix](RELEASE_088_DRAFT_UPLOAD_FIX.md). Общий uploader по-прежнему возвращает ошибку; draft consumer получает cancellable retry вместо bare fallback.
 
 Исходная правка для выпуска 0.8.8, ещё не включена в опубликованную IPA0.8.7/build173. Проверка Apple SDK и физического iPhone ожидается. Новая личная команда разрешила сборку0.8.8; текущий статус в RELEASE_STATUS.

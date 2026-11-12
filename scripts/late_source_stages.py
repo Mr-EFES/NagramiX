@@ -72,6 +72,7 @@ LATE_SOURCE_STAGES = (
     'snowfall',
     'snowfall_holidays',
     'local_read_label',
+    'composer_copy_integrity',
 )
 TEMPORARY_INTERACTION_STAGE = 'temporary_message_interaction'
 TEMPORARY_REPLY_HELPER = 'submodules/TelegramUI/Sources/Chat/NagramiXTemporaryReplySend.swift'

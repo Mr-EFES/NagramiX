@@ -133,10 +133,10 @@ def verify(source):
     for index, stage in enumerate(LATE_SOURCE_STAGES):
         # This presentation-only stage uses the existing full inverse/SHA gate;
         # final source parsing and strict localization still run below.
-        command = 'python3 scripts/validate_late_source_stages.py' if stage in ('premium_label_cleanup', 'premium_label_spelling') else 'python3 scripts/validate_' + stage + '.py'
+        command = 'python3 scripts/validate_late_source_stages.py' if stage in ('premium_label_cleanup', 'premium_label_spelling', 'local_read_label') else 'python3 scripts/validate_' + stage + '.py'
         validation = workflow.index(command)
         next_stage = LATE_SOURCE_STAGES[index + 1] if index + 1 < len(LATE_SOURCE_STAGES) else None
-        boundary = workflow.index('python3 scripts/validate_upstream_13_2_release.py') if stage in ('premium_label_cleanup', 'premium_label_spelling') or not next_stage else workflow.index('apply_' + next_stage + '(')
+        boundary = workflow.index('python3 scripts/validate_upstream_13_2_release.py') if stage in ('premium_label_cleanup', 'premium_label_spelling', 'local_read_label') or not next_stage else workflow.index('apply_' + next_stage + '(')
         assert workflow.index('apply_' + stage + '(') < validation < boundary
     assert workflow.index('python3 scripts/validate_temporary_message_interaction.py') < workflow.index('python3 scripts/validate_account_settings_entry.py') < workflow.index('python3 scripts/validate_release_090_preflight_fixes.py') < workflow.index('python3 scripts/validate_late_source_stages.py') < workflow.index('python3 scripts/validate_upstream_13_2_release.py')
     assert workflow.index('validate_custom_member_references.py --canonical') < workflow.index('Применить overlay NagramiX')

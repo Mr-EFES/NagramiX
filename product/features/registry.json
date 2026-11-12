@@ -638,11 +638,11 @@
     },
     {
       "id": "composer_file_attachments",
-      "title": "Текст и файлы в общем черновике нового поста",
+      "title": "Полная копия текста, верхние файлы и единый пост в обоих редакторах",
       "specification": "specified",
       "ios": {
         "implementation": "implemented",
-        "compile": "compile_passed",
+        "compile": "compile_pending",
         "device": "device_pending"
       }
     },
