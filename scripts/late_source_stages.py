@@ -71,6 +71,7 @@ LATE_SOURCE_STAGES = (
     'input_effects',
     'snowfall',
     'snowfall_holidays',
+    'local_read_label',
 )
 TEMPORARY_INTERACTION_STAGE = 'temporary_message_interaction'
 TEMPORARY_REPLY_HELPER = 'submodules/TelegramUI/Sources/Chat/NagramiXTemporaryReplySend.swift'

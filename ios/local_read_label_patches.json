@@ -1,0 +1,35 @@
+{
+  "target_pin": "24638bc69bd083981b178dd1e7f921eebbf7fc46",
+  "overlay_base_pin": "279f89e4d4f63f17227bf877dc3d8990f22ecd58",
+  "required_previous_stage": "snowfall_holidays",
+  "inputs": {
+    "submodules/NagramiXCore/Resources/ru.lproj/Localizable.strings": "f0b62a3022cc50d5dc4cd24dd0a2009d1d2ae65e794bf1c1737785cc51cc28b3"
+  },
+  "outputs": {
+    "submodules/NagramiXCore/Resources/ru.lproj/Localizable.strings": "344f1f110f161846fac12c24daa3e78b37f833f0c2c8b404887386257b4876ff"
+  },
+  "previous": {
+    "submodules/NagramiXCore/Resources/ru.lproj/Localizable.strings": "local_read_label/Before0.inc"
+  },
+  "replacements": {
+    "submodules/NagramiXCore/Resources/ru.lproj/Localizable.strings": "local_read_label/After0.inc"
+  },
+  "guards": {
+    "submodules/NagramiXCore/Sources/NagramiXPresentationStrings.swift": "b9700aab8046faceae855dc3336cfb22869c71f2aa395c4a0258c544be895d50",
+    "submodules/SettingsUI/Sources/NagramiXSettingsController.swift": "9f6d6f82929d3c9acd03804f946f0ce182b7c568e968da845354b57b296754ad"
+  },
+  "guard_sources": {
+    "submodules/NagramiXCore/Sources/NagramiXPresentationStrings.swift": "local_read_label/Guard0.inc",
+    "submodules/SettingsUI/Sources/NagramiXSettingsController.swift": "local_read_label/Guard1.inc"
+  },
+  "copies": {},
+  "deletions": {},
+  "native_inputs": {},
+  "native_guards": {},
+  "templates": {
+    "local_read_label/Before0.inc": "f0b62a3022cc50d5dc4cd24dd0a2009d1d2ae65e794bf1c1737785cc51cc28b3",
+    "local_read_label/After0.inc": "344f1f110f161846fac12c24daa3e78b37f833f0c2c8b404887386257b4876ff",
+    "local_read_label/Guard0.inc": "b9700aab8046faceae855dc3336cfb22869c71f2aa395c4a0258c544be895d50",
+    "local_read_label/Guard1.inc": "9f6d6f82929d3c9acd03804f946f0ce182b7c568e968da845354b57b296754ad"
+  }
+}

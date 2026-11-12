@@ -93,6 +93,29 @@ def final_upstream_catalog_contract(source):
     """Verify the exact late 13.2 catalogs, without unwrapping historical stages."""
     from validate_upstream_13_2_release import checked_plan, checked_sdk_plans
     from late_source_stages import LATE_SOURCE_STAGES, historical_source, verified_prefix
+    if verified_prefix(source) >= LATE_SOURCE_STAGES.index('local_read_label') + 1:
+        label = checked_plan('local_read_label')
+        changed = 'submodules/NagramiXCore/Resources/ru.lproj/Localizable.strings'
+        if set(label['inputs']) != {changed} or label['copies'] or label['deletions']:
+            raise ValueError('Некорректная правка названия локального чтения')
+        with historical_source(source, before_stage='local_read_label') as prior:
+            previous_languages, previous_count = final_upstream_catalog_contract(prior)
+            for path in (source/'submodules/NagramiXCore/Resources').glob('*.lproj/Localizable.strings'):
+                name = path.relative_to(source).as_posix()
+                before = strings(prior/name)
+                expected = dict(before)
+                if name == changed:
+                    if before['NagramiX.ReadMode.Local'] != 'Локальное «чтение»':
+                        raise ValueError('Изменено прежнее название локального чтения')
+                    expected['NagramiX.ReadMode.Local'] = 'Локальное чтение'
+                    if hashlib.sha256(path.read_bytes()).hexdigest() != label['outputs'][name]:
+                        raise ValueError('Изменена итоговая строка локального чтения')
+                if strings(path) != expected:
+                    raise ValueError('Посторонние изменения переводов: '+name)
+        languages, count = catalog_contract(source)
+        if (languages, count) != (previous_languages, previous_count):
+            raise ValueError('Изменён набор языков/ключей при переименовании')
+        return languages, count
     if verified_prefix(source) >= LATE_SOURCE_STAGES.index('snowfall') + 1:
         snow = checked_plan('snowfall')
         name = 'snowfall/localization.json'
