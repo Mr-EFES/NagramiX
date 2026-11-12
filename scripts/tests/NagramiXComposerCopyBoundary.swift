@@ -1,5 +1,8 @@
 // UIKit pasteboard, opaque Postbox button payload and peer storage boundaries.
 // All entities' Codable, formatting converters, Document/RTF and draft/send code are real.
+#if canImport(CoreGraphics)
+import CoreGraphics
+#endif
 public typealias PeerId = EnginePeer.Id
 public extension EnginePeer.Id {
  typealias Id = Int64
@@ -56,7 +59,7 @@ struct EnabledEntityTypes {static let all=EnabledEntityTypes();static let allUrl
 func generateTextEntities(_ text:String,enabledTypes:EnabledEntityTypes,currentEntities:[MessageTextEntity]=[])->[MessageTextEntity] {currentEntities}
 func expandedInputStateAttributedString(_ text:NSAttributedString)->NSAttributedString {text}
 
-#if !canImport(UIKit)
+#if !canImport(ObjectiveC)
 extension NSMutableAttributedString {convenience init(){self.init(string: "")}}
 #endif
 

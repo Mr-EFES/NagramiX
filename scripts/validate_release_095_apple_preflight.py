@@ -29,7 +29,7 @@ import snowfall_holidays_runtime as snowfall_holidays
 import composer_copy_integrity_runtime as composer_copy
 import single_touch_message_selection_runtime as single_selection
 from single_touch_message_selection_apple import check as single_selection_apple_check
-from composer_copy_integrity_apple import check as composer_copy_apple_check
+from composer_copy_integrity_apple import check as composer_copy_apple_check,foundation_check
 from snowfall_holidays_apple import check as snowfall_holidays_apple_check
 from snowfall_apple import check as snowfall_apple_check
 from input_effects_apple import check as input_effects_apple_check
@@ -116,6 +116,7 @@ def main():
     runs = []
     with tempfile.TemporaryDirectory(prefix='nagramix-095-early-') as temporary:
         root = Path(temporary)
+        foundation=foundation_check(args.swiftc,root)
         files = {}
         entries = [
             ('bubble_selection_edge', [('bubble-edge', lambda s: bubble.fixture(s, (OVERLAY/checked_plan('bubble_selection_edge')['previous'][bubble.BUBBLE]).read_text()))]),
@@ -183,6 +184,7 @@ def main():
     report['snowfall_real_sdk']=snowfall_apple
     report['snowfall_holidays_real_sdk']=snowfall_holidays_apple
     report['composer_copy_real_sdk']=composer_copy_apple
+    report['foundation_fixture_precheck']=foundation
     report['single_touch_selection_real_sdk']=single_selection_apple
     if args.report: args.report.write_text(json.dumps(report, ensure_ascii=False, indent=2)+'\n')
     print(json.dumps(report, ensure_ascii=False, indent=2))

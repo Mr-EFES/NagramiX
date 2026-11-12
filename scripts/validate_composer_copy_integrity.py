@@ -8,7 +8,7 @@ from validate_quick_format import block,manifest
 from validate_private_temporary_transcription import execute
 from validate_local_copy_delivery import run
 import composer_copy_integrity_runtime as runtime
-from composer_copy_integrity_apple import check as api_check
+from composer_copy_integrity_apple import check as api_check,foundation_check
 ROOT=Path(__file__).resolve().parents[1];STAGE='composer_copy_integrity'
 
 
@@ -76,12 +76,12 @@ def contract(source,plan):
 def main():
     p=argparse.ArgumentParser(description=__doc__);p.add_argument('--source',type=Path,required=True);p.add_argument('--swiftc',type=Path,required=True);p.add_argument('--report',type=Path);a=p.parse_args();plan=checked_plan(STAGE);c=contract(a.source,plan);before=manifest(a.source)
     with tempfile.TemporaryDirectory(prefix='composer-copy-check-') as d:
-        folder=Path(d);refusals=guard_checks(a.source,STAGE,plan,folder/'guards');code=runtime.fixture(a.source);runs=execute(a.swiftc,folder,'composer-copy-integrity',code)
+        folder=Path(d);refusals=guard_checks(a.source,STAGE,plan,folder/'guards');foundation=foundation_check(a.swiftc,folder);code=runtime.fixture(a.source);runs=execute(a.swiftc,folder,'composer-copy-integrity',code)
         for name,mutated,label in runtime.negatives(code):runs+=execute(a.swiftc,folder,name,mutated,label)
         api=api_check(a.source,a.swiftc,folder,public_api=True);apple=api_check(a.source,a.swiftc,folder)
         for n in plan['inputs']:run([a.swiftc,'-frontend','-parse',a.source/n])
     assert before==manifest(a.source)
-    report={'stage':STAGE,'source_contract':c,'loader_refusals':len(refusals),'executions':runs,'public_api':api,'apple_sdk_precheck':apple,'source_unchanged_by_checks':True,'full_application_sdk':'not_run','live_rpc':'pending','device':'pending','boundary':'Real native text entities Codable/converters, RTE model/codec/RTF export+import, clipboard helpers, draft/selection/route/enqueue and preview gate code. Explicit pasteboard/peer/media/Postbox and auto-detector boundaries. Not real network RPC delivery or rendered UIKit.'}
+    report={'stage':STAGE,'source_contract':c,'loader_refusals':len(refusals),'executions':runs,'public_api':api,'apple_sdk_precheck':apple,'foundation_fixture_precheck':foundation,'source_unchanged_by_checks':True,'full_application_sdk':'not_run','live_rpc':'pending','device':'pending','boundary':'Real native text entities Codable/converters, RTE model/codec/RTF export+import, clipboard helpers, draft/selection/route/enqueue and preview gate code. Explicit pasteboard/peer/media/Postbox and auto-detector boundaries. Not real network RPC delivery or rendered UIKit.'}
     if a.report:a.report.write_text(json.dumps(report,ensure_ascii=False,indent=2)+'\n')
     print(json.dumps(report,ensure_ascii=False,indent=2))
 if __name__=='__main__':main()

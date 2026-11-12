@@ -1,7 +1,47 @@
 """Compile actual public clipboard helpers/real model+RTF and an external consumer."""
 import subprocess,sys
 from validate_quick_format import block
-from composer_copy_integrity_runtime import fixture
+from composer_copy_integrity_runtime import fixture,ROOT
+
+
+def foundation_check(swiftc,folder):
+    """Exercise the actual fixture prefix with Foundation, before large suites.
+
+    macOS has Objective-C Foundation without UIKit. Corelibs' empty attributed
+    string initializer must not be added there; CGRect overlays need CoreGraphics.
+    """
+    from validate_private_temporary_transcription import execute
+    boundary=(ROOT/'scripts/tests/NagramiXComposerCopyBoundary.swift').read_text()
+    def conditional(marker):
+        start=boundary.index(marker)
+        return boundary[start:boundary.index('#endif',start)+len('#endif')]
+    geometry=conditional('#if canImport(CoreGraphics)')
+    initializer=conditional('#if !canImport(')
+    code='import Foundation\n'+geometry+'\n'+initializer+'''
+@main struct FoundationBoundaryProbe {
+ static func main() {
+  let text=NSMutableAttributedString()
+  text.append(NSAttributedString(string:"baseline"))
+  let rect=CGRect(x:1,y:2,width:4,height:3)
+  precondition(rect.minY+rect.maxY+CGFloat(text.length)==15)
+  print("Foundation fixture boundary: passed")
+ }
+}
+'''
+    runs=execute(swiftc,folder,'composer-foundation-boundary',code)
+    negatives=[]
+    if sys.platform=='darwin':
+        for name,mutated,diagnostic in [
+            ('missing-coregraphics',code.replace(geometry,''),"has no member 'minY'"),
+            ('wrong-uikit-platform-guard',code.replace('canImport(ObjectiveC)','canImport(UIKit)'),"overriding declaration requires an 'override' keyword"),
+        ]:
+            assert mutated!=code,name
+            path=folder/(name+'.swift');path.write_text(mutated)
+            result=subprocess.run([str(swiftc),'-swift-version','5','-warnings-as-errors','-parse-as-library','-typecheck','-module-cache-path',str(folder/'cache'),str(path)],capture_output=True,text=True,timeout=60)
+            assert result.returncode!=0 and diagnostic in result.stderr,result.stdout+result.stderr
+            negatives.append(name)
+    return {'executions':runs,'native_negative_refusals':negatives,'native_negative_status':'passed' if sys.platform=='darwin' else 'not_run; Objective-C Foundation/CoreGraphics requires Apple',
+            'scope':'Actual checked-in platform conditionals with real Foundation attributed string initialization and CGRect operators. No UIKit stand-ins in this probe; separate UIKit gate remains mandatory.'}
 
 
 def check(source,swiftc,folder,public_api=False):

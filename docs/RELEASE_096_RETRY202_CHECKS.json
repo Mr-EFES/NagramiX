@@ -1,0 +1,789 @@
+{
+  "version": "0.9.6",
+  "failed_build": 202,
+  "run_id": 43284323982,
+  "job_id": 131413563542,
+  "source_commit": "df26e4e9b2db9ece397b77d957eede535d0e6c6c",
+  "run_url": "https://github.com/Mr-EFES/NagramiX/actions/runs/43284323982",
+  "failure_stage": "Проверить геометрию тестов на Apple Swift / complete composer-copy fixture",
+  "actual_apple_diagnostics": [
+    "NSMutableAttributedString convenience init(): overriding declaration requires an override keyword",
+    "Same Objective-C selector init conflicts with inherited initializer",
+    "CGRect has no member minY",
+    "CGRect has no member maxY"
+  ],
+  "root_cause": "The Corelibs-only fixture initializer used !canImport(UIKit), also true on macOS with Objective-C Foundation. The model caret geometry needs an explicit CoreGraphics import on Apple.",
+  "fix": "Only fixture support: conditional CoreGraphics import and !canImport(ObjectiveC); no application source/plan/snapshot change. Short real-Foundation prefix probe runs before the large early suites; both original errors must be rejected as compiler negatives on Apple. Real UIKit gates and full fixtures remain mandatory.",
+  "native_sdk_started": false,
+  "overlay_started": false,
+  "new_ipa_created": false,
+  "local_composer_checks": {
+    "stage": "composer_copy_integrity",
+    "source_contract": {
+      "scope": "Only15 existing Copy calls, two clipboard helpers, three draft/send helpers, expanded toolbar attachment insertion and file-preview gates. Every other byte of the seven inputs exact after removing these changes.",
+      "copy": "Single atomic plain/RTF/native-fragment/exact Telegram entity item; rich/empty paths unchanged; both native clipboard readers guarded.",
+      "attachments": "Leading toolbar attachments in both editors; structural replaceRange command retains native undo. Stable batch/pick order and structural caret; both edge layouts eligible for ordinary file+caption; true inline/long/structured layouts retain rich route.",
+      "preview": "Attached media clears/cancels existing query; late result rejected; native and rich payload disable redundant preview; text-only preview unchanged.",
+      "unchanged": "Privacy, read, copy permissions, transport retry/upload, edit, Premium limits, thread/reply, scheduled/payment modes, all localization/settings/player/geometry paths.",
+      "native_input_origins": {
+        "submodules/Pasteboard/Sources/Pasteboard.swift": "2e5007d9edac5f57257bb820e74a8b7553c539c5",
+        "submodules/TelegramUI/Components/Chat/ChatRichTextEditorComposer/Sources/RichMessageClipboard.swift": "a0741b2b7b8ddf19f5a63396c9b84bc2f7762a89"
+      }
+    },
+    "loader_refusals": 16,
+    "executions": [
+      {
+        "name": "composer-copy-integrity",
+        "mode": "debug",
+        "exit_code": 0,
+        "output": "Composer copy/draft production checks: 117"
+      },
+      {
+        "name": "composer-copy-integrity",
+        "mode": "optimized",
+        "exit_code": 0,
+        "output": "Composer copy/draft production checks: 117"
+      },
+      {
+        "name": "omit-native-fragment",
+        "mode": "debug",
+        "exit_code": 96,
+        "output": "Composer copy regression: native private fragment is present"
+      },
+      {
+        "name": "omit-native-fragment",
+        "mode": "optimized",
+        "exit_code": 96,
+        "output": "Composer copy regression: native private fragment is present"
+      },
+      {
+        "name": "flatten-entities",
+        "mode": "debug",
+        "exit_code": 96,
+        "output": "Composer copy regression: first native paste preserves named link"
+      },
+      {
+        "name": "flatten-entities",
+        "mode": "optimized",
+        "exit_code": 96,
+        "output": "Composer copy regression: first native paste preserves named link"
+      },
+      {
+        "name": "append-file-below",
+        "mode": "debug",
+        "exit_code": 96,
+        "output": "Composer copy regression: file begins the draft before upload"
+      },
+      {
+        "name": "append-file-below",
+        "mode": "optimized",
+        "exit_code": 96,
+        "output": "Composer copy regression: file begins the draft before upload"
+      },
+      {
+        "name": "reject-leading-caption",
+        "mode": "debug",
+        "exit_code": 96,
+        "output": "Composer copy regression: leading file uses native caption unless unrepresentable round"
+      },
+      {
+        "name": "reject-leading-caption",
+        "mode": "optimized",
+        "exit_code": 96,
+        "output": "Composer copy regression: leading file uses native caption unless unrepresentable round"
+      },
+      {
+        "name": "drop-preview-flag",
+        "mode": "debug",
+        "exit_code": 96,
+        "output": "Composer copy regression: native file post disables redundant preview"
+      },
+      {
+        "name": "drop-preview-flag",
+        "mode": "optimized",
+        "exit_code": 96,
+        "output": "Composer copy regression: native file post disables redundant preview"
+      },
+      {
+        "name": "stale-caret",
+        "mode": "debug",
+        "exit_code": 96,
+        "output": "Composer copy regression: text caret offsets remain unchanged"
+      },
+      {
+        "name": "stale-caret",
+        "mode": "optimized",
+        "exit_code": 96,
+        "output": "Composer copy regression: text caret offsets remain unchanged"
+      },
+      {
+        "name": "retain-old-preview",
+        "mode": "debug",
+        "exit_code": 96,
+        "output": "Composer copy regression: attachment clears existing preview and query"
+      },
+      {
+        "name": "retain-old-preview",
+        "mode": "optimized",
+        "exit_code": 96,
+        "output": "Composer copy regression: attachment clears existing preview and query"
+      },
+      {
+        "name": "late-preview-return",
+        "mode": "debug",
+        "exit_code": 96,
+        "output": "Composer copy regression: late preview cannot return after attachment"
+      },
+      {
+        "name": "late-preview-return",
+        "mode": "optimized",
+        "exit_code": 96,
+        "output": "Composer copy regression: late preview cannot return after attachment"
+      }
+    ],
+    "public_api": {
+      "status": "passed",
+      "scope": "Full changed clipboard helper bodies, native entity Codable/formatting/document/RTF export and external public API consumer. UIKit pasteboard/UTType are real on Apple, explicit IO boundaries on Linux. Unrelated button-action migration/opaque Postbox codecs are outside this fixture. Full application SDK/device remain separate."
+    },
+    "apple_sdk_precheck": {
+      "status": "not_run",
+      "reason": "Real UIKit pasteboard SDK requires macOS"
+    },
+    "foundation_fixture_precheck": {
+      "executions": [
+        {
+          "name": "composer-foundation-boundary",
+          "mode": "debug",
+          "exit_code": 0,
+          "output": "Foundation fixture boundary: passed"
+        },
+        {
+          "name": "composer-foundation-boundary",
+          "mode": "optimized",
+          "exit_code": 0,
+          "output": "Foundation fixture boundary: passed"
+        }
+      ],
+      "native_negative_refusals": [],
+      "native_negative_status": "not_run; Objective-C Foundation/CoreGraphics requires Apple",
+      "scope": "Actual checked-in platform conditionals with real Foundation attributed string initialization and CGRect operators. No UIKit stand-ins in this probe; separate UIKit gate remains mandatory."
+    },
+    "source_unchanged_by_checks": true,
+    "full_application_sdk": "not_run",
+    "live_rpc": "pending",
+    "device": "pending",
+    "boundary": "Real native text entities Codable/converters, RTE model/codec/RTF export+import, clipboard helpers, draft/selection/route/enqueue and preview gate code. Explicit pasteboard/peer/media/Postbox and auto-detector boundaries. Not real network RPC delivery or rendered UIKit."
+  },
+  "local_complete_preflight": {
+    "canonical_swift_files_by_checkpoint": {
+      "bubble_selection_edge": {
+        "written": 404,
+        "pinned_native_dependencies": 7,
+        "unused_unavailable_native_guards": 108
+      },
+      "composer_file_attachments": {
+        "written": 416,
+        "pinned_native_dependencies": 7,
+        "unused_unavailable_native_guards": 108
+      },
+      "archived_round_native_controls": {
+        "written": 416,
+        "pinned_native_dependencies": 7,
+        "unused_unavailable_native_guards": 108
+      },
+      "transcription_account_defaults": {
+        "written": 417,
+        "pinned_native_dependencies": 7,
+        "unused_unavailable_native_guards": 108
+      },
+      "app_font_selection": {
+        "written": 423,
+        "pinned_native_dependencies": 7,
+        "unused_unavailable_native_guards": 108
+      },
+      "web_video_picture_in_picture": {
+        "written": 429,
+        "pinned_native_dependencies": 7,
+        "unused_unavailable_native_guards": 108
+      },
+      "temporary_expiration_semantics": {
+        "written": 431,
+        "pinned_native_dependencies": 7,
+        "unused_unavailable_native_guards": 108
+      },
+      "wide_channel_post_consistency": {
+        "written": 435,
+        "pinned_native_dependencies": 7,
+        "unused_unavailable_native_guards": 108
+      },
+      "font_theme_contrast": {
+        "written": 437,
+        "pinned_native_dependencies": 7,
+        "unused_unavailable_native_guards": 108
+      },
+      "system_web_picture_in_picture": {
+        "written": 440,
+        "pinned_native_dependencies": 7,
+        "unused_unavailable_native_guards": 108
+      },
+      "wide_panel_consistency": {
+        "written": 444,
+        "pinned_native_dependencies": 7,
+        "unused_unavailable_native_guards": 108
+      },
+      "premium_temporary_transcription": {
+        "written": 444,
+        "pinned_native_dependencies": 7,
+        "unused_unavailable_native_guards": 108
+      },
+      "font_preview_apply": {
+        "written": 446,
+        "pinned_native_dependencies": 7,
+        "unused_unavailable_native_guards": 108
+      },
+      "edit_result_consistency": {
+        "written": 449,
+        "pinned_native_dependencies": 7,
+        "unused_unavailable_native_guards": 108
+      },
+      "youtube_playback_policy": {
+        "written": 449,
+        "pinned_native_dependencies": 7,
+        "unused_unavailable_native_guards": 108
+      },
+      "input_effects": {
+        "written": 453,
+        "pinned_native_dependencies": 7,
+        "unused_unavailable_native_guards": 108
+      },
+      "snowfall": {
+        "written": 457,
+        "pinned_native_dependencies": 7,
+        "unused_unavailable_native_guards": 108
+      },
+      "snowfall_holidays": {
+        "written": 459,
+        "pinned_native_dependencies": 7,
+        "unused_unavailable_native_guards": 108
+      },
+      "composer_copy_integrity": {
+        "written": 519,
+        "pinned_native_dependencies": 6,
+        "unused_unavailable_native_guards": 108
+      },
+      "single_touch_message_selection": {
+        "written": 526,
+        "pinned_native_dependencies": 6,
+        "unused_unavailable_native_guards": 108
+      }
+    },
+    "complete_fixtures": 25,
+    "executions": [
+      {
+        "name": "bubble-edge",
+        "mode": "debug",
+        "exit_code": 0,
+        "output": "Production bubble edge checks: 17300"
+      },
+      {
+        "name": "bubble-edge",
+        "mode": "optimized",
+        "exit_code": 0,
+        "output": "Production bubble edge checks: 17300"
+      },
+      {
+        "name": "composer-attachments",
+        "mode": "debug",
+        "exit_code": 0,
+        "output": "701 production composer-file checks passed"
+      },
+      {
+        "name": "composer-attachments",
+        "mode": "optimized",
+        "exit_code": 0,
+        "output": "701 production composer-file checks passed"
+      },
+      {
+        "name": "archived-round-controls",
+        "mode": "debug",
+        "exit_code": 0,
+        "output": "58 archived native-round checks passed"
+      },
+      {
+        "name": "archived-round-controls",
+        "mode": "optimized",
+        "exit_code": 0,
+        "output": "58 archived native-round checks passed"
+      },
+      {
+        "name": "transcription-defaults",
+        "mode": "debug",
+        "exit_code": 0,
+        "output": "Transcription account defaults checks: 38\nPrivate temporary transcription checks: 590"
+      },
+      {
+        "name": "transcription-defaults",
+        "mode": "optimized",
+        "exit_code": 0,
+        "output": "Transcription account defaults checks: 38\nPrivate temporary transcription checks: 590"
+      },
+      {
+        "name": "font-selection",
+        "mode": "debug",
+        "exit_code": 0,
+        "output": "App font selection checks: 58"
+      },
+      {
+        "name": "font-selection",
+        "mode": "optimized",
+        "exit_code": 0,
+        "output": "App font selection checks: 58"
+      },
+      {
+        "name": "web-video-pip",
+        "mode": "debug",
+        "exit_code": 0,
+        "output": "web-video-pip production checks: 402"
+      },
+      {
+        "name": "web-video-pip",
+        "mode": "optimized",
+        "exit_code": 0,
+        "output": "web-video-pip production checks: 402"
+      },
+      {
+        "name": "expiry-archive",
+        "mode": "debug",
+        "exit_code": 0,
+        "output": "temporary-expiry archive checks: 488"
+      },
+      {
+        "name": "expiry-archive",
+        "mode": "optimized",
+        "exit_code": 0,
+        "output": "temporary-expiry archive checks: 488"
+      },
+      {
+        "name": "expiry-consumption",
+        "mode": "debug",
+        "exit_code": 0,
+        "output": "temporary-expiry consumption checks: 731"
+      },
+      {
+        "name": "expiry-consumption",
+        "mode": "optimized",
+        "exit_code": 0,
+        "output": "temporary-expiry consumption checks: 731"
+      },
+      {
+        "name": "expiry-read",
+        "mode": "debug",
+        "exit_code": 0,
+        "output": "temporary-expiry native read checks: 126"
+      },
+      {
+        "name": "expiry-read",
+        "mode": "optimized",
+        "exit_code": 0,
+        "output": "temporary-expiry native read checks: 126"
+      },
+      {
+        "name": "wide-channel-posts",
+        "mode": "debug",
+        "exit_code": 0,
+        "output": "wide channel post checks: 42672"
+      },
+      {
+        "name": "wide-channel-posts",
+        "mode": "optimized",
+        "exit_code": 0,
+        "output": "wide channel post checks: 42672"
+      },
+      {
+        "name": "font-theme-contrast",
+        "mode": "debug",
+        "exit_code": 0,
+        "output": "font theme production checks: 227"
+      },
+      {
+        "name": "font-theme-contrast",
+        "mode": "optimized",
+        "exit_code": 0,
+        "output": "font theme production checks: 227"
+      },
+      {
+        "name": "system-web-bridges",
+        "mode": "debug",
+        "exit_code": 0,
+        "output": "system web PiP production checks: 93"
+      },
+      {
+        "name": "system-web-bridges",
+        "mode": "optimized",
+        "exit_code": 0,
+        "output": "system web PiP production checks: 93"
+      },
+      {
+        "name": "system-web-gallery",
+        "mode": "debug",
+        "exit_code": 0,
+        "output": "system web gallery production checks: 48"
+      },
+      {
+        "name": "system-web-gallery",
+        "mode": "optimized",
+        "exit_code": 0,
+        "output": "system web gallery production checks: 48"
+      },
+      {
+        "name": "wide-panels",
+        "mode": "debug",
+        "exit_code": 0,
+        "output": "PASS wide panel production checks: 2723"
+      },
+      {
+        "name": "wide-panels",
+        "mode": "optimized",
+        "exit_code": 0,
+        "output": "PASS wide panel production checks: 2723"
+      },
+      {
+        "name": "premium-file-asr",
+        "mode": "debug",
+        "exit_code": 0,
+        "output": "PASS Premium file transcription checks: 307"
+      },
+      {
+        "name": "premium-file-asr",
+        "mode": "optimized",
+        "exit_code": 0,
+        "output": "PASS Premium file transcription checks: 307"
+      },
+      {
+        "name": "font-preview-apply",
+        "mode": "debug",
+        "exit_code": 0,
+        "output": "Font preview production checks: 5407"
+      },
+      {
+        "name": "font-preview-apply",
+        "mode": "optimized",
+        "exit_code": 0,
+        "output": "Font preview production checks: 5407"
+      },
+      {
+        "name": "final-font-resolver",
+        "mode": "debug",
+        "exit_code": 0,
+        "output": "App font selection checks: 58"
+      },
+      {
+        "name": "final-font-resolver",
+        "mode": "optimized",
+        "exit_code": 0,
+        "output": "App font selection checks: 58"
+      },
+      {
+        "name": "edit-result-consistency",
+        "mode": "debug",
+        "exit_code": 0,
+        "output": "Edit result production checks: 588"
+      },
+      {
+        "name": "edit-result-consistency",
+        "mode": "optimized",
+        "exit_code": 0,
+        "output": "Edit result production checks: 588"
+      },
+      {
+        "name": "youtube-policy-bridge",
+        "mode": "debug",
+        "exit_code": 0,
+        "output": "YouTube bridge production checks: 130"
+      },
+      {
+        "name": "youtube-policy-bridge",
+        "mode": "optimized",
+        "exit_code": 0,
+        "output": "YouTube bridge production checks: 130"
+      },
+      {
+        "name": "youtube-policy-setting",
+        "mode": "debug",
+        "exit_code": 0,
+        "output": "YouTube actual setting checks: 11"
+      },
+      {
+        "name": "youtube-policy-setting",
+        "mode": "optimized",
+        "exit_code": 0,
+        "output": "YouTube actual setting checks: 11"
+      },
+      {
+        "name": "input-effects",
+        "mode": "debug",
+        "exit_code": 0,
+        "output": "Input effects production checks: 311"
+      },
+      {
+        "name": "input-effects",
+        "mode": "optimized",
+        "exit_code": 0,
+        "output": "Input effects production checks: 311"
+      },
+      {
+        "name": "snowfall",
+        "mode": "debug",
+        "exit_code": 0,
+        "output": "Snowfall production checks: 400"
+      },
+      {
+        "name": "snowfall",
+        "mode": "optimized",
+        "exit_code": 0,
+        "output": "Snowfall production checks: 400"
+      },
+      {
+        "name": "snowfall-holidays",
+        "mode": "debug",
+        "exit_code": 0,
+        "output": "Holiday snowfall production checks: 6933"
+      },
+      {
+        "name": "snowfall-holidays",
+        "mode": "optimized",
+        "exit_code": 0,
+        "output": "Holiday snowfall production checks: 6933"
+      },
+      {
+        "name": "composer-copy-integrity",
+        "mode": "debug",
+        "exit_code": 0,
+        "output": "Composer copy/draft production checks: 117"
+      },
+      {
+        "name": "composer-copy-integrity",
+        "mode": "optimized",
+        "exit_code": 0,
+        "output": "Composer copy/draft production checks: 117"
+      },
+      {
+        "name": "single-touch-message-selection",
+        "mode": "debug",
+        "exit_code": 0,
+        "output": "single-touch message selection: 4841 production checks passed"
+      },
+      {
+        "name": "single-touch-message-selection",
+        "mode": "optimized",
+        "exit_code": 0,
+        "output": "single-touch message selection: 4841 production checks passed"
+      }
+    ],
+    "font_apply_node_contract": {
+      "native_headers": "exact guarded actual Texture declarations",
+      "node_sizing_and_navigation_visibility": [
+        {
+          "mode": "debug",
+          "checks": 3,
+          "result": "passed"
+        },
+        {
+          "mode": "optimized",
+          "checks": 3,
+          "result": "passed"
+        }
+      ],
+      "production_uses_designated_two_argument_initializer": true,
+      "wrong_initializer_label": "rejected",
+      "real_uikit": "separate mandatory Apple precheck"
+    },
+    "native_navigation_contract": {
+      "native_signature": "func updatePresentationData(_ presentationData: NavigationBarPresentationData, transition: ContainedViewLayoutTransition)",
+      "actual_caller": "self.navigationBar?.updatePresentationData(NavigationBarPresentationData(presentationData: value), transition: .immediate)",
+      "checks": [
+        {
+          "name": "current",
+          "expected_result": "passed",
+          "verified": true
+        },
+        {
+          "name": "sdk199-missing-transition",
+          "expected_result": "rejected",
+          "verified": true
+        },
+        {
+          "name": "wrong-transition-label",
+          "expected_result": "rejected",
+          "verified": true
+        }
+      ]
+    },
+    "font_adapter_access_contract": [
+      {
+        "name": "public-types",
+        "expected_result": "passed",
+        "verified": true
+      },
+      {
+        "name": "internal-layout",
+        "expected_result": "rejected",
+        "verified": true
+      },
+      {
+        "name": "internal-transition",
+        "expected_result": "rejected",
+        "verified": true
+      }
+    ],
+    "apple_uikit_precheck": {
+      "status": "not_run",
+      "reason": "Apple UIKit SDK unavailable on Linux"
+    },
+    "font_icon_uikit_precheck": {
+      "status": "not_run",
+      "reason": "Real UIKit renderer typecheck requires Apple SDK"
+    },
+    "warnings_as_errors": true,
+    "historical_projection_cleanup": "completed temporary checkpoints removed; six native-check projections retained",
+    "full_application_sdk": "pending",
+    "device": "pending",
+    "actual_font_theme_adapter_members": {
+      "status": "passed",
+      "scope": "Actual final font UIKit adapter root/status declarations with native enum cases/getter and actual caller; pixels not exercised"
+    },
+    "system_web_javascript": {
+      "status": "passed",
+      "output": "system web DOM production checks: 88",
+      "boundary": "Actual injected JavaScript in Node vm; explicit DOM/frame/video events, no real iOS WebKit or media pixels"
+    },
+    "system_web_real_sdk": {
+      "status": "not_run",
+      "reason": "Real AVKit/WebKit/AVFoundation SDK requires macOS"
+    },
+    "youtube_playback_policy_js": {
+      "status": "passed",
+      "output": "YouTube playback DOM production checks: 72",
+      "semantic_mutations": [
+        {
+          "name": "no-observer",
+          "rejected": true,
+          "diagnostic": "site cannot reapply video hint while enabled"
+        },
+        {
+          "name": "no-lifecycle-guard",
+          "rejected": true,
+          "diagnostic": "hidden lifecycle cannot pause permitted playback"
+        },
+        {
+          "name": "wrong-native-method",
+          "rejected": true,
+          "diagnostic": "original HTML video uses native WebKit mode"
+        },
+        {
+          "name": "ignore-off",
+          "rejected": true,
+          "diagnostic": "OFF restores original video restriction"
+        }
+      ],
+      "boundary": "Actual injected script in Node vm with explicit event/DOM/MutationObserver/native-video adapters. No real WebKit, YouTube network, DRM or iPhone audio scheduling tested."
+    },
+    "youtube_playback_policy_apple": {
+      "status": "not_run",
+      "reason": "Real AVKit/WebKit/AVFoundation SDK requires macOS"
+    },
+    "input_effects_real_sdk": {
+      "status": "not_run",
+      "reason": "Real UIKit/QuartzCore SDK requires macOS"
+    },
+    "snowfall_real_sdk": {
+      "status": "not_run",
+      "reason": "Real UIKit/QuartzCore SDK requires macOS"
+    },
+    "snowfall_holidays_real_sdk": {
+      "status": "not_run",
+      "reason": "Real UIKit/QuartzCore SDK requires macOS"
+    },
+    "composer_copy_real_sdk": {
+      "status": "not_run",
+      "reason": "Real UIKit pasteboard SDK requires macOS"
+    },
+    "foundation_fixture_precheck": {
+      "executions": [
+        {
+          "name": "composer-foundation-boundary",
+          "mode": "debug",
+          "exit_code": 0,
+          "output": "Foundation fixture boundary: passed"
+        },
+        {
+          "name": "composer-foundation-boundary",
+          "mode": "optimized",
+          "exit_code": 0,
+          "output": "Foundation fixture boundary: passed"
+        }
+      ],
+      "native_negative_refusals": [],
+      "native_negative_status": "not_run; Objective-C Foundation/CoreGraphics requires Apple",
+      "scope": "Actual checked-in platform conditionals with real Foundation attributed string initialization and CGRect operators. No UIKit stand-ins in this probe; separate UIKit gate remains mandatory."
+    },
+    "single_touch_selection_real_sdk": {
+      "status": "not_run",
+      "reason": "Real UIKit requires the Apple SDK on macOS"
+    }
+  },
+  "workflow_mode": {
+    "optional_historical_calls": 189,
+    "unconditional_apply_calls": 68,
+    "mandatory_final_checks": [
+      "validate_late_source_stages.py",
+      "validate_custom_member_references.py",
+      "validate_upstream_13_2_release.py",
+      "validate_localization_standard.py",
+      "validate_release_092_settings_compile.py",
+      "validate_round_native_playback.py",
+      "validate_poll_copy_transport.py",
+      "validate_release_095_fonts_compile.py",
+      "validate_release_095_composer_strings_compile.py",
+      "validate_wide_channel_post_consistency.py",
+      "validate_font_theme_contrast.py",
+      "validate_system_web_picture_in_picture.py",
+      "validate_wide_panel_consistency.py",
+      "validate_settings_section_header_case.py",
+      "validate_premium_temporary_transcription.py",
+      "validate_font_preview_apply.py",
+      "validate_edit_result_consistency.py",
+      "validate_youtube_playback_policy.py",
+      "validate_input_effects.py",
+      "validate_snowfall.py",
+      "validate_snowfall_holidays.py",
+      "validate_composer_copy_integrity.py",
+      "validate_single_touch_message_selection.py",
+      "PostboxImportCheck.py"
+    ],
+    "complete_fixture_preflight_before_overlay": "mandatory",
+    "bash_syntax": "passed",
+    "runtime_cases": [
+      {
+        "extended": "false",
+        "exit_code": 0
+      },
+      {
+        "extended": "true",
+        "exit_code": 17
+      },
+      {
+        "extended": "true",
+        "exit_code": 0
+      },
+      {
+        "extended": "invalid",
+        "exit_code": 64
+      }
+    ]
+  },
+  "all_60_runtime_stages_and_4338_inc_unchanged": true,
+  "apple_confirmation": "pending next approved clean run; Linux cannot execute native Objective-C/CoreGraphics negative cases",
+  "retry_authorization": "Current explicit user command authorizes fixes and repeats of0.9.6 until successful IPA and owner publication; no new permission needed.",
+  "old_releases": "All8published releases, tags, IPA/provenance/checksums preserved."
+}
