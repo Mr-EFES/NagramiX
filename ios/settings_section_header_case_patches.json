@@ -1,0 +1,38 @@
+{
+  "target_pin": "24638bc69bd083981b178dd1e7f921eebbf7fc46",
+  "overlay_base_pin": "279f89e4d4f63f17227bf877dc3d8990f22ecd58",
+  "required_previous_stage": "wide_panel_consistency",
+  "inputs": {
+    "submodules/SettingsUI/Sources/NagramiXSettingsController.swift": "76dba5aabead5897e08f285aef7723abd0b1204015ec74d05bb5a2449c35911f"
+  },
+  "outputs": {
+    "submodules/SettingsUI/Sources/NagramiXSettingsController.swift": "d724e3056d559da4817086bada70952a28ad3300b9d481083ad8a87cc07e666c"
+  },
+  "previous": {
+    "submodules/SettingsUI/Sources/NagramiXSettingsController.swift": "settings_section_header_case/Before0.inc"
+  },
+  "replacements": {
+    "submodules/SettingsUI/Sources/NagramiXSettingsController.swift": "settings_section_header_case/After0.inc"
+  },
+  "guards": {
+    "submodules/SettingsUI/BUILD": "b229ff1580a1e8e13770d400a1c0c9e1cf56ef05b831659c3422a6141b50f489",
+    "submodules/NagramiXCore/Sources/NagramiXPresentationStrings.swift": "b9700aab8046faceae855dc3336cfb22869c71f2aa395c4a0258c544be895d50",
+    "submodules/NagramiXCore/Sources/NagramiXAppLocalization.swift": "c27d2d470c70568e9a80e0e38c509befea549c99afd47215e0024949fe67a67c"
+  },
+  "guard_sources": {
+    "submodules/SettingsUI/BUILD": "settings_section_header_case/Guard0.inc",
+    "submodules/NagramiXCore/Sources/NagramiXPresentationStrings.swift": "settings_section_header_case/Guard1.inc",
+    "submodules/NagramiXCore/Sources/NagramiXAppLocalization.swift": "settings_section_header_case/Guard2.inc"
+  },
+  "copies": {},
+  "deletions": {},
+  "native_inputs": {},
+  "native_guards": {},
+  "templates": {
+    "settings_section_header_case/Before0.inc": "76dba5aabead5897e08f285aef7723abd0b1204015ec74d05bb5a2449c35911f",
+    "settings_section_header_case/After0.inc": "d724e3056d559da4817086bada70952a28ad3300b9d481083ad8a87cc07e666c",
+    "settings_section_header_case/Guard0.inc": "b229ff1580a1e8e13770d400a1c0c9e1cf56ef05b831659c3422a6141b50f489",
+    "settings_section_header_case/Guard1.inc": "b9700aab8046faceae855dc3336cfb22869c71f2aa395c4a0258c544be895d50",
+    "settings_section_header_case/Guard2.inc": "c27d2d470c70568e9a80e0e38c509befea549c99afd47215e0024949fe67a67c"
+  }
+}

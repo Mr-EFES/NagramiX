@@ -1,0 +1,184 @@
+{
+  "задача": "ОФОРМЛЕНИЕ и единый верхний регистр категорий на трёх вкладках настроек",
+  "stage": "settings_section_header_case",
+  "number": 50,
+  "previous": "wide_panel_consistency",
+  "status": {
+    "source": "checked",
+    "apple_sdk": "not_run",
+    "device": "pending",
+    "new_ipa": "not_requested"
+  },
+  "application_changes": {
+    "files": 1,
+    "text_expressions": 4,
+    "other_bytes": "unchanged",
+    "new_localization_keys": 0
+  },
+  "canonical": {
+    "new_snapshots": 5,
+    "unchanged_previous_snapshots": 3648,
+    "inputs": 1,
+    "guards": 3
+  },
+  "shared_header_contract": {
+    "stage": "settings_section_header_case",
+    "inputs": 1,
+    "guards": 3,
+    "loader_refusals": 12,
+    "contract": {
+      "section_headers": 21,
+      "explicit_uppercase_after_localization": 21,
+      "scope": "submodules/SettingsUI/Sources/NagramiXSettingsController.swift"
+    },
+    "only_changes": "Четыре заголовка получают .uppercased() после локализации. Переводы, ключи, настройки, обработчики и оформление остального экрана побайтно прежние.",
+    "old_screenshot_regression_rejected": true,
+    "source_files": 37682,
+    "swift_parse": 1,
+    "source_unchanged_by_checks": true,
+    "whole_app_sdk": "not_run",
+    "device": "pending"
+  },
+  "full_source": {
+    "path": "/tmp/nagramix-section-headers/source",
+    "files": 37682,
+    "symlinks": 26,
+    "manifest_sha256": "a502069589d4128650082857d14869acbf5e020ffaeda46ec1004fcdc5e86a6a",
+    "changed_paths": 1,
+    "historical_manifest_checkpoints_restored": [
+      43,
+      44,
+      45,
+      46,
+      47,
+      48,
+      49
+    ]
+  },
+  "inverse": {
+    "stages": 50,
+    "contract_paths": 777,
+    "negative_cases": 267
+  },
+  "upstream": {
+    "parsed_swift": 552,
+    "migration_refusals": {
+      "pre": 17,
+      "post": 33
+    },
+    "historical_runtime_executions": 14,
+    "PostboxImportCheck": "passed"
+  },
+  "custom_members": {
+    "canonical": {
+      "swift_files": 242,
+      "string_accesses": 812,
+      "distinct_string_members": 231,
+      "actual_string_declarations": 250,
+      "custom_declarations": 863,
+      "full_custom_name_audit": false,
+      "literal_parser_contract": {
+        "accepted_literals_and_comments": 8,
+        "missing_real_members_rejected": 7,
+        "unterminated_literal_rejected": true,
+        "interpolations_preserved": true
+      }
+    },
+    "full": {
+      "swift_files": 7324,
+      "string_accesses": 870,
+      "distinct_string_members": 233,
+      "actual_string_declarations": 250,
+      "custom_declarations": 976,
+      "full_custom_name_audit": true,
+      "literal_parser_contract": {
+        "accepted_literals_and_comments": 8,
+        "missing_real_members_rejected": 7,
+        "unterminated_literal_rejected": true,
+        "interpolations_preserved": true
+      }
+    }
+  },
+  "native_members": {
+    "canonical": {
+      "swift_files": 242,
+      "native_generated_members": 12190,
+      "native_string_uses": 4056,
+      "distinct_native_members": 2221,
+      "proven_other_typed_owner_reads": 0,
+      "sdk200_mutation_rejected": true,
+      "apple_actual_generated_header": {
+        "status": "not_run",
+        "reason": "Real Objective-C/Apple SDK import requires macOS and swiftc"
+      },
+      "boundary": "Actual native GenerateStrings.py, build rule and final English catalog; generated member existence through strings/namedStrings receivers. Other typed owners need source declaration evidence. Full Swift call arity/type checking and app runtime still require SDK/device."
+    },
+    "full": {
+      "swift_files": 7324,
+      "native_generated_members": 12190,
+      "native_string_uses": 18586,
+      "distinct_native_members": 10391,
+      "proven_other_typed_owner_reads": 8,
+      "sdk200_mutation_rejected": true,
+      "apple_actual_generated_header": {
+        "status": "not_run",
+        "reason": "Real Objective-C/Apple SDK import requires macOS and swiftc"
+      },
+      "boundary": "Actual native GenerateStrings.py, build rule and final English catalog; generated member existence through strings/namedStrings receivers. Other typed owners need source declaration evidence. Full Swift call arity/type checking and app runtime still require SDK/device."
+    }
+  },
+  "localization": {
+    "languages": 71,
+    "keys_each": 647,
+    "lookups_per_mode": 46106,
+    "modes": [
+      "debug",
+      "optimized"
+    ],
+    "no_new_raw_ui_strings": true,
+    "header_case_lint": "mandatory_in_final_localization_gate"
+  },
+  "workflow": {
+    "optional_historical_calls": 189,
+    "unconditional_apply_calls": 58,
+    "mandatory_final_checks": [
+      "validate_late_source_stages.py",
+      "validate_custom_member_references.py",
+      "validate_upstream_13_2_release.py",
+      "validate_localization_standard.py",
+      "validate_release_092_settings_compile.py",
+      "validate_round_native_playback.py",
+      "validate_poll_copy_transport.py",
+      "validate_release_095_fonts_compile.py",
+      "validate_release_095_composer_strings_compile.py",
+      "validate_wide_channel_post_consistency.py",
+      "validate_font_theme_contrast.py",
+      "validate_system_web_picture_in_picture.py",
+      "validate_wide_panel_consistency.py",
+      "validate_settings_section_header_case.py",
+      "PostboxImportCheck.py"
+    ],
+    "complete_fixture_preflight_before_overlay": "mandatory",
+    "bash_syntax": "passed",
+    "runtime_cases": [
+      {
+        "extended": "false",
+        "exit_code": 0
+      },
+      {
+        "extended": "true",
+        "exit_code": 17
+      },
+      {
+        "extended": "true",
+        "exit_code": 0
+      },
+      {
+        "extended": "invalid",
+        "exit_code": 64
+      }
+    ]
+  },
+  "README_LICENSE_annotation_published_IPA_tag": "unchanged",
+  "boundary": "Проверены реальные выражения заголовков и точное отсутствие прочих изменений в файле. Новый Swift runtime fixture для стандартного String.uppercased() не добавлялся. Полная SDK-компиляция и пиксельная проверка iPhone остаются pending."
+}

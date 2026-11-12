@@ -245,6 +245,9 @@ def main():
     languages,keys=final_upstream_catalog_contract(args.source) if args.final_upstream_13_2 else catalog_contract(args.source)
     print(f'PASS: текущая композиция — {languages} языков по {keys} ключей.',flush=True)
     if args.final_upstream_13_2:
+        from settings_header_contract import check as section_header_check, SETTINGS
+        headers=section_header_check((args.source/SETTINGS).read_text())
+        print(f'PASS: {headers["section_headers"]} заголовков категорий в едином верхнем регистре.',flush=True)
         runtime_checks(args.source,args.swiftc)
         return
     command=[sys.executable,str(ROOT/'scripts/validate_app_language_localization.py'),'--source',str(args.source)]
