@@ -18,6 +18,7 @@ from round_replacement_geometry_runtime import BOUNDARY as ROUND_REPLACEMENT_BOU
 from download_sheet_vector_contour_runtime import BOUNDARY as DOWNLOAD_CONTOUR_BOUNDARY
 from bubble_selection_edge_runtime import BOUNDARY as BUBBLE_EDGE_BOUNDARY
 from app_font_selection_apple import ACCESS_IMPORTS as FONT_ACCESS_IMPORTS
+from wide_panel_consistency_runtime import BOUNDARY as WIDE_PANEL_BOUNDARY
 from system_web_picture_in_picture_runtime import BOUNDARY as SYSTEM_WEB_BOUNDARY
 from system_web_picture_in_picture_gallery_runtime import BOUNDARY as SYSTEM_WEB_GALLERY_BOUNDARY
 
@@ -51,6 +52,7 @@ def check(swiftc):
         'download-contour': DOWNLOAD_CONTOUR_BOUNDARY.split('struct UIRectCorner')[0],
         'bubble-selection-edge': BUBBLE_EDGE_BOUNDARY.split('struct UIEdgeInsets')[0],
         'font-public-access': FONT_ACCESS_IMPORTS,
+        'wide-panels': WIDE_PANEL_BOUNDARY,
         'system-web-bridges': SYSTEM_WEB_BOUNDARY.split('final class ValuePromise')[0],
         'system-web-gallery': SYSTEM_WEB_GALLERY_BOUNDARY.split('var clock:Double')[0],
     }

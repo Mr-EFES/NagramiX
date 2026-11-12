@@ -1,0 +1,357 @@
+{
+  "задача": "Единая широкая панель по трём скриншотам владельца",
+  "стадия": 49,
+  "stage": "wide_panel_consistency",
+  "previous_stage": "system_web_picture_in_picture",
+  "status": {
+    "source": "checked",
+    "whole_app_sdk": "not_run",
+    "device": "pending",
+    "new_ipa": "not_requested"
+  },
+  "input_files": 8,
+  "guards": 13,
+  "new_canonical_snapshots": 29,
+  "unchanged_old_canonical_snapshots": 3619,
+  "official_native_preimages": {
+    "submodules/AttachmentUI/Sources/AttachmentPanel.swift": {
+      "sha256": "981a6292c3aa7859d7f97d8c8e9c466acd05f4fde1ca85ebc377acb4df4af2bc",
+      "git_blob": "a433473980d233d3a62b6efe4447341c92108416",
+      "pin": "24638bc69bd083981b178dd1e7f921eebbf7fc46"
+    },
+    "submodules/AttachmentUI/BUILD": {
+      "sha256": "f45c92c367e5a92f30976984bee1234138ec51a06c3afec62c745406a637a0f5",
+      "git_blob": "97e317e365e4a1bcdeb4338a57cc839647a9832c",
+      "pin": "24638bc69bd083981b178dd1e7f921eebbf7fc46"
+    },
+    "submodules/TelegramUI/Components/TabSelectorComponent/Sources/TabSelectorComponent.swift": {
+      "sha256": "04ffcfe4e76c1d63be5d4b12ff9bead68acfed1ea2a60cbee321be0e6c074dee",
+      "git_blob": "c36be162920d4c964a9a86e41f280d8a6620dd93",
+      "pin": "24638bc69bd083981b178dd1e7f921eebbf7fc46"
+    },
+    "submodules/TelegramUI/Components/TabSelectorComponent/BUILD": {
+      "sha256": "d226d38aedd9d28944662b2c9d17b244416c77306b41745ea06bd3966afeb522",
+      "git_blob": "62f37931c1f60dedf783f7eed34fa9a4c1e84280",
+      "pin": "24638bc69bd083981b178dd1e7f921eebbf7fc46"
+    }
+  },
+  "full_source": {
+    "path": "/tmp/nagramix-wide-panels/source",
+    "files": 37682,
+    "symlinks": 26,
+    "changed_paths": 8,
+    "manifest_sha256": "546d8889694c3bc3079dce138f401f0d90b4f6b5a3d6c5a69b21fb8ca803a09c",
+    "verified_historical_manifest_checkpoints": [
+      43,
+      44,
+      45,
+      46,
+      47,
+      48
+    ]
+  },
+  "wide_panels": {
+    "stage": "wide_panel_consistency",
+    "inputs": 8,
+    "guards": 13,
+    "loader_refusals": 16,
+    "source_files": 37682,
+    "source_unchanged_by_checks": true,
+    "contract": {
+      "direct_import_dependencies": 3,
+      "core_reachable_dependency_labels": 46,
+      "cycle_check": "passed",
+      "shared_panels": 3,
+      "existing_key": "nagramix.tabs.wideBar",
+      "stable_id": 165
+    },
+    "executions": [
+      {
+        "name": "wide-panels",
+        "mode": "debug",
+        "exit_code": 0,
+        "output": "PASS wide panel production checks: 2723"
+      },
+      {
+        "name": "wide-panels",
+        "mode": "optimized",
+        "exit_code": 0,
+        "output": "PASS wide panel production checks: 2723"
+      },
+      {
+        "name": "narrow-attachments",
+        "mode": "debug",
+        "exit_code": 91,
+        "output": "FAIL attachment-wide-background"
+      },
+      {
+        "name": "narrow-attachments",
+        "mode": "optimized",
+        "exit_code": 91,
+        "output": "FAIL attachment-wide-background"
+      },
+      {
+        "name": "narrow-touch-slots",
+        "mode": "debug",
+        "exit_code": 91,
+        "output": "FAIL attachment-first-slot"
+      },
+      {
+        "name": "narrow-touch-slots",
+        "mode": "optimized",
+        "exit_code": 91,
+        "output": "FAIL attachment-first-slot"
+      },
+      {
+        "name": "narrow-other-root-tabs",
+        "mode": "debug",
+        "exit_code": 91,
+        "output": "FAIL root-policy"
+      },
+      {
+        "name": "narrow-other-root-tabs",
+        "mode": "optimized",
+        "exit_code": 91,
+        "output": "FAIL root-policy"
+      },
+      {
+        "name": "missing-shared-bar",
+        "mode": "debug",
+        "exit_code": 91,
+        "output": "FAIL native-system-layout"
+      },
+      {
+        "name": "missing-shared-bar",
+        "mode": "optimized",
+        "exit_code": 91,
+        "output": "FAIL native-system-layout"
+      },
+      {
+        "name": "narrow-selector",
+        "mode": "debug",
+        "exit_code": 91,
+        "output": "FAIL selector-wide"
+      },
+      {
+        "name": "narrow-selector",
+        "mode": "optimized",
+        "exit_code": 91,
+        "output": "FAIL selector-wide"
+      },
+      {
+        "name": "stale-live-layout",
+        "mode": "debug",
+        "exit_code": 91,
+        "output": "FAIL live-off-layout"
+      },
+      {
+        "name": "stale-live-layout",
+        "mode": "optimized",
+        "exit_code": 91,
+        "output": "FAIL live-off-layout"
+      }
+    ],
+    "actual_core_executions": [
+      {
+        "name": "baseline",
+        "mode": "debug",
+        "exit_code": 0,
+        "output": "PASS wide panel actual Core checks: 12"
+      },
+      {
+        "name": "baseline",
+        "mode": "optimized",
+        "exit_code": 0,
+        "output": "PASS wide panel actual Core checks: 12"
+      },
+      {
+        "name": "wrong-default",
+        "mode": "debug",
+        "exit_code": 91,
+        "output": "FAIL fresh-on"
+      },
+      {
+        "name": "wrong-default",
+        "mode": "optimized",
+        "exit_code": 91,
+        "output": "FAIL fresh-on"
+      },
+      {
+        "name": "wrong-key",
+        "mode": "debug",
+        "exit_code": 91,
+        "output": "FAIL saved-off"
+      },
+      {
+        "name": "wrong-key",
+        "mode": "optimized",
+        "exit_code": 91,
+        "output": "FAIL saved-off"
+      },
+      {
+        "name": "missing-write",
+        "mode": "debug",
+        "exit_code": 91,
+        "output": "FAIL persist-on"
+      },
+      {
+        "name": "missing-write",
+        "mode": "optimized",
+        "exit_code": 91,
+        "output": "FAIL persist-on"
+      },
+      {
+        "name": "wrong-init",
+        "mode": "debug",
+        "exit_code": 91,
+        "output": "FAIL initializer-default"
+      },
+      {
+        "name": "wrong-init",
+        "mode": "optimized",
+        "exit_code": 91,
+        "output": "FAIL initializer-default"
+      }
+    ],
+    "boundary": "Actual attachment frame/slot arithmetic, root policy, native TabBarItemsLayout, shared selector frame loop and shared weak observer with actual ComponentState body. Explicit adapters provide measured title widths, container safe insets and ComponentTransition enum. Full actual Core and all 13 Foundation media sources compile and execute. No UIKit pixels or whole module compilation is claimed.",
+    "whole_app_sdk": "not_run",
+    "device": "pending"
+  },
+  "inverse": {
+    "stages": 49,
+    "published_contract_paths": 777,
+    "negative_cases": 264,
+    "files_preserved": 37682
+  },
+  "upstream": {
+    "parsed_swift": 552,
+    "migration_refusals": {
+      "pre": 17,
+      "post": 33
+    },
+    "historical_executions": 14,
+    "PostboxImportCheck": "passed"
+  },
+  "early_gate": {
+    "complete_fixtures": 14,
+    "executions": 28,
+    "warnings_as_errors": true,
+    "apple_sdk_boundary": "Обязательные реальные UIKit/AVKit/WK probes сохранены; на Linux не выполнялись."
+  },
+  "geometry": {
+    "boundaries": 15,
+    "executions": 30,
+    "apple_import_negatives": "mandatory_on_Apple"
+  },
+  "custom_members": {
+    "canonical": {
+      "swift_files": 242,
+      "string_accesses": 812,
+      "distinct_string_members": 231,
+      "actual_string_declarations": 250,
+      "custom_declarations": 863,
+      "full_custom_name_audit": false,
+      "literal_parser_contract": {
+        "accepted_literals_and_comments": 8,
+        "missing_real_members_rejected": 7,
+        "unterminated_literal_rejected": true,
+        "interpolations_preserved": true
+      }
+    },
+    "full": {
+      "swift_files": 7324,
+      "string_accesses": 870,
+      "distinct_string_members": 233,
+      "actual_string_declarations": 250,
+      "custom_declarations": 976,
+      "full_custom_name_audit": true,
+      "literal_parser_contract": {
+        "accepted_literals_and_comments": 8,
+        "missing_real_members_rejected": 7,
+        "unterminated_literal_rejected": true,
+        "interpolations_preserved": true
+      }
+    }
+  },
+  "native_generated_members": {
+    "canonical": {
+      "swift_files": 242,
+      "native_generated_members": 12190,
+      "native_string_uses": 4056,
+      "distinct_native_members": 2221,
+      "proven_other_typed_owner_reads": 0,
+      "sdk200_mutation_rejected": true,
+      "apple_actual_generated_header": {
+        "status": "not_run",
+        "reason": "Real Objective-C/Apple SDK import requires macOS and swiftc"
+      },
+      "boundary": "Actual native GenerateStrings.py, build rule and final English catalog; generated member existence through strings/namedStrings receivers. Other typed owners need source declaration evidence. Full Swift call arity/type checking and app runtime still require SDK/device."
+    },
+    "full": {
+      "swift_files": 7324,
+      "native_generated_members": 12190,
+      "native_string_uses": 18586,
+      "distinct_native_members": 10391,
+      "proven_other_typed_owner_reads": 8,
+      "sdk200_mutation_rejected": true,
+      "apple_actual_generated_header": {
+        "status": "not_run",
+        "reason": "Real Objective-C/Apple SDK import requires macOS and swiftc"
+      },
+      "boundary": "Actual native GenerateStrings.py, build rule and final English catalog; generated member existence through strings/namedStrings receivers. Other typed owners need source declaration evidence. Full Swift call arity/type checking and app runtime still require SDK/device."
+    }
+  },
+  "localization": {
+    "languages": 71,
+    "keys_each": 647,
+    "runtime_lookups_per_mode": 46106,
+    "modes": [
+      "debug",
+      "optimized"
+    ],
+    "raw_new_ui_strings": 0
+  },
+  "workflow": {
+    "optional_historical_calls": 189,
+    "unconditional_apply_calls": 57,
+    "mandatory_final_checks": [
+      "validate_late_source_stages.py",
+      "validate_custom_member_references.py",
+      "validate_upstream_13_2_release.py",
+      "validate_localization_standard.py",
+      "validate_release_092_settings_compile.py",
+      "validate_round_native_playback.py",
+      "validate_poll_copy_transport.py",
+      "validate_release_095_fonts_compile.py",
+      "validate_release_095_composer_strings_compile.py",
+      "validate_wide_channel_post_consistency.py",
+      "validate_font_theme_contrast.py",
+      "validate_system_web_picture_in_picture.py",
+      "validate_wide_panel_consistency.py",
+      "PostboxImportCheck.py"
+    ],
+    "complete_fixture_preflight_before_overlay": "mandatory",
+    "bash_syntax": "passed",
+    "runtime_cases": [
+      {
+        "extended": "false",
+        "exit_code": 0
+      },
+      {
+        "extended": "true",
+        "exit_code": 17
+      },
+      {
+        "extended": "true",
+        "exit_code": 0
+      },
+      {
+        "extended": "invalid",
+        "exit_code": 64
+      }
+    ]
+  },
+  "published_release": "v0.9.5/build201 unchanged",
+  "README_LICENSE_release_annotation": "unchanged",
+  "ограничение": "Source fixtures исполняют production арифметику и обработчик уведомления с явными адаптерами UIKit/измерений. Полная SDK-компиляция и визуальная приёмка на iPhone остаются pending."
+}
