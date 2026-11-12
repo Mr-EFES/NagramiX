@@ -22,6 +22,8 @@ import app_font_selection_runtime as fonts
 import web_video_picture_in_picture_runtime as pip
 import temporary_expiration_semantics_runtime as expiry
 import wide_channel_post_consistency_runtime as wide
+import font_theme_contrast_runtime as font_theme
+from font_theme_contrast_apple import icon_check,member_check
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -102,6 +104,7 @@ def main():
             ('web_video_picture_in_picture', [('web-video-pip', pip.fixture)]),
             ('temporary_expiration_semantics', [('expiry-archive', expiry.archive), ('expiry-consumption', expiry.consumption), ('expiry-read', expiry.history)]),
             ('wide_channel_post_consistency', [('wide-channel-posts', wide.fixture)]),
+            ('font_theme_contrast', [('font-theme-contrast', font_theme.fixture)]),
         ]
         for stage, fixtures in entries:
             source = root / stage
@@ -109,15 +112,18 @@ def main():
             for name, build in fixtures: runs += execute(args.swiftc, root, name, build(source))
         # Stage41 remains an immutable historical checkpoint with SDK199's
         # known invalid call. Only the corrected final screen is a build target.
-        stage='release_095_fonts_compile'
+        stage='font_theme_contrast'
         source=root/stage
         files[stage]=canonical_projection(source,stage)
         navigation=navigation_check(source,args.swiftc,root)
         access = access_check(source, args.swiftc, root)
         apple = apple_check(source, args.swiftc, root)
-    report = {'canonical_swift_files_by_checkpoint':files, 'complete_fixtures':10, 'executions':runs,
-              'native_navigation_contract':navigation, 'font_adapter_access_contract':access, 'apple_uikit_precheck':apple, 'warnings_as_errors':True,
+        icon = icon_check(source, args.swiftc, root)
+        theme_members = member_check(source, args.swiftc, root)
+    report = {'canonical_swift_files_by_checkpoint':files, 'complete_fixtures':11, 'executions':runs,
+              'native_navigation_contract':navigation, 'font_adapter_access_contract':access, 'apple_uikit_precheck':apple, 'font_icon_uikit_precheck':icon, 'warnings_as_errors':True,
               'full_application_sdk':'pending', 'device':'pending'}
+    report['actual_font_theme_adapter_members']=theme_members
     if args.report: args.report.write_text(json.dumps(report, ensure_ascii=False, indent=2)+'\n')
     print(json.dumps(report, ensure_ascii=False, indent=2))
 

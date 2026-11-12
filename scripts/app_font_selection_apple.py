@@ -63,7 +63,11 @@ def check(source,swiftc,folder,expect_ui_transition_error=False):
     if sys.platform!='darwin':return {'status':'not_run','reason':'Apple UIKit SDK unavailable on Linux'}
     sdk=subprocess.check_output(['xcrun','--sdk','iphoneos','--show-sdk-path'],text=True).strip()
     clean=lambda text:'\n'.join(line for line in text.splitlines() if not line.startswith('import '))
-    code='import Foundation\nimport UIKit\nimport CoreText\nimport ObjectiveC\n'+SIGNAL_BOUNDARY+'\n'+UI_BOUNDARY
+    boundary=UI_BOUNDARY
+    if 'self.statusBar.statusBarStyle =' in (source/UI).read_text():
+        from font_theme_contrast_apple import theme_boundary
+        boundary=theme_boundary(source,boundary)
+    code='import Foundation\nimport UIKit\nimport CoreText\nimport ObjectiveC\n'+SIGNAL_BOUNDARY+'\n'+boundary
     code+='\nfinal class NavigationBar {'+navigation_signature(source)+' {}}\n'
     code+='\n'+'\n'.join(clean((source/n).read_text()) for n in [MODEL,FONT,MANAGER,UI])
     path=folder/'fonts-real-uikit.swift';path.write_text(code)

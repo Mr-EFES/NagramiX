@@ -1,0 +1,68 @@
+{
+  "inputs": {
+    "submodules/SettingsUI/Sources/NagramiXFontsController.swift": "0670bb8511f93958a85f05a60f7f638d45f4b73edd3a662435dca5bd89539eab",
+    "submodules/SettingsUI/Sources/NagramiXSettingsController.swift": "6d02c3fcb47824758a6283120a6840c483d7b87882afed1370475f75397f5151"
+  },
+  "outputs": {
+    "submodules/SettingsUI/Sources/NagramiXFontsController.swift": "dd948a4e94d2c03b5d0565b0fb4687918347634758f092c80cc192658d91a075",
+    "submodules/SettingsUI/Sources/NagramiXSettingsController.swift": "76dba5aabead5897e08f285aef7723abd0b1204015ec74d05bb5a2449c35911f"
+  },
+  "previous": {
+    "submodules/SettingsUI/Sources/NagramiXFontsController.swift": "font_theme_contrast/Before0.inc",
+    "submodules/SettingsUI/Sources/NagramiXSettingsController.swift": "font_theme_contrast/Before1.inc"
+  },
+  "replacements": {
+    "submodules/SettingsUI/Sources/NagramiXFontsController.swift": "font_theme_contrast/After0.inc",
+    "submodules/SettingsUI/Sources/NagramiXSettingsController.swift": "font_theme_contrast/After1.inc"
+  },
+  "guards": {
+    "submodules/Display/Source/StatusBar.swift": "d4fbe422bc56b6df6246a92fe6df18fe4605add624a8573d8aeeffd72a39c4be",
+    "submodules/Display/Source/StatusBarProxyNode.swift": "d4cc1ed263672cc09a265f98c2b0f9a34bd08401096242953ad3ab5f48506753",
+    "submodules/Display/Source/ViewController.swift": "7dfb165e8bf367b2ef4ddd579988bb327a85a7d91c2549285a6f2ba24085658c",
+    "submodules/Display/Source/NavigationBar.swift": "c5ed4d3ec855ba28b5e39f8d6b5d5d33b2c6cc32a25e02851735346f55c3be3c",
+    "submodules/Display/Source/ContainedViewLayoutTransition.swift": "b8e26e807f79314823177f556ef268dc996dcb2c7a243d7175dcc8d9fd4630ae",
+    "submodules/TelegramPresentationData/Sources/PresentationTheme.swift": "cc065b9d80288da487477a4af2a857ff98843cba983236582c3c61f14b423ea8",
+    "submodules/ItemListUI/Sources/Items/ItemListSwitchItem.swift": "790c7a831b0be0c9fd8e81fc7e25dabbb53dea7318b24d57455a93fd9825fa82",
+    "submodules/SettingsUI/Sources/NagramiXRoundQualityController.swift": "7b5767e786cac2e963af140d9225164d139664045d7477139688a5f73b3c1da9",
+    "submodules/SettingsUI/BUILD": "b229ff1580a1e8e13770d400a1c0c9e1cf56ef05b831659c3422a6141b50f489",
+    "submodules/NagramiXMediaSettings/Sources/NagramiXFontSettings.swift": "0757a85a74017368d8612587d10c9167febcce83a0d0f7d2a42a1dc375c097eb",
+    "submodules/Display/Source/NagramiXFontManager.swift": "377668b2c2370ca346ae757b27d5c2797ee42d114dfb1b311c16bd39377f5bd1"
+  },
+  "guard_sources": {
+    "submodules/Display/Source/StatusBar.swift": "font_theme_contrast/Guard0.inc",
+    "submodules/Display/Source/StatusBarProxyNode.swift": "font_theme_contrast/Guard1.inc",
+    "submodules/Display/Source/ViewController.swift": "font_theme_contrast/Guard2.inc",
+    "submodules/Display/Source/NavigationBar.swift": "font_theme_contrast/Guard3.inc",
+    "submodules/Display/Source/ContainedViewLayoutTransition.swift": "font_theme_contrast/Guard4.inc",
+    "submodules/TelegramPresentationData/Sources/PresentationTheme.swift": "font_theme_contrast/Guard5.inc",
+    "submodules/ItemListUI/Sources/Items/ItemListSwitchItem.swift": "font_theme_contrast/Guard6.inc",
+    "submodules/SettingsUI/Sources/NagramiXRoundQualityController.swift": "font_theme_contrast/Guard7.inc",
+    "submodules/SettingsUI/BUILD": "font_theme_contrast/Guard8.inc",
+    "submodules/NagramiXMediaSettings/Sources/NagramiXFontSettings.swift": "font_theme_contrast/Guard9.inc",
+    "submodules/Display/Source/NagramiXFontManager.swift": "font_theme_contrast/Guard10.inc"
+  },
+  "copies": {},
+  "deletions": {},
+  "native_inputs": {},
+  "native_guards": {},
+  "templates": {
+    "font_theme_contrast/Before0.inc": "0670bb8511f93958a85f05a60f7f638d45f4b73edd3a662435dca5bd89539eab",
+    "font_theme_contrast/After0.inc": "dd948a4e94d2c03b5d0565b0fb4687918347634758f092c80cc192658d91a075",
+    "font_theme_contrast/Before1.inc": "6d02c3fcb47824758a6283120a6840c483d7b87882afed1370475f75397f5151",
+    "font_theme_contrast/After1.inc": "76dba5aabead5897e08f285aef7723abd0b1204015ec74d05bb5a2449c35911f",
+    "font_theme_contrast/Guard0.inc": "d4fbe422bc56b6df6246a92fe6df18fe4605add624a8573d8aeeffd72a39c4be",
+    "font_theme_contrast/Guard1.inc": "d4cc1ed263672cc09a265f98c2b0f9a34bd08401096242953ad3ab5f48506753",
+    "font_theme_contrast/Guard2.inc": "7dfb165e8bf367b2ef4ddd579988bb327a85a7d91c2549285a6f2ba24085658c",
+    "font_theme_contrast/Guard3.inc": "c5ed4d3ec855ba28b5e39f8d6b5d5d33b2c6cc32a25e02851735346f55c3be3c",
+    "font_theme_contrast/Guard4.inc": "b8e26e807f79314823177f556ef268dc996dcb2c7a243d7175dcc8d9fd4630ae",
+    "font_theme_contrast/Guard5.inc": "cc065b9d80288da487477a4af2a857ff98843cba983236582c3c61f14b423ea8",
+    "font_theme_contrast/Guard6.inc": "790c7a831b0be0c9fd8e81fc7e25dabbb53dea7318b24d57455a93fd9825fa82",
+    "font_theme_contrast/Guard7.inc": "7b5767e786cac2e963af140d9225164d139664045d7477139688a5f73b3c1da9",
+    "font_theme_contrast/Guard8.inc": "b229ff1580a1e8e13770d400a1c0c9e1cf56ef05b831659c3422a6141b50f489",
+    "font_theme_contrast/Guard9.inc": "0757a85a74017368d8612587d10c9167febcce83a0d0f7d2a42a1dc375c097eb",
+    "font_theme_contrast/Guard10.inc": "377668b2c2370ca346ae757b27d5c2797ee42d114dfb1b311c16bd39377f5bd1"
+  },
+  "target_pin": "24638bc69bd083981b178dd1e7f921eebbf7fc46",
+  "overlay_base_pin": "279f89e4d4f63f17227bf877dc3d8990f22ecd58",
+  "required_previous_stage": "wide_channel_post_consistency"
+}

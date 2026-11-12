@@ -1,0 +1,331 @@
+{
+  "задача": "Контраст строки состояния экрана шрифтов и значка Aa в настройках; новая сборка не запускалась.",
+  "stage": "font_theme_contrast",
+  "source_status": "source_checked",
+  "native_compile": "pending",
+  "device": "pending",
+  "source": {
+    "files": 37682,
+    "changed": [
+      "submodules/SettingsUI/Sources/NagramiXFontsController.swift",
+      "submodules/SettingsUI/Sources/NagramiXSettingsController.swift"
+    ],
+    "symlinks": 26,
+    "manifest_sha256": "fc06c0fff3c83897d846bc28c41860d1b6efea86a20e0d7b96c2fe3c40940f45",
+    "unchanged_previous_inc": 3566,
+    "lossless_full_checkpoints_verified": [
+      43,
+      44,
+      45,
+      46
+    ]
+  },
+  "regression": {
+    "stage": "font_theme_contrast",
+    "inputs": 2,
+    "guards": 11,
+    "loader_refusals": 14,
+    "source_files": 37682,
+    "source_unchanged_by_checks": true,
+    "executions": [
+      {
+        "name": "font-theme",
+        "mode": "debug",
+        "exit_code": 0,
+        "output": "font theme production checks: 227"
+      },
+      {
+        "name": "font-theme",
+        "mode": "optimized",
+        "exit_code": 0,
+        "output": "font theme production checks: 227"
+      },
+      {
+        "name": "missing-status-update",
+        "mode": "debug",
+        "exit_code": 91,
+        "output": "Font theme regression: font screen follows current theme"
+      },
+      {
+        "name": "missing-status-update",
+        "mode": "optimized",
+        "exit_code": 91,
+        "output": "Font theme regression: font screen follows current theme"
+      },
+      {
+        "name": "forced-white-status",
+        "mode": "debug",
+        "exit_code": 91,
+        "output": "Font theme regression: font screen follows current theme"
+      },
+      {
+        "name": "forced-white-status",
+        "mode": "optimized",
+        "exit_code": 91,
+        "output": "Font theme regression: font screen follows current theme"
+      },
+      {
+        "name": "license-default-black",
+        "mode": "debug",
+        "exit_code": 91,
+        "output": "Font theme regression: license screen follows current theme"
+      },
+      {
+        "name": "license-default-black",
+        "mode": "optimized",
+        "exit_code": 91,
+        "output": "Font theme regression: license screen follows current theme"
+      },
+      {
+        "name": "accent-instead-of-foreground",
+        "mode": "debug",
+        "exit_code": 91,
+        "output": "Font theme regression: icon uses the theme foreground"
+      },
+      {
+        "name": "accent-instead-of-foreground",
+        "mode": "optimized",
+        "exit_code": 91,
+        "output": "Font theme regression: icon uses the theme foreground"
+      },
+      {
+        "name": "unresolved-symbol",
+        "mode": "debug",
+        "exit_code": 91,
+        "output": "Font theme regression: icon becomes a bitmap for ASImageNode"
+      },
+      {
+        "name": "unresolved-symbol",
+        "mode": "optimized",
+        "exit_code": 91,
+        "output": "Font theme regression: icon becomes a bitmap for ASImageNode"
+      }
+    ],
+    "native_navigation_contract": {
+      "native_signature": "func updatePresentationData(_ presentationData: NavigationBarPresentationData, transition: ContainedViewLayoutTransition)",
+      "actual_caller": "self.navigationBar?.updatePresentationData(NavigationBarPresentationData(presentationData: value), transition: .immediate)",
+      "checks": [
+        {
+          "name": "current",
+          "expected_result": "passed",
+          "verified": true
+        },
+        {
+          "name": "sdk199-missing-transition",
+          "expected_result": "rejected",
+          "verified": true
+        },
+        {
+          "name": "wrong-transition-label",
+          "expected_result": "rejected",
+          "verified": true
+        }
+      ]
+    },
+    "public_override_contract": [
+      {
+        "name": "public-types",
+        "expected_result": "passed",
+        "verified": true
+      },
+      {
+        "name": "internal-layout",
+        "expected_result": "rejected",
+        "verified": true
+      },
+      {
+        "name": "internal-transition",
+        "expected_result": "rejected",
+        "verified": true
+      }
+    ],
+    "apple_uikit_precheck": {
+      "status": "not_run",
+      "reason": "Apple UIKit SDK unavailable on Linux"
+    },
+    "icon_real_uikit_precheck": {
+      "status": "not_run",
+      "reason": "Real UIKit renderer typecheck requires Apple SDK"
+    },
+    "boundary": "Actual native status enum cases and theme style mapping; actual font-screen assignments and actual settings icon expression/helper. UIImage/renderer are explicit call-recording adapters on Linux, no glyph pixels or ASImageNode renderer simulation. Complete actual font UI plus icon helper typechecked against real UIKit on Apple.",
+    "whole_app_sdk": "not_run",
+    "device": "pending",
+    "actual_adapter_member_probe": {
+      "status": "passed",
+      "scope": "Actual final font UIKit adapter root/status declarations with native enum cases/getter and actual caller; pixels not exercised"
+    }
+  },
+  "early_fixture_gate": {
+    "complete_fixtures": 11,
+    "executions": 22,
+    "warnings_as_errors": true,
+    "native_navigation_contract": {
+      "native_signature": "func updatePresentationData(_ presentationData: NavigationBarPresentationData, transition: ContainedViewLayoutTransition)",
+      "actual_caller": "self.navigationBar?.updatePresentationData(NavigationBarPresentationData(presentationData: value), transition: .immediate)",
+      "checks": [
+        {
+          "name": "current",
+          "expected_result": "passed",
+          "verified": true
+        },
+        {
+          "name": "sdk199-missing-transition",
+          "expected_result": "rejected",
+          "verified": true
+        },
+        {
+          "name": "wrong-transition-label",
+          "expected_result": "rejected",
+          "verified": true
+        }
+      ]
+    },
+    "public_adapter_types": [
+      {
+        "name": "public-types",
+        "expected_result": "passed",
+        "verified": true
+      },
+      {
+        "name": "internal-layout",
+        "expected_result": "rejected",
+        "verified": true
+      },
+      {
+        "name": "internal-transition",
+        "expected_result": "rejected",
+        "verified": true
+      }
+    ],
+    "actual_final_adapter_probe": {
+      "status": "passed",
+      "scope": "Actual final font UIKit adapter root/status declarations with native enum cases/getter and actual caller; pixels not exercised"
+    },
+    "apple_uikit_precheck": {
+      "status": "not_run",
+      "reason": "Apple UIKit SDK unavailable on Linux"
+    },
+    "icon_real_uikit_precheck": {
+      "status": "not_run",
+      "reason": "Real UIKit renderer typecheck requires Apple SDK"
+    }
+  },
+  "full_migration": {
+    "target_pin": "24638bc69bd083981b178dd1e7f921eebbf7fc46",
+    "pre_replacements": 196,
+    "post_replacements": 274,
+    "deleted_obsolete_files": 2,
+    "fail_closed": {
+      "pre": 17,
+      "post": 33
+    },
+    "parsed_swift": 545,
+    "historical_runtime_boundary": "exact published bytes after verified inverse of all registered late source stages",
+    "native_postbox_imports": "passed",
+    "apple_sdk": "pending",
+    "device": "pending"
+  },
+  "historical_runtime_executions": 14,
+  "late_stage_count": 47,
+  "inverse_bridge": {
+    "published_paths": 765,
+    "refusals": 253,
+    "full_source_files_preserved": 37682
+  },
+  "canonical_native_string_members": {
+    "swift_files": 234,
+    "native_generated_members": 12190,
+    "native_string_uses": 4023,
+    "distinct_native_members": 2206,
+    "proven_other_typed_owner_reads": 0,
+    "sdk200_mutation_rejected": true,
+    "apple_actual_generated_header": {
+      "status": "not_run",
+      "reason": "Real Objective-C/Apple SDK import requires macOS and swiftc"
+    },
+    "boundary": "Actual native GenerateStrings.py, build rule and final English catalog; generated member existence through strings/namedStrings receivers. Other typed owners need source declaration evidence. Full Swift call arity/type checking and app runtime still require SDK/device."
+  },
+  "final_native_string_members": {
+    "swift_files": 7324,
+    "native_generated_members": 12190,
+    "native_string_uses": 18586,
+    "distinct_native_members": 10391,
+    "proven_other_typed_owner_reads": 8,
+    "sdk200_mutation_rejected": true,
+    "apple_actual_generated_header": {
+      "status": "not_run",
+      "reason": "Real Objective-C/Apple SDK import requires macOS and swiftc"
+    },
+    "boundary": "Actual native GenerateStrings.py, build rule and final English catalog; generated member existence through strings/namedStrings receivers. Other typed owners need source declaration evidence. Full Swift call arity/type checking and app runtime still require SDK/device."
+  },
+  "custom_members": {
+    "canonical": {
+      "swift_files": 234,
+      "string_accesses": 812,
+      "distinct_string_members": 231,
+      "actual_string_declarations": 250,
+      "custom_declarations": 827,
+      "full_custom_name_audit": false
+    },
+    "final": {
+      "swift_files": 7324,
+      "string_accesses": 870,
+      "distinct_string_members": 233,
+      "actual_string_declarations": 250,
+      "custom_declarations": 950,
+      "full_custom_name_audit": true
+    }
+  },
+  "strict_localization": {
+    "languages": 71,
+    "keys_each": 647,
+    "runtime_lookups_per_mode": 46106,
+    "modes": [
+      "debug",
+      "optimized"
+    ],
+    "source_contract_only": false,
+    "allow_incomplete": false,
+    "passed": true
+  },
+  "workflow_mode": {
+    "optional_historical_calls": 189,
+    "unconditional_apply_calls": 55,
+    "mandatory_final_checks": [
+      "validate_late_source_stages.py",
+      "validate_custom_member_references.py",
+      "validate_upstream_13_2_release.py",
+      "validate_localization_standard.py",
+      "validate_release_092_settings_compile.py",
+      "validate_round_native_playback.py",
+      "validate_poll_copy_transport.py",
+      "validate_release_095_fonts_compile.py",
+      "validate_release_095_composer_strings_compile.py",
+      "validate_wide_channel_post_consistency.py",
+      "validate_font_theme_contrast.py",
+      "PostboxImportCheck.py"
+    ],
+    "complete_fixture_preflight_before_overlay": "mandatory",
+    "bash_syntax": "passed",
+    "runtime_cases": [
+      {
+        "extended": "false",
+        "exit_code": 0
+      },
+      {
+        "extended": "true",
+        "exit_code": 17
+      },
+      {
+        "extended": "true",
+        "exit_code": 0
+      },
+      {
+        "extended": "invalid",
+        "exit_code": 64
+      }
+    ]
+  },
+  "release_metadata": "passed",
+  "diff_whitespace": "passed"
+}
