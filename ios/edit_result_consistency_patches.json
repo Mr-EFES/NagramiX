@@ -1,0 +1,53 @@
+{
+  "target_pin": "24638bc69bd083981b178dd1e7f921eebbf7fc46",
+  "overlay_base_pin": "279f89e4d4f63f17227bf877dc3d8990f22ecd58",
+  "required_previous_stage": "font_preview_apply",
+  "inputs": {
+    "submodules/TelegramCore/Sources/PendingMessages/RequestEditMessage.swift": "1bda829a99925d4d484b084558b5f8815f853cc121d35d313ba03e494f3ab53a"
+  },
+  "outputs": {
+    "submodules/TelegramCore/Sources/PendingMessages/RequestEditMessage.swift": "99d7801bd6a013630206f538463d16ad712b8f2dccea9d7641f81b44e94c4f11"
+  },
+  "previous": {
+    "submodules/TelegramCore/Sources/PendingMessages/RequestEditMessage.swift": "edit_result_consistency/Before0.inc"
+  },
+  "replacements": {
+    "submodules/TelegramCore/Sources/PendingMessages/RequestEditMessage.swift": "edit_result_consistency/After0.inc"
+  },
+  "guards": {
+    "submodules/TelegramCore/BUILD": "bf9342baf193366c8997afb547c074592af8247348f59e25e5e6ca9bfb3806a9",
+    "submodules/TelegramCore/Sources/State/UpdatesApiUtils.swift": "666d15c9803123ec620d4571743e299d13b3d5898c40e8cd73a18d1a51c3d3f2",
+    "submodules/TelegramCore/Sources/PendingMessages/PendingUpdateMessageManager.swift": "7e6f0e7456c774da950eb3985d3adf9e9e3c082abce989460d7beae4cd448399",
+    "submodules/TelegramCore/Sources/PendingMessages/ChatUpdatingMessageMedia.swift": "5c6dd1f67d3eedad44b061e0df0a64e8ce049f3215a6251235f53d61f7ccde0e",
+    "submodules/TelegramUI/Sources/Chat/ChatControllerLoadDisplayNode.swift": "76e8bad1438cc04763a46bc13d5779810354e74853ab1ce00ee99a42a821c2d8",
+    "submodules/TelegramUI/Sources/ChatHistoryEntriesForView.swift": "114e32823b78ab72972e620696540ae82681a71572b56dba1533a56be57fa11c",
+    "submodules/TelegramUI/Components/Chat/ChatMessageTextBubbleContentNode/Sources/ChatMessageTextBubbleContentNode.swift": "4a23bad15188444b973dab82d4060c2b4bc8d1fc77ff48ca5f2782b3c37f1921",
+    "submodules/TelegramCore/Sources/State/AccountStateManager.swift": "4edc944bde3dc1a41d4a03feb9d6a49df6945d5d5475e284924b277db6c404ad"
+  },
+  "guard_sources": {
+    "submodules/TelegramCore/BUILD": "edit_result_consistency/Guard0.inc",
+    "submodules/TelegramCore/Sources/State/UpdatesApiUtils.swift": "edit_result_consistency/Guard1.inc",
+    "submodules/TelegramCore/Sources/PendingMessages/PendingUpdateMessageManager.swift": "edit_result_consistency/Guard2.inc",
+    "submodules/TelegramCore/Sources/PendingMessages/ChatUpdatingMessageMedia.swift": "edit_result_consistency/Guard3.inc",
+    "submodules/TelegramUI/Sources/Chat/ChatControllerLoadDisplayNode.swift": "edit_result_consistency/Guard4.inc",
+    "submodules/TelegramUI/Sources/ChatHistoryEntriesForView.swift": "edit_result_consistency/Guard5.inc",
+    "submodules/TelegramUI/Components/Chat/ChatMessageTextBubbleContentNode/Sources/ChatMessageTextBubbleContentNode.swift": "edit_result_consistency/Guard6.inc",
+    "submodules/TelegramCore/Sources/State/AccountStateManager.swift": "edit_result_consistency/Guard7.inc"
+  },
+  "copies": {},
+  "deletions": {},
+  "native_inputs": {},
+  "native_guards": {},
+  "templates": {
+    "edit_result_consistency/Before0.inc": "1bda829a99925d4d484b084558b5f8815f853cc121d35d313ba03e494f3ab53a",
+    "edit_result_consistency/After0.inc": "99d7801bd6a013630206f538463d16ad712b8f2dccea9d7641f81b44e94c4f11",
+    "edit_result_consistency/Guard0.inc": "bf9342baf193366c8997afb547c074592af8247348f59e25e5e6ca9bfb3806a9",
+    "edit_result_consistency/Guard1.inc": "666d15c9803123ec620d4571743e299d13b3d5898c40e8cd73a18d1a51c3d3f2",
+    "edit_result_consistency/Guard2.inc": "7e6f0e7456c774da950eb3985d3adf9e9e3c082abce989460d7beae4cd448399",
+    "edit_result_consistency/Guard3.inc": "5c6dd1f67d3eedad44b061e0df0a64e8ce049f3215a6251235f53d61f7ccde0e",
+    "edit_result_consistency/Guard4.inc": "76e8bad1438cc04763a46bc13d5779810354e74853ab1ce00ee99a42a821c2d8",
+    "edit_result_consistency/Guard5.inc": "114e32823b78ab72972e620696540ae82681a71572b56dba1533a56be57fa11c",
+    "edit_result_consistency/Guard6.inc": "4a23bad15188444b973dab82d4060c2b4bc8d1fc77ff48ca5f2782b3c37f1921",
+    "edit_result_consistency/Guard7.inc": "4edc944bde3dc1a41d4a03feb9d6a49df6945d5d5475e284924b277db6c404ad"
+  }
+}
