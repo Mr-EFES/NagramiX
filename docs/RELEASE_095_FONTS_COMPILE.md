@@ -1,5 +1,7 @@
 # Исправление компиляции экрана шрифтов 0.9.5
 
+**Итог:** build201 прошёл mandatory Apple/полный native SDK и проверку IPA; обычный owner [релиз0.9.5](https://github.com/Mr-EFES/NagramiX/releases/tag/v0.9.5) опубликован. [Проверка](RELEASE_095_PUBLICATION_CHECKS.json). Physical iPhone pending. Ниже — факты подготовки.
+
 В чистой попытке199 все предварительные проверки прошли. Единственная основная Swift-диагностика SDK: `NagramiXFontsController.swift:113:110`, missing argument for parameter `transition`. Настоящий `NavigationBar.updatePresentationData(_:transition:)` требует второй аргумент, а прежний тестовый адаптер описывал укороченную сигнатуру.
 
 Stage44 `release_095_fonts_compile` после `temporary_expiration_semantics` заменяет ровно один вызов: добавляет `transition: .immediate` при обновлении представления панели. Остальные байты экрана, выбор/хранение шрифтов, live refresh, ресурсы и оформление прежние. Один replacement, семь SHA guards, девять новых snapshots; прежние canonical snapshots не переписываются. Native NavigationBar и ContainedViewLayoutTransition подтверждены GitHub для официального pin24638bc69bd083981b178dd1e7f921eebbf7fc46: Git blobs3adf783b38566f2425aff0ed80f671701c46189b и bd13732698ca07b591ddd69187f6fb47583a948e. Loader проверяет оба blob до записи.

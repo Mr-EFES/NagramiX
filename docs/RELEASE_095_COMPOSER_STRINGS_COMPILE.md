@@ -1,5 +1,7 @@
 # Нативные строки ошибок вложений 0.9.5
 
+**Итог:** build201 прошёл mandatory Apple/полный native SDK и проверку IPA; обычный owner [релиз0.9.5](https://github.com/Mr-EFES/NagramiX/releases/tag/v0.9.5) опубликован. [Проверка](RELEASE_095_PUBLICATION_CHECKS.json). Physical iPhone pending. Ниже — факты подготовки.
+
 В попытке200 исправленный SettingsUI прошёл компиляцию. На следующем зависимом модуле TelegramUI обнаружились два обращения к отсутствующему `PresentationStrings.Common_UnknownError` в ChatControllerOpenAttachmentMenu.swift, строки168/1535. Прежний custom-member audit проверял расширения NagramiX и не доказывал наличие нативных generated getters Telegram. Composer runtime fixture явно заменяет UI alert на счётчик ошибки; такой тест не проверяет имя native строки.
 
 Stage45 `release_095_composer_strings_compile` после `release_095_fonts_compile` меняет только эти два обращения на существующее `Login_UnknownError`. Эту же стандартную строку уже использует обычная обработка вложений Telegram. Весь остальной файл побайтно прежний: черновик, текст/файлы, отмена, подтверждение Send, получатель, entities и отправка не изменяются. Один replacement,6guards,8новых snapshots;3545старых `.inc` сохраняются. Native generator проверяется и по SHA256, и по Git blob e10ff2b8a797200c6027b3310f66f5cf61000d4c, подтверждённому official24638bc69bd083981b178dd1e7f921eebbf7fc46. Catalog и настоящий build rule также pinned.
