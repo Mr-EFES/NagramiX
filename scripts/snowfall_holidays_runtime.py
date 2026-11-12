@@ -157,8 +157,8 @@ func date(_ y:Int,_ m:Int,_ d:Int,_ hour:Int=0,_ zone:TimeZone=clockZone)->Date 
   clockZone=TimeZone(identifier:"UTC")!;NotificationCenter.default.post(name:.NSSystemTimeZoneDidChange,object:nil)
   check(NagramiXSnowSettings.current.density==40,"timezone change immediately leaves local holiday")
   check(timers.timers.filter{$0.isValid}.count==1,"at most one live midnight timer")
-  weak var weakDriver=driver;driver=nil
-  check(weakDriver==nil && timers.timers.allSatisfy{!$0.isValid},"scheduler releases observers and timer")
+  let weakDriver=NagramiXFixtureWeakProbe(driver);driver=nil
+  check(weakDriver.value==nil && timers.timers.allSatisfy{!$0.isValid},"scheduler releases observers and timer")
   let frozen=rows.count;disposable.dispose();NagramiXSnowSettings.update{$0.enabled=false}
   check(rows.count==frozen,"disposed UI observer never receives further values")
   print("Holiday snowfall production checks: \(checks)")

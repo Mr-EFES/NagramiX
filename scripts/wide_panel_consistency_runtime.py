@@ -8,6 +8,7 @@ BOUNDARY='''import Foundation
 #if canImport(CoreGraphics)
 import CoreGraphics
 #endif
+final class NagramiXFixtureWeakProbe<T:AnyObject> {weak var value:T?;init(_ value:T?){self.value=value}}
 #if os(Linux)
 import Glibc
 #else
@@ -163,7 +164,7 @@ func near(_ a:CGFloat,_ b:CGFloat)->Bool { abs(a-b)<0.00001 }
         let state=EmptyComponentState();var notifications=0
         state._updated={_,_ in notifications+=1}
         var observer:ObserverAdapter?=ObserverAdapter(state)
-        weak var weakObserver=observer
+        let weakObserver=NagramiXFixtureWeakProbe(observer)
         NotificationCenter.default.post(name:NagramiXTabSettings.changedNotification,object:nil)
         check(notifications==0,"unrelated-setting-no-layout")
         NagramiXTabSettings.wideTabBarEnabled=false
@@ -172,7 +173,7 @@ func near(_ a:CGFloat,_ b:CGFloat)->Bool { abs(a-b)<0.00001 }
         NagramiXTabSettings.wideTabBarEnabled=true
         NotificationCenter.default.post(name:NagramiXTabSettings.changedNotification,object:nil)
         check(notifications==2,"live-on-layout")
-        observer=nil;check(weakObserver==nil,"weak-observer-lifetime")
+        observer=nil;check(weakObserver.value==nil,"weak-observer-lifetime")
         NotificationCenter.default.post(name:NagramiXTabSettings.changedNotification,object:nil)
         check(notifications==2,"observer-removed")
         print("PASS wide panel production checks: \\(checks)")

@@ -27,6 +27,10 @@ def negatives(code):
         yield name,code.replace(old,new,1),label
 
 BOUNDARY=r'''
+#if canImport(CoreGraphics)
+import CoreGraphics
+#endif
+final class NagramiXFixtureWeakProbe<T:AnyObject> {weak var value:T?;init(_ value:T?){self.value=value}}
 var clockTime:Double=1
 var deviceLowPower=false
 extension ProcessInfo {var isLowPowerModeEnabled:Bool {deviceLowPower}}
@@ -142,7 +146,7 @@ TESTS=r'''
   clockTime+=1;animator!.play(target:target,color:UIColor(1));check(first==count+1 && renderedImages==first,"glow bitmap cached at same size color and scale")
   clockTime+=1;animator!.play(target:target,color:UIColor(2));check(renderedImages==first+1,"theme change refreshes glow")
   target.traitCollection.displayScale=3;clockTime+=1;animator!.play(target:target,color:UIColor(2));check(renderedImages==first+2,"display scale refreshes glow")
-  weak var released=animator;animator=nil;check(released==nil,"notification observers do not retain animator")
+  let released=NagramiXFixtureWeakProbe(animator);animator=nil;check(released.value==nil,"notification observers do not retain animator")
   check(target.layer.animations.count==1,"deinit clears only owned animations")
   NagramiXTypingSettings.update {$0.enabled=false}
   check(!NagramiXTypingSettings.read(in:defaults).enabled,"saved OFF survives cold read")

@@ -1,0 +1,15 @@
+# Выпуск NagramiX 0.9.6
+
+Новая личная команда владельца разрешает чистую SDK-сборку IPA, устранение подтверждённых причин ошибок и повторы этой версии до успешной проверки пакета и обычной публикации от Mr-EFES. Предыдущая0.9.5/build201 и все более ранние опубликованные выпуски сохраняются.
+
+База main `b0280811cb0ab525333f76cba5d1ddcda69ad724`,60поздних стадий. Full60 `/tmp/nagramix-single-touch-selection/source`, manifest `221f00c7a16e03c964a8924f8c79337fb8deac03e09bd02e1ee2ab63f8a718c2`,37690файлов/26symlinks.17lossless checkpoints43–59 сохранены. Предыдущие проверки включают634Swift parse,50migration refusals,14historical runtimes,Postbox,860inverse paths/327negatives,7332full members,25early fixtures/50executions и71×668localization. Текущий общий повтор и release metadata gate — перед dispatch.
+
+Новые после опубликованной0.9.5 стадии46–60: широкие посты и вложенные панели; правильные цвета/заголовки настроек; штатный WebKit PiP и фон; Premium-расшифровка временных сообщений; сравнение шрифтов и явное применение; согласованность результата редактирования; эффекты ввода; снегопад и праздничное расписание; название локального чтения; полное копирование поста/ведущие вложения; выделение диапазона одним пальцем с возвратом и автопрокруткой.
+
+База Telegram13.2, pin `24638bc69bd083981b178dd1e7f921eebbf7fc46`, Xcode27.1, iOS15+/ARM64. Проверить current upstream перед dispatch. OwnerMr-EFES и уже public репозиторий подтверждены API. Видимость меняет только владелец вручную через [настройки](https://github.com/Mr-EFES/NagramiX/settings#danger-zone); после получения релиза напомнить Make private.
+
+Dispatch: main, artifact_run_id пуст, clean_build=true, extended_patch_tests=false, publish_release=true, prerelease=false. Обязательные source/runtime/guard/localization/member checks, early Apple Swift/реальный UIKit, cold gate и проверка пакета остаются включены. Исторические optional suites сохраняют прежний режим. Linux-проверки не заменяют Apple SDK и iPhone. SDK/пакет/публикация пока pending, физическая приёмка pending.
+
+После успешного CI скачать исходный Actions ZIP без перепаковки, сверить digest, version/build/source/provenance/catalogs/fonts/device binaries, выполнить `scripts/publish_owner_release.py` подтверждённым owner CLI, затем независимо проверить tag/latest/body/три файла/uploader/SHA и неизменность прежних релизов. Не заменять опубликованные assets. README/LICENSE и аннотация из утверждённой фразы прежние.
+
+Перед первым dispatch завершён общий повтор:634Swift parse,50migration refusals,14historical runtimes/Postbox,860inverse paths/327negatives,7332full members,71×668/47597lookups×2 и25early fixtures/50executions. Локально исправлены совместимость CoreGraphics/weak probes тестов, отсутствующий тип нового параметра в constructor probe и устаревший650-key font test; требования не ослаблены. Контракт stage52 проверяет прежние650 по SHA, текущий пакет668, опубликованный095647 прежний. Текущий и исторический constructor probes/исходная order regression прошли. [Receipt](RELEASE_096_PREFLIGHT_CHECKS.json). Actual runtime source manifest прежний221f00c7…; все4338канонических `.inc`/plans прежние.

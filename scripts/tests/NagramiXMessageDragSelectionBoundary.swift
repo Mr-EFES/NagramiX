@@ -1,4 +1,7 @@
 // Explicit test I/O boundary. This does not model real UIKit arbitration/rendering.
+#if canImport(CoreGraphics)
+import CoreGraphics
+#endif
 typealias Selector = String
 class UIView {
     var gestureRecognizers: [UIGestureRecognizer]?

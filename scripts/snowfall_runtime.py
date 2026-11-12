@@ -26,6 +26,10 @@ def negatives(code):
         assert code.count(old)==1,(name,code.count(old));yield name,code.replace(old,new,1),label
 
 BOUNDARY=r'''
+#if canImport(CoreGraphics)
+import CoreGraphics
+#endif
+final class NagramiXFixtureWeakProbe<T:AnyObject> {weak var value:T?;init(_ value:T?){self.value=value}}
 var deviceLowPower=false
 var now:Double=100
 extension ProcessInfo {var isLowPowerModeEnabled:Bool {deviceLowPower}}
@@ -137,8 +141,8 @@ TESTS=r'''
   NagramiXSnowSettings.update {$0.enabled=false}
   check(he.birthRate==0 && ce.birthRate==0 && he.emitterCells==nil,"OFF clears particles immediately")
   check(NagramiXSnowSettings.current.inChats && NagramiXSnowSettings.current.density==100,"OFF retains child values")
-  header!.removeFromSuperview();weak var released=header;header=nil
-  check(released==nil,"observers do not retain view")
+  header!.removeFromSuperview();let released=NagramiXFixtureWeakProbe(header);header=nil
+  check(released.value==nil,"observers do not retain view")
   print("Snowfall production checks: \(checks)")
  }
 }

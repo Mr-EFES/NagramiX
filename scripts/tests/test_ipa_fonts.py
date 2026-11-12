@@ -1,5 +1,5 @@
 """Пакетные регрессии шрифтов без сборки приложения."""
-import io,json,plistlib,sys,unittest,zipfile
+import hashlib,io,json,plistlib,re,sys,unittest,zipfile
 from pathlib import Path
 sys.path.insert(0,str(Path(__file__).resolve().parents[1]))
 from validate_ipa_fonts import validate_font_resources
@@ -45,12 +45,23 @@ class FontsPackageTests(unittest.TestCase):
   self.assertEqual(new['en']['NagramiX.Fonts.Title'],'Fonts')
  def test_preview_catalogs_preserve_published_095(self):
   published=expected_nagramix_catalogs('0.9.5');next_release=expected_nagramix_catalogs('0.9.6')
+  preview_plan=json.loads((ROOT/'ios/font_preview_apply_patches.json').read_text())
   self.assertEqual(len(next_release),71)
   keys={'NagramiX.Fonts.Comparison','NagramiX.Fonts.Current','NagramiX.Fonts.Choose'}
   for code,values in next_release.items():
-   self.assertEqual(len(values),650);self.assertEqual(values.keys()-published[code].keys(),keys)
-   previous={k:v for k,v in values.items() if k not in keys}
+   # Stage52's exact650-key checkpoint precedes typing/snow/local-reading changes.
+   # Keep its historical comparison and also require the final668-key package.
+   name=f'submodules/NagramiXCore/Resources/{code}.lproj/Localizable.strings'
+   data=(ROOT/'ios'/preview_plan['replacements'][name]).read_bytes()
+   self.assertEqual(hashlib.sha256(data).hexdigest(),preview_plan['outputs'][name])
+   pairs=re.findall(r'^"((?:[^"\\]|\\.)*)"\s*=\s*"((?:[^"\\]|\\.)*)";',data.decode(),re.MULTILINE)
+   preview={json.loads('"'+k+'"'):json.loads('"'+v+'"') for k,v in pairs}
+   self.assertEqual(len(preview),650);self.assertEqual(preview.keys()-published[code].keys(),keys)
+   previous={k:v for k,v in preview.items() if k not in keys}
    if code=='ru':previous['NagramiX.Fonts.Licenses']='Лицензии шрифтов'
    self.assertEqual(previous,published[code])
+   self.assertEqual(len(values),668)
+   self.assertEqual({k:v for k,v in values.items() if k.startswith('NagramiX.Fonts.')},
+                    {k:v for k,v in preview.items() if k.startswith('NagramiX.Fonts.')})
   self.assertEqual(next_release['ru']['NagramiX.Fonts.Licenses'],'Лицензия шрифтов')
 if __name__=='__main__':unittest.main()

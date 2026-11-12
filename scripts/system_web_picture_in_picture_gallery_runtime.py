@@ -32,6 +32,7 @@ import Foundation
 #if canImport(CoreGraphics)
 import CoreGraphics
 #endif
+final class NagramiXFixtureWeakProbe<T:AnyObject> {weak var value:T?;init(_ value:T?){self.value=value}}
 var clock:Double=0
 func CACurrentMediaTime()->Double{clock}
 final class Disposable {var action:(()->Void)?;init(_ action:@escaping()->Void){self.action=action};func dispose(){action?();action=nil}}
@@ -209,12 +210,12 @@ TESTS=r'''
   do {
    let video=UniversalVideoNode()
    var owner:GalleryLifecycleBoundary?=GalleryLifecycleBoundary();owner!.videoNode=video
-   weak var lease=owner
+   let lease=NagramiXFixtureWeakProbe(owner)
    check(owner!.nagramiXBeginWebPictureInPicture(),"lease start")
    video.isNativePictureInPictureActive.set(true);owner=nil
-   check(lease != nil,"system PiP retains its original content owner")
+   check(lease.value != nil,"system PiP retains its original content owner")
    video.isNativePictureInPictureActive.set(false)
-   check(lease == nil,"system stop releases the retained owner")
+   check(lease.value == nil,"system stop releases the retained owner")
   }
   print("system web gallery production checks: \(checks)")
  }

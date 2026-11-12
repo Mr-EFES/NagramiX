@@ -30,6 +30,9 @@ def parts(text):
 
 def fixture(text):
     declaration,call,fields,labels=parts(text);types=dict(fields)
+    typing_parameter = ''
+    if any('NagramiXTypingParameter' in signature for _, signature in fields):
+        typing_parameter = block(canonical_texts()['submodules/NagramiXCore/Sources/NagramiXTypingSettings.swift'], 'public enum NagramiXTypingParameter:') + '\n'
     values=[]
     for label in labels:
         signature=types[label];assert signature.endswith(' -> Void')
@@ -38,9 +41,10 @@ def fixture(text):
         if label in ['updateRoundVideo','updateBackgroundVideoPlayback']:
             value=re.search(r'^        '+label+r': (.*),$',call,re.M).group(1)
         values.append('        '+label+': '+value)
-    return '''import Foundation
-// Only the two external nominal parameter types are adapted. Their fields are
-// not used: the compiler binds the real struct and every real argument label.
+    return 'import Foundation\n'+typing_parameter+'''
+// Legacy privacy parameter types are adapted; the typing parameter enum above
+// is its complete guarded production declaration when the caller needs it.
+// The compiler binds the real argument struct and every real label.
 enum NagramiXReadMode {case standard}
 struct NagramiXPrivacySettings {enum Option {case screenshotBypass}}
 struct MediaState {var roundVideo=false}
