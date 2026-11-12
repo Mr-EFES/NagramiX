@@ -785,6 +785,16 @@
         "compile": "compile_pending",
         "device": "device_pending"
       }
+    },
+    {
+      "id": "snowfall",
+      "title": "Атмосфера: снегопад у шапки списка чатов и за сообщениями",
+      "specification": "specified",
+      "ios": {
+        "implementation": "implemented",
+        "compile": "compile_pending",
+        "device": "device_pending"
+      }
     }
   ]
 }

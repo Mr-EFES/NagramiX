@@ -93,6 +93,25 @@ def final_upstream_catalog_contract(source):
     """Verify the exact late 13.2 catalogs, without unwrapping historical stages."""
     from validate_upstream_13_2_release import checked_plan, checked_sdk_plans
     from late_source_stages import LATE_SOURCE_STAGES, historical_source, verified_prefix
+    if verified_prefix(source) >= LATE_SOURCE_STAGES.index('snowfall') + 1:
+        snow = checked_plan('snowfall')
+        name = 'snowfall/localization.json'
+        data = (OVERLAY/name).read_bytes()
+        if hashlib.sha256(data).hexdigest() != snow['templates'][name]: raise ValueError('Изменены переводы снегопада')
+        loc = json.loads(data)
+        codes = {x['code'] for x in json.loads((OVERLAY/'app_language_localization/languages.json').read_text())['languages']}
+        if set(loc['translations']) != codes or len(loc['keys']) != 4: raise ValueError('Неполные переводы снегопада')
+        with historical_source(source, before_stage='snowfall') as prior:
+            previous_languages, previous_count = final_upstream_catalog_contract(prior)
+            for code in codes:
+                path = 'submodules/NagramiXCore/Resources/' + code + '.lproj/Localizable.strings'
+                before = strings(prior/path); values = loc['translations'][code]
+                if len(values) != 4 or set(loc['keys']) & before.keys(): raise ValueError('Некорректные ключи снегопада')
+                if strings(source/path) != {**before, **dict(zip(loc['keys'], values))} or hashlib.sha256((source/path).read_bytes()).hexdigest() != snow['outputs'][path]:
+                    raise ValueError('Изменены прежние переводы: ' + code)
+        languages, count = catalog_contract(source, codes)
+        if languages != previous_languages or count != previous_count + 4: raise ValueError('Неверное число ключей снегопада')
+        return languages, count
     if verified_prefix(source) >= LATE_SOURCE_STAGES.index('input_effects') + 1:
         effects = checked_plan('input_effects')
         name = 'input_effects/localization.json'

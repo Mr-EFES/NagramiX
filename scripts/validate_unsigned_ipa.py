@@ -249,6 +249,22 @@ def expected_nagramix_catalogs(version: str | None = None) -> dict[str, dict[str
             current = checked_snapshot(effects['replacements'][path], effects['outputs'][path], effects, 'эффектов ввода')
             require(current == {**previous, **dict(zip(loc['keys'], values))}, 'Изменены другие переводы эффектов ввода: ' + code)
             catalogs[code] = current
+    if version_parts is not None and version_parts >= (0, 9, 6):
+        snow = json.loads((ROOT/'ios/snowfall_patches.json').read_text())
+        require(snow['required_previous_stage'] == 'input_effects', 'Неверная база снегопада')
+        name = 'snowfall/localization.json';data = (ROOT/'ios'/name).read_bytes()
+        require(hashlib.sha256(data).hexdigest() == snow['templates'][name], 'Изменён реестр снегопада')
+        loc = json.loads(data)
+        require(set(loc['translations']) == codes and len(loc['keys']) == 4, 'Неполные переводы снегопада')
+        for code in codes:
+            path = 'submodules/NagramiXCore/Resources/' + code + '.lproj/Localizable.strings'
+            previous = checked_snapshot(snow['previous'][path], snow['inputs'][path], snow, 'снегопада')
+            require(previous == catalogs[code] and len(previous) == 664, 'Изменён каталог перед снегопадом: ' + code)
+            values = loc['translations'][code]
+            require(len(values) == 4 and not set(loc['keys']) & previous.keys(), 'Неверные ключи снегопада')
+            current = checked_snapshot(snow['replacements'][path], snow['outputs'][path], snow, 'снегопада')
+            require(current == {**previous, **dict(zip(loc['keys'], values))}, 'Изменены другие переводы снегопада')
+            catalogs[code] = current
     return catalogs
 
 

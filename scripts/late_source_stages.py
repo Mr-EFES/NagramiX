@@ -69,6 +69,7 @@ LATE_SOURCE_STAGES = (
     'edit_result_consistency',
     'youtube_playback_policy',
     'input_effects',
+    'snowfall',
 )
 TEMPORARY_INTERACTION_STAGE = 'temporary_message_interaction'
 TEMPORARY_REPLY_HELPER = 'submodules/TelegramUI/Sources/Chat/NagramiXTemporaryReplySend.swift'
@@ -114,6 +115,14 @@ def check_copy_contract(stage, plan):
         assert set(plan['copies']) == expected, 'Unexpected typing helper copy'
         build = (OVERLAY / plan['guard_sources']['submodules/NagramiXCore/BUILD']).read_text()
         assert '"Sources/**/*.swift"' in build and 'name = "NagramiXCore"' in build
+        for item in plan['copies'].values():
+            assert set(item) == {'source', 'sha256'} and plan['templates'].get(item['source']) == item['sha256']
+        return
+    if stage == 'snowfall':
+        expected = {'submodules/NagramiXCore/Sources/NagramiXSnowSettings.swift', 'submodules/NagramiXCore/Sources/NagramiXSnowView.swift', 'submodules/SettingsUI/Sources/NagramiXSnowDensityItem.swift'}
+        assert set(plan['copies']) == expected, 'Unexpected snowfall helper copy'
+        for name in ['submodules/NagramiXCore/BUILD', 'submodules/SettingsUI/BUILD']:
+            assert '"Sources/**/*.swift"' in (OVERLAY / plan['guard_sources'][name]).read_text()
         for item in plan['copies'].values():
             assert set(item) == {'source', 'sha256'} and plan['templates'].get(item['source']) == item['sha256']
         return

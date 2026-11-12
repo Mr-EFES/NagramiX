@@ -1,0 +1,436 @@
+{
+  "keys": [
+    "NagramiX.Atmosphere.Header",
+    "NagramiX.Atmosphere.Snowfall",
+    "NagramiX.Atmosphere.InChats",
+    "NagramiX.Atmosphere.Density"
+  ],
+  "translations": {
+    "en": [
+      "Atmosphere",
+      "Snowfall",
+      "Show in chats",
+      "Density"
+    ],
+    "af": [
+      "Atmosfeer",
+      "Sneeuval",
+      "Wys in kletse",
+      "Digtheid"
+    ],
+    "sq": [
+      "Atmosfera",
+      "Reshje bore",
+      "Shfaq në biseda",
+      "Dendësia"
+    ],
+    "am": [
+      "ድባብ",
+      "የበረዶ ዝናብ",
+      "በውይይቶች አሳይ",
+      "ጥግግት"
+    ],
+    "ar": [
+      "الأجواء",
+      "تساقط الثلج",
+      "إظهار في المحادثات",
+      "الكثافة"
+    ],
+    "hy": [
+      "Մթնոլորտ",
+      "Ձյունաթափ",
+      "Ցուցադրել զրույցներում",
+      "Խտություն"
+    ],
+    "az": [
+      "Ab-hava",
+      "Qar yağışı",
+      "Söhbətlərdə göstər",
+      "Sıxlıq"
+    ],
+    "eu": [
+      "Giroa",
+      "Elur-jasa",
+      "Erakutsi txatetan",
+      "Dentsitatea"
+    ],
+    "be": [
+      "Атмасфера",
+      "Снегапад",
+      "Паказваць у чатах",
+      "Шчыльнасць"
+    ],
+    "bn": [
+      "আবহ",
+      "তুষারপাত",
+      "চ্যাটে দেখান",
+      "ঘনত্ব"
+    ],
+    "bg": [
+      "Атмосфера",
+      "Снеговалеж",
+      "Показване в чатовете",
+      "Гъстота"
+    ],
+    "my": [
+      "အငွေ့အသက်",
+      "နှင်းကျခြင်း",
+      "ချတ်များတွင် ပြရန်",
+      "သိပ်သည်းမှု"
+    ],
+    "ca": [
+      "Ambient",
+      "Nevada",
+      "Mostra als xats",
+      "Densitat"
+    ],
+    "zh-hans": [
+      "氛围",
+      "飘雪",
+      "在聊天中显示",
+      "密度"
+    ],
+    "zh-hant": [
+      "氛圍",
+      "飄雪",
+      "在聊天中顯示",
+      "密度"
+    ],
+    "hr": [
+      "Ugođaj",
+      "Snijeg",
+      "Prikaži u razgovorima",
+      "Gustoća"
+    ],
+    "cs": [
+      "Atmosféra",
+      "Sněžení",
+      "Zobrazit v chatech",
+      "Hustota"
+    ],
+    "da": [
+      "Atmosfære",
+      "Snefald",
+      "Vis i chats",
+      "Tæthed"
+    ],
+    "nl": [
+      "Sfeer",
+      "Sneeuwval",
+      "Tonen in chats",
+      "Dichtheid"
+    ],
+    "eo": [
+      "Etoso",
+      "Neĝado",
+      "Montri en babilejoj",
+      "Denseco"
+    ],
+    "et": [
+      "Meeleolu",
+      "Lumesadu",
+      "Näita vestlustes",
+      "Tihedus"
+    ],
+    "fil": [
+      "Atmospera",
+      "Pag-ulan ng niyebe",
+      "Ipakita sa mga chat",
+      "Dami ng niyebe"
+    ],
+    "fi": [
+      "Tunnelma",
+      "Lumisade",
+      "Näytä keskusteluissa",
+      "Tiheys"
+    ],
+    "fr": [
+      "Ambiance",
+      "Chute de neige",
+      "Afficher dans les discussions",
+      "Densité"
+    ],
+    "gl": [
+      "Ambiente",
+      "Nevada",
+      "Mostrar nos chats",
+      "Densidade"
+    ],
+    "ka": [
+      "ატმოსფერო",
+      "თოვლი",
+      "ჩვენება ჩატებში",
+      "სიმჭიდროვე"
+    ],
+    "de": [
+      "Atmosphäre",
+      "Schneefall",
+      "In Chats anzeigen",
+      "Dichte"
+    ],
+    "el": [
+      "Ατμόσφαιρα",
+      "Χιονόπτωση",
+      "Εμφάνιση στις συνομιλίες",
+      "Πυκνότητα"
+    ],
+    "gu": [
+      "માહોલ",
+      "હિમવર્ષા",
+      "ચેટમાં બતાવો",
+      "ઘનતા"
+    ],
+    "he": [
+      "אווירה",
+      "שלג",
+      "הצגה בצ׳אטים",
+      "צפיפות"
+    ],
+    "hi": [
+      "माहौल",
+      "बर्फ़बारी",
+      "चैट में दिखाएँ",
+      "घनत्व"
+    ],
+    "hu": [
+      "Hangulat",
+      "Havazás",
+      "Megjelenítés a csevegésekben",
+      "Sűrűség"
+    ],
+    "id": [
+      "Suasana",
+      "Hujan salju",
+      "Tampilkan di obrolan",
+      "Kepadatan"
+    ],
+    "ga": [
+      "Atmaisféar",
+      "Titim sneachta",
+      "Taispeáin i gcomhráite",
+      "Dlús"
+    ],
+    "it": [
+      "Atmosfera",
+      "Nevicata",
+      "Mostra nelle chat",
+      "Densità"
+    ],
+    "ja": [
+      "雰囲気",
+      "雪",
+      "チャットに表示",
+      "密度"
+    ],
+    "kn": [
+      "ವಾತಾವರಣ",
+      "ಹಿಮಪಾತ",
+      "ಚಾಟ್‌ಗಳಲ್ಲಿ ತೋರಿಸಿ",
+      "ಸಾಂದ್ರತೆ"
+    ],
+    "kk": [
+      "Көңіл күй",
+      "Қар жаууы",
+      "Чаттарда көрсету",
+      "Тығыздық"
+    ],
+    "km": [
+      "បរិយាកាស",
+      "ព្រិលធ្លាក់",
+      "បង្ហាញក្នុងការជជែក",
+      "ដង់ស៊ីតេ"
+    ],
+    "ko": [
+      "분위기",
+      "눈 내리기",
+      "채팅에 표시",
+      "밀도"
+    ],
+    "lv": [
+      "Noskaņa",
+      "Sniegputenis",
+      "Rādīt tērzēšanā",
+      "Blīvums"
+    ],
+    "lt": [
+      "Atmosfera",
+      "Snygis",
+      "Rodyti pokalbiuose",
+      "Tankis"
+    ],
+    "ms": [
+      "Suasana",
+      "Salji turun",
+      "Tunjukkan dalam sembang",
+      "Ketumpatan"
+    ],
+    "ml": [
+      "അന്തരീക്ഷം",
+      "മഞ്ഞുവീഴ്ച",
+      "ചാറ്റുകളിൽ കാണിക്കുക",
+      "സാന്ദ്രത"
+    ],
+    "mt": [
+      "Atmosfera",
+      "Borra nieżla",
+      "Uri fiċ-chats",
+      "Densità"
+    ],
+    "mr": [
+      "वातावरण",
+      "हिमवर्षाव",
+      "चॅटमध्ये दाखवा",
+      "घनता"
+    ],
+    "ne": [
+      "वातावरण",
+      "हिमपात",
+      "च्याटमा देखाउनुहोस्",
+      "घनत्व"
+    ],
+    "nb": [
+      "Atmosfære",
+      "Snøfall",
+      "Vis i chatter",
+      "Tetthet"
+    ],
+    "or": [
+      "ପରିବେଶ",
+      "ତୁଷାରପାତ",
+      "ଚାଟ୍‌ରେ ଦେଖାନ୍ତୁ",
+      "ଘନତା"
+    ],
+    "fa": [
+      "فضا",
+      "بارش برف",
+      "نمایش در گفتگوها",
+      "تراکم"
+    ],
+    "pl": [
+      "Atmosfera",
+      "Opady śniegu",
+      "Pokaż w czatach",
+      "Gęstość"
+    ],
+    "pt-br": [
+      "Atmosfera",
+      "Neve",
+      "Mostrar nas conversas",
+      "Densidade"
+    ],
+    "pt-pt": [
+      "Atmosfera",
+      "Queda de neve",
+      "Mostrar nas conversas",
+      "Densidade"
+    ],
+    "ro": [
+      "Atmosferă",
+      "Ninsoare",
+      "Afișează în conversații",
+      "Densitate"
+    ],
+    "ru": [
+      "Атмосфера",
+      "Снегопад",
+      "Показывать в чатах",
+      "Плотность"
+    ],
+    "sr": [
+      "Атмосфера",
+      "Снег",
+      "Прикажи у ћаскањима",
+      "Густина"
+    ],
+    "sk": [
+      "Atmosféra",
+      "Sneženie",
+      "Zobraziť v četoch",
+      "Hustota"
+    ],
+    "sl": [
+      "Vzdušje",
+      "Sneženje",
+      "Prikaži v klepetih",
+      "Gostota"
+    ],
+    "es": [
+      "Ambiente",
+      "Nevada",
+      "Mostrar en los chats",
+      "Densidad"
+    ],
+    "sw": [
+      "Mazingira",
+      "Theluji",
+      "Onyesha kwenye gumzo",
+      "Msongamano"
+    ],
+    "sv": [
+      "Atmosfär",
+      "Snöfall",
+      "Visa i chattar",
+      "Täthet"
+    ],
+    "tg": [
+      "Фазо",
+      "Бориши барф",
+      "Дар суҳбатҳо нишон додан",
+      "Зичӣ"
+    ],
+    "ta": [
+      "சூழல்",
+      "பனிப்பொழிவு",
+      "அரட்டைகளில் காட்டு",
+      "அடர்த்தி"
+    ],
+    "te": [
+      "వాతావరణం",
+      "మంచు కురవడం",
+      "చాట్‌లలో చూపించు",
+      "సాంద్రత"
+    ],
+    "th": [
+      "บรรยากาศ",
+      "หิมะตก",
+      "แสดงในแชท",
+      "ความหนาแน่น"
+    ],
+    "tr": [
+      "Atmosfer",
+      "Kar yağışı",
+      "Sohbetlerde göster",
+      "Yoğunluk"
+    ],
+    "tk": [
+      "Ýagdaý",
+      "Gar ýagmagy",
+      "Söhbetlerde görkez",
+      "Dykyzlyk"
+    ],
+    "uk": [
+      "Атмосфера",
+      "Снігопад",
+      "Показувати в чатах",
+      "Щільність"
+    ],
+    "ur": [
+      "ماحول",
+      "برف باری",
+      "چیٹس میں دکھائیں",
+      "کثافت"
+    ],
+    "uz": [
+      "Muhit",
+      "Qor yog‘ishi",
+      "Chatlarda ko‘rsatish",
+      "Zichlik"
+    ],
+    "vi": [
+      "Không khí",
+      "Tuyết rơi",
+      "Hiển thị trong trò chuyện",
+      "Mật độ"
+    ]
+  }
+}
