@@ -50,6 +50,7 @@ def check(text):
     mandatory.append('validate_original_video_mode.py')
     mandatory.append('validate_feature_contract_consistency.py')
     mandatory.append('validate_transcription_cached_read.py')
+    mandatory.append('validate_round_editor_quality.py')
     for name in mandatory:
         assert re.search(r'^          python3 scripts/'+re.escape(name)+r'\b',source,re.M),name
         assert 'nagramix_extended_check python3 scripts/'+name not in source,name
@@ -94,7 +95,7 @@ def main():
     try:check(changed)
     except AssertionError:pass
     else:raise AssertionError('Optional final native font API gate accepted')
-    for script in ['validate_release_095_composer_strings_compile.py','validate_native_string_references.py','validate_wide_channel_post_consistency.py','validate_font_theme_contrast.py','validate_system_web_picture_in_picture.py','validate_wide_panel_consistency.py','validate_settings_section_header_case.py','validate_premium_temporary_transcription.py','validate_font_preview_apply.py','validate_edit_result_consistency.py','validate_youtube_playback_policy.py','validate_input_effects.py','validate_snowfall.py','validate_snowfall_holidays.py','validate_composer_copy_integrity.py','validate_single_touch_message_selection.py','validate_release_096_calendar_compatibility.py','validate_release_096_transcription_compatibility.py','validate_release_096_font_node_compatibility.py','validate_font_apply_node_lifecycle.py','validate_video_audio_continuity.py','validate_pip_preview_continuity.py','validate_recording_start_recovery.py','validate_selection_column_coordinates.py','validate_selection_scroll_continuity.py','validate_original_video_mode.py','validate_feature_contract_consistency.py','validate_transcription_cached_read.py']:
+    for script in ['validate_release_095_composer_strings_compile.py','validate_native_string_references.py','validate_wide_channel_post_consistency.py','validate_font_theme_contrast.py','validate_system_web_picture_in_picture.py','validate_wide_panel_consistency.py','validate_settings_section_header_case.py','validate_premium_temporary_transcription.py','validate_font_preview_apply.py','validate_edit_result_consistency.py','validate_youtube_playback_policy.py','validate_input_effects.py','validate_snowfall.py','validate_snowfall_holidays.py','validate_composer_copy_integrity.py','validate_single_touch_message_selection.py','validate_release_096_calendar_compatibility.py','validate_release_096_transcription_compatibility.py','validate_release_096_font_node_compatibility.py','validate_font_apply_node_lifecycle.py','validate_video_audio_continuity.py','validate_pip_preview_continuity.py','validate_recording_start_recovery.py','validate_selection_column_coordinates.py','validate_selection_scroll_continuity.py','validate_original_video_mode.py','validate_feature_contract_consistency.py','validate_transcription_cached_read.py','validate_round_editor_quality.py']:
         changed=text.replace('          python3 scripts/'+script,'          nagramix_extended_check python3 scripts/'+script)
         try:check(changed)
         except AssertionError:pass

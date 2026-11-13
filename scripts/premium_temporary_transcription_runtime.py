@@ -84,7 +84,16 @@ func expectFile(_ value:Bool,_ label:String) {if !value{print("FAIL "+label);exi
  static func message(_ c:AccountContext,_ round:Bool=false,_ incoming:Bool=true,_ ttl:Int32?=viewOnceTimeout)->Message {
   let m=PrivateTemporaryTranscriptionTests.message(round:round,ttl:ttl,incoming:incoming);c.account.postbox.store.messages[m.id]=m;return m
  }
- static func wait(_ s:DispatchSemaphore,_ label:String){expectFile(s.wait(timeout:.now()+5) == .success,label)}
+ // This command-line fixture has no UIKit event loop. Keep Foundation's main
+ // notification queue running while waiting for the unchanged async operation.
+ static func wait(_ s:DispatchSemaphore,_ label:String){
+  let deadline=Date(timeIntervalSinceNow:5)
+  while s.wait(timeout:.now()) != .success {
+   guard Date()<deadline else {expectFile(false,label);return}
+   _ = RunLoop.current.run(mode:.default,before:Date(timeIntervalSinceNow:0.005))
+  }
+  expectFile(true,label)
+ }
  static func run(_ c:AccountContext,_ m:Message,_ menu:Bool=false,_ mutate:(()->Void)?=nil)->Result<String,NagramiXTranscriptionFailure> {
   let done=DispatchSemaphore(value:0);var result:Result<String,NagramiXTranscriptionFailure>?;var d:Disposable?
   if menu {NagramiXTranscriptionRuntime.toggleContext(context:c,messageId:m.id){result=$0;done.signal()}}
@@ -174,7 +183,11 @@ func expectFile(_ value:Bool,_ label:String) {if !value{print("FAIL "+label);exi
  c='import Foundation\nlet fileTestSuite="NagramiX.FileASR.Tests."+UUID().uuidString\nlet fileTestDefaults=UserDefaults(suiteName:fileTestSuite)!\n'+c
  marker='@main struct PremiumFileTranscriptionChecks'
  pos=c.index(' static func main() {',c.index(marker))+len(' static func main() {')
- c=c[:pos]+'\n  defer {fileTestDefaults.removePersistentDomain(forName:fileTestSuite)}'+c[pos:]
+ c=c[:pos]+'''\n  defer {fileTestDefaults.removePersistentDomain(forName:fileTestSuite)}
+  let mainQueueReady=DispatchSemaphore(value:0)
+  DispatchQueue.global().async{OperationQueue.main.addOperation{mainQueueReady.signal()}}
+  wait(mainQueueReady,"fixture services main queue while waiting")
+'''+c[pos:]
  return c
 
 def negatives(text):

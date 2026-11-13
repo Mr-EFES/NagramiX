@@ -503,6 +503,8 @@ jobs:
           python3 scripts/validate_feature_contract_consistency.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)" --report "$RUNNER_TEMP/feature-contract-consistency.json"
           PYTHONPATH=ios python3 -c 'from pathlib import Path; from transcription_cached_read import apply_transcription_cached_read; apply_transcription_cached_read(Path("Telegram-iOS").resolve(), Path("ios").resolve())'
           python3 scripts/validate_transcription_cached_read.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)" --report "$RUNNER_TEMP/transcription-cached-read.json"
+          PYTHONPATH=ios python3 -c 'from pathlib import Path; from round_editor_quality import apply_round_editor_quality; apply_round_editor_quality(Path("Telegram-iOS").resolve(), Path("ios").resolve())'
+          python3 scripts/validate_round_editor_quality.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)" --report "$RUNNER_TEMP/round-editor-quality.json"
           python3 scripts/validate_late_source_stages.py --source Telegram-iOS --report "$RUNNER_TEMP/late-source-stages.json"
           python3 scripts/validate_custom_member_references.py --source Telegram-iOS
           python3 scripts/validate_upstream_13_2_release.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)"

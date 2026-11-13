@@ -86,6 +86,7 @@ LATE_SOURCE_STAGES = (
     'original_video_mode',
     'feature_contract_consistency',
     'transcription_cached_read',
+    'round_editor_quality',
 )
 TEMPORARY_INTERACTION_STAGE = 'temporary_message_interaction'
 TEMPORARY_REPLY_HELPER = 'submodules/TelegramUI/Sources/Chat/NagramiXTemporaryReplySend.swift'
