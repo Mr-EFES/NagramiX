@@ -1,0 +1,47 @@
+{
+  "target_pin": "24638bc69bd083981b178dd1e7f921eebbf7fc46",
+  "overlay_base_pin": "279f89e4d4f63f17227bf877dc3d8990f22ecd58",
+  "required_previous_stage": "recording_start_recovery",
+  "inputs": {
+    "submodules/TelegramUI/Sources/ChatHistoryListNode.swift": "51879b54e649da6e413eca0e5945faac19965b7f8a587cae62416c8eae9fee88"
+  },
+  "outputs": {
+    "submodules/TelegramUI/Sources/ChatHistoryListNode.swift": "2ad7e994bcb27e7c74f4d27bb10c163ac4142acce3c8d44c26ac798d6dc14390"
+  },
+  "previous": {
+    "submodules/TelegramUI/Sources/ChatHistoryListNode.swift": "selection_column_coordinates/Before0.inc"
+  },
+  "replacements": {
+    "submodules/TelegramUI/Sources/ChatHistoryListNode.swift": "selection_column_coordinates/After0.inc"
+  },
+  "guards": {
+    "submodules/TelegramUI/Sources/Chat/NagramiXMessageDragSelection.swift": "a9534bfe623466d50fe235a01183153305c4130887e845f219db8d869eb894ff",
+    "submodules/TelegramUI/Components/Chat/ChatHistoryListViewBackend/Sources/ChatHistoryListViewBackend.swift": "72f7e05dcc5402e921066d3e7fdbe64053f95712a9645782ac9153590e016fc8",
+    "submodules/TelegramUI/Components/Chat/ChatHistoryListViewBackend/Sources/CoreListChatHistoryBackend.swift": "48b4f6621997132eedb1bfe447d99cc44f6920f57aec84866bd66dd67fc5528c",
+    "submodules/TelegramUI/Components/Chat/ChatMessageSelectionNode/Sources/ChatMessageSelectionNode.swift": "f446452bc0b7a4ff3dac107df3ec37d08f5076b7c4acd4a81e1fc1a6319e85d2",
+    "submodules/TelegramUI/Components/Chat/ChatMessageItemView/Sources/ChatMessageItemView.swift": "809c3e54a30b924f1d548225590d993ee0a4386a89ae0659d9ca7c1675d632c9",
+    "submodules/TelegramUI/BUILD": "c819263cd1c2d6407308fe3f172f9f564b40e26f3b688da39739577bae792f52"
+  },
+  "guard_sources": {
+    "submodules/TelegramUI/Sources/Chat/NagramiXMessageDragSelection.swift": "selection_column_coordinates/Guard0.inc",
+    "submodules/TelegramUI/Components/Chat/ChatHistoryListViewBackend/Sources/ChatHistoryListViewBackend.swift": "selection_column_coordinates/Guard1.inc",
+    "submodules/TelegramUI/Components/Chat/ChatHistoryListViewBackend/Sources/CoreListChatHistoryBackend.swift": "selection_column_coordinates/Guard2.inc",
+    "submodules/TelegramUI/Components/Chat/ChatMessageSelectionNode/Sources/ChatMessageSelectionNode.swift": "selection_column_coordinates/Guard3.inc",
+    "submodules/TelegramUI/Components/Chat/ChatMessageItemView/Sources/ChatMessageItemView.swift": "selection_column_coordinates/Guard4.inc",
+    "submodules/TelegramUI/BUILD": "selection_column_coordinates/Guard5.inc"
+  },
+  "copies": {},
+  "deletions": {},
+  "native_inputs": {},
+  "native_guards": {},
+  "templates": {
+    "selection_column_coordinates/Before0.inc": "51879b54e649da6e413eca0e5945faac19965b7f8a587cae62416c8eae9fee88",
+    "selection_column_coordinates/After0.inc": "2ad7e994bcb27e7c74f4d27bb10c163ac4142acce3c8d44c26ac798d6dc14390",
+    "selection_column_coordinates/Guard0.inc": "a9534bfe623466d50fe235a01183153305c4130887e845f219db8d869eb894ff",
+    "selection_column_coordinates/Guard1.inc": "72f7e05dcc5402e921066d3e7fdbe64053f95712a9645782ac9153590e016fc8",
+    "selection_column_coordinates/Guard2.inc": "48b4f6621997132eedb1bfe447d99cc44f6920f57aec84866bd66dd67fc5528c",
+    "selection_column_coordinates/Guard3.inc": "f446452bc0b7a4ff3dac107df3ec37d08f5076b7c4acd4a81e1fc1a6319e85d2",
+    "selection_column_coordinates/Guard4.inc": "809c3e54a30b924f1d548225590d993ee0a4386a89ae0659d9ca7c1675d632c9",
+    "selection_column_coordinates/Guard5.inc": "c819263cd1c2d6407308fe3f172f9f564b40e26f3b688da39739577bae792f52"
+  }
+}

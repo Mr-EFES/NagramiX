@@ -33,6 +33,8 @@ import transcription_compatibility_runtime as transcription_compatibility
 import video_audio_continuity_runtime as video_audio_continuity
 from video_audio_continuity_js import check as video_audio_js_check
 from video_audio_continuity_apple import check as video_audio_apple_check
+import selection_column_coordinates_runtime as selection_column
+from selection_column_coordinates_apple import check as selection_column_apple_check
 import recording_start_recovery_runtime as recording_recovery
 import pip_preview_continuity_runtime as pip_preview
 from pip_preview_continuity_gallery import fixture as pip_preview_gallery_fixture
@@ -76,7 +78,7 @@ def canonical_projection(destination, through_stage):
     else: raise AssertionError('Unknown checkpoint: '+through_stage)
     # Complete application trees are built by the normal guarded overlay.
     # This earlier fixture gate needs only real canonical Swift sources.
-    native_headers = {'submodules/MtProtoKit/PublicHeaders/MtProtoKit/MTRpcError.h'} if through_stage in {'release_096_transcription_compatibility','release_096_font_node_compatibility','font_apply_node_lifecycle','video_audio_continuity','pip_preview_continuity','recording_start_recovery'} else set()
+    native_headers = {'submodules/MtProtoKit/PublicHeaders/MtProtoKit/MTRpcError.h'} if through_stage in {'release_096_transcription_compatibility','release_096_font_node_compatibility','font_apply_node_lifecycle','video_audio_continuity','pip_preview_continuity','recording_start_recovery','selection_column_coordinates'} else set()
     expected = {n:sha for n,sha in expected.items() if (n.endswith('.swift') or n in native_headers) and n not in post['deletions']}
     missing = {n:sha for n,sha in expected.items() if n not in sources}
     if missing:
@@ -132,7 +134,7 @@ def main():
         # Check the final calendar at the actual iOS15 target before the large
         # runtime matrix. Stage57 remains an exact historical runtime checkpoint.
         calendar_source=root/'calendar-native-final'
-        files['native_final67']=canonical_projection(calendar_source,'recording_start_recovery')
+        files['native_final68']=canonical_projection(calendar_source,'selection_column_coordinates')
         initial_font_node=font_node_check(calendar_source,args.swiftc,root)
         rpc_error=rpc_error_check(calendar_source,args.swiftc,root/'rpc-error-native')
         runs+=execute(args.swiftc,root,'nullable-premium-asr',transcription_compatibility.fixture(calendar_source))
@@ -141,6 +143,7 @@ def main():
         video_audio_js=video_audio_js_check(calendar_source,root)
         video_audio_apple=video_audio_apple_check(calendar_source,args.swiftc,root)
         pip_preview_apple=pip_preview_apple_check(calendar_source,args.swiftc,root)
+        selection_column_apple=selection_column_apple_check(calendar_source,args.swiftc,root)
         shutil.rmtree(calendar_source)
         entries = [
             ('bubble_selection_edge', [('bubble-edge', lambda s: bubble.fixture(s, (OVERLAY/checked_plan('bubble_selection_edge')['previous'][bubble.BUBBLE]).read_text()))]),
@@ -167,6 +170,7 @@ def main():
             ('video_audio_continuity', [('video-audio-continuity', video_audio_continuity.fixture)]),
             ('pip_preview_continuity', [('pip-preview-poster', pip_preview.poster_fixture), ('pip-preview-restore', pip_preview.restore_fixture), ('pip-preview-gallery', pip_preview_gallery_fixture)]),
             ('recording_start_recovery', [('recording-transfer', recording_recovery.fixture)]),
+            ('selection_column_coordinates', [('visual-left-selection-column', selection_column.fixture)]),
         ]
         for stage, fixtures in entries:
             source = root / stage
@@ -220,6 +224,7 @@ def main():
     report['video_audio_continuity_javascript']=video_audio_js
     report['video_audio_continuity_real_sdk']=video_audio_apple
     report['pip_preview_continuity_real_sdk']=pip_preview_apple
+    report['selection_column_real_sdk']=selection_column_apple
     report['input_effects_real_sdk']=input_effects_apple
     report['snowfall_real_sdk']=snowfall_apple
     report['snowfall_holidays_real_sdk']=snowfall_holidays_apple

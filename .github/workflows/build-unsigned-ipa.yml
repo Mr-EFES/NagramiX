@@ -493,6 +493,8 @@ jobs:
           python3 scripts/validate_pip_preview_continuity.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)" --report "$RUNNER_TEMP/pip-preview-continuity.json"
           PYTHONPATH=ios python3 -c 'from pathlib import Path; from recording_start_recovery import apply_recording_start_recovery; apply_recording_start_recovery(Path("Telegram-iOS").resolve(), Path("ios").resolve())'
           python3 scripts/validate_recording_start_recovery.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)" --report "$RUNNER_TEMP/recording-start-recovery.json"
+          PYTHONPATH=ios python3 -c 'from pathlib import Path; from selection_column_coordinates import apply_selection_column_coordinates; apply_selection_column_coordinates(Path("Telegram-iOS").resolve(), Path("ios").resolve())'
+          python3 scripts/validate_selection_column_coordinates.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)" --report "$RUNNER_TEMP/selection-column-coordinates.json"
           python3 scripts/validate_late_source_stages.py --source Telegram-iOS --report "$RUNNER_TEMP/late-source-stages.json"
           python3 scripts/validate_custom_member_references.py --source Telegram-iOS
           python3 scripts/validate_upstream_13_2_release.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)"
