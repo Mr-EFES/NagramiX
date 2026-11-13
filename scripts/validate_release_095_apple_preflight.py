@@ -33,6 +33,7 @@ import transcription_compatibility_runtime as transcription_compatibility
 import video_audio_continuity_runtime as video_audio_continuity
 from video_audio_continuity_js import check as video_audio_js_check
 from video_audio_continuity_apple import check as video_audio_apple_check
+import recording_start_recovery_runtime as recording_recovery
 import pip_preview_continuity_runtime as pip_preview
 from pip_preview_continuity_gallery import fixture as pip_preview_gallery_fixture
 from pip_preview_continuity_apple import check as pip_preview_apple_check
@@ -75,7 +76,7 @@ def canonical_projection(destination, through_stage):
     else: raise AssertionError('Unknown checkpoint: '+through_stage)
     # Complete application trees are built by the normal guarded overlay.
     # This earlier fixture gate needs only real canonical Swift sources.
-    native_headers = {'submodules/MtProtoKit/PublicHeaders/MtProtoKit/MTRpcError.h'} if through_stage in {'release_096_transcription_compatibility','release_096_font_node_compatibility','font_apply_node_lifecycle','video_audio_continuity','pip_preview_continuity'} else set()
+    native_headers = {'submodules/MtProtoKit/PublicHeaders/MtProtoKit/MTRpcError.h'} if through_stage in {'release_096_transcription_compatibility','release_096_font_node_compatibility','font_apply_node_lifecycle','video_audio_continuity','pip_preview_continuity','recording_start_recovery'} else set()
     expected = {n:sha for n,sha in expected.items() if (n.endswith('.swift') or n in native_headers) and n not in post['deletions']}
     missing = {n:sha for n,sha in expected.items() if n not in sources}
     if missing:
@@ -131,7 +132,7 @@ def main():
         # Check the final calendar at the actual iOS15 target before the large
         # runtime matrix. Stage57 remains an exact historical runtime checkpoint.
         calendar_source=root/'calendar-native-final'
-        files['native_final66']=canonical_projection(calendar_source,'pip_preview_continuity')
+        files['native_final67']=canonical_projection(calendar_source,'recording_start_recovery')
         initial_font_node=font_node_check(calendar_source,args.swiftc,root)
         rpc_error=rpc_error_check(calendar_source,args.swiftc,root/'rpc-error-native')
         runs+=execute(args.swiftc,root,'nullable-premium-asr',transcription_compatibility.fixture(calendar_source))
@@ -165,6 +166,7 @@ def main():
             ('release_096_calendar_compatibility', [('calendar-ios15', calendar_compatibility.fixture)]),
             ('video_audio_continuity', [('video-audio-continuity', video_audio_continuity.fixture)]),
             ('pip_preview_continuity', [('pip-preview-poster', pip_preview.poster_fixture), ('pip-preview-restore', pip_preview.restore_fixture), ('pip-preview-gallery', pip_preview_gallery_fixture)]),
+            ('recording_start_recovery', [('recording-transfer', recording_recovery.fixture)]),
         ]
         for stage, fixtures in entries:
             source = root / stage
