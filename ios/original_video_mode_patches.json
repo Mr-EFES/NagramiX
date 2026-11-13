@@ -1,0 +1,121 @@
+{
+  "target_pin": "24638bc69bd083981b178dd1e7f921eebbf7fc46",
+  "overlay_base_pin": "279f89e4d4f63f17227bf877dc3d8990f22ecd58",
+  "required_previous_stage": "selection_scroll_continuity",
+  "inputs": {
+    "submodules/LegacyMediaPickerUI/Sources/LegacyMediaPickers.swift": "0c2eef2f49334d5c33fa5cbee4d430ed839430a3d56af5d4b873ad6d1f826301",
+    "submodules/TelegramUI/Components/ChatMediaSend/BUILD": "bbd4afc2d3f31881e45f3fbdb03081ea776aad151c60c87a625fafd6093551ab",
+    "submodules/TelegramUI/Components/ChatMediaSend/Sources/ChatMediaSendRender.swift": "d78290e5b4e5f61c4f1f70e2bd89ead0b3540db37d502a1e610c40957b971a9b"
+  },
+  "outputs": {
+    "submodules/LegacyMediaPickerUI/Sources/LegacyMediaPickers.swift": "258e1f52764e2c4cbac4bbfd7f6dd3b966dbb2ce5ebb90c940e051ff9f90f677",
+    "submodules/TelegramUI/Components/ChatMediaSend/BUILD": "1ad3a68e0f45bc89a9585e257197e35a5f5f17482100a2b4eccf195cf401bca3",
+    "submodules/TelegramUI/Components/ChatMediaSend/Sources/ChatMediaSendRender.swift": "4f8ebcaaff2ab8048c7c0d13a2ea1eb22d9139ded015fec6d2e66044f5649dbd"
+  },
+  "previous": {
+    "submodules/LegacyMediaPickerUI/Sources/LegacyMediaPickers.swift": "original_video_mode/Before0.inc",
+    "submodules/TelegramUI/Components/ChatMediaSend/BUILD": "original_video_mode/Before1.inc",
+    "submodules/TelegramUI/Components/ChatMediaSend/Sources/ChatMediaSendRender.swift": "original_video_mode/Before2.inc"
+  },
+  "replacements": {
+    "submodules/LegacyMediaPickerUI/Sources/LegacyMediaPickers.swift": "original_video_mode/After0.inc",
+    "submodules/TelegramUI/Components/ChatMediaSend/BUILD": "original_video_mode/After1.inc",
+    "submodules/TelegramUI/Components/ChatMediaSend/Sources/ChatMediaSendRender.swift": "original_video_mode/After2.inc"
+  },
+  "guards": {
+    "submodules/TelegramUI/Components/ChatMediaSend/Sources/ChatMediaSendItem.swift": "611a293e6b2d9f6c66c1747d4658556f891180851a256f954734079bc8b85706",
+    "submodules/TelegramUI/Components/ChatMediaSend/Sources/ChatMediaSendPlan.swift": "61be59ec4f23c1cdbea46fdda99b5bbc82d0cbc84f7170b47f03168468291510",
+    "submodules/TelegramUI/Components/ChatMediaSend/Sources/ChatMediaSendMessages.swift": "536302b3bf622727c63060e7163037753bf29da17c4f1b472e615f10f254c5ad",
+    "submodules/TelegramUI/Components/ChatMediaSend/Sources/ChatMediaSendVideoThumbnail.swift": "28fa2fab87359a9fbcafa838df952e7b65defab1e0fcf790a70972db033c0022",
+    "submodules/TelegramUI/Components/ChatMediaSend/Sources/ChatMediaEditorItemStore.swift": "9c0fc1bd916c592f2673414a253b806fa95d3dd01a935be7d299657b8e7735a0",
+    "submodules/TelegramUI/Components/MediaEditor/Sources/MediaEditorValues.swift": "12afc45519253321d2fea24b5bd496ce7615deddfa063532fbcc2e50c3edc4d2",
+    "submodules/NagramiXMediaSettings/Sources/NagramiXMediaSettings.swift": "0bbd969f903181cb1f3caa2d43aefae3a46965dd670dde1a8c3cbced2335275f",
+    "submodules/NagramiXMediaSettings/BUILD": "083253dd17992220fe47c883d1c0686fea165a717703eec0b9f0860ab21ed65f",
+    "submodules/MediaPickerUI/Sources/MediaPickerScreen.swift": "18f26335bab2ce97a5ec4b04959d7433cbb292a198d860425489ec5322e42e8c",
+    "submodules/TelegramUI/Components/Resources/FetchVideoMediaResource/Sources/FetchVideoMediaResource.swift": "d0073bd5e17ef01a103f706fc2ffddc7f5de81c00699fd4f544855f10a5e2b53",
+    "submodules/LegacyComponents/Sources/TGMediaVideoConverter.m": "ee17c3a1186dcf23b2a9bdf78a0e09aba30be13f46860f63eee1bf3e009f5bd1",
+    "submodules/LegacyMediaPickerUI/BUILD": "0e41b1faa7345442012534458c31b87566f71e17ee007e921b2c76ffd0a2d3d0",
+    "submodules/SSignalKit/SwiftSignalKit/Source/Atomic.swift": "ad76eb0a708bdf77301d7d11787a06f33029c67412e6485616534c4faf2e8a9d",
+    "submodules/SSignalKit/SwiftSignalKit/Source/Disposable.swift": "60e53d9fa32a1b1ba47897467077cf22fcdc0458c20b646a35c75fb76484209b",
+    "submodules/SSignalKit/SwiftSignalKit/Source/Subscriber.swift": "eb28ad26bda8b4a8ff1aad73b949d4c3d24132db3aebdd1f5a4c67a5962718ee",
+    "submodules/SSignalKit/SwiftSignalKit/Source/Signal.swift": "c1fee825012eace4710eab53f32faa1d49efe38b01e7ad709054f26695494cb6",
+    "submodules/SSignalKit/SwiftSignalKit/Source/Queue.swift": "ac7db4cdf6b9728f0936bf35998cee3f6b8d7824abbc07e71e679e068315b31b",
+    "submodules/SSignalKit/SwiftSignalKit/Source/Signal_Dispatch.swift": "136f325211fca4cf75d193a3f273d092a32ed9304c3442095b707c6b1639fc38",
+    "submodules/SSignalKit/SwiftSignalKit/Source/Signal_Meta.swift": "26b5a93e32c3bc35a5234d3b7c03ed1cd9cea271abc43b34d1b475e1f3655c9f",
+    "submodules/SSignalKit/SwiftSignalKit/Source/Signal_Mapping.swift": "4740a3a616679ad0f65c6341a0498bf42e120dcaddd2c281694188b47e075017",
+    "submodules/SSignalKit/SwiftSignalKit/Source/Signal_Catch.swift": "da304f997aa514dffd836987562da5f377e2a30471be1de187f8983b826079b9",
+    "submodules/SSignalKit/SwiftSignalKit/Source/Signal_Take.swift": "f7edb85f3327c4263c6f9ebe9f4e9339661eaebf85ab062acb92faf0f3bce999",
+    "submodules/SSignalKit/SwiftSignalKit/Source/Signal_Single.swift": "3e9edb07a7c0031f2098bbbb7ee06105e9c3c36c3b77ab7de9af79928320d2e9",
+    "submodules/SSignalKit/SwiftSignalKit/Source/Signal_Combine.swift": "994f52d6459d2251a2880f7d0827f853e74c4bd20ab7896386f4152215723450"
+  },
+  "guard_sources": {
+    "submodules/TelegramUI/Components/ChatMediaSend/Sources/ChatMediaSendItem.swift": "original_video_mode/Guard0.inc",
+    "submodules/TelegramUI/Components/ChatMediaSend/Sources/ChatMediaSendPlan.swift": "original_video_mode/Guard1.inc",
+    "submodules/TelegramUI/Components/ChatMediaSend/Sources/ChatMediaSendMessages.swift": "original_video_mode/Guard2.inc",
+    "submodules/TelegramUI/Components/ChatMediaSend/Sources/ChatMediaSendVideoThumbnail.swift": "original_video_mode/Guard3.inc",
+    "submodules/TelegramUI/Components/ChatMediaSend/Sources/ChatMediaEditorItemStore.swift": "original_video_mode/Guard4.inc",
+    "submodules/TelegramUI/Components/MediaEditor/Sources/MediaEditorValues.swift": "original_video_mode/Guard5.inc",
+    "submodules/NagramiXMediaSettings/Sources/NagramiXMediaSettings.swift": "original_video_mode/Guard6.inc",
+    "submodules/NagramiXMediaSettings/BUILD": "original_video_mode/Guard7.inc",
+    "submodules/MediaPickerUI/Sources/MediaPickerScreen.swift": "original_video_mode/Guard8.inc",
+    "submodules/TelegramUI/Components/Resources/FetchVideoMediaResource/Sources/FetchVideoMediaResource.swift": "original_video_mode/Guard9.inc",
+    "submodules/LegacyComponents/Sources/TGMediaVideoConverter.m": "original_video_mode/Guard10.inc",
+    "submodules/LegacyMediaPickerUI/BUILD": "original_video_mode/Guard11.inc",
+    "submodules/SSignalKit/SwiftSignalKit/Source/Atomic.swift": "original_video_mode/Guard12.inc",
+    "submodules/SSignalKit/SwiftSignalKit/Source/Disposable.swift": "original_video_mode/Guard13.inc",
+    "submodules/SSignalKit/SwiftSignalKit/Source/Subscriber.swift": "original_video_mode/Guard14.inc",
+    "submodules/SSignalKit/SwiftSignalKit/Source/Signal.swift": "original_video_mode/Guard15.inc",
+    "submodules/SSignalKit/SwiftSignalKit/Source/Queue.swift": "original_video_mode/Guard16.inc",
+    "submodules/SSignalKit/SwiftSignalKit/Source/Signal_Dispatch.swift": "original_video_mode/Guard17.inc",
+    "submodules/SSignalKit/SwiftSignalKit/Source/Signal_Meta.swift": "original_video_mode/Guard18.inc",
+    "submodules/SSignalKit/SwiftSignalKit/Source/Signal_Mapping.swift": "original_video_mode/Guard19.inc",
+    "submodules/SSignalKit/SwiftSignalKit/Source/Signal_Catch.swift": "original_video_mode/Guard20.inc",
+    "submodules/SSignalKit/SwiftSignalKit/Source/Signal_Take.swift": "original_video_mode/Guard21.inc",
+    "submodules/SSignalKit/SwiftSignalKit/Source/Signal_Single.swift": "original_video_mode/Guard22.inc",
+    "submodules/SSignalKit/SwiftSignalKit/Source/Signal_Combine.swift": "original_video_mode/Guard23.inc"
+  },
+  "copies": {
+    "submodules/TelegramUI/Components/ChatMediaSend/Sources/NagramiXOriginalVideoSend.swift": {
+      "source": "original_video_mode/NagramiXOriginalVideoSend.inc",
+      "sha256": "68aeb2c4d16943ebf3df30571509b59b1e733b1c10d55a7eea2433b737e3a820"
+    }
+  },
+  "deletions": {},
+  "native_inputs": {
+    "submodules/TelegramUI/Components/ChatMediaSend/Sources/ChatMediaSendRender.swift": "dae033d53acacb1d6b96c10ffb8ab9f13f91b621"
+  },
+  "native_guards": {},
+  "templates": {
+    "original_video_mode/Before0.inc": "0c2eef2f49334d5c33fa5cbee4d430ed839430a3d56af5d4b873ad6d1f826301",
+    "original_video_mode/After0.inc": "258e1f52764e2c4cbac4bbfd7f6dd3b966dbb2ce5ebb90c940e051ff9f90f677",
+    "original_video_mode/Before1.inc": "bbd4afc2d3f31881e45f3fbdb03081ea776aad151c60c87a625fafd6093551ab",
+    "original_video_mode/After1.inc": "1ad3a68e0f45bc89a9585e257197e35a5f5f17482100a2b4eccf195cf401bca3",
+    "original_video_mode/Before2.inc": "d78290e5b4e5f61c4f1f70e2bd89ead0b3540db37d502a1e610c40957b971a9b",
+    "original_video_mode/After2.inc": "4f8ebcaaff2ab8048c7c0d13a2ea1eb22d9139ded015fec6d2e66044f5649dbd",
+    "original_video_mode/NagramiXOriginalVideoSend.inc": "68aeb2c4d16943ebf3df30571509b59b1e733b1c10d55a7eea2433b737e3a820",
+    "original_video_mode/Guard0.inc": "611a293e6b2d9f6c66c1747d4658556f891180851a256f954734079bc8b85706",
+    "original_video_mode/Guard1.inc": "61be59ec4f23c1cdbea46fdda99b5bbc82d0cbc84f7170b47f03168468291510",
+    "original_video_mode/Guard2.inc": "536302b3bf622727c63060e7163037753bf29da17c4f1b472e615f10f254c5ad",
+    "original_video_mode/Guard3.inc": "28fa2fab87359a9fbcafa838df952e7b65defab1e0fcf790a70972db033c0022",
+    "original_video_mode/Guard4.inc": "9c0fc1bd916c592f2673414a253b806fa95d3dd01a935be7d299657b8e7735a0",
+    "original_video_mode/Guard5.inc": "12afc45519253321d2fea24b5bd496ce7615deddfa063532fbcc2e50c3edc4d2",
+    "original_video_mode/Guard6.inc": "0bbd969f903181cb1f3caa2d43aefae3a46965dd670dde1a8c3cbced2335275f",
+    "original_video_mode/Guard7.inc": "083253dd17992220fe47c883d1c0686fea165a717703eec0b9f0860ab21ed65f",
+    "original_video_mode/Guard8.inc": "18f26335bab2ce97a5ec4b04959d7433cbb292a198d860425489ec5322e42e8c",
+    "original_video_mode/Guard9.inc": "d0073bd5e17ef01a103f706fc2ffddc7f5de81c00699fd4f544855f10a5e2b53",
+    "original_video_mode/Guard10.inc": "ee17c3a1186dcf23b2a9bdf78a0e09aba30be13f46860f63eee1bf3e009f5bd1",
+    "original_video_mode/Guard11.inc": "0e41b1faa7345442012534458c31b87566f71e17ee007e921b2c76ffd0a2d3d0",
+    "original_video_mode/Guard12.inc": "ad76eb0a708bdf77301d7d11787a06f33029c67412e6485616534c4faf2e8a9d",
+    "original_video_mode/Guard13.inc": "60e53d9fa32a1b1ba47897467077cf22fcdc0458c20b646a35c75fb76484209b",
+    "original_video_mode/Guard14.inc": "eb28ad26bda8b4a8ff1aad73b949d4c3d24132db3aebdd1f5a4c67a5962718ee",
+    "original_video_mode/Guard15.inc": "c1fee825012eace4710eab53f32faa1d49efe38b01e7ad709054f26695494cb6",
+    "original_video_mode/Guard16.inc": "ac7db4cdf6b9728f0936bf35998cee3f6b8d7824abbc07e71e679e068315b31b",
+    "original_video_mode/Guard17.inc": "136f325211fca4cf75d193a3f273d092a32ed9304c3442095b707c6b1639fc38",
+    "original_video_mode/Guard18.inc": "26b5a93e32c3bc35a5234d3b7c03ed1cd9cea271abc43b34d1b475e1f3655c9f",
+    "original_video_mode/Guard19.inc": "4740a3a616679ad0f65c6341a0498bf42e120dcaddd2c281694188b47e075017",
+    "original_video_mode/Guard20.inc": "da304f997aa514dffd836987562da5f377e2a30471be1de187f8983b826079b9",
+    "original_video_mode/Guard21.inc": "f7edb85f3327c4263c6f9ebe9f4e9339661eaebf85ab062acb92faf0f3bce999",
+    "original_video_mode/Guard22.inc": "3e9edb07a7c0031f2098bbbb7ee06105e9c3c36c3b77ab7de9af79928320d2e9",
+    "original_video_mode/Guard23.inc": "994f52d6459d2251a2880f7d0827f853e74c4bd20ab7896386f4152215723450"
+  }
+}
