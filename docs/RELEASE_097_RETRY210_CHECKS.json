@@ -1,0 +1,81 @@
+{
+  "run": 210,
+  "run_id": 43498293300,
+  "failure": "Apple Swift never-mutated local weak diagnostics with warnings-as-errors",
+  "fixed_file": "scripts/selection_scroll_continuity_runtime.py",
+  "application_source_changed": false,
+  "fix": "Weak property observer replaces local weak variable; original positive and both lifetime negatives retained",
+  "compiler": "Swift version 6.1.2 (swift-6.1.2-RELEASE)\nTarget: x86_64-unknown-linux-gnu",
+  "projection": {
+    "written": 539,
+    "pinned_native_dependencies": 6,
+    "unused_unavailable_native_guards": 103
+  },
+  "executions": [
+    {
+      "name": "checked-weak-lifetime",
+      "mode": "debug",
+      "exit_code": 0,
+      "output": "single-touch message selection: 4841 production checks passed\nVisual checkbox column production checks: 1134\nVideo held-edge selection checks: 52"
+    },
+    {
+      "name": "checked-weak-lifetime",
+      "mode": "optimized",
+      "exit_code": 0,
+      "output": "single-touch message selection: 4841 production checks passed\nVisual checkbox column production checks: 1134\nVideo held-edge selection checks: 52"
+    },
+    {
+      "name": "original68-cache-lifetime",
+      "mode": "debug",
+      "exit_code": 96,
+      "output": "single-touch message selection: 4841 production checks passed\nVisual checkbox column production checks: 1134\nFAILED: video: cached snapshot stays alive across skipped display update"
+    },
+    {
+      "name": "original68-cache-lifetime",
+      "mode": "optimized",
+      "exit_code": 96,
+      "output": "single-touch message selection: 4841 production checks passed\nVisual checkbox column production checks: 1134\nFAILED: video: cached snapshot stays alive across skipped display update"
+    },
+    {
+      "name": "no-stationary-update",
+      "mode": "debug",
+      "exit_code": 96,
+      "output": "FAILED: stationary finger selects newly loaded rows"
+    },
+    {
+      "name": "no-stationary-update",
+      "mode": "optimized",
+      "exit_code": 96,
+      "output": "FAILED: stationary finger selects newly loaded rows"
+    },
+    {
+      "name": "retain-after-release",
+      "mode": "debug",
+      "exit_code": 96,
+      "output": "single-touch message selection: 4841 production checks passed\nVisual checkbox column production checks: 1134\nFAILED: video: cached snapshot releases when gesture ends"
+    },
+    {
+      "name": "retain-after-release",
+      "mode": "optimized",
+      "exit_code": 96,
+      "output": "single-touch message selection: 4841 production checks passed\nVisual checkbox column production checks: 1134\nFAILED: video: cached snapshot releases when gesture ends"
+    }
+  ],
+  "warnings_as_errors": true,
+  "apple_recheck": "pending in next full Actions run",
+  "full_application_sdk": "pending",
+  "device": "pending",
+  "full_job_log_lines": 1375,
+  "full_job_log_sha256": "ff8e4defbd83ccb74503ecd5a6cb693e340a3db559986b561d9506f9e60359f8",
+  "source73_manifest_reverified": "71354ef15a8208cfc2b4dd026f3cc327b11a2874034bc09d15481fd0cbcae089",
+  "additional_checks": [
+    "build inputs +8negative tests",
+    "final members7333Swift",
+    "metadata",
+    "clean mode4combinations",
+    "mandatory/optional workflow gates",
+    "upstream current",
+    "complete diff check"
+  ],
+  "local_command_name_correction": "Two mistyped validator filenames returned missing-file; actual validate_release_build_mode.py and validate_patch_validation_mode.py were then executed successfully."
+}

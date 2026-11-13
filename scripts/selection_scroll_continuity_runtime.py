@@ -12,6 +12,12 @@ def fixture(source):
 CHECKS = r'''
 
     static func checkVideoAutoScroll() {
+        // A property keeps the lifetime observation weak on old and new Swift.
+        // Newer Apple Swift diagnoses never-reassigned local weak variables.
+        final class WeakHistoryViewProbe {
+            weak var value: MessageHistoryView?
+            init(_ value: MessageHistoryView?) { self.value = value }
+        }
         let initialChecks=checks
         for nestedHost in [false,true] { for checked in [false,true] {
             let h=HistoryHarness();h.rotated=true
@@ -53,9 +59,9 @@ CHECKS = r'''
             display.update()
             expect(h.listView.scrolls.count == 1 && h.listView.scrolls[0].0 == .up && h.listView.scrolls[0].1 > 0 && h.listView.scrolls[0].1 <= 15,"video: rotated screen-bottom uses correct backend scroll direction")
             expect(h.controllerInteraction.selectionState?.selectedIds == [1,2,3,4,90],"video: stationary held finger selects newly loaded row")
-            weak var cachedView=h.historyView?.originalView
+            let cachedView=WeakHistoryViewProbe(h.historyView?.originalView)
             display.update()
-            expect(cachedView != nil,"video: cached snapshot stays alive across skipped display update")
+            expect(cachedView.value != nil,"video: cached snapshot stays alive across skipped display update")
             display.update()
             expect(h.controllerInteraction.selectionState?.selectedIds == [1,2,3,4,5,6,90],"video: repeated scrolling includes rows between display updates")
             h.listView.onScroll=nil;h.listView.nodes=original
@@ -65,10 +71,10 @@ CHECKS = r'''
             expect(display.isPaused,"video: leaving edge pauses auto-scroll")
             r.point=point(400);h.nagramiXSingleSelectionPan(r)
             expect(h.controllerInteraction.selectionState?.selectedIds == [1,90],"video: return to anchor preserves prior checks")
-            weak var finalCachedView=h.historyView?.originalView
+            let finalCachedView=WeakHistoryViewProbe(h.historyView?.originalView)
             h.historyView=nil
             r.state = .ended;h.nagramiXSingleSelectionPan(r)
-            expect(finalCachedView == nil,"video: cached snapshot releases when gesture ends")
+            expect(finalCachedView.value == nil,"video: cached snapshot releases when gesture ends")
             expect(h.nagramiXSingleSelection == nil && h.selectionScrollDisplayLink == nil && h.selectionScrollActivationTimer == nil,"video: release clears scrolling and gesture state")
         }}
         print("Video held-edge selection checks: \(checks-initialChecks)")
