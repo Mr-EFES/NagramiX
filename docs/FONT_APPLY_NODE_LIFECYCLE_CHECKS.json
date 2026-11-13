@@ -1,0 +1,509 @@
+{
+  "crash_report": "4f91ed986784",
+  "affected_release": "0.9.6/build208",
+  "source_commit_of_crash": "d0f03f9027899c1cc65ae8037893eab3e7070195",
+  "binary_uuid": "54E70D05-ECC9-3127-894E-62E42D7ADF4A",
+  "crash_zip_sha256": "a543a3f7e56ee0e7e73d8776c53b42659aca205c9dd552112be1c2c5bf1e59a3",
+  "symbol_artifact": {
+    "id": 14011892267,
+    "sha256": "1965e6f97352fb7e50462f7d1f22ec2390f99d440d6b282bf04d97f26ddd8a38",
+    "matching_uuid_verified": true
+  },
+  "crashed_main_thread_symbols": [
+    {
+      "offset": 14033908,
+      "symbol_address": 14033708,
+      "delta": 200,
+      "mangled": "_$s10SettingsUI21NagramiXFontApplyNode33_061544F4F26CE64E4BFD5DACC27E755ALLC6buttonADSo8UIButtonC_tcfc",
+      "function": "SettingsUI.(NagramiXFontApplyNode in _061544F4F26CE64E4BFD5DACC27E755A).init(button: __C.UIButton) -> SettingsUI.(NagramiXFontApplyNode in _061544F4F26CE64E4BFD5DACC27E755A)"
+    },
+    {
+      "offset": 14034120,
+      "symbol_address": 14034080,
+      "delta": 40,
+      "mangled": "_$s10SettingsUI21NagramiXFontApplyNode33_061544F4F26CE64E4BFD5DACC27E755ALLCADycfc",
+      "function": "SettingsUI.(NagramiXFontApplyNode in _061544F4F26CE64E4BFD5DACC27E755A).init() -> SettingsUI.(NagramiXFontApplyNode in _061544F4F26CE64E4BFD5DACC27E755A)"
+    },
+    {
+      "offset": 14034144,
+      "symbol_address": 14034124,
+      "delta": 20,
+      "mangled": "_$s10SettingsUI21NagramiXFontApplyNode33_061544F4F26CE64E4BFD5DACC27E755ALLCADycfcTo",
+      "function": "@objc SettingsUI.(NagramiXFontApplyNode in _061544F4F26CE64E4BFD5DACC27E755A).init() -> SettingsUI.(NagramiXFontApplyNode in _061544F4F26CE64E4BFD5DACC27E755A)"
+    },
+    {
+      "offset": 14040636,
+      "symbol_address": 14039168,
+      "delta": 1468,
+      "mangled": "_$s10SettingsUI23NagramiXFontsControllerC7contextAC14AccountContextAE_p_tcfc",
+      "function": "SettingsUI.NagramiXFontsController.init(context: AccountContext.AccountContext) -> SettingsUI.NagramiXFontsController"
+    },
+    {
+      "offset": 52350628,
+      "symbol_address": 52350536,
+      "delta": 92,
+      "mangled": "_$s10ItemListUI0ab10DisclosureA0C8selected8listViewy7Display0bG0_p_tF",
+      "function": "ItemListUI.ItemListDisclosureItem.selected(listView: Display.ListView) -> ()"
+    },
+    {
+      "offset": 89017460,
+      "symbol_address": 89017400,
+      "delta": 60,
+      "mangled": "-[ASDisplayNode initWithViewBlock:didLoadBlock:]",
+      "function": "-[ASDisplayNode initWithViewBlock:didLoadBlock:]"
+    }
+  ],
+  "symbolication_scope": "Exact Mach-O LC_UUID and nlist64 function lookup, Swift demangling; no DWARF source-line claim.",
+  "cause": "Objective-C ASDisplayNode view-block designated initializer dynamically sends [self init]. Swift NagramiXFontApplyNode has init(button:) and unimplemented no-argument init(). This matches the exact208 SIGTRAP stack.",
+  "fix": "Use super.init() followed by native setViewBlock({button}), like native TextFieldNode. Keep same UIButton/view, sizing, actions and complete font-screen behavior.",
+  "source": {
+    "stage": 64,
+    "name": "font_apply_node_lifecycle",
+    "path": "/tmp/nagramix-font-apply-lifecycle/source",
+    "manifest_sha256": "0e4c99c26ba086920080ef99d2096886fab6cd98c6690feb47b8512dee93e7f1",
+    "previous_manifest_sha256": "93cc510de32754940c7c479bb68c2781077be30ec684b5bcf6dc3b9b40f0c633",
+    "files": 37690,
+    "symlinks": 26,
+    "modified_runtime_paths": [
+      "submodules/SettingsUI/Sources/NagramiXFontsController.swift"
+    ],
+    "guards": 7,
+    "new_inc": 9,
+    "old_inc_unchanged": 4357,
+    "historical_manifests_verified": 21
+  },
+  "feature": {
+    "stage": "font_apply_node_lifecycle",
+    "loader_refusals": 12,
+    "executions": [
+      {
+        "name": "font-preview-final64",
+        "mode": "debug",
+        "exit_code": 0,
+        "output": "Font preview production checks: 5407"
+      },
+      {
+        "name": "font-preview-final64",
+        "mode": "optimized",
+        "exit_code": 0,
+        "output": "Font preview production checks: 5407"
+      },
+      {
+        "name": "font-resolver-final64",
+        "mode": "debug",
+        "exit_code": 0,
+        "output": "App font selection checks: 58"
+      },
+      {
+        "name": "font-resolver-final64",
+        "mode": "optimized",
+        "exit_code": 0,
+        "output": "App font selection checks: 58"
+      },
+      {
+        "name": "row-immediate-save",
+        "mode": "debug",
+        "exit_code": 96,
+        "output": "Font preview regression: row selection never persists or notifies"
+      },
+      {
+        "name": "row-immediate-save",
+        "mode": "optimized",
+        "exit_code": 96,
+        "output": "Font preview regression: row selection never persists or notifies"
+      },
+      {
+        "name": "apply-does-not-save",
+        "mode": "debug",
+        "exit_code": 96,
+        "output": "Font preview regression: Apply persists once"
+      },
+      {
+        "name": "apply-does-not-save",
+        "mode": "optimized",
+        "exit_code": 96,
+        "output": "Font preview regression: Apply persists once"
+      },
+      {
+        "name": "external-overwrites-draft",
+        "mode": "debug",
+        "exit_code": 96,
+        "output": "Font preview regression: external change keeps pending candidate"
+      },
+      {
+        "name": "external-overwrites-draft",
+        "mode": "optimized",
+        "exit_code": 96,
+        "output": "Font preview regression: external change keeps pending candidate"
+      },
+      {
+        "name": "lost-legal-content",
+        "mode": "debug",
+        "exit_code": 96,
+        "output": "Font preview regression: every original legal word retained in order"
+      },
+      {
+        "name": "lost-legal-content",
+        "mode": "optimized",
+        "exit_code": 96,
+        "output": "Font preview regression: every original legal word retained in order"
+      },
+      {
+        "name": "no-accessibility-scroll",
+        "mode": "debug",
+        "exit_code": 96,
+        "output": "Font preview regression: font list remains accessible"
+      },
+      {
+        "name": "no-accessibility-scroll",
+        "mode": "optimized",
+        "exit_code": 96,
+        "output": "Font preview regression: font list remains accessible"
+      }
+    ],
+    "node": {
+      "native_headers": "guarded actual Texture declarations; final64 avoids ObjC dynamic self-init in view-block initializer",
+      "source_contract": {
+        "source_ui_sha256": "af3c99c6ae6b0c9fda005884429d66507f82fd514135d8dce9cea8d9f144e108",
+        "sdk_ui_sha256": "af3c99c6ae6b0c9fda005884429d66507f82fd514135d8dce9cea8d9f144e108",
+        "late_stage": 64,
+        "historical_runtime": "original52/63 source and runtime checkpoints remain exact; native gate checks final64 default initialization and view factory"
+      },
+      "node_sizing_and_navigation_visibility": [
+        {
+          "mode": "debug",
+          "checks": 6,
+          "result": "passed"
+        },
+        {
+          "mode": "optimized",
+          "checks": 6,
+          "result": "passed"
+        }
+      ],
+      "production_uses_default_initializer_and_native_view_factory": true,
+      "original208_initializer_route": [
+        {
+          "mode": "debug",
+          "expected": "initializer-route regression rejected",
+          "verified": true
+        },
+        {
+          "mode": "optimized",
+          "expected": "initializer-route regression rejected",
+          "verified": true
+        }
+      ],
+      "objc_constructor_runtime": {
+        "status": "not_run",
+        "native_implementation_guards": "passed",
+        "reason": "Mixed Swift/Objective-C Foundation runtime requires macOS; Linux model is only a constructor-route/identity/size boundary. Device208 matching-dSYM crash independently proves old default-init redispatch."
+      },
+      "original207_initializer_label": "rejected",
+      "actual_objc_initializer": {
+        "status": "not_run",
+        "reason": "Actual Objective-C importer/UIKit requires Apple; pure Swift model separately checks labels"
+      },
+      "real_uikit": "separate mandatory complete font screen Apple precheck; Objective-C initializer runtime gate separately reproduces original208 on macOS"
+    },
+    "navigation": {
+      "native_signature": "func updatePresentationData(_ presentationData: NavigationBarPresentationData, transition: ContainedViewLayoutTransition)",
+      "actual_caller": "self.navigationBar?.updatePresentationData(NavigationBarPresentationData(presentationData: value), transition: .immediate)",
+      "checks": [
+        {
+          "name": "current",
+          "expected_result": "passed",
+          "verified": true
+        },
+        {
+          "name": "sdk199-missing-transition",
+          "expected_result": "rejected",
+          "verified": true
+        },
+        {
+          "name": "wrong-transition-label",
+          "expected_result": "rejected",
+          "verified": true
+        }
+      ]
+    },
+    "public_access": [
+      {
+        "name": "public-types",
+        "expected_result": "passed",
+        "verified": true
+      },
+      {
+        "name": "internal-layout",
+        "expected_result": "rejected",
+        "verified": true
+      },
+      {
+        "name": "internal-transition",
+        "expected_result": "rejected",
+        "verified": true
+      }
+    ],
+    "complete_screen_uikit": {
+      "status": "not_run",
+      "reason": "Apple UIKit SDK unavailable on Linux"
+    },
+    "source_unchanged_by_checks": true,
+    "contract": "Default superclass initialization followed by native setViewBlock avoids dynamic self-init observed in exact208 dSYM. Original button/view identity, sizing/navigation visibility, draft/apply/preview/catalogues/licenses/theme retained. Historical source bytes exact; native gates select final64 for known SHA. Original207 compile regression and original208 constructor-route regression remain mandatory; actual mixed Swift/ObjC constructor runtime runs on Apple only.",
+    "full_application_sdk": "pending",
+    "device": "pending"
+  },
+  "early": {
+    "complete_fixtures": 27,
+    "executions": 54,
+    "all_exit_zero": true,
+    "first_font_node": {
+      "native_headers": "guarded actual Texture declarations; final64 avoids ObjC dynamic self-init in view-block initializer",
+      "source_contract": {
+        "source_ui_sha256": "af3c99c6ae6b0c9fda005884429d66507f82fd514135d8dce9cea8d9f144e108",
+        "sdk_ui_sha256": "af3c99c6ae6b0c9fda005884429d66507f82fd514135d8dce9cea8d9f144e108",
+        "late_stage": 64,
+        "historical_runtime": "original52/63 source and runtime checkpoints remain exact; native gate checks final64 default initialization and view factory"
+      },
+      "node_sizing_and_navigation_visibility": [
+        {
+          "mode": "debug",
+          "checks": 6,
+          "result": "passed"
+        },
+        {
+          "mode": "optimized",
+          "checks": 6,
+          "result": "passed"
+        }
+      ],
+      "production_uses_default_initializer_and_native_view_factory": true,
+      "original208_initializer_route": [
+        {
+          "mode": "debug",
+          "expected": "initializer-route regression rejected",
+          "verified": true
+        },
+        {
+          "mode": "optimized",
+          "expected": "initializer-route regression rejected",
+          "verified": true
+        }
+      ],
+      "objc_constructor_runtime": {
+        "status": "not_run",
+        "native_implementation_guards": "passed",
+        "reason": "Mixed Swift/Objective-C Foundation runtime requires macOS; Linux model is only a constructor-route/identity/size boundary. Device208 matching-dSYM crash independently proves old default-init redispatch."
+      },
+      "original207_initializer_label": "rejected",
+      "actual_objc_initializer": {
+        "status": "not_run",
+        "reason": "Actual Objective-C importer/UIKit requires Apple; pure Swift model separately checks labels"
+      },
+      "real_uikit": "separate mandatory complete font screen Apple precheck; Objective-C initializer runtime gate separately reproduces original208 on macOS"
+    },
+    "warnings_as_errors": true,
+    "projection_cleanup": "completed checkpoints removed; native framework checkpoints recreated one at a time with identical pinned projection metadata; final64 default initializer/view factory with mixed ObjC runtime first, native RPC/IUO/calendar/clipboard gates retained"
+  },
+  "upstream": {
+    "target_pin": "24638bc69bd083981b178dd1e7f921eebbf7fc46",
+    "pre_replacements": 196,
+    "post_replacements": 274,
+    "deleted_obsolete_files": 2,
+    "fail_closed": {
+      "pre": 17,
+      "post": 33
+    },
+    "parsed_swift": 635,
+    "executions": [
+      "current-debug: PiP playback command checks: 113",
+      "current-O: PiP playback command checks: 113",
+      "previous-native-debug: Native PiP baseline checks: 37",
+      "previous-native-O: Native PiP baseline checks: 37",
+      "previous-caption-debug: Round caption transport checks: 118",
+      "previous-caption-O: Round caption transport checks: 118",
+      "previous-composer-debug: Repost copy integrity checks: 48",
+      "previous-composer-O: Repost copy integrity checks: 48",
+      "old-toggle-command-debug: regression reproduced and rejected",
+      "old-toggle-command-O: regression reproduced and rejected",
+      "cached-status-toggle-debug: regression reproduced and rejected",
+      "cached-status-toggle-O: regression reproduced and rejected",
+      "inverted-command-debug: regression reproduced and rejected",
+      "inverted-command-O: regression reproduced and rejected"
+    ],
+    "historical_runtime_boundary": "exact published bytes after verified inverse of all registered late source stages",
+    "late_source_stages": [
+      "wide_bottom_bar",
+      "author_selection_no_restore",
+      "preview_reply_intent",
+      "cloud_credential_entry",
+      "extended_poll_integrity",
+      "bot_delete_without_block",
+      "wide_tab_bar_setting",
+      "pip_swipe_handoff",
+      "temporary_message_interaction",
+      "account_settings_entry",
+      "release_090_preflight_fixes",
+      "release_090_author_compile",
+      "round_video_replay_stability",
+      "pip_gallery_placeholder",
+      "download_sheet_edge",
+      "edit_history_cards",
+      "copy_reference_recovery",
+      "edit_history_number_badges",
+      "pip_visual_continuity",
+      "local_copy_delivery",
+      "temporary_playback_identity",
+      "round_video_editor",
+      "proxy_doh_editor",
+      "download_sheet_corners",
+      "hide_premium_offers",
+      "content_interaction_consent",
+      "release_092_settings_compile",
+      "round_native_playback",
+      "poll_copy_transport",
+      "premium_label_cleanup",
+      "premium_label_spelling",
+      "pip_backdrop_stability",
+      "private_temporary_transcription",
+      "ghostgram_authorless_transport",
+      "round_replacement_geometry",
+      "download_sheet_vector_contour",
+      "bubble_selection_edge",
+      "composer_file_attachments",
+      "archived_round_native_controls",
+      "transcription_account_defaults",
+      "app_font_selection",
+      "web_video_picture_in_picture",
+      "temporary_expiration_semantics",
+      "release_095_fonts_compile",
+      "release_095_composer_strings_compile",
+      "wide_channel_post_consistency",
+      "font_theme_contrast",
+      "system_web_picture_in_picture",
+      "wide_panel_consistency",
+      "settings_section_header_case",
+      "premium_temporary_transcription",
+      "font_preview_apply",
+      "edit_result_consistency",
+      "youtube_playback_policy",
+      "input_effects",
+      "snowfall",
+      "snowfall_holidays",
+      "local_read_label",
+      "composer_copy_integrity",
+      "single_touch_message_selection",
+      "release_096_calendar_compatibility",
+      "release_096_transcription_compatibility",
+      "release_096_font_node_compatibility",
+      "font_apply_node_lifecycle"
+    ],
+    "native_postbox_imports": "passed",
+    "apple_sdk": "pending",
+    "device": "pending"
+  },
+  "inverse": {
+    "late_source_stages": 64,
+    "published_contract_paths": 862,
+    "actual_published_pipeline_compared": false,
+    "full_source_files_preserved": 37690,
+    "introduced_helpers_absent_from_history": 36,
+    "pre_ninth_checkpoint_verified": true,
+    "pre_tenth_checkpoint_verified": true,
+    "pre_eleventh_checkpoint_verified": true,
+    "pre_eleventh_inputs_restored": 2,
+    "negative_projection_verified_before_mutation": true,
+    "fail_closed": 339,
+    "sdk": "not_run",
+    "device": "pending"
+  },
+  "full_custom_members": {
+    "swift_files": 7332,
+    "string_accesses": 898,
+    "distinct_string_members": 233,
+    "actual_string_declarations": 250,
+    "custom_declarations": 997,
+    "full_custom_name_audit": true,
+    "literal_parser_contract": {
+      "accepted_literals_and_comments": 8,
+      "missing_real_members_rejected": 7,
+      "unterminated_literal_rejected": true,
+      "interpolations_preserved": true
+    }
+  },
+  "canonical_custom_members": {
+    "swift_files": 254,
+    "string_accesses": 840,
+    "distinct_string_members": 231,
+    "actual_string_declarations": 250,
+    "custom_declarations": 884,
+    "full_custom_name_audit": false,
+    "literal_parser_contract": {
+      "accepted_literals_and_comments": 8,
+      "missing_real_members_rejected": 7,
+      "unterminated_literal_rejected": true,
+      "interpolations_preserved": true
+    }
+  },
+  "native_strings": {
+    "swift_files": 7332,
+    "native_generated_members": 12190,
+    "native_string_uses": 18587,
+    "distinct_native_members": 10392,
+    "proven_other_typed_owner_reads": 8,
+    "sdk200_mutation_rejected": true,
+    "apple_actual_generated_header": {
+      "status": "not_run",
+      "reason": "Real Objective-C/Apple SDK import requires macOS and swiftc"
+    },
+    "boundary": "Actual native GenerateStrings.py, build rule and final English catalog; generated member existence through strings/namedStrings receivers. Other typed owners need source declaration evidence. Full Swift call arity/type checking and app runtime still require SDK/device."
+  },
+  "strict_localization": [
+    "PASS: 124 файлов настроек/debug/NagramiX; 651 обращений к локализации; новых raw UI-строк нет.",
+    "PASS: текущая композиция — 71 языков по 668 ключей.",
+    "PASS: 24 заголовков категорий в едином верхнем регистре.",
+    "47597 localization runtime checks passed; 71 real catalogs plus explicit routing fixtures; UIKit/SDK not exercised.",
+    "47597 localization runtime checks passed; 71 real catalogs plus explicit routing fixtures; UIKit/SDK not exercised."
+  ],
+  "local_storage_recovery": {
+    "first_early_attempt": "Errno28 after the full fixture loop, while four historical projections were retained. Final early check recreates each pinned native-check projection one at a time and asserts identical metadata.",
+    "first_localization_attempt": "Errno28 materializing five nested historical copies on /tmp. Same unchanged strict validator passed with only TemporaryDirectory allocation balanced between /tmp and writable workspace.",
+    "allocations": [
+      {
+        "prefix": "nagramix-late-source-prior-",
+        "root": "/tmp",
+        "free_bytes_before": 229736448
+      },
+      {
+        "prefix": "nagramix-late-source-prior-",
+        "root": "/tmp",
+        "free_bytes_before": 179404800
+      },
+      {
+        "prefix": "nagramix-late-source-prior-",
+        "root": "/tmp",
+        "free_bytes_before": 129134592
+      },
+      {
+        "prefix": "nagramix-late-source-prior-",
+        "root": "/workspace/.codex-font-apply-lifecycle-tmp",
+        "free_bytes_before": 116101120
+      },
+      {
+        "prefix": "nagramix-late-source-prior-",
+        "root": "/tmp",
+        "free_bytes_before": 78938112
+      },
+      {
+        "prefix": "nagramix-language-runtime-",
+        "root": "/tmp",
+        "free_bytes_before": 229736448
+      }
+    ],
+    "original_actions_zips_dsym_and_remote_releases": "preserved"
+  },
+  "new_apple_sdk": "not_run; no new IPA/Actions requested for this source fix",
+  "new_mixed_objc_runtime": "not_run on Linux; mandatory first Apple gate copies native initializer/setter bodies, executes fixed constructor and reproduces original208 trap on macOS",
+  "physical_iphone_after_fix": "pending",
+  "status": "source_checked/native_compile_pending/device_pending"
+}

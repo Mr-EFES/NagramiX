@@ -1,0 +1,50 @@
+{
+  "target_pin": "24638bc69bd083981b178dd1e7f921eebbf7fc46",
+  "overlay_base_pin": "279f89e4d4f63f17227bf877dc3d8990f22ecd58",
+  "required_previous_stage": "release_096_font_node_compatibility",
+  "inputs": {
+    "submodules/SettingsUI/Sources/NagramiXFontsController.swift": "441dbe4417c4f0c961494429da99a79420b76f4a176d98bada797f48cfe956b8"
+  },
+  "outputs": {
+    "submodules/SettingsUI/Sources/NagramiXFontsController.swift": "af3c99c6ae6b0c9fda005884429d66507f82fd514135d8dce9cea8d9f144e108"
+  },
+  "previous": {
+    "submodules/SettingsUI/Sources/NagramiXFontsController.swift": "font_apply_node_lifecycle/Before0.inc"
+  },
+  "replacements": {
+    "submodules/SettingsUI/Sources/NagramiXFontsController.swift": "font_apply_node_lifecycle/After0.inc"
+  },
+  "guards": {
+    "submodules/AsyncDisplayKit/Source/ASDisplayNode.mm": "a72039412ab3fc5e1efbc35636b26bb973ad095708872448a50d13c3329b4921",
+    "submodules/Display/Source/TextFieldNode.swift": "ed6a908e2637ce5742a3efea6f7713b236a013590a1416afdad1750368ab66c6",
+    "submodules/AsyncDisplayKit/Source/PublicHeaders/AsyncDisplayKit/ASDisplayNode.h": "d33ca23e85806dcc827de767c01cf17a7db0c36306a1aae18d60b1189791d834",
+    "submodules/AsyncDisplayKit/Source/PublicHeaders/AsyncDisplayKit/ASDisplayNode+Subclasses.h": "72d400bb022f59a06b1c62e0180fe0bcc10c006a0ec90099f3b8b34c7100b1bf",
+    "submodules/TelegramUI/Components/NavigationBarNode/Sources/NavigationBarItemContent.swift": "b3c1d12aa12624d2ee65321e3ac1da83c45390b3ec999bbd4359cf8e326c8a4a",
+    "submodules/NagramiXMediaSettings/Sources/NagramiXFontSettings.swift": "d60ee84ffc499869e0f455610f758861d48705b87dc027b69df2ea95c82a0814",
+    "submodules/Display/Source/NagramiXFontManager.swift": "99c6e6f5a5c412f840ef19a1a6c8ed327edfa4a55420654923d8585622a0e751"
+  },
+  "guard_sources": {
+    "submodules/AsyncDisplayKit/Source/ASDisplayNode.mm": "font_apply_node_lifecycle/Guard0.inc",
+    "submodules/Display/Source/TextFieldNode.swift": "font_apply_node_lifecycle/Guard1.inc",
+    "submodules/AsyncDisplayKit/Source/PublicHeaders/AsyncDisplayKit/ASDisplayNode.h": "font_apply_node_lifecycle/Guard2.inc",
+    "submodules/AsyncDisplayKit/Source/PublicHeaders/AsyncDisplayKit/ASDisplayNode+Subclasses.h": "font_apply_node_lifecycle/Guard3.inc",
+    "submodules/TelegramUI/Components/NavigationBarNode/Sources/NavigationBarItemContent.swift": "font_apply_node_lifecycle/Guard4.inc",
+    "submodules/NagramiXMediaSettings/Sources/NagramiXFontSettings.swift": "font_apply_node_lifecycle/Guard5.inc",
+    "submodules/Display/Source/NagramiXFontManager.swift": "font_apply_node_lifecycle/Guard6.inc"
+  },
+  "copies": {},
+  "deletions": {},
+  "native_inputs": {},
+  "native_guards": {},
+  "templates": {
+    "font_apply_node_lifecycle/Before0.inc": "441dbe4417c4f0c961494429da99a79420b76f4a176d98bada797f48cfe956b8",
+    "font_apply_node_lifecycle/After0.inc": "af3c99c6ae6b0c9fda005884429d66507f82fd514135d8dce9cea8d9f144e108",
+    "font_apply_node_lifecycle/Guard0.inc": "a72039412ab3fc5e1efbc35636b26bb973ad095708872448a50d13c3329b4921",
+    "font_apply_node_lifecycle/Guard1.inc": "ed6a908e2637ce5742a3efea6f7713b236a013590a1416afdad1750368ab66c6",
+    "font_apply_node_lifecycle/Guard2.inc": "d33ca23e85806dcc827de767c01cf17a7db0c36306a1aae18d60b1189791d834",
+    "font_apply_node_lifecycle/Guard3.inc": "72d400bb022f59a06b1c62e0180fe0bcc10c006a0ec90099f3b8b34c7100b1bf",
+    "font_apply_node_lifecycle/Guard4.inc": "b3c1d12aa12624d2ee65321e3ac1da83c45390b3ec999bbd4359cf8e326c8a4a",
+    "font_apply_node_lifecycle/Guard5.inc": "d60ee84ffc499869e0f455610f758861d48705b87dc027b69df2ea95c82a0814",
+    "font_apply_node_lifecycle/Guard6.inc": "99c6e6f5a5c412f840ef19a1a6c8ed327edfa4a55420654923d8585622a0e751"
+  }
+}

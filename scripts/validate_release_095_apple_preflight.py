@@ -69,7 +69,7 @@ def canonical_projection(destination, through_stage):
     else: raise AssertionError('Unknown checkpoint: '+through_stage)
     # Complete application trees are built by the normal guarded overlay.
     # This earlier fixture gate needs only real canonical Swift sources.
-    native_headers = {'submodules/MtProtoKit/PublicHeaders/MtProtoKit/MTRpcError.h'} if through_stage in {'release_096_transcription_compatibility','release_096_font_node_compatibility'} else set()
+    native_headers = {'submodules/MtProtoKit/PublicHeaders/MtProtoKit/MTRpcError.h'} if through_stage in {'release_096_transcription_compatibility','release_096_font_node_compatibility','font_apply_node_lifecycle'} else set()
     expected = {n:sha for n,sha in expected.items() if (n.endswith('.swift') or n in native_headers) and n not in post['deletions']}
     missing = {n:sha for n,sha in expected.items() if n not in sources}
     if missing:
@@ -125,7 +125,7 @@ def main():
         # Check the final calendar at the actual iOS15 target before the large
         # runtime matrix. Stage57 remains an exact historical runtime checkpoint.
         calendar_source=root/'calendar-native-final'
-        files['native_final63']=canonical_projection(calendar_source,'release_096_font_node_compatibility')
+        files['native_final64']=canonical_projection(calendar_source,'font_apply_node_lifecycle')
         initial_font_node=font_node_check(calendar_source,args.swiftc,root)
         rpc_error=rpc_error_check(calendar_source,args.swiftc,root/'rpc-error-native')
         runs+=execute(args.swiftc,root,'nullable-premium-asr',transcription_compatibility.fixture(calendar_source))
@@ -161,11 +161,10 @@ def main():
             for name, build in fixtures: runs += execute(args.swiftc, root, name, build(source))
             if stage == 'single_touch_message_selection':
                 single_selection_apple = single_selection_apple_check(source, args.swiftc, root)
-            # Only these projections are used again by the framework checks below.
-            # Release completed historical projections instead of retaining every checkpoint.
-            if stage not in {'system_web_picture_in_picture', 'youtube_playback_policy', 'input_effects', 'snowfall'}:
-                assert source.resolve().is_relative_to(root.resolve())
-                shutil.rmtree(source)
+            # The framework checks recreate the same pinned checkpoint on demand.
+            # Keep one projection at a time instead of four large dormant copies.
+            assert source.resolve().is_relative_to(root.resolve())
+            shutil.rmtree(source)
         # Stage41 remains an immutable historical checkpoint with SDK199's
         # known invalid call. Only the corrected final screen is a build target.
         stage='font_preview_apply'
@@ -177,16 +176,28 @@ def main():
         apple = apple_check(source, args.swiftc, root)
         icon = icon_check(source, args.swiftc, root)
         theme_members = member_check(source, args.swiftc, root)
-        system_source = root/'system_web_picture_in_picture'
+        shutil.rmtree(source)
+        def replay_projection(stage):
+            destination=root/stage
+            assert not destination.exists()
+            assert canonical_projection(destination,stage)==files[stage]
+            return destination
+        system_source = replay_projection('system_web_picture_in_picture')
         system_js = system_js_check(system_source, root)
         system_apple = system_apple_check(system_source, args.swiftc, root)
-        youtube_source = root/'youtube_playback_policy'
+        shutil.rmtree(system_source)
+        youtube_source = replay_projection('youtube_playback_policy')
         youtube_js = youtube_js_check(youtube_source, root)
         youtube_apple = system_apple_check(youtube_source, args.swiftc, root)
-        input_effects_apple = input_effects_apple_check(root/'input_effects', args.swiftc, root)
-        snowfall_apple = snowfall_apple_check(root/'snowfall', args.swiftc, root)
+        shutil.rmtree(youtube_source)
+        input_source = replay_projection('input_effects')
+        input_effects_apple = input_effects_apple_check(input_source, args.swiftc, root)
+        shutil.rmtree(input_source)
+        snow_source = replay_projection('snowfall')
+        snowfall_apple = snowfall_apple_check(snow_source, args.swiftc, root)
+        shutil.rmtree(snow_source)
     report = {'canonical_swift_files_by_checkpoint':files, 'complete_fixtures':27, 'executions':runs,
-              'font_apply_node_contract':node,'native_navigation_contract':navigation, 'font_adapter_access_contract':access, 'apple_uikit_precheck':apple, 'font_icon_uikit_precheck':icon, 'warnings_as_errors':True, 'historical_projection_cleanup':'completed temporary checkpoints removed; four native-check projections retained; final63 imported Texture initializer first, native RPC/IUO, final61 calendar and clipboard SDK gates retained',
+              'font_apply_node_contract':node,'native_navigation_contract':navigation, 'font_adapter_access_contract':access, 'apple_uikit_precheck':apple, 'font_icon_uikit_precheck':icon, 'warnings_as_errors':True, 'historical_projection_cleanup':'completed checkpoints removed; native framework checkpoints recreated one at a time with identical pinned projection metadata; final64 default initializer/view factory with mixed ObjC runtime first, native RPC/IUO/calendar/clipboard gates retained',
               'full_application_sdk':'pending', 'device':'pending'}
     report['actual_font_theme_adapter_members']=theme_members
     report['system_web_javascript']=system_js

@@ -34,7 +34,7 @@ def main():
   navigation=navigation_check(a.source,a.swiftc,folder);access=access_check(a.source,a.swiftc,folder)
   apple=apple_check(a.source,a.swiftc,folder);run([a.swiftc,'-frontend','-parse',a.source/UI])
  assert snapshot==manifest(a.source)
- report={'stage':STAGE,'loader_refusals':len(refusals),'executions':runs,'node':node,'navigation':navigation,'public_access':access,'complete_screen_uikit':apple,'source_unchanged_by_checks':True,'contract':'Exactly one imported initializer label. Same designated two-argument Objective-C initializer, button/frame/navigation visibility, draft/apply/preview/current cards/catalogue/licenses/status/theme unchanged. Historical52 source/runtime exact; compiler checks final63 UI only for known SHA. Original207 label must be rejected.','full_application_sdk':'pending','device':'pending'}
+ report={'stage':STAGE,'loader_refusals':len(refusals),'executions':runs,'node':node,'navigation':navigation,'public_access':access,'complete_screen_uikit':apple,'source_unchanged_by_checks':True,'contract':'Exactly one imported initializer label. Same designated two-argument Objective-C initializer, button/frame/navigation visibility, draft/apply/preview/current cards/catalogue/licenses/status/theme unchanged. Historical52/63 source/runtime bytes exact; native checks now use final64 lifecycle fix only for known SHA. This historical label patch alone did not fix device208 dynamic constructor redispatch. Original207 label must be rejected.','full_application_sdk':'pending','device':'pending'}
  if a.report:a.report.write_text(json.dumps(report,ensure_ascii=False,indent=2)+'\n')
  print(json.dumps(report,ensure_ascii=False,indent=2))
 if __name__=='__main__':main()
