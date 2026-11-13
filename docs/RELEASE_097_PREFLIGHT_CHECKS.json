@@ -1,0 +1,358 @@
+{
+  "status": "prepared_source_checked_not_dispatched",
+  "version": "0.9.7",
+  "base_main": "4ec205c657f25be976eea844475b2c8916b1df23",
+  "source_stage": 73,
+  "source_manifest_sha256": "71354ef15a8208cfc2b4dd026f3cc327b11a2874034bc09d15481fd0cbcae089",
+  "application_source_unchanged_from_checked_main": true,
+  "new_stages_since_native208": 10,
+  "modified_native_paths_since208": [
+    "submodules/GalleryUI/Sources/GalleryController.swift",
+    "submodules/GalleryUI/Sources/GalleryControllerNode.swift",
+    "submodules/GalleryUI/Sources/GalleryVideoDecoration.swift",
+    "submodules/GalleryUI/Sources/Items/UniversalVideoGalleryItem.swift",
+    "submodules/LegacyMediaPickerUI/Sources/LegacyMediaPickers.swift",
+    "submodules/MediaPlayer/Sources/ChunkMediaPlayerV2.swift",
+    "submodules/NagramiXMediaSettings/Sources/NagramiXMediaSettings.swift",
+    "submodules/NagramiXTranscription/Sources/Runtime.swift",
+    "submodules/SettingsUI/Sources/NagramiXFontsController.swift",
+    "submodules/TelegramAudio/Sources/ManagedAudioSession.swift",
+    "submodules/TelegramUI/Components/Chat/ChatMessageAnimatedStickerItemNode/Sources/ChatMessageAnimatedStickerItemNode.swift",
+    "submodules/TelegramUI/Components/Chat/ChatMessageInteractiveFileNode/Sources/ChatMessageInteractiveFileNode.swift",
+    "submodules/TelegramUI/Components/Chat/ChatMessageInteractiveInstantVideoNode/Sources/ChatMessageInteractiveInstantVideoNode.swift",
+    "submodules/TelegramUI/Components/Chat/ChatMessageItemView/BUILD",
+    "submodules/TelegramUI/Components/Chat/ChatMessageItemView/Sources/ChatMessageItemView.swift",
+    "submodules/TelegramUI/Components/Chat/ChatMessageStickerItemNode/Sources/ChatMessageStickerItemNode.swift",
+    "submodules/TelegramUI/Components/ChatMediaEditorScreen/BUILD",
+    "submodules/TelegramUI/Components/ChatMediaEditorScreen/Sources/ChatMediaEditorBottomControls.swift",
+    "submodules/TelegramUI/Components/ChatMediaEditorScreen/Sources/ChatMediaEditorBottomControlsComponent.swift",
+    "submodules/TelegramUI/Components/ChatMediaEditorScreen/Sources/ChatMediaEditorScreen.swift",
+    "submodules/TelegramUI/Components/ChatMediaEditorScreen/Sources/ChatMediaEditorScreenGallery.swift",
+    "submodules/TelegramUI/Components/ChatMediaEditorScreen/Sources/ChatMediaEditorScreenVideo.swift",
+    "submodules/TelegramUI/Components/ChatMediaSend/BUILD",
+    "submodules/TelegramUI/Components/ChatMediaSend/Sources/ChatMediaSendLivePhoto.swift",
+    "submodules/TelegramUI/Components/ChatMediaSend/Sources/ChatMediaSendMessages.swift",
+    "submodules/TelegramUI/Components/ChatMediaSend/Sources/ChatMediaSendPlan.swift",
+    "submodules/TelegramUI/Components/ChatMediaSend/Sources/ChatMediaSendRender.swift",
+    "submodules/TelegramUI/Components/ChatMediaSend/Sources/ChatMediaSendSingleItem.swift",
+    "submodules/TelegramUI/Components/ChatMediaSend/Sources/NagramiXOriginalVideoSend.swift",
+    "submodules/TelegramUI/Components/MediaEditor/Sources/MediaEditorValues.swift",
+    "submodules/TelegramUI/Sources/ChatHistoryListNode.swift",
+    "submodules/TelegramUI/Sources/MediaManager.swift",
+    "submodules/TelegramUniversalVideoContent/Sources/WebEmbedPlayerNode.swift",
+    "submodules/TelegramUniversalVideoContent/Sources/WebEmbedVideoContent.swift"
+  ],
+  "history": {
+    "history": [
+      {
+        "run": 201,
+        "job": 130856600916,
+        "characters": 1403605,
+        "lines": 11147,
+        "diagnostics": [
+          {
+            "line": 2467,
+            "text": "2026-11-12T00:01:43.0351040Z Starting local Bazel server (9.2.0) and connecting to it..."
+          },
+          {
+            "line": 9600,
+            "text": "2026-11-12T00:40:27.5793790Z     |                                                        `- note: turn data races into runtime errors with '@preconcurrency'"
+          },
+          {
+            "line": 9712,
+            "text": "2026-11-12T00:40:28.0329790Z 404 |         var error: NSError?"
+          },
+          {
+            "line": 9768,
+            "text": "2026-11-12T00:40:28.0531340Z 506 |         var error: NSError?"
+          },
+          {
+            "line": 10879,
+            "text": "2026-11-12T01:31:54.2811360Z INFO: Build completed successfully, 10039 total actions"
+          },
+          {
+            "line": 10966,
+            "text": "2026-11-12T01:32:38.5682650Z Created unsigned IPA: NagramiX-0.9.5-unsigned.ipa (com.mr-efes.nagramix, version 0.9.5)"
+          }
+        ],
+        "tail": [
+          "2026-11-12T01:32:44.7137650Z Set output 'version'",
+          "2026-11-12T01:32:44.7139100Z Cleaning up orphan processes",
+          "2026-11-12T01:32:45.2561030Z Terminate orphan process: pid (78978) (java)",
+          "2026-11-12T01:32:47.0043850Z ##[warning]Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/checkout@v4, actions/upload-artifact@v4. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/",
+          ""
+        ]
+      },
+      {
+        "run": 208,
+        "job": 131633679737,
+        "characters": 1647051,
+        "lines": 14233,
+        "diagnostics": [
+          {
+            "line": 5222,
+            "text": "2026-11-13T03:21:28.9328060Z Starting local Bazel server (9.2.0) and connecting to it..."
+          },
+          {
+            "line": 12571,
+            "text": "2026-11-13T04:09:05.1374940Z     |                                                        `- note: turn data races into runtime errors with '@preconcurrency'"
+          },
+          {
+            "line": 12683,
+            "text": "2026-11-13T04:09:05.6037110Z 404 |         var error: NSError?"
+          },
+          {
+            "line": 12739,
+            "text": "2026-11-13T04:09:05.6083970Z 506 |         var error: NSError?"
+          },
+          {
+            "line": 13962,
+            "text": "2026-11-13T05:06:19.4530140Z INFO: Build completed successfully, 10039 total actions"
+          },
+          {
+            "line": 14049,
+            "text": "2026-11-13T05:07:12.1602320Z Created unsigned IPA: NagramiX-0.9.6-unsigned.ipa (com.mr-efes.nagramix, version 0.9.6)"
+          }
+        ],
+        "tail": [
+          "2026-11-13T05:07:19.6979200Z Set output 'version'",
+          "2026-11-13T05:07:19.6980850Z Cleaning up orphan processes",
+          "2026-11-13T05:07:20.5351410Z Terminate orphan process: pid (82902) (java)",
+          "2026-11-13T05:07:22.7488480Z ##[warning]Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/checkout@v4, actions/setup-node@v4, actions/upload-artifact@v4. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/",
+          ""
+        ]
+      },
+      {
+        "run": 207,
+        "job": 131556352842,
+        "characters": 1700170,
+        "lines": 14218,
+        "diagnostics": [
+          {
+            "line": 4945,
+            "text": "2026-11-13T00:04:03.8225800Z Starting local Bazel server (9.2.0) and connecting to it..."
+          },
+          {
+            "line": 7438,
+            "text": "2026-11-13T00:21:20.6303970Z     |                                                        `- note: turn data races into runtime errors with '@preconcurrency'"
+          },
+          {
+            "line": 7550,
+            "text": "2026-11-13T00:21:21.4854780Z 404 |         var error: NSError?"
+          },
+          {
+            "line": 7606,
+            "text": "2026-11-13T00:21:21.5725860Z 506 |         var error: NSError?"
+          },
+          {
+            "line": 14069,
+            "text": "2026-11-13T01:41:44.2513780Z submodules/SettingsUI/Sources/NagramiXFontsController.swift:77:15: error: 'init(viewBlock:didLoadBlock:)' has been renamed to 'init(viewBlock:didLoad:)'"
+          },
+          {
+            "line": 14073,
+            "text": "2026-11-13T01:41:44.2518190Z     |               `- error: 'init(viewBlock:didLoadBlock:)' has been renamed to 'init(viewBlock:didLoad:)'"
+          },
+          {
+            "line": 14089,
+            "text": "2026-11-13T01:41:45.3793650Z ERROR: Build did NOT complete successfully"
+          },
+          {
+            "line": 14108,
+            "text": "2026-11-13T01:41:45.7736260Z ##[error]Process completed with exit code 1."
+          }
+        ],
+        "tail": [
+          "2026-11-13T01:41:50.2940160Z Evaluate and set job outputs",
+          "2026-11-13T01:41:50.2945010Z Cleaning up orphan processes",
+          "2026-11-13T01:41:51.3485330Z Terminate orphan process: pid (43228) (java)",
+          "2026-11-13T01:41:52.0104850Z ##[warning]Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/checkout@v4, actions/setup-node@v4. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/",
+          ""
+        ]
+      },
+      {
+        "run": 205,
+        "job": 131449335194,
+        "characters": 1462814,
+        "lines": 12869,
+        "diagnostics": [
+          {
+            "line": 4803,
+            "text": "2026-11-12T20:48:39.0952480Z Starting local Bazel server (9.2.0) and connecting to it..."
+          },
+          {
+            "line": 11991,
+            "text": "2026-11-12T21:32:50.8679780Z     |                                                        `- note: turn data races into runtime errors with '@preconcurrency'"
+          },
+          {
+            "line": 12103,
+            "text": "2026-11-12T21:32:50.8953390Z 404 |         var error: NSError?"
+          },
+          {
+            "line": 12159,
+            "text": "2026-11-12T21:32:50.8981860Z 506 |         var error: NSError?"
+          },
+          {
+            "line": 12707,
+            "text": "2026-11-12T21:41:27.0612780Z submodules/TelegramCore/Sources/TelegramEngine/Messages/Transcription.swift:250:28: error: value of optional type 'String?' must be unwrapped to refer to member 'hasPrefix' of wrapped base type 'String'"
+          },
+          {
+            "line": 12711,
+            "text": "2026-11-12T21:41:27.1199860Z     |                            |- error: value of optional type 'String?' must be unwrapped to refer to member 'hasPrefix' of wrapped base type 'String'"
+          },
+          {
+            "line": 12717,
+            "text": "2026-11-12T21:41:27.1645930Z submodules/TelegramCore/Sources/TelegramEngine/Messages/Transcription.swift:250:67: error: value of optional type 'String?' must be unwrapped to refer to member 'hasPrefix' of wrapped base type 'String'"
+          },
+          {
+            "line": 12721,
+            "text": "2026-11-12T21:41:27.1659430Z     |                                                                   |- error: value of optional type 'String?' must be unwrapped to refer to member 'hasPrefix' of wrapped base type 'String'"
+          },
+          {
+            "line": 12740,
+            "text": "2026-11-12T21:41:43.7875750Z ERROR: Build did NOT complete successfully"
+          },
+          {
+            "line": 12759,
+            "text": "2026-11-12T21:41:44.4197440Z ##[error]Process completed with exit code 1."
+          }
+        ],
+        "tail": [
+          "2026-11-12T21:41:49.2069560Z Evaluate and set job outputs",
+          "2026-11-12T21:41:49.2074640Z Cleaning up orphan processes",
+          "2026-11-12T21:41:49.5831180Z Terminate orphan process: pid (31105) (java)",
+          "2026-11-12T21:41:51.6845400Z ##[warning]Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/checkout@v4, actions/setup-node@v4. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/",
+          ""
+        ]
+      },
+      {
+        "run": 191,
+        "job": 129506810176,
+        "characters": 149408,
+        "lines": 1608,
+        "diagnostics": [
+          {
+            "line": 1499,
+            "text": "2026-11-09T23:29:43.1057310Z ##[error]The operation was canceled."
+          }
+        ],
+        "tail": [
+          "2026-11-09T23:29:47.6295280Z [command]/opt/homebrew/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url",
+          "2026-11-09T23:29:47.7698160Z Evaluate and set job outputs",
+          "2026-11-09T23:29:47.7703890Z Cleaning up orphan processes",
+          "2026-11-09T23:29:50.4347640Z ##[warning]Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/checkout@v4. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/",
+          ""
+        ]
+      }
+    ],
+    "cancelled191": {
+      "concurrencyPresent": false,
+      "reason": "Log reports cancellation only; exact initiator unavailable. No concurrency group/cancel-in-progress in selected source workflow; next192 started after cancellation."
+    },
+    "latestSuccess209": "Artifact-only verification of native208, not another native build",
+    "dispatchPolicy": "One clean full dispatch only; no rerun without new user instruction",
+    "readOnlyInspectionCompleteBeforeAnyPush": true
+  },
+  "cancelled177": {
+    "concurrency": false,
+    "terminal": "The operation was canceled.",
+    "exact_initiator": "not available"
+  },
+  "local_checks": [
+    {
+      "check": "inputs",
+      "exit_code": 0,
+      "seconds": 1.3
+    },
+    {
+      "check": "inputs-negative",
+      "exit_code": 0,
+      "seconds": 0.1
+    },
+    {
+      "check": "metadata",
+      "exit_code": 0,
+      "seconds": 0.1
+    },
+    {
+      "check": "build-mode",
+      "exit_code": 0,
+      "seconds": 0.0
+    },
+    {
+      "check": "validation-mode",
+      "exit_code": 0,
+      "seconds": 0.2
+    },
+    {
+      "check": "publication-contract",
+      "exit_code": 0,
+      "seconds": 0.1
+    },
+    {
+      "check": "ipa-localization",
+      "exit_code": 0,
+      "seconds": 160.3
+    },
+    {
+      "check": "ipa-fonts",
+      "exit_code": 0,
+      "seconds": 27.9
+    },
+    {
+      "check": "dependencies",
+      "exit_code": 0,
+      "seconds": 0.1
+    },
+    {
+      "check": "native-origins",
+      "exit_code": 0,
+      "seconds": 0.6
+    },
+    {
+      "check": "members-final",
+      "exit_code": 0,
+      "seconds": 4.6
+    },
+    {
+      "check": "diff",
+      "exit_code": 0,
+      "seconds": 0.0
+    }
+  ],
+  "build_inputs": {
+    "version": "0.9.7",
+    "workflow_scripts": 259,
+    "python_syntax_files": 732,
+    "late_stages": 73,
+    "sdk_plans": 79,
+    "submodules": 12,
+    "manual_only": true,
+    "existing_unsigned_signing_contract": "preserved",
+    "native_environment": "not_run"
+  },
+  "unchanged_runtime_evidence": {
+    "receipt": "ROUND_EDITOR_QUALITY_CHECKS.json",
+    "receipt_sha256": "0253f3e7c93af412256454e00a35d8bd0b88ddb8d72eec6efaef505f9169243f",
+    "early_fixtures": 43,
+    "early_debug_optimized_runs": 86,
+    "swift_parse_files": 649,
+    "full_source_files": 37691,
+    "strict_localization": "71x668 / 47597 checks per debug and optimized mode",
+    "reason_reused": "Current complete app source is byte-identical to the recently passed final source73; this preparation changes workflow/tests/version/docs only."
+  },
+  "annotation_rename_identical_bytes": true,
+  "README_LICENSE_unchanged": true,
+  "dependency_pins_changed": false,
+  "signing_and_native_build_mode_changed": false,
+  "workflow_triggers": "workflow_dispatch only; no concurrency cancellation",
+  "single_dispatch_budget": 1,
+  "automatic_retry": false,
+  "new_GitHub_Release_publication": false,
+  "native_environment_probe": "mandatory in macOS job before Metal and long overlay/compilation; not_run on this Linux executor",
+  "full_application_compilation": "pending",
+  "IPA": "pending",
+  "physical_iPhone": "pending",
+  "API_secret_listing": "403; no credential values inspected; shape/presence must pass early runner step",
+  "tracked_commit_input_gate_simulated": true,
+  "final_diff_review": "All14 staged files reviewed; zero app-source/dependency/signing changes; annotation100%rename; no unstaged edits"
+}

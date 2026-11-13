@@ -30,7 +30,7 @@ on:
         default: true
 
 env:
-  NAGRAMIX_VERSION: 0.9.6
+  NAGRAMIX_VERSION: 0.9.7
 
 permissions:
   contents: read
@@ -68,6 +68,8 @@ jobs:
       - name: Проверить метаданные релиза
         run: |
           python3 scripts/validate_release_metadata.py
+          python3 scripts/validate_build_inputs.py --report "$RUNNER_TEMP/build-inputs.json"
+          python3 -m unittest discover -s scripts/tests -p test_build_inputs.py
           python3 scripts/validate_release_build_mode.py
           python3 scripts/validate_patch_validation_mode.py
           python3 scripts/validate_owner_publication.py
@@ -136,6 +138,11 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '22'
+
+      - name: Проверить среду iPhoneOS до длительных проверок и компиляции
+        shell: bash
+        run: |
+          python3 scripts/validate_build_inputs.py --native --upstream Telegram-iOS --report "$RUNNER_TEMP/build-environment.json"
 
       - name: Подготовить Metal Toolchain для Xcode
         shell: bash

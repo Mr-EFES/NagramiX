@@ -1,4 +1,4 @@
-# Выпуск NagramiX 0.9.6
+# Сборка версии0.9.6 — исторический журнал
 
 **Выпуск завершён:** [0.9.6/build208](https://github.com/Mr-EFES/NagramiX/releases/tag/v0.9.6), 13ноября2026/05:17:10UTC. Apple SDK208 SUCCESS; отдельный209 SUCCESS проверил исходный208 ZIP после исправления только пакетов проверки. Source/tagd0f03f9; владелец и uploader3файловMr-EFES. SHA256 IPA4f51823338eb826dcbef6c91e2c34bb5cf9ad077b0f93303e1334a169883d745/97978665bytes. 8прежних релизов/assets/tagtargets сохранены;latest normal. [Полная сверка](RELEASE_096_PUBLICATION_CHECKS.json), [iPhone pending](DEVICE_CHECK_096.md). НоваяSDK/IPAтолько поновойличнойкоманде, следующийномер0.9.7. Ниже хронология подготовки, её pending-статусы относятся к прошлым моментам.
 

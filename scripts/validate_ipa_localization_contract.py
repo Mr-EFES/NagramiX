@@ -327,6 +327,11 @@ class CatalogTests(unittest.TestCase):
         with self.archive(self.final_catalogs) as archive:
             self.assertEqual(validate_settings_localizations(archive, PREFIX, '0.9.6'), 71)
 
+    def test_097_matches_current_source_catalogs(self):
+        self.assertEqual(expected_nagramix_catalogs('0.9.7'), self.final_catalogs)
+        with self.archive(self.final_catalogs) as archive:
+            self.assertEqual(validate_settings_localizations(archive, PREFIX, '0.9.7'), 71)
+
     def test_original208_quoted_local_read_is_rejected(self):
         def change(code, values):
             if code == 'ru': values['NagramiX.ReadMode.Local'] = 'Локальное «чтение»'
