@@ -1,0 +1,59 @@
+{
+  "target_pin": "24638bc69bd083981b178dd1e7f921eebbf7fc46",
+  "overlay_base_pin": "279f89e4d4f63f17227bf877dc3d8990f22ecd58",
+  "required_previous_stage": "feature_contract_consistency",
+  "inputs": {
+    "submodules/TelegramUI/Components/Chat/ChatMessageInteractiveFileNode/Sources/ChatMessageInteractiveFileNode.swift": "239abdd48b7bf85fe115f2c54fd0548c6b82387f6f630a850c7f00a3876434b1",
+    "submodules/TelegramUI/Components/Chat/ChatMessageInteractiveInstantVideoNode/Sources/ChatMessageInteractiveInstantVideoNode.swift": "157b196df38bad2334168554ed5ae76a2277f7c0020d314aaace1708ca8058a0"
+  },
+  "outputs": {
+    "submodules/TelegramUI/Components/Chat/ChatMessageInteractiveFileNode/Sources/ChatMessageInteractiveFileNode.swift": "ea673a7b99d0536e98fcfe6534d5e4a1442111142b581817b1627e717f094246",
+    "submodules/TelegramUI/Components/Chat/ChatMessageInteractiveInstantVideoNode/Sources/ChatMessageInteractiveInstantVideoNode.swift": "962786cec6a0401410b93210491fcccb9ccdebdc2dda9b4d3ea352f09e339259"
+  },
+  "previous": {
+    "submodules/TelegramUI/Components/Chat/ChatMessageInteractiveFileNode/Sources/ChatMessageInteractiveFileNode.swift": "transcription_cached_read/Before0.inc",
+    "submodules/TelegramUI/Components/Chat/ChatMessageInteractiveInstantVideoNode/Sources/ChatMessageInteractiveInstantVideoNode.swift": "transcription_cached_read/Before1.inc"
+  },
+  "replacements": {
+    "submodules/TelegramUI/Components/Chat/ChatMessageInteractiveFileNode/Sources/ChatMessageInteractiveFileNode.swift": "transcription_cached_read/After0.inc",
+    "submodules/TelegramUI/Components/Chat/ChatMessageInteractiveInstantVideoNode/Sources/ChatMessageInteractiveInstantVideoNode.swift": "transcription_cached_read/After1.inc"
+  },
+  "guards": {
+    "submodules/NagramiXTranscription/Sources/Runtime.swift": "2e5ff176315cbab71f0444229c62dcaa904a0e8377d759c87fd0bab4817ad3b8",
+    "submodules/NagramiXTranscription/Sources/Settings.swift": "7b2626746f5a907193a2aa929516fd3990bada2938a4fc9ac1b93cf7b2767122",
+    "submodules/NagramiXTranscription/Sources/Coordinator.swift": "59aff70220e74ee32e49ea37ce71f53d239a176e41a53795b98e260a2cceef03",
+    "submodules/NagramiXTranscription/Sources/MediaPreparation.swift": "3251d6810ffb3e206abcf74fe527171ca02081296fdece3cfc1fc41b4f4aa7c3",
+    "submodules/TelegramUI/Components/Chat/ChatMessageItemCommon/Sources/ChatMessageItemCommon.swift": "1e3afdf13ed3058960f9a2338b66a2325a6fc1979a2b32c7a6bf07777c7726f6",
+    "submodules/TelegramCore/Sources/TelegramEngine/Messages/TelegramEngineMessages.swift": "8ee9195e3b534c40c105704f609e0a9aba3ca2ffe5f6d03ef5f5f64fe3b611e9",
+    "submodules/TelegramCore/Sources/Utils/NagramiXCaptureProtectionPolicy.swift": "220953006e66c856e07c517b06490358e49b0bfd35622e28fa34b22e681278a8",
+    "submodules/SettingsUI/Sources/NagramiXSettingsController.swift": "9f6d6f82929d3c9acd03804f946f0ce182b7c568e968da845354b57b296754ad"
+  },
+  "guard_sources": {
+    "submodules/NagramiXTranscription/Sources/Runtime.swift": "transcription_cached_read/Guard0.inc",
+    "submodules/NagramiXTranscription/Sources/Settings.swift": "transcription_cached_read/Guard1.inc",
+    "submodules/NagramiXTranscription/Sources/Coordinator.swift": "transcription_cached_read/Guard2.inc",
+    "submodules/NagramiXTranscription/Sources/MediaPreparation.swift": "transcription_cached_read/Guard3.inc",
+    "submodules/TelegramUI/Components/Chat/ChatMessageItemCommon/Sources/ChatMessageItemCommon.swift": "transcription_cached_read/Guard4.inc",
+    "submodules/TelegramCore/Sources/TelegramEngine/Messages/TelegramEngineMessages.swift": "transcription_cached_read/Guard5.inc",
+    "submodules/TelegramCore/Sources/Utils/NagramiXCaptureProtectionPolicy.swift": "transcription_cached_read/Guard6.inc",
+    "submodules/SettingsUI/Sources/NagramiXSettingsController.swift": "transcription_cached_read/Guard7.inc"
+  },
+  "copies": {},
+  "deletions": {},
+  "native_inputs": {},
+  "native_guards": {},
+  "templates": {
+    "transcription_cached_read/Before0.inc": "239abdd48b7bf85fe115f2c54fd0548c6b82387f6f630a850c7f00a3876434b1",
+    "transcription_cached_read/After0.inc": "ea673a7b99d0536e98fcfe6534d5e4a1442111142b581817b1627e717f094246",
+    "transcription_cached_read/Before1.inc": "157b196df38bad2334168554ed5ae76a2277f7c0020d314aaace1708ca8058a0",
+    "transcription_cached_read/After1.inc": "962786cec6a0401410b93210491fcccb9ccdebdc2dda9b4d3ea352f09e339259",
+    "transcription_cached_read/Guard0.inc": "2e5ff176315cbab71f0444229c62dcaa904a0e8377d759c87fd0bab4817ad3b8",
+    "transcription_cached_read/Guard1.inc": "7b2626746f5a907193a2aa929516fd3990bada2938a4fc9ac1b93cf7b2767122",
+    "transcription_cached_read/Guard2.inc": "59aff70220e74ee32e49ea37ce71f53d239a176e41a53795b98e260a2cceef03",
+    "transcription_cached_read/Guard3.inc": "3251d6810ffb3e206abcf74fe527171ca02081296fdece3cfc1fc41b4f4aa7c3",
+    "transcription_cached_read/Guard4.inc": "1e3afdf13ed3058960f9a2338b66a2325a6fc1979a2b32c7a6bf07777c7726f6",
+    "transcription_cached_read/Guard5.inc": "8ee9195e3b534c40c105704f609e0a9aba3ca2ffe5f6d03ef5f5f64fe3b611e9",
+    "transcription_cached_read/Guard6.inc": "220953006e66c856e07c517b06490358e49b0bfd35622e28fa34b22e681278a8",
+    "transcription_cached_read/Guard7.inc": "9f6d6f82929d3c9acd03804f946f0ce182b7c568e968da845354b57b296754ad"
+  }
+}

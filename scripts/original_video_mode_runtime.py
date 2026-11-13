@@ -37,7 +37,10 @@ def fixture(source):
     stock=(source/(BASE+'Sources/ChatMediaSendMessages.swift')).read_text()
     branch=block(stock,'        if isVideo {')
     code+='\nfunc stockVideoMedia(_ item:ChatMediaSendItem)->(media:EngineRawMedia,stickerFiles:[TelegramMediaFile])? {\nif case let .prebuilt(media)=item.source{return media.map{($0,item.stickers)}}\nguard case let .libraryAsset(identifier,pixelSize,isVideo,duration)=item.source else {return nil}\nlet forceHd=false\nlet storeResourceData:(EngineMediaResource.Id,Data)->Void={_,_ in}\n'+branch+'\n_ = forceHd\nreturn nil\n}\nfunc stockItem(_ item:ChatMediaSendItem)->TelegramMediaFile? {stockVideoMedia(item)?.media as? TelegramMediaFile}\n'
-    code+='\n'+block((source/RENDER).read_text(),'public func chatMediaSendMessages(context:').replace('public ','')
+    render=(source/RENDER).read_text()
+    if 'func nagramiXPhotoSendOptions(' in render:
+        code+='\n'+block(render,'func nagramiXPhotoSendOptions(')
+    code+='\n'+block(render,'public func chatMediaSendMessages(context:').replace('public ','')
     return code+'\n'+CHECKS
 
 
@@ -90,7 +93,7 @@ protocol ChatMediaSendRendering {}
 struct Renderer:ChatMediaSendRendering {}
 struct ChatMediaSendEvent {let items:[ChatMediaSendItem];let global:ChatMediaSendGlobalOptions;let files:[TelegramMediaFile?]}
 func chatMediaSendMessages(items:[ChatMediaSendItem],global:ChatMediaSendGlobalOptions,renderer:ChatMediaSendRendering,makeGroupingKey:()->Int64,storeResourceData:(EngineMediaResource.Id,Data)->Void)->Signal<ChatMediaSendEvent,NoError>{.single(ChatMediaSendEvent(items:items,global:global,files:items.map(stockItem)))}
-struct NagramiXMediaSettings {var originalVideos:Bool;static var current=NagramiXMediaSettings(originalVideos:true)}
+struct NagramiXMediaSettings {var originalVideos:Bool;var outgoingPhotoQuality:Int32=100;var outgoingPhotoHD:Bool=false;static var current=NagramiXMediaSettings(originalVideos:true)}
 struct Subtypes:OptionSet {let rawValue:Int;static let videoHighFrameRate=Subtypes(rawValue:1)}
 enum MediaType {case video,image}
 final class AssetResult {let firstObject:PHAsset?;init(_ asset:PHAsset?){firstObject=asset}}

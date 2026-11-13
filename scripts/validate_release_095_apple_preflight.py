@@ -34,6 +34,11 @@ import video_audio_continuity_runtime as video_audio_continuity
 from video_audio_continuity_js import check as video_audio_js_check
 from video_audio_continuity_apple import check as video_audio_apple_check
 import original_video_mode_runtime as original_video_mode
+import feature_photo_policy_runtime as feature_photo
+import feature_wide_post_envelope_runtime as feature_wide
+import feature_transcription_master_runtime as feature_master
+import transcription_cached_read_runtime as cached_transcription
+from feature_contract_consistency_apple import check as feature_contract_apple_check
 from original_video_mode_apple import check as original_video_mode_apple_check
 import selection_scroll_continuity_runtime as selection_scroll
 import selection_column_coordinates_runtime as selection_column
@@ -81,7 +86,7 @@ def canonical_projection(destination, through_stage):
     else: raise AssertionError('Unknown checkpoint: '+through_stage)
     # Complete application trees are built by the normal guarded overlay.
     # This earlier fixture gate needs only real canonical Swift sources.
-    native_headers = {'submodules/MtProtoKit/PublicHeaders/MtProtoKit/MTRpcError.h'} if through_stage in {'release_096_transcription_compatibility','release_096_font_node_compatibility','font_apply_node_lifecycle','video_audio_continuity','pip_preview_continuity','recording_start_recovery','selection_column_coordinates','selection_scroll_continuity','original_video_mode'} else set()
+    native_headers = {'submodules/MtProtoKit/PublicHeaders/MtProtoKit/MTRpcError.h'} if through_stage in {'release_096_transcription_compatibility','release_096_font_node_compatibility','font_apply_node_lifecycle','video_audio_continuity','pip_preview_continuity','recording_start_recovery','selection_column_coordinates','selection_scroll_continuity','original_video_mode','feature_contract_consistency','transcription_cached_read'} else set()
     expected = {n:sha for n,sha in expected.items() if (n.endswith('.swift') or n in native_headers) and n not in post['deletions']}
     missing = {n:sha for n,sha in expected.items() if n not in sources}
     if missing:
@@ -137,7 +142,7 @@ def main():
         # Check the final calendar at the actual iOS15 target before the large
         # runtime matrix. Stage57 remains an exact historical runtime checkpoint.
         calendar_source=root/'calendar-native-final'
-        files['native_final70']=canonical_projection(calendar_source,'original_video_mode')
+        files['native_final72']=canonical_projection(calendar_source,'transcription_cached_read')
         initial_font_node=font_node_check(calendar_source,args.swiftc,root)
         rpc_error=rpc_error_check(calendar_source,args.swiftc,root/'rpc-error-native')
         runs+=execute(args.swiftc,root,'nullable-premium-asr',transcription_compatibility.fixture(calendar_source))
@@ -151,6 +156,12 @@ def main():
         # The completed API probe is reported as data; its generated module/cache
         # is not used by later runtime or replay gates. Release it before replay.
         shutil.rmtree(root/'original-video-api')
+        feature_contract_api=feature_contract_apple_check(calendar_source,args.swiftc,root/'feature-contract-api')
+        shutil.rmtree(root/'feature-contract-api')
+        # Completed first-pass compiler caches have no later consumers. The
+        # independent final font probe recreates its own cache when reached.
+        for completed_cache in [root/'rpc-error-native/cache', root/'node-cache']:
+            if completed_cache.is_dir(): shutil.rmtree(completed_cache)
         shutil.rmtree(calendar_source)
         entries = [
             ('bubble_selection_edge', [('bubble-edge', lambda s: bubble.fixture(s, (OVERLAY/checked_plan('bubble_selection_edge')['previous'][bubble.BUBBLE]).read_text()))]),
@@ -180,6 +191,8 @@ def main():
             ('selection_column_coordinates', [('visual-left-selection-column', selection_column.fixture)]),
             ('selection_scroll_continuity', [('held-edge-selection-scroll', selection_scroll.fixture)]),
             ('original_video_mode', [('original-video-mode', original_video_mode.fixture)]),
+            ('feature_contract_consistency', [('photo-policy', feature_photo.fixture), ('wide-post-envelope', feature_wide.fixture), ('transcription-master', feature_master.fixture), ('original-video-with-photo-policy', original_video_mode.fixture)]),
+            ('transcription_cached_read', [('cached-transcription-read', cached_transcription.fixture)]),
         ]
         for stage, fixtures in entries:
             source = root / stage
@@ -235,6 +248,7 @@ def main():
     report['pip_preview_continuity_real_sdk']=pip_preview_apple
     report['selection_column_real_sdk']=selection_column_apple
     report['original_video_mode_native_api']=original_video_api
+    report['feature_contract_consistency_native_api']=feature_contract_api
     report['input_effects_real_sdk']=input_effects_apple
     report['snowfall_real_sdk']=snowfall_apple
     report['snowfall_holidays_real_sdk']=snowfall_holidays_apple

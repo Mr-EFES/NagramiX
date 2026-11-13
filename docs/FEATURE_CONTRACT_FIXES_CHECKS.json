@@ -1,0 +1,1770 @@
+{
+  "status": "source_checked",
+  "date": "2026-11-13",
+  "baseline_main": "cd2d52ca5bf2d833b7ffd7b348dc2d0aff0ce774",
+  "owner_approval": "Исправить максимальное/ручное качество обычных и отредактированных фото; единая широкая область канального поста всех типов без растягивания содержимого; расшифровка сообщений как общий выключатель.",
+  "source": {
+    "stage": 72,
+    "name": "transcription_cached_read",
+    "path": "/tmp/nagramix-transcription-cached-read/source",
+    "manifest_sha256": "fec13a36b0acb1e919ccb688082de47224aebbe8199f569737709fedb501253d",
+    "previous_manifest_sha256": "22d518ed72373cff5f692e5745f1fede05355ecd3e230455b296ce88c2fc2b1e",
+    "files": 37691,
+    "symlinks": 26,
+    "modified_runtime_paths": [
+      "submodules/TelegramUI/Components/Chat/ChatMessageInteractiveFileNode/Sources/ChatMessageInteractiveFileNode.swift",
+      "submodules/TelegramUI/Components/Chat/ChatMessageInteractiveInstantVideoNode/Sources/ChatMessageInteractiveInstantVideoNode.swift"
+    ],
+    "new_runtime_paths": [],
+    "guards": 8,
+    "new_inc": 12,
+    "old_inc_unchanged": 4556,
+    "old_plans_unchanged": 284,
+    "historical_manifests_verified": 29
+  },
+  "previous_stage": {
+    "stage": 71,
+    "name": "feature_contract_consistency",
+    "path": "/tmp/nagramix-feature-contract-fixes/source",
+    "manifest_sha256": "22d518ed72373cff5f692e5745f1fede05355ecd3e230455b296ce88c2fc2b1e",
+    "previous_manifest_sha256": "0359e1480536e2cdb4d03d6a33c943f3866fafd84e81a022d904a38ace23aa35",
+    "files": 37691,
+    "symlinks": 26,
+    "modified_runtime_paths": [
+      "submodules/LegacyMediaPickerUI/Sources/LegacyMediaPickers.swift",
+      "submodules/NagramiXMediaSettings/Sources/NagramiXMediaSettings.swift",
+      "submodules/NagramiXTranscription/Sources/Runtime.swift",
+      "submodules/TelegramUI/Components/Chat/ChatMessageAnimatedStickerItemNode/Sources/ChatMessageAnimatedStickerItemNode.swift",
+      "submodules/TelegramUI/Components/Chat/ChatMessageInteractiveFileNode/Sources/ChatMessageInteractiveFileNode.swift",
+      "submodules/TelegramUI/Components/Chat/ChatMessageInteractiveInstantVideoNode/Sources/ChatMessageInteractiveInstantVideoNode.swift",
+      "submodules/TelegramUI/Components/Chat/ChatMessageItemView/BUILD",
+      "submodules/TelegramUI/Components/Chat/ChatMessageItemView/Sources/ChatMessageItemView.swift",
+      "submodules/TelegramUI/Components/Chat/ChatMessageStickerItemNode/Sources/ChatMessageStickerItemNode.swift",
+      "submodules/TelegramUI/Components/ChatMediaSend/Sources/ChatMediaSendLivePhoto.swift",
+      "submodules/TelegramUI/Components/ChatMediaSend/Sources/ChatMediaSendMessages.swift",
+      "submodules/TelegramUI/Components/ChatMediaSend/Sources/ChatMediaSendPlan.swift",
+      "submodules/TelegramUI/Components/ChatMediaSend/Sources/ChatMediaSendRender.swift",
+      "submodules/TelegramUI/Components/ChatMediaSend/Sources/ChatMediaSendSingleItem.swift"
+    ],
+    "new_runtime_paths": [],
+    "guards": 43,
+    "new_inc": 71,
+    "old_inc_unchanged": 4485,
+    "old_plans_unchanged": 283,
+    "historical_manifests_verified": 28
+  },
+  "native_preimage_origin": {
+    "submodules/TelegramUI/Components/Chat/ChatMessageItemView/BUILD": {
+      "pin": "24638bc69bd083981b178dd1e7f921eebbf7fc46",
+      "git_blob": "eba7dfef21900a0e77c477de3dee643b4cff695d",
+      "sha256": "b0be3ba3eb34c802164388f47c2c51d91459bfe5f577303d704a4376b7ae6135",
+      "api_size": 1079
+    },
+    "submodules/TelegramUI/Components/Chat/ChatMessageItemView/Sources/ChatMessageItemView.swift": {
+      "pin": "24638bc69bd083981b178dd1e7f921eebbf7fc46",
+      "git_blob": "9e5716f8212e754cac11511d0d9406b01f53649a",
+      "sha256": "809c3e54a30b924f1d548225590d993ee0a4386a89ae0659d9ca7c1675d632c9",
+      "api_size": 64382
+    },
+    "submodules/TelegramUI/Components/ChatMediaSend/Sources/ChatMediaSendLivePhoto.swift": {
+      "pin": "24638bc69bd083981b178dd1e7f921eebbf7fc46",
+      "git_blob": "4e4ed5d5c6d2a51d957fe73d6bc285d2bdc02b68",
+      "sha256": "6398cf635d7518acb4d837de232965fadc930db6de37610a3e6d4c38886cc035",
+      "api_size": 12655
+    }
+  },
+  "focused_stage71": {
+    "stage": "feature_contract_consistency",
+    "source_files": 37691,
+    "source_unchanged_by_checks": true,
+    "outputs": 14,
+    "guards": 43,
+    "loader_refusals": 16,
+    "executions": [
+      {
+        "name": "photo",
+        "mode": "debug",
+        "exit_code": 0,
+        "output": "Photo policy production checks: 485"
+      },
+      {
+        "name": "photo",
+        "mode": "optimized",
+        "exit_code": 0,
+        "output": "Photo policy production checks: 485"
+      },
+      {
+        "name": "photo-maximum-ignored",
+        "mode": "debug",
+        "exit_code": 91,
+        "output": "FAIL maximum overrides stored manual quality"
+      },
+      {
+        "name": "photo-maximum-ignored",
+        "mode": "optimized",
+        "exit_code": 91,
+        "output": "FAIL maximum overrides stored manual quality"
+      },
+      {
+        "name": "photo-edited-fixed60",
+        "mode": "debug",
+        "exit_code": 91,
+        "output": "FAIL edited photo encoder honors snapshot"
+      },
+      {
+        "name": "photo-edited-fixed60",
+        "mode": "optimized",
+        "exit_code": 91,
+        "output": "FAIL edited photo encoder honors snapshot"
+      },
+      {
+        "name": "photo-quality-not-persisted",
+        "mode": "debug",
+        "exit_code": 91,
+        "output": "FAIL persisted resource survives preference changes"
+      },
+      {
+        "name": "photo-quality-not-persisted",
+        "mode": "optimized",
+        "exit_code": 91,
+        "output": "FAIL persisted resource survives preference changes"
+      },
+      {
+        "name": "photo-hd-ignored",
+        "mode": "debug",
+        "exit_code": 91,
+        "output": "FAIL HD follows max or explicit editor selection"
+      },
+      {
+        "name": "photo-hd-ignored",
+        "mode": "optimized",
+        "exit_code": 91,
+        "output": "FAIL HD follows max or explicit editor selection"
+      },
+      {
+        "name": "wide",
+        "mode": "debug",
+        "exit_code": 0,
+        "output": "Wide post envelope production checks: 475"
+      },
+      {
+        "name": "wide",
+        "mode": "optimized",
+        "exit_code": 0,
+        "output": "Wide post envelope production checks: 475"
+      },
+      {
+        "name": "wide-master-ignored",
+        "mode": "debug",
+        "exit_code": 91,
+        "output": "FAIL only eligible broadcast history receives envelope"
+      },
+      {
+        "name": "wide-master-ignored",
+        "mode": "optimized",
+        "exit_code": 91,
+        "output": "FAIL only eligible broadcast history receives envelope"
+      },
+      {
+        "name": "wide-selection-width-not-reserved",
+        "mode": "debug",
+        "exit_code": 91,
+        "output": "FAIL selection translation stays within right safe edge"
+      },
+      {
+        "name": "wide-selection-width-not-reserved",
+        "mode": "optimized",
+        "exit_code": 91,
+        "output": "FAIL selection translation stays within right safe edge"
+      },
+      {
+        "name": "wide-background-left-after-off",
+        "mode": "debug",
+        "exit_code": 91,
+        "output": "FAIL OFF fully restores native artwork-only row"
+      },
+      {
+        "name": "wide-background-left-after-off",
+        "mode": "optimized",
+        "exit_code": 91,
+        "output": "FAIL OFF fully restores native artwork-only row"
+      },
+      {
+        "name": "transcription",
+        "mode": "debug",
+        "exit_code": 0,
+        "output": "Transcription master production checks: 56"
+      },
+      {
+        "name": "transcription",
+        "mode": "optimized",
+        "exit_code": 0,
+        "output": "Transcription master production checks: 56"
+      },
+      {
+        "name": "transcription-native-master-ignored",
+        "mode": "debug",
+        "exit_code": 91,
+        "output": "FAIL file tap blocks all new requests when master OFF"
+      },
+      {
+        "name": "transcription-native-master-ignored",
+        "mode": "optimized",
+        "exit_code": 91,
+        "output": "FAIL file tap blocks all new requests when master OFF"
+      },
+      {
+        "name": "transcription-pending-is-cached",
+        "mode": "debug",
+        "exit_code": 91,
+        "output": "FAIL ready transcript requires actual completed text"
+      },
+      {
+        "name": "transcription-pending-is-cached",
+        "mode": "optimized",
+        "exit_code": 91,
+        "output": "FAIL ready transcript requires actual completed text"
+      },
+      {
+        "name": "transcription-native-ui-not-cancelled",
+        "mode": "debug",
+        "exit_code": 91,
+        "output": "FAIL OFF disposes native and local UI operations"
+      },
+      {
+        "name": "transcription-native-ui-not-cancelled",
+        "mode": "optimized",
+        "exit_code": 91,
+        "output": "FAIL OFF disposes native and local UI operations"
+      },
+      {
+        "name": "transcription-context-not-cancelled",
+        "mode": "debug",
+        "exit_code": 91,
+        "output": "FAIL OFF clears outliving context operation"
+      },
+      {
+        "name": "transcription-context-not-cancelled",
+        "mode": "optimized",
+        "exit_code": 91,
+        "output": "FAIL OFF clears outliving context operation"
+      },
+      {
+        "name": "original-video-preserved",
+        "mode": "debug",
+        "exit_code": 0,
+        "output": "Original video send-mode production checks: 41"
+      },
+      {
+        "name": "original-video-preserved",
+        "mode": "optimized",
+        "exit_code": 0,
+        "output": "Original video send-mode production checks: 41"
+      }
+    ],
+    "actual_api": {
+      "actual_settings_module_and_imported_photo_getters": "passed",
+      "uikit_api_probes": "not_run",
+      "full_application_sdk": "pending",
+      "device": "pending",
+      "reason": "UIKit/iOS SDK unavailable on Linux; no device or framework success inferred."
+    },
+    "boundary": "Actual production settings, photo snapshots/builders, native video branch, channel envelope eligibility/geometry/background methods, ASR entry/display gates/observers/context cancellation; native graph/codec/engine/theme are explicit adapters. No live encoding, network, AV capture or iPhone pixel claim.",
+    "full_application_sdk": "pending",
+    "device": "pending"
+  },
+  "focused_stage72": {
+    "stage": "transcription_cached_read",
+    "source_files": 37691,
+    "source_unchanged_by_checks": true,
+    "outputs": 2,
+    "guards": 8,
+    "loader_refusals": 14,
+    "executions": [
+      {
+        "name": "cached-read",
+        "mode": "debug",
+        "exit_code": 0,
+        "output": "Transcription master production checks: 80"
+      },
+      {
+        "name": "cached-read",
+        "mode": "optimized",
+        "exit_code": 0,
+        "output": "Transcription master production checks: 80"
+      },
+      {
+        "name": "original71-native-retry",
+        "mode": "debug",
+        "exit_code": 91,
+        "output": "FAIL OFF reads forced cache without native retry"
+      },
+      {
+        "name": "original71-native-retry",
+        "mode": "optimized",
+        "exit_code": 91,
+        "output": "FAIL OFF reads forced cache without native retry"
+      },
+      {
+        "name": "no-final-master-check",
+        "mode": "debug",
+        "exit_code": 91,
+        "output": "FAIL final native gate rechecks a changed master before request"
+      },
+      {
+        "name": "no-final-master-check",
+        "mode": "optimized",
+        "exit_code": 91,
+        "output": "FAIL final native gate rechecks a changed master before request"
+      },
+      {
+        "name": "stale-collapse-state",
+        "mode": "debug",
+        "exit_code": 91,
+        "output": "FAIL cached open resets waiting-for-collapse state"
+      },
+      {
+        "name": "stale-collapse-state",
+        "mode": "optimized",
+        "exit_code": 91,
+        "output": "FAIL cached open resets waiting-for-collapse state"
+      }
+    ],
+    "boundary": "Actual master/cached UI prefixes and native shouldBeginTranscription decision; actual SignalKit cancellation, display and notification tests retained. Terminal RPC/recognition is an explicit counter boundary, no server or microphone accessed. Actual prior71 negative reproduces retry for ready forced transcript without a persisted message attribute.",
+    "full_application_sdk": "pending",
+    "device": "pending"
+  },
+  "early": {
+    "canonical_swift_files_by_checkpoint": {
+      "native_final72": {
+        "written": 544,
+        "pinned_native_dependencies": 6,
+        "unused_unavailable_native_guards": 104
+      },
+      "bubble_selection_edge": {
+        "written": 408,
+        "pinned_native_dependencies": 7,
+        "unused_unavailable_native_guards": 104
+      },
+      "composer_file_attachments": {
+        "written": 420,
+        "pinned_native_dependencies": 7,
+        "unused_unavailable_native_guards": 104
+      },
+      "archived_round_native_controls": {
+        "written": 420,
+        "pinned_native_dependencies": 7,
+        "unused_unavailable_native_guards": 104
+      },
+      "transcription_account_defaults": {
+        "written": 421,
+        "pinned_native_dependencies": 7,
+        "unused_unavailable_native_guards": 104
+      },
+      "app_font_selection": {
+        "written": 427,
+        "pinned_native_dependencies": 7,
+        "unused_unavailable_native_guards": 104
+      },
+      "web_video_picture_in_picture": {
+        "written": 433,
+        "pinned_native_dependencies": 7,
+        "unused_unavailable_native_guards": 104
+      },
+      "temporary_expiration_semantics": {
+        "written": 435,
+        "pinned_native_dependencies": 7,
+        "unused_unavailable_native_guards": 104
+      },
+      "wide_channel_post_consistency": {
+        "written": 439,
+        "pinned_native_dependencies": 7,
+        "unused_unavailable_native_guards": 104
+      },
+      "font_theme_contrast": {
+        "written": 441,
+        "pinned_native_dependencies": 7,
+        "unused_unavailable_native_guards": 104
+      },
+      "system_web_picture_in_picture": {
+        "written": 444,
+        "pinned_native_dependencies": 7,
+        "unused_unavailable_native_guards": 104
+      },
+      "wide_panel_consistency": {
+        "written": 448,
+        "pinned_native_dependencies": 7,
+        "unused_unavailable_native_guards": 104
+      },
+      "premium_temporary_transcription": {
+        "written": 448,
+        "pinned_native_dependencies": 7,
+        "unused_unavailable_native_guards": 104
+      },
+      "font_preview_apply": {
+        "written": 450,
+        "pinned_native_dependencies": 7,
+        "unused_unavailable_native_guards": 104
+      },
+      "edit_result_consistency": {
+        "written": 453,
+        "pinned_native_dependencies": 7,
+        "unused_unavailable_native_guards": 104
+      },
+      "youtube_playback_policy": {
+        "written": 453,
+        "pinned_native_dependencies": 7,
+        "unused_unavailable_native_guards": 104
+      },
+      "input_effects": {
+        "written": 457,
+        "pinned_native_dependencies": 7,
+        "unused_unavailable_native_guards": 104
+      },
+      "snowfall": {
+        "written": 461,
+        "pinned_native_dependencies": 7,
+        "unused_unavailable_native_guards": 104
+      },
+      "snowfall_holidays": {
+        "written": 463,
+        "pinned_native_dependencies": 7,
+        "unused_unavailable_native_guards": 104
+      },
+      "composer_copy_integrity": {
+        "written": 523,
+        "pinned_native_dependencies": 6,
+        "unused_unavailable_native_guards": 104
+      },
+      "single_touch_message_selection": {
+        "written": 530,
+        "pinned_native_dependencies": 6,
+        "unused_unavailable_native_guards": 104
+      },
+      "release_096_calendar_compatibility": {
+        "written": 530,
+        "pinned_native_dependencies": 6,
+        "unused_unavailable_native_guards": 104
+      },
+      "video_audio_continuity": {
+        "written": 534,
+        "pinned_native_dependencies": 6,
+        "unused_unavailable_native_guards": 104
+      },
+      "pip_preview_continuity": {
+        "written": 536,
+        "pinned_native_dependencies": 6,
+        "unused_unavailable_native_guards": 104
+      },
+      "recording_start_recovery": {
+        "written": 537,
+        "pinned_native_dependencies": 6,
+        "unused_unavailable_native_guards": 104
+      },
+      "selection_column_coordinates": {
+        "written": 538,
+        "pinned_native_dependencies": 6,
+        "unused_unavailable_native_guards": 104
+      },
+      "selection_scroll_continuity": {
+        "written": 538,
+        "pinned_native_dependencies": 6,
+        "unused_unavailable_native_guards": 104
+      },
+      "original_video_mode": {
+        "written": 541,
+        "pinned_native_dependencies": 6,
+        "unused_unavailable_native_guards": 104
+      },
+      "feature_contract_consistency": {
+        "written": 544,
+        "pinned_native_dependencies": 6,
+        "unused_unavailable_native_guards": 104
+      },
+      "transcription_cached_read": {
+        "written": 544,
+        "pinned_native_dependencies": 6,
+        "unused_unavailable_native_guards": 104
+      }
+    },
+    "complete_fixtures": 40,
+    "executions": [
+      {
+        "name": "nullable-premium-asr",
+        "mode": "debug",
+        "exit_code": 0,
+        "output": "PASS Premium file transcription checks: 342"
+      },
+      {
+        "name": "nullable-premium-asr",
+        "mode": "optimized",
+        "exit_code": 0,
+        "output": "PASS Premium file transcription checks: 342"
+      },
+      {
+        "name": "bubble-edge",
+        "mode": "debug",
+        "exit_code": 0,
+        "output": "Production bubble edge checks: 17300"
+      },
+      {
+        "name": "bubble-edge",
+        "mode": "optimized",
+        "exit_code": 0,
+        "output": "Production bubble edge checks: 17300"
+      },
+      {
+        "name": "composer-attachments",
+        "mode": "debug",
+        "exit_code": 0,
+        "output": "701 production composer-file checks passed"
+      },
+      {
+        "name": "composer-attachments",
+        "mode": "optimized",
+        "exit_code": 0,
+        "output": "701 production composer-file checks passed"
+      },
+      {
+        "name": "archived-round-controls",
+        "mode": "debug",
+        "exit_code": 0,
+        "output": "58 archived native-round checks passed"
+      },
+      {
+        "name": "archived-round-controls",
+        "mode": "optimized",
+        "exit_code": 0,
+        "output": "58 archived native-round checks passed"
+      },
+      {
+        "name": "transcription-defaults",
+        "mode": "debug",
+        "exit_code": 0,
+        "output": "Transcription account defaults checks: 38\nPrivate temporary transcription checks: 590"
+      },
+      {
+        "name": "transcription-defaults",
+        "mode": "optimized",
+        "exit_code": 0,
+        "output": "Transcription account defaults checks: 38\nPrivate temporary transcription checks: 590"
+      },
+      {
+        "name": "font-selection",
+        "mode": "debug",
+        "exit_code": 0,
+        "output": "App font selection checks: 58"
+      },
+      {
+        "name": "font-selection",
+        "mode": "optimized",
+        "exit_code": 0,
+        "output": "App font selection checks: 58"
+      },
+      {
+        "name": "web-video-pip",
+        "mode": "debug",
+        "exit_code": 0,
+        "output": "web-video-pip production checks: 402"
+      },
+      {
+        "name": "web-video-pip",
+        "mode": "optimized",
+        "exit_code": 0,
+        "output": "web-video-pip production checks: 402"
+      },
+      {
+        "name": "expiry-archive",
+        "mode": "debug",
+        "exit_code": 0,
+        "output": "temporary-expiry archive checks: 488"
+      },
+      {
+        "name": "expiry-archive",
+        "mode": "optimized",
+        "exit_code": 0,
+        "output": "temporary-expiry archive checks: 488"
+      },
+      {
+        "name": "expiry-consumption",
+        "mode": "debug",
+        "exit_code": 0,
+        "output": "temporary-expiry consumption checks: 731"
+      },
+      {
+        "name": "expiry-consumption",
+        "mode": "optimized",
+        "exit_code": 0,
+        "output": "temporary-expiry consumption checks: 731"
+      },
+      {
+        "name": "expiry-read",
+        "mode": "debug",
+        "exit_code": 0,
+        "output": "temporary-expiry native read checks: 126"
+      },
+      {
+        "name": "expiry-read",
+        "mode": "optimized",
+        "exit_code": 0,
+        "output": "temporary-expiry native read checks: 126"
+      },
+      {
+        "name": "wide-channel-posts",
+        "mode": "debug",
+        "exit_code": 0,
+        "output": "wide channel post checks: 42672"
+      },
+      {
+        "name": "wide-channel-posts",
+        "mode": "optimized",
+        "exit_code": 0,
+        "output": "wide channel post checks: 42672"
+      },
+      {
+        "name": "font-theme-contrast",
+        "mode": "debug",
+        "exit_code": 0,
+        "output": "font theme production checks: 227"
+      },
+      {
+        "name": "font-theme-contrast",
+        "mode": "optimized",
+        "exit_code": 0,
+        "output": "font theme production checks: 227"
+      },
+      {
+        "name": "system-web-bridges",
+        "mode": "debug",
+        "exit_code": 0,
+        "output": "system web PiP production checks: 93"
+      },
+      {
+        "name": "system-web-bridges",
+        "mode": "optimized",
+        "exit_code": 0,
+        "output": "system web PiP production checks: 93"
+      },
+      {
+        "name": "system-web-gallery",
+        "mode": "debug",
+        "exit_code": 0,
+        "output": "system web gallery production checks: 48"
+      },
+      {
+        "name": "system-web-gallery",
+        "mode": "optimized",
+        "exit_code": 0,
+        "output": "system web gallery production checks: 48"
+      },
+      {
+        "name": "wide-panels",
+        "mode": "debug",
+        "exit_code": 0,
+        "output": "PASS wide panel production checks: 2723"
+      },
+      {
+        "name": "wide-panels",
+        "mode": "optimized",
+        "exit_code": 0,
+        "output": "PASS wide panel production checks: 2723"
+      },
+      {
+        "name": "premium-file-asr",
+        "mode": "debug",
+        "exit_code": 0,
+        "output": "PASS Premium file transcription checks: 307"
+      },
+      {
+        "name": "premium-file-asr",
+        "mode": "optimized",
+        "exit_code": 0,
+        "output": "PASS Premium file transcription checks: 307"
+      },
+      {
+        "name": "font-preview-apply",
+        "mode": "debug",
+        "exit_code": 0,
+        "output": "Font preview production checks: 5407"
+      },
+      {
+        "name": "font-preview-apply",
+        "mode": "optimized",
+        "exit_code": 0,
+        "output": "Font preview production checks: 5407"
+      },
+      {
+        "name": "final-font-resolver",
+        "mode": "debug",
+        "exit_code": 0,
+        "output": "App font selection checks: 58"
+      },
+      {
+        "name": "final-font-resolver",
+        "mode": "optimized",
+        "exit_code": 0,
+        "output": "App font selection checks: 58"
+      },
+      {
+        "name": "edit-result-consistency",
+        "mode": "debug",
+        "exit_code": 0,
+        "output": "Edit result production checks: 588"
+      },
+      {
+        "name": "edit-result-consistency",
+        "mode": "optimized",
+        "exit_code": 0,
+        "output": "Edit result production checks: 588"
+      },
+      {
+        "name": "youtube-policy-bridge",
+        "mode": "debug",
+        "exit_code": 0,
+        "output": "YouTube bridge production checks: 130"
+      },
+      {
+        "name": "youtube-policy-bridge",
+        "mode": "optimized",
+        "exit_code": 0,
+        "output": "YouTube bridge production checks: 130"
+      },
+      {
+        "name": "youtube-policy-setting",
+        "mode": "debug",
+        "exit_code": 0,
+        "output": "YouTube actual setting checks: 11"
+      },
+      {
+        "name": "youtube-policy-setting",
+        "mode": "optimized",
+        "exit_code": 0,
+        "output": "YouTube actual setting checks: 11"
+      },
+      {
+        "name": "input-effects",
+        "mode": "debug",
+        "exit_code": 0,
+        "output": "Input effects production checks: 311"
+      },
+      {
+        "name": "input-effects",
+        "mode": "optimized",
+        "exit_code": 0,
+        "output": "Input effects production checks: 311"
+      },
+      {
+        "name": "snowfall",
+        "mode": "debug",
+        "exit_code": 0,
+        "output": "Snowfall production checks: 400"
+      },
+      {
+        "name": "snowfall",
+        "mode": "optimized",
+        "exit_code": 0,
+        "output": "Snowfall production checks: 400"
+      },
+      {
+        "name": "snowfall-holidays",
+        "mode": "debug",
+        "exit_code": 0,
+        "output": "Holiday snowfall production checks: 6933"
+      },
+      {
+        "name": "snowfall-holidays",
+        "mode": "optimized",
+        "exit_code": 0,
+        "output": "Holiday snowfall production checks: 6933"
+      },
+      {
+        "name": "composer-copy-integrity",
+        "mode": "debug",
+        "exit_code": 0,
+        "output": "Composer copy/draft production checks: 117"
+      },
+      {
+        "name": "composer-copy-integrity",
+        "mode": "optimized",
+        "exit_code": 0,
+        "output": "Composer copy/draft production checks: 117"
+      },
+      {
+        "name": "single-touch-message-selection",
+        "mode": "debug",
+        "exit_code": 0,
+        "output": "single-touch message selection: 4841 production checks passed"
+      },
+      {
+        "name": "single-touch-message-selection",
+        "mode": "optimized",
+        "exit_code": 0,
+        "output": "single-touch message selection: 4841 production checks passed"
+      },
+      {
+        "name": "calendar-ios15",
+        "mode": "debug",
+        "exit_code": 0,
+        "output": "Calendar API compatibility: 5857 checks passed\nHoliday snowfall production checks: 6933"
+      },
+      {
+        "name": "calendar-ios15",
+        "mode": "optimized",
+        "exit_code": 0,
+        "output": "Calendar API compatibility: 5857 checks passed\nHoliday snowfall production checks: 6933"
+      },
+      {
+        "name": "video-audio-continuity",
+        "mode": "debug",
+        "exit_code": 0,
+        "output": "video audio continuity production checks: 92"
+      },
+      {
+        "name": "video-audio-continuity",
+        "mode": "optimized",
+        "exit_code": 0,
+        "output": "video audio continuity production checks: 92"
+      },
+      {
+        "name": "pip-preview-poster",
+        "mode": "debug",
+        "exit_code": 0,
+        "output": "PiP poster and geometry production checks: 160"
+      },
+      {
+        "name": "pip-preview-poster",
+        "mode": "optimized",
+        "exit_code": 0,
+        "output": "PiP poster and geometry production checks: 160"
+      },
+      {
+        "name": "pip-preview-restore",
+        "mode": "debug",
+        "exit_code": 0,
+        "output": "PiP restore production checks: 14"
+      },
+      {
+        "name": "pip-preview-restore",
+        "mode": "optimized",
+        "exit_code": 0,
+        "output": "PiP restore production checks: 14"
+      },
+      {
+        "name": "pip-preview-gallery",
+        "mode": "debug",
+        "exit_code": 0,
+        "output": "PiP gallery dismissal production checks: 154"
+      },
+      {
+        "name": "pip-preview-gallery",
+        "mode": "optimized",
+        "exit_code": 0,
+        "output": "PiP gallery dismissal production checks: 154"
+      },
+      {
+        "name": "recording-transfer",
+        "mode": "debug",
+        "exit_code": 0,
+        "output": "PASS: 4906 recording-transfer assertions"
+      },
+      {
+        "name": "recording-transfer",
+        "mode": "optimized",
+        "exit_code": 0,
+        "output": "PASS: 4906 recording-transfer assertions"
+      },
+      {
+        "name": "visual-left-selection-column",
+        "mode": "debug",
+        "exit_code": 0,
+        "output": "single-touch message selection: 4841 production checks passed\nVisual checkbox column production checks: 1134"
+      },
+      {
+        "name": "visual-left-selection-column",
+        "mode": "optimized",
+        "exit_code": 0,
+        "output": "single-touch message selection: 4841 production checks passed\nVisual checkbox column production checks: 1134"
+      },
+      {
+        "name": "held-edge-selection-scroll",
+        "mode": "debug",
+        "exit_code": 0,
+        "output": "single-touch message selection: 4841 production checks passed\nVisual checkbox column production checks: 1134\nVideo held-edge selection checks: 52"
+      },
+      {
+        "name": "held-edge-selection-scroll",
+        "mode": "optimized",
+        "exit_code": 0,
+        "output": "single-touch message selection: 4841 production checks passed\nVisual checkbox column production checks: 1134\nVideo held-edge selection checks: 52"
+      },
+      {
+        "name": "original-video-mode",
+        "mode": "debug",
+        "exit_code": 0,
+        "output": "Original video send-mode production checks: 41"
+      },
+      {
+        "name": "original-video-mode",
+        "mode": "optimized",
+        "exit_code": 0,
+        "output": "Original video send-mode production checks: 41"
+      },
+      {
+        "name": "photo-policy",
+        "mode": "debug",
+        "exit_code": 0,
+        "output": "Photo policy production checks: 485"
+      },
+      {
+        "name": "photo-policy",
+        "mode": "optimized",
+        "exit_code": 0,
+        "output": "Photo policy production checks: 485"
+      },
+      {
+        "name": "wide-post-envelope",
+        "mode": "debug",
+        "exit_code": 0,
+        "output": "Wide post envelope production checks: 475"
+      },
+      {
+        "name": "wide-post-envelope",
+        "mode": "optimized",
+        "exit_code": 0,
+        "output": "Wide post envelope production checks: 475"
+      },
+      {
+        "name": "transcription-master",
+        "mode": "debug",
+        "exit_code": 0,
+        "output": "Transcription master production checks: 56"
+      },
+      {
+        "name": "transcription-master",
+        "mode": "optimized",
+        "exit_code": 0,
+        "output": "Transcription master production checks: 56"
+      },
+      {
+        "name": "original-video-with-photo-policy",
+        "mode": "debug",
+        "exit_code": 0,
+        "output": "Original video send-mode production checks: 41"
+      },
+      {
+        "name": "original-video-with-photo-policy",
+        "mode": "optimized",
+        "exit_code": 0,
+        "output": "Original video send-mode production checks: 41"
+      },
+      {
+        "name": "cached-transcription-read",
+        "mode": "debug",
+        "exit_code": 0,
+        "output": "Transcription master production checks: 80"
+      },
+      {
+        "name": "cached-transcription-read",
+        "mode": "optimized",
+        "exit_code": 0,
+        "output": "Transcription master production checks: 80"
+      }
+    ],
+    "font_apply_node_contract": {
+      "native_headers": "guarded actual Texture declarations; final64 avoids ObjC dynamic self-init in view-block initializer",
+      "source_contract": {
+        "source_ui_sha256": "7b5fed3b2c65504d044fe5c1a058b08eb5054532d9fefccc8a672143e703505d",
+        "sdk_ui_sha256": "af3c99c6ae6b0c9fda005884429d66507f82fd514135d8dce9cea8d9f144e108",
+        "late_stage": 64,
+        "historical_runtime": "original52/63 source and runtime checkpoints remain exact; native gate checks final64 default initialization and view factory"
+      },
+      "node_sizing_and_navigation_visibility": [
+        {
+          "mode": "debug",
+          "checks": 6,
+          "result": "passed"
+        },
+        {
+          "mode": "optimized",
+          "checks": 6,
+          "result": "passed"
+        }
+      ],
+      "production_uses_default_initializer_and_native_view_factory": true,
+      "original208_initializer_route": [
+        {
+          "mode": "debug",
+          "expected": "initializer-route regression rejected",
+          "verified": true
+        },
+        {
+          "mode": "optimized",
+          "expected": "initializer-route regression rejected",
+          "verified": true
+        }
+      ],
+      "objc_constructor_runtime": {
+        "status": "not_run",
+        "native_implementation_guards": "passed",
+        "reason": "Mixed Swift/Objective-C Foundation runtime requires macOS; Linux model is only a constructor-route/identity/size boundary. Device208 matching-dSYM crash independently proves old default-init redispatch."
+      },
+      "original207_initializer_label": "rejected",
+      "actual_objc_initializer": {
+        "status": "not_run",
+        "reason": "Actual Objective-C importer/UIKit requires Apple; pure Swift model separately checks labels"
+      },
+      "real_uikit": "separate mandatory complete font screen Apple precheck; Objective-C initializer runtime gate separately reproduces original208 on macOS"
+    },
+    "native_navigation_contract": {
+      "native_signature": "func updatePresentationData(_ presentationData: NavigationBarPresentationData, transition: ContainedViewLayoutTransition)",
+      "actual_caller": "self.navigationBar?.updatePresentationData(NavigationBarPresentationData(presentationData: value), transition: .immediate)",
+      "checks": [
+        {
+          "name": "current",
+          "expected_result": "passed",
+          "verified": true
+        },
+        {
+          "name": "sdk199-missing-transition",
+          "expected_result": "rejected",
+          "verified": true
+        },
+        {
+          "name": "wrong-transition-label",
+          "expected_result": "rejected",
+          "verified": true
+        }
+      ]
+    },
+    "font_adapter_access_contract": [
+      {
+        "name": "public-types",
+        "expected_result": "passed",
+        "verified": true
+      },
+      {
+        "name": "internal-layout",
+        "expected_result": "rejected",
+        "verified": true
+      },
+      {
+        "name": "internal-transition",
+        "expected_result": "rejected",
+        "verified": true
+      }
+    ],
+    "apple_uikit_precheck": {
+      "status": "not_run",
+      "reason": "Apple UIKit SDK unavailable on Linux"
+    },
+    "font_icon_uikit_precheck": {
+      "status": "not_run",
+      "reason": "Real UIKit renderer typecheck requires Apple SDK"
+    },
+    "warnings_as_errors": true,
+    "historical_projection_cleanup": "completed checkpoints removed; native framework checkpoints recreated one at a time with identical pinned projection metadata; final66 preserves font64 default initializer/view factory with mixed ObjC runtime first; native RPC/IUO/calendar/clipboard gates retained; video audio65 and preview/geometry/restore66 runtimes plus real framework/image API gates retained",
+    "full_application_sdk": "pending",
+    "device": "pending",
+    "actual_font_theme_adapter_members": {
+      "status": "passed",
+      "scope": "Actual final font UIKit adapter root/status declarations with native enum cases/getter and actual caller; pixels not exercised"
+    },
+    "system_web_javascript": {
+      "status": "passed",
+      "output": "system web DOM production checks: 88",
+      "boundary": "Actual injected JavaScript in Node vm; explicit DOM/frame/video events, no real iOS WebKit or media pixels"
+    },
+    "system_web_real_sdk": {
+      "status": "not_run",
+      "reason": "Real AVKit/WebKit/AVFoundation SDK requires macOS"
+    },
+    "youtube_playback_policy_js": {
+      "status": "passed",
+      "output": "YouTube playback DOM production checks: 72",
+      "semantic_mutations": [
+        {
+          "name": "no-observer",
+          "rejected": true,
+          "diagnostic": "site cannot reapply video hint while enabled"
+        },
+        {
+          "name": "no-lifecycle-guard",
+          "rejected": true,
+          "diagnostic": "hidden lifecycle cannot pause permitted playback"
+        },
+        {
+          "name": "wrong-native-method",
+          "rejected": true,
+          "diagnostic": "original HTML video uses native WebKit mode"
+        },
+        {
+          "name": "ignore-off",
+          "rejected": true,
+          "diagnostic": "OFF restores original video restriction"
+        }
+      ],
+      "boundary": "Actual injected script in Node vm with explicit event/DOM/MutationObserver/native-video adapters. No real WebKit, YouTube network, DRM or iPhone audio scheduling tested."
+    },
+    "youtube_playback_policy_apple": {
+      "status": "not_run",
+      "reason": "Real AVKit/WebKit/AVFoundation SDK requires macOS"
+    },
+    "video_audio_continuity_javascript": {
+      "output": "video audio continuity DOM checks: 265",
+      "semantic_mutations_rejected": [
+        "no-pause-guard",
+        "ignore-app-pause",
+        "ignore-user-input",
+        "no-window-capture"
+      ],
+      "boundary": "Actual injected JavaScript in Node DOM/event adapters; real YouTube, WebKit and native PiP need device checks."
+    },
+    "video_audio_continuity_real_sdk": {
+      "status": "not_run",
+      "reason": "AVFoundation/AVKit/WebKit require macOS with iOS SDK"
+    },
+    "pip_preview_continuity_real_sdk": {
+      "status": "not_run",
+      "reason": "Actual UIKit/AVKit typechecking requires Apple SDK",
+      "probe_swift_parse": "passed",
+      "native_public_member_contract": {
+        "NativeVideoContent": [
+          "userLocation",
+          "fileReference"
+        ],
+        "HLSVideoContent": [
+          "userLocation",
+          "fileReference"
+        ],
+        "WebEmbedVideoContent": [
+          "webpageContent"
+        ]
+      },
+      "native_signatures": "PhotoResources image functions, TransformImageArguments init, TransformImageNode setSignal/asyncLayout and capture hook copied from pinned source declarations"
+    },
+    "selection_column_real_sdk": {
+      "status": "not_run",
+      "reason": "UIKit requires macOS and the iOS SDK; affine runtime fixture is not UIKit."
+    },
+    "original_video_mode_native_api": {
+      "settings_module": "passed; actual complete production settings source compiled as a module and current.originalVideos imported by caller",
+      "uikit_photos": "not_run",
+      "device": "pending",
+      "reason": "UIKit and Photos require macOS/iOS SDK; Linux does not simulate SDK success."
+    },
+    "feature_contract_consistency_native_api": {
+      "actual_settings_module_and_imported_photo_getters": "passed",
+      "uikit_api_probes": "not_run",
+      "full_application_sdk": "pending",
+      "device": "pending",
+      "reason": "UIKit/iOS SDK unavailable on Linux; no device or framework success inferred."
+    },
+    "input_effects_real_sdk": {
+      "status": "not_run",
+      "reason": "Real UIKit/QuartzCore SDK requires macOS"
+    },
+    "snowfall_real_sdk": {
+      "status": "not_run",
+      "reason": "Real UIKit/QuartzCore SDK requires macOS"
+    },
+    "snowfall_holidays_real_sdk": {
+      "status": "not_run",
+      "reason": "Real UIKit/QuartzCore SDK requires macOS"
+    },
+    "composer_copy_real_sdk": {
+      "status": "not_run",
+      "reason": "Real UIKit pasteboard SDK requires macOS"
+    },
+    "font_node_first_real_contract": {
+      "native_headers": "guarded actual Texture declarations; final64 avoids ObjC dynamic self-init in view-block initializer",
+      "source_contract": {
+        "source_ui_sha256": "af3c99c6ae6b0c9fda005884429d66507f82fd514135d8dce9cea8d9f144e108",
+        "sdk_ui_sha256": "af3c99c6ae6b0c9fda005884429d66507f82fd514135d8dce9cea8d9f144e108",
+        "late_stage": 64,
+        "historical_runtime": "original52/63 source and runtime checkpoints remain exact; native gate checks final64 default initialization and view factory"
+      },
+      "node_sizing_and_navigation_visibility": [
+        {
+          "mode": "debug",
+          "checks": 6,
+          "result": "passed"
+        },
+        {
+          "mode": "optimized",
+          "checks": 6,
+          "result": "passed"
+        }
+      ],
+      "production_uses_default_initializer_and_native_view_factory": true,
+      "original208_initializer_route": [
+        {
+          "mode": "debug",
+          "expected": "initializer-route regression rejected",
+          "verified": true
+        },
+        {
+          "mode": "optimized",
+          "expected": "initializer-route regression rejected",
+          "verified": true
+        }
+      ],
+      "objc_constructor_runtime": {
+        "status": "not_run",
+        "native_implementation_guards": "passed",
+        "reason": "Mixed Swift/Objective-C Foundation runtime requires macOS; Linux model is only a constructor-route/identity/size boundary. Device208 matching-dSYM crash independently proves old default-init redispatch."
+      },
+      "original207_initializer_label": "rejected",
+      "actual_objc_initializer": {
+        "status": "not_run",
+        "reason": "Actual Objective-C importer/UIKit requires Apple; pure Swift model separately checks labels"
+      },
+      "real_uikit": "separate mandatory complete font screen Apple precheck; Objective-C initializer runtime gate separately reproduces original208 on macOS"
+    },
+    "rpc_error_nullability": {
+      "status": "passed",
+      "boundary": "explicit IUO adapter on Linux; native Objective-C importer pending Apple",
+      "module_paths": {
+        "absolute_and_relative_source": "passed",
+        "original206_relative_modulemap": "reproduced and rejected",
+        "scope": "Real Swift/Clang module import with a C declaration verifies filesystem lookup only; actual RPC header/iOS types are checked separately."
+      },
+      "header_sha256": "6d3addd8404ac603837012de0b70ffff9a8b74d9da61fd5a0946c148d8f626ac",
+      "original205_reproduced_and_rejected": true,
+      "classification_body": "exact production lines; Signal is an explicit output-only type adapter",
+      "whole_engine_fixture": "separate full production ASR/Engine/Coordinator runtime with IUO and nil failures",
+      "full_application_sdk": "pending",
+      "device": "pending"
+    },
+    "foundation_fixture_precheck": {
+      "executions": [
+        {
+          "name": "composer-foundation-boundary",
+          "mode": "debug",
+          "exit_code": 0,
+          "output": "Foundation fixture boundary: passed"
+        },
+        {
+          "name": "composer-foundation-boundary",
+          "mode": "optimized",
+          "exit_code": 0,
+          "output": "Foundation fixture boundary: passed"
+        }
+      ],
+      "native_negative_refusals": [],
+      "native_negative_status": "not_run; Objective-C Foundation/CoreGraphics requires Apple",
+      "scope": "Actual checked-in platform conditionals with real Foundation attributed string initialization and CGRect operators. No UIKit stand-ins in this probe; separate UIKit gate remains mandatory."
+    },
+    "single_touch_selection_real_sdk": {
+      "status": "not_run",
+      "reason": "Real UIKit requires the Apple SDK on macOS"
+    }
+  },
+  "upstream": {
+    "target_pin": "24638bc69bd083981b178dd1e7f921eebbf7fc46",
+    "pre_replacements": 196,
+    "post_replacements": 274,
+    "deleted_obsolete_files": 2,
+    "fail_closed": {
+      "pre": 17,
+      "post": 33
+    },
+    "parsed_swift": 647,
+    "executions": [
+      "current-debug: PiP playback command checks: 113",
+      "current-O: PiP playback command checks: 113",
+      "previous-native-debug: Native PiP baseline checks: 37",
+      "previous-native-O: Native PiP baseline checks: 37",
+      "previous-caption-debug: Round caption transport checks: 118",
+      "previous-caption-O: Round caption transport checks: 118",
+      "previous-composer-debug: Repost copy integrity checks: 48",
+      "previous-composer-O: Repost copy integrity checks: 48",
+      "old-toggle-command-debug: regression reproduced and rejected",
+      "old-toggle-command-O: regression reproduced and rejected",
+      "cached-status-toggle-debug: regression reproduced and rejected",
+      "cached-status-toggle-O: regression reproduced and rejected",
+      "inverted-command-debug: regression reproduced and rejected",
+      "inverted-command-O: regression reproduced and rejected"
+    ],
+    "historical_runtime_boundary": "exact published bytes after verified inverse of all registered late source stages",
+    "late_source_stages": [
+      "wide_bottom_bar",
+      "author_selection_no_restore",
+      "preview_reply_intent",
+      "cloud_credential_entry",
+      "extended_poll_integrity",
+      "bot_delete_without_block",
+      "wide_tab_bar_setting",
+      "pip_swipe_handoff",
+      "temporary_message_interaction",
+      "account_settings_entry",
+      "release_090_preflight_fixes",
+      "release_090_author_compile",
+      "round_video_replay_stability",
+      "pip_gallery_placeholder",
+      "download_sheet_edge",
+      "edit_history_cards",
+      "copy_reference_recovery",
+      "edit_history_number_badges",
+      "pip_visual_continuity",
+      "local_copy_delivery",
+      "temporary_playback_identity",
+      "round_video_editor",
+      "proxy_doh_editor",
+      "download_sheet_corners",
+      "hide_premium_offers",
+      "content_interaction_consent",
+      "release_092_settings_compile",
+      "round_native_playback",
+      "poll_copy_transport",
+      "premium_label_cleanup",
+      "premium_label_spelling",
+      "pip_backdrop_stability",
+      "private_temporary_transcription",
+      "ghostgram_authorless_transport",
+      "round_replacement_geometry",
+      "download_sheet_vector_contour",
+      "bubble_selection_edge",
+      "composer_file_attachments",
+      "archived_round_native_controls",
+      "transcription_account_defaults",
+      "app_font_selection",
+      "web_video_picture_in_picture",
+      "temporary_expiration_semantics",
+      "release_095_fonts_compile",
+      "release_095_composer_strings_compile",
+      "wide_channel_post_consistency",
+      "font_theme_contrast",
+      "system_web_picture_in_picture",
+      "wide_panel_consistency",
+      "settings_section_header_case",
+      "premium_temporary_transcription",
+      "font_preview_apply",
+      "edit_result_consistency",
+      "youtube_playback_policy",
+      "input_effects",
+      "snowfall",
+      "snowfall_holidays",
+      "local_read_label",
+      "composer_copy_integrity",
+      "single_touch_message_selection",
+      "release_096_calendar_compatibility",
+      "release_096_transcription_compatibility",
+      "release_096_font_node_compatibility",
+      "font_apply_node_lifecycle",
+      "video_audio_continuity",
+      "pip_preview_continuity",
+      "recording_start_recovery",
+      "selection_column_coordinates",
+      "selection_scroll_continuity",
+      "original_video_mode",
+      "feature_contract_consistency",
+      "transcription_cached_read"
+    ],
+    "native_postbox_imports": "passed",
+    "apple_sdk": "pending",
+    "device": "pending"
+  },
+  "inverse": {
+    "stages": 72,
+    "published_contract_paths": 878,
+    "full_source_files_preserved": 37691,
+    "actual_published_pipeline_compared": false,
+    "fail_closed_cases": 374,
+    "sdk": "not_run",
+    "device": "pending"
+  },
+  "global_attempts": [
+    {
+      "name": "early",
+      "exit_code": 0,
+      "seconds": 252.9,
+      "source_manifest_sha256": "fec13a36b0acb1e919ccb688082de47224aebbe8199f569737709fedb501253d"
+    },
+    {
+      "name": "upstream",
+      "exit_code": 0,
+      "seconds": 100.0,
+      "source_manifest_sha256": "fec13a36b0acb1e919ccb688082de47224aebbe8199f569737709fedb501253d"
+    },
+    {
+      "name": "inverse",
+      "exit_code": 0,
+      "seconds": 91.0,
+      "source_manifest_sha256": "fec13a36b0acb1e919ccb688082de47224aebbe8199f569737709fedb501253d"
+    },
+    {
+      "name": "localization",
+      "exit_code": 1,
+      "seconds": 7.2,
+      "source_manifest_sha256": "fec13a36b0acb1e919ccb688082de47224aebbe8199f569737709fedb501253d"
+    },
+    {
+      "name": "localization",
+      "exit_code": 0,
+      "source_manifest_sha256": "fec13a36b0acb1e919ccb688082de47224aebbe8199f569737709fedb501253d",
+      "note": "Unchanged strict validator passed all71x668 via actual historical_source; identical-byte hardlinks only between own read-only projected temp files; source unchanged. First attempt exhausted temporary disk; no code/validation rule changed."
+    },
+    {
+      "name": "members-full",
+      "exit_code": 0,
+      "seconds": 4.6,
+      "source_manifest_sha256": "fec13a36b0acb1e919ccb688082de47224aebbe8199f569737709fedb501253d"
+    },
+    {
+      "name": "members-canonical",
+      "exit_code": 0,
+      "seconds": 1.8,
+      "source_manifest_sha256": "fec13a36b0acb1e919ccb688082de47224aebbe8199f569737709fedb501253d"
+    },
+    {
+      "name": "native-strings",
+      "exit_code": 0,
+      "seconds": 5.5,
+      "source_manifest_sha256": "fec13a36b0acb1e919ccb688082de47224aebbe8199f569737709fedb501253d"
+    },
+    {
+      "name": "mode",
+      "exit_code": 0,
+      "seconds": 0.2,
+      "source_manifest_sha256": "fec13a36b0acb1e919ccb688082de47224aebbe8199f569737709fedb501253d"
+    },
+    {
+      "name": "metadata",
+      "exit_code": 0,
+      "seconds": 0.1,
+      "source_manifest_sha256": "fec13a36b0acb1e919ccb688082de47224aebbe8199f569737709fedb501253d"
+    },
+    {
+      "name": "diff",
+      "exit_code": 0,
+      "seconds": 0.0,
+      "source_manifest_sha256": "fec13a36b0acb1e919ccb688082de47224aebbe8199f569737709fedb501253d"
+    }
+  ],
+  "localization": {
+    "settings_debug_files": 125,
+    "localized_accesses": 651,
+    "new_raw_UI_strings": 0,
+    "languages": 71,
+    "keys_per_language": 668,
+    "uppercase_section_headers": 24,
+    "runtime_checks_per_mode": 47597,
+    "modes": [
+      "debug",
+      "optimized"
+    ],
+    "temporary_storage_retry": {
+      "allocations": [
+        {
+          "prefix": "nagramix-late-source-prior-",
+          "root": "/tmp",
+          "free_bytes_before": 135061504
+        },
+        {
+          "prefix": "nagramix-late-source-prior-",
+          "root": "/workspace/.codex-feature-contract-localization-tmp",
+          "free_bytes_before": 97968128
+        },
+        {
+          "prefix": "nagramix-late-source-prior-",
+          "root": "/tmp",
+          "free_bytes_before": 84348928
+        },
+        {
+          "prefix": "nagramix-late-source-prior-",
+          "root": "/tmp",
+          "free_bytes_before": 77996032
+        },
+        {
+          "prefix": "nagramix-late-source-prior-",
+          "root": "/tmp",
+          "free_bytes_before": 73179136
+        },
+        {
+          "prefix": "nagramix-language-runtime-",
+          "root": "/tmp",
+          "free_bytes_before": 135061504
+        }
+      ],
+      "projection_storage": {
+        "linked_files": 2442,
+        "linked_bytes": 120821506,
+        "written_files": 2070
+      },
+      "source_unchanged": true
+    },
+    "note": "Первый запуск остановлен нехваткой места в temp. Неизменённый строгий validator затем прошёл с дедупликацией только своих одинаковых временных read-only projections; app source не изменён, ни одна проверка не пропущена."
+  },
+  "custom_members_full": {
+    "swift_files": 7333,
+    "string_accesses": 898,
+    "distinct_string_members": 233,
+    "actual_string_declarations": 250,
+    "custom_declarations": 1034,
+    "full_custom_name_audit": true,
+    "literal_parser_contract": {
+      "accepted_literals_and_comments": 8,
+      "missing_real_members_rejected": 7,
+      "unterminated_literal_rejected": true,
+      "interpolations_preserved": true
+    }
+  },
+  "custom_members_canonical": {
+    "swift_files": 259,
+    "string_accesses": 840,
+    "distinct_string_members": 231,
+    "actual_string_declarations": 250,
+    "custom_declarations": 921,
+    "full_custom_name_audit": false,
+    "literal_parser_contract": {
+      "accepted_literals_and_comments": 8,
+      "missing_real_members_rejected": 7,
+      "unterminated_literal_rejected": true,
+      "interpolations_preserved": true
+    }
+  },
+  "native_strings": {
+    "swift_files": 7333,
+    "native_generated_members": 12190,
+    "native_string_uses": 18586,
+    "distinct_native_members": 10391,
+    "proven_other_typed_owner_reads": 8,
+    "sdk200_mutation_rejected": true,
+    "apple_actual_generated_header": {
+      "status": "not_run",
+      "reason": "Real Objective-C/Apple SDK import requires macOS and swiftc"
+    },
+    "boundary": "Actual native GenerateStrings.py, build rule and final English catalog; generated member existence through strings/namedStrings receivers. Other typed owners need source declaration evidence. Full Swift call arity/type checking and app runtime still require SDK/device."
+  },
+  "preservation": {
+    "current_manifest_sha256": "fec13a36b0acb1e919ccb688082de47224aebbe8199f569737709fedb501253d",
+    "source_files": 37691,
+    "source_symlinks": 26,
+    "old_inc_unchanged": 4485,
+    "old_plans_unchanged": 283,
+    "current_inc_count": 4568,
+    "historical_checkpoints": [
+      {
+        "checkpoint": "/tmp/nagramix-feature-contract-fixes/source-checkpoint.json",
+        "manifest_sha256": "22d518ed72373cff5f692e5745f1fede05355ecd3e230455b296ce88c2fc2b1e",
+        "restored_file_count": 37691
+      },
+      {
+        "checkpoint": "/tmp/nagramix-original-video-mode/source-checkpoint.json",
+        "manifest_sha256": "0359e1480536e2cdb4d03d6a33c943f3866fafd84e81a022d904a38ace23aa35",
+        "restored_file_count": 37691
+      },
+      {
+        "checkpoint": "/tmp/nagramix-selection-scroll-continuity/source-checkpoint.json",
+        "manifest_sha256": "01b67c6ec781e0fe200f8c072444e3cdcda8b1133a8922b86fe80f141896a244",
+        "restored_file_count": 37690
+      },
+      {
+        "checkpoint": "/tmp/nagramix-selection-column-coordinates/source-checkpoint.json",
+        "manifest_sha256": "88cd0a3d3e8314a1ef0908b2258ba787b12bb6578ed0f4348e07059e56daca12",
+        "restored_file_count": 37690
+      },
+      {
+        "checkpoint": "/tmp/nagramix-recording-start-recovery/source-checkpoint.json",
+        "manifest_sha256": "6afbce4762afe35f080572802059868b88fcdeebf6e2d618807e3177973aeb8a",
+        "restored_file_count": 37690
+      },
+      {
+        "checkpoint": "/tmp/nagramix-pip-preview-continuity/source-checkpoint.json",
+        "manifest_sha256": "eb60d35d194510b0054115fabc62f2bec170ecfa117fb35dff32fbdefb9a758b",
+        "restored_file_count": 37690
+      },
+      {
+        "checkpoint": "/tmp/nagramix-video-audio-continuity/source-checkpoint.json",
+        "manifest_sha256": "9f072b9d8400b2784bc8594cf1688d17bf5374c054e6a2a2915fddc68380f4d7",
+        "restored_file_count": 37690
+      },
+      {
+        "checkpoint": "/tmp/nagramix-font-apply-lifecycle/source-checkpoint.json",
+        "manifest_sha256": "0e4c99c26ba086920080ef99d2096886fab6cd98c6690feb47b8512dee93e7f1",
+        "restored_file_count": 37690
+      },
+      {
+        "checkpoint": "/tmp/nagramix-font-node-compatibility/source-checkpoint.json",
+        "manifest_sha256": "93cc510de32754940c7c479bb68c2781077be30ec684b5bcf6dc3b9b40f0c633",
+        "restored_file_count": 37690
+      },
+      {
+        "checkpoint": "/tmp/nagramix-transcription-compatibility/source-checkpoint.json",
+        "manifest_sha256": "d859d8a62b549f3a76291658a6a24a37eee446879460ddf9381f164616707718",
+        "restored_file_count": 37690
+      },
+      {
+        "checkpoint": "/tmp/nagramix-calendar-compatibility/source-checkpoint.json",
+        "manifest_sha256": "b1ba840f8a60fad64372f0c824f1fa3eb0aedae9846618787665b678b92257d0",
+        "restored_file_count": 37690
+      },
+      {
+        "checkpoint": "/tmp/nagramix-single-touch-selection/source-checkpoint.json",
+        "manifest_sha256": "221f00c7a16e03c964a8924f8c79337fb8deac03e09bd02e1ee2ab63f8a718c2",
+        "restored_file_count": 37690
+      },
+      {
+        "checkpoint": "/tmp/nagramix-composer-integrity/source-checkpoint.json",
+        "manifest_sha256": "aa7c3ca9823bdd05a1f301cb3b2bc93be5b1072af0a798ffdc916e150976d8c0",
+        "restored_file_count": 37689
+      },
+      {
+        "checkpoint": "/tmp/nagramix-local-read-label/source-checkpoint.json",
+        "manifest_sha256": "9640665a765f0fd34c1ca6fd19be16aa08e562742bd76a86849b7ef14d87a235",
+        "restored_file_count": 37689
+      },
+      {
+        "checkpoint": "/tmp/nagramix-snow-holidays/source-checkpoint.json",
+        "manifest_sha256": "0f0271b535d9bfe27a767f5bdd6e4218dfaa083351f0b5d9e8f83224eb990290",
+        "restored_file_count": 37689
+      },
+      {
+        "checkpoint": "/tmp/nagramix-snowfall/source-checkpoint.json",
+        "manifest_sha256": "3fd8dca8cd2e2aacd153c8459dd2082810533b642d6648c69a013c931aad0783",
+        "restored_file_count": 37687
+      },
+      {
+        "checkpoint": "/tmp/nagramix-input-effects/source-checkpoint.json",
+        "manifest_sha256": "1f320a9c1ae620b3cf292eb9c2b25b675f6ba604a9700a30024b15dad7a6f081",
+        "restored_file_count": 37684
+      },
+      {
+        "checkpoint": "/tmp/nagramix-youtube-policy/source-checkpoint.json",
+        "manifest_sha256": "a1e07c3c2c92efb312ce788464a9b7735d0c96bdda8423957f7e2989f4a31897",
+        "restored_file_count": 37682
+      },
+      {
+        "checkpoint": "/tmp/nagramix-edit-confirmation/source-checkpoint.json",
+        "manifest_sha256": "37263009e577843f74395fcec9999a453700922d9d93011091502ac57c71b3a1",
+        "restored_file_count": 37682
+      },
+      {
+        "checkpoint": "/tmp/nagramix-font-preview/source-checkpoint.json",
+        "manifest_sha256": "5f2afc0e892828dc4ef0e839d8c8401f514cd4e7685566f5d34f9b55b57413c7",
+        "restored_file_count": 37682
+      },
+      {
+        "checkpoint": "/tmp/nagramix-premium-file-asr/source-checkpoint.json",
+        "manifest_sha256": "6f6e5eee53a7eb5df517486a3308a2699e980b12e0fe7e64a933b00d12a71159",
+        "restored_file_count": 37682
+      },
+      {
+        "checkpoint": "/tmp/nagramix-section-headers/source-checkpoint.json",
+        "manifest_sha256": "a502069589d4128650082857d14869acbf5e020ffaeda46ec1004fcdc5e86a6a",
+        "restored_file_count": 37682
+      },
+      {
+        "checkpoint": "/tmp/nagramix-wide-panels/source-checkpoint.json",
+        "manifest_sha256": "546d8889694c3bc3079dce138f401f0d90b4f6b5a3d6c5a69b21fb8ca803a09c",
+        "restored_file_count": 37682
+      },
+      {
+        "checkpoint": "/tmp/nagramix-system-web-pip/source-checkpoint.json",
+        "manifest_sha256": "8c08b5a78807b07d6e18379bec2ea8e1c0068be435f4c073746ba98293fb759a",
+        "restored_file_count": 37682
+      },
+      {
+        "checkpoint": "/tmp/nagramix-font-theme/source-checkpoint.json",
+        "manifest_sha256": "fc06c0fff3c83897d846bc28c41860d1b6efea86a20e0d7b96c2fe3c40940f45",
+        "restored_file_count": 37682
+      },
+      {
+        "checkpoint": "/tmp/nagramix-wide-channel-posts/source-checkpoint.json",
+        "manifest_sha256": "f42f2e333a84c3cae0793b33a88563aeefef2c714ffcd8a48123c45c00de6d0e",
+        "restored_file_count": 37682
+      },
+      {
+        "checkpoint": "/tmp/nagramix-composer-native-strings/source-checkpoint.json",
+        "manifest_sha256": "80e2ed1949ff89044d6e588cc847bf4616b6df8e5645c1a473190aec6e623672",
+        "restored_file_count": 37682
+      },
+      {
+        "checkpoint": "/tmp/nagramix-font-sdk199/source-checkpoint.json",
+        "manifest_sha256": "719bf32e97e52b0877466f546372f17829eb521351ca9d4c77d0bf3a36964c54",
+        "restored_file_count": 37682
+      },
+      {
+        "checkpoint": "/tmp/nagramix-temporary-expiration/source-checkpoint.json",
+        "manifest_sha256": "32c075e1a995bc77e196db578b20b21776ee325e27d254bc5ec63b9a1eb2a396",
+        "restored_file_count": 37682
+      }
+    ],
+    "registry_changed_features": [
+      "wide_channel_posts",
+      "media_controls",
+      "high_quality_photos",
+      "voice_transcription"
+    ],
+    "registry_compile": {
+      "compile_passed": 69,
+      "compile_pending": 11
+    },
+    "all80_device_pending": true,
+    "README_LICENSE_unchanged": true
+  },
+  "artifacts": {
+    "/tmp/nagramix-feature-contract-fixes/feature.json": {
+      "sha256": "5dd1773b80384d378170778af5b2410e826322db7467a482ca4030819f13a83f",
+      "bytes": 5885
+    },
+    "/tmp/nagramix-feature-contract-fixes/source-proof.json": {
+      "sha256": "559e7e2fc25cdaeaa6aa31e61793f3f20d02b859f1f804966656400f6ae6f509",
+      "bytes": 1858
+    },
+    "/tmp/nagramix-feature-contract-fixes/native-inputs-verified.json": {
+      "sha256": "5b94d6b23e0d45a5c95238ba3115cefb2b253adabb844d4a6351897096da78a2",
+      "bytes": 935
+    },
+    "/tmp/nagramix-transcription-cached-read/feature.json": {
+      "sha256": "f3b7bfa924991a62c8ca6832aa492be21ba83ec3f15e070e4c25cc8f6931778e",
+      "bytes": 1950
+    },
+    "/tmp/nagramix-transcription-cached-read/source-proof.json": {
+      "sha256": "3595ea54fa05fb60612505a35fb721310d0fd26a57d4ed9075c0bc4052fa63fd",
+      "bytes": 789
+    },
+    "/tmp/nagramix-transcription-cached-read/early.json": {
+      "sha256": "3c965e80ebe21f8d6951e6a7af9239259aa4341f6c936805ed76df94948c5b98",
+      "bytes": 28833
+    },
+    "/tmp/nagramix-transcription-cached-read/upstream.json": {
+      "sha256": "e4493083424ed5e246f518f40ba0141ff89a57fbc914c05fa26f2f835c1abf75",
+      "bytes": 3662
+    },
+    "/tmp/nagramix-transcription-cached-read/inverse.json": {
+      "sha256": "2e65b6702150e3836631b709120fdf1738e14fd8e62b82bf3563e5e1b71354c1",
+      "bytes": 25620
+    },
+    "/tmp/nagramix-transcription-cached-read/native-strings.json": {
+      "sha256": "65279101b554b36eb1591e92e6140a4fe4a7312aa9f21e72e556f7fd5747cd03",
+      "bytes": 635
+    },
+    "/tmp/nagramix-transcription-cached-read/localization.log": {
+      "sha256": "73dca9373f1a9a7856e73bd554ab3f6e80aba1238961dfa0aa1cd74a48a31e01",
+      "bytes": 558
+    },
+    "/tmp/nagramix-transcription-cached-read/localization-temp-allocation.json": {
+      "sha256": "1767cd3263d946c72ecc0db106a029eecbbfa3228c2945f23bbd631e29057e4e",
+      "bytes": 924
+    },
+    "/tmp/nagramix-transcription-cached-read/check-status.json": {
+      "sha256": "43d96220013425c29bab3b1d302376733d087a78e36e31985c6fa6766ac91b6e",
+      "bytes": 2127
+    },
+    "/tmp/nagramix-transcription-cached-read/final-proof.json": {
+      "sha256": "3c3476fd4daafeed0cfb096a96c1cd6a44bc3a802770bd1a4cfb024b668dfe41",
+      "bytes": 6945
+    }
+  },
+  "scope_boundaries": {
+    "photo": "Реальные settings/options/resource/rendered-photo функции; UIImage encoder, Photos и actual bytes на iPhone отдельно. Сохранённые sendLargePhotos и явный HD редактора учитываются при max OFF. Видеоветка прежняя.",
+    "wide": "Реальные eligibility/column/background lifecycle/renderer fragments; UIKit/theme graph явно адаптированы. Native background dependencies/imports добавлены. Нужна визуальная приёмка канальных типов, выделения, реакций и контекстного меню.",
+    "transcription": "Реальные master/gates/observers/context cancellation и native retry decision; terminal engine/network явно адаптированы. OFF запрещает новые запросы, но не отзывает уже принятый сервером RPC. Ready text сохранён. Original-ID/temporary-audio routing прежний."
+  },
+  "full_application_sdk": "pending",
+  "device": "pending",
+  "new_actions_dispatch": false,
+  "new_IPA": false,
+  "published_release": "0.9.6/build208/source63/tagd0f03f9027899c1cc65ae8037893eab3e7070195 — stages64–72 не входят в эту IPA; все9 опубликованных релизов/теги/assets сохраняются."
+}
