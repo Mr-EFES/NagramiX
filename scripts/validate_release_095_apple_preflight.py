@@ -33,6 +33,7 @@ import transcription_compatibility_runtime as transcription_compatibility
 import video_audio_continuity_runtime as video_audio_continuity
 from video_audio_continuity_js import check as video_audio_js_check
 from video_audio_continuity_apple import check as video_audio_apple_check
+import selection_scroll_continuity_runtime as selection_scroll
 import selection_column_coordinates_runtime as selection_column
 from selection_column_coordinates_apple import check as selection_column_apple_check
 import recording_start_recovery_runtime as recording_recovery
@@ -78,7 +79,7 @@ def canonical_projection(destination, through_stage):
     else: raise AssertionError('Unknown checkpoint: '+through_stage)
     # Complete application trees are built by the normal guarded overlay.
     # This earlier fixture gate needs only real canonical Swift sources.
-    native_headers = {'submodules/MtProtoKit/PublicHeaders/MtProtoKit/MTRpcError.h'} if through_stage in {'release_096_transcription_compatibility','release_096_font_node_compatibility','font_apply_node_lifecycle','video_audio_continuity','pip_preview_continuity','recording_start_recovery','selection_column_coordinates'} else set()
+    native_headers = {'submodules/MtProtoKit/PublicHeaders/MtProtoKit/MTRpcError.h'} if through_stage in {'release_096_transcription_compatibility','release_096_font_node_compatibility','font_apply_node_lifecycle','video_audio_continuity','pip_preview_continuity','recording_start_recovery','selection_column_coordinates','selection_scroll_continuity'} else set()
     expected = {n:sha for n,sha in expected.items() if (n.endswith('.swift') or n in native_headers) and n not in post['deletions']}
     missing = {n:sha for n,sha in expected.items() if n not in sources}
     if missing:
@@ -134,7 +135,7 @@ def main():
         # Check the final calendar at the actual iOS15 target before the large
         # runtime matrix. Stage57 remains an exact historical runtime checkpoint.
         calendar_source=root/'calendar-native-final'
-        files['native_final68']=canonical_projection(calendar_source,'selection_column_coordinates')
+        files['native_final69']=canonical_projection(calendar_source,'selection_scroll_continuity')
         initial_font_node=font_node_check(calendar_source,args.swiftc,root)
         rpc_error=rpc_error_check(calendar_source,args.swiftc,root/'rpc-error-native')
         runs+=execute(args.swiftc,root,'nullable-premium-asr',transcription_compatibility.fixture(calendar_source))
@@ -171,6 +172,7 @@ def main():
             ('pip_preview_continuity', [('pip-preview-poster', pip_preview.poster_fixture), ('pip-preview-restore', pip_preview.restore_fixture), ('pip-preview-gallery', pip_preview_gallery_fixture)]),
             ('recording_start_recovery', [('recording-transfer', recording_recovery.fixture)]),
             ('selection_column_coordinates', [('visual-left-selection-column', selection_column.fixture)]),
+            ('selection_scroll_continuity', [('held-edge-selection-scroll', selection_scroll.fixture)]),
         ]
         for stage, fixtures in entries:
             source = root / stage
