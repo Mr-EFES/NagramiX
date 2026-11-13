@@ -1,0 +1,122 @@
+{
+  "version": "0.9.6",
+  "status": "native_compile_passed/package_verified/owner_published/device_pending",
+  "release_id": 443843800,
+  "published_at": "2026-11-13T05:17:10Z",
+  "release_url": "https://github.com/Mr-EFES/NagramiX/releases/tag/v0.9.6",
+  "latest": true,
+  "author": "Mr-EFES",
+  "source_commit": "d0f03f9027899c1cc65ae8037893eab3e7070195",
+  "tag": "v0.9.6",
+  "tag_matches_source": true,
+  "workflow_run_id": 43348543265,
+  "source_run_conclusion": "failure",
+  "artifact_verification": {
+    "run_id": 43370807236,
+    "url": "https://github.com/Mr-EFES/NagramiX/actions/runs/43370807236",
+    "run_number": 209,
+    "head_sha": "ead9ec91edd335137bcd3a5ce0a07fd334a1d9ee",
+    "conclusion": "success",
+    "native_build_skipped": true,
+    "source_run_id": 43348543265,
+    "unchanged_original_actions_zip": true,
+    "application_source_unchanged": true,
+    "checker_and_docs_files": [
+      "AGENTS.md",
+      "docs/AI_HANDOFF.md",
+      "docs/RELEASE_096_RETRY208_CHECKS.json",
+      "docs/RELEASE_096_RUN.md",
+      "docs/RELEASE_STATUS.md",
+      "scripts/validate_ipa_localization_contract.py",
+      "scripts/validate_unsigned_ipa.py"
+    ],
+    "reason": "208 native SDK and package succeeded; its old release checker omitted approved local-read RU label stage58. Corrected checker independently verified the exact original208 ZIP."
+  },
+  "workflow_url": "https://github.com/Mr-EFES/NagramiX/actions/runs/43348543265",
+  "build_number": 208,
+  "run_attempt": 1,
+  "native_sdk": {
+    "started_at": "2026-11-13T03:21:24Z",
+    "completed_at": "2026-11-13T05:06:50Z",
+    "conclusion": "success"
+  },
+  "jobs": [
+    {
+      "id": 131633679737,
+      "name": "build",
+      "conclusion": "success"
+    },
+    {
+      "id": 131703031693,
+      "name": "Проверить IPA для публикации Mr_EFES",
+      "conclusion": "failure"
+    }
+  ],
+  "artifacts": {
+    "BUILD-PROVENANCE.txt": {
+      "size": 408,
+      "sha256": "39568d047be673c40926be59962a8561fad78dea38af98cba76a91d4bc764363",
+      "uploader": "Mr-EFES",
+      "url": "https://github.com/Mr-EFES/NagramiX/releases/download/v0.9.6/BUILD-PROVENANCE.txt"
+    },
+    "NagramiX-0.9.6-unsigned.ipa": {
+      "size": 97978665,
+      "sha256": "4f51823338eb826dcbef6c91e2c34bb5cf9ad077b0f93303e1334a169883d745",
+      "uploader": "Mr-EFES",
+      "url": "https://github.com/Mr-EFES/NagramiX/releases/download/v0.9.6/NagramiX-0.9.6-unsigned.ipa"
+    },
+    "SHA256SUMS": {
+      "size": 94,
+      "sha256": "dc4ea3778832f6a836a131a9dee2399920eb0231002f5b0e2315cf3a4c0214c4",
+      "uploader": "Mr-EFES",
+      "url": "https://github.com/Mr-EFES/NagramiX/releases/download/v0.9.6/SHA256SUMS"
+    }
+  },
+  "actions_zip": {
+    "artifact_id": 14011717870,
+    "size": 97540825,
+    "sha256": "1cc31d6f84de681aaef56f467a967c141b0a4dbe7146fbe671201a22f2d0bb53",
+    "local_path": "/tmp/nagramix-release-096/original-actions-build208.zip",
+    "original_bytes_verified": true
+  },
+  "crash_symbols_artifact": {
+    "id": 14011892267,
+    "name": "NagramiX-0.9.6-symbols-arm64",
+    "size_in_bytes": 203421525,
+    "digest": "sha256:1965e6f97352fb7e50462f7d1f22ec2390f99d440d6b282bf04d97f26ddd8a38"
+  },
+  "provenance": "NagramiX version: 0.9.6\nNagramiX commit: d0f03f9027899c1cc65ae8037893eab3e7070195\nTelegram-iOS commit: 24638bc69bd083981b178dd1e7f921eebbf7fc46\nWorkflow run: https://github.com/Mr-EFES/NagramiX/actions/runs/43348543265\nDependency override: submodules/TgVoipWebrtc/tgcalls c1de0882de9013df246252129b95430f48b20eec -> 38dcea121f10638c42098f226f05c298a392f95c (https://github.com/TelegramMessenger/tgcalls.git)\n",
+  "checksums": "4f51823338eb826dcbef6c91e2c34bb5cf9ad077b0f93303e1334a169883d745  NagramiX-0.9.6-unsigned.ipa\n",
+  "telegram": "13.2",
+  "xcode": "27.1",
+  "minimum_ios": "15.0",
+  "architecture": "ARM64/iPhoneOS",
+  "localization_resource_catalogs": 71,
+  "keys_per_catalog": 668,
+  "bundled_fonts": 20,
+  "font_license_documents": 4,
+  "new_late_stages": [
+    46,
+    47,
+    48,
+    49,
+    50,
+    51,
+    52,
+    53,
+    54,
+    55,
+    56,
+    57,
+    58,
+    59,
+    60,
+    61,
+    62,
+    63
+  ],
+  "physical_iphone": "pending",
+  "old_releases_unchanged": true,
+  "old_tag_targets_unchanged": true,
+  "repository_visibility": "public; owner restores private manually"
+}
