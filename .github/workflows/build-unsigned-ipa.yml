@@ -487,6 +487,8 @@ jobs:
           python3 scripts/validate_release_096_font_node_compatibility.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)" --report "$RUNNER_TEMP/release-096-font-node-compatibility.json"
           PYTHONPATH=ios python3 -c 'from pathlib import Path; from font_apply_node_lifecycle import apply_font_apply_node_lifecycle; apply_font_apply_node_lifecycle(Path("Telegram-iOS").resolve(), Path("ios").resolve())'
           python3 scripts/validate_font_apply_node_lifecycle.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)" --report "$RUNNER_TEMP/font-apply-node-lifecycle.json"
+          PYTHONPATH=ios python3 -c 'from pathlib import Path; from video_audio_continuity import apply_video_audio_continuity; apply_video_audio_continuity(Path("Telegram-iOS").resolve(), Path("ios").resolve())'
+          python3 scripts/validate_video_audio_continuity.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)" --report "$RUNNER_TEMP/video-audio-continuity.json"
           python3 scripts/validate_late_source_stages.py --source Telegram-iOS --report "$RUNNER_TEMP/late-source-stages.json"
           python3 scripts/validate_custom_member_references.py --source Telegram-iOS
           python3 scripts/validate_upstream_13_2_release.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)"

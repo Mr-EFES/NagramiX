@@ -30,6 +30,9 @@ import composer_copy_integrity_runtime as composer_copy
 import single_touch_message_selection_runtime as single_selection
 import calendar_compatibility_runtime as calendar_compatibility
 import transcription_compatibility_runtime as transcription_compatibility
+import video_audio_continuity_runtime as video_audio_continuity
+from video_audio_continuity_js import check as video_audio_js_check
+from video_audio_continuity_apple import check as video_audio_apple_check
 from transcription_compatibility_apple import check as rpc_error_check
 from single_touch_message_selection_apple import check as single_selection_apple_check
 from composer_copy_integrity_apple import check as composer_copy_apple_check,foundation_check
@@ -69,7 +72,7 @@ def canonical_projection(destination, through_stage):
     else: raise AssertionError('Unknown checkpoint: '+through_stage)
     # Complete application trees are built by the normal guarded overlay.
     # This earlier fixture gate needs only real canonical Swift sources.
-    native_headers = {'submodules/MtProtoKit/PublicHeaders/MtProtoKit/MTRpcError.h'} if through_stage in {'release_096_transcription_compatibility','release_096_font_node_compatibility','font_apply_node_lifecycle'} else set()
+    native_headers = {'submodules/MtProtoKit/PublicHeaders/MtProtoKit/MTRpcError.h'} if through_stage in {'release_096_transcription_compatibility','release_096_font_node_compatibility','font_apply_node_lifecycle','video_audio_continuity'} else set()
     expected = {n:sha for n,sha in expected.items() if (n.endswith('.swift') or n in native_headers) and n not in post['deletions']}
     missing = {n:sha for n,sha in expected.items() if n not in sources}
     if missing:
@@ -125,12 +128,14 @@ def main():
         # Check the final calendar at the actual iOS15 target before the large
         # runtime matrix. Stage57 remains an exact historical runtime checkpoint.
         calendar_source=root/'calendar-native-final'
-        files['native_final64']=canonical_projection(calendar_source,'font_apply_node_lifecycle')
+        files['native_final65']=canonical_projection(calendar_source,'video_audio_continuity')
         initial_font_node=font_node_check(calendar_source,args.swiftc,root)
         rpc_error=rpc_error_check(calendar_source,args.swiftc,root/'rpc-error-native')
         runs+=execute(args.swiftc,root,'nullable-premium-asr',transcription_compatibility.fixture(calendar_source))
         snowfall_holidays_apple=snowfall_holidays_apple_check(calendar_source,args.swiftc,root)
         composer_copy_apple=composer_copy_apple_check(calendar_source,args.swiftc,root)
+        video_audio_js=video_audio_js_check(calendar_source,root)
+        video_audio_apple=video_audio_apple_check(calendar_source,args.swiftc,root)
         shutil.rmtree(calendar_source)
         entries = [
             ('bubble_selection_edge', [('bubble-edge', lambda s: bubble.fixture(s, (OVERLAY/checked_plan('bubble_selection_edge')['previous'][bubble.BUBBLE]).read_text()))]),
@@ -154,6 +159,7 @@ def main():
             ('composer_copy_integrity', [('composer-copy-integrity', composer_copy.fixture)]),
             ('single_touch_message_selection', [('single-touch-message-selection', single_selection.fixture)]),
             ('release_096_calendar_compatibility', [('calendar-ios15', calendar_compatibility.fixture)]),
+            ('video_audio_continuity', [('video-audio-continuity', video_audio_continuity.fixture)]),
         ]
         for stage, fixtures in entries:
             source = root / stage
@@ -196,14 +202,16 @@ def main():
         snow_source = replay_projection('snowfall')
         snowfall_apple = snowfall_apple_check(snow_source, args.swiftc, root)
         shutil.rmtree(snow_source)
-    report = {'canonical_swift_files_by_checkpoint':files, 'complete_fixtures':27, 'executions':runs,
-              'font_apply_node_contract':node,'native_navigation_contract':navigation, 'font_adapter_access_contract':access, 'apple_uikit_precheck':apple, 'font_icon_uikit_precheck':icon, 'warnings_as_errors':True, 'historical_projection_cleanup':'completed checkpoints removed; native framework checkpoints recreated one at a time with identical pinned projection metadata; final64 default initializer/view factory with mixed ObjC runtime first, native RPC/IUO/calendar/clipboard gates retained',
+    report = {'canonical_swift_files_by_checkpoint':files, 'complete_fixtures':28, 'executions':runs,
+              'font_apply_node_contract':node,'native_navigation_contract':navigation, 'font_adapter_access_contract':access, 'apple_uikit_precheck':apple, 'font_icon_uikit_precheck':icon, 'warnings_as_errors':True, 'historical_projection_cleanup':'completed checkpoints removed; native framework checkpoints recreated one at a time with identical pinned projection metadata; final65 preserves font64 default initializer/view factory with mixed ObjC runtime first; native RPC/IUO/calendar/clipboard gates retained; final video audio/PiP runtime and real WebKit bridge added',
               'full_application_sdk':'pending', 'device':'pending'}
     report['actual_font_theme_adapter_members']=theme_members
     report['system_web_javascript']=system_js
     report['system_web_real_sdk']=system_apple
     report['youtube_playback_policy_js']=youtube_js
     report['youtube_playback_policy_apple']=youtube_apple
+    report['video_audio_continuity_javascript']=video_audio_js
+    report['video_audio_continuity_real_sdk']=video_audio_apple
     report['input_effects_real_sdk']=input_effects_apple
     report['snowfall_real_sdk']=snowfall_apple
     report['snowfall_holidays_real_sdk']=snowfall_holidays_apple
