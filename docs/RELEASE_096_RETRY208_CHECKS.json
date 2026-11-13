@@ -1,0 +1,90 @@
+{
+  "version": "0.9.6",
+  "native_build": 208,
+  "source_run_id": 43348543265,
+  "source_commit": "d0f03f9027899c1cc65ae8037893eab3e7070195",
+  "native_sdk": {
+    "name": "Собрать нативное ARM64-приложение NagramiX без профилей",
+    "status": "completed",
+    "conclusion": "success",
+    "number": 21,
+    "started_at": "2026-11-13T03:21:24Z",
+    "completed_at": "2026-11-13T05:06:50Z"
+  },
+  "native_job_conclusion": "success",
+  "source_run_conclusion": "failure only in release checker; native build and packaging succeeded",
+  "failed_release_job_id": 131703031693,
+  "cause": "IPA checker omitted approved local_read_label stage58, expected quoted RU caption although all71 actual668-key catalogues exactly matched final source. Package and application need no change.",
+  "actual_diagnostic": "Переводы настроек/debug в IPA изменены или неполны: ru",
+  "diagnosis": {
+    "original_ipa_matches_all_final_source_catalogs": true,
+    "catalogs": 71,
+    "keys_per_catalog": 668,
+    "mismatches_with_old_checker": {
+      "ru": {
+        "NagramiX.ReadMode.Local": {
+          "checker": "Локальное «чтение»",
+          "ipa": "Локальное чтение"
+        }
+      }
+    },
+    "ipa_prefix": "Payload/NagramiX.app/",
+    "ipa_bytes": 97978665
+  },
+  "fix": "For >=0.9.6 fold exact guarded stage58 Before/After catalogue into package expectations; keep historical095 unchanged; print real verified key count. Independent final-snapshot regression requires whole final71-language maps, rejects original208 quoted label, other changed values/missing/extra languages and corrupted snapshot SHA.",
+  "actions_artifact": {
+    "id": 14011717870,
+    "zip_bytes": 97540825,
+    "zip_sha256": "1cc31d6f84de681aaef56f467a967c141b0a4dbe7146fbe671201a22f2d0bb53",
+    "original_zip_unchanged": true
+  },
+  "ipa": {
+    "bytes": 97978665,
+    "sha256": "4f51823338eb826dcbef6c91e2c34bb5cf9ad077b0f93303e1334a169883d745",
+    "full_package_validation": "passed",
+    "catalogues": 71,
+    "keys_per_catalogue": 668,
+    "bundled_fonts": 20,
+    "license_documents": 4,
+    "device_binaries": 6,
+    "ringtones": 31,
+    "icons": 8
+  },
+  "checks": {
+    "catalogue_regressions": {
+      "tests": 47,
+      "seconds": 153.604,
+      "result": "passed"
+    },
+    "font_package_regressions": {
+      "tests": 7,
+      "seconds": 30.159,
+      "result": "passed"
+    },
+    "owner_publication": {
+      "tests": 28,
+      "result": "passed"
+    },
+    "metadata": "passed",
+    "release_build_mode": "passed",
+    "patch_validation_mode": "passed",
+    "py_compile": "passed",
+    "diff_check": "passed",
+    "source_and_workflow_diff_vs_native208": "empty",
+    "README_LICENSE_diff": "empty"
+  },
+  "application_source": {
+    "late_stages": 63,
+    "inc_unchanged": 4357,
+    "full_source_manifest_sha256": "93cc510de32754940c7c479bb68c2781077be30ec684b5bcf6dc3b9b40f0c633",
+    "new_runtime_stage": false
+  },
+  "modified_checkers": {
+    "scripts/validate_unsigned_ipa.py": "539acebeb7cb5c1da8fb2f19ffb194b74eda30a64a06cd7487e6aa31f447160d",
+    "scripts/validate_ipa_localization_contract.py": "583cfd61dd1114d72053e79b6e1f9fa74a4224f7216c234bb248b6544c0803d6"
+  },
+  "publication": "pending corrected CI artifact-only verification on main; reuse source run208 exact ZIP, then owner publish; do not rebuild unchanged native application",
+  "physical_iphone": "pending",
+  "old_releases_unchanged": 8,
+  "old_tag_targets_unchanged": true
+}

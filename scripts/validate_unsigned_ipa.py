@@ -265,6 +265,23 @@ def expected_nagramix_catalogs(version: str | None = None) -> dict[str, dict[str
             current = checked_snapshot(snow['replacements'][path], snow['outputs'][path], snow, 'снегопада')
             require(current == {**previous, **dict(zip(loc['keys'], values))}, 'Изменены другие переводы снегопада')
             catalogs[code] = current
+    if version_parts is not None and version_parts >= (0, 9, 6):
+        local_read = json.loads((ROOT/'ios/local_read_label_patches.json').read_text())
+        path = 'submodules/NagramiXCore/Resources/ru.lproj/Localizable.strings'
+        require(local_read['required_previous_stage'] == 'snowfall_holidays'
+                and local_read['target_pin'] == '24638bc69bd083981b178dd1e7f921eebbf7fc46'
+                and local_read['overlay_base_pin'] == '279f89e4d4f63f17227bf877dc3d8990f22ecd58',
+                'Неверная база названия локального чтения')
+        require(all(set(local_read[field]) == {path} for field in ('inputs', 'outputs', 'previous', 'replacements'))
+                and not local_read['copies'] and not local_read['deletions'],
+                'Неверный набор каталогов названия локального чтения')
+        previous = checked_snapshot(local_read['previous'][path], local_read['inputs'][path], local_read, 'локального чтения')
+        current = checked_snapshot(local_read['replacements'][path], local_read['outputs'][path], local_read, 'локального чтения')
+        key = 'NagramiX.ReadMode.Local'
+        require(previous == catalogs['ru'] and len(previous) == 668
+                and previous[key] == 'Локальное «чтение»', 'Изменён каталог перед названием локального чтения')
+        require(current == {**previous, key: 'Локальное чтение'}, 'Изменены другие переводы локального чтения')
+        catalogs['ru'] = current
     return catalogs
 
 
@@ -506,7 +523,7 @@ def main() -> None:
 
         if tuple(int(part) for part in args.version.split(".")) >= (0, 8, 6):
             language_count = validate_settings_localizations(archive, prefix, args.version)
-            key_count = 635 if tuple(int(part) for part in args.version.split('.')) >= (0, 9, 2) else 630 if tuple(int(part) for part in args.version.split('.')) >= (0, 9, 0) else 629 if tuple(int(part) for part in args.version.split('.')) >= (0, 8, 9) else 613
+            key_count = len(custom)
             print(f"Переводы IPA проверены: {language_count} языков, по {key_count} ключей настроек/debug")
 
     print(f"IPA проверен: {args.version}, build {args.build_number}, iOS15+, ARM64/iPhoneOS файлов {device_binary_count}, RU {len(russian)}/{len(custom)}, мелодий {sound_count}, иконок {icon_count}, checksum/provenance, без профилей")

@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Regression checks for exact old/new IPA localization catalogs."""
 import io
+import hashlib
 import json
 from pathlib import Path
 import plistlib
@@ -10,6 +11,7 @@ import zipfile
 
 from validate_app_language_localization import strings
 from validate_unsigned_ipa import expected_nagramix_catalogs, validate_settings_localizations
+from late_source_stages import LATE_SOURCE_STAGES
 
 ROOT = Path(__file__).resolve().parents[1]
 PREFIX = 'Payload/Telegram.app/'
@@ -48,6 +50,17 @@ class CatalogTests(unittest.TestCase):
             if name.startswith('submodules/NagramiXCore/Resources/') and name.endswith('.lproj/Localizable.strings'):
                 code = Path(name).parent.name.removesuffix('.lproj')
                 cls.next_catalogs[code] = strings(overlay / snapshot)
+
+        # Derive the final source independently of the package expectation
+        # builder. A later label-only stage must not be lost at the same count.
+        cls.final_snapshots = {}
+        for stage in LATE_SOURCE_STAGES:
+            stage_plan = json.loads((overlay / (stage + '_patches.json')).read_text())
+            for name, snapshot in stage_plan['replacements'].items():
+                if name.startswith('submodules/NagramiXCore/Resources/') and name.endswith('.lproj/Localizable.strings'):
+                    code = Path(name).parent.name.removesuffix('.lproj')
+                    cls.final_snapshots[code] = (overlay / snapshot, stage_plan['outputs'][name])
+        cls.final_catalogs = {code: strings(path) for code, (path, _) in cls.final_snapshots.items()}
 
     def archive(self, catalogs, change=None, extra=None):
         target = io.BytesIO()
@@ -304,6 +317,52 @@ class CatalogTests(unittest.TestCase):
     def test_preview_096_exact_catalogs(self):
         with self.archive(expected_nagramix_catalogs('0.9.6')) as archive:
             self.assertEqual(validate_settings_localizations(archive, PREFIX, '0.9.6'), 71)
+
+    def test_096_matches_every_final_source_catalog(self):
+        for path, digest in self.final_snapshots.values():
+            self.assertEqual(hashlib.sha256(path.read_bytes()).hexdigest(), digest)
+        self.assertEqual(len(self.final_catalogs), 71)
+        self.assertTrue(all(len(values) == 668 for values in self.final_catalogs.values()))
+        self.assertEqual(expected_nagramix_catalogs('0.9.6'), self.final_catalogs)
+        with self.archive(self.final_catalogs) as archive:
+            self.assertEqual(validate_settings_localizations(archive, PREFIX, '0.9.6'), 71)
+
+    def test_original208_quoted_local_read_is_rejected(self):
+        def change(code, values):
+            if code == 'ru': values['NagramiX.ReadMode.Local'] = 'Локальное «чтение»'
+            return True
+        with self.archive(self.final_catalogs, change) as archive, self.assertRaisesRegex(SystemExit, 'неполны: ru'):
+            validate_settings_localizations(archive, PREFIX, '0.9.6')
+
+    def test_096_local_read_keeps_published_095_unchanged(self):
+        self.assertEqual(expected_nagramix_catalogs('0.9.5')['ru']['NagramiX.ReadMode.Local'], 'Локальное «чтение»')
+        self.assertEqual(expected_nagramix_catalogs('0.9.6')['ru']['NagramiX.ReadMode.Local'], 'Локальное чтение')
+
+    def test_096_other_value_changed_at_same_count_is_rejected(self):
+        def change(code, values):
+            if code == 'en': values['NagramiX.Settings.Page.Other'] = 'changed'
+            return True
+        with self.archive(self.final_catalogs, change) as archive, self.assertRaisesRegex(SystemExit, 'неполны: en'):
+            validate_settings_localizations(archive, PREFIX, '0.9.6')
+
+    def test_096_missing_language_is_rejected(self):
+        with self.archive(self.final_catalogs, lambda code, values: code != 'de') as archive, self.assertRaises(SystemExit):
+            validate_settings_localizations(archive, PREFIX, '0.9.6')
+
+    def test_096_extra_language_is_rejected(self):
+        with self.archive(self.final_catalogs, extra={'zz': self.final_catalogs['en']}) as archive, self.assertRaises(SystemExit):
+            validate_settings_localizations(archive, PREFIX, '0.9.6')
+
+    def test_local_read_source_snapshot_sha_is_checked(self):
+        plan = json.loads((ROOT/'ios/local_read_label_patches.json').read_text())
+        name = 'submodules/NagramiXCore/Resources/ru.lproj/Localizable.strings'
+        source = ROOT/'ios'/plan['replacements'][name]
+        original = Path.read_bytes
+        def corrupted(path):
+            data = original(path)
+            return data + b'\n// drift\n' if path == source else data
+        with mock.patch.object(Path, 'read_bytes', new=corrupted), self.assertRaisesRegex(SystemExit, 'каталог локального чтения изменён'):
+            expected_nagramix_catalogs('0.9.6')
 
     def test_095_catalog_rejected_for_096(self):
         with self.archive(expected_nagramix_catalogs('0.9.5')) as archive, self.assertRaises(SystemExit):
