@@ -354,5 +354,10 @@
   "physical_iPhone": "pending",
   "API_secret_listing": "403; no credential values inspected; shape/presence must pass early runner step",
   "tracked_commit_input_gate_simulated": true,
-  "final_diff_review": "All14 staged files reviewed; zero app-source/dependency/signing changes; annotation100%rename; no unstaged edits"
+  "final_diff_review": "All14 staged files reviewed; zero app-source/dependency/signing changes; annotation100%rename; no unstaged edits",
+  "subsequent_owner_instruction": {
+    "automatic_checked_retries": true,
+    "owner_release_publication": true,
+    "supersedes_initial_single_attempt_limit": true
+  }
 }
