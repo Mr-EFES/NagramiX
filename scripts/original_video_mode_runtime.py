@@ -8,6 +8,7 @@ HELPER=BASE+'Sources/NagramiXOriginalVideoSend.swift'
 RENDER=BASE+'Sources/ChatMediaSendRender.swift'
 LEGACY='submodules/LegacyMediaPickerUI/Sources/LegacyMediaPickers.swift'
 SIGNALS='submodules/SSignalKit/SwiftSignalKit/Source/'
+GEOMETRY_IMPORTS='import Foundation\n#if canImport(CoreGraphics)\nimport CoreGraphics\n#endif\n'
 
 
 def signal_library(source):
@@ -26,7 +27,7 @@ def signal_library(source):
 
 
 def fixture(source):
-    code=signal_library(source)
+    code=GEOMETRY_IMPORTS+signal_library(source)
     for marker in ['public struct ChatMediaSendItemOptions:','public struct ChatMediaSendGlobalOptions:']:
         code+='\n'+block((source/(BASE+'Sources/ChatMediaSendPlan.swift')).read_text(),marker).replace('public ','')
     code+='\n'+BOUNDARY

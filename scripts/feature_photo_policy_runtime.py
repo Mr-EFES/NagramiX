@@ -2,8 +2,9 @@
 from validate_quick_format import block
 BASE='submodules/TelegramUI/Components/ChatMediaSend/Sources/'
 MEDIA='submodules/NagramiXMediaSettings/Sources/NagramiXMediaSettings.swift'
+GEOMETRY_IMPORTS='import Foundation\n#if canImport(CoreGraphics)\nimport CoreGraphics\n#endif\n'
 def fixture(source):
- code='import Foundation\n'+(source/MEDIA).read_text()+BOUNDARY
+ code=GEOMETRY_IMPORTS+(source/MEDIA).read_text()+BOUNDARY
  plan=(source/(BASE+'ChatMediaSendPlan.swift')).read_text()
  for marker in ['public struct ChatMediaSendItemOptions:', 'public struct ChatMediaSendGlobalOptions:']:
   code+='\n'+block(plan,marker).replace('public ','')

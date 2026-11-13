@@ -5,11 +5,12 @@ ASDisplayNode/theme/wallpaper edges are adapters; this does not certify pixels.
 from validate_quick_format import block
 VIEW='submodules/TelegramUI/Components/Chat/ChatMessageItemView/Sources/ChatMessageItemView.swift'
 BACKGROUND='submodules/ChatMessageBackground/Sources/ChatMessageBackground.swift'
+GEOMETRY_IMPORTS='import Foundation\n#if canImport(CoreGraphics)\nimport CoreGraphics\n#endif\n'
 
 
 def fixture(source):
     view=(source/VIEW).read_text();background=(source/BACKGROUND).read_text()
-    code='import Foundation\n'
+    code=GEOMETRY_IMPORTS
     for marker in ['public enum ChatMessageBackgroundMergeType:', 'public enum ChatMessageBackgroundType:']:
         code+='\n'+block(background,marker).replace('public ','')
     code+='\n'+BOUNDARY

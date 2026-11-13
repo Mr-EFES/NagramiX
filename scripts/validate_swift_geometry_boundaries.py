@@ -22,6 +22,9 @@ from font_preview_apply_runtime import IMPORTS as FONT_PREVIEW_IMPORTS
 from wide_panel_consistency_runtime import BOUNDARY as WIDE_PANEL_BOUNDARY
 from system_web_picture_in_picture_runtime import BOUNDARY as SYSTEM_WEB_BOUNDARY
 from system_web_picture_in_picture_gallery_runtime import BOUNDARY as SYSTEM_WEB_GALLERY_BOUNDARY
+from original_video_mode_runtime import GEOMETRY_IMPORTS as ORIGINAL_VIDEO_IMPORTS
+from feature_photo_policy_runtime import GEOMETRY_IMPORTS as PHOTO_POLICY_IMPORTS
+from feature_wide_post_envelope_runtime import GEOMETRY_IMPORTS as WIDE_POST_IMPORTS
 
 
 PROBE = r'''
@@ -34,6 +37,11 @@ PROBE = r'''
         let frame = CGRect(origin: .zero, size: second)
         precondition(frame == CGRect(x: 0, y: 0, width: 348, height: 348))
         precondition(frame.origin == CGPoint.zero)
+        let dimension: Int32 = 348
+        precondition(CGSize(width: Int(dimension), height: Int(dimension)) == second)
+        precondition(frame.minX == 0 && frame.minY == 0)
+        precondition(frame.width == 348 && frame.height == 348)
+        precondition(frame.offsetBy(dx: 5, dy: 8) == CGRect(x: 5, y: 8, width: 348, height: 348))
     }
 }
 '''
@@ -57,6 +65,9 @@ def check(swiftc):
         'wide-panels': WIDE_PANEL_BOUNDARY,
         'system-web-bridges': SYSTEM_WEB_BOUNDARY.split('final class ValuePromise')[0],
         'system-web-gallery': SYSTEM_WEB_GALLERY_BOUNDARY.split('var clock:Double')[0],
+        'original-video-send': ORIGINAL_VIDEO_IMPORTS,
+        'photo-policy': PHOTO_POLICY_IMPORTS,
+        'wide-post-envelope': WIDE_POST_IMPORTS,
     }
     report = {'boundaries': [], 'apple_import_negatives': [],
               'boundary': 'Actual test boundary imports and geometry operators; no UIKit or whole-app SDK build.'}
