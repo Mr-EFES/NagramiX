@@ -69,7 +69,7 @@ def canonical_projection(destination, through_stage):
     else: raise AssertionError('Unknown checkpoint: '+through_stage)
     # Complete application trees are built by the normal guarded overlay.
     # This earlier fixture gate needs only real canonical Swift sources.
-    native_headers = {'submodules/MtProtoKit/PublicHeaders/MtProtoKit/MTRpcError.h'} if through_stage == 'release_096_transcription_compatibility' else set()
+    native_headers = {'submodules/MtProtoKit/PublicHeaders/MtProtoKit/MTRpcError.h'} if through_stage in {'release_096_transcription_compatibility','release_096_font_node_compatibility'} else set()
     expected = {n:sha for n,sha in expected.items() if (n.endswith('.swift') or n in native_headers) and n not in post['deletions']}
     missing = {n:sha for n,sha in expected.items() if n not in sources}
     if missing:
@@ -125,7 +125,8 @@ def main():
         # Check the final calendar at the actual iOS15 target before the large
         # runtime matrix. Stage57 remains an exact historical runtime checkpoint.
         calendar_source=root/'calendar-native-final'
-        files['native_final62']=canonical_projection(calendar_source,'release_096_transcription_compatibility')
+        files['native_final63']=canonical_projection(calendar_source,'release_096_font_node_compatibility')
+        initial_font_node=font_node_check(calendar_source,args.swiftc,root)
         rpc_error=rpc_error_check(calendar_source,args.swiftc,root/'rpc-error-native')
         runs+=execute(args.swiftc,root,'nullable-premium-asr',transcription_compatibility.fixture(calendar_source))
         snowfall_holidays_apple=snowfall_holidays_apple_check(calendar_source,args.swiftc,root)
@@ -185,7 +186,7 @@ def main():
         input_effects_apple = input_effects_apple_check(root/'input_effects', args.swiftc, root)
         snowfall_apple = snowfall_apple_check(root/'snowfall', args.swiftc, root)
     report = {'canonical_swift_files_by_checkpoint':files, 'complete_fixtures':27, 'executions':runs,
-              'font_apply_node_contract':node,'native_navigation_contract':navigation, 'font_adapter_access_contract':access, 'apple_uikit_precheck':apple, 'font_icon_uikit_precheck':icon, 'warnings_as_errors':True, 'historical_projection_cleanup':'completed temporary checkpoints removed; four native-check projections retained; final62 native RPC header/IUO fixture, final61 calendar and clipboard SDK checks run first',
+              'font_apply_node_contract':node,'native_navigation_contract':navigation, 'font_adapter_access_contract':access, 'apple_uikit_precheck':apple, 'font_icon_uikit_precheck':icon, 'warnings_as_errors':True, 'historical_projection_cleanup':'completed temporary checkpoints removed; four native-check projections retained; final63 imported Texture initializer first, native RPC/IUO, final61 calendar and clipboard SDK gates retained',
               'full_application_sdk':'pending', 'device':'pending'}
     report['actual_font_theme_adapter_members']=theme_members
     report['system_web_javascript']=system_js
@@ -196,6 +197,7 @@ def main():
     report['snowfall_real_sdk']=snowfall_apple
     report['snowfall_holidays_real_sdk']=snowfall_holidays_apple
     report['composer_copy_real_sdk']=composer_copy_apple
+    report['font_node_first_real_contract']=initial_font_node
     report['rpc_error_nullability']=rpc_error
     report['foundation_fixture_precheck']=foundation
     report['single_touch_selection_real_sdk']=single_selection_apple

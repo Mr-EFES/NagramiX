@@ -1,0 +1,964 @@
+{
+  "version": "0.9.6",
+  "failed_build": 207,
+  "run_id": 43325362613,
+  "job_id": 131556352842,
+  "source_commit": "b5ea81bc5f12be67ee5218bf431dc62afc49c7af",
+  "failure_stage": "Native SettingsUI Swift compilation; root TelegramUI depends on SettingsUI and was not yet verified",
+  "actual_diagnostic": "NagramiXFontsController.swift:77:15: init(viewBlock:didLoadBlock:) has been renamed to init(viewBlock:didLoad:)",
+  "cause": "Previous node test checked native ObjC declarations but invented the wrong Swift label didLoadBlock and rejected correct didLoad. Native Swift importer conversion was not covered.",
+  "fix": "Guarded late63 changes exactly one label to didLoad. Same designated2argument initializer. Node tests use correct Swift ABI; Apple first-gate copies actual guarded ObjC typedefs/declarations/attributes and sizes into explicit NSObject shell and uses real importer/UIKit. Original207 must be rejected. Historical52 runtime/source exact; native checks select final63 UI for known hashes only.",
+  "source": {
+    "stage": 63,
+    "name": "release_096_font_node_compatibility",
+    "path": "/tmp/nagramix-font-node-compatibility/source",
+    "manifest_sha256": "93cc510de32754940c7c479bb68c2781077be30ec684b5bcf6dc3b9b40f0c633",
+    "previous_manifest_sha256": "d859d8a62b549f3a76291658a6a24a37eee446879460ddf9381f164616707718",
+    "files": 37690,
+    "symlinks": 26,
+    "modified_runtime_paths": [
+      "submodules/SettingsUI/Sources/NagramiXFontsController.swift"
+    ],
+    "guards": 5,
+    "new_inc": 7,
+    "old_inc_unchanged": 4350,
+    "historical_manifests_verified": 20
+  },
+  "feature": {
+    "stage": "release_096_font_node_compatibility",
+    "loader_refusals": 12,
+    "executions": [
+      {
+        "name": "font-preview-final63",
+        "mode": "debug",
+        "exit_code": 0,
+        "output": "Font preview production checks: 5407"
+      },
+      {
+        "name": "font-preview-final63",
+        "mode": "optimized",
+        "exit_code": 0,
+        "output": "Font preview production checks: 5407"
+      },
+      {
+        "name": "font-resolver-final63",
+        "mode": "debug",
+        "exit_code": 0,
+        "output": "App font selection checks: 58"
+      },
+      {
+        "name": "font-resolver-final63",
+        "mode": "optimized",
+        "exit_code": 0,
+        "output": "App font selection checks: 58"
+      },
+      {
+        "name": "row-immediate-save",
+        "mode": "debug",
+        "exit_code": 96,
+        "output": "Font preview regression: row selection never persists or notifies"
+      },
+      {
+        "name": "row-immediate-save",
+        "mode": "optimized",
+        "exit_code": 96,
+        "output": "Font preview regression: row selection never persists or notifies"
+      },
+      {
+        "name": "apply-does-not-save",
+        "mode": "debug",
+        "exit_code": 96,
+        "output": "Font preview regression: Apply persists once"
+      },
+      {
+        "name": "apply-does-not-save",
+        "mode": "optimized",
+        "exit_code": 96,
+        "output": "Font preview regression: Apply persists once"
+      },
+      {
+        "name": "external-overwrites-draft",
+        "mode": "debug",
+        "exit_code": 96,
+        "output": "Font preview regression: external change keeps pending candidate"
+      },
+      {
+        "name": "external-overwrites-draft",
+        "mode": "optimized",
+        "exit_code": 96,
+        "output": "Font preview regression: external change keeps pending candidate"
+      },
+      {
+        "name": "lost-legal-content",
+        "mode": "debug",
+        "exit_code": 96,
+        "output": "Font preview regression: every original legal word retained in order"
+      },
+      {
+        "name": "lost-legal-content",
+        "mode": "optimized",
+        "exit_code": 96,
+        "output": "Font preview regression: every original legal word retained in order"
+      },
+      {
+        "name": "no-accessibility-scroll",
+        "mode": "debug",
+        "exit_code": 96,
+        "output": "Font preview regression: font list remains accessible"
+      },
+      {
+        "name": "no-accessibility-scroll",
+        "mode": "optimized",
+        "exit_code": 96,
+        "output": "Font preview regression: font list remains accessible"
+      }
+    ],
+    "node": {
+      "native_headers": "guarded actual Texture declarations; Swift3 imported label is didLoad, not raw ObjC didLoadBlock",
+      "source_contract": {
+        "source_ui_sha256": "441dbe4417c4f0c961494429da99a79420b76f4a176d98bada797f48cfe956b8",
+        "sdk_ui_sha256": "441dbe4417c4f0c961494429da99a79420b76f4a176d98bada797f48cfe956b8",
+        "late_stage": 63,
+        "historical_runtime": "original52 source/handlers remain exact; native gate checks final63 selector"
+      },
+      "node_sizing_and_navigation_visibility": [
+        {
+          "mode": "debug",
+          "checks": 3,
+          "result": "passed"
+        },
+        {
+          "mode": "optimized",
+          "checks": 3,
+          "result": "passed"
+        }
+      ],
+      "production_uses_designated_two_argument_initializer": true,
+      "original207_initializer_label": "rejected",
+      "actual_objc_initializer": {
+        "status": "not_run",
+        "reason": "Actual Objective-C importer/UIKit requires Apple; pure Swift model separately checks labels"
+      },
+      "real_uikit": "separate mandatory complete font screen Apple precheck; adapter uses corrected imported labels"
+    },
+    "navigation": {
+      "native_signature": "func updatePresentationData(_ presentationData: NavigationBarPresentationData, transition: ContainedViewLayoutTransition)",
+      "actual_caller": "self.navigationBar?.updatePresentationData(NavigationBarPresentationData(presentationData: value), transition: .immediate)",
+      "checks": [
+        {
+          "name": "current",
+          "expected_result": "passed",
+          "verified": true
+        },
+        {
+          "name": "sdk199-missing-transition",
+          "expected_result": "rejected",
+          "verified": true
+        },
+        {
+          "name": "wrong-transition-label",
+          "expected_result": "rejected",
+          "verified": true
+        }
+      ]
+    },
+    "public_access": [
+      {
+        "name": "public-types",
+        "expected_result": "passed",
+        "verified": true
+      },
+      {
+        "name": "internal-layout",
+        "expected_result": "rejected",
+        "verified": true
+      },
+      {
+        "name": "internal-transition",
+        "expected_result": "rejected",
+        "verified": true
+      }
+    ],
+    "complete_screen_uikit": {
+      "status": "not_run",
+      "reason": "Apple UIKit SDK unavailable on Linux"
+    },
+    "source_unchanged_by_checks": true,
+    "contract": "Exactly one imported initializer label. Same designated two-argument Objective-C initializer, button/frame/navigation visibility, draft/apply/preview/current cards/catalogue/licenses/status/theme unchanged. Historical52 source/runtime exact; compiler checks final63 UI only for known SHA. Original207 label must be rejected.",
+    "full_application_sdk": "pending",
+    "device": "pending"
+  },
+  "early": {
+    "canonical_swift_files_by_checkpoint": {
+      "native_final63": {
+        "written": 527,
+        "pinned_native_dependencies": 6,
+        "unused_unavailable_native_guards": 108
+      },
+      "bubble_selection_edge": {
+        "written": 404,
+        "pinned_native_dependencies": 7,
+        "unused_unavailable_native_guards": 108
+      },
+      "composer_file_attachments": {
+        "written": 416,
+        "pinned_native_dependencies": 7,
+        "unused_unavailable_native_guards": 108
+      },
+      "archived_round_native_controls": {
+        "written": 416,
+        "pinned_native_dependencies": 7,
+        "unused_unavailable_native_guards": 108
+      },
+      "transcription_account_defaults": {
+        "written": 417,
+        "pinned_native_dependencies": 7,
+        "unused_unavailable_native_guards": 108
+      },
+      "app_font_selection": {
+        "written": 423,
+        "pinned_native_dependencies": 7,
+        "unused_unavailable_native_guards": 108
+      },
+      "web_video_picture_in_picture": {
+        "written": 429,
+        "pinned_native_dependencies": 7,
+        "unused_unavailable_native_guards": 108
+      },
+      "temporary_expiration_semantics": {
+        "written": 431,
+        "pinned_native_dependencies": 7,
+        "unused_unavailable_native_guards": 108
+      },
+      "wide_channel_post_consistency": {
+        "written": 435,
+        "pinned_native_dependencies": 7,
+        "unused_unavailable_native_guards": 108
+      },
+      "font_theme_contrast": {
+        "written": 437,
+        "pinned_native_dependencies": 7,
+        "unused_unavailable_native_guards": 108
+      },
+      "system_web_picture_in_picture": {
+        "written": 440,
+        "pinned_native_dependencies": 7,
+        "unused_unavailable_native_guards": 108
+      },
+      "wide_panel_consistency": {
+        "written": 444,
+        "pinned_native_dependencies": 7,
+        "unused_unavailable_native_guards": 108
+      },
+      "premium_temporary_transcription": {
+        "written": 444,
+        "pinned_native_dependencies": 7,
+        "unused_unavailable_native_guards": 108
+      },
+      "font_preview_apply": {
+        "written": 446,
+        "pinned_native_dependencies": 7,
+        "unused_unavailable_native_guards": 108
+      },
+      "edit_result_consistency": {
+        "written": 449,
+        "pinned_native_dependencies": 7,
+        "unused_unavailable_native_guards": 108
+      },
+      "youtube_playback_policy": {
+        "written": 449,
+        "pinned_native_dependencies": 7,
+        "unused_unavailable_native_guards": 108
+      },
+      "input_effects": {
+        "written": 453,
+        "pinned_native_dependencies": 7,
+        "unused_unavailable_native_guards": 108
+      },
+      "snowfall": {
+        "written": 457,
+        "pinned_native_dependencies": 7,
+        "unused_unavailable_native_guards": 108
+      },
+      "snowfall_holidays": {
+        "written": 459,
+        "pinned_native_dependencies": 7,
+        "unused_unavailable_native_guards": 108
+      },
+      "composer_copy_integrity": {
+        "written": 519,
+        "pinned_native_dependencies": 6,
+        "unused_unavailable_native_guards": 108
+      },
+      "single_touch_message_selection": {
+        "written": 526,
+        "pinned_native_dependencies": 6,
+        "unused_unavailable_native_guards": 108
+      },
+      "release_096_calendar_compatibility": {
+        "written": 526,
+        "pinned_native_dependencies": 6,
+        "unused_unavailable_native_guards": 108
+      }
+    },
+    "complete_fixtures": 27,
+    "executions": [
+      {
+        "name": "nullable-premium-asr",
+        "mode": "debug",
+        "exit_code": 0,
+        "output": "PASS Premium file transcription checks: 342"
+      },
+      {
+        "name": "nullable-premium-asr",
+        "mode": "optimized",
+        "exit_code": 0,
+        "output": "PASS Premium file transcription checks: 342"
+      },
+      {
+        "name": "bubble-edge",
+        "mode": "debug",
+        "exit_code": 0,
+        "output": "Production bubble edge checks: 17300"
+      },
+      {
+        "name": "bubble-edge",
+        "mode": "optimized",
+        "exit_code": 0,
+        "output": "Production bubble edge checks: 17300"
+      },
+      {
+        "name": "composer-attachments",
+        "mode": "debug",
+        "exit_code": 0,
+        "output": "701 production composer-file checks passed"
+      },
+      {
+        "name": "composer-attachments",
+        "mode": "optimized",
+        "exit_code": 0,
+        "output": "701 production composer-file checks passed"
+      },
+      {
+        "name": "archived-round-controls",
+        "mode": "debug",
+        "exit_code": 0,
+        "output": "58 archived native-round checks passed"
+      },
+      {
+        "name": "archived-round-controls",
+        "mode": "optimized",
+        "exit_code": 0,
+        "output": "58 archived native-round checks passed"
+      },
+      {
+        "name": "transcription-defaults",
+        "mode": "debug",
+        "exit_code": 0,
+        "output": "Transcription account defaults checks: 38\nPrivate temporary transcription checks: 590"
+      },
+      {
+        "name": "transcription-defaults",
+        "mode": "optimized",
+        "exit_code": 0,
+        "output": "Transcription account defaults checks: 38\nPrivate temporary transcription checks: 590"
+      },
+      {
+        "name": "font-selection",
+        "mode": "debug",
+        "exit_code": 0,
+        "output": "App font selection checks: 58"
+      },
+      {
+        "name": "font-selection",
+        "mode": "optimized",
+        "exit_code": 0,
+        "output": "App font selection checks: 58"
+      },
+      {
+        "name": "web-video-pip",
+        "mode": "debug",
+        "exit_code": 0,
+        "output": "web-video-pip production checks: 402"
+      },
+      {
+        "name": "web-video-pip",
+        "mode": "optimized",
+        "exit_code": 0,
+        "output": "web-video-pip production checks: 402"
+      },
+      {
+        "name": "expiry-archive",
+        "mode": "debug",
+        "exit_code": 0,
+        "output": "temporary-expiry archive checks: 488"
+      },
+      {
+        "name": "expiry-archive",
+        "mode": "optimized",
+        "exit_code": 0,
+        "output": "temporary-expiry archive checks: 488"
+      },
+      {
+        "name": "expiry-consumption",
+        "mode": "debug",
+        "exit_code": 0,
+        "output": "temporary-expiry consumption checks: 731"
+      },
+      {
+        "name": "expiry-consumption",
+        "mode": "optimized",
+        "exit_code": 0,
+        "output": "temporary-expiry consumption checks: 731"
+      },
+      {
+        "name": "expiry-read",
+        "mode": "debug",
+        "exit_code": 0,
+        "output": "temporary-expiry native read checks: 126"
+      },
+      {
+        "name": "expiry-read",
+        "mode": "optimized",
+        "exit_code": 0,
+        "output": "temporary-expiry native read checks: 126"
+      },
+      {
+        "name": "wide-channel-posts",
+        "mode": "debug",
+        "exit_code": 0,
+        "output": "wide channel post checks: 42672"
+      },
+      {
+        "name": "wide-channel-posts",
+        "mode": "optimized",
+        "exit_code": 0,
+        "output": "wide channel post checks: 42672"
+      },
+      {
+        "name": "font-theme-contrast",
+        "mode": "debug",
+        "exit_code": 0,
+        "output": "font theme production checks: 227"
+      },
+      {
+        "name": "font-theme-contrast",
+        "mode": "optimized",
+        "exit_code": 0,
+        "output": "font theme production checks: 227"
+      },
+      {
+        "name": "system-web-bridges",
+        "mode": "debug",
+        "exit_code": 0,
+        "output": "system web PiP production checks: 93"
+      },
+      {
+        "name": "system-web-bridges",
+        "mode": "optimized",
+        "exit_code": 0,
+        "output": "system web PiP production checks: 93"
+      },
+      {
+        "name": "system-web-gallery",
+        "mode": "debug",
+        "exit_code": 0,
+        "output": "system web gallery production checks: 48"
+      },
+      {
+        "name": "system-web-gallery",
+        "mode": "optimized",
+        "exit_code": 0,
+        "output": "system web gallery production checks: 48"
+      },
+      {
+        "name": "wide-panels",
+        "mode": "debug",
+        "exit_code": 0,
+        "output": "PASS wide panel production checks: 2723"
+      },
+      {
+        "name": "wide-panels",
+        "mode": "optimized",
+        "exit_code": 0,
+        "output": "PASS wide panel production checks: 2723"
+      },
+      {
+        "name": "premium-file-asr",
+        "mode": "debug",
+        "exit_code": 0,
+        "output": "PASS Premium file transcription checks: 307"
+      },
+      {
+        "name": "premium-file-asr",
+        "mode": "optimized",
+        "exit_code": 0,
+        "output": "PASS Premium file transcription checks: 307"
+      },
+      {
+        "name": "font-preview-apply",
+        "mode": "debug",
+        "exit_code": 0,
+        "output": "Font preview production checks: 5407"
+      },
+      {
+        "name": "font-preview-apply",
+        "mode": "optimized",
+        "exit_code": 0,
+        "output": "Font preview production checks: 5407"
+      },
+      {
+        "name": "final-font-resolver",
+        "mode": "debug",
+        "exit_code": 0,
+        "output": "App font selection checks: 58"
+      },
+      {
+        "name": "final-font-resolver",
+        "mode": "optimized",
+        "exit_code": 0,
+        "output": "App font selection checks: 58"
+      },
+      {
+        "name": "edit-result-consistency",
+        "mode": "debug",
+        "exit_code": 0,
+        "output": "Edit result production checks: 588"
+      },
+      {
+        "name": "edit-result-consistency",
+        "mode": "optimized",
+        "exit_code": 0,
+        "output": "Edit result production checks: 588"
+      },
+      {
+        "name": "youtube-policy-bridge",
+        "mode": "debug",
+        "exit_code": 0,
+        "output": "YouTube bridge production checks: 130"
+      },
+      {
+        "name": "youtube-policy-bridge",
+        "mode": "optimized",
+        "exit_code": 0,
+        "output": "YouTube bridge production checks: 130"
+      },
+      {
+        "name": "youtube-policy-setting",
+        "mode": "debug",
+        "exit_code": 0,
+        "output": "YouTube actual setting checks: 11"
+      },
+      {
+        "name": "youtube-policy-setting",
+        "mode": "optimized",
+        "exit_code": 0,
+        "output": "YouTube actual setting checks: 11"
+      },
+      {
+        "name": "input-effects",
+        "mode": "debug",
+        "exit_code": 0,
+        "output": "Input effects production checks: 311"
+      },
+      {
+        "name": "input-effects",
+        "mode": "optimized",
+        "exit_code": 0,
+        "output": "Input effects production checks: 311"
+      },
+      {
+        "name": "snowfall",
+        "mode": "debug",
+        "exit_code": 0,
+        "output": "Snowfall production checks: 400"
+      },
+      {
+        "name": "snowfall",
+        "mode": "optimized",
+        "exit_code": 0,
+        "output": "Snowfall production checks: 400"
+      },
+      {
+        "name": "snowfall-holidays",
+        "mode": "debug",
+        "exit_code": 0,
+        "output": "Holiday snowfall production checks: 6933"
+      },
+      {
+        "name": "snowfall-holidays",
+        "mode": "optimized",
+        "exit_code": 0,
+        "output": "Holiday snowfall production checks: 6933"
+      },
+      {
+        "name": "composer-copy-integrity",
+        "mode": "debug",
+        "exit_code": 0,
+        "output": "Composer copy/draft production checks: 117"
+      },
+      {
+        "name": "composer-copy-integrity",
+        "mode": "optimized",
+        "exit_code": 0,
+        "output": "Composer copy/draft production checks: 117"
+      },
+      {
+        "name": "single-touch-message-selection",
+        "mode": "debug",
+        "exit_code": 0,
+        "output": "single-touch message selection: 4841 production checks passed"
+      },
+      {
+        "name": "single-touch-message-selection",
+        "mode": "optimized",
+        "exit_code": 0,
+        "output": "single-touch message selection: 4841 production checks passed"
+      },
+      {
+        "name": "calendar-ios15",
+        "mode": "debug",
+        "exit_code": 0,
+        "output": "Calendar API compatibility: 5857 checks passed\nHoliday snowfall production checks: 6933"
+      },
+      {
+        "name": "calendar-ios15",
+        "mode": "optimized",
+        "exit_code": 0,
+        "output": "Calendar API compatibility: 5857 checks passed\nHoliday snowfall production checks: 6933"
+      }
+    ],
+    "font_apply_node_contract": {
+      "native_headers": "guarded actual Texture declarations; Swift3 imported label is didLoad, not raw ObjC didLoadBlock",
+      "source_contract": {
+        "source_ui_sha256": "7b5fed3b2c65504d044fe5c1a058b08eb5054532d9fefccc8a672143e703505d",
+        "sdk_ui_sha256": "441dbe4417c4f0c961494429da99a79420b76f4a176d98bada797f48cfe956b8",
+        "late_stage": 63,
+        "historical_runtime": "original52 source/handlers remain exact; native gate checks final63 selector"
+      },
+      "node_sizing_and_navigation_visibility": [
+        {
+          "mode": "debug",
+          "checks": 3,
+          "result": "passed"
+        },
+        {
+          "mode": "optimized",
+          "checks": 3,
+          "result": "passed"
+        }
+      ],
+      "production_uses_designated_two_argument_initializer": true,
+      "original207_initializer_label": "rejected",
+      "actual_objc_initializer": {
+        "status": "not_run",
+        "reason": "Actual Objective-C importer/UIKit requires Apple; pure Swift model separately checks labels"
+      },
+      "real_uikit": "separate mandatory complete font screen Apple precheck; adapter uses corrected imported labels"
+    },
+    "native_navigation_contract": {
+      "native_signature": "func updatePresentationData(_ presentationData: NavigationBarPresentationData, transition: ContainedViewLayoutTransition)",
+      "actual_caller": "self.navigationBar?.updatePresentationData(NavigationBarPresentationData(presentationData: value), transition: .immediate)",
+      "checks": [
+        {
+          "name": "current",
+          "expected_result": "passed",
+          "verified": true
+        },
+        {
+          "name": "sdk199-missing-transition",
+          "expected_result": "rejected",
+          "verified": true
+        },
+        {
+          "name": "wrong-transition-label",
+          "expected_result": "rejected",
+          "verified": true
+        }
+      ]
+    },
+    "font_adapter_access_contract": [
+      {
+        "name": "public-types",
+        "expected_result": "passed",
+        "verified": true
+      },
+      {
+        "name": "internal-layout",
+        "expected_result": "rejected",
+        "verified": true
+      },
+      {
+        "name": "internal-transition",
+        "expected_result": "rejected",
+        "verified": true
+      }
+    ],
+    "apple_uikit_precheck": {
+      "status": "not_run",
+      "reason": "Apple UIKit SDK unavailable on Linux"
+    },
+    "font_icon_uikit_precheck": {
+      "status": "not_run",
+      "reason": "Real UIKit renderer typecheck requires Apple SDK"
+    },
+    "warnings_as_errors": true,
+    "historical_projection_cleanup": "completed temporary checkpoints removed; four native-check projections retained; final63 imported Texture initializer first, native RPC/IUO, final61 calendar and clipboard SDK gates retained",
+    "full_application_sdk": "pending",
+    "device": "pending",
+    "actual_font_theme_adapter_members": {
+      "status": "passed",
+      "scope": "Actual final font UIKit adapter root/status declarations with native enum cases/getter and actual caller; pixels not exercised"
+    },
+    "system_web_javascript": {
+      "status": "passed",
+      "output": "system web DOM production checks: 88",
+      "boundary": "Actual injected JavaScript in Node vm; explicit DOM/frame/video events, no real iOS WebKit or media pixels"
+    },
+    "system_web_real_sdk": {
+      "status": "not_run",
+      "reason": "Real AVKit/WebKit/AVFoundation SDK requires macOS"
+    },
+    "youtube_playback_policy_js": {
+      "status": "passed",
+      "output": "YouTube playback DOM production checks: 72",
+      "semantic_mutations": [
+        {
+          "name": "no-observer",
+          "rejected": true,
+          "diagnostic": "site cannot reapply video hint while enabled"
+        },
+        {
+          "name": "no-lifecycle-guard",
+          "rejected": true,
+          "diagnostic": "hidden lifecycle cannot pause permitted playback"
+        },
+        {
+          "name": "wrong-native-method",
+          "rejected": true,
+          "diagnostic": "original HTML video uses native WebKit mode"
+        },
+        {
+          "name": "ignore-off",
+          "rejected": true,
+          "diagnostic": "OFF restores original video restriction"
+        }
+      ],
+      "boundary": "Actual injected script in Node vm with explicit event/DOM/MutationObserver/native-video adapters. No real WebKit, YouTube network, DRM or iPhone audio scheduling tested."
+    },
+    "youtube_playback_policy_apple": {
+      "status": "not_run",
+      "reason": "Real AVKit/WebKit/AVFoundation SDK requires macOS"
+    },
+    "input_effects_real_sdk": {
+      "status": "not_run",
+      "reason": "Real UIKit/QuartzCore SDK requires macOS"
+    },
+    "snowfall_real_sdk": {
+      "status": "not_run",
+      "reason": "Real UIKit/QuartzCore SDK requires macOS"
+    },
+    "snowfall_holidays_real_sdk": {
+      "status": "not_run",
+      "reason": "Real UIKit/QuartzCore SDK requires macOS"
+    },
+    "composer_copy_real_sdk": {
+      "status": "not_run",
+      "reason": "Real UIKit pasteboard SDK requires macOS"
+    },
+    "font_node_first_real_contract": {
+      "native_headers": "guarded actual Texture declarations; Swift3 imported label is didLoad, not raw ObjC didLoadBlock",
+      "source_contract": {
+        "source_ui_sha256": "441dbe4417c4f0c961494429da99a79420b76f4a176d98bada797f48cfe956b8",
+        "sdk_ui_sha256": "441dbe4417c4f0c961494429da99a79420b76f4a176d98bada797f48cfe956b8",
+        "late_stage": 63,
+        "historical_runtime": "original52 source/handlers remain exact; native gate checks final63 selector"
+      },
+      "node_sizing_and_navigation_visibility": [
+        {
+          "mode": "debug",
+          "checks": 3,
+          "result": "passed"
+        },
+        {
+          "mode": "optimized",
+          "checks": 3,
+          "result": "passed"
+        }
+      ],
+      "production_uses_designated_two_argument_initializer": true,
+      "original207_initializer_label": "rejected",
+      "actual_objc_initializer": {
+        "status": "not_run",
+        "reason": "Actual Objective-C importer/UIKit requires Apple; pure Swift model separately checks labels"
+      },
+      "real_uikit": "separate mandatory complete font screen Apple precheck; adapter uses corrected imported labels"
+    },
+    "rpc_error_nullability": {
+      "status": "passed",
+      "boundary": "explicit IUO adapter on Linux; native Objective-C importer pending Apple",
+      "module_paths": {
+        "absolute_and_relative_source": "passed",
+        "original206_relative_modulemap": "reproduced and rejected",
+        "scope": "Real Swift/Clang module import with a C declaration verifies filesystem lookup only; actual RPC header/iOS types are checked separately."
+      },
+      "header_sha256": "6d3addd8404ac603837012de0b70ffff9a8b74d9da61fd5a0946c148d8f626ac",
+      "original205_reproduced_and_rejected": true,
+      "classification_body": "exact production lines; Signal is an explicit output-only type adapter",
+      "whole_engine_fixture": "separate full production ASR/Engine/Coordinator runtime with IUO and nil failures",
+      "full_application_sdk": "pending",
+      "device": "pending"
+    },
+    "foundation_fixture_precheck": {
+      "executions": [
+        {
+          "name": "composer-foundation-boundary",
+          "mode": "debug",
+          "exit_code": 0,
+          "output": "Foundation fixture boundary: passed"
+        },
+        {
+          "name": "composer-foundation-boundary",
+          "mode": "optimized",
+          "exit_code": 0,
+          "output": "Foundation fixture boundary: passed"
+        }
+      ],
+      "native_negative_refusals": [],
+      "native_negative_status": "not_run; Objective-C Foundation/CoreGraphics requires Apple",
+      "scope": "Actual checked-in platform conditionals with real Foundation attributed string initialization and CGRect operators. No UIKit stand-ins in this probe; separate UIKit gate remains mandatory."
+    },
+    "single_touch_selection_real_sdk": {
+      "status": "not_run",
+      "reason": "Real UIKit requires the Apple SDK on macOS"
+    }
+  },
+  "historical52_bridge": {
+    "native_headers": "guarded actual Texture declarations; Swift3 imported label is didLoad, not raw ObjC didLoadBlock",
+    "source_contract": {
+      "source_ui_sha256": "7b5fed3b2c65504d044fe5c1a058b08eb5054532d9fefccc8a672143e703505d",
+      "sdk_ui_sha256": "441dbe4417c4f0c961494429da99a79420b76f4a176d98bada797f48cfe956b8",
+      "late_stage": 63,
+      "historical_runtime": "original52 source/handlers remain exact; native gate checks final63 selector"
+    },
+    "node_sizing_and_navigation_visibility": [
+      {
+        "mode": "debug",
+        "checks": 3,
+        "result": "passed"
+      },
+      {
+        "mode": "optimized",
+        "checks": 3,
+        "result": "passed"
+      }
+    ],
+    "production_uses_designated_two_argument_initializer": true,
+    "original207_initializer_label": "rejected",
+    "actual_objc_initializer": {
+      "status": "not_run",
+      "reason": "Actual Objective-C importer/UIKit requires Apple; pure Swift model separately checks labels"
+    },
+    "real_uikit": "separate mandatory complete font screen Apple precheck; adapter uses corrected imported labels"
+  },
+  "upstream": {
+    "parsed_swift": 634,
+    "fail_closed": {
+      "pre": 17,
+      "post": 33
+    },
+    "historical_executions": 14,
+    "native_postbox_imports": "passed"
+  },
+  "inverse": {
+    "published_contract_paths": 860,
+    "negative_checks": 336,
+    "full_source_files_preserved": 37690
+  },
+  "localization": {
+    "catalogs": 71,
+    "keys": 668,
+    "runtime_lookups_per_mode": 47597,
+    "modes": [
+      "debug",
+      "optimized"
+    ],
+    "uppercase_headers": 24,
+    "first_local_attempt": "Temporary disk limit during overlapping checks; no source error. Completed checks released their temporary files, unchanged localization passed in sequential rerun."
+  },
+  "custom_members": {
+    "full_swift_files": 7332,
+    "canonical_swift_files": 254,
+    "status": "passed"
+  },
+  "native_members": {
+    "swift_files": 7332,
+    "native_generated_members": 12190,
+    "native_string_uses": 18587,
+    "distinct_native_members": 10392,
+    "proven_other_typed_owner_reads": 8,
+    "sdk200_mutation_rejected": true,
+    "apple_actual_generated_header": {
+      "status": "not_run",
+      "reason": "Real Objective-C/Apple SDK import requires macOS and swiftc"
+    },
+    "boundary": "Actual native GenerateStrings.py, build rule and final English catalog; generated member existence through strings/namedStrings receivers. Other typed owners need source declaration evidence. Full Swift call arity/type checking and app runtime still require SDK/device."
+  },
+  "workflow": {
+    "optional_historical_calls": 189,
+    "unconditional_apply_calls": 71,
+    "mandatory_final_checks": [
+      "validate_late_source_stages.py",
+      "validate_custom_member_references.py",
+      "validate_upstream_13_2_release.py",
+      "validate_localization_standard.py",
+      "validate_release_092_settings_compile.py",
+      "validate_round_native_playback.py",
+      "validate_poll_copy_transport.py",
+      "validate_release_095_fonts_compile.py",
+      "validate_release_095_composer_strings_compile.py",
+      "validate_wide_channel_post_consistency.py",
+      "validate_font_theme_contrast.py",
+      "validate_system_web_picture_in_picture.py",
+      "validate_wide_panel_consistency.py",
+      "validate_settings_section_header_case.py",
+      "validate_premium_temporary_transcription.py",
+      "validate_font_preview_apply.py",
+      "validate_edit_result_consistency.py",
+      "validate_youtube_playback_policy.py",
+      "validate_input_effects.py",
+      "validate_snowfall.py",
+      "validate_snowfall_holidays.py",
+      "validate_composer_copy_integrity.py",
+      "validate_single_touch_message_selection.py",
+      "validate_release_096_calendar_compatibility.py",
+      "validate_release_096_transcription_compatibility.py",
+      "validate_release_096_font_node_compatibility.py",
+      "PostboxImportCheck.py"
+    ],
+    "complete_fixture_preflight_before_overlay": "mandatory",
+    "bash_syntax": "passed",
+    "runtime_cases": [
+      {
+        "extended": "false",
+        "exit_code": 0
+      },
+      {
+        "extended": "true",
+        "exit_code": 17
+      },
+      {
+        "extended": "true",
+        "exit_code": 0
+      },
+      {
+        "extended": "invalid",
+        "exit_code": 64
+      }
+    ]
+  },
+  "added_constructor_label_audit": "All additions46–63 inspected: only the repaired font Apply node added super.init(viewBlock:didLoadBlock:).",
+  "native_sdk": "pending for63 actual ObjC initializer/importer; first early native gate.207 code fixes for204/205 and test fix206 passed preceding gates.",
+  "device": "pending",
+  "retry": "Current0.9.6 checked clean retry authorized through IPA and owner publication; preserve all8published releases and tag targets."
+}

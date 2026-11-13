@@ -66,6 +66,10 @@ def check(source,swiftc,folder,expect_ui_transition_error=False):
     sdk=subprocess.check_output(['xcrun','--sdk','iphoneos','--show-sdk-path'],text=True).strip()
     clean=lambda text:'\n'.join(line for line in text.splitlines() if not line.startswith('import '))
     boundary=UI_BOUNDARY
+    ui=(source/UI).read_text();ui_contract=None
+    if 'private final class NagramiXFontApplyNode: ASDisplayNode' in ui:
+        from font_preview_apply_native import final_ui
+        ui,ui_contract=final_ui(source)
     if 'self.statusBar.statusBarStyle =' in (source/UI).read_text():
         from font_theme_contrast_apple import theme_boundary
         boundary=theme_boundary(source,boundary)
@@ -73,7 +77,7 @@ def check(source,swiftc,folder,expect_ui_transition_error=False):
         boundary=preview_boundary(source,boundary)
     code='import Foundation\nimport UIKit\nimport CoreText\nimport ObjectiveC\n'+SIGNAL_BOUNDARY+'\n'+boundary
     code+='\nfinal class NavigationBar {'+navigation_signature(source)+' {}}\n'
-    code+='\n'+'\n'.join(clean((source/n).read_text()) for n in [MODEL,FONT,MANAGER,UI])
+    code+='\n'+'\n'.join(clean(ui if n==UI else (source/n).read_text()) for n in [MODEL,FONT,MANAGER,UI])
     path=folder/'fonts-real-uikit.swift';path.write_text(code)
     command=[str(swiftc),'-swift-version','5','-typecheck','-warnings-as-errors','-sdk',sdk,'-target','arm64-apple-ios15.0','-module-cache-path',str(folder/'sdk-cache'),str(path)]
     p=subprocess.run(command,capture_output=True,text=True,timeout=120)
@@ -85,7 +89,7 @@ def check(source,swiftc,folder,expect_ui_transition_error=False):
         assert p.returncode!=0 and errors==["missing argument for parameter 'transition' in call"],p.stdout+p.stderr
         return {'status':'expected_historical_failure_verified','diagnostic':errors[0],'final_corrected_screen':'mandatory positive check in release_095_fonts_compile'}
     assert p.returncode==0,p.stdout+p.stderr
-    return {'status':'passed','target':'arm64-apple-ios15.0','scope':'Complete actual model, Font.swift, resolver, Objective-C hooks and font-screen bodies; real UIKit/CoreText/Foundation/ObjectiveC APIs. Display/AccountContext/theme and SignalKit ownership interfaces are explicit adapters, whole native modules still require SDK build.'}
+    return {'status':'passed','target':'arm64-apple-ios15.0','font_ui_contract':ui_contract,'scope':'Complete actual model, Font.swift, resolver, Objective-C hooks and font-screen bodies; real UIKit/CoreText/Foundation/ObjectiveC APIs. Display/AccountContext/theme and SignalKit ownership interfaces are explicit adapters, whole native modules still require SDK build.'}
 
 SIGNAL_BOUNDARY=r'''
 public enum NoError{}
@@ -157,6 +161,6 @@ def preview_boundary(source, boundary):
     boundary=boundary.replace('struct PresentationStrings {','struct PresentationStrings {\n var Theme_Context_Apply:String {"Apply"}',1)
     boundary=boundary.replace('struct ListTheme {','struct FontCheckColors {var foregroundColor=UIColor.white}\nstruct ListTheme {\n var itemCheckColors=FontCheckColors()',1)
     boundary=boundary.replace('var intrinsicInsets=UIEdgeInsets.zero}', 'var intrinsicInsets=UIEdgeInsets.zero;var safeInsets=UIEdgeInsets.zero}',1)
-    boundary=boundary.replace('class ASDisplayNode {var view=UIView();', 'class ASDisplayNode {var view=UIView();init(){};init(viewBlock:()->UIView,didLoadBlock:(()->Void)?){view=viewBlock()};convenience init(viewBlock:()->UIView){self.init(viewBlock:viewBlock,didLoadBlock:nil)};var frame:CGRect{get{view.frame}set{view.frame=newValue}};func calculateSizeThatFits(_ constrainedSize:CGSize)->CGSize{.zero};func invalidateCalculatedLayout(){};',1)
+    boundary=boundary.replace('class ASDisplayNode {var view=UIView();', 'class ASDisplayNode {var view=UIView();init(){};init(viewBlock:()->UIView,didLoad:((ASDisplayNode)->Void)?){view=viewBlock()};convenience init(viewBlock:()->UIView){self.init(viewBlock:viewBlock,didLoad:nil)};var frame:CGRect{get{view.frame}set{view.frame=newValue}};func calculateSizeThatFits(_ constrainedSize:CGSize)->CGSize{.zero};func invalidateCalculatedLayout(){};',1)
     boundary+='\nextension UIBarButtonItem {convenience init?(customDisplayNode:ASDisplayNode){self.init()};var staysInRow:Bool{get{false}set{}}}\n'
     return boundary

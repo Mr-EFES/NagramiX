@@ -1,0 +1,44 @@
+{
+  "target_pin": "24638bc69bd083981b178dd1e7f921eebbf7fc46",
+  "overlay_base_pin": "279f89e4d4f63f17227bf877dc3d8990f22ecd58",
+  "required_previous_stage": "release_096_transcription_compatibility",
+  "inputs": {
+    "submodules/SettingsUI/Sources/NagramiXFontsController.swift": "7b5fed3b2c65504d044fe5c1a058b08eb5054532d9fefccc8a672143e703505d"
+  },
+  "outputs": {
+    "submodules/SettingsUI/Sources/NagramiXFontsController.swift": "441dbe4417c4f0c961494429da99a79420b76f4a176d98bada797f48cfe956b8"
+  },
+  "previous": {
+    "submodules/SettingsUI/Sources/NagramiXFontsController.swift": "release_096_font_node_compatibility/Before0.inc"
+  },
+  "replacements": {
+    "submodules/SettingsUI/Sources/NagramiXFontsController.swift": "release_096_font_node_compatibility/After0.inc"
+  },
+  "guards": {
+    "submodules/AsyncDisplayKit/Source/PublicHeaders/AsyncDisplayKit/ASDisplayNode.h": "d33ca23e85806dcc827de767c01cf17a7db0c36306a1aae18d60b1189791d834",
+    "submodules/AsyncDisplayKit/Source/PublicHeaders/AsyncDisplayKit/ASDisplayNode+Subclasses.h": "72d400bb022f59a06b1c62e0180fe0bcc10c006a0ec90099f3b8b34c7100b1bf",
+    "submodules/TelegramUI/Components/NavigationBarNode/Sources/NavigationBarItemContent.swift": "b3c1d12aa12624d2ee65321e3ac1da83c45390b3ec999bbd4359cf8e326c8a4a",
+    "submodules/NagramiXMediaSettings/Sources/NagramiXFontSettings.swift": "d60ee84ffc499869e0f455610f758861d48705b87dc027b69df2ea95c82a0814",
+    "submodules/Display/Source/NagramiXFontManager.swift": "99c6e6f5a5c412f840ef19a1a6c8ed327edfa4a55420654923d8585622a0e751"
+  },
+  "guard_sources": {
+    "submodules/AsyncDisplayKit/Source/PublicHeaders/AsyncDisplayKit/ASDisplayNode.h": "release_096_font_node_compatibility/Guard0.inc",
+    "submodules/AsyncDisplayKit/Source/PublicHeaders/AsyncDisplayKit/ASDisplayNode+Subclasses.h": "release_096_font_node_compatibility/Guard1.inc",
+    "submodules/TelegramUI/Components/NavigationBarNode/Sources/NavigationBarItemContent.swift": "release_096_font_node_compatibility/Guard2.inc",
+    "submodules/NagramiXMediaSettings/Sources/NagramiXFontSettings.swift": "release_096_font_node_compatibility/Guard3.inc",
+    "submodules/Display/Source/NagramiXFontManager.swift": "release_096_font_node_compatibility/Guard4.inc"
+  },
+  "copies": {},
+  "deletions": {},
+  "native_inputs": {},
+  "native_guards": {},
+  "templates": {
+    "release_096_font_node_compatibility/Before0.inc": "7b5fed3b2c65504d044fe5c1a058b08eb5054532d9fefccc8a672143e703505d",
+    "release_096_font_node_compatibility/After0.inc": "441dbe4417c4f0c961494429da99a79420b76f4a176d98bada797f48cfe956b8",
+    "release_096_font_node_compatibility/Guard0.inc": "d33ca23e85806dcc827de767c01cf17a7db0c36306a1aae18d60b1189791d834",
+    "release_096_font_node_compatibility/Guard1.inc": "72d400bb022f59a06b1c62e0180fe0bcc10c006a0ec90099f3b8b34c7100b1bf",
+    "release_096_font_node_compatibility/Guard2.inc": "b3c1d12aa12624d2ee65321e3ac1da83c45390b3ec999bbd4359cf8e326c8a4a",
+    "release_096_font_node_compatibility/Guard3.inc": "d60ee84ffc499869e0f455610f758861d48705b87dc027b69df2ea95c82a0814",
+    "release_096_font_node_compatibility/Guard4.inc": "99c6e6f5a5c412f840ef19a1a6c8ed327edfa4a55420654923d8585622a0e751"
+  }
+}
