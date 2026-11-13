@@ -1,0 +1,2514 @@
+{
+  "audit_date": "2026-11-13",
+  "scope": "Read-only functional contract audit requested by owner; app implementation, stages, registry statuses, workflows, release metadata and releases unchanged.",
+  "source_commit": "3aea44d9d89fbdaa16a5e2ba14be6daf2e5e9f9a",
+  "source_stage": 70,
+  "source_manifest_sha256": "0359e1480536e2cdb4d03d6a33c943f3866fafd84e81a022d904a38ace23aa35",
+  "published_ipa_baseline": {
+    "version": "0.9.6",
+    "build": 208,
+    "source_stage": 63,
+    "contains_source_fixes_64_through_70": false
+  },
+  "inventory_method": "Inventory of all80 registry entries; static UI/persistence/primary-consumer tracing. Focused runtime adapters cover selected paths only; does not certify all branches, Apple SDK, server results or iPhone. Existing compile/device statuses are preserved.",
+  "main_settings_update_callbacks": 71,
+  "findings": [
+    {
+      "id": "A1",
+      "feature_ids": [
+        "high_quality_photos"
+      ],
+      "classification": "confirmed_mismatch",
+      "summary": "Modern Gallery does not apply highQualityPhotos to ordinary library photo HD/quality. A saved20% survives when maximum quality is switched ON; native HD remains OFF. Legacy sender applies the flag correctly.",
+      "expected": "Maximum-quality ON selects HD and JPEG100% independently of hidden manual slider.",
+      "observed": "Actual library-photo builder yields forceHd=false and nil quality; actual fetch quality expression uses mediaSettings.jpegQuality20%.",
+      "witness": "photo_quality_observations"
+    },
+    {
+      "id": "A2",
+      "feature_ids": [
+        "media_controls"
+      ],
+      "classification": "confirmed_mismatch",
+      "summary": "Rendered/edited photo encoding uses fixed0.6 and has no manual photoQuality input; ordinary unedited library photos still read manual quality in fetch.",
+      "expected": "Selected manual JPEG quality applies to a photo sent as photo, including rendered/edited result.",
+      "observed": "Encoder receives0.6 for requested20% and90%.",
+      "witness": "photo_quality_observations"
+    },
+    {
+      "id": "A3",
+      "feature_ids": [
+        "wide_channel_posts"
+      ],
+      "classification": "confirmed_scope_gap",
+      "summary": "Wide setting is consumed in common BubbleItemNode, but native dispatch sends stickers, dice and standalone large/animated emoji into separate sticker nodes that do not read it.",
+      "expected": "Owner explicitly requires wide channel post area for every message type while preserving media proportions.",
+      "observed": "Separate native renderers keep their own width; static dispatch/layout proof. Existing wide-post runtime fixture verifies bubble/media/mosaic paths only and does not cover this exception.",
+      "witness": "finding_source_evidence",
+      "device_pixels": "not_exercised"
+    }
+  ],
+  "scope_notes": [
+    {
+      "id": "S1",
+      "feature_id": "voice_transcription",
+      "classification": "label_semantics_ambiguous",
+      "summary": "Master OFF disables custom runtime, but ordinary Telegram Premium/trial/boost transcription button and native RPC path remain. This is a fact about scope, not an established breaking regression or authorization to change native Telegram behavior."
+    },
+    {
+      "id": "S2",
+      "feature_id": "message_translation",
+      "classification": "intentional_prior_contract",
+      "summary": "Manual translation stays available when automatic/custom master is OFF, per prior agreed manual-always behavior. Not counted as a bug."
+    }
+  ],
+  "features": [
+    {
+      "id": "clean_install_defaults",
+      "title": "Русский язык, полные подписи и системное оформление Telegram с тёмной ночной темой",
+      "review": "static_entry_point_trace",
+      "status": "no_additional_mismatch_identified_in_reviewed_paths",
+      "device": "not_exercised",
+      "existing_registry_status": {
+        "implementation": "implemented",
+        "compile": "compile_passed",
+        "device": "device_pending"
+      },
+      "anchors": [
+        {
+          "path": "submodules/TelegramPresentationData/Sources/DefaultPresentationStrings.swift",
+          "line": 107,
+          "code": "public let defaultPresentationStrings = PresentationStrings(primaryComponent: PresentationStrings.Component(languageCode: \"ru\", localizedName: \"Русский\", pluralizationRulesCode: nil, dict: nagramiXDefaultRussianDictionary), secondaryComponent: nil, g"
+        }
+      ],
+      "note": "Начальный русский язык; системное оформление и сохранённые настройки проверены отдельно в AppDelegate."
+    },
+    {
+      "id": "tabs",
+      "title": "Видимость и названия вкладок",
+      "review": "static_entry_point_trace",
+      "status": "no_additional_mismatch_identified_in_reviewed_paths",
+      "device": "not_exercised",
+      "existing_registry_status": {
+        "implementation": "implemented",
+        "compile": "compile_passed",
+        "device": "device_pending"
+      },
+      "anchors": [
+        {
+          "path": "submodules/TelegramUI/Sources/TelegramRootController.swift",
+          "line": 232,
+          "code": "if !settings.hideContacts, let contactsController = self.contactsController {"
+        }
+      ],
+      "note": "Состав вкладок перестраивается по сохранённым флагам; широкая панель также читается AttachmentPanel и TabSelector."
+    },
+    {
+      "id": "icons",
+      "title": "Иконки приложения NagramiX",
+      "review": "static_entry_point_trace",
+      "status": "no_additional_mismatch_identified_in_reviewed_paths",
+      "device": "not_exercised",
+      "existing_registry_status": {
+        "implementation": "implemented",
+        "compile": "compile_passed",
+        "device": "device_pending"
+      },
+      "anchors": [
+        {
+          "path": "submodules/TelegramUI/Sources/NagramiXAppIconController.swift",
+          "line": 32,
+          "code": "func request(_ name: String?, completion: @escaping (Bool) -> Void) {"
+        },
+        {
+          "path": "submodules/TelegramUI/Sources/NagramiXAppIconController.swift",
+          "line": 71,
+          "code": "private func requestOnMain(_ name: String?, completion: @escaping (Bool) -> Void) {"
+        }
+      ],
+      "note": "Выбор направлен в системную смену значка; ограничения iOS остаются проверкой устройства."
+    },
+    {
+      "id": "round_video_camera",
+      "title": "Передняя и задняя камера круглых видео",
+      "review": "static_entry_point_trace",
+      "status": "no_additional_mismatch_identified_in_reviewed_paths",
+      "device": "not_exercised",
+      "existing_registry_status": {
+        "implementation": "implemented",
+        "compile": "compile_pending",
+        "device": "device_pending"
+      },
+      "anchors": [
+        {
+          "path": "submodules/TelegramUI/Components/VideoMessageCameraScreen/Sources/VideoMessageCameraScreen.swift",
+          "line": 1319,
+          "code": "let prefersRearCamera = NagramiXTabSettings.current.useRearCameraForVideoMessages"
+        }
+      ],
+      "note": "Выбор камеры и таймер селфи подключены; восстановление аудиосессии исправлено в stage67, IPA208 его не содержит."
+    },
+    {
+      "id": "story_controls",
+      "title": "Управление видимостью, подтверждением и репостом историй",
+      "review": "static_entry_point_trace",
+      "status": "no_additional_mismatch_identified_in_reviewed_paths",
+      "device": "not_exercised",
+      "existing_registry_status": {
+        "implementation": "implemented",
+        "compile": "compile_passed",
+        "device": "device_pending"
+      },
+      "anchors": [
+        {
+          "path": "submodules/TelegramUI/Components/Stories/StoryContainerScreen/Sources/StoryContainerScreen.swift",
+          "line": 2485,
+          "code": "let needsConfirmation = anonymousViewing ? !self.nagramiXAcknowledgedAnonymousViewing : NagramiXTabSettings.current.confirmStoryViewing"
+        },
+        {
+          "path": "submodules/TelegramUI/Components/Stories/StoryContainerScreen/Sources/StoryContainerScreen.swift",
+          "line": 2528,
+          "code": "guard NagramiXTabSettings.current.confirmStoryViewing else { return true }"
+        },
+        {
+          "path": "submodules/TelegramUI/Components/Stories/StoryContainerScreen/Sources/StoryContainerScreen.swift",
+          "line": 2537,
+          "code": "guard NagramiXTabSettings.current.confirmStoryViewing || self.nagramiXContent.nagramiXAnonymousViewing else {"
+        }
+      ],
+      "note": "Скрытие списка, свайп камеры, подтверждение и репост имеют отдельные потребители."
+    },
+    {
+      "id": "story_incognito",
+      "title": "Единый пункт скрытия просмотров историй в разделе «Приватность»",
+      "review": "static_entry_point_trace",
+      "status": "no_additional_mismatch_identified_in_reviewed_paths",
+      "device": "not_exercised",
+      "existing_registry_status": {
+        "implementation": "implemented",
+        "compile": "compile_passed",
+        "device": "device_pending"
+      },
+      "anchors": [
+        {
+          "path": "submodules/TelegramCore/Sources/TelegramEngine/Messages/Stories.swift",
+          "line": 2128,
+          "code": "guard !NagramiXStorySettings.effectiveAnonymousViewingEnabled || peerId == account.peerId else {"
+        },
+        {
+          "path": "submodules/TelegramCore/Sources/TelegramEngine/Messages/Stories.swift",
+          "line": 2133,
+          "code": "guard !NagramiXStorySettings.effectiveAnonymousViewingEnabled || peerId == account.peerId else {"
+        },
+        {
+          "path": "submodules/TelegramCore/Sources/TelegramEngine/Messages/Stories.swift",
+          "line": 2149,
+          "code": "guard !NagramiXStorySettings.effectiveAnonymousViewingEnabled || peerId == account.peerId else {"
+        }
+      ],
+      "note": "Единый флаг приватности подавляет отметки просмотра; старый отдельный пункт не дублируется."
+    },
+    {
+      "id": "forward_copy",
+      "title": "Репост с автором, Переслать без автора одному адресату и Рассылка нескольким адресатам",
+      "review": "static_entry_point_trace",
+      "status": "no_additional_mismatch_identified_in_reviewed_paths",
+      "device": "not_exercised",
+      "existing_registry_status": {
+        "implementation": "implemented",
+        "compile": "compile_passed",
+        "device": "device_pending"
+      },
+      "anchors": [
+        {
+          "path": "submodules/TelegramCore/Sources/Utils/NagramiXOutgoingCopy.swift",
+          "line": 51,
+          "code": "result.append(.forward(source: message.id, threadId: nil, grouping: .auto, attributes: [ForwardOptionsMessageAttribute(hideNames: true, hideCaptions: hideCaptions)], correlationId: nil))"
+        }
+      ],
+      "note": "Общий маршрут выбора адресата и копий; нативная пересылка без имени при доступности."
+    },
+    {
+      "id": "deleted_messages",
+      "title": "Локальный архив входящих и исходящих удалённых сообщений и файлов",
+      "review": "static_entry_point_trace",
+      "status": "no_additional_mismatch_identified_in_reviewed_paths",
+      "device": "not_exercised",
+      "existing_registry_status": {
+        "implementation": "implemented",
+        "compile": "compile_passed",
+        "device": "device_pending"
+      },
+      "anchors": [
+        {
+          "path": "submodules/TelegramCore/Sources/Utils/NagramiXMessageArchive.swift",
+          "line": 338,
+          "code": "guard settings.showDeletedMessages || settings.replayViewOnce else { return ids }"
+        },
+        {
+          "path": "submodules/TelegramCore/Sources/Utils/NagramiXMessageArchive.swift",
+          "line": 814,
+          "code": "guard settings.showDeletedMessages || eligibleReplay else {"
+        },
+        {
+          "path": "submodules/TelegramCore/Sources/Utils/NagramiXMessageArchive.swift",
+          "line": 929,
+          "code": "guard settings.showDeletedMessages || settings.messageEditHistory || nagramiXCanRetainTemporaryMessage(previousMessage) || nagramiXCanRetainTemporaryMessage(replacementMessage) else {"
+        }
+      ],
+      "note": "| eligibleReplay|Зависит от ранее захваченной локальной записи; не обещает получить старые удаления сервера."
+    },
+    {
+      "id": "temporary_messages",
+      "title": "Локальный архив входящих и исходящих временных и одноразовых вложений",
+      "review": "static_entry_point_trace",
+      "status": "no_additional_mismatch_identified_in_reviewed_paths",
+      "device": "not_exercised",
+      "existing_registry_status": {
+        "implementation": "implemented",
+        "compile": "compile_passed",
+        "device": "device_pending"
+      },
+      "anchors": [
+        {
+          "path": "submodules/TelegramCore/Sources/Utils/NagramiXMessageArchive.swift",
+          "line": 863,
+          "code": "guard settings.saveTemporaryMessages, nagramiXCanRetainTemporaryMessage(message),"
+        }
+      ],
+      "note": "Сохранение, повтор и expiry-only отделены от настоящего удаления."
+    },
+    {
+      "id": "edit_history",
+      "title": "История замеченных правок сообщений",
+      "review": "static_entry_point_trace",
+      "status": "no_additional_mismatch_identified_in_reviewed_paths",
+      "device": "not_exercised",
+      "existing_registry_status": {
+        "implementation": "implemented",
+        "compile": "compile_passed",
+        "device": "device_pending"
+      },
+      "anchors": [
+        {
+          "path": "submodules/TelegramCore/Sources/Utils/NagramiXMessageArchive.swift",
+          "line": 841,
+          "code": "} else if settings.messageEditHistory && (record.content.text != current.content.text || record.content.entities != current.content.entities) {"
+        },
+        {
+          "path": "submodules/TelegramCore/Sources/Utils/NagramiXMessageArchive.swift",
+          "line": 949,
+          "code": "if settings.messageEditHistory && (current.content.text != replacement.content.text || current.content.entities != replacement.content.entities) {"
+        },
+        {
+          "path": "submodules/TelegramCore/Sources/Utils/NagramiXMessageArchive.swift",
+          "line": 1071,
+          "code": "} else if settings.messageEditHistory && (record.content.text != current.content.text || record.content.entities != current.content.entities) {"
+        }
+      ],
+      "note": "Сохраняются замеченные правки, а не произвольная серверная история."
+    },
+    {
+      "id": "dns_doh",
+      "title": "Системный DNS, DNS Telegram и DNS-over-HTTPS",
+      "review": "static_entry_point_trace",
+      "status": "no_additional_mismatch_identified_in_reviewed_paths",
+      "device": "not_exercised",
+      "existing_registry_status": {
+        "implementation": "implemented",
+        "compile": "compile_passed",
+        "device": "device_pending"
+      },
+      "anchors": [
+        {
+          "path": "submodules/MtProtoKit/Sources/NagramiXDNSResolver.m",
+          "line": 9,
+          "code": "static NSString * const NagramiXDnsProviderKey = @\"nagramix.network.dnsProvider\";"
+        }
+      ],
+      "note": "Реальный resolver читает тот же ключ провайдера; DoH и резервные пути не проверялись живой сетью."
+    },
+    {
+      "id": "proxy_failover",
+      "title": "Проверка и автоматическое переключение прокси",
+      "review": "static_entry_point_trace",
+      "status": "no_additional_mismatch_identified_in_reviewed_paths",
+      "device": "not_exercised",
+      "existing_registry_status": {
+        "implementation": "implemented",
+        "compile": "compile_passed",
+        "device": "device_pending"
+      },
+      "anchors": [
+        {
+          "path": "submodules/TelegramCore/Sources/Network/NagramiXProxyFailoverController.swift",
+          "line": 184,
+          "code": "return self.isCurrentNetwork() && self.inForeground && self.settings.enabled && NagramiXNetworkSettingsBridge.proxyAutoSwitchEnabled && !NagramiXProxyVPNPolicy.bypassed"
+        }
+      ],
+      "note": "Автопереключение учитывает настройку и таймаут; нужен сетевой сценарий с отказом прокси."
+    },
+    {
+      "id": "proxy_vpn_bypass",
+      "title": "Не использовать прокси с VPN",
+      "review": "static_entry_point_trace",
+      "status": "no_additional_mismatch_identified_in_reviewed_paths",
+      "device": "not_exercised",
+      "existing_registry_status": {
+        "implementation": "implemented",
+        "compile": "compile_passed",
+        "device": "device_pending"
+      },
+      "anchors": [
+        {
+          "path": "submodules/TelegramCore/Sources/NagramiXProxyVPNPolicy.swift",
+          "line": 23,
+          "code": "private static let preferenceKey = \"nagramix.network.avoidProxyWithVPN\""
+        }
+      ],
+      "note": "Обход отделяет пользовательский выбор от временно активного маршрута; нужна реальная VPN-сессия."
+    },
+    {
+      "id": "force_tcp",
+      "title": "Force TCP для звонков",
+      "review": "static_entry_point_trace",
+      "status": "no_additional_mismatch_identified_in_reviewed_paths",
+      "device": "not_exercised",
+      "existing_registry_status": {
+        "implementation": "implemented",
+        "compile": "compile_passed",
+        "device": "device_pending"
+      },
+      "anchors": [
+        {
+          "path": "submodules/TelegramVoip/Sources/OngoingCallContext.swift",
+          "line": 1089,
+          "code": "if forceTcpCalls {"
+        }
+      ],
+      "note": "Убирается P2P, фильтруются TCP-соединения и задаётся сетевой параметр для звонка."
+    },
+    {
+      "id": "profile_info",
+      "title": "ID профиля, примерная дата регистрации и значок взаимного контакта",
+      "review": "static_entry_point_trace",
+      "status": "no_additional_mismatch_identified_in_reviewed_paths",
+      "device": "not_exercised",
+      "existing_registry_status": {
+        "implementation": "implemented",
+        "compile": "compile_passed",
+        "device": "device_pending"
+      },
+      "anchors": [
+        {
+          "path": "submodules/TelegramUI/Components/PeerInfo/PeerInfoScreen/Sources/PeerInfoProfileItems.swift",
+          "line": 172,
+          "code": "if nagramiXSettings.showRegistrationDate {"
+        }
+      ],
+      "note": "ID и взаимный контакт подключены; дата явно приблизительная."
+    },
+    {
+      "id": "offline_startup",
+      "title": "Запуск без сети и при недоступном прокси",
+      "review": "static_entry_point_trace",
+      "status": "no_additional_mismatch_identified_in_reviewed_paths",
+      "device": "not_exercised",
+      "existing_registry_status": {
+        "implementation": "implemented",
+        "compile": "compile_passed",
+        "device": "device_pending"
+      },
+      "anchors": [
+        {
+          "path": "submodules/TelegramCore/Sources/Network/NagramiXNetworkRecovery.swift",
+          "line": 9,
+          "code": "let allowsFailover: Bool"
+        },
+        {
+          "path": "submodules/TelegramCore/Sources/Network/NagramiXNetworkRecovery.swift",
+          "line": 31,
+          "code": "static func attach(basePath: String, accountManager: AccountManager<TelegramAccountManagerTypes>, network: Network, allowsFailover: Bool) -> NagramiXNetworkRecovery {"
+        },
+        {
+          "path": "submodules/TelegramCore/Sources/Network/NagramiXNetworkRecovery.swift",
+          "line": 32,
+          "code": "let recovery = NagramiXNetworkRecovery(basePath: basePath, network: network, allowsFailover: allowsFailover)"
+        }
+      ],
+      "note": "Восстановление соединения выполняется вне блокировки запуска интерфейса; нужна проверка офлайн/онлайн."
+    },
+    {
+      "id": "wide_channel_posts",
+      "title": "Широкие посты каналов",
+      "review": "static_entry_point_trace",
+      "status": "mismatch",
+      "device": "not_exercised",
+      "existing_registry_status": {
+        "implementation": "implemented",
+        "compile": "compile_passed",
+        "device": "device_pending"
+      },
+      "anchors": [
+        {
+          "path": "submodules/TelegramUI/Components/Chat/ChatMessageBubbleItemNode/Sources/ChatMessageBubbleItemNode.swift",
+          "line": 1951,
+          "code": "if NagramiXTabSettings.current.wideChannelPosts,"
+        }
+      ],
+      "note": "A3: широкая раскладка подключена только к bubble-узлу; отдельные sticker/dice/large-emoji узлы её не читают."
+    },
+    {
+      "id": "select_from_author",
+      "title": "Выбор сообщений автора",
+      "review": "static_entry_point_trace",
+      "status": "no_additional_mismatch_identified_in_reviewed_paths",
+      "device": "not_exercised",
+      "existing_registry_status": {
+        "implementation": "implemented",
+        "compile": "compile_passed",
+        "device": "device_pending"
+      },
+      "anchors": [
+        {
+          "path": "submodules/TelegramUI/Sources/Chat/ChatControllerLoadDisplayNode.swift",
+          "line": 171,
+          "code": "self.present(textAlertController(context: self.context, updatedPresentationData: self.updatedPresentationData, title: nil, text: self.presentationData.strings.nagramiXAuthorSelectionEmpty, actions: [TextAlertAction(type: .defaultAction, title: self.p"
+        },
+        {
+          "path": "submodules/TelegramUI/Sources/Chat/ChatControllerLoadDisplayNode.swift",
+          "line": 200,
+          "code": "self.present(textAlertController(context: self.context, updatedPresentationData: self.updatedPresentationData, title: nil, text: self.presentationData.strings.nagramiXAuthorSelectionFailed, actions: [TextAlertAction(type: .defaultAction, title: self."
+        }
+      ],
+      "note": "Действие вызывает engine-выбор по автору, сохраняет выбранные сообщения и сообщает об ошибке."
+    },
+    {
+      "id": "global_settings_search",
+      "title": "Глобальный поиск по настройкам",
+      "review": "static_entry_point_trace",
+      "status": "no_additional_mismatch_identified_in_reviewed_paths",
+      "device": "not_exercised",
+      "existing_registry_status": {
+        "implementation": "implemented",
+        "compile": "compile_passed",
+        "device": "device_pending"
+      },
+      "anchors": [
+        {
+          "path": "submodules/SettingsUI/Sources/NagramiXSettingsController.swift",
+          "line": 1219,
+          "code": "private func nagramiXSearchEntries(settings: NagramiXTabSettings, privacy: NagramiXPrivacySettings, keepMusicPlaying: Bool, strings: PresentationStrings, query: String, transcription: NagramiXTranscriptionConfiguration = NagramiXTranscriptionSettings"
+        },
+        {
+          "path": "submodules/SettingsUI/Sources/NagramiXSettingsController.swift",
+          "line": 1624,
+          "code": "resultEntries = nagramiXSearchEntries(settings: settings, privacy: privacy, keepMusicPlaying: !mediaInputSettings.pauseMusicOnRecording, strings: presentationData.strings, query: normalizedQuery, transcription: transcription)"
+        }
+      ],
+      "note": "Поиск строится по всем категориям, а не только открытой; переходы прокси присутствуют в поиске."
+    },
+    {
+      "id": "settings_category_swipe",
+      "title": "Свайпы между категориями настроек",
+      "review": "static_entry_point_trace",
+      "status": "no_additional_mismatch_identified_in_reviewed_paths",
+      "device": "not_exercised",
+      "existing_registry_status": {
+        "implementation": "implemented",
+        "compile": "compile_passed",
+        "device": "device_pending"
+      },
+      "anchors": [
+        {
+          "path": "submodules/SettingsUI/Sources/NagramiXSettingsController.swift",
+          "line": 127,
+          "code": "var categorySwiped: ((Bool) -> Void)?"
+        },
+        {
+          "path": "submodules/SettingsUI/Sources/NagramiXSettingsController.swift",
+          "line": 180,
+          "code": "self.categorySwiped?(translation.x < 0.0)"
+        },
+        {
+          "path": "submodules/SettingsUI/Sources/NagramiXSettingsController.swift",
+          "line": 1682,
+          "code": "controller.categorySwiped = { [weak controller] isNext in"
+        }
+      ],
+      "note": "Распознаватель ограничен настройками, исключает контролы, отдаёт краевой жест навигации."
+    },
+    {
+      "id": "context_menu_settings",
+      "title": "Видимость действий контекстного меню",
+      "review": "static_entry_point_trace",
+      "status": "no_additional_mismatch_identified_in_reviewed_paths",
+      "device": "not_exercised",
+      "existing_registry_status": {
+        "implementation": "implemented",
+        "compile": "compile_passed",
+        "device": "device_pending"
+      },
+      "anchors": [
+        {
+          "path": "submodules/TelegramUI/Sources/ChatInterfaceStateContextMenus.swift",
+          "line": 2096,
+          "code": "if NagramiXTabSettings.current.showForwardWithoutAuthor {"
+        },
+        {
+          "path": "submodules/TelegramUI/Sources/ChatInterfaceStateContextMenus.swift",
+          "line": 2768,
+          "code": "if NagramiXTabSettings.current.showForwardWithoutAuthor, nagramiXCanCopyMessagesAsNew(selectAll ? messages : [message], accountPeerId: context.account.peerId), let forwardMessagesWithoutSource = interfaceInteraction.forwardMessagesWithoutSource {"
+        }
+      ],
+      "note": "Пересылка, рассылка, автор, перевод и расшифровка подключены к отдельным флагам."
+    },
+    {
+      "id": "standard_telegram_themes",
+      "title": "Штатные темы Telegram: акценты RGB24/ARGB и выбор светлого/тёмного варианта",
+      "review": "static_entry_point_trace",
+      "status": "no_additional_mismatch_identified_in_reviewed_paths",
+      "device": "not_exercised",
+      "existing_registry_status": {
+        "implementation": "implemented",
+        "compile": "compile_passed",
+        "device": "device_pending"
+      },
+      "anchors": [
+        {
+          "path": "submodules/TelegramUI/Sources/AppDelegate.swift",
+          "line": 1139,
+          "code": "let nagramiXInitialTheme = accountManager.transaction { transaction -> Void in"
+        },
+        {
+          "path": "submodules/TelegramUI/Sources/AppDelegate.swift",
+          "line": 1147,
+          "code": "let sharedContextSignal = nagramiXInitialTheme"
+        }
+      ],
+      "note": "Используются штатные темы и сохранённые акценты; реальная смена темы требует визуальной проверки."
+    },
+    {
+      "id": "chat_actions_on_hold",
+      "title": "Опции чатов по тапу: архив, просмотр по аватарке, локальные реакции до активного открытия и переход по Ответить",
+      "review": "static_entry_point_trace",
+      "status": "no_additional_mismatch_identified_in_reviewed_paths",
+      "device": "not_exercised",
+      "existing_registry_status": {
+        "implementation": "implemented",
+        "compile": "compile_passed",
+        "device": "device_pending"
+      },
+      "anchors": [
+        {
+          "path": "submodules/ChatListUI/Sources/Node/ChatListItem.swift",
+          "line": 1497,
+          "code": "self.nagramiXLastActionsOnHold = NagramiXTabSettings.current.chatActionsOnHold"
+        },
+        {
+          "path": "submodules/ChatListUI/Sources/Node/ChatListItem.swift",
+          "line": 1501,
+          "code": "let actionsOnHold = NagramiXTabSettings.current.chatActionsOnHold"
+        },
+        {
+          "path": "submodules/ChatListUI/Sources/Node/ChatListItem.swift",
+          "line": 1516,
+          "code": "if NagramiXTabSettings.current.chatActionsOnHold {"
+        }
+      ],
+      "note": "Область аватарки и меню по удержанию разделены; локальные реакции имеют отдельное хранилище."
+    },
+    {
+      "id": "media_controls",
+      "title": "Качество фото и фотоисторий, размер стикеров/эмодзи и время",
+      "review": "static_entry_point_trace",
+      "status": "mismatch",
+      "device": "not_exercised",
+      "existing_registry_status": {
+        "implementation": "implemented",
+        "compile": "compile_passed",
+        "device": "device_pending"
+      },
+      "anchors": [
+        {
+          "path": "submodules/TelegramUI/Components/ChatMediaSend/Sources/ChatMediaSendMessages.swift",
+          "line": 115,
+          "code": "guard let scaledImageData = compressImageToJPEG(scaledImage, quality: 0.6, tempFilePath: tempFile.path) else {"
+        }
+      ],
+      "note": "A2: ручное качество игнорируется у rendered-фото. Размер стикеров и время имеют отдельные работающие чтения."
+    },
+    {
+      "id": "compact_chat_list",
+      "title": "Компактный список чатов, выключенный по умолчанию",
+      "review": "static_entry_point_trace",
+      "status": "no_additional_mismatch_identified_in_reviewed_paths",
+      "device": "not_exercised",
+      "existing_registry_status": {
+        "implementation": "implemented",
+        "compile": "compile_passed",
+        "device": "device_pending"
+      },
+      "anchors": [
+        {
+          "path": "submodules/ChatListUI/Sources/Node/ChatListItem.swift",
+          "line": 528,
+          "code": "guard NagramiXTabSettings.compactChatListEnabled, !self.interaction.isInlineMode, !self.useCommunityViewLayout else {"
+        }
+      ],
+      "note": "Флаг читается при расчёте строки, изменения приводят к обновлению списка."
+    },
+    {
+      "id": "video_pip_swipe",
+      "title": "Системная «Картинка в картинке» iOS, включая YouTube",
+      "review": "static_entry_point_trace",
+      "status": "no_additional_mismatch_identified_in_reviewed_paths",
+      "device": "not_exercised",
+      "existing_registry_status": {
+        "implementation": "implemented",
+        "compile": "compile_pending",
+        "device": "device_pending"
+      },
+      "anchors": [
+        {
+          "path": "submodules/GalleryUI/Sources/Items/UniversalVideoGalleryItem.swift",
+          "line": 55,
+          "code": "if !NagramiXTabSettings.videoPiPSwipeEnabled {"
+        },
+        {
+          "path": "submodules/GalleryUI/Sources/Items/UniversalVideoGalleryItem.swift",
+          "line": 3426,
+          "code": "guard NagramiXTabSettings.videoPiPSwipeEnabled, self.hasPictureInPicture,"
+        },
+        {
+          "path": "submodules/GalleryUI/Sources/Items/UniversalVideoGalleryItem.swift",
+          "line": 3445,
+          "code": "if NagramiXTabSettings.videoPiPSwipeEnabled, nagramiXUsesEmbeddedPictureInPicture(self.item) {"
+        }
+      ],
+      "note": "Флаг связан с AVKit/web и входом в PiP; стадии65/66 ещё ждут Apple SDK и iPhone."
+    },
+    {
+      "id": "background_video_playback",
+      "title": "Звук видео при сворачивании и блокировке экрана, включено по умолчанию",
+      "review": "static_entry_point_trace",
+      "status": "no_additional_mismatch_identified_in_reviewed_paths",
+      "device": "not_exercised",
+      "existing_registry_status": {
+        "implementation": "implemented",
+        "compile": "compile_pending",
+        "device": "device_pending"
+      },
+      "anchors": [
+        {
+          "path": "submodules/TelegramUI/Sources/MediaManager.swift",
+          "line": 503,
+          "code": "self.nagramiXVideoNowPlayingValue.set(.single(self.nagramiXVideoNowPlayingRegistry.preferred(backgroundEnabled: NagramiXTabSettings.backgroundVideoPlaybackEnabled)))"
+        },
+        {
+          "path": "submodules/TelegramUI/Sources/MediaManager.swift",
+          "line": 546,
+          "code": "&& (!NagramiXTabSettings.backgroundVideoPlaybackEnabled || self.nagramiXBackgroundVideoOwners.isEmpty)"
+        },
+        {
+          "path": "submodules/TelegramUI/Sources/MediaManager.swift",
+          "line": 551,
+          "code": "self.nagramiXBackgroundVideoPlaying.set(hasSystemPiP || (NagramiXTabSettings.backgroundVideoPlaybackEnabled && !self.nagramiXBackgroundVideoOwners.isEmpty))"
+        }
+      ],
+      "note": "Флаг связан с фоновым владельцем и отсроченной остановкой; аппаратный маршрут/YouTube нужны на iPhone."
+    },
+    {
+      "id": "channel_bottom_panel",
+      "title": "Нижняя панель канала, выключенная по умолчанию",
+      "review": "static_entry_point_trace",
+      "status": "no_additional_mismatch_identified_in_reviewed_paths",
+      "device": "not_exercised",
+      "existing_registry_status": {
+        "implementation": "implemented",
+        "compile": "compile_passed",
+        "device": "device_pending"
+      },
+      "anchors": [
+        {
+          "path": "submodules/TelegramUI/Sources/ChatInterfaceStateInputPanels.swift",
+          "line": 384,
+          "code": "if isMember, case .peer = chatPresentationInterfaceState.chatLocation, !NagramiXTabSettings.channelBottomPanelEnabled {"
+        }
+      ],
+      "note": "Условие панели канала читает независимый сохранённый флаг; OFF исходно."
+    },
+    {
+      "id": "double_tap_edit",
+      "title": "Правка двойным тапом, включённый по умолчанию",
+      "review": "static_entry_point_trace",
+      "status": "no_additional_mismatch_identified_in_reviewed_paths",
+      "device": "not_exercised",
+      "existing_registry_status": {
+        "implementation": "implemented",
+        "compile": "compile_passed",
+        "device": "device_pending"
+      },
+      "anchors": [
+        {
+          "path": "submodules/TelegramUI/Sources/ChatController.swift",
+          "line": 6183,
+          "code": "guard let self, !self.nagramiXReadHistoryDisabled, NagramiXTabSettings.doubleTapEditEnabled, self.isNodeLoaded,"
+        }
+      ],
+      "note": "Жест проверяет флаг, доступность редактирования и состояние экрана."
+    },
+    {
+      "id": "hide_reactions",
+      "title": "Скрыть реакции, выключено по умолчанию",
+      "review": "static_entry_point_trace",
+      "status": "no_additional_mismatch_identified_in_reviewed_paths",
+      "device": "not_exercised",
+      "existing_registry_status": {
+        "implementation": "implemented",
+        "compile": "compile_passed",
+        "device": "device_pending"
+      },
+      "anchors": [
+        {
+          "path": "submodules/TelegramUI/Components/Chat/ChatMessageBubbleItemNode/Sources/ChatMessageBubbleItemNode.swift",
+          "line": 557,
+          "code": "if !NagramiXTabSettings.hideReactionsEnabled && !reactionsAreInline && !hideAllAdditionalInfo, let reactionsAttribute = mergedMessageReactions(attributes: firstMessage.attributes, isTags: firstMessage.areReactionsTags(accountPeerId: item.context.acco"
+        },
+        {
+          "path": "submodules/TelegramUI/Components/Chat/ChatMessageBubbleItemNode/Sources/ChatMessageBubbleItemNode.swift",
+          "line": 2763,
+          "code": "if !NagramiXTabSettings.hideReactionsEnabled && (needReactions || forceReactionsOutside) {"
+        }
+      ],
+      "note": "Флаг читается общим пузырём и отдельными sticker/instant-video/status узлами."
+    },
+    {
+      "id": "download_acceleration",
+      "title": "Ускорение скачивания: Среднее или Максимум с отдельным чекбоксом",
+      "review": "static_entry_point_trace",
+      "status": "no_additional_mismatch_identified_in_reviewed_paths",
+      "device": "not_exercised",
+      "existing_registry_status": {
+        "implementation": "implemented",
+        "compile": "compile_passed",
+        "device": "device_pending"
+      },
+      "anchors": [
+        {
+          "path": "submodules/TelegramCore/Sources/Network/MultipartFetch.swift",
+          "line": 576,
+          "code": "let nagramiXDownloadTuning = NagramiXDownloadSettings.current.tuning"
+        }
+      ],
+      "note": "OFF сохраняет native; ускорение применяется к подходящим обычным файлам, не secret/story/маленьким или неизвестного размера."
+    },
+    {
+      "id": "broadcast_messages",
+      "title": "Рассылка без автора нескольким адресатам с копией при недоступной пересылке",
+      "review": "static_entry_point_trace",
+      "status": "no_additional_mismatch_identified_in_reviewed_paths",
+      "device": "not_exercised",
+      "existing_registry_status": {
+        "implementation": "implemented",
+        "compile": "compile_passed",
+        "device": "device_pending"
+      },
+      "anchors": [
+        {
+          "path": "submodules/TelegramUI/Components/Chat/ChatMessageSelectionInputPanelNode/Sources/ChatMessageSelectionInputPanelNode.swift",
+          "line": 552,
+          "code": "guard NagramiXTabSettings.current.showBroadcastMessages else {"
+        },
+        {
+          "path": "submodules/TelegramUI/Components/Chat/ChatMessageSelectionInputPanelNode/Sources/ChatMessageSelectionInputPanelNode.swift",
+          "line": 581,
+          "code": "guard NagramiXTabSettings.current.showBroadcastMessages else { return }"
+        },
+        {
+          "path": "submodules/TelegramUI/Components/Chat/ChatMessageSelectionInputPanelNode/Sources/ChatMessageSelectionInputPanelNode.swift",
+          "line": 674,
+          "code": "self.broadcastButton.isHidden = !transferSettings.showBroadcastMessages || self.interfaceInteraction?.copyMessagesWithoutSource == nil || copyBlocked"
+        }
+      ],
+      "note": "Флаг управляет доступностью действия; общий доставочный маршрут использует выбранных адресатов и темы."
+    },
+    {
+      "id": "notification_sounds",
+      "title": "Уведомления: выбор чатов для исключений и полный каталог звуков; звук в приложении по умолчанию выключен",
+      "review": "static_entry_point_trace",
+      "status": "no_additional_mismatch_identified_in_reviewed_paths",
+      "device": "not_exercised",
+      "existing_registry_status": {
+        "implementation": "implemented",
+        "compile": "compile_passed",
+        "device": "device_pending"
+      },
+      "anchors": [
+        {
+          "path": "submodules/NotificationSoundSelectionUI/Sources/NotificationSoundSelection.swift",
+          "line": 219,
+          "code": "let modernSounds = builtinNotificationSounds.filter {"
+        }
+      ],
+      "note": "Исключения используют штатный peer picker и каталог звуков; разрешения/звуковой вывод проверяются на устройстве."
+    },
+    {
+      "id": "proxy_share_brightness",
+      "title": "Возврат исходной яркости после QR-кода прокси",
+      "review": "static_entry_point_trace",
+      "status": "no_additional_mismatch_identified_in_reviewed_paths",
+      "device": "not_exercised",
+      "existing_registry_status": {
+        "implementation": "implemented",
+        "compile": "compile_passed",
+        "device": "device_pending"
+      },
+      "anchors": [
+        {
+          "path": "submodules/QrCodeUI/Sources/QrCodeScreen.swift",
+          "line": 141,
+          "code": "private func restoreBrightness() {"
+        }
+      ],
+      "note": "Восстановление исходной яркости связано с жизненным циклом QR-экрана."
+    },
+    {
+      "id": "profile_navigation_layout",
+      "title": "Раздельные кнопки поиска и редактирования в настройках и профилях",
+      "review": "static_entry_point_trace",
+      "status": "no_additional_mismatch_identified_in_reviewed_paths",
+      "device": "not_exercised",
+      "existing_registry_status": {
+        "implementation": "implemented",
+        "compile": "compile_passed",
+        "device": "device_pending"
+      },
+      "anchors": [
+        {
+          "path": "submodules/TelegramUI/Components/PeerInfo/PeerInfoScreen/Sources/PeerInfoHeaderNode.swift",
+          "line": 1440,
+          "code": "if self.navigationRowRightButtonCount > 1 {"
+        }
+      ],
+      "note": "Поиск и редактирование используют отдельные элементы навигации; визуальная проверка размеров остаётся."
+    },
+    {
+      "id": "hide_greeting_sticker",
+      "title": "Скрывать приветственный стикер",
+      "review": "static_entry_point_trace",
+      "status": "no_additional_mismatch_identified_in_reviewed_paths",
+      "device": "not_exercised",
+      "existing_registry_status": {
+        "implementation": "implemented",
+        "compile": "compile_passed",
+        "device": "device_pending"
+      },
+      "anchors": [
+        {
+          "path": "submodules/TelegramUI/Sources/PrefetchManager.swift",
+          "line": 39,
+          "code": "private var hideGreetingSticker = NagramiXTabSettings.hideGreetingStickerEnabled"
+        },
+        {
+          "path": "submodules/TelegramUI/Sources/PrefetchManager.swift",
+          "line": 256,
+          "code": "let hidden = NagramiXTabSettings.hideGreetingStickerEnabled"
+        },
+        {
+          "path": "submodules/TelegramUI/Sources/PrefetchManager.swift",
+          "line": 268,
+          "code": "guard !NagramiXTabSettings.hideGreetingStickerEnabled else {"
+        }
+      ],
+      "note": "Скрытие отменяет загрузку и показ; ChatEmptyNode также проверяет флаг."
+    },
+    {
+      "id": "hide_premium_offers",
+      "title": "Скрыть рекламу Premium",
+      "review": "static_entry_point_trace",
+      "status": "no_additional_mismatch_identified_in_reviewed_paths",
+      "device": "not_exercised",
+      "existing_registry_status": {
+        "implementation": "implemented",
+        "compile": "compile_passed",
+        "device": "device_pending"
+      },
+      "anchors": [
+        {
+          "path": "submodules/TelegramUI/Components/GlobalControlPanelsContext/Sources/GlobalControlPanelsContext.swift",
+          "line": 15,
+          "code": "let observer = NotificationCenter.default.addObserver(forName: NagramiXPremiumOfferSettings.changedNotification, object: nil, queue: .main) { _ in"
+        },
+        {
+          "path": "submodules/TelegramUI/Components/GlobalControlPanelsContext/Sources/GlobalControlPanelsContext.swift",
+          "line": 16,
+          "code": "subscriber.putNext(NagramiXPremiumOfferSettings.isHidden())"
+        },
+        {
+          "path": "submodules/TelegramUI/Components/GlobalControlPanelsContext/Sources/GlobalControlPanelsContext.swift",
+          "line": 18,
+          "code": "subscriber.putNext(NagramiXPremiumOfferSettings.isHidden())"
+        }
+      ],
+      "note": "Флаг относится к рекламным панелям списка чатов; название без старого описания."
+    },
+    {
+      "id": "recorder_keep_music",
+      "title": "Не останавливать музыку при записи кружка",
+      "review": "static_entry_point_trace",
+      "status": "no_additional_mismatch_identified_in_reviewed_paths",
+      "device": "not_exercised",
+      "existing_registry_status": {
+        "implementation": "implemented",
+        "compile": "compile_pending",
+        "device": "device_pending"
+      },
+      "anchors": [
+        {
+          "path": "submodules/TelegramUI/Components/VideoMessageCameraScreen/Sources/VideoMessageCameraScreen.swift",
+          "line": 2618,
+          "code": "if self.context.sharedContext.currentMediaInputSettings.with({ $0 }).pauseMusicOnRecording {"
+        }
+      ],
+      "note": "Настройка передаётся в запись; stage67 исправляет арбитр, не изменяя камеру/настройку музыки."
+    },
+    {
+      "id": "voice_autoplay_control",
+      "title": "Автовоспроизведение голосовых",
+      "review": "static_entry_point_trace",
+      "status": "no_additional_mismatch_identified_in_reviewed_paths",
+      "device": "not_exercised",
+      "existing_registry_status": {
+        "implementation": "implemented",
+        "compile": "compile_passed",
+        "device": "device_pending"
+      },
+      "anchors": [
+        {
+          "path": "submodules/TelegramUI/Sources/SharedMediaPlayer.swift",
+          "line": 434,
+          "code": "if case .voice = strongSelf.type, !NagramiXTabSettings.voiceAutoplayEnabled {"
+        }
+      ],
+      "note": "OFF останавливает voice playlist после текущего сообщения, не музыкальную очередь."
+    },
+    {
+      "id": "auto_mute_new_channels",
+      "title": "Авто-мьют новых каналов",
+      "review": "static_entry_point_trace",
+      "status": "no_additional_mismatch_identified_in_reviewed_paths",
+      "device": "not_exercised",
+      "existing_registry_status": {
+        "implementation": "implemented",
+        "compile": "compile_passed",
+        "device": "device_pending"
+      },
+      "anchors": [
+        {
+          "path": "submodules/TelegramCore/Sources/TelegramEngine/Peers/JoinChannel.swift",
+          "line": 24,
+          "code": "guard UserDefaults.standard.object(forKey: \"nagramix.messages.autoMuteNewChannels\") as? Bool ?? true,"
+        }
+      ],
+      "note": "Флаг ограничен новыми broadcast-каналами; второй вход UpdatePeers также учитывает настройку."
+    },
+    {
+      "id": "exact_last_seen",
+      "title": "Показывать точное время",
+      "review": "static_entry_point_trace",
+      "status": "no_additional_mismatch_identified_in_reviewed_paths",
+      "device": "not_exercised",
+      "existing_registry_status": {
+        "implementation": "implemented",
+        "compile": "compile_passed",
+        "device": "device_pending"
+      },
+      "anchors": [
+        {
+          "path": "submodules/TelegramStringFormatting/Sources/PresenceStrings.swift",
+          "line": 576,
+          "code": "guard UserDefaults.standard.object(forKey: \"nagramix.profiles.showExactLastSeen\") as? Bool ?? false,"
+        }
+      ],
+      "note": "Отображает доступное точное время; не восстанавливает скрытые сервером значения."
+    },
+    {
+      "id": "authorization_alert_handling",
+      "title": "Обработка и диагностика предупреждений авторизации",
+      "review": "static_entry_point_trace",
+      "status": "no_additional_mismatch_identified_in_reviewed_paths",
+      "device": "not_exercised",
+      "existing_registry_status": {
+        "implementation": "implemented",
+        "compile": "compile_passed",
+        "device": "device_pending"
+      },
+      "anchors": [
+        {
+          "path": "submodules/TelegramUI/Sources/ApplicationContext.swift",
+          "line": 766,
+          "code": "Logger.shared.log(\"ApplicationContext\", \"duplicate authorization alert deferred\")"
+        }
+      ],
+      "note": "Повторные предупреждения ограничиваются и диагностируются; успешный вход не подменяется."
+    },
+    {
+      "id": "high_quality_photos",
+      "title": "Фото максимального качества со штатным просмотрщиком Telegram",
+      "review": "static_entry_point_trace",
+      "status": "mismatch",
+      "device": "not_exercised",
+      "existing_registry_status": {
+        "implementation": "implemented",
+        "compile": "compile_passed",
+        "device": "device_pending"
+      },
+      "anchors": [
+        {
+          "path": "submodules/TelegramUI/Components/ChatMediaSend/Sources/ChatMediaSendMessages.swift",
+          "line": 144,
+          "code": "let resource = PhotoLibraryMediaResource(localIdentifier: identifier, uniqueId: Int64.random(in: Int64.min ... Int64.max), forceHd: forceHd)"
+        }
+      ],
+      "note": "A1: modern Gallery не переносит наш highQualityPhotos в HD/quality; legacy-путь учитывает его."
+    },
+    {
+      "id": "original_videos",
+      "title": "Видео без сжатия: оригинал галереи со штатным видеоплеером",
+      "review": "static_entry_point_trace",
+      "status": "no_additional_mismatch_identified_in_reviewed_paths",
+      "device": "not_exercised",
+      "existing_registry_status": {
+        "implementation": "implemented",
+        "compile": "compile_pending",
+        "device": "device_pending"
+      },
+      "anchors": [
+        {
+          "path": "submodules/TelegramUI/Components/ChatMediaSend/Sources/NagramiXOriginalVideoSend.swift",
+          "line": 44,
+          "code": "func nagramiXPrepareOriginalGalleryVideos(context: AccountContext, items: [ChatMediaSendItem], global: ChatMediaSendGlobalOptions, enabled: Bool) -> Signal<(items: [ChatMediaSendItem], global: ChatMediaSendGlobalOptions), NoError> {"
+        },
+        {
+          "path": "submodules/TelegramUI/Components/ChatMediaSend/Sources/NagramiXOriginalVideoSend.swift",
+          "line": 45,
+          "code": "guard enabled else { return .single((items, global)) }"
+        }
+      ],
+      "note": "Stage70: ON готовит оригинал подходящего видео, OFF оставляет штатный pipeline; специальные/редактированные маршруты сохраняются."
+    },
+    {
+      "id": "unread_chats_first",
+      "title": "Непрочитанные сверху во всех папках",
+      "review": "static_entry_point_trace",
+      "status": "no_additional_mismatch_identified_in_reviewed_paths",
+      "device": "not_exercised",
+      "existing_registry_status": {
+        "implementation": "implemented",
+        "compile": "compile_passed",
+        "device": "device_pending"
+      },
+      "anchors": [
+        {
+          "path": "submodules/ChatListUI/Sources/Node/ChatListNode.swift",
+          "line": 1360,
+          "code": "private let nagramiXUnreadChatsFirst = ValuePromise<Bool>(NagramiXTabSettings.unreadChatsFirstEnabled, ignoreRepeated: true)"
+        },
+        {
+          "path": "submodules/ChatListUI/Sources/Node/ChatListNode.swift",
+          "line": 2051,
+          "code": "let chatListViewUpdate = combineLatest(self.chatListLocation.get() |> distinctUntilChanged, self.nagramiXUnreadChatsFirst.get())"
+        },
+        {
+          "path": "submodules/ChatListUI/Sources/Node/ChatListNode.swift",
+          "line": 2657,
+          "code": "if update.nagramiXUnreadChatsFirst {"
+        }
+      ],
+      "note": "Отдельный сигнал влияет на построение списка; применяется к папкам, а не только основному списку."
+    },
+    {
+      "id": "branded_onboarding",
+      "title": "Приветственные экраны NagramiX",
+      "review": "static_entry_point_trace",
+      "status": "no_additional_mismatch_identified_in_reviewed_paths",
+      "device": "not_exercised",
+      "existing_registry_status": {
+        "implementation": "implemented",
+        "compile": "compile_passed",
+        "device": "device_pending"
+      },
+      "anchors": [
+        {
+          "path": "submodules/RMIntro/Sources/platform/ios/RMIntroViewController.m",
+          "line": 332,
+          "code": "UIImageView *logo = [[UIImageView alloc] initWithImage:NagramiXOnboardingImage(0)];"
+        }
+      ],
+      "note": "Ресурсы/экраны NagramiX подключены; проверка графики и размеров нужна на iPhone."
+    },
+    {
+      "id": "archived_media_save",
+      "title": "Сохранение удалённых голосовых и кружков",
+      "review": "static_entry_point_trace",
+      "status": "no_additional_mismatch_identified_in_reviewed_paths",
+      "device": "not_exercised",
+      "existing_registry_status": {
+        "implementation": "implemented",
+        "compile": "compile_passed",
+        "device": "device_pending"
+      },
+      "anchors": [
+        {
+          "path": "submodules/TelegramUI/Sources/ChatInterfaceStateContextMenus.swift",
+          "line": 1639,
+          "code": "actions.append(contentsOf: nagramiXArchivedSaveMediaActions(context: context, message: message, isCopyProtected: false, notificationSoundList: notificationSoundList, controllerInteraction: controllerInteraction, strings: chatPresentationInterfaceStat"
+        },
+        {
+          "path": "submodules/TelegramUI/Sources/ChatInterfaceStateContextMenus.swift",
+          "line": 2738,
+          "code": "actions.append(contentsOf: nagramiXArchivedSaveMediaActions(context: context, message: message, isCopyProtected: isCopyProtected, notificationSoundList: notificationSoundList, controllerInteraction: controllerInteraction, strings: chatPresentationInt"
+        }
+      ],
+      "note": "Сохранение идёт через удержанную локальную копию и проверку доступности байтов."
+    },
+    {
+      "id": "skip_call_rating",
+      "title": "Не спрашивать оценку звонка",
+      "review": "static_entry_point_trace",
+      "status": "no_additional_mismatch_identified_in_reviewed_paths",
+      "device": "not_exercised",
+      "existing_registry_status": {
+        "implementation": "implemented",
+        "compile": "compile_passed",
+        "device": "device_pending"
+      },
+      "anchors": [
+        {
+          "path": "submodules/TelegramCallsUI/Sources/CallController.swift",
+          "line": 308,
+          "code": "if let strongSelf = self, !NagramiXCallSettings.skipRating, !strongSelf.presentedCallRating {"
+        },
+        {
+          "path": "submodules/TelegramCallsUI/Sources/CallController.swift",
+          "line": 312,
+          "code": "guard !NagramiXCallSettings.skipRating else { return }"
+        }
+      ],
+      "note": "Сохранённый флаг проверяется при решении о запросе оценки."
+    },
+    {
+      "id": "anti_caps",
+      "title": "Анти-капс",
+      "review": "static_entry_point_trace",
+      "status": "no_additional_mismatch_identified_in_reviewed_paths",
+      "device": "not_exercised",
+      "existing_registry_status": {
+        "implementation": "implemented",
+        "compile": "compile_passed",
+        "device": "device_pending"
+      },
+      "anchors": [
+        {
+          "path": "submodules/TelegramCore/Sources/PendingMessages/EnqueueMessage.swift",
+          "line": 787,
+          "code": "let message = nagramiXAntiCapsMessage(anonymousMessage, enabled: antiCapsEnabled, limits: antiCapsLimits)"
+        }
+      ],
+      "note": "Обработчик включается по флагу; ссылки, код и сущности защищены, сложный rich-документ не переписывается."
+    },
+    {
+      "id": "anonymous_stickers",
+      "title": "Анонимные стикеры",
+      "review": "static_entry_point_trace",
+      "status": "no_additional_mismatch_identified_in_reviewed_paths",
+      "device": "not_exercised",
+      "existing_registry_status": {
+        "implementation": "implemented",
+        "compile": "compile_passed",
+        "device": "device_pending"
+      },
+      "anchors": [
+        {
+          "path": "submodules/TelegramCore/Sources/PendingMessages/PendingMessageUploadedContent.swift",
+          "line": 605,
+          "code": "if let anonymous = attributes.first(where: { $0 is NagramiXAnonymousStickerMessageAttribute }) as? NagramiXAnonymousStickerMessageAttribute, file.isSticker {"
+        }
+      ],
+      "note": "Новая загрузка и пустая ссылка на pack; custom emoji и special/rich сценарии исключены."
+    },
+    {
+      "id": "hide_blocked_messages",
+      "title": "Скрывать сообщения заблокированных",
+      "review": "static_entry_point_trace",
+      "status": "no_additional_mismatch_identified_in_reviewed_paths",
+      "device": "not_exercised",
+      "existing_registry_status": {
+        "implementation": "implemented",
+        "compile": "compile_passed",
+        "device": "device_pending"
+      },
+      "anchors": [
+        {
+          "path": "submodules/TelegramUI/Sources/ChatHistoryEntriesForView.swift",
+          "line": 228,
+          "code": "if context.account.nagramiXBlockedMessageFilter.shouldHide(message, enabled: hideBlockedMessages) { continue loop }"
+        }
+      ],
+      "note": "Фильтр обращается к кэшу реального списка блокировок, обновляется после операций и синхронизации."
+    },
+    {
+      "id": "selfie_countdown",
+      "title": "Таймер селфи",
+      "review": "static_entry_point_trace",
+      "status": "no_additional_mismatch_identified_in_reviewed_paths",
+      "device": "not_exercised",
+      "existing_registry_status": {
+        "implementation": "implemented",
+        "compile": "compile_passed",
+        "device": "device_pending"
+      },
+      "anchors": [
+        {
+          "path": "submodules/TelegramUI/Components/VideoMessageCameraScreen/Sources/VideoMessageCameraScreen.swift",
+          "line": 346,
+          "code": "if isFrontCamera && NagramiXTabSettings.current.selfieCountdown && self.nagramiXWriterRequested {"
+        },
+        {
+          "path": "submodules/TelegramUI/Components/VideoMessageCameraScreen/Sources/VideoMessageCameraScreen.swift",
+          "line": 538,
+          "code": "if controller.cameraState.position == .front && NagramiXTabSettings.current.selfieCountdown {"
+        },
+        {
+          "path": "submodules/TelegramUI/Components/VideoMessageCameraScreen/Sources/VideoMessageCameraScreen.swift",
+          "line": 586,
+          "code": "if controller.cameraState.position == .front && NagramiXTabSettings.current.selfieCountdown && !countdownComplete {"
+        }
+      ],
+      "note": "Только фронтальная камера; запись начинается после завершения отсчёта."
+    },
+    {
+      "id": "advertising_visibility",
+      "title": "Показать рекламу: спонсор прокси и встроенная реклама Telegram, OFF по умолчанию",
+      "review": "static_entry_point_trace",
+      "status": "no_additional_mismatch_identified_in_reviewed_paths",
+      "device": "not_exercised",
+      "existing_registry_status": {
+        "implementation": "implemented",
+        "compile": "compile_passed",
+        "device": "device_pending"
+      },
+      "anchors": [
+        {
+          "path": "submodules/TelegramCore/Sources/TelegramEngine/Messages/AdMessages.swift",
+          "line": 9,
+          "code": "let observer = NotificationCenter.default.addObserver(forName: NagramiXAdvertisingSettings.changedNotification, object: nil, queue: nil, using: { _ in"
+        },
+        {
+          "path": "submodules/TelegramCore/Sources/TelegramEngine/Messages/AdMessages.swift",
+          "line": 10,
+          "code": "subscriber.putNext(NagramiXAdvertisingSettings.showAdvertising)"
+        },
+        {
+          "path": "submodules/TelegramCore/Sources/TelegramEngine/Messages/AdMessages.swift",
+          "line": 12,
+          "code": "subscriber.putNext(NagramiXAdvertisingSettings.showAdvertising)"
+        }
+      ],
+      "note": "Один флаг управляет рекламой Telegram и каналом спонсора прокси; OFF исходно."
+    },
+    {
+      "id": "auto_reveal_spoilers",
+      "title": "Автораскрытие спойлеров: текст и медиа, включено по умолчанию",
+      "review": "static_entry_point_trace",
+      "status": "no_additional_mismatch_identified_in_reviewed_paths",
+      "device": "not_exercised",
+      "existing_registry_status": {
+        "implementation": "implemented",
+        "compile": "compile_passed",
+        "device": "device_pending"
+      },
+      "anchors": [
+        {
+          "path": "submodules/TelegramUI/Components/Chat/ChatMessageTextBubbleContentNode/Sources/ChatMessageTextBubbleContentNode.swift",
+          "line": 94,
+          "code": "return NagramiXMediaSettings.autoRevealSpoilersEnabled || self.displayContentsUnderSpoilers.value"
+        }
+      ],
+      "note": "Текст и медиа имеют отдельные точки чтения флага; изменение вызывает обновление."
+    },
+    {
+      "id": "ghost_mode",
+      "title": "Приватность: отдельные настройки прочтений, историй, статуса и активности без общего режима",
+      "review": "static_entry_point_trace",
+      "status": "no_additional_mismatch_identified_in_reviewed_paths",
+      "device": "not_exercised",
+      "existing_registry_status": {
+        "implementation": "implemented",
+        "compile": "compile_passed",
+        "device": "device_pending"
+      },
+      "anchors": [
+        {
+          "path": "submodules/NagramiXMediaSettings/Sources/NagramiXPrivacySettings.swift",
+          "line": 24,
+          "code": "public var hidesMessageReads: Bool { self.readMode == .local || self[.readOnAction] }"
+        }
+      ],
+      "note": "Фактически набор независимых опций без общего master; имена групп соответствуют текущей модели."
+    },
+    {
+      "id": "message_read_mode",
+      "title": "Читать сообщения локально и по действию: без автоматических серверных отметок",
+      "review": "static_entry_point_trace",
+      "status": "no_additional_mismatch_identified_in_reviewed_paths",
+      "device": "not_exercised",
+      "existing_registry_status": {
+        "implementation": "implemented",
+        "compile": "compile_passed",
+        "device": "device_pending"
+      },
+      "anchors": [
+        {
+          "path": "submodules/TelegramCore/Sources/NagramiXReadModeActions.swift",
+          "line": 7,
+          "code": "public func nagramiXReadModeSignal() -> Signal<NagramiXReadMode, NoError> {"
+        },
+        {
+          "path": "submodules/TelegramCore/Sources/NagramiXReadModeActions.swift",
+          "line": 25,
+          "code": "func nagramiXReadPreviouslyLocalMessage(account: Account, index: MessageIndex) -> Signal<Void, NoError> {"
+        },
+        {
+          "path": "submodules/TelegramCore/Sources/NagramiXReadModeActions.swift",
+          "line": 29,
+          "code": "func nagramiXSendReadAcknowledgement(account: Account, index: MessageIndex, threadId: Int64?, source: NagramiXReadAcknowledgementSource) -> Signal<Void, NoError> {"
+        }
+      ],
+      "note": "Локальное чтение и чтение по действию разведены; старые приватные границы сохраняются после OFF."
+    },
+    {
+      "id": "view_once_recording",
+      "title": "Одноразовые записи: голосовые и кружки с ручным отключением для одной записи",
+      "review": "static_entry_point_trace",
+      "status": "no_additional_mismatch_identified_in_reviewed_paths",
+      "device": "not_exercised",
+      "existing_registry_status": {
+        "implementation": "implemented",
+        "compile": "compile_passed",
+        "device": "device_pending"
+      },
+      "anchors": [
+        {
+          "path": "submodules/TelegramUI/Components/Chat/ChatTextInputPanelNode/Sources/ChatTextInputPanelNode.swift",
+          "line": 4252,
+          "code": "self.viewOnce = NagramiXRecordingSettings.initialViewOnce(available: available)"
+        }
+      ],
+      "note": "Одноразовый режим подставляется в начальную запись; ручной выбор для этой записи сохраняется."
+    },
+    {
+      "id": "number_rounding",
+      "title": "Округление чисел по выбору, полные счётчики по умолчанию",
+      "review": "static_entry_point_trace",
+      "status": "no_additional_mismatch_identified_in_reviewed_paths",
+      "device": "not_exercised",
+      "existing_registry_status": {
+        "implementation": "implemented",
+        "compile": "compile_passed",
+        "device": "device_pending"
+      },
+      "anchors": [
+        {
+          "path": "submodules/TelegramPresentationData/Sources/NumericFormat.swift",
+          "line": 7,
+          "code": "if !NagramiXNumberSettings.roundingEnabled {"
+        },
+        {
+          "path": "submodules/TelegramPresentationData/Sources/NumericFormat.swift",
+          "line": 8,
+          "code": "return NagramiXNumberSettings.fullCountString(count)"
+        }
+      ],
+      "note": "Общие числовые функции проверяют флаг; OFF возвращает полный счётчик."
+    },
+    {
+      "id": "prefer_ipv6",
+      "title": "Приоритет IPv6 для соединения с резервным IPv4",
+      "review": "static_entry_point_trace",
+      "status": "no_additional_mismatch_identified_in_reviewed_paths",
+      "device": "not_exercised",
+      "existing_registry_status": {
+        "implementation": "implemented",
+        "compile": "compile_passed",
+        "device": "device_pending"
+      },
+      "anchors": [
+        {
+          "path": "submodules/MtProtoKit/Sources/NagramiXIPv6Preference.m",
+          "line": 7,
+          "code": "id value = [[NSUserDefaults standardUserDefaults] objectForKey:@\"nagramix.network.preferIPv6\"];"
+        }
+      ],
+      "note": "Чтение сохранённого ключа в MTProto; требуется реальная IPv6/IPv4 сеть."
+    },
+    {
+      "id": "screenshot_bypass",
+      "title": "Свободный контент: доступные боты, каналы и сообщения без заглушки устройства, скриншоты и запись разрешённых медиа",
+      "review": "static_entry_point_trace",
+      "status": "no_additional_mismatch_identified_in_reviewed_paths",
+      "device": "not_exercised",
+      "existing_registry_status": {
+        "implementation": "implemented",
+        "compile": "compile_passed",
+        "device": "device_pending"
+      },
+      "anchors": [
+        {
+          "path": "submodules/TelegramCore/Sources/Utils/NagramiXCaptureProtectionPolicy.swift",
+          "line": 7,
+          "code": "return !NagramiXPrivacySettings.current.bypassScreenshots"
+        },
+        {
+          "path": "submodules/TelegramCore/Sources/Utils/NagramiXCaptureProtectionPolicy.swift",
+          "line": 20,
+          "code": "return !NagramiXPrivacySettings.current.bypassScreenshots || !message.nagramiXAllowsScreenshotBypass"
+        }
+      ],
+      "note": "Только доступные сообщения/медиа; серверную недоступность настройка не отменяет."
+    },
+    {
+      "id": "protected_content_copy",
+      "title": "Пересылка, рассылка и сохранение доступных защищённых сообщений копиями",
+      "review": "static_entry_point_trace",
+      "status": "no_additional_mismatch_identified_in_reviewed_paths",
+      "device": "not_exercised",
+      "existing_registry_status": {
+        "implementation": "implemented",
+        "compile": "compile_passed",
+        "device": "device_pending"
+      },
+      "anchors": [
+        {
+          "path": "submodules/TelegramUI/Sources/Chat/NagramiXProtectedCopyPreparation.swift",
+          "line": 16,
+          "code": "return NagramiXPrivacySettings.current.bypassScreenshots && (settings.showForwardWithoutAuthor || settings.showBroadcastMessages) && message.nagramiXAllowsContentCopy"
+        }
+      ],
+      "note": "Доступность копии зависит от свободного контента, выбранного действия и наличия исходника."
+    },
+    {
+      "id": "video_quality_save",
+      "title": "Сохранение видео: оригинал,1080p,720p,480p",
+      "review": "static_entry_point_trace",
+      "status": "no_additional_mismatch_identified_in_reviewed_paths",
+      "device": "not_exercised",
+      "existing_registry_status": {
+        "implementation": "implemented",
+        "compile": "compile_passed",
+        "device": "device_pending"
+      },
+      "anchors": [
+        {
+          "path": "submodules/GalleryUI/Sources/Items/UniversalVideoGalleryItem.swift",
+          "line": 4571,
+          "code": "saveSignal = nagramiXSaveGalleryVideoQuality(context: self.context, userLocation: .peer(message.id.peerId), source: qualityFile, original: content.fileReference, quality: quality)"
+        }
+      ],
+      "note": "Меню разрешений отделено от экспорта; оригинал и пресеты используют штатный экспорт видео."
+    },
+    {
+      "id": "archive_persistence",
+      "title": "Надёжное подтверждение записи архива, ошибки и ограниченные повторы",
+      "review": "static_entry_point_trace",
+      "status": "no_additional_mismatch_identified_in_reviewed_paths",
+      "device": "not_exercised",
+      "existing_registry_status": {
+        "implementation": "implemented",
+        "compile": "compile_passed",
+        "device": "device_pending"
+      },
+      "anchors": [
+        {
+          "path": "submodules/TelegramCore/Sources/Utils/NagramiXArchivePersistence.swift",
+          "line": 8,
+          "code": "static func writing(_ error: Error) -> NagramiXArchiveStorageFailure {"
+        },
+        {
+          "path": "submodules/TelegramCore/Sources/Utils/NagramiXArchivePersistence.swift",
+          "line": 45,
+          "code": "func submit(_ value: State, retryNow: Bool = false) -> Bool {"
+        },
+        {
+          "path": "submodules/TelegramCore/Sources/Utils/NagramiXArchivePersistence.swift",
+          "line": 53,
+          "code": "func retry() -> Bool {"
+        }
+      ],
+      "note": "Подтверждение записи и ограниченные повторы; фактические ошибки файловой системы требуют отдельного сценария."
+    },
+    {
+      "id": "composer_file_attachments",
+      "title": "Полная копия текста, верхние файлы и единый пост в обоих редакторах",
+      "review": "static_entry_point_trace",
+      "status": "no_additional_mismatch_identified_in_reviewed_paths",
+      "device": "not_exercised",
+      "existing_registry_status": {
+        "implementation": "implemented",
+        "compile": "compile_passed",
+        "device": "device_pending"
+      },
+      "anchors": [
+        {
+          "path": "submodules/TelegramUI/Sources/ChatControllerOpenAttachmentMenu.swift",
+          "line": 170,
+          "code": "func nagramiXAttachFilesToComposer(_ references: [AnyMediaReference], caption: NSAttributedString? = nil, initialState: ChatTextInputState? = nil, silentPosting: Bool = false, scheduleTime: Int32? = nil) -> Bool {"
+        }
+      ],
+      "note": "Обычный/расширенный редакторы используют общий черновик и подтверждение доставки, верхний порядок медиа."
+    },
+    {
+      "id": "quick_formatting",
+      "title": "Быстрое форматирование выделенного текста из поля сообщения",
+      "review": "static_entry_point_trace",
+      "status": "no_additional_mismatch_identified_in_reviewed_paths",
+      "device": "not_exercised",
+      "existing_registry_status": {
+        "implementation": "implemented",
+        "compile": "compile_passed",
+        "device": "device_pending"
+      },
+      "anchors": [
+        {
+          "path": "submodules/TelegramUI/Components/Chat/ChatTextInputPanelNode/Sources/ChatTextInputPanelNode.swift",
+          "line": 6449,
+          "code": "guard NagramiXFormattingSettings.enabled, !self.sendingTextDisabled, !self.extendedSearchLayout,"
+        },
+        {
+          "path": "submodules/TelegramUI/Components/Chat/ChatTextInputPanelNode/Sources/ChatTextInputPanelNode.swift",
+          "line": 6483,
+          "code": "forName: NagramiXFormattingSettings.changedNotification, object: nil, queue: .main"
+        },
+        {
+          "path": "submodules/TelegramUI/Components/Chat/ChatTextInputPanelNode/Sources/ChatTextInputPanelNode.swift",
+          "line": 6486,
+          "code": "if !NagramiXFormattingSettings.enabled { self.nagramiXCloseFormatting(reload: true) }"
+        }
+      ],
+      "note": "Флаг подключён к стандартному и rich-редактору, действия проверяют живое выделение."
+    },
+    {
+      "id": "contact_chat_readiness",
+      "title": "Контакты и чаты без запроса при запуске с последующим явным разрешением доступа",
+      "review": "static_entry_point_trace",
+      "status": "no_additional_mismatch_identified_in_reviewed_paths",
+      "device": "not_exercised",
+      "existing_registry_status": {
+        "implementation": "implemented",
+        "compile": "compile_passed",
+        "device": "device_pending"
+      },
+      "anchors": [
+        {
+          "path": "submodules/ContactListUI/Sources/ContactsController.swift",
+          "line": 280,
+          "code": "strongSelf.present(nagramiXPermissionAlertController(theme: AlertControllerTheme(presentationData: presentationData), title: presentationData.strings.AccessDenied_Title, text: presentationData.strings.Contacts_AccessDeniedError, actions: [TextAlertAc"
+        },
+        {
+          "path": "submodules/ContactListUI/Sources/ContactsController.swift",
+          "line": 634,
+          "code": "topController.present(nagramiXPermissionAlertController(theme: AlertControllerTheme(presentationData: presentationData), title: presentationData.strings.AccessDenied_Title, text: presentationData.strings.Contacts_AccessDeniedError, actions: [TextAler"
+        }
+      ],
+      "note": "Контакты/чаты не требуют автоматического запроса на старте; явное разрешение и отказ сохраняют смысл."
+    },
+    {
+      "id": "own_view_once_copy",
+      "title": "Пересылка и рассылка своих одноразовых голосовых и кружков с сохранением одноразового режима",
+      "review": "static_entry_point_trace",
+      "status": "no_additional_mismatch_identified_in_reviewed_paths",
+      "device": "not_exercised",
+      "existing_registry_status": {
+        "implementation": "implemented",
+        "compile": "compile_passed",
+        "device": "device_pending"
+      },
+      "anchors": [
+        {
+          "path": "submodules/TelegramCore/Sources/Utils/NagramiXOutgoingCopy.swift",
+          "line": 8,
+          "code": "public func nagramiXCanForwardWithoutAuthor(_ message: EngineRawMessage) -> Bool {"
+        },
+        {
+          "path": "submodules/TelegramCore/Sources/Utils/NagramiXOutgoingCopy.swift",
+          "line": 25,
+          "code": "public func nagramiXMessagesRequiringCopy(_ messages: [EngineRawMessage], forceLocalMedia: Bool = false) -> [EngineRawMessage] {"
+        },
+        {
+          "path": "submodules/TelegramCore/Sources/Utils/NagramiXOutgoingCopy.swift",
+          "line": 38,
+          "code": "public func nagramiXMessagesWithoutAuthor(_ messages: [EngineRawMessage], account: Account? = nil, hideCaptions: Bool = false, forceLocalMedia: Bool = false, accountPeerId: EnginePeer.Id? = nil, mediaCopy: NagramiXArchivedMediaCopy? = nil) -> [Enqueu"
+        }
+      ],
+      "note": "Своё временное медиа копируется с соответствующим режимом, не через архивный synthetic ID."
+    },
+    {
+      "id": "send_silently",
+      "title": "Отправлять без звука: автоматическая тихая отправка исходящих сообщений",
+      "review": "static_entry_point_trace",
+      "status": "no_additional_mismatch_identified_in_reviewed_paths",
+      "device": "not_exercised",
+      "existing_registry_status": {
+        "implementation": "implemented",
+        "compile": "compile_passed",
+        "device": "device_pending"
+      },
+      "anchors": [
+        {
+          "path": "submodules/TelegramCore/Sources/PendingMessages/EnqueueMessage.swift",
+          "line": 913,
+          "code": "let sendSilently = NagramiXSendSettings.sendSilently"
+        }
+      ],
+      "note": "Общая enqueue и standalone отправка добавляют muted; OFF оставляет исходные атрибуты."
+    },
+    {
+      "id": "chatlist_preview_emoji",
+      "title": "Оригинальные пользовательские эмодзи в превью списка чатов и подписях медиа",
+      "review": "static_entry_point_trace",
+      "status": "no_additional_mismatch_identified_in_reviewed_paths",
+      "device": "not_exercised",
+      "existing_registry_status": {
+        "implementation": "implemented",
+        "compile": "compile_passed",
+        "device": "device_pending"
+      },
+      "anchors": [
+        {
+          "path": "submodules/ChatListUI/Sources/Node/ChatListItem.swift",
+          "line": 4975,
+          "code": "strongSelf.nagramiXPreviewEmoji.update(accountPeerId: account.peerId, messageId: nagramiXPreviewEmojiMessageId, text: nagramiXPreviewEmojiText, rendered: nagramiXPreviewEmojiSnapshot, resolve: { ids, completion in"
+        }
+      ],
+      "note": "Оригинальные custom emoji передаются в превью; нет принудительной замены unicode."
+    },
+    {
+      "id": "story_download",
+      "title": "Скачивать доступные фото- и видеоистории в Фото отдельной кнопкой",
+      "review": "static_entry_point_trace",
+      "status": "no_additional_mismatch_identified_in_reviewed_paths",
+      "device": "not_exercised",
+      "existing_registry_status": {
+        "implementation": "implemented",
+        "compile": "compile_passed",
+        "device": "device_pending"
+      },
+      "anchors": [
+        {
+          "path": "submodules/TelegramUI/Components/Stories/StoryContainerScreen/Sources/StoryItemSetContainerComponent.swift",
+          "line": 777,
+          "code": "self.nagramiXStoryDownloadObserver = NotificationCenter.default.addObserver(forName: NagramiXStoryDownloadSettings.changedNotification, object: nil, queue: .main) { [weak self] _ in"
+        },
+        {
+          "path": "submodules/TelegramUI/Components/Stories/StoryContainerScreen/Sources/StoryItemSetContainerComponent.swift",
+          "line": 6259,
+          "code": "guard NagramiXStoryDownloadSettings.enabled, let component = self.component else { return false }"
+        }
+      ],
+      "note": "Кнопка проверяет настройку и доступность; получение лучшего варианта не означает доступ к чужим закрытым историям."
+    },
+    {
+      "id": "crash_reports",
+      "title": "Отчёты о сбоях NagramiX: ZIP в @NagramiX_bot после согласия пользователя",
+      "review": "static_entry_point_trace",
+      "status": "no_additional_mismatch_identified_in_reviewed_paths",
+      "device": "not_exercised",
+      "existing_registry_status": {
+        "implementation": "implemented",
+        "compile": "compile_passed",
+        "device": "device_pending"
+      },
+      "anchors": [
+        {
+          "path": "submodules/DebugSettingsUI/Sources/CrashReportsController.swift",
+          "line": 21,
+          "code": "private let crashReportBot = \"NagramiX_bot\""
+        }
+      ],
+      "note": "Сбор ZIP отделён от согласия и передачи; отправка в бот остаётся явным действием пользователя."
+    },
+    {
+      "id": "round_video_quality",
+      "title": "Качественные кружки: разрешение, битрейт, частота кадров и кодек",
+      "review": "static_entry_point_trace",
+      "status": "no_additional_mismatch_identified_in_reviewed_paths",
+      "device": "not_exercised",
+      "existing_registry_status": {
+        "implementation": "implemented",
+        "compile": "compile_passed",
+        "device": "device_pending"
+      },
+      "anchors": [
+        {
+          "path": "submodules/Camera/CameraNeo/Sources/RoundVideoFrameProcessor.swift",
+          "line": 227,
+          "code": "let quality: NagramiXRoundVideoSettings?"
+        },
+        {
+          "path": "submodules/Camera/CameraNeo/Sources/RoundVideoFrameProcessor.swift",
+          "line": 242,
+          "code": "init?(mediaQueue: DispatchQueue, decorationResources: RoundVideoDecorationResources?, mode: NeoCameraImpl.RoundVideoMode, quality: NagramiXRoundVideoSettings? = nil) {"
+        }
+      ],
+      "note": "Настройки разрешения/кадров/битрейта и кодека читаются при создании записи; нужна аппаратная проверка."
+    },
+    {
+      "id": "round_video_editor",
+      "title": "Круглое видео из галереи и обычной камеры: кадрирование и отрезок до 60 секунд",
+      "review": "static_entry_point_trace",
+      "status": "no_additional_mismatch_identified_in_reviewed_paths",
+      "device": "not_exercised",
+      "existing_registry_status": {
+        "implementation": "implemented",
+        "compile": "compile_passed",
+        "device": "device_pending"
+      },
+      "anchors": [
+        {
+          "path": "submodules/TelegramUI/Components/ChatMediaEditorScreen/Sources/ChatMediaEditorScreenVideo.swift",
+          "line": 285,
+          "code": "&& (NagramiXTabSettings.roundVideoEditorEnabled || self.nagramiXIsRoundVideo)"
+        },
+        {
+          "path": "submodules/TelegramUI/Components/ChatMediaEditorScreen/Sources/ChatMediaEditorScreenVideo.swift",
+          "line": 300,
+          "code": "self.nagramiXIsRoundVideo || NagramiXTabSettings.roundVideoEditorEnabled else { return }"
+        }
+      ],
+      "note": "OFF закрывает создание из обычного видео, редактирование уже круглого остаётся доступным."
+    },
+    {
+      "id": "message_translation",
+      "title": "Перевод сообщений в переписке: Telegram Premium, Apple/Google/Яндекс и Gemini/ChatGPT/DeepSeek с личным API-ключом",
+      "review": "static_entry_point_trace",
+      "status": "scope_note",
+      "device": "not_exercised",
+      "existing_registry_status": {
+        "implementation": "implemented",
+        "compile": "compile_passed",
+        "device": "device_pending"
+      },
+      "anchors": [
+        {
+          "path": "submodules/TranslateUI/Sources/NagramiXInlineTranslationRuntime.swift",
+          "line": 71,
+          "code": "return nagramiXTranslateText(context: context, text: message.text, entities: self.entities(message), source: source, target: target, configuration: configuration, manual: true)"
+        }
+      ],
+      "note": "Ручной перевод намеренно доступен при OFF автоматических функций; отдельное согласованное правило, не ошибка."
+    },
+    {
+      "id": "voice_transcription",
+      "title": "Расшифровка голосовых: Apple, Whisper, Vosk, Cloudflare и облачные нейросети",
+      "review": "static_entry_point_trace",
+      "status": "scope_note",
+      "device": "not_exercised",
+      "existing_registry_status": {
+        "implementation": "implemented",
+        "compile": "compile_passed",
+        "device": "device_pending"
+      },
+      "anchors": [
+        {
+          "path": "submodules/TelegramUI/Components/Chat/ChatMessageInteractiveFileNode/Sources/ChatMessageInteractiveFileNode.swift",
+          "line": 868,
+          "code": "displayTranscribe = true"
+        },
+        {
+          "path": "submodules/TelegramUI/Components/Chat/ChatMessageInteractiveFileNode/Sources/ChatMessageInteractiveFileNode.swift",
+          "line": 872,
+          "code": "displayTranscribe = true"
+        },
+        {
+          "path": "submodules/TelegramUI/Components/Chat/ChatMessageInteractiveFileNode/Sources/ChatMessageInteractiveFileNode.swift",
+          "line": 877,
+          "code": "displayTranscribe = true"
+        }
+      ],
+      "note": "S1: master OFF отключает наш runtime; штатный Premium/trial/boost путь остаётся доступным."
+    },
+    {
+      "id": "app_language_localization",
+      "title": "Единый язык настроек NagramiX и debug-меню для всех71 языков",
+      "review": "static_entry_point_trace",
+      "status": "no_additional_mismatch_identified_in_reviewed_paths",
+      "device": "not_exercised",
+      "existing_registry_status": {
+        "implementation": "implemented",
+        "compile": "compile_passed",
+        "device": "device_pending"
+      },
+      "anchors": [
+        {
+          "path": "submodules/NagramiXCore/Sources/NagramiXAppLocalization.swift",
+          "line": 11,
+          "code": "public static func languageCandidates(_ languageCode: String) -> [String] {"
+        },
+        {
+          "path": "submodules/NagramiXCore/Sources/NagramiXAppLocalization.swift",
+          "line": 24,
+          "code": "public static func localized(_ key: String, languageCode: String, fallbackLanguageCode: String? = nil) -> String {"
+        },
+        {
+          "path": "submodules/NagramiXCore/Sources/NagramiXAppLocalization.swift",
+          "line": 37,
+          "code": "static func format(_ template: String, arguments: [String]) -> String {"
+        }
+      ],
+      "note": "Выбор строк зависит от языка PresentationStrings; 71 каталог и debug-меню имеют отдельные guards."
+    },
+    {
+      "id": "app_fonts",
+      "title": "Шрифты приложения: системные, iOS, PT Astra и Roboto",
+      "review": "static_entry_point_trace",
+      "status": "no_additional_mismatch_identified_in_reviewed_paths",
+      "device": "not_exercised",
+      "existing_registry_status": {
+        "implementation": "implemented",
+        "compile": "compile_pending",
+        "device": "device_pending"
+      },
+      "anchors": [
+        {
+          "path": "submodules/SettingsUI/Sources/NagramiXFontsController.swift",
+          "line": 361,
+          "code": "self.draft.select(entry.id)"
+        }
+      ],
+      "note": "Выбор только в черновик/предосмотр; запись настроек при Apply, лицензии отдельным экраном. Stage64 ещё не в IPA208."
+    },
+    {
+      "id": "typing_animation",
+      "title": "Эффекты ввода: анимация при наборе, шесть эффектов и ручные параметры",
+      "review": "static_entry_point_trace",
+      "status": "no_additional_mismatch_identified_in_reviewed_paths",
+      "device": "not_exercised",
+      "existing_registry_status": {
+        "implementation": "implemented",
+        "compile": "compile_passed",
+        "device": "device_pending"
+      },
+      "anchors": [
+        {
+          "path": "submodules/NagramiXCore/Sources/NagramiXTypingAnimation.swift",
+          "line": 42,
+          "code": "guard value.enabled, !ProcessInfo.processInfo.isLowPowerModeEnabled, !UIAccessibility.isReduceMotionEnabled,"
+        }
+      ],
+      "note": "OFF/энергосбережение/Reduce Motion останавливают эффект; оба поля ввода подключены."
+    },
+    {
+      "id": "snowfall",
+      "title": "Атмосфера: снегопад и автоматическое праздничное расписание",
+      "review": "static_entry_point_trace",
+      "status": "no_additional_mismatch_identified_in_reviewed_paths",
+      "device": "not_exercised",
+      "existing_registry_status": {
+        "implementation": "implemented",
+        "compile": "compile_passed",
+        "device": "device_pending"
+      },
+      "anchors": [
+        {
+          "path": "submodules/NagramiXCore/Sources/NagramiXSnowHolidays.swift",
+          "line": 58,
+          "code": "result.density = 75"
+        }
+      ],
+      "note": "Ручной OFF исходно; праздник принудительно ON/75, даты31–1 и13–14 по48ч, затем возврат ручных настроек."
+    },
+    {
+      "id": "single_touch_message_selection",
+      "title": "Выделение диапазона сообщений одним пальцем с возвратом и автопрокруткой",
+      "review": "static_entry_point_trace",
+      "status": "no_additional_mismatch_identified_in_reviewed_paths",
+      "device": "not_exercised",
+      "existing_registry_status": {
+        "implementation": "implemented",
+        "compile": "compile_pending",
+        "device": "device_pending"
+      },
+      "anchors": [
+        {
+          "path": "submodules/TelegramUI/Sources/ChatHistoryListNode.swift",
+          "line": 5553,
+          "code": "private var nagramiXSingleSelectionView: (MessageHistoryView, Int32)?"
+        },
+        {
+          "path": "submodules/TelegramUI/Sources/ChatHistoryListNode.swift",
+          "line": 5572,
+          "code": "if let previous = self.nagramiXSingleSelectionView, previous.0 === token.0 && previous.1 == token.1 { return }"
+        },
+        {
+          "path": "submodules/TelegramUI/Sources/ChatHistoryListNode.swift",
+          "line": 5574,
+          "code": "self.nagramiXSingleSelectionView = token"
+        }
+      ],
+      "note": "Stages68/69: начало слева, расширение вниз, возврат снимает новые отметки, baseline сохраняется; SDK/iPhone pending."
+    }
+  ],
+  "focused_runtime_probes": [
+    {
+      "name": "snow",
+      "fixture_sha256": "017f8663a6f87f08cce6fa7fe087b0cf7c4f8228ef083d07062c3be173195706",
+      "runs": [
+        {
+          "name": "snow",
+          "mode": "debug",
+          "exit_code": 0,
+          "output": "Holiday snowfall production checks: 6933"
+        },
+        {
+          "name": "snow",
+          "mode": "optimized",
+          "exit_code": 0,
+          "output": "Holiday snowfall production checks: 6933"
+        }
+      ]
+    },
+    {
+      "name": "font-preview",
+      "fixture_sha256": "936161d3f7720ca0337723e9edceb7e7b07aa8c1edc0cbed8255a6c16e723680",
+      "runs": [
+        {
+          "name": "font-preview",
+          "mode": "debug",
+          "exit_code": 0,
+          "output": "Font preview production checks: 5407"
+        },
+        {
+          "name": "font-preview",
+          "mode": "optimized",
+          "exit_code": 0,
+          "output": "Font preview production checks: 5407"
+        }
+      ]
+    },
+    {
+      "name": "typing",
+      "fixture_sha256": "309e7bb32730153ac4638f89675500c2996921c5de8c94e527740d91daa26a79",
+      "runs": [
+        {
+          "name": "typing",
+          "mode": "debug",
+          "exit_code": 0,
+          "output": "Input effects production checks: 311"
+        },
+        {
+          "name": "typing",
+          "mode": "optimized",
+          "exit_code": 0,
+          "output": "Input effects production checks: 311"
+        }
+      ]
+    },
+    {
+      "name": "original-video",
+      "fixture_sha256": "71232d0f4d749b03ba4b13b5110ff78dd6b1df2f176bc7a81933df61166577c1",
+      "runs": [
+        {
+          "name": "original-video",
+          "mode": "debug",
+          "exit_code": 0,
+          "output": "Original video send-mode production checks: 41"
+        },
+        {
+          "name": "original-video",
+          "mode": "optimized",
+          "exit_code": 0,
+          "output": "Original video send-mode production checks: 41"
+        }
+      ]
+    },
+    {
+      "name": "wide-panel",
+      "fixture_sha256": "3eee00563fe51784079d741c0c779aaa9c95d8d6217173af38adbd331bafa199",
+      "runs": [
+        {
+          "name": "wide-panel",
+          "mode": "debug",
+          "exit_code": 0,
+          "output": "PASS wide panel production checks: 2723"
+        },
+        {
+          "name": "wide-panel",
+          "mode": "optimized",
+          "exit_code": 0,
+          "output": "PASS wide panel production checks: 2723"
+        }
+      ]
+    },
+    {
+      "name": "wide-post",
+      "fixture_sha256": "2e38a534470e46752adcd6e68c54b0fa82d0af806b0befa034e8583b45064220",
+      "runs": [
+        {
+          "name": "wide-post",
+          "mode": "debug",
+          "exit_code": 0,
+          "output": "wide channel post checks: 42672"
+        },
+        {
+          "name": "wide-post",
+          "mode": "optimized",
+          "exit_code": 0,
+          "output": "wide channel post checks: 42672"
+        }
+      ]
+    },
+    {
+      "name": "composer-copy",
+      "fixture_sha256": "7e39bc54bea3d2d300224c9f2169188dca20c9f093ae2f6cf85d3f277a08ca5f",
+      "runs": [
+        {
+          "name": "composer-copy",
+          "mode": "debug",
+          "exit_code": 0,
+          "output": "Composer copy/draft production checks: 117"
+        },
+        {
+          "name": "composer-copy",
+          "mode": "optimized",
+          "exit_code": 0,
+          "output": "Composer copy/draft production checks: 117"
+        }
+      ]
+    },
+    {
+      "name": "poll-copy",
+      "fixture_sha256": "e374cb7ea0f6fb3c67c195f69a127f5b53aca1b1a54f12588b8a8093054e8a98",
+      "runs": [
+        {
+          "name": "poll-copy",
+          "mode": "debug",
+          "exit_code": 0,
+          "output": "PASS poll copy transport checks: 67"
+        },
+        {
+          "name": "poll-copy",
+          "mode": "optimized",
+          "exit_code": 0,
+          "output": "PASS poll copy transport checks: 67"
+        }
+      ]
+    }
+  ],
+  "photo_quality_observations": {
+    "source": "/tmp/nagramix-original-video-mode/source",
+    "extracted_function_sha256": {
+      "public func chatMediaEditorImageMaxSide(": "a57216857db9e935147d9b11995b72ac7e86040a04625a4a97987001b4f5bd59",
+      "public func chatMediaEditorImageSendSize(": "90cab18b24fdb54f35d9cd23e3b26ba02e7399aa43fb7785c1ba2f2a0e0d3269",
+      "func chatMediaSendRenderedImageMedia(": "c9e308117b841862ad82ca455c3c00ffee240e395d1bc969261b05b42c253bb9",
+      "func chatMediaSendLibraryPhotoMedia(": "e3eee672dfd6a4f896c01a585e4c6a07de3e2d1665b81489a3e898e8e6162920"
+    },
+    "boundary": "Actual photo media builders, image-size policy and outgoing quality expression. UIKit encoder, Photos retrieval, resource wrappers and temp I/O are adapters; server/iPhone not exercised. Native HD kept off; custom preference passed into the actual fetch expression. Rendered encoder invoked twice with the two user-requested slider values, which the production function has no input for.",
+    "runs": [
+      {
+        "mode": "debug",
+        "observations": [
+          {
+            "fetch_quality": 0.20000000298023224,
+            "maximum_quality_switch": false,
+            "maximum_switch_honored": true,
+            "resource_force_hd": false,
+            "resource_width": 1280,
+            "saved_manual_quality": 20,
+            "scenario": "library-photo"
+          },
+          {
+            "fetch_quality": 0.20000000298023224,
+            "maximum_quality_switch": true,
+            "maximum_switch_honored": false,
+            "resource_force_hd": false,
+            "resource_width": 1280,
+            "saved_manual_quality": 20,
+            "scenario": "library-photo"
+          },
+          {
+            "encoder_quality": 0.6000000238418579,
+            "manual_slider_honored": false,
+            "requested_manual_quality": 20,
+            "scenario": "rendered-photo"
+          },
+          {
+            "encoder_quality": 0.6000000238418579,
+            "manual_slider_honored": false,
+            "requested_manual_quality": 90,
+            "scenario": "rendered-photo"
+          }
+        ]
+      },
+      {
+        "mode": "optimized",
+        "observations": [
+          {
+            "fetch_quality": 0.20000000298023224,
+            "maximum_quality_switch": false,
+            "maximum_switch_honored": true,
+            "resource_force_hd": false,
+            "resource_width": 1280,
+            "saved_manual_quality": 20,
+            "scenario": "library-photo"
+          },
+          {
+            "fetch_quality": 0.20000000298023224,
+            "maximum_quality_switch": true,
+            "maximum_switch_honored": false,
+            "resource_force_hd": false,
+            "resource_width": 1280,
+            "saved_manual_quality": 20,
+            "scenario": "library-photo"
+          },
+          {
+            "encoder_quality": 0.6000000238418579,
+            "manual_slider_honored": false,
+            "requested_manual_quality": 20,
+            "scenario": "rendered-photo"
+          },
+          {
+            "encoder_quality": 0.6000000238418579,
+            "manual_slider_honored": false,
+            "requested_manual_quality": 90,
+            "scenario": "rendered-photo"
+          }
+        ]
+      }
+    ]
+  },
+  "preference_roundtrips": {
+    "boundary": "Full current Foundation-only settings sources; only module import removed for a single-file executable. Real Foundation UserDefaults in a task-isolated XDG_CONFIG_HOME, no preference double, no UI/media processing.",
+    "source_files": {
+      "submodules/NagramiXMediaSettings/Sources/NagramiXAdvertisingSettings.swift": "ad994763b8a881956c40084903aa07e200db90035842d39b48749a62136b5b83",
+      "submodules/NagramiXMediaSettings/Sources/NagramiXCallSettings.swift": "7341241f07af85af0753ac9f65e331d3e1e7eeda2bc3635aa73768fdef9b8781",
+      "submodules/NagramiXMediaSettings/Sources/NagramiXDownloadSettings.swift": "e235b1de47270479fd071ffae7862136a7e55bed44875fd79ddabe65c57d8674",
+      "submodules/NagramiXMediaSettings/Sources/NagramiXFontSettings.swift": "d60ee84ffc499869e0f455610f758861d48705b87dc027b69df2ea95c82a0814",
+      "submodules/NagramiXMediaSettings/Sources/NagramiXGhostSettings.swift": "ec2710c6e1ec8312743a9f080ad2cf82219330447c3599de3fbf258c799289c9",
+      "submodules/NagramiXMediaSettings/Sources/NagramiXMediaSettings.swift": "0bbd969f903181cb1f3caa2d43aefae3a46965dd670dde1a8c3cbced2335275f",
+      "submodules/NagramiXMediaSettings/Sources/NagramiXNumberSettings.swift": "9df17d845803b1b6272490fc4eabef9b4147a29a268c725211bf27de769331f1",
+      "submodules/NagramiXMediaSettings/Sources/NagramiXPrivacySettings.swift": "55727748205aa6989ab1758ee20bc81274ae0f4df0f89b53c626a62409a82b7a",
+      "submodules/NagramiXMediaSettings/Sources/NagramiXProxyPreferences.swift": "e8ff5139c23b9555edf974e106674466cb0ee3ec4a422f95d60029eb945c564c",
+      "submodules/NagramiXMediaSettings/Sources/NagramiXReadModeSettings.swift": "25d97ecb7f113d04ceb7b9ecc21bf6c5a0fab4fab86fb99887af5bd5fd3a838d",
+      "submodules/NagramiXMediaSettings/Sources/NagramiXRoundVideoSettings.swift": "6c30b32400dc626fc9b01c5369e65897d3d8039fb0c0fedc8697dd14f82fca9f",
+      "submodules/NagramiXMediaSettings/Sources/NagramiXSendSettings.swift": "ec162bef39311ab536cd236803394e79b1aa23bb85b021a3f0e1483b8f894e63",
+      "submodules/NagramiXMediaSettings/Sources/NagramiXStorySettings.swift": "3c3c2dcb3eceeca1d1f2d1bf7d0f80c6d2e48393a9ba9f1c7c9ebd064b5ca790",
+      "submodules/NagramiXCore/Sources/NagramiXTabSettings.swift": "71328bb06d34937632e25bb2cf1e2c1adbb46371ca5f29b563721017326abec9"
+    },
+    "independent_bool_fields": [
+      "wideTabBar",
+      "hideContacts",
+      "hideCalls",
+      "showSearchButton",
+      "wideChannelPosts",
+      "videoPiPSwipe",
+      "backgroundVideoPlayback",
+      "unreadChatsFirst",
+      "compactChatList",
+      "showChannelBottomPanel",
+      "doubleTapEdit",
+      "hideReactions",
+      "hideGreetingSticker",
+      "anonymousStickers",
+      "hideBlockedMessages",
+      "antiCaps",
+      "voiceAutoplay",
+      "autoMuteNewChannels",
+      "showExactLastSeen",
+      "chatActionsOnHold",
+      "showForwardWithoutAuthor",
+      "showBroadcastMessages",
+      "showSelectByAuthor",
+      "selfieCountdown",
+      "useRearCameraForVideoMessages",
+      "hideStories",
+      "disableStoryCameraSwipe",
+      "confirmStoryViewing",
+      "enableStoryRepost",
+      "anonymousStoryViewing",
+      "proxyAutoSwitchEnabled",
+      "avoidProxyWithVPN",
+      "showProxyButton",
+      "showProfileIds",
+      "showRegistrationDate",
+      "showMutualContactIcon",
+      "confirmOutgoingCalls",
+      "skipCallRating",
+      "forceTcpCalls",
+      "showDeletedMessages",
+      "messageEditHistory"
+    ],
+    "runs": [
+      {
+        "mode": "debug",
+        "output": "PASS production preference roundtrips: 3468"
+      },
+      {
+        "mode": "optimized",
+        "output": "PASS production preference roundtrips: 3468"
+      }
+    ]
+  },
+  "source_integrity": {
+    "source_files": 37691,
+    "source_unchanged": true,
+    "symlinks": 26,
+    "manifest_matches_frozen_stage70": true
+  },
+  "finding_source_evidence": {
+    "files": [
+      {
+        "path": "submodules/SettingsUI/Sources/NagramiXSettingsController.swift",
+        "sha256": "9f6d6f82929d3c9acd03804f946f0ce182b7c568e968da845354b57b296754ad",
+        "anchors": [
+          {
+            "line": 49,
+            "group": "photo-ui",
+            "code": "let updatePhotoQuality: (Int) -> Void"
+          },
+          {
+            "line": 50,
+            "group": "photo-ui",
+            "code": "let updateHighQualityPhotos: (Bool) -> Void"
+          },
+          {
+            "line": 1263,
+            "group": "photo-ui",
+            "code": "var photoEntries: [NagramiXSettingsEntry] = [.photosHeader, .highQualityPhotos(settings.media.highQualityPhotos)]"
+          },
+          {
+            "line": 1447,
+            "group": "photo-ui",
+            "code": "updatePhotoQuality: { value in update { $0.media.photoQuality = value } },"
+          },
+          {
+            "line": 1448,
+            "group": "photo-ui",
+            "code": "updateHighQualityPhotos: { value in update { $0.media.highQualityPhotos = value } },"
+          }
+        ]
+      },
+      {
+        "path": "submodules/NagramiXMediaSettings/Sources/NagramiXMediaSettings.swift",
+        "sha256": "0bbd969f903181cb1f3caa2d43aefae3a46965dd670dde1a8c3cbced2335275f",
+        "anchors": []
+      },
+      {
+        "path": "submodules/TelegramUI/Components/ChatMediaSend/Sources/MediaPickerChatMediaSendMapping.swift",
+        "sha256": "4e6d6814b6aa4c51534bdddd8c7e17becb0946666b9f8f03fdc72fbc4904560d",
+        "anchors": [
+          {
+            "line": 138,
+            "group": "modern-photo",
+            "code": "return ChatMediaSendGlobalOptions(grouping: selection.grouping, forcedCaption: editing.forcedCaption, forceHd: editing.isHighQualityPhoto, saveEditedPhotosToCameraRoll: saveEditedPhotosToCameraRoll)"
+          }
+        ]
+      },
+      {
+        "path": "submodules/TelegramUI/Components/ChatMediaSend/Sources/ChatMediaSendMessages.swift",
+        "sha256": "536302b3bf622727c63060e7163037753bf29da17c4f1b472e615f10f254c5ad",
+        "anchors": [
+          {
+            "line": 115,
+            "group": "modern-photo",
+            "code": "guard let scaledImageData = compressImageToJPEG(scaledImage, quality: 0.6, tempFilePath: tempFile.path) else {"
+          },
+          {
+            "line": 144,
+            "group": "modern-photo",
+            "code": "let resource = PhotoLibraryMediaResource(localIdentifier: identifier, uniqueId: Int64.random(in: Int64.min ... Int64.max), forceHd: forceHd)"
+          }
+        ]
+      },
+      {
+        "path": "submodules/LocalMediaResources/Sources/FetchPhotoLibraryImageResource.swift",
+        "sha256": "22943af3b8d46d0c183f37c3ebe7be04bcf5952143cd5e16328b0f3939efd37e",
+        "anchors": [
+          {
+            "line": 114,
+            "group": "photo-fetch",
+            "code": "let outgoingPhotoQuality = quality.map { Float(min(100, max(0, $0))) / 100.0 } ?? Float(mediaSettings.jpegQuality)"
+          },
+          {
+            "line": 130,
+            "group": "photo-fetch",
+            "code": "if hd {"
+          },
+          {
+            "line": 191,
+            "group": "modern-photo",
+            "code": "if let scaledImage = scaledImage, let data = ((width == nil && height == nil && format == nil) ? nagramiXCompressImageToJPEG(scaledImage, quality: outgoingPhotoQuality, tempFilePath: tempFile.path) : compressImageToJPEG(scaledImage, quality: 0.6, tempFilePath: tempFile.path)) {"
+          },
+          {
+            "line": 191,
+            "group": "photo-fetch",
+            "code": "if let scaledImage = scaledImage, let data = ((width == nil && height == nil && format == nil) ? nagramiXCompressImageToJPEG(scaledImage, quality: outgoingPhotoQuality, tempFilePath: tempFile.path) : compressImageToJPEG(scaledImage, quality: 0.6, tempFilePath: tempFile.path)) {"
+          }
+        ]
+      },
+      {
+        "path": "submodules/TelegramUI/Components/ChatMediaSend/Sources/ChatMediaSendRender.swift",
+        "sha256": "4f8ebcaaff2ab8048c7c0d13a2ea1eb22d9139ded015fec6d2e66044f5649dbd",
+        "anchors": [
+          {
+            "line": 558,
+            "group": "modern-photo",
+            "code": "let originalVideos = NagramiXMediaSettings.current.originalVideos"
+          }
+        ]
+      },
+      {
+        "path": "submodules/LegacyMediaPickerUI/Sources/LegacyMediaPickers.swift",
+        "sha256": "258e1f52764e2c4cbac4bbfd7f6dd3b966dbb2ce5ebb90c940e051ff9f90f677",
+        "anchors": [
+          {
+            "line": 387,
+            "group": "photo-fetch",
+            "code": "let outgoingPhotoQuality = Float(mediaSettings.highQualityPhotos ? 100 : mediaSettings.photoQuality) / 100.0"
+          },
+          {
+            "line": 387,
+            "group": "legacy-photo",
+            "code": "let outgoingPhotoQuality = Float(mediaSettings.highQualityPhotos ? 100 : mediaSettings.photoQuality) / 100.0"
+          },
+          {
+            "line": 388,
+            "group": "legacy-photo",
+            "code": "let outgoingPhotoHD = mediaSettings.highQualityPhotos || mediaSettings.sendLargePhotos"
+          },
+          {
+            "line": 428,
+            "group": "photo-fetch",
+            "code": "if let scaledImageData = nagramiXCompressImageToJPEG(scaledImage, quality: outgoingPhotoQuality, tempFilePath: tempFile.path) {"
+          }
+        ]
+      },
+      {
+        "path": "submodules/TelegramUI/Components/Chat/ChatMessageItemImpl/Sources/ChatMessageItemImpl.swift",
+        "sha256": "7a50dc7867eec18592e256201836943eba581a46c42046542c44ee9f3ffd048f",
+        "anchors": [
+          {
+            "line": 318,
+            "group": "wide-dispatch",
+            "code": "var viewClassName: AnyClass = ChatMessageBubbleItemNode.self"
+          },
+          {
+            "line": 322,
+            "group": "wide-dispatch",
+            "code": "if telegramFile.isVideoSticker {"
+          },
+          {
+            "line": 357,
+            "group": "wide-dispatch",
+            "code": "viewClassName = ChatMessageStickerItemNode.self"
+          },
+          {
+            "line": 373,
+            "group": "wide-dispatch",
+            "code": "} else if media is TelegramMediaDice {"
+          },
+          {
+            "line": 378,
+            "group": "wide-dispatch",
+            "code": "if viewClassName == ChatMessageBubbleItemNode.self && self.presentationData.largeEmoji && self.message.media.isEmpty && !self.message.attributes.contains(where: { $0 is TypingDraftMessageAttribute }) {"
+          },
+          {
+            "line": 382,
+            "group": "wide-dispatch",
+            "code": "viewClassName = ChatMessageStickerItemNode.self"
+          }
+        ]
+      },
+      {
+        "path": "submodules/TelegramUI/Components/Chat/ChatMessageBubbleItemNode/Sources/ChatMessageBubbleItemNode.swift",
+        "sha256": "b01ebc5d17db74106eaee85a98efa4423f0ad2217b9d65a79ad3670ed3720f33",
+        "anchors": [
+          {
+            "line": 1951,
+            "group": "wide-layout",
+            "code": "if NagramiXTabSettings.current.wideChannelPosts,"
+          }
+        ]
+      },
+      {
+        "path": "submodules/TelegramUI/Components/Chat/ChatMessageStickerItemNode/Sources/ChatMessageStickerItemNode.swift",
+        "sha256": "c29be9798f286e7817cdd77e5752047e5580200435a34dc4912004ffae61e886",
+        "anchors": [
+          {
+            "line": 447,
+            "group": "wide-layout",
+            "code": "let displaySize = CGSize(width: 184.0 * stickerScale, height: 184.0 * stickerScale)"
+          }
+        ]
+      },
+      {
+        "path": "submodules/TelegramUI/Components/Chat/ChatMessageAnimatedStickerItemNode/Sources/ChatMessageAnimatedStickerItemNode.swift",
+        "sha256": "ac6966807ce9a59d2f18716a6d05393201a12843a14e11eb49af20bc989f093c",
+        "anchors": []
+      },
+      {
+        "path": "submodules/TelegramUI/Components/Chat/ChatMessageInteractiveFileNode/Sources/ChatMessageInteractiveFileNode.swift",
+        "sha256": "9b3acc311481b577c4f31fe94b97dee7791947d45591d880d1efa6caec1513cb",
+        "anchors": [
+          {
+            "line": 564,
+            "group": "transcription-off",
+            "code": "self.transcribeDisposable = (context.engine.messages.transcribeAudio(messageId: message.id)"
+          },
+          {
+            "line": 867,
+            "group": "transcription-off",
+            "code": "if arguments.associatedData.isPremium || arguments.associatedData.alwaysDisplayTranscribeButton.providedByGroupBoost {"
+          }
+        ]
+      },
+      {
+        "path": "submodules/TelegramUI/Components/Chat/ChatMessageInteractiveInstantVideoNode/Sources/ChatMessageInteractiveInstantVideoNode.swift",
+        "sha256": "d5ef0be32d5783008db895f4fe568cc2c39587700394545f34265956e2d5d956",
+        "anchors": [
+          {
+            "line": 942,
+            "group": "transcription-off",
+            "code": "if item.associatedData.isPremium || item.associatedData.alwaysDisplayTranscribeButton.providedByGroupBoost {"
+          },
+          {
+            "line": 2086,
+            "group": "transcription-off",
+            "code": "self.transcribeDisposable = (item.context.engine.messages.transcribeAudio(messageId: item.message.id)"
+          }
+        ]
+      },
+      {
+        "path": "submodules/NagramiXTranscription/Sources/Runtime.swift",
+        "sha256": "04aed081867d81a369ae86fa4d82149da5714949cfc241bda32787d0db73d307",
+        "anchors": [
+          {
+            "line": 141,
+            "group": "transcription-off",
+            "code": "return config.enabled && self.file(message) != nil && (config.provider != .telegram || self.canUseTelegramFile(message))"
+          }
+        ]
+      }
+    ],
+    "wide_separate_renderers_do_not_read_preference": true
+  },
+  "harness_setup_note": "The new preferences probe first failed to compile because generated lexical scopes lacked do. Only the task-local probe generator was corrected; the full unmodified production settings then passed debug/optimized. This was not an app SDK error.",
+  "limits": {
+    "apple_sdk": "not_run",
+    "iphone": "not_exercised",
+    "live_telegram_network": "not_exercised",
+    "actions_build_started": false,
+    "all_branches_certified": false
+  },
+  "task_artifacts": "/tmp/nagramix-feature-behavior-audit"
+}
