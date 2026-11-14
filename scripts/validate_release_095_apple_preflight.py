@@ -50,6 +50,8 @@ from original_video_media_runtime import routing_fixture as original_video_media
 from original_video_media_apple import check as original_video_media_api_check
 from named_link_preview_runtime import ui_fixture as named_link_ui_fixture, copy_fixture as named_link_copy_fixture
 from rich_file_padding_runtime import fixture as rich_file_padding_fixture
+from snow_density_glass_runtime import fixture as snow_density_glass_fixture
+from snow_density_glass_apple import check as snow_density_glass_api_check
 from feature_contract_consistency_apple import check as feature_contract_apple_check
 from original_video_mode_apple import check as original_video_mode_apple_check
 import selection_scroll_continuity_runtime as selection_scroll
@@ -99,6 +101,8 @@ def canonical_projection(destination, through_stage):
     # Complete application trees are built by the normal guarded overlay.
     # This earlier fixture gate needs only real canonical Swift sources.
     native_headers = {'submodules/MtProtoKit/PublicHeaders/MtProtoKit/MTRpcError.h'} if through_stage in {'release_096_transcription_compatibility','release_096_font_node_compatibility','font_apply_node_lifecycle','video_audio_continuity','pip_preview_continuity','recording_start_recovery','selection_column_coordinates','selection_scroll_continuity','original_video_mode','feature_contract_consistency','transcription_cached_read','round_editor_quality','wide_portal_api'} else set()
+    if through_stage == 'snow_density_glass':
+        native_headers.update({'submodules/LegacyComponents/PublicHeaders/LegacyComponents/TGPhotoEditorSliderView.h','submodules/LegacyComponents/Sources/TGPhotoEditorSliderView.m'})
     expected = {n:sha for n,sha in expected.items() if (n.endswith('.swift') or n in native_headers) and n not in post['deletions']}
     missing = {n:sha for n,sha in expected.items() if n not in sources}
     if missing:
@@ -151,6 +155,11 @@ def main():
         root = Path(temporary)
         foundation=foundation_check(args.swiftc,root)
         files = {}
+        density_source=root/'snow-density-native-final'
+        files['native_final81']=canonical_projection(density_source,'snow_density_glass')
+        snow_density_glass_api=snow_density_glass_api_check(density_source,args.swiftc,root/'snow-density-api-first')
+        shutil.rmtree(density_source)
+        if (root/'snow-density-api-first').is_dir(): shutil.rmtree(root/'snow-density-api-first')
         # Check the final calendar at the actual iOS15 target before the large
         # runtime matrix. Stage57 remains an exact historical runtime checkpoint.
         calendar_source=root/'calendar-native-final'
@@ -222,6 +231,7 @@ def main():
             ('original_video_media', [('original-video-bytes-media', original_video_media_fixture), ('original-video-routing-final', original_video_media_routing_fixture)]),
             ('named_link_preview', [('named-link-editor-send', named_link_ui_fixture), ('named-link-copy-broadcast', named_link_copy_fixture)]),
             ('rich_file_padding', [('rich-file-padding', rich_file_padding_fixture)]),
+            ('snow_density_glass', [('snow-density-glass', snow_density_glass_fixture)]),
         ]
         for stage, fixtures in entries:
             source = root / stage
@@ -284,6 +294,7 @@ def main():
     report['round_editor_quality_native_api']=round_editor_quality_api
     report['wide_portal_native_api']=wide_portal_api
     report['original_video_media_native_api']=original_video_media_api
+    report['snow_density_glass_native_api']=snow_density_glass_api
     report['input_effects_real_sdk']=input_effects_apple
     report['snowfall_real_sdk']=snowfall_apple
     report['snowfall_holidays_real_sdk']=snowfall_holidays_apple

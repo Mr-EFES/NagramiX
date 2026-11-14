@@ -94,6 +94,7 @@ LATE_SOURCE_STAGES = (
     'original_video_media',
     'named_link_preview',
     'rich_file_padding',
+    'snow_density_glass',
 )
 TEMPORARY_INTERACTION_STAGE = 'temporary_message_interaction'
 TEMPORARY_REPLY_HELPER = 'submodules/TelegramUI/Sources/Chat/NagramiXTemporaryReplySend.swift'

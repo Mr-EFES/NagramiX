@@ -1,0 +1,65 @@
+{
+  "target_pin": "24638bc69bd083981b178dd1e7f921eebbf7fc46",
+  "overlay_base_pin": "279f89e4d4f63f17227bf877dc3d8990f22ecd58",
+  "required_previous_stage": "rich_file_padding",
+  "inputs": {
+    "submodules/SettingsUI/Sources/NagramiXSnowDensityItem.swift": "2131382d2541f567c1137eaf46c861d8ec251e9d74030b13ca7e5f3328bdeccb"
+  },
+  "outputs": {
+    "submodules/SettingsUI/Sources/NagramiXSnowDensityItem.swift": "d4379cfb12ad09f9cbad136e24ef23ceb1ba0fbbe1ef4e6be248c245285379c9"
+  },
+  "previous": {
+    "submodules/SettingsUI/Sources/NagramiXSnowDensityItem.swift": "snow_density_glass/Before.inc"
+  },
+  "replacements": {
+    "submodules/SettingsUI/Sources/NagramiXSnowDensityItem.swift": "snow_density_glass/After.inc"
+  },
+  "guards": {
+    "submodules/SettingsUI/BUILD": "b229ff1580a1e8e13770d400a1c0c9e1cf56ef05b831659c3422a6141b50f489",
+    "submodules/LegacyComponents/BUILD": "728ebd8f81bdde43e05e731eec69024c9f1b0791375d7f965575e66d7e5bd22f",
+    "submodules/LegacyComponents/PublicHeaders/LegacyComponents/TGPhotoEditorSliderView.h": "8a717ea4f26fb7317b0f097766aac841a671a2daf21ef53d4c242f54da1f8a48",
+    "submodules/LegacyComponents/Sources/TGPhotoEditorSliderView.m": "82bd921d1dea61a79625d621ea495c60a8330de48ec722cfde27addbb6d89da4",
+    "submodules/ItemListUI/Sources/Items/ItemListSwitchItem.swift": "790c7a831b0be0c9fd8e81fc7e25dabbb53dea7318b24d57455a93fd9825fa82",
+    "submodules/NagramiXCore/Sources/NagramiXSnowSettings.swift": "17447f5509142a3d208b9517aacc575f75cb98d6501a2972812f74bd10606193",
+    "submodules/NagramiXCore/Sources/NagramiXSnowSchedule.swift": "47d3b7045719b4806bc35e6950020b5ee3dfb10b5fcebb3ea37c3d4e2d5f5df5",
+    "submodules/NagramiXCore/Sources/NagramiXSnowHolidays.swift": "4294deb30cdaf177b774d79f3b4e3fd3c9793bcc4a990680220b7ede103b7d80",
+    "submodules/NagramiXCore/Sources/NagramiXSnowView.swift": "1fc411fbc4980cf2479379f9e891bde80390b3ff4784fddfaa56c803360add30",
+    "submodules/SettingsUI/Sources/NagramiXSettingsController.swift": "9f6d6f82929d3c9acd03804f946f0ce182b7c568e968da845354b57b296754ad",
+    "submodules/TelegramUI/Components/GlassBackgroundComponent/Sources/GlassBackgroundComponent.swift": "f03a135a19a853d3cb84ea182155115df785c473ce51b82f71ebf6a9e3017030",
+    "submodules/TelegramPresentationData/Sources/PresentationTheme.swift": "cc065b9d80288da487477a4af2a857ff98843cba983236582c3c61f14b423ea8"
+  },
+  "guard_sources": {
+    "submodules/SettingsUI/BUILD": "snow_density_glass/Guard0.inc",
+    "submodules/LegacyComponents/BUILD": "snow_density_glass/Guard1.inc",
+    "submodules/LegacyComponents/PublicHeaders/LegacyComponents/TGPhotoEditorSliderView.h": "snow_density_glass/Guard2.inc",
+    "submodules/LegacyComponents/Sources/TGPhotoEditorSliderView.m": "snow_density_glass/Guard3.inc",
+    "submodules/ItemListUI/Sources/Items/ItemListSwitchItem.swift": "snow_density_glass/Guard4.inc",
+    "submodules/NagramiXCore/Sources/NagramiXSnowSettings.swift": "snow_density_glass/Guard5.inc",
+    "submodules/NagramiXCore/Sources/NagramiXSnowSchedule.swift": "snow_density_glass/Guard6.inc",
+    "submodules/NagramiXCore/Sources/NagramiXSnowHolidays.swift": "snow_density_glass/Guard7.inc",
+    "submodules/NagramiXCore/Sources/NagramiXSnowView.swift": "snow_density_glass/Guard8.inc",
+    "submodules/SettingsUI/Sources/NagramiXSettingsController.swift": "snow_density_glass/Guard9.inc",
+    "submodules/TelegramUI/Components/GlassBackgroundComponent/Sources/GlassBackgroundComponent.swift": "snow_density_glass/Guard10.inc",
+    "submodules/TelegramPresentationData/Sources/PresentationTheme.swift": "snow_density_glass/Guard11.inc"
+  },
+  "copies": {},
+  "deletions": {},
+  "native_inputs": {},
+  "native_guards": {},
+  "templates": {
+    "snow_density_glass/Before.inc": "2131382d2541f567c1137eaf46c861d8ec251e9d74030b13ca7e5f3328bdeccb",
+    "snow_density_glass/After.inc": "d4379cfb12ad09f9cbad136e24ef23ceb1ba0fbbe1ef4e6be248c245285379c9",
+    "snow_density_glass/Guard0.inc": "b229ff1580a1e8e13770d400a1c0c9e1cf56ef05b831659c3422a6141b50f489",
+    "snow_density_glass/Guard1.inc": "728ebd8f81bdde43e05e731eec69024c9f1b0791375d7f965575e66d7e5bd22f",
+    "snow_density_glass/Guard2.inc": "8a717ea4f26fb7317b0f097766aac841a671a2daf21ef53d4c242f54da1f8a48",
+    "snow_density_glass/Guard3.inc": "82bd921d1dea61a79625d621ea495c60a8330de48ec722cfde27addbb6d89da4",
+    "snow_density_glass/Guard4.inc": "790c7a831b0be0c9fd8e81fc7e25dabbb53dea7318b24d57455a93fd9825fa82",
+    "snow_density_glass/Guard5.inc": "17447f5509142a3d208b9517aacc575f75cb98d6501a2972812f74bd10606193",
+    "snow_density_glass/Guard6.inc": "47d3b7045719b4806bc35e6950020b5ee3dfb10b5fcebb3ea37c3d4e2d5f5df5",
+    "snow_density_glass/Guard7.inc": "4294deb30cdaf177b774d79f3b4e3fd3c9793bcc4a990680220b7ede103b7d80",
+    "snow_density_glass/Guard8.inc": "1fc411fbc4980cf2479379f9e891bde80390b3ff4784fddfaa56c803360add30",
+    "snow_density_glass/Guard9.inc": "9f6d6f82929d3c9acd03804f946f0ce182b7c568e968da845354b57b296754ad",
+    "snow_density_glass/Guard10.inc": "f03a135a19a853d3cb84ea182155115df785c473ce51b82f71ebf6a9e3017030",
+    "snow_density_glass/Guard11.inc": "cc065b9d80288da487477a4af2a857ff98843cba983236582c3c61f14b423ea8"
+  }
+}
