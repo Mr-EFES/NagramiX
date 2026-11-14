@@ -1,0 +1,92 @@
+{
+  "target_pin": "24638bc69bd083981b178dd1e7f921eebbf7fc46",
+  "overlay_base_pin": "279f89e4d4f63f17227bf877dc3d8990f22ecd58",
+  "required_previous_stage": "archived_playlist_lifetime",
+  "inputs": {
+    "submodules/TelegramUI/Components/Stories/StoryContainerScreen/Sources/StoryContainerScreen.swift": "29dd739badfc97a6f72d40c8e54ff0360f409ec0f95982a8c75c7d0194d32e81",
+    "submodules/TelegramUI/Components/Stories/StoryContainerScreen/Sources/OpenStories.swift": "939c5e10ecf653fd093fb3637a6aac3d7fd5f116220cb1ca6d9b8f36ef84cc4f",
+    "submodules/TelegramUI/Components/PeerInfo/PeerInfoScreen/Sources/PeerInfoScreenOpenStories.swift": "4ce9b737bac8d8046c508e59170c547bdb976219c5ae5d92c5498cf7a0e5ef6d"
+  },
+  "outputs": {
+    "submodules/TelegramUI/Components/Stories/StoryContainerScreen/Sources/StoryContainerScreen.swift": "b63076e876911197aa82a30a156741b523b599e4b26c783e2e7fc92841d71fe3",
+    "submodules/TelegramUI/Components/Stories/StoryContainerScreen/Sources/OpenStories.swift": "8ec0778e582069335f3ce3862bfa61bb10c08647cbb26fb9b95f73d3ef1ea2a8",
+    "submodules/TelegramUI/Components/PeerInfo/PeerInfoScreen/Sources/PeerInfoScreenOpenStories.swift": "bd6bad4aa1bab06d8bc02b3c92433b7ea1ab10240a08f8c6c1624619dc38b019"
+  },
+  "previous": {
+    "submodules/TelegramUI/Components/Stories/StoryContainerScreen/Sources/StoryContainerScreen.swift": "story_avatar_visibility/Before0.inc",
+    "submodules/TelegramUI/Components/Stories/StoryContainerScreen/Sources/OpenStories.swift": "story_avatar_visibility/Before1.inc",
+    "submodules/TelegramUI/Components/PeerInfo/PeerInfoScreen/Sources/PeerInfoScreenOpenStories.swift": "story_avatar_visibility/Before2.inc"
+  },
+  "replacements": {
+    "submodules/TelegramUI/Components/Stories/StoryContainerScreen/Sources/StoryContainerScreen.swift": "story_avatar_visibility/After0.inc",
+    "submodules/TelegramUI/Components/Stories/StoryContainerScreen/Sources/OpenStories.swift": "story_avatar_visibility/After1.inc",
+    "submodules/TelegramUI/Components/PeerInfo/PeerInfoScreen/Sources/PeerInfoScreenOpenStories.swift": "story_avatar_visibility/After2.inc"
+  },
+  "guards": {
+    "submodules/TelegramUI/Components/Stories/StoryContainerScreen/BUILD": "f409216084ef341203d544fd38a211b2b3908dda412b475aae2848452cb8a139",
+    "submodules/ChatListUI/Sources/ChatListController.swift": "290934b915b09c458794348fde0f23be0b83a1b8d83f76bf7bda6ccecb9b2aec",
+    "submodules/TelegramUI/Components/Stories/StoryContainerScreen/Sources/StoryItemSetContainerComponent.swift": "7b0c87bbd13adbbcd7018b52c97d7727483d697b9921f19ea2442d093bf1b3e3",
+    "submodules/TelegramUI/Components/Stories/StoryContainerScreen/Sources/StoryContent.swift": "40b87febd8b1110403fea1657b4cc86f69faf0cc271e71228b525022b592a022",
+    "submodules/TelegramUI/Components/Stories/StoryContainerScreen/Sources/NagramiXStoryViewDisclosure.swift": "ca8073c0f93a87a82085199abee2b4fda47b510b0fe30c0b2baf8f0aeba0d4b5",
+    "submodules/SSignalKit/SwiftSignalKit/Source/Atomic.swift": "ad76eb0a708bdf77301d7d11787a06f33029c67412e6485616534c4faf2e8a9d",
+    "submodules/SSignalKit/SwiftSignalKit/Source/Disposable.swift": "60e53d9fa32a1b1ba47897467077cf22fcdc0458c20b646a35c75fb76484209b",
+    "submodules/SSignalKit/SwiftSignalKit/Source/Subscriber.swift": "eb28ad26bda8b4a8ff1aad73b949d4c3d24132db3aebdd1f5a4c67a5962718ee",
+    "submodules/SSignalKit/SwiftSignalKit/Source/Bag.swift": "01675a040b4653a9d3f4235f7b6d7a7dbfde05b1004a9b087b7a6d39da56e495",
+    "submodules/SSignalKit/SwiftSignalKit/Source/Signal.swift": "c1fee825012eace4710eab53f32faa1d49efe38b01e7ad709054f26695494cb6",
+    "submodules/SSignalKit/SwiftSignalKit/Source/Signal_Single.swift": "3e9edb07a7c0031f2098bbbb7ee06105e9c3c36c3b77ab7de9af79928320d2e9",
+    "submodules/SSignalKit/SwiftSignalKit/Source/Signal_Take.swift": "f7edb85f3327c4263c6f9ebe9f4e9339661eaebf85ab062acb92faf0f3bce999",
+    "submodules/SSignalKit/SwiftSignalKit/Source/Signal_Meta.swift": "26b5a93e32c3bc35a5234d3b7c03ed1cd9cea271abc43b34d1b475e1f3655c9f",
+    "submodules/SSignalKit/SwiftSignalKit/Source/Signal_Timing.swift": "5f8105ef52da49f159bb26be469e5fce464acd5c1e8e014bc05e524a554e45a2",
+    "submodules/SSignalKit/SwiftSignalKit/Source/Signal_Mapping.swift": "4740a3a616679ad0f65c6341a0498bf42e120dcaddd2c281694188b47e075017",
+    "submodules/SSignalKit/SwiftSignalKit/Source/Promise.swift": "e691338e89b656e5d272f70e6c97f5d07990d57badfd7e1d7e1dae86f9a3693a",
+    "submodules/SSignalKit/SwiftSignalKit/Source/Signal_Combine.swift": "994f52d6459d2251a2880f7d0827f853e74c4bd20ab7896386f4152215723450"
+  },
+  "guard_sources": {
+    "submodules/TelegramUI/Components/Stories/StoryContainerScreen/BUILD": "story_avatar_visibility/Guard0.inc",
+    "submodules/ChatListUI/Sources/ChatListController.swift": "story_avatar_visibility/Guard1.inc",
+    "submodules/TelegramUI/Components/Stories/StoryContainerScreen/Sources/StoryItemSetContainerComponent.swift": "story_avatar_visibility/Guard2.inc",
+    "submodules/TelegramUI/Components/Stories/StoryContainerScreen/Sources/StoryContent.swift": "story_avatar_visibility/Guard3.inc",
+    "submodules/TelegramUI/Components/Stories/StoryContainerScreen/Sources/NagramiXStoryViewDisclosure.swift": "story_avatar_visibility/Guard4.inc",
+    "submodules/SSignalKit/SwiftSignalKit/Source/Atomic.swift": "story_avatar_visibility/Guard5.inc",
+    "submodules/SSignalKit/SwiftSignalKit/Source/Disposable.swift": "story_avatar_visibility/Guard6.inc",
+    "submodules/SSignalKit/SwiftSignalKit/Source/Subscriber.swift": "story_avatar_visibility/Guard7.inc",
+    "submodules/SSignalKit/SwiftSignalKit/Source/Bag.swift": "story_avatar_visibility/Guard8.inc",
+    "submodules/SSignalKit/SwiftSignalKit/Source/Signal.swift": "story_avatar_visibility/Guard9.inc",
+    "submodules/SSignalKit/SwiftSignalKit/Source/Signal_Single.swift": "story_avatar_visibility/Guard10.inc",
+    "submodules/SSignalKit/SwiftSignalKit/Source/Signal_Take.swift": "story_avatar_visibility/Guard11.inc",
+    "submodules/SSignalKit/SwiftSignalKit/Source/Signal_Meta.swift": "story_avatar_visibility/Guard12.inc",
+    "submodules/SSignalKit/SwiftSignalKit/Source/Signal_Timing.swift": "story_avatar_visibility/Guard13.inc",
+    "submodules/SSignalKit/SwiftSignalKit/Source/Signal_Mapping.swift": "story_avatar_visibility/Guard14.inc",
+    "submodules/SSignalKit/SwiftSignalKit/Source/Promise.swift": "story_avatar_visibility/Guard15.inc",
+    "submodules/SSignalKit/SwiftSignalKit/Source/Signal_Combine.swift": "story_avatar_visibility/Guard16.inc"
+  },
+  "copies": {},
+  "deletions": {},
+  "native_inputs": {},
+  "native_guards": {},
+  "templates": {
+    "story_avatar_visibility/Before0.inc": "29dd739badfc97a6f72d40c8e54ff0360f409ec0f95982a8c75c7d0194d32e81",
+    "story_avatar_visibility/After0.inc": "b63076e876911197aa82a30a156741b523b599e4b26c783e2e7fc92841d71fe3",
+    "story_avatar_visibility/Before1.inc": "939c5e10ecf653fd093fb3637a6aac3d7fd5f116220cb1ca6d9b8f36ef84cc4f",
+    "story_avatar_visibility/After1.inc": "8ec0778e582069335f3ce3862bfa61bb10c08647cbb26fb9b95f73d3ef1ea2a8",
+    "story_avatar_visibility/Before2.inc": "4ce9b737bac8d8046c508e59170c547bdb976219c5ae5d92c5498cf7a0e5ef6d",
+    "story_avatar_visibility/After2.inc": "bd6bad4aa1bab06d8bc02b3c92433b7ea1ab10240a08f8c6c1624619dc38b019",
+    "story_avatar_visibility/Guard0.inc": "f409216084ef341203d544fd38a211b2b3908dda412b475aae2848452cb8a139",
+    "story_avatar_visibility/Guard1.inc": "290934b915b09c458794348fde0f23be0b83a1b8d83f76bf7bda6ccecb9b2aec",
+    "story_avatar_visibility/Guard2.inc": "7b0c87bbd13adbbcd7018b52c97d7727483d697b9921f19ea2442d093bf1b3e3",
+    "story_avatar_visibility/Guard3.inc": "40b87febd8b1110403fea1657b4cc86f69faf0cc271e71228b525022b592a022",
+    "story_avatar_visibility/Guard4.inc": "ca8073c0f93a87a82085199abee2b4fda47b510b0fe30c0b2baf8f0aeba0d4b5",
+    "story_avatar_visibility/Guard5.inc": "ad76eb0a708bdf77301d7d11787a06f33029c67412e6485616534c4faf2e8a9d",
+    "story_avatar_visibility/Guard6.inc": "60e53d9fa32a1b1ba47897467077cf22fcdc0458c20b646a35c75fb76484209b",
+    "story_avatar_visibility/Guard7.inc": "eb28ad26bda8b4a8ff1aad73b949d4c3d24132db3aebdd1f5a4c67a5962718ee",
+    "story_avatar_visibility/Guard8.inc": "01675a040b4653a9d3f4235f7b6d7a7dbfde05b1004a9b087b7a6d39da56e495",
+    "story_avatar_visibility/Guard9.inc": "c1fee825012eace4710eab53f32faa1d49efe38b01e7ad709054f26695494cb6",
+    "story_avatar_visibility/Guard10.inc": "3e9edb07a7c0031f2098bbbb7ee06105e9c3c36c3b77ab7de9af79928320d2e9",
+    "story_avatar_visibility/Guard11.inc": "f7edb85f3327c4263c6f9ebe9f4e9339661eaebf85ab062acb92faf0f3bce999",
+    "story_avatar_visibility/Guard12.inc": "26b5a93e32c3bc35a5234d3b7c03ed1cd9cea271abc43b34d1b475e1f3655c9f",
+    "story_avatar_visibility/Guard13.inc": "5f8105ef52da49f159bb26be469e5fce464acd5c1e8e014bc05e524a554e45a2",
+    "story_avatar_visibility/Guard14.inc": "4740a3a616679ad0f65c6341a0498bf42e120dcaddd2c281694188b47e075017",
+    "story_avatar_visibility/Guard15.inc": "e691338e89b656e5d272f70e6c97f5d07990d57badfd7e1d7e1dae86f9a3693a",
+    "story_avatar_visibility/Guard16.inc": "994f52d6459d2251a2880f7d0827f853e74c4bd20ab7896386f4152215723450"
+  }
+}
