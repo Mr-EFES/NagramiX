@@ -1,0 +1,118 @@
+{
+  "version": "0.9.7",
+  "status": "native_compile_passed/package_verified/owner_published/device_pending",
+  "release_id": 444987853,
+  "release_url": "https://github.com/Mr-EFES/NagramiX/releases/tag/v0.9.7",
+  "published_at": "2026-11-14T03:33:15Z",
+  "latest": true,
+  "prerelease": false,
+  "author": "Mr-EFES",
+  "source_commit": "d6a808c6af70d6ad31d678081ae73a6445c22bbf",
+  "tag": "v0.9.7",
+  "tag_matches_actual_sdk_source": true,
+  "workflow_run_id": 43535111663,
+  "workflow_url": "https://github.com/Mr-EFES/NagramiX/actions/runs/43535111663",
+  "build_number": 213,
+  "run_attempt": 1,
+  "jobs": [
+    {
+      "id": 132262114171,
+      "name": "build",
+      "conclusion": "success"
+    },
+    {
+      "id": 132315965351,
+      "name": "Проверить IPA для публикации Mr_EFES",
+      "conclusion": "success"
+    }
+  ],
+  "native_sdk": {
+    "started_at": "2026-11-14T01:40:44Z",
+    "completed_at": "2026-11-14T03:28:37Z",
+    "conclusion": "success"
+  },
+  "artifacts": {
+    "BUILD-PROVENANCE.txt": {
+      "size": 408,
+      "sha256": "422a103cd18f694e4ead77805ba626b102e15215cf33fb4a62faac69b5696a81",
+      "uploader": "Mr-EFES",
+      "url": "https://github.com/Mr-EFES/NagramiX/releases/download/v0.9.7/BUILD-PROVENANCE.txt"
+    },
+    "NagramiX-0.9.7-unsigned.ipa": {
+      "size": 97996694,
+      "sha256": "50f5cb1f49d28d30c387a343e7f817e3b71a2c60b09d53c57ac87f79e8e29cc6",
+      "uploader": "Mr-EFES",
+      "url": "https://github.com/Mr-EFES/NagramiX/releases/download/v0.9.7/NagramiX-0.9.7-unsigned.ipa"
+    },
+    "SHA256SUMS": {
+      "size": 94,
+      "sha256": "7f81b57bef34f788510423d666f74dc69708c202b6864a992a7a142c7561bda7",
+      "uploader": "Mr-EFES",
+      "url": "https://github.com/Mr-EFES/NagramiX/releases/download/v0.9.7/SHA256SUMS"
+    }
+  },
+  "actions_zip": {
+    "artifact_id": 14096807252,
+    "size": 97559745,
+    "sha256": "e0cf5b10469b50ba4049f97b05891948aa6a8690ce2bcecee3612ee0080a5765",
+    "original_bytes_verified": true
+  },
+  "package_validator_output": "Переводы IPA проверены: 71 языков, по 668 ключей настроек/debug\nIPA проверен: 0.9.7, build 213, iOS15+, ARM64/iPhoneOS файлов 6, RU 15004/668, мелодий 31, иконок 8, checksum/provenance, без профилей\nSHA256: 50f5cb1f49d28d30c387a343e7f817e3b71a2c60b09d53c57ac87f79e8e29cc6; размер: 97996694 байт",
+  "provenance": "NagramiX version: 0.9.7\nNagramiX commit: d6a808c6af70d6ad31d678081ae73a6445c22bbf\nTelegram-iOS commit: 24638bc69bd083981b178dd1e7f921eebbf7fc46\nWorkflow run: https://github.com/Mr-EFES/NagramiX/actions/runs/43535111663\nDependency override: submodules/TgVoipWebrtc/tgcalls c1de0882de9013df246252129b95430f48b20eec -> 38dcea121f10638c42098f226f05c298a392f95c (https://github.com/TelegramMessenger/tgcalls.git)\n",
+  "checksums": "50f5cb1f49d28d30c387a343e7f817e3b71a2c60b09d53c57ac87f79e8e29cc6  NagramiX-0.9.7-unsigned.ipa\n",
+  "old9_releases_and27_assets_unchanged": true,
+  "old9_tag_targets_unchanged": true,
+  "new_source_stages_since208": [
+    64,
+    65,
+    66,
+    67,
+    68,
+    69,
+    70,
+    71,
+    72,
+    73,
+    74
+  ],
+  "physical_iphone": "pending",
+  "unsigned_signing": "Preserved; user signing required for installation",
+  "visibility": "public; owner restores private manually",
+  "source_stage": 74,
+  "source_manifest_sha256": "91fcb7dbde584ed8ec7bb8404a36446bcf80fd34dc511957cd57f6f8b1bb33ae",
+  "local_preflight_reports": [
+    "docs/RELEASE_097_PREFLIGHT_CHECKS.json",
+    "docs/RELEASE_097_RETRY210_CHECKS.json",
+    "docs/RELEASE_097_RETRY211_CHECKS.json",
+    "docs/RELEASE_097_RETRY212_CHECKS.json"
+  ],
+  "completed_log_evidence": {
+    "job213.log": {
+      "sha256": "4238c24dfc82680d5639d01bb02bd36d474d269361ca364a55f2f207505389c5",
+      "bytes": 1802223,
+      "local_path": "/tmp/nagramix-release-097/job213.log"
+    },
+    "release-job213.log": {
+      "sha256": "e90e9080757a0e8d730527bbce6353cd25c804ce3c6c7661522cab27c8afb782",
+      "bytes": 18521,
+      "local_path": "/tmp/nagramix-release-097/release-job213.log"
+    }
+  },
+  "compile_statuses_updated": [
+    "round_video_camera",
+    "wide_channel_posts",
+    "media_controls",
+    "video_pip_swipe",
+    "background_video_playback",
+    "recorder_keep_music",
+    "high_quality_photos",
+    "original_videos",
+    "round_video_quality",
+    "round_video_editor",
+    "voice_transcription",
+    "app_fonts",
+    "single_touch_message_selection"
+  ],
+  "compile_passed_count": 80,
+  "device_pending_count": 80
+}
