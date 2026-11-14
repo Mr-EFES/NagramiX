@@ -1,0 +1,102 @@
+{
+  "target_pin": "24638bc69bd083981b178dd1e7f921eebbf7fc46",
+  "overlay_base_pin": "279f89e4d4f63f17227bf877dc3d8990f22ecd58",
+  "required_previous_stage": "named_link_preview",
+  "inputs": {
+    "submodules/InstantPageUI/Sources/InstantPageV2Layout.swift": "9f7f4d7628bb66e6e3a3c4e80a9273c17ad412d7743e42c094be9ffd8f647c11",
+    "submodules/TelegramUI/Components/Chat/ChatMessageRichDataBubbleContentNode/Sources/ChatMessageRichDataBubbleContentNode.swift": "2d55933911a5d7314eb46e665d25a18f39c024204d9e15dbd8a679d6db6f1a71",
+    "submodules/TelegramUI/Sources/Chat/ChatSendMessageRichTextPreview.swift": "0a8512815bb754e0c4667920ec323faf8cfb1aae91071223d870d9a05c246a62"
+  },
+  "outputs": {
+    "submodules/InstantPageUI/Sources/InstantPageV2Layout.swift": "1dadd025fc49e5ce2536804b4e9a63c15debda5b771d3c1479b59d5fa63ab7e4",
+    "submodules/TelegramUI/Components/Chat/ChatMessageRichDataBubbleContentNode/Sources/ChatMessageRichDataBubbleContentNode.swift": "febc98b4e86e9514b0f18d71b73a469882d37b53ec2cd1cb1c7688ab6e491180",
+    "submodules/TelegramUI/Sources/Chat/ChatSendMessageRichTextPreview.swift": "2e13c1c0a72b65f381fe041d703e416586e2c6125cd3957a6a41dae56afbdabb"
+  },
+  "previous": {
+    "submodules/InstantPageUI/Sources/InstantPageV2Layout.swift": "rich_file_padding/Before0.inc",
+    "submodules/TelegramUI/Components/Chat/ChatMessageRichDataBubbleContentNode/Sources/ChatMessageRichDataBubbleContentNode.swift": "rich_file_padding/Before1.inc",
+    "submodules/TelegramUI/Sources/Chat/ChatSendMessageRichTextPreview.swift": "rich_file_padding/Before2.inc"
+  },
+  "replacements": {
+    "submodules/InstantPageUI/Sources/InstantPageV2Layout.swift": "rich_file_padding/After0.inc",
+    "submodules/TelegramUI/Components/Chat/ChatMessageRichDataBubbleContentNode/Sources/ChatMessageRichDataBubbleContentNode.swift": "rich_file_padding/After1.inc",
+    "submodules/TelegramUI/Sources/Chat/ChatSendMessageRichTextPreview.swift": "rich_file_padding/After2.inc"
+  },
+  "guards": {
+    "submodules/TelegramUI/BUILD": "c819263cd1c2d6407308fe3f172f9f564b40e26f3b688da39739577bae792f52",
+    "submodules/InstantPageUI/BUILD": "96edd306f87f71c839f633548bb5bf8cda402144084c471b6e258004af0dd9f7",
+    "submodules/TelegramUI/Components/Chat/ChatMessageRichDataBubbleContentNode/BUILD": "dc216646ab8b73b4bdf64b22796cc89885483edbbf35074292703d8ebd0ae62a",
+    "submodules/TelegramUI/Components/Chat/ChatMessageItemCommon/BUILD": "590e0da6b741e99babaf1f413e5de23038d2ab244a47348c120a5ed5637fefbd",
+    "submodules/TelegramUI/Components/Chat/ChatMessageItemCommon/Sources/ChatMessageItemCommon.swift": "1e3afdf13ed3058960f9a2338b66a2325a6fc1979a2b32c7a6bf07777c7726f6",
+    "submodules/TelegramUI/Components/Chat/ChatMessageFileBubbleContentNode/Sources/ChatMessageFileBubbleContentNode.swift": "f304d1126701d9232746c2ff60c679f801b13e427b8162c108970a14b09a6efe",
+    "submodules/InstantPageUI/Sources/InstantPageLayoutSpacings.swift": "cf1dfd60d541ddec0b6dd74f26c5b959544102f8ee9beea1f6c62ba9eebefa25",
+    "submodules/InstantPageUI/Sources/InstantPageMetrics.swift": "487554a99cad388e58f6d28309b9b03b432659627901904465c3e4101897e945",
+    "submodules/InstantPageUI/Sources/InstantPageV2ContainerStyle.swift": "c7d011687e7afd987fbdb91ab8394811715d311d7162b18a37b34b6b8cfb2be4",
+    "submodules/InstantPageUI/Sources/InstantPageV2AudioContentNode.swift": "490e6384274b450163d750d4ac9707f8effeee99a20023fa427e21ab25751fec",
+    "submodules/InstantPageUI/Sources/InstantPageV2DocumentContentNode.swift": "9bd13aa51b1383621d9d9e27bbcfd9923b4b42c42b896f0259f3877274cdaaa2",
+    "submodules/InstantPageUI/Sources/InstantPageV2MediaViews.swift": "aaae0664cc7044926461091fa17c22af8438ed44dc18669c62f9cf9a608028f0",
+    "submodules/InstantPageUI/Sources/InstantPageRenderer.swift": "7bfb48a095541ba902a6f6de3d3a9218bcf3ee7384fbb39b032dc1a36d17e2f8",
+    "submodules/InstantPageUI/Sources/InstantPageShapeItem.swift": "8f1a8ae857d50c023863d1115421b3e1d20ab6193fcdf2717b62f3869673df3b",
+    "submodules/InstantPageUI/Sources/InstantPageV2ButtonRowLayout.swift": "c25102c17ac1bd24e84d45ccf955b95453cf338b9708ffbdb6c4d935d0564d58",
+    "submodules/InstantPageUI/Sources/InstantPageLayout.swift": "4bf15e0ce2fff5adbaa545d174e31335cfdb9fd387bc8a962a44819f792bcc1d",
+    "submodules/TelegramUI/Components/RichTextAttachmentScreen/Sources/FormulaEditorScreen.swift": "4115e7192c06e821a0654fffb0fe72ad975f74ab8b84ab005d83d32c1c0cc163",
+    "submodules/TelegramUI/Components/RichTextAttachmentScreen/Sources/ButtonEditorScreen.swift": "df67d5e5233b086e84c770064a911bd94ab878c25058293c2d7d8db9ce5e42f5",
+    "submodules/TelegramUI/Components/TextProcessingScreen/Sources/TextProcessingRichContentView.swift": "44cd0aff8f7987ee12c165e6bf37dfaa1c10b27df74112f5c9e336668d7a6999"
+  },
+  "guard_sources": {
+    "submodules/TelegramUI/BUILD": "rich_file_padding/Guard0.inc",
+    "submodules/InstantPageUI/BUILD": "rich_file_padding/Guard1.inc",
+    "submodules/TelegramUI/Components/Chat/ChatMessageRichDataBubbleContentNode/BUILD": "rich_file_padding/Guard2.inc",
+    "submodules/TelegramUI/Components/Chat/ChatMessageItemCommon/BUILD": "rich_file_padding/Guard3.inc",
+    "submodules/TelegramUI/Components/Chat/ChatMessageItemCommon/Sources/ChatMessageItemCommon.swift": "rich_file_padding/Guard4.inc",
+    "submodules/TelegramUI/Components/Chat/ChatMessageFileBubbleContentNode/Sources/ChatMessageFileBubbleContentNode.swift": "rich_file_padding/Guard5.inc",
+    "submodules/InstantPageUI/Sources/InstantPageLayoutSpacings.swift": "rich_file_padding/Guard6.inc",
+    "submodules/InstantPageUI/Sources/InstantPageMetrics.swift": "rich_file_padding/Guard7.inc",
+    "submodules/InstantPageUI/Sources/InstantPageV2ContainerStyle.swift": "rich_file_padding/Guard8.inc",
+    "submodules/InstantPageUI/Sources/InstantPageV2AudioContentNode.swift": "rich_file_padding/Guard9.inc",
+    "submodules/InstantPageUI/Sources/InstantPageV2DocumentContentNode.swift": "rich_file_padding/Guard10.inc",
+    "submodules/InstantPageUI/Sources/InstantPageV2MediaViews.swift": "rich_file_padding/Guard11.inc",
+    "submodules/InstantPageUI/Sources/InstantPageRenderer.swift": "rich_file_padding/Guard12.inc",
+    "submodules/InstantPageUI/Sources/InstantPageShapeItem.swift": "rich_file_padding/Guard13.inc",
+    "submodules/InstantPageUI/Sources/InstantPageV2ButtonRowLayout.swift": "rich_file_padding/Guard14.inc",
+    "submodules/InstantPageUI/Sources/InstantPageLayout.swift": "rich_file_padding/Guard15.inc",
+    "submodules/TelegramUI/Components/RichTextAttachmentScreen/Sources/FormulaEditorScreen.swift": "rich_file_padding/Guard16.inc",
+    "submodules/TelegramUI/Components/RichTextAttachmentScreen/Sources/ButtonEditorScreen.swift": "rich_file_padding/Guard17.inc",
+    "submodules/TelegramUI/Components/TextProcessingScreen/Sources/TextProcessingRichContentView.swift": "rich_file_padding/Guard18.inc"
+  },
+  "copies": {},
+  "deletions": {},
+  "native_inputs": {
+    "submodules/InstantPageUI/Sources/InstantPageV2Layout.swift": "7536b5a2690024da320fbfb1d5cc04363afb010c",
+    "submodules/TelegramUI/Components/Chat/ChatMessageRichDataBubbleContentNode/Sources/ChatMessageRichDataBubbleContentNode.swift": "968a4ba82656a31891bef607d39f39a5ade905c6",
+    "submodules/TelegramUI/Sources/Chat/ChatSendMessageRichTextPreview.swift": "5d21405e0af8464e7f4904d70ada63345aa1be71"
+  },
+  "native_guards": {},
+  "templates": {
+    "rich_file_padding/Before0.inc": "9f7f4d7628bb66e6e3a3c4e80a9273c17ad412d7743e42c094be9ffd8f647c11",
+    "rich_file_padding/After0.inc": "1dadd025fc49e5ce2536804b4e9a63c15debda5b771d3c1479b59d5fa63ab7e4",
+    "rich_file_padding/Before1.inc": "2d55933911a5d7314eb46e665d25a18f39c024204d9e15dbd8a679d6db6f1a71",
+    "rich_file_padding/After1.inc": "febc98b4e86e9514b0f18d71b73a469882d37b53ec2cd1cb1c7688ab6e491180",
+    "rich_file_padding/Before2.inc": "0a8512815bb754e0c4667920ec323faf8cfb1aae91071223d870d9a05c246a62",
+    "rich_file_padding/After2.inc": "2e13c1c0a72b65f381fe041d703e416586e2c6125cd3957a6a41dae56afbdabb",
+    "rich_file_padding/Guard0.inc": "c819263cd1c2d6407308fe3f172f9f564b40e26f3b688da39739577bae792f52",
+    "rich_file_padding/Guard1.inc": "96edd306f87f71c839f633548bb5bf8cda402144084c471b6e258004af0dd9f7",
+    "rich_file_padding/Guard2.inc": "dc216646ab8b73b4bdf64b22796cc89885483edbbf35074292703d8ebd0ae62a",
+    "rich_file_padding/Guard3.inc": "590e0da6b741e99babaf1f413e5de23038d2ab244a47348c120a5ed5637fefbd",
+    "rich_file_padding/Guard4.inc": "1e3afdf13ed3058960f9a2338b66a2325a6fc1979a2b32c7a6bf07777c7726f6",
+    "rich_file_padding/Guard5.inc": "f304d1126701d9232746c2ff60c679f801b13e427b8162c108970a14b09a6efe",
+    "rich_file_padding/Guard6.inc": "cf1dfd60d541ddec0b6dd74f26c5b959544102f8ee9beea1f6c62ba9eebefa25",
+    "rich_file_padding/Guard7.inc": "487554a99cad388e58f6d28309b9b03b432659627901904465c3e4101897e945",
+    "rich_file_padding/Guard8.inc": "c7d011687e7afd987fbdb91ab8394811715d311d7162b18a37b34b6b8cfb2be4",
+    "rich_file_padding/Guard9.inc": "490e6384274b450163d750d4ac9707f8effeee99a20023fa427e21ab25751fec",
+    "rich_file_padding/Guard10.inc": "9bd13aa51b1383621d9d9e27bbcfd9923b4b42c42b896f0259f3877274cdaaa2",
+    "rich_file_padding/Guard11.inc": "aaae0664cc7044926461091fa17c22af8438ed44dc18669c62f9cf9a608028f0",
+    "rich_file_padding/Guard12.inc": "7bfb48a095541ba902a6f6de3d3a9218bcf3ee7384fbb39b032dc1a36d17e2f8",
+    "rich_file_padding/Guard13.inc": "8f1a8ae857d50c023863d1115421b3e1d20ab6193fcdf2717b62f3869673df3b",
+    "rich_file_padding/Guard14.inc": "c25102c17ac1bd24e84d45ccf955b95453cf338b9708ffbdb6c4d935d0564d58",
+    "rich_file_padding/Guard15.inc": "4bf15e0ce2fff5adbaa545d174e31335cfdb9fd387bc8a962a44819f792bcc1d",
+    "rich_file_padding/Guard16.inc": "4115e7192c06e821a0654fffb0fe72ad975f74ab8b84ab005d83d32c1c0cc163",
+    "rich_file_padding/Guard17.inc": "df67d5e5233b086e84c770064a911bd94ab878c25058293c2d7d8db9ce5e42f5",
+    "rich_file_padding/Guard18.inc": "44cd0aff8f7987ee12c165e6bf37dfaa1c10b27df74112f5c9e336668d7a6999"
+  }
+}
