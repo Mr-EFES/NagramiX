@@ -57,6 +57,8 @@ from settings_glass_sliders_apple import check as settings_glass_sliders_api_che
 from font_license_compact_runtime import fixture as font_license_compact_fixture
 from font_license_compact_apple import check as font_license_compact_api_check
 from font_license_compact_modules import check as font_license_compact_modules_check
+from unified_glass_menus_runtime import fixture as unified_glass_menus_fixture
+from unified_glass_menus_apple import check as unified_glass_menus_api_check, modules_check as unified_glass_menus_modules_check
 from feature_contract_consistency_apple import check as feature_contract_apple_check
 from original_video_mode_apple import check as original_video_mode_apple_check
 import selection_scroll_continuity_runtime as selection_scroll
@@ -160,6 +162,13 @@ def main():
         root = Path(temporary)
         foundation=foundation_check(args.swiftc,root)
         files = {}
+        menus_source=root/'unified-menus-native-final'
+        files['native_final84']=canonical_projection(menus_source,'unified_glass_menus')
+        unified_glass_menus_api=unified_glass_menus_api_check(menus_source,args.swiftc,root/'unified-menus-api-first')
+        unified_glass_menus_modules=unified_glass_menus_modules_check(menus_source,args.swiftc,root/'unified-menus-modules-first')
+        shutil.rmtree(menus_source)
+        if (root/'unified-menus-api-first').is_dir(): shutil.rmtree(root/'unified-menus-api-first')
+        shutil.rmtree(root/'unified-menus-modules-first')
         license_source=root/'font-license-native-final'
         files['native_final83']=canonical_projection(license_source,'font_license_compact')
         font_license_compact_api=font_license_compact_api_check(license_source,args.swiftc,root/'font-license-api-first')
@@ -251,6 +260,7 @@ def main():
             ('snow_density_glass', [('snow-density-glass', snow_density_glass_fixture)]),
             ('settings_glass_sliders', [('settings-glass-sliders', settings_glass_sliders_fixture)]),
             ('font_license_compact', [('font-license-compact', font_license_compact_fixture)]),
+            ('unified_glass_menus', [('unified-glass-menus', unified_glass_menus_fixture)]),
         ]
         for stage, fixtures in entries:
             source = root / stage
@@ -317,6 +327,8 @@ def main():
     report['settings_glass_sliders_native_api']=settings_glass_sliders_api
     report['font_license_compact_native_api']=font_license_compact_api
     report['font_license_compact_modules']=font_license_compact_modules
+    report['unified_glass_menus_native_api']=unified_glass_menus_api
+    report['unified_glass_menus_modules']=unified_glass_menus_modules
     report['input_effects_real_sdk']=input_effects_apple
     report['snowfall_real_sdk']=snowfall_apple
     report['snowfall_holidays_real_sdk']=snowfall_holidays_apple

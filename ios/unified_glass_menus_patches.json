@@ -1,0 +1,86 @@
+{
+  "target_pin": "24638bc69bd083981b178dd1e7f921eebbf7fc46",
+  "overlay_base_pin": "279f89e4d4f63f17227bf877dc3d8990f22ecd58",
+  "required_previous_stage": "font_license_compact",
+  "inputs": {
+    "submodules/SettingsUI/Sources/NagramiXOptionSheet.swift": "38649bb37aeb7c328792c89e71fe9751d0d23a189a9ea8ee70472b4b97fb1bf1",
+    "submodules/SettingsUI/Sources/NagramiXSettingsController.swift": "9f6d6f82929d3c9acd03804f946f0ce182b7c568e968da845354b57b296754ad",
+    "submodules/SettingsUI/Sources/Data and Storage/ProxyListSettingsController.swift": "fa33af05a67c9193c4be8792b5dd2a05a43479b1dee4dff7b018964a88234654",
+    "submodules/Display/Source/ActionSheetItemGroupNode.swift": "5e972265ccd819817b0b2ba90d70559bacd5cd4c03df5d94cb10ffdef6654e77",
+    "submodules/Display/Source/ActionSheetControllerNode.swift": "7d556ee3387d296a17c283d6aab38e6a48b6bae90d090d0e3fbda6659a210cd8"
+  },
+  "outputs": {
+    "submodules/SettingsUI/Sources/NagramiXOptionSheet.swift": "1cba27636e671619af7fae636c1a8a42f4b76da3131e08ade61beb550c855b99",
+    "submodules/SettingsUI/Sources/NagramiXSettingsController.swift": "1abb8462dfb92882fd776233178c5403f18ef12c579793b126a4f44b44fc37a5",
+    "submodules/SettingsUI/Sources/Data and Storage/ProxyListSettingsController.swift": "a60f92f7c132e668cfec42c9cde62026a4c66df2c6099c276c056993f7f5848a",
+    "submodules/Display/Source/ActionSheetItemGroupNode.swift": "7b2385b8e063f78f4ca8e09ad1a14533fc5a03010376b08ae3c465e59070df97",
+    "submodules/Display/Source/ActionSheetControllerNode.swift": "2e1bd3f9039da1d08cc8d1aa79c98ac2b32abeebff45a6f30a645df82c231467"
+  },
+  "previous": {
+    "submodules/SettingsUI/Sources/NagramiXOptionSheet.swift": "unified_glass_menus/Before0.inc",
+    "submodules/SettingsUI/Sources/NagramiXSettingsController.swift": "unified_glass_menus/Before1.inc",
+    "submodules/SettingsUI/Sources/Data and Storage/ProxyListSettingsController.swift": "unified_glass_menus/Before2.inc",
+    "submodules/Display/Source/ActionSheetItemGroupNode.swift": "unified_glass_menus/Before3.inc",
+    "submodules/Display/Source/ActionSheetControllerNode.swift": "unified_glass_menus/Before4.inc"
+  },
+  "replacements": {
+    "submodules/SettingsUI/Sources/NagramiXOptionSheet.swift": "unified_glass_menus/After0.inc",
+    "submodules/SettingsUI/Sources/NagramiXSettingsController.swift": "unified_glass_menus/After1.inc",
+    "submodules/SettingsUI/Sources/Data and Storage/ProxyListSettingsController.swift": "unified_glass_menus/After2.inc",
+    "submodules/Display/Source/ActionSheetItemGroupNode.swift": "unified_glass_menus/After3.inc",
+    "submodules/Display/Source/ActionSheetControllerNode.swift": "unified_glass_menus/After4.inc"
+  },
+  "guards": {
+    "submodules/SettingsUI/BUILD": "b229ff1580a1e8e13770d400a1c0c9e1cf56ef05b831659c3422a6141b50f489",
+    "submodules/Display/BUILD": "b1fc5ac3fc6de1dc029f6887d6c41caa87b4f46ca0f70962aeeee4454baf4e93",
+    "submodules/Display/Source/ActionSheetController.swift": "367729526279622bdf79dc7ddf6b5994847183cf3f463bb21f7cf47d75d8c809",
+    "submodules/Display/Source/ActionSheetItemNode.swift": "41de692f63005efec55d9b993ab0161bfbe597b612bdb72128010bd94973dbdb",
+    "submodules/Display/Source/ActionSheetItemGroupsContainerNode.swift": "0671a01b2ceb8228dceadd9d24bf467bc932c6c5f88260a47e9aee3572da0ec2",
+    "submodules/TelegramPresentationData/Sources/ComponentsThemes.swift": "01666429c57836a610f5653310897aaeb4a74c438419d2f8e0c39a0f89ffba35",
+    "submodules/TelegramPresentationData/Sources/PresentationTheme.swift": "cc065b9d80288da487477a4af2a857ff98843cba983236582c3c61f14b423ea8",
+    "submodules/NagramiXCore/Sources/NagramiXTabSettings.swift": "71328bb06d34937632e25bb2cf1e2c1adbb46371ca5f29b563721017326abec9",
+    "submodules/NagramiXCore/Sources/NagramiXTypingSettings.swift": "73b26f457ecd72eab02b6d5441222af34f52567fc20ab2de6dc81e5b33d8f492",
+    "submodules/NagramiXMediaSettings/Sources/NagramiXDownloadSettings.swift": "e235b1de47270479fd071ffae7862136a7e55bed44875fd79ddabe65c57d8674",
+    "submodules/SettingsUI/Sources/NagramiXCustomDohController.swift": "d278e32ab032fd7dee03fbc97f3c950f4deb35866080ab41ebe6834ffaeeb11d"
+  },
+  "guard_sources": {
+    "submodules/SettingsUI/BUILD": "unified_glass_menus/Guard0.inc",
+    "submodules/Display/BUILD": "unified_glass_menus/Guard1.inc",
+    "submodules/Display/Source/ActionSheetController.swift": "unified_glass_menus/Guard2.inc",
+    "submodules/Display/Source/ActionSheetItemNode.swift": "unified_glass_menus/Guard3.inc",
+    "submodules/Display/Source/ActionSheetItemGroupsContainerNode.swift": "unified_glass_menus/Guard4.inc",
+    "submodules/TelegramPresentationData/Sources/ComponentsThemes.swift": "unified_glass_menus/Guard5.inc",
+    "submodules/TelegramPresentationData/Sources/PresentationTheme.swift": "unified_glass_menus/Guard6.inc",
+    "submodules/NagramiXCore/Sources/NagramiXTabSettings.swift": "unified_glass_menus/Guard7.inc",
+    "submodules/NagramiXCore/Sources/NagramiXTypingSettings.swift": "unified_glass_menus/Guard8.inc",
+    "submodules/NagramiXMediaSettings/Sources/NagramiXDownloadSettings.swift": "unified_glass_menus/Guard9.inc",
+    "submodules/SettingsUI/Sources/NagramiXCustomDohController.swift": "unified_glass_menus/Guard10.inc"
+  },
+  "copies": {},
+  "deletions": {},
+  "native_inputs": {},
+  "native_guards": {},
+  "templates": {
+    "unified_glass_menus/Before0.inc": "38649bb37aeb7c328792c89e71fe9751d0d23a189a9ea8ee70472b4b97fb1bf1",
+    "unified_glass_menus/After0.inc": "1cba27636e671619af7fae636c1a8a42f4b76da3131e08ade61beb550c855b99",
+    "unified_glass_menus/Before1.inc": "9f6d6f82929d3c9acd03804f946f0ce182b7c568e968da845354b57b296754ad",
+    "unified_glass_menus/After1.inc": "1abb8462dfb92882fd776233178c5403f18ef12c579793b126a4f44b44fc37a5",
+    "unified_glass_menus/Before2.inc": "fa33af05a67c9193c4be8792b5dd2a05a43479b1dee4dff7b018964a88234654",
+    "unified_glass_menus/After2.inc": "a60f92f7c132e668cfec42c9cde62026a4c66df2c6099c276c056993f7f5848a",
+    "unified_glass_menus/Before3.inc": "5e972265ccd819817b0b2ba90d70559bacd5cd4c03df5d94cb10ffdef6654e77",
+    "unified_glass_menus/After3.inc": "7b2385b8e063f78f4ca8e09ad1a14533fc5a03010376b08ae3c465e59070df97",
+    "unified_glass_menus/Before4.inc": "7d556ee3387d296a17c283d6aab38e6a48b6bae90d090d0e3fbda6659a210cd8",
+    "unified_glass_menus/After4.inc": "2e1bd3f9039da1d08cc8d1aa79c98ac2b32abeebff45a6f30a645df82c231467",
+    "unified_glass_menus/Guard0.inc": "b229ff1580a1e8e13770d400a1c0c9e1cf56ef05b831659c3422a6141b50f489",
+    "unified_glass_menus/Guard1.inc": "b1fc5ac3fc6de1dc029f6887d6c41caa87b4f46ca0f70962aeeee4454baf4e93",
+    "unified_glass_menus/Guard2.inc": "367729526279622bdf79dc7ddf6b5994847183cf3f463bb21f7cf47d75d8c809",
+    "unified_glass_menus/Guard3.inc": "41de692f63005efec55d9b993ab0161bfbe597b612bdb72128010bd94973dbdb",
+    "unified_glass_menus/Guard4.inc": "0671a01b2ceb8228dceadd9d24bf467bc932c6c5f88260a47e9aee3572da0ec2",
+    "unified_glass_menus/Guard5.inc": "01666429c57836a610f5653310897aaeb4a74c438419d2f8e0c39a0f89ffba35",
+    "unified_glass_menus/Guard6.inc": "cc065b9d80288da487477a4af2a857ff98843cba983236582c3c61f14b423ea8",
+    "unified_glass_menus/Guard7.inc": "71328bb06d34937632e25bb2cf1e2c1adbb46371ca5f29b563721017326abec9",
+    "unified_glass_menus/Guard8.inc": "73b26f457ecd72eab02b6d5441222af34f52567fc20ab2de6dc81e5b33d8f492",
+    "unified_glass_menus/Guard9.inc": "e235b1de47270479fd071ffae7862136a7e55bed44875fd79ddabe65c57d8674",
+    "unified_glass_menus/Guard10.inc": "d278e32ab032fd7dee03fbc97f3c950f4deb35866080ab41ebe6834ffaeeb11d"
+  }
+}
