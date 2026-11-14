@@ -95,6 +95,7 @@ LATE_SOURCE_STAGES = (
     'named_link_preview',
     'rich_file_padding',
     'snow_density_glass',
+    'settings_glass_sliders',
 )
 TEMPORARY_INTERACTION_STAGE = 'temporary_message_interaction'
 TEMPORARY_REPLY_HELPER = 'submodules/TelegramUI/Sources/Chat/NagramiXTemporaryReplySend.swift'
@@ -134,6 +135,17 @@ def check_copy_contract(stage, plan):
         for item in plan['copies'].values():
             assert set(item) == {'source', 'sha256'}
             assert plan['templates'].get(item['source']) == item['sha256']
+        return
+    if stage == 'settings_glass_sliders':
+        expected = {'submodules/NagramiXCore/Sources/NagramiXGlassSlider.swift', 'submodules/SettingsUI/Sources/NagramiXLegacyGlassSliderView.swift'}
+        assert set(plan['copies']) == expected, 'Unexpected shared slider helper copy'
+        for module in ['NagramiXCore', 'SettingsUI', 'TranslateUI', 'NagramiXTranscription']:
+            build = (OVERLAY / plan['guard_sources']['submodules/' + module + '/BUILD']).read_text()
+            assert '"Sources/**/*.swift"' in build
+            if module != 'NagramiXCore':
+                assert '"//submodules/NagramiXCore:NagramiXCore"' in build
+        for item in plan['copies'].values():
+            assert set(item) == {'source', 'sha256'} and plan['templates'].get(item['source']) == item['sha256']
         return
     if stage == 'input_effects':
         expected = {'submodules/NagramiXCore/Sources/NagramiXTypingSettings.swift', 'submodules/NagramiXCore/Sources/NagramiXTypingAnimation.swift'}

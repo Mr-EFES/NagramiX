@@ -1,0 +1,97 @@
+{
+  "target_pin": "24638bc69bd083981b178dd1e7f921eebbf7fc46",
+  "overlay_base_pin": "279f89e4d4f63f17227bf877dc3d8990f22ecd58",
+  "required_previous_stage": "snow_density_glass",
+  "inputs": {
+    "submodules/SettingsUI/Sources/NagramiXSnowDensityItem.swift": "d4379cfb12ad09f9cbad136e24ef23ceb1ba0fbbe1ef4e6be248c245285379c9",
+    "submodules/SettingsUI/Sources/NagramiXPercentageItem.swift": "7849c4c9c8cd90526d7cfb532a54f40562fba863f5b8b3b01b669c9b058c6333",
+    "submodules/SettingsUI/Sources/NagramiXRoundQualityController.swift": "7b5767e786cac2e963af140d9225164d139664045d7477139688a5f73b3c1da9",
+    "submodules/NagramiXTranscription/Sources/Preferences.swift": "6cfe1f86f497548a8d35015011ef0a6834f7a44e134a0372e98dff58d04169fb",
+    "submodules/TranslateUI/Sources/NagramiXTranslationPreferences.swift": "58c4e99434446a891410e637ce707399badbc63e536b27379db11e6e66262eec"
+  },
+  "outputs": {
+    "submodules/SettingsUI/Sources/NagramiXSnowDensityItem.swift": "0bbc1581da70c92d892cfd1443628b5de8b909a30e0ba06eca2e978635b7cef7",
+    "submodules/SettingsUI/Sources/NagramiXPercentageItem.swift": "dd9649442ad918c6894b9ff116ba2d4a13d1feaeb563e0b73df96a2a4da863d7",
+    "submodules/SettingsUI/Sources/NagramiXRoundQualityController.swift": "7ca32ff18bb1e261cb00f34ce65296d86c7b27c1f28cf66c99ac79f229a28735",
+    "submodules/NagramiXTranscription/Sources/Preferences.swift": "dec332b8e24bc5014f8462145c849cea03749ac955e15466c694b74012fbe8d0",
+    "submodules/TranslateUI/Sources/NagramiXTranslationPreferences.swift": "cb099eea54cef0d902e15952990e8644191e147f6d8f4b8be89b74f06de291c5"
+  },
+  "previous": {
+    "submodules/SettingsUI/Sources/NagramiXSnowDensityItem.swift": "settings_glass_sliders/Before0.inc",
+    "submodules/SettingsUI/Sources/NagramiXPercentageItem.swift": "settings_glass_sliders/Before1.inc",
+    "submodules/SettingsUI/Sources/NagramiXRoundQualityController.swift": "settings_glass_sliders/Before2.inc",
+    "submodules/NagramiXTranscription/Sources/Preferences.swift": "settings_glass_sliders/Before3.inc",
+    "submodules/TranslateUI/Sources/NagramiXTranslationPreferences.swift": "settings_glass_sliders/Before4.inc"
+  },
+  "replacements": {
+    "submodules/SettingsUI/Sources/NagramiXSnowDensityItem.swift": "settings_glass_sliders/After0.inc",
+    "submodules/SettingsUI/Sources/NagramiXPercentageItem.swift": "settings_glass_sliders/After1.inc",
+    "submodules/SettingsUI/Sources/NagramiXRoundQualityController.swift": "settings_glass_sliders/After2.inc",
+    "submodules/NagramiXTranscription/Sources/Preferences.swift": "settings_glass_sliders/After3.inc",
+    "submodules/TranslateUI/Sources/NagramiXTranslationPreferences.swift": "settings_glass_sliders/After4.inc"
+  },
+  "guards": {
+    "submodules/NagramiXCore/BUILD": "869e31310cc925b84ceb827a3c0b8503f3a22614acb4abeeec4a4ad435cf56e2",
+    "submodules/SettingsUI/BUILD": "b229ff1580a1e8e13770d400a1c0c9e1cf56ef05b831659c3422a6141b50f489",
+    "submodules/NagramiXTranscription/BUILD": "f7e6352e9950459f20eafd0431dc7e9f23a2c4cbed744305ecb5f13c376decf6",
+    "submodules/TranslateUI/BUILD": "74365f785a3e8456aa9e80c9ba6665a5b7b0fe64002b798e0ee49663071b3a4d",
+    "submodules/LegacyComponents/PublicHeaders/LegacyComponents/TGPhotoEditorSliderView.h": "8a717ea4f26fb7317b0f097766aac841a671a2daf21ef53d4c242f54da1f8a48",
+    "submodules/LegacyComponents/Sources/TGPhotoEditorSliderView.m": "82bd921d1dea61a79625d621ea495c60a8330de48ec722cfde27addbb6d89da4",
+    "submodules/NagramiXCore/Sources/NagramiXSnowSettings.swift": "17447f5509142a3d208b9517aacc575f75cb98d6501a2972812f74bd10606193",
+    "submodules/NagramiXMediaSettings/Sources/NagramiXRoundVideoSettings.swift": "6c30b32400dc626fc9b01c5369e65897d3d8039fb0c0fedc8697dd14f82fca9f",
+    "submodules/NagramiXMediaSettings/Sources/NagramiXMediaSettings.swift": "e01595a0c7f5e03b312a9756f0ef20577b69e19479b43248e8d611e935c23b6c",
+    "submodules/SettingsUI/Sources/NagramiXSettingsController.swift": "9f6d6f82929d3c9acd03804f946f0ce182b7c568e968da845354b57b296754ad",
+    "submodules/TelegramPresentationData/Sources/PresentationTheme.swift": "cc065b9d80288da487477a4af2a857ff98843cba983236582c3c61f14b423ea8"
+  },
+  "guard_sources": {
+    "submodules/NagramiXCore/BUILD": "settings_glass_sliders/Guard0.inc",
+    "submodules/SettingsUI/BUILD": "settings_glass_sliders/Guard1.inc",
+    "submodules/NagramiXTranscription/BUILD": "settings_glass_sliders/Guard2.inc",
+    "submodules/TranslateUI/BUILD": "settings_glass_sliders/Guard3.inc",
+    "submodules/LegacyComponents/PublicHeaders/LegacyComponents/TGPhotoEditorSliderView.h": "settings_glass_sliders/Guard4.inc",
+    "submodules/LegacyComponents/Sources/TGPhotoEditorSliderView.m": "settings_glass_sliders/Guard5.inc",
+    "submodules/NagramiXCore/Sources/NagramiXSnowSettings.swift": "settings_glass_sliders/Guard6.inc",
+    "submodules/NagramiXMediaSettings/Sources/NagramiXRoundVideoSettings.swift": "settings_glass_sliders/Guard7.inc",
+    "submodules/NagramiXMediaSettings/Sources/NagramiXMediaSettings.swift": "settings_glass_sliders/Guard8.inc",
+    "submodules/SettingsUI/Sources/NagramiXSettingsController.swift": "settings_glass_sliders/Guard9.inc",
+    "submodules/TelegramPresentationData/Sources/PresentationTheme.swift": "settings_glass_sliders/Guard10.inc"
+  },
+  "copies": {
+    "submodules/NagramiXCore/Sources/NagramiXGlassSlider.swift": {
+      "source": "settings_glass_sliders/New0.inc",
+      "sha256": "90527d300a89e7c52ac90043df3feb629096b7430ff0902ff382786f744544c7"
+    },
+    "submodules/SettingsUI/Sources/NagramiXLegacyGlassSliderView.swift": {
+      "source": "settings_glass_sliders/New1.inc",
+      "sha256": "b6111791ba1926d1a7a8fc7c1bbc417157949a7a2f0af7a0526b4036ef77bfe4"
+    }
+  },
+  "deletions": {},
+  "native_inputs": {},
+  "native_guards": {},
+  "templates": {
+    "settings_glass_sliders/Before0.inc": "d4379cfb12ad09f9cbad136e24ef23ceb1ba0fbbe1ef4e6be248c245285379c9",
+    "settings_glass_sliders/After0.inc": "0bbc1581da70c92d892cfd1443628b5de8b909a30e0ba06eca2e978635b7cef7",
+    "settings_glass_sliders/Before1.inc": "7849c4c9c8cd90526d7cfb532a54f40562fba863f5b8b3b01b669c9b058c6333",
+    "settings_glass_sliders/After1.inc": "dd9649442ad918c6894b9ff116ba2d4a13d1feaeb563e0b73df96a2a4da863d7",
+    "settings_glass_sliders/Before2.inc": "7b5767e786cac2e963af140d9225164d139664045d7477139688a5f73b3c1da9",
+    "settings_glass_sliders/After2.inc": "7ca32ff18bb1e261cb00f34ce65296d86c7b27c1f28cf66c99ac79f229a28735",
+    "settings_glass_sliders/Before3.inc": "6cfe1f86f497548a8d35015011ef0a6834f7a44e134a0372e98dff58d04169fb",
+    "settings_glass_sliders/After3.inc": "dec332b8e24bc5014f8462145c849cea03749ac955e15466c694b74012fbe8d0",
+    "settings_glass_sliders/Before4.inc": "58c4e99434446a891410e637ce707399badbc63e536b27379db11e6e66262eec",
+    "settings_glass_sliders/After4.inc": "cb099eea54cef0d902e15952990e8644191e147f6d8f4b8be89b74f06de291c5",
+    "settings_glass_sliders/New0.inc": "90527d300a89e7c52ac90043df3feb629096b7430ff0902ff382786f744544c7",
+    "settings_glass_sliders/New1.inc": "b6111791ba1926d1a7a8fc7c1bbc417157949a7a2f0af7a0526b4036ef77bfe4",
+    "settings_glass_sliders/Guard0.inc": "869e31310cc925b84ceb827a3c0b8503f3a22614acb4abeeec4a4ad435cf56e2",
+    "settings_glass_sliders/Guard1.inc": "b229ff1580a1e8e13770d400a1c0c9e1cf56ef05b831659c3422a6141b50f489",
+    "settings_glass_sliders/Guard2.inc": "f7e6352e9950459f20eafd0431dc7e9f23a2c4cbed744305ecb5f13c376decf6",
+    "settings_glass_sliders/Guard3.inc": "74365f785a3e8456aa9e80c9ba6665a5b7b0fe64002b798e0ee49663071b3a4d",
+    "settings_glass_sliders/Guard4.inc": "8a717ea4f26fb7317b0f097766aac841a671a2daf21ef53d4c242f54da1f8a48",
+    "settings_glass_sliders/Guard5.inc": "82bd921d1dea61a79625d621ea495c60a8330de48ec722cfde27addbb6d89da4",
+    "settings_glass_sliders/Guard6.inc": "17447f5509142a3d208b9517aacc575f75cb98d6501a2972812f74bd10606193",
+    "settings_glass_sliders/Guard7.inc": "6c30b32400dc626fc9b01c5369e65897d3d8039fb0c0fedc8697dd14f82fca9f",
+    "settings_glass_sliders/Guard8.inc": "e01595a0c7f5e03b312a9756f0ef20577b69e19479b43248e8d611e935c23b6c",
+    "settings_glass_sliders/Guard9.inc": "9f6d6f82929d3c9acd03804f946f0ce182b7c568e968da845354b57b296754ad",
+    "settings_glass_sliders/Guard10.inc": "cc065b9d80288da487477a4af2a857ff98843cba983236582c3c61f14b423ea8"
+  }
+}
