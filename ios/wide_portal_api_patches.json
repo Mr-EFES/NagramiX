@@ -1,0 +1,52 @@
+{
+  "target_pin": "24638bc69bd083981b178dd1e7f921eebbf7fc46",
+  "overlay_base_pin": "279f89e4d4f63f17227bf877dc3d8990f22ecd58",
+  "required_previous_stage": "round_editor_quality",
+  "inputs": {
+    "submodules/TelegramUI/Components/Chat/ChatMessageAnimatedStickerItemNode/Sources/ChatMessageAnimatedStickerItemNode.swift": "250e0e347396a1145d78e93fc06c10f95385a7da7a20a6daa78a87b597d3af27",
+    "submodules/TelegramUI/Components/Chat/ChatMessageItemView/Sources/ChatMessageItemView.swift": "d18f110fa1814bd6c0c5ce9ba316b9ef0a3585af24612bc5058d622e53437aea",
+    "submodules/TelegramUI/Components/Chat/ChatMessageStickerItemNode/Sources/ChatMessageStickerItemNode.swift": "babab8e27c722abe3181f890399525c59e7c35c657dbe6864d8c75a65a6401b4"
+  },
+  "outputs": {
+    "submodules/TelegramUI/Components/Chat/ChatMessageAnimatedStickerItemNode/Sources/ChatMessageAnimatedStickerItemNode.swift": "b18703c63698003e14afbcffdc9b9009ac77989e512c47931e5a61a5243c560d",
+    "submodules/TelegramUI/Components/Chat/ChatMessageItemView/Sources/ChatMessageItemView.swift": "e2b6b2e623b5da2d9a5d07ab939540b884f747694808faaf36ec7f4c0be601b8",
+    "submodules/TelegramUI/Components/Chat/ChatMessageStickerItemNode/Sources/ChatMessageStickerItemNode.swift": "910e9bcbaeb4120a0166b50588cfc6181c0fd87c101d555d1fa4b580d07c03c4"
+  },
+  "previous": {
+    "submodules/TelegramUI/Components/Chat/ChatMessageAnimatedStickerItemNode/Sources/ChatMessageAnimatedStickerItemNode.swift": "wide_portal_api/Before0.inc",
+    "submodules/TelegramUI/Components/Chat/ChatMessageItemView/Sources/ChatMessageItemView.swift": "wide_portal_api/Before1.inc",
+    "submodules/TelegramUI/Components/Chat/ChatMessageStickerItemNode/Sources/ChatMessageStickerItemNode.swift": "wide_portal_api/Before2.inc"
+  },
+  "replacements": {
+    "submodules/TelegramUI/Components/Chat/ChatMessageAnimatedStickerItemNode/Sources/ChatMessageAnimatedStickerItemNode.swift": "wide_portal_api/After0.inc",
+    "submodules/TelegramUI/Components/Chat/ChatMessageItemView/Sources/ChatMessageItemView.swift": "wide_portal_api/After1.inc",
+    "submodules/TelegramUI/Components/Chat/ChatMessageStickerItemNode/Sources/ChatMessageStickerItemNode.swift": "wide_portal_api/After2.inc"
+  },
+  "guards": {
+    "submodules/WallpaperBackgroundNode/Sources/WallpaperBackgroundNode.swift": "f7121faeac826ceb5c0258dcb7b96d96d5348435c2ad6596628957b0617535fb",
+    "submodules/ChatMessageBackground/Sources/ChatMessageBackground.swift": "23425b6d74902f6d32248fec07f1ef81d3a69bba379539af6c46e6e7979c25a8",
+    "submodules/TelegramUI/Components/Chat/ChatMessageItemView/BUILD": "07cf7a5af51a49a9cc7395574d7a44aac748f20950edef9ee5bbc99a1a183b0b"
+  },
+  "guard_sources": {
+    "submodules/WallpaperBackgroundNode/Sources/WallpaperBackgroundNode.swift": "wide_portal_api/Guard0.inc",
+    "submodules/ChatMessageBackground/Sources/ChatMessageBackground.swift": "wide_portal_api/Guard1.inc",
+    "submodules/TelegramUI/Components/Chat/ChatMessageItemView/BUILD": "wide_portal_api/Guard2.inc"
+  },
+  "copies": {},
+  "deletions": {},
+  "native_inputs": {},
+  "native_guards": {
+    "submodules/WallpaperBackgroundNode/Sources/WallpaperBackgroundNode.swift": "53ff04ca5f609345446c47977505c08599601eb4"
+  },
+  "templates": {
+    "wide_portal_api/Before0.inc": "250e0e347396a1145d78e93fc06c10f95385a7da7a20a6daa78a87b597d3af27",
+    "wide_portal_api/After0.inc": "b18703c63698003e14afbcffdc9b9009ac77989e512c47931e5a61a5243c560d",
+    "wide_portal_api/Before1.inc": "d18f110fa1814bd6c0c5ce9ba316b9ef0a3585af24612bc5058d622e53437aea",
+    "wide_portal_api/After1.inc": "e2b6b2e623b5da2d9a5d07ab939540b884f747694808faaf36ec7f4c0be601b8",
+    "wide_portal_api/Before2.inc": "babab8e27c722abe3181f890399525c59e7c35c657dbe6864d8c75a65a6401b4",
+    "wide_portal_api/After2.inc": "910e9bcbaeb4120a0166b50588cfc6181c0fd87c101d555d1fa4b580d07c03c4",
+    "wide_portal_api/Guard0.inc": "f7121faeac826ceb5c0258dcb7b96d96d5348435c2ad6596628957b0617535fb",
+    "wide_portal_api/Guard1.inc": "23425b6d74902f6d32248fec07f1ef81d3a69bba379539af6c46e6e7979c25a8",
+    "wide_portal_api/Guard2.inc": "07cf7a5af51a49a9cc7395574d7a44aac748f20950edef9ee5bbc99a1a183b0b"
+  }
+}

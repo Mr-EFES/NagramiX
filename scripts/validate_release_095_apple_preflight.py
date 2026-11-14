@@ -40,6 +40,8 @@ import feature_transcription_master_runtime as feature_master
 import transcription_cached_read_runtime as cached_transcription
 import round_editor_quality_runtime as round_editor_quality
 from round_editor_quality_apple import check as round_editor_quality_api_check
+from validate_wide_portal_api import native_api_check as wide_portal_native_api_check
+from wide_portal_api_runtime import fixture as wide_portal_fixture
 from feature_contract_consistency_apple import check as feature_contract_apple_check
 from original_video_mode_apple import check as original_video_mode_apple_check
 import selection_scroll_continuity_runtime as selection_scroll
@@ -88,7 +90,7 @@ def canonical_projection(destination, through_stage):
     else: raise AssertionError('Unknown checkpoint: '+through_stage)
     # Complete application trees are built by the normal guarded overlay.
     # This earlier fixture gate needs only real canonical Swift sources.
-    native_headers = {'submodules/MtProtoKit/PublicHeaders/MtProtoKit/MTRpcError.h'} if through_stage in {'release_096_transcription_compatibility','release_096_font_node_compatibility','font_apply_node_lifecycle','video_audio_continuity','pip_preview_continuity','recording_start_recovery','selection_column_coordinates','selection_scroll_continuity','original_video_mode','feature_contract_consistency','transcription_cached_read','round_editor_quality'} else set()
+    native_headers = {'submodules/MtProtoKit/PublicHeaders/MtProtoKit/MTRpcError.h'} if through_stage in {'release_096_transcription_compatibility','release_096_font_node_compatibility','font_apply_node_lifecycle','video_audio_continuity','pip_preview_continuity','recording_start_recovery','selection_column_coordinates','selection_scroll_continuity','original_video_mode','feature_contract_consistency','transcription_cached_read','round_editor_quality','wide_portal_api'} else set()
     expected = {n:sha for n,sha in expected.items() if (n.endswith('.swift') or n in native_headers) and n not in post['deletions']}
     missing = {n:sha for n,sha in expected.items() if n not in sources}
     if missing:
@@ -144,7 +146,9 @@ def main():
         # Check the final calendar at the actual iOS15 target before the large
         # runtime matrix. Stage57 remains an exact historical runtime checkpoint.
         calendar_source=root/'calendar-native-final'
-        files['native_final73']=canonical_projection(calendar_source,'round_editor_quality')
+        files['native_final74']=canonical_projection(calendar_source,'wide_portal_api')
+        wide_portal_api=wide_portal_native_api_check(calendar_source,args.swiftc,root/'wide-portal-api-first')
+        shutil.rmtree(root/'wide-portal-api-first')
         initial_font_node=font_node_check(calendar_source,args.swiftc,root)
         rpc_error=rpc_error_check(calendar_source,args.swiftc,root/'rpc-error-native')
         runs+=execute(args.swiftc,root,'nullable-premium-asr',transcription_compatibility.fixture(calendar_source))
@@ -198,6 +202,7 @@ def main():
             ('feature_contract_consistency', [('photo-policy', feature_photo.fixture), ('wide-post-envelope', feature_wide.fixture), ('transcription-master', feature_master.fixture), ('original-video-with-photo-policy', original_video_mode.fixture)]),
             ('transcription_cached_read', [('cached-transcription-read', cached_transcription.fixture)]),
             ('round_editor_quality', [('round-editor-quality', round_editor_quality.fixture), ('round-editor-state', round_editor_quality.ui_fixture), ('round-editor-quality-badge', round_editor_quality.badge_fixture)]),
+            ('wide_portal_api', [('wide-portal-api', wide_portal_fixture)]),
         ]
         for stage, fixtures in entries:
             source = root / stage
@@ -258,6 +263,7 @@ def main():
     report['original_video_mode_native_api']=original_video_api
     report['feature_contract_consistency_native_api']=feature_contract_api
     report['round_editor_quality_native_api']=round_editor_quality_api
+    report['wide_portal_native_api']=wide_portal_api
     report['input_effects_real_sdk']=input_effects_apple
     report['snowfall_real_sdk']=snowfall_apple
     report['snowfall_holidays_real_sdk']=snowfall_holidays_apple

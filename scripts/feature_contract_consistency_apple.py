@@ -32,7 +32,11 @@ def check(source,swiftc,folder):
     photo_code=photo_code.replace(block(photo_code,'func TGScaleImageToPixelSize('),'func TGScaleImageToPixelSize(_ image:UIImage,_ size:CGSize)->UIImage?{image}',1)
     photo_code=photo_code.replace('UIImage(CGSize(width:4000,height:3000))','UIImage()')
     photo_code='import UIKit\nimport NagramiXMediaSettings\n'+photo_code
-    wide_code=wide.fixture(source)
+    if 'updateNagramiXWidePostAbsoluteRect' in (source/wide.VIEW).read_text():
+        wide_code=wide.fixture(source)
+    else:
+        from wide_portal_api_runtime import fixture as portal_fixture
+        wide_code=portal_fixture(source)
     wide_code=wide_code.replace('class ASDisplayNode {\n var frame=CGRect.zero;','class ASDisplayNode:UIView {\n ')
     wide_code=wide_code.replace(' static func main()', ' @MainActor static func main()')
     wide_code='import UIKit\n'+wide_code
@@ -42,5 +46,5 @@ def check(source,swiftc,folder):
     for name,code in [('photo-policy-uikit',photo_code),('wide-envelope-uikit',wide_code),('transcription-master-uikit',asr_code)]:
         path=folder/(name+'.swift');path.write_text(code)
         run(['-typecheck','-parse-as-library','-I',str(folder),str(path)])
-    report['uikit_api_probes']='passed: actual new production helpers/callers against real UIKit image/view/notification/geometry types; Telegram, native background, ASDisplayNode and engine edges remain explicit adapters, not full target linkage.'
+    report['uikit_api_probes']='passed: actual production helpers/callers against real UIKit image/notification/CoreGraphics types; final portal fixture uses the verbatim native wallpaper protocol. ASDisplayNode, native background implementation, theme and engine remain explicit adapters, not full target linkage or rendered UIKit pixels.'
     return report

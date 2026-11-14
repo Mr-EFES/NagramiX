@@ -1,0 +1,1928 @@
+{
+  "status": "source_checked_AppleSDK_pending",
+  "version": "0.9.7",
+  "failed_run": {
+    "id": 43504861124,
+    "number": 212,
+    "source": "60c9cf22c2c1c566a390b9bc4584db5a783b771d",
+    "full_log_lines": 15825,
+    "full_log_sha256": "f5d534a5b44cb7eb4c3fae1b3dda5dcc5b52c31935b9a9703f788e07de513cbc",
+    "cause": "WallpaperBubbleBackgroundNode has no member update; invalid absolute-coordinate forwarding accepted by old test adapter",
+    "all_Apple_early_overlay_cold_gates": "passed; native main build failed; no IPA created",
+    "concurrency_cancellation": false
+  },
+  "source_proof": {
+    "stage": 74,
+    "name": "wide_portal_api",
+    "path": "/tmp/nagramix-wide-portal-api/source",
+    "manifest_sha256": "91fcb7dbde584ed8ec7bb8404a36446bcf80fd34dc511957cd57f6f8b1bb33ae",
+    "previous_manifest_sha256": "71354ef15a8208cfc2b4dd026f3cc327b11a2874034bc09d15481fd0cbcae089",
+    "files": 37691,
+    "symlinks": 26,
+    "modified_runtime_paths": [
+      "submodules/TelegramUI/Components/Chat/ChatMessageAnimatedStickerItemNode/Sources/ChatMessageAnimatedStickerItemNode.swift",
+      "submodules/TelegramUI/Components/Chat/ChatMessageItemView/Sources/ChatMessageItemView.swift",
+      "submodules/TelegramUI/Components/Chat/ChatMessageStickerItemNode/Sources/ChatMessageStickerItemNode.swift"
+    ],
+    "new_runtime_paths": [],
+    "guards": 3,
+    "new_inc": 9,
+    "old_inc_unchanged": 4603,
+    "old_plans_unchanged": 286,
+    "historical_manifests_verified": 31
+  },
+  "old_sources_preserved_checkpoints": [
+    "/tmp/nagramix-round-editor-quality/source-checkpoint.json",
+    "/tmp/nagramix-transcription-cached-read/source-checkpoint.json",
+    "/tmp/nagramix-feature-contract-fixes/source-checkpoint.json",
+    "/tmp/nagramix-original-video-mode/source-checkpoint.json",
+    "/tmp/nagramix-selection-scroll-continuity/source-checkpoint.json",
+    "/tmp/nagramix-selection-column-coordinates/source-checkpoint.json",
+    "/tmp/nagramix-recording-start-recovery/source-checkpoint.json",
+    "/tmp/nagramix-pip-preview-continuity/source-checkpoint.json",
+    "/tmp/nagramix-video-audio-continuity/source-checkpoint.json",
+    "/tmp/nagramix-font-apply-lifecycle/source-checkpoint.json",
+    "/tmp/nagramix-font-node-compatibility/source-checkpoint.json",
+    "/tmp/nagramix-transcription-compatibility/source-checkpoint.json",
+    "/tmp/nagramix-calendar-compatibility/source-checkpoint.json",
+    "/tmp/nagramix-single-touch-selection/source-checkpoint.json",
+    "/tmp/nagramix-composer-integrity/source-checkpoint.json",
+    "/tmp/nagramix-local-read-label/source-checkpoint.json",
+    "/tmp/nagramix-snow-holidays/source-checkpoint.json",
+    "/tmp/nagramix-snowfall/source-checkpoint.json",
+    "/tmp/nagramix-input-effects/source-checkpoint.json",
+    "/tmp/nagramix-youtube-policy/source-checkpoint.json",
+    "/tmp/nagramix-edit-confirmation/source-checkpoint.json",
+    "/tmp/nagramix-font-preview/source-checkpoint.json",
+    "/tmp/nagramix-premium-file-asr/source-checkpoint.json",
+    "/tmp/nagramix-section-headers/source-checkpoint.json",
+    "/tmp/nagramix-wide-panels/source-checkpoint.json",
+    "/tmp/nagramix-system-web-pip/source-checkpoint.json",
+    "/tmp/nagramix-font-theme/source-checkpoint.json",
+    "/tmp/nagramix-wide-channel-posts/source-checkpoint.json",
+    "/tmp/nagramix-composer-native-strings/source-checkpoint.json",
+    "/tmp/nagramix-font-sdk199/source-checkpoint.json",
+    "/tmp/nagramix-temporary-expiration/source-checkpoint.json"
+  ],
+  "global_commands": [
+    {
+      "name": "feature",
+      "exit_code": 0,
+      "seconds": 14.5,
+      "source_manifest_sha256": "91fcb7dbde584ed8ec7bb8404a36446bcf80fd34dc511957cd57f6f8b1bb33ae"
+    },
+    {
+      "name": "early",
+      "exit_code": 0,
+      "seconds": 266.5,
+      "source_manifest_sha256": "91fcb7dbde584ed8ec7bb8404a36446bcf80fd34dc511957cd57f6f8b1bb33ae"
+    },
+    {
+      "name": "upstream",
+      "exit_code": 0,
+      "seconds": 104.8,
+      "source_manifest_sha256": "91fcb7dbde584ed8ec7bb8404a36446bcf80fd34dc511957cd57f6f8b1bb33ae"
+    },
+    {
+      "name": "inverse",
+      "exit_code": 0,
+      "seconds": 96.7,
+      "source_manifest_sha256": "91fcb7dbde584ed8ec7bb8404a36446bcf80fd34dc511957cd57f6f8b1bb33ae"
+    },
+    {
+      "name": "localization",
+      "exit_code": 0,
+      "seconds": 32.1,
+      "source_manifest_sha256": "91fcb7dbde584ed8ec7bb8404a36446bcf80fd34dc511957cd57f6f8b1bb33ae"
+    },
+    {
+      "name": "members-full",
+      "exit_code": 0,
+      "seconds": 4.7,
+      "source_manifest_sha256": "91fcb7dbde584ed8ec7bb8404a36446bcf80fd34dc511957cd57f6f8b1bb33ae"
+    },
+    {
+      "name": "members-canonical",
+      "exit_code": 0,
+      "seconds": 1.8,
+      "source_manifest_sha256": "91fcb7dbde584ed8ec7bb8404a36446bcf80fd34dc511957cd57f6f8b1bb33ae"
+    },
+    {
+      "name": "native-strings",
+      "exit_code": 0,
+      "seconds": 5.7,
+      "source_manifest_sha256": "91fcb7dbde584ed8ec7bb8404a36446bcf80fd34dc511957cd57f6f8b1bb33ae"
+    },
+    {
+      "name": "mode",
+      "exit_code": 0,
+      "seconds": 0.2,
+      "source_manifest_sha256": "91fcb7dbde584ed8ec7bb8404a36446bcf80fd34dc511957cd57f6f8b1bb33ae"
+    },
+    {
+      "name": "metadata",
+      "exit_code": 0,
+      "seconds": 0.1,
+      "source_manifest_sha256": "91fcb7dbde584ed8ec7bb8404a36446bcf80fd34dc511957cd57f6f8b1bb33ae"
+    },
+    {
+      "name": "diff",
+      "exit_code": 0,
+      "seconds": 0.0,
+      "source_manifest_sha256": "91fcb7dbde584ed8ec7bb8404a36446bcf80fd34dc511957cd57f6f8b1bb33ae"
+    }
+  ],
+  "native_origin": {
+    "path": "submodules/WallpaperBackgroundNode/Sources/WallpaperBackgroundNode.swift",
+    "local_blob": "53ff04ca5f609345446c47977505c08599601eb4",
+    "official_blob": "53ff04ca5f609345446c47977505c08599601eb4",
+    "same": true
+  },
+  "feature": {
+    "stage": "wide_portal_api",
+    "loader_refusals": 16,
+    "executions": [
+      {
+        "name": "native-portal-frame",
+        "mode": "debug",
+        "exit_code": 0,
+        "output": "Wide post envelope production checks: 478"
+      },
+      {
+        "name": "native-portal-frame",
+        "mode": "optimized",
+        "exit_code": 0,
+        "output": "Wide post envelope production checks: 478"
+      },
+      {
+        "name": "master-ignored",
+        "mode": "debug",
+        "exit_code": 91,
+        "output": "FAIL only eligible broadcast history receives envelope"
+      },
+      {
+        "name": "master-ignored",
+        "mode": "optimized",
+        "exit_code": 91,
+        "output": "FAIL only eligible broadcast history receives envelope"
+      },
+      {
+        "name": "selection-width-not-reserved",
+        "mode": "debug",
+        "exit_code": 91,
+        "output": "FAIL selection translation stays within right safe edge"
+      },
+      {
+        "name": "selection-width-not-reserved",
+        "mode": "optimized",
+        "exit_code": 91,
+        "output": "FAIL selection translation stays within right safe edge"
+      },
+      {
+        "name": "background-left-after-off",
+        "mode": "debug",
+        "exit_code": 91,
+        "output": "FAIL OFF fully restores native artwork-only row"
+      },
+      {
+        "name": "background-left-after-off",
+        "mode": "optimized",
+        "exit_code": 91,
+        "output": "FAIL OFF fully restores native artwork-only row"
+      }
+    ],
+    "native_api": {
+      "actual_pinned_protocol": "verbatim, including public access; native ASDisplayNode/theme edges adapted",
+      "actual_native_backdrop_frame_method": "verbatim",
+      "fixed_typecheck": "passed",
+      "original212_rejected": "has no member update",
+      "apple_iphoneos": "not_run: Linux Foundation typecheck only",
+      "full_application_sdk": "pending",
+      "device": "pending"
+    },
+    "scope": "Only obsolete absolute-position cache/helper and its2callers removed. Native backdrop updateFrame owns local portal/mask bounds; no portal reload on scrolling. All artwork, envelope geometry, theme, selection and unrelated media/recording paths preserved.",
+    "full_application_sdk": "pending",
+    "device": "pending"
+  },
+  "complete_early": {
+    "canonical_swift_files_by_checkpoint": {
+      "native_final74": {
+        "written": 548,
+        "pinned_native_dependencies": 6,
+        "unused_unavailable_native_guards": 103
+      },
+      "bubble_selection_edge": {
+        "written": 409,
+        "pinned_native_dependencies": 7,
+        "unused_unavailable_native_guards": 103
+      },
+      "composer_file_attachments": {
+        "written": 421,
+        "pinned_native_dependencies": 7,
+        "unused_unavailable_native_guards": 103
+      },
+      "archived_round_native_controls": {
+        "written": 421,
+        "pinned_native_dependencies": 7,
+        "unused_unavailable_native_guards": 103
+      },
+      "transcription_account_defaults": {
+        "written": 422,
+        "pinned_native_dependencies": 7,
+        "unused_unavailable_native_guards": 103
+      },
+      "app_font_selection": {
+        "written": 428,
+        "pinned_native_dependencies": 7,
+        "unused_unavailable_native_guards": 103
+      },
+      "web_video_picture_in_picture": {
+        "written": 434,
+        "pinned_native_dependencies": 7,
+        "unused_unavailable_native_guards": 103
+      },
+      "temporary_expiration_semantics": {
+        "written": 436,
+        "pinned_native_dependencies": 7,
+        "unused_unavailable_native_guards": 103
+      },
+      "wide_channel_post_consistency": {
+        "written": 440,
+        "pinned_native_dependencies": 7,
+        "unused_unavailable_native_guards": 103
+      },
+      "font_theme_contrast": {
+        "written": 442,
+        "pinned_native_dependencies": 7,
+        "unused_unavailable_native_guards": 103
+      },
+      "system_web_picture_in_picture": {
+        "written": 445,
+        "pinned_native_dependencies": 7,
+        "unused_unavailable_native_guards": 103
+      },
+      "wide_panel_consistency": {
+        "written": 449,
+        "pinned_native_dependencies": 7,
+        "unused_unavailable_native_guards": 103
+      },
+      "premium_temporary_transcription": {
+        "written": 449,
+        "pinned_native_dependencies": 7,
+        "unused_unavailable_native_guards": 103
+      },
+      "font_preview_apply": {
+        "written": 451,
+        "pinned_native_dependencies": 7,
+        "unused_unavailable_native_guards": 103
+      },
+      "edit_result_consistency": {
+        "written": 454,
+        "pinned_native_dependencies": 7,
+        "unused_unavailable_native_guards": 103
+      },
+      "youtube_playback_policy": {
+        "written": 454,
+        "pinned_native_dependencies": 7,
+        "unused_unavailable_native_guards": 103
+      },
+      "input_effects": {
+        "written": 458,
+        "pinned_native_dependencies": 7,
+        "unused_unavailable_native_guards": 103
+      },
+      "snowfall": {
+        "written": 462,
+        "pinned_native_dependencies": 7,
+        "unused_unavailable_native_guards": 103
+      },
+      "snowfall_holidays": {
+        "written": 464,
+        "pinned_native_dependencies": 7,
+        "unused_unavailable_native_guards": 103
+      },
+      "composer_copy_integrity": {
+        "written": 524,
+        "pinned_native_dependencies": 6,
+        "unused_unavailable_native_guards": 103
+      },
+      "single_touch_message_selection": {
+        "written": 531,
+        "pinned_native_dependencies": 6,
+        "unused_unavailable_native_guards": 103
+      },
+      "release_096_calendar_compatibility": {
+        "written": 531,
+        "pinned_native_dependencies": 6,
+        "unused_unavailable_native_guards": 103
+      },
+      "video_audio_continuity": {
+        "written": 535,
+        "pinned_native_dependencies": 6,
+        "unused_unavailable_native_guards": 103
+      },
+      "pip_preview_continuity": {
+        "written": 537,
+        "pinned_native_dependencies": 6,
+        "unused_unavailable_native_guards": 103
+      },
+      "recording_start_recovery": {
+        "written": 538,
+        "pinned_native_dependencies": 6,
+        "unused_unavailable_native_guards": 103
+      },
+      "selection_column_coordinates": {
+        "written": 539,
+        "pinned_native_dependencies": 6,
+        "unused_unavailable_native_guards": 103
+      },
+      "selection_scroll_continuity": {
+        "written": 539,
+        "pinned_native_dependencies": 6,
+        "unused_unavailable_native_guards": 103
+      },
+      "original_video_mode": {
+        "written": 542,
+        "pinned_native_dependencies": 6,
+        "unused_unavailable_native_guards": 103
+      },
+      "feature_contract_consistency": {
+        "written": 545,
+        "pinned_native_dependencies": 6,
+        "unused_unavailable_native_guards": 103
+      },
+      "transcription_cached_read": {
+        "written": 545,
+        "pinned_native_dependencies": 6,
+        "unused_unavailable_native_guards": 103
+      },
+      "round_editor_quality": {
+        "written": 547,
+        "pinned_native_dependencies": 6,
+        "unused_unavailable_native_guards": 103
+      },
+      "wide_portal_api": {
+        "written": 548,
+        "pinned_native_dependencies": 6,
+        "unused_unavailable_native_guards": 103
+      }
+    },
+    "complete_fixtures": 44,
+    "executions": [
+      {
+        "name": "nullable-premium-asr",
+        "mode": "debug",
+        "exit_code": 0,
+        "output": "PASS Premium file transcription checks: 343"
+      },
+      {
+        "name": "nullable-premium-asr",
+        "mode": "optimized",
+        "exit_code": 0,
+        "output": "PASS Premium file transcription checks: 343"
+      },
+      {
+        "name": "bubble-edge",
+        "mode": "debug",
+        "exit_code": 0,
+        "output": "Production bubble edge checks: 17300"
+      },
+      {
+        "name": "bubble-edge",
+        "mode": "optimized",
+        "exit_code": 0,
+        "output": "Production bubble edge checks: 17300"
+      },
+      {
+        "name": "composer-attachments",
+        "mode": "debug",
+        "exit_code": 0,
+        "output": "701 production composer-file checks passed"
+      },
+      {
+        "name": "composer-attachments",
+        "mode": "optimized",
+        "exit_code": 0,
+        "output": "701 production composer-file checks passed"
+      },
+      {
+        "name": "archived-round-controls",
+        "mode": "debug",
+        "exit_code": 0,
+        "output": "58 archived native-round checks passed"
+      },
+      {
+        "name": "archived-round-controls",
+        "mode": "optimized",
+        "exit_code": 0,
+        "output": "58 archived native-round checks passed"
+      },
+      {
+        "name": "transcription-defaults",
+        "mode": "debug",
+        "exit_code": 0,
+        "output": "Transcription account defaults checks: 38\nPrivate temporary transcription checks: 590"
+      },
+      {
+        "name": "transcription-defaults",
+        "mode": "optimized",
+        "exit_code": 0,
+        "output": "Transcription account defaults checks: 38\nPrivate temporary transcription checks: 590"
+      },
+      {
+        "name": "font-selection",
+        "mode": "debug",
+        "exit_code": 0,
+        "output": "App font selection checks: 58"
+      },
+      {
+        "name": "font-selection",
+        "mode": "optimized",
+        "exit_code": 0,
+        "output": "App font selection checks: 58"
+      },
+      {
+        "name": "web-video-pip",
+        "mode": "debug",
+        "exit_code": 0,
+        "output": "web-video-pip production checks: 402"
+      },
+      {
+        "name": "web-video-pip",
+        "mode": "optimized",
+        "exit_code": 0,
+        "output": "web-video-pip production checks: 402"
+      },
+      {
+        "name": "expiry-archive",
+        "mode": "debug",
+        "exit_code": 0,
+        "output": "temporary-expiry archive checks: 488"
+      },
+      {
+        "name": "expiry-archive",
+        "mode": "optimized",
+        "exit_code": 0,
+        "output": "temporary-expiry archive checks: 488"
+      },
+      {
+        "name": "expiry-consumption",
+        "mode": "debug",
+        "exit_code": 0,
+        "output": "temporary-expiry consumption checks: 731"
+      },
+      {
+        "name": "expiry-consumption",
+        "mode": "optimized",
+        "exit_code": 0,
+        "output": "temporary-expiry consumption checks: 731"
+      },
+      {
+        "name": "expiry-read",
+        "mode": "debug",
+        "exit_code": 0,
+        "output": "temporary-expiry native read checks: 126"
+      },
+      {
+        "name": "expiry-read",
+        "mode": "optimized",
+        "exit_code": 0,
+        "output": "temporary-expiry native read checks: 126"
+      },
+      {
+        "name": "wide-channel-posts",
+        "mode": "debug",
+        "exit_code": 0,
+        "output": "wide channel post checks: 42672"
+      },
+      {
+        "name": "wide-channel-posts",
+        "mode": "optimized",
+        "exit_code": 0,
+        "output": "wide channel post checks: 42672"
+      },
+      {
+        "name": "font-theme-contrast",
+        "mode": "debug",
+        "exit_code": 0,
+        "output": "font theme production checks: 227"
+      },
+      {
+        "name": "font-theme-contrast",
+        "mode": "optimized",
+        "exit_code": 0,
+        "output": "font theme production checks: 227"
+      },
+      {
+        "name": "system-web-bridges",
+        "mode": "debug",
+        "exit_code": 0,
+        "output": "system web PiP production checks: 93"
+      },
+      {
+        "name": "system-web-bridges",
+        "mode": "optimized",
+        "exit_code": 0,
+        "output": "system web PiP production checks: 93"
+      },
+      {
+        "name": "system-web-gallery",
+        "mode": "debug",
+        "exit_code": 0,
+        "output": "system web gallery production checks: 48"
+      },
+      {
+        "name": "system-web-gallery",
+        "mode": "optimized",
+        "exit_code": 0,
+        "output": "system web gallery production checks: 48"
+      },
+      {
+        "name": "wide-panels",
+        "mode": "debug",
+        "exit_code": 0,
+        "output": "PASS wide panel production checks: 2723"
+      },
+      {
+        "name": "wide-panels",
+        "mode": "optimized",
+        "exit_code": 0,
+        "output": "PASS wide panel production checks: 2723"
+      },
+      {
+        "name": "premium-file-asr",
+        "mode": "debug",
+        "exit_code": 0,
+        "output": "PASS Premium file transcription checks: 308"
+      },
+      {
+        "name": "premium-file-asr",
+        "mode": "optimized",
+        "exit_code": 0,
+        "output": "PASS Premium file transcription checks: 308"
+      },
+      {
+        "name": "font-preview-apply",
+        "mode": "debug",
+        "exit_code": 0,
+        "output": "Font preview production checks: 5407"
+      },
+      {
+        "name": "font-preview-apply",
+        "mode": "optimized",
+        "exit_code": 0,
+        "output": "Font preview production checks: 5407"
+      },
+      {
+        "name": "final-font-resolver",
+        "mode": "debug",
+        "exit_code": 0,
+        "output": "App font selection checks: 58"
+      },
+      {
+        "name": "final-font-resolver",
+        "mode": "optimized",
+        "exit_code": 0,
+        "output": "App font selection checks: 58"
+      },
+      {
+        "name": "edit-result-consistency",
+        "mode": "debug",
+        "exit_code": 0,
+        "output": "Edit result production checks: 588"
+      },
+      {
+        "name": "edit-result-consistency",
+        "mode": "optimized",
+        "exit_code": 0,
+        "output": "Edit result production checks: 588"
+      },
+      {
+        "name": "youtube-policy-bridge",
+        "mode": "debug",
+        "exit_code": 0,
+        "output": "YouTube bridge production checks: 130"
+      },
+      {
+        "name": "youtube-policy-bridge",
+        "mode": "optimized",
+        "exit_code": 0,
+        "output": "YouTube bridge production checks: 130"
+      },
+      {
+        "name": "youtube-policy-setting",
+        "mode": "debug",
+        "exit_code": 0,
+        "output": "YouTube actual setting checks: 11"
+      },
+      {
+        "name": "youtube-policy-setting",
+        "mode": "optimized",
+        "exit_code": 0,
+        "output": "YouTube actual setting checks: 11"
+      },
+      {
+        "name": "input-effects",
+        "mode": "debug",
+        "exit_code": 0,
+        "output": "Input effects production checks: 311"
+      },
+      {
+        "name": "input-effects",
+        "mode": "optimized",
+        "exit_code": 0,
+        "output": "Input effects production checks: 311"
+      },
+      {
+        "name": "snowfall",
+        "mode": "debug",
+        "exit_code": 0,
+        "output": "Snowfall production checks: 400"
+      },
+      {
+        "name": "snowfall",
+        "mode": "optimized",
+        "exit_code": 0,
+        "output": "Snowfall production checks: 400"
+      },
+      {
+        "name": "snowfall-holidays",
+        "mode": "debug",
+        "exit_code": 0,
+        "output": "Holiday snowfall production checks: 6933"
+      },
+      {
+        "name": "snowfall-holidays",
+        "mode": "optimized",
+        "exit_code": 0,
+        "output": "Holiday snowfall production checks: 6933"
+      },
+      {
+        "name": "composer-copy-integrity",
+        "mode": "debug",
+        "exit_code": 0,
+        "output": "Composer copy/draft production checks: 117"
+      },
+      {
+        "name": "composer-copy-integrity",
+        "mode": "optimized",
+        "exit_code": 0,
+        "output": "Composer copy/draft production checks: 117"
+      },
+      {
+        "name": "single-touch-message-selection",
+        "mode": "debug",
+        "exit_code": 0,
+        "output": "single-touch message selection: 4841 production checks passed"
+      },
+      {
+        "name": "single-touch-message-selection",
+        "mode": "optimized",
+        "exit_code": 0,
+        "output": "single-touch message selection: 4841 production checks passed"
+      },
+      {
+        "name": "calendar-ios15",
+        "mode": "debug",
+        "exit_code": 0,
+        "output": "Calendar API compatibility: 5857 checks passed\nHoliday snowfall production checks: 6933"
+      },
+      {
+        "name": "calendar-ios15",
+        "mode": "optimized",
+        "exit_code": 0,
+        "output": "Calendar API compatibility: 5857 checks passed\nHoliday snowfall production checks: 6933"
+      },
+      {
+        "name": "video-audio-continuity",
+        "mode": "debug",
+        "exit_code": 0,
+        "output": "video audio continuity production checks: 92"
+      },
+      {
+        "name": "video-audio-continuity",
+        "mode": "optimized",
+        "exit_code": 0,
+        "output": "video audio continuity production checks: 92"
+      },
+      {
+        "name": "pip-preview-poster",
+        "mode": "debug",
+        "exit_code": 0,
+        "output": "PiP poster and geometry production checks: 160"
+      },
+      {
+        "name": "pip-preview-poster",
+        "mode": "optimized",
+        "exit_code": 0,
+        "output": "PiP poster and geometry production checks: 160"
+      },
+      {
+        "name": "pip-preview-restore",
+        "mode": "debug",
+        "exit_code": 0,
+        "output": "PiP restore production checks: 14"
+      },
+      {
+        "name": "pip-preview-restore",
+        "mode": "optimized",
+        "exit_code": 0,
+        "output": "PiP restore production checks: 14"
+      },
+      {
+        "name": "pip-preview-gallery",
+        "mode": "debug",
+        "exit_code": 0,
+        "output": "PiP gallery dismissal production checks: 154"
+      },
+      {
+        "name": "pip-preview-gallery",
+        "mode": "optimized",
+        "exit_code": 0,
+        "output": "PiP gallery dismissal production checks: 154"
+      },
+      {
+        "name": "recording-transfer",
+        "mode": "debug",
+        "exit_code": 0,
+        "output": "PASS: 4906 recording-transfer assertions"
+      },
+      {
+        "name": "recording-transfer",
+        "mode": "optimized",
+        "exit_code": 0,
+        "output": "PASS: 4906 recording-transfer assertions"
+      },
+      {
+        "name": "visual-left-selection-column",
+        "mode": "debug",
+        "exit_code": 0,
+        "output": "single-touch message selection: 4841 production checks passed\nVisual checkbox column production checks: 1134"
+      },
+      {
+        "name": "visual-left-selection-column",
+        "mode": "optimized",
+        "exit_code": 0,
+        "output": "single-touch message selection: 4841 production checks passed\nVisual checkbox column production checks: 1134"
+      },
+      {
+        "name": "held-edge-selection-scroll",
+        "mode": "debug",
+        "exit_code": 0,
+        "output": "single-touch message selection: 4841 production checks passed\nVisual checkbox column production checks: 1134\nVideo held-edge selection checks: 52"
+      },
+      {
+        "name": "held-edge-selection-scroll",
+        "mode": "optimized",
+        "exit_code": 0,
+        "output": "single-touch message selection: 4841 production checks passed\nVisual checkbox column production checks: 1134\nVideo held-edge selection checks: 52"
+      },
+      {
+        "name": "original-video-mode",
+        "mode": "debug",
+        "exit_code": 0,
+        "output": "Original video send-mode production checks: 41"
+      },
+      {
+        "name": "original-video-mode",
+        "mode": "optimized",
+        "exit_code": 0,
+        "output": "Original video send-mode production checks: 41"
+      },
+      {
+        "name": "photo-policy",
+        "mode": "debug",
+        "exit_code": 0,
+        "output": "Photo policy production checks: 485"
+      },
+      {
+        "name": "photo-policy",
+        "mode": "optimized",
+        "exit_code": 0,
+        "output": "Photo policy production checks: 485"
+      },
+      {
+        "name": "wide-post-envelope",
+        "mode": "debug",
+        "exit_code": 0,
+        "output": "Wide post envelope production checks: 475"
+      },
+      {
+        "name": "wide-post-envelope",
+        "mode": "optimized",
+        "exit_code": 0,
+        "output": "Wide post envelope production checks: 475"
+      },
+      {
+        "name": "transcription-master",
+        "mode": "debug",
+        "exit_code": 0,
+        "output": "Transcription master production checks: 56"
+      },
+      {
+        "name": "transcription-master",
+        "mode": "optimized",
+        "exit_code": 0,
+        "output": "Transcription master production checks: 56"
+      },
+      {
+        "name": "original-video-with-photo-policy",
+        "mode": "debug",
+        "exit_code": 0,
+        "output": "Original video send-mode production checks: 41"
+      },
+      {
+        "name": "original-video-with-photo-policy",
+        "mode": "optimized",
+        "exit_code": 0,
+        "output": "Original video send-mode production checks: 41"
+      },
+      {
+        "name": "cached-transcription-read",
+        "mode": "debug",
+        "exit_code": 0,
+        "output": "Transcription master production checks: 80"
+      },
+      {
+        "name": "cached-transcription-read",
+        "mode": "optimized",
+        "exit_code": 0,
+        "output": "Transcription master production checks: 80"
+      },
+      {
+        "name": "round-editor-quality",
+        "mode": "debug",
+        "exit_code": 0,
+        "output": "Round editor quality production checks: 1596"
+      },
+      {
+        "name": "round-editor-quality",
+        "mode": "optimized",
+        "exit_code": 0,
+        "output": "Round editor quality production checks: 1596"
+      },
+      {
+        "name": "round-editor-state",
+        "mode": "debug",
+        "exit_code": 0,
+        "output": "PASS round production editor state checks: 27"
+      },
+      {
+        "name": "round-editor-state",
+        "mode": "optimized",
+        "exit_code": 0,
+        "output": "PASS round production editor state checks: 27"
+      },
+      {
+        "name": "round-editor-quality-badge",
+        "mode": "debug",
+        "exit_code": 0,
+        "output": "Round editor quality badge checks: 7"
+      },
+      {
+        "name": "round-editor-quality-badge",
+        "mode": "optimized",
+        "exit_code": 0,
+        "output": "Round editor quality badge checks: 7"
+      },
+      {
+        "name": "wide-portal-api",
+        "mode": "debug",
+        "exit_code": 0,
+        "output": "Wide post envelope production checks: 478"
+      },
+      {
+        "name": "wide-portal-api",
+        "mode": "optimized",
+        "exit_code": 0,
+        "output": "Wide post envelope production checks: 478"
+      }
+    ],
+    "font_apply_node_contract": {
+      "native_headers": "guarded actual Texture declarations; final64 avoids ObjC dynamic self-init in view-block initializer",
+      "source_contract": {
+        "source_ui_sha256": "7b5fed3b2c65504d044fe5c1a058b08eb5054532d9fefccc8a672143e703505d",
+        "sdk_ui_sha256": "af3c99c6ae6b0c9fda005884429d66507f82fd514135d8dce9cea8d9f144e108",
+        "late_stage": 64,
+        "historical_runtime": "original52/63 source and runtime checkpoints remain exact; native gate checks final64 default initialization and view factory"
+      },
+      "node_sizing_and_navigation_visibility": [
+        {
+          "mode": "debug",
+          "checks": 6,
+          "result": "passed"
+        },
+        {
+          "mode": "optimized",
+          "checks": 6,
+          "result": "passed"
+        }
+      ],
+      "production_uses_default_initializer_and_native_view_factory": true,
+      "original208_initializer_route": [
+        {
+          "mode": "debug",
+          "expected": "initializer-route regression rejected",
+          "verified": true
+        },
+        {
+          "mode": "optimized",
+          "expected": "initializer-route regression rejected",
+          "verified": true
+        }
+      ],
+      "objc_constructor_runtime": {
+        "status": "not_run",
+        "native_implementation_guards": "passed",
+        "reason": "Mixed Swift/Objective-C Foundation runtime requires macOS; Linux model is only a constructor-route/identity/size boundary. Device208 matching-dSYM crash independently proves old default-init redispatch."
+      },
+      "original207_initializer_label": "rejected",
+      "actual_objc_initializer": {
+        "status": "not_run",
+        "reason": "Actual Objective-C importer/UIKit requires Apple; pure Swift model separately checks labels"
+      },
+      "real_uikit": "separate mandatory complete font screen Apple precheck; Objective-C initializer runtime gate separately reproduces original208 on macOS"
+    },
+    "native_navigation_contract": {
+      "native_signature": "func updatePresentationData(_ presentationData: NavigationBarPresentationData, transition: ContainedViewLayoutTransition)",
+      "actual_caller": "self.navigationBar?.updatePresentationData(NavigationBarPresentationData(presentationData: value), transition: .immediate)",
+      "checks": [
+        {
+          "name": "current",
+          "expected_result": "passed",
+          "verified": true
+        },
+        {
+          "name": "sdk199-missing-transition",
+          "expected_result": "rejected",
+          "verified": true
+        },
+        {
+          "name": "wrong-transition-label",
+          "expected_result": "rejected",
+          "verified": true
+        }
+      ]
+    },
+    "font_adapter_access_contract": [
+      {
+        "name": "public-types",
+        "expected_result": "passed",
+        "verified": true
+      },
+      {
+        "name": "internal-layout",
+        "expected_result": "rejected",
+        "verified": true
+      },
+      {
+        "name": "internal-transition",
+        "expected_result": "rejected",
+        "verified": true
+      }
+    ],
+    "apple_uikit_precheck": {
+      "status": "not_run",
+      "reason": "Apple UIKit SDK unavailable on Linux"
+    },
+    "font_icon_uikit_precheck": {
+      "status": "not_run",
+      "reason": "Real UIKit renderer typecheck requires Apple SDK"
+    },
+    "warnings_as_errors": true,
+    "historical_projection_cleanup": "completed checkpoints removed; native framework checkpoints recreated one at a time with identical pinned projection metadata; final66 preserves font64 default initializer/view factory with mixed ObjC runtime first; native RPC/IUO/calendar/clipboard gates retained; video audio65 and preview/geometry/restore66 runtimes plus real framework/image API gates retained",
+    "full_application_sdk": "pending",
+    "device": "pending",
+    "actual_font_theme_adapter_members": {
+      "status": "passed",
+      "scope": "Actual final font UIKit adapter root/status declarations with native enum cases/getter and actual caller; pixels not exercised"
+    },
+    "system_web_javascript": {
+      "status": "passed",
+      "output": "system web DOM production checks: 88",
+      "boundary": "Actual injected JavaScript in Node vm; explicit DOM/frame/video events, no real iOS WebKit or media pixels"
+    },
+    "system_web_real_sdk": {
+      "status": "not_run",
+      "reason": "Real AVKit/WebKit/AVFoundation SDK requires macOS"
+    },
+    "youtube_playback_policy_js": {
+      "status": "passed",
+      "output": "YouTube playback DOM production checks: 72",
+      "semantic_mutations": [
+        {
+          "name": "no-observer",
+          "rejected": true,
+          "diagnostic": "site cannot reapply video hint while enabled"
+        },
+        {
+          "name": "no-lifecycle-guard",
+          "rejected": true,
+          "diagnostic": "hidden lifecycle cannot pause permitted playback"
+        },
+        {
+          "name": "wrong-native-method",
+          "rejected": true,
+          "diagnostic": "original HTML video uses native WebKit mode"
+        },
+        {
+          "name": "ignore-off",
+          "rejected": true,
+          "diagnostic": "OFF restores original video restriction"
+        }
+      ],
+      "boundary": "Actual injected script in Node vm with explicit event/DOM/MutationObserver/native-video adapters. No real WebKit, YouTube network, DRM or iPhone audio scheduling tested."
+    },
+    "youtube_playback_policy_apple": {
+      "status": "not_run",
+      "reason": "Real AVKit/WebKit/AVFoundation SDK requires macOS"
+    },
+    "video_audio_continuity_javascript": {
+      "output": "video audio continuity DOM checks: 265",
+      "semantic_mutations_rejected": [
+        "no-pause-guard",
+        "ignore-app-pause",
+        "ignore-user-input",
+        "no-window-capture"
+      ],
+      "boundary": "Actual injected JavaScript in Node DOM/event adapters; real YouTube, WebKit and native PiP need device checks."
+    },
+    "video_audio_continuity_real_sdk": {
+      "status": "not_run",
+      "reason": "AVFoundation/AVKit/WebKit require macOS with iOS SDK"
+    },
+    "pip_preview_continuity_real_sdk": {
+      "status": "not_run",
+      "reason": "Actual UIKit/AVKit typechecking requires Apple SDK",
+      "probe_swift_parse": "passed",
+      "native_public_member_contract": {
+        "NativeVideoContent": [
+          "userLocation",
+          "fileReference"
+        ],
+        "HLSVideoContent": [
+          "userLocation",
+          "fileReference"
+        ],
+        "WebEmbedVideoContent": [
+          "webpageContent"
+        ]
+      },
+      "native_signatures": "PhotoResources image functions, TransformImageArguments init, TransformImageNode setSignal/asyncLayout and capture hook copied from pinned source declarations"
+    },
+    "selection_column_real_sdk": {
+      "status": "not_run",
+      "reason": "UIKit requires macOS and the iOS SDK; affine runtime fixture is not UIKit."
+    },
+    "original_video_mode_native_api": {
+      "settings_module": "passed; actual complete production settings source compiled as a module and current.originalVideos imported by caller",
+      "uikit_photos": "not_run",
+      "device": "pending",
+      "reason": "UIKit and Photos require macOS/iOS SDK; Linux does not simulate SDK success."
+    },
+    "feature_contract_consistency_native_api": {
+      "actual_settings_module_and_imported_photo_getters": "passed",
+      "uikit_api_probes": "not_run",
+      "full_application_sdk": "pending",
+      "device": "pending",
+      "reason": "UIKit/iOS SDK unavailable on Linux; no device or framework success inferred."
+    },
+    "round_editor_quality_native_api": {
+      "actual_settings_module": "passed",
+      "contextual_current_cross_file_import": "passed",
+      "actual_immutable_constructor_and_copy": "passed with explicit Telegram graph adapters",
+      "uikit_badge": "not_run",
+      "full_application_sdk": "pending",
+      "device": "pending",
+      "reason": "UIKit/iOS SDK недоступны на Linux; аппаратный encoder и UI не объявляются проверенными."
+    },
+    "wide_portal_native_api": {
+      "actual_pinned_protocol": "verbatim, including public access; native ASDisplayNode/theme edges adapted",
+      "actual_native_backdrop_frame_method": "verbatim",
+      "fixed_typecheck": "passed",
+      "original212_rejected": "has no member update",
+      "apple_iphoneos": "not_run: Linux Foundation typecheck only",
+      "full_application_sdk": "pending",
+      "device": "pending"
+    },
+    "input_effects_real_sdk": {
+      "status": "not_run",
+      "reason": "Real UIKit/QuartzCore SDK requires macOS"
+    },
+    "snowfall_real_sdk": {
+      "status": "not_run",
+      "reason": "Real UIKit/QuartzCore SDK requires macOS"
+    },
+    "snowfall_holidays_real_sdk": {
+      "status": "not_run",
+      "reason": "Real UIKit/QuartzCore SDK requires macOS"
+    },
+    "composer_copy_real_sdk": {
+      "status": "not_run",
+      "reason": "Real UIKit pasteboard SDK requires macOS"
+    },
+    "font_node_first_real_contract": {
+      "native_headers": "guarded actual Texture declarations; final64 avoids ObjC dynamic self-init in view-block initializer",
+      "source_contract": {
+        "source_ui_sha256": "af3c99c6ae6b0c9fda005884429d66507f82fd514135d8dce9cea8d9f144e108",
+        "sdk_ui_sha256": "af3c99c6ae6b0c9fda005884429d66507f82fd514135d8dce9cea8d9f144e108",
+        "late_stage": 64,
+        "historical_runtime": "original52/63 source and runtime checkpoints remain exact; native gate checks final64 default initialization and view factory"
+      },
+      "node_sizing_and_navigation_visibility": [
+        {
+          "mode": "debug",
+          "checks": 6,
+          "result": "passed"
+        },
+        {
+          "mode": "optimized",
+          "checks": 6,
+          "result": "passed"
+        }
+      ],
+      "production_uses_default_initializer_and_native_view_factory": true,
+      "original208_initializer_route": [
+        {
+          "mode": "debug",
+          "expected": "initializer-route regression rejected",
+          "verified": true
+        },
+        {
+          "mode": "optimized",
+          "expected": "initializer-route regression rejected",
+          "verified": true
+        }
+      ],
+      "objc_constructor_runtime": {
+        "status": "not_run",
+        "native_implementation_guards": "passed",
+        "reason": "Mixed Swift/Objective-C Foundation runtime requires macOS; Linux model is only a constructor-route/identity/size boundary. Device208 matching-dSYM crash independently proves old default-init redispatch."
+      },
+      "original207_initializer_label": "rejected",
+      "actual_objc_initializer": {
+        "status": "not_run",
+        "reason": "Actual Objective-C importer/UIKit requires Apple; pure Swift model separately checks labels"
+      },
+      "real_uikit": "separate mandatory complete font screen Apple precheck; Objective-C initializer runtime gate separately reproduces original208 on macOS"
+    },
+    "rpc_error_nullability": {
+      "status": "passed",
+      "boundary": "explicit IUO adapter on Linux; native Objective-C importer pending Apple",
+      "module_paths": {
+        "absolute_and_relative_source": "passed",
+        "original206_relative_modulemap": "reproduced and rejected",
+        "scope": "Real Swift/Clang module import with a C declaration verifies filesystem lookup only; actual RPC header/iOS types are checked separately."
+      },
+      "header_sha256": "6d3addd8404ac603837012de0b70ffff9a8b74d9da61fd5a0946c148d8f626ac",
+      "original205_reproduced_and_rejected": true,
+      "classification_body": "exact production lines; Signal is an explicit output-only type adapter",
+      "whole_engine_fixture": "separate full production ASR/Engine/Coordinator runtime with IUO and nil failures",
+      "full_application_sdk": "pending",
+      "device": "pending"
+    },
+    "foundation_fixture_precheck": {
+      "executions": [
+        {
+          "name": "composer-foundation-boundary",
+          "mode": "debug",
+          "exit_code": 0,
+          "output": "Foundation fixture boundary: passed"
+        },
+        {
+          "name": "composer-foundation-boundary",
+          "mode": "optimized",
+          "exit_code": 0,
+          "output": "Foundation fixture boundary: passed"
+        }
+      ],
+      "native_negative_refusals": [],
+      "native_negative_status": "not_run; Objective-C Foundation/CoreGraphics requires Apple",
+      "scope": "Actual checked-in platform conditionals with real Foundation attributed string initialization and CGRect operators. No UIKit stand-ins in this probe; separate UIKit gate remains mandatory."
+    },
+    "single_touch_selection_real_sdk": {
+      "status": "not_run",
+      "reason": "Real UIKit requires the Apple SDK on macOS"
+    }
+  },
+  "upstream": {
+    "target_pin": "24638bc69bd083981b178dd1e7f921eebbf7fc46",
+    "pre_replacements": 196,
+    "post_replacements": 274,
+    "deleted_obsolete_files": 2,
+    "fail_closed": {
+      "pre": 17,
+      "post": 33
+    },
+    "parsed_swift": 650,
+    "executions": [
+      "current-debug: PiP playback command checks: 113",
+      "current-O: PiP playback command checks: 113",
+      "previous-native-debug: Native PiP baseline checks: 37",
+      "previous-native-O: Native PiP baseline checks: 37",
+      "previous-caption-debug: Round caption transport checks: 118",
+      "previous-caption-O: Round caption transport checks: 118",
+      "previous-composer-debug: Repost copy integrity checks: 48",
+      "previous-composer-O: Repost copy integrity checks: 48",
+      "old-toggle-command-debug: regression reproduced and rejected",
+      "old-toggle-command-O: regression reproduced and rejected",
+      "cached-status-toggle-debug: regression reproduced and rejected",
+      "cached-status-toggle-O: regression reproduced and rejected",
+      "inverted-command-debug: regression reproduced and rejected",
+      "inverted-command-O: regression reproduced and rejected"
+    ],
+    "historical_runtime_boundary": "exact published bytes after verified inverse of all registered late source stages",
+    "late_source_stages": [
+      "wide_bottom_bar",
+      "author_selection_no_restore",
+      "preview_reply_intent",
+      "cloud_credential_entry",
+      "extended_poll_integrity",
+      "bot_delete_without_block",
+      "wide_tab_bar_setting",
+      "pip_swipe_handoff",
+      "temporary_message_interaction",
+      "account_settings_entry",
+      "release_090_preflight_fixes",
+      "release_090_author_compile",
+      "round_video_replay_stability",
+      "pip_gallery_placeholder",
+      "download_sheet_edge",
+      "edit_history_cards",
+      "copy_reference_recovery",
+      "edit_history_number_badges",
+      "pip_visual_continuity",
+      "local_copy_delivery",
+      "temporary_playback_identity",
+      "round_video_editor",
+      "proxy_doh_editor",
+      "download_sheet_corners",
+      "hide_premium_offers",
+      "content_interaction_consent",
+      "release_092_settings_compile",
+      "round_native_playback",
+      "poll_copy_transport",
+      "premium_label_cleanup",
+      "premium_label_spelling",
+      "pip_backdrop_stability",
+      "private_temporary_transcription",
+      "ghostgram_authorless_transport",
+      "round_replacement_geometry",
+      "download_sheet_vector_contour",
+      "bubble_selection_edge",
+      "composer_file_attachments",
+      "archived_round_native_controls",
+      "transcription_account_defaults",
+      "app_font_selection",
+      "web_video_picture_in_picture",
+      "temporary_expiration_semantics",
+      "release_095_fonts_compile",
+      "release_095_composer_strings_compile",
+      "wide_channel_post_consistency",
+      "font_theme_contrast",
+      "system_web_picture_in_picture",
+      "wide_panel_consistency",
+      "settings_section_header_case",
+      "premium_temporary_transcription",
+      "font_preview_apply",
+      "edit_result_consistency",
+      "youtube_playback_policy",
+      "input_effects",
+      "snowfall",
+      "snowfall_holidays",
+      "local_read_label",
+      "composer_copy_integrity",
+      "single_touch_message_selection",
+      "release_096_calendar_compatibility",
+      "release_096_transcription_compatibility",
+      "release_096_font_node_compatibility",
+      "font_apply_node_lifecycle",
+      "video_audio_continuity",
+      "pip_preview_continuity",
+      "recording_start_recovery",
+      "selection_column_coordinates",
+      "selection_scroll_continuity",
+      "original_video_mode",
+      "feature_contract_consistency",
+      "transcription_cached_read",
+      "round_editor_quality",
+      "wide_portal_api"
+    ],
+    "native_postbox_imports": "passed",
+    "apple_sdk": "pending",
+    "device": "pending"
+  },
+  "inverse": {
+    "late_source_stages": [
+      "wide_bottom_bar",
+      "author_selection_no_restore",
+      "preview_reply_intent",
+      "cloud_credential_entry",
+      "extended_poll_integrity",
+      "bot_delete_without_block",
+      "wide_tab_bar_setting",
+      "pip_swipe_handoff",
+      "temporary_message_interaction",
+      "account_settings_entry",
+      "release_090_preflight_fixes",
+      "release_090_author_compile",
+      "round_video_replay_stability",
+      "pip_gallery_placeholder",
+      "download_sheet_edge",
+      "edit_history_cards",
+      "copy_reference_recovery",
+      "edit_history_number_badges",
+      "pip_visual_continuity",
+      "local_copy_delivery",
+      "temporary_playback_identity",
+      "round_video_editor",
+      "proxy_doh_editor",
+      "download_sheet_corners",
+      "hide_premium_offers",
+      "content_interaction_consent",
+      "release_092_settings_compile",
+      "round_native_playback",
+      "poll_copy_transport",
+      "premium_label_cleanup",
+      "premium_label_spelling",
+      "pip_backdrop_stability",
+      "private_temporary_transcription",
+      "ghostgram_authorless_transport",
+      "round_replacement_geometry",
+      "download_sheet_vector_contour",
+      "bubble_selection_edge",
+      "composer_file_attachments",
+      "archived_round_native_controls",
+      "transcription_account_defaults",
+      "app_font_selection",
+      "web_video_picture_in_picture",
+      "temporary_expiration_semantics",
+      "release_095_fonts_compile",
+      "release_095_composer_strings_compile",
+      "wide_channel_post_consistency",
+      "font_theme_contrast",
+      "system_web_picture_in_picture",
+      "wide_panel_consistency",
+      "settings_section_header_case",
+      "premium_temporary_transcription",
+      "font_preview_apply",
+      "edit_result_consistency",
+      "youtube_playback_policy",
+      "input_effects",
+      "snowfall",
+      "snowfall_holidays",
+      "local_read_label",
+      "composer_copy_integrity",
+      "single_touch_message_selection",
+      "release_096_calendar_compatibility",
+      "release_096_transcription_compatibility",
+      "release_096_font_node_compatibility",
+      "font_apply_node_lifecycle",
+      "video_audio_continuity",
+      "pip_preview_continuity",
+      "recording_start_recovery",
+      "selection_column_coordinates",
+      "selection_scroll_continuity",
+      "original_video_mode",
+      "feature_contract_consistency",
+      "transcription_cached_read",
+      "round_editor_quality",
+      "wide_portal_api"
+    ],
+    "published_contract_paths": 881,
+    "actual_published_pipeline_compared": false,
+    "full_source_files_preserved": 37691,
+    "introduced_helpers_absent_from_history": [
+      "submodules/Display/Resources/NagramiXFonts/PTAstraSans-Bold.ttf",
+      "submodules/Display/Resources/NagramiXFonts/PTAstraSans-BoldItalic.ttf",
+      "submodules/Display/Resources/NagramiXFonts/PTAstraSans-Italic.ttf",
+      "submodules/Display/Resources/NagramiXFonts/PTAstraSans-LICENSE.txt",
+      "submodules/Display/Resources/NagramiXFonts/PTAstraSans-Regular.ttf",
+      "submodules/Display/Resources/NagramiXFonts/PTAstraSerif-Bold.ttf",
+      "submodules/Display/Resources/NagramiXFonts/PTAstraSerif-BoldItalic.ttf",
+      "submodules/Display/Resources/NagramiXFonts/PTAstraSerif-Italic.ttf",
+      "submodules/Display/Resources/NagramiXFonts/PTAstraSerif-LICENSE.txt",
+      "submodules/Display/Resources/NagramiXFonts/PTAstraSerif-Regular.ttf",
+      "submodules/Display/Resources/NagramiXFonts/Roboto-Black.ttf",
+      "submodules/Display/Resources/NagramiXFonts/Roboto-BlackItalic.ttf",
+      "submodules/Display/Resources/NagramiXFonts/Roboto-Bold.ttf",
+      "submodules/Display/Resources/NagramiXFonts/Roboto-BoldItalic.ttf",
+      "submodules/Display/Resources/NagramiXFonts/Roboto-Italic.ttf",
+      "submodules/Display/Resources/NagramiXFonts/Roboto-LICENSE.txt",
+      "submodules/Display/Resources/NagramiXFonts/Roboto-Light.ttf",
+      "submodules/Display/Resources/NagramiXFonts/Roboto-LightItalic.ttf",
+      "submodules/Display/Resources/NagramiXFonts/Roboto-Medium.ttf",
+      "submodules/Display/Resources/NagramiXFonts/Roboto-MediumItalic.ttf",
+      "submodules/Display/Resources/NagramiXFonts/Roboto-NOTICE.txt",
+      "submodules/Display/Resources/NagramiXFonts/Roboto-Regular.ttf",
+      "submodules/Display/Resources/NagramiXFonts/Roboto-Thin.ttf",
+      "submodules/Display/Resources/NagramiXFonts/Roboto-ThinItalic.ttf",
+      "submodules/Display/Source/NagramiXFontManager.swift",
+      "submodules/NagramiXCore/Sources/NagramiXSnowHolidays.swift",
+      "submodules/NagramiXCore/Sources/NagramiXSnowSchedule.swift",
+      "submodules/NagramiXCore/Sources/NagramiXSnowSettings.swift",
+      "submodules/NagramiXCore/Sources/NagramiXSnowView.swift",
+      "submodules/NagramiXCore/Sources/NagramiXTypingAnimation.swift",
+      "submodules/NagramiXCore/Sources/NagramiXTypingSettings.swift",
+      "submodules/NagramiXMediaSettings/Sources/NagramiXFontSettings.swift",
+      "submodules/SettingsUI/Sources/NagramiXFontsController.swift",
+      "submodules/SettingsUI/Sources/NagramiXSnowDensityItem.swift",
+      "submodules/TelegramUI/Components/ChatMediaSend/Sources/NagramiXOriginalVideoSend.swift",
+      "submodules/TelegramUI/Sources/Chat/NagramiXMessageDragSelection.swift",
+      "submodules/TelegramUI/Sources/Chat/NagramiXTemporaryReplySend.swift"
+    ],
+    "pre_ninth_checkpoint_verified": true,
+    "pre_tenth_checkpoint_verified": true,
+    "pre_eleventh_checkpoint_verified": true,
+    "pre_eleventh_inputs_restored": [
+      "submodules/TelegramCore/Sources/Utils/NagramiXMessageArchive.swift",
+      "submodules/TelegramUI/Sources/Chat/ChatControllerLoadDisplayNode.swift"
+    ],
+    "negative_projection_verified_before_mutation": true,
+    "fail_closed": [
+      "wide_bottom_bar/output-drift",
+      "author_selection_no_restore/output-drift",
+      "preview_reply_intent/output-drift",
+      "cloud_credential_entry/output-drift",
+      "extended_poll_integrity/output-drift",
+      "bot_delete_without_block/output-drift",
+      "wide_tab_bar_setting/output-drift",
+      "pip_swipe_handoff/output-drift",
+      "temporary_message_interaction/output-drift",
+      "account_settings_entry/output-drift",
+      "release_090_preflight_fixes/output-drift",
+      "release_090_author_compile/output-drift",
+      "round_video_replay_stability/output-drift",
+      "pip_gallery_placeholder/output-drift",
+      "download_sheet_edge/output-drift",
+      "edit_history_cards/output-drift",
+      "copy_reference_recovery/output-drift",
+      "edit_history_number_badges/output-drift",
+      "pip_visual_continuity/output-drift",
+      "local_copy_delivery/output-drift",
+      "temporary_playback_identity/output-drift",
+      "round_video_editor/output-drift",
+      "proxy_doh_editor/output-drift",
+      "download_sheet_corners/output-drift",
+      "hide_premium_offers/output-drift",
+      "content_interaction_consent/output-drift",
+      "release_092_settings_compile/output-drift",
+      "round_native_playback/output-drift",
+      "poll_copy_transport/output-drift",
+      "premium_label_cleanup/output-drift",
+      "premium_label_spelling/output-drift",
+      "pip_backdrop_stability/output-drift",
+      "private_temporary_transcription/output-drift",
+      "ghostgram_authorless_transport/output-drift",
+      "round_replacement_geometry/output-drift",
+      "download_sheet_vector_contour/output-drift",
+      "bubble_selection_edge/output-drift",
+      "composer_file_attachments/output-drift",
+      "archived_round_native_controls/output-drift",
+      "transcription_account_defaults/output-drift",
+      "app_font_selection/output-drift",
+      "web_video_picture_in_picture/output-drift",
+      "temporary_expiration_semantics/output-drift",
+      "release_095_fonts_compile/output-drift",
+      "release_095_composer_strings_compile/output-drift",
+      "wide_channel_post_consistency/output-drift",
+      "font_theme_contrast/output-drift",
+      "system_web_picture_in_picture/output-drift",
+      "wide_panel_consistency/output-drift",
+      "settings_section_header_case/output-drift",
+      "premium_temporary_transcription/output-drift",
+      "font_preview_apply/output-drift",
+      "edit_result_consistency/output-drift",
+      "youtube_playback_policy/output-drift",
+      "input_effects/output-drift",
+      "snowfall/output-drift",
+      "snowfall_holidays/output-drift",
+      "local_read_label/output-drift",
+      "composer_copy_integrity/output-drift",
+      "single_touch_message_selection/output-drift",
+      "release_096_calendar_compatibility/output-drift",
+      "release_096_transcription_compatibility/output-drift",
+      "release_096_font_node_compatibility/output-drift",
+      "font_apply_node_lifecycle/output-drift",
+      "video_audio_continuity/output-drift",
+      "pip_preview_continuity/output-drift",
+      "recording_start_recovery/output-drift",
+      "selection_column_coordinates/output-drift",
+      "selection_scroll_continuity/output-drift",
+      "original_video_mode/output-drift",
+      "feature_contract_consistency/output-drift",
+      "transcription_cached_read/output-drift",
+      "round_editor_quality/output-drift",
+      "wide_portal_api/output-drift",
+      "native-guard-missing",
+      "copied-helper-drift",
+      "copied-helper-missing",
+      "copied-helper-external-symlink",
+      "copied-helper-drift",
+      "copied-helper-missing",
+      "copied-helper-external-symlink",
+      "copied-helper-drift",
+      "copied-helper-missing",
+      "copied-helper-external-symlink",
+      "copied-helper-drift",
+      "copied-helper-missing",
+      "copied-helper-external-symlink",
+      "copied-helper-drift",
+      "copied-helper-missing",
+      "copied-helper-external-symlink",
+      "copied-helper-drift",
+      "copied-helper-missing",
+      "copied-helper-external-symlink",
+      "copied-helper-drift",
+      "copied-helper-missing",
+      "copied-helper-external-symlink",
+      "copied-helper-drift",
+      "copied-helper-missing",
+      "copied-helper-external-symlink",
+      "copied-helper-drift",
+      "copied-helper-missing",
+      "copied-helper-external-symlink",
+      "copied-helper-drift",
+      "copied-helper-missing",
+      "copied-helper-external-symlink",
+      "copied-helper-drift",
+      "copied-helper-missing",
+      "copied-helper-external-symlink",
+      "copied-helper-drift",
+      "copied-helper-missing",
+      "copied-helper-external-symlink",
+      "copied-helper-drift",
+      "copied-helper-missing",
+      "copied-helper-external-symlink",
+      "copied-helper-drift",
+      "copied-helper-missing",
+      "copied-helper-external-symlink",
+      "copied-helper-drift",
+      "copied-helper-missing",
+      "copied-helper-external-symlink",
+      "copied-helper-drift",
+      "copied-helper-missing",
+      "copied-helper-external-symlink",
+      "copied-helper-drift",
+      "copied-helper-missing",
+      "copied-helper-external-symlink",
+      "copied-helper-drift",
+      "copied-helper-missing",
+      "copied-helper-external-symlink",
+      "copied-helper-drift",
+      "copied-helper-missing",
+      "copied-helper-external-symlink",
+      "copied-helper-drift",
+      "copied-helper-missing",
+      "copied-helper-external-symlink",
+      "copied-helper-drift",
+      "copied-helper-missing",
+      "copied-helper-external-symlink",
+      "copied-helper-drift",
+      "copied-helper-missing",
+      "copied-helper-external-symlink",
+      "copied-helper-drift",
+      "copied-helper-missing",
+      "copied-helper-external-symlink",
+      "copied-helper-drift",
+      "copied-helper-missing",
+      "copied-helper-external-symlink",
+      "copied-helper-drift",
+      "copied-helper-missing",
+      "copied-helper-external-symlink",
+      "copied-helper-drift",
+      "copied-helper-missing",
+      "copied-helper-external-symlink",
+      "copied-helper-drift",
+      "copied-helper-missing",
+      "copied-helper-external-symlink",
+      "copied-helper-drift",
+      "copied-helper-missing",
+      "copied-helper-external-symlink",
+      "copied-helper-drift",
+      "copied-helper-missing",
+      "copied-helper-external-symlink",
+      "copied-helper-drift",
+      "copied-helper-missing",
+      "copied-helper-external-symlink",
+      "copied-helper-drift",
+      "copied-helper-missing",
+      "copied-helper-external-symlink",
+      "copied-helper-drift",
+      "copied-helper-missing",
+      "copied-helper-external-symlink",
+      "copied-helper-drift",
+      "copied-helper-missing",
+      "copied-helper-external-symlink",
+      "copied-helper-drift",
+      "copied-helper-missing",
+      "copied-helper-external-symlink",
+      "copied-helper-drift",
+      "copied-helper-missing",
+      "copied-helper-external-symlink",
+      "copied-helper-drift",
+      "copied-helper-missing",
+      "copied-helper-external-symlink",
+      "copied-helper-drift",
+      "copied-helper-missing",
+      "copied-helper-external-symlink",
+      "template-drift-before-inverse",
+      "pip_swipe_handoff/previous-stage-missing",
+      "pip_swipe_handoff/previous-stage-drift",
+      "temporary_message_interaction/previous-stage-missing",
+      "temporary_message_interaction/previous-stage-drift",
+      "account_settings_entry/previous-stage-missing",
+      "account_settings_entry/previous-stage-drift",
+      "release_090_preflight_fixes/previous-stage-missing",
+      "release_090_preflight_fixes/previous-stage-drift",
+      "release_090_author_compile/previous-stage-missing",
+      "release_090_author_compile/previous-stage-drift",
+      "round_video_replay_stability/previous-stage-missing",
+      "round_video_replay_stability/previous-stage-drift",
+      "pip_gallery_placeholder/previous-stage-missing",
+      "pip_gallery_placeholder/previous-stage-drift",
+      "download_sheet_edge/previous-stage-missing",
+      "download_sheet_edge/previous-stage-drift",
+      "edit_history_cards/previous-stage-missing",
+      "edit_history_cards/previous-stage-drift",
+      "copy_reference_recovery/previous-stage-missing",
+      "copy_reference_recovery/previous-stage-drift",
+      "edit_history_number_badges/previous-stage-missing",
+      "edit_history_number_badges/previous-stage-drift",
+      "pip_visual_continuity/previous-stage-missing",
+      "pip_visual_continuity/previous-stage-drift",
+      "local_copy_delivery/previous-stage-missing",
+      "local_copy_delivery/previous-stage-drift",
+      "temporary_playback_identity/previous-stage-missing",
+      "temporary_playback_identity/previous-stage-drift",
+      "round_video_editor/previous-stage-missing",
+      "round_video_editor/previous-stage-drift",
+      "proxy_doh_editor/previous-stage-missing",
+      "proxy_doh_editor/previous-stage-drift",
+      "download_sheet_corners/previous-stage-missing",
+      "download_sheet_corners/previous-stage-drift",
+      "hide_premium_offers/previous-stage-missing",
+      "hide_premium_offers/previous-stage-drift",
+      "content_interaction_consent/previous-stage-missing",
+      "content_interaction_consent/previous-stage-drift",
+      "release_092_settings_compile/previous-stage-missing",
+      "release_092_settings_compile/previous-stage-drift",
+      "round_native_playback/previous-stage-missing",
+      "round_native_playback/previous-stage-drift",
+      "poll_copy_transport/previous-stage-missing",
+      "poll_copy_transport/previous-stage-drift",
+      "premium_label_cleanup/previous-stage-missing",
+      "premium_label_cleanup/previous-stage-drift",
+      "premium_label_spelling/previous-stage-missing",
+      "premium_label_spelling/previous-stage-drift",
+      "pip_backdrop_stability/previous-stage-missing",
+      "pip_backdrop_stability/previous-stage-drift",
+      "private_temporary_transcription/previous-stage-missing",
+      "private_temporary_transcription/previous-stage-drift",
+      "ghostgram_authorless_transport/previous-stage-missing",
+      "ghostgram_authorless_transport/previous-stage-drift",
+      "round_replacement_geometry/previous-stage-missing",
+      "round_replacement_geometry/previous-stage-drift",
+      "download_sheet_vector_contour/previous-stage-missing",
+      "download_sheet_vector_contour/previous-stage-drift",
+      "bubble_selection_edge/previous-stage-missing",
+      "bubble_selection_edge/previous-stage-drift",
+      "composer_file_attachments/previous-stage-missing",
+      "composer_file_attachments/previous-stage-drift",
+      "archived_round_native_controls/previous-stage-missing",
+      "archived_round_native_controls/previous-stage-drift",
+      "transcription_account_defaults/previous-stage-missing",
+      "transcription_account_defaults/previous-stage-drift",
+      "app_font_selection/previous-stage-missing",
+      "app_font_selection/previous-stage-drift",
+      "web_video_picture_in_picture/previous-stage-missing",
+      "web_video_picture_in_picture/previous-stage-drift",
+      "temporary_expiration_semantics/previous-stage-missing",
+      "temporary_expiration_semantics/previous-stage-drift",
+      "release_095_fonts_compile/previous-stage-missing",
+      "release_095_fonts_compile/previous-stage-drift",
+      "release_095_composer_strings_compile/previous-stage-missing",
+      "release_095_composer_strings_compile/previous-stage-drift",
+      "wide_channel_post_consistency/previous-stage-missing",
+      "wide_channel_post_consistency/previous-stage-drift",
+      "font_theme_contrast/previous-stage-missing",
+      "font_theme_contrast/previous-stage-drift",
+      "system_web_picture_in_picture/previous-stage-missing",
+      "system_web_picture_in_picture/previous-stage-drift",
+      "wide_panel_consistency/previous-stage-missing",
+      "wide_panel_consistency/previous-stage-drift",
+      "settings_section_header_case/previous-stage-missing",
+      "settings_section_header_case/previous-stage-drift",
+      "premium_temporary_transcription/previous-stage-missing",
+      "premium_temporary_transcription/previous-stage-drift",
+      "font_preview_apply/previous-stage-missing",
+      "font_preview_apply/previous-stage-drift",
+      "edit_result_consistency/previous-stage-missing",
+      "edit_result_consistency/previous-stage-drift",
+      "youtube_playback_policy/previous-stage-missing",
+      "youtube_playback_policy/previous-stage-drift",
+      "input_effects/previous-stage-missing",
+      "input_effects/previous-stage-drift",
+      "snowfall/previous-stage-missing",
+      "snowfall/previous-stage-drift",
+      "snowfall_holidays/previous-stage-missing",
+      "snowfall_holidays/previous-stage-drift",
+      "local_read_label/previous-stage-missing",
+      "local_read_label/previous-stage-drift",
+      "composer_copy_integrity/previous-stage-missing",
+      "composer_copy_integrity/previous-stage-drift",
+      "single_touch_message_selection/previous-stage-missing",
+      "single_touch_message_selection/previous-stage-drift",
+      "release_096_calendar_compatibility/previous-stage-missing",
+      "release_096_calendar_compatibility/previous-stage-drift",
+      "release_096_transcription_compatibility/previous-stage-missing",
+      "release_096_transcription_compatibility/previous-stage-drift",
+      "release_096_font_node_compatibility/previous-stage-missing",
+      "release_096_font_node_compatibility/previous-stage-drift",
+      "font_apply_node_lifecycle/previous-stage-missing",
+      "font_apply_node_lifecycle/previous-stage-drift",
+      "video_audio_continuity/previous-stage-missing",
+      "video_audio_continuity/previous-stage-drift",
+      "pip_preview_continuity/previous-stage-missing",
+      "pip_preview_continuity/previous-stage-drift",
+      "recording_start_recovery/previous-stage-missing",
+      "recording_start_recovery/previous-stage-drift",
+      "selection_column_coordinates/previous-stage-missing",
+      "selection_column_coordinates/previous-stage-drift",
+      "selection_scroll_continuity/previous-stage-missing",
+      "selection_scroll_continuity/previous-stage-drift",
+      "original_video_mode/previous-stage-missing",
+      "original_video_mode/previous-stage-drift",
+      "feature_contract_consistency/previous-stage-missing",
+      "feature_contract_consistency/previous-stage-drift",
+      "transcription_cached_read/previous-stage-missing",
+      "transcription_cached_read/previous-stage-drift",
+      "round_editor_quality/previous-stage-missing",
+      "round_editor_quality/previous-stage-drift",
+      "wide_portal_api/previous-stage-missing",
+      "wide_portal_api/previous-stage-drift",
+      "wide_bottom_bar/native-blob-proof-missing",
+      "wide_bottom_bar/native-blob-drift/submodules/TelegramUI/Components/TabBarComponent/Sources/TabBarComponent.swift",
+      "temporary_message_interaction/native-blob-proof-missing",
+      "temporary_message_interaction/native-blob-drift/submodules/GalleryData/Sources/GalleryData.swift",
+      "temporary_message_interaction/native-blob-drift/submodules/TelegramCore/Sources/State/ManagedSecretChatOutgoingOperations.swift",
+      "temporary_message_interaction/native-blob-drift/submodules/TelegramCore/Sources/State/ProcessSecretChatIncomingDecryptedOperations.swift",
+      "temporary_message_interaction/native-blob-drift/submodules/TelegramUI/Components/Chat/ChatMessageReplyInfoNode/Sources/ChatMessageReplyInfoNode.swift",
+      "temporary_message_interaction/native-blob-drift/submodules/TelegramUI/Components/Chat/ReplyAccessoryPanelNode/Sources/ReplyAccessoryPanelNode.swift",
+      "account_settings_entry/native-blob-proof-missing",
+      "account_settings_entry/native-blob-drift/submodules/SettingsUI/Sources/Search/SettingsSearchableItems.swift",
+      "download_sheet_edge/native-blob-proof-missing",
+      "download_sheet_edge/native-blob-drift/submodules/Display/Source/ActionSheetController.swift",
+      "download_sheet_edge/native-blob-drift/submodules/Display/Source/ActionSheetControllerNode.swift",
+      "download_sheet_edge/native-blob-drift/submodules/Display/Source/ActionSheetItemGroupsContainerNode.swift",
+      "download_sheet_edge/native-blob-drift/submodules/Display/Source/ActionSheetItemGroupNode.swift",
+      "round_video_editor/native-blob-proof-missing",
+      "round_video_editor/native-blob-drift/submodules/TelegramUI/Components/ChatMediaEditorScreen/BUILD",
+      "round_video_editor/native-blob-drift/submodules/TelegramUI/Components/ChatMediaSend/Sources/ChatMediaEditorItemStore.swift",
+      "round_video_editor/native-blob-drift/submodules/TelegramUI/Components/ChatMediaEditorScreen/Sources/ChatMediaEditorBottomControls.swift",
+      "round_video_editor/native-blob-drift/submodules/TelegramUI/Components/ChatMediaEditorScreen/Sources/ChatMediaEditorBottomControlsComponent.swift",
+      "round_video_editor/native-blob-drift/submodules/TelegramUI/Components/ChatMediaEditorScreen/Sources/ChatMediaEditorScreen.swift",
+      "round_video_editor/native-blob-drift/submodules/TelegramUI/Components/ChatMediaEditorScreen/Sources/ChatMediaEditorScreenVideo.swift",
+      "round_video_editor/native-blob-drift/submodules/TelegramUI/Components/ChatMediaEditorScreen/Sources/ChatMediaEditorScreenCrop.swift",
+      "round_video_editor/native-blob-drift/submodules/TelegramUI/Components/ChatMediaEditorScreen/Sources/ChatMediaEditorScreenQuality.swift",
+      "round_video_editor/native-blob-drift/submodules/TelegramUI/Components/ChatMediaSend/Sources/ChatMediaSendPlan.swift",
+      "round_video_editor/native-blob-drift/submodules/TelegramUI/Components/ChatMediaSend/Sources/ChatMediaSendItem.swift",
+      "round_video_editor/native-blob-drift/submodules/TelegramUI/Components/ChatMediaSend/Sources/ChatMediaSendMessages.swift",
+      "round_video_editor/native-blob-drift/submodules/TelegramUI/Components/ChatMediaSend/Sources/ChatMediaSendSingleItem.swift",
+      "round_video_editor/native-blob-drift/submodules/TelegramUI/Components/ChatMediaEditorScreen/Sources/ChatMediaEditorLandscape.swift",
+      "hide_premium_offers/native-blob-proof-missing",
+      "hide_premium_offers/native-blob-drift/submodules/TelegramUI/Components/GlobalControlPanelsContext/Sources/GlobalControlPanelsContext.swift",
+      "hide_premium_offers/native-blob-drift/submodules/TelegramUI/Components/GlobalControlPanelsContext/BUILD",
+      "content_interaction_consent/native-blob-proof-missing",
+      "content_interaction_consent/native-blob-drift/submodules/TelegramCore/Sources/SecretChats/SetSecretChatMessageAutoremoveTimeoutInteractively.swift",
+      "composer_file_attachments/native-blob-proof-missing",
+      "composer_file_attachments/native-blob-drift/submodules/TelegramUI/Sources/Chat/ChatControllerOpenDocumentScanner.swift",
+      "app_font_selection/native-blob-proof-missing",
+      "app_font_selection/native-blob-drift/submodules/Display/Source/Font.swift",
+      "web_video_picture_in_picture/native-blob-proof-missing",
+      "web_video_picture_in_picture/native-blob-drift/submodules/InstantPageUI/Sources/InstantPageGalleryController.swift",
+      "wide_panel_consistency/native-blob-proof-missing",
+      "wide_panel_consistency/native-blob-drift/submodules/AttachmentUI/Sources/AttachmentPanel.swift",
+      "wide_panel_consistency/native-blob-drift/submodules/AttachmentUI/BUILD",
+      "wide_panel_consistency/native-blob-drift/submodules/TelegramUI/Components/TabSelectorComponent/Sources/TabSelectorComponent.swift",
+      "wide_panel_consistency/native-blob-drift/submodules/TelegramUI/Components/TabSelectorComponent/BUILD",
+      "input_effects/native-blob-proof-missing",
+      "input_effects/native-blob-drift/submodules/AttachmentTextInputPanelNode/BUILD",
+      "input_effects/native-blob-drift/submodules/AttachmentTextInputPanelNode/Sources/AttachmentTextInputPanelNode.swift",
+      "composer_copy_integrity/native-blob-proof-missing",
+      "composer_copy_integrity/native-blob-drift/submodules/Pasteboard/Sources/Pasteboard.swift",
+      "composer_copy_integrity/native-blob-drift/submodules/TelegramUI/Components/Chat/ChatRichTextEditorComposer/Sources/RichMessageClipboard.swift",
+      "video_audio_continuity/native-blob-proof-missing",
+      "video_audio_continuity/native-blob-drift/submodules/MediaPlayer/Sources/ChunkMediaPlayerV2.swift",
+      "original_video_mode/native-blob-proof-missing",
+      "original_video_mode/native-blob-drift/submodules/TelegramUI/Components/ChatMediaSend/Sources/ChatMediaSendRender.swift",
+      "feature_contract_consistency/native-blob-proof-missing",
+      "feature_contract_consistency/native-blob-drift/submodules/TelegramUI/Components/Chat/ChatMessageItemView/BUILD",
+      "feature_contract_consistency/native-blob-drift/submodules/TelegramUI/Components/Chat/ChatMessageItemView/Sources/ChatMessageItemView.swift",
+      "feature_contract_consistency/native-blob-drift/submodules/TelegramUI/Components/ChatMediaSend/Sources/ChatMediaSendLivePhoto.swift"
+    ],
+    "sdk": "not_run",
+    "device": "pending"
+  },
+  "native_strings": {
+    "swift_files": 7333,
+    "native_generated_members": 12190,
+    "native_string_uses": 18586,
+    "distinct_native_members": 10391,
+    "proven_other_typed_owner_reads": 8,
+    "sdk200_mutation_rejected": true,
+    "apple_actual_generated_header": {
+      "status": "not_run",
+      "reason": "Real Objective-C/Apple SDK import requires macOS and swiftc"
+    },
+    "boundary": "Actual native GenerateStrings.py, build rule and final English catalog; generated member existence through strings/namedStrings receivers. Other typed owners need source declaration evidence. Full Swift call arity/type checking and app runtime still require SDK/device."
+  },
+  "build_inputs": {
+    "version": "0.9.7",
+    "workflow_scripts": 260,
+    "python_syntax_files": 735,
+    "late_stages": 74,
+    "sdk_plans": 80,
+    "submodules": 12,
+    "manual_only": true,
+    "existing_unsigned_signing_contract": "preserved",
+    "native_environment": "not_run"
+  },
+  "local_storage_attempt": {
+    "first": [
+      {
+        "name": "feature",
+        "exit_code": 0,
+        "seconds": 14.5,
+        "source_manifest_sha256": "91fcb7dbde584ed8ec7bb8404a36446bcf80fd34dc511957cd57f6f8b1bb33ae"
+      },
+      {
+        "name": "early",
+        "exit_code": 1,
+        "seconds": 23.3,
+        "source_manifest_sha256": "91fcb7dbde584ed8ec7bb8404a36446bcf80fd34dc511957cd57f6f8b1bb33ae"
+      }
+    ],
+    "fix": "Same checks rerun unchanged with TMPDIR on roomier workspace; original disk-failure log retained. Own read-only historical localization projections deduplicated by exact SHA across temporary files only.",
+    "localization_storage": {
+      "allocations": [
+        {
+          "prefix": "nagramix-late-source-prior-",
+          "root": "/workspace/.codex-wide-portal-localization-tmp",
+          "free_bytes_before": 139866112
+        },
+        {
+          "prefix": "nagramix-late-source-prior-",
+          "root": "/tmp",
+          "free_bytes_before": 118353920
+        },
+        {
+          "prefix": "nagramix-late-source-prior-",
+          "root": "/workspace/.codex-wide-portal-localization-tmp",
+          "free_bytes_before": 87224320
+        },
+        {
+          "prefix": "nagramix-late-source-prior-",
+          "root": "/workspace/.codex-wide-portal-localization-tmp",
+          "free_bytes_before": 79065088
+        },
+        {
+          "prefix": "nagramix-late-source-prior-",
+          "root": "/workspace/.codex-wide-portal-localization-tmp",
+          "free_bytes_before": 72441856
+        },
+        {
+          "prefix": "nagramix-language-runtime-",
+          "root": "/workspace/.codex-wide-portal-localization-tmp",
+          "free_bytes_before": 139866112
+        }
+      ],
+      "projection_storage": {
+        "linked_files": 2451,
+        "linked_bytes": 121168162,
+        "written_files": 2076
+      },
+      "source_unchanged": true
+    }
+  },
+  "harness_development": "Before commit, native frame extraction was scoped to its class and parses the real body brace after the default closure. No production bytes changed by harness corrections.",
+  "additional_checks": [
+    "8build input negative cases",
+    "4clean mode combinations",
+    "upstream current",
+    "whole diff and metadata"
+  ],
+  "preservation": {
+    "all4603_old_inc_and286_old_plans": true,
+    "new_inc": 9,
+    "total_inc": 4612,
+    "checkpoints": 31,
+    "README_LICENSE": true,
+    "registry67passed13pending_all80device_pending": true,
+    "dependencies_build_system_signing": "unchanged",
+    "all9_old_releases": "retained; final independent comparison pending"
+  },
+  "boundary": "Linux runtime/typecheck uses verbatim protocol and native backdrop frame body; ASDisplayNode, theme/graph, masks/layers and engine edges adapted. iPhoneOS native API probe required first in next macOS job; whole SDK and physical iPhone are pending.",
+  "full_application_sdk": "pending",
+  "device": "pending"
+}
