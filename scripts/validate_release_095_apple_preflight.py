@@ -54,6 +54,9 @@ from snow_density_glass_runtime import fixture as snow_density_glass_fixture
 from snow_density_glass_apple import check as snow_density_glass_api_check
 from settings_glass_sliders_runtime import fixture as settings_glass_sliders_fixture
 from settings_glass_sliders_apple import check as settings_glass_sliders_api_check
+from font_license_compact_runtime import fixture as font_license_compact_fixture
+from font_license_compact_apple import check as font_license_compact_api_check
+from font_license_compact_modules import check as font_license_compact_modules_check
 from feature_contract_consistency_apple import check as feature_contract_apple_check
 from original_video_mode_apple import check as original_video_mode_apple_check
 import selection_scroll_continuity_runtime as selection_scroll
@@ -157,6 +160,13 @@ def main():
         root = Path(temporary)
         foundation=foundation_check(args.swiftc,root)
         files = {}
+        license_source=root/'font-license-native-final'
+        files['native_final83']=canonical_projection(license_source,'font_license_compact')
+        font_license_compact_api=font_license_compact_api_check(license_source,args.swiftc,root/'font-license-api-first')
+        font_license_compact_modules=font_license_compact_modules_check(license_source,args.swiftc,root/'font-license-modules-first')
+        shutil.rmtree(root/'font-license-modules-first')
+        shutil.rmtree(license_source)
+        if (root/'font-license-api-first').is_dir(): shutil.rmtree(root/'font-license-api-first')
         sliders_source=root/'settings-glass-native-final'
         files['native_final82']=canonical_projection(sliders_source,'settings_glass_sliders')
         settings_glass_sliders_api=settings_glass_sliders_api_check(sliders_source,args.swiftc,root/'settings-glass-api-first')
@@ -240,6 +250,7 @@ def main():
             ('rich_file_padding', [('rich-file-padding', rich_file_padding_fixture)]),
             ('snow_density_glass', [('snow-density-glass', snow_density_glass_fixture)]),
             ('settings_glass_sliders', [('settings-glass-sliders', settings_glass_sliders_fixture)]),
+            ('font_license_compact', [('font-license-compact', font_license_compact_fixture)]),
         ]
         for stage, fixtures in entries:
             source = root / stage
@@ -304,6 +315,8 @@ def main():
     report['original_video_media_native_api']=original_video_media_api
     report['snow_density_glass_native_api']=snow_density_glass_api
     report['settings_glass_sliders_native_api']=settings_glass_sliders_api
+    report['font_license_compact_native_api']=font_license_compact_api
+    report['font_license_compact_modules']=font_license_compact_modules
     report['input_effects_real_sdk']=input_effects_apple
     report['snowfall_real_sdk']=snowfall_apple
     report['snowfall_holidays_real_sdk']=snowfall_holidays_apple

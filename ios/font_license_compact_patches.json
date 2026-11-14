@@ -1,0 +1,65 @@
+{
+  "target_pin": "24638bc69bd083981b178dd1e7f921eebbf7fc46",
+  "overlay_base_pin": "279f89e4d4f63f17227bf877dc3d8990f22ecd58",
+  "required_previous_stage": "settings_glass_sliders",
+  "inputs": {
+    "submodules/SettingsUI/Sources/NagramiXFontsController.swift": "af3c99c6ae6b0c9fda005884429d66507f82fd514135d8dce9cea8d9f144e108"
+  },
+  "outputs": {
+    "submodules/SettingsUI/Sources/NagramiXFontsController.swift": "c1336153a0eb04c4c72dd036008cb94e74e5c62b7af486e731e7834f4e2f725d"
+  },
+  "previous": {
+    "submodules/SettingsUI/Sources/NagramiXFontsController.swift": "font_license_compact/Before.inc"
+  },
+  "replacements": {
+    "submodules/SettingsUI/Sources/NagramiXFontsController.swift": "font_license_compact/After.inc"
+  },
+  "guards": {
+    "submodules/SettingsUI/BUILD": "b229ff1580a1e8e13770d400a1c0c9e1cf56ef05b831659c3422a6141b50f489",
+    "submodules/Display/BUILD": "b1fc5ac3fc6de1dc029f6887d6c41caa87b4f46ca0f70962aeeee4454baf4e93",
+    "submodules/Display/Source/NagramiXFontManager.swift": "99c6e6f5a5c412f840ef19a1a6c8ed327edfa4a55420654923d8585622a0e751",
+    "submodules/NagramiXMediaSettings/Sources/NagramiXFontSettings.swift": "d60ee84ffc499869e0f455610f758861d48705b87dc027b69df2ea95c82a0814",
+    "submodules/NagramiXTranscription/Sources/Preferences.swift": "dec332b8e24bc5014f8462145c849cea03749ac955e15466c694b74012fbe8d0",
+    "submodules/ItemListUI/Sources/ItemListItem.swift": "c3b38ab1814e5a39ad10d8c0cc8debad9fa1fa4c22b9c13835f17cefbd912914",
+    "submodules/TelegramPresentationData/Sources/PresentationTheme.swift": "cc065b9d80288da487477a4af2a857ff98843cba983236582c3c61f14b423ea8",
+    "submodules/Display/Resources/NagramiXFonts/PTAstraSans-LICENSE.txt": "7c4c2da10208710b929ddce6a681459ae592db5feaba377b7e898155ff519503",
+    "submodules/Display/Resources/NagramiXFonts/PTAstraSerif-LICENSE.txt": "03a600e36d134b98a6af56012783289f1fea56f65e022387790f526a45445f4d",
+    "submodules/Display/Resources/NagramiXFonts/Roboto-NOTICE.txt": "ad584a7ecf90d614c873028d1f76e5e5d5bdf8c80efe61148e6b4959a74b2921",
+    "submodules/Display/Resources/NagramiXFonts/Roboto-LICENSE.txt": "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4",
+    "submodules/TelegramUIPreferences/Sources/PresentationThemeSettings.swift": "1039cc32a1bbcaf9126aa984062900aa73392ffa637bcc6cdcf5a82d1620ea4f"
+  },
+  "guard_sources": {
+    "submodules/SettingsUI/BUILD": "font_license_compact/Guard0.inc",
+    "submodules/Display/BUILD": "font_license_compact/Guard1.inc",
+    "submodules/Display/Source/NagramiXFontManager.swift": "font_license_compact/Guard2.inc",
+    "submodules/NagramiXMediaSettings/Sources/NagramiXFontSettings.swift": "font_license_compact/Guard3.inc",
+    "submodules/NagramiXTranscription/Sources/Preferences.swift": "font_license_compact/Guard4.inc",
+    "submodules/ItemListUI/Sources/ItemListItem.swift": "font_license_compact/Guard5.inc",
+    "submodules/TelegramPresentationData/Sources/PresentationTheme.swift": "font_license_compact/Guard6.inc",
+    "submodules/Display/Resources/NagramiXFonts/PTAstraSans-LICENSE.txt": "font_license_compact/Guard7.inc",
+    "submodules/Display/Resources/NagramiXFonts/PTAstraSerif-LICENSE.txt": "font_license_compact/Guard8.inc",
+    "submodules/Display/Resources/NagramiXFonts/Roboto-NOTICE.txt": "font_license_compact/Guard9.inc",
+    "submodules/Display/Resources/NagramiXFonts/Roboto-LICENSE.txt": "font_license_compact/Guard10.inc",
+    "submodules/TelegramUIPreferences/Sources/PresentationThemeSettings.swift": "font_license_compact/Guard11.inc"
+  },
+  "copies": {},
+  "deletions": {},
+  "native_inputs": {},
+  "native_guards": {},
+  "templates": {
+    "font_license_compact/Before.inc": "af3c99c6ae6b0c9fda005884429d66507f82fd514135d8dce9cea8d9f144e108",
+    "font_license_compact/After.inc": "c1336153a0eb04c4c72dd036008cb94e74e5c62b7af486e731e7834f4e2f725d",
+    "font_license_compact/Guard0.inc": "b229ff1580a1e8e13770d400a1c0c9e1cf56ef05b831659c3422a6141b50f489",
+    "font_license_compact/Guard1.inc": "b1fc5ac3fc6de1dc029f6887d6c41caa87b4f46ca0f70962aeeee4454baf4e93",
+    "font_license_compact/Guard2.inc": "99c6e6f5a5c412f840ef19a1a6c8ed327edfa4a55420654923d8585622a0e751",
+    "font_license_compact/Guard3.inc": "d60ee84ffc499869e0f455610f758861d48705b87dc027b69df2ea95c82a0814",
+    "font_license_compact/Guard4.inc": "dec332b8e24bc5014f8462145c849cea03749ac955e15466c694b74012fbe8d0",
+    "font_license_compact/Guard5.inc": "c3b38ab1814e5a39ad10d8c0cc8debad9fa1fa4c22b9c13835f17cefbd912914",
+    "font_license_compact/Guard6.inc": "cc065b9d80288da487477a4af2a857ff98843cba983236582c3c61f14b423ea8",
+    "font_license_compact/Guard7.inc": "7c4c2da10208710b929ddce6a681459ae592db5feaba377b7e898155ff519503",
+    "font_license_compact/Guard8.inc": "03a600e36d134b98a6af56012783289f1fea56f65e022387790f526a45445f4d",
+    "font_license_compact/Guard9.inc": "ad584a7ecf90d614c873028d1f76e5e5d5bdf8c80efe61148e6b4959a74b2921",
+    "font_license_compact/Guard10.inc": "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4",
+    "font_license_compact/Guard11.inc": "1039cc32a1bbcaf9126aa984062900aa73392ffa637bcc6cdcf5a82d1620ea4f"
+  }
+}
