@@ -1,0 +1,89 @@
+{
+  "target_pin": "24638bc69bd083981b178dd1e7f921eebbf7fc46",
+  "overlay_base_pin": "279f89e4d4f63f17227bf877dc3d8990f22ecd58",
+  "required_previous_stage": "doh_empty_action",
+  "inputs": {
+    "submodules/TelegramUI/Components/MediaManager/PeerMessagesMediaPlaylist/Sources/PeerMessagesMediaPlaylist.swift": "479adddc7edd1f582ac54e3d151b2e524085af006021bfbdae1246f455a6440e"
+  },
+  "outputs": {
+    "submodules/TelegramUI/Components/MediaManager/PeerMessagesMediaPlaylist/Sources/PeerMessagesMediaPlaylist.swift": "610c4ae3e571ba8c6ab97045f917037d4a4870b75f0bdf7f544b5be010fcc3dd"
+  },
+  "previous": {
+    "submodules/TelegramUI/Components/MediaManager/PeerMessagesMediaPlaylist/Sources/PeerMessagesMediaPlaylist.swift": "archived_playlist_lifetime/Before0.inc"
+  },
+  "replacements": {
+    "submodules/TelegramUI/Components/MediaManager/PeerMessagesMediaPlaylist/Sources/PeerMessagesMediaPlaylist.swift": "archived_playlist_lifetime/After0.inc"
+  },
+  "guards": {
+    "submodules/TelegramUI/Components/MediaManager/PeerMessagesMediaPlaylist/BUILD": "580ee0ecafadc312796b0f16e999c75b1870a903e63ffc3e7aa72bb8e9f813f7",
+    "submodules/AccountContext/Sources/MediaManager.swift": "116e9b3c3d46f9b6aaa80e974d419b903d42b3705ac415057b81984127677e21",
+    "submodules/AccountContext/Sources/SharedMediaPlayer.swift": "f1b47a9e577a2104fb3687c86f63f72a64e0c5da2c4736c5bff2797500ae1021",
+    "submodules/TelegramUI/Sources/SharedMediaPlayer.swift": "93e1842abfb044eda1209ae43bfe6ca75042c967ffade1300e8d38ff9ab7fe1c",
+    "submodules/TelegramUI/Sources/MediaManager.swift": "5085a1f0ec117fa204d54955a5642dca6b7a20aaabc75250eca0031a48e69e13",
+    "submodules/TelegramCore/Sources/Utils/NagramiXMessageArchive.swift": "ebad9f38125fab449fc9e1f07fb90d3cc1345471505c70eff82b913a979eeb6b",
+    "submodules/TelegramUI/Sources/OpenChatMessage.swift": "c9b23946bce5af79b20a63ee3d06d839decb2b7d9b77e6917e56d10e025cb900",
+    "submodules/AccountContext/Sources/NagramiXArchivedPlaybackAction.swift": "ffabe3c6bcf36fa5c18b3795990a8cfdeb1089fe78c42c6019aca4f18c5d6872",
+    "submodules/TelegramUniversalVideoContent/Sources/NativeVideoContent.swift": "528f20337b832f9dcc01b58511a7639e54a757afffb7477ed2e8c054674bae10",
+    "submodules/TelegramUI/Components/Chat/ChatMessageBubbleItemNode/Sources/ChatMessageBubbleItemNode.swift": "b01ebc5d17db74106eaee85a98efa4423f0ad2217b9d65a79ad3670ed3720f33",
+    "submodules/SSignalKit/SwiftSignalKit/Source/Atomic.swift": "ad76eb0a708bdf77301d7d11787a06f33029c67412e6485616534c4faf2e8a9d",
+    "submodules/SSignalKit/SwiftSignalKit/Source/Disposable.swift": "60e53d9fa32a1b1ba47897467077cf22fcdc0458c20b646a35c75fb76484209b",
+    "submodules/SSignalKit/SwiftSignalKit/Source/Subscriber.swift": "eb28ad26bda8b4a8ff1aad73b949d4c3d24132db3aebdd1f5a4c67a5962718ee",
+    "submodules/SSignalKit/SwiftSignalKit/Source/Signal.swift": "c1fee825012eace4710eab53f32faa1d49efe38b01e7ad709054f26695494cb6",
+    "submodules/SSignalKit/SwiftSignalKit/Source/Bag.swift": "01675a040b4653a9d3f4235f7b6d7a7dbfde05b1004a9b087b7a6d39da56e495",
+    "submodules/SSignalKit/SwiftSignalKit/Source/Promise.swift": "e691338e89b656e5d272f70e6c97f5d07990d57badfd7e1d7e1dae86f9a3693a",
+    "submodules/SSignalKit/SwiftSignalKit/Source/Signal_Mapping.swift": "4740a3a616679ad0f65c6341a0498bf42e120dcaddd2c281694188b47e075017",
+    "submodules/SSignalKit/SwiftSignalKit/Source/Signal_Take.swift": "f7edb85f3327c4263c6f9ebe9f4e9339661eaebf85ab062acb92faf0f3bce999",
+    "submodules/SSignalKit/SwiftSignalKit/Source/Queue.swift": "ac7db4cdf6b9728f0936bf35998cee3f6b8d7824abbc07e71e679e068315b31b",
+    "submodules/SSignalKit/SwiftSignalKit/Source/Signal_Dispatch.swift": "136f325211fca4cf75d193a3f273d092a32ed9304c3442095b707c6b1639fc38"
+  },
+  "guard_sources": {
+    "submodules/TelegramUI/Components/MediaManager/PeerMessagesMediaPlaylist/BUILD": "archived_playlist_lifetime/Guard0.inc",
+    "submodules/AccountContext/Sources/MediaManager.swift": "archived_playlist_lifetime/Guard1.inc",
+    "submodules/AccountContext/Sources/SharedMediaPlayer.swift": "archived_playlist_lifetime/Guard2.inc",
+    "submodules/TelegramUI/Sources/SharedMediaPlayer.swift": "archived_playlist_lifetime/Guard3.inc",
+    "submodules/TelegramUI/Sources/MediaManager.swift": "archived_playlist_lifetime/Guard4.inc",
+    "submodules/TelegramCore/Sources/Utils/NagramiXMessageArchive.swift": "archived_playlist_lifetime/Guard5.inc",
+    "submodules/TelegramUI/Sources/OpenChatMessage.swift": "archived_playlist_lifetime/Guard6.inc",
+    "submodules/AccountContext/Sources/NagramiXArchivedPlaybackAction.swift": "archived_playlist_lifetime/Guard7.inc",
+    "submodules/TelegramUniversalVideoContent/Sources/NativeVideoContent.swift": "archived_playlist_lifetime/Guard8.inc",
+    "submodules/TelegramUI/Components/Chat/ChatMessageBubbleItemNode/Sources/ChatMessageBubbleItemNode.swift": "archived_playlist_lifetime/Guard9.inc",
+    "submodules/SSignalKit/SwiftSignalKit/Source/Atomic.swift": "archived_playlist_lifetime/Guard10.inc",
+    "submodules/SSignalKit/SwiftSignalKit/Source/Disposable.swift": "archived_playlist_lifetime/Guard11.inc",
+    "submodules/SSignalKit/SwiftSignalKit/Source/Subscriber.swift": "archived_playlist_lifetime/Guard12.inc",
+    "submodules/SSignalKit/SwiftSignalKit/Source/Signal.swift": "archived_playlist_lifetime/Guard13.inc",
+    "submodules/SSignalKit/SwiftSignalKit/Source/Bag.swift": "archived_playlist_lifetime/Guard14.inc",
+    "submodules/SSignalKit/SwiftSignalKit/Source/Promise.swift": "archived_playlist_lifetime/Guard15.inc",
+    "submodules/SSignalKit/SwiftSignalKit/Source/Signal_Mapping.swift": "archived_playlist_lifetime/Guard16.inc",
+    "submodules/SSignalKit/SwiftSignalKit/Source/Signal_Take.swift": "archived_playlist_lifetime/Guard17.inc",
+    "submodules/SSignalKit/SwiftSignalKit/Source/Queue.swift": "archived_playlist_lifetime/Guard18.inc",
+    "submodules/SSignalKit/SwiftSignalKit/Source/Signal_Dispatch.swift": "archived_playlist_lifetime/Guard19.inc"
+  },
+  "copies": {},
+  "deletions": {},
+  "native_inputs": {},
+  "native_guards": {},
+  "templates": {
+    "archived_playlist_lifetime/Before0.inc": "479adddc7edd1f582ac54e3d151b2e524085af006021bfbdae1246f455a6440e",
+    "archived_playlist_lifetime/After0.inc": "610c4ae3e571ba8c6ab97045f917037d4a4870b75f0bdf7f544b5be010fcc3dd",
+    "archived_playlist_lifetime/Guard0.inc": "580ee0ecafadc312796b0f16e999c75b1870a903e63ffc3e7aa72bb8e9f813f7",
+    "archived_playlist_lifetime/Guard1.inc": "116e9b3c3d46f9b6aaa80e974d419b903d42b3705ac415057b81984127677e21",
+    "archived_playlist_lifetime/Guard2.inc": "f1b47a9e577a2104fb3687c86f63f72a64e0c5da2c4736c5bff2797500ae1021",
+    "archived_playlist_lifetime/Guard3.inc": "93e1842abfb044eda1209ae43bfe6ca75042c967ffade1300e8d38ff9ab7fe1c",
+    "archived_playlist_lifetime/Guard4.inc": "5085a1f0ec117fa204d54955a5642dca6b7a20aaabc75250eca0031a48e69e13",
+    "archived_playlist_lifetime/Guard5.inc": "ebad9f38125fab449fc9e1f07fb90d3cc1345471505c70eff82b913a979eeb6b",
+    "archived_playlist_lifetime/Guard6.inc": "c9b23946bce5af79b20a63ee3d06d839decb2b7d9b77e6917e56d10e025cb900",
+    "archived_playlist_lifetime/Guard7.inc": "ffabe3c6bcf36fa5c18b3795990a8cfdeb1089fe78c42c6019aca4f18c5d6872",
+    "archived_playlist_lifetime/Guard8.inc": "528f20337b832f9dcc01b58511a7639e54a757afffb7477ed2e8c054674bae10",
+    "archived_playlist_lifetime/Guard9.inc": "b01ebc5d17db74106eaee85a98efa4423f0ad2217b9d65a79ad3670ed3720f33",
+    "archived_playlist_lifetime/Guard10.inc": "ad76eb0a708bdf77301d7d11787a06f33029c67412e6485616534c4faf2e8a9d",
+    "archived_playlist_lifetime/Guard11.inc": "60e53d9fa32a1b1ba47897467077cf22fcdc0458c20b646a35c75fb76484209b",
+    "archived_playlist_lifetime/Guard12.inc": "eb28ad26bda8b4a8ff1aad73b949d4c3d24132db3aebdd1f5a4c67a5962718ee",
+    "archived_playlist_lifetime/Guard13.inc": "c1fee825012eace4710eab53f32faa1d49efe38b01e7ad709054f26695494cb6",
+    "archived_playlist_lifetime/Guard14.inc": "01675a040b4653a9d3f4235f7b6d7a7dbfde05b1004a9b087b7a6d39da56e495",
+    "archived_playlist_lifetime/Guard15.inc": "e691338e89b656e5d272f70e6c97f5d07990d57badfd7e1d7e1dae86f9a3693a",
+    "archived_playlist_lifetime/Guard16.inc": "4740a3a616679ad0f65c6341a0498bf42e120dcaddd2c281694188b47e075017",
+    "archived_playlist_lifetime/Guard17.inc": "f7edb85f3327c4263c6f9ebe9f4e9339661eaebf85ab062acb92faf0f3bce999",
+    "archived_playlist_lifetime/Guard18.inc": "ac7db4cdf6b9728f0936bf35998cee3f6b8d7824abbc07e71e679e068315b31b",
+    "archived_playlist_lifetime/Guard19.inc": "136f325211fca4cf75d193a3f273d092a32ed9304c3442095b707c6b1639fc38"
+  }
+}

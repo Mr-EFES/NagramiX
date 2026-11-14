@@ -1,0 +1,809 @@
+{
+  "stage": 76,
+  "name": "archived_playlist_lifetime",
+  "status": "source_checked/SDK_pending/device_pending",
+  "base_main": "c1557975c52f13404695275f6cfcfc7d0362716e",
+  "feature": {
+    "stage": "archived_playlist_lifetime",
+    "runtime_paths": [
+      "submodules/TelegramUI/Components/MediaManager/PeerMessagesMediaPlaylist/Sources/PeerMessagesMediaPlaylist.swift"
+    ],
+    "guards": 20,
+    "loader_refusals": 12,
+    "executions": [
+      {
+        "name": "archived_playlist_lifetime",
+        "mode": "debug",
+        "exit_code": 0,
+        "output": "PASS archived playlist production checks: 117"
+      },
+      {
+        "name": "archived_playlist_lifetime",
+        "mode": "optimized",
+        "exit_code": 0,
+        "output": "PASS archived playlist production checks: 117"
+      },
+      {
+        "name": "original75-cancels-local-copy",
+        "mode": "debug",
+        "exit_code": 96,
+        "output": "FAIL: retained missing original never cancels native player"
+      },
+      {
+        "name": "original75-cancels-local-copy",
+        "mode": "optimized",
+        "exit_code": 96,
+        "output": "FAIL: retained missing original never cancels native player"
+      },
+      {
+        "name": "ignore-all-recent-actions",
+        "mode": "debug",
+        "exit_code": 96,
+        "output": "FAIL: ordinary source still observes existing message"
+      },
+      {
+        "name": "ignore-all-recent-actions",
+        "mode": "optimized",
+        "exit_code": 96,
+        "output": "FAIL: ordinary source still observes existing message"
+      },
+      {
+        "name": "stale-original-watcher",
+        "mode": "debug",
+        "exit_code": 96,
+        "output": "FAIL: retained branch disposes old original watcher"
+      },
+      {
+        "name": "stale-original-watcher",
+        "mode": "optimized",
+        "exit_code": 96,
+        "output": "FAIL: retained branch disposes old original watcher"
+      }
+    ],
+    "root_cause": "updateState observes the original Postbox ID even for recentActions archived snapshots; missing original invokes SharedMediaPlayer.cancelled and native MediaManager stops/clears the voice player.",
+    "scope": "Skip/dispose original observation only for recentActions carrying NagramiXArchivedMessageAttribute. All ordinary message/recentActions/custom policies, state/controls/end handling, decoder, identity, 50percent alpha/footer, one-time consumption and archive storage remain unchanged.",
+    "boundary": "Actual updateState and native SharedMediaPlayer→MediaManager cancellation closures execute with real SwiftSignalKit. Engine replies, message/item graph and stop hardware edge are explicit adapters; UIKit frames, live Postbox/database and actual video decoder not exercised.",
+    "source_unchanged_by_checks": true,
+    "full_application_sdk": "pending",
+    "physical_iphone": "pending",
+    "new_sdk_actions_ipa_started": false
+  },
+  "source": {
+    "stage": 76,
+    "name": "archived_playlist_lifetime",
+    "path": "/tmp/nagramix-archived-round-motion/source",
+    "manifest_sha256": "21e62940c90841ce11f1f185b0e397061bb78926b22da1a9d1a1d4d3024f6001",
+    "previous_manifest_sha256": "901eebd3ec9d88a169bcfbf1eeb9b84782edd34735e07f6413efad26605a8426",
+    "files": 37691,
+    "symlinks": 26,
+    "modified_runtime_paths": [
+      "submodules/TelegramUI/Components/MediaManager/PeerMessagesMediaPlaylist/Sources/PeerMessagesMediaPlaylist.swift"
+    ],
+    "new_runtime_paths": [],
+    "guards": 20,
+    "new_inc": 22,
+    "old_inc_unchanged": 4637,
+    "old_plans_unchanged": 288,
+    "historical_manifests_verified": 33,
+    "history": [
+      {
+        "path": "/tmp/nagramix-wide-portal-api/source-checkpoint.json",
+        "manifest_sha256": "91fcb7dbde584ed8ec7bb8404a36446bcf80fd34dc511957cd57f6f8b1bb33ae",
+        "verified": true
+      },
+      {
+        "path": "/tmp/nagramix-round-editor-quality/source-checkpoint.json",
+        "manifest_sha256": "71354ef15a8208cfc2b4dd026f3cc327b11a2874034bc09d15481fd0cbcae089",
+        "verified": true
+      },
+      {
+        "path": "/tmp/nagramix-transcription-cached-read/source-checkpoint.json",
+        "manifest_sha256": "fec13a36b0acb1e919ccb688082de47224aebbe8199f569737709fedb501253d",
+        "verified": true
+      },
+      {
+        "path": "/tmp/nagramix-feature-contract-fixes/source-checkpoint.json",
+        "manifest_sha256": "22d518ed72373cff5f692e5745f1fede05355ecd3e230455b296ce88c2fc2b1e",
+        "verified": true
+      },
+      {
+        "path": "/tmp/nagramix-original-video-mode/source-checkpoint.json",
+        "manifest_sha256": "0359e1480536e2cdb4d03d6a33c943f3866fafd84e81a022d904a38ace23aa35",
+        "verified": true
+      },
+      {
+        "path": "/tmp/nagramix-selection-scroll-continuity/source-checkpoint.json",
+        "manifest_sha256": "01b67c6ec781e0fe200f8c072444e3cdcda8b1133a8922b86fe80f141896a244",
+        "verified": true
+      },
+      {
+        "path": "/tmp/nagramix-selection-column-coordinates/source-checkpoint.json",
+        "manifest_sha256": "88cd0a3d3e8314a1ef0908b2258ba787b12bb6578ed0f4348e07059e56daca12",
+        "verified": true
+      },
+      {
+        "path": "/tmp/nagramix-recording-start-recovery/source-checkpoint.json",
+        "manifest_sha256": "6afbce4762afe35f080572802059868b88fcdeebf6e2d618807e3177973aeb8a",
+        "verified": true
+      },
+      {
+        "path": "/tmp/nagramix-pip-preview-continuity/source-checkpoint.json",
+        "manifest_sha256": "eb60d35d194510b0054115fabc62f2bec170ecfa117fb35dff32fbdefb9a758b",
+        "verified": true
+      },
+      {
+        "path": "/tmp/nagramix-video-audio-continuity/source-checkpoint.json",
+        "manifest_sha256": "9f072b9d8400b2784bc8594cf1688d17bf5374c054e6a2a2915fddc68380f4d7",
+        "verified": true
+      },
+      {
+        "path": "/tmp/nagramix-font-apply-lifecycle/source-checkpoint.json",
+        "manifest_sha256": "0e4c99c26ba086920080ef99d2096886fab6cd98c6690feb47b8512dee93e7f1",
+        "verified": true
+      },
+      {
+        "path": "/tmp/nagramix-font-node-compatibility/source-checkpoint.json",
+        "manifest_sha256": "93cc510de32754940c7c479bb68c2781077be30ec684b5bcf6dc3b9b40f0c633",
+        "verified": true
+      },
+      {
+        "path": "/tmp/nagramix-transcription-compatibility/source-checkpoint.json",
+        "manifest_sha256": "d859d8a62b549f3a76291658a6a24a37eee446879460ddf9381f164616707718",
+        "verified": true
+      },
+      {
+        "path": "/tmp/nagramix-calendar-compatibility/source-checkpoint.json",
+        "manifest_sha256": "b1ba840f8a60fad64372f0c824f1fa3eb0aedae9846618787665b678b92257d0",
+        "verified": true
+      },
+      {
+        "path": "/tmp/nagramix-single-touch-selection/source-checkpoint.json",
+        "manifest_sha256": "221f00c7a16e03c964a8924f8c79337fb8deac03e09bd02e1ee2ab63f8a718c2",
+        "verified": true
+      },
+      {
+        "path": "/tmp/nagramix-composer-integrity/source-checkpoint.json",
+        "manifest_sha256": "aa7c3ca9823bdd05a1f301cb3b2bc93be5b1072af0a798ffdc916e150976d8c0",
+        "verified": true
+      },
+      {
+        "path": "/tmp/nagramix-local-read-label/source-checkpoint.json",
+        "manifest_sha256": "9640665a765f0fd34c1ca6fd19be16aa08e562742bd76a86849b7ef14d87a235",
+        "verified": true
+      },
+      {
+        "path": "/tmp/nagramix-snow-holidays/source-checkpoint.json",
+        "manifest_sha256": "0f0271b535d9bfe27a767f5bdd6e4218dfaa083351f0b5d9e8f83224eb990290",
+        "verified": true
+      },
+      {
+        "path": "/tmp/nagramix-snowfall/source-checkpoint.json",
+        "manifest_sha256": "3fd8dca8cd2e2aacd153c8459dd2082810533b642d6648c69a013c931aad0783",
+        "verified": true
+      },
+      {
+        "path": "/tmp/nagramix-input-effects/source-checkpoint.json",
+        "manifest_sha256": "1f320a9c1ae620b3cf292eb9c2b25b675f6ba604a9700a30024b15dad7a6f081",
+        "verified": true
+      },
+      {
+        "path": "/tmp/nagramix-youtube-policy/source-checkpoint.json",
+        "manifest_sha256": "a1e07c3c2c92efb312ce788464a9b7735d0c96bdda8423957f7e2989f4a31897",
+        "verified": true
+      },
+      {
+        "path": "/tmp/nagramix-edit-confirmation/source-checkpoint.json",
+        "manifest_sha256": "37263009e577843f74395fcec9999a453700922d9d93011091502ac57c71b3a1",
+        "verified": true
+      },
+      {
+        "path": "/tmp/nagramix-font-preview/source-checkpoint.json",
+        "manifest_sha256": "5f2afc0e892828dc4ef0e839d8c8401f514cd4e7685566f5d34f9b55b57413c7",
+        "verified": true
+      },
+      {
+        "path": "/tmp/nagramix-premium-file-asr/source-checkpoint.json",
+        "manifest_sha256": "6f6e5eee53a7eb5df517486a3308a2699e980b12e0fe7e64a933b00d12a71159",
+        "verified": true
+      },
+      {
+        "path": "/tmp/nagramix-section-headers/source-checkpoint.json",
+        "manifest_sha256": "a502069589d4128650082857d14869acbf5e020ffaeda46ec1004fcdc5e86a6a",
+        "verified": true
+      },
+      {
+        "path": "/tmp/nagramix-wide-panels/source-checkpoint.json",
+        "manifest_sha256": "546d8889694c3bc3079dce138f401f0d90b4f6b5a3d6c5a69b21fb8ca803a09c",
+        "verified": true
+      },
+      {
+        "path": "/tmp/nagramix-system-web-pip/source-checkpoint.json",
+        "manifest_sha256": "8c08b5a78807b07d6e18379bec2ea8e1c0068be435f4c073746ba98293fb759a",
+        "verified": true
+      },
+      {
+        "path": "/tmp/nagramix-font-theme/source-checkpoint.json",
+        "manifest_sha256": "fc06c0fff3c83897d846bc28c41860d1b6efea86a20e0d7b96c2fe3c40940f45",
+        "verified": true
+      },
+      {
+        "path": "/tmp/nagramix-wide-channel-posts/source-checkpoint.json",
+        "manifest_sha256": "f42f2e333a84c3cae0793b33a88563aeefef2c714ffcd8a48123c45c00de6d0e",
+        "verified": true
+      },
+      {
+        "path": "/tmp/nagramix-composer-native-strings/source-checkpoint.json",
+        "manifest_sha256": "80e2ed1949ff89044d6e588cc847bf4616b6df8e5645c1a473190aec6e623672",
+        "verified": true
+      },
+      {
+        "path": "/tmp/nagramix-font-sdk199/source-checkpoint.json",
+        "manifest_sha256": "719bf32e97e52b0877466f546372f17829eb521351ca9d4c77d0bf3a36964c54",
+        "verified": true
+      },
+      {
+        "path": "/tmp/nagramix-temporary-expiration/source-checkpoint.json",
+        "manifest_sha256": "32c075e1a995bc77e196db578b20b21776ee325e27d254bc5ec63b9a1eb2a396",
+        "verified": true
+      },
+      {
+        "path": "/tmp/nagramix-doh-empty-action/source-checkpoint.json",
+        "manifest_sha256": "901eebd3ec9d88a169bcfbf1eeb9b84782edd34735e07f6413efad26605a8426",
+        "verified": true
+      }
+    ]
+  },
+  "scope": {
+    "runtime_changed_only": [
+      "submodules/TelegramUI/Components/MediaManager/PeerMessagesMediaPlaylist/Sources/PeerMessagesMediaPlaylist.swift"
+    ],
+    "new_app_files": 0,
+    "source_files": 37691,
+    "registry_changed_only": [
+      "deleted_messages",
+      "temporary_messages"
+    ],
+    "compile_passed": 77,
+    "compile_pending": 3,
+    "device_pending": 80,
+    "old_inc_preserved": 4637,
+    "old_plans_preserved": 288,
+    "historical_checkpoints": 33,
+    "README_LICENSE_annotation_unchanged": true,
+    "UI_geometry_alpha_footer_decoder_and_controls_unchanged": true
+  },
+  "checks": [
+    {
+      "name": "early",
+      "exit_code": 0,
+      "seconds": 274.5,
+      "source_manifest_sha256": "21e62940c90841ce11f1f185b0e397061bb78926b22da1a9d1a1d4d3024f6001"
+    },
+    {
+      "name": "upstream",
+      "exit_code": 0,
+      "seconds": 103.7,
+      "source_manifest_sha256": "21e62940c90841ce11f1f185b0e397061bb78926b22da1a9d1a1d4d3024f6001"
+    },
+    {
+      "name": "inverse",
+      "exit_code": 0,
+      "seconds": 96.4,
+      "source_manifest_sha256": "21e62940c90841ce11f1f185b0e397061bb78926b22da1a9d1a1d4d3024f6001"
+    },
+    {
+      "name": "localization",
+      "exit_code": 0,
+      "seconds": 30.9,
+      "source_manifest_sha256": "21e62940c90841ce11f1f185b0e397061bb78926b22da1a9d1a1d4d3024f6001"
+    },
+    {
+      "name": "members-full",
+      "exit_code": 0,
+      "seconds": 4.5,
+      "source_manifest_sha256": "21e62940c90841ce11f1f185b0e397061bb78926b22da1a9d1a1d4d3024f6001"
+    },
+    {
+      "name": "members-canonical",
+      "exit_code": 0,
+      "seconds": 1.9,
+      "source_manifest_sha256": "21e62940c90841ce11f1f185b0e397061bb78926b22da1a9d1a1d4d3024f6001"
+    },
+    {
+      "name": "native-strings",
+      "exit_code": 0,
+      "seconds": 5.5,
+      "source_manifest_sha256": "21e62940c90841ce11f1f185b0e397061bb78926b22da1a9d1a1d4d3024f6001"
+    },
+    {
+      "name": "mode",
+      "exit_code": 0,
+      "seconds": 0.2,
+      "source_manifest_sha256": "21e62940c90841ce11f1f185b0e397061bb78926b22da1a9d1a1d4d3024f6001"
+    },
+    {
+      "name": "metadata",
+      "exit_code": 0,
+      "seconds": 0.1,
+      "source_manifest_sha256": "21e62940c90841ce11f1f185b0e397061bb78926b22da1a9d1a1d4d3024f6001"
+    },
+    {
+      "name": "diff",
+      "exit_code": 0,
+      "seconds": 0.0,
+      "source_manifest_sha256": "21e62940c90841ce11f1f185b0e397061bb78926b22da1a9d1a1d4d3024f6001"
+    }
+  ],
+  "early": {
+    "complete_fixtures": 46,
+    "executions": 92,
+    "warnings_as_errors": true,
+    "new_fixture_runs": [
+      {
+        "name": "archived-playlist-lifetime",
+        "mode": "debug",
+        "exit_code": 0,
+        "output": "PASS archived playlist production checks: 117"
+      },
+      {
+        "name": "archived-playlist-lifetime",
+        "mode": "optimized",
+        "exit_code": 0,
+        "output": "PASS archived playlist production checks: 117"
+      }
+    ]
+  },
+  "upstream": {
+    "target_pin": "24638bc69bd083981b178dd1e7f921eebbf7fc46",
+    "pre_replacements": 196,
+    "post_replacements": 274,
+    "deleted_obsolete_files": 2,
+    "parsed_swift": 652,
+    "historical_runtime_boundary": "exact published bytes after verified inverse of all registered late source stages",
+    "late_source_stages": [
+      "wide_bottom_bar",
+      "author_selection_no_restore",
+      "preview_reply_intent",
+      "cloud_credential_entry",
+      "extended_poll_integrity",
+      "bot_delete_without_block",
+      "wide_tab_bar_setting",
+      "pip_swipe_handoff",
+      "temporary_message_interaction",
+      "account_settings_entry",
+      "release_090_preflight_fixes",
+      "release_090_author_compile",
+      "round_video_replay_stability",
+      "pip_gallery_placeholder",
+      "download_sheet_edge",
+      "edit_history_cards",
+      "copy_reference_recovery",
+      "edit_history_number_badges",
+      "pip_visual_continuity",
+      "local_copy_delivery",
+      "temporary_playback_identity",
+      "round_video_editor",
+      "proxy_doh_editor",
+      "download_sheet_corners",
+      "hide_premium_offers",
+      "content_interaction_consent",
+      "release_092_settings_compile",
+      "round_native_playback",
+      "poll_copy_transport",
+      "premium_label_cleanup",
+      "premium_label_spelling",
+      "pip_backdrop_stability",
+      "private_temporary_transcription",
+      "ghostgram_authorless_transport",
+      "round_replacement_geometry",
+      "download_sheet_vector_contour",
+      "bubble_selection_edge",
+      "composer_file_attachments",
+      "archived_round_native_controls",
+      "transcription_account_defaults",
+      "app_font_selection",
+      "web_video_picture_in_picture",
+      "temporary_expiration_semantics",
+      "release_095_fonts_compile",
+      "release_095_composer_strings_compile",
+      "wide_channel_post_consistency",
+      "font_theme_contrast",
+      "system_web_picture_in_picture",
+      "wide_panel_consistency",
+      "settings_section_header_case",
+      "premium_temporary_transcription",
+      "font_preview_apply",
+      "edit_result_consistency",
+      "youtube_playback_policy",
+      "input_effects",
+      "snowfall",
+      "snowfall_holidays",
+      "local_read_label",
+      "composer_copy_integrity",
+      "single_touch_message_selection",
+      "release_096_calendar_compatibility",
+      "release_096_transcription_compatibility",
+      "release_096_font_node_compatibility",
+      "font_apply_node_lifecycle",
+      "video_audio_continuity",
+      "pip_preview_continuity",
+      "recording_start_recovery",
+      "selection_column_coordinates",
+      "selection_scroll_continuity",
+      "original_video_mode",
+      "feature_contract_consistency",
+      "transcription_cached_read",
+      "round_editor_quality",
+      "wide_portal_api",
+      "doh_empty_action",
+      "archived_playlist_lifetime"
+    ],
+    "native_postbox_imports": "passed",
+    "apple_sdk": "pending",
+    "device": "pending"
+  },
+  "inverse": {
+    "late_source_stages": [
+      "wide_bottom_bar",
+      "author_selection_no_restore",
+      "preview_reply_intent",
+      "cloud_credential_entry",
+      "extended_poll_integrity",
+      "bot_delete_without_block",
+      "wide_tab_bar_setting",
+      "pip_swipe_handoff",
+      "temporary_message_interaction",
+      "account_settings_entry",
+      "release_090_preflight_fixes",
+      "release_090_author_compile",
+      "round_video_replay_stability",
+      "pip_gallery_placeholder",
+      "download_sheet_edge",
+      "edit_history_cards",
+      "copy_reference_recovery",
+      "edit_history_number_badges",
+      "pip_visual_continuity",
+      "local_copy_delivery",
+      "temporary_playback_identity",
+      "round_video_editor",
+      "proxy_doh_editor",
+      "download_sheet_corners",
+      "hide_premium_offers",
+      "content_interaction_consent",
+      "release_092_settings_compile",
+      "round_native_playback",
+      "poll_copy_transport",
+      "premium_label_cleanup",
+      "premium_label_spelling",
+      "pip_backdrop_stability",
+      "private_temporary_transcription",
+      "ghostgram_authorless_transport",
+      "round_replacement_geometry",
+      "download_sheet_vector_contour",
+      "bubble_selection_edge",
+      "composer_file_attachments",
+      "archived_round_native_controls",
+      "transcription_account_defaults",
+      "app_font_selection",
+      "web_video_picture_in_picture",
+      "temporary_expiration_semantics",
+      "release_095_fonts_compile",
+      "release_095_composer_strings_compile",
+      "wide_channel_post_consistency",
+      "font_theme_contrast",
+      "system_web_picture_in_picture",
+      "wide_panel_consistency",
+      "settings_section_header_case",
+      "premium_temporary_transcription",
+      "font_preview_apply",
+      "edit_result_consistency",
+      "youtube_playback_policy",
+      "input_effects",
+      "snowfall",
+      "snowfall_holidays",
+      "local_read_label",
+      "composer_copy_integrity",
+      "single_touch_message_selection",
+      "release_096_calendar_compatibility",
+      "release_096_transcription_compatibility",
+      "release_096_font_node_compatibility",
+      "font_apply_node_lifecycle",
+      "video_audio_continuity",
+      "pip_preview_continuity",
+      "recording_start_recovery",
+      "selection_column_coordinates",
+      "selection_scroll_continuity",
+      "original_video_mode",
+      "feature_contract_consistency",
+      "transcription_cached_read",
+      "round_editor_quality",
+      "wide_portal_api",
+      "doh_empty_action",
+      "archived_playlist_lifetime"
+    ],
+    "published_contract_paths": 883,
+    "actual_published_pipeline_compared": false,
+    "full_source_files_preserved": 37691,
+    "introduced_helpers_absent_from_history": [
+      "submodules/Display/Resources/NagramiXFonts/PTAstraSans-Bold.ttf",
+      "submodules/Display/Resources/NagramiXFonts/PTAstraSans-BoldItalic.ttf",
+      "submodules/Display/Resources/NagramiXFonts/PTAstraSans-Italic.ttf",
+      "submodules/Display/Resources/NagramiXFonts/PTAstraSans-LICENSE.txt",
+      "submodules/Display/Resources/NagramiXFonts/PTAstraSans-Regular.ttf",
+      "submodules/Display/Resources/NagramiXFonts/PTAstraSerif-Bold.ttf",
+      "submodules/Display/Resources/NagramiXFonts/PTAstraSerif-BoldItalic.ttf",
+      "submodules/Display/Resources/NagramiXFonts/PTAstraSerif-Italic.ttf",
+      "submodules/Display/Resources/NagramiXFonts/PTAstraSerif-LICENSE.txt",
+      "submodules/Display/Resources/NagramiXFonts/PTAstraSerif-Regular.ttf",
+      "submodules/Display/Resources/NagramiXFonts/Roboto-Black.ttf",
+      "submodules/Display/Resources/NagramiXFonts/Roboto-BlackItalic.ttf",
+      "submodules/Display/Resources/NagramiXFonts/Roboto-Bold.ttf",
+      "submodules/Display/Resources/NagramiXFonts/Roboto-BoldItalic.ttf",
+      "submodules/Display/Resources/NagramiXFonts/Roboto-Italic.ttf",
+      "submodules/Display/Resources/NagramiXFonts/Roboto-LICENSE.txt",
+      "submodules/Display/Resources/NagramiXFonts/Roboto-Light.ttf",
+      "submodules/Display/Resources/NagramiXFonts/Roboto-LightItalic.ttf",
+      "submodules/Display/Resources/NagramiXFonts/Roboto-Medium.ttf",
+      "submodules/Display/Resources/NagramiXFonts/Roboto-MediumItalic.ttf",
+      "submodules/Display/Resources/NagramiXFonts/Roboto-NOTICE.txt",
+      "submodules/Display/Resources/NagramiXFonts/Roboto-Regular.ttf",
+      "submodules/Display/Resources/NagramiXFonts/Roboto-Thin.ttf",
+      "submodules/Display/Resources/NagramiXFonts/Roboto-ThinItalic.ttf",
+      "submodules/Display/Source/NagramiXFontManager.swift",
+      "submodules/NagramiXCore/Sources/NagramiXSnowHolidays.swift",
+      "submodules/NagramiXCore/Sources/NagramiXSnowSchedule.swift",
+      "submodules/NagramiXCore/Sources/NagramiXSnowSettings.swift",
+      "submodules/NagramiXCore/Sources/NagramiXSnowView.swift",
+      "submodules/NagramiXCore/Sources/NagramiXTypingAnimation.swift",
+      "submodules/NagramiXCore/Sources/NagramiXTypingSettings.swift",
+      "submodules/NagramiXMediaSettings/Sources/NagramiXFontSettings.swift",
+      "submodules/SettingsUI/Sources/NagramiXFontsController.swift",
+      "submodules/SettingsUI/Sources/NagramiXSnowDensityItem.swift",
+      "submodules/TelegramUI/Components/ChatMediaSend/Sources/NagramiXOriginalVideoSend.swift",
+      "submodules/TelegramUI/Sources/Chat/NagramiXMessageDragSelection.swift",
+      "submodules/TelegramUI/Sources/Chat/NagramiXTemporaryReplySend.swift"
+    ],
+    "pre_ninth_checkpoint_verified": true,
+    "pre_tenth_checkpoint_verified": true,
+    "pre_eleventh_checkpoint_verified": true,
+    "pre_eleventh_inputs_restored": [
+      "submodules/TelegramCore/Sources/Utils/NagramiXMessageArchive.swift",
+      "submodules/TelegramUI/Sources/Chat/ChatControllerLoadDisplayNode.swift"
+    ],
+    "negative_projection_verified_before_mutation": true,
+    "sdk": "not_run",
+    "device": "pending"
+  },
+  "members_full": {
+    "swift_files": 7333,
+    "string_accesses": 898,
+    "distinct_string_members": 233,
+    "actual_string_declarations": 250,
+    "custom_declarations": 1035,
+    "full_custom_name_audit": true,
+    "literal_parser_contract": {
+      "accepted_literals_and_comments": 8,
+      "missing_real_members_rejected": 7,
+      "unterminated_literal_rejected": true,
+      "interpolations_preserved": true
+    }
+  },
+  "members_canonical": {
+    "swift_files": 260,
+    "string_accesses": 840,
+    "distinct_string_members": 231,
+    "actual_string_declarations": 250,
+    "custom_declarations": 922,
+    "full_custom_name_audit": false,
+    "literal_parser_contract": {
+      "accepted_literals_and_comments": 8,
+      "missing_real_members_rejected": 7,
+      "unterminated_literal_rejected": true,
+      "interpolations_preserved": true
+    }
+  },
+  "native_strings": {
+    "swift_files": 7333,
+    "native_generated_members": 12190,
+    "native_string_uses": 18587,
+    "distinct_native_members": 10391,
+    "proven_other_typed_owner_reads": 8,
+    "sdk200_mutation_rejected": true,
+    "apple_actual_generated_header": {
+      "status": "not_run",
+      "reason": "Real Objective-C/Apple SDK import requires macOS and swiftc"
+    },
+    "boundary": "Actual native GenerateStrings.py, build rule and final English catalog; generated member existence through strings/namedStrings receivers. Other typed owners need source declaration evidence. Full Swift call arity/type checking and app runtime still require SDK/device."
+  },
+  "strict_localization": {
+    "languages": 71,
+    "keys_per_language": 668,
+    "uppercase_headers": 24,
+    "lookup_checks_per_mode": 47597,
+    "modes": [
+      "debug",
+      "optimized"
+    ],
+    "source_unchanged": true,
+    "allocation": {
+      "allocations": [
+        {
+          "prefix": "nagramix-late-source-prior-",
+          "root": "/workspace/.codex-wide-portal-localization-tmp",
+          "free_bytes_before": 126074880
+        },
+        {
+          "prefix": "nagramix-late-source-prior-",
+          "root": "/workspace/.codex-wide-portal-localization-tmp",
+          "free_bytes_before": 73420800
+        },
+        {
+          "prefix": "nagramix-late-source-prior-",
+          "root": "/workspace/.codex-wide-portal-localization-tmp",
+          "free_bytes_before": 65736704
+        },
+        {
+          "prefix": "nagramix-late-source-prior-",
+          "root": "/workspace/.codex-wide-portal-localization-tmp",
+          "free_bytes_before": 58548224
+        },
+        {
+          "prefix": "nagramix-late-source-prior-",
+          "root": "/workspace/.codex-wide-portal-localization-tmp",
+          "free_bytes_before": 51924992
+        },
+        {
+          "prefix": "nagramix-language-runtime-",
+          "root": "/workspace/.codex-wide-portal-localization-tmp",
+          "free_bytes_before": 126074880
+        }
+      ],
+      "projection_storage": {
+        "linked_files": 3294,
+        "linked_bytes": 165268026,
+        "written_files": 1243
+      },
+      "source_unchanged": true
+    }
+  },
+  "build_inputs": {
+    "version": "0.9.7",
+    "workflow_scripts": 262,
+    "python_syntax_files": 741,
+    "late_stages": 76,
+    "sdk_plans": 82,
+    "submodules": 12,
+    "manual_only": true,
+    "existing_unsigned_signing_contract": "preserved",
+    "native_environment": "not_run"
+  },
+  "video_analysis": {
+    "duration_seconds": 28.733333,
+    "width": 384,
+    "height": 848,
+    "fps": 30,
+    "overview_fps": 1,
+    "detail_interval_seconds": [
+      1,
+      4
+    ],
+    "detail_fps": 6,
+    "private_frames_not_committed": true
+  },
+  "test_host_corrections": [
+    "Added the actual Promise and filter declarations to the reused SwiftSignalKit fixture library.",
+    "The overly broad recentActions negative retains a message reference so warnings-as-errors remains enabled.",
+    "Production76 bytes unchanged throughout final checks; first host diagnostics preserved locally."
+  ],
+  "log_evidence": {
+    "feature.log": {
+      "sha256": "9673b007a0819d4bbfc9a0f2940cdb4086aa026a041701f0caaa37d9a7ad7b1f",
+      "bytes": 2605
+    },
+    "early.log": {
+      "sha256": "a99d9844b2d466e2e7e4b02a91433ec40cca086d9a723b985b50fcf205662701",
+      "bytes": 32210
+    },
+    "upstream.log": {
+      "sha256": "2fcdfbe62c1adee55d85c5b0a465e9776f5d9688da4c45de8b9be9251c122689",
+      "bytes": 4549
+    },
+    "inverse.log": {
+      "sha256": "1b221282255e66c60b1725663abaeb899b4946e87d143e8016b20ea0174d4f9b",
+      "bytes": 26284
+    },
+    "localization.log": {
+      "sha256": "73dca9373f1a9a7856e73bd554ab3f6e80aba1238961dfa0aa1cd74a48a31e01",
+      "bytes": 558
+    },
+    "members-full.log": {
+      "sha256": "a92d7787c5ec84096c428c191bc9900554d673266dfc5dbffbcb48a238c1cb1e",
+      "bytes": 385
+    },
+    "members-canonical.log": {
+      "sha256": "a129e1b66324c8ea30f6724a94a0f87249d7cb69add04647c2421ebdec71e343",
+      "bytes": 384
+    },
+    "native-strings.log": {
+      "sha256": "4251022eda165750ddbcd6401cc2ad4d5013336dc82219235426b0050952369a",
+      "bytes": 850
+    },
+    "mode.log": {
+      "sha256": "44dcfcf9793500adcd81b4ab2c70568b2d4c258554f4da190f510508cced18a5",
+      "bytes": 2171
+    },
+    "metadata.log": {
+      "sha256": "1923d930db47219edfbb54da5695378b9a7555ccd361eab78fe69e816ef73e9e",
+      "bytes": 87
+    },
+    "diff.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "build-inputs.log": {
+      "sha256": "a0e8822daa7ada958dedb485a7b5819305a2fd2f3bbbdf656d260ccd0f825b31",
+      "bytes": 253
+    }
+  },
+  "published_release_unchanged": "0.9.7/build213/source d6a808c6af70d6ad31d678081ae73a6445c22bbf",
+  "new_sdk_actions_ipa_started": false,
+  "limitations": [
+    "Full application Apple SDK not run for stage76.",
+    "UIKit/physical iPhone smoothness not tested.",
+    "Engine delayed nil and native cancellation closures execute with real SignalKit; actual database/decoder hardware are explicit boundaries."
+  ],
+  "tracked_CI_inputs": {
+    "version": "0.9.7",
+    "workflow_scripts": 262,
+    "python_syntax_files": 741,
+    "late_stages": 76,
+    "sdk_plans": 82,
+    "submodules": 12,
+    "manual_only": true,
+    "existing_unsigned_signing_contract": "preserved",
+    "native_environment": "not_run"
+  },
+  "reviewed_files": [
+    ".github/workflows/build-unsigned-ipa.yml",
+    "AGENTS.md",
+    "docs/AI_HANDOFF.md",
+    "docs/ARCHIVED_PLAYLIST_LIFETIME.md",
+    "docs/ARCHIVED_PLAYLIST_LIFETIME_CHECKS.json",
+    "docs/ARCHIVED_ROUND_NATIVE_CONTROLS.md",
+    "docs/RELEASE_STATUS.md",
+    "docs/ROUND_NATIVE_PLAYBACK.md",
+    "docs/ROUND_REPLACEMENT_GEOMETRY.md",
+    "ios/archived_playlist_lifetime.py",
+    "ios/archived_playlist_lifetime/After0.inc",
+    "ios/archived_playlist_lifetime/Before0.inc",
+    "ios/archived_playlist_lifetime/Guard0.inc",
+    "ios/archived_playlist_lifetime/Guard1.inc",
+    "ios/archived_playlist_lifetime/Guard10.inc",
+    "ios/archived_playlist_lifetime/Guard11.inc",
+    "ios/archived_playlist_lifetime/Guard12.inc",
+    "ios/archived_playlist_lifetime/Guard13.inc",
+    "ios/archived_playlist_lifetime/Guard14.inc",
+    "ios/archived_playlist_lifetime/Guard15.inc",
+    "ios/archived_playlist_lifetime/Guard16.inc",
+    "ios/archived_playlist_lifetime/Guard17.inc",
+    "ios/archived_playlist_lifetime/Guard18.inc",
+    "ios/archived_playlist_lifetime/Guard19.inc",
+    "ios/archived_playlist_lifetime/Guard2.inc",
+    "ios/archived_playlist_lifetime/Guard3.inc",
+    "ios/archived_playlist_lifetime/Guard4.inc",
+    "ios/archived_playlist_lifetime/Guard5.inc",
+    "ios/archived_playlist_lifetime/Guard6.inc",
+    "ios/archived_playlist_lifetime/Guard7.inc",
+    "ios/archived_playlist_lifetime/Guard8.inc",
+    "ios/archived_playlist_lifetime/Guard9.inc",
+    "ios/archived_playlist_lifetime_patches.json",
+    "product/features/README.md",
+    "product/features/registry.json",
+    "scripts/archived_playlist_lifetime_runtime.py",
+    "scripts/late_source_stages.py",
+    "scripts/validate_archived_playlist_lifetime.py",
+    "scripts/validate_patch_validation_mode.py",
+    "scripts/validate_release_095_apple_preflight.py"
+  ],
+  "tracked_CI_inputs_result": "passed with GITHUB_ACTIONS=true after staging: scripts/loaders/plans/templates tracked"
+}

@@ -43,6 +43,7 @@ from round_editor_quality_apple import check as round_editor_quality_api_check
 from validate_wide_portal_api import native_api_check as wide_portal_native_api_check
 from wide_portal_api_runtime import fixture as wide_portal_fixture
 from doh_empty_action_runtime import fixture as doh_empty_action_fixture
+from archived_playlist_lifetime_runtime import fixture as archived_playlist_lifetime_fixture
 from feature_contract_consistency_apple import check as feature_contract_apple_check
 from original_video_mode_apple import check as original_video_mode_apple_check
 import selection_scroll_continuity_runtime as selection_scroll
@@ -205,6 +206,7 @@ def main():
             ('round_editor_quality', [('round-editor-quality', round_editor_quality.fixture), ('round-editor-state', round_editor_quality.ui_fixture), ('round-editor-quality-badge', round_editor_quality.badge_fixture)]),
             ('wide_portal_api', [('wide-portal-api', wide_portal_fixture)]),
             ('doh_empty_action', [('doh-empty-action', doh_empty_action_fixture)]),
+            ('archived_playlist_lifetime', [('archived-playlist-lifetime', archived_playlist_lifetime_fixture)]),
         ]
         for stage, fixtures in entries:
             source = root / stage

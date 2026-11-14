@@ -52,6 +52,7 @@ def check(text):
     mandatory.append('validate_transcription_cached_read.py')
     mandatory.append('validate_round_editor_quality.py')
     mandatory.append('validate_doh_empty_action.py')
+    mandatory.append('validate_archived_playlist_lifetime.py')
     for name in mandatory:
         assert re.search(r'^          python3 scripts/'+re.escape(name)+r'\b',source,re.M),name
         assert 'nagramix_extended_check python3 scripts/'+name not in source,name
