@@ -1,0 +1,590 @@
+{
+  "stage": 78,
+  "name": "original_video_media",
+  "status": "source_checked/SDK_pending/device_pending",
+  "base_main": "5bf6fea4aded58005cd0908706e2d61367704164",
+  "feature": {
+    "stage": "original_video_media",
+    "runtime_paths": [
+      "submodules/NagramiXMediaSettings/Sources/NagramiXMediaSettings.swift",
+      "submodules/LegacyMediaPickerUI/Sources/LegacyMediaPickers.swift"
+    ],
+    "loader_refusals": 14,
+    "guards": 27,
+    "executions": [
+      {
+        "name": "original-video-bytes-media",
+        "mode": "debug",
+        "exit_code": 0,
+        "output": "PASS 203 real-byte export/default/native media checks; Photos, UIKit and MediaBox edges explicit"
+      },
+      {
+        "name": "original-video-bytes-media",
+        "mode": "optimized",
+        "exit_code": 0,
+        "output": "PASS 203 real-byte export/default/native media checks; Photos, UIKit and MediaBox edges explicit"
+      },
+      {
+        "name": "original-video-routing-final",
+        "mode": "debug",
+        "exit_code": 0,
+        "output": "Original video send-mode production checks: 42"
+      },
+      {
+        "name": "original-video-routing-final",
+        "mode": "optimized",
+        "exit_code": 0,
+        "output": "Original video send-mode production checks: 42"
+      },
+      {
+        "name": "old-default-on",
+        "mode": "debug",
+        "exit_code": 96,
+        "output": "FAIL: fresh default is native compression OFF"
+      },
+      {
+        "name": "old-default-on",
+        "mode": "optimized",
+        "exit_code": 96,
+        "output": "FAIL: fresh default is native compression OFF"
+      },
+      {
+        "name": "original77-mime-whitelist",
+        "mode": "debug",
+        "exit_code": 96,
+        "output": "FAIL: every Photos video retains native Video classification"
+      },
+      {
+        "name": "original77-mime-whitelist",
+        "mode": "optimized",
+        "exit_code": 96,
+        "output": "FAIL: every Photos video retains native Video classification"
+      },
+      {
+        "name": "metadata-lost",
+        "mode": "debug",
+        "exit_code": 96,
+        "output": "FAIL: every Photos video retains native Video classification"
+      },
+      {
+        "name": "metadata-lost",
+        "mode": "optimized",
+        "exit_code": 96,
+        "output": "FAIL: every Photos video retains native Video classification"
+      }
+    ],
+    "actual_settings_and_complete_exporter_api": {
+      "actual_settings_module_and_import": "passed",
+      "complete_exporter_apple_api": "not_run",
+      "full_application_sdk": "pending",
+      "physical_iphone": "pending",
+      "reason": "Linux; the full exporter runtime uses explicit Photos/UIKit/MediaBox adapters. No Apple API success claimed."
+    },
+    "root_cause": "The setting initializer still defaulted ON. The actual raw Photos exporter whitelisted only video/mp4 and video/quicktime for .Video; native video/m4v and other Photos video MIME values lost that attribute, so native file classification/upload selected document behavior.",
+    "behavior": "Missing persisted preference is OFF; saved explicit ON/OFF is retained. OFF keeps the existing Telegram compression pipeline. ON preserves raw Photos resource bytes and true MIME/filename with ordinary .Video metadata, inline preview and the native upload force_file bit unset.",
+    "bytes_and_lifecycle": "Actual FileHandle chunk writes, size/metadata construction, bounded BMFF streaming parser and hardlink/copy pin execute on genuine synthetic H.264/AAC MP4/MOV samples. Original bytes survive a deliberately deferred MediaBox move and post-send disposal. No encoder/remux path was added.",
+    "scope_preserved": "Modern/legacy sending, captions/entities, cover/spoiler/grouping, edited/special media policies, explicit send-as-file, decoder, audio, circles and archive behavior remain unchanged.",
+    "boundaries": "Photos delivery/UTI metadata, UIKit thumbnail/scaler and Telegram storage/API models are adapters. Native SignalKit, settings/exporter/parser/getters and force_file predicate are actual source. No real Photos library, server delivery/byte download, Apple SDK app compilation or physical iPhone was executed on Linux.",
+    "new_actions_or_ipa_started": false,
+    "full_application_sdk": "pending",
+    "physical_iphone": "pending",
+    "source_unchanged_by_checks": true
+  },
+  "actual_cold_processes": {
+    "actual_source": "/tmp/nagramix-original-video-media/source/submodules/NagramiXMediaSettings/Sources/NagramiXMediaSettings.swift",
+    "checks": [
+      {
+        "mode": "debug",
+        "cold_processes": 6,
+        "cleanup_process": 1,
+        "steps": [
+          {
+            "command": "fresh",
+            "exit_code": 0,
+            "output": "PASS fresh false"
+          },
+          {
+            "command": "set-on",
+            "exit_code": 0,
+            "output": "PASS set-on true"
+          },
+          {
+            "command": "on",
+            "exit_code": 0,
+            "output": "PASS on true"
+          },
+          {
+            "command": "set-off",
+            "exit_code": 0,
+            "output": "PASS set-off false"
+          },
+          {
+            "command": "off",
+            "exit_code": 0,
+            "output": "PASS off false"
+          },
+          {
+            "command": "off",
+            "exit_code": 0,
+            "output": "PASS off false"
+          },
+          {
+            "command": "cleanup",
+            "exit_code": 0,
+            "output": "PASS cleanup false"
+          }
+        ]
+      },
+      {
+        "mode": "optimized",
+        "cold_processes": 6,
+        "cleanup_process": 1,
+        "steps": [
+          {
+            "command": "fresh",
+            "exit_code": 0,
+            "output": "PASS fresh false"
+          },
+          {
+            "command": "set-on",
+            "exit_code": 0,
+            "output": "PASS set-on true"
+          },
+          {
+            "command": "on",
+            "exit_code": 0,
+            "output": "PASS on true"
+          },
+          {
+            "command": "set-off",
+            "exit_code": 0,
+            "output": "PASS set-off false"
+          },
+          {
+            "command": "off",
+            "exit_code": 0,
+            "output": "PASS off false"
+          },
+          {
+            "command": "off",
+            "exit_code": 0,
+            "output": "PASS off false"
+          },
+          {
+            "command": "cleanup",
+            "exit_code": 0,
+            "output": "PASS cleanup false"
+          }
+        ]
+      }
+    ],
+    "total_cold_processes": 12,
+    "platform": "Linux Foundation UserDefaults; actual iPhone pending"
+  },
+  "source_integrity": {
+    "stage": 78,
+    "name": "original_video_media",
+    "path": "/tmp/nagramix-original-video-media/source",
+    "manifest_sha256": "b78cffeb9c9a17a5bf356247fac896bebb31632675cb179229d30d8e7858ff4e",
+    "previous_manifest_sha256": "aa13502c2315b8d1e1a78f206eb23fc6b49b02893d8e3a7ee6bd1b7160cb981a",
+    "files": 37691,
+    "symlinks": 26,
+    "modified_runtime_paths": [
+      "submodules/NagramiXMediaSettings/Sources/NagramiXMediaSettings.swift",
+      "submodules/LegacyMediaPickerUI/Sources/LegacyMediaPickers.swift"
+    ],
+    "new_runtime_paths": [],
+    "guards": 27,
+    "new_inc": 31,
+    "old_inc_unchanged": 4682,
+    "old_plans_unchanged": 290,
+    "historical_manifests_verified": 35,
+    "history": [
+      {
+        "path": "/tmp/nagramix-archived-round-motion/source-checkpoint.json",
+        "manifest_sha256": "21e62940c90841ce11f1f185b0e397061bb78926b22da1a9d1a1d4d3024f6001",
+        "verified": true
+      },
+      {
+        "path": "/tmp/nagramix-doh-empty-action/source-checkpoint.json",
+        "manifest_sha256": "901eebd3ec9d88a169bcfbf1eeb9b84782edd34735e07f6413efad26605a8426",
+        "verified": true
+      },
+      {
+        "path": "/tmp/nagramix-wide-portal-api/source-checkpoint.json",
+        "manifest_sha256": "91fcb7dbde584ed8ec7bb8404a36446bcf80fd34dc511957cd57f6f8b1bb33ae",
+        "verified": true
+      },
+      {
+        "path": "/tmp/nagramix-round-editor-quality/source-checkpoint.json",
+        "manifest_sha256": "71354ef15a8208cfc2b4dd026f3cc327b11a2874034bc09d15481fd0cbcae089",
+        "verified": true
+      },
+      {
+        "path": "/tmp/nagramix-transcription-cached-read/source-checkpoint.json",
+        "manifest_sha256": "fec13a36b0acb1e919ccb688082de47224aebbe8199f569737709fedb501253d",
+        "verified": true
+      },
+      {
+        "path": "/tmp/nagramix-feature-contract-fixes/source-checkpoint.json",
+        "manifest_sha256": "22d518ed72373cff5f692e5745f1fede05355ecd3e230455b296ce88c2fc2b1e",
+        "verified": true
+      },
+      {
+        "path": "/tmp/nagramix-original-video-mode/source-checkpoint.json",
+        "manifest_sha256": "0359e1480536e2cdb4d03d6a33c943f3866fafd84e81a022d904a38ace23aa35",
+        "verified": true
+      },
+      {
+        "path": "/tmp/nagramix-selection-scroll-continuity/source-checkpoint.json",
+        "manifest_sha256": "01b67c6ec781e0fe200f8c072444e3cdcda8b1133a8922b86fe80f141896a244",
+        "verified": true
+      },
+      {
+        "path": "/tmp/nagramix-selection-column-coordinates/source-checkpoint.json",
+        "manifest_sha256": "88cd0a3d3e8314a1ef0908b2258ba787b12bb6578ed0f4348e07059e56daca12",
+        "verified": true
+      },
+      {
+        "path": "/tmp/nagramix-recording-start-recovery/source-checkpoint.json",
+        "manifest_sha256": "6afbce4762afe35f080572802059868b88fcdeebf6e2d618807e3177973aeb8a",
+        "verified": true
+      },
+      {
+        "path": "/tmp/nagramix-pip-preview-continuity/source-checkpoint.json",
+        "manifest_sha256": "eb60d35d194510b0054115fabc62f2bec170ecfa117fb35dff32fbdefb9a758b",
+        "verified": true
+      },
+      {
+        "path": "/tmp/nagramix-video-audio-continuity/source-checkpoint.json",
+        "manifest_sha256": "9f072b9d8400b2784bc8594cf1688d17bf5374c054e6a2a2915fddc68380f4d7",
+        "verified": true
+      },
+      {
+        "path": "/tmp/nagramix-font-apply-lifecycle/source-checkpoint.json",
+        "manifest_sha256": "0e4c99c26ba086920080ef99d2096886fab6cd98c6690feb47b8512dee93e7f1",
+        "verified": true
+      },
+      {
+        "path": "/tmp/nagramix-font-node-compatibility/source-checkpoint.json",
+        "manifest_sha256": "93cc510de32754940c7c479bb68c2781077be30ec684b5bcf6dc3b9b40f0c633",
+        "verified": true
+      },
+      {
+        "path": "/tmp/nagramix-transcription-compatibility/source-checkpoint.json",
+        "manifest_sha256": "d859d8a62b549f3a76291658a6a24a37eee446879460ddf9381f164616707718",
+        "verified": true
+      },
+      {
+        "path": "/tmp/nagramix-calendar-compatibility/source-checkpoint.json",
+        "manifest_sha256": "b1ba840f8a60fad64372f0c824f1fa3eb0aedae9846618787665b678b92257d0",
+        "verified": true
+      },
+      {
+        "path": "/tmp/nagramix-single-touch-selection/source-checkpoint.json",
+        "manifest_sha256": "221f00c7a16e03c964a8924f8c79337fb8deac03e09bd02e1ee2ab63f8a718c2",
+        "verified": true
+      },
+      {
+        "path": "/tmp/nagramix-composer-integrity/source-checkpoint.json",
+        "manifest_sha256": "aa7c3ca9823bdd05a1f301cb3b2bc93be5b1072af0a798ffdc916e150976d8c0",
+        "verified": true
+      },
+      {
+        "path": "/tmp/nagramix-local-read-label/source-checkpoint.json",
+        "manifest_sha256": "9640665a765f0fd34c1ca6fd19be16aa08e562742bd76a86849b7ef14d87a235",
+        "verified": true
+      },
+      {
+        "path": "/tmp/nagramix-snow-holidays/source-checkpoint.json",
+        "manifest_sha256": "0f0271b535d9bfe27a767f5bdd6e4218dfaa083351f0b5d9e8f83224eb990290",
+        "verified": true
+      },
+      {
+        "path": "/tmp/nagramix-snowfall/source-checkpoint.json",
+        "manifest_sha256": "3fd8dca8cd2e2aacd153c8459dd2082810533b642d6648c69a013c931aad0783",
+        "verified": true
+      },
+      {
+        "path": "/tmp/nagramix-input-effects/source-checkpoint.json",
+        "manifest_sha256": "1f320a9c1ae620b3cf292eb9c2b25b675f6ba604a9700a30024b15dad7a6f081",
+        "verified": true
+      },
+      {
+        "path": "/tmp/nagramix-youtube-policy/source-checkpoint.json",
+        "manifest_sha256": "a1e07c3c2c92efb312ce788464a9b7735d0c96bdda8423957f7e2989f4a31897",
+        "verified": true
+      },
+      {
+        "path": "/tmp/nagramix-edit-confirmation/source-checkpoint.json",
+        "manifest_sha256": "37263009e577843f74395fcec9999a453700922d9d93011091502ac57c71b3a1",
+        "verified": true
+      },
+      {
+        "path": "/tmp/nagramix-font-preview/source-checkpoint.json",
+        "manifest_sha256": "5f2afc0e892828dc4ef0e839d8c8401f514cd4e7685566f5d34f9b55b57413c7",
+        "verified": true
+      },
+      {
+        "path": "/tmp/nagramix-premium-file-asr/source-checkpoint.json",
+        "manifest_sha256": "6f6e5eee53a7eb5df517486a3308a2699e980b12e0fe7e64a933b00d12a71159",
+        "verified": true
+      },
+      {
+        "path": "/tmp/nagramix-section-headers/source-checkpoint.json",
+        "manifest_sha256": "a502069589d4128650082857d14869acbf5e020ffaeda46ec1004fcdc5e86a6a",
+        "verified": true
+      },
+      {
+        "path": "/tmp/nagramix-wide-panels/source-checkpoint.json",
+        "manifest_sha256": "546d8889694c3bc3079dce138f401f0d90b4f6b5a3d6c5a69b21fb8ca803a09c",
+        "verified": true
+      },
+      {
+        "path": "/tmp/nagramix-system-web-pip/source-checkpoint.json",
+        "manifest_sha256": "8c08b5a78807b07d6e18379bec2ea8e1c0068be435f4c073746ba98293fb759a",
+        "verified": true
+      },
+      {
+        "path": "/tmp/nagramix-font-theme/source-checkpoint.json",
+        "manifest_sha256": "fc06c0fff3c83897d846bc28c41860d1b6efea86a20e0d7b96c2fe3c40940f45",
+        "verified": true
+      },
+      {
+        "path": "/tmp/nagramix-wide-channel-posts/source-checkpoint.json",
+        "manifest_sha256": "f42f2e333a84c3cae0793b33a88563aeefef2c714ffcd8a48123c45c00de6d0e",
+        "verified": true
+      },
+      {
+        "path": "/tmp/nagramix-composer-native-strings/source-checkpoint.json",
+        "manifest_sha256": "80e2ed1949ff89044d6e588cc847bf4616b6df8e5645c1a473190aec6e623672",
+        "verified": true
+      },
+      {
+        "path": "/tmp/nagramix-font-sdk199/source-checkpoint.json",
+        "manifest_sha256": "719bf32e97e52b0877466f546372f17829eb521351ca9d4c77d0bf3a36964c54",
+        "verified": true
+      },
+      {
+        "path": "/tmp/nagramix-temporary-expiration/source-checkpoint.json",
+        "manifest_sha256": "32c075e1a995bc77e196db578b20b21776ee325e27d254bc5ec63b9a1eb2a396",
+        "verified": true
+      },
+      {
+        "path": "/tmp/nagramix-story-avatar/source-checkpoint.json",
+        "manifest_sha256": "aa13502c2315b8d1e1a78f206eb23fc6b49b02893d8e3a7ee6bd1b7160cb981a",
+        "verified": true
+      }
+    ]
+  },
+  "build_inputs": {
+    "version": "0.9.7",
+    "workflow_scripts": 264,
+    "python_syntax_files": 748,
+    "late_stages": 78,
+    "sdk_plans": 84,
+    "submodules": 12,
+    "manual_only": true,
+    "existing_unsigned_signing_contract": "preserved",
+    "native_environment": "not_run"
+  },
+  "early_preflight": {
+    "complete_fixtures": 49,
+    "debug_optimized_executions": 98,
+    "all_exit_zero": true,
+    "warnings_as_errors": true,
+    "whole_exporter_apple_api": {
+      "actual_settings_module_and_import": "passed",
+      "complete_exporter_apple_api": "not_run",
+      "full_application_sdk": "pending",
+      "physical_iphone": "pending",
+      "reason": "Linux; the full exporter runtime uses explicit Photos/UIKit/MediaBox adapters. No Apple API success claimed."
+    }
+  },
+  "upstream": {
+    "parsed_swift": 652,
+    "historical_runtime_executions": 14,
+    "native_postbox_imports": "passed",
+    "late_stages": 78
+  },
+  "inverse_history": {
+    "stages": 78,
+    "paths": 884,
+    "all_source_files_preserved": 37691,
+    "invalid_projections_rejected": 392
+  },
+  "localization": {
+    "strict": true,
+    "allow_incomplete": false,
+    "source_contract_only": false,
+    "languages": 71,
+    "keys_per_language": 668,
+    "uppercase_headers": 24,
+    "runtime_checks_per_mode": 47597,
+    "modes": [
+      "debug",
+      "optimized"
+    ],
+    "new_ui_strings": 0,
+    "scratch_allocation": {
+      "allocations": [
+        {
+          "prefix": "nagramix-late-source-prior-",
+          "root": "/tmp",
+          "free_bytes_before": 192770048
+        },
+        {
+          "prefix": "nagramix-late-source-prior-",
+          "root": "/tmp",
+          "free_bytes_before": 141885440
+        },
+        {
+          "prefix": "nagramix-late-source-prior-",
+          "root": "/tmp",
+          "free_bytes_before": 136007680
+        },
+        {
+          "prefix": "nagramix-late-source-prior-",
+          "root": "/tmp",
+          "free_bytes_before": 130625536
+        },
+        {
+          "prefix": "nagramix-late-source-prior-",
+          "root": "/tmp",
+          "free_bytes_before": 125808640
+        },
+        {
+          "prefix": "nagramix-language-runtime-",
+          "root": "/tmp",
+          "free_bytes_before": 192770048
+        }
+      ],
+      "projection_storage": {
+        "linked_files": 3298,
+        "linked_bytes": 165406550,
+        "written_files": 1244
+      },
+      "source_unchanged": true
+    }
+  },
+  "native_strings": {
+    "swift_files": 7333,
+    "native_generated_members": 12190,
+    "native_string_uses": 18587,
+    "distinct_native_members": 10391,
+    "proven_other_typed_owner_reads": 8,
+    "sdk200_mutation_rejected": true,
+    "apple_actual_generated_header": {
+      "status": "not_run",
+      "reason": "Real Objective-C/Apple SDK import requires macOS and swiftc"
+    },
+    "boundary": "Actual native GenerateStrings.py, build rule and final English catalog; generated member existence through strings/namedStrings receivers. Other typed owners need source declaration evidence. Full Swift call arity/type checking and app runtime still require SDK/device."
+  },
+  "final_checks": [
+    {
+      "name": "early",
+      "exit_code": 0,
+      "seconds": 295.8,
+      "source_manifest_sha256": "b78cffeb9c9a17a5bf356247fac896bebb31632675cb179229d30d8e7858ff4e"
+    },
+    {
+      "name": "upstream",
+      "exit_code": 0,
+      "seconds": 102.0,
+      "source_manifest_sha256": "b78cffeb9c9a17a5bf356247fac896bebb31632675cb179229d30d8e7858ff4e"
+    },
+    {
+      "name": "inverse",
+      "exit_code": 0,
+      "seconds": 98.3,
+      "source_manifest_sha256": "b78cffeb9c9a17a5bf356247fac896bebb31632675cb179229d30d8e7858ff4e"
+    },
+    {
+      "name": "localization",
+      "exit_code": 0,
+      "seconds": 29.8,
+      "source_manifest_sha256": "b78cffeb9c9a17a5bf356247fac896bebb31632675cb179229d30d8e7858ff4e"
+    },
+    {
+      "name": "members-full",
+      "exit_code": 0,
+      "seconds": 4.6,
+      "source_manifest_sha256": "b78cffeb9c9a17a5bf356247fac896bebb31632675cb179229d30d8e7858ff4e"
+    },
+    {
+      "name": "members-canonical",
+      "exit_code": 0,
+      "seconds": 1.8,
+      "source_manifest_sha256": "b78cffeb9c9a17a5bf356247fac896bebb31632675cb179229d30d8e7858ff4e"
+    },
+    {
+      "name": "native-strings",
+      "exit_code": 0,
+      "seconds": 5.7,
+      "source_manifest_sha256": "b78cffeb9c9a17a5bf356247fac896bebb31632675cb179229d30d8e7858ff4e"
+    },
+    {
+      "name": "mode",
+      "exit_code": 0,
+      "seconds": 0.2,
+      "source_manifest_sha256": "b78cffeb9c9a17a5bf356247fac896bebb31632675cb179229d30d8e7858ff4e"
+    },
+    {
+      "name": "metadata",
+      "exit_code": 0,
+      "seconds": 0.1,
+      "source_manifest_sha256": "b78cffeb9c9a17a5bf356247fac896bebb31632675cb179229d30d8e7858ff4e"
+    },
+    {
+      "name": "diff",
+      "exit_code": 0,
+      "seconds": 0.0,
+      "source_manifest_sha256": "b78cffeb9c9a17a5bf356247fac896bebb31632675cb179229d30d8e7858ff4e"
+    }
+  ],
+  "diff_review": {
+    "application_diff_reviewed": true,
+    "application_paths": [
+      "submodules/NagramiXMediaSettings/Sources/NagramiXMediaSettings.swift",
+      "submodules/LegacyMediaPickerUI/Sources/LegacyMediaPickers.swift"
+    ],
+    "scope": "Only default argument true→false, PHAsset.video guard and unconditional native Video metadata. Producer write/thumbnail/pin, send routing, native compression, audio/player/recording and dependency/build/signing choices preserved.",
+    "immutable_template_contracts": 31,
+    "new_application_files": 0,
+    "new_ui_strings": 0,
+    "new_user_media_in_git": 0,
+    "synthetic_fixtures": {
+      "origin": "Generated locally with FFmpeg lavfi testsrc2 and sine; no user media or third-party footage. H.264/AAC, 96x64, 0.5s. MOV is stream-copy of MP4; no second encode.",
+      "files": {
+        "video.mp4": "1837468a1d73299bfcfa0a5502a461adf178a0cf50e1c8a3e456aa1bb75fecc5",
+        "video.mov": "7c35a988dfce095499517abf2c1cee4a313dcf7b6da195ffb0606022285b4633"
+      }
+    },
+    "preserved_project_files": {
+      "README.md": "45509c6e30df1b7a61d9a6a001582c542ba2eba45bc6573a00bc57c9d403a5a9",
+      "LICENSE": "edaef632cbb643e4e7a221717a6c441a4c1a7c918e6e4d56debc3d8739b233f6",
+      "product/releases/0.9.7.md": "45509c6e30df1b7a61d9a6a001582c542ba2eba45bc6573a00bc57c9d403a5a9"
+    }
+  },
+  "registry": {
+    "compile": {
+      "compile_passed": 73,
+      "compile_pending": 7
+    },
+    "device_pending": 80
+  },
+  "release_preservation": {
+    "releases": 10,
+    "assets": 30,
+    "tags": 13,
+    "published_097_tag_source": "d6a808c6af70d6ad31d678081ae73a6445c22bbf",
+    "published_097_stage": 74,
+    "new_build_or_replacement": false
+  },
+  "limitations": [
+    "No Apple SDK application build for stage78. Actual complete UIKit/Photos exporter API check is now mandatory early in macOS job; Linux does not claim it ran.",
+    "Actual iPhone rendering, physical Photos/iCloud and server upload/download SHA256 roundtrip are pending.",
+    "Video metadata keeps the original container/codec; stream-before-full-download still requires a suitable source file. No fake MIME, lossless remux or encoder was introduced."
+  ],
+  "next_step": "Checked commit/push main; new SDK/IPA only on direct owner build command."
+}

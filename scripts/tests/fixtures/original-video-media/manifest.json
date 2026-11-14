@@ -1,0 +1,7 @@
+{
+  "origin": "Generated locally with FFmpeg lavfi testsrc2 and sine; no user media or third-party footage. H.264/AAC, 96x64, 0.5s. MOV is stream-copy of MP4; no second encode.",
+  "files": {
+    "video.mp4": "1837468a1d73299bfcfa0a5502a461adf178a0cf50e1c8a3e456aa1bb75fecc5",
+    "video.mov": "7c35a988dfce095499517abf2c1cee4a313dcf7b6da195ffb0606022285b4633"
+  }
+}

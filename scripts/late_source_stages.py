@@ -91,6 +91,7 @@ LATE_SOURCE_STAGES = (
     'doh_empty_action',
     'archived_playlist_lifetime',
     'story_avatar_visibility',
+    'original_video_media',
 )
 TEMPORARY_INTERACTION_STAGE = 'temporary_message_interaction'
 TEMPORARY_REPLY_HELPER = 'submodules/TelegramUI/Sources/Chat/NagramiXTemporaryReplySend.swift'

@@ -45,6 +45,9 @@ from wide_portal_api_runtime import fixture as wide_portal_fixture
 from doh_empty_action_runtime import fixture as doh_empty_action_fixture
 from archived_playlist_lifetime_runtime import fixture as archived_playlist_lifetime_fixture
 from story_avatar_visibility_runtime import fixture as story_avatar_visibility_fixture
+from original_video_media_runtime import fixture as original_video_media_fixture
+from original_video_media_runtime import routing_fixture as original_video_media_routing_fixture
+from original_video_media_apple import check as original_video_media_api_check
 from feature_contract_consistency_apple import check as feature_contract_apple_check
 from original_video_mode_apple import check as original_video_mode_apple_check
 import selection_scroll_continuity_runtime as selection_scroll
@@ -174,6 +177,11 @@ def main():
         round_editor_quality_api=round_editor_quality_api_check(calendar_source,args.swiftc,root/'round-editor-quality-api')
         shutil.rmtree(root/'round-editor-quality-api')
         shutil.rmtree(calendar_source)
+        original_media_source = root / 'original-video-media-native-final'
+        files['original_video_media_native'] = canonical_projection(original_media_source, 'original_video_media')
+        original_video_media_api = original_video_media_api_check(original_media_source, args.swiftc, root / 'original-video-media-api')
+        shutil.rmtree(root / 'original-video-media-api')
+        shutil.rmtree(original_media_source)
         entries = [
             ('bubble_selection_edge', [('bubble-edge', lambda s: bubble.fixture(s, (OVERLAY/checked_plan('bubble_selection_edge')['previous'][bubble.BUBBLE]).read_text()))]),
             ('composer_file_attachments', [('composer-attachments', composer.fixture)]),
@@ -209,6 +217,7 @@ def main():
             ('doh_empty_action', [('doh-empty-action', doh_empty_action_fixture)]),
             ('archived_playlist_lifetime', [('archived-playlist-lifetime', archived_playlist_lifetime_fixture)]),
             ('story_avatar_visibility', [('story-avatar-visibility', story_avatar_visibility_fixture)]),
+            ('original_video_media', [('original-video-bytes-media', original_video_media_fixture), ('original-video-routing-final', original_video_media_routing_fixture)]),
         ]
         for stage, fixtures in entries:
             source = root / stage
@@ -270,6 +279,7 @@ def main():
     report['feature_contract_consistency_native_api']=feature_contract_api
     report['round_editor_quality_native_api']=round_editor_quality_api
     report['wide_portal_native_api']=wide_portal_api
+    report['original_video_media_native_api']=original_video_media_api
     report['input_effects_real_sdk']=input_effects_apple
     report['snowfall_real_sdk']=snowfall_apple
     report['snowfall_holidays_real_sdk']=snowfall_holidays_apple
