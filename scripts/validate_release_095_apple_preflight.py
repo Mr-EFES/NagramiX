@@ -57,6 +57,7 @@ from settings_glass_sliders_apple import check as settings_glass_sliders_api_che
 from font_license_compact_runtime import fixture as font_license_compact_fixture
 from font_license_compact_apple import check as font_license_compact_api_check
 from font_license_compact_modules import check as font_license_compact_modules_check
+from translation_account_defaults_runtime import fixture as translation_account_defaults_fixture
 from unified_glass_menus_runtime import fixture as unified_glass_menus_fixture
 from unified_glass_menus_apple import check as unified_glass_menus_api_check, modules_check as unified_glass_menus_modules_check
 from feature_contract_consistency_apple import check as feature_contract_apple_check
@@ -261,6 +262,7 @@ def main():
             ('settings_glass_sliders', [('settings-glass-sliders', settings_glass_sliders_fixture)]),
             ('font_license_compact', [('font-license-compact', font_license_compact_fixture)]),
             ('unified_glass_menus', [('unified-glass-menus', unified_glass_menus_fixture)]),
+            ('translation_account_defaults', [('translation-account-defaults', translation_account_defaults_fixture)]),
         ]
         for stage, fixtures in entries:
             source = root / stage

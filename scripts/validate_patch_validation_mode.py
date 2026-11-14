@@ -61,6 +61,7 @@ def check(text):
     mandatory.append('validate_settings_glass_sliders.py')
     mandatory.append('validate_font_license_compact.py')
     mandatory.append('validate_unified_glass_menus.py')
+    mandatory.append('validate_translation_account_defaults.py')
     for name in mandatory:
         assert re.search(r'^          python3 scripts/'+re.escape(name)+r'\b',source,re.M),name
         assert 'nagramix_extended_check python3 scripts/'+name not in source,name

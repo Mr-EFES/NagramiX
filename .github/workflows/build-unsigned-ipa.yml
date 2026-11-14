@@ -534,6 +534,8 @@ jobs:
           python3 scripts/validate_font_license_compact.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)" --report "$RUNNER_TEMP/font-license-compact.json"
           PYTHONPATH=ios python3 -c 'from pathlib import Path; from unified_glass_menus import apply_unified_glass_menus; apply_unified_glass_menus(Path("Telegram-iOS").resolve(), Path("ios").resolve())'
           python3 scripts/validate_unified_glass_menus.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)" --report "$RUNNER_TEMP/unified-glass-menus.json"
+          PYTHONPATH=ios python3 -c 'from pathlib import Path; from translation_account_defaults import apply_translation_account_defaults; apply_translation_account_defaults(Path("Telegram-iOS").resolve(), Path("ios").resolve())'
+          python3 scripts/validate_translation_account_defaults.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)" --report "$RUNNER_TEMP/translation-account-defaults.json"
           python3 scripts/validate_late_source_stages.py --source Telegram-iOS --report "$RUNNER_TEMP/late-source-stages.json"
           python3 scripts/validate_custom_member_references.py --source Telegram-iOS
           python3 scripts/validate_upstream_13_2_release.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)"
