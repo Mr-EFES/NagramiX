@@ -48,6 +48,7 @@ from story_avatar_visibility_runtime import fixture as story_avatar_visibility_f
 from original_video_media_runtime import fixture as original_video_media_fixture
 from original_video_media_runtime import routing_fixture as original_video_media_routing_fixture
 from original_video_media_apple import check as original_video_media_api_check
+from named_link_preview_runtime import ui_fixture as named_link_ui_fixture, copy_fixture as named_link_copy_fixture
 from feature_contract_consistency_apple import check as feature_contract_apple_check
 from original_video_mode_apple import check as original_video_mode_apple_check
 import selection_scroll_continuity_runtime as selection_scroll
@@ -218,6 +219,7 @@ def main():
             ('archived_playlist_lifetime', [('archived-playlist-lifetime', archived_playlist_lifetime_fixture)]),
             ('story_avatar_visibility', [('story-avatar-visibility', story_avatar_visibility_fixture)]),
             ('original_video_media', [('original-video-bytes-media', original_video_media_fixture), ('original-video-routing-final', original_video_media_routing_fixture)]),
+            ('named_link_preview', [('named-link-editor-send', named_link_ui_fixture), ('named-link-copy-broadcast', named_link_copy_fixture)]),
         ]
         for stage, fixtures in entries:
             source = root / stage

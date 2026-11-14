@@ -1,0 +1,573 @@
+{
+  "stage": 79,
+  "name": "named_link_preview",
+  "status": "source_checked/SDK_pending/live_rpc_pending/device_pending",
+  "base_main": "da12ac58ec2f7235f711bc1303cbf93e60cb3013",
+  "approved_reference": {
+    "video_duration_seconds": 18.8,
+    "behavior": "Named hyperlink remains clickable and formatted; channel/site card and CTA removed in copied/edited/authorless-forward/broadcast posts. User approved sketch before coding.",
+    "private_frames_and_video": "outside Git"
+  },
+  "feature": {
+    "stage": "named_link_preview",
+    "runtime_paths": [
+      "submodules/TelegramCore/Sources/Utils/NagramiXOutgoingCopy.swift",
+      "submodules/TelegramUI/Sources/ChatInterfaceStateContextQueries.swift",
+      "submodules/TelegramUI/Sources/Chat/UpdateChatPresentationInterfaceState.swift",
+      "submodules/TelegramUI/Sources/ChatInterfaceStateContextMenus.swift",
+      "submodules/TelegramUI/Sources/ChatControllerNode.swift",
+      "submodules/TelegramUI/Sources/Chat/ChatControllerLoadDisplayNode.swift",
+      "submodules/TelegramCore/Sources/PendingMessages/RequestEditMessage.swift"
+    ],
+    "guards": 30,
+    "loader_refusals": 16,
+    "executions": [
+      {
+        "name": "named-link-editor-send",
+        "mode": "debug",
+        "exit_code": 0,
+        "output": "PASS 89 real named-link preview/editor/send/edit decisions; UI/network are explicit edges"
+      },
+      {
+        "name": "named-link-editor-send",
+        "mode": "optimized",
+        "exit_code": 0,
+        "output": "PASS 89 real named-link preview/editor/send/edit decisions; UI/network are explicit edges"
+      },
+      {
+        "name": "named-link-copy-broadcast",
+        "mode": "debug",
+        "exit_code": 0,
+        "output": "PASS 89 real copy/forward/broadcast payload checks; Postbox/models are explicit boundaries"
+      },
+      {
+        "name": "named-link-copy-broadcast",
+        "mode": "optimized",
+        "exit_code": 0,
+        "output": "PASS 89 real copy/forward/broadcast payload checks; Postbox/models are explicit boundaries"
+      },
+      {
+        "name": "query-whitelist-missing",
+        "mode": "debug",
+        "exit_code": 96,
+        "output": "FAIL: named URL never fetches an automatic card"
+      },
+      {
+        "name": "query-whitelist-missing",
+        "mode": "optimized",
+        "exit_code": 96,
+        "output": "FAIL: named URL never fetches an automatic card"
+      },
+      {
+        "name": "reopen-old-card",
+        "mode": "debug",
+        "exit_code": 96,
+        "output": "FAIL: reopening old copied/forwarded post cannot seed its old card"
+      },
+      {
+        "name": "reopen-old-card",
+        "mode": "optimized",
+        "exit_code": 96,
+        "output": "FAIL: reopening old copied/forwarded post cannot seed its old card"
+      },
+      {
+        "name": "late-compose-card",
+        "mode": "debug",
+        "exit_code": 96,
+        "output": "FAIL: late compose callback cannot resurrect card"
+      },
+      {
+        "name": "late-compose-card",
+        "mode": "optimized",
+        "exit_code": 96,
+        "output": "FAIL: late compose callback cannot resurrect card"
+      },
+      {
+        "name": "late-edit-card",
+        "mode": "debug",
+        "exit_code": 96,
+        "output": "FAIL: late editing callback cannot resurrect card"
+      },
+      {
+        "name": "late-edit-card",
+        "mode": "optimized",
+        "exit_code": 96,
+        "output": "FAIL: late editing callback cannot resurrect card"
+      },
+      {
+        "name": "core-edit-rechecks-missing",
+        "mode": "debug",
+        "exit_code": 96,
+        "output": "FAIL: core edit rechecks actual entities"
+      },
+      {
+        "name": "core-edit-rechecks-missing",
+        "mode": "optimized",
+        "exit_code": 96,
+        "output": "FAIL: core edit rechecks actual entities"
+      },
+      {
+        "name": "original78-carries-source-card",
+        "mode": "debug",
+        "exit_code": 96,
+        "output": "FAIL: copy always disables automatic preview"
+      },
+      {
+        "name": "original78-carries-source-card",
+        "mode": "optimized",
+        "exit_code": 96,
+        "output": "FAIL: copy always disables automatic preview"
+      },
+      {
+        "name": "fast-forward-carries-preview",
+        "mode": "debug",
+        "exit_code": 96,
+        "output": "FAIL: source webpage cannot use native fast forward"
+      },
+      {
+        "name": "fast-forward-carries-preview",
+        "mode": "optimized",
+        "exit_code": 96,
+        "output": "FAIL: source webpage cannot use native fast forward"
+      },
+      {
+        "name": "flatten-copied-hyperlink",
+        "mode": "debug",
+        "exit_code": 96,
+        "output": "FAIL: copied post preserves hyperlink destination and formatting entities"
+      },
+      {
+        "name": "flatten-copied-hyperlink",
+        "mode": "optimized",
+        "exit_code": 96,
+        "output": "FAIL: copied post preserves hyperlink destination and formatting entities"
+      }
+    ],
+    "root_cause": "Old preview suppression required attached media. Named text-only links were fetched again while composing/editing; edit initialization seeded old webpage metadata; copy builders preserved the source webpage and the native drop-author fast route carried its card unchanged.",
+    "behavior": "Named URL entities keep text/URL/formatting but no automatic card in either editor, initial edit state, late callbacks, rich/plain send or core edit request. Copy/authorless-forward/broadcast remove webpage media and preview-only attributes, always setting disableLinkPreviews. Webpage-bearing selections use existing copy fallback; ordinary no-preview forwards retain native fast transport and albums stay on one transport.",
+    "scope": "Actual attachments/captions/entities/rich content/thread/payment/schedule, copy staging/resource ownership, decoder/audio/recording and native incoming rendering remain. Ordinary freshly typed raw URLs retain their native preview behavior; named links and copied posts follow the approved rule.",
+    "boundaries": "Production text entities/URL attributes/SignalKit, selected actual UI state/callback/send branches, full copy builder/planner/recipient batch/EnqueueMessage and native edit RPC flag decision execute. UI/rendering, URL detection, server/Postbox/media models are explicit adapters; no real Telegram delivery or iPhone pixels claimed.",
+    "source_unchanged_by_checks": true,
+    "full_application_sdk": "pending",
+    "physical_iphone": "pending",
+    "new_actions_or_ipa_started": false
+  },
+  "source_integrity": {
+    "stage": 79,
+    "name": "named_link_preview",
+    "path": "/tmp/nagramix-named-link-preview/source",
+    "manifest_sha256": "124e266cc2f583cfed8cc5985da976c3d28c37c9276efed6915be8501eb85d93",
+    "previous_manifest_sha256": "b78cffeb9c9a17a5bf356247fac896bebb31632675cb179229d30d8e7858ff4e",
+    "files": 37691,
+    "symlinks": 26,
+    "modified_runtime_paths": [
+      "submodules/TelegramCore/Sources/Utils/NagramiXOutgoingCopy.swift",
+      "submodules/TelegramUI/Sources/ChatInterfaceStateContextQueries.swift",
+      "submodules/TelegramUI/Sources/Chat/UpdateChatPresentationInterfaceState.swift",
+      "submodules/TelegramUI/Sources/ChatInterfaceStateContextMenus.swift",
+      "submodules/TelegramUI/Sources/ChatControllerNode.swift",
+      "submodules/TelegramUI/Sources/Chat/ChatControllerLoadDisplayNode.swift",
+      "submodules/TelegramCore/Sources/PendingMessages/RequestEditMessage.swift"
+    ],
+    "new_runtime_paths": [],
+    "guards": 30,
+    "new_inc": 44,
+    "old_inc_unchanged": 4713,
+    "old_plans_unchanged": 291,
+    "historical_manifests_verified": 36,
+    "history": [
+      {
+        "path": "/tmp/nagramix-story-avatar/source-checkpoint.json",
+        "manifest_sha256": "aa13502c2315b8d1e1a78f206eb23fc6b49b02893d8e3a7ee6bd1b7160cb981a",
+        "verified": true
+      },
+      {
+        "path": "/tmp/nagramix-archived-round-motion/source-checkpoint.json",
+        "manifest_sha256": "21e62940c90841ce11f1f185b0e397061bb78926b22da1a9d1a1d4d3024f6001",
+        "verified": true
+      },
+      {
+        "path": "/tmp/nagramix-doh-empty-action/source-checkpoint.json",
+        "manifest_sha256": "901eebd3ec9d88a169bcfbf1eeb9b84782edd34735e07f6413efad26605a8426",
+        "verified": true
+      },
+      {
+        "path": "/tmp/nagramix-wide-portal-api/source-checkpoint.json",
+        "manifest_sha256": "91fcb7dbde584ed8ec7bb8404a36446bcf80fd34dc511957cd57f6f8b1bb33ae",
+        "verified": true
+      },
+      {
+        "path": "/tmp/nagramix-round-editor-quality/source-checkpoint.json",
+        "manifest_sha256": "71354ef15a8208cfc2b4dd026f3cc327b11a2874034bc09d15481fd0cbcae089",
+        "verified": true
+      },
+      {
+        "path": "/tmp/nagramix-transcription-cached-read/source-checkpoint.json",
+        "manifest_sha256": "fec13a36b0acb1e919ccb688082de47224aebbe8199f569737709fedb501253d",
+        "verified": true
+      },
+      {
+        "path": "/tmp/nagramix-feature-contract-fixes/source-checkpoint.json",
+        "manifest_sha256": "22d518ed72373cff5f692e5745f1fede05355ecd3e230455b296ce88c2fc2b1e",
+        "verified": true
+      },
+      {
+        "path": "/tmp/nagramix-original-video-mode/source-checkpoint.json",
+        "manifest_sha256": "0359e1480536e2cdb4d03d6a33c943f3866fafd84e81a022d904a38ace23aa35",
+        "verified": true
+      },
+      {
+        "path": "/tmp/nagramix-selection-scroll-continuity/source-checkpoint.json",
+        "manifest_sha256": "01b67c6ec781e0fe200f8c072444e3cdcda8b1133a8922b86fe80f141896a244",
+        "verified": true
+      },
+      {
+        "path": "/tmp/nagramix-selection-column-coordinates/source-checkpoint.json",
+        "manifest_sha256": "88cd0a3d3e8314a1ef0908b2258ba787b12bb6578ed0f4348e07059e56daca12",
+        "verified": true
+      },
+      {
+        "path": "/tmp/nagramix-recording-start-recovery/source-checkpoint.json",
+        "manifest_sha256": "6afbce4762afe35f080572802059868b88fcdeebf6e2d618807e3177973aeb8a",
+        "verified": true
+      },
+      {
+        "path": "/tmp/nagramix-pip-preview-continuity/source-checkpoint.json",
+        "manifest_sha256": "eb60d35d194510b0054115fabc62f2bec170ecfa117fb35dff32fbdefb9a758b",
+        "verified": true
+      },
+      {
+        "path": "/tmp/nagramix-video-audio-continuity/source-checkpoint.json",
+        "manifest_sha256": "9f072b9d8400b2784bc8594cf1688d17bf5374c054e6a2a2915fddc68380f4d7",
+        "verified": true
+      },
+      {
+        "path": "/tmp/nagramix-font-apply-lifecycle/source-checkpoint.json",
+        "manifest_sha256": "0e4c99c26ba086920080ef99d2096886fab6cd98c6690feb47b8512dee93e7f1",
+        "verified": true
+      },
+      {
+        "path": "/tmp/nagramix-font-node-compatibility/source-checkpoint.json",
+        "manifest_sha256": "93cc510de32754940c7c479bb68c2781077be30ec684b5bcf6dc3b9b40f0c633",
+        "verified": true
+      },
+      {
+        "path": "/tmp/nagramix-transcription-compatibility/source-checkpoint.json",
+        "manifest_sha256": "d859d8a62b549f3a76291658a6a24a37eee446879460ddf9381f164616707718",
+        "verified": true
+      },
+      {
+        "path": "/tmp/nagramix-calendar-compatibility/source-checkpoint.json",
+        "manifest_sha256": "b1ba840f8a60fad64372f0c824f1fa3eb0aedae9846618787665b678b92257d0",
+        "verified": true
+      },
+      {
+        "path": "/tmp/nagramix-single-touch-selection/source-checkpoint.json",
+        "manifest_sha256": "221f00c7a16e03c964a8924f8c79337fb8deac03e09bd02e1ee2ab63f8a718c2",
+        "verified": true
+      },
+      {
+        "path": "/tmp/nagramix-composer-integrity/source-checkpoint.json",
+        "manifest_sha256": "aa7c3ca9823bdd05a1f301cb3b2bc93be5b1072af0a798ffdc916e150976d8c0",
+        "verified": true
+      },
+      {
+        "path": "/tmp/nagramix-local-read-label/source-checkpoint.json",
+        "manifest_sha256": "9640665a765f0fd34c1ca6fd19be16aa08e562742bd76a86849b7ef14d87a235",
+        "verified": true
+      },
+      {
+        "path": "/tmp/nagramix-snow-holidays/source-checkpoint.json",
+        "manifest_sha256": "0f0271b535d9bfe27a767f5bdd6e4218dfaa083351f0b5d9e8f83224eb990290",
+        "verified": true
+      },
+      {
+        "path": "/tmp/nagramix-snowfall/source-checkpoint.json",
+        "manifest_sha256": "3fd8dca8cd2e2aacd153c8459dd2082810533b642d6648c69a013c931aad0783",
+        "verified": true
+      },
+      {
+        "path": "/tmp/nagramix-input-effects/source-checkpoint.json",
+        "manifest_sha256": "1f320a9c1ae620b3cf292eb9c2b25b675f6ba604a9700a30024b15dad7a6f081",
+        "verified": true
+      },
+      {
+        "path": "/tmp/nagramix-youtube-policy/source-checkpoint.json",
+        "manifest_sha256": "a1e07c3c2c92efb312ce788464a9b7735d0c96bdda8423957f7e2989f4a31897",
+        "verified": true
+      },
+      {
+        "path": "/tmp/nagramix-edit-confirmation/source-checkpoint.json",
+        "manifest_sha256": "37263009e577843f74395fcec9999a453700922d9d93011091502ac57c71b3a1",
+        "verified": true
+      },
+      {
+        "path": "/tmp/nagramix-font-preview/source-checkpoint.json",
+        "manifest_sha256": "5f2afc0e892828dc4ef0e839d8c8401f514cd4e7685566f5d34f9b55b57413c7",
+        "verified": true
+      },
+      {
+        "path": "/tmp/nagramix-premium-file-asr/source-checkpoint.json",
+        "manifest_sha256": "6f6e5eee53a7eb5df517486a3308a2699e980b12e0fe7e64a933b00d12a71159",
+        "verified": true
+      },
+      {
+        "path": "/tmp/nagramix-section-headers/source-checkpoint.json",
+        "manifest_sha256": "a502069589d4128650082857d14869acbf5e020ffaeda46ec1004fcdc5e86a6a",
+        "verified": true
+      },
+      {
+        "path": "/tmp/nagramix-wide-panels/source-checkpoint.json",
+        "manifest_sha256": "546d8889694c3bc3079dce138f401f0d90b4f6b5a3d6c5a69b21fb8ca803a09c",
+        "verified": true
+      },
+      {
+        "path": "/tmp/nagramix-system-web-pip/source-checkpoint.json",
+        "manifest_sha256": "8c08b5a78807b07d6e18379bec2ea8e1c0068be435f4c073746ba98293fb759a",
+        "verified": true
+      },
+      {
+        "path": "/tmp/nagramix-font-theme/source-checkpoint.json",
+        "manifest_sha256": "fc06c0fff3c83897d846bc28c41860d1b6efea86a20e0d7b96c2fe3c40940f45",
+        "verified": true
+      },
+      {
+        "path": "/tmp/nagramix-wide-channel-posts/source-checkpoint.json",
+        "manifest_sha256": "f42f2e333a84c3cae0793b33a88563aeefef2c714ffcd8a48123c45c00de6d0e",
+        "verified": true
+      },
+      {
+        "path": "/tmp/nagramix-composer-native-strings/source-checkpoint.json",
+        "manifest_sha256": "80e2ed1949ff89044d6e588cc847bf4616b6df8e5645c1a473190aec6e623672",
+        "verified": true
+      },
+      {
+        "path": "/tmp/nagramix-font-sdk199/source-checkpoint.json",
+        "manifest_sha256": "719bf32e97e52b0877466f546372f17829eb521351ca9d4c77d0bf3a36964c54",
+        "verified": true
+      },
+      {
+        "path": "/tmp/nagramix-temporary-expiration/source-checkpoint.json",
+        "manifest_sha256": "32c075e1a995bc77e196db578b20b21776ee325e27d254bc5ec63b9a1eb2a396",
+        "verified": true
+      },
+      {
+        "path": "/tmp/nagramix-original-video-media/source-checkpoint.json",
+        "manifest_sha256": "b78cffeb9c9a17a5bf356247fac896bebb31632675cb179229d30d8e7858ff4e",
+        "verified": true
+      }
+    ]
+  },
+  "build_inputs": {
+    "version": "0.9.7",
+    "workflow_scripts": 265,
+    "python_syntax_files": 751,
+    "late_stages": 79,
+    "sdk_plans": 85,
+    "submodules": 12,
+    "manual_only": true,
+    "existing_unsigned_signing_contract": "preserved",
+    "native_environment": "not_run"
+  },
+  "native_query_provenance": {
+    "repo": "TelegramMessenger/Telegram-iOS",
+    "pin": "24638bc69bd083981b178dd1e7f921eebbf7fc46",
+    "path": "submodules/TelegramUI/Sources/ChatInterfaceStateContextQueries.swift",
+    "git_blob": "2b3f3484ea73431dae350a8228d9ed30c0b12e7e",
+    "api_contents_equal_actual_preimage": true,
+    "loader_native_input_contract": true
+  },
+  "early_preflight": {
+    "complete_fixtures": 51,
+    "debug_optimized_executions": 102,
+    "all_exit_zero": true,
+    "warnings_as_errors": true
+  },
+  "upstream": {
+    "parsed_swift": 654,
+    "historical_runtime_executions": 14,
+    "native_postbox_imports": "passed",
+    "late_stages": 79
+  },
+  "inverse_history": {
+    "stages": 79,
+    "paths": 886,
+    "all_source_files_preserved": 37691,
+    "invalid_projections_rejected": 397
+  },
+  "localization": {
+    "strict": true,
+    "allow_incomplete": false,
+    "source_contract_only": false,
+    "languages": 71,
+    "keys_per_language": 668,
+    "uppercase_headers": 24,
+    "runtime_checks_per_mode": 47597,
+    "modes": [
+      "debug",
+      "optimized"
+    ],
+    "new_ui_strings": 0,
+    "scratch_allocation": {
+      "allocations": [
+        {
+          "prefix": "nagramix-late-source-prior-",
+          "root": "/tmp",
+          "free_bytes_before": 188727296
+        },
+        {
+          "prefix": "nagramix-late-source-prior-",
+          "root": "/tmp",
+          "free_bytes_before": 137797632
+        },
+        {
+          "prefix": "nagramix-late-source-prior-",
+          "root": "/tmp",
+          "free_bytes_before": 131919872
+        },
+        {
+          "prefix": "nagramix-late-source-prior-",
+          "root": "/tmp",
+          "free_bytes_before": 126537728
+        },
+        {
+          "prefix": "nagramix-late-source-prior-",
+          "root": "/tmp",
+          "free_bytes_before": 121720832
+        },
+        {
+          "prefix": "nagramix-language-runtime-",
+          "root": "/tmp",
+          "free_bytes_before": 188727296
+        }
+      ],
+      "projection_storage": {
+        "linked_files": 3306,
+        "linked_bytes": 165558454,
+        "written_files": 1246
+      },
+      "source_unchanged": true
+    }
+  },
+  "native_strings": {
+    "swift_files": 7333,
+    "native_generated_members": 12190,
+    "native_string_uses": 18587,
+    "distinct_native_members": 10391,
+    "proven_other_typed_owner_reads": 8,
+    "sdk200_mutation_rejected": true,
+    "apple_actual_generated_header": {
+      "status": "not_run",
+      "reason": "Real Objective-C/Apple SDK import requires macOS and swiftc"
+    },
+    "boundary": "Actual native GenerateStrings.py, build rule and final English catalog; generated member existence through strings/namedStrings receivers. Other typed owners need source declaration evidence. Full Swift call arity/type checking and app runtime still require SDK/device."
+  },
+  "final_checks": [
+    {
+      "name": "early",
+      "exit_code": 0,
+      "seconds": 308.1,
+      "source_manifest_sha256": "124e266cc2f583cfed8cc5985da976c3d28c37c9276efed6915be8501eb85d93"
+    },
+    {
+      "name": "upstream",
+      "exit_code": 0,
+      "seconds": 101.0,
+      "source_manifest_sha256": "124e266cc2f583cfed8cc5985da976c3d28c37c9276efed6915be8501eb85d93"
+    },
+    {
+      "name": "inverse",
+      "exit_code": 0,
+      "seconds": 99.3,
+      "source_manifest_sha256": "124e266cc2f583cfed8cc5985da976c3d28c37c9276efed6915be8501eb85d93"
+    },
+    {
+      "name": "localization",
+      "exit_code": 0,
+      "seconds": 30.3,
+      "source_manifest_sha256": "124e266cc2f583cfed8cc5985da976c3d28c37c9276efed6915be8501eb85d93"
+    },
+    {
+      "name": "members-full",
+      "exit_code": 0,
+      "seconds": 4.5,
+      "source_manifest_sha256": "124e266cc2f583cfed8cc5985da976c3d28c37c9276efed6915be8501eb85d93"
+    },
+    {
+      "name": "members-canonical",
+      "exit_code": 0,
+      "seconds": 1.8,
+      "source_manifest_sha256": "124e266cc2f583cfed8cc5985da976c3d28c37c9276efed6915be8501eb85d93"
+    },
+    {
+      "name": "native-strings",
+      "exit_code": 0,
+      "seconds": 5.6,
+      "source_manifest_sha256": "124e266cc2f583cfed8cc5985da976c3d28c37c9276efed6915be8501eb85d93"
+    },
+    {
+      "name": "mode",
+      "exit_code": 0,
+      "seconds": 0.2,
+      "source_manifest_sha256": "124e266cc2f583cfed8cc5985da976c3d28c37c9276efed6915be8501eb85d93"
+    },
+    {
+      "name": "metadata",
+      "exit_code": 0,
+      "seconds": 0.1,
+      "source_manifest_sha256": "124e266cc2f583cfed8cc5985da976c3d28c37c9276efed6915be8501eb85d93"
+    },
+    {
+      "name": "diff",
+      "exit_code": 0,
+      "seconds": 0.0,
+      "source_manifest_sha256": "124e266cc2f583cfed8cc5985da976c3d28c37c9276efed6915be8501eb85d93"
+    }
+  ],
+  "diff_review": {
+    "application_diff_reviewed": true,
+    "paths": [
+      "submodules/TelegramCore/Sources/Utils/NagramiXOutgoingCopy.swift",
+      "submodules/TelegramUI/Sources/ChatInterfaceStateContextQueries.swift",
+      "submodules/TelegramUI/Sources/Chat/UpdateChatPresentationInterfaceState.swift",
+      "submodules/TelegramUI/Sources/ChatInterfaceStateContextMenus.swift",
+      "submodules/TelegramUI/Sources/ChatControllerNode.swift",
+      "submodules/TelegramUI/Sources/Chat/ChatControllerLoadDisplayNode.swift",
+      "submodules/TelegramCore/Sources/PendingMessages/RequestEditMessage.swift"
+    ],
+    "native_query_origin": {
+      "submodules/TelegramUI/Sources/ChatInterfaceStateContextQueries.swift": "2b3f3484ea73431dae350a8228d9ed30c0b12e7e"
+    },
+    "templates": 44,
+    "guards": 30,
+    "application_files_added": 0,
+    "ui_strings_added": 0,
+    "scope": "Named-link query/state/init/send/edit policy and source-webpage copy transport only. No body/entity mutation, new dependencies, signing/SDK changes, decoder/audio/recording/geometry or history deletion.",
+    "preserved_project_files": {
+      "README.md": "45509c6e30df1b7a61d9a6a001582c542ba2eba45bc6573a00bc57c9d403a5a9",
+      "LICENSE": "edaef632cbb643e4e7a221717a6c441a4c1a7c918e6e4d56debc3d8739b233f6",
+      "product/releases/0.9.7.md": "45509c6e30df1b7a61d9a6a001582c542ba2eba45bc6573a00bc57c9d403a5a9"
+    }
+  },
+  "registry": {
+    "compile": {
+      "compile_passed": 68,
+      "compile_pending": 12
+    },
+    "device_pending": 80
+  },
+  "release_preservation": {
+    "releases": 10,
+    "assets": 30,
+    "tags": 13,
+    "published_097_tag_source": "d6a808c6af70d6ad31d678081ae73a6445c22bbf",
+    "published_097_stage": 74,
+    "new_build_or_replacement": false
+  },
+  "limitations": [
+    "No Apple SDK app compilation, live Telegram delivery/edit or physical iPhone rendering for stage79.",
+    "Ordinary new raw URL input and existing incoming rendering preserve native behavior. Existing server messages are not mass-edited; saving a named-link post sends no_webpage.",
+    "A webpage source cannot be stripped through native forward RPC; the existing authorless copy fallback is used for those sources, with ordinary no-preview fast transport retained."
+  ],
+  "next_step": "Checked commit/push main; new SDK/IPA only on direct owner build command."
+}
