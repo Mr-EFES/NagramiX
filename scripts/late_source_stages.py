@@ -99,6 +99,7 @@ LATE_SOURCE_STAGES = (
     'font_license_compact',
     'unified_glass_menus',
     'translation_account_defaults',
+    'round_quality_summary',
 )
 TEMPORARY_INTERACTION_STAGE = 'temporary_message_interaction'
 TEMPORARY_REPLY_HELPER = 'submodules/TelegramUI/Sources/Chat/NagramiXTemporaryReplySend.swift'
@@ -116,6 +117,14 @@ def check_copy_contract(stage, plan):
     index = LATE_SOURCE_STAGES.index(stage)
     if index >= 7:
         assert plan.get('required_previous_stage') == LATE_SOURCE_STAGES[index - 1], stage
+    if stage == 'round_quality_summary':
+        helper = 'submodules/TelegramUI/Components/ChatMediaEditorScreen/Sources/NagramiXRoundQualitySheet.swift'
+        assert set(plan['copies']) == {helper}, 'Unexpected round quality helper copy'
+        build = (OVERLAY / plan['guard_sources']['submodules/TelegramUI/Components/ChatMediaEditorScreen/BUILD']).read_text()
+        assert '"Sources/**/*.swift"' in build and '"//submodules/NagramiXCore:NagramiXCore"' in build and '"//submodules/Display"' in build
+        item = plan['copies'][helper]
+        assert set(item) == {'source', 'sha256'} and plan['templates'].get(item['source']) == item['sha256']
+        return
     if stage == 'app_font_selection':
         sources = {
             'submodules/NagramiXMediaSettings/Sources/NagramiXFontSettings.swift',

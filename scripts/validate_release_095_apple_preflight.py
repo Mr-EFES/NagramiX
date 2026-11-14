@@ -57,6 +57,8 @@ from settings_glass_sliders_apple import check as settings_glass_sliders_api_che
 from font_license_compact_runtime import fixture as font_license_compact_fixture
 from font_license_compact_apple import check as font_license_compact_api_check
 from font_license_compact_modules import check as font_license_compact_modules_check
+from round_quality_summary_runtime import fixture as round_quality_summary_fixture, ui_fixture as round_quality_summary_ui_fixture, route_fixture as round_quality_summary_route_fixture
+from round_quality_summary_apple import check as round_quality_summary_api_check
 from translation_account_defaults_runtime import fixture as translation_account_defaults_fixture
 from unified_glass_menus_runtime import fixture as unified_glass_menus_fixture
 from unified_glass_menus_apple import check as unified_glass_menus_api_check, modules_check as unified_glass_menus_modules_check
@@ -150,7 +152,20 @@ def canonical_projection(destination, through_stage):
             target.parent.mkdir(parents=True, exist_ok=True)
             target.write_bytes(data)
             added += 1
-    return {'written':written, 'pinned_native_dependencies':added, 'unused_unavailable_native_guards':len(expected)-written}
+    localized_resources = 0
+    if stage == 'round_quality_summary':
+        plan = checked_plan(stage)
+        for name, expected_hash in plan['outputs'].items():
+            if not name.endswith('.lproj/Localizable.strings'): continue
+            data = (OVERLAY/plan['replacements'][name]).read_bytes()
+            assert hashlib.sha256(data).hexdigest() == expected_hash, name
+            path = destination/name
+            assert path.resolve().is_relative_to(destination.resolve()) and not path.exists(), name
+            path.parent.mkdir(parents=True,exist_ok=True)
+            path.write_bytes(data)
+            localized_resources += 1
+        assert localized_resources == 71
+    return {'written':written, 'pinned_native_dependencies':added, 'unused_unavailable_native_guards':len(expected)-written, 'localized_resources':localized_resources}
 
 
 def main():
@@ -163,6 +178,13 @@ def main():
         root = Path(temporary)
         foundation=foundation_check(args.swiftc,root)
         files = {}
+        round_summary_source=root/'round-summary-native-final'
+        files['native_final86']=canonical_projection(round_summary_source,'round_quality_summary')
+        round_quality_summary_api=round_quality_summary_api_check(round_summary_source,args.swiftc,root/'round-summary-api-first')
+        for name, build in [('round-quality-summary-values', round_quality_summary_fixture), ('round-quality-summary-sheet', round_quality_summary_ui_fixture), ('round-quality-summary-route', round_quality_summary_route_fixture)]:
+            runs += execute(args.swiftc,root,name,build(round_summary_source))
+        shutil.rmtree(round_summary_source)
+        shutil.rmtree(root/'round-summary-api-first')
         menus_source=root/'unified-menus-native-final'
         files['native_final84']=canonical_projection(menus_source,'unified_glass_menus')
         unified_glass_menus_api=unified_glass_menus_api_check(menus_source,args.swiftc,root/'unified-menus-api-first')
@@ -329,6 +351,7 @@ def main():
     report['settings_glass_sliders_native_api']=settings_glass_sliders_api
     report['font_license_compact_native_api']=font_license_compact_api
     report['font_license_compact_modules']=font_license_compact_modules
+    report['round_quality_summary_native_api']=round_quality_summary_api
     report['unified_glass_menus_native_api']=unified_glass_menus_api
     report['unified_glass_menus_modules']=unified_glass_menus_modules
     report['input_effects_real_sdk']=input_effects_apple

@@ -1,0 +1,508 @@
+{
+  "keys": [
+    "NagramiX.RoundVideo.QualitySummary.Title",
+    "NagramiX.RoundVideo.QualitySummary.DefaultInfo",
+    "NagramiX.RoundVideo.QualitySummary.Preset",
+    "NagramiX.RoundVideo.QualitySummary.Resolution",
+    "NagramiX.RoundVideo.QualitySummary.Rate"
+  ],
+  "translations": {
+    "en": [
+      "Video message quality",
+      "Standard video message settings",
+      "Preset",
+      "Resolution",
+      "%1$@ Mbps"
+    ],
+    "af": [
+      "Videoboodskapgehalte",
+      "Standaardinstellings vir videoboodskappe",
+      "Voorinstelling",
+      "Resolusie",
+      "%1$@ Mbit/s"
+    ],
+    "sq": [
+      "Cilësia e videomesazhit",
+      "Parametrat standardë të videomesazheve",
+      "Paracaktimi",
+      "Rezolucioni",
+      "%1$@ Mbit/s"
+    ],
+    "am": [
+      "የቪዲዮ መልዕክት ጥራት",
+      "መደበኛ የቪዲዮ መልዕክት ቅንብሮች",
+      "ቅድመ ቅንብር",
+      "ጥራት",
+      "%1$@ ሜጋቢት/ሰ"
+    ],
+    "ar": [
+      "جودة رسالة الفيديو",
+      "الإعدادات القياسية لرسائل الفيديو",
+      "الإعداد المسبق",
+      "الدقة",
+      "%1$@ ميغابت/ث"
+    ],
+    "hy": [
+      "Տեսահաղորդագրության որակ",
+      "Տեսահաղորդագրությունների ստանդարտ կարգավորումներ",
+      "Նախասահմանում",
+      "Լուծաչափ",
+      "%1$@ Մբիթ/վ"
+    ],
+    "az": [
+      "Video mesaj keyfiyyəti",
+      "Video mesajların standart parametrləri",
+      "Hazır ayar",
+      "Görüntü ölçüsü",
+      "%1$@ Mbit/s"
+    ],
+    "eu": [
+      "Bideo-mezuaren kalitatea",
+      "Bideo-mezuen ezarpen estandarrak",
+      "Aurrezarpena",
+      "Bereizmena",
+      "%1$@ Mbit/s"
+    ],
+    "be": [
+      "Якасць відэапаведамлення",
+      "Стандартныя налады відэапаведамленняў",
+      "Профіль",
+      "Раздзяляльнасць",
+      "%1$@ Мбіт/с"
+    ],
+    "bn": [
+      "ভিডিও বার্তার মান",
+      "ভিডিও বার্তার সাধারণ সেটিংস",
+      "পূর্বনির্ধারিত সেটিং",
+      "রেজোলিউশন",
+      "%1$@ মেগাবিট/সে"
+    ],
+    "bg": [
+      "Качество на видеосъобщението",
+      "Стандартни настройки за видеосъобщения",
+      "Профил",
+      "Разделителна способност",
+      "%1$@ Мбит/с"
+    ],
+    "my": [
+      "ဗီဒီယိုမက်ဆေ့ချ် အရည်အသွေး",
+      "ဗီဒီယိုမက်ဆေ့ချ်များ၏ ပုံမှန်ဆက်တင်များ",
+      "ကြိုတင်သတ်မှတ်ချက်",
+      "ရုပ်ထွက်အရည်အသွေး",
+      "%1$@ မီဂါဘစ်/စက္ကန့်"
+    ],
+    "ca": [
+      "Qualitat del missatge de vídeo",
+      "Paràmetres estàndard dels missatges de vídeo",
+      "Predefinit",
+      "Resolució",
+      "%1$@ Mbit/s"
+    ],
+    "zh-hans": [
+      "视频消息画质",
+      "视频消息的标准设置",
+      "预设",
+      "分辨率",
+      "%1$@ 兆比特/秒"
+    ],
+    "zh-hant": [
+      "影片訊息品質",
+      "影片訊息的標準設定",
+      "預設",
+      "解析度",
+      "%1$@ 兆位元/秒"
+    ],
+    "hr": [
+      "Kvaliteta videoporuke",
+      "Standardne postavke videoporuka",
+      "Predložak",
+      "Razlučivost",
+      "%1$@ Mbit/s"
+    ],
+    "cs": [
+      "Kvalita videozprávy",
+      "Standardní nastavení videozpráv",
+      "Předvolba",
+      "Rozlišení",
+      "%1$@ Mbit/s"
+    ],
+    "da": [
+      "Videobeskedkvalitet",
+      "Standardindstillinger for videobeskeder",
+      "Forudindstilling",
+      "Opløsning",
+      "%1$@ Mbit/s"
+    ],
+    "nl": [
+      "Kwaliteit videobericht",
+      "Standaardinstellingen voor videoberichten",
+      "Voorinstelling",
+      "Resolutie",
+      "%1$@ Mbit/s"
+    ],
+    "eo": [
+      "Kvalito de videomesaĝo",
+      "Normaj agordoj por videomesaĝoj",
+      "Antaŭagordo",
+      "Distingivo",
+      "%1$@ Mbit/s"
+    ],
+    "et": [
+      "Videosõnumi kvaliteet",
+      "Videosõnumite standardsätted",
+      "Eelseadistus",
+      "Eraldusvõime",
+      "%1$@ Mbit/s"
+    ],
+    "fil": [
+      "Kalidad ng mensaheng video",
+      "Karaniwang mga setting ng mensaheng video",
+      "Paunang setting",
+      "Resolusyon",
+      "%1$@ Mbit/s"
+    ],
+    "fi": [
+      "Videoviestin laatu",
+      "Videoviestien vakioasetukset",
+      "Esiasetus",
+      "Tarkkuus",
+      "%1$@ Mbit/s"
+    ],
+    "fr": [
+      "Qualité du message vidéo",
+      "Paramètres standard des messages vidéo",
+      "Préréglage",
+      "Résolution",
+      "%1$@ Mbit/s"
+    ],
+    "gl": [
+      "Calidade da mensaxe de vídeo",
+      "Axustes estándar das mensaxes de vídeo",
+      "Preaxuste",
+      "Resolución",
+      "%1$@ Mbit/s"
+    ],
+    "ka": [
+      "ვიდეოშეტყობინების ხარისხი",
+      "ვიდეოშეტყობინებების სტანდარტული პარამეტრები",
+      "პროფილი",
+      "გარჩევადობა",
+      "%1$@ მბიტ/წმ"
+    ],
+    "de": [
+      "Qualität der Videonachricht",
+      "Standardeinstellungen für Videonachrichten",
+      "Voreinstellung",
+      "Auflösung",
+      "%1$@ Mbit/s"
+    ],
+    "el": [
+      "Ποιότητα μηνύματος βίντεο",
+      "Τυπικές ρυθμίσεις μηνυμάτων βίντεο",
+      "Προεπιλογή",
+      "Ανάλυση",
+      "%1$@ Mbit/s"
+    ],
+    "gu": [
+      "વિડિઓ સંદેશની ગુણવત્તા",
+      "વિડિઓ સંદેશ માટેનાં માનક સેટિંગ",
+      "પૂર્વનિર્ધારિત સેટિંગ",
+      "રિઝોલ્યુશન",
+      "%1$@ મેગાબિટ/સેકન્ડ"
+    ],
+    "he": [
+      "איכות הודעת וידאו",
+      "הגדרות רגילות להודעות וידאו",
+      "הגדרה מוכנה",
+      "רזולוציה",
+      "%1$@ מגה־ביט/שנייה"
+    ],
+    "hi": [
+      "वीडियो संदेश की गुणवत्ता",
+      "वीडियो संदेशों की मानक सेटिंग",
+      "प्रीसेट",
+      "रिज़ॉल्यूशन",
+      "%1$@ मेगाबिट/सेकंड"
+    ],
+    "hu": [
+      "Videóüzenet minősége",
+      "Videóüzenetek alapbeállításai",
+      "Profil",
+      "Felbontás",
+      "%1$@ Mbit/s"
+    ],
+    "id": [
+      "Kualitas pesan video",
+      "Pengaturan standar pesan video",
+      "Prasetel",
+      "Resolusi",
+      "%1$@ Mbit/dtk"
+    ],
+    "ga": [
+      "Cáilíocht teachtaireachta físe",
+      "Socruithe caighdeánacha teachtaireachtaí físe",
+      "Réamhshocrú",
+      "Taifeach",
+      "%1$@ Mgiot/s"
+    ],
+    "it": [
+      "Qualità del videomessaggio",
+      "Impostazioni standard dei videomessaggi",
+      "Preimpostazione",
+      "Risoluzione",
+      "%1$@ Mbit/s"
+    ],
+    "ja": [
+      "ビデオメッセージの画質",
+      "ビデオメッセージの標準設定",
+      "プリセット",
+      "解像度",
+      "%1$@ Mbps"
+    ],
+    "kn": [
+      "ವೀಡಿಯೊ ಸಂದೇಶದ ಗುಣಮಟ್ಟ",
+      "ವೀಡಿಯೊ ಸಂದೇಶಗಳ ಪ್ರಮಾಣಿತ ಸೆಟ್ಟಿಂಗ್‌ಗಳು",
+      "ಪೂರ್ವನಿಗದಿ",
+      "ರೆಸಲ್ಯೂಶನ್",
+      "%1$@ ಮೆಗಾಬಿಟ್/ಸೆಕೆಂಡ್"
+    ],
+    "kk": [
+      "Бейнехабар сапасы",
+      "Бейнехабарлардың стандартты параметрлері",
+      "Профиль",
+      "Ажыратымдылық",
+      "%1$@ Мбит/с"
+    ],
+    "km": [
+      "គុណភាពសារវីដេអូ",
+      "ការកំណត់ស្តង់ដារសម្រាប់សារវីដេអូ",
+      "ការកំណត់ជាមុន",
+      "កម្រិតភាពច្បាស់",
+      "%1$@ មេហ្គាប៊ីត/វិនាទី"
+    ],
+    "ko": [
+      "동영상 메시지 화질",
+      "동영상 메시지의 기본 설정",
+      "프리셋",
+      "해상도",
+      "%1$@ Mbps"
+    ],
+    "lv": [
+      "Videoziņas kvalitāte",
+      "Videoziņu standarta iestatījumi",
+      "Priekšiestatījums",
+      "Izšķirtspēja",
+      "%1$@ Mbit/s"
+    ],
+    "lt": [
+      "Vaizdo žinutės kokybė",
+      "Standartiniai vaizdo žinučių nustatymai",
+      "Parinkčių rinkinys",
+      "Skiriamoji geba",
+      "%1$@ Mbit/s"
+    ],
+    "ms": [
+      "Kualiti mesej video",
+      "Tetapan standard mesej video",
+      "Pratetap",
+      "Resolusi",
+      "%1$@ Mbit/s"
+    ],
+    "ml": [
+      "വീഡിയോ സന്ദേശത്തിന്റെ ഗുണനിലവാരം",
+      "വീഡിയോ സന്ദേശങ്ങളുടെ സാധാരണ ക്രമീകരണങ്ങൾ",
+      "മുൻക്രമീകരണം",
+      "റെസല്യൂഷൻ",
+      "%1$@ മെഗാബിറ്റ്/സെക്കൻഡ്"
+    ],
+    "mt": [
+      "Kwalità tal-messaġġ bil-vidjo",
+      "Settings standard tal-messaġġi bil-vidjo",
+      "Konfigurazzjoni lesta",
+      "Riżoluzzjoni",
+      "%1$@ Mbit/s"
+    ],
+    "mr": [
+      "व्हिडिओ संदेशाची गुणवत्ता",
+      "व्हिडिओ संदेशांची मानक सेटिंग्ज",
+      "पूर्वनियोजित सेटिंग",
+      "रिझोल्यूशन",
+      "%1$@ मेगाबिट/सेकंद"
+    ],
+    "ne": [
+      "भिडियो सन्देशको गुणस्तर",
+      "भिडियो सन्देशका मानक सेटिङहरू",
+      "पूर्वनिर्धारित सेटिङ",
+      "रिजोल्युसन",
+      "%1$@ मेगाबिट/सेकेन्ड"
+    ],
+    "nb": [
+      "Videomeldingskvalitet",
+      "Standardinnstillinger for videomeldinger",
+      "Forhåndsinnstilling",
+      "Oppløsning",
+      "%1$@ Mbit/s"
+    ],
+    "or": [
+      "ଭିଡିଓ ବାର୍ତ୍ତାର ଗୁଣବତ୍ତା",
+      "ଭିଡିଓ ବାର୍ତ୍ତାର ମାନକ ସେଟିଂସମୂହ",
+      "ପୂର୍ବନିର୍ଦ୍ଧାରିତ ସେଟିଂ",
+      "ରିଜୋଲ୍ୟୁସନ",
+      "%1$@ ମେଗାବିଟ୍/ସେକେଣ୍ଡ"
+    ],
+    "fa": [
+      "کیفیت پیام ویدیویی",
+      "تنظیمات استاندارد پیام‌های ویدیویی",
+      "پیش‌تنظیم",
+      "وضوح",
+      "%1$@ مگابیت/ثانیه"
+    ],
+    "pl": [
+      "Jakość wiadomości wideo",
+      "Standardowe ustawienia wiadomości wideo",
+      "Profil",
+      "Rozdzielczość",
+      "%1$@ Mbit/s"
+    ],
+    "pt-br": [
+      "Qualidade da mensagem de vídeo",
+      "Configurações padrão das mensagens de vídeo",
+      "Predefinição",
+      "Resolução",
+      "%1$@ Mbit/s"
+    ],
+    "pt-pt": [
+      "Qualidade da mensagem de vídeo",
+      "Definições padrão das mensagens de vídeo",
+      "Predefinição",
+      "Resolução",
+      "%1$@ Mbit/s"
+    ],
+    "ro": [
+      "Calitatea mesajului video",
+      "Setări standard pentru mesajele video",
+      "Profil",
+      "Rezoluție",
+      "%1$@ Mbit/s"
+    ],
+    "ru": [
+      "Качество кружка",
+      "Штатные параметры видеокружков",
+      "Пресет",
+      "Разрешение",
+      "%1$@ Мбит/с"
+    ],
+    "sr": [
+      "Квалитет видео-поруке",
+      "Стандардна подешавања видео-порука",
+      "Профил",
+      "Резолуција",
+      "%1$@ Мбит/с"
+    ],
+    "sk": [
+      "Kvalita videosprávy",
+      "Štandardné nastavenia videospráv",
+      "Predvoľba",
+      "Rozlíšenie",
+      "%1$@ Mbit/s"
+    ],
+    "sl": [
+      "Kakovost videosporočila",
+      "Standardne nastavitve videosporočil",
+      "Prednastavitev",
+      "Ločljivost",
+      "%1$@ Mbit/s"
+    ],
+    "es": [
+      "Calidad del videomensaje",
+      "Ajustes estándar de los videomensajes",
+      "Preajuste",
+      "Resolución",
+      "%1$@ Mbit/s"
+    ],
+    "sw": [
+      "Ubora wa ujumbe wa video",
+      "Mipangilio ya kawaida ya ujumbe wa video",
+      "Mpangilio awali",
+      "Mwonekano",
+      "%1$@ Mbit/s"
+    ],
+    "sv": [
+      "Videomeddelandets kvalitet",
+      "Standardinställningar för videomeddelanden",
+      "Förinställning",
+      "Upplösning",
+      "%1$@ Mbit/s"
+    ],
+    "tg": [
+      "Сифати паёми видеоӣ",
+      "Танзимоти стандартии паёмҳои видеоӣ",
+      "Профил",
+      "Возеҳӣ",
+      "%1$@ Мбит/с"
+    ],
+    "ta": [
+      "காணொளிச் செய்தியின் தரம்",
+      "காணொளிச் செய்திகளின் இயல்புநிலை அமைப்புகள்",
+      "முன்னமைவு",
+      "தெளிவுத்திறன்",
+      "%1$@ மெகாபிட்/விநாடி"
+    ],
+    "te": [
+      "వీడియో సందేశ నాణ్యత",
+      "వీడియో సందేశాల ప్రామాణిక సెట్టింగ్‌లు",
+      "ముందస్తు అమరిక",
+      "రిజల్యూషన్",
+      "%1$@ మెగాబిట్/సెకను"
+    ],
+    "th": [
+      "คุณภาพข้อความวิดีโอ",
+      "การตั้งค่ามาตรฐานสำหรับข้อความวิดีโอ",
+      "ค่าที่ตั้งไว้",
+      "ความละเอียด",
+      "%1$@ เมกะบิต/วินาที"
+    ],
+    "tr": [
+      "Video mesaj kalitesi",
+      "Video mesajların standart ayarları",
+      "Ön ayar",
+      "Çözünürlük",
+      "%1$@ Mbit/sn"
+    ],
+    "tk": [
+      "Wideo habarynyň hili",
+      "Wideo habarlarynyň adaty sazlamalary",
+      "Taýýar sazlama",
+      "Çözüliş",
+      "%1$@ Mbit/s"
+    ],
+    "uk": [
+      "Якість відеоповідомлення",
+      "Стандартні параметри відеоповідомлень",
+      "Профіль",
+      "Роздільність",
+      "%1$@ Мбіт/с"
+    ],
+    "ur": [
+      "ویڈیو پیغام کا معیار",
+      "ویڈیو پیغامات کی معیاری ترتیبات",
+      "پہلے سے طے شدہ ترتیب",
+      "ریزولوشن",
+      "%1$@ میگابٹ/سیکنڈ"
+    ],
+    "uz": [
+      "Video xabar sifati",
+      "Video xabarlarning standart sozlamalari",
+      "Tayyor sozlama",
+      "Aniqlik",
+      "%1$@ Mbit/s"
+    ],
+    "vi": [
+      "Chất lượng tin nhắn video",
+      "Thiết lập tiêu chuẩn cho tin nhắn video",
+      "Thiết lập sẵn",
+      "Độ phân giải",
+      "%1$@ Mbit/giây"
+    ]
+  }
+}
