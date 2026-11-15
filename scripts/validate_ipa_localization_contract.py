@@ -60,7 +60,10 @@ class CatalogTests(unittest.TestCase):
                 if name.startswith('submodules/NagramiXCore/Resources/') and name.endswith('.lproj/Localizable.strings'):
                     code = Path(name).parent.name.removesuffix('.lproj')
                     cls.final_snapshots[code] = (overlay / snapshot, stage_plan['outputs'][name])
+            if stage == 'wide_portal_api':
+                cls.published_snapshots = dict(cls.final_snapshots)
         cls.final_catalogs = {code: strings(path) for code, (path, _) in cls.final_snapshots.items()}
+        cls.published_catalogs = {code: strings(path) for code, (path, _) in cls.published_snapshots.items()}
 
     def archive(self, catalogs, change=None, extra=None):
         target = io.BytesIO()
@@ -318,25 +321,25 @@ class CatalogTests(unittest.TestCase):
         with self.archive(expected_nagramix_catalogs('0.9.6')) as archive:
             self.assertEqual(validate_settings_localizations(archive, PREFIX, '0.9.6'), 71)
 
-    def test_096_matches_every_final_source_catalog(self):
-        for path, digest in self.final_snapshots.values():
+    def test_096_matches_published_source_catalog(self):
+        for path, digest in self.published_snapshots.values():
             self.assertEqual(hashlib.sha256(path.read_bytes()).hexdigest(), digest)
-        self.assertEqual(len(self.final_catalogs), 71)
-        self.assertTrue(all(len(values) == 668 for values in self.final_catalogs.values()))
-        self.assertEqual(expected_nagramix_catalogs('0.9.6'), self.final_catalogs)
-        with self.archive(self.final_catalogs) as archive:
+        self.assertEqual(len(self.published_catalogs), 71)
+        self.assertTrue(all(len(values) == 668 for values in self.published_catalogs.values()))
+        self.assertEqual(expected_nagramix_catalogs('0.9.6'), self.published_catalogs)
+        with self.archive(self.published_catalogs) as archive:
             self.assertEqual(validate_settings_localizations(archive, PREFIX, '0.9.6'), 71)
 
-    def test_097_matches_current_source_catalogs(self):
-        self.assertEqual(expected_nagramix_catalogs('0.9.7'), self.final_catalogs)
-        with self.archive(self.final_catalogs) as archive:
+    def test_097_matches_published_source_catalogs(self):
+        self.assertEqual(expected_nagramix_catalogs('0.9.7'), self.published_catalogs)
+        with self.archive(self.published_catalogs) as archive:
             self.assertEqual(validate_settings_localizations(archive, PREFIX, '0.9.7'), 71)
 
     def test_original208_quoted_local_read_is_rejected(self):
         def change(code, values):
             if code == 'ru': values['NagramiX.ReadMode.Local'] = 'Локальное «чтение»'
             return True
-        with self.archive(self.final_catalogs, change) as archive, self.assertRaisesRegex(SystemExit, 'неполны: ru'):
+        with self.archive(self.published_catalogs, change) as archive, self.assertRaisesRegex(SystemExit, 'неполны: ru'):
             validate_settings_localizations(archive, PREFIX, '0.9.6')
 
     def test_096_local_read_keeps_published_095_unchanged(self):
@@ -347,15 +350,15 @@ class CatalogTests(unittest.TestCase):
         def change(code, values):
             if code == 'en': values['NagramiX.Settings.Page.Other'] = 'changed'
             return True
-        with self.archive(self.final_catalogs, change) as archive, self.assertRaisesRegex(SystemExit, 'неполны: en'):
+        with self.archive(self.published_catalogs, change) as archive, self.assertRaisesRegex(SystemExit, 'неполны: en'):
             validate_settings_localizations(archive, PREFIX, '0.9.6')
 
     def test_096_missing_language_is_rejected(self):
-        with self.archive(self.final_catalogs, lambda code, values: code != 'de') as archive, self.assertRaises(SystemExit):
+        with self.archive(self.published_catalogs, lambda code, values: code != 'de') as archive, self.assertRaises(SystemExit):
             validate_settings_localizations(archive, PREFIX, '0.9.6')
 
     def test_096_extra_language_is_rejected(self):
-        with self.archive(self.final_catalogs, extra={'zz': self.final_catalogs['en']}) as archive, self.assertRaises(SystemExit):
+        with self.archive(self.published_catalogs, extra={'zz': self.published_catalogs['en']}) as archive, self.assertRaises(SystemExit):
             validate_settings_localizations(archive, PREFIX, '0.9.6')
 
     def test_local_read_source_snapshot_sha_is_checked(self):
@@ -394,6 +397,58 @@ class CatalogTests(unittest.TestCase):
             return data + b'\n// drift\n' if path == source else data
         with mock.patch.object(Path, 'read_bytes', new=corrupted), self.assertRaisesRegex(SystemExit, 'каталог предпросмотра шрифтов изменён'):
             expected_nagramix_catalogs('0.9.6')
+
+    def test_098_matches_all_current_source_catalogs(self):
+        for path, digest in self.final_snapshots.values():
+            self.assertEqual(hashlib.sha256(path.read_bytes()).hexdigest(), digest)
+        self.assertEqual(len(self.final_catalogs), 71)
+        self.assertTrue(all(len(values) == 678 for values in self.final_catalogs.values()))
+        self.assertEqual(expected_nagramix_catalogs('0.9.8'), self.final_catalogs)
+        with self.archive(self.final_catalogs) as archive:
+            self.assertEqual(validate_settings_localizations(archive, PREFIX, '0.9.8'), 71)
+
+    def test_current_release_matches_current_source_catalogs(self):
+        version = json.loads((ROOT / 'product/features/registry.json').read_text())['release']
+        self.assertEqual(expected_nagramix_catalogs(version), self.final_catalogs)
+
+    def test_098_rejects_old_catalog(self):
+        with self.archive(self.published_catalogs) as archive, self.assertRaises(SystemExit):
+            validate_settings_localizations(archive, PREFIX, '0.9.8')
+
+    def test_097_rejects_new_catalog(self):
+        with self.archive(self.final_catalogs) as archive, self.assertRaises(SystemExit):
+            validate_settings_localizations(archive, PREFIX, '0.9.7')
+
+    def test_098_new_summary_and_bitrate_values_are_required(self):
+        for key in ['NagramiX.RoundVideo.QualitySummary.Title', 'NagramiX.RoundVideo.Bitrate.Maximum']:
+            def change(code, values):
+                if code == 'de':
+                    values[key] = 'changed'
+                return True
+            with self.subTest(key=key), self.archive(self.final_catalogs, change) as archive, self.assertRaises(SystemExit):
+                validate_settings_localizations(archive, PREFIX, '0.9.8')
+
+    def test_098_missing_new_key_at_same_count_is_rejected(self):
+        def change(code, values):
+            if code == 'ru':
+                del values['NagramiX.RoundVideo.QualitySummary.Resolution']
+                values['NagramiX.Unexpected.Placeholder'] = 'same count'
+            return True
+        with self.archive(self.final_catalogs, change) as archive, self.assertRaises(SystemExit):
+            validate_settings_localizations(archive, PREFIX, '0.9.8')
+
+    def test_098_snapshots_and_translation_manifests_keep_sha_guards(self):
+        original = Path.read_bytes
+        for stage in ['round_quality_summary', 'round_bitrate_levels']:
+            plan = json.loads((ROOT / 'ios' / (stage + '_patches.json')).read_text())
+            resource = 'submodules/NagramiXCore/Resources/en.lproj/Localizable.strings'
+            for name in [plan['previous'][resource], plan['replacements'][resource], stage + '/localization.json']:
+                target = ROOT / 'ios' / name
+                def corrupted(path):
+                    data = original(path)
+                    return data + b'\n// drift\n' if path == target else data
+                with self.subTest(stage=stage, snapshot=name), mock.patch.object(Path, 'read_bytes', new=corrupted), self.assertRaises(SystemExit):
+                    expected_nagramix_catalogs('0.9.8')
 
 
 if __name__ == '__main__':

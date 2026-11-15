@@ -282,6 +282,49 @@ def expected_nagramix_catalogs(version: str | None = None) -> dict[str, dict[str
                 and previous[key] == 'Локальное «чтение»', 'Изменён каталог перед названием локального чтения')
         require(current == {**previous, key: 'Локальное чтение'}, 'Изменены другие переводы локального чтения')
         catalogs['ru'] = current
+    if version_parts is not None and version_parts >= (0, 9, 8):
+        for stage, previous_stage, previous_count, keys in (
+            ('round_quality_summary', 'translation_account_defaults', 668, [
+                'NagramiX.RoundVideo.QualitySummary.Title',
+                'NagramiX.RoundVideo.QualitySummary.DefaultInfo',
+                'NagramiX.RoundVideo.QualitySummary.Preset',
+                'NagramiX.RoundVideo.QualitySummary.Resolution',
+                'NagramiX.RoundVideo.QualitySummary.Rate',
+            ]),
+            ('round_bitrate_levels', 'font_apply_glass', 673, [
+                'NagramiX.RoundVideo.Bitrate.Standard',
+                'NagramiX.RoundVideo.Bitrate.Medium',
+                'NagramiX.RoundVideo.Bitrate.High',
+                'NagramiX.RoundVideo.Bitrate.Maximum',
+                'NagramiX.RoundVideo.QualitySubtitle',
+            ]),
+        ):
+            contract = json.loads((ROOT / 'ios' / (stage + '_patches.json')).read_text())
+            require(contract['target_pin'] == '24638bc69bd083981b178dd1e7f921eebbf7fc46'
+                    and contract['overlay_base_pin'] == '279f89e4d4f63f17227bf877dc3d8990f22ecd58'
+                    and contract['required_previous_stage'] == previous_stage,
+                    'Неверная база переводов ' + stage)
+            resources = {f'submodules/NagramiXCore/Resources/{code}.lproj/Localizable.strings' for code in codes}
+            require({name for name in contract['outputs'] if name.endswith('.lproj/Localizable.strings')} == resources,
+                    'Неполный набор языков ' + stage)
+            name = stage + '/localization.json'
+            data = (ROOT / 'ios' / name).read_bytes()
+            require(hashlib.sha256(data).hexdigest() == contract['templates'][name], 'Изменён реестр переводов ' + stage)
+            loc = json.loads(data)
+            require(loc['keys'] == keys and set(loc['translations']) == codes, 'Неполный контракт переводов ' + stage)
+            for code in sorted(codes):
+                path = f'submodules/NagramiXCore/Resources/{code}.lproj/Localizable.strings'
+                previous = checked_snapshot(contract['previous'][path], contract['inputs'][path], contract, stage)
+                current = checked_snapshot(contract['replacements'][path], contract['outputs'][path], contract, stage)
+                values = loc['translations'][code]
+                require(previous == catalogs[code] and len(previous) == previous_count,
+                        'Изменён исходный каталог ' + stage + ': ' + code)
+                require(len(values) == len(keys) and all(value.strip() for value in values)
+                        and not previous.keys() & set(keys)
+                        and len(current) == previous_count + len(keys)
+                        and current == {**previous, **dict(zip(keys, values))},
+                        'Изменены переводы ' + stage + ': ' + code)
+                catalogs[code] = current
     return catalogs
 
 

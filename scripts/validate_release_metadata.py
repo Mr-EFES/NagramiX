@@ -10,6 +10,22 @@ import subprocess
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
+ANNOTATION = "NagramiX — неофициальный Telegram-клиент для iPhone с дополнительными настройками общения, приватности и медия."
+
+
+def annotation_errors(folder: Path, version: str) -> list[str]:
+    errors = []
+    if not (folder / f"{version}.md").is_file():
+        errors.append("Не найдена аннотация текущей версии")
+    current = tuple(map(int, version.split('.')))
+    for path in folder.glob('*.md'):
+        if not re.fullmatch(r'\d+\.\d+\.\d+', path.stem):
+            errors.append(f"Неверное имя аннотации: {path.name}")
+        elif tuple(map(int, path.stem.split('.'))) > current:
+            errors.append(f"Аннотация будущей версии: {path.name}")
+        if path.read_text().strip() != ANNOTATION:
+            errors.append(f"Аннотация должна содержать только утверждённую фразу: {path.name}")
+    return errors
 
 
 def main() -> None:
@@ -21,9 +37,7 @@ def main() -> None:
     match = re.search(r"^\s+NAGRAMIX_VERSION:\s*([^\s]+)\s*$", workflow.read_text(), re.MULTILINE)
     if match is None or match.group(1) != version:
         errors.append("Версия workflow не совпадает с реестром")
-    releases = sorted(p.name for p in (ROOT / "product/releases").glob("*.md"))
-    if releases != [f"{version}.md"]:
-        errors.append("Каталог аннотаций должен содержать только текущую версию")
+    errors.extend(annotation_errors(ROOT / "product/releases", version))
     for name in ["docs/AI_HANDOFF.md", ".gitignore"]:
         path = ROOT / name
         if not path.is_file() or f"NagramiX {version}" not in path.read_text():
@@ -33,7 +47,7 @@ def main() -> None:
     if not license_path.is_file() or hashlib.sha256(license_path.read_bytes()).hexdigest() != "edaef632cbb643e4e7a221717a6c441a4c1a7c918e6e4d56debc3d8739b233f6":
         errors.append("LICENSE должен содержать полный неизменённый текст GNU GPL-2.0")
     annotation = ROOT / f"product/releases/{version}.md"
-    expected_annotation = "NagramiX — неофициальный Telegram-клиент для iPhone с дополнительными настройками общения, приватности и медия."
+    expected_annotation = ANNOTATION
     if not annotation.is_file() or annotation.read_text().strip() != expected_annotation:
         errors.append("Аннотация релиза должна содержать только утверждённую фразу о неофициальном клиенте")
     # README закреплён отдельно от версии и аннотации; менять только по прямой команде пользователя.

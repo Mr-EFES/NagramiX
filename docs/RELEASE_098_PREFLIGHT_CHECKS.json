@@ -1,0 +1,545 @@
+{
+  "version": "0.9.8",
+  "status": "source_and_package_contract_checks_passed_sdk_pending",
+  "base_main": "926c1fb052b24ccc89bc009f907cfdb885ff3216",
+  "authorization": {
+    "approved_version": "0.9.8",
+    "build_retry_authorized_until_success": true,
+    "owner_publication_authorized": true,
+    "owner": "Mr-EFES",
+    "public": true,
+    "base_main": "926c1fb052b24ccc89bc009f907cfdb885ff3216",
+    "source": "/tmp/nagramix-youtube-background/source",
+    "runtime_manifest_sha256": "91e231ff50d63a5a8d579966422aa24182d8472e0bb339b5b45d5f641dacb04d",
+    "preserved_files": {
+      "README.md": "45509c6e30df1b7a61d9a6a001582c542ba2eba45bc6573a00bc57c9d403a5a9",
+      "LICENSE": "edaef632cbb643e4e7a221717a6c441a4c1a7c918e6e4d56debc3d8739b233f6"
+    }
+  },
+  "prior_runs_full_log_review": [
+    {
+      "run_number": 211,
+      "full_log_bytes": 108546,
+      "full_log_sha256": "f8010bccbd3f7c438f3ad6a031bddb258f0a4dee010ac93bf3e87c27ef3db6df",
+      "lines": 1425,
+      "blocking_diagnostics": [
+        {
+          "line": 1252,
+          "text": "2026-11-13T20:38:57.4414710Z AssertionError: /var/folders/5n/5t77mfb93jd7q8v9s6f0dn0m0000gn/T/nagramix-095-early-6kzig_ag/original-video-mode.swift:1280:87: error: type 'CGPoint' has no member 'zero'"
+        },
+        {
+          "line": 1260,
+          "text": "2026-11-13T20:38:57.4447110Z /var/folders/5n/5t77mfb93jd7q8v9s6f0dn0m0000gn/T/nagramix-095-early-6kzig_ag/original-video-mode.swift:1275:99: error: cannot convert value of type 'Int' to expected argument type 'Double'"
+        },
+        {
+          "line": 1268,
+          "text": "2026-11-13T20:38:57.4550290Z /var/folders/5n/5t77mfb93jd7q8v9s6f0dn0m0000gn/T/nagramix-095-early-6kzig_ag/original-video-mode.swift:1275:117: error: cannot convert value of type 'Int' to expected argument type 'Double'"
+        },
+        {
+          "line": 1276,
+          "text": "2026-11-13T20:38:57.4571910Z /var/folders/5n/5t77mfb93jd7q8v9s6f0dn0m0000gn/T/nagramix-095-early-6kzig_ag/original-video-mode.swift:1382:40: error: type 'CGPoint' has no member 'zero'"
+        },
+        {
+          "line": 1284,
+          "text": "2026-11-13T20:38:57.4650390Z /var/folders/5n/5t77mfb93jd7q8v9s6f0dn0m0000gn/T/nagramix-095-early-6kzig_ag/original-video-mode.swift:1384:25: error: value of type 'CGRect' has no member 'minX'"
+        },
+        {
+          "line": 1292,
+          "text": "2026-11-13T20:38:57.4664360Z /var/folders/5n/5t77mfb93jd7q8v9s6f0dn0m0000gn/T/nagramix-095-early-6kzig_ag/original-video-mode.swift:1384:73: error: value of type 'CGRect' has no member 'minY'"
+        },
+        {
+          "line": 1300,
+          "text": "2026-11-13T20:38:57.4675370Z /var/folders/5n/5t77mfb93jd7q8v9s6f0dn0m0000gn/T/nagramix-095-early-6kzig_ag/original-video-mode.swift:1384:121: error: value of type 'CGRect' has no member 'width'"
+        },
+        {
+          "line": 1308,
+          "text": "2026-11-13T20:38:57.4687030Z /var/folders/5n/5t77mfb93jd7q8v9s6f0dn0m0000gn/T/nagramix-095-early-6kzig_ag/original-video-mode.swift:1384:171: error: value of type 'CGRect' has no member 'height'"
+        },
+        {
+          "line": 1316,
+          "text": "2026-11-13T20:38:57.4778890Z ##[error]Process completed with exit code 1."
+        }
+      ],
+      "cancellation_diagnostic": false
+    },
+    {
+      "run_number": 212,
+      "full_log_bytes": 1726840,
+      "full_log_sha256": "5b0b1e2d2acbe5ae0e8a8be4ae4f4b59a1e2ec0f7e8cc5021812e477e5879d76",
+      "lines": 15826,
+      "blocking_diagnostics": [
+        {
+          "line": 15672,
+          "text": "2026-11-14T00:01:57.1912870Z ERROR: /Users/runner/work/NagramiX/NagramiX/Telegram-iOS/submodules/TelegramUI/Components/Chat/ChatMessageItemView/BUILD:3:14: Compiling Swift module //submodules/TelegramUI/Components/Chat/ChatMessageItemView:ChatMessageItemView failed: (Exit 1): worker failed: error executing SwiftCompile command (from swift_library rule target //submodules/TelegramUI/Components/Chat/ChatMessageItemView:ChatMessageItemView) "
+        },
+        {
+          "line": 15683,
+          "text": "2026-11-14T00:01:57.2766940Z submodules/TelegramUI/Components/Chat/ChatMessageItemView/Sources/ChatMessageItemView.swift:725:59: error: value of type 'any WallpaperBubbleBackgroundNode' has no member 'update'"
+        },
+        {
+          "line": 15697,
+          "text": "2026-11-14T00:02:05.8977910Z ERROR: Build did NOT complete successfully"
+        },
+        {
+          "line": 15716,
+          "text": "2026-11-14T00:02:06.1746940Z ##[error]Process completed with exit code 1."
+        }
+      ],
+      "cancellation_diagnostic": false
+    },
+    {
+      "run_number": 213,
+      "full_log_bytes": 1802224,
+      "full_log_sha256": "83bb0fc5a3b4493f28b4fe9fe8051b6c74ebc57ef7649706789db2d5c8adcab1",
+      "lines": 16436,
+      "blocking_diagnostics": [],
+      "cancellation_diagnostic": false
+    }
+  ],
+  "official_upstream": [
+    {
+      "platform": "ios",
+      "repository": "https://github.com/TelegramMessenger/Telegram-iOS.git",
+      "pinnedCommit": "24638bc69bd083981b178dd1e7f921eebbf7fc46",
+      "pinnedVersion": "13.2",
+      "officialCommit": "24638bc69bd083981b178dd1e7f921eebbf7fc46",
+      "officialVersion": "13.2",
+      "minimumOS": "15.0",
+      "current": true
+    }
+  ],
+  "build_inputs": {
+    "version": "0.9.8",
+    "workflow_scripts": 277,
+    "python_syntax_files": 799,
+    "late_stages": 91,
+    "sdk_plans": 97,
+    "submodules": 12,
+    "manual_only": true,
+    "existing_unsigned_signing_contract": "preserved",
+    "native_environment": "not_run"
+  },
+  "new_preflight_findings": [
+    {
+      "cause": "Package validator and tests still bound newest source to668keys; actual final source has678.",
+      "fix": "0.9.8 requires exact guarded stage86/88 additions for all71languages; old0.9.6/0.9.7 remain exact668; current-source equality/negative archive and digest tests added.",
+      "before": "48catalog tests had4failures; future-version font expectation also reproduced a failure locally, before push or SDK.",
+      "after": "55catalog tests and7font package tests passed."
+    }
+  ],
+  "runtime_source": {
+    "stage": 91,
+    "name": "youtube_background_continuity",
+    "path": "/tmp/nagramix-youtube-background/source",
+    "manifest_sha256": "91e231ff50d63a5a8d579966422aa24182d8472e0bb339b5b45d5f641dacb04d",
+    "previous_manifest_sha256": "04cedcb23e2ce2a52332096f592403ad58512db4b5409a8d1de462f21e3ab5e1",
+    "files": 37694,
+    "symlinks": 26,
+    "modified_runtime_paths": [
+      "submodules/TelegramUniversalVideoContent/Sources/WebEmbedPlayerNode.swift",
+      "submodules/TelegramUniversalVideoContent/Sources/WebEmbedVideoContent.swift"
+    ],
+    "new_runtime_paths": [],
+    "guards": 16,
+    "new_inc": 20,
+    "new_templates": 20,
+    "old_inc_unchanged": 5257,
+    "old_plans_unchanged": 303,
+    "historical_manifests_verified": 48,
+    "history": [
+      {
+        "path": "/tmp/nagramix-round-quality-compact/source-checkpoint.json",
+        "manifest_sha256": "09d10ac355493ca5eee28ad299983cb558dfb5fefeb15d47a7bc7ac61c394df6",
+        "verified": true
+      },
+      {
+        "path": "/tmp/nagramix-round-bitrate-levels/source-checkpoint.json",
+        "manifest_sha256": "f1185e76edd42074220b259422326835f8b46dc8a93eaa800e7d120ac927bac9",
+        "verified": true
+      },
+      {
+        "path": "/tmp/nagramix-font-apply-glass/source-checkpoint.json",
+        "manifest_sha256": "c3b996b03610d371995e386d3dc637a03177f4b780e3a613a9fe4ada4d664e52",
+        "verified": true
+      },
+      {
+        "path": "/tmp/nagramix-round-quality-summary/source-checkpoint.json",
+        "manifest_sha256": "ee540fc7b5ca4af3c6bfa8f8da6d2b33531432902f38e5adc40de5ba1c5c8747",
+        "verified": true
+      },
+      {
+        "path": "/tmp/nagramix-translation-account-defaults/source-checkpoint.json",
+        "manifest_sha256": "d4762fa96c5db7214567f132d56fa91ac0ae39bcc332494cc8678828ce1217cc",
+        "verified": true
+      },
+      {
+        "path": "/tmp/nagramix-unified-menus/source-checkpoint.json",
+        "manifest_sha256": "c10af8e54c4460a2056a5f60d932331290d3f1253f4b914d00616edf60af08ed",
+        "verified": true
+      },
+      {
+        "path": "/tmp/nagramix-font-license-compact/source-checkpoint.json",
+        "manifest_sha256": "3b03813451fa84bfccefd8cc2470ab5d5e42f87a1f4b62aefb58f59685f5af8b",
+        "verified": true
+      },
+      {
+        "path": "/tmp/nagramix-settings-glass-sliders/source-checkpoint.json",
+        "manifest_sha256": "be79fb3541173b6cfe3168889305ebee0e36bdc63b455e8628062bc8c85b249b",
+        "verified": true
+      },
+      {
+        "path": "/tmp/nagramix-snow-density-glass/source-checkpoint.json",
+        "manifest_sha256": "955c4aa1593762dcba8f394bca49cb3a3526533d8f8d742340c9fd06b62f24e0",
+        "verified": true
+      },
+      {
+        "path": "/tmp/nagramix-rich-file-padding/source-checkpoint.json",
+        "manifest_sha256": "552cada9477c902004fc2383c608a1e6823f7c43c63e8b5213adbf97e85a8376",
+        "verified": true
+      },
+      {
+        "path": "/tmp/nagramix-named-link-preview/source-checkpoint.json",
+        "manifest_sha256": "124e266cc2f583cfed8cc5985da976c3d28c37c9276efed6915be8501eb85d93",
+        "verified": true
+      },
+      {
+        "path": "/tmp/nagramix-original-video-media/source-checkpoint.json",
+        "manifest_sha256": "b78cffeb9c9a17a5bf356247fac896bebb31632675cb179229d30d8e7858ff4e",
+        "verified": true
+      },
+      {
+        "path": "/tmp/nagramix-story-avatar/source-checkpoint.json",
+        "manifest_sha256": "aa13502c2315b8d1e1a78f206eb23fc6b49b02893d8e3a7ee6bd1b7160cb981a",
+        "verified": true
+      },
+      {
+        "path": "/tmp/nagramix-archived-round-motion/source-checkpoint.json",
+        "manifest_sha256": "21e62940c90841ce11f1f185b0e397061bb78926b22da1a9d1a1d4d3024f6001",
+        "verified": true
+      },
+      {
+        "path": "/tmp/nagramix-doh-empty-action/source-checkpoint.json",
+        "manifest_sha256": "901eebd3ec9d88a169bcfbf1eeb9b84782edd34735e07f6413efad26605a8426",
+        "verified": true
+      },
+      {
+        "path": "/tmp/nagramix-wide-portal-api/source-checkpoint.json",
+        "manifest_sha256": "91fcb7dbde584ed8ec7bb8404a36446bcf80fd34dc511957cd57f6f8b1bb33ae",
+        "verified": true
+      },
+      {
+        "path": "/tmp/nagramix-round-editor-quality/source-checkpoint.json",
+        "manifest_sha256": "71354ef15a8208cfc2b4dd026f3cc327b11a2874034bc09d15481fd0cbcae089",
+        "verified": true
+      },
+      {
+        "path": "/tmp/nagramix-transcription-cached-read/source-checkpoint.json",
+        "manifest_sha256": "fec13a36b0acb1e919ccb688082de47224aebbe8199f569737709fedb501253d",
+        "verified": true
+      },
+      {
+        "path": "/tmp/nagramix-feature-contract-fixes/source-checkpoint.json",
+        "manifest_sha256": "22d518ed72373cff5f692e5745f1fede05355ecd3e230455b296ce88c2fc2b1e",
+        "verified": true
+      },
+      {
+        "path": "/tmp/nagramix-original-video-mode/source-checkpoint.json",
+        "manifest_sha256": "0359e1480536e2cdb4d03d6a33c943f3866fafd84e81a022d904a38ace23aa35",
+        "verified": true
+      },
+      {
+        "path": "/tmp/nagramix-selection-scroll-continuity/source-checkpoint.json",
+        "manifest_sha256": "01b67c6ec781e0fe200f8c072444e3cdcda8b1133a8922b86fe80f141896a244",
+        "verified": true
+      },
+      {
+        "path": "/tmp/nagramix-selection-column-coordinates/source-checkpoint.json",
+        "manifest_sha256": "88cd0a3d3e8314a1ef0908b2258ba787b12bb6578ed0f4348e07059e56daca12",
+        "verified": true
+      },
+      {
+        "path": "/tmp/nagramix-recording-start-recovery/source-checkpoint.json",
+        "manifest_sha256": "6afbce4762afe35f080572802059868b88fcdeebf6e2d618807e3177973aeb8a",
+        "verified": true
+      },
+      {
+        "path": "/tmp/nagramix-pip-preview-continuity/source-checkpoint.json",
+        "manifest_sha256": "eb60d35d194510b0054115fabc62f2bec170ecfa117fb35dff32fbdefb9a758b",
+        "verified": true
+      },
+      {
+        "path": "/tmp/nagramix-video-audio-continuity/source-checkpoint.json",
+        "manifest_sha256": "9f072b9d8400b2784bc8594cf1688d17bf5374c054e6a2a2915fddc68380f4d7",
+        "verified": true
+      },
+      {
+        "path": "/tmp/nagramix-font-apply-lifecycle/source-checkpoint.json",
+        "manifest_sha256": "0e4c99c26ba086920080ef99d2096886fab6cd98c6690feb47b8512dee93e7f1",
+        "verified": true
+      },
+      {
+        "path": "/tmp/nagramix-font-node-compatibility/source-checkpoint.json",
+        "manifest_sha256": "93cc510de32754940c7c479bb68c2781077be30ec684b5bcf6dc3b9b40f0c633",
+        "verified": true
+      },
+      {
+        "path": "/tmp/nagramix-transcription-compatibility/source-checkpoint.json",
+        "manifest_sha256": "d859d8a62b549f3a76291658a6a24a37eee446879460ddf9381f164616707718",
+        "verified": true
+      },
+      {
+        "path": "/tmp/nagramix-calendar-compatibility/source-checkpoint.json",
+        "manifest_sha256": "b1ba840f8a60fad64372f0c824f1fa3eb0aedae9846618787665b678b92257d0",
+        "verified": true
+      },
+      {
+        "path": "/tmp/nagramix-single-touch-selection/source-checkpoint.json",
+        "manifest_sha256": "221f00c7a16e03c964a8924f8c79337fb8deac03e09bd02e1ee2ab63f8a718c2",
+        "verified": true
+      },
+      {
+        "path": "/tmp/nagramix-composer-integrity/source-checkpoint.json",
+        "manifest_sha256": "aa7c3ca9823bdd05a1f301cb3b2bc93be5b1072af0a798ffdc916e150976d8c0",
+        "verified": true
+      },
+      {
+        "path": "/tmp/nagramix-local-read-label/source-checkpoint.json",
+        "manifest_sha256": "9640665a765f0fd34c1ca6fd19be16aa08e562742bd76a86849b7ef14d87a235",
+        "verified": true
+      },
+      {
+        "path": "/tmp/nagramix-snow-holidays/source-checkpoint.json",
+        "manifest_sha256": "0f0271b535d9bfe27a767f5bdd6e4218dfaa083351f0b5d9e8f83224eb990290",
+        "verified": true
+      },
+      {
+        "path": "/tmp/nagramix-snowfall/source-checkpoint.json",
+        "manifest_sha256": "3fd8dca8cd2e2aacd153c8459dd2082810533b642d6648c69a013c931aad0783",
+        "verified": true
+      },
+      {
+        "path": "/tmp/nagramix-input-effects/source-checkpoint.json",
+        "manifest_sha256": "1f320a9c1ae620b3cf292eb9c2b25b675f6ba604a9700a30024b15dad7a6f081",
+        "verified": true
+      },
+      {
+        "path": "/tmp/nagramix-youtube-policy/source-checkpoint.json",
+        "manifest_sha256": "a1e07c3c2c92efb312ce788464a9b7735d0c96bdda8423957f7e2989f4a31897",
+        "verified": true
+      },
+      {
+        "path": "/tmp/nagramix-edit-confirmation/source-checkpoint.json",
+        "manifest_sha256": "37263009e577843f74395fcec9999a453700922d9d93011091502ac57c71b3a1",
+        "verified": true
+      },
+      {
+        "path": "/tmp/nagramix-font-preview/source-checkpoint.json",
+        "manifest_sha256": "5f2afc0e892828dc4ef0e839d8c8401f514cd4e7685566f5d34f9b55b57413c7",
+        "verified": true
+      },
+      {
+        "path": "/tmp/nagramix-premium-file-asr/source-checkpoint.json",
+        "manifest_sha256": "6f6e5eee53a7eb5df517486a3308a2699e980b12e0fe7e64a933b00d12a71159",
+        "verified": true
+      },
+      {
+        "path": "/tmp/nagramix-section-headers/source-checkpoint.json",
+        "manifest_sha256": "a502069589d4128650082857d14869acbf5e020ffaeda46ec1004fcdc5e86a6a",
+        "verified": true
+      },
+      {
+        "path": "/tmp/nagramix-wide-panels/source-checkpoint.json",
+        "manifest_sha256": "546d8889694c3bc3079dce138f401f0d90b4f6b5a3d6c5a69b21fb8ca803a09c",
+        "verified": true
+      },
+      {
+        "path": "/tmp/nagramix-system-web-pip/source-checkpoint.json",
+        "manifest_sha256": "8c08b5a78807b07d6e18379bec2ea8e1c0068be435f4c073746ba98293fb759a",
+        "verified": true
+      },
+      {
+        "path": "/tmp/nagramix-font-theme/source-checkpoint.json",
+        "manifest_sha256": "fc06c0fff3c83897d846bc28c41860d1b6efea86a20e0d7b96c2fe3c40940f45",
+        "verified": true
+      },
+      {
+        "path": "/tmp/nagramix-wide-channel-posts/source-checkpoint.json",
+        "manifest_sha256": "f42f2e333a84c3cae0793b33a88563aeefef2c714ffcd8a48123c45c00de6d0e",
+        "verified": true
+      },
+      {
+        "path": "/tmp/nagramix-composer-native-strings/source-checkpoint.json",
+        "manifest_sha256": "80e2ed1949ff89044d6e588cc847bf4616b6df8e5645c1a473190aec6e623672",
+        "verified": true
+      },
+      {
+        "path": "/tmp/nagramix-font-sdk199/source-checkpoint.json",
+        "manifest_sha256": "719bf32e97e52b0877466f546372f17829eb521351ca9d4c77d0bf3a36964c54",
+        "verified": true
+      },
+      {
+        "path": "/tmp/nagramix-temporary-expiration/source-checkpoint.json",
+        "manifest_sha256": "32c075e1a995bc77e196db578b20b21776ee325e27d254bc5ec63b9a1eb2a396",
+        "verified": true
+      },
+      {
+        "path": "/tmp/nagramix-pip-transition-coordinator/source-checkpoint.json",
+        "manifest_sha256": "04cedcb23e2ce2a52332096f592403ad58512db4b5409a8d1de462f21e3ab5e1",
+        "verified": true
+      }
+    ]
+  },
+  "exact_unchanged_runtime_global_checks": [
+    {
+      "name": "early",
+      "exit_code": 0,
+      "seconds": 395.1,
+      "source_manifest_sha256": "91e231ff50d63a5a8d579966422aa24182d8472e0bb339b5b45d5f641dacb04d"
+    },
+    {
+      "name": "upstream",
+      "exit_code": 0,
+      "seconds": 108.1,
+      "source_manifest_sha256": "91e231ff50d63a5a8d579966422aa24182d8472e0bb339b5b45d5f641dacb04d"
+    },
+    {
+      "name": "inverse",
+      "exit_code": 0,
+      "seconds": 124.4,
+      "source_manifest_sha256": "91e231ff50d63a5a8d579966422aa24182d8472e0bb339b5b45d5f641dacb04d"
+    },
+    {
+      "name": "localization",
+      "exit_code": 0,
+      "seconds": 42.5,
+      "source_manifest_sha256": "91e231ff50d63a5a8d579966422aa24182d8472e0bb339b5b45d5f641dacb04d"
+    },
+    {
+      "name": "members-full",
+      "exit_code": 0,
+      "seconds": 4.6,
+      "source_manifest_sha256": "91e231ff50d63a5a8d579966422aa24182d8472e0bb339b5b45d5f641dacb04d"
+    },
+    {
+      "name": "members-canonical",
+      "exit_code": 0,
+      "seconds": 1.9,
+      "source_manifest_sha256": "91e231ff50d63a5a8d579966422aa24182d8472e0bb339b5b45d5f641dacb04d"
+    },
+    {
+      "name": "native-strings",
+      "exit_code": 0,
+      "seconds": 5.6,
+      "source_manifest_sha256": "91e231ff50d63a5a8d579966422aa24182d8472e0bb339b5b45d5f641dacb04d"
+    },
+    {
+      "name": "mode",
+      "exit_code": 0,
+      "seconds": 0.2,
+      "source_manifest_sha256": "91e231ff50d63a5a8d579966422aa24182d8472e0bb339b5b45d5f641dacb04d"
+    },
+    {
+      "name": "metadata",
+      "exit_code": 0,
+      "seconds": 0.1,
+      "source_manifest_sha256": "91e231ff50d63a5a8d579966422aa24182d8472e0bb339b5b45d5f641dacb04d"
+    },
+    {
+      "name": "diff",
+      "exit_code": 0,
+      "seconds": 0.0,
+      "source_manifest_sha256": "91e231ff50d63a5a8d579966422aa24182d8472e0bb339b5b45d5f641dacb04d"
+    }
+  ],
+  "changed_preparation_checks": [
+    {
+      "name": "build-inputs",
+      "exit_code": 0,
+      "seconds": 2.3
+    },
+    {
+      "name": "input-negatives",
+      "exit_code": 0,
+      "seconds": 0.1
+    },
+    {
+      "name": "build-mode",
+      "exit_code": 0,
+      "seconds": 0.0
+    },
+    {
+      "name": "patch-mode",
+      "exit_code": 0,
+      "seconds": 0.4
+    },
+    {
+      "name": "owner-publication",
+      "exit_code": 0,
+      "seconds": 0.2
+    },
+    {
+      "name": "font-package",
+      "exit_code": 0,
+      "seconds": 26.6
+    },
+    {
+      "name": "dependencies",
+      "exit_code": 0,
+      "seconds": 0.1
+    },
+    {
+      "name": "upstream-origins",
+      "exit_code": 0,
+      "seconds": 0.6
+    },
+    {
+      "name": "metadata",
+      "exit_code": 0,
+      "seconds": 0.1
+    },
+    {
+      "name": "diff",
+      "exit_code": 0,
+      "seconds": 0.0
+    }
+  ],
+  "package_catalog_tests": 55,
+  "font_tests": 7,
+  "source_scope": {
+    "runtime_changes_this_preparation": 0,
+    "resources_changed": 0,
+    "old_plans_or_templates_changed": 0,
+    "metadata_version": "0.9.8",
+    "dependencies_or_signing_changed": false,
+    "validation_disabled": false
+  },
+  "actions_policy": {
+    "manual_only": true,
+    "cancel_in_progress": false,
+    "clean_build": true,
+    "publish_release": true,
+    "prerelease": false,
+    "extended_patch_tests": false,
+    "artifact_run_id": "",
+    "dispatch_once_per_checked_sha": true
+  },
+  "preservation": {
+    "old_releases": 10,
+    "old_assets": 30,
+    "old_tags": 13,
+    "readme_license": {
+      "README.md": "45509c6e30df1b7a61d9a6a001582c542ba2eba45bc6573a00bc57c9d403a5a9",
+      "LICENSE": "edaef632cbb643e4e7a221717a6c441a4c1a7c918e6e4d56debc3d8739b233f6"
+    }
+  },
+  "full_application_sdk": "not_run_yet",
+  "ipa": "not_created_yet",
+  "physical_iphone": "pending",
+  "annotation_preservation": {
+    "old_097_file_sha256": "45509c6e30df1b7a61d9a6a001582c542ba2eba45bc6573a00bc57c9d403a5a9",
+    "current_and_previous_both_kept": true,
+    "regression_tests": 5,
+    "original_rename_auto_review_rejected_no_push_performed": true,
+    "safer_implementation": "Keep both approved annotation files; validate every content/name and require current version; reject future versions."
+  }
+}

@@ -35,8 +35,10 @@ class FontsPackageTests(unittest.TestCase):
    with self.assertRaises(AssertionError):validate_font_resources(a,PREFIX)
  def test_versioned_catalogs(self):
   previous=expected_nagramix_catalogs('0.9.4');new=expected_nagramix_catalogs('0.9.5')
-  self.assertEqual(expected_nagramix_catalogs('0.10.0'),expected_nagramix_catalogs('0.9.6'))
-  self.assertEqual(expected_nagramix_catalogs('0.9.100'),expected_nagramix_catalogs('0.9.6'))
+  current=expected_nagramix_catalogs('0.9.8')
+  self.assertEqual(expected_nagramix_catalogs('0.10.0'),current)
+  self.assertEqual(expected_nagramix_catalogs('0.9.100'),current)
+  self.assertTrue(all(len(values)==678 for values in current.values()))
   self.assertEqual(set(previous),set(new));self.assertEqual(len(new),71)
   for code,values in new.items():
    self.assertEqual(len(values),647)
