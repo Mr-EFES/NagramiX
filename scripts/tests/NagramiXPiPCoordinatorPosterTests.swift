@@ -1,7 +1,9 @@
+final class PosterLifetimeProbe {weak var node:ASDisplayNode?}
 @main struct PosterTests {
  static func main(){
   var checks=0
-  func check(_ value:@autoclosure()->Bool,_ message:String){if !value(){FileHandle.standardError.write(Data(("PiP poster: "+message+"\n").utf8));exit(96)};checks+=1}
+  var diagnostics:()->String={""}
+  func check(_ value:@autoclosure()->Bool,_ message:String){if !value(){FileHandle.standardError.write(Data(("PiP poster: "+message+"\n"+diagnostics()+"\n").utf8));exit(96)};checks+=1}
   for content in [NativeVideoContent() as UniversalVideoContent,HLSVideoContent(),WebEmbedVideoContent()] {
    for dimensions in [CGSize(width:1920,height:1080),CGSize(width:1080,height:1920),CGSize(width:1000,height:1000),CGSize(width:2560,height:1080)] {
     for bounds in [CGSize(width:390,height:844),CGSize(width:844,height:390)] {
@@ -22,6 +24,7 @@
    check(image.layer.capture==(secret || protected) && image.layer.bypass == !secret,"source capture policy retained")
   }}
   let controller=GalleryController(),host=PosterHost(),video=ASDisplayNode()
+  diagnostics={"covers=\(controller.view.subviews.count), completionCount=\(AnimationClock.pending.count), ownerActive=\(controller.nagramiXNativePiPBackdropActive), ownsPoster=\(controller.nagramiXNativePiPBackdropPoster != nil)"}
   controller.view.frame=CGRect(x:0,y:0,width:390,height:844);controller.galleryNode.pager.item=host
   host.controller=controller;host.item=UniversalVideoGalleryItem(NativeVideoContent());host.videoNode=video
   video.frame=CGRect(x:0,y:200,width:390,height:219)
@@ -39,7 +42,17 @@
   controller.view.frame=CGRect(x:0,y:0,width:844,height:390)
   controller.nagramiXUpdateNativePiPBackdropLayout()
   check(controller.view.subviews.count==1 && UIView.snapshots==0,"rotation rebuilds only poster instead of stretching old screen capture")
+  let lifetime=PosterLifetimeProbe();lifetime.node=controller.nagramiXNativePiPBackdropPoster
+  let fadingView=controller.nagramiXNativePiPBackdrop!
+  var aliveAtRemoval=false
+  UIView.willRemove={view in if view===fadingView {aliveAtRemoval=lifetime.node != nil}}
   controller.nagramiXFinishNativePiPBackdrop(animated:true)
+  check(controller.view.subviews.count==1 && AnimationClock.pending.count==1,"cover stays until asynchronous completion")
+  check(lifetime.node != nil,"image subscription lives during fade")
+  AnimationClock.flush()
+  UIView.willRemove=nil
+  check(aliveAtRemoval,"image subscription lives through removal")
+  check(lifetime.node==nil,"image subscription released after completion")
   check(controller.view.subviews.isEmpty,"successful return releases cached image subscription and cover")
   print("\(checks) PiP source poster production checks passed")
  }

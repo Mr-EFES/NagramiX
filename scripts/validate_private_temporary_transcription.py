@@ -30,7 +30,7 @@ def execute(swiftc, root, name, text, diagnostic=None):
                                 preexec_fn=lambda: resource.setrlimit(resource.RLIMIT_CORE, (0, 0)))
         output = (result.stdout + result.stderr).strip()
         if diagnostic is None:
-            assert result.returncode == 0, output
+            assert result.returncode == 0, f'{name}/{mode}: {output}'
         else:
             assert result.returncode == 96 and diagnostic in output, (name, result.returncode, output)
         results.append({'name': name, 'mode': mode, 'exit_code': result.returncode, 'output': output})

@@ -29,9 +29,10 @@ def poster_fixture(source):
  var isUserInteractionEnabled=true,accessibilityElementsHidden=false
  static var snapshots=0
  func snapshotView(afterScreenUpdates:Bool)->UIView?{Self.snapshots+=1;return UIView()}
- static func animate(withDuration:Double,animations:()->Void,completion:(Bool)->Void){animations();completion(true)}
+ static func animate(withDuration:Double,animations:()->Void,completion:@escaping(Bool)->Void){animations();AnimationClock.pending.append({completion(true)})}
 ''')
     b=b.replace('let cgColor=0}','let cgColor=0;func withAlphaComponent(_ value:Double)->UIColor{self}}')
+    b=b.replace(' func removeFromSuperview(){superview?', ' static var willRemove:((UIView)->Void)?\n func removeFromSuperview(){Self.willRemove?(self);superview?')
     code=b+'\n'+clean(block(t,'private enum NagramiXPiPVideoGeometry'))+'\n'+clean(block(t,'private struct NagramiXNativePiPVisualState'))+'\n'+clean(block(t,'private final class UniversalVideoGalleryItemPictureInPictureNode:'))
     code+='''
 final class PosterHost:ASDisplayNode {
