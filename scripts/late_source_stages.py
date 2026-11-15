@@ -101,6 +101,7 @@ LATE_SOURCE_STAGES = (
     'translation_account_defaults',
     'round_quality_summary',
     'font_apply_glass',
+    'round_bitrate_levels',
 )
 TEMPORARY_INTERACTION_STAGE = 'temporary_message_interaction'
 TEMPORARY_REPLY_HELPER = 'submodules/TelegramUI/Sources/Chat/NagramiXTemporaryReplySend.swift'

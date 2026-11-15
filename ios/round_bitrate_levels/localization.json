@@ -1,0 +1,508 @@
+{
+  "keys": [
+    "NagramiX.RoundVideo.Bitrate.Standard",
+    "NagramiX.RoundVideo.Bitrate.Medium",
+    "NagramiX.RoundVideo.Bitrate.High",
+    "NagramiX.RoundVideo.Bitrate.Maximum",
+    "NagramiX.RoundVideo.QualitySubtitle"
+  ],
+  "translations": {
+    "en": [
+      "Standard",
+      "Medium",
+      "High",
+      "Maximum",
+      "%1$@ FPS · %2$@"
+    ],
+    "af": [
+      "Standaard",
+      "Medium",
+      "Hoog",
+      "Maksimum",
+      "%1$@ FPS · %2$@"
+    ],
+    "sq": [
+      "Standard",
+      "Mesatar",
+      "I lartë",
+      "Maksimum",
+      "%1$@ FPS · %2$@"
+    ],
+    "am": [
+      "መደበኛ",
+      "መካከለኛ",
+      "ከፍተኛ",
+      "ከፍተኛው",
+      "%1$@ FPS · %2$@"
+    ],
+    "ar": [
+      "قياسي",
+      "متوسط",
+      "عالٍ",
+      "أقصى",
+      "%1$@ FPS · %2$@"
+    ],
+    "hy": [
+      "Ստանդարտ",
+      "Միջին",
+      "Բարձր",
+      "Առավելագույն",
+      "%1$@ FPS · %2$@"
+    ],
+    "az": [
+      "Standart",
+      "Orta",
+      "Yüksək",
+      "Maksimum",
+      "%1$@ FPS · %2$@"
+    ],
+    "eu": [
+      "Estandarra",
+      "Ertaina",
+      "Altua",
+      "Gehienekoa",
+      "%1$@ FPS · %2$@"
+    ],
+    "be": [
+      "Стандартны",
+      "Сярэдні",
+      "Высокі",
+      "Максімальны",
+      "%1$@ FPS · %2$@"
+    ],
+    "bn": [
+      "সাধারণ",
+      "মাঝারি",
+      "উচ্চ",
+      "সর্বোচ্চ",
+      "%1$@ FPS · %2$@"
+    ],
+    "bg": [
+      "Стандартен",
+      "Среден",
+      "Висок",
+      "Максимален",
+      "%1$@ FPS · %2$@"
+    ],
+    "my": [
+      "ပုံမှန်",
+      "အလယ်အလတ်",
+      "မြင့်",
+      "အမြင့်ဆုံး",
+      "%1$@ FPS · %2$@"
+    ],
+    "ca": [
+      "Estàndard",
+      "Mitjà",
+      "Alt",
+      "Màxim",
+      "%1$@ FPS · %2$@"
+    ],
+    "zh-hans": [
+      "标准",
+      "中等",
+      "高",
+      "最高",
+      "%1$@ FPS · %2$@"
+    ],
+    "zh-hant": [
+      "標準",
+      "中等",
+      "高",
+      "最高",
+      "%1$@ FPS · %2$@"
+    ],
+    "hr": [
+      "Standardni",
+      "Srednji",
+      "Visoki",
+      "Maksimalni",
+      "%1$@ FPS · %2$@"
+    ],
+    "cs": [
+      "Standardní",
+      "Střední",
+      "Vysoký",
+      "Maximální",
+      "%1$@ FPS · %2$@"
+    ],
+    "da": [
+      "Standard",
+      "Mellem",
+      "Høj",
+      "Maksimum",
+      "%1$@ FPS · %2$@"
+    ],
+    "nl": [
+      "Standaard",
+      "Gemiddeld",
+      "Hoog",
+      "Maximaal",
+      "%1$@ FPS · %2$@"
+    ],
+    "eo": [
+      "Norma",
+      "Meza",
+      "Alta",
+      "Maksimuma",
+      "%1$@ FPS · %2$@"
+    ],
+    "et": [
+      "Tavaline",
+      "Keskmine",
+      "Kõrge",
+      "Maksimaalne",
+      "%1$@ FPS · %2$@"
+    ],
+    "fil": [
+      "Karaniwan",
+      "Katamtaman",
+      "Mataas",
+      "Pinakamataas",
+      "%1$@ FPS · %2$@"
+    ],
+    "fi": [
+      "Vakio",
+      "Keskitaso",
+      "Korkea",
+      "Enimmäinen",
+      "%1$@ FPS · %2$@"
+    ],
+    "fr": [
+      "Standard",
+      "Moyen",
+      "Élevé",
+      "Maximum",
+      "%1$@ FPS · %2$@"
+    ],
+    "gl": [
+      "Estándar",
+      "Medio",
+      "Alto",
+      "Máximo",
+      "%1$@ FPS · %2$@"
+    ],
+    "ka": [
+      "სტანდარტული",
+      "საშუალო",
+      "მაღალი",
+      "მაქსიმალური",
+      "%1$@ FPS · %2$@"
+    ],
+    "de": [
+      "Standard",
+      "Mittel",
+      "Hoch",
+      "Maximum",
+      "%1$@ FPS · %2$@"
+    ],
+    "el": [
+      "Τυπικός",
+      "Μεσαίος",
+      "Υψηλός",
+      "Μέγιστος",
+      "%1$@ FPS · %2$@"
+    ],
+    "gu": [
+      "સામાન્ય",
+      "મધ્યમ",
+      "ઊંચો",
+      "મહત્તમ",
+      "%1$@ FPS · %2$@"
+    ],
+    "he": [
+      "רגיל",
+      "בינוני",
+      "גבוה",
+      "מרבי",
+      "%1$@ FPS · %2$@"
+    ],
+    "hi": [
+      "मानक",
+      "मध्यम",
+      "उच्च",
+      "अधिकतम",
+      "%1$@ FPS · %2$@"
+    ],
+    "hu": [
+      "Normál",
+      "Közepes",
+      "Magas",
+      "Maximum",
+      "%1$@ FPS · %2$@"
+    ],
+    "id": [
+      "Standar",
+      "Sedang",
+      "Tinggi",
+      "Maksimum",
+      "%1$@ FPS · %2$@"
+    ],
+    "ga": [
+      "Caighdeánach",
+      "Meánach",
+      "Ard",
+      "Uasmhéid",
+      "%1$@ FPS · %2$@"
+    ],
+    "it": [
+      "Standard",
+      "Medio",
+      "Alto",
+      "Massimo",
+      "%1$@ FPS · %2$@"
+    ],
+    "ja": [
+      "標準",
+      "中",
+      "高",
+      "最大",
+      "%1$@ FPS · %2$@"
+    ],
+    "kn": [
+      "ಪ್ರಮಾಣಿತ",
+      "ಮಧ್ಯಮ",
+      "ಹೆಚ್ಚಿನ",
+      "ಗರಿಷ್ಠ",
+      "%1$@ FPS · %2$@"
+    ],
+    "kk": [
+      "Стандартты",
+      "Орташа",
+      "Жоғары",
+      "Ең жоғары",
+      "%1$@ FPS · %2$@"
+    ],
+    "km": [
+      "ស្តង់ដារ",
+      "មធ្យម",
+      "ខ្ពស់",
+      "អតិបរមា",
+      "%1$@ FPS · %2$@"
+    ],
+    "ko": [
+      "표준",
+      "중간",
+      "높음",
+      "최대",
+      "%1$@ FPS · %2$@"
+    ],
+    "lv": [
+      "Standarta",
+      "Vidējs",
+      "Augsts",
+      "Maksimāls",
+      "%1$@ FPS · %2$@"
+    ],
+    "lt": [
+      "Standartinis",
+      "Vidutinis",
+      "Aukštas",
+      "Didžiausias",
+      "%1$@ FPS · %2$@"
+    ],
+    "ms": [
+      "Standard",
+      "Sederhana",
+      "Tinggi",
+      "Maksimum",
+      "%1$@ FPS · %2$@"
+    ],
+    "ml": [
+      "സാധാരണം",
+      "ഇടത്തരം",
+      "ഉയർന്നത്",
+      "പരമാവധി",
+      "%1$@ FPS · %2$@"
+    ],
+    "mt": [
+      "Standard",
+      "Medju",
+      "Għoli",
+      "Massimu",
+      "%1$@ FPS · %2$@"
+    ],
+    "mr": [
+      "प्रमाणित",
+      "मध्यम",
+      "उच्च",
+      "कमाल",
+      "%1$@ FPS · %2$@"
+    ],
+    "ne": [
+      "मानक",
+      "मध्यम",
+      "उच्च",
+      "अधिकतम",
+      "%1$@ FPS · %2$@"
+    ],
+    "nb": [
+      "Standard",
+      "Middels",
+      "Høy",
+      "Maksimum",
+      "%1$@ FPS · %2$@"
+    ],
+    "or": [
+      "ମାନକ",
+      "ମଧ୍ୟମ",
+      "ଉଚ୍ଚ",
+      "ସର୍ବାଧିକ",
+      "%1$@ FPS · %2$@"
+    ],
+    "fa": [
+      "استاندارد",
+      "متوسط",
+      "بالا",
+      "حداکثر",
+      "%1$@ FPS · %2$@"
+    ],
+    "pl": [
+      "Standardowy",
+      "Średni",
+      "Wysoki",
+      "Maksymalny",
+      "%1$@ FPS · %2$@"
+    ],
+    "pt-br": [
+      "Padrão",
+      "Médio",
+      "Alto",
+      "Máximo",
+      "%1$@ FPS · %2$@"
+    ],
+    "pt-pt": [
+      "Padrão",
+      "Médio",
+      "Alto",
+      "Máximo",
+      "%1$@ FPS · %2$@"
+    ],
+    "ro": [
+      "Standard",
+      "Mediu",
+      "Ridicat",
+      "Maxim",
+      "%1$@ FPS · %2$@"
+    ],
+    "ru": [
+      "Стандарт",
+      "Средний",
+      "Высокий",
+      "Максимум",
+      "%1$@ FPS · %2$@"
+    ],
+    "sr": [
+      "Стандардни",
+      "Средњи",
+      "Високи",
+      "Максимални",
+      "%1$@ FPS · %2$@"
+    ],
+    "sk": [
+      "Štandardný",
+      "Stredný",
+      "Vysoký",
+      "Maximálny",
+      "%1$@ FPS · %2$@"
+    ],
+    "sl": [
+      "Standardni",
+      "Srednji",
+      "Visoki",
+      "Najvišji",
+      "%1$@ FPS · %2$@"
+    ],
+    "es": [
+      "Estándar",
+      "Medio",
+      "Alto",
+      "Máximo",
+      "%1$@ FPS · %2$@"
+    ],
+    "sw": [
+      "Kawaida",
+      "Wastani",
+      "Juu",
+      "Kiwango cha juu",
+      "%1$@ FPS · %2$@"
+    ],
+    "sv": [
+      "Standard",
+      "Medel",
+      "Hög",
+      "Maximal",
+      "%1$@ FPS · %2$@"
+    ],
+    "tg": [
+      "Стандартӣ",
+      "Миёна",
+      "Баланд",
+      "Ҳадди аксар",
+      "%1$@ FPS · %2$@"
+    ],
+    "ta": [
+      "இயல்பு",
+      "நடுத்தரம்",
+      "உயர்",
+      "அதிகபட்சம்",
+      "%1$@ FPS · %2$@"
+    ],
+    "te": [
+      "ప్రామాణికం",
+      "మధ్యస్థం",
+      "అధికం",
+      "గరిష్ఠం",
+      "%1$@ FPS · %2$@"
+    ],
+    "th": [
+      "มาตรฐาน",
+      "ปานกลาง",
+      "สูง",
+      "สูงสุด",
+      "%1$@ FPS · %2$@"
+    ],
+    "tr": [
+      "Standart",
+      "Orta",
+      "Yüksek",
+      "Maksimum",
+      "%1$@ FPS · %2$@"
+    ],
+    "tk": [
+      "Standart",
+      "Orta",
+      "Ýokary",
+      "Iň ýokary",
+      "%1$@ FPS · %2$@"
+    ],
+    "uk": [
+      "Стандартний",
+      "Середній",
+      "Високий",
+      "Максимум",
+      "%1$@ FPS · %2$@"
+    ],
+    "ur": [
+      "معیاری",
+      "درمیانہ",
+      "اعلیٰ",
+      "زیادہ سے زیادہ",
+      "%1$@ FPS · %2$@"
+    ],
+    "uz": [
+      "Standart",
+      "O‘rtacha",
+      "Yuqori",
+      "Maksimal",
+      "%1$@ FPS · %2$@"
+    ],
+    "vi": [
+      "Tiêu chuẩn",
+      "Trung bình",
+      "Cao",
+      "Tối đa",
+      "%1$@ FPS · %2$@"
+    ]
+  }
+}

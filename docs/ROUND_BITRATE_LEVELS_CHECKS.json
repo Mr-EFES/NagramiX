@@ -1,0 +1,811 @@
+{
+  "stage": 88,
+  "name": "round_bitrate_levels",
+  "status": "source_checked/compile_pending/device_pending",
+  "base_main": "1a3362fd6fc797c6a7221e1458cb96b4229cc173",
+  "approved_reference": {
+    "selected_option": 1,
+    "image": {
+      "name": "Стеклянная шкала",
+      "path": "/workspace/generated_images/exec-39a591fa-d5e1-4f0f-951c-e4a1d89c280a.png",
+      "sha256": "c01fe6882d28e13ed1b03a882c09f00631da8db152ab42f09a3139ec4a4791a3"
+    },
+    "approval": "Кодируй первый вариант он будет сочитаться с единым стилем",
+    "levels": [
+      {
+        "title": "Стандарт",
+        "bitrate_bps": 1000000
+      },
+      {
+        "title": "Средний",
+        "bitrate_bps": 1100000
+      },
+      {
+        "title": "Высокий",
+        "bitrate_bps": 1200000
+      },
+      {
+        "title": "Максимум",
+        "bitrate_bps": 1300000
+      }
+    ],
+    "numeric_bitrate_visible": false,
+    "user_tested_combination": {
+      "resolution": "640x640",
+      "fps": 60,
+      "codec": "hevc",
+      "bitrate_bps": 1300000,
+      "scope": "Со слов владельца: наиболее безопасно в его тестах, не универсальная серверная гарантия."
+    }
+  },
+  "source_integrity": {
+    "stage": 88,
+    "name": "round_bitrate_levels",
+    "path": "/tmp/nagramix-round-bitrate-levels/source",
+    "manifest_sha256": "f1185e76edd42074220b259422326835f8b46dc8a93eaa800e7d120ac927bac9",
+    "previous_manifest_sha256": "c3b996b03610d371995e386d3dc637a03177f4b780e3a613a9fe4ada4d664e52",
+    "files": 37694,
+    "symlinks": 26,
+    "modified_runtime_paths": [
+      "submodules/NagramiXMediaSettings/Sources/NagramiXRoundVideoSettings.swift",
+      "submodules/Camera/Sources/NagramiXRoundVideoSettings.swift",
+      "submodules/SettingsUI/Sources/NagramiXRoundQualityController.swift",
+      "submodules/NagramiXCore/Sources/NagramiXGlassSlider.swift",
+      "submodules/TelegramUI/Components/MediaEditor/Sources/MediaEditorValues.swift",
+      "submodules/NagramiXCore/Resources/en.lproj/Localizable.strings",
+      "submodules/NagramiXCore/Resources/af.lproj/Localizable.strings",
+      "submodules/NagramiXCore/Resources/sq.lproj/Localizable.strings",
+      "submodules/NagramiXCore/Resources/am.lproj/Localizable.strings",
+      "submodules/NagramiXCore/Resources/ar.lproj/Localizable.strings",
+      "submodules/NagramiXCore/Resources/hy.lproj/Localizable.strings",
+      "submodules/NagramiXCore/Resources/az.lproj/Localizable.strings",
+      "submodules/NagramiXCore/Resources/eu.lproj/Localizable.strings",
+      "submodules/NagramiXCore/Resources/be.lproj/Localizable.strings",
+      "submodules/NagramiXCore/Resources/bn.lproj/Localizable.strings",
+      "submodules/NagramiXCore/Resources/bg.lproj/Localizable.strings",
+      "submodules/NagramiXCore/Resources/my.lproj/Localizable.strings",
+      "submodules/NagramiXCore/Resources/ca.lproj/Localizable.strings",
+      "submodules/NagramiXCore/Resources/zh-hans.lproj/Localizable.strings",
+      "submodules/NagramiXCore/Resources/zh-hant.lproj/Localizable.strings",
+      "submodules/NagramiXCore/Resources/hr.lproj/Localizable.strings",
+      "submodules/NagramiXCore/Resources/cs.lproj/Localizable.strings",
+      "submodules/NagramiXCore/Resources/da.lproj/Localizable.strings",
+      "submodules/NagramiXCore/Resources/nl.lproj/Localizable.strings",
+      "submodules/NagramiXCore/Resources/eo.lproj/Localizable.strings",
+      "submodules/NagramiXCore/Resources/et.lproj/Localizable.strings",
+      "submodules/NagramiXCore/Resources/fil.lproj/Localizable.strings",
+      "submodules/NagramiXCore/Resources/fi.lproj/Localizable.strings",
+      "submodules/NagramiXCore/Resources/fr.lproj/Localizable.strings",
+      "submodules/NagramiXCore/Resources/gl.lproj/Localizable.strings",
+      "submodules/NagramiXCore/Resources/ka.lproj/Localizable.strings",
+      "submodules/NagramiXCore/Resources/de.lproj/Localizable.strings",
+      "submodules/NagramiXCore/Resources/el.lproj/Localizable.strings",
+      "submodules/NagramiXCore/Resources/gu.lproj/Localizable.strings",
+      "submodules/NagramiXCore/Resources/he.lproj/Localizable.strings",
+      "submodules/NagramiXCore/Resources/hi.lproj/Localizable.strings",
+      "submodules/NagramiXCore/Resources/hu.lproj/Localizable.strings",
+      "submodules/NagramiXCore/Resources/id.lproj/Localizable.strings",
+      "submodules/NagramiXCore/Resources/ga.lproj/Localizable.strings",
+      "submodules/NagramiXCore/Resources/it.lproj/Localizable.strings",
+      "submodules/NagramiXCore/Resources/ja.lproj/Localizable.strings",
+      "submodules/NagramiXCore/Resources/kn.lproj/Localizable.strings",
+      "submodules/NagramiXCore/Resources/kk.lproj/Localizable.strings",
+      "submodules/NagramiXCore/Resources/km.lproj/Localizable.strings",
+      "submodules/NagramiXCore/Resources/ko.lproj/Localizable.strings",
+      "submodules/NagramiXCore/Resources/lv.lproj/Localizable.strings",
+      "submodules/NagramiXCore/Resources/lt.lproj/Localizable.strings",
+      "submodules/NagramiXCore/Resources/ms.lproj/Localizable.strings",
+      "submodules/NagramiXCore/Resources/ml.lproj/Localizable.strings",
+      "submodules/NagramiXCore/Resources/mt.lproj/Localizable.strings",
+      "submodules/NagramiXCore/Resources/mr.lproj/Localizable.strings",
+      "submodules/NagramiXCore/Resources/ne.lproj/Localizable.strings",
+      "submodules/NagramiXCore/Resources/nb.lproj/Localizable.strings",
+      "submodules/NagramiXCore/Resources/or.lproj/Localizable.strings",
+      "submodules/NagramiXCore/Resources/fa.lproj/Localizable.strings",
+      "submodules/NagramiXCore/Resources/pl.lproj/Localizable.strings",
+      "submodules/NagramiXCore/Resources/pt-br.lproj/Localizable.strings",
+      "submodules/NagramiXCore/Resources/pt-pt.lproj/Localizable.strings",
+      "submodules/NagramiXCore/Resources/ro.lproj/Localizable.strings",
+      "submodules/NagramiXCore/Resources/ru.lproj/Localizable.strings",
+      "submodules/NagramiXCore/Resources/sr.lproj/Localizable.strings",
+      "submodules/NagramiXCore/Resources/sk.lproj/Localizable.strings",
+      "submodules/NagramiXCore/Resources/sl.lproj/Localizable.strings",
+      "submodules/NagramiXCore/Resources/es.lproj/Localizable.strings",
+      "submodules/NagramiXCore/Resources/sw.lproj/Localizable.strings",
+      "submodules/NagramiXCore/Resources/sv.lproj/Localizable.strings",
+      "submodules/NagramiXCore/Resources/tg.lproj/Localizable.strings",
+      "submodules/NagramiXCore/Resources/ta.lproj/Localizable.strings",
+      "submodules/NagramiXCore/Resources/te.lproj/Localizable.strings",
+      "submodules/NagramiXCore/Resources/th.lproj/Localizable.strings",
+      "submodules/NagramiXCore/Resources/tr.lproj/Localizable.strings",
+      "submodules/NagramiXCore/Resources/tk.lproj/Localizable.strings",
+      "submodules/NagramiXCore/Resources/uk.lproj/Localizable.strings",
+      "submodules/NagramiXCore/Resources/ur.lproj/Localizable.strings",
+      "submodules/NagramiXCore/Resources/uz.lproj/Localizable.strings",
+      "submodules/NagramiXCore/Resources/vi.lproj/Localizable.strings"
+    ],
+    "new_runtime_paths": [],
+    "guards": 12,
+    "new_inc": 164,
+    "new_templates": 165,
+    "old_inc_unchanged": 5055,
+    "old_plans_unchanged": 300,
+    "historical_manifests_verified": 45,
+    "history": [
+      {
+        "path": "/tmp/nagramix-round-quality-summary/source-checkpoint.json",
+        "manifest_sha256": "ee540fc7b5ca4af3c6bfa8f8da6d2b33531432902f38e5adc40de5ba1c5c8747",
+        "verified": true
+      },
+      {
+        "path": "/tmp/nagramix-translation-account-defaults/source-checkpoint.json",
+        "manifest_sha256": "d4762fa96c5db7214567f132d56fa91ac0ae39bcc332494cc8678828ce1217cc",
+        "verified": true
+      },
+      {
+        "path": "/tmp/nagramix-unified-menus/source-checkpoint.json",
+        "manifest_sha256": "c10af8e54c4460a2056a5f60d932331290d3f1253f4b914d00616edf60af08ed",
+        "verified": true
+      },
+      {
+        "path": "/tmp/nagramix-font-license-compact/source-checkpoint.json",
+        "manifest_sha256": "3b03813451fa84bfccefd8cc2470ab5d5e42f87a1f4b62aefb58f59685f5af8b",
+        "verified": true
+      },
+      {
+        "path": "/tmp/nagramix-settings-glass-sliders/source-checkpoint.json",
+        "manifest_sha256": "be79fb3541173b6cfe3168889305ebee0e36bdc63b455e8628062bc8c85b249b",
+        "verified": true
+      },
+      {
+        "path": "/tmp/nagramix-snow-density-glass/source-checkpoint.json",
+        "manifest_sha256": "955c4aa1593762dcba8f394bca49cb3a3526533d8f8d742340c9fd06b62f24e0",
+        "verified": true
+      },
+      {
+        "path": "/tmp/nagramix-rich-file-padding/source-checkpoint.json",
+        "manifest_sha256": "552cada9477c902004fc2383c608a1e6823f7c43c63e8b5213adbf97e85a8376",
+        "verified": true
+      },
+      {
+        "path": "/tmp/nagramix-named-link-preview/source-checkpoint.json",
+        "manifest_sha256": "124e266cc2f583cfed8cc5985da976c3d28c37c9276efed6915be8501eb85d93",
+        "verified": true
+      },
+      {
+        "path": "/tmp/nagramix-original-video-media/source-checkpoint.json",
+        "manifest_sha256": "b78cffeb9c9a17a5bf356247fac896bebb31632675cb179229d30d8e7858ff4e",
+        "verified": true
+      },
+      {
+        "path": "/tmp/nagramix-story-avatar/source-checkpoint.json",
+        "manifest_sha256": "aa13502c2315b8d1e1a78f206eb23fc6b49b02893d8e3a7ee6bd1b7160cb981a",
+        "verified": true
+      },
+      {
+        "path": "/tmp/nagramix-archived-round-motion/source-checkpoint.json",
+        "manifest_sha256": "21e62940c90841ce11f1f185b0e397061bb78926b22da1a9d1a1d4d3024f6001",
+        "verified": true
+      },
+      {
+        "path": "/tmp/nagramix-doh-empty-action/source-checkpoint.json",
+        "manifest_sha256": "901eebd3ec9d88a169bcfbf1eeb9b84782edd34735e07f6413efad26605a8426",
+        "verified": true
+      },
+      {
+        "path": "/tmp/nagramix-wide-portal-api/source-checkpoint.json",
+        "manifest_sha256": "91fcb7dbde584ed8ec7bb8404a36446bcf80fd34dc511957cd57f6f8b1bb33ae",
+        "verified": true
+      },
+      {
+        "path": "/tmp/nagramix-round-editor-quality/source-checkpoint.json",
+        "manifest_sha256": "71354ef15a8208cfc2b4dd026f3cc327b11a2874034bc09d15481fd0cbcae089",
+        "verified": true
+      },
+      {
+        "path": "/tmp/nagramix-transcription-cached-read/source-checkpoint.json",
+        "manifest_sha256": "fec13a36b0acb1e919ccb688082de47224aebbe8199f569737709fedb501253d",
+        "verified": true
+      },
+      {
+        "path": "/tmp/nagramix-feature-contract-fixes/source-checkpoint.json",
+        "manifest_sha256": "22d518ed72373cff5f692e5745f1fede05355ecd3e230455b296ce88c2fc2b1e",
+        "verified": true
+      },
+      {
+        "path": "/tmp/nagramix-original-video-mode/source-checkpoint.json",
+        "manifest_sha256": "0359e1480536e2cdb4d03d6a33c943f3866fafd84e81a022d904a38ace23aa35",
+        "verified": true
+      },
+      {
+        "path": "/tmp/nagramix-selection-scroll-continuity/source-checkpoint.json",
+        "manifest_sha256": "01b67c6ec781e0fe200f8c072444e3cdcda8b1133a8922b86fe80f141896a244",
+        "verified": true
+      },
+      {
+        "path": "/tmp/nagramix-selection-column-coordinates/source-checkpoint.json",
+        "manifest_sha256": "88cd0a3d3e8314a1ef0908b2258ba787b12bb6578ed0f4348e07059e56daca12",
+        "verified": true
+      },
+      {
+        "path": "/tmp/nagramix-recording-start-recovery/source-checkpoint.json",
+        "manifest_sha256": "6afbce4762afe35f080572802059868b88fcdeebf6e2d618807e3177973aeb8a",
+        "verified": true
+      },
+      {
+        "path": "/tmp/nagramix-pip-preview-continuity/source-checkpoint.json",
+        "manifest_sha256": "eb60d35d194510b0054115fabc62f2bec170ecfa117fb35dff32fbdefb9a758b",
+        "verified": true
+      },
+      {
+        "path": "/tmp/nagramix-video-audio-continuity/source-checkpoint.json",
+        "manifest_sha256": "9f072b9d8400b2784bc8594cf1688d17bf5374c054e6a2a2915fddc68380f4d7",
+        "verified": true
+      },
+      {
+        "path": "/tmp/nagramix-font-apply-lifecycle/source-checkpoint.json",
+        "manifest_sha256": "0e4c99c26ba086920080ef99d2096886fab6cd98c6690feb47b8512dee93e7f1",
+        "verified": true
+      },
+      {
+        "path": "/tmp/nagramix-font-node-compatibility/source-checkpoint.json",
+        "manifest_sha256": "93cc510de32754940c7c479bb68c2781077be30ec684b5bcf6dc3b9b40f0c633",
+        "verified": true
+      },
+      {
+        "path": "/tmp/nagramix-transcription-compatibility/source-checkpoint.json",
+        "manifest_sha256": "d859d8a62b549f3a76291658a6a24a37eee446879460ddf9381f164616707718",
+        "verified": true
+      },
+      {
+        "path": "/tmp/nagramix-calendar-compatibility/source-checkpoint.json",
+        "manifest_sha256": "b1ba840f8a60fad64372f0c824f1fa3eb0aedae9846618787665b678b92257d0",
+        "verified": true
+      },
+      {
+        "path": "/tmp/nagramix-single-touch-selection/source-checkpoint.json",
+        "manifest_sha256": "221f00c7a16e03c964a8924f8c79337fb8deac03e09bd02e1ee2ab63f8a718c2",
+        "verified": true
+      },
+      {
+        "path": "/tmp/nagramix-composer-integrity/source-checkpoint.json",
+        "manifest_sha256": "aa7c3ca9823bdd05a1f301cb3b2bc93be5b1072af0a798ffdc916e150976d8c0",
+        "verified": true
+      },
+      {
+        "path": "/tmp/nagramix-local-read-label/source-checkpoint.json",
+        "manifest_sha256": "9640665a765f0fd34c1ca6fd19be16aa08e562742bd76a86849b7ef14d87a235",
+        "verified": true
+      },
+      {
+        "path": "/tmp/nagramix-snow-holidays/source-checkpoint.json",
+        "manifest_sha256": "0f0271b535d9bfe27a767f5bdd6e4218dfaa083351f0b5d9e8f83224eb990290",
+        "verified": true
+      },
+      {
+        "path": "/tmp/nagramix-snowfall/source-checkpoint.json",
+        "manifest_sha256": "3fd8dca8cd2e2aacd153c8459dd2082810533b642d6648c69a013c931aad0783",
+        "verified": true
+      },
+      {
+        "path": "/tmp/nagramix-input-effects/source-checkpoint.json",
+        "manifest_sha256": "1f320a9c1ae620b3cf292eb9c2b25b675f6ba604a9700a30024b15dad7a6f081",
+        "verified": true
+      },
+      {
+        "path": "/tmp/nagramix-youtube-policy/source-checkpoint.json",
+        "manifest_sha256": "a1e07c3c2c92efb312ce788464a9b7735d0c96bdda8423957f7e2989f4a31897",
+        "verified": true
+      },
+      {
+        "path": "/tmp/nagramix-edit-confirmation/source-checkpoint.json",
+        "manifest_sha256": "37263009e577843f74395fcec9999a453700922d9d93011091502ac57c71b3a1",
+        "verified": true
+      },
+      {
+        "path": "/tmp/nagramix-font-preview/source-checkpoint.json",
+        "manifest_sha256": "5f2afc0e892828dc4ef0e839d8c8401f514cd4e7685566f5d34f9b55b57413c7",
+        "verified": true
+      },
+      {
+        "path": "/tmp/nagramix-premium-file-asr/source-checkpoint.json",
+        "manifest_sha256": "6f6e5eee53a7eb5df517486a3308a2699e980b12e0fe7e64a933b00d12a71159",
+        "verified": true
+      },
+      {
+        "path": "/tmp/nagramix-section-headers/source-checkpoint.json",
+        "manifest_sha256": "a502069589d4128650082857d14869acbf5e020ffaeda46ec1004fcdc5e86a6a",
+        "verified": true
+      },
+      {
+        "path": "/tmp/nagramix-wide-panels/source-checkpoint.json",
+        "manifest_sha256": "546d8889694c3bc3079dce138f401f0d90b4f6b5a3d6c5a69b21fb8ca803a09c",
+        "verified": true
+      },
+      {
+        "path": "/tmp/nagramix-system-web-pip/source-checkpoint.json",
+        "manifest_sha256": "8c08b5a78807b07d6e18379bec2ea8e1c0068be435f4c073746ba98293fb759a",
+        "verified": true
+      },
+      {
+        "path": "/tmp/nagramix-font-theme/source-checkpoint.json",
+        "manifest_sha256": "fc06c0fff3c83897d846bc28c41860d1b6efea86a20e0d7b96c2fe3c40940f45",
+        "verified": true
+      },
+      {
+        "path": "/tmp/nagramix-wide-channel-posts/source-checkpoint.json",
+        "manifest_sha256": "f42f2e333a84c3cae0793b33a88563aeefef2c714ffcd8a48123c45c00de6d0e",
+        "verified": true
+      },
+      {
+        "path": "/tmp/nagramix-composer-native-strings/source-checkpoint.json",
+        "manifest_sha256": "80e2ed1949ff89044d6e588cc847bf4616b6df8e5645c1a473190aec6e623672",
+        "verified": true
+      },
+      {
+        "path": "/tmp/nagramix-font-sdk199/source-checkpoint.json",
+        "manifest_sha256": "719bf32e97e52b0877466f546372f17829eb521351ca9d4c77d0bf3a36964c54",
+        "verified": true
+      },
+      {
+        "path": "/tmp/nagramix-temporary-expiration/source-checkpoint.json",
+        "manifest_sha256": "32c075e1a995bc77e196db578b20b21776ee325e27d254bc5ec63b9a1eb2a396",
+        "verified": true
+      },
+      {
+        "path": "/tmp/nagramix-font-apply-glass/source-checkpoint.json",
+        "manifest_sha256": "c3b996b03610d371995e386d3dc637a03177f4b780e3a613a9fe4ada4d664e52",
+        "verified": true
+      }
+    ]
+  },
+  "build_inputs": {
+    "version": "0.9.7",
+    "workflow_scripts": 274,
+    "python_syntax_files": 785,
+    "late_stages": 88,
+    "sdk_plans": 94,
+    "submodules": 12,
+    "manual_only": true,
+    "existing_unsigned_signing_contract": "preserved",
+    "native_environment": "not_run"
+  },
+  "feature_checks": {
+    "stage": 88,
+    "name": "round_bitrate_levels",
+    "contracts": {
+      "camera_model_matches": true,
+      "only_requested_runtime_behavior_changed": true,
+      "old_catalog_keys_preserved": true,
+      "native_sender_guards_unchanged": true
+    },
+    "loader_refusals": 16,
+    "executions": [
+      {
+        "name": "round-bitrate-model-export",
+        "mode": "debug",
+        "exit_code": 0,
+        "output": "Round bitrate model/export/localization checks: 1055"
+      },
+      {
+        "name": "round-bitrate-model-export",
+        "mode": "optimized",
+        "exit_code": 0,
+        "output": "Round bitrate model/export/localization checks: 1055"
+      },
+      {
+        "name": "round-bitrate-control",
+        "mode": "debug",
+        "exit_code": 0,
+        "output": "Round bitrate control checks: 183"
+      },
+      {
+        "name": "round-bitrate-control",
+        "mode": "optimized",
+        "exit_code": 0,
+        "output": "Round bitrate control checks: 183"
+      },
+      {
+        "name": "uncapped-prepared-job",
+        "mode": "debug",
+        "exit_code": 96,
+        "output": "Round quality regression: legacy prepared job cannot exceed new ceiling"
+      },
+      {
+        "name": "uncapped-prepared-job",
+        "mode": "optimized",
+        "exit_code": 96,
+        "output": "Round quality regression: legacy prepared job cannot exceed new ceiling"
+      },
+      {
+        "name": "wrong-ceiling",
+        "mode": "debug",
+        "exit_code": 96,
+        "output": "Round quality regression: extreme and legacy values stay on four levels"
+      },
+      {
+        "name": "wrong-ceiling",
+        "mode": "optimized",
+        "exit_code": 96,
+        "output": "Round quality regression: extreme and legacy values stay on four levels"
+      },
+      {
+        "name": "stuck-voiceover",
+        "mode": "debug",
+        "exit_code": 96,
+        "output": "Round bitrate control: VoiceOver increments exactly one step"
+      },
+      {
+        "name": "stuck-voiceover",
+        "mode": "optimized",
+        "exit_code": 96,
+        "output": "Round bitrate control: VoiceOver increments exactly one step"
+      },
+      {
+        "name": "wrong-visible-stop",
+        "mode": "debug",
+        "exit_code": 96,
+        "output": "Round bitrate control: VoiceOver increments exactly one step"
+      },
+      {
+        "name": "wrong-visible-stop",
+        "mode": "optimized",
+        "exit_code": 96,
+        "output": "Round bitrate control: VoiceOver increments exactly one step"
+      }
+    ],
+    "apple_api": {
+      "actual_model_and_copy": {
+        "actual_settings_module": "passed",
+        "contextual_current_cross_file_import": "passed",
+        "actual_immutable_constructor_and_copy": "passed with explicit Telegram graph adapters",
+        "uikit_badge": "not_run",
+        "full_application_sdk": "pending",
+        "device": "pending",
+        "reason": "UIKit/iOS SDK недоступны на Linux; аппаратный encoder и UI не объявляются проверенными."
+      },
+      "complete_control_uikit": {
+        "status": "not_run",
+        "reason": "iPhoneOS/UIKit SDK отсутствует на Linux"
+      },
+      "full_application_sdk": "not_run",
+      "physical_iphone": "pending"
+    },
+    "boundaries": "Actual models, immutable editor/copy, export branch and localization use real Foundation. Full actual glass control and bitrate cell execute with explicit UIKit/AutoLayout/presentation/target-dispatch adapters; layout rendering is not simulated. Apple probe uses actual UIKit with real public modules before future app compilation.",
+    "source_unchanged_by_checks": true,
+    "full_application_sdk": "not_run",
+    "physical_iphone": "pending",
+    "server_round_message_verification": "not_run"
+  },
+  "early_preflight": {
+    "complete_fixtures": 63,
+    "executions": 126,
+    "all_exit_zero": true,
+    "warnings_as_errors": true,
+    "first_native_api": {
+      "actual_model_and_copy": {
+        "actual_settings_module": "passed",
+        "contextual_current_cross_file_import": "passed",
+        "actual_immutable_constructor_and_copy": "passed with explicit Telegram graph adapters",
+        "uikit_badge": "not_run",
+        "full_application_sdk": "pending",
+        "device": "pending",
+        "reason": "UIKit/iOS SDK недоступны на Linux; аппаратный encoder и UI не объявляются проверенными."
+      },
+      "complete_control_uikit": {
+        "status": "not_run",
+        "reason": "iPhoneOS/UIKit SDK отсутствует на Linux"
+      },
+      "full_application_sdk": "not_run",
+      "physical_iphone": "pending"
+    }
+  },
+  "upstream": {
+    "parsed_swift": 677,
+    "historical_runtime_executions": 14,
+    "native_postbox_imports": "passed"
+  },
+  "inverse_history": {
+    "stages": 88,
+    "paths": 912,
+    "all_source_files_preserved": 37694,
+    "invalid_projections_rejected": 437
+  },
+  "strict_localization": {
+    "languages": 71,
+    "keys_per_language": 678,
+    "old_keys_preserved": 673,
+    "new_keys": 5,
+    "headers": 24,
+    "runtime_checks_per_mode": 48307,
+    "modes": [
+      "debug",
+      "optimized"
+    ],
+    "allow_incomplete": false,
+    "source_contract_only": false
+  },
+  "native_strings": {
+    "swift_files": 7336,
+    "native_generated_members": 12190,
+    "native_string_uses": 18587,
+    "distinct_native_members": 10391,
+    "proven_other_typed_owner_reads": 8,
+    "sdk200_mutation_rejected": true,
+    "apple_actual_generated_header": {
+      "status": "not_run",
+      "reason": "Real Objective-C/Apple SDK import requires macOS and swiftc"
+    },
+    "boundary": "Actual native GenerateStrings.py, build rule and final English catalog; generated member existence through strings/namedStrings receivers. Other typed owners need source declaration evidence. Full Swift call arity/type checking and app runtime still require SDK/device."
+  },
+  "final_checks": [
+    {
+      "name": "early",
+      "exit_code": 0,
+      "seconds": 376.9,
+      "source_manifest_sha256": "f1185e76edd42074220b259422326835f8b46dc8a93eaa800e7d120ac927bac9"
+    },
+    {
+      "name": "upstream",
+      "exit_code": 0,
+      "seconds": 108.8,
+      "source_manifest_sha256": "f1185e76edd42074220b259422326835f8b46dc8a93eaa800e7d120ac927bac9"
+    },
+    {
+      "name": "inverse",
+      "exit_code": 0,
+      "seconds": 120.9,
+      "source_manifest_sha256": "f1185e76edd42074220b259422326835f8b46dc8a93eaa800e7d120ac927bac9"
+    },
+    {
+      "name": "localization",
+      "exit_code": 0,
+      "seconds": 42.6,
+      "source_manifest_sha256": "f1185e76edd42074220b259422326835f8b46dc8a93eaa800e7d120ac927bac9"
+    },
+    {
+      "name": "members-full",
+      "exit_code": 0,
+      "seconds": 4.6,
+      "source_manifest_sha256": "f1185e76edd42074220b259422326835f8b46dc8a93eaa800e7d120ac927bac9"
+    },
+    {
+      "name": "members-canonical",
+      "exit_code": 0,
+      "seconds": 1.9,
+      "source_manifest_sha256": "f1185e76edd42074220b259422326835f8b46dc8a93eaa800e7d120ac927bac9"
+    },
+    {
+      "name": "native-strings",
+      "exit_code": 0,
+      "seconds": 5.5,
+      "source_manifest_sha256": "f1185e76edd42074220b259422326835f8b46dc8a93eaa800e7d120ac927bac9"
+    },
+    {
+      "name": "mode",
+      "exit_code": 0,
+      "seconds": 0.2,
+      "source_manifest_sha256": "f1185e76edd42074220b259422326835f8b46dc8a93eaa800e7d120ac927bac9"
+    },
+    {
+      "name": "metadata",
+      "exit_code": 0,
+      "seconds": 0.1,
+      "source_manifest_sha256": "f1185e76edd42074220b259422326835f8b46dc8a93eaa800e7d120ac927bac9"
+    },
+    {
+      "name": "diff",
+      "exit_code": 0,
+      "seconds": 0.0,
+      "source_manifest_sha256": "f1185e76edd42074220b259422326835f8b46dc8a93eaa800e7d120ac927bac9"
+    }
+  ],
+  "registry_compile": {
+    "compile_passed": 57,
+    "compile_pending": 23
+  },
+  "device_pending": 80,
+  "diff_review": {
+    "swift_app_files_changed": 5,
+    "localized_resources_changed": 71,
+    "new_app_files": 0,
+    "dependencies_changed": false,
+    "signing_changed": false,
+    "recording_pipeline_or_sender_changed": false,
+    "shared_slider_change": "Необязательный accessibilityStep; nil вызывает native super. Рендеринг стекла и остальные потребители прежние.",
+    "legacy_snapshot_change": "Ограничен целевой средний битрейт экспорта кружка; разрешение/FPS/кодек/JSON/байты snapshot сохранены.",
+    "old_inc_unchanged": 5055,
+    "old_plans_unchanged": 300,
+    "new_inc": 164,
+    "new_templates": 165,
+    "guards": 12
+  },
+  "initial_local_harness_corrections": [
+    {
+      "issue": "Сравнение UserDefaults.integer с крайними Int проверяло преобразование Foundation, а не сохранность значения при чтении.",
+      "fix": "Сравнивается сохранённый NSNumber до и после настоящего чтения; все случаи нормализации сохранены.",
+      "log_sha256": "a416aebb547450109f217855f9c6482d24ccf2efa70efe5c799446728c23150d"
+    },
+    {
+      "issue": "Тест смешивал идентификатор Telegram h265 и настройку AVFoundation hevc.",
+      "fix": "Настройка сравнивается с AVVideoCodecType.hevc; метаданные отправки защищены неизменным guard.",
+      "log_sha256": "4a9c2578de9f46c21b08a349057fcc19ed1d0c08a38d3767de87d1e38f1cd5bf"
+    },
+    {
+      "issue": "Общая UI-граница читает также native Legacy slider, отсутствовавший в Swift-only checkpoint.",
+      "fix": "Для checkpoint88 материализованы точные прежние Legacy implementation/header; проверки/guards сохранены.",
+      "log_sha256": "2a79877fe8e9102ab2e11223bbae9a98997bcfd3aa1025e3d7641a241fc1f47d"
+    }
+  ],
+  "localization_integration_fix": {
+    "reason": "Строгий каталог стадии86 не принимал пять новых ключей88.",
+    "fix": "Добавлена отдельная проверка точных keys/translations/SHA для88 и рекурсивная проверка неизменённого673-key каталога87; прежние gates не ослаблены.",
+    "log_sha256": "bf5e9319f15cc42af86d538e3b8863aa8b4b469ef859e59f35eabc56e73120bd"
+  },
+  "local_inodes_fix": {
+    "reason": "Дополнительная вложенная историческая проекция достигла лимита inode tmp.",
+    "fix": "Точные read-only проекции распределены между двумя файловыми системами по доступным байтам и inode; SHA/hardlink guards сохранены. Очищены пять неиспользуемых восстанавливаемых Clang cache.",
+    "cache_cleanup": [
+      {
+        "path": "/workspace/.codex-pip-continuity/fixture-cache",
+        "kind": "rebuildable_clang_module_cache",
+        "bytes": 16847552,
+        "active_processes_or_open_files": false
+      },
+      {
+        "path": "/workspace/.codex-local-copy-delivery/test-cache",
+        "kind": "rebuildable_clang_module_cache",
+        "bytes": 16847616,
+        "active_processes_or_open_files": false
+      },
+      {
+        "path": "/workspace/.codex-history-badges/compiler-cache",
+        "kind": "rebuildable_clang_module_cache",
+        "bytes": 16847480,
+        "active_processes_or_open_files": false
+      },
+      {
+        "path": "/workspace/.codex-release-091/swift-cache",
+        "kind": "rebuildable_clang_module_cache",
+        "bytes": 16847264,
+        "active_processes_or_open_files": false
+      },
+      {
+        "path": "/workspace/scratch/pip-swipe-handoff/module-cache",
+        "kind": "rebuildable_clang_module_cache",
+        "bytes": 16847648,
+        "active_processes_or_open_files": false
+      }
+    ],
+    "initial_allocations": {
+      "allocations": [
+        {
+          "prefix": "nagramix-late-source-prior-",
+          "root": "/tmp",
+          "free_bytes_before": 215142400
+        },
+        {
+          "prefix": "nagramix-late-source-prior-",
+          "root": "/tmp",
+          "free_bytes_before": 162926592
+        },
+        {
+          "prefix": "nagramix-late-source-prior-",
+          "root": "/tmp",
+          "free_bytes_before": 157937664
+        },
+        {
+          "prefix": "nagramix-late-source-prior-",
+          "root": "/tmp",
+          "free_bytes_before": 152899584
+        },
+        {
+          "prefix": "nagramix-late-source-prior-",
+          "root": "/tmp",
+          "free_bytes_before": 147021824
+        },
+        {
+          "prefix": "nagramix-late-source-prior-",
+          "root": "/tmp",
+          "free_bytes_before": 141639680
+        },
+        {
+          "prefix": "nagramix-late-source-prior-",
+          "root": "/tmp",
+          "free_bytes_before": 136822784
+        }
+      ],
+      "projection_storage": {
+        "linked_files": 4412,
+        "linked_bytes": 227760578,
+        "written_files": 1330
+      },
+      "source_unchanged": true
+    },
+    "final_allocations": {
+      "allocations": [
+        {
+          "prefix": "nagramix-late-source-prior-",
+          "root": "/tmp",
+          "free_bytes_before": 215121920,
+          "free_inodes_before": 8541
+        },
+        {
+          "prefix": "nagramix-late-source-prior-",
+          "root": "/tmp",
+          "free_bytes_before": 162906112,
+          "free_inodes_before": 7138
+        },
+        {
+          "prefix": "nagramix-late-source-prior-",
+          "root": "/tmp",
+          "free_bytes_before": 157917184,
+          "free_inodes_before": 5736
+        },
+        {
+          "prefix": "nagramix-late-source-prior-",
+          "root": "/tmp",
+          "free_bytes_before": 152879104,
+          "free_inodes_before": 4338
+        },
+        {
+          "prefix": "nagramix-late-source-prior-",
+          "root": "/workspace/.codex-wide-portal-localization-tmp",
+          "free_bytes_before": 90107904,
+          "free_inodes_before": 119236
+        },
+        {
+          "prefix": "nagramix-late-source-prior-",
+          "root": "/workspace/.codex-wide-portal-localization-tmp",
+          "free_bytes_before": 36335616,
+          "free_inodes_before": 117849
+        },
+        {
+          "prefix": "nagramix-late-source-prior-",
+          "root": "/workspace/.codex-wide-portal-localization-tmp",
+          "free_bytes_before": 29671424,
+          "free_inodes_before": 117322
+        },
+        {
+          "prefix": "nagramix-language-runtime-",
+          "root": "/tmp",
+          "free_bytes_before": 215121920,
+          "free_inodes_before": 8541
+        }
+      ],
+      "projection_storage": {
+        "linked_files": 4299,
+        "linked_bytes": 215596584,
+        "written_files": 2286
+      },
+      "source_unchanged": true
+    }
+  },
+  "metadata_relocation": [
+    {
+      "path": "/workspace/.codex-story-avatar/source-manifest.json",
+      "relocated_to": "/tmp/nagramix-round-bitrate-levels/meta/story-avatar-source-manifest.json",
+      "sha256": "146f9a59efc9fdc4f09f4e35208b014b71c14b4ec9bbf5d2ef527f99cc11c963"
+    },
+    {
+      "path": "/workspace/.codex-story-avatar/before-manifest.json",
+      "relocated_to": "/tmp/nagramix-round-bitrate-levels/meta/story-avatar-before-manifest.json",
+      "sha256": "c1844a1753e6ff4b1571df2611f17f1a037f2c5d81811cf6cb59995b78e9aa98"
+    }
+  ],
+  "release_preservation": {
+    "releases": 10,
+    "assets": 30,
+    "tags": 13,
+    "published_097_source": "d6a808c6af70d6ad31d678081ae73a6445c22bbf",
+    "published_stage": 74,
+    "actions_or_ipa_started": false
+  },
+  "limitations": [
+    "На Linux исполнены настоящие Foundation/модели/экспорт/тела UI с явными graph/UIKit/AutoLayout/dispatch hosts; AutoLayout и пиксели не рендерятся.",
+    "Настоящий UIKit/control/public module probe добавлен первым в будущий macOS preflight; локально UIKit not_run.",
+    "Полная Apple SDK сборка, аппаратный encoder, размер готового файла и серверный round_message не проверялись.",
+    "Предел1300кбит/с выбран владельцем по его тестам; универсальная серверная гарантия не заявляется."
+  ],
+  "next_step": "Проверенный commit/push main; новая SDK/IPA только по отдельной прямой команде."
+}

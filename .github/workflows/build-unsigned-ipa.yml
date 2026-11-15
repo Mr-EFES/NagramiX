@@ -540,6 +540,8 @@ jobs:
           python3 scripts/validate_round_quality_summary.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)" --report "$RUNNER_TEMP/round-quality-summary.json"
           PYTHONPATH=ios python3 -c 'from pathlib import Path; from font_apply_glass import apply_font_apply_glass; apply_font_apply_glass(Path("Telegram-iOS").resolve(), Path("ios").resolve())'
           python3 scripts/validate_font_apply_glass.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)" --report "$RUNNER_TEMP/font-apply-glass.json"
+          PYTHONPATH=ios python3 -c 'from pathlib import Path; from round_bitrate_levels import apply_round_bitrate_levels; apply_round_bitrate_levels(Path("Telegram-iOS").resolve(), Path("ios").resolve())'
+          python3 scripts/validate_round_bitrate_levels.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)" --report "$RUNNER_TEMP/round-bitrate-levels.json"
           python3 scripts/validate_late_source_stages.py --source Telegram-iOS --report "$RUNNER_TEMP/late-source-stages.json"
           python3 scripts/validate_custom_member_references.py --source Telegram-iOS
           python3 scripts/validate_upstream_13_2_release.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)"
