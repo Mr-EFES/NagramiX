@@ -1,0 +1,359 @@
+{
+  "task": "Единое штатное вложение с подписью в обычном и расширенном редакторах; зазор без расширения пузырька",
+  "base_commit": "e41a100e27d20945f59631d3c9288f9b06e06693",
+  "stage": 97,
+  "name": "file_caption_consistency",
+  "findings": [
+    "Отдельный редактор поста всегда использовал rich transport при наличии media, даже когда обычный composer отправлял тот же пост как native file+caption.",
+    "При condensed стыке музыкального файла и текста bottomInset15−14 оставлял около1pt."
+  ],
+  "source": {
+    "stage": 97,
+    "name": "file_caption_consistency",
+    "path": "/tmp/nagramix-file-caption-consistency/source",
+    "manifest_sha256": "b757b04633633e346126b29e8907e40c7d794a9a57d0c906e593db9fbc8b0cea",
+    "previous_manifest_sha256": "2e823dff1819fbbd181559c46d0781ae2a7f650d831090eb69ebb62d91fc029c",
+    "files": 37694,
+    "symlinks": 26,
+    "modified_runtime_paths": [
+      "submodules/TelegramUI/Sources/ChatControllerOpenAttachmentMenu.swift",
+      "submodules/TelegramUI/Components/Chat/ChatMessageFileBubbleContentNode/Sources/ChatMessageFileBubbleContentNode.swift"
+    ],
+    "new_runtime_paths": [],
+    "guards": 83,
+    "new_inc": 87,
+    "new_templates": 87,
+    "old_inc_unchanged": 5356,
+    "old_plans_unchanged": 309,
+    "historical_manifests_verified": 54
+  },
+  "feature_checks": {
+    "stage": 97,
+    "name": "file_caption_consistency",
+    "runtime_paths": [
+      "submodules/TelegramUI/Sources/ChatControllerOpenAttachmentMenu.swift",
+      "submodules/TelegramUI/Components/Chat/ChatMessageFileBubbleContentNode/Sources/ChatMessageFileBubbleContentNode.swift"
+    ],
+    "guards": 83,
+    "loader_refusals": 14,
+    "checks": {
+      "contracts": {
+        "only_two_runtime_files": true,
+        "native_caption_limits_entities_enqueue_unchanged": true,
+        "all_three_standalone_callbacks_use_complete_message_array": true,
+        "rich_fallback_and_paid_send_lifecycle_unchanged": true,
+        "other_attachment_menu_actions_verbatim": true,
+        "file_layout_changes_only_vertical_condensed_caption_gap": true,
+        "bubble_width_measurement_and_fonts_unchanged": true
+      },
+      "executions": [
+        {
+          "name": "file-caption-send",
+          "mode": "debug",
+          "exit_code": 0,
+          "output": "PASS file caption consistency checks: 51"
+        },
+        {
+          "name": "file-caption-send",
+          "mode": "optimized",
+          "exit_code": 0,
+          "output": "PASS file caption consistency checks: 51"
+        }
+      ],
+      "geometry_executions": [
+        {
+          "name": "file-caption-geometry",
+          "mode": "debug",
+          "exit_code": 0,
+          "output": "PASS file caption geometry checks: 324"
+        },
+        {
+          "name": "file-caption-geometry",
+          "mode": "optimized",
+          "exit_code": 0,
+          "output": "PASS file caption geometry checks: 324"
+        }
+      ],
+      "semantic_negatives": [
+        {
+          "name": "expanded-always-rich",
+          "mode": "debug",
+          "exit_code": 96,
+          "output": "Composer copy regression: normal and expanded send identical complete text"
+        },
+        {
+          "name": "expanded-always-rich",
+          "mode": "optimized",
+          "exit_code": 96,
+          "output": "Composer copy regression: normal and expanded send identical complete text"
+        },
+        {
+          "name": "native-loses-entities",
+          "mode": "debug",
+          "exit_code": 96,
+          "output": "Composer copy regression: normal and expanded send identical formatting entities"
+        },
+        {
+          "name": "native-loses-entities",
+          "mode": "optimized",
+          "exit_code": 96,
+          "output": "Composer copy regression: normal and expanded send identical formatting entities"
+        },
+        {
+          "name": "partial-native-payload",
+          "mode": "debug",
+          "exit_code": 96,
+          "output": "Composer copy regression: missing media cannot downgrade a partial post to native caption"
+        },
+        {
+          "name": "partial-native-payload",
+          "mode": "optimized",
+          "exit_code": 96,
+          "output": "Composer copy regression: missing media cannot downgrade a partial post to native caption"
+        },
+        {
+          "name": "collapsed-caption-gap",
+          "mode": "debug",
+          "exit_code": 96,
+          "output": "FAIL: visible gap below file is retained"
+        },
+        {
+          "name": "collapsed-caption-gap",
+          "mode": "optimized",
+          "exit_code": 96,
+          "output": "FAIL: visible gap below file is retained"
+        }
+      ],
+      "apple_api": {
+        "real_uikit_geometry": "not_run",
+        "reason": "Linux без UIKit/iPhoneOS SDK",
+        "application_sdk": "not_run",
+        "pixel_verification": "not_run"
+      },
+      "boundary": "Actual Document/clipboard/format conversion, both native enqueue helpers and standalone builder closure execute. Account, Postbox/media IO, rich serializer and platform edges are explicit adapters. Source contracts keep all three callbacks, paid send and opaque rich fallback intact. Geometry executes actual inset/height formulas; no UIKit pixels or foreign client rendering is asserted.",
+      "full_application_sdk": "not_run",
+      "physical_iphone": "pending",
+      "native_telegram_live_delivery": "pending"
+    },
+    "source_unchanged_by_checks": true,
+    "new_localization_keys": 0,
+    "full_application_sdk": "not_run",
+    "physical_iphone": "pending",
+    "new_actions_or_ipa_started": false
+  },
+  "global_source_checks": [
+    {
+      "name": "early-scoped",
+      "exit_code": 0,
+      "seconds": 121.4,
+      "source_manifest_sha256": "b757b04633633e346126b29e8907e40c7d794a9a57d0c906e593db9fbc8b0cea"
+    },
+    {
+      "name": "upstream",
+      "exit_code": 0,
+      "seconds": 112.0,
+      "source_manifest_sha256": "b757b04633633e346126b29e8907e40c7d794a9a57d0c906e593db9fbc8b0cea"
+    },
+    {
+      "name": "inverse",
+      "exit_code": 0,
+      "seconds": 136.2,
+      "source_manifest_sha256": "b757b04633633e346126b29e8907e40c7d794a9a57d0c906e593db9fbc8b0cea"
+    },
+    {
+      "name": "localization",
+      "exit_code": 0,
+      "seconds": 43.6,
+      "source_manifest_sha256": "b757b04633633e346126b29e8907e40c7d794a9a57d0c906e593db9fbc8b0cea"
+    },
+    {
+      "name": "members-full",
+      "exit_code": 0,
+      "seconds": 4.6,
+      "source_manifest_sha256": "b757b04633633e346126b29e8907e40c7d794a9a57d0c906e593db9fbc8b0cea"
+    },
+    {
+      "name": "members-canonical",
+      "exit_code": 0,
+      "seconds": 1.9,
+      "source_manifest_sha256": "b757b04633633e346126b29e8907e40c7d794a9a57d0c906e593db9fbc8b0cea"
+    },
+    {
+      "name": "native-strings",
+      "exit_code": 0,
+      "seconds": 5.6,
+      "source_manifest_sha256": "b757b04633633e346126b29e8907e40c7d794a9a57d0c906e593db9fbc8b0cea"
+    },
+    {
+      "name": "mode",
+      "exit_code": 0,
+      "seconds": 0.2,
+      "source_manifest_sha256": "b757b04633633e346126b29e8907e40c7d794a9a57d0c906e593db9fbc8b0cea"
+    },
+    {
+      "name": "metadata",
+      "exit_code": 0,
+      "seconds": 0.1,
+      "source_manifest_sha256": "b757b04633633e346126b29e8907e40c7d794a9a57d0c906e593db9fbc8b0cea"
+    },
+    {
+      "name": "diff",
+      "exit_code": 0,
+      "seconds": 0.0,
+      "source_manifest_sha256": "b757b04633633e346126b29e8907e40c7d794a9a57d0c906e593db9fbc8b0cea"
+    }
+  ],
+  "global_source_checks_complete": true,
+  "full_preflight_rerun": false,
+  "early_scope": {
+    "scope": "Новый checker97 выполнен через настоящий canonical_projection/CheckCollection. Прежние112 шагов/73 сценария и scoped96 не повторялись; их код и immutable plans/templates сохранены.",
+    "full_preflight_rerun": false,
+    "previous_runs_reused": [
+      {
+        "path": "/tmp/nagramix-round-quality-title/early.json",
+        "sha256": "f4fc240e182ebb7a619a31397d2ed92a7f3332ad6b1f75a6223ac091946400b1",
+        "checks": 112,
+        "fixtures": 73,
+        "executions": 146
+      },
+      {
+        "path": "/tmp/nagramix-round-quality-badge/early-scoped.json",
+        "sha256": "2602ad3b77eebb362396de6e1b827b909b2b8c0f9cdd4010db6a936453a20702",
+        "new_check_status": "passed",
+        "executions": 6
+      }
+    ],
+    "new_check_status": "passed",
+    "projection": {
+      "written": 582,
+      "pinned_native_dependencies": 6,
+      "unused_unavailable_native_guards": 99,
+      "localized_resources": 0
+    },
+    "new_check": {
+      "contracts": {
+        "only_two_runtime_files": true,
+        "native_caption_limits_entities_enqueue_unchanged": true,
+        "all_three_standalone_callbacks_use_complete_message_array": true,
+        "rich_fallback_and_paid_send_lifecycle_unchanged": true,
+        "other_attachment_menu_actions_verbatim": true,
+        "file_layout_changes_only_vertical_condensed_caption_gap": true,
+        "bubble_width_measurement_and_fonts_unchanged": true
+      },
+      "executions": [
+        {
+          "name": "file-caption-send",
+          "mode": "debug",
+          "exit_code": 0,
+          "output": "PASS file caption consistency checks: 51"
+        },
+        {
+          "name": "file-caption-send",
+          "mode": "optimized",
+          "exit_code": 0,
+          "output": "PASS file caption consistency checks: 51"
+        }
+      ],
+      "geometry_executions": [
+        {
+          "name": "file-caption-geometry",
+          "mode": "debug",
+          "exit_code": 0,
+          "output": "PASS file caption geometry checks: 324"
+        },
+        {
+          "name": "file-caption-geometry",
+          "mode": "optimized",
+          "exit_code": 0,
+          "output": "PASS file caption geometry checks: 324"
+        }
+      ],
+      "semantic_negatives": [
+        {
+          "name": "expanded-always-rich",
+          "mode": "debug",
+          "exit_code": 96,
+          "output": "Composer copy regression: normal and expanded send identical complete text"
+        },
+        {
+          "name": "expanded-always-rich",
+          "mode": "optimized",
+          "exit_code": 96,
+          "output": "Composer copy regression: normal and expanded send identical complete text"
+        },
+        {
+          "name": "native-loses-entities",
+          "mode": "debug",
+          "exit_code": 96,
+          "output": "Composer copy regression: normal and expanded send identical formatting entities"
+        },
+        {
+          "name": "native-loses-entities",
+          "mode": "optimized",
+          "exit_code": 96,
+          "output": "Composer copy regression: normal and expanded send identical formatting entities"
+        },
+        {
+          "name": "partial-native-payload",
+          "mode": "debug",
+          "exit_code": 96,
+          "output": "Composer copy regression: missing media cannot downgrade a partial post to native caption"
+        },
+        {
+          "name": "partial-native-payload",
+          "mode": "optimized",
+          "exit_code": 96,
+          "output": "Composer copy regression: missing media cannot downgrade a partial post to native caption"
+        },
+        {
+          "name": "collapsed-caption-gap",
+          "mode": "debug",
+          "exit_code": 96,
+          "output": "FAIL: visible gap below file is retained"
+        },
+        {
+          "name": "collapsed-caption-gap",
+          "mode": "optimized",
+          "exit_code": 96,
+          "output": "FAIL: visible gap below file is retained"
+        }
+      ],
+      "apple_api": {
+        "real_uikit_geometry": "not_run",
+        "reason": "Linux без UIKit/iPhoneOS SDK",
+        "application_sdk": "not_run",
+        "pixel_verification": "not_run"
+      },
+      "boundary": "Actual Document/clipboard/format conversion, both native enqueue helpers and standalone builder closure execute. Account, Postbox/media IO, rich serializer and platform edges are explicit adapters. Source contracts keep all three callbacks, paid send and opaque rich fallback intact. Geometry executes actual inset/height formulas; no UIKit pixels or foreign client rendering is asserted.",
+      "full_application_sdk": "not_run",
+      "physical_iphone": "pending",
+      "native_telegram_live_delivery": "pending"
+    },
+    "collection_tests": 8,
+    "all_54_calls_collected": true,
+    "full_application_sdk": "not_run",
+    "physical_iphone": "pending"
+  },
+  "checks_scope": "Заново выполнены checker97 на полном дереве и через canonical_projection/CheckCollection, 8 тестов коллектора/54 точки вызова, final upstream parse/Postbox, inverse97, strict localization71×678, full/canonical members, native strings, workflow/mode/metadata/diff. Прежние73 сценария/146 запусков и scoped96 не повторялись; сохранены проверенные отчёты и старые планы/тела.",
+  "scope_review": {
+    "runtime_files": 2,
+    "native_limits_entities_and_file_enqueue_bodies_unchanged": true,
+    "complex_rich_fallback_preserved": true,
+    "unresolved_media_cannot_partially_downgrade": true,
+    "font_metric_only_editor_attributes_do_not_force_rich": true,
+    "silent_schedule_paid_send_lifecycle_preserved": true,
+    "bubble_width_and_other_file_geometry_unchanged": true,
+    "old_templates_and_plans_preserved": true,
+    "new_visible_localized_sentences": 0,
+    "dependencies_sdk_signing_unchanged": true
+  },
+  "full_application_sdk": "not_run",
+  "physical_iphone": "pending",
+  "pixel_verification": "not_run",
+  "native_telegram_live_delivery": "pending",
+  "new_actions_or_ipa_started": false,
+  "published_ipa_219_contains_this_fix": false,
+  "release_assets_or_tags_changed": false,
+  "previous_web_player_crash_fix_implemented": false,
+  "publication_target": "Только main; новая IPA требует отдельной прямой команды"
+}

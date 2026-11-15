@@ -49,6 +49,7 @@ from validate_doh_clear_input_lifecycle import regressions as doh_clear_native_c
 from validate_sticker_status_spacing import check as sticker_status_check
 from validate_round_quality_title_layout import check as round_title_check
 from validate_round_quality_preset_badge import check as round_badge_check
+from validate_file_caption_consistency import check as file_caption_check
 from archived_playlist_lifetime_runtime import fixture as archived_playlist_lifetime_fixture
 from story_avatar_visibility_runtime import fixture as story_avatar_visibility_fixture
 from original_video_media_runtime import fixture as original_video_media_fixture
@@ -202,6 +203,13 @@ def main():
                 shutil.rmtree(path)
         foundation=checks.run('foundation_check:191', lambda: foundation_check(args.swiftc,root))
         files = {}
+        caption_source=root/'file-caption-native-final97'
+        files['native_final97']=canonical_projection(caption_source,'file_caption_consistency')
+        file_caption=checks.run('file-caption-consistency', lambda: file_caption_check(caption_source,args.swiftc,root/'file-caption'), fallback={})
+        for group in ('executions','geometry_executions'):
+            runs += file_caption.get(group,[])
+        cleanup(caption_source)
+        cleanup(root/'file-caption')
         badge_source=root/'round-badge-native-final96'
         files['native_final96']=canonical_projection(badge_source,'round_quality_preset_badge')
         round_badge=checks.run('round-quality-preset-badge', lambda: round_badge_check(badge_source,args.swiftc,root/'round-badge'), fallback={})
@@ -428,6 +436,7 @@ def main():
     report['sticker_status_spacing']=sticker_status
     report['round_quality_title_layout']=round_title
     report['round_quality_preset_badge']=round_badge
+    report['file_caption_consistency']=file_caption
     report['system_web_javascript']=system_js
     report['system_web_real_sdk']=system_apple
     report['youtube_playback_policy_js']=youtube_js

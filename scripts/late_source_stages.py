@@ -110,6 +110,7 @@ LATE_SOURCE_STAGES = (
     'sticker_status_spacing',
     'round_quality_title_layout',
     'round_quality_preset_badge',
+    'file_caption_consistency',
 )
 TEMPORARY_INTERACTION_STAGE = 'temporary_message_interaction'
 TEMPORARY_REPLY_HELPER = 'submodules/TelegramUI/Sources/Chat/NagramiXTemporaryReplySend.swift'
