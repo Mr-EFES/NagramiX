@@ -47,6 +47,7 @@ from wide_portal_api_runtime import fixture as wide_portal_fixture
 from doh_empty_action_runtime import fixture as doh_empty_action_fixture
 from validate_doh_clear_input_lifecycle import regressions as doh_clear_native_check
 from validate_sticker_status_spacing import check as sticker_status_check
+from validate_round_quality_title_layout import check as round_title_check
 from archived_playlist_lifetime_runtime import fixture as archived_playlist_lifetime_fixture
 from story_avatar_visibility_runtime import fixture as story_avatar_visibility_fixture
 from original_video_media_runtime import fixture as original_video_media_fixture
@@ -200,6 +201,13 @@ def main():
                 shutil.rmtree(path)
         foundation=checks.run('foundation_check:191', lambda: foundation_check(args.swiftc,root))
         files = {}
+        title_source=root/'round-title-native-final95'
+        files['native_final95']=canonical_projection(title_source,'round_quality_title_layout')
+        round_title=checks.run('round-quality-title-layout', lambda: round_title_check(title_source,args.swiftc,root/'round-title'), fallback={})
+        for group in ('executions','resize_executions','existing_routing_executions'):
+            runs += round_title.get(group,[])
+        cleanup(title_source)
+        cleanup(root/'round-title')
         sticker_source=root/'sticker-status-native-final94'
         files['native_final94']=canonical_projection(sticker_source,'sticker_status_spacing')
         sticker_status=checks.run('sticker-status-spacing', lambda: sticker_status_check(sticker_source,args.swiftc,root/'sticker-status'), fallback={})
@@ -410,6 +418,7 @@ def main():
     report['release098_cross_file_compilation']=release098_compilation
     report['doh_clear_input_native_lifecycle']=doh_clear_lifecycle
     report['sticker_status_spacing']=sticker_status
+    report['round_quality_title_layout']=round_title
     report['system_web_javascript']=system_js
     report['system_web_real_sdk']=system_apple
     report['youtube_playback_policy_js']=youtube_js

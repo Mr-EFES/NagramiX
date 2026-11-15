@@ -573,6 +573,8 @@ jobs:
           python3 scripts/validate_doh_clear_input_lifecycle.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)" --report "$RUNNER_TEMP/doh-clear-input-lifecycle.json"
           PYTHONPATH=ios python3 -c 'from pathlib import Path; from sticker_status_spacing import apply_sticker_status_spacing; apply_sticker_status_spacing(Path("Telegram-iOS").resolve(), Path("ios").resolve())'
           python3 scripts/validate_sticker_status_spacing.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)" --report "$RUNNER_TEMP/sticker-status-spacing.json"
+          PYTHONPATH=ios python3 -c 'from pathlib import Path; from round_quality_title_layout import apply_round_quality_title_layout; apply_round_quality_title_layout(Path("Telegram-iOS").resolve(), Path("ios").resolve())'
+          python3 scripts/validate_round_quality_title_layout.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)" --report "$RUNNER_TEMP/round-quality-title-layout.json"
           python3 scripts/validate_late_source_stages.py --source Telegram-iOS --report "$RUNNER_TEMP/late-source-stages.json"
           python3 scripts/validate_custom_member_references.py --source Telegram-iOS
           python3 scripts/validate_upstream_13_2_release.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)"

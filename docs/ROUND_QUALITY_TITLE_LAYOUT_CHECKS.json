@@ -1,0 +1,451 @@
+{
+  "task": "Цельное название «Максимум» и галочка у разрешения кружка",
+  "base_commit": "701f76c357c7fca7b5c15af10335e81396f15385",
+  "stage": 95,
+  "name": "round_quality_title_layout",
+  "finding": "Место под галочку резервировалось справа от всего блока подписей, уменьшая ширину названия. Для качества ширина названия полная, галочка находится у разрешения.",
+  "source": {
+    "stage": 95,
+    "name": "round_quality_title_layout",
+    "path": "/tmp/nagramix-round-quality-title/source",
+    "manifest_sha256": "934d3b5f424526af80c3b413567da57d3cced23f5ef724028256619d4cc08c70",
+    "previous_manifest_sha256": "f4db9f64fb040f22f04bfe12f97776a5c04017844c65fd3f62b8231b3935c604",
+    "files": 37694,
+    "symlinks": 26,
+    "modified_runtime_paths": [
+      "submodules/SettingsUI/Sources/NagramiXRoundQualityController.swift"
+    ],
+    "new_runtime_paths": [],
+    "guards": 12,
+    "new_inc": 14,
+    "new_templates": 14,
+    "old_inc_unchanged": 5327,
+    "old_plans_unchanged": 307,
+    "historical_manifests_verified": 52
+  },
+  "feature_checks": {
+    "stage": 95,
+    "name": "round_quality_title_layout",
+    "runtime_paths": [
+      "submodules/SettingsUI/Sources/NagramiXRoundQualityController.swift"
+    ],
+    "guards": 12,
+    "loader_refusals": 12,
+    "checks": {
+      "contracts": {
+        "single_app_file": true,
+        "preset_model_and_camera_copy_unchanged": true,
+        "all_options_and_selection_commit_verbatim": true,
+        "bitrate_cell_and_cinematic_gates_verbatim": true,
+        "quality_factory_flag_scoped": true,
+        "font_sizes_and_localized_names_unchanged": true
+      },
+      "executions": [
+        {
+          "name": "round-quality-title",
+          "mode": "debug",
+          "exit_code": 0,
+          "output": "PASS round quality title checks: 1300"
+        },
+        {
+          "name": "round-quality-title",
+          "mode": "optimized",
+          "exit_code": 0,
+          "output": "PASS round quality title checks: 1300"
+        }
+      ],
+      "resize_executions": [
+        {
+          "name": "round-quality-width-change",
+          "mode": "debug",
+          "exit_code": 0,
+          "output": "PASS 5 quality width reload checks"
+        },
+        {
+          "name": "round-quality-width-change",
+          "mode": "optimized",
+          "exit_code": 0,
+          "output": "PASS 5 quality width reload checks"
+        }
+      ],
+      "existing_routing_executions": [
+        {
+          "name": "round-quality-existing-routing",
+          "mode": "debug",
+          "exit_code": 0,
+          "output": "1406 compact page production checks passed"
+        },
+        {
+          "name": "round-quality-existing-routing",
+          "mode": "optimized",
+          "exit_code": 0,
+          "output": "1406 compact page production checks passed"
+        }
+      ],
+      "semantic_negatives": [
+        {
+          "name": "quality-name-wraps",
+          "mode": "debug",
+          "exit_code": 96,
+          "output": "FAIL: quality names and resolutions never wrap"
+        },
+        {
+          "name": "quality-name-wraps",
+          "mode": "optimized",
+          "exit_code": 96,
+          "output": "FAIL: quality names and resolutions never wrap"
+        },
+        {
+          "name": "check-takes-title-width",
+          "mode": "debug",
+          "exit_code": 96,
+          "output": "FAIL: quality title uses full width"
+        },
+        {
+          "name": "check-takes-title-width",
+          "mode": "optimized",
+          "exit_code": 96,
+          "output": "FAIL: quality title uses full width"
+        },
+        {
+          "name": "check-centered-on-button",
+          "mode": "debug",
+          "exit_code": 96,
+          "output": "FAIL: check belongs to resolution row"
+        },
+        {
+          "name": "check-centered-on-button",
+          "mode": "optimized",
+          "exit_code": 96,
+          "output": "FAIL: check belongs to resolution row"
+        },
+        {
+          "name": "narrow-row-stays-horizontal",
+          "mode": "debug",
+          "exit_code": 96,
+          "output": "FAIL: narrow widths reflow before clipping"
+        },
+        {
+          "name": "narrow-row-stays-horizontal",
+          "mode": "optimized",
+          "exit_code": 96,
+          "output": "FAIL: narrow widths reflow before clipping"
+        },
+        {
+          "name": "title-font-shrinks",
+          "mode": "debug",
+          "exit_code": 96,
+          "output": "FAIL: quality preserves original font sizes"
+        },
+        {
+          "name": "title-font-shrinks",
+          "mode": "optimized",
+          "exit_code": 96,
+          "output": "FAIL: quality preserves original font sizes"
+        },
+        {
+          "name": "reload-on-every-layout",
+          "mode": "debug",
+          "exit_code": 96,
+          "output": "FAIL: quality width reload lifecycle"
+        },
+        {
+          "name": "reload-on-every-layout",
+          "mode": "optimized",
+          "exit_code": 96,
+          "output": "FAIL: quality width reload lifecycle"
+        }
+      ],
+      "apple_api": {
+        "unchanged_bitrate_and_model": {
+          "actual_model_and_copy": {
+            "actual_settings_module": "passed",
+            "contextual_current_cross_file_import": "passed",
+            "actual_immutable_constructor_and_copy": "passed with explicit Telegram graph adapters",
+            "uikit_badge": "not_run",
+            "full_application_sdk": "pending",
+            "device": "pending",
+            "reason": "UIKit/iOS SDK недоступны на Linux; аппаратный encoder и UI не объявляются проверенными."
+          },
+          "complete_control_uikit": {
+            "status": "not_run",
+            "reason": "iPhoneOS/UIKit SDK отсутствует на Linux"
+          },
+          "full_application_sdk": "not_run",
+          "physical_iphone": "pending"
+        },
+        "complete_page_uikit": {
+          "status": "not_run",
+          "reason": "Linux без UIKit/iPhoneOS SDK"
+        },
+        "full_application_sdk": "not_run",
+        "physical_iphone": "pending"
+      },
+      "boundary": "Entire actual button/cell/constraints and width helper execute with explicit recording UIKit/font/presentation edges. Actual page width lifecycle and complete existing option/selection/commit methods execute separately. This does not solve UIKit AutoLayout or render pixels. The complete final page is typechecked with genuine UIKit before future app SDK on macOS.",
+      "full_application_sdk": "not_run",
+      "physical_iphone": "pending"
+    },
+    "source_unchanged_by_checks": true,
+    "scope": "Only quality names get full segment width, one line at original font, and check on resolution line. Measured-width fallback uses vertical quality options if three columns cannot fit; width changes trigger remeasurement. Other settings groups and all stored values/availability/camera/export remain unchanged.",
+    "full_application_sdk": "not_run",
+    "physical_iphone": "pending",
+    "new_actions_or_ipa_started": false
+  },
+  "global_source_checks": [
+    {
+      "name": "early",
+      "exit_code": 0,
+      "seconds": 488.3,
+      "source_manifest_sha256": "934d3b5f424526af80c3b413567da57d3cced23f5ef724028256619d4cc08c70"
+    },
+    {
+      "name": "upstream",
+      "exit_code": 0,
+      "seconds": 110.4,
+      "source_manifest_sha256": "934d3b5f424526af80c3b413567da57d3cced23f5ef724028256619d4cc08c70"
+    },
+    {
+      "name": "inverse",
+      "exit_code": 0,
+      "seconds": 130.6,
+      "source_manifest_sha256": "934d3b5f424526af80c3b413567da57d3cced23f5ef724028256619d4cc08c70"
+    },
+    {
+      "name": "localization",
+      "exit_code": 0,
+      "seconds": 42.6,
+      "source_manifest_sha256": "934d3b5f424526af80c3b413567da57d3cced23f5ef724028256619d4cc08c70"
+    },
+    {
+      "name": "members-full",
+      "exit_code": 0,
+      "seconds": 4.7,
+      "source_manifest_sha256": "934d3b5f424526af80c3b413567da57d3cced23f5ef724028256619d4cc08c70"
+    },
+    {
+      "name": "members-canonical",
+      "exit_code": 0,
+      "seconds": 1.9,
+      "source_manifest_sha256": "934d3b5f424526af80c3b413567da57d3cced23f5ef724028256619d4cc08c70"
+    },
+    {
+      "name": "native-strings",
+      "exit_code": 0,
+      "seconds": 5.6,
+      "source_manifest_sha256": "934d3b5f424526af80c3b413567da57d3cced23f5ef724028256619d4cc08c70"
+    },
+    {
+      "name": "mode",
+      "exit_code": 0,
+      "seconds": 0.2,
+      "source_manifest_sha256": "934d3b5f424526af80c3b413567da57d3cced23f5ef724028256619d4cc08c70"
+    },
+    {
+      "name": "metadata",
+      "exit_code": 0,
+      "seconds": 0.1,
+      "source_manifest_sha256": "934d3b5f424526af80c3b413567da57d3cced23f5ef724028256619d4cc08c70"
+    },
+    {
+      "name": "diff",
+      "exit_code": 0,
+      "seconds": 0.0,
+      "source_manifest_sha256": "934d3b5f424526af80c3b413567da57d3cced23f5ef724028256619d4cc08c70"
+    }
+  ],
+  "global_source_checks_complete": true,
+  "documentation_order_retry": {
+    "first_metadata_result": "Отказ: ссылка на ещё не созданный ROUND_QUALITY_TITLE_LAYOUT_CHECKS.json",
+    "resolution": "Отчёт создан до повторной проверки документации; metadata/diff повторены, исходники и остальные прошедшие проверки сохранены"
+  },
+  "early_portable_suite": {
+    "preflight_status": "passed",
+    "checks": 112,
+    "failed_checks": 0,
+    "complete_fixtures": 73,
+    "executions": 146,
+    "round_quality_title_layout": {
+      "contracts": {
+        "single_app_file": true,
+        "preset_model_and_camera_copy_unchanged": true,
+        "all_options_and_selection_commit_verbatim": true,
+        "bitrate_cell_and_cinematic_gates_verbatim": true,
+        "quality_factory_flag_scoped": true,
+        "font_sizes_and_localized_names_unchanged": true
+      },
+      "executions": [
+        {
+          "name": "round-quality-title",
+          "mode": "debug",
+          "exit_code": 0,
+          "output": "PASS round quality title checks: 1300"
+        },
+        {
+          "name": "round-quality-title",
+          "mode": "optimized",
+          "exit_code": 0,
+          "output": "PASS round quality title checks: 1300"
+        }
+      ],
+      "resize_executions": [
+        {
+          "name": "round-quality-width-change",
+          "mode": "debug",
+          "exit_code": 0,
+          "output": "PASS 5 quality width reload checks"
+        },
+        {
+          "name": "round-quality-width-change",
+          "mode": "optimized",
+          "exit_code": 0,
+          "output": "PASS 5 quality width reload checks"
+        }
+      ],
+      "existing_routing_executions": [
+        {
+          "name": "round-quality-existing-routing",
+          "mode": "debug",
+          "exit_code": 0,
+          "output": "1406 compact page production checks passed"
+        },
+        {
+          "name": "round-quality-existing-routing",
+          "mode": "optimized",
+          "exit_code": 0,
+          "output": "1406 compact page production checks passed"
+        }
+      ],
+      "semantic_negatives": [
+        {
+          "name": "quality-name-wraps",
+          "mode": "debug",
+          "exit_code": 96,
+          "output": "FAIL: quality names and resolutions never wrap"
+        },
+        {
+          "name": "quality-name-wraps",
+          "mode": "optimized",
+          "exit_code": 96,
+          "output": "FAIL: quality names and resolutions never wrap"
+        },
+        {
+          "name": "check-takes-title-width",
+          "mode": "debug",
+          "exit_code": 96,
+          "output": "FAIL: quality title uses full width"
+        },
+        {
+          "name": "check-takes-title-width",
+          "mode": "optimized",
+          "exit_code": 96,
+          "output": "FAIL: quality title uses full width"
+        },
+        {
+          "name": "check-centered-on-button",
+          "mode": "debug",
+          "exit_code": 96,
+          "output": "FAIL: check belongs to resolution row"
+        },
+        {
+          "name": "check-centered-on-button",
+          "mode": "optimized",
+          "exit_code": 96,
+          "output": "FAIL: check belongs to resolution row"
+        },
+        {
+          "name": "narrow-row-stays-horizontal",
+          "mode": "debug",
+          "exit_code": 96,
+          "output": "FAIL: narrow widths reflow before clipping"
+        },
+        {
+          "name": "narrow-row-stays-horizontal",
+          "mode": "optimized",
+          "exit_code": 96,
+          "output": "FAIL: narrow widths reflow before clipping"
+        },
+        {
+          "name": "title-font-shrinks",
+          "mode": "debug",
+          "exit_code": 96,
+          "output": "FAIL: quality preserves original font sizes"
+        },
+        {
+          "name": "title-font-shrinks",
+          "mode": "optimized",
+          "exit_code": 96,
+          "output": "FAIL: quality preserves original font sizes"
+        },
+        {
+          "name": "reload-on-every-layout",
+          "mode": "debug",
+          "exit_code": 96,
+          "output": "FAIL: quality width reload lifecycle"
+        },
+        {
+          "name": "reload-on-every-layout",
+          "mode": "optimized",
+          "exit_code": 96,
+          "output": "FAIL: quality width reload lifecycle"
+        }
+      ],
+      "apple_api": {
+        "unchanged_bitrate_and_model": {
+          "actual_model_and_copy": {
+            "actual_settings_module": "passed",
+            "contextual_current_cross_file_import": "passed",
+            "actual_immutable_constructor_and_copy": "passed with explicit Telegram graph adapters",
+            "uikit_badge": "not_run",
+            "full_application_sdk": "pending",
+            "device": "pending",
+            "reason": "UIKit/iOS SDK недоступны на Linux; аппаратный encoder и UI не объявляются проверенными."
+          },
+          "complete_control_uikit": {
+            "status": "not_run",
+            "reason": "iPhoneOS/UIKit SDK отсутствует на Linux"
+          },
+          "full_application_sdk": "not_run",
+          "physical_iphone": "pending"
+        },
+        "complete_page_uikit": {
+          "status": "not_run",
+          "reason": "Linux без UIKit/iPhoneOS SDK"
+        },
+        "full_application_sdk": "not_run",
+        "physical_iphone": "pending"
+      },
+      "boundary": "Entire actual button/cell/constraints and width helper execute with explicit recording UIKit/font/presentation edges. Actual page width lifecycle and complete existing option/selection/commit methods execute separately. This does not solve UIKit AutoLayout or render pixels. The complete final page is typechecked with genuine UIKit before future app SDK on macOS.",
+      "full_application_sdk": "not_run",
+      "physical_iphone": "pending"
+    },
+    "boundary": "Исполнение настоящих тел Swift с явно обозначенными адаптерами. Реальный UIKit/iPhoneOS probe на Linux not_run; полноценная Apple SDK-компиляция и пиксели не подтверждены."
+  },
+  "collection_tests": {
+    "count": 8,
+    "result": "passed",
+    "all_52_early_call_sites_collected": true
+  },
+  "scope_review": {
+    "reviewed_runtime_diff": "Только одна страница: ширина названия качества, галочка у разрешения и адаптация ширины. Остальные обработчики и модель побайтово прежние.",
+    "old_templates_and_plans_preserved": true,
+    "unchanged_protected_files": {
+      "README.md": true,
+      "LICENSE": true,
+      "product/releases/0.9.7.md": true,
+      "product/releases/0.9.8.md": true
+    },
+    "new_visible_strings": 0,
+    "new_dependencies": false,
+    "sdk_versions_signing_unchanged": true,
+    "workflow_change": "Применить стадию95 и выполнить обязательный validator после94; ранний gate проверяет полный файл с реальным UIKit на macOS до SDK.",
+    "release_build_requested": false
+  },
+  "settings_semantics": "Изменяется только размещение группы качества. Модель настроек, три разрешения, четыре ступени битрейта, FPS, кодек, киноэффект, камера и отправка прежние. Новых пользовательских строк/ключей нет.",
+  "full_application_sdk": "not_run",
+  "physical_iphone": "pending",
+  "new_actions_or_ipa_started": false,
+  "published_ipa_219_contains_this_fix": false,
+  "release_assets_or_tags_changed": false,
+  "previous_web_player_crash_fix_implemented": false,
+  "publication_target": "Только main; новая IPA требует отдельной прямой команды"
+}
