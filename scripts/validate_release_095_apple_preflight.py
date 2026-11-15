@@ -46,6 +46,7 @@ from validate_wide_portal_api import native_api_check as wide_portal_native_api_
 from wide_portal_api_runtime import fixture as wide_portal_fixture
 from doh_empty_action_runtime import fixture as doh_empty_action_fixture
 from validate_doh_clear_input_lifecycle import regressions as doh_clear_native_check
+from validate_sticker_status_spacing import check as sticker_status_check
 from archived_playlist_lifetime_runtime import fixture as archived_playlist_lifetime_fixture
 from story_avatar_visibility_runtime import fixture as story_avatar_visibility_fixture
 from original_video_media_runtime import fixture as original_video_media_fixture
@@ -199,6 +200,12 @@ def main():
                 shutil.rmtree(path)
         foundation=checks.run('foundation_check:191', lambda: foundation_check(args.swiftc,root))
         files = {}
+        sticker_source=root/'sticker-status-native-final94'
+        files['native_final94']=canonical_projection(sticker_source,'sticker_status_spacing')
+        sticker_status=checks.run('sticker-status-spacing', lambda: sticker_status_check(sticker_source,args.swiftc,root/'sticker-status'), fallback={})
+        runs += sticker_status.get('executions',[])
+        cleanup(sticker_source)
+        cleanup(root/'sticker-status')
         doh_clear_source=root/'doh-clear-native-final93'
         files['native_final93']=canonical_projection(doh_clear_source,'doh_clear_input_lifecycle')
         doh_clear_lifecycle=checks.run('doh-clear-native-lifecycle', lambda: doh_clear_native_check(doh_clear_source,args.swiftc,root/'doh-clear-native'), fallback=[])
@@ -402,6 +409,7 @@ def main():
     report['actual_font_theme_adapter_members']=theme_members
     report['release098_cross_file_compilation']=release098_compilation
     report['doh_clear_input_native_lifecycle']=doh_clear_lifecycle
+    report['sticker_status_spacing']=sticker_status
     report['system_web_javascript']=system_js
     report['system_web_real_sdk']=system_apple
     report['youtube_playback_policy_js']=youtube_js

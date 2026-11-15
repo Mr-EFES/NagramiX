@@ -1,0 +1,80 @@
+{
+  "target_pin": "24638bc69bd083981b178dd1e7f921eebbf7fc46",
+  "overlay_base_pin": "279f89e4d4f63f17227bf877dc3d8990f22ecd58",
+  "required_previous_stage": "doh_clear_input_lifecycle",
+  "inputs": {
+    "submodules/TelegramUI/Components/Chat/ChatMessageDateAndStatusNode/Sources/ChatMessageDateAndStatusNode.swift": "0f0d14aaf9f2cf832d26ce4d5201df170f8d623fdea2240cd24addcd066275d0",
+    "submodules/TelegramUI/Components/Chat/ChatMessageStickerItemNode/Sources/ChatMessageStickerItemNode.swift": "910e9bcbaeb4120a0166b50588cfc6181c0fd87c101d555d1fa4b580d07c03c4",
+    "submodules/TelegramUI/Components/Chat/ChatMessageAnimatedStickerItemNode/Sources/ChatMessageAnimatedStickerItemNode.swift": "b18703c63698003e14afbcffdc9b9009ac77989e512c47931e5a61a5243c560d",
+    "submodules/NagramiXMediaSettings/Sources/NagramiXMediaSettings.swift": "e01595a0c7f5e03b312a9756f0ef20577b69e19479b43248e8d611e935c23b6c"
+  },
+  "outputs": {
+    "submodules/TelegramUI/Components/Chat/ChatMessageDateAndStatusNode/Sources/ChatMessageDateAndStatusNode.swift": "da16d13512514b64565c4d263f3d3d6b89dc358ddf78597d4eca584bf897de2f",
+    "submodules/TelegramUI/Components/Chat/ChatMessageStickerItemNode/Sources/ChatMessageStickerItemNode.swift": "f529c3718858a0c0e4827b4a996900e2d283be6b213fd3589dc6fab440e21e3c",
+    "submodules/TelegramUI/Components/Chat/ChatMessageAnimatedStickerItemNode/Sources/ChatMessageAnimatedStickerItemNode.swift": "04f71de2635135cc5ed9a0135e4f32c6730dfdc8ff2b3683b718d59fec3a9ec1",
+    "submodules/NagramiXMediaSettings/Sources/NagramiXMediaSettings.swift": "420ade4634881c986b96eef3880a5a526a7acbcf6816b66419633d5df1f2e838"
+  },
+  "previous": {
+    "submodules/TelegramUI/Components/Chat/ChatMessageDateAndStatusNode/Sources/ChatMessageDateAndStatusNode.swift": "sticker_status_spacing/Before0.inc",
+    "submodules/TelegramUI/Components/Chat/ChatMessageStickerItemNode/Sources/ChatMessageStickerItemNode.swift": "sticker_status_spacing/Before1.inc",
+    "submodules/TelegramUI/Components/Chat/ChatMessageAnimatedStickerItemNode/Sources/ChatMessageAnimatedStickerItemNode.swift": "sticker_status_spacing/Before2.inc",
+    "submodules/NagramiXMediaSettings/Sources/NagramiXMediaSettings.swift": "sticker_status_spacing/Before3.inc"
+  },
+  "replacements": {
+    "submodules/TelegramUI/Components/Chat/ChatMessageDateAndStatusNode/Sources/ChatMessageDateAndStatusNode.swift": "sticker_status_spacing/After0.inc",
+    "submodules/TelegramUI/Components/Chat/ChatMessageStickerItemNode/Sources/ChatMessageStickerItemNode.swift": "sticker_status_spacing/After1.inc",
+    "submodules/TelegramUI/Components/Chat/ChatMessageAnimatedStickerItemNode/Sources/ChatMessageAnimatedStickerItemNode.swift": "sticker_status_spacing/After2.inc",
+    "submodules/NagramiXMediaSettings/Sources/NagramiXMediaSettings.swift": "sticker_status_spacing/After3.inc"
+  },
+  "guards": {
+    "submodules/TelegramUI/Components/Chat/ChatMessageDateAndStatusNode/BUILD": "00e45225e6b01ea7e9933d72c4eb69d19eb550462e7d8c1ece0c9cb0f515a781",
+    "submodules/TelegramUI/Components/Chat/ChatMessageStickerItemNode/BUILD": "c781528c6e918763f2bf7a4e16880165f3b4dc11e7fdd4b597e95d8832692ac8",
+    "submodules/TelegramUI/Components/Chat/ChatMessageAnimatedStickerItemNode/BUILD": "bb719b3a440c4398a851d2b0fa961b057cb9f537b843d16e97bd616934f58fdf",
+    "submodules/NagramiXMediaSettings/BUILD": "083253dd17992220fe47c883d1c0686fea165a717703eec0b9f0860ab21ed65f",
+    "submodules/Display/Source/TextNode.swift": "7e0d5400dbfa02fd6d04b81759d18eb31b879d739299f693ec2007a0e20637fc",
+    "submodules/Display/Source/Font.swift": "e204eb5178031058d2e187662d1d979cf8e29dc85481d3ba9ee120dcfc016ed6",
+    "submodules/TelegramUI/Components/Chat/ChatMessageItemView/Sources/ChatMessageItemView.swift": "e2b6b2e623b5da2d9a5d07ab939540b884f747694808faaf36ec7f4c0be601b8",
+    "submodules/SettingsUI/Sources/NagramiXSettingsController.swift": "857e9b42e1de5094942f30dee5e2046bfd7f2514efe1f6d3534880b9da6fdd4e",
+    "submodules/NagramiXCore/Sources/NagramiXTabSettings.swift": "71328bb06d34937632e25bb2cf1e2c1adbb46371ca5f29b563721017326abec9",
+    "submodules/TelegramUI/Sources/ChatControllerNode.swift": "5651028b7d127d5745ac371a941920680ee709b72155b947ce5e6be4ec19c479",
+    "submodules/TelegramUniversalVideoContent/Sources/WebEmbedPlayerNode.swift": "4d443112f8145ab7b42579249011109fe2955b442c162691ec15ef75e60b36df"
+  },
+  "guard_sources": {
+    "submodules/TelegramUI/Components/Chat/ChatMessageDateAndStatusNode/BUILD": "sticker_status_spacing/Guard0.inc",
+    "submodules/TelegramUI/Components/Chat/ChatMessageStickerItemNode/BUILD": "sticker_status_spacing/Guard1.inc",
+    "submodules/TelegramUI/Components/Chat/ChatMessageAnimatedStickerItemNode/BUILD": "sticker_status_spacing/Guard2.inc",
+    "submodules/NagramiXMediaSettings/BUILD": "sticker_status_spacing/Guard3.inc",
+    "submodules/Display/Source/TextNode.swift": "sticker_status_spacing/Guard4.inc",
+    "submodules/Display/Source/Font.swift": "sticker_status_spacing/Guard5.inc",
+    "submodules/TelegramUI/Components/Chat/ChatMessageItemView/Sources/ChatMessageItemView.swift": "sticker_status_spacing/Guard6.inc",
+    "submodules/SettingsUI/Sources/NagramiXSettingsController.swift": "sticker_status_spacing/Guard7.inc",
+    "submodules/NagramiXCore/Sources/NagramiXTabSettings.swift": "sticker_status_spacing/Guard8.inc",
+    "submodules/TelegramUI/Sources/ChatControllerNode.swift": "sticker_status_spacing/Guard9.inc",
+    "submodules/TelegramUniversalVideoContent/Sources/WebEmbedPlayerNode.swift": "sticker_status_spacing/Guard10.inc"
+  },
+  "copies": {},
+  "deletions": {},
+  "native_inputs": {},
+  "native_guards": {},
+  "templates": {
+    "sticker_status_spacing/Before0.inc": "0f0d14aaf9f2cf832d26ce4d5201df170f8d623fdea2240cd24addcd066275d0",
+    "sticker_status_spacing/After0.inc": "da16d13512514b64565c4d263f3d3d6b89dc358ddf78597d4eca584bf897de2f",
+    "sticker_status_spacing/Before1.inc": "910e9bcbaeb4120a0166b50588cfc6181c0fd87c101d555d1fa4b580d07c03c4",
+    "sticker_status_spacing/After1.inc": "f529c3718858a0c0e4827b4a996900e2d283be6b213fd3589dc6fab440e21e3c",
+    "sticker_status_spacing/Before2.inc": "b18703c63698003e14afbcffdc9b9009ac77989e512c47931e5a61a5243c560d",
+    "sticker_status_spacing/After2.inc": "04f71de2635135cc5ed9a0135e4f32c6730dfdc8ff2b3683b718d59fec3a9ec1",
+    "sticker_status_spacing/Before3.inc": "e01595a0c7f5e03b312a9756f0ef20577b69e19479b43248e8d611e935c23b6c",
+    "sticker_status_spacing/After3.inc": "420ade4634881c986b96eef3880a5a526a7acbcf6816b66419633d5df1f2e838",
+    "sticker_status_spacing/Guard0.inc": "00e45225e6b01ea7e9933d72c4eb69d19eb550462e7d8c1ece0c9cb0f515a781",
+    "sticker_status_spacing/Guard1.inc": "c781528c6e918763f2bf7a4e16880165f3b4dc11e7fdd4b597e95d8832692ac8",
+    "sticker_status_spacing/Guard2.inc": "bb719b3a440c4398a851d2b0fa961b057cb9f537b843d16e97bd616934f58fdf",
+    "sticker_status_spacing/Guard3.inc": "083253dd17992220fe47c883d1c0686fea165a717703eec0b9f0860ab21ed65f",
+    "sticker_status_spacing/Guard4.inc": "7e0d5400dbfa02fd6d04b81759d18eb31b879d739299f693ec2007a0e20637fc",
+    "sticker_status_spacing/Guard5.inc": "e204eb5178031058d2e187662d1d979cf8e29dc85481d3ba9ee120dcfc016ed6",
+    "sticker_status_spacing/Guard6.inc": "e2b6b2e623b5da2d9a5d07ab939540b884f747694808faaf36ec7f4c0be601b8",
+    "sticker_status_spacing/Guard7.inc": "857e9b42e1de5094942f30dee5e2046bfd7f2514efe1f6d3534880b9da6fdd4e",
+    "sticker_status_spacing/Guard8.inc": "71328bb06d34937632e25bb2cf1e2c1adbb46371ca5f29b563721017326abec9",
+    "sticker_status_spacing/Guard9.inc": "5651028b7d127d5745ac371a941920680ee709b72155b947ce5e6be4ec19c479",
+    "sticker_status_spacing/Guard10.inc": "4d443112f8145ab7b42579249011109fe2955b442c162691ec15ef75e60b36df"
+  }
+}

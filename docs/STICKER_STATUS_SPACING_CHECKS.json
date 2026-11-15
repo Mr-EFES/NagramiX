@@ -1,0 +1,690 @@
+{
+  "task": "Время стикеров: строка статуса без наложения и default OFF",
+  "base_commit": "4821cb7588131b323e4a95668fbbfb81899e17db",
+  "stage": 94,
+  "name": "sticker_status_spacing",
+  "finding": "Empty dateText reduced native text height to zero while delivery mark frames stayed nonzero. Preserve native reference-line height only for hidden sticker timestamps; keep visible width zero.",
+  "source": {
+    "stage": 94,
+    "name": "sticker_status_spacing",
+    "path": "/tmp/nagramix-sticker-status-spacing/source",
+    "manifest_sha256": "f4db9f64fb040f22f04bfe12f97776a5c04017844c65fd3f62b8231b3935c604",
+    "previous_manifest_sha256": "1484ed0b8451fb0a18071dca528a100cdaeeefd2774209b5a1acce63a628eeae",
+    "files": 37694,
+    "symlinks": 26,
+    "modified_runtime_paths": [
+      "submodules/TelegramUI/Components/Chat/ChatMessageDateAndStatusNode/Sources/ChatMessageDateAndStatusNode.swift",
+      "submodules/TelegramUI/Components/Chat/ChatMessageStickerItemNode/Sources/ChatMessageStickerItemNode.swift",
+      "submodules/TelegramUI/Components/Chat/ChatMessageAnimatedStickerItemNode/Sources/ChatMessageAnimatedStickerItemNode.swift",
+      "submodules/NagramiXMediaSettings/Sources/NagramiXMediaSettings.swift"
+    ],
+    "new_runtime_paths": [],
+    "guards": 11,
+    "new_inc": 19,
+    "new_templates": 19,
+    "old_inc_unchanged": 5308,
+    "old_plans_unchanged": 306,
+    "historical_manifests_verified": 51
+  },
+  "feature_checks": {
+    "stage": 94,
+    "name": "sticker_status_spacing",
+    "runtime_paths": [
+      "submodules/TelegramUI/Components/Chat/ChatMessageDateAndStatusNode/Sources/ChatMessageDateAndStatusNode.swift",
+      "submodules/TelegramUI/Components/Chat/ChatMessageStickerItemNode/Sources/ChatMessageStickerItemNode.swift",
+      "submodules/TelegramUI/Components/Chat/ChatMessageAnimatedStickerItemNode/Sources/ChatMessageAnimatedStickerItemNode.swift",
+      "submodules/NagramiXMediaSettings/Sources/NagramiXMediaSettings.swift"
+    ],
+    "guards": 11,
+    "loader_refusals": 16,
+    "checks": {
+      "executions": [
+        {
+          "name": "sticker-status-height",
+          "mode": "debug",
+          "exit_code": 0,
+          "output": "PASS sticker spacing production checks: 390"
+        },
+        {
+          "name": "sticker-status-height",
+          "mode": "optimized",
+          "exit_code": 0,
+          "output": "PASS sticker spacing production checks: 390"
+        }
+      ],
+      "semantic_negatives": [
+        {
+          "name": "collapsed-height",
+          "mode": "debug",
+          "exit_code": 96,
+          "output": "FAIL: hidden time retains native status row height"
+        },
+        {
+          "name": "collapsed-height",
+          "mode": "optimized",
+          "exit_code": 96,
+          "output": "FAIL: hidden time retains native status row height"
+        },
+        {
+          "name": "static-without-reference",
+          "mode": "debug",
+          "exit_code": 96,
+          "output": "FAIL: hidden time retains native status row height"
+        },
+        {
+          "name": "static-without-reference",
+          "mode": "optimized",
+          "exit_code": 96,
+          "output": "FAIL: hidden time retains native status row height"
+        },
+        {
+          "name": "animated-without-reference",
+          "mode": "debug",
+          "exit_code": 96,
+          "output": "FAIL: hidden time retains native status row height"
+        },
+        {
+          "name": "animated-without-reference",
+          "mode": "optimized",
+          "exit_code": 96,
+          "output": "FAIL: hidden time retains native status row height"
+        },
+        {
+          "name": "time-leaks",
+          "mode": "debug",
+          "exit_code": 96,
+          "output": "FAIL: only timestamp glyphs disappear"
+        },
+        {
+          "name": "time-leaks",
+          "mode": "optimized",
+          "exit_code": 96,
+          "output": "FAIL: only timestamp glyphs disappear"
+        },
+        {
+          "name": "dice-time-hidden",
+          "mode": "debug",
+          "exit_code": 96,
+          "output": "FAIL: dice retain native time regardless of sticker toggle"
+        },
+        {
+          "name": "dice-time-hidden",
+          "mode": "optimized",
+          "exit_code": 96,
+          "output": "FAIL: dice retain native time regardless of sticker toggle"
+        },
+        {
+          "name": "original-default-on",
+          "mode": "debug",
+          "exit_code": 96,
+          "output": "FAIL: fresh sticker default OFF"
+        },
+        {
+          "name": "original-default-on",
+          "mode": "optimized",
+          "exit_code": 96,
+          "output": "FAIL: fresh sticker default OFF"
+        }
+      ],
+      "cold_processes": [
+        {
+          "mode": "debug",
+          "arguments": [
+            "fresh"
+          ],
+          "exit_code": 0,
+          "output": "PASS sticker cold settings fresh"
+        },
+        {
+          "mode": "debug",
+          "arguments": [
+            "write",
+            "false"
+          ],
+          "exit_code": 0,
+          "output": "PASS sticker cold settings write"
+        },
+        {
+          "mode": "debug",
+          "arguments": [
+            "read",
+            "false"
+          ],
+          "exit_code": 0,
+          "output": "PASS sticker cold settings read"
+        },
+        {
+          "mode": "debug",
+          "arguments": [
+            "write",
+            "true"
+          ],
+          "exit_code": 0,
+          "output": "PASS sticker cold settings write"
+        },
+        {
+          "mode": "debug",
+          "arguments": [
+            "read",
+            "true"
+          ],
+          "exit_code": 0,
+          "output": "PASS sticker cold settings read"
+        },
+        {
+          "mode": "debug",
+          "arguments": [
+            "other"
+          ],
+          "exit_code": 0,
+          "output": "PASS sticker cold settings other"
+        },
+        {
+          "mode": "debug",
+          "arguments": [
+            "read",
+            "true"
+          ],
+          "exit_code": 0,
+          "output": "PASS sticker cold settings read"
+        },
+        {
+          "mode": "debug",
+          "arguments": [
+            "write",
+            "false"
+          ],
+          "exit_code": 0,
+          "output": "PASS sticker cold settings write"
+        },
+        {
+          "mode": "debug",
+          "arguments": [
+            "read",
+            "false"
+          ],
+          "exit_code": 0,
+          "output": "PASS sticker cold settings read"
+        },
+        {
+          "mode": "optimized",
+          "arguments": [
+            "fresh"
+          ],
+          "exit_code": 0,
+          "output": "PASS sticker cold settings fresh"
+        },
+        {
+          "mode": "optimized",
+          "arguments": [
+            "write",
+            "false"
+          ],
+          "exit_code": 0,
+          "output": "PASS sticker cold settings write"
+        },
+        {
+          "mode": "optimized",
+          "arguments": [
+            "read",
+            "false"
+          ],
+          "exit_code": 0,
+          "output": "PASS sticker cold settings read"
+        },
+        {
+          "mode": "optimized",
+          "arguments": [
+            "write",
+            "true"
+          ],
+          "exit_code": 0,
+          "output": "PASS sticker cold settings write"
+        },
+        {
+          "mode": "optimized",
+          "arguments": [
+            "read",
+            "true"
+          ],
+          "exit_code": 0,
+          "output": "PASS sticker cold settings read"
+        },
+        {
+          "mode": "optimized",
+          "arguments": [
+            "other"
+          ],
+          "exit_code": 0,
+          "output": "PASS sticker cold settings other"
+        },
+        {
+          "mode": "optimized",
+          "arguments": [
+            "read",
+            "true"
+          ],
+          "exit_code": 0,
+          "output": "PASS sticker cold settings read"
+        },
+        {
+          "mode": "optimized",
+          "arguments": [
+            "write",
+            "false"
+          ],
+          "exit_code": 0,
+          "output": "PASS sticker cold settings write"
+        },
+        {
+          "mode": "optimized",
+          "arguments": [
+            "read",
+            "false"
+          ],
+          "exit_code": 0,
+          "output": "PASS sticker cold settings read"
+        }
+      ],
+      "native_api": {
+        "actual_arguments_and_display_signatures": "passed in a separate Swift module",
+        "old_initializer_negative": "rejected at both native caller expressions",
+        "apple_uikit": "not_run",
+        "boundary": "Whole actual Arguments/initializer and TextNodeLayoutArguments/public asyncLayout signature. Font/TextNode rendering, account/theme/reaction types are explicit adapters; no fake extra initializer parameter."
+      },
+      "full_application_sdk": "not_run",
+      "physical_iphone": "pending"
+    },
+    "source_unchanged_by_checks": true,
+    "scope": "Hidden sticker time keeps zero visible text width and exact native reference line height. Static/animated/video stickers/large emoji use their existing renderers; dice keep native time. Fresh setting OFF; saved ON/OFF retained. Normal callers default nil. All other frame formulas, reaction layout, text/other media and playback remain unchanged.",
+    "boundary": "Source Swift checks and explicit typography/context/graphics adapters. Separate actual Arguments producer/consumer checks new public initializer parameter; future macOS gate typechecks actual height block with genuine UIKit. Full app SDK and iPhone are not verified.",
+    "full_application_sdk": "not_run",
+    "physical_iphone": "pending",
+    "new_actions_or_ipa_started": false
+  },
+  "global_source_checks": [
+    {
+      "name": "early",
+      "exit_code": 0,
+      "seconds": 459.7,
+      "source_manifest_sha256": "f4db9f64fb040f22f04bfe12f97776a5c04017844c65fd3f62b8231b3935c604"
+    },
+    {
+      "name": "upstream",
+      "exit_code": 0,
+      "seconds": 109.8,
+      "source_manifest_sha256": "f4db9f64fb040f22f04bfe12f97776a5c04017844c65fd3f62b8231b3935c604"
+    },
+    {
+      "name": "inverse",
+      "exit_code": 0,
+      "seconds": 129.9,
+      "source_manifest_sha256": "f4db9f64fb040f22f04bfe12f97776a5c04017844c65fd3f62b8231b3935c604"
+    },
+    {
+      "name": "localization",
+      "exit_code": 0,
+      "seconds": 44.0,
+      "source_manifest_sha256": "f4db9f64fb040f22f04bfe12f97776a5c04017844c65fd3f62b8231b3935c604"
+    },
+    {
+      "name": "members-full",
+      "exit_code": 0,
+      "seconds": 4.6,
+      "source_manifest_sha256": "f4db9f64fb040f22f04bfe12f97776a5c04017844c65fd3f62b8231b3935c604"
+    },
+    {
+      "name": "members-canonical",
+      "exit_code": 0,
+      "seconds": 1.9,
+      "source_manifest_sha256": "f4db9f64fb040f22f04bfe12f97776a5c04017844c65fd3f62b8231b3935c604"
+    },
+    {
+      "name": "native-strings",
+      "exit_code": 0,
+      "seconds": 5.5,
+      "source_manifest_sha256": "f4db9f64fb040f22f04bfe12f97776a5c04017844c65fd3f62b8231b3935c604"
+    },
+    {
+      "name": "mode",
+      "exit_code": 0,
+      "seconds": 0.3,
+      "source_manifest_sha256": "f4db9f64fb040f22f04bfe12f97776a5c04017844c65fd3f62b8231b3935c604"
+    },
+    {
+      "name": "metadata",
+      "exit_code": 0,
+      "seconds": 0.1,
+      "source_manifest_sha256": "f4db9f64fb040f22f04bfe12f97776a5c04017844c65fd3f62b8231b3935c604"
+    },
+    {
+      "name": "diff",
+      "exit_code": 0,
+      "seconds": 0.0,
+      "source_manifest_sha256": "f4db9f64fb040f22f04bfe12f97776a5c04017844c65fd3f62b8231b3935c604"
+    }
+  ],
+  "global_source_checks_complete": true,
+  "temporary_storage_retry": {
+    "failure": "ENOSPC in temporary readonly historical projection; source unchanged",
+    "first_attempt_log": "localization-first-attempt.log",
+    "reclaimed_cache_files": 52,
+    "reclaimed_cache_bytes": 84242504,
+    "private_allocation_inode_reserve_before": 3000,
+    "private_allocation_inode_reserve_after": 1600,
+    "observed_max_inodes_per_projection": 1406,
+    "validator_code_or_assertions_changed": false,
+    "earlier_three_checks_preserved_on_same_manifest": true,
+    "new_sdk_or_build_run": false
+  },
+  "early_portable_suite": {
+    "preflight_status": "passed",
+    "checks": 111,
+    "failed_checks": 0,
+    "complete_fixtures": 70,
+    "executions": 140,
+    "sticker_status_spacing": {
+      "executions": [
+        {
+          "name": "sticker-status-height",
+          "mode": "debug",
+          "exit_code": 0,
+          "output": "PASS sticker spacing production checks: 390"
+        },
+        {
+          "name": "sticker-status-height",
+          "mode": "optimized",
+          "exit_code": 0,
+          "output": "PASS sticker spacing production checks: 390"
+        }
+      ],
+      "semantic_negatives": [
+        {
+          "name": "collapsed-height",
+          "mode": "debug",
+          "exit_code": 96,
+          "output": "FAIL: hidden time retains native status row height"
+        },
+        {
+          "name": "collapsed-height",
+          "mode": "optimized",
+          "exit_code": 96,
+          "output": "FAIL: hidden time retains native status row height"
+        },
+        {
+          "name": "static-without-reference",
+          "mode": "debug",
+          "exit_code": 96,
+          "output": "FAIL: hidden time retains native status row height"
+        },
+        {
+          "name": "static-without-reference",
+          "mode": "optimized",
+          "exit_code": 96,
+          "output": "FAIL: hidden time retains native status row height"
+        },
+        {
+          "name": "animated-without-reference",
+          "mode": "debug",
+          "exit_code": 96,
+          "output": "FAIL: hidden time retains native status row height"
+        },
+        {
+          "name": "animated-without-reference",
+          "mode": "optimized",
+          "exit_code": 96,
+          "output": "FAIL: hidden time retains native status row height"
+        },
+        {
+          "name": "time-leaks",
+          "mode": "debug",
+          "exit_code": 96,
+          "output": "FAIL: only timestamp glyphs disappear"
+        },
+        {
+          "name": "time-leaks",
+          "mode": "optimized",
+          "exit_code": 96,
+          "output": "FAIL: only timestamp glyphs disappear"
+        },
+        {
+          "name": "dice-time-hidden",
+          "mode": "debug",
+          "exit_code": 96,
+          "output": "FAIL: dice retain native time regardless of sticker toggle"
+        },
+        {
+          "name": "dice-time-hidden",
+          "mode": "optimized",
+          "exit_code": 96,
+          "output": "FAIL: dice retain native time regardless of sticker toggle"
+        },
+        {
+          "name": "original-default-on",
+          "mode": "debug",
+          "exit_code": 96,
+          "output": "FAIL: fresh sticker default OFF"
+        },
+        {
+          "name": "original-default-on",
+          "mode": "optimized",
+          "exit_code": 96,
+          "output": "FAIL: fresh sticker default OFF"
+        }
+      ],
+      "cold_processes": [
+        {
+          "mode": "debug",
+          "arguments": [
+            "fresh"
+          ],
+          "exit_code": 0,
+          "output": "PASS sticker cold settings fresh"
+        },
+        {
+          "mode": "debug",
+          "arguments": [
+            "write",
+            "false"
+          ],
+          "exit_code": 0,
+          "output": "PASS sticker cold settings write"
+        },
+        {
+          "mode": "debug",
+          "arguments": [
+            "read",
+            "false"
+          ],
+          "exit_code": 0,
+          "output": "PASS sticker cold settings read"
+        },
+        {
+          "mode": "debug",
+          "arguments": [
+            "write",
+            "true"
+          ],
+          "exit_code": 0,
+          "output": "PASS sticker cold settings write"
+        },
+        {
+          "mode": "debug",
+          "arguments": [
+            "read",
+            "true"
+          ],
+          "exit_code": 0,
+          "output": "PASS sticker cold settings read"
+        },
+        {
+          "mode": "debug",
+          "arguments": [
+            "other"
+          ],
+          "exit_code": 0,
+          "output": "PASS sticker cold settings other"
+        },
+        {
+          "mode": "debug",
+          "arguments": [
+            "read",
+            "true"
+          ],
+          "exit_code": 0,
+          "output": "PASS sticker cold settings read"
+        },
+        {
+          "mode": "debug",
+          "arguments": [
+            "write",
+            "false"
+          ],
+          "exit_code": 0,
+          "output": "PASS sticker cold settings write"
+        },
+        {
+          "mode": "debug",
+          "arguments": [
+            "read",
+            "false"
+          ],
+          "exit_code": 0,
+          "output": "PASS sticker cold settings read"
+        },
+        {
+          "mode": "optimized",
+          "arguments": [
+            "fresh"
+          ],
+          "exit_code": 0,
+          "output": "PASS sticker cold settings fresh"
+        },
+        {
+          "mode": "optimized",
+          "arguments": [
+            "write",
+            "false"
+          ],
+          "exit_code": 0,
+          "output": "PASS sticker cold settings write"
+        },
+        {
+          "mode": "optimized",
+          "arguments": [
+            "read",
+            "false"
+          ],
+          "exit_code": 0,
+          "output": "PASS sticker cold settings read"
+        },
+        {
+          "mode": "optimized",
+          "arguments": [
+            "write",
+            "true"
+          ],
+          "exit_code": 0,
+          "output": "PASS sticker cold settings write"
+        },
+        {
+          "mode": "optimized",
+          "arguments": [
+            "read",
+            "true"
+          ],
+          "exit_code": 0,
+          "output": "PASS sticker cold settings read"
+        },
+        {
+          "mode": "optimized",
+          "arguments": [
+            "other"
+          ],
+          "exit_code": 0,
+          "output": "PASS sticker cold settings other"
+        },
+        {
+          "mode": "optimized",
+          "arguments": [
+            "read",
+            "true"
+          ],
+          "exit_code": 0,
+          "output": "PASS sticker cold settings read"
+        },
+        {
+          "mode": "optimized",
+          "arguments": [
+            "write",
+            "false"
+          ],
+          "exit_code": 0,
+          "output": "PASS sticker cold settings write"
+        },
+        {
+          "mode": "optimized",
+          "arguments": [
+            "read",
+            "false"
+          ],
+          "exit_code": 0,
+          "output": "PASS sticker cold settings read"
+        }
+      ],
+      "native_api": {
+        "actual_arguments_and_display_signatures": "passed in a separate Swift module",
+        "old_initializer_negative": "rejected at both native caller expressions",
+        "apple_uikit": "not_run",
+        "boundary": "Whole actual Arguments/initializer and TextNodeLayoutArguments/public asyncLayout signature. Font/TextNode rendering, account/theme/reaction types are explicit adapters; no fake extra initializer parameter."
+      },
+      "full_application_sdk": "not_run",
+      "physical_iphone": "pending"
+    },
+    "boundary": "Linux source/Swift fixtures. Apple UIKit/iPhoneOS API probe returns not_run here, before future macOS execution. No whole-app SDK or pixel success claimed."
+  },
+  "collection_tests": {
+    "count": 8,
+    "result": "passed",
+    "all_51_early_call_sites_collected": true
+  },
+  "build_input_checks": {
+    "version": "0.9.8",
+    "workflow_scripts": 280,
+    "python_syntax_files": 812,
+    "late_stages": 94,
+    "sdk_plans": 100,
+    "submodules": 12,
+    "manual_only": true,
+    "existing_unsigned_signing_contract": "preserved",
+    "native_environment": "not_run"
+  },
+  "scope_review": {
+    "old-inc_preserved": 5308,
+    "old-plans_preserved": 306,
+    "protected_files_preserved": true,
+    "registry_changes": [
+      [
+        "media_controls",
+        {
+          "implementation": "implemented",
+          "compile": "compile_passed",
+          "device": "device_pending"
+        },
+        {
+          "implementation": "implemented",
+          "compile": "compile_pending",
+          "device": "device_pending"
+        }
+      ]
+    ]
+  },
+  "settings_semantics": "Only absent showStickerTime key defaults false. Saved true/false and updates of unrelated media settings retain the previous user choice.",
+  "full_application_sdk": "not_run",
+  "physical_iphone": "pending",
+  "new_actions_or_ipa_started": false,
+  "published_ipa_219_contains_this_fix": false,
+  "release_assets_or_tags_changed": false,
+  "previous_web_player_crash_fix_implemented": false,
+  "publication_target": "main only; next IPA requires a new direct build command"
+}

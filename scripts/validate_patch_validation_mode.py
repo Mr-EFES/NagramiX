@@ -76,6 +76,7 @@ def check(text):
     mandatory.append('validate_youtube_background_continuity.py')
     mandatory.append('validate_release_098_compile_compatibility.py')
     mandatory.append('validate_doh_clear_input_lifecycle.py')
+    mandatory.append('validate_sticker_status_spacing.py')
     for name in mandatory:
         assert re.search(r'^          python3 scripts/'+re.escape(name)+r'\b',source,re.M),name
         assert 'nagramix_extended_check python3 scripts/'+name not in source,name
