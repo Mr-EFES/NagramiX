@@ -62,6 +62,8 @@ from round_quality_summary_apple import check as round_quality_summary_api_check
 from font_apply_glass_apple import check as font_apply_glass_api_check
 from round_bitrate_levels_apple import check as round_bitrate_levels_api_check
 from round_quality_compact_apple import check as round_quality_compact_api_check
+from pip_transition_coordinator_apple import check as pip_transition_coordinator_api_check
+from pip_transition_coordinator_runtime import entry_fixture as pip_coordinator_entry_fixture, poster_fixture as pip_coordinator_poster_fixture, native_fixture as pip_coordinator_native_fixture
 from round_quality_compact_runtime import fixture as round_quality_compact_fixture
 from round_bitrate_levels_runtime import fixture as round_bitrate_levels_fixture, ui_fixture as round_bitrate_levels_ui_fixture
 from translation_account_defaults_runtime import fixture as translation_account_defaults_fixture
@@ -185,6 +187,13 @@ def main():
         root = Path(temporary)
         foundation=foundation_check(args.swiftc,root)
         files = {}
+        coordinator_source=root/'pip-transition-coordinator-native-final'
+        files['native_final90']=canonical_projection(coordinator_source,'pip_transition_coordinator')
+        pip_transition_coordinator_api=pip_transition_coordinator_api_check(coordinator_source,args.swiftc,root/'pip-coordinator-api-first')
+        for name,build in [('pip-coordinator-entry',pip_coordinator_entry_fixture),('pip-coordinator-poster',pip_coordinator_poster_fixture),('pip-coordinator-native',pip_coordinator_native_fixture)]:
+            runs += execute(args.swiftc,root,name,build(coordinator_source))
+        shutil.rmtree(coordinator_source)
+        shutil.rmtree(root/'pip-coordinator-api-first')
         compact_source=root/'round-quality-compact-native-final'
         files['native_final89']=canonical_projection(compact_source,'round_quality_compact_page')
         round_quality_compact_api=round_quality_compact_api_check(compact_source,args.swiftc,root/'round-compact-api-first')
@@ -377,6 +386,7 @@ def main():
     report['settings_glass_sliders_native_api']=settings_glass_sliders_api
     report['font_license_compact_native_api']=font_license_compact_api
     report['font_license_compact_modules']=font_license_compact_modules
+    report['pip_transition_coordinator_native_api']=pip_transition_coordinator_api
     report['round_quality_compact_native_api']=round_quality_compact_api
     report['round_bitrate_levels_native_api']=round_bitrate_levels_api
     report['font_apply_glass_native_api']=font_apply_glass_api
