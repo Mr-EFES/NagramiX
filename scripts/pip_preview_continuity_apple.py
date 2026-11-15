@@ -1,4 +1,5 @@
 """Early real UIKit/AVKit checks with pinned native image API declarations."""
+import hashlib
 import re
 import subprocess
 import sys
@@ -12,6 +13,18 @@ TRANSFORM = 'submodules/Display/Source/TransformImageNode.swift'
 ARGS = 'submodules/Display/Source/TransformImageArguments.swift'
 CAPTURE = 'submodules/Display/Source/NagramiXCaptureProtection.swift'
 BASE = 'submodules/TelegramUniversalVideoContent/Sources/'
+TEXTURE_HEADER = 'submodules/AsyncDisplayKit/Source/PublicHeaders/AsyncDisplayKit/ASDisplayNode.h'
+
+
+def texture_background_contract(source):
+    from validate_upstream_13_2_release import checked_plan, OVERLAY
+    plan = checked_plan('pip_preview_continuity')
+    path = source / TEXTURE_HEADER
+    data = path.read_bytes() if path.exists() else (OVERLAY / plan['guard_sources'][TEXTURE_HEADER]).read_bytes()
+    assert hashlib.sha256(data).hexdigest() == plan['guards'][TEXTURE_HEADER]
+    declaration = '@property (nullable, copy) UIColor *backgroundColor;'
+    assert data.decode().count(declaration) == 1
+    return {'header': TEXTURE_HEADER, 'sha256': plan['guards'][TEXTURE_HEADER], 'declaration': declaration}
 
 
 def signature(source, path, prefix):
@@ -33,6 +46,7 @@ def public_contract(source):
 
 
 def fixture(source, native):
+    texture_background_contract(native)
     b = POSTER_BOUNDARY.replace('import Foundation', 'import Foundation\nimport UIKit\nimport AVKit', 1)
     for marker in ['struct UIEdgeInsets {', 'final class UIColor {', 'struct Image {', 'struct Graphics {',
                    'final class DrawingContext {', 'struct NSValue {', 'final class CALayer {', 'final class UIView {', 'class ASDisplayNode {']:
@@ -48,6 +62,7 @@ extension CALayer {
 }
 class ASDisplayNode {
  let view=UIView()
+ var backgroundColor:UIColor?{get{view.backgroundColor}set{view.backgroundColor=newValue}}
  var layer:CALayer{view.layer}
  var frame:CGRect{get{view.frame}set{view.frame=newValue}}
  var bounds:CGRect{view.bounds}

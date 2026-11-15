@@ -5,6 +5,7 @@ from validate_quick_format import block
 from validate_pip_swipe_handoff import U,G,clean
 from pip_preview_continuity_apple import fixture as old_probe,public_contract
 from pip_transition_coordinator_runtime import entry_fixture
+from pip_texture_adapter_contract import check as texture_adapter_check
 
 def coordinator_probe(source):
     text=(source/U).read_text()
@@ -71,11 +72,12 @@ private final class GalleryController {
 def check(source,swiftc,folder):
     folder.mkdir(parents=True,exist_ok=True)
     members=public_contract(source)
+    texture=texture_adapter_check(source,swiftc,folder/'texture-adapter')
     probes={'coordinator':coordinator_probe(source),'poster':poster_probe(source)}
     for name,code in probes.items():
         p=folder/(name+'.swift');p.write_text(code)
         parsed=subprocess.run([str(swiftc),'-frontend','-parse',str(p)],capture_output=True,text=True);assert parsed.returncode==0,parsed.stdout+parsed.stderr
-    result={'status':'not_run','reason':'Настоящие UIKit/AVKit требуют Apple SDK; Linux выполняет отдельные production fixtures.','probe_swift_parse':'passed','native_public_image_contract':members,'full_application_sdk':'not_run','physical_iphone':'pending'}
+    result={'status':'not_run','reason':'Настоящие UIKit/AVKit требуют Apple SDK; Linux выполняет отдельные production fixtures.','probe_swift_parse':'passed','native_public_image_contract':members,'texture_adapter':texture,'full_application_sdk':'not_run','physical_iphone':'pending'}
     if sys.platform!='darwin':return result
     sdk=subprocess.check_output(['xcrun','--sdk','iphoneos','--show-sdk-path'],text=True).strip()
     for name in probes:

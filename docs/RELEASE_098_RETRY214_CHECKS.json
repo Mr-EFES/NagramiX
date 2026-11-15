@@ -1,0 +1,61 @@
+{
+  "run_id": 43698282538,
+  "run_number": 214,
+  "source_commit": "064d38d5ea74a62f2f99c761d2512011e46f5794",
+  "status": "test_fix_source_checked_native_retry_pending",
+  "full_log_lines": 1428,
+  "full_log_sha256": "700bc7adeeff51257b25977401c9e64441bbd39e1deb988d160e72a0cc63090f",
+  "cause": "Generated UIKit ASDisplayNode adapter omitted inherited backgroundColor; actual Texture header declares nullable copy UIColor*. Second black diagnostic is consequent missing contextual type.",
+  "native_header": {
+    "path": "submodules/AsyncDisplayKit/Source/PublicHeaders/AsyncDisplayKit/ASDisplayNode.h",
+    "sha256": "d33ca23e85806dcc827de767c01cf17a7db0c36306a1aae18d60b1189791d834",
+    "declaration": "@property (nullable, copy) UIColor *backgroundColor;"
+  },
+  "scope": "Test adapters/checks only; no runtime source/templates/resources/dependency/signing changes.",
+  "new_regression": "Exact generated UIKit adapter is compiled with inherited poster assignment; original214 missing-member model must fail in debug/optimized. Header content and property presence bound to native SHA.",
+  "linux_limit": "Real UIKit/AVKit requires future macOS gate; generated probe syntax and production runtime/typed adapter execute locally.",
+  "retry_authorized_until_success": true,
+  "next_run_id": null,
+  "adapter_contract": {
+    "native_declaration": {
+      "header": "submodules/AsyncDisplayKit/Source/PublicHeaders/AsyncDisplayKit/ASDisplayNode.h",
+      "sha256": "d33ca23e85806dcc827de767c01cf17a7db0c36306a1aae18d60b1189791d834",
+      "declaration": "@property (nullable, copy) UIColor *backgroundColor;"
+    },
+    "executions": [
+      {
+        "name": "texture-poster-adapter",
+        "mode": "debug",
+        "exit_code": 0,
+        "output": "Texture UIKit adapter: inherited UIColor? setter/getter and backing UIView passed"
+      },
+      {
+        "name": "texture-poster-adapter",
+        "mode": "optimized",
+        "exit_code": 0,
+        "output": "Texture UIKit adapter: inherited UIColor? setter/getter and backing UIView passed"
+      }
+    ],
+    "original214": [
+      {
+        "mode": "debug",
+        "original214_missing_member_rejected": true
+      },
+      {
+        "mode": "optimized",
+        "original214_missing_member_rejected": true
+      }
+    ],
+    "scope": "Exact generated ASDisplayNode adapter and actual poster assignment. Host execution uses explicit UIColor/UIView boundaries unless UIKit is importable; a separate iPhoneOS poster probe checks real UIKit. Native Texture implementation/full application are separate."
+  },
+  "full_early": {
+    "complete_fixtures": 68,
+    "executions": 136,
+    "all_passed": true,
+    "apple_native_api": "not_run",
+    "scope": "All production runtime fixtures unchanged; real-framework probes parsed on Linux. New generated-adapter runtime and original214 compiler negatives execute separately."
+  },
+  "runtime_manifest_unchanged": "91e231ff50d63a5a8d579966422aa24182d8472e0bb339b5b45d5f641dacb04d",
+  "full_application_sdk": "not_run",
+  "physical_iphone": "pending"
+}
