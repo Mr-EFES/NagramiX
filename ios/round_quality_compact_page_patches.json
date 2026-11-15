@@ -1,0 +1,62 @@
+{
+  "target_pin": "24638bc69bd083981b178dd1e7f921eebbf7fc46",
+  "overlay_base_pin": "279f89e4d4f63f17227bf877dc3d8990f22ecd58",
+  "required_previous_stage": "round_bitrate_levels",
+  "inputs": {
+    "submodules/SettingsUI/Sources/NagramiXRoundQualityController.swift": "873e10f5564691fdd6582fbcacd1f3b495eeeaf19bccf929a23f4cb41dbfba5c"
+  },
+  "outputs": {
+    "submodules/SettingsUI/Sources/NagramiXRoundQualityController.swift": "49c0b00a80ed7f613b13d1fc7cd116460edb3296d6d35620e354e84feb26d79e"
+  },
+  "previous": {
+    "submodules/SettingsUI/Sources/NagramiXRoundQualityController.swift": "round_quality_compact_page/Before0.inc"
+  },
+  "replacements": {
+    "submodules/SettingsUI/Sources/NagramiXRoundQualityController.swift": "round_quality_compact_page/After0.inc"
+  },
+  "guards": {
+    "submodules/SettingsUI/BUILD": "b229ff1580a1e8e13770d400a1c0c9e1cf56ef05b831659c3422a6141b50f489",
+    "submodules/NagramiXMediaSettings/Sources/NagramiXRoundVideoSettings.swift": "e4de9f395441ec721051eeec1b8543ad36dd534294cb6becccad8791e799b38c",
+    "submodules/Camera/Sources/NagramiXRoundVideoSettings.swift": "e4de9f395441ec721051eeec1b8543ad36dd534294cb6becccad8791e799b38c",
+    "submodules/SettingsUI/Sources/NagramiXCinematicCapture.swift": "8b29c077e7a73ed9a12b6ab58846f8d9971d903fab87cb81028094ee26d0baa1",
+    "submodules/Camera/Sources/NagramiXCinematicCapture.swift": "455429b87a8fc5c53bad2c020bd7c32f5e39fef460cfa2c980435ba78a42738e",
+    "submodules/NagramiXCore/Sources/NagramiXGlassSlider.swift": "a632b9c6acc2381e74ec7335fcc344de75ef76af2feb6ce469919f56efb736c7",
+    "submodules/TelegramUI/Components/MediaEditor/Sources/MediaEditorValues.swift": "70910631540ef71191c2a678e8c32c98578beaa3793a9590a578d5715d383cdb",
+    "submodules/Camera/CameraNeo/Sources/VideoRecorder.swift": "5ffe5d61dcc6a054cde0d1db734d33cbfc6edef8c940aac26dfcbd57683c4522",
+    "submodules/TelegramUI/Components/VideoMessageCameraScreen/Sources/VideoMessageCameraScreen.swift": "37df3f140371b937c337fece86059f2b6c511deda1edb7b6a7b42c7945394a22",
+    "submodules/TelegramUI/Components/ChatMediaSend/Sources/ChatMediaSendSingleItem.swift": "ab1dd04cd43e43615628864a4e70cbd34a850ad86353b1fb18027b53dddb1bf9",
+    "submodules/TelegramUI/Components/ChatMediaSend/Sources/ChatMediaSendMessages.swift": "34be08f7e5216ef8dc4888918cd389a7a90e31cf4b97560ebbfabf0b2d39f8cc"
+  },
+  "guard_sources": {
+    "submodules/SettingsUI/BUILD": "round_quality_compact_page/Guard0.inc",
+    "submodules/NagramiXMediaSettings/Sources/NagramiXRoundVideoSettings.swift": "round_quality_compact_page/Guard1.inc",
+    "submodules/Camera/Sources/NagramiXRoundVideoSettings.swift": "round_quality_compact_page/Guard2.inc",
+    "submodules/SettingsUI/Sources/NagramiXCinematicCapture.swift": "round_quality_compact_page/Guard3.inc",
+    "submodules/Camera/Sources/NagramiXCinematicCapture.swift": "round_quality_compact_page/Guard4.inc",
+    "submodules/NagramiXCore/Sources/NagramiXGlassSlider.swift": "round_quality_compact_page/Guard5.inc",
+    "submodules/TelegramUI/Components/MediaEditor/Sources/MediaEditorValues.swift": "round_quality_compact_page/Guard6.inc",
+    "submodules/Camera/CameraNeo/Sources/VideoRecorder.swift": "round_quality_compact_page/Guard7.inc",
+    "submodules/TelegramUI/Components/VideoMessageCameraScreen/Sources/VideoMessageCameraScreen.swift": "round_quality_compact_page/Guard8.inc",
+    "submodules/TelegramUI/Components/ChatMediaSend/Sources/ChatMediaSendSingleItem.swift": "round_quality_compact_page/Guard9.inc",
+    "submodules/TelegramUI/Components/ChatMediaSend/Sources/ChatMediaSendMessages.swift": "round_quality_compact_page/Guard10.inc"
+  },
+  "copies": {},
+  "deletions": {},
+  "native_inputs": {},
+  "native_guards": {},
+  "templates": {
+    "round_quality_compact_page/Before0.inc": "873e10f5564691fdd6582fbcacd1f3b495eeeaf19bccf929a23f4cb41dbfba5c",
+    "round_quality_compact_page/After0.inc": "49c0b00a80ed7f613b13d1fc7cd116460edb3296d6d35620e354e84feb26d79e",
+    "round_quality_compact_page/Guard0.inc": "b229ff1580a1e8e13770d400a1c0c9e1cf56ef05b831659c3422a6141b50f489",
+    "round_quality_compact_page/Guard1.inc": "e4de9f395441ec721051eeec1b8543ad36dd534294cb6becccad8791e799b38c",
+    "round_quality_compact_page/Guard2.inc": "e4de9f395441ec721051eeec1b8543ad36dd534294cb6becccad8791e799b38c",
+    "round_quality_compact_page/Guard3.inc": "8b29c077e7a73ed9a12b6ab58846f8d9971d903fab87cb81028094ee26d0baa1",
+    "round_quality_compact_page/Guard4.inc": "455429b87a8fc5c53bad2c020bd7c32f5e39fef460cfa2c980435ba78a42738e",
+    "round_quality_compact_page/Guard5.inc": "a632b9c6acc2381e74ec7335fcc344de75ef76af2feb6ce469919f56efb736c7",
+    "round_quality_compact_page/Guard6.inc": "70910631540ef71191c2a678e8c32c98578beaa3793a9590a578d5715d383cdb",
+    "round_quality_compact_page/Guard7.inc": "5ffe5d61dcc6a054cde0d1db734d33cbfc6edef8c940aac26dfcbd57683c4522",
+    "round_quality_compact_page/Guard8.inc": "37df3f140371b937c337fece86059f2b6c511deda1edb7b6a7b42c7945394a22",
+    "round_quality_compact_page/Guard9.inc": "ab1dd04cd43e43615628864a4e70cbd34a850ad86353b1fb18027b53dddb1bf9",
+    "round_quality_compact_page/Guard10.inc": "34be08f7e5216ef8dc4888918cd389a7a90e31cf4b97560ebbfabf0b2d39f8cc"
+  }
+}
