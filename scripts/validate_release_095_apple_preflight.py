@@ -63,6 +63,9 @@ from font_apply_glass_apple import check as font_apply_glass_api_check
 from round_bitrate_levels_apple import check as round_bitrate_levels_api_check
 from round_quality_compact_apple import check as round_quality_compact_api_check
 from pip_transition_coordinator_apple import check as pip_transition_coordinator_api_check
+from youtube_background_continuity_apple import check as youtube_background_api_check
+from youtube_background_continuity_runtime import fixture as youtube_background_fixture
+from youtube_background_continuity_js import check as youtube_background_js_check
 from pip_transition_coordinator_runtime import entry_fixture as pip_coordinator_entry_fixture, poster_fixture as pip_coordinator_poster_fixture, native_fixture as pip_coordinator_native_fixture
 from round_quality_compact_runtime import fixture as round_quality_compact_fixture
 from round_bitrate_levels_runtime import fixture as round_bitrate_levels_fixture, ui_fixture as round_bitrate_levels_ui_fixture
@@ -187,6 +190,14 @@ def main():
         root = Path(temporary)
         foundation=foundation_check(args.swiftc,root)
         files = {}
+        youtube_background_source=root/'youtube-background-native-final'
+        files['native_final91']=canonical_projection(youtube_background_source,'youtube_background_continuity')
+        youtube_background_api=youtube_background_api_check(youtube_background_source,args.swiftc,root/'youtube-background-api-first')
+        runs += execute(args.swiftc,root,'youtube-background',youtube_background_fixture(youtube_background_source))
+        youtube_background_js=youtube_background_js_check(youtube_background_source,root/'youtube-background-dom-first')
+        shutil.rmtree(youtube_background_source)
+        shutil.rmtree(root/'youtube-background-api-first')
+        shutil.rmtree(root/'youtube-background-dom-first')
         coordinator_source=root/'pip-transition-coordinator-native-final'
         files['native_final90']=canonical_projection(coordinator_source,'pip_transition_coordinator')
         pip_transition_coordinator_api=pip_transition_coordinator_api_check(coordinator_source,args.swiftc,root/'pip-coordinator-api-first')
@@ -386,6 +397,8 @@ def main():
     report['settings_glass_sliders_native_api']=settings_glass_sliders_api
     report['font_license_compact_native_api']=font_license_compact_api
     report['font_license_compact_modules']=font_license_compact_modules
+    report['youtube_background_native_api']=youtube_background_api
+    report['youtube_background_dom']=youtube_background_js
     report['pip_transition_coordinator_native_api']=pip_transition_coordinator_api
     report['round_quality_compact_native_api']=round_quality_compact_api
     report['round_bitrate_levels_native_api']=round_bitrate_levels_api

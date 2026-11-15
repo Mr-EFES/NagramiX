@@ -67,6 +67,7 @@ def check(text):
     mandatory.append('validate_round_bitrate_levels.py')
     mandatory.append('validate_round_quality_compact_page.py')
     mandatory.append('validate_pip_transition_coordinator.py')
+    mandatory.append('validate_youtube_background_continuity.py')
     for name in mandatory:
         assert re.search(r'^          python3 scripts/'+re.escape(name)+r'\b',source,re.M),name
         assert 'nagramix_extended_check python3 scripts/'+name not in source,name
