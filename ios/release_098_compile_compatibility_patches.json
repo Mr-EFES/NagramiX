@@ -1,0 +1,68 @@
+{
+  "target_pin": "24638bc69bd083981b178dd1e7f921eebbf7fc46",
+  "overlay_base_pin": "279f89e4d4f63f17227bf877dc3d8990f22ecd58",
+  "required_previous_stage": "youtube_background_continuity",
+  "inputs": {
+    "submodules/TelegramUI/Components/TranslateHeaderPanelComponent/Sources/ChatTranslationPanelNode.swift": "11844626420b84132edab7927c181c0d4151d0b79a5dc567a4c618ed5ffe7186",
+    "submodules/TelegramUI/Components/ChatMediaEditorScreen/Sources/ChatMediaEditorScreen.swift": "bccaa1c070b0f61d2e6506c9903d1907bceddf8e911be04e2978cdabca9d3557"
+  },
+  "outputs": {
+    "submodules/TelegramUI/Components/TranslateHeaderPanelComponent/Sources/ChatTranslationPanelNode.swift": "8f80506bb139c42c9d071b10c3b3355e228a4780c4f394e285aa7c7b2eba79e9",
+    "submodules/TelegramUI/Components/ChatMediaEditorScreen/Sources/ChatMediaEditorScreen.swift": "a53663a438510cc3545f50352fd3b23b87d5b63170b73c1bab95397368b58cb0"
+  },
+  "previous": {
+    "submodules/TelegramUI/Components/TranslateHeaderPanelComponent/Sources/ChatTranslationPanelNode.swift": "release_098_compile_compatibility/Before0.inc",
+    "submodules/TelegramUI/Components/ChatMediaEditorScreen/Sources/ChatMediaEditorScreen.swift": "release_098_compile_compatibility/Before1.inc"
+  },
+  "replacements": {
+    "submodules/TelegramUI/Components/TranslateHeaderPanelComponent/Sources/ChatTranslationPanelNode.swift": "release_098_compile_compatibility/After0.inc",
+    "submodules/TelegramUI/Components/ChatMediaEditorScreen/Sources/ChatMediaEditorScreen.swift": "release_098_compile_compatibility/After1.inc"
+  },
+  "guards": {
+    "submodules/TelegramUI/Components/ChatMediaEditorScreen/Sources/ChatMediaEditorScreenQuality.swift": "293ae38c0ec829756e28f88ec61cd940693863e51d828fdfe435ac386652a5f7",
+    "submodules/TelegramUI/Components/ChatMediaEditorScreen/BUILD": "a75e40c7485879d8eccd784e7ddaa9e6acb336a00bee986941a2b95012cf5404",
+    "submodules/TelegramUI/Components/TranslateHeaderPanelComponent/BUILD": "521556b7e0f27ab66c90848425cac7660f8e651b4a1a6dac17488a3a4e3239b4",
+    "submodules/TelegramUI/Components/ChatMediaEditorScreen/Sources/NagramiXRoundQualitySheet.swift": "5d45e6fe2db58b838b18b54f24bd1dc99a2fe8df29fa4b5cedcbe9e7fe8b81ce",
+    "submodules/TranslateUI/Sources/NagramiXTranslationSettings.swift": "17b1a6adde34e3318aaea608bcb53961802ea8c2aa8308967d6ce1bc232f940f",
+    "submodules/NagramiXMediaSettings/Sources/NagramiXRoundVideoSettings.swift": "e4de9f395441ec721051eeec1b8543ad36dd534294cb6becccad8791e799b38c",
+    "submodules/TelegramUniversalVideoContent/Sources/WebEmbedPlayerNode.swift": "4d443112f8145ab7b42579249011109fe2955b442c162691ec15ef75e60b36df",
+    "submodules/TelegramUniversalVideoContent/Sources/WebEmbedVideoContent.swift": "d2f7c93db6ddcbcd7aea472fe3d6f707bfe9445350a746f63b205a101503e20c",
+    "submodules/TelegramUI/Sources/MediaManager.swift": "5085a1f0ec117fa204d54955a5642dca6b7a20aaabc75250eca0031a48e69e13",
+    "submodules/TelegramAudio/Sources/ManagedAudioSession.swift": "d7aadfe3bb09d0032e10bb018e0c7cb468849540350b52522db4f2ea57f3f01b",
+    "submodules/TelegramUI/Components/MediaManager/PeerMessagesMediaPlaylist/Sources/PeerMessagesMediaPlaylist.swift": "610c4ae3e571ba8c6ab97045f917037d4a4870b75f0bdf7f544b5be010fcc3dd"
+  },
+  "guard_sources": {
+    "submodules/TelegramUI/Components/ChatMediaEditorScreen/Sources/ChatMediaEditorScreenQuality.swift": "release_098_compile_compatibility/Guard0.inc",
+    "submodules/TelegramUI/Components/ChatMediaEditorScreen/BUILD": "release_098_compile_compatibility/Guard1.inc",
+    "submodules/TelegramUI/Components/TranslateHeaderPanelComponent/BUILD": "release_098_compile_compatibility/Guard2.inc",
+    "submodules/TelegramUI/Components/ChatMediaEditorScreen/Sources/NagramiXRoundQualitySheet.swift": "release_098_compile_compatibility/Guard3.inc",
+    "submodules/TranslateUI/Sources/NagramiXTranslationSettings.swift": "release_098_compile_compatibility/Guard4.inc",
+    "submodules/NagramiXMediaSettings/Sources/NagramiXRoundVideoSettings.swift": "release_098_compile_compatibility/Guard5.inc",
+    "submodules/TelegramUniversalVideoContent/Sources/WebEmbedPlayerNode.swift": "release_098_compile_compatibility/Guard6.inc",
+    "submodules/TelegramUniversalVideoContent/Sources/WebEmbedVideoContent.swift": "release_098_compile_compatibility/Guard7.inc",
+    "submodules/TelegramUI/Sources/MediaManager.swift": "release_098_compile_compatibility/Guard8.inc",
+    "submodules/TelegramAudio/Sources/ManagedAudioSession.swift": "release_098_compile_compatibility/Guard9.inc",
+    "submodules/TelegramUI/Components/MediaManager/PeerMessagesMediaPlaylist/Sources/PeerMessagesMediaPlaylist.swift": "release_098_compile_compatibility/Guard10.inc"
+  },
+  "copies": {},
+  "deletions": {},
+  "native_inputs": {},
+  "native_guards": {},
+  "templates": {
+    "release_098_compile_compatibility/Before0.inc": "11844626420b84132edab7927c181c0d4151d0b79a5dc567a4c618ed5ffe7186",
+    "release_098_compile_compatibility/After0.inc": "8f80506bb139c42c9d071b10c3b3355e228a4780c4f394e285aa7c7b2eba79e9",
+    "release_098_compile_compatibility/Before1.inc": "bccaa1c070b0f61d2e6506c9903d1907bceddf8e911be04e2978cdabca9d3557",
+    "release_098_compile_compatibility/After1.inc": "a53663a438510cc3545f50352fd3b23b87d5b63170b73c1bab95397368b58cb0",
+    "release_098_compile_compatibility/Guard0.inc": "293ae38c0ec829756e28f88ec61cd940693863e51d828fdfe435ac386652a5f7",
+    "release_098_compile_compatibility/Guard1.inc": "a75e40c7485879d8eccd784e7ddaa9e6acb336a00bee986941a2b95012cf5404",
+    "release_098_compile_compatibility/Guard2.inc": "521556b7e0f27ab66c90848425cac7660f8e651b4a1a6dac17488a3a4e3239b4",
+    "release_098_compile_compatibility/Guard3.inc": "5d45e6fe2db58b838b18b54f24bd1dc99a2fe8df29fa4b5cedcbe9e7fe8b81ce",
+    "release_098_compile_compatibility/Guard4.inc": "17b1a6adde34e3318aaea608bcb53961802ea8c2aa8308967d6ce1bc232f940f",
+    "release_098_compile_compatibility/Guard5.inc": "e4de9f395441ec721051eeec1b8543ad36dd534294cb6becccad8791e799b38c",
+    "release_098_compile_compatibility/Guard6.inc": "4d443112f8145ab7b42579249011109fe2955b442c162691ec15ef75e60b36df",
+    "release_098_compile_compatibility/Guard7.inc": "d2f7c93db6ddcbcd7aea472fe3d6f707bfe9445350a746f63b205a101503e20c",
+    "release_098_compile_compatibility/Guard8.inc": "5085a1f0ec117fa204d54955a5642dca6b7a20aaabc75250eca0031a48e69e13",
+    "release_098_compile_compatibility/Guard9.inc": "d7aadfe3bb09d0032e10bb018e0c7cb468849540350b52522db4f2ea57f3f01b",
+    "release_098_compile_compatibility/Guard10.inc": "610c4ae3e571ba8c6ab97045f917037d4a4870b75f0bdf7f544b5be010fcc3dd"
+  }
+}

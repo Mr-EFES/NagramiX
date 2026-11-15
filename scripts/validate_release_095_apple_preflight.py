@@ -7,6 +7,7 @@ modules still require the subsequent SDK build.
 """
 import argparse
 from pre_sdk_check_collection import CheckCollection
+from release_098_compile_contract import check as release098_compile_check
 import hashlib
 import json
 import shutil
@@ -197,6 +198,11 @@ def main():
                 shutil.rmtree(path)
         foundation=checks.run('foundation_check:191', lambda: foundation_check(args.swiftc,root))
         files = {}
+        compile_source=root/'release098-native-final92'
+        files['native_final92']=canonical_projection(compile_source,'release_098_compile_compatibility')
+        release098_compilation=checks.run('release098-cross-file-compilation', lambda: release098_compile_check(compile_source,args.swiftc,root/'release098-cross-file'))
+        cleanup(compile_source)
+        cleanup(root/'release098-cross-file')
         youtube_background_source=root/'youtube-background-native-final'
         files['native_final91']=canonical_projection(youtube_background_source,'youtube_background_continuity')
         youtube_background_api=checks.run('youtube_background_api_check:195', lambda: youtube_background_api_check(youtube_background_source,args.swiftc,root/'youtube-background-api-first'))
@@ -387,6 +393,7 @@ def main():
               'font_apply_node_contract':node,'native_navigation_contract':navigation, 'font_adapter_access_contract':access, 'apple_uikit_precheck':apple, 'font_icon_uikit_precheck':icon, 'warnings_as_errors':True, 'historical_projection_cleanup':'completed checkpoints removed; native framework checkpoints recreated one at a time with identical pinned projection metadata; final66 preserves font64 default initializer/view factory with mixed ObjC runtime first; native RPC/IUO/calendar/clipboard gates retained; video audio65 and preview/geometry/restore66 runtimes plus real framework/image API gates retained',
               'full_application_sdk':'pending', 'device':'pending'}
     report['actual_font_theme_adapter_members']=theme_members
+    report['release098_cross_file_compilation']=release098_compilation
     report['system_web_javascript']=system_js
     report['system_web_real_sdk']=system_apple
     report['youtube_playback_policy_js']=youtube_js
