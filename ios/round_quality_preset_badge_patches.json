@@ -1,0 +1,68 @@
+{
+  "target_pin": "24638bc69bd083981b178dd1e7f921eebbf7fc46",
+  "overlay_base_pin": "279f89e4d4f63f17227bf877dc3d8990f22ecd58",
+  "required_previous_stage": "round_quality_title_layout",
+  "inputs": {
+    "submodules/TelegramUI/Components/ChatMediaEditorScreen/Sources/ChatMediaEditorBottomControlsComponent.swift": "6d815ff05e7e51b8498fe58bbaec2cff5f29be9bab1be5f192f33313a8033885",
+    "submodules/TelegramUI/Components/ChatMediaEditorScreen/Sources/ChatMediaEditorScreen.swift": "a53663a438510cc3545f50352fd3b23b87d5b63170b73c1bab95397368b58cb0"
+  },
+  "outputs": {
+    "submodules/TelegramUI/Components/ChatMediaEditorScreen/Sources/ChatMediaEditorBottomControlsComponent.swift": "9d4bba5066fa4764edd5da51ab12cf2d251ea79308ed218727a94b4067c319d0",
+    "submodules/TelegramUI/Components/ChatMediaEditorScreen/Sources/ChatMediaEditorScreen.swift": "de97f137dc4ae3973d1edc4297bb7e9521916298dd234a8788a65f81574ead04"
+  },
+  "previous": {
+    "submodules/TelegramUI/Components/ChatMediaEditorScreen/Sources/ChatMediaEditorBottomControlsComponent.swift": "round_quality_preset_badge/Before0.inc",
+    "submodules/TelegramUI/Components/ChatMediaEditorScreen/Sources/ChatMediaEditorScreen.swift": "round_quality_preset_badge/Before1.inc"
+  },
+  "replacements": {
+    "submodules/TelegramUI/Components/ChatMediaEditorScreen/Sources/ChatMediaEditorBottomControlsComponent.swift": "round_quality_preset_badge/After0.inc",
+    "submodules/TelegramUI/Components/ChatMediaEditorScreen/Sources/ChatMediaEditorScreen.swift": "round_quality_preset_badge/After1.inc"
+  },
+  "guards": {
+    "submodules/TelegramUI/Components/ChatMediaEditorScreen/Sources/ChatMediaEditorBottomControls.swift": "338a197c63f1610eda976f829af602f72a6f58f552bcbc6fa5c543a1a9fe9567",
+    "submodules/TelegramUI/Components/ChatMediaEditorScreen/Sources/ChatMediaEditorScreenQuality.swift": "293ae38c0ec829756e28f88ec61cd940693863e51d828fdfe435ac386652a5f7",
+    "submodules/TelegramUI/Components/ChatMediaEditorScreen/Sources/ChatMediaEditorScreenVideo.swift": "283092c5b405586acecf498b65ba85797947542e00aa0ebd14b71a5540745840",
+    "submodules/TelegramUI/Components/ChatMediaEditorScreen/Sources/NagramiXRoundQualitySheet.swift": "5d45e6fe2db58b838b18b54f24bd1dc99a2fe8df29fa4b5cedcbe9e7fe8b81ce",
+    "submodules/TelegramUI/Components/ChatMediaEditorScreen/BUILD": "a75e40c7485879d8eccd784e7ddaa9e6acb336a00bee986941a2b95012cf5404",
+    "submodules/Display/Source/GenerateImage.swift": "d9e52a9ea7dd8cd641c655618e6add9ecf158777440e9e28ad24b5e562b1c6e8",
+    "submodules/Display/Source/Font.swift": "e204eb5178031058d2e187662d1d979cf8e29dc85481d3ba9ee120dcfc016ed6",
+    "submodules/TelegramUI/Components/MediaEditor/Sources/MediaEditorValues.swift": "70910631540ef71191c2a678e8c32c98578beaa3793a9590a578d5715d383cdb",
+    "submodules/NagramiXMediaSettings/Sources/NagramiXRoundVideoSettings.swift": "e4de9f395441ec721051eeec1b8543ad36dd534294cb6becccad8791e799b38c",
+    "submodules/Camera/Sources/NagramiXRoundVideoSettings.swift": "e4de9f395441ec721051eeec1b8543ad36dd534294cb6becccad8791e799b38c",
+    "submodules/SettingsUI/Sources/NagramiXRoundQualityController.swift": "24e9c4c5c90616d002f72572de0d7b7efe5819005ed03d3aa8d774f28db60a92"
+  },
+  "guard_sources": {
+    "submodules/TelegramUI/Components/ChatMediaEditorScreen/Sources/ChatMediaEditorBottomControls.swift": "round_quality_preset_badge/Guard0.inc",
+    "submodules/TelegramUI/Components/ChatMediaEditorScreen/Sources/ChatMediaEditorScreenQuality.swift": "round_quality_preset_badge/Guard1.inc",
+    "submodules/TelegramUI/Components/ChatMediaEditorScreen/Sources/ChatMediaEditorScreenVideo.swift": "round_quality_preset_badge/Guard2.inc",
+    "submodules/TelegramUI/Components/ChatMediaEditorScreen/Sources/NagramiXRoundQualitySheet.swift": "round_quality_preset_badge/Guard3.inc",
+    "submodules/TelegramUI/Components/ChatMediaEditorScreen/BUILD": "round_quality_preset_badge/Guard4.inc",
+    "submodules/Display/Source/GenerateImage.swift": "round_quality_preset_badge/Guard5.inc",
+    "submodules/Display/Source/Font.swift": "round_quality_preset_badge/Guard6.inc",
+    "submodules/TelegramUI/Components/MediaEditor/Sources/MediaEditorValues.swift": "round_quality_preset_badge/Guard7.inc",
+    "submodules/NagramiXMediaSettings/Sources/NagramiXRoundVideoSettings.swift": "round_quality_preset_badge/Guard8.inc",
+    "submodules/Camera/Sources/NagramiXRoundVideoSettings.swift": "round_quality_preset_badge/Guard9.inc",
+    "submodules/SettingsUI/Sources/NagramiXRoundQualityController.swift": "round_quality_preset_badge/Guard10.inc"
+  },
+  "copies": {},
+  "deletions": {},
+  "native_inputs": {},
+  "native_guards": {},
+  "templates": {
+    "round_quality_preset_badge/Before0.inc": "6d815ff05e7e51b8498fe58bbaec2cff5f29be9bab1be5f192f33313a8033885",
+    "round_quality_preset_badge/After0.inc": "9d4bba5066fa4764edd5da51ab12cf2d251ea79308ed218727a94b4067c319d0",
+    "round_quality_preset_badge/Before1.inc": "a53663a438510cc3545f50352fd3b23b87d5b63170b73c1bab95397368b58cb0",
+    "round_quality_preset_badge/After1.inc": "de97f137dc4ae3973d1edc4297bb7e9521916298dd234a8788a65f81574ead04",
+    "round_quality_preset_badge/Guard0.inc": "338a197c63f1610eda976f829af602f72a6f58f552bcbc6fa5c543a1a9fe9567",
+    "round_quality_preset_badge/Guard1.inc": "293ae38c0ec829756e28f88ec61cd940693863e51d828fdfe435ac386652a5f7",
+    "round_quality_preset_badge/Guard2.inc": "283092c5b405586acecf498b65ba85797947542e00aa0ebd14b71a5540745840",
+    "round_quality_preset_badge/Guard3.inc": "5d45e6fe2db58b838b18b54f24bd1dc99a2fe8df29fa4b5cedcbe9e7fe8b81ce",
+    "round_quality_preset_badge/Guard4.inc": "a75e40c7485879d8eccd784e7ddaa9e6acb336a00bee986941a2b95012cf5404",
+    "round_quality_preset_badge/Guard5.inc": "d9e52a9ea7dd8cd641c655618e6add9ecf158777440e9e28ad24b5e562b1c6e8",
+    "round_quality_preset_badge/Guard6.inc": "e204eb5178031058d2e187662d1d979cf8e29dc85481d3ba9ee120dcfc016ed6",
+    "round_quality_preset_badge/Guard7.inc": "70910631540ef71191c2a678e8c32c98578beaa3793a9590a578d5715d383cdb",
+    "round_quality_preset_badge/Guard8.inc": "e4de9f395441ec721051eeec1b8543ad36dd534294cb6becccad8791e799b38c",
+    "round_quality_preset_badge/Guard9.inc": "e4de9f395441ec721051eeec1b8543ad36dd534294cb6becccad8791e799b38c",
+    "round_quality_preset_badge/Guard10.inc": "24e9c4c5c90616d002f72572de0d7b7efe5819005ed03d3aa8d774f28db60a92"
+  }
+}

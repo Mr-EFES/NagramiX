@@ -1,0 +1,384 @@
+{
+  "task": "Утверждённый буквенный значок SD/HQ/MAX в пятой кнопке круглого видео",
+  "base_commit": "8e3ad00a2a17b67a5128adab769e1f00b06918d6",
+  "stage": 96,
+  "name": "round_quality_preset_badge",
+  "finding": "Display.generateImage передаёт CGContext без UIKit push. NSString.draw не получал целевой контекст, хотя CGContext рисовал рамку. Renderer теперь подключает контекст и восстанавливает его через defer.",
+  "source": {
+    "stage": 96,
+    "name": "round_quality_preset_badge",
+    "path": "/tmp/nagramix-round-quality-badge/source",
+    "manifest_sha256": "2e823dff1819fbbd181559c46d0781ae2a7f650d831090eb69ebb62d91fc029c",
+    "previous_manifest_sha256": "934d3b5f424526af80c3b413567da57d3cced23f5ef724028256619d4cc08c70",
+    "files": 37694,
+    "symlinks": 26,
+    "modified_runtime_paths": [
+      "submodules/TelegramUI/Components/ChatMediaEditorScreen/Sources/ChatMediaEditorBottomControlsComponent.swift",
+      "submodules/TelegramUI/Components/ChatMediaEditorScreen/Sources/ChatMediaEditorScreen.swift"
+    ],
+    "new_runtime_paths": [],
+    "guards": 11,
+    "new_inc": 15,
+    "new_templates": 15,
+    "old_inc_unchanged": 5341,
+    "old_plans_unchanged": 308,
+    "historical_manifests_verified": 53
+  },
+  "feature_checks": {
+    "stage": 96,
+    "name": "round_quality_preset_badge",
+    "runtime_paths": [
+      "submodules/TelegramUI/Components/ChatMediaEditorScreen/Sources/ChatMediaEditorBottomControlsComponent.swift",
+      "submodules/TelegramUI/Components/ChatMediaEditorScreen/Sources/ChatMediaEditorScreen.swift"
+    ],
+    "guards": 11,
+    "loader_refusals": 14,
+    "checks": {
+      "contracts": {
+        "only_two_ui_files": true,
+        "other_four_tools_and_native_quality_verbatim": true,
+        "settings_export_capture_sheet_camera_unchanged": true,
+        "display_generator_does_not_push_uikit_context": true,
+        "native_generator_uses_rotated_coordinates": true,
+        "fixed_technical_icon_codes": "SD/HQ/MAX; существующие подписи и VoiceOver локализованы как прежде"
+      },
+      "executions": [
+        {
+          "name": "round-preset-badge",
+          "mode": "debug",
+          "exit_code": 0,
+          "output": "PASS round preset badge checks: 145"
+        },
+        {
+          "name": "round-preset-badge",
+          "mode": "optimized",
+          "exit_code": 0,
+          "output": "PASS round preset badge checks: 145"
+        }
+      ],
+      "existing_toolbar_executions": [
+        {
+          "name": "round-badge-existing-toolbar",
+          "mode": "debug",
+          "exit_code": 0,
+          "output": "Round editor quality badge checks: 7"
+        },
+        {
+          "name": "round-badge-existing-toolbar",
+          "mode": "optimized",
+          "exit_code": 0,
+          "output": "Round editor quality badge checks: 7"
+        }
+      ],
+      "existing_routing_executions": [
+        {
+          "name": "round-badge-existing-routing",
+          "mode": "debug",
+          "exit_code": 0,
+          "output": "Round quality actual click/capture/toolbar checks: 23"
+        },
+        {
+          "name": "round-badge-existing-routing",
+          "mode": "optimized",
+          "exit_code": 0,
+          "output": "Round quality actual click/capture/toolbar checks: 23"
+        }
+      ],
+      "routing_test_data": "Только входные/ожидаемые битрейты старого сценария86 приведены к действующим ступеням88: 1.6→1.2 и2.0→1.3 Мбит/с; assertions и production-тела сохранены.",
+      "semantic_negatives": [
+        {
+          "name": "missing-uikit-context",
+          "mode": "debug",
+          "exit_code": 96,
+          "output": "FAIL: glyph is drawn into returned bitmap"
+        },
+        {
+          "name": "missing-uikit-context",
+          "mode": "optimized",
+          "exit_code": 96,
+          "output": "FAIL: glyph is drawn into returned bitmap"
+        },
+        {
+          "name": "leaked-uikit-context",
+          "mode": "debug",
+          "exit_code": 96,
+          "output": "FAIL: outer UIKit context is restored"
+        },
+        {
+          "name": "leaked-uikit-context",
+          "mode": "optimized",
+          "exit_code": 96,
+          "output": "FAIL: outer UIKit context is restored"
+        },
+        {
+          "name": "wrong-maximum-code",
+          "mode": "debug",
+          "exit_code": 96,
+          "output": "FAIL: glyph is drawn into returned bitmap"
+        },
+        {
+          "name": "wrong-maximum-code",
+          "mode": "optimized",
+          "exit_code": 96,
+          "output": "FAIL: glyph is drawn into returned bitmap"
+        },
+        {
+          "name": "off-uses-maximum",
+          "mode": "debug",
+          "exit_code": 96,
+          "output": "FAIL: badge uses current preset and OFF uses standard"
+        },
+        {
+          "name": "off-uses-maximum",
+          "mode": "optimized",
+          "exit_code": 96,
+          "output": "FAIL: badge uses current preset and OFF uses standard"
+        }
+      ],
+      "apple_api": {
+        "probe_parse": "passed",
+        "uikit_api": "not_run",
+        "reason": "Linux без UIKit/iPhoneOS SDK",
+        "pixel_verification": "not_run"
+      },
+      "boundary": "Actual image renderer/cache branch and real model/helper/live-toolbar snapshot execute. UIKit stack, bitmap text drawing and font metrics are explicit recording adapters; actual pixel rendering is not verified.",
+      "full_application_sdk": "not_run",
+      "physical_iphone": "pending"
+    },
+    "source_unchanged_by_checks": true,
+    "new_localization_keys": 0,
+    "full_application_sdk": "not_run",
+    "physical_iphone": "pending",
+    "new_actions_or_ipa_started": false
+  },
+  "global_source_checks": [
+    {
+      "name": "early-scoped",
+      "exit_code": 0,
+      "seconds": 17.9,
+      "source_manifest_sha256": "2e823dff1819fbbd181559c46d0781ae2a7f650d831090eb69ebb62d91fc029c"
+    },
+    {
+      "name": "upstream",
+      "exit_code": 0,
+      "seconds": 110.3,
+      "source_manifest_sha256": "2e823dff1819fbbd181559c46d0781ae2a7f650d831090eb69ebb62d91fc029c"
+    },
+    {
+      "name": "inverse",
+      "exit_code": 0,
+      "seconds": 133.2,
+      "source_manifest_sha256": "2e823dff1819fbbd181559c46d0781ae2a7f650d831090eb69ebb62d91fc029c"
+    },
+    {
+      "name": "localization",
+      "exit_code": 0,
+      "seconds": 43.4,
+      "source_manifest_sha256": "2e823dff1819fbbd181559c46d0781ae2a7f650d831090eb69ebb62d91fc029c"
+    },
+    {
+      "name": "members-full",
+      "exit_code": 0,
+      "seconds": 4.8,
+      "source_manifest_sha256": "2e823dff1819fbbd181559c46d0781ae2a7f650d831090eb69ebb62d91fc029c"
+    },
+    {
+      "name": "members-canonical",
+      "exit_code": 0,
+      "seconds": 2.0,
+      "source_manifest_sha256": "2e823dff1819fbbd181559c46d0781ae2a7f650d831090eb69ebb62d91fc029c"
+    },
+    {
+      "name": "native-strings",
+      "exit_code": 0,
+      "seconds": 5.5,
+      "source_manifest_sha256": "2e823dff1819fbbd181559c46d0781ae2a7f650d831090eb69ebb62d91fc029c"
+    },
+    {
+      "name": "mode",
+      "exit_code": 0,
+      "seconds": 0.2,
+      "source_manifest_sha256": "2e823dff1819fbbd181559c46d0781ae2a7f650d831090eb69ebb62d91fc029c"
+    },
+    {
+      "name": "metadata",
+      "exit_code": 0,
+      "seconds": 0.1,
+      "source_manifest_sha256": "2e823dff1819fbbd181559c46d0781ae2a7f650d831090eb69ebb62d91fc029c"
+    },
+    {
+      "name": "diff",
+      "exit_code": 0,
+      "seconds": 0.0,
+      "source_manifest_sha256": "2e823dff1819fbbd181559c46d0781ae2a7f650d831090eb69ebb62d91fc029c"
+    }
+  ],
+  "global_source_checks_complete": true,
+  "full_preflight_rerun": false,
+  "early_scope": {
+    "scope": "Новый checker96 выполнен через настоящий canonical_projection/CheckCollection. Прежние112 шагов/73 сценария не запускались повторно; их код и прежние immutable plans/templates сохранены.",
+    "full_preflight_rerun": false,
+    "previous_run_reused": {
+      "path": "/tmp/nagramix-round-quality-title/early.json",
+      "sha256": "f4fc240e182ebb7a619a31397d2ed92a7f3332ad6b1f75a6223ac091946400b1",
+      "commit": "8e3ad00a2a17b67a5128adab769e1f00b06918d6",
+      "checks": 112,
+      "fixtures": 73,
+      "executions": 146
+    },
+    "new_check_status": "passed",
+    "projection": {
+      "written": 580,
+      "pinned_native_dependencies": 6,
+      "unused_unavailable_native_guards": 99,
+      "localized_resources": 71
+    },
+    "new_check": {
+      "contracts": {
+        "only_two_ui_files": true,
+        "other_four_tools_and_native_quality_verbatim": true,
+        "settings_export_capture_sheet_camera_unchanged": true,
+        "display_generator_does_not_push_uikit_context": true,
+        "native_generator_uses_rotated_coordinates": true,
+        "fixed_technical_icon_codes": "SD/HQ/MAX; существующие подписи и VoiceOver локализованы как прежде"
+      },
+      "executions": [
+        {
+          "name": "round-preset-badge",
+          "mode": "debug",
+          "exit_code": 0,
+          "output": "PASS round preset badge checks: 145"
+        },
+        {
+          "name": "round-preset-badge",
+          "mode": "optimized",
+          "exit_code": 0,
+          "output": "PASS round preset badge checks: 145"
+        }
+      ],
+      "existing_toolbar_executions": [
+        {
+          "name": "round-badge-existing-toolbar",
+          "mode": "debug",
+          "exit_code": 0,
+          "output": "Round editor quality badge checks: 7"
+        },
+        {
+          "name": "round-badge-existing-toolbar",
+          "mode": "optimized",
+          "exit_code": 0,
+          "output": "Round editor quality badge checks: 7"
+        }
+      ],
+      "existing_routing_executions": [
+        {
+          "name": "round-badge-existing-routing",
+          "mode": "debug",
+          "exit_code": 0,
+          "output": "Round quality actual click/capture/toolbar checks: 23"
+        },
+        {
+          "name": "round-badge-existing-routing",
+          "mode": "optimized",
+          "exit_code": 0,
+          "output": "Round quality actual click/capture/toolbar checks: 23"
+        }
+      ],
+      "routing_test_data": "Только входные/ожидаемые битрейты старого сценария86 приведены к действующим ступеням88: 1.6→1.2 и2.0→1.3 Мбит/с; assertions и production-тела сохранены.",
+      "semantic_negatives": [
+        {
+          "name": "missing-uikit-context",
+          "mode": "debug",
+          "exit_code": 96,
+          "output": "FAIL: glyph is drawn into returned bitmap"
+        },
+        {
+          "name": "missing-uikit-context",
+          "mode": "optimized",
+          "exit_code": 96,
+          "output": "FAIL: glyph is drawn into returned bitmap"
+        },
+        {
+          "name": "leaked-uikit-context",
+          "mode": "debug",
+          "exit_code": 96,
+          "output": "FAIL: outer UIKit context is restored"
+        },
+        {
+          "name": "leaked-uikit-context",
+          "mode": "optimized",
+          "exit_code": 96,
+          "output": "FAIL: outer UIKit context is restored"
+        },
+        {
+          "name": "wrong-maximum-code",
+          "mode": "debug",
+          "exit_code": 96,
+          "output": "FAIL: glyph is drawn into returned bitmap"
+        },
+        {
+          "name": "wrong-maximum-code",
+          "mode": "optimized",
+          "exit_code": 96,
+          "output": "FAIL: glyph is drawn into returned bitmap"
+        },
+        {
+          "name": "off-uses-maximum",
+          "mode": "debug",
+          "exit_code": 96,
+          "output": "FAIL: badge uses current preset and OFF uses standard"
+        },
+        {
+          "name": "off-uses-maximum",
+          "mode": "optimized",
+          "exit_code": 96,
+          "output": "FAIL: badge uses current preset and OFF uses standard"
+        }
+      ],
+      "apple_api": {
+        "probe_parse": "passed",
+        "uikit_api": "not_run",
+        "reason": "Linux без UIKit/iPhoneOS SDK",
+        "pixel_verification": "not_run"
+      },
+      "boundary": "Actual image renderer/cache branch and real model/helper/live-toolbar snapshot execute. UIKit stack, bitmap text drawing and font metrics are explicit recording adapters; actual pixel rendering is not verified.",
+      "full_application_sdk": "not_run",
+      "physical_iphone": "pending"
+    },
+    "collection_tests": 8,
+    "all_53_calls_collected": true,
+    "full_application_sdk": "not_run",
+    "physical_iphone": "pending"
+  },
+  "checks_scope": "Заново выполнены новый checker на полном дереве и через настоящий canonical_projection/CheckCollection, 8 тестов коллектора, final upstream parse/Postbox, inverse96, strict localization71×678, full/canonical members, native strings, workflow/mode/metadata/diff. Прежние73 Swift-сценария/146 запусков не повторялись; их проверенный отчёт и неизменные планы/тела сохранены.",
+  "preparation_test_findings": [
+    {
+      "finding": "Старый routing fixture86 использовал1.6/2.0Мбит/с до ограничения88",
+      "resolution": "Только входные/ожидаемые тестовые значения приведены к1.2/1.3; production-тела и assertions сохранены",
+      "application_changed": false
+    },
+    {
+      "finding": "Новой ранней проекции не хватало четырёх каталогов для теста сводки",
+      "resolution": "canonical_projection96 получает полный прежний71×678 catalog из SHA-проверенной стадии88; прежние варианты проекции не изменены",
+      "application_changed": false
+    }
+  ],
+  "scope_review": {
+    "runtime_files": 2,
+    "stored_settings_and_default_unchanged": true,
+    "export_capture_camera_unchanged": true,
+    "ordinary_photo_video_quality_unchanged": true,
+    "old_templates_and_plans_preserved": true,
+    "new_visible_localized_sentences": 0,
+    "icon_codes": "Фиксированные SD/HQ/MAX, утверждённые пользователем; прежние строки VoiceOver и сводки локализованы",
+    "dependencies_sdk_signing_unchanged": true
+  },
+  "full_application_sdk": "not_run",
+  "physical_iphone": "pending",
+  "pixel_verification": "not_run",
+  "new_actions_or_ipa_started": false,
+  "published_ipa_219_contains_this_fix": false,
+  "release_assets_or_tags_changed": false,
+  "previous_web_player_crash_fix_implemented": false,
+  "publication_target": "Только main; новая IPA требует отдельной прямой команды"
+}

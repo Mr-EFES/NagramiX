@@ -48,6 +48,7 @@ from doh_empty_action_runtime import fixture as doh_empty_action_fixture
 from validate_doh_clear_input_lifecycle import regressions as doh_clear_native_check
 from validate_sticker_status_spacing import check as sticker_status_check
 from validate_round_quality_title_layout import check as round_title_check
+from validate_round_quality_preset_badge import check as round_badge_check
 from archived_playlist_lifetime_runtime import fixture as archived_playlist_lifetime_fixture
 from story_avatar_visibility_runtime import fixture as story_avatar_visibility_fixture
 from original_video_media_runtime import fixture as original_video_media_fixture
@@ -170,8 +171,8 @@ def canonical_projection(destination, through_stage):
             target.write_bytes(data)
             added += 1
     localized_resources = 0
-    if stage in {'round_quality_summary','round_bitrate_levels'}:
-        plan = checked_plan(stage)
+    if stage in {'round_quality_summary','round_bitrate_levels','round_quality_preset_badge'}:
+        plan = checked_plan('round_bitrate_levels' if stage == 'round_quality_preset_badge' else stage)
         for name, expected_hash in plan['outputs'].items():
             if not name.endswith('.lproj/Localizable.strings'): continue
             data = (OVERLAY/plan['replacements'][name]).read_bytes()
@@ -201,6 +202,13 @@ def main():
                 shutil.rmtree(path)
         foundation=checks.run('foundation_check:191', lambda: foundation_check(args.swiftc,root))
         files = {}
+        badge_source=root/'round-badge-native-final96'
+        files['native_final96']=canonical_projection(badge_source,'round_quality_preset_badge')
+        round_badge=checks.run('round-quality-preset-badge', lambda: round_badge_check(badge_source,args.swiftc,root/'round-badge'), fallback={})
+        for group in ('executions','existing_toolbar_executions','existing_routing_executions'):
+            runs += round_badge.get(group,[])
+        cleanup(badge_source)
+        cleanup(root/'round-badge')
         title_source=root/'round-title-native-final95'
         files['native_final95']=canonical_projection(title_source,'round_quality_title_layout')
         round_title=checks.run('round-quality-title-layout', lambda: round_title_check(title_source,args.swiftc,root/'round-title'), fallback={})
@@ -419,6 +427,7 @@ def main():
     report['doh_clear_input_native_lifecycle']=doh_clear_lifecycle
     report['sticker_status_spacing']=sticker_status
     report['round_quality_title_layout']=round_title
+    report['round_quality_preset_badge']=round_badge
     report['system_web_javascript']=system_js
     report['system_web_real_sdk']=system_apple
     report['youtube_playback_policy_js']=youtube_js
