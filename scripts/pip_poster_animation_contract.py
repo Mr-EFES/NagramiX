@@ -8,10 +8,13 @@ def check(source,swiftc,folder):
     code=poster_fixture(source)
     runs=execute(swiftc,folder,'poster-animation-boundary',code)
     variants=[
-      ('old-immediate-completion','static func animate(withDuration:Double,animations:()->Void,completion:@escaping(Bool)->Void){animations();AnimationClock.pending.append({completion(true)})}','static func animate(withDuration:Double,animations:()->Void,completion:@escaping(Bool)->Void){animations();completion(true)}','cover stays until asynchronous completion'),
-      ('lost-image-subscription','[weak self, weak backdrop, poster] in','[weak self, weak backdrop, weak poster] in','image subscription lives during fade'),
-      ('unremoved-cover','            backdrop?.removeFromSuperview()','            _ = backdrop','exit removes preview and restores interaction'),
+      ('old-immediate-completion','static func animate(withDuration:Double,animations:()->Void,completion:@escaping(Bool)->Void){animations();AnimationClock.pending.append({completion(true)})}','static func animate(withDuration:Double,animations:()->Void,completion:@escaping(Bool)->Void){animations();completion(true)}','PiP poster:'),
+      ('lost-image-subscription','[weak self, weak backdrop, poster] in','[weak self, weak backdrop, weak poster] in','PiP poster:'),
+      ('unremoved-cover','            backdrop?.removeFromSuperview()','            _ = backdrop','PiP poster:'),
     ]
+    # Both positive modes must pass first. A targeted mutant must then fail
+    # through this fixture's controlled assertion (96), never compilation/crash.
+    # Darwin and Linux can report different first invariants for the same mutant.
     for name,old,new,diagnostic in variants:
         assert code.count(old)==1,(name,code.count(old))
         runs+=execute(swiftc,folder,name,code.replace(old,new,1),diagnostic)

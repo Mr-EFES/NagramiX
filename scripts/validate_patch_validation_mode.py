@@ -15,6 +15,12 @@ def check(text):
     assert re.search(r'^          python3 scripts/validate_release_095_apple_preflight\.py --swiftc ',text[:start],re.M), 'Complete fixture preflight must run before overlay'
     assert re.search(r'^          python3 scripts/validate_native_string_references\.py --canonical --swiftc ',text[:start],re.M), 'Native generated strings SDK check must run before overlay'
     assert re.search(r'^          python3 scripts/validate_premium_temporary_transcription_native_api\.py --source Telegram-iOS ',text[:start],re.M), 'Actual native file ASR API probe must run before overlay'
+    early=text.split('      - name: Проверить геометрию тестов на Apple Swift\n',1)[1].split('      - name:',1)[0]
+    assert '          nagramix_pre_sdk_failed=0\n' in early
+    early_checks=re.findall(r'^          python3 scripts/.*$',early,re.M)
+    assert len(early_checks)==5 and all(line.endswith(' || nagramix_pre_sdk_failed=1') for line in early_checks)
+    assert early.rstrip().endswith('test "$nagramix_pre_sdk_failed" -eq 0'), 'Any early failure must block overlay and SDK'
+    assert 'pre-sdk-failed-checks.json' in text and 'nagramix-test-failures/' in text
     end=text.index('      - name: Восстановить кеш Bazel\n',start)
     source=text[start:end]
     option=re.search(r'^      extended_patch_tests:\n(.*?)(?=^      \w+:)',text,re.M|re.S).group(1)
@@ -99,6 +105,10 @@ def check(text):
 
 def main():
     text=(ROOT/'.github/workflows/build-unsigned-ipa.yml').read_text();report=check(text)
+    changed=text.replace('test "$nagramix_pre_sdk_failed" -eq 0','true',1)
+    try:check(changed)
+    except AssertionError:pass
+    else:raise AssertionError('Failed pre-SDK gate could reach application compilation')
     # Mandatory integrity cannot accidentally be moved behind the optional flag.
     changed=text.replace('          python3 scripts/validate_late_source_stages.py','          nagramix_extended_check python3 scripts/validate_late_source_stages.py',1)
     try:check(changed)

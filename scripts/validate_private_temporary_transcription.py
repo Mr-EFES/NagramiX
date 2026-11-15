@@ -2,8 +2,10 @@
 """Проверить private ASR временного голоса/кружков и запрет server-ID RPC."""
 import argparse
 import json
+import os
 from pathlib import Path
 import resource
+import re
 import subprocess
 import tempfile
 
@@ -16,6 +18,19 @@ ROOT = Path(__file__).resolve().parents[1]
 STAGE = 'private_temporary_transcription'
 
 
+def save_failed_fixture(source, name, mode, stage, result):
+    if os.environ.get('GITHUB_ACTIONS') != 'true' or not os.environ.get('RUNNER_TEMP'):
+        return
+    folder = Path(os.environ['RUNNER_TEMP']) / 'nagramix-test-failures'
+    folder.mkdir(parents=True, exist_ok=True)
+    stem = re.sub(r'[^A-Za-z0-9_.-]', '_', str(name)) + '-' + mode
+    (folder / (stem + '.swift')).write_bytes(source.read_bytes())
+    (folder / (stem + '.json')).write_text(json.dumps({
+        'fixture': name, 'mode': mode, 'stage': stage, 'exit_code': result.returncode,
+        'stdout': result.stdout, 'stderr': result.stderr,
+    }, ensure_ascii=False, indent=2) + '\n')
+
+
 def execute(swiftc, root, name, text, diagnostic=None):
     source = root / (name + '.swift')
     source.write_text(text)
@@ -25,10 +40,15 @@ def execute(swiftc, root, name, text, diagnostic=None):
         compiled = subprocess.run([str(swiftc), '-swift-version', '5', '-parse-as-library', '-warnings-as-errors',
                                    '-module-cache-path', str(root / 'cache'), *flags, str(source), '-o', str(binary)],
                                   capture_output=True, text=True)
-        assert compiled.returncode == 0, compiled.stdout + compiled.stderr
+        if compiled.returncode:
+            save_failed_fixture(source, name, mode, 'compile', compiled)
+        assert compiled.returncode == 0, f'{name}/{mode}: {compiled.stdout}{compiled.stderr}'
         result = subprocess.run([str(binary)], capture_output=True, text=True, timeout=60,
                                 preexec_fn=lambda: resource.setrlimit(resource.RLIMIT_CORE, (0, 0)))
         output = (result.stdout + result.stderr).strip()
+        valid = result.returncode == 0 if diagnostic is None else result.returncode == 96 and diagnostic in output
+        if not valid:
+            save_failed_fixture(source, name, mode, 'runtime', result)
         if diagnostic is None:
             assert result.returncode == 0, f'{name}/{mode}: {output}'
         else:

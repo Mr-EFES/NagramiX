@@ -6,6 +6,7 @@ functions. Apple UIKit typechecking remains mandatory on macOS; whole native
 modules still require the subsequent SDK build.
 """
 import argparse
+from pre_sdk_check_collection import CheckCollection
 import hashlib
 import json
 import shutil
@@ -185,109 +186,115 @@ def main():
     parser.add_argument('--swiftc', type=Path, required=True)
     parser.add_argument('--report', type=Path)
     args = parser.parse_args()
+    checks=CheckCollection(args.report.with_name("pre-sdk-failed-checks.json") if args.report else None)
     runs = []
     with tempfile.TemporaryDirectory(prefix='nagramix-095-early-') as temporary:
         root = Path(temporary)
-        foundation=foundation_check(args.swiftc,root)
+        def cleanup(path):
+            assert path.resolve().is_relative_to(root.resolve())
+            if path.exists():
+                assert path.is_dir() and not path.is_symlink()
+                shutil.rmtree(path)
+        foundation=checks.run('foundation_check:191', lambda: foundation_check(args.swiftc,root))
         files = {}
         youtube_background_source=root/'youtube-background-native-final'
         files['native_final91']=canonical_projection(youtube_background_source,'youtube_background_continuity')
-        youtube_background_api=youtube_background_api_check(youtube_background_source,args.swiftc,root/'youtube-background-api-first')
-        runs += execute(args.swiftc,root,'youtube-background',youtube_background_fixture(youtube_background_source))
-        youtube_background_js=youtube_background_js_check(youtube_background_source,root/'youtube-background-dom-first')
-        shutil.rmtree(youtube_background_source)
-        shutil.rmtree(root/'youtube-background-api-first')
-        shutil.rmtree(root/'youtube-background-dom-first')
+        youtube_background_api=checks.run('youtube_background_api_check:195', lambda: youtube_background_api_check(youtube_background_source,args.swiftc,root/'youtube-background-api-first'))
+        runs += checks.run('youtube-background', lambda: execute(args.swiftc,root,'youtube-background',youtube_background_fixture(youtube_background_source)), fallback=[])
+        youtube_background_js=checks.run('youtube_background_js_check:197', lambda: youtube_background_js_check(youtube_background_source,root/'youtube-background-dom-first'))
+        cleanup(youtube_background_source)
+        cleanup(root/'youtube-background-api-first')
+        cleanup(root/'youtube-background-dom-first')
         coordinator_source=root/'pip-transition-coordinator-native-final'
         files['native_final90']=canonical_projection(coordinator_source,'pip_transition_coordinator')
-        pip_transition_coordinator_api=pip_transition_coordinator_api_check(coordinator_source,args.swiftc,root/'pip-coordinator-api-first')
+        pip_transition_coordinator_api=checks.run('pip_transition_coordinator_api_check:203', lambda: pip_transition_coordinator_api_check(coordinator_source,args.swiftc,root/'pip-coordinator-api-first'))
         for name,build in [('pip-coordinator-entry',pip_coordinator_entry_fixture),('pip-coordinator-poster',pip_coordinator_poster_fixture),('pip-coordinator-native',pip_coordinator_native_fixture)]:
-            runs += execute(args.swiftc,root,name,build(coordinator_source))
-        shutil.rmtree(coordinator_source)
-        shutil.rmtree(root/'pip-coordinator-api-first')
+            runs += checks.run(name, lambda: execute(args.swiftc,root,name,build(coordinator_source)), fallback=[])
+        cleanup(coordinator_source)
+        cleanup(root/'pip-coordinator-api-first')
         compact_source=root/'round-quality-compact-native-final'
         files['native_final89']=canonical_projection(compact_source,'round_quality_compact_page')
-        round_quality_compact_api=round_quality_compact_api_check(compact_source,args.swiftc,root/'round-compact-api-first')
-        runs += execute(args.swiftc,root,'round-quality-compact-page',round_quality_compact_fixture(compact_source))
-        shutil.rmtree(compact_source)
-        shutil.rmtree(root/'round-compact-api-first')
+        round_quality_compact_api=checks.run('round_quality_compact_api_check:210', lambda: round_quality_compact_api_check(compact_source,args.swiftc,root/'round-compact-api-first'))
+        runs += checks.run('round-quality-compact-page', lambda: execute(args.swiftc,root,'round-quality-compact-page',round_quality_compact_fixture(compact_source)), fallback=[])
+        cleanup(compact_source)
+        cleanup(root/'round-compact-api-first')
         bitrate_source=root/'round-bitrate-levels-native-final'
         files['native_final88']=canonical_projection(bitrate_source,'round_bitrate_levels')
-        round_bitrate_levels_api=round_bitrate_levels_api_check(bitrate_source,args.swiftc,root/'round-bitrate-api-first')
+        round_bitrate_levels_api=checks.run('round_bitrate_levels_api_check:216', lambda: round_bitrate_levels_api_check(bitrate_source,args.swiftc,root/'round-bitrate-api-first'))
         for name, build in [('round-bitrate-model-export',round_bitrate_levels_fixture),('round-bitrate-control',round_bitrate_levels_ui_fixture)]:
-            runs += execute(args.swiftc,root,name,build(bitrate_source))
-        shutil.rmtree(bitrate_source)
-        shutil.rmtree(root/'round-bitrate-api-first')
+            runs += checks.run(name, lambda: execute(args.swiftc,root,name,build(bitrate_source)), fallback=[])
+        cleanup(bitrate_source)
+        cleanup(root/'round-bitrate-api-first')
         apply_source=root/'font-apply-glass-native-final'
         files['native_final87']=canonical_projection(apply_source,'font_apply_glass')
-        font_apply_glass_api=font_apply_glass_api_check(apply_source,args.swiftc,root/'font-apply-api-first')
-        runs += execute(args.swiftc,root,'font-preview-apply-final87',font_preview.fixture(apply_source))
-        shutil.rmtree(apply_source)
-        if (root/'font-apply-api-first').is_dir(): shutil.rmtree(root/'font-apply-api-first')
+        font_apply_glass_api=checks.run('font_apply_glass_api_check:223', lambda: font_apply_glass_api_check(apply_source,args.swiftc,root/'font-apply-api-first'))
+        runs += checks.run('font-preview-apply-final87', lambda: execute(args.swiftc,root,'font-preview-apply-final87',font_preview.fixture(apply_source)), fallback=[])
+        cleanup(apply_source)
+        if (root/'font-apply-api-first').is_dir(): cleanup(root/'font-apply-api-first')
         round_summary_source=root/'round-summary-native-final'
         files['native_final86']=canonical_projection(round_summary_source,'round_quality_summary')
-        round_quality_summary_api=round_quality_summary_api_check(round_summary_source,args.swiftc,root/'round-summary-api-first')
+        round_quality_summary_api=checks.run('round_quality_summary_api_check:229', lambda: round_quality_summary_api_check(round_summary_source,args.swiftc,root/'round-summary-api-first'))
         for name, build in [('round-quality-summary-values', round_quality_summary_fixture), ('round-quality-summary-sheet', round_quality_summary_ui_fixture), ('round-quality-summary-route', round_quality_summary_route_fixture)]:
-            runs += execute(args.swiftc,root,name,build(round_summary_source))
-        shutil.rmtree(round_summary_source)
-        shutil.rmtree(root/'round-summary-api-first')
+            runs += checks.run(name, lambda: execute(args.swiftc,root,name,build(round_summary_source)), fallback=[])
+        cleanup(round_summary_source)
+        cleanup(root/'round-summary-api-first')
         menus_source=root/'unified-menus-native-final'
         files['native_final84']=canonical_projection(menus_source,'unified_glass_menus')
-        unified_glass_menus_api=unified_glass_menus_api_check(menus_source,args.swiftc,root/'unified-menus-api-first')
-        unified_glass_menus_modules=unified_glass_menus_modules_check(menus_source,args.swiftc,root/'unified-menus-modules-first')
-        shutil.rmtree(menus_source)
-        if (root/'unified-menus-api-first').is_dir(): shutil.rmtree(root/'unified-menus-api-first')
-        shutil.rmtree(root/'unified-menus-modules-first')
+        unified_glass_menus_api=checks.run('unified_glass_menus_api_check:236', lambda: unified_glass_menus_api_check(menus_source,args.swiftc,root/'unified-menus-api-first'))
+        unified_glass_menus_modules=checks.run('unified_glass_menus_modules_check:237', lambda: unified_glass_menus_modules_check(menus_source,args.swiftc,root/'unified-menus-modules-first'))
+        cleanup(menus_source)
+        if (root/'unified-menus-api-first').is_dir(): cleanup(root/'unified-menus-api-first')
+        cleanup(root/'unified-menus-modules-first')
         license_source=root/'font-license-native-final'
         files['native_final83']=canonical_projection(license_source,'font_license_compact')
-        font_license_compact_api=font_license_compact_api_check(license_source,args.swiftc,root/'font-license-api-first')
-        font_license_compact_modules=font_license_compact_modules_check(license_source,args.swiftc,root/'font-license-modules-first')
-        shutil.rmtree(root/'font-license-modules-first')
-        shutil.rmtree(license_source)
-        if (root/'font-license-api-first').is_dir(): shutil.rmtree(root/'font-license-api-first')
+        font_license_compact_api=checks.run('font_license_compact_api_check:243', lambda: font_license_compact_api_check(license_source,args.swiftc,root/'font-license-api-first'))
+        font_license_compact_modules=checks.run('font_license_compact_modules_check:244', lambda: font_license_compact_modules_check(license_source,args.swiftc,root/'font-license-modules-first'))
+        cleanup(root/'font-license-modules-first')
+        cleanup(license_source)
+        if (root/'font-license-api-first').is_dir(): cleanup(root/'font-license-api-first')
         sliders_source=root/'settings-glass-native-final'
         files['native_final82']=canonical_projection(sliders_source,'settings_glass_sliders')
-        settings_glass_sliders_api=settings_glass_sliders_api_check(sliders_source,args.swiftc,root/'settings-glass-api-first')
-        shutil.rmtree(sliders_source)
-        if (root/'settings-glass-api-first').is_dir(): shutil.rmtree(root/'settings-glass-api-first')
+        settings_glass_sliders_api=checks.run('settings_glass_sliders_api_check:250', lambda: settings_glass_sliders_api_check(sliders_source,args.swiftc,root/'settings-glass-api-first'))
+        cleanup(sliders_source)
+        if (root/'settings-glass-api-first').is_dir(): cleanup(root/'settings-glass-api-first')
         density_source=root/'snow-density-native-final'
         files['native_final81']=canonical_projection(density_source,'snow_density_glass')
-        snow_density_glass_api=snow_density_glass_api_check(density_source,args.swiftc,root/'snow-density-api-first')
-        shutil.rmtree(density_source)
-        if (root/'snow-density-api-first').is_dir(): shutil.rmtree(root/'snow-density-api-first')
+        snow_density_glass_api=checks.run('snow_density_glass_api_check:255', lambda: snow_density_glass_api_check(density_source,args.swiftc,root/'snow-density-api-first'))
+        cleanup(density_source)
+        if (root/'snow-density-api-first').is_dir(): cleanup(root/'snow-density-api-first')
         # Check the final calendar at the actual iOS15 target before the large
         # runtime matrix. Stage57 remains an exact historical runtime checkpoint.
         calendar_source=root/'calendar-native-final'
         files['native_final74']=canonical_projection(calendar_source,'wide_portal_api')
-        wide_portal_api=wide_portal_native_api_check(calendar_source,args.swiftc,root/'wide-portal-api-first')
-        shutil.rmtree(root/'wide-portal-api-first')
-        initial_font_node=font_node_check(calendar_source,args.swiftc,root)
-        rpc_error=rpc_error_check(calendar_source,args.swiftc,root/'rpc-error-native')
-        runs+=execute(args.swiftc,root,'nullable-premium-asr',transcription_compatibility.fixture(calendar_source))
+        wide_portal_api=checks.run('wide_portal_native_api_check:262', lambda: wide_portal_native_api_check(calendar_source,args.swiftc,root/'wide-portal-api-first'))
+        cleanup(root/'wide-portal-api-first')
+        initial_font_node=checks.run('font_node_check:264', lambda: font_node_check(calendar_source,args.swiftc,root))
+        rpc_error=checks.run('rpc_error_check:265', lambda: rpc_error_check(calendar_source,args.swiftc,root/'rpc-error-native'))
+        runs+=checks.run('nullable-premium-asr', lambda: execute(args.swiftc,root,'nullable-premium-asr',transcription_compatibility.fixture(calendar_source)), fallback=[])
         # Completed first-pass compiler caches have no later consumers. The
         # independent final font probe recreates its own cache when reached.
         for completed_cache in [root/'rpc-error-native/cache', root/'node-cache']:
-            if completed_cache.is_dir(): shutil.rmtree(completed_cache)
-        snowfall_holidays_apple=snowfall_holidays_apple_check(calendar_source,args.swiftc,root)
-        composer_copy_apple=composer_copy_apple_check(calendar_source,args.swiftc,root)
-        video_audio_js=video_audio_js_check(calendar_source,root)
-        video_audio_apple=video_audio_apple_check(calendar_source,args.swiftc,root)
-        pip_preview_apple=pip_preview_apple_check(calendar_source,args.swiftc,root)
-        selection_column_apple=selection_column_apple_check(calendar_source,args.swiftc,root)
-        original_video_api=original_video_mode_apple_check(calendar_source,args.swiftc,root/'original-video-api')
+            if completed_cache.is_dir(): cleanup(completed_cache)
+        snowfall_holidays_apple=checks.run('snowfall_holidays_apple_check:271', lambda: snowfall_holidays_apple_check(calendar_source,args.swiftc,root))
+        composer_copy_apple=checks.run('composer_copy_apple_check:272', lambda: composer_copy_apple_check(calendar_source,args.swiftc,root))
+        video_audio_js=checks.run('video_audio_js_check:273', lambda: video_audio_js_check(calendar_source,root))
+        video_audio_apple=checks.run('video_audio_apple_check:274', lambda: video_audio_apple_check(calendar_source,args.swiftc,root))
+        pip_preview_apple=checks.run('pip_preview_apple_check:275', lambda: pip_preview_apple_check(calendar_source,args.swiftc,root))
+        selection_column_apple=checks.run('selection_column_apple_check:276', lambda: selection_column_apple_check(calendar_source,args.swiftc,root))
+        original_video_api=checks.run('original_video_mode_apple_check:277', lambda: original_video_mode_apple_check(calendar_source,args.swiftc,root/'original-video-api'))
         # The completed API probe is reported as data; its generated module/cache
         # is not used by later runtime or replay gates. Release it before replay.
-        shutil.rmtree(root/'original-video-api')
-        feature_contract_api=feature_contract_apple_check(calendar_source,args.swiftc,root/'feature-contract-api')
-        shutil.rmtree(root/'feature-contract-api')
-        round_editor_quality_api=round_editor_quality_api_check(calendar_source,args.swiftc,root/'round-editor-quality-api')
-        shutil.rmtree(root/'round-editor-quality-api')
-        shutil.rmtree(calendar_source)
+        cleanup(root/'original-video-api')
+        feature_contract_api=checks.run('feature_contract_apple_check:281', lambda: feature_contract_apple_check(calendar_source,args.swiftc,root/'feature-contract-api'))
+        cleanup(root/'feature-contract-api')
+        round_editor_quality_api=checks.run('round_editor_quality_api_check:283', lambda: round_editor_quality_api_check(calendar_source,args.swiftc,root/'round-editor-quality-api'))
+        cleanup(root/'round-editor-quality-api')
+        cleanup(calendar_source)
         original_media_source = root / 'original-video-media-native-final'
         files['original_video_media_native'] = canonical_projection(original_media_source, 'original_video_media')
-        original_video_media_api = original_video_media_api_check(original_media_source, args.swiftc, root / 'original-video-media-api')
-        shutil.rmtree(root / 'original-video-media-api')
-        shutil.rmtree(original_media_source)
+        original_video_media_api = checks.run('original_video_media_api_check:288', lambda: original_video_media_api_check(original_media_source, args.swiftc, root / 'original-video-media-api'))
+        cleanup(root / 'original-video-media-api')
+        cleanup(original_media_source)
         entries = [
             ('bubble_selection_edge', [('bubble-edge', lambda s: bubble.fixture(s, (OVERLAY/checked_plan('bubble_selection_edge')['previous'][bubble.BUBBLE]).read_text()))]),
             ('composer_file_attachments', [('composer-attachments', composer.fixture)]),
@@ -335,47 +342,47 @@ def main():
         for stage, fixtures in entries:
             source = root / stage
             files[stage] = canonical_projection(source, stage)
-            for name, build in fixtures: runs += execute(args.swiftc, root, name, build(source))
+            for name, build in fixtures: runs += checks.run(name, lambda: execute(args.swiftc, root, name, build(source)), fallback=[])
             if stage == 'single_touch_message_selection':
-                single_selection_apple = single_selection_apple_check(source, args.swiftc, root)
+                single_selection_apple = checks.run('single_selection_apple_check:340', lambda: single_selection_apple_check(source, args.swiftc, root))
             # The framework checks recreate the same pinned checkpoint on demand.
             # Keep one projection at a time instead of four large dormant copies.
             assert source.resolve().is_relative_to(root.resolve())
-            shutil.rmtree(source)
+            cleanup(source)
         # Stage41 remains an immutable historical checkpoint with SDK199's
         # known invalid call. Only the corrected final screen is a build target.
         stage='font_preview_apply'
         source=root/stage
         files[stage]=canonical_projection(source,stage)
-        node=font_node_check(source,args.swiftc,root)
-        navigation=navigation_check(source,args.swiftc,root)
-        access = access_check(source, args.swiftc, root)
-        apple = apple_check(source, args.swiftc, root)
-        icon = icon_check(source, args.swiftc, root)
-        theme_members = member_check(source, args.swiftc, root)
+        node=checks.run('font_node_check:350', lambda: font_node_check(source,args.swiftc,root))
+        navigation=checks.run('navigation_check:351', lambda: navigation_check(source,args.swiftc,root))
+        access = checks.run('access_check:352', lambda: access_check(source, args.swiftc, root))
+        apple = checks.run('apple_check:353', lambda: apple_check(source, args.swiftc, root))
+        icon = checks.run('icon_check:354', lambda: icon_check(source, args.swiftc, root))
+        theme_members = checks.run('member_check:355', lambda: member_check(source, args.swiftc, root))
         # The independent final font API checks have also finished. Keep their
         # reports, then release only the compiler cache before framework replay.
-        if (root/'node-cache').is_dir(): shutil.rmtree(root/'node-cache')
-        shutil.rmtree(source)
+        if (root/'node-cache').is_dir(): cleanup(root/'node-cache')
+        cleanup(source)
         def replay_projection(stage):
             destination=root/stage
             assert not destination.exists()
             assert canonical_projection(destination,stage)==files[stage]
             return destination
         system_source = replay_projection('system_web_picture_in_picture')
-        system_js = system_js_check(system_source, root)
-        system_apple = system_apple_check(system_source, args.swiftc, root)
-        shutil.rmtree(system_source)
+        system_js = checks.run('system_js_check:366', lambda: system_js_check(system_source, root))
+        system_apple = checks.run('system_apple_check:367', lambda: system_apple_check(system_source, args.swiftc, root))
+        cleanup(system_source)
         youtube_source = replay_projection('youtube_playback_policy')
-        youtube_js = youtube_js_check(youtube_source, root)
-        youtube_apple = system_apple_check(youtube_source, args.swiftc, root)
-        shutil.rmtree(youtube_source)
+        youtube_js = checks.run('youtube_js_check:370', lambda: youtube_js_check(youtube_source, root))
+        youtube_apple = checks.run('system_apple_check:371', lambda: system_apple_check(youtube_source, args.swiftc, root))
+        cleanup(youtube_source)
         input_source = replay_projection('input_effects')
-        input_effects_apple = input_effects_apple_check(input_source, args.swiftc, root)
-        shutil.rmtree(input_source)
+        input_effects_apple = checks.run('input_effects_apple_check:374', lambda: input_effects_apple_check(input_source, args.swiftc, root))
+        cleanup(input_source)
         snow_source = replay_projection('snowfall')
-        snowfall_apple = snowfall_apple_check(snow_source, args.swiftc, root)
-        shutil.rmtree(snow_source)
+        snowfall_apple = checks.run('snowfall_apple_check:377', lambda: snowfall_apple_check(snow_source, args.swiftc, root))
+        cleanup(snow_source)
     report = {'canonical_swift_files_by_checkpoint':files, 'complete_fixtures':len(runs)//2, 'executions':runs,
               'font_apply_node_contract':node,'native_navigation_contract':navigation, 'font_adapter_access_contract':access, 'apple_uikit_precheck':apple, 'font_icon_uikit_precheck':icon, 'warnings_as_errors':True, 'historical_projection_cleanup':'completed checkpoints removed; native framework checkpoints recreated one at a time with identical pinned projection metadata; final66 preserves font64 default initializer/view factory with mixed ObjC runtime first; native RPC/IUO/calendar/clipboard gates retained; video audio65 and preview/geometry/restore66 runtimes plus real framework/image API gates retained',
               'full_application_sdk':'pending', 'device':'pending'}
@@ -414,8 +421,10 @@ def main():
     report['rpc_error_nullability']=rpc_error
     report['foundation_fixture_precheck']=foundation
     report['single_touch_selection_real_sdk']=single_selection_apple
+    report.update(preflight_status='failed' if checks.failures else 'passed', checks=checks.results, failed_checks=checks.failures)
     if args.report: args.report.write_text(json.dumps(report, ensure_ascii=False, indent=2)+'\n')
     print(json.dumps(report, ensure_ascii=False, indent=2))
+    checks.require_success()
 
 
 if __name__ == '__main__': main()
