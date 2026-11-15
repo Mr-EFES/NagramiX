@@ -59,6 +59,7 @@ from font_license_compact_apple import check as font_license_compact_api_check
 from font_license_compact_modules import check as font_license_compact_modules_check
 from round_quality_summary_runtime import fixture as round_quality_summary_fixture, ui_fixture as round_quality_summary_ui_fixture, route_fixture as round_quality_summary_route_fixture
 from round_quality_summary_apple import check as round_quality_summary_api_check
+from font_apply_glass_apple import check as font_apply_glass_api_check
 from translation_account_defaults_runtime import fixture as translation_account_defaults_fixture
 from unified_glass_menus_runtime import fixture as unified_glass_menus_fixture
 from unified_glass_menus_apple import check as unified_glass_menus_api_check, modules_check as unified_glass_menus_modules_check
@@ -111,6 +112,8 @@ def canonical_projection(destination, through_stage):
     # Complete application trees are built by the normal guarded overlay.
     # This earlier fixture gate needs only real canonical Swift sources.
     native_headers = {'submodules/MtProtoKit/PublicHeaders/MtProtoKit/MTRpcError.h'} if through_stage in {'release_096_transcription_compatibility','release_096_font_node_compatibility','font_apply_node_lifecycle','video_audio_continuity','pip_preview_continuity','recording_start_recovery','selection_column_coordinates','selection_scroll_continuity','original_video_mode','feature_contract_consistency','transcription_cached_read','round_editor_quality','wide_portal_api'} else set()
+    if through_stage == 'font_apply_glass':
+        native_headers.add('submodules/UIKitRuntimeUtils/Source/UIKitRuntimeUtils/UIBarButtonItem+Proxy.h')
     if through_stage in {'snow_density_glass','settings_glass_sliders'}:
         native_headers.update({'submodules/LegacyComponents/PublicHeaders/LegacyComponents/TGPhotoEditorSliderView.h','submodules/LegacyComponents/Sources/TGPhotoEditorSliderView.m'})
     expected = {n:sha for n,sha in expected.items() if (n.endswith('.swift') or n in native_headers) and n not in post['deletions']}
@@ -178,6 +181,12 @@ def main():
         root = Path(temporary)
         foundation=foundation_check(args.swiftc,root)
         files = {}
+        apply_source=root/'font-apply-glass-native-final'
+        files['native_final87']=canonical_projection(apply_source,'font_apply_glass')
+        font_apply_glass_api=font_apply_glass_api_check(apply_source,args.swiftc,root/'font-apply-api-first')
+        runs += execute(args.swiftc,root,'font-preview-apply-final87',font_preview.fixture(apply_source))
+        shutil.rmtree(apply_source)
+        if (root/'font-apply-api-first').is_dir(): shutil.rmtree(root/'font-apply-api-first')
         round_summary_source=root/'round-summary-native-final'
         files['native_final86']=canonical_projection(round_summary_source,'round_quality_summary')
         round_quality_summary_api=round_quality_summary_api_check(round_summary_source,args.swiftc,root/'round-summary-api-first')
@@ -351,6 +360,7 @@ def main():
     report['settings_glass_sliders_native_api']=settings_glass_sliders_api
     report['font_license_compact_native_api']=font_license_compact_api
     report['font_license_compact_modules']=font_license_compact_modules
+    report['font_apply_glass_native_api']=font_apply_glass_api
     report['round_quality_summary_native_api']=round_quality_summary_api
     report['unified_glass_menus_native_api']=unified_glass_menus_api
     report['unified_glass_menus_modules']=unified_glass_menus_modules
