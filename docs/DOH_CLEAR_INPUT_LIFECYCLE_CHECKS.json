@@ -1,0 +1,230 @@
+{
+  "task": "Очистка пользовательского DoH без вылета",
+  "base_commit": "7e124a4a22d294a0a05f6a4faa1c600a1abfe119",
+  "stage": 93,
+  "name": "doh_clear_input_lifecycle",
+  "crash_evidence": {
+    "application_version": "0.9.8",
+    "build": "219",
+    "actions_run_id": 43721830908,
+    "symbols_artifact_id": 14171819399,
+    "symbols_artifact_zip_bytes": 203607253,
+    "symbols_artifact_zip_sha256": "674419a808796e6da9b2548969ece56b3c16485ccdf132fe1035d0189fed464f",
+    "matching_framework_uuids": {
+      "TelegramUIFramework": "CB8187BB-F4F0-37B7-B73E-1EB908F94144",
+      "SwiftSignalKitFramework": "15973C4B-93A6-31C7-B053-C696BA0DBD0C"
+    },
+    "symbolicated_path": [
+      "PlainButtonComponent.pressed",
+      "AlertInputFieldComponent.View.setText",
+      "ComponentView._update (local)",
+      "ExternalState.valuePromise.set",
+      "distinctUntilChanged/map/combineLatest",
+      "AlertScreen actions callback",
+      "ComponentView._update (reentry)"
+    ],
+    "native_precondition": "precondition(!self.isUpdating)",
+    "private_user_archive_committed": false
+  },
+  "source": {
+    "stage": 93,
+    "name": "doh_clear_input_lifecycle",
+    "path": "/tmp/nagramix-doh-clear-crash/source",
+    "manifest_sha256": "1484ed0b8451fb0a18071dca528a100cdaeeefd2774209b5a1acce63a628eeae",
+    "previous_manifest_sha256": "5d66aa3f166a24239f328475603fb94cdbab2e46660b1e071f2a69c659644789",
+    "files": 37694,
+    "symlinks": 26,
+    "modified_runtime_paths": [
+      "submodules/SettingsUI/Sources/NagramiXCustomDohController.swift"
+    ],
+    "new_runtime_paths": [],
+    "guards": 14,
+    "new_inc": 16,
+    "new_templates": 16,
+    "old_inc_unchanged": 5292,
+    "old_plans_unchanged": 305,
+    "historical_manifests_verified": 50
+  },
+  "feature_checks": {
+    "stage": 93,
+    "name": "doh_clear_input_lifecycle",
+    "runtime_paths": [
+      "submodules/SettingsUI/Sources/NagramiXCustomDohController.swift"
+    ],
+    "guards": 14,
+    "loader_refusals": 12,
+    "executions": [
+      {
+        "name": "native-doh-clear",
+        "mode": "debug",
+        "exit_code": 0,
+        "output": "PASS DoH empty action production checks: 85"
+      },
+      {
+        "name": "native-doh-clear",
+        "mode": "optimized",
+        "exit_code": 0,
+        "output": "PASS DoH empty action production checks: 85"
+      },
+      {
+        "name": "original219-synchronous-input",
+        "mode": "debug",
+        "original219_reentry_rejected": true,
+        "native_precondition_signal": 4,
+        "observation": "CLEAR_X_219\nNATIVE_REENTRY_219"
+      },
+      {
+        "name": "original219-synchronous-input",
+        "mode": "optimized",
+        "original219_reentry_rejected": true,
+        "native_precondition_signal": 4,
+        "observation": "CLEAR_X_219\nNATIVE_REENTRY_219"
+      },
+      {
+        "name": "only-actions-deferred",
+        "mode": "debug",
+        "original219_reentry_rejected": true,
+        "native_precondition_signal": 4,
+        "observation": "CLEAR_X_219\nNATIVE_REENTRY_219"
+      },
+      {
+        "name": "only-actions-deferred",
+        "mode": "optimized",
+        "original219_reentry_rejected": true,
+        "native_precondition_signal": 4,
+        "observation": "CLEAR_X_219\nNATIVE_REENTRY_219"
+      },
+      {
+        "name": "only-save-deferred",
+        "mode": "debug",
+        "original219_reentry_rejected": true,
+        "native_precondition_signal": 4,
+        "observation": "CLEAR_X_219\nNATIVE_REENTRY_219"
+      },
+      {
+        "name": "only-save-deferred",
+        "mode": "optimized",
+        "original219_reentry_rejected": true,
+        "native_precondition_signal": 4,
+        "observation": "CLEAR_X_219\nNATIVE_REENTRY_219"
+      }
+    ],
+    "source_unchanged_by_checks": true,
+    "boundary": "Whole actual DoH controller; native ComponentView._update including its precondition; ComponentState, input clear closure/setText/publication, Alert/Save callbacks and real SwiftSignalKit/Queue/combineLatest. UIKit painting and component erasure/context storage/transport are recording adapters. Both consumers must defer; all three original/partial fixes must trap in the unchanged native precondition after an observed reentry, debug and -O.",
+    "unchanged": "Delete/Cancel/Save/validation/resolver/disposal, all shared UI components, settings, resources, keys, dependencies and signing",
+    "full_application_sdk": "not_run",
+    "physical_iphone": "pending",
+    "new_actions_or_ipa_started": false
+  },
+  "global_source_checks": [
+    {
+      "name": "early",
+      "exit_code": 0,
+      "seconds": 444.9,
+      "source_manifest_sha256": "1484ed0b8451fb0a18071dca528a100cdaeeefd2774209b5a1acce63a628eeae"
+    },
+    {
+      "name": "upstream",
+      "exit_code": 0,
+      "seconds": 109.6,
+      "source_manifest_sha256": "1484ed0b8451fb0a18071dca528a100cdaeeefd2774209b5a1acce63a628eeae"
+    },
+    {
+      "name": "inverse",
+      "exit_code": 0,
+      "seconds": 126.7,
+      "source_manifest_sha256": "1484ed0b8451fb0a18071dca528a100cdaeeefd2774209b5a1acce63a628eeae"
+    },
+    {
+      "name": "localization",
+      "exit_code": 0,
+      "seconds": 42.7,
+      "source_manifest_sha256": "1484ed0b8451fb0a18071dca528a100cdaeeefd2774209b5a1acce63a628eeae"
+    },
+    {
+      "name": "members-full",
+      "exit_code": 0,
+      "seconds": 4.7,
+      "source_manifest_sha256": "1484ed0b8451fb0a18071dca528a100cdaeeefd2774209b5a1acce63a628eeae"
+    },
+    {
+      "name": "members-canonical",
+      "exit_code": 0,
+      "seconds": 1.9,
+      "source_manifest_sha256": "1484ed0b8451fb0a18071dca528a100cdaeeefd2774209b5a1acce63a628eeae"
+    },
+    {
+      "name": "native-strings",
+      "exit_code": 0,
+      "seconds": 5.5,
+      "source_manifest_sha256": "1484ed0b8451fb0a18071dca528a100cdaeeefd2774209b5a1acce63a628eeae"
+    },
+    {
+      "name": "mode",
+      "exit_code": 0,
+      "seconds": 0.2,
+      "source_manifest_sha256": "1484ed0b8451fb0a18071dca528a100cdaeeefd2774209b5a1acce63a628eeae"
+    },
+    {
+      "name": "metadata",
+      "exit_code": 0,
+      "seconds": 0.1,
+      "source_manifest_sha256": "1484ed0b8451fb0a18071dca528a100cdaeeefd2774209b5a1acce63a628eeae"
+    },
+    {
+      "name": "diff",
+      "exit_code": 0,
+      "seconds": 0.0,
+      "source_manifest_sha256": "1484ed0b8451fb0a18071dca528a100cdaeeefd2774209b5a1acce63a628eeae"
+    }
+  ],
+  "global_source_checks_complete": true,
+  "early_portable_suite": {
+    "preflight_status": "passed",
+    "checks": 110,
+    "failed_checks": 0,
+    "complete_fixtures": 69,
+    "executions": 138,
+    "native_lifecycle_records": 8,
+    "boundary": "Linux source/Swift fixtures. Real Apple UIKit/SDK checks in this host are not_run; new final clear-X fixture separately verified by feature_checks."
+  },
+  "collection_tests": {
+    "count": 8,
+    "result": "passed",
+    "all_50_early_call_sites_collected": true
+  },
+  "build_input_checks": {
+    "workflow_scripts": 279,
+    "python_syntax_files": 809,
+    "sdk_plans": 99,
+    "late_stages": 93,
+    "result": "passed",
+    "native_environment": "not_run"
+  },
+  "scope_review": {
+    "old-inc_preserved": 5292,
+    "old-plans_preserved": 305,
+    "protected_files_preserved": true,
+    "registry_changes": [
+      [
+        "dns_doh",
+        {
+          "implementation": "implemented",
+          "compile": "compile_passed",
+          "device": "device_pending"
+        },
+        {
+          "implementation": "implemented",
+          "compile": "compile_pending",
+          "device": "device_pending"
+        }
+      ]
+    ]
+  },
+  "full_application_sdk": "not_run",
+  "physical_iphone": "pending",
+  "new_actions_or_ipa_started": false,
+  "published_ipa_219_contains_this_fix": false,
+  "release_assets_or_tags_changed": false,
+  "publication_target": "main only; next IPA requires a new direct build command"
+}

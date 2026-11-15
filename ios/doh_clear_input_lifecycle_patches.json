@@ -1,0 +1,71 @@
+{
+  "target_pin": "24638bc69bd083981b178dd1e7f921eebbf7fc46",
+  "overlay_base_pin": "279f89e4d4f63f17227bf877dc3d8990f22ecd58",
+  "required_previous_stage": "release_098_compile_compatibility",
+  "inputs": {
+    "submodules/SettingsUI/Sources/NagramiXCustomDohController.swift": "d278e32ab032fd7dee03fbc97f3c950f4deb35866080ab41ebe6834ffaeeb11d"
+  },
+  "outputs": {
+    "submodules/SettingsUI/Sources/NagramiXCustomDohController.swift": "4cd5838d82a18a603b4a231e4fbfe230dc4f343552ec9b01306ad65fbc62f185"
+  },
+  "previous": {
+    "submodules/SettingsUI/Sources/NagramiXCustomDohController.swift": "doh_clear_input_lifecycle/Before0.inc"
+  },
+  "replacements": {
+    "submodules/SettingsUI/Sources/NagramiXCustomDohController.swift": "doh_clear_input_lifecycle/After0.inc"
+  },
+  "guards": {
+    "submodules/TelegramUI/Components/AlertComponent/AlertInputFieldComponent/Sources/AlertInputFieldComponent.swift": "36f1da13c00ea4472615ff5bc773754cb5d7898eec2e2975f8d335407eddf40d",
+    "submodules/TelegramUI/Components/AlertComponent/Sources/AlertComponent.swift": "da6b2c860a791fa4fcc1e6f278f9b50ef4c3b8607fa2b97aaa0c0016b8e4b2fe",
+    "submodules/TelegramUI/Components/AlertComponent/Sources/AlertActionComponent.swift": "53e8f0446818590e30da2882930d83644b7cfb27fdfc1ae437ddba484f19dabb",
+    "submodules/ComponentFlow/Source/Host/ComponentHostView.swift": "dd69b5ff8b02b87f2795e0841472e3877d5cdcecf18e8f2e3ddd8368fe9bf0fa",
+    "submodules/ComponentFlow/Source/Base/Component.swift": "3de9924b424a450c794512c6d1315adcfaa5149519a7610cdc5c68598d15558b",
+    "submodules/SSignalKit/SwiftSignalKit/Source/Queue.swift": "ac7db4cdf6b9728f0936bf35998cee3f6b8d7824abbc07e71e679e068315b31b",
+    "submodules/SSignalKit/SwiftSignalKit/Source/Signal_Dispatch.swift": "136f325211fca4cf75d193a3f273d092a32ed9304c3442095b707c6b1639fc38",
+    "submodules/SSignalKit/SwiftSignalKit/Source/Promise.swift": "e691338e89b656e5d272f70e6c97f5d07990d57badfd7e1d7e1dae86f9a3693a",
+    "submodules/SSignalKit/SwiftSignalKit/Source/Signal_Combine.swift": "994f52d6459d2251a2880f7d0827f853e74c4bd20ab7896386f4152215723450",
+    "submodules/SettingsUI/Sources/Data and Storage/ProxyListSettingsController.swift": "a60f92f7c132e668cfec42c9cde62026a4c66df2c6099c276c056993f7f5848a",
+    "submodules/NagramiXCore/Sources/NagramiXTabSettings.swift": "71328bb06d34937632e25bb2cf1e2c1adbb46371ca5f29b563721017326abec9",
+    "submodules/SettingsUI/BUILD": "b229ff1580a1e8e13770d400a1c0c9e1cf56ef05b831659c3422a6141b50f489",
+    "submodules/SSignalKit/SwiftSignalKit/Source/Subscriber.swift": "eb28ad26bda8b4a8ff1aad73b949d4c3d24132db3aebdd1f5a4c67a5962718ee",
+    "submodules/NagramiXCore/Sources/NagramiXPresentationStrings.swift": "b9700aab8046faceae855dc3336cfb22869c71f2aa395c4a0258c544be895d50"
+  },
+  "guard_sources": {
+    "submodules/TelegramUI/Components/AlertComponent/AlertInputFieldComponent/Sources/AlertInputFieldComponent.swift": "doh_clear_input_lifecycle/Guard0.inc",
+    "submodules/TelegramUI/Components/AlertComponent/Sources/AlertComponent.swift": "doh_clear_input_lifecycle/Guard1.inc",
+    "submodules/TelegramUI/Components/AlertComponent/Sources/AlertActionComponent.swift": "doh_clear_input_lifecycle/Guard2.inc",
+    "submodules/ComponentFlow/Source/Host/ComponentHostView.swift": "doh_clear_input_lifecycle/Guard3.inc",
+    "submodules/ComponentFlow/Source/Base/Component.swift": "doh_clear_input_lifecycle/Guard4.inc",
+    "submodules/SSignalKit/SwiftSignalKit/Source/Queue.swift": "doh_clear_input_lifecycle/Guard5.inc",
+    "submodules/SSignalKit/SwiftSignalKit/Source/Signal_Dispatch.swift": "doh_clear_input_lifecycle/Guard6.inc",
+    "submodules/SSignalKit/SwiftSignalKit/Source/Promise.swift": "doh_clear_input_lifecycle/Guard7.inc",
+    "submodules/SSignalKit/SwiftSignalKit/Source/Signal_Combine.swift": "doh_clear_input_lifecycle/Guard8.inc",
+    "submodules/SettingsUI/Sources/Data and Storage/ProxyListSettingsController.swift": "doh_clear_input_lifecycle/Guard9.inc",
+    "submodules/NagramiXCore/Sources/NagramiXTabSettings.swift": "doh_clear_input_lifecycle/Guard10.inc",
+    "submodules/SettingsUI/BUILD": "doh_clear_input_lifecycle/Guard11.inc",
+    "submodules/SSignalKit/SwiftSignalKit/Source/Subscriber.swift": "doh_clear_input_lifecycle/Guard12.inc",
+    "submodules/NagramiXCore/Sources/NagramiXPresentationStrings.swift": "doh_clear_input_lifecycle/Guard13.inc"
+  },
+  "copies": {},
+  "deletions": {},
+  "native_inputs": {},
+  "native_guards": {},
+  "templates": {
+    "doh_clear_input_lifecycle/Before0.inc": "d278e32ab032fd7dee03fbc97f3c950f4deb35866080ab41ebe6834ffaeeb11d",
+    "doh_clear_input_lifecycle/After0.inc": "4cd5838d82a18a603b4a231e4fbfe230dc4f343552ec9b01306ad65fbc62f185",
+    "doh_clear_input_lifecycle/Guard0.inc": "36f1da13c00ea4472615ff5bc773754cb5d7898eec2e2975f8d335407eddf40d",
+    "doh_clear_input_lifecycle/Guard1.inc": "da6b2c860a791fa4fcc1e6f278f9b50ef4c3b8607fa2b97aaa0c0016b8e4b2fe",
+    "doh_clear_input_lifecycle/Guard2.inc": "53e8f0446818590e30da2882930d83644b7cfb27fdfc1ae437ddba484f19dabb",
+    "doh_clear_input_lifecycle/Guard3.inc": "dd69b5ff8b02b87f2795e0841472e3877d5cdcecf18e8f2e3ddd8368fe9bf0fa",
+    "doh_clear_input_lifecycle/Guard4.inc": "3de9924b424a450c794512c6d1315adcfaa5149519a7610cdc5c68598d15558b",
+    "doh_clear_input_lifecycle/Guard5.inc": "ac7db4cdf6b9728f0936bf35998cee3f6b8d7824abbc07e71e679e068315b31b",
+    "doh_clear_input_lifecycle/Guard6.inc": "136f325211fca4cf75d193a3f273d092a32ed9304c3442095b707c6b1639fc38",
+    "doh_clear_input_lifecycle/Guard7.inc": "e691338e89b656e5d272f70e6c97f5d07990d57badfd7e1d7e1dae86f9a3693a",
+    "doh_clear_input_lifecycle/Guard8.inc": "994f52d6459d2251a2880f7d0827f853e74c4bd20ab7896386f4152215723450",
+    "doh_clear_input_lifecycle/Guard9.inc": "a60f92f7c132e668cfec42c9cde62026a4c66df2c6099c276c056993f7f5848a",
+    "doh_clear_input_lifecycle/Guard10.inc": "71328bb06d34937632e25bb2cf1e2c1adbb46371ca5f29b563721017326abec9",
+    "doh_clear_input_lifecycle/Guard11.inc": "b229ff1580a1e8e13770d400a1c0c9e1cf56ef05b831659c3422a6141b50f489",
+    "doh_clear_input_lifecycle/Guard12.inc": "eb28ad26bda8b4a8ff1aad73b949d4c3d24132db3aebdd1f5a4c67a5962718ee",
+    "doh_clear_input_lifecycle/Guard13.inc": "b9700aab8046faceae855dc3336cfb22869c71f2aa395c4a0258c544be895d50"
+  }
+}

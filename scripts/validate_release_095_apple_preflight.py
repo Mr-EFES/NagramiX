@@ -45,6 +45,7 @@ from round_editor_quality_apple import check as round_editor_quality_api_check
 from validate_wide_portal_api import native_api_check as wide_portal_native_api_check
 from wide_portal_api_runtime import fixture as wide_portal_fixture
 from doh_empty_action_runtime import fixture as doh_empty_action_fixture
+from validate_doh_clear_input_lifecycle import regressions as doh_clear_native_check
 from archived_playlist_lifetime_runtime import fixture as archived_playlist_lifetime_fixture
 from story_avatar_visibility_runtime import fixture as story_avatar_visibility_fixture
 from original_video_media_runtime import fixture as original_video_media_fixture
@@ -198,6 +199,12 @@ def main():
                 shutil.rmtree(path)
         foundation=checks.run('foundation_check:191', lambda: foundation_check(args.swiftc,root))
         files = {}
+        doh_clear_source=root/'doh-clear-native-final93'
+        files['native_final93']=canonical_projection(doh_clear_source,'doh_clear_input_lifecycle')
+        doh_clear_lifecycle=checks.run('doh-clear-native-lifecycle', lambda: doh_clear_native_check(doh_clear_source,args.swiftc,root/'doh-clear-native'), fallback=[])
+        runs += doh_clear_lifecycle[:2]
+        cleanup(doh_clear_source)
+        cleanup(root/'doh-clear-native')
         compile_source=root/'release098-native-final92'
         files['native_final92']=canonical_projection(compile_source,'release_098_compile_compatibility')
         release098_compilation=checks.run('release098-cross-file-compilation', lambda: release098_compile_check(compile_source,args.swiftc,root/'release098-cross-file'))
@@ -394,6 +401,7 @@ def main():
               'full_application_sdk':'pending', 'device':'pending'}
     report['actual_font_theme_adapter_members']=theme_members
     report['release098_cross_file_compilation']=release098_compilation
+    report['doh_clear_input_native_lifecycle']=doh_clear_lifecycle
     report['system_web_javascript']=system_js
     report['system_web_real_sdk']=system_apple
     report['youtube_playback_policy_js']=youtube_js
