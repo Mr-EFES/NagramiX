@@ -33,7 +33,7 @@ def fixture(source):
     screen = (source / SCREEN).read_text()
     opened = (source / OPEN).read_text()
     profile = (source / PROFILE).read_text()
-    kit = 'import Foundation\nimport CoreFoundation\n'
+    kit = 'import Foundation\nimport CoreFoundation\n#if canImport(CoreGraphics)\nimport CoreGraphics\n#endif\n'
     for name in NATIVE:
         text = (source / (KIT + name)).read_text()
         if name == 'Signal.swift':

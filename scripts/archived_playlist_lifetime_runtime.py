@@ -23,7 +23,10 @@ def fixture(source):
     code += 'final class PlayerProbe {\nvar cancelled:(()->Void)?;var stops=0\nfunc stop(){stops+=1}\ninit(_ playlist:PlaylistProbe){\n'
     code += block((source / SHARED).read_text(), '        playlist.currentItemDisappeared = { [weak self] in')
     code += '\n}\n}\n'
-    code += 'final class ManagerProbe {\nvar voiceMediaPlayer:PlayerProbe?\nfunc install(_ voiceMediaPlayer:PlayerProbe){\nself.voiceMediaPlayer=voiceMediaPlayer\nlet installHandler = { [weak self] in\n'
+    # This host receives an existing parameter; production creates that player
+    # inside its outer callback. Make the host's temporary strong capture
+    # explicit while leaving the extracted inner weak callback byte-identical.
+    code += 'final class ManagerProbe {\nvar voiceMediaPlayer:PlayerProbe?\nfunc install(_ voiceMediaPlayer:PlayerProbe){\nself.voiceMediaPlayer=voiceMediaPlayer\nlet installHandler = { [weak self, voiceMediaPlayer] in\n'
     code += block((source / MANAGER).read_text(), '                                voiceMediaPlayer.cancelled = { [weak voiceMediaPlayer] in')
     code += '\n};installHandler()\n}\n}\n'
     return code + '\n' + TESTS

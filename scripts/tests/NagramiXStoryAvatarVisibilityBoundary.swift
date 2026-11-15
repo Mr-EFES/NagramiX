@@ -1,5 +1,9 @@
 // The real Apple views are opaque here. These adapters record only visibility
 // and lifecycle calls; CoreAnimation/rendering and navigation are not simulated.
+final class StoryWeakReference<T: AnyObject> {
+    weak var value: T?
+    init(_ value: T?) { self.value = value }
+}
 public class UIView {
     var bounds = CGRect(x: 0, y: 0, width: 60, height: 60)
     var isHidden = false { didSet { visibilityWrites.append(isHidden) } }
