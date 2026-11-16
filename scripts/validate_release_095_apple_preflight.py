@@ -55,6 +55,7 @@ from validate_original_video_gallery import check as original_gallery_check
 from validate_round_quality_checkmark_alignment import check as round_checkmark_check
 from validate_round_video_encoding import check as round_encoding_check
 from validate_tab_visibility_sync import check as tab_visibility_check
+from validate_native_pip_refinement import check as native_pip_refinement_check
 from archived_playlist_lifetime_runtime import fixture as archived_playlist_lifetime_fixture
 from story_avatar_visibility_runtime import fixture as story_avatar_visibility_fixture
 from original_video_media_runtime import fixture as original_video_media_fixture
@@ -210,6 +211,12 @@ def main():
                 shutil.rmtree(path)
         foundation=checks.run('foundation_check:191', lambda: foundation_check(args.swiftc,root))
         files = {}
+        native_pip_source=root/'native-pip-native-final104'
+        files['native_final104']=canonical_projection(native_pip_source,'native_pip_refinement')
+        native_pip_refinement=checks.run('native-pip-refinement', lambda: native_pip_refinement_check(native_pip_source,args.swiftc,root/'native-pip-refinement'), fallback={})
+        runs += native_pip_refinement.get('executions',[])
+        cleanup(native_pip_source)
+        cleanup(root/'native-pip-refinement')
         tab_visibility_source=root/'tab-visibility-native-final103'
         files['native_final103']=canonical_projection(tab_visibility_source,'tab_visibility_sync')
         tab_visibility=checks.run('tab-visibility-sync', lambda: tab_visibility_check(tab_visibility_source,args.swiftc,root/'tab-visibility'), fallback={})
@@ -479,6 +486,7 @@ def main():
     report['round_quality_checkmark_alignment']=round_checkmark
     report['round_video_encoding']=round_encoding
     report['tab_visibility_sync']=tab_visibility
+    report['native_pip_refinement']=native_pip_refinement
     report['system_web_javascript']=system_js
     report['system_web_real_sdk']=system_apple
     report['youtube_playback_policy_js']=youtube_js

@@ -1,0 +1,800 @@
+{
+  "task": "Штатный PiP Telegram, свайп вверх для области видео, верхний clipping и независимая кнопка YouTube",
+  "base_commit": "765b90966efffb3c3505137ab1d85685c4275626",
+  "stage": 104,
+  "name": "native_pip_refinement",
+  "source": {
+    "stage": 104,
+    "name": "native_pip_refinement",
+    "path": "/tmp/nagramix-native-pip-refinement/source",
+    "manifest_sha256": "093baf064a6ddc104fb3dff4be96d67c05b58ecbc0092b2e64e9be3300899e89",
+    "previous_manifest_sha256": "cc443fbade31af68ae6a6e4ef62945fb6b166c1257ba558d8aa6e1f0218f9755",
+    "files": 37696,
+    "symlinks": 26,
+    "modified_runtime_paths": [
+      "submodules/GalleryUI/Sources/Items/UniversalVideoGalleryItem.swift",
+      "submodules/TelegramUniversalVideoContent/Sources/WebEmbedPlayerNode.swift"
+    ],
+    "new_runtime_paths": [],
+    "guards": 22,
+    "new_inc": 26,
+    "new_templates": 26,
+    "old_inc_unchanged": 5842,
+    "old_plans_unchanged": 316,
+    "historical_manifests_verified": 61
+  },
+  "native_reference": {
+    "repository": "TelegramMessenger/Telegram-iOS",
+    "pin": "24638bc69bd083981b178dd1e7f921eebbf7fc46",
+    "path": "submodules/GalleryUI/Sources/Items/UniversalVideoGalleryItem.swift",
+    "sha256": "0ec90e1d57cc44ad9a63220905a8c52573de50f25610e8c7a2616a6dbcd526b6",
+    "git_blob": "8f2dc3e1496fc7ac2fef501acc737d05174c6eca",
+    "bytes": 227192,
+    "retrieved_via": "GitHub connector; exact content, extra local patch newline removed",
+    "baseline": "setupNativePictureInPicture/willBegin starts beginCustomDismiss(.pip) and native alpha fade0.2s; original sample-buffer AVKit source retained",
+    "changes": "Shared source request/restore guards retained; begin fade in WillStart, detach only after both native fade and DidStart; surface swipe and root clip fix."
+  },
+  "recording_analysis": {
+    "duration_seconds": 55.566667,
+    "frame_size": [
+      288,
+      640
+    ],
+    "fps": 30,
+    "observed": [
+      "black technical gallery persists under PiP",
+      "portrait swipes sometimes move video without successful PiP",
+      "upper edge formation visible"
+    ],
+    "pixel_validation_of_new_fix": "not_run"
+  },
+  "feature_checks": {
+    "contracts": {
+      "existing_players_and_decoder_unchanged": true,
+      "native_will_start_fade_duration_seconds": 0.2,
+      "one_button_swipe_request": true,
+      "surface_gesture_independent_of_outer_scroll_offset": true,
+      "root_and_inner_clipping_restored": true,
+      "avkit_admits_all_source_aspect_ratios": true,
+      "entry_does_not_wait_for_restore_snapshot_readiness": true,
+      "youtube_button_independent_of_swipe_preference": true,
+      "background_audio_pause_interruption_and_js_policy_unchanged": true,
+      "new_strings_dependencies_and_app_files": 0,
+      "server_drm_entitlement_bypass": false
+    },
+    "executions": [
+      {
+        "name": "native-pip-transition",
+        "mode": "debug",
+        "exit_code": 0,
+        "output": "239 actual PiP transition checks passed"
+      },
+      {
+        "name": "native-pip-transition",
+        "mode": "optimized",
+        "exit_code": 0,
+        "output": "239 actual PiP transition checks passed"
+      },
+      {
+        "name": "native-pip-clipping",
+        "mode": "debug",
+        "exit_code": 0,
+        "output": "43 actual clipping checks passed"
+      },
+      {
+        "name": "native-pip-clipping",
+        "mode": "optimized",
+        "exit_code": 0,
+        "output": "43 actual clipping checks passed"
+      },
+      {
+        "name": "native-pip-gesture",
+        "mode": "debug",
+        "exit_code": 0,
+        "output": "27 actual gesture checks passed"
+      },
+      {
+        "name": "native-pip-gesture",
+        "mode": "optimized",
+        "exit_code": 0,
+        "output": "27 actual gesture checks passed"
+      },
+      {
+        "name": "native-pip-youtube",
+        "mode": "debug",
+        "exit_code": 0,
+        "output": "YouTube background production checks: 67"
+      },
+      {
+        "name": "native-pip-youtube",
+        "mode": "optimized",
+        "exit_code": 0,
+        "output": "YouTube background production checks: 67"
+      },
+      {
+        "name": "native-pip-eligibility",
+        "mode": "debug",
+        "exit_code": 0,
+        "output": "31 actual embedded eligibility checks passed"
+      },
+      {
+        "name": "native-pip-eligibility",
+        "mode": "optimized",
+        "exit_code": 0,
+        "output": "31 actual embedded eligibility checks passed"
+      },
+      {
+        "name": "native-pip-native-delegates",
+        "mode": "debug",
+        "exit_code": 0,
+        "output": "12 native cancellation production checks passed"
+      },
+      {
+        "name": "native-pip-native-delegates",
+        "mode": "optimized",
+        "exit_code": 0,
+        "output": "12 native cancellation production checks passed"
+      },
+      {
+        "name": "native-pip-poster",
+        "mode": "debug",
+        "exit_code": 0,
+        "output": "88 PiP source poster production checks passed"
+      },
+      {
+        "name": "native-pip-poster",
+        "mode": "optimized",
+        "exit_code": 0,
+        "output": "88 PiP source poster production checks passed"
+      }
+    ],
+    "semantic_negatives": [
+      {
+        "name": "late-native-fade",
+        "mode": "debug",
+        "exit_code": 96,
+        "output": "PiP refinement: native fade starts before DidStart; no early detachment"
+      },
+      {
+        "name": "late-native-fade",
+        "mode": "optimized",
+        "exit_code": 96,
+        "output": "PiP refinement: native fade starts before DidStart; no early detachment"
+      },
+      {
+        "name": "invisible-web-probe",
+        "mode": "debug",
+        "exit_code": 96,
+        "output": "PiP refinement: WebKit source stays visible during asynchronous probe"
+      },
+      {
+        "name": "invisible-web-probe",
+        "mode": "optimized",
+        "exit_code": 96,
+        "output": "PiP refinement: WebKit source stays visible during asynchronous probe"
+      },
+      {
+        "name": "snapshot-gates-entry",
+        "mode": "debug",
+        "exit_code": 96,
+        "output": "PiP refinement: native fade starts before DidStart; no early detachment"
+      },
+      {
+        "name": "snapshot-gates-entry",
+        "mode": "optimized",
+        "exit_code": 96,
+        "output": "PiP refinement: native fade starts before DidStart; no early detachment"
+      },
+      {
+        "name": "early-detach",
+        "mode": "debug",
+        "exit_code": 96,
+        "output": "PiP refinement: DidStart alone does not cut off native fade"
+      },
+      {
+        "name": "early-detach",
+        "mode": "optimized",
+        "exit_code": 96,
+        "output": "PiP refinement: DidStart alone does not cut off native fade"
+      },
+      {
+        "name": "stale-fade",
+        "mode": "debug",
+        "exit_code": 96,
+        "output": "PiP refinement: failed native/web start restores original gallery and stale fade cannot dismiss it"
+      },
+      {
+        "name": "stale-fade",
+        "mode": "optimized",
+        "exit_code": 96,
+        "output": "PiP refinement: failed native/web start restores original gallery and stale fade cannot dismiss it"
+      },
+      {
+        "name": "root-still-clips",
+        "mode": "debug",
+        "exit_code": 96,
+        "output": "PiP clip: root and inner upper/lower edges use the same unclipped path"
+      },
+      {
+        "name": "root-still-clips",
+        "mode": "optimized",
+        "exit_code": 96,
+        "output": "PiP clip: root and inner upper/lower edges use the same unclipped path"
+      },
+      {
+        "name": "root-not-restored",
+        "mode": "debug",
+        "exit_code": 96,
+        "output": "PiP clip: root restored even after gallery reparenting"
+      },
+      {
+        "name": "root-not-restored",
+        "mode": "optimized",
+        "exit_code": 96,
+        "output": "PiP clip: root restored even after gallery reparenting"
+      },
+      {
+        "name": "downward-swipe",
+        "mode": "debug",
+        "exit_code": 96,
+        "output": "PiP gesture: upward vertical pan admitted"
+      },
+      {
+        "name": "downward-swipe",
+        "mode": "optimized",
+        "exit_code": 96,
+        "output": "PiP gesture: upward vertical pan admitted"
+      },
+      {
+        "name": "cancel-native-touches",
+        "mode": "debug",
+        "exit_code": 96,
+        "output": "PiP gesture: one-finger observer does not cancel native touches"
+      },
+      {
+        "name": "cancel-native-touches",
+        "mode": "optimized",
+        "exit_code": 96,
+        "output": "PiP gesture: one-finger observer does not cancel native touches"
+      },
+      {
+        "name": "repeated-pan-request",
+        "mode": "debug",
+        "exit_code": 96,
+        "output": "PiP gesture: one pan submits at most one request even after failed start"
+      },
+      {
+        "name": "repeated-pan-request",
+        "mode": "optimized",
+        "exit_code": 96,
+        "output": "PiP gesture: one pan submits at most one request even after failed start"
+      },
+      {
+        "name": "active-pan-reset",
+        "mode": "debug",
+        "exit_code": 96,
+        "output": "PiP refinement: ongoing swipe after DidStart cannot reset source geometry"
+      },
+      {
+        "name": "active-pan-reset",
+        "mode": "optimized",
+        "exit_code": 96,
+        "output": "PiP refinement: ongoing swipe after DidStart cannot reset source geometry"
+      },
+      {
+        "name": "control-interception",
+        "mode": "debug",
+        "exit_code": 96,
+        "output": "PiP gesture: native button descendants excluded"
+      },
+      {
+        "name": "control-interception",
+        "mode": "optimized",
+        "exit_code": 96,
+        "output": "PiP gesture: native button descendants excluded"
+      },
+      {
+        "name": "swipe-revokes-button",
+        "mode": "debug",
+        "exit_code": 96,
+        "output": "YouTube background: only YouTube receives client PiP override and swipe OFF cannot revoke button"
+      },
+      {
+        "name": "swipe-revokes-button",
+        "mode": "optimized",
+        "exit_code": 96,
+        "output": "YouTube background: only YouTube receives client PiP override and swipe OFF cannot revoke button"
+      }
+    ],
+    "youtube_document_start_script": {
+      "status": "passed",
+      "output": "YouTube background DOM checks: 275",
+      "semantic_negatives_rejected": [
+        "late-prototype-wrap",
+        "background-depends-on-pip",
+        "ignore-user-pause",
+        "ignore-playback-off",
+        "ignore-application-inactive",
+        "no-media-events"
+      ],
+      "boundary": "Actual injected script in Node vm; explicit DOM/events/HTML media adapters, no live WebKit/YouTube/iPhone execution."
+    },
+    "apple_api": {
+      "status": "not_run",
+      "swift_parse": "passed",
+      "full_application_sdk": "not_run",
+      "physical_iphone": "pending",
+      "reason": "UIKit/AVKit unavailable on Linux; production handler/clipping logic executes with explicit IO hosts."
+    },
+    "boundary": "Actual handlers/delegates/bridge/DOM script; controllable UIKit/AVKit/navigation/clock and image hosts. No pixel or live iPhone/YouTube claim.",
+    "full_application_sdk": "not_run",
+    "physical_iphone": "pending"
+  },
+  "final_loader_guards": {
+    "loader_refusals": 14,
+    "refusals": [
+      "repeat",
+      "inputs/submodules/GalleryUI/Sources/Items/UniversalVideoGalleryItem.swift/missing",
+      "inputs/submodules/GalleryUI/Sources/Items/UniversalVideoGalleryItem.swift/drift",
+      "inputs/submodules/TelegramUniversalVideoContent/Sources/WebEmbedPlayerNode.swift/missing",
+      "inputs/submodules/TelegramUniversalVideoContent/Sources/WebEmbedPlayerNode.swift/drift",
+      "guards/submodules/AccountContext/Sources/UniversalVideoNode.swift/missing",
+      "guards/submodules/AccountContext/Sources/UniversalVideoNode.swift/drift",
+      "guards/submodules/MediaPlayer/Sources/MediaPlayerNode.swift/missing",
+      "guards/submodules/MediaPlayer/Sources/MediaPlayerNode.swift/drift",
+      "guards/submodules/TelegramUniversalVideoContent/Sources/YoutubeEmbedImplementation.swift/missing",
+      "guards/submodules/TelegramUniversalVideoContent/Sources/YoutubeEmbedImplementation.swift/drift",
+      "template-drift",
+      "unsafe-output",
+      "invalid-manifest"
+    ],
+    "source_manifest_sha256": "093baf064a6ddc104fb3dff4be96d67c05b58ecbc0092b2e64e9be3300899e89",
+    "source_unchanged": true
+  },
+  "global_source_checks": [
+    {
+      "name": "early-scoped",
+      "exit_code": 0,
+      "seconds": 56.5,
+      "source_manifest_sha256": "093baf064a6ddc104fb3dff4be96d67c05b58ecbc0092b2e64e9be3300899e89"
+    },
+    {
+      "name": "upstream",
+      "exit_code": 0,
+      "seconds": 121.7,
+      "source_manifest_sha256": "093baf064a6ddc104fb3dff4be96d67c05b58ecbc0092b2e64e9be3300899e89"
+    },
+    {
+      "name": "inverse",
+      "exit_code": 0,
+      "seconds": 155.7,
+      "source_manifest_sha256": "093baf064a6ddc104fb3dff4be96d67c05b58ecbc0092b2e64e9be3300899e89"
+    },
+    {
+      "name": "localization",
+      "exit_code": 0,
+      "seconds": null,
+      "source_manifest_sha256": "093baf064a6ddc104fb3dff4be96d67c05b58ecbc0092b2e64e9be3300899e89",
+      "rerun_after_temporary_space_failure": true,
+      "temporary_python_projections": "lossless RAM; original validator/assertions and Swift compiler IO unchanged"
+    },
+    {
+      "name": "members-full",
+      "exit_code": 0,
+      "seconds": 4.7,
+      "source_manifest_sha256": "093baf064a6ddc104fb3dff4be96d67c05b58ecbc0092b2e64e9be3300899e89"
+    },
+    {
+      "name": "members-canonical",
+      "exit_code": 0,
+      "seconds": 2.1,
+      "source_manifest_sha256": "093baf064a6ddc104fb3dff4be96d67c05b58ecbc0092b2e64e9be3300899e89"
+    },
+    {
+      "name": "native-strings",
+      "exit_code": 0,
+      "seconds": 5.6,
+      "source_manifest_sha256": "093baf064a6ddc104fb3dff4be96d67c05b58ecbc0092b2e64e9be3300899e89"
+    },
+    {
+      "name": "mode",
+      "exit_code": 0,
+      "seconds": 0.2,
+      "source_manifest_sha256": "093baf064a6ddc104fb3dff4be96d67c05b58ecbc0092b2e64e9be3300899e89"
+    },
+    {
+      "name": "metadata",
+      "exit_code": 0,
+      "seconds": null,
+      "source_manifest_sha256": "093baf064a6ddc104fb3dff4be96d67c05b58ecbc0092b2e64e9be3300899e89"
+    },
+    {
+      "name": "diff",
+      "exit_code": 0,
+      "seconds": null,
+      "source_manifest_sha256": "093baf064a6ddc104fb3dff4be96d67c05b58ecbc0092b2e64e9be3300899e89"
+    }
+  ],
+  "global_source_checks_complete": true,
+  "localization_temporary_io": {
+    "projection_content_storage": "lossless RAM; own temporary Python-only historical paths",
+    "stats": {
+      "writes": 7699,
+      "reads": 35478,
+      "text_reads": 1712,
+      "unique_bytes": 89899062,
+      "projected_bytes": 396787107
+    },
+    "actual_source_unchanged": true,
+    "standard_validator_and_all_assertions": "unchanged",
+    "swift_compilation_io": "ordinary filesystem, final source"
+  },
+  "support_checks": [
+    {
+      "name": "versions",
+      "exit_code": 0,
+      "seconds": 0.06
+    },
+    {
+      "name": "annotations",
+      "exit_code": 0,
+      "seconds": 0.06
+    },
+    {
+      "name": "owner-publication",
+      "exit_code": 0,
+      "seconds": 0.13
+    },
+    {
+      "name": "collector",
+      "exit_code": 0,
+      "seconds": 0.71
+    },
+    {
+      "name": "build-input-tests",
+      "exit_code": 0,
+      "seconds": 0.1
+    },
+    {
+      "name": "build-inputs",
+      "exit_code": 0,
+      "seconds": 1.7
+    },
+    {
+      "name": "input-origins",
+      "exit_code": 0,
+      "seconds": 0.78
+    }
+  ],
+  "early_scope": {
+    "scope": "Новый checker104 выполнен через настоящий canonical_projection/CheckCollection. Старые112 шагов/73fixtures/146runs и scoped96/97/98/100/101/102/103 не запускались повторно; их код/планы/проверенные отчёты сохранены.",
+    "full_preflight_rerun": false,
+    "previous_runs_reused": [
+      {
+        "path": "/tmp/nagramix-tab-visibility/early-scoped.json",
+        "sha256": "8b98cfbbf873e6b8e09163840553a53eaf529383726d32c5d06908accfdb71cf"
+      }
+    ],
+    "new_check_status": "passed",
+    "projection": {
+      "written": 596,
+      "pinned_native_dependencies": 6,
+      "unused_unavailable_native_guards": 99,
+      "localized_resources": 0
+    },
+    "new_check": {
+      "contracts": {
+        "existing_players_and_decoder_unchanged": true,
+        "native_will_start_fade_duration_seconds": 0.2,
+        "one_button_swipe_request": true,
+        "surface_gesture_independent_of_outer_scroll_offset": true,
+        "root_and_inner_clipping_restored": true,
+        "avkit_admits_all_source_aspect_ratios": true,
+        "entry_does_not_wait_for_restore_snapshot_readiness": true,
+        "youtube_button_independent_of_swipe_preference": true,
+        "background_audio_pause_interruption_and_js_policy_unchanged": true,
+        "new_strings_dependencies_and_app_files": 0,
+        "server_drm_entitlement_bypass": false
+      },
+      "executions": [
+        {
+          "name": "native-pip-transition",
+          "mode": "debug",
+          "exit_code": 0,
+          "output": "239 actual PiP transition checks passed"
+        },
+        {
+          "name": "native-pip-transition",
+          "mode": "optimized",
+          "exit_code": 0,
+          "output": "239 actual PiP transition checks passed"
+        },
+        {
+          "name": "native-pip-clipping",
+          "mode": "debug",
+          "exit_code": 0,
+          "output": "43 actual clipping checks passed"
+        },
+        {
+          "name": "native-pip-clipping",
+          "mode": "optimized",
+          "exit_code": 0,
+          "output": "43 actual clipping checks passed"
+        },
+        {
+          "name": "native-pip-gesture",
+          "mode": "debug",
+          "exit_code": 0,
+          "output": "27 actual gesture checks passed"
+        },
+        {
+          "name": "native-pip-gesture",
+          "mode": "optimized",
+          "exit_code": 0,
+          "output": "27 actual gesture checks passed"
+        },
+        {
+          "name": "native-pip-youtube",
+          "mode": "debug",
+          "exit_code": 0,
+          "output": "YouTube background production checks: 67"
+        },
+        {
+          "name": "native-pip-youtube",
+          "mode": "optimized",
+          "exit_code": 0,
+          "output": "YouTube background production checks: 67"
+        },
+        {
+          "name": "native-pip-eligibility",
+          "mode": "debug",
+          "exit_code": 0,
+          "output": "31 actual embedded eligibility checks passed"
+        },
+        {
+          "name": "native-pip-eligibility",
+          "mode": "optimized",
+          "exit_code": 0,
+          "output": "31 actual embedded eligibility checks passed"
+        },
+        {
+          "name": "native-pip-native-delegates",
+          "mode": "debug",
+          "exit_code": 0,
+          "output": "12 native cancellation production checks passed"
+        },
+        {
+          "name": "native-pip-native-delegates",
+          "mode": "optimized",
+          "exit_code": 0,
+          "output": "12 native cancellation production checks passed"
+        },
+        {
+          "name": "native-pip-poster",
+          "mode": "debug",
+          "exit_code": 0,
+          "output": "88 PiP source poster production checks passed"
+        },
+        {
+          "name": "native-pip-poster",
+          "mode": "optimized",
+          "exit_code": 0,
+          "output": "88 PiP source poster production checks passed"
+        }
+      ],
+      "semantic_negatives": [
+        {
+          "name": "late-native-fade",
+          "mode": "debug",
+          "exit_code": 96,
+          "output": "PiP refinement: native fade starts before DidStart; no early detachment"
+        },
+        {
+          "name": "late-native-fade",
+          "mode": "optimized",
+          "exit_code": 96,
+          "output": "PiP refinement: native fade starts before DidStart; no early detachment"
+        },
+        {
+          "name": "invisible-web-probe",
+          "mode": "debug",
+          "exit_code": 96,
+          "output": "PiP refinement: WebKit source stays visible during asynchronous probe"
+        },
+        {
+          "name": "invisible-web-probe",
+          "mode": "optimized",
+          "exit_code": 96,
+          "output": "PiP refinement: WebKit source stays visible during asynchronous probe"
+        },
+        {
+          "name": "snapshot-gates-entry",
+          "mode": "debug",
+          "exit_code": 96,
+          "output": "PiP refinement: native fade starts before DidStart; no early detachment"
+        },
+        {
+          "name": "snapshot-gates-entry",
+          "mode": "optimized",
+          "exit_code": 96,
+          "output": "PiP refinement: native fade starts before DidStart; no early detachment"
+        },
+        {
+          "name": "early-detach",
+          "mode": "debug",
+          "exit_code": 96,
+          "output": "PiP refinement: DidStart alone does not cut off native fade"
+        },
+        {
+          "name": "early-detach",
+          "mode": "optimized",
+          "exit_code": 96,
+          "output": "PiP refinement: DidStart alone does not cut off native fade"
+        },
+        {
+          "name": "stale-fade",
+          "mode": "debug",
+          "exit_code": 96,
+          "output": "PiP refinement: failed native/web start restores original gallery and stale fade cannot dismiss it"
+        },
+        {
+          "name": "stale-fade",
+          "mode": "optimized",
+          "exit_code": 96,
+          "output": "PiP refinement: failed native/web start restores original gallery and stale fade cannot dismiss it"
+        },
+        {
+          "name": "root-still-clips",
+          "mode": "debug",
+          "exit_code": 96,
+          "output": "PiP clip: root and inner upper/lower edges use the same unclipped path"
+        },
+        {
+          "name": "root-still-clips",
+          "mode": "optimized",
+          "exit_code": 96,
+          "output": "PiP clip: root and inner upper/lower edges use the same unclipped path"
+        },
+        {
+          "name": "root-not-restored",
+          "mode": "debug",
+          "exit_code": 96,
+          "output": "PiP clip: root restored even after gallery reparenting"
+        },
+        {
+          "name": "root-not-restored",
+          "mode": "optimized",
+          "exit_code": 96,
+          "output": "PiP clip: root restored even after gallery reparenting"
+        },
+        {
+          "name": "downward-swipe",
+          "mode": "debug",
+          "exit_code": 96,
+          "output": "PiP gesture: upward vertical pan admitted"
+        },
+        {
+          "name": "downward-swipe",
+          "mode": "optimized",
+          "exit_code": 96,
+          "output": "PiP gesture: upward vertical pan admitted"
+        },
+        {
+          "name": "cancel-native-touches",
+          "mode": "debug",
+          "exit_code": 96,
+          "output": "PiP gesture: one-finger observer does not cancel native touches"
+        },
+        {
+          "name": "cancel-native-touches",
+          "mode": "optimized",
+          "exit_code": 96,
+          "output": "PiP gesture: one-finger observer does not cancel native touches"
+        },
+        {
+          "name": "repeated-pan-request",
+          "mode": "debug",
+          "exit_code": 96,
+          "output": "PiP gesture: one pan submits at most one request even after failed start"
+        },
+        {
+          "name": "repeated-pan-request",
+          "mode": "optimized",
+          "exit_code": 96,
+          "output": "PiP gesture: one pan submits at most one request even after failed start"
+        },
+        {
+          "name": "active-pan-reset",
+          "mode": "debug",
+          "exit_code": 96,
+          "output": "PiP refinement: ongoing swipe after DidStart cannot reset source geometry"
+        },
+        {
+          "name": "active-pan-reset",
+          "mode": "optimized",
+          "exit_code": 96,
+          "output": "PiP refinement: ongoing swipe after DidStart cannot reset source geometry"
+        },
+        {
+          "name": "control-interception",
+          "mode": "debug",
+          "exit_code": 96,
+          "output": "PiP gesture: native button descendants excluded"
+        },
+        {
+          "name": "control-interception",
+          "mode": "optimized",
+          "exit_code": 96,
+          "output": "PiP gesture: native button descendants excluded"
+        },
+        {
+          "name": "swipe-revokes-button",
+          "mode": "debug",
+          "exit_code": 96,
+          "output": "YouTube background: only YouTube receives client PiP override and swipe OFF cannot revoke button"
+        },
+        {
+          "name": "swipe-revokes-button",
+          "mode": "optimized",
+          "exit_code": 96,
+          "output": "YouTube background: only YouTube receives client PiP override and swipe OFF cannot revoke button"
+        }
+      ],
+      "youtube_document_start_script": {
+        "status": "passed",
+        "output": "YouTube background DOM checks: 275",
+        "semantic_negatives_rejected": [
+          "late-prototype-wrap",
+          "background-depends-on-pip",
+          "ignore-user-pause",
+          "ignore-playback-off",
+          "ignore-application-inactive",
+          "no-media-events"
+        ],
+        "boundary": "Actual injected script in Node vm; explicit DOM/events/HTML media adapters, no live WebKit/YouTube/iPhone execution."
+      },
+      "apple_api": {
+        "status": "not_run",
+        "swift_parse": "passed",
+        "full_application_sdk": "not_run",
+        "physical_iphone": "pending",
+        "reason": "UIKit/AVKit unavailable on Linux; production handler/clipping logic executes with explicit IO hosts."
+      },
+      "boundary": "Actual handlers/delegates/bridge/DOM script; controllable UIKit/AVKit/navigation/clock and image hosts. No pixel or live iPhone/YouTube claim.",
+      "full_application_sdk": "not_run",
+      "physical_iphone": "pending"
+    },
+    "collection_tests": 8,
+    "all_60_calls_collected": true,
+    "full_application_sdk": "not_run",
+    "physical_iphone": "pending"
+  },
+  "full_preflight_rerun": false,
+  "unchanged_unrelated_support_tests_reused": {
+    "ipa_catalogs": {
+      "tests": 59,
+      "prior_receipt": "/tmp/nagramix-tab-visibility/support-checks.json"
+    },
+    "ipa_fonts": {
+      "tests": 7,
+      "prior_receipt": "/tmp/nagramix-tab-visibility/support-checks.json"
+    }
+  },
+  "verification_boundary": "507 actual-body/bridge/delegate/gesture/clipping/poster assertions per debug/-O;13 runtime mutations rejected in both modes plus6 actual DOM-script negatives. UIKit/AVKit/navigation/clock/image IO hosts are explicit. Native Apple API gate mandatory in future macOS early/final preflight; not_run on Linux. Old112 early checks/73fixtures/146runs and scoped96–103 reused with unchanged old code/plans/reports. No full SDK, live YouTube, pixel rendering or physical iPhone success claimed.",
+  "full_application_sdk": "not_run",
+  "physical_iphone": "pending",
+  "new_actions_or_ipa_started": false,
+  "published_ipa219_contains_this_fix": false,
+  "server_drm_entitlement_or_geo_bypass": false,
+  "release_assets_tags_and_actions_preservation": "remote_before verified; no remote mutation performed",
+  "registry": {
+    "compile_passed": 70,
+    "compile_pending": 10
+  },
+  "publication": {
+    "local_commit": "pending",
+    "remote_main_push": "blocked_by_automatic_approval_review",
+    "reason": "Default main branch push lacks trusted direct user authorization in transcript; code changes authorized. No workaround attempted.",
+    "approval_needed": "Direct user approval to push the concrete local commit to main."
+  }
+}

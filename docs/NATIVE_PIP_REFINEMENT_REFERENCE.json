@@ -1,0 +1,11 @@
+{
+  "repository": "TelegramMessenger/Telegram-iOS",
+  "pin": "24638bc69bd083981b178dd1e7f921eebbf7fc46",
+  "path": "submodules/GalleryUI/Sources/Items/UniversalVideoGalleryItem.swift",
+  "sha256": "0ec90e1d57cc44ad9a63220905a8c52573de50f25610e8c7a2616a6dbcd526b6",
+  "git_blob": "8f2dc3e1496fc7ac2fef501acc737d05174c6eca",
+  "bytes": 227192,
+  "retrieved_via": "GitHub connector; exact content, extra local patch newline removed",
+  "baseline": "setupNativePictureInPicture/willBegin starts beginCustomDismiss(.pip) and native alpha fade0.2s; original sample-buffer AVKit source retained",
+  "changes": "Shared source request/restore guards retained; begin fade in WillStart, detach only after both native fade and DidStart; surface swipe and root clip fix."
+}
