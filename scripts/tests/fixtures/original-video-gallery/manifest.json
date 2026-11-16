@@ -1,0 +1,23 @@
+{
+  "origin": "Generated locally from FFmpeg lavfi color; no user media. Test-only artifacts; production has no FFmpeg dependency.",
+  "files": {
+    "h264-60.mp4": {
+      "sha256": "92cddb27812080d49c5caad22d2bbeaf6bf4fb340923a02d78e0aae0d386330f",
+      "size": 1899,
+      "codec_name": "h264",
+      "width": 96,
+      "height": 64,
+      "r_frame_rate": "60/1",
+      "duration": "0.500000"
+    },
+    "hevc-60.mov": {
+      "sha256": "54ebafaa5b3be75bee8383d9e2cd696c414665687eb8eacb164af461b5442578",
+      "size": 4083,
+      "codec_name": "hevc",
+      "width": 96,
+      "height": 64,
+      "r_frame_rate": "60/1",
+      "duration": "0.500000"
+    }
+  }
+}

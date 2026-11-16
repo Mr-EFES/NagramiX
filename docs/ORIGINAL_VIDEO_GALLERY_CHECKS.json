@@ -1,0 +1,465 @@
+{
+  "task": "Видео галереи: OFF штатное сжатие, ON исходные байты и полный вес как видеомедиа",
+  "base_commit": "34873f41ea41ee1d296cec217d8a1e69618fcede",
+  "stage": 100,
+  "name": "original_video_gallery",
+  "findings": [
+    "Современный путь пропускал original mode при nil-thumbnail/HFR, независимо от отсутствия реальных правок.",
+    "Exporter выбирал Photos fullSizeVideo раньше исходного video.",
+    "Legacy trimApplied считает любой trimEnd>EPS обрезкой, даже полный диапазон; timer0 также ошибочно блокировал original mode."
+  ],
+  "source": {
+    "stage": 100,
+    "name": "original_video_gallery",
+    "path": "/tmp/nagramix-original-video-gallery/source",
+    "manifest_sha256": "1c6289e826fc18310210d8600245ccadd9a02a1ba9b6c8f5f53c99e7fb6787ab",
+    "previous_manifest_sha256": "f599cfa4f062946d406208eab17248e83fd7d37d4b4f8a7b6b67dba336fcbf3f",
+    "files": 37694,
+    "symlinks": 26,
+    "modified_runtime_paths": [
+      "submodules/TelegramUI/Components/ChatMediaSend/Sources/NagramiXOriginalVideoSend.swift",
+      "submodules/LegacyMediaPickerUI/Sources/LegacyMediaPickers.swift"
+    ],
+    "new_runtime_paths": [],
+    "guards": 38,
+    "new_inc": 42,
+    "new_templates": 42,
+    "old_inc_unchanged": 5564,
+    "old_plans_unchanged": 312,
+    "historical_manifests_verified": 57
+  },
+  "feature_checks": {
+    "stage": 100,
+    "name": "original_video_gallery",
+    "runtime_paths": [
+      "submodules/TelegramUI/Components/ChatMediaSend/Sources/NagramiXOriginalVideoSend.swift",
+      "submodules/LegacyMediaPickerUI/Sources/LegacyMediaPickers.swift"
+    ],
+    "guards": 38,
+    "loader_refusals": 14,
+    "checks": {
+      "contracts": {
+        "runtime_files": 2,
+        "off_and_native_compression_implementation_unchanged": true,
+        "settings_default_key_ui_callback_and_saved_values_unchanged": true,
+        "original_resource_before_fullsize_derivative": true,
+        "optional_thumbnail_and_hfr_do_not_request_compression": true,
+        "full_duration_trim_is_not_a_content_edit": true,
+        "real_edits_file_intent_camera_round_paid_rules_preserved": true,
+        "pin_chunk_write_stream_parser_and_native_upload_unchanged": true
+      },
+      "executions": [
+        {
+          "name": "original-gallery-pipeline",
+          "mode": "debug",
+          "exit_code": 0,
+          "output": "PASS original gallery byte/pipeline checks: 1227"
+        },
+        {
+          "name": "original-gallery-pipeline",
+          "mode": "optimized",
+          "exit_code": 0,
+          "output": "PASS original gallery byte/pipeline checks: 1227"
+        }
+      ],
+      "semantic_negatives": [
+        {
+          "name": "thumbnail-gate",
+          "mode": "debug",
+          "exit_code": 96,
+          "output": "FAIL: ON retains original playable video"
+        },
+        {
+          "name": "thumbnail-gate",
+          "mode": "optimized",
+          "exit_code": 96,
+          "output": "FAIL: ON retains original playable video"
+        },
+        {
+          "name": "hfr-gate",
+          "mode": "debug",
+          "exit_code": 96,
+          "output": "FAIL: ON retains original playable video"
+        },
+        {
+          "name": "hfr-gate",
+          "mode": "optimized",
+          "exit_code": 96,
+          "output": "FAIL: ON retains original playable video"
+        },
+        {
+          "name": "derived-resource",
+          "mode": "debug",
+          "exit_code": 96,
+          "output": "FAIL: original byte length remains unchanged"
+        },
+        {
+          "name": "derived-resource",
+          "mode": "optimized",
+          "exit_code": 96,
+          "output": "FAIL: original byte length remains unchanged"
+        },
+        {
+          "name": "missing-video-metadata",
+          "mode": "debug",
+          "exit_code": 96,
+          "output": "FAIL: ON retains original playable video"
+        },
+        {
+          "name": "missing-video-metadata",
+          "mode": "optimized",
+          "exit_code": 96,
+          "output": "FAIL: ON retains original playable video"
+        },
+        {
+          "name": "ignored-off",
+          "mode": "debug",
+          "exit_code": 96,
+          "output": "FAIL: OFF enters standard Telegram compress route"
+        },
+        {
+          "name": "ignored-off",
+          "mode": "optimized",
+          "exit_code": 96,
+          "output": "FAIL: OFF enters standard Telegram compress route"
+        },
+        {
+          "name": "full-trim-as-edit",
+          "mode": "debug",
+          "exit_code": 96,
+          "output": "FAIL: full-duration trim does not trigger recompression"
+        },
+        {
+          "name": "full-trim-as-edit",
+          "mode": "optimized",
+          "exit_code": 96,
+          "output": "FAIL: full-duration trim does not trigger recompression"
+        },
+        {
+          "name": "legacy-full-trim-as-edit",
+          "mode": "debug",
+          "exit_code": 96,
+          "output": "FAIL: legacy full clip keeps original mode"
+        },
+        {
+          "name": "legacy-full-trim-as-edit",
+          "mode": "optimized",
+          "exit_code": 96,
+          "output": "FAIL: legacy full clip keeps original mode"
+        },
+        {
+          "name": "lossy-on-error",
+          "mode": "debug",
+          "exit_code": 96,
+          "output": "FAIL: failed original never silently recompresses"
+        },
+        {
+          "name": "lossy-on-error",
+          "mode": "optimized",
+          "exit_code": 96,
+          "output": "FAIL: failed original never silently recompresses"
+        }
+      ],
+      "apple_api": {
+        "actual_settings_module_and_import": "passed",
+        "complete_exporter_apple_api": "not_run",
+        "full_application_sdk": "pending",
+        "physical_iphone": "pending",
+        "reason": "Linux; the full exporter runtime uses explicit Photos/UIKit/MediaBox adapters. No Apple API success claimed.",
+        "gallery_uikit_photos": "not_run"
+      },
+      "boundary": "Actual SignalKit, whole Photos resource exporter/FileHandle writes/streaming parser/pin, modern original preparation/context wrapper and native library-video/prebuilt branches execute together. Photos/UIKit, account/cache/model IO and compressed encoder are explicit adapters. Tests assert OFF selects actual .compress resource; no Linux encoder-size or live Telegram delivery claim. Five genuine synthetic movies include H.264/HEVC 60fps.",
+      "full_application_sdk": "not_run",
+      "physical_iphone": "pending",
+      "server_byte_roundtrip": "pending",
+      "new_localization_keys": 0
+    },
+    "source_unchanged_by_checks": true,
+    "full_application_sdk": "not_run",
+    "physical_iphone": "pending",
+    "new_actions_or_ipa_started": false
+  },
+  "global_source_checks": [
+    {
+      "name": "early-scoped",
+      "exit_code": 0,
+      "seconds": 87.7,
+      "source_manifest_sha256": "1c6289e826fc18310210d8600245ccadd9a02a1ba9b6c8f5f53c99e7fb6787ab"
+    },
+    {
+      "name": "upstream",
+      "exit_code": 0,
+      "seconds": 110.5,
+      "source_manifest_sha256": "1c6289e826fc18310210d8600245ccadd9a02a1ba9b6c8f5f53c99e7fb6787ab"
+    },
+    {
+      "name": "inverse",
+      "exit_code": 0,
+      "seconds": 140.3,
+      "source_manifest_sha256": "1c6289e826fc18310210d8600245ccadd9a02a1ba9b6c8f5f53c99e7fb6787ab"
+    },
+    {
+      "name": "localization",
+      "exit_code": 0,
+      "seconds": 43.5,
+      "source_manifest_sha256": "1c6289e826fc18310210d8600245ccadd9a02a1ba9b6c8f5f53c99e7fb6787ab"
+    },
+    {
+      "name": "members-full",
+      "exit_code": 0,
+      "seconds": 4.5,
+      "source_manifest_sha256": "1c6289e826fc18310210d8600245ccadd9a02a1ba9b6c8f5f53c99e7fb6787ab"
+    },
+    {
+      "name": "members-canonical",
+      "exit_code": 0,
+      "seconds": 2.0,
+      "source_manifest_sha256": "1c6289e826fc18310210d8600245ccadd9a02a1ba9b6c8f5f53c99e7fb6787ab"
+    },
+    {
+      "name": "native-strings",
+      "exit_code": 0,
+      "seconds": 5.5,
+      "source_manifest_sha256": "1c6289e826fc18310210d8600245ccadd9a02a1ba9b6c8f5f53c99e7fb6787ab"
+    },
+    {
+      "name": "mode",
+      "exit_code": 0,
+      "seconds": 0.2,
+      "source_manifest_sha256": "1c6289e826fc18310210d8600245ccadd9a02a1ba9b6c8f5f53c99e7fb6787ab"
+    },
+    {
+      "name": "metadata",
+      "exit_code": 0,
+      "seconds": 0.1,
+      "source_manifest_sha256": "1c6289e826fc18310210d8600245ccadd9a02a1ba9b6c8f5f53c99e7fb6787ab"
+    },
+    {
+      "name": "diff",
+      "exit_code": 0,
+      "seconds": 0.0,
+      "source_manifest_sha256": "1c6289e826fc18310210d8600245ccadd9a02a1ba9b6c8f5f53c99e7fb6787ab"
+    }
+  ],
+  "global_source_checks_complete": true,
+  "full_preflight_rerun": false,
+  "early_scope": {
+    "scope": "Checker100 выполнен через настоящий canonical_projection/CheckCollection. Прежние112 шагов/73 сценария и scoped96/97/98 повторно не выполнялись; их код и прежние планы/шаблоны сохранены.",
+    "full_preflight_rerun": false,
+    "previous_runs_reused": [
+      {
+        "path": "/tmp/nagramix-round-quality-title/early.json",
+        "sha256": "f4fc240e182ebb7a619a31397d2ed92a7f3332ad6b1f75a6223ac091946400b1",
+        "scope": "112 checks/73 fixtures/146 executions"
+      },
+      {
+        "path": "/tmp/nagramix-round-quality-badge/early-scoped.json",
+        "sha256": "2602ad3b77eebb362396de6e1b827b909b2b8c0f9cdd4010db6a936453a20702",
+        "scope": "Новый checker96 выполнен через настоящий canonical_projection/CheckCollection. Прежние112 шагов/73 сценария не запускались повторно; их код и прежние immutable plans/templates сохранены."
+      },
+      {
+        "path": "/tmp/nagramix-file-caption-consistency/early-scoped.json",
+        "sha256": "22efb558b1d6170f5bc339a5a1b6bd97eb62ec1008bd242e872fafc870e0e044",
+        "scope": "Новый checker97 выполнен через настоящий canonical_projection/CheckCollection. Прежние112 шагов/73 сценария и scoped96 не повторялись; их код и immutable plans/templates сохранены."
+      },
+      {
+        "path": "/tmp/nagramix-file-caption-edit/early-scoped.json",
+        "sha256": "2402a8d44fe8cfd733d3226e8fc1dcae9ff59fe5128783913e74f163e817a06b",
+        "scope": "Checker98 выполнен через настоящий canonical_projection/CheckCollection. Прежние112 шагов/73 сценария и scoped96/97 повторно не выполнялись; их код и прежние планы/шаблоны сохранены."
+      }
+    ],
+    "new_check_status": "passed",
+    "projection": {
+      "written": 585,
+      "pinned_native_dependencies": 6,
+      "unused_unavailable_native_guards": 99,
+      "localized_resources": 0
+    },
+    "new_check": {
+      "contracts": {
+        "runtime_files": 2,
+        "off_and_native_compression_implementation_unchanged": true,
+        "settings_default_key_ui_callback_and_saved_values_unchanged": true,
+        "original_resource_before_fullsize_derivative": true,
+        "optional_thumbnail_and_hfr_do_not_request_compression": true,
+        "full_duration_trim_is_not_a_content_edit": true,
+        "real_edits_file_intent_camera_round_paid_rules_preserved": true,
+        "pin_chunk_write_stream_parser_and_native_upload_unchanged": true
+      },
+      "executions": [
+        {
+          "name": "original-gallery-pipeline",
+          "mode": "debug",
+          "exit_code": 0,
+          "output": "PASS original gallery byte/pipeline checks: 1227"
+        },
+        {
+          "name": "original-gallery-pipeline",
+          "mode": "optimized",
+          "exit_code": 0,
+          "output": "PASS original gallery byte/pipeline checks: 1227"
+        }
+      ],
+      "semantic_negatives": [
+        {
+          "name": "thumbnail-gate",
+          "mode": "debug",
+          "exit_code": 96,
+          "output": "FAIL: ON retains original playable video"
+        },
+        {
+          "name": "thumbnail-gate",
+          "mode": "optimized",
+          "exit_code": 96,
+          "output": "FAIL: ON retains original playable video"
+        },
+        {
+          "name": "hfr-gate",
+          "mode": "debug",
+          "exit_code": 96,
+          "output": "FAIL: ON retains original playable video"
+        },
+        {
+          "name": "hfr-gate",
+          "mode": "optimized",
+          "exit_code": 96,
+          "output": "FAIL: ON retains original playable video"
+        },
+        {
+          "name": "derived-resource",
+          "mode": "debug",
+          "exit_code": 96,
+          "output": "FAIL: original byte length remains unchanged"
+        },
+        {
+          "name": "derived-resource",
+          "mode": "optimized",
+          "exit_code": 96,
+          "output": "FAIL: original byte length remains unchanged"
+        },
+        {
+          "name": "missing-video-metadata",
+          "mode": "debug",
+          "exit_code": 96,
+          "output": "FAIL: ON retains original playable video"
+        },
+        {
+          "name": "missing-video-metadata",
+          "mode": "optimized",
+          "exit_code": 96,
+          "output": "FAIL: ON retains original playable video"
+        },
+        {
+          "name": "ignored-off",
+          "mode": "debug",
+          "exit_code": 96,
+          "output": "FAIL: OFF enters standard Telegram compress route"
+        },
+        {
+          "name": "ignored-off",
+          "mode": "optimized",
+          "exit_code": 96,
+          "output": "FAIL: OFF enters standard Telegram compress route"
+        },
+        {
+          "name": "full-trim-as-edit",
+          "mode": "debug",
+          "exit_code": 96,
+          "output": "FAIL: full-duration trim does not trigger recompression"
+        },
+        {
+          "name": "full-trim-as-edit",
+          "mode": "optimized",
+          "exit_code": 96,
+          "output": "FAIL: full-duration trim does not trigger recompression"
+        },
+        {
+          "name": "legacy-full-trim-as-edit",
+          "mode": "debug",
+          "exit_code": 96,
+          "output": "FAIL: legacy full clip keeps original mode"
+        },
+        {
+          "name": "legacy-full-trim-as-edit",
+          "mode": "optimized",
+          "exit_code": 96,
+          "output": "FAIL: legacy full clip keeps original mode"
+        },
+        {
+          "name": "lossy-on-error",
+          "mode": "debug",
+          "exit_code": 96,
+          "output": "FAIL: failed original never silently recompresses"
+        },
+        {
+          "name": "lossy-on-error",
+          "mode": "optimized",
+          "exit_code": 96,
+          "output": "FAIL: failed original never silently recompresses"
+        }
+      ],
+      "apple_api": {
+        "actual_settings_module_and_import": "passed",
+        "complete_exporter_apple_api": "not_run",
+        "full_application_sdk": "pending",
+        "physical_iphone": "pending",
+        "reason": "Linux; the full exporter runtime uses explicit Photos/UIKit/MediaBox adapters. No Apple API success claimed.",
+        "gallery_uikit_photos": "not_run"
+      },
+      "boundary": "Actual SignalKit, whole Photos resource exporter/FileHandle writes/streaming parser/pin, modern original preparation/context wrapper and native library-video/prebuilt branches execute together. Photos/UIKit, account/cache/model IO and compressed encoder are explicit adapters. Tests assert OFF selects actual .compress resource; no Linux encoder-size or live Telegram delivery claim. Five genuine synthetic movies include H.264/HEVC 60fps.",
+      "full_application_sdk": "not_run",
+      "physical_iphone": "pending",
+      "server_byte_roundtrip": "pending",
+      "new_localization_keys": 0
+    },
+    "collection_tests": 8,
+    "all_56_calls_collected": true,
+    "full_application_sdk": "not_run",
+    "physical_iphone": "pending"
+  },
+  "checks_scope": "Заново выполнены весь новый byte/pipeline/legacy fixture на полном дереве и через canonical_projection/CheckCollection, 8 тестов коллектора/56 точек вызова, final upstream parse/Postbox, inverse100, strict71×678/24 headers, full/canonical members, native strings, workflow/mode/metadata/diff. Прежние73 fixtures/146 executions и scoped96–98 повторно не выполнялись; код/планы/проверенные отчёты сохранены.",
+  "scope_review": {
+    "runtime_files": 2,
+    "default_OFF_key_saved_choices_UI_ID_unchanged": true,
+    "OFF_compression_and_context_snapshot_unchanged": true,
+    "prefer_original_Photos_resource": true,
+    "original_video_metadata_no_document_fallback": true,
+    "thumbnail_HFR_identity_trim_disabled_timer_are_not_content_edits": true,
+    "real_edits_active_timer_paid_round_camera_and_explicit_file_preserved": true,
+    "original_bytes_and_size_preserved_through_deferred_move": true,
+    "caption_cover_spoiler_order_album_preserved": true,
+    "encoder_remux_added": false,
+    "new_localization_keys": 0,
+    "dependencies_sdk_signing_unchanged": true
+  },
+  "synthetic_new_movie_metadata": {
+    "origin": "Generated locally from FFmpeg lavfi color; no user media. Test-only artifacts; production has no FFmpeg dependency.",
+    "files": {
+      "h264-60.mp4": {
+        "sha256": "92cddb27812080d49c5caad22d2bbeaf6bf4fb340923a02d78e0aae0d386330f",
+        "size": 1899,
+        "codec_name": "h264",
+        "width": 96,
+        "height": 64,
+        "r_frame_rate": "60/1",
+        "duration": "0.500000"
+      },
+      "hevc-60.mov": {
+        "sha256": "54ebafaa5b3be75bee8383d9e2cd696c414665687eb8eacb164af461b5442578",
+        "size": 4083,
+        "codec_name": "hevc",
+        "width": 96,
+        "height": 64,
+        "r_frame_rate": "60/1",
+        "duration": "0.500000"
+      }
+    }
+  },
+  "full_application_sdk": "not_run",
+  "physical_iphone": "pending",
+  "server_byte_roundtrip": "pending",
+  "new_actions_or_ipa_started": false,
+  "published_ipa_219_contains_this_fix": false,
+  "release_assets_or_tags_changed": false,
+  "publication_target": "Только main; новая IPA по новой прямой команде"
+}
