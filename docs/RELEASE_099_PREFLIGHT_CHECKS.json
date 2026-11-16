@@ -1,0 +1,157 @@
+{
+  "version": "0.9.9",
+  "base_commit": "c7e42f4354c564945749de541553e51354a3162f",
+  "authorization": "Запускай сборку!))",
+  "source_manifest_sha256": "093baf064a6ddc104fb3dff4be96d67c05b58ecbc0092b2e64e9be3300899e89",
+  "runtime_source_unchanged": true,
+  "runtime_files": 37696,
+  "runtime_stages": 104,
+  "source_checks_reused": [
+    {
+      "name": "early-scoped",
+      "exit_code": 0,
+      "seconds": 56.5,
+      "source_manifest_sha256": "093baf064a6ddc104fb3dff4be96d67c05b58ecbc0092b2e64e9be3300899e89"
+    },
+    {
+      "name": "upstream",
+      "exit_code": 0,
+      "seconds": 121.7,
+      "source_manifest_sha256": "093baf064a6ddc104fb3dff4be96d67c05b58ecbc0092b2e64e9be3300899e89"
+    },
+    {
+      "name": "inverse",
+      "exit_code": 0,
+      "seconds": 155.7,
+      "source_manifest_sha256": "093baf064a6ddc104fb3dff4be96d67c05b58ecbc0092b2e64e9be3300899e89"
+    },
+    {
+      "name": "localization",
+      "exit_code": 0,
+      "seconds": null,
+      "source_manifest_sha256": "093baf064a6ddc104fb3dff4be96d67c05b58ecbc0092b2e64e9be3300899e89",
+      "rerun_after_temporary_space_failure": true,
+      "temporary_python_projections": "lossless RAM; original validator/assertions and Swift compiler IO unchanged"
+    },
+    {
+      "name": "members-full",
+      "exit_code": 0,
+      "seconds": 4.7,
+      "source_manifest_sha256": "093baf064a6ddc104fb3dff4be96d67c05b58ecbc0092b2e64e9be3300899e89"
+    },
+    {
+      "name": "members-canonical",
+      "exit_code": 0,
+      "seconds": 2.1,
+      "source_manifest_sha256": "093baf064a6ddc104fb3dff4be96d67c05b58ecbc0092b2e64e9be3300899e89"
+    },
+    {
+      "name": "native-strings",
+      "exit_code": 0,
+      "seconds": 5.6,
+      "source_manifest_sha256": "093baf064a6ddc104fb3dff4be96d67c05b58ecbc0092b2e64e9be3300899e89"
+    },
+    {
+      "name": "mode",
+      "exit_code": 0,
+      "seconds": 0.2,
+      "source_manifest_sha256": "093baf064a6ddc104fb3dff4be96d67c05b58ecbc0092b2e64e9be3300899e89"
+    },
+    {
+      "name": "metadata",
+      "exit_code": 0,
+      "seconds": null,
+      "source_manifest_sha256": "093baf064a6ddc104fb3dff4be96d67c05b58ecbc0092b2e64e9be3300899e89"
+    },
+    {
+      "name": "diff",
+      "exit_code": 0,
+      "seconds": null,
+      "source_manifest_sha256": "093baf064a6ddc104fb3dff4be96d67c05b58ecbc0092b2e64e9be3300899e89"
+    }
+  ],
+  "source_receipt": "NATIVE_PIP_REFINEMENT_CHECKS.json",
+  "new_preparation_checks": [
+    {
+      "name": "versions",
+      "exit_code": 0,
+      "seconds": 0.08
+    },
+    {
+      "name": "annotations",
+      "exit_code": 0,
+      "seconds": 0.08
+    },
+    {
+      "name": "collector",
+      "exit_code": 0,
+      "seconds": 0.83
+    },
+    {
+      "name": "build-input-tests",
+      "exit_code": 0,
+      "seconds": 0.1
+    },
+    {
+      "name": "build-inputs",
+      "exit_code": 0,
+      "seconds": 3.05
+    },
+    {
+      "name": "build-mode",
+      "exit_code": 0,
+      "seconds": 0.06
+    },
+    {
+      "name": "patch-mode",
+      "exit_code": 0,
+      "seconds": 0.28
+    },
+    {
+      "name": "owner",
+      "exit_code": 0,
+      "seconds": 0.22
+    },
+    {
+      "name": "native-origins",
+      "exit_code": 0,
+      "seconds": 0.95
+    },
+    {
+      "name": "dependencies",
+      "exit_code": 0,
+      "seconds": 0.12
+    },
+    {
+      "name": "catalogs",
+      "exit_code": 0,
+      "seconds": 307.46
+    },
+    {
+      "name": "fonts",
+      "exit_code": 0,
+      "seconds": 33.85
+    }
+  ],
+  "unmodified_old_runtime_fixtures_rerun_locally": false,
+  "real_apple_sdk_preflight": "mandatory at start of next macOS workflow; not yet executed for new stage93–104",
+  "full_application_sdk": "pending",
+  "physical_iphone": "pending",
+  "run_started": false,
+  "preservation": {
+    "old_release": "v0.9.8",
+    "release_id": 446239219,
+    "assets": 3,
+    "old_run_id": 43721830908,
+    "old_artifacts": 2,
+    "readme_license_annotation": "unchanged",
+    "new_annotation": "same approved phrase;0.9.8 annotation retained"
+  },
+  "build_inputs": {
+    "clean_build": true,
+    "publish_release": true,
+    "prerelease": false,
+    "extended_patch_tests": false,
+    "artifact_run_id": ""
+  }
+}

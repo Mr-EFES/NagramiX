@@ -4,7 +4,7 @@
 
 ## Причина
 
-Пользовательский MetricKit-отчёт относится к NagramiX 0.9.8/build219. Символы взяты из артефакта `14171819399` успешной [сборки 219](https://github.com/Mr-EFES/NagramiX/actions/runs/43721830908). UUID совпадают с отчётом: TelegramUIFramework `CB8187BB-F4F0-37B7-B73E-1EB908F94144`, SwiftSignalKitFramework `15973C4B-93A6-31C7-B053-C696BA0DBD0C`.
+Пользовательский MetricKit-отчёт относится к выпуску0.9.8/build219. Символы взяты из артефакта `14171819399` успешной [сборки 219](https://github.com/Mr-EFES/NagramiX/actions/runs/43721830908). UUID совпадают с отчётом: TelegramUIFramework `CB8187BB-F4F0-37B7-B73E-1EB908F94144`, SwiftSignalKitFramework `15973C4B-93A6-31C7-B053-C696BA0DBD0C`.
 
 Символицированная цепочка: `PlainButtonComponent.pressed` → `AlertInputFieldComponent.View.setText` → локальное обновление `ComponentView` → публикация `ExternalState.valuePromise` → `distinctUntilChanged`/`map`/`combineLatest` → callback действий `AlertScreen` → повторное обновление того же поля. Вершина стека — `ComponentView._update`, где находится штатная защита `precondition(!self.isUpdating)`. Публичный отчёт не содержит исходного ZIP, пользовательских данных или приватного URL скачивания символов.
 
