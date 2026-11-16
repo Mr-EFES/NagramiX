@@ -36,9 +36,11 @@ class FontsPackageTests(unittest.TestCase):
  def test_versioned_catalogs(self):
   previous=expected_nagramix_catalogs('0.9.4');new=expected_nagramix_catalogs('0.9.5')
   current=expected_nagramix_catalogs('0.9.8')
-  self.assertEqual(expected_nagramix_catalogs('0.10.0'),current)
-  self.assertEqual(expected_nagramix_catalogs('0.9.100'),current)
+  next_release=expected_nagramix_catalogs('0.9.9')
+  self.assertEqual(expected_nagramix_catalogs('0.10.0'),next_release)
+  self.assertEqual(expected_nagramix_catalogs('0.9.100'),next_release)
   self.assertTrue(all(len(values)==678 for values in current.values()))
+  self.assertTrue(all(len(values)==680 for values in next_release.values()))
   self.assertEqual(set(previous),set(new));self.assertEqual(len(new),71)
   for code,values in new.items():
    self.assertEqual(len(values),647)

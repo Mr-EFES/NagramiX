@@ -12,6 +12,7 @@ import zipfile
 from validate_app_language_localization import strings
 from validate_unsigned_ipa import expected_nagramix_catalogs, validate_settings_localizations
 from late_source_stages import LATE_SOURCE_STAGES
+from release_version import parse_release_version
 
 ROOT = Path(__file__).resolve().parents[1]
 PREFIX = 'Payload/Telegram.app/'
@@ -56,12 +57,17 @@ class CatalogTests(unittest.TestCase):
         cls.final_snapshots = {}
         for stage in LATE_SOURCE_STAGES:
             stage_plan = json.loads((overlay / (stage + '_patches.json')).read_text())
+            if stage == 'tab_visibility_sync':
+                cls.release098_snapshots = dict(cls.final_snapshots)
             for name, snapshot in stage_plan['replacements'].items():
                 if name.startswith('submodules/NagramiXCore/Resources/') and name.endswith('.lproj/Localizable.strings'):
                     code = Path(name).parent.name.removesuffix('.lproj')
                     cls.final_snapshots[code] = (overlay / snapshot, stage_plan['outputs'][name])
             if stage == 'wide_portal_api':
                 cls.published_snapshots = dict(cls.final_snapshots)
+        cls.tab_snapshots = dict(cls.final_snapshots)
+        cls.tab_catalogs = {code: strings(path) for code, (path, _) in cls.tab_snapshots.items()}
+        cls.final_snapshots = cls.release098_snapshots
         cls.final_catalogs = {code: strings(path) for code, (path, _) in cls.final_snapshots.items()}
         cls.published_catalogs = {code: strings(path) for code, (path, _) in cls.published_snapshots.items()}
 
@@ -398,7 +404,7 @@ class CatalogTests(unittest.TestCase):
         with mock.patch.object(Path, 'read_bytes', new=corrupted), self.assertRaisesRegex(SystemExit, 'каталог предпросмотра шрифтов изменён'):
             expected_nagramix_catalogs('0.9.6')
 
-    def test_098_matches_all_current_source_catalogs(self):
+    def test_098_keeps_source_catalogs_before_tab_menus(self):
         for path, digest in self.final_snapshots.values():
             self.assertEqual(hashlib.sha256(path.read_bytes()).hexdigest(), digest)
         self.assertEqual(len(self.final_catalogs), 71)
@@ -409,14 +415,37 @@ class CatalogTests(unittest.TestCase):
 
     def test_current_release_matches_current_source_catalogs(self):
         version = json.loads((ROOT / 'product/features/registry.json').read_text())['release']
-        self.assertEqual(expected_nagramix_catalogs(version), self.final_catalogs)
+        expected = self.tab_catalogs if parse_release_version(version) >= (0,9,9) else self.final_catalogs
+        self.assertEqual(expected_nagramix_catalogs(version), expected)
 
     def test_short_and_patch_versions_keep_complete_catalog_contract(self):
         for version in ['0.9.9','1.0','1.0.1','1.1','1.1.9','1.2']:
             with self.subTest(version=version):
-                self.assertEqual(expected_nagramix_catalogs(version), self.final_catalogs)
-        with self.archive(self.final_catalogs) as archive:
+                self.assertEqual(expected_nagramix_catalogs(version), self.tab_catalogs)
+        with self.archive(self.tab_catalogs) as archive:
             self.assertEqual(validate_settings_localizations(archive, PREFIX, '1.0'), 71)
+
+    def test_099_matches_actual_tab_menu_source_catalogs(self):
+        for path, digest in self.tab_snapshots.values():
+            self.assertEqual(hashlib.sha256(path.read_bytes()).hexdigest(), digest)
+        self.assertEqual(len(self.tab_catalogs),71)
+        self.assertTrue(all(len(values)==680 for values in self.tab_catalogs.values()))
+        self.assertEqual(expected_nagramix_catalogs('0.9.9'),self.tab_catalogs)
+        with self.archive(self.tab_catalogs) as archive:
+            self.assertEqual(validate_settings_localizations(archive,PREFIX,'0.9.9'),71)
+
+    def test_099_rejects_old_catalog_and_098_rejects_new(self):
+        for version,catalogs in [('0.9.9',self.final_catalogs),('0.9.8',self.tab_catalogs)]:
+            with self.subTest(version=version),self.archive(catalogs) as archive,self.assertRaises(SystemExit):
+                validate_settings_localizations(archive,PREFIX,version)
+
+    def test_099_requires_both_menu_actions(self):
+        for key in ['NagramiX.Tabs.HideContactsAction','NagramiX.Tabs.HideSearchAction']:
+            def change(code,values):
+                if code=='ru':values.pop(key)
+                return True
+            with self.subTest(key=key),self.archive(self.tab_catalogs,change) as archive,self.assertRaises(SystemExit):
+                validate_settings_localizations(archive,PREFIX,'0.9.9')
 
     def test_098_rejects_old_catalog(self):
         with self.archive(self.published_catalogs) as archive, self.assertRaises(SystemExit):

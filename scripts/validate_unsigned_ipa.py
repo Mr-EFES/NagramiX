@@ -327,6 +327,27 @@ def expected_nagramix_catalogs(version: str | None = None) -> dict[str, dict[str
                         and current == {**previous, **dict(zip(keys, values))},
                         'Изменены переводы ' + stage + ': ' + code)
                 catalogs[code] = current
+    if version_parts is not None and version_parts >= (0, 9, 9):
+        stage = 'tab_visibility_sync'
+        contract = json.loads((ROOT/'ios'/f'{stage}_patches.json').read_text())
+        require(contract['required_previous_stage'] == 'round_video_encoding'
+                and contract['target_pin'] == '24638bc69bd083981b178dd1e7f921eebbf7fc46'
+                and contract['overlay_base_pin'] == '279f89e4d4f63f17227bf877dc3d8990f22ecd58', 'Неверная база меню вкладок')
+        name = stage + '/localization.json'; data = (ROOT/'ios'/name).read_bytes()
+        require(hashlib.sha256(data).hexdigest() == contract['templates'][name], 'Изменён реестр переводов меню вкладок')
+        loc = json.loads(data)
+        keys = ['NagramiX.Tabs.HideContactsAction','NagramiX.Tabs.HideSearchAction']
+        require(loc['keys'] == keys and set(loc['translations']) == codes, 'Неполные переводы меню вкладок')
+        for code in sorted(codes):
+            path = f'submodules/NagramiXCore/Resources/{code}.lproj/Localizable.strings'
+            previous = checked_snapshot(contract['previous'][path], contract['inputs'][path], contract, stage)
+            current = checked_snapshot(contract['replacements'][path], contract['outputs'][path], contract, stage)
+            values = loc['translations'][code]
+            require(previous == catalogs[code] and len(previous) == 678
+                    and len(values) == 2 and all(value.strip() for value in values)
+                    and not previous.keys() & set(keys) and len(current) == 680
+                    and current == {**previous, **dict(zip(keys, values))}, 'Изменены каталоги меню вкладок: '+code)
+            catalogs[code] = current
     return catalogs
 
 

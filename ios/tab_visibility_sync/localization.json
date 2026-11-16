@@ -1,0 +1,294 @@
+{
+  "previous_key_count": 678,
+  "key_count": 680,
+  "keys": [
+    "NagramiX.Tabs.HideContactsAction",
+    "NagramiX.Tabs.HideSearchAction"
+  ],
+  "translations": {
+    "en": [
+      "Hide Contacts Tab",
+      "Hide Search"
+    ],
+    "af": [
+      "Versteek Kontakte-oortjie",
+      "Versteek soektog"
+    ],
+    "sq": [
+      "Fshih skedën Kontaktet",
+      "Fshih kërkimin"
+    ],
+    "am": [
+      "የእውቂያዎችን ትር ደብቅ",
+      "ፍለጋን ደብቅ"
+    ],
+    "ar": [
+      "إخفاء علامة تبويب جهات الاتصال",
+      "إخفاء البحث"
+    ],
+    "hy": [
+      "Թաքցնել «Կոնտակտներ» ներդիրը",
+      "Թաքցնել որոնումը"
+    ],
+    "az": [
+      "Kontaktlar vərəqini gizlət",
+      "Axtarışı gizlət"
+    ],
+    "eu": [
+      "Ezkutatu Kontaktuen fitxa",
+      "Ezkutatu bilaketa"
+    ],
+    "be": [
+      "Схаваць укладку «Кантакты»",
+      "Схаваць пошук"
+    ],
+    "bn": [
+      "পরিচিতি ট্যাব লুকান",
+      "অনুসন্ধান লুকান"
+    ],
+    "bg": [
+      "Скриване на раздела „Контакти“",
+      "Скриване на търсенето"
+    ],
+    "my": [
+      "အဆက်အသွယ်များ တက်ဘ်ကို ဖျောက်ရန်",
+      "ရှာဖွေမှုကို ဖျောက်ရန်"
+    ],
+    "ca": [
+      "Amaga la pestanya Contactes",
+      "Amaga la cerca"
+    ],
+    "zh-hans": [
+      "隐藏联系人标签页",
+      "隐藏搜索"
+    ],
+    "zh-hant": [
+      "隱藏聯絡人分頁",
+      "隱藏搜尋"
+    ],
+    "hr": [
+      "Sakrij karticu Kontakti",
+      "Sakrij pretraživanje"
+    ],
+    "cs": [
+      "Skrýt kartu Kontakty",
+      "Skrýt hledání"
+    ],
+    "da": [
+      "Skjul fanen Kontakter",
+      "Skjul søgning"
+    ],
+    "nl": [
+      "Tabblad Contacten verbergen",
+      "Zoeken verbergen"
+    ],
+    "eo": [
+      "Kaŝi la langeton Kontaktoj",
+      "Kaŝi serĉon"
+    ],
+    "et": [
+      "Peida kontaktide vahekaart",
+      "Peida otsing"
+    ],
+    "fil": [
+      "Itago ang tab na Mga Contact",
+      "Itago ang paghahanap"
+    ],
+    "fi": [
+      "Piilota Yhteystiedot-välilehti",
+      "Piilota haku"
+    ],
+    "fr": [
+      "Masquer l’onglet Contacts",
+      "Masquer la recherche"
+    ],
+    "gl": [
+      "Agochar a lapela Contactos",
+      "Agochar a busca"
+    ],
+    "ka": [
+      "კონტაქტების ჩანართის დამალვა",
+      "ძიების დამალვა"
+    ],
+    "de": [
+      "Kontakte-Tab ausblenden",
+      "Suche ausblenden"
+    ],
+    "el": [
+      "Απόκρυψη καρτέλας Επαφών",
+      "Απόκρυψη αναζήτησης"
+    ],
+    "gu": [
+      "સંપર્કો ટૅબ છુપાવો",
+      "શોધ છુપાવો"
+    ],
+    "he": [
+      "הסתרת לשונית אנשי הקשר",
+      "הסתרת החיפוש"
+    ],
+    "hi": [
+      "संपर्क टैब छिपाएँ",
+      "खोज छिपाएँ"
+    ],
+    "hu": [
+      "Névjegyek lap elrejtése",
+      "Keresés elrejtése"
+    ],
+    "id": [
+      "Sembunyikan tab Kontak",
+      "Sembunyikan pencarian"
+    ],
+    "ga": [
+      "Folaigh an cluaisín Teagmhálacha",
+      "Folaigh an cuardach"
+    ],
+    "it": [
+      "Nascondi la scheda Contatti",
+      "Nascondi ricerca"
+    ],
+    "ja": [
+      "連絡先タブを非表示",
+      "検索を非表示"
+    ],
+    "kn": [
+      "ಸಂಪರ್ಕಗಳ ಟ್ಯಾಬ್ ಮರೆಮಾಡಿ",
+      "ಹುಡುಕಾಟವನ್ನು ಮರೆಮಾಡಿ"
+    ],
+    "kk": [
+      "Контактілер қойындысын жасыру",
+      "Іздеуді жасыру"
+    ],
+    "km": [
+      "លាក់ផ្ទាំងទំនាក់ទំនង",
+      "លាក់ការស្វែងរក"
+    ],
+    "ko": [
+      "연락처 탭 숨기기",
+      "검색 숨기기"
+    ],
+    "lv": [
+      "Paslēpt kontaktu cilni",
+      "Paslēpt meklēšanu"
+    ],
+    "lt": [
+      "Slėpti kontaktų skirtuką",
+      "Slėpti paiešką"
+    ],
+    "ms": [
+      "Sembunyikan tab Kenalan",
+      "Sembunyikan carian"
+    ],
+    "ml": [
+      "കോൺടാക്റ്റുകൾ ടാബ് മറയ്ക്കുക",
+      "തിരയൽ മറയ്ക്കുക"
+    ],
+    "mt": [
+      "Aħbi t-tab tal-kuntatti",
+      "Aħbi t-tiftix"
+    ],
+    "mr": [
+      "संपर्क टॅब लपवा",
+      "शोध लपवा"
+    ],
+    "ne": [
+      "सम्पर्क ट्याब लुकाउनुहोस्",
+      "खोज लुकाउनुहोस्"
+    ],
+    "nb": [
+      "Skjul Kontakter-fanen",
+      "Skjul søk"
+    ],
+    "or": [
+      "ସମ୍ପର୍କ ଟ୍ୟାବ୍ ଲୁଚାନ୍ତୁ",
+      "ସନ୍ଧାନ ଲୁଚାନ୍ତୁ"
+    ],
+    "fa": [
+      "پنهان کردن زبانه مخاطبین",
+      "پنهان کردن جستجو"
+    ],
+    "pl": [
+      "Ukryj kartę Kontakty",
+      "Ukryj wyszukiwanie"
+    ],
+    "pt-br": [
+      "Ocultar aba Contatos",
+      "Ocultar pesquisa"
+    ],
+    "pt-pt": [
+      "Ocultar separador Contactos",
+      "Ocultar pesquisa"
+    ],
+    "ro": [
+      "Ascunde fila Contacte",
+      "Ascunde căutarea"
+    ],
+    "ru": [
+      "Скрыть вкладку «Контакты»",
+      "Скрыть поиск"
+    ],
+    "sr": [
+      "Сакриј картицу Контакти",
+      "Сакриј претрагу"
+    ],
+    "sk": [
+      "Skryť kartu Kontakty",
+      "Skryť vyhľadávanie"
+    ],
+    "sl": [
+      "Skrij zavihek Stiki",
+      "Skrij iskanje"
+    ],
+    "es": [
+      "Ocultar pestaña Contactos",
+      "Ocultar búsqueda"
+    ],
+    "sw": [
+      "Ficha kichupo cha Anwani",
+      "Ficha utafutaji"
+    ],
+    "sv": [
+      "Dölj fliken Kontakter",
+      "Dölj sökning"
+    ],
+    "tg": [
+      "Пинҳон кардани ҷадвали «Тамосҳо»",
+      "Пинҳон кардани ҷустуҷӯ"
+    ],
+    "ta": [
+      "தொடர்புகள் தாவலை மறை",
+      "தேடலை மறை"
+    ],
+    "te": [
+      "పరిచయాల ట్యాబ్‌ను దాచండి",
+      "శోధనను దాచండి"
+    ],
+    "th": [
+      "ซ่อนแท็บรายชื่อ",
+      "ซ่อนการค้นหา"
+    ],
+    "tr": [
+      "Kişiler sekmesini gizle",
+      "Aramayı gizle"
+    ],
+    "tk": [
+      "Aragatnaşyklar sahypasyny gizle",
+      "Gözlegi gizle"
+    ],
+    "uk": [
+      "Приховати вкладку «Контакти»",
+      "Приховати пошук"
+    ],
+    "ur": [
+      "رابطوں کا ٹیب چھپائیں",
+      "تلاش چھپائیں"
+    ],
+    "uz": [
+      "Kontaktlar varagʻini yashirish",
+      "Qidiruvni yashirish"
+    ],
+    "vi": [
+      "Ẩn thẻ Danh bạ",
+      "Ẩn tìm kiếm"
+    ]
+  }
+}

@@ -93,6 +93,25 @@ def final_upstream_catalog_contract(source):
     """Verify the exact late 13.2 catalogs, without unwrapping historical stages."""
     from validate_upstream_13_2_release import checked_plan, checked_sdk_plans
     from late_source_stages import LATE_SOURCE_STAGES, historical_source, verified_prefix
+    if verified_prefix(source) >= LATE_SOURCE_STAGES.index('tab_visibility_sync') + 1:
+        plan = checked_plan('tab_visibility_sync')
+        name = 'tab_visibility_sync/localization.json'
+        data = (OVERLAY/name).read_bytes()
+        if hashlib.sha256(data).hexdigest() != plan['templates'][name]: raise ValueError('Изменены переводы меню вкладок')
+        loc = json.loads(data)
+        codes = {x['code'] for x in json.loads((OVERLAY/'app_language_localization/languages.json').read_text())['languages']}
+        if set(loc['translations']) != codes or loc['keys'] != ['NagramiX.Tabs.HideContactsAction','NagramiX.Tabs.HideSearchAction']: raise ValueError('Неполные переводы меню вкладок')
+        with historical_source(source, before_stage='tab_visibility_sync') as prior:
+            previous_languages, previous_count = final_upstream_catalog_contract(prior)
+            for code in codes:
+                path = 'submodules/NagramiXCore/Resources/' + code + '.lproj/Localizable.strings'
+                before = strings(prior/path); values = loc['translations'][code]
+                if len(values) != 2 or set(loc['keys']) & before.keys(): raise ValueError('Некорректные новые ключи меню вкладок')
+                if strings(source/path) != {**before, **dict(zip(loc['keys'], values))} or hashlib.sha256((source/path).read_bytes()).hexdigest() != plan['outputs'][path]:
+                    raise ValueError('Изменены прежние переводы: ' + code)
+        languages, count = catalog_contract(source, codes)
+        if (previous_languages, previous_count, languages, count) != (71, 678, 71, 680): raise ValueError('Неверное число ключей меню вкладок')
+        return languages, count
     if verified_prefix(source) >= LATE_SOURCE_STAGES.index('round_bitrate_levels') + 1:
         plan = checked_plan('round_bitrate_levels')
         name = 'round_bitrate_levels/localization.json'

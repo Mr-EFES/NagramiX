@@ -54,6 +54,7 @@ from validate_file_caption_edit import check as file_caption_edit_check
 from validate_original_video_gallery import check as original_gallery_check
 from validate_round_quality_checkmark_alignment import check as round_checkmark_check
 from validate_round_video_encoding import check as round_encoding_check
+from validate_tab_visibility_sync import check as tab_visibility_check
 from archived_playlist_lifetime_runtime import fixture as archived_playlist_lifetime_fixture
 from story_avatar_visibility_runtime import fixture as story_avatar_visibility_fixture
 from original_video_media_runtime import fixture as original_video_media_fixture
@@ -136,6 +137,8 @@ def canonical_projection(destination, through_stage):
         native_headers.add('submodules/UIKitRuntimeUtils/Source/UIKitRuntimeUtils/UIBarButtonItem+Proxy.h')
     if through_stage in {'snow_density_glass','settings_glass_sliders','round_bitrate_levels'}:
         native_headers.update({'submodules/LegacyComponents/PublicHeaders/LegacyComponents/TGPhotoEditorSliderView.h','submodules/LegacyComponents/Sources/TGPhotoEditorSliderView.m'})
+    if through_stage == 'tab_visibility_sync':
+        native_headers.update(n for n in expected if n.startswith('submodules/NagramiXCore/Resources/') and n.endswith('.lproj/Localizable.strings'))
     expected = {n:sha for n,sha in expected.items() if (n.endswith('.swift') or n in native_headers) and n not in post['deletions']}
     missing = {n:sha for n,sha in expected.items() if n not in sources}
     if missing:
@@ -207,6 +210,12 @@ def main():
                 shutil.rmtree(path)
         foundation=checks.run('foundation_check:191', lambda: foundation_check(args.swiftc,root))
         files = {}
+        tab_visibility_source=root/'tab-visibility-native-final103'
+        files['native_final103']=canonical_projection(tab_visibility_source,'tab_visibility_sync')
+        tab_visibility=checks.run('tab-visibility-sync', lambda: tab_visibility_check(tab_visibility_source,args.swiftc,root/'tab-visibility'), fallback={})
+        runs += tab_visibility.get('executions',[])
+        cleanup(tab_visibility_source)
+        cleanup(root/'tab-visibility')
         round_encoding_source=root/'round-encoding-native-final102'
         files['native_final102']=canonical_projection(round_encoding_source,'round_video_encoding')
         round_encoding=checks.run('round-video-encoding', lambda: round_encoding_check(round_encoding_source,args.swiftc,root/'round-encoding'), fallback={})
@@ -469,6 +478,7 @@ def main():
     report['original_video_gallery']=original_gallery
     report['round_quality_checkmark_alignment']=round_checkmark
     report['round_video_encoding']=round_encoding
+    report['tab_visibility_sync']=tab_visibility
     report['system_web_javascript']=system_js
     report['system_web_real_sdk']=system_apple
     report['youtube_playback_policy_js']=youtube_js
