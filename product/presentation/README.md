@@ -118,6 +118,6 @@ IPA предназначен для физического iPhone с iOS 15.0 и
 
 Локальный архив хранит только содержимое, которое приложение успело получить и сохранить. Системным окном PiP управляет iOS. Дополнительные настройки не отменяют серверные права доступа, Premium и другие ограничения Telegram. Проверки исходников, нативной сборки и пакета не заменяют физическую приёмку приложения.
 
-[Скачать IPA](https://github.com/Mr-EFES/NagramiX/releases/download/v0.8.4/NagramiX-0.8.4-unsigned.ipa) · [Release](https://github.com/Mr-EFES/NagramiX/releases/tag/v0.8.4) · [План проверки на iPhone](https://github.com/Mr-EFES/NagramiX/blob/main/docs/DEVICE_CHECK_084.md)
+[Скачать IPA](https://github.com/Mr-EFES/NagramiX/releases/download/v0.9.8/NagramiX-0.9.8-unsigned.ipa) · [Релиз 0.9.8](https://github.com/Mr-EFES/NagramiX/releases/tag/v0.9.8) · [План проверки на iPhone](https://github.com/Mr-EFES/NagramiX/blob/main/docs/DEVICE_CHECK_098.md)
 
 Независимый неофициальный клиент, не связан с Telegram Messenger Inc.

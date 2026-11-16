@@ -1,0 +1,57 @@
+{
+  "version": "0.9.8",
+  "cleanup_authorization": "Прямая разовая команда владельца 16 ноября 2026: оставить 0.9.8 и последующие исправления",
+  "retained": {
+    "release_id": 446239219,
+    "tag": "v0.9.8",
+    "tag_commit": "2a8d8a76fcf16db4a5eadc503ed180a9b3a4af56",
+    "run_id": 43721830908,
+    "build_number": 219,
+    "release_assets": [
+      {
+        "id": 751789613,
+        "name": "BUILD-PROVENANCE.txt",
+        "size": 408,
+        "digest": "sha256:ce82d412d7f44af07cd5ed203552c60ce2dd80342381c5ef176e696ce6857712"
+      },
+      {
+        "id": 751789614,
+        "name": "NagramiX-0.9.8-unsigned.ipa",
+        "size": 98125760,
+        "digest": "sha256:a09b253990fd969c4c4c00800e8b9f76868b7fbe4d5024e874a04716bd9cf24e"
+      },
+      {
+        "id": 751789620,
+        "name": "SHA256SUMS",
+        "size": 94,
+        "digest": "sha256:fdffcaa83ab749d9f5af759ae41942c0e97976e51c8a84cd6266c183a865df9f"
+      }
+    ],
+    "actions_artifact_ids": [
+      14172830682,
+      14171819399
+    ]
+  },
+  "deleted": {
+    "releases": 10,
+    "release_assets": 30,
+    "tags": 13,
+    "workflow_runs": 57,
+    "old_actions_artifacts": 29,
+    "caches": 0
+  },
+  "verified": {
+    "only_current_release_and_tag": true,
+    "current_assets_and_actions_artifacts_unchanged": true,
+    "only_successful_current_actions_run": true,
+    "latest_is_current": true,
+    "main_includes_all_post_release_fixes": true,
+    "latest_fix_commit_retained": "69c3d7ae2d03e615d1faec1be7493e36479368d7",
+    "other_tracked_files_unchanged": 7902,
+    "git_history_rewritten": false,
+    "new_build_started": false
+  },
+  "source_runtime_stage": 100,
+  "source_manifest_sha256": "1c6289e826fc18310210d8600245ccadd9a02a1ba9b6c8f5f53c99e7fb6787ab",
+  "new_fixes_in_published_ipa": false
+}
