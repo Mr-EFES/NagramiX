@@ -53,6 +53,7 @@ from validate_file_caption_consistency import check as file_caption_check
 from validate_file_caption_edit import check as file_caption_edit_check
 from validate_original_video_gallery import check as original_gallery_check
 from validate_round_quality_checkmark_alignment import check as round_checkmark_check
+from validate_round_video_encoding import check as round_encoding_check
 from archived_playlist_lifetime_runtime import fixture as archived_playlist_lifetime_fixture
 from story_avatar_visibility_runtime import fixture as story_avatar_visibility_fixture
 from original_video_media_runtime import fixture as original_video_media_fixture
@@ -206,6 +207,12 @@ def main():
                 shutil.rmtree(path)
         foundation=checks.run('foundation_check:191', lambda: foundation_check(args.swiftc,root))
         files = {}
+        round_encoding_source=root/'round-encoding-native-final102'
+        files['native_final102']=canonical_projection(round_encoding_source,'round_video_encoding')
+        round_encoding=checks.run('round-video-encoding', lambda: round_encoding_check(round_encoding_source,args.swiftc,root/'round-encoding'), fallback={})
+        runs += round_encoding.get('executions',[])
+        cleanup(round_encoding_source)
+        cleanup(root/'round-encoding')
         round_checkmark_source=root/'round-checkmark-native-final101'
         files['native_final101']=canonical_projection(round_checkmark_source,'round_quality_checkmark_alignment')
         round_checkmark=checks.run('round-quality-checkmark-alignment', lambda: round_checkmark_check(round_checkmark_source,args.swiftc,root/'round-checkmark'), fallback={})
@@ -461,6 +468,7 @@ def main():
     report['file_caption_edit']=file_caption_edit
     report['original_video_gallery']=original_gallery
     report['round_quality_checkmark_alignment']=round_checkmark
+    report['round_video_encoding']=round_encoding
     report['system_web_javascript']=system_js
     report['system_web_real_sdk']=system_apple
     report['youtube_playback_policy_js']=youtube_js

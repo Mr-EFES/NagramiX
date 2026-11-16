@@ -1,0 +1,536 @@
+{
+  "task": "Ограниченное кодирование настоящих кружков из камеры и галереи по образцу GhostGram без изменения настроек",
+  "base_commit": "2e6f956d6293f3b931d5e13475210e1f632af8bf",
+  "stage": 102,
+  "name": "round_video_encoding",
+  "reference": "ROUND_VIDEO_ENCODING_REFERENCE.json",
+  "source": {
+    "stage": 102,
+    "name": "round_video_encoding",
+    "path": "/tmp/nagramix-round-encoding-contract/source",
+    "manifest_sha256": "9d27a50e1f024004f47dedc54525735717aa0c6f49cfa07f4bd308b081c03ff8",
+    "previous_manifest_sha256": "84347a7a773df594ef1339092d15ea1ebb702d7655178342113ac8a31656c600",
+    "files": 37696,
+    "symlinks": 26,
+    "modified_runtime_paths": [
+      "submodules/Camera/CameraNeo/Sources/VideoRecorder.swift",
+      "submodules/TelegramUI/Components/MediaEditor/Sources/MediaEditorValues.swift",
+      "submodules/TelegramUI/Components/MediaEditor/Sources/MediaEditorVideoAVAssetWriter.swift",
+      "submodules/TelegramUI/Components/MediaEditor/Sources/MediaEditorVideoExport.swift",
+      "submodules/TelegramUI/Components/MediaEditor/Sources/MediaEditorVideoStreamingWriter.swift",
+      "submodules/TelegramUI/Components/Resources/FetchVideoMediaResource/Sources/FetchVideoMediaResource.swift",
+      "submodules/TelegramUI/Components/VideoMessageCameraScreen/Sources/VideoMessageCameraScreen.swift"
+    ],
+    "new_runtime_paths": [
+      "submodules/TelegramUI/Components/MediaEditor/Sources/NagramiXRoundVideoEncodingPolicy.swift",
+      "submodules/TelegramUI/Components/MediaEditor/Sources/NagramiXRoundVideoExport.swift"
+    ],
+    "guards": 32,
+    "new_inc": 48,
+    "new_templates": 48,
+    "old_inc_unchanged": 5614,
+    "old_plans_unchanged": 314,
+    "historical_manifests_verified": 59
+  },
+  "feature_checks": {
+    "stage": 102,
+    "name": "round_video_encoding",
+    "runtime_modified": [
+      "submodules/Camera/CameraNeo/Sources/VideoRecorder.swift",
+      "submodules/TelegramUI/Components/MediaEditor/Sources/MediaEditorValues.swift",
+      "submodules/TelegramUI/Components/MediaEditor/Sources/MediaEditorVideoAVAssetWriter.swift",
+      "submodules/TelegramUI/Components/MediaEditor/Sources/MediaEditorVideoExport.swift",
+      "submodules/TelegramUI/Components/MediaEditor/Sources/MediaEditorVideoStreamingWriter.swift",
+      "submodules/TelegramUI/Components/Resources/FetchVideoMediaResource/Sources/FetchVideoMediaResource.swift",
+      "submodules/TelegramUI/Components/VideoMessageCameraScreen/Sources/VideoMessageCameraScreen.swift"
+    ],
+    "new_helpers": [
+      "submodules/TelegramUI/Components/MediaEditor/Sources/NagramiXRoundVideoEncodingPolicy.swift",
+      "submodules/TelegramUI/Components/MediaEditor/Sources/NagramiXRoundVideoExport.swift"
+    ],
+    "guards": 32,
+    "loader_refusals": 21,
+    "checks": {
+      "contracts": {
+        "settings_page_model_levels_480_512_640_1000_1100_1200_1300_unchanged": true,
+        "only_custom_round_rate_and_fps_paths_changed": true,
+        "actual_distinct_h264_hevc_settings": true,
+        "account_local_server_limit_and_requested_rate_byte_ceiling": true,
+        "validated_output_before_upload_prefix": true,
+        "oversized_camera_bypasses_fast_store": true,
+        "ordinary_videos_stories_and_raw_original_media_preserved": true,
+        "round_flag_and_pending_upload_rpc_unchanged": true,
+        "new_localization_keys": 0
+      },
+      "executions": [
+        {
+          "name": "round-encoding-pipeline",
+          "mode": "debug",
+          "exit_code": 0,
+          "output": "PASS round encoding budget/retry/lifecycle checks: 512"
+        },
+        {
+          "name": "round-encoding-pipeline",
+          "mode": "optimized",
+          "exit_code": 0,
+          "output": "PASS round encoding budget/retry/lifecycle checks: 512"
+        },
+        {
+          "name": "round-encoding-profiles",
+          "mode": "debug",
+          "exit_code": 0,
+          "output": "PASS actual round export profiles: 480"
+        },
+        {
+          "name": "round-encoding-profiles",
+          "mode": "optimized",
+          "exit_code": 0,
+          "output": "PASS actual round export profiles: 480"
+        }
+      ],
+      "semantic_negatives": [
+        {
+          "name": "account-limit",
+          "mode": "debug",
+          "exit_code": 96,
+          "output": "FAIL: account max_size is in bytes"
+        },
+        {
+          "name": "account-limit",
+          "mode": "optimized",
+          "exit_code": 96,
+          "output": "FAIL: account max_size is in bytes"
+        },
+        {
+          "name": "unchecked-bytes",
+          "mode": "debug",
+          "exit_code": 96,
+          "output": "FAIL: measured17MB triggers a fresh export"
+        },
+        {
+          "name": "unchecked-bytes",
+          "mode": "optimized",
+          "exit_code": 96,
+          "output": "FAIL: measured17MB triggers a fresh export"
+        },
+        {
+          "name": "unchecked-codec",
+          "mode": "debug",
+          "exit_code": 96,
+          "output": "FAIL: wrong actual codec/FPS/side rejects mislabeled output"
+        },
+        {
+          "name": "unchecked-codec",
+          "mode": "optimized",
+          "exit_code": 96,
+          "output": "FAIL: wrong actual codec/FPS/side rejects mislabeled output"
+        },
+        {
+          "name": "unchecked-prefix",
+          "mode": "debug",
+          "exit_code": 96,
+          "output": "FAIL: custom round exports never expose an unchecked upload prefix"
+        },
+        {
+          "name": "unchecked-prefix",
+          "mode": "optimized",
+          "exit_code": 96,
+          "output": "FAIL: custom round exports never expose an unchecked upload prefix"
+        },
+        {
+          "name": "retry-bound",
+          "mode": "debug",
+          "exit_code": 96,
+          "output": "FAIL: persistent overshoot fails after3 attempts, never sends an oversized square"
+        },
+        {
+          "name": "retry-bound",
+          "mode": "optimized",
+          "exit_code": 96,
+          "output": "FAIL: persistent overshoot fails after3 attempts, never sends an oversized square"
+        },
+        {
+          "name": "camera-fast-store",
+          "mode": "debug",
+          "exit_code": 96,
+          "output": "FAIL: camera17MB bypasses unedited fast path and must use bounded conversion"
+        },
+        {
+          "name": "camera-fast-store",
+          "mode": "optimized",
+          "exit_code": 96,
+          "output": "FAIL: camera17MB bypasses unedited fast path and must use bounded conversion"
+        },
+        {
+          "name": "reader-fps",
+          "mode": "debug",
+          "exit_code": 96,
+          "output": "FAIL: reader resamples source120FPS at selected30/60FPS"
+        },
+        {
+          "name": "reader-fps",
+          "mode": "optimized",
+          "exit_code": 96,
+          "output": "FAIL: reader resamples source120FPS at selected30/60FPS"
+        },
+        {
+          "name": "export-fps",
+          "mode": "debug",
+          "exit_code": 96,
+          "output": "Round quality regression: writer receives selected FPS"
+        },
+        {
+          "name": "export-fps",
+          "mode": "optimized",
+          "exit_code": 96,
+          "output": "Round quality regression: writer receives selected FPS"
+        },
+        {
+          "name": "export-codec",
+          "mode": "debug",
+          "exit_code": 96,
+          "output": "Round quality regression: real requested H264/HEVC export codec"
+        },
+        {
+          "name": "export-codec",
+          "mode": "optimized",
+          "exit_code": 96,
+          "output": "Round quality regression: real requested H264/HEVC export codec"
+        },
+        {
+          "name": "capture-codec",
+          "mode": "debug",
+          "exit_code": 96,
+          "output": "Round quality regression: camera selects a real codec, not a label"
+        },
+        {
+          "name": "capture-codec",
+          "mode": "optimized",
+          "exit_code": 96,
+          "output": "Round quality regression: camera selects a real codec, not a label"
+        }
+      ],
+      "apple_api": {
+        "actual_policy_module_and_public_caller": "passed",
+        "complete_exporter_reader_apple_api": "not_run",
+        "camera_and_streaming_keys_apple_api": "not_run",
+        "full_application_sdk": "not_run",
+        "hardware_encoder": "not_run",
+        "physical_iphone": "pending",
+        "reason": "Linux: real SignalKit/file IO and explicit encoder/AV metadata/Postbox adapters. No iPhoneOS encoding success claimed."
+      },
+      "boundary": "Actual Foundation/file IO/policy/direct store/whole new exporter/retry lifecycle/SignalKit and actual camera/export property bodies. Postbox, AV metadata, source reader and hardware encoder are explicit IO boundaries. No real VideoToolbox bitrate/file-size success claimed on Linux.",
+      "full_application_sdk": "not_run",
+      "physical_iphone": "pending",
+      "server_round_trip": "pending"
+    },
+    "source_unchanged_by_checks": true,
+    "new_actions_or_ipa_started": false,
+    "runtime_repeated_through_canonical_projection": true
+  },
+  "global_source_checks": [
+    {
+      "name": "early-scoped",
+      "exit_code": 0,
+      "seconds": 66.8,
+      "source_manifest_sha256": "9d27a50e1f024004f47dedc54525735717aa0c6f49cfa07f4bd308b081c03ff8"
+    },
+    {
+      "name": "upstream",
+      "exit_code": 0,
+      "seconds": 114.4,
+      "source_manifest_sha256": "9d27a50e1f024004f47dedc54525735717aa0c6f49cfa07f4bd308b081c03ff8"
+    },
+    {
+      "name": "inverse",
+      "exit_code": 0,
+      "seconds": 145.3,
+      "source_manifest_sha256": "9d27a50e1f024004f47dedc54525735717aa0c6f49cfa07f4bd308b081c03ff8"
+    },
+    {
+      "name": "localization",
+      "exit_code": 0,
+      "seconds": 45.4,
+      "source_manifest_sha256": "9d27a50e1f024004f47dedc54525735717aa0c6f49cfa07f4bd308b081c03ff8"
+    },
+    {
+      "name": "members-full",
+      "exit_code": 0,
+      "seconds": 4.7,
+      "source_manifest_sha256": "9d27a50e1f024004f47dedc54525735717aa0c6f49cfa07f4bd308b081c03ff8"
+    },
+    {
+      "name": "members-canonical",
+      "exit_code": 0,
+      "seconds": 2.1,
+      "source_manifest_sha256": "9d27a50e1f024004f47dedc54525735717aa0c6f49cfa07f4bd308b081c03ff8"
+    },
+    {
+      "name": "native-strings",
+      "exit_code": 0,
+      "seconds": 5.6,
+      "source_manifest_sha256": "9d27a50e1f024004f47dedc54525735717aa0c6f49cfa07f4bd308b081c03ff8"
+    },
+    {
+      "name": "mode",
+      "exit_code": 0,
+      "seconds": 0.2,
+      "source_manifest_sha256": "9d27a50e1f024004f47dedc54525735717aa0c6f49cfa07f4bd308b081c03ff8"
+    },
+    {
+      "name": "metadata",
+      "exit_code": 0,
+      "seconds": 0.1,
+      "source_manifest_sha256": "9d27a50e1f024004f47dedc54525735717aa0c6f49cfa07f4bd308b081c03ff8"
+    },
+    {
+      "name": "diff",
+      "exit_code": 0,
+      "seconds": 0.0,
+      "source_manifest_sha256": "9d27a50e1f024004f47dedc54525735717aa0c6f49cfa07f4bd308b081c03ff8"
+    }
+  ],
+  "global_source_checks_complete": true,
+  "full_preflight_rerun": false,
+  "early_scope": {
+    "scope": "Новый checker102 выполнен через настоящий canonical_projection/CheckCollection. Старые112 шагов/73fixtures/146runs и scoped96/97/98/100/101 не запускались повторно; их код/планы/проверенные отчёты сохранены.",
+    "full_preflight_rerun": false,
+    "previous_runs_reused": [
+      {
+        "path": "/tmp/nagramix-round-quality-title/early.json",
+        "sha256": "f4fc240e182ebb7a619a31397d2ed92a7f3332ad6b1f75a6223ac091946400b1"
+      },
+      {
+        "path": "/tmp/nagramix-round-quality-badge/early-scoped.json",
+        "sha256": "2602ad3b77eebb362396de6e1b827b909b2b8c0f9cdd4010db6a936453a20702"
+      },
+      {
+        "path": "/tmp/nagramix-file-caption-consistency/early-scoped.json",
+        "sha256": "22efb558b1d6170f5bc339a5a1b6bd97eb62ec1008bd242e872fafc870e0e044"
+      },
+      {
+        "path": "/tmp/nagramix-file-caption-edit/early-scoped.json",
+        "sha256": "2402a8d44fe8cfd733d3226e8fc1dcae9ff59fe5128783913e74f163e817a06b"
+      },
+      {
+        "path": "/tmp/nagramix-original-video-gallery/early-scoped.json",
+        "sha256": "ab06ea7faaa6eba8ee37f7ede9fb14cf6ec1fa512171d24c8ea8d7dea9179ce9"
+      },
+      {
+        "path": "/tmp/nagramix-round-checkmark-center/early-scoped.json",
+        "sha256": "d288639bddfacd7b6966eec517b38c08d76d676353a2bb7ee799830386ce110f"
+      }
+    ],
+    "new_check_status": "passed",
+    "projection": {
+      "written": 592,
+      "pinned_native_dependencies": 6,
+      "unused_unavailable_native_guards": 99,
+      "localized_resources": 0
+    },
+    "new_check": {
+      "contracts": {
+        "settings_page_model_levels_480_512_640_1000_1100_1200_1300_unchanged": true,
+        "only_custom_round_rate_and_fps_paths_changed": true,
+        "actual_distinct_h264_hevc_settings": true,
+        "account_local_server_limit_and_requested_rate_byte_ceiling": true,
+        "validated_output_before_upload_prefix": true,
+        "oversized_camera_bypasses_fast_store": true,
+        "ordinary_videos_stories_and_raw_original_media_preserved": true,
+        "round_flag_and_pending_upload_rpc_unchanged": true,
+        "new_localization_keys": 0
+      },
+      "executions": [
+        {
+          "name": "round-encoding-pipeline",
+          "mode": "debug",
+          "exit_code": 0,
+          "output": "PASS round encoding budget/retry/lifecycle checks: 512"
+        },
+        {
+          "name": "round-encoding-pipeline",
+          "mode": "optimized",
+          "exit_code": 0,
+          "output": "PASS round encoding budget/retry/lifecycle checks: 512"
+        },
+        {
+          "name": "round-encoding-profiles",
+          "mode": "debug",
+          "exit_code": 0,
+          "output": "PASS actual round export profiles: 480"
+        },
+        {
+          "name": "round-encoding-profiles",
+          "mode": "optimized",
+          "exit_code": 0,
+          "output": "PASS actual round export profiles: 480"
+        }
+      ],
+      "semantic_negatives": [
+        {
+          "name": "account-limit",
+          "mode": "debug",
+          "exit_code": 96,
+          "output": "FAIL: account max_size is in bytes"
+        },
+        {
+          "name": "account-limit",
+          "mode": "optimized",
+          "exit_code": 96,
+          "output": "FAIL: account max_size is in bytes"
+        },
+        {
+          "name": "unchecked-bytes",
+          "mode": "debug",
+          "exit_code": 96,
+          "output": "FAIL: measured17MB triggers a fresh export"
+        },
+        {
+          "name": "unchecked-bytes",
+          "mode": "optimized",
+          "exit_code": 96,
+          "output": "FAIL: measured17MB triggers a fresh export"
+        },
+        {
+          "name": "unchecked-codec",
+          "mode": "debug",
+          "exit_code": 96,
+          "output": "FAIL: wrong actual codec/FPS/side rejects mislabeled output"
+        },
+        {
+          "name": "unchecked-codec",
+          "mode": "optimized",
+          "exit_code": 96,
+          "output": "FAIL: wrong actual codec/FPS/side rejects mislabeled output"
+        },
+        {
+          "name": "unchecked-prefix",
+          "mode": "debug",
+          "exit_code": 96,
+          "output": "FAIL: custom round exports never expose an unchecked upload prefix"
+        },
+        {
+          "name": "unchecked-prefix",
+          "mode": "optimized",
+          "exit_code": 96,
+          "output": "FAIL: custom round exports never expose an unchecked upload prefix"
+        },
+        {
+          "name": "retry-bound",
+          "mode": "debug",
+          "exit_code": 96,
+          "output": "FAIL: persistent overshoot fails after3 attempts, never sends an oversized square"
+        },
+        {
+          "name": "retry-bound",
+          "mode": "optimized",
+          "exit_code": 96,
+          "output": "FAIL: persistent overshoot fails after3 attempts, never sends an oversized square"
+        },
+        {
+          "name": "camera-fast-store",
+          "mode": "debug",
+          "exit_code": 96,
+          "output": "FAIL: camera17MB bypasses unedited fast path and must use bounded conversion"
+        },
+        {
+          "name": "camera-fast-store",
+          "mode": "optimized",
+          "exit_code": 96,
+          "output": "FAIL: camera17MB bypasses unedited fast path and must use bounded conversion"
+        },
+        {
+          "name": "reader-fps",
+          "mode": "debug",
+          "exit_code": 96,
+          "output": "FAIL: reader resamples source120FPS at selected30/60FPS"
+        },
+        {
+          "name": "reader-fps",
+          "mode": "optimized",
+          "exit_code": 96,
+          "output": "FAIL: reader resamples source120FPS at selected30/60FPS"
+        },
+        {
+          "name": "export-fps",
+          "mode": "debug",
+          "exit_code": 96,
+          "output": "Round quality regression: writer receives selected FPS"
+        },
+        {
+          "name": "export-fps",
+          "mode": "optimized",
+          "exit_code": 96,
+          "output": "Round quality regression: writer receives selected FPS"
+        },
+        {
+          "name": "export-codec",
+          "mode": "debug",
+          "exit_code": 96,
+          "output": "Round quality regression: real requested H264/HEVC export codec"
+        },
+        {
+          "name": "export-codec",
+          "mode": "optimized",
+          "exit_code": 96,
+          "output": "Round quality regression: real requested H264/HEVC export codec"
+        },
+        {
+          "name": "capture-codec",
+          "mode": "debug",
+          "exit_code": 96,
+          "output": "Round quality regression: camera selects a real codec, not a label"
+        },
+        {
+          "name": "capture-codec",
+          "mode": "optimized",
+          "exit_code": 96,
+          "output": "Round quality regression: camera selects a real codec, not a label"
+        }
+      ],
+      "apple_api": {
+        "actual_policy_module_and_public_caller": "passed",
+        "complete_exporter_reader_apple_api": "not_run",
+        "camera_and_streaming_keys_apple_api": "not_run",
+        "full_application_sdk": "not_run",
+        "hardware_encoder": "not_run",
+        "physical_iphone": "pending",
+        "reason": "Linux: real SignalKit/file IO and explicit encoder/AV metadata/Postbox adapters. No iPhoneOS encoding success claimed."
+      },
+      "boundary": "Actual Foundation/file IO/policy/direct store/whole new exporter/retry lifecycle/SignalKit and actual camera/export property bodies. Postbox, AV metadata, source reader and hardware encoder are explicit IO boundaries. No real VideoToolbox bitrate/file-size success claimed on Linux.",
+      "full_application_sdk": "not_run",
+      "physical_iphone": "pending",
+      "server_round_trip": "pending"
+    },
+    "collection_tests": 8,
+    "all_58_calls_collected": true,
+    "full_application_sdk": "not_run",
+    "physical_iphone": "pending"
+  },
+  "scope_review": {
+    "camera_and_gallery_paths": true,
+    "settings_page_unchanged": true,
+    "presets_and_persistence_unchanged": true,
+    "actual_distinct_h264_hevc": true,
+    "selected_fps_in_reader_and_encoder": true,
+    "account_limit_and_original_requested_rate_byte_ceiling": true,
+    "oversize_camera_fast_store_blocked": true,
+    "isolated_attempt_paths_and_bounded_retry_before_upload": true,
+    "actual_codec_dimensions_fps_and_size_checked": true,
+    "new_exporter_postbox_free_existing_fetch_adapter_only": true,
+    "native_postbox_allowlists_unchanged": true,
+    "round_flag_mime_pending_rpc_unchanged": true,
+    "ordinary_video_story_and_original_video_mode_preserved": true,
+    "existing_5614_inc_and314_plans_unchanged": true,
+    "new_localization_keys": 0
+  },
+  "verification_boundary": "512 pipeline/lifecycle/size checks and480 actual profile/camera-setting checks per debug/-O. Real SignalKit, policy, exporter, fast-store and file IO. Postbox/encoder/AV metadata/source-reader are explicit IO adapters; encoder events are driven after observer wiring.20 semantic negatives exit96. Old112 early steps/73 fixtures/146 runs and scoped96/97/98/100/101 reused with unchanged old code/plans/reports, not rerun. New full checker repeated through actual canonical_projection/CheckCollection;8 collector tests/58 calls passed. Native Apple APIs, hardware encoding and live Telegram round-trip not executed on Linux.",
+  "full_application_sdk": "not_run",
+  "hardware_encoder": "not_run",
+  "physical_iphone": "pending",
+  "server_round_trip": "pending",
+  "new_actions_or_ipa_started": false,
+  "published_ipa219_contains_this_fix": false,
+  "release_assets_tags_and_actions_unchanged": true,
+  "registry": "73 compile_passed /7 compile_pending /80 device_pending; round_video_quality and round_video_editor already pending"
+}

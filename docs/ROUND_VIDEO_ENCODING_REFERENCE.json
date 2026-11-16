@@ -1,0 +1,19 @@
+{
+  "repository": "ichmagmaus111/ghostgram",
+  "commit": "2a6b08272b7da893f88986846022bafd0727df89",
+  "files": {
+    "submodules/Camera/CameraLegacy/Sources/CameraOutput.swift": "91be2441f95cb7d9dc275ba09cf92a4e8ec807e2d6d4680cba36218e293f8486",
+    "submodules/Camera/CameraNeo/Sources/VideoRecorder.swift": "cbac228478e9e1e23b80e4e4bb684e3723073d5d3376993dd51fa2fc2b936d3e",
+    "submodules/TelegramUI/Components/MediaEditor/Sources/MediaEditorValues.swift": "7f7570c94ed2ca885f2840d5161a3e7ac7b9143d1f1b52bae82a5f5fbd98813a",
+    "submodules/TelegramUI/Components/MediaEditor/Sources/MediaEditorVideoAVAssetWriter.swift": "ce457cc3eb929ddd71071adffd1670da3f91d4f8170c41c0810d72d1ed29a959",
+    "Ghostgram/Features/CameraMasks/Upstream/VideoMessageCameraScreen/GGRoundCameraSupport.swift": "8591a2a3621eb0c29e16e5299bcd88952c034e941f5ccbfa4aefdb53adb57691",
+    "Ghostgram/Features/CameraMasks/Pipeline/Sources/GGRoundVideoExtras.swift": "d940e938e4b6a1d2ed509773aa03b30bda47dffdd40b0e0da5bdc14bfa436422",
+    "Ghostgram/Features/CameraMasks/Pipeline/Sources/GGRoundVideoConfig.swift": "55ea428046e5b9348718e66f695144b96ffcce2f776698651fb09b66e1c89cc2"
+  },
+  "inspected_mechanics": [
+    "round_video_encoding.max_size",
+    "full60s/video bitrate minus64kbit AAC with10percent reserve",
+    "real h264/hevc AV writer selection",
+    "HEVC preserved in trimmed round export"
+  ]
+}

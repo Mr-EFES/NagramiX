@@ -115,6 +115,7 @@ LATE_SOURCE_STAGES = (
     'font_toggle_alignment',
     'original_video_gallery',
     'round_quality_checkmark_alignment',
+    'round_video_encoding',
 )
 TEMPORARY_INTERACTION_STAGE = 'temporary_message_interaction'
 TEMPORARY_REPLY_HELPER = 'submodules/TelegramUI/Sources/Chat/NagramiXTemporaryReplySend.swift'
@@ -132,6 +133,14 @@ def check_copy_contract(stage, plan):
     index = LATE_SOURCE_STAGES.index(stage)
     if index >= 7:
         assert plan.get('required_previous_stage') == LATE_SOURCE_STAGES[index - 1], stage
+    if stage == 'round_video_encoding':
+        expected = {'submodules/TelegramUI/Components/MediaEditor/Sources/NagramiXRoundVideoEncodingPolicy.swift', 'submodules/TelegramUI/Components/MediaEditor/Sources/NagramiXRoundVideoExport.swift'}
+        assert set(plan['copies']) == expected, 'Unexpected round encoding helpers'
+        build = (OVERLAY / plan['guard_sources']['submodules/TelegramUI/Components/MediaEditor/BUILD']).read_text()
+        assert '"Sources/**/*.swift"' in build and '"//submodules/Postbox"' in build and '"//submodules/TelegramCore"' in build and '"//submodules/SSignalKit/SwiftSignalKit"' in build
+        for item in plan['copies'].values():
+            assert set(item) == {'source', 'sha256'} and plan['templates'].get(item['source']) == item['sha256']
+        return
     if stage == 'round_quality_summary':
         helper = 'submodules/TelegramUI/Components/ChatMediaEditorScreen/Sources/NagramiXRoundQualitySheet.swift'
         assert set(plan['copies']) == {helper}, 'Unexpected round quality helper copy'
