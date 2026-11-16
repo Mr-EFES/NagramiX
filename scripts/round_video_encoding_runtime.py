@@ -11,6 +11,7 @@ EXPORT=BASE+'NagramiXRoundVideoExport.swift'
 VIDEO=BASE+'MediaEditorVideoExport.swift'
 SCREEN='submodules/TelegramUI/Components/VideoMessageCameraScreen/Sources/VideoMessageCameraScreen.swift'
 ROOT=Path(__file__).resolve().parents[1]
+GEOMETRY_IMPORTS='import Foundation\n#if canImport(CoreGraphics)\nimport CoreGraphics\n#endif\n'
 
 
 def without_imports(value):
@@ -18,7 +19,7 @@ def without_imports(value):
 
 
 def fixture(source):
-    code='import Foundation\nimport CoreFoundation\n'+signal_library(source)+'\n'
+    code=GEOMETRY_IMPORTS+'import CoreFoundation\n'+signal_library(source)+'\n'
     if 'class Bag<' not in code and 'struct Bag<' not in code:code+='\n'+(source/'submodules/SSignalKit/SwiftSignalKit/Source/Bag.swift').read_text()
     code+='\n'+(source/'submodules/SSignalKit/SwiftSignalKit/Source/Promise.swift').read_text()+'\n'
     boundary=(ROOT/'scripts/tests/NagramiXRoundEncodingBoundary.swift').read_text()

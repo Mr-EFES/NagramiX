@@ -5,6 +5,7 @@ from validate_pip_swipe_handoff import U, N, clean
 from pip_transition_coordinator_runtime import entry_fixture
 
 ROOT = Path(__file__).resolve().parent
+GEOMETRY_IMPORTS = 'import Foundation\n#if canImport(CoreGraphics)\nimport CoreGraphics\n#endif\n'
 
 
 def lifecycle(source):
@@ -77,8 +78,7 @@ def gesture(source):
     node = (source / N).read_text()
     recognizer = clean(block(text, 'private final class NagramiXUpwardPiPGestureRecognizer:'))
     handler = clean(block(text, '    @objc private func nagramiXUpwardPiPSwipe(')).replace('private func', 'func')
-    return '''import Foundation
-typealias Selector=String
+    return GEOMETRY_IMPORTS + '''typealias Selector=String
 protocol UIGestureRecognizerDelegate:AnyObject {}
 class UIView {weak var superview:UIView?}
 class UIControl:UIView {}

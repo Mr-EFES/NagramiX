@@ -25,6 +25,9 @@ from system_web_picture_in_picture_gallery_runtime import BOUNDARY as SYSTEM_WEB
 from original_video_mode_runtime import GEOMETRY_IMPORTS as ORIGINAL_VIDEO_IMPORTS
 from feature_photo_policy_runtime import GEOMETRY_IMPORTS as PHOTO_POLICY_IMPORTS
 from feature_wide_post_envelope_runtime import GEOMETRY_IMPORTS as WIDE_POST_IMPORTS
+from native_pip_refinement_runtime import GEOMETRY_IMPORTS as NATIVE_PIP_IMPORTS
+from tab_visibility_runtime import GEOMETRY_IMPORTS as TAB_VISIBILITY_IMPORTS
+from round_video_encoding_runtime import GEOMETRY_IMPORTS as ROUND_ENCODING_IMPORTS
 
 
 PROBE = r'''
@@ -68,6 +71,9 @@ def check(swiftc):
         'original-video-send': ORIGINAL_VIDEO_IMPORTS,
         'photo-policy': PHOTO_POLICY_IMPORTS,
         'wide-post-envelope': WIDE_POST_IMPORTS,
+        'native-pip-gesture': NATIVE_PIP_IMPORTS,
+        'tab-visibility': TAB_VISIBILITY_IMPORTS,
+        'round-encoding-pipeline': ROUND_ENCODING_IMPORTS,
     }
     report = {'boundaries': [], 'apple_import_negatives': [],
               'boundary': 'Actual test boundary imports and geometry operators; no UIKit or whole-app SDK build.'}

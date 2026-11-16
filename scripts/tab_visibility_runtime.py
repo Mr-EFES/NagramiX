@@ -13,6 +13,7 @@ CONTACTS='submodules/ContactListUI/Sources/ContactsController.swift'
 CONTACT_NODE='submodules/ContactListUI/Sources/ContactsControllerNode.swift'
 CORE='submodules/NagramiXCore/Sources/NagramiXTabSettings.swift'
 STRINGS='submodules/NagramiXCore/Sources/NagramiXPresentationStrings.swift'
+GEOMETRY_IMPORTS='import Foundation\n#if canImport(CoreGraphics)\nimport CoreGraphics\n#endif\n'
 
 def modules(source,swiftc,folder,flags=(),cache=None):
     folder.mkdir(parents=True,exist_ok=True)
@@ -33,7 +34,7 @@ def modules(source,swiftc,folder,flags=(),cache=None):
     return ['-I',str(folder),'-L',str(folder),'-lNagramiXCore','-lNagramiXMediaSettings'],env
 
 def fixture(source):
-    code='import Foundation\nimport NagramiXCore\n'+signal_library(source)+'\n'
+    code=GEOMETRY_IMPORTS+'import NagramiXCore\n'+signal_library(source)+'\n'
     if 'class Bag<' not in code and 'struct Bag<' not in code:code+=(source/'submodules/SSignalKit/SwiftSignalKit/Source/Bag.swift').read_text()
     code+='\n'+(source/'submodules/SSignalKit/SwiftSignalKit/Source/Promise.swift').read_text()+'\n'
     root=(source/ROOT_UI).read_text();contacts=(source/CONTACTS).read_text();bar=(source/BAR).read_text();component=(source/COMPONENT).read_text()
