@@ -50,6 +50,7 @@ from validate_sticker_status_spacing import check as sticker_status_check
 from validate_round_quality_title_layout import check as round_title_check
 from validate_round_quality_preset_badge import check as round_badge_check
 from validate_file_caption_consistency import check as file_caption_check
+from validate_file_caption_edit import check as file_caption_edit_check
 from archived_playlist_lifetime_runtime import fixture as archived_playlist_lifetime_fixture
 from story_avatar_visibility_runtime import fixture as story_avatar_visibility_fixture
 from original_video_media_runtime import fixture as original_video_media_fixture
@@ -203,6 +204,13 @@ def main():
                 shutil.rmtree(path)
         foundation=checks.run('foundation_check:191', lambda: foundation_check(args.swiftc,root))
         files = {}
+        edit_caption_source=root/'file-caption-edit-native-final98'
+        files['native_final98']=canonical_projection(edit_caption_source,'file_caption_edit')
+        file_caption_edit=checks.run('file-caption-edit', lambda: file_caption_edit_check(edit_caption_source,args.swiftc,root/'file-caption-edit'), fallback={})
+        for group in ('edit_executions','geometry_executions','existing_rich_executions'):
+            runs += file_caption_edit.get(group,[])
+        cleanup(edit_caption_source)
+        cleanup(root/'file-caption-edit')
         caption_source=root/'file-caption-native-final97'
         files['native_final97']=canonical_projection(caption_source,'file_caption_consistency')
         file_caption=checks.run('file-caption-consistency', lambda: file_caption_check(caption_source,args.swiftc,root/'file-caption'), fallback={})
@@ -437,6 +445,7 @@ def main():
     report['round_quality_title_layout']=round_title
     report['round_quality_preset_badge']=round_badge
     report['file_caption_consistency']=file_caption
+    report['file_caption_edit']=file_caption_edit
     report['system_web_javascript']=system_js
     report['system_web_real_sdk']=system_apple
     report['youtube_playback_policy_js']=youtube_js

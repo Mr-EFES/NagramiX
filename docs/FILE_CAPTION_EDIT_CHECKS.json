@@ -1,0 +1,422 @@
+{
+  "task": "Классический file-caption при редактировании и одинаковый верхний/нижний зазор файла",
+  "base_commit": "9cb2508b0d2aebc71c4e83d24d93b82c302b3a5c",
+  "stage": 98,
+  "name": "file_caption_edit",
+  "findings": [
+    "Стадия97 не охватывала edit callback: media-блок всегда отвергался isEntityExpressible, поэтому совместимый файл с подписью вновь сериализовался как rich.",
+    "Полный зазор под штатным файлом включает topInset следующего text node, который при соседе .text уменьшен на2pt; предыдущий минимум не давал равенства верхнему15pt."
+  ],
+  "source": {
+    "stage": 98,
+    "name": "file_caption_edit",
+    "path": "/tmp/nagramix-file-caption-edit/source",
+    "manifest_sha256": "a852003ea04d6dbcdfaabc2273231dc02ef0faba0d01c3a8d4de6df99d4635f5",
+    "previous_manifest_sha256": "b757b04633633e346126b29e8907e40c7d794a9a57d0c906e593db9fbc8b0cea",
+    "files": 37694,
+    "symlinks": 26,
+    "modified_runtime_paths": [
+      "submodules/TelegramUI/Sources/Chat/ChatControllerLoadDisplayNode.swift",
+      "submodules/TelegramUI/Components/Chat/ChatMessageFileBubbleContentNode/Sources/ChatMessageFileBubbleContentNode.swift"
+    ],
+    "new_runtime_paths": [],
+    "guards": 109,
+    "new_inc": 113,
+    "new_templates": 113,
+    "old_inc_unchanged": 5443,
+    "old_plans_unchanged": 310,
+    "historical_manifests_verified": 55
+  },
+  "feature_checks": {
+    "stage": 98,
+    "name": "file_caption_edit",
+    "runtime_paths": [
+      "submodules/TelegramUI/Sources/Chat/ChatControllerLoadDisplayNode.swift",
+      "submodules/TelegramUI/Components/Chat/ChatMessageFileBubbleContentNode/Sources/ChatMessageFileBubbleContentNode.swift"
+    ],
+    "guards": 109,
+    "loader_refusals": 14,
+    "checks": {
+      "contracts": {
+        "only_two_runtime_files": true,
+        "shared_edit_callback_for_both_editors": true,
+        "single_file_limit_and_complex_fallback_preserved": true,
+        "explicit_replacement_priority_preserved": true,
+        "pending_queue_and_rpc_unchanged": true,
+        "caption_limit_rights_and_lifecycle_unchanged": true,
+        "width_and_file_top_inset_unchanged": true,
+        "existing_rich_top_padding_and_header_preserved": true
+      },
+      "edit_executions": [
+        {
+          "name": "file-caption-edit",
+          "mode": "debug",
+          "exit_code": 0,
+          "output": "PASS file caption edit checks: 74"
+        },
+        {
+          "name": "file-caption-edit",
+          "mode": "optimized",
+          "exit_code": 0,
+          "output": "PASS file caption edit checks: 74"
+        }
+      ],
+      "geometry_executions": [
+        {
+          "name": "file-edge-geometry",
+          "mode": "debug",
+          "exit_code": 0,
+          "output": "PASS file edge geometry checks: 468"
+        },
+        {
+          "name": "file-edge-geometry",
+          "mode": "optimized",
+          "exit_code": 0,
+          "output": "PASS file edge geometry checks: 468"
+        }
+      ],
+      "existing_rich_executions": [
+        {
+          "name": "existing-rich-file-top",
+          "mode": "debug",
+          "exit_code": 0,
+          "output": "PASS 3608 real rich file layout/spacing/header checks; UIKit/text drawing/media models are explicit boundaries"
+        },
+        {
+          "name": "existing-rich-file-top",
+          "mode": "optimized",
+          "exit_code": 0,
+          "output": "PASS 3608 real rich file layout/spacing/header checks; UIKit/text drawing/media models are explicit boundaries"
+        }
+      ],
+      "semantic_negatives": [
+        {
+          "name": "edit-always-rich",
+          "mode": "debug",
+          "exit_code": 96,
+          "output": "Composer copy regression: both editors keep native file caption on edit"
+        },
+        {
+          "name": "edit-always-rich",
+          "mode": "optimized",
+          "exit_code": 96,
+          "output": "Composer copy regression: both editors keep native file caption on edit"
+        },
+        {
+          "name": "edit-loses-file",
+          "mode": "debug",
+          "exit_code": 96,
+          "output": "Composer copy regression: edit attaches the complete file"
+        },
+        {
+          "name": "edit-loses-file",
+          "mode": "optimized",
+          "exit_code": 96,
+          "output": "Composer copy regression: edit attaches the complete file"
+        },
+        {
+          "name": "edit-drops-extra-files",
+          "mode": "debug",
+          "exit_code": 96,
+          "output": "Composer copy regression: multiple files cannot become a partial single-media edit"
+        },
+        {
+          "name": "edit-drops-extra-files",
+          "mode": "optimized",
+          "exit_code": 96,
+          "output": "Composer copy regression: multiple files cannot become a partial single-media edit"
+        },
+        {
+          "name": "edit-partial-page",
+          "mode": "debug",
+          "exit_code": 96,
+          "output": "Composer copy regression: partial original rich page cannot become a truncated native edit"
+        },
+        {
+          "name": "edit-partial-page",
+          "mode": "optimized",
+          "exit_code": 96,
+          "output": "Composer copy regression: partial original rich page cannot become a truncated native edit"
+        },
+        {
+          "name": "uneven-file-gap",
+          "mode": "debug",
+          "exit_code": 96,
+          "output": "FAIL: top and complete file-to-text gap match"
+        },
+        {
+          "name": "uneven-file-gap",
+          "mode": "optimized",
+          "exit_code": 96,
+          "output": "FAIL: top and complete file-to-text gap match"
+        }
+      ],
+      "apple_api": {
+        "real_uikit_geometry": "not_run",
+        "reason": "Linux без UIKit/iPhoneOS SDK",
+        "application_sdk": "not_run",
+        "pixel_verification": "not_run"
+      },
+      "boundaries": "Real model/Document conversion, caption eligibility and edit decision/media branches execute. Account/media/opaque InstantPage are explicit IO adapters; pending manager and RPC bodies unchanged. Actual native and rich layout formulas execute with explicit UIKit/text-drawing boundaries. Live server rich-to-native conversion and pixels require device validation.",
+      "full_application_sdk": "not_run",
+      "physical_iphone": "pending",
+      "native_telegram_live_delivery": "pending"
+    },
+    "source_unchanged_by_checks": true,
+    "new_localization_keys": 0,
+    "full_application_sdk": "not_run",
+    "physical_iphone": "pending",
+    "new_actions_or_ipa_started": false
+  },
+  "global_source_checks": [
+    {
+      "name": "early-scoped",
+      "exit_code": 0,
+      "seconds": 149.8,
+      "source_manifest_sha256": "a852003ea04d6dbcdfaabc2273231dc02ef0faba0d01c3a8d4de6df99d4635f5"
+    },
+    {
+      "name": "upstream",
+      "exit_code": 0,
+      "seconds": 112.5,
+      "source_manifest_sha256": "a852003ea04d6dbcdfaabc2273231dc02ef0faba0d01c3a8d4de6df99d4635f5"
+    },
+    {
+      "name": "inverse",
+      "exit_code": 0,
+      "seconds": 136.5,
+      "source_manifest_sha256": "a852003ea04d6dbcdfaabc2273231dc02ef0faba0d01c3a8d4de6df99d4635f5"
+    },
+    {
+      "name": "localization",
+      "exit_code": 0,
+      "seconds": 43.9,
+      "source_manifest_sha256": "a852003ea04d6dbcdfaabc2273231dc02ef0faba0d01c3a8d4de6df99d4635f5"
+    },
+    {
+      "name": "members-full",
+      "exit_code": 0,
+      "seconds": 4.6,
+      "source_manifest_sha256": "a852003ea04d6dbcdfaabc2273231dc02ef0faba0d01c3a8d4de6df99d4635f5"
+    },
+    {
+      "name": "members-canonical",
+      "exit_code": 0,
+      "seconds": 1.9,
+      "source_manifest_sha256": "a852003ea04d6dbcdfaabc2273231dc02ef0faba0d01c3a8d4de6df99d4635f5"
+    },
+    {
+      "name": "native-strings",
+      "exit_code": 0,
+      "seconds": 5.6,
+      "source_manifest_sha256": "a852003ea04d6dbcdfaabc2273231dc02ef0faba0d01c3a8d4de6df99d4635f5"
+    },
+    {
+      "name": "mode",
+      "exit_code": 0,
+      "seconds": 0.2,
+      "source_manifest_sha256": "a852003ea04d6dbcdfaabc2273231dc02ef0faba0d01c3a8d4de6df99d4635f5"
+    },
+    {
+      "name": "metadata",
+      "exit_code": 0,
+      "seconds": 0.1,
+      "source_manifest_sha256": "a852003ea04d6dbcdfaabc2273231dc02ef0faba0d01c3a8d4de6df99d4635f5"
+    },
+    {
+      "name": "diff",
+      "exit_code": 0,
+      "seconds": 0.0,
+      "source_manifest_sha256": "a852003ea04d6dbcdfaabc2273231dc02ef0faba0d01c3a8d4de6df99d4635f5"
+    }
+  ],
+  "global_source_checks_complete": true,
+  "full_preflight_rerun": false,
+  "early_scope": {
+    "scope": "Checker98 выполнен через настоящий canonical_projection/CheckCollection. Прежние112 шагов/73 сценария и scoped96/97 повторно не выполнялись; их код и прежние планы/шаблоны сохранены.",
+    "full_preflight_rerun": false,
+    "previous_runs_reused": [
+      {
+        "path": "/tmp/nagramix-round-quality-title/early.json",
+        "sha256": "f4fc240e182ebb7a619a31397d2ed92a7f3332ad6b1f75a6223ac091946400b1",
+        "scope": "112 checks/73 fixtures/146 executions"
+      },
+      {
+        "path": "/tmp/nagramix-round-quality-badge/early-scoped.json",
+        "sha256": "2602ad3b77eebb362396de6e1b827b909b2b8c0f9cdd4010db6a936453a20702",
+        "scope": "Новый checker96 выполнен через настоящий canonical_projection/CheckCollection. Прежние112 шагов/73 сценария не запускались повторно; их код и прежние immutable plans/templates сохранены."
+      },
+      {
+        "path": "/tmp/nagramix-file-caption-consistency/early-scoped.json",
+        "sha256": "22efb558b1d6170f5bc339a5a1b6bd97eb62ec1008bd242e872fafc870e0e044",
+        "scope": "Новый checker97 выполнен через настоящий canonical_projection/CheckCollection. Прежние112 шагов/73 сценария и scoped96 не повторялись; их код и immutable plans/templates сохранены."
+      }
+    ],
+    "new_check_status": "passed",
+    "projection": {
+      "written": 583,
+      "pinned_native_dependencies": 6,
+      "unused_unavailable_native_guards": 99,
+      "localized_resources": 0
+    },
+    "new_check": {
+      "contracts": {
+        "only_two_runtime_files": true,
+        "shared_edit_callback_for_both_editors": true,
+        "single_file_limit_and_complex_fallback_preserved": true,
+        "explicit_replacement_priority_preserved": true,
+        "pending_queue_and_rpc_unchanged": true,
+        "caption_limit_rights_and_lifecycle_unchanged": true,
+        "width_and_file_top_inset_unchanged": true,
+        "existing_rich_top_padding_and_header_preserved": true
+      },
+      "edit_executions": [
+        {
+          "name": "file-caption-edit",
+          "mode": "debug",
+          "exit_code": 0,
+          "output": "PASS file caption edit checks: 74"
+        },
+        {
+          "name": "file-caption-edit",
+          "mode": "optimized",
+          "exit_code": 0,
+          "output": "PASS file caption edit checks: 74"
+        }
+      ],
+      "geometry_executions": [
+        {
+          "name": "file-edge-geometry",
+          "mode": "debug",
+          "exit_code": 0,
+          "output": "PASS file edge geometry checks: 468"
+        },
+        {
+          "name": "file-edge-geometry",
+          "mode": "optimized",
+          "exit_code": 0,
+          "output": "PASS file edge geometry checks: 468"
+        }
+      ],
+      "existing_rich_executions": [
+        {
+          "name": "existing-rich-file-top",
+          "mode": "debug",
+          "exit_code": 0,
+          "output": "PASS 3608 real rich file layout/spacing/header checks; UIKit/text drawing/media models are explicit boundaries"
+        },
+        {
+          "name": "existing-rich-file-top",
+          "mode": "optimized",
+          "exit_code": 0,
+          "output": "PASS 3608 real rich file layout/spacing/header checks; UIKit/text drawing/media models are explicit boundaries"
+        }
+      ],
+      "semantic_negatives": [
+        {
+          "name": "edit-always-rich",
+          "mode": "debug",
+          "exit_code": 96,
+          "output": "Composer copy regression: both editors keep native file caption on edit"
+        },
+        {
+          "name": "edit-always-rich",
+          "mode": "optimized",
+          "exit_code": 96,
+          "output": "Composer copy regression: both editors keep native file caption on edit"
+        },
+        {
+          "name": "edit-loses-file",
+          "mode": "debug",
+          "exit_code": 96,
+          "output": "Composer copy regression: edit attaches the complete file"
+        },
+        {
+          "name": "edit-loses-file",
+          "mode": "optimized",
+          "exit_code": 96,
+          "output": "Composer copy regression: edit attaches the complete file"
+        },
+        {
+          "name": "edit-drops-extra-files",
+          "mode": "debug",
+          "exit_code": 96,
+          "output": "Composer copy regression: multiple files cannot become a partial single-media edit"
+        },
+        {
+          "name": "edit-drops-extra-files",
+          "mode": "optimized",
+          "exit_code": 96,
+          "output": "Composer copy regression: multiple files cannot become a partial single-media edit"
+        },
+        {
+          "name": "edit-partial-page",
+          "mode": "debug",
+          "exit_code": 96,
+          "output": "Composer copy regression: partial original rich page cannot become a truncated native edit"
+        },
+        {
+          "name": "edit-partial-page",
+          "mode": "optimized",
+          "exit_code": 96,
+          "output": "Composer copy regression: partial original rich page cannot become a truncated native edit"
+        },
+        {
+          "name": "uneven-file-gap",
+          "mode": "debug",
+          "exit_code": 96,
+          "output": "FAIL: top and complete file-to-text gap match"
+        },
+        {
+          "name": "uneven-file-gap",
+          "mode": "optimized",
+          "exit_code": 96,
+          "output": "FAIL: top and complete file-to-text gap match"
+        }
+      ],
+      "apple_api": {
+        "real_uikit_geometry": "not_run",
+        "reason": "Linux без UIKit/iPhoneOS SDK",
+        "application_sdk": "not_run",
+        "pixel_verification": "not_run"
+      },
+      "boundaries": "Real model/Document conversion, caption eligibility and edit decision/media branches execute. Account/media/opaque InstantPage are explicit IO adapters; pending manager and RPC bodies unchanged. Actual native and rich layout formulas execute with explicit UIKit/text-drawing boundaries. Live server rich-to-native conversion and pixels require device validation.",
+      "full_application_sdk": "not_run",
+      "physical_iphone": "pending",
+      "native_telegram_live_delivery": "pending"
+    },
+    "collection_tests": 8,
+    "all_55_calls_collected": true,
+    "full_application_sdk": "not_run",
+    "physical_iphone": "pending"
+  },
+  "checks_scope": "Заново выполнены checker98 на полном дереве и через настоящий canonical_projection/CheckCollection, 8 тестов коллектора/55 точек вызова, final upstream parse/Postbox, inverse98, strict localization71×678, full/canonical members, native strings, workflow/mode/metadata/diff. Прежние73 сценария/146 запусков и scoped96/97 не повторялись; их отчёты/старые планы/тела сохранены.",
+  "preparation_notes": [
+    "До финального прогона исправлены только fixture: обязательные callback/instanceID реального Document bridge, предупреждение constant switch и warning в намеренной мутации. Warnings-as-errors сохраняются.",
+    "Добавлена защита неполной/расширенной исходной rich-страницы. Подготовительные прогоны остановлены; окончательные проверки начаты заново на замороженном manifest."
+  ],
+  "scope_review": {
+    "runtime_files": 2,
+    "both_editors_share_production_callback": true,
+    "partial_original_rich_and_full_page_variant_block_native_conversion": true,
+    "single_file_only": true,
+    "voice_round_complex_long_multiple_preserve_previous_route": true,
+    "explicit_replacement_priority": true,
+    "pending_manager_upload_rpc_unchanged": true,
+    "file_top_and_width_unchanged": true,
+    "complete_file_caption_gap_equals_native_top": true,
+    "old_rich_top_layout_rechecked": true,
+    "old_templates_and_plans_preserved": true,
+    "new_visible_localized_sentences": 0,
+    "dependencies_sdk_signing_unchanged": true
+  },
+  "full_application_sdk": "not_run",
+  "physical_iphone": "pending",
+  "pixel_verification": "not_run",
+  "native_telegram_live_delivery": "pending",
+  "new_actions_or_ipa_started": false,
+  "published_ipa_219_contains_this_fix": false,
+  "release_assets_or_tags_changed": false,
+  "previous_web_player_crash_fix_implemented": false,
+  "publication_target": "Только main; новая IPA требует отдельной прямой команды"
+}
