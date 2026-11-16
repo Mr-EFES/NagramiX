@@ -78,7 +78,7 @@ class PublicationTests(unittest.TestCase):
             return copy.deepcopy(self.release_pages.get(page, []))
         if path == pub.API + "/releases" and method == "POST":
             self.release = {**data, "id": 99, "author": {"login": pub.OWNER}, "assets": [],
-                            "html_url": "https://github.com/" + pub.REPO + "/releases/tag/v0.8.5"}
+                            "html_url": "https://github.com/" + pub.REPO + "/releases/tag/" + data["tag_name"]}
             return copy.deepcopy(self.release)
         if path == pub.API + "/releases/99":
             if method == "PATCH":
@@ -104,6 +104,29 @@ class PublicationTests(unittest.TestCase):
         self.assertEqual(self.release["name"], "Релиз 0.8.5")
         self.assertFalse(self.release["draft"])
         self.assertFalse(self.release["prerelease"])
+
+    def test_short_and_patch_releases_keep_exact_names(self):
+        for version in ['0.9.9','1.0','1.0.1','1.1','1.1.9','1.2']:
+            with self.subTest(version=version):
+                self.release = None
+                self.writes.clear(); self.uploads.clear(); self.package.reset_mock()
+                (self.root / "product/features/registry.json").write_text(json.dumps({"release": version}))
+                (self.root / f"product/releases/{version}.md").write_text("Утверждённая аннотация")
+                self.names[0] = f"NagramiX-{version}-unsigned.ipa"
+                with zipfile.ZipFile(self.archive, "w") as archive:
+                    for name in self.names:
+                        content = f"Workflow run: https://github.com/{pub.REPO}/actions/runs/10\n" if name == "BUILD-PROVENANCE.txt" else "package-boundary"
+                        archive.writestr(name, content)
+                self.artifact["name"] = f"NagramiX-{version}-unsigned-arm64"
+                self.artifact["digest"] = pub.digest(self.archive)
+                self.assertTrue(pub.publish(10, self.archive).endswith(f"v{version}"))
+                self.assertEqual(self.release["name"], f"Релиз {version}")
+                self.assertEqual(self.uploads, [f"v{version}"])
+                self.assertEqual({a['name'] for a in self.release['assets']}, set(self.names))
+
+    def test_noncanonical_release_refused_before_writes(self):
+        (self.root / "product/features/registry.json").write_text('{"release":"1.0.0"}')
+        self.reject()
 
     def test_prerelease_is_explicit(self):
         pub.publish(10, self.archive, prerelease=True)

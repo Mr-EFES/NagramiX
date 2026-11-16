@@ -411,6 +411,13 @@ class CatalogTests(unittest.TestCase):
         version = json.loads((ROOT / 'product/features/registry.json').read_text())['release']
         self.assertEqual(expected_nagramix_catalogs(version), self.final_catalogs)
 
+    def test_short_and_patch_versions_keep_complete_catalog_contract(self):
+        for version in ['0.9.9','1.0','1.0.1','1.1','1.1.9','1.2']:
+            with self.subTest(version=version):
+                self.assertEqual(expected_nagramix_catalogs(version), self.final_catalogs)
+        with self.archive(self.final_catalogs) as archive:
+            self.assertEqual(validate_settings_localizations(archive, PREFIX, '1.0'), 71)
+
     def test_098_rejects_old_catalog(self):
         with self.archive(self.published_catalogs) as archive, self.assertRaises(SystemExit):
             validate_settings_localizations(archive, PREFIX, '0.9.8')

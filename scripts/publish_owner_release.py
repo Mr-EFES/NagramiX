@@ -12,6 +12,8 @@ import sys
 import tempfile
 import zipfile
 
+from release_version import is_release_version
+
 ROOT = Path(__file__).resolve().parents[1]
 OWNER = "Mr-EFES"
 REPO = f"{OWNER}/NagramiX"
@@ -93,7 +95,7 @@ def publish(source_run_id, artifact_zip, prerelease=False, finalize_uploaded=Fal
     # Эта проверка выполняется до создания тегов, черновиков или загрузки файлов.
     require(api("user")["login"] == OWNER, f"Нужна авторизация gh как {OWNER}")
     version = json.loads((ROOT / "product/features/registry.json").read_text())["release"]
-    require(re.fullmatch(r"\d+\.\d+\.\d+", version), "Неверная версия")
+    require(is_release_version(version), "Неверная версия")
     annotation = (ROOT / f"product/releases/{version}.md").read_text()
     tag = f"v{version}"
     run = api(f"{API}/actions/runs/{source_run_id}")

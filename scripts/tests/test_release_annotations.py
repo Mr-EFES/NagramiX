@@ -38,5 +38,20 @@ class AnnotationTests(unittest.TestCase):
             folder=Path(d);(folder/'0.9.8.md').write_text('changed')
             self.assertTrue(annotation_errors(folder,'0.9.8'))
 
+    def test_short_release_keeps_older_annotations(self):
+        with tempfile.TemporaryDirectory() as d:
+            folder=Path(d)
+            for version in ['0.9.8','0.9.9','1.0','1.0.9','1.1']:
+                (folder/(version+'.md')).write_text(ANNOTATION)
+            self.assertEqual(annotation_errors(folder,'1.1'),[])
+            self.assertTrue(any('будущей версии' in error for error in annotation_errors(folder,'1.0')))
+
+    def test_zero_patch_alias_is_not_another_release(self):
+        with tempfile.TemporaryDirectory() as d:
+            folder=Path(d)
+            for version in ['1.0','1.0.0']:
+                (folder/(version+'.md')).write_text(ANNOTATION)
+            self.assertTrue(any('Неверное имя' in error for error in annotation_errors(folder,'1.0')))
+
 
 if __name__=='__main__':unittest.main()

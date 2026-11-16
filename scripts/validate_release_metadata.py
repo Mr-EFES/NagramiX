@@ -9,6 +9,8 @@ import re
 import subprocess
 from pathlib import Path
 
+from release_version import is_release_version, parse_release_version
+
 ROOT = Path(__file__).resolve().parents[1]
 ANNOTATION = "NagramiX — неофициальный Telegram-клиент для iPhone с дополнительными настройками общения, приватности и медия."
 
@@ -17,11 +19,11 @@ def annotation_errors(folder: Path, version: str) -> list[str]:
     errors = []
     if not (folder / f"{version}.md").is_file():
         errors.append("Не найдена аннотация текущей версии")
-    current = tuple(map(int, version.split('.')))
+    current = parse_release_version(version)
     for path in folder.glob('*.md'):
-        if not re.fullmatch(r'\d+\.\d+\.\d+', path.stem):
+        if not is_release_version(path.stem):
             errors.append(f"Неверное имя аннотации: {path.name}")
-        elif tuple(map(int, path.stem.split('.'))) > current:
+        elif parse_release_version(path.stem) > current:
             errors.append(f"Аннотация будущей версии: {path.name}")
         if path.read_text().strip() != ANNOTATION:
             errors.append(f"Аннотация должна содержать только утверждённую фразу: {path.name}")
@@ -30,7 +32,7 @@ def annotation_errors(folder: Path, version: str) -> list[str]:
 
 def main() -> None:
     version = json.loads((ROOT / "product/features/registry.json").read_text())["release"]
-    if not re.fullmatch(r"\d+\.\d+\.\d+", version):
+    if not is_release_version(version):
         raise SystemExit("Некорректная версия в реестре функций")
     errors: list[str] = []
     workflow = ROOT / ".github/workflows/build-unsigned-ipa.yml"
@@ -64,7 +66,7 @@ def main() -> None:
             continue
         text = path.read_text()
         # Номера внешних компонентов проверяются отдельно, в upstream-аудите.
-        for old in re.findall(r"\bNagramiX\s+(\d+\.\d+\.\d+)\b", text):
+        for old in re.findall(r"\bNagramiX\s+([0-9]+(?:\.[0-9]+)+)", text):
             if old != version:
                 errors.append(f"Иная версия NagramiX {old}: {name}")
         for link in re.findall(r"\[[^\]]*\]\(([^)]+)\)", text):

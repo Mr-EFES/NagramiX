@@ -68,6 +68,7 @@ jobs:
       - name: Проверить метаданные релиза
         run: |
           python3 scripts/validate_release_metadata.py
+          python3 -m unittest discover -s scripts/tests -p test_release_version.py
           python3 -m unittest discover -s scripts/tests -p test_release_annotations.py
           python3 -m unittest discover -s scripts/tests -p test_pre_sdk_collection.py
           python3 scripts/validate_build_inputs.py --report "$RUNNER_TEMP/build-inputs.json"

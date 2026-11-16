@@ -12,6 +12,8 @@ import struct
 import zipfile
 from pathlib import Path
 
+from release_version import is_release_version, parse_release_version
+
 ROOT = Path(__file__).resolve().parents[1]
 
 
@@ -26,7 +28,7 @@ def expected_nagramix_catalogs(version: str | None = None) -> dict[str, dict[str
     labels = json.loads((ROOT / 'ios/vosk_model_naming/labels.json').read_text())
     codes = {item['code'] for item in json.loads((ROOT / 'ios/app_language_localization/languages.json').read_text())['languages']}
     require(set(labels) == codes, 'Неполный контракт языков IPA')
-    version_parts = tuple(int(part) for part in version.split('.')) if version is not None else None
+    version_parts = parse_release_version(version) if version is not None else None
     additions = None
     if version_parts is not None and version_parts >= (0, 8, 9):
         migration = json.loads((ROOT / 'ios/upstream_13_2_release_post_patches.json').read_text())
@@ -333,7 +335,7 @@ def validate_settings_localizations(archive: zipfile.ZipFile, prefix: str, versi
     catalogs = expected_nagramix_catalogs(version)
     resource_root = prefix + 'Frameworks/TelegramUIFramework.framework/NagramiXLocalization.bundle/'
     names = archive.namelist()
-    if version is not None and tuple(int(part) for part in version.split('.')) >= (0, 9, 0):
+    if version is not None and parse_release_version(version) >= (0, 9, 0):
         expected_resources = {resource_root + f'{code}.lproj/Localizable.strings' for code in catalogs}
         packed_resources = [name for name in names if name.startswith(resource_root) and name.endswith('.lproj/Localizable.strings')]
         require(len(packed_resources) == len(expected_resources) and set(packed_resources) == expected_resources,
@@ -470,6 +472,9 @@ def main() -> None:
     parser.add_argument("--provenance", required=True, type=Path)
     parser.add_argument("--checksums", required=True, type=Path)
     args = parser.parse_args()
+    if not is_release_version(args.version):
+        parser.error("Неверная версия выпуска")
+    version_parts = parse_release_version(args.version)
 
     checksum_rows = [line.split() for line in args.checksums.read_text().splitlines()]
     matches = [row[0] for row in checksum_rows if len(row) == 2 and row[1].lstrip("*") == args.ipa.name]
@@ -486,7 +491,7 @@ def main() -> None:
         f"Telegram-iOS commit: {pin}",
     ):
         require(expected in provenance, f"Не совпадает происхождение сборки: {expected}")
-    if tuple(int(part) for part in args.version.split('.')) >= (0, 8, 9):
+    if version_parts >= (0, 8, 9):
         from fetch_upstream_submodules import load_plan, provenance_lines
         for expected in provenance_lines(load_plan()):
             require(expected in provenance, 'Не указана точная замена зависимости Telegram13.2')
@@ -511,7 +516,7 @@ def main() -> None:
         require(magic == 0xfeedfacf and cpu == 0x100000c, "Основной executable не является ARM64 Mach-O")
         sound_count = validate_notification_sound_resources(archive, prefix)
         icon_count = validate_app_icons(archive, prefix, info)
-        if tuple(int(part) for part in args.version.split('.')) >= (0, 9, 5):
+        if version_parts >= (0, 9, 5):
             from validate_ipa_fonts import validate_font_resources
             validate_font_resources(archive, prefix)
 
@@ -522,7 +527,7 @@ def main() -> None:
         require(russian.get("Common.Edit") == "Изменить" and russian.get("Tour.StartButton") == "Начать общение", "Неверные русские строки первого запуска")
         for index in range(1, 7):
             require(bool(russian.get(f"Tour.Title{index}")) and bool(russian.get(f"Tour.Text{index}")), "Нет русского приветствия")
-        if tuple(int(part) for part in args.version.split(".")) >= (0, 5, 4):
+        if version_parts >= (0, 5, 4):
             english = plistlib.loads(archive.read(prefix + "en.lproj/Localizable.strings"))
             validate_onboarding_resources(archive, prefix, russian, english)
 
@@ -530,11 +535,11 @@ def main() -> None:
         custom_keys = {json.loads('"' + key + '"') for key in re.findall(r'^"((?:[^"\\]|\\.)*)"\s*=', (ROOT / "ios/Sources/NagramiXCore/Resources/ru.lproj/Localizable.strings").read_text(), re.MULTILINE)}
         require(custom_keys.issubset(custom), "В RU ресурсе NagramiX отсутствуют ключи")
         require(custom.get("NagramiX.Profiles.MutualContact") == "Взаимный контакт", "Нет русской метки взаимного контакта")
-        if tuple(int(part) for part in args.version.split(".")) >= (0, 6, 7):
+        if version_parts >= (0, 6, 7):
             english_custom = plistlib.loads(archive.read(prefix + "Frameworks/TelegramUIFramework.framework/NagramiXLocalization.bundle/en.lproj/Localizable.strings"))
             require(custom.get("NagramiX.QuickFormatting.Title") == "Быстрое форматирование", "Нет RU строки быстрого форматирования")
             require(english_custom.get("NagramiX.QuickFormatting.Title") == "Quick formatting", "Нет EN строки быстрого форматирования")
-        if tuple(int(part) for part in args.version.split(".")) >= (0, 7, 0):
+        if version_parts >= (0, 7, 0):
             plan = json.loads((ROOT / "ios/debug_menu_localization_patches.json").read_text())
             for language, packed in (("ru", custom), ("en", english_custom)):
                 expected = {}
@@ -559,12 +564,12 @@ def main() -> None:
                 require(len(expected) == 3, f"Неполный контракт скачивания историй: {language}")
                 for key, value in expected.items():
                     require(packed.get(key) == value, f"Нет перевода скачивания историй: {language}/{key}")
-        if tuple(int(part) for part in args.version.split(".")) >= (0, 7, 1):
+        if version_parts >= (0, 7, 1):
             for language, packed, title in (("ru", custom, "Быстрое форматирование"), ("en", english_custom, "Quick formatting")):
                 require(packed.get("NagramiX.QuickFormatting.PanelTitle") == title, f"Неверный заголовок панели: {language}")
                 require(bool(packed.get("NagramiX.Icon.ChangeFailed")), f"Нет сообщения об отказе смены иконки: {language}")
 
-        if tuple(int(part) for part in args.version.split(".")) >= (0, 8, 6):
+        if version_parts >= (0, 8, 6):
             language_count = validate_settings_localizations(archive, prefix, args.version)
             key_count = len(custom)
             print(f"Переводы IPA проверены: {language_count} языков, по {key_count} ключей настроек/debug")
