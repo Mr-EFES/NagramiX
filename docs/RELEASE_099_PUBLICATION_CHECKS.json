@@ -1,0 +1,113 @@
+{
+  "version": "0.9.9",
+  "status": "native_compile_passed/package_verified/owner_published/device_pending",
+  "release_id": 447635023,
+  "release_url": "https://github.com/Mr-EFES/NagramiX/releases/tag/v0.9.9",
+  "published_at": "2026-11-16T21:25:07Z",
+  "latest": true,
+  "prerelease": false,
+  "author": "Mr-EFES",
+  "source_commit": "7cdc002e1afb6a54867950665f4cda9741aeea88",
+  "tag": "v0.9.9",
+  "tag_matches_actual_sdk_source": true,
+  "workflow_run_id": 43915919721,
+  "workflow_url": "https://github.com/Mr-EFES/NagramiX/actions/runs/43915919721",
+  "build_number": 222,
+  "run_attempt": 1,
+  "jobs": [
+    {
+      "id": 133469902839,
+      "name": "build",
+      "conclusion": "success"
+    },
+    {
+      "id": 133622005376,
+      "name": "Проверить IPA для публикации Mr_EFES",
+      "conclusion": "success"
+    }
+  ],
+  "native_sdk": {
+    "started_at": "2026-11-16T19:26:53Z",
+    "completed_at": "2026-11-16T21:21:02Z",
+    "conclusion": "success"
+  },
+  "artifacts": {
+    "BUILD-PROVENANCE.txt": {
+      "size": 408,
+      "sha256": "13bffce1aa1b38792efda3df4af51e28f24f75e56a0df8fd0193c5ab7d3d34b0",
+      "uploader": "Mr-EFES",
+      "url": "https://github.com/Mr-EFES/NagramiX/releases/download/v0.9.9/BUILD-PROVENANCE.txt"
+    },
+    "NagramiX-0.9.9-unsigned.ipa": {
+      "size": 98149487,
+      "sha256": "adc8b92704f33502b58a158ac0b3af209e9717c739be8b9570fd19af79b2c79e",
+      "uploader": "Mr-EFES",
+      "url": "https://github.com/Mr-EFES/NagramiX/releases/download/v0.9.9/NagramiX-0.9.9-unsigned.ipa"
+    },
+    "SHA256SUMS": {
+      "size": 94,
+      "sha256": "62f710978e1c434af2ee4587de430416297f228cafcc8a557ee2af555d514c69",
+      "uploader": "Mr-EFES",
+      "url": "https://github.com/Mr-EFES/NagramiX/releases/download/v0.9.9/SHA256SUMS"
+    }
+  },
+  "actions_zip": {
+    "artifact_id": 14273097862,
+    "size": 97672526,
+    "sha256": "3f2b2cee19539ad92adfbef579e9d3eddc2bc2ada6aad4d6d732fe08e2c3f6ae",
+    "original_bytes_verified": true
+  },
+  "provenance": "NagramiX version: 0.9.9\nNagramiX commit: 7cdc002e1afb6a54867950665f4cda9741aeea88\nTelegram-iOS commit: 24638bc69bd083981b178dd1e7f921eebbf7fc46\nWorkflow run: https://github.com/Mr-EFES/NagramiX/actions/runs/43915919721\nDependency override: submodules/TgVoipWebrtc/tgcalls c1de0882de9013df246252129b95430f48b20eec -> 38dcea121f10638c42098f226f05c298a392f95c (https://github.com/TelegramMessenger/tgcalls.git)\n",
+  "checksums": "adc8b92704f33502b58a158ac0b3af209e9717c739be8b9570fd19af79b2c79e  NagramiX-0.9.9-unsigned.ipa\n",
+  "old_release_tag_assets_actions_artifacts_preserved": true,
+  "package_validation": "Owner publisher verified package before publication; after execution environment reset the exact original artifact and fresh public checkout were recovered and package verification repeated successfully.",
+  "physical_iphone": "pending",
+  "unsigned_signing": "preserved; user signing required",
+  "visibility": "public; owner changes visibility manually after download",
+  "runtime_stage": 104,
+  "runtime_manifest_sha256": "093baf064a6ddc104fb3dff4be96d67c05b58ecbc0092b2e64e9be3300899e89",
+  "runtime_source_changed_during_preparation_and_retries": false,
+  "immutable_inc_count": 5868,
+  "immutable_plan_count": 317,
+  "historical_checkpoints": 61,
+  "native_build_actions": 10039,
+  "decoded_build_log_lines": 24033,
+  "decoded_build_log_sha256": "a1c3bd27c86bb6308e2abb6a61f952bf767b12646f18c6c4156cafd500c9a972",
+  "real_apple_early": {
+    "status": "passed",
+    "checks": 120,
+    "complete_fixtures": 92,
+    "debug_optimized_executions": 184
+  },
+  "package_validator_output": "Переводы IPA проверены: 71 языков, по 680 ключей настроек/debug\nIPA проверен: 0.9.9, build 222, iOS15+, ARM64/iPhoneOS файлов 6, RU 15004/680, мелодий 31, иконок 8, checksum/provenance, без профилей\nSHA256: adc8b92704f33502b58a158ac0b3af209e9717c739be8b9570fd19af79b2c79e; размер: 98149487 байт",
+  "failed_attempts_before_success": [
+    220,
+    221
+  ],
+  "failed_attempts_scope": "Только тестовые границы: три CoreGraphics imports, реальная SD/HQ/MAX dependency, разделитель соседних Swift declarations. App runtime104 прежний.",
+  "feature_compile_status": {
+    "compile_passed": 80,
+    "device_pending": 80,
+    "newly_compile_passed_ids": [
+      "tabs",
+      "dns_doh",
+      "media_controls",
+      "video_pip_swipe",
+      "background_video_playback",
+      "original_videos",
+      "composer_file_attachments",
+      "round_video_quality",
+      "round_video_editor",
+      "app_fonts"
+    ]
+  },
+  "build_inputs": {
+    "clean_build": true,
+    "publish_release": true,
+    "prerelease": false,
+    "extended_patch_tests": false,
+    "artifact_run_id": ""
+  },
+  "readme_license_approved_annotations_unchanged": true,
+  "remaining_device_checks": "UIKit pixels, live YouTube/PiP/background, camera/encoder and server video-note acceptance require the physical iPhone. Compilation does not verify those interactions."
+}
