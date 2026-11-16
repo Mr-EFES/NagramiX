@@ -786,15 +786,16 @@
   "new_actions_or_ipa_started": false,
   "published_ipa219_contains_this_fix": false,
   "server_drm_entitlement_or_geo_bypass": false,
-  "release_assets_tags_and_actions_preservation": "remote_before verified; no remote mutation performed",
+  "release_assets_tags_and_actions_preservation": "Remote inventory verified before publication; checked again after normal main push in session receipt.",
   "registry": {
     "compile_passed": 70,
     "compile_pending": 10
   },
   "publication": {
-    "local_commit": "pending",
-    "remote_main_push": "blocked_by_automatic_approval_review",
-    "reason": "Default main branch push lacks trusted direct user authorization in transcript; code changes authorized. No workaround attempted.",
-    "approval_needed": "Direct user approval to push the concrete local commit to main."
+    "local_commit": "62d7d42025837b1183a0214ebcf5af5b9b794ab4",
+    "remote_main_push": "authorized_by_direct_user_message",
+    "authorization": "Да, обязательно всё в мейн ветку переноси. Как будешь готов к сборке, напиши мне.",
+    "previous_automatic_rejection": "No direct main authorization in prior transcript; direct user approval now received.",
+    "build_launch": "not_authorized_by_this_message; notify readiness without starting SDK/Actions/IPA."
   }
 }
