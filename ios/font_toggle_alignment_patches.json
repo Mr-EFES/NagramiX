@@ -1,0 +1,47 @@
+{
+  "target_pin": "24638bc69bd083981b178dd1e7f921eebbf7fc46",
+  "overlay_base_pin": "279f89e4d4f63f17227bf877dc3d8990f22ecd58",
+  "required_previous_stage": "file_caption_edit",
+  "inputs": {
+    "submodules/SettingsUI/Sources/NagramiXSettingsController.swift": "857e9b42e1de5094942f30dee5e2046bfd7f2514efe1f6d3534880b9da6fdd4e"
+  },
+  "outputs": {
+    "submodules/SettingsUI/Sources/NagramiXSettingsController.swift": "d714b26e7bcb0876544514ebe95b0d7e0a5305c6f97260981e81434a524100da"
+  },
+  "previous": {
+    "submodules/SettingsUI/Sources/NagramiXSettingsController.swift": "font_toggle_alignment/Before0.inc"
+  },
+  "replacements": {
+    "submodules/SettingsUI/Sources/NagramiXSettingsController.swift": "font_toggle_alignment/After0.inc"
+  },
+  "guards": {
+    "submodules/SettingsUI/BUILD": "b229ff1580a1e8e13770d400a1c0c9e1cf56ef05b831659c3422a6141b50f489",
+    "submodules/ItemListUI/Sources/Items/ItemListSwitchItem.swift": "790c7a831b0be0c9fd8e81fc7e25dabbb53dea7318b24d57455a93fd9825fa82",
+    "submodules/ItemListUI/Sources/Items/ItemListDisclosureItem.swift": "3de107b080b5592b618c4786aff0820a0518b8242d721ea1c6d761f572b186e5",
+    "submodules/Display/Source/Font.swift": "e204eb5178031058d2e187662d1d979cf8e29dc85481d3ba9ee120dcfc016ed6",
+    "submodules/NagramiXMediaSettings/Sources/NagramiXFontSettings.swift": "d60ee84ffc499869e0f455610f758861d48705b87dc027b69df2ea95c82a0814",
+    "submodules/SettingsUI/Sources/NagramiXFontsController.swift": "89831752e4a4ef644aebf299f9e3dd5873bf14d1c026f206e1e8c52100ed79bd"
+  },
+  "guard_sources": {
+    "submodules/SettingsUI/BUILD": "font_toggle_alignment/Guard0.inc",
+    "submodules/ItemListUI/Sources/Items/ItemListSwitchItem.swift": "font_toggle_alignment/Guard1.inc",
+    "submodules/ItemListUI/Sources/Items/ItemListDisclosureItem.swift": "font_toggle_alignment/Guard2.inc",
+    "submodules/Display/Source/Font.swift": "font_toggle_alignment/Guard3.inc",
+    "submodules/NagramiXMediaSettings/Sources/NagramiXFontSettings.swift": "font_toggle_alignment/Guard4.inc",
+    "submodules/SettingsUI/Sources/NagramiXFontsController.swift": "font_toggle_alignment/Guard5.inc"
+  },
+  "copies": {},
+  "deletions": {},
+  "native_inputs": {},
+  "native_guards": {},
+  "templates": {
+    "font_toggle_alignment/Before0.inc": "857e9b42e1de5094942f30dee5e2046bfd7f2514efe1f6d3534880b9da6fdd4e",
+    "font_toggle_alignment/After0.inc": "d714b26e7bcb0876544514ebe95b0d7e0a5305c6f97260981e81434a524100da",
+    "font_toggle_alignment/Guard0.inc": "b229ff1580a1e8e13770d400a1c0c9e1cf56ef05b831659c3422a6141b50f489",
+    "font_toggle_alignment/Guard1.inc": "790c7a831b0be0c9fd8e81fc7e25dabbb53dea7318b24d57455a93fd9825fa82",
+    "font_toggle_alignment/Guard2.inc": "3de107b080b5592b618c4786aff0820a0518b8242d721ea1c6d761f572b186e5",
+    "font_toggle_alignment/Guard3.inc": "e204eb5178031058d2e187662d1d979cf8e29dc85481d3ba9ee120dcfc016ed6",
+    "font_toggle_alignment/Guard4.inc": "d60ee84ffc499869e0f455610f758861d48705b87dc027b69df2ea95c82a0814",
+    "font_toggle_alignment/Guard5.inc": "89831752e4a4ef644aebf299f9e3dd5873bf14d1c026f206e1e8c52100ed79bd"
+  }
+}

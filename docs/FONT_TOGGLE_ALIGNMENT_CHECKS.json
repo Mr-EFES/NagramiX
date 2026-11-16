@@ -1,0 +1,149 @@
+{
+  "task": "Утверждённый эскиз: убрать Aa и выровнять строку «Шрифты» с остальными переключателями",
+  "base_commit": "87c937fca0bffbceee7a541f795f87b267dfa994",
+  "stage": 99,
+  "name": "font_toggle_alignment",
+  "approved_sketch": "/workspace/generated_images/exec-8072f262-40ba-4410-9877-b42be4a39182.png",
+  "source": {
+    "stage": 99,
+    "name": "font_toggle_alignment",
+    "path": "/tmp/nagramix-font-toggle-alignment/source",
+    "manifest_sha256": "f599cfa4f062946d406208eab17248e83fd7d37d4b4f8a7b6b67dba336fcbf3f",
+    "previous_manifest_sha256": "a852003ea04d6dbcdfaabc2273231dc02ef0faba0d01c3a8d4de6df99d4635f5",
+    "files": 37694,
+    "symlinks": 26,
+    "modified_runtime_paths": [
+      "submodules/SettingsUI/Sources/NagramiXSettingsController.swift"
+    ],
+    "new_runtime_paths": [],
+    "guards": 6,
+    "new_inc": 8,
+    "new_templates": 8,
+    "old_inc_unchanged": 5556,
+    "old_plans_unchanged": 311,
+    "historical_manifests_verified": 56
+  },
+  "feature_checks": {
+    "stage": 99,
+    "name": "font_toggle_alignment",
+    "verification_kind": "source_contract_and_swift_parse",
+    "runtime_paths": [
+      "submodules/SettingsUI/Sources/NagramiXSettingsController.swift"
+    ],
+    "guards": 6,
+    "loader_refusals": 12,
+    "source_delta": "Удалён только icon-аргумент в fontsEnabled. Остальные байты Settings controller и общие switch/disclosure компоненты прежние.",
+    "layout_evidence": "Штатный ItemListSwitchItem использует icon=nil по умолчанию, общий Font.regular и leftInset16pt. У непустого icon добавлялись43pt; тот же leftInset задаёт начало разделителя. Подпись и разделитель теперь используют стандартный путь без icon.",
+    "new_localization_keys": 0,
+    "source_unchanged_by_checks": true,
+    "ui_runtime_tests_added": false,
+    "full_application_sdk": "not_run",
+    "pixel_verification": "not_run",
+    "physical_iphone": "pending",
+    "new_actions_or_ipa_started": false
+  },
+  "global_source_checks": [
+    {
+      "name": "font-toggle-source",
+      "exit_code": 0,
+      "seconds": 4.6,
+      "source_manifest_sha256": "f599cfa4f062946d406208eab17248e83fd7d37d4b4f8a7b6b67dba336fcbf3f"
+    },
+    {
+      "name": "upstream",
+      "exit_code": 0,
+      "seconds": 110.2,
+      "source_manifest_sha256": "f599cfa4f062946d406208eab17248e83fd7d37d4b4f8a7b6b67dba336fcbf3f"
+    },
+    {
+      "name": "inverse",
+      "exit_code": 0,
+      "seconds": 137.8,
+      "source_manifest_sha256": "f599cfa4f062946d406208eab17248e83fd7d37d4b4f8a7b6b67dba336fcbf3f"
+    },
+    {
+      "name": "localization",
+      "exit_code": 0,
+      "seconds": 43.5,
+      "source_manifest_sha256": "f599cfa4f062946d406208eab17248e83fd7d37d4b4f8a7b6b67dba336fcbf3f"
+    },
+    {
+      "name": "members-full",
+      "exit_code": 0,
+      "seconds": 4.6,
+      "source_manifest_sha256": "f599cfa4f062946d406208eab17248e83fd7d37d4b4f8a7b6b67dba336fcbf3f"
+    },
+    {
+      "name": "members-canonical",
+      "exit_code": 0,
+      "seconds": 2.0,
+      "source_manifest_sha256": "f599cfa4f062946d406208eab17248e83fd7d37d4b4f8a7b6b67dba336fcbf3f"
+    },
+    {
+      "name": "native-strings",
+      "exit_code": 0,
+      "seconds": 5.5,
+      "source_manifest_sha256": "f599cfa4f062946d406208eab17248e83fd7d37d4b4f8a7b6b67dba336fcbf3f"
+    },
+    {
+      "name": "mode",
+      "exit_code": 0,
+      "seconds": 0.2,
+      "source_manifest_sha256": "f599cfa4f062946d406208eab17248e83fd7d37d4b4f8a7b6b67dba336fcbf3f"
+    },
+    {
+      "name": "metadata",
+      "exit_code": 0,
+      "seconds": 0.1,
+      "source_manifest_sha256": "f599cfa4f062946d406208eab17248e83fd7d37d4b4f8a7b6b67dba336fcbf3f"
+    },
+    {
+      "name": "diff",
+      "exit_code": 0,
+      "seconds": 0.0,
+      "source_manifest_sha256": "f599cfa4f062946d406208eab17248e83fd7d37d4b4f8a7b6b67dba336fcbf3f"
+    }
+  ],
+  "global_source_checks_complete": true,
+  "early_preflight": {
+    "full_preflight_rerun": false,
+    "early_preflight_code_unchanged": true,
+    "ui_runtime_tests_added": false,
+    "previous_reports_preserved": [
+      {
+        "path": "/tmp/nagramix-round-quality-title/early.json",
+        "sha256": "f4fc240e182ebb7a619a31397d2ed92a7f3332ad6b1f75a6223ac091946400b1"
+      },
+      {
+        "path": "/tmp/nagramix-round-quality-badge/early-scoped.json",
+        "sha256": "2602ad3b77eebb362396de6e1b827b909b2b8c0f9cdd4010db6a936453a20702"
+      },
+      {
+        "path": "/tmp/nagramix-file-caption-consistency/early-scoped.json",
+        "sha256": "22efb558b1d6170f5bc339a5a1b6bd97eb62ec1008bd242e872fafc870e0e044"
+      },
+      {
+        "path": "/tmp/nagramix-file-caption-edit/early-scoped.json",
+        "sha256": "2402a8d44fe8cfd733d3226e8fc1dcae9ff59fe5128783913e74f163e817a06b"
+      }
+    ]
+  },
+  "checks_scope": "Новый source-contract/12 loader refusals/Swift parse, final upstream parse/Postbox, inverse99, strict71×678/24 headers, members full/canonical, native strings, workflow/mode/metadata/diff выполнены заново. Старый early preflight и UI runtime fixtures не запускались: код preflight и старые планы/шаблоны сохранены. Новых UI tests для удаления одного optional-аргумента нет.",
+  "scope_review": {
+    "runtime_files": 1,
+    "removed_arguments": 1,
+    "checkbox_title_uses_same_default_style_as_input_effects": true,
+    "label_and_divider_use_default_inset": true,
+    "settings_value_callback_ids_and_font_application_preserved": true,
+    "old_templates_and_plans_preserved": true,
+    "new_localization_keys": 0,
+    "dependencies_sdk_signing_unchanged": true
+  },
+  "full_application_sdk": "not_run",
+  "pixel_verification": "not_run",
+  "physical_iphone": "pending",
+  "new_actions_or_ipa_started": false,
+  "published_ipa_219_contains_this_fix": false,
+  "release_assets_or_tags_changed": false,
+  "publication_target": "Только main; новая IPA требует отдельной прямой команды"
+}
