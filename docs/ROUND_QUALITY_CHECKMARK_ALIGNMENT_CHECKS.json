@@ -1,0 +1,234 @@
+{
+  "task": "Утверждённый эскиз: галочка качества справа по центру всей выбранной ячейки",
+  "base_commit": "2059b9663fc558c07d4fecd79e1d96d2d2512e2c",
+  "stage": 101,
+  "name": "round_quality_checkmark_alignment",
+  "approved_sketch": {
+    "path": "/workspace/generated_images/exec-7780eccd-7d2d-4c2a-99bb-ea4dd62897dd.png",
+    "sha256": "ed8ec76500b30f3b7986982173d37e2631074e3d167f89c74b5e4e8fe8e72e74"
+  },
+  "source": {
+    "stage": 101,
+    "name": "round_quality_checkmark_alignment",
+    "path": "/tmp/nagramix-round-checkmark-center/source",
+    "manifest_sha256": "84347a7a773df594ef1339092d15ea1ebb702d7655178342113ac8a31656c600",
+    "previous_manifest_sha256": "1c6289e826fc18310210d8600245ccadd9a02a1ba9b6c8f5f53c99e7fb6787ab",
+    "files": 37694,
+    "symlinks": 26,
+    "modified_runtime_paths": [
+      "submodules/SettingsUI/Sources/NagramiXRoundQualityController.swift"
+    ],
+    "new_runtime_paths": [],
+    "guards": 6,
+    "new_inc": 8,
+    "new_templates": 8,
+    "old_inc_unchanged": 5606,
+    "old_plans_unchanged": 313,
+    "historical_manifests_verified": 58
+  },
+  "feature_checks": {
+    "stage": 101,
+    "name": "round_quality_checkmark_alignment",
+    "verification_kind": "source_contract_swift_parse_and_existing_apple_api_probe",
+    "runtime_paths": [
+      "submodules/SettingsUI/Sources/NagramiXRoundQualityController.swift"
+    ],
+    "guards": 6,
+    "loader_refusals": 12,
+    "checks": {
+      "single_runtime_file": true,
+      "other_page_sections_and_selection_callbacks_verbatim": true,
+      "source_parse": "passed",
+      "layout": "Shared trailing checkmark centered on the entire button. Unselected alpha reserves the same gutter. One-line quality labels; intrinsic width plus actual36pt insets preserves the existing narrow-width vertical fallback without reducing fonts.",
+      "apple_api": {
+        "unchanged_bitrate_and_model": {
+          "actual_model_and_copy": {
+            "actual_settings_module": "passed",
+            "contextual_current_cross_file_import": "passed",
+            "actual_immutable_constructor_and_copy": "passed with explicit Telegram graph adapters",
+            "uikit_badge": "not_run",
+            "full_application_sdk": "pending",
+            "device": "pending",
+            "reason": "UIKit/iOS SDK недоступны на Linux; аппаратный encoder и UI не объявляются проверенными."
+          },
+          "complete_control_uikit": {
+            "status": "not_run",
+            "reason": "iPhoneOS/UIKit SDK отсутствует на Linux"
+          },
+          "full_application_sdk": "not_run",
+          "physical_iphone": "pending"
+        },
+        "complete_page_uikit": {
+          "status": "not_run",
+          "reason": "Linux без UIKit/iPhoneOS SDK"
+        },
+        "full_application_sdk": "not_run",
+        "physical_iphone": "pending"
+      },
+      "new_ui_runtime_tests_added": false,
+      "full_application_sdk": "not_run",
+      "pixel_verification": "not_run",
+      "physical_iphone": "pending"
+    },
+    "source_unchanged_by_checks": true,
+    "new_localization_keys": 0,
+    "new_actions_or_ipa_started": false
+  },
+  "global_source_checks": [
+    {
+      "name": "early-scoped",
+      "exit_code": 0,
+      "seconds": 2.7,
+      "source_manifest_sha256": "84347a7a773df594ef1339092d15ea1ebb702d7655178342113ac8a31656c600"
+    },
+    {
+      "name": "upstream",
+      "exit_code": 0,
+      "seconds": 110.8,
+      "source_manifest_sha256": "84347a7a773df594ef1339092d15ea1ebb702d7655178342113ac8a31656c600"
+    },
+    {
+      "name": "inverse",
+      "exit_code": 0,
+      "seconds": 139.5,
+      "source_manifest_sha256": "84347a7a773df594ef1339092d15ea1ebb702d7655178342113ac8a31656c600"
+    },
+    {
+      "name": "localization",
+      "exit_code": 0,
+      "seconds": 44.4,
+      "source_manifest_sha256": "84347a7a773df594ef1339092d15ea1ebb702d7655178342113ac8a31656c600"
+    },
+    {
+      "name": "members-full",
+      "exit_code": 0,
+      "seconds": 4.5,
+      "source_manifest_sha256": "84347a7a773df594ef1339092d15ea1ebb702d7655178342113ac8a31656c600"
+    },
+    {
+      "name": "members-canonical",
+      "exit_code": 0,
+      "seconds": 2.0,
+      "source_manifest_sha256": "84347a7a773df594ef1339092d15ea1ebb702d7655178342113ac8a31656c600"
+    },
+    {
+      "name": "native-strings",
+      "exit_code": 0,
+      "seconds": 5.5,
+      "source_manifest_sha256": "84347a7a773df594ef1339092d15ea1ebb702d7655178342113ac8a31656c600"
+    },
+    {
+      "name": "mode",
+      "exit_code": 0,
+      "seconds": 0.2,
+      "source_manifest_sha256": "84347a7a773df594ef1339092d15ea1ebb702d7655178342113ac8a31656c600"
+    },
+    {
+      "name": "metadata",
+      "exit_code": 0,
+      "seconds": 0.1,
+      "source_manifest_sha256": "84347a7a773df594ef1339092d15ea1ebb702d7655178342113ac8a31656c600"
+    },
+    {
+      "name": "diff",
+      "exit_code": 0,
+      "seconds": 0.0,
+      "source_manifest_sha256": "84347a7a773df594ef1339092d15ea1ebb702d7655178342113ac8a31656c600"
+    }
+  ],
+  "global_source_checks_complete": true,
+  "full_preflight_rerun": false,
+  "early_scope": {
+    "scope": "Новый source/API checker101 выполнен через настоящий canonical_projection/CheckCollection. Прежние112 шагов/73 fixtures/146 runs и scoped96/97/98/100 повторно не выполнялись; их код/планы/успешные отчёты сохранены.",
+    "full_preflight_rerun": false,
+    "previous_runs_reused": [
+      {
+        "path": "/tmp/nagramix-round-quality-title/early.json",
+        "sha256": "f4fc240e182ebb7a619a31397d2ed92a7f3332ad6b1f75a6223ac091946400b1"
+      },
+      {
+        "path": "/tmp/nagramix-round-quality-badge/early-scoped.json",
+        "sha256": "2602ad3b77eebb362396de6e1b827b909b2b8c0f9cdd4010db6a936453a20702"
+      },
+      {
+        "path": "/tmp/nagramix-file-caption-consistency/early-scoped.json",
+        "sha256": "22efb558b1d6170f5bc339a5a1b6bd97eb62ec1008bd242e872fafc870e0e044"
+      },
+      {
+        "path": "/tmp/nagramix-file-caption-edit/early-scoped.json",
+        "sha256": "2402a8d44fe8cfd733d3226e8fc1dcae9ff59fe5128783913e74f163e817a06b"
+      },
+      {
+        "path": "/tmp/nagramix-original-video-gallery/early-scoped.json",
+        "sha256": "ab06ea7faaa6eba8ee37f7ede9fb14cf6ec1fa512171d24c8ea8d7dea9179ce9"
+      }
+    ],
+    "new_check_status": "passed",
+    "projection": {
+      "written": 585,
+      "pinned_native_dependencies": 6,
+      "unused_unavailable_native_guards": 99,
+      "localized_resources": 0
+    },
+    "new_check": {
+      "single_runtime_file": true,
+      "other_page_sections_and_selection_callbacks_verbatim": true,
+      "source_parse": "passed",
+      "layout": "Shared trailing checkmark centered on the entire button. Unselected alpha reserves the same gutter. One-line quality labels; intrinsic width plus actual36pt insets preserves the existing narrow-width vertical fallback without reducing fonts.",
+      "apple_api": {
+        "unchanged_bitrate_and_model": {
+          "actual_model_and_copy": {
+            "actual_settings_module": "passed",
+            "contextual_current_cross_file_import": "passed",
+            "actual_immutable_constructor_and_copy": "passed with explicit Telegram graph adapters",
+            "uikit_badge": "not_run",
+            "full_application_sdk": "pending",
+            "device": "pending",
+            "reason": "UIKit/iOS SDK недоступны на Linux; аппаратный encoder и UI не объявляются проверенными."
+          },
+          "complete_control_uikit": {
+            "status": "not_run",
+            "reason": "iPhoneOS/UIKit SDK отсутствует на Linux"
+          },
+          "full_application_sdk": "not_run",
+          "physical_iphone": "pending"
+        },
+        "complete_page_uikit": {
+          "status": "not_run",
+          "reason": "Linux без UIKit/iPhoneOS SDK"
+        },
+        "full_application_sdk": "not_run",
+        "physical_iphone": "pending"
+      },
+      "new_ui_runtime_tests_added": false,
+      "full_application_sdk": "not_run",
+      "pixel_verification": "not_run",
+      "physical_iphone": "pending"
+    },
+    "collection_tests": 8,
+    "all_57_calls_collected": true,
+    "new_ui_runtime_tests_added": false,
+    "full_application_sdk": "not_run",
+    "physical_iphone": "pending"
+  },
+  "scope_review": {
+    "single_runtime_page_file": true,
+    "shared_trailing_centerY_checkmark": true,
+    "same_gutter_reserved_in_unselected_state": true,
+    "quality_names_stay_single_line_without_font_reduction": true,
+    "actual_intrinsic_width_plus36pt_used_for_existing_vertical_fallback": true,
+    "other_groups_selection_persistence_accessibility_callbacks_unchanged": true,
+    "model_camera_encoder_transmission_unchanged": true,
+    "existing_5606_inc_and313_plans_unchanged": true,
+    "new_localization_keys": 0
+  },
+  "new_ui_runtime_tests_added": false,
+  "verification_boundary": "Source contract, whole Swift syntax, guarded replay/refusals and existing real model/import API checker ran locally. Full page with real UIKit/iPhoneOS is mandatory in future macOS early/final gates and not_run here. No AutoLayout solver/pixel/iPhone success claimed. Old preflight/fixtures were not repeated; prior reports and code/plans preserved.",
+  "full_application_sdk": "not_run",
+  "pixel_verification": "not_run",
+  "physical_iphone": "pending",
+  "new_actions_or_ipa_started": false,
+  "published_ipa219_contains_this_fix": false,
+  "release_assets_tags_and_actions_unchanged": true,
+  "registry": "73 compile_passed / 7 compile_pending / 80 device_pending; round_video_quality already pending"
+}

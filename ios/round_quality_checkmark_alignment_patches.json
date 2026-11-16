@@ -1,0 +1,47 @@
+{
+  "target_pin": "24638bc69bd083981b178dd1e7f921eebbf7fc46",
+  "overlay_base_pin": "279f89e4d4f63f17227bf877dc3d8990f22ecd58",
+  "required_previous_stage": "original_video_gallery",
+  "inputs": {
+    "submodules/SettingsUI/Sources/NagramiXRoundQualityController.swift": "24e9c4c5c90616d002f72572de0d7b7efe5819005ed03d3aa8d774f28db60a92"
+  },
+  "outputs": {
+    "submodules/SettingsUI/Sources/NagramiXRoundQualityController.swift": "db90a879f3d1c6fcc0bd37dd6376eeb5c849953180f4ed9fb3ffb7aeb153f7ad"
+  },
+  "previous": {
+    "submodules/SettingsUI/Sources/NagramiXRoundQualityController.swift": "round_quality_checkmark_alignment/Before0.inc"
+  },
+  "replacements": {
+    "submodules/SettingsUI/Sources/NagramiXRoundQualityController.swift": "round_quality_checkmark_alignment/After0.inc"
+  },
+  "guards": {
+    "submodules/SettingsUI/BUILD": "b229ff1580a1e8e13770d400a1c0c9e1cf56ef05b831659c3422a6141b50f489",
+    "submodules/NagramiXMediaSettings/Sources/NagramiXRoundVideoSettings.swift": "e4de9f395441ec721051eeec1b8543ad36dd534294cb6becccad8791e799b38c",
+    "submodules/Camera/Sources/NagramiXRoundVideoSettings.swift": "e4de9f395441ec721051eeec1b8543ad36dd534294cb6becccad8791e799b38c",
+    "submodules/Display/Source/Font.swift": "e204eb5178031058d2e187662d1d979cf8e29dc85481d3ba9ee120dcfc016ed6",
+    "submodules/NagramiXCore/Sources/NagramiXTabSettings.swift": "71328bb06d34937632e25bb2cf1e2c1adbb46371ca5f29b563721017326abec9",
+    "submodules/SettingsUI/Sources/NagramiXSettingsController.swift": "d714b26e7bcb0876544514ebe95b0d7e0a5305c6f97260981e81434a524100da"
+  },
+  "guard_sources": {
+    "submodules/SettingsUI/BUILD": "round_quality_checkmark_alignment/Guard0.inc",
+    "submodules/NagramiXMediaSettings/Sources/NagramiXRoundVideoSettings.swift": "round_quality_checkmark_alignment/Guard1.inc",
+    "submodules/Camera/Sources/NagramiXRoundVideoSettings.swift": "round_quality_checkmark_alignment/Guard2.inc",
+    "submodules/Display/Source/Font.swift": "round_quality_checkmark_alignment/Guard3.inc",
+    "submodules/NagramiXCore/Sources/NagramiXTabSettings.swift": "round_quality_checkmark_alignment/Guard4.inc",
+    "submodules/SettingsUI/Sources/NagramiXSettingsController.swift": "round_quality_checkmark_alignment/Guard5.inc"
+  },
+  "copies": {},
+  "deletions": {},
+  "native_inputs": {},
+  "native_guards": {},
+  "templates": {
+    "round_quality_checkmark_alignment/Before0.inc": "24e9c4c5c90616d002f72572de0d7b7efe5819005ed03d3aa8d774f28db60a92",
+    "round_quality_checkmark_alignment/After0.inc": "db90a879f3d1c6fcc0bd37dd6376eeb5c849953180f4ed9fb3ffb7aeb153f7ad",
+    "round_quality_checkmark_alignment/Guard0.inc": "b229ff1580a1e8e13770d400a1c0c9e1cf56ef05b831659c3422a6141b50f489",
+    "round_quality_checkmark_alignment/Guard1.inc": "e4de9f395441ec721051eeec1b8543ad36dd534294cb6becccad8791e799b38c",
+    "round_quality_checkmark_alignment/Guard2.inc": "e4de9f395441ec721051eeec1b8543ad36dd534294cb6becccad8791e799b38c",
+    "round_quality_checkmark_alignment/Guard3.inc": "e204eb5178031058d2e187662d1d979cf8e29dc85481d3ba9ee120dcfc016ed6",
+    "round_quality_checkmark_alignment/Guard4.inc": "71328bb06d34937632e25bb2cf1e2c1adbb46371ca5f29b563721017326abec9",
+    "round_quality_checkmark_alignment/Guard5.inc": "d714b26e7bcb0876544514ebe95b0d7e0a5305c6f97260981e81434a524100da"
+  }
+}

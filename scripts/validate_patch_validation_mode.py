@@ -83,6 +83,7 @@ def check(text):
     mandatory.append('validate_file_caption_edit.py')
     mandatory.append('validate_font_toggle_alignment.py')
     mandatory.append('validate_original_video_gallery.py')
+    mandatory.append('validate_round_quality_checkmark_alignment.py')
     for name in mandatory:
         assert re.search(r'^          python3 scripts/'+re.escape(name)+r'\b',source,re.M),name
         assert 'nagramix_extended_check python3 scripts/'+name not in source,name

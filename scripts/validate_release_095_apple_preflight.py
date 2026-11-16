@@ -52,6 +52,7 @@ from validate_round_quality_preset_badge import check as round_badge_check
 from validate_file_caption_consistency import check as file_caption_check
 from validate_file_caption_edit import check as file_caption_edit_check
 from validate_original_video_gallery import check as original_gallery_check
+from validate_round_quality_checkmark_alignment import check as round_checkmark_check
 from archived_playlist_lifetime_runtime import fixture as archived_playlist_lifetime_fixture
 from story_avatar_visibility_runtime import fixture as story_avatar_visibility_fixture
 from original_video_media_runtime import fixture as original_video_media_fixture
@@ -205,6 +206,11 @@ def main():
                 shutil.rmtree(path)
         foundation=checks.run('foundation_check:191', lambda: foundation_check(args.swiftc,root))
         files = {}
+        round_checkmark_source=root/'round-checkmark-native-final101'
+        files['native_final101']=canonical_projection(round_checkmark_source,'round_quality_checkmark_alignment')
+        round_checkmark=checks.run('round-quality-checkmark-alignment', lambda: round_checkmark_check(round_checkmark_source,args.swiftc,root/'round-checkmark'), fallback={})
+        cleanup(round_checkmark_source)
+        cleanup(root/'round-checkmark')
         original_gallery_source=root/'original-gallery-native-final100'
         files['native_final100']=canonical_projection(original_gallery_source,'original_video_gallery')
         original_gallery=checks.run('original-video-gallery', lambda: original_gallery_check(original_gallery_source,args.swiftc,root/'original-gallery'), fallback={})
@@ -454,6 +460,7 @@ def main():
     report['file_caption_consistency']=file_caption
     report['file_caption_edit']=file_caption_edit
     report['original_video_gallery']=original_gallery
+    report['round_quality_checkmark_alignment']=round_checkmark
     report['system_web_javascript']=system_js
     report['system_web_real_sdk']=system_apple
     report['youtube_playback_policy_js']=youtube_js
