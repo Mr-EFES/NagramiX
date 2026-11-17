@@ -1,0 +1,94 @@
+{
+  "version": "1.0",
+  "verified_at": "2026-11-17T21:28:38.119329+00:00",
+  "status": "cleanup_verified",
+  "authorization": "Explicit owner instruction17Nov2026: keep only1.0 as baseline before App Store; remove other versions and obsolete repository materials. One-time operation; no automatic future cleanup.",
+  "retained": {
+    "release_id": 449086531,
+    "tag": "v1.0",
+    "source_commit": "4b839e78591eecd5349bfbc347aa8c61f351267a",
+    "run_id": 44103614473,
+    "build_number": 224,
+    "artifact_ids": [
+      14360543231,
+      14360179061
+    ],
+    "release_assets": [
+      {
+        "id": 760459671,
+        "name": "BUILD-PROVENANCE.txt",
+        "size": 406,
+        "digest": "sha256:0658ba87a29cc01f897b4b03f5af0b712f463a7d0a0fe9f38585b67c6272cb4a",
+        "created_at": "2026-11-17T20:06:23Z",
+        "updated_at": "2026-11-17T20:06:23Z",
+        "uploader": "Mr-EFES"
+      },
+      {
+        "id": 760459674,
+        "name": "NagramiX-1.0-unsigned.ipa",
+        "size": 98159830,
+        "digest": "sha256:7bce23243183cddd2d1c56b57266a7a6d96d883c436272b8b8993c7b728ee389",
+        "created_at": "2026-11-17T20:06:23Z",
+        "updated_at": "2026-11-17T20:06:31Z",
+        "uploader": "Mr-EFES"
+      },
+      {
+        "id": 760459672,
+        "name": "SHA256SUMS",
+        "size": 92,
+        "digest": "sha256:66ffaa44d4dc23ecf5119e199945064175a84a5255f111d933d6179751845212",
+        "created_at": "2026-11-17T20:06:23Z",
+        "updated_at": "2026-11-17T20:06:23Z",
+        "uploader": "Mr-EFES"
+      }
+    ]
+  },
+  "deleted": {
+    "releases": 2,
+    "release_assets": 6,
+    "tags": 2,
+    "workflow_runs": 5,
+    "actions_artifacts": 6,
+    "caches": 0
+  },
+  "verified": {
+    "only_current_release_tag_successful_run": true,
+    "release_assets_unchanged": true,
+    "actions_artifacts_unchanged": true,
+    "latest_is_1_0": true,
+    "source_tag_unchanged": true,
+    "main_history_rewritten": false,
+    "new_build_started": false
+  },
+  "deleted_release_tags": [
+    "v0.9.9",
+    "v0.9.8"
+  ],
+  "deleted_run_ids": [
+    44077498324,
+    43915919721,
+    43907479723,
+    43897926188,
+    43721830908
+  ],
+  "local": {
+    "deleted_or_relocated_obsolete_files": 88,
+    "technical_contracts_relocated": 2,
+    "old_annotations_removed": [
+      "0.9.8.md",
+      "0.9.9.md"
+    ],
+    "current_annotation": "product/releases/1.0.md",
+    "runtime_stage": 109,
+    "immutable_inc_count": 5943,
+    "immutable_plan_count": 322,
+    "runtime_manifest_sha256": "088cc2f3cf617be451b539fdcb691cae5e2719f8fab8c57167384fde72c4eca1",
+    "source_build_tests_registry_unchanged": true,
+    "protected_file_count": 7830,
+    "history_rewritten": false,
+    "metadata_and_markdown_links": "passed",
+    "git_diff_check": "passed",
+    "unchanged_preexisting_tracked_files": 8221,
+    "old_release_docs_and_annotations_absent": true
+  }
+}

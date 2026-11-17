@@ -154,5 +154,12 @@
       "url": "https://github.com/Mr-EFES/NagramiX/releases/download/v1.0/SHA256SUMS"
     }
   ],
-  "publication_auth_history": "Initial runtime upload401; first new officialdeviceflow timedout. Owner confirmed a fresh officialGitHubCLIdeviceflow; login Mr-EFES verified before upload. Existing empty own draft finalized by unchanged publisher. No saved-profile probing executed, no rebuild."
+  "publication_auth_history": "Initial runtime upload401; first new officialdeviceflow timedout. Owner confirmed a fresh officialGitHubCLIdeviceflow; login Mr-EFES verified before upload. Existing empty own draft finalized by unchanged publisher. No saved-profile probing executed, no rebuild.",
+  "subsequent_repository_cleanup": {
+    "owner_authorized": true,
+    "baseline_version": "1.0",
+    "receipt": "REPOSITORY_BASELINE_100_CHECKS.json",
+    "publication_time_old_objects_preservation_is_historical": true,
+    "current_release_assets_unchanged": true
+  }
 }

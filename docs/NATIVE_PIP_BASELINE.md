@@ -1,6 +1,6 @@
 # Штатный PiP Telegram 13.1.2 и быстрый свайп
 
-**Состояние выпуска:** перенесено на Telegram13.2 и включено в успешный0.8.9/build185: `compile_passed / package_verified / owner_published / device_pending`. [SDK, IPA, hashes и релиз](RELEASE_STATUS.md); [приёмка на iPhone](DEVICE_CHECK_089.md) ещё ожидается. Далее — исходный контракт и история локальных проверок до публикации.
+**Состояние выпуска:** перенесено на Telegram13.2 и включено в успешный0.8.9/build185: `compile_passed / package_verified / owner_published / device_pending`. [SDK, IPA, hashes и релиз](RELEASE_STATUS.md); [приёмка на iPhone](DEVICE_CHECK_100.md) ещё ожидается. Далее — исходный контракт и история локальных проверок до публикации.
 
 **Позднее согласованное исправление R3:** [команды воспроизведения](PIP_PLAYBACK_COMMANDS.md). После `round_caption_transport` стадия `pip_playback_commands` заменяет только `setPlaying`: прямые play/pause вместо toggle. Остальной native controller, вход, возврат и свайп прежние. Описанные ниже exact native snapshots остаются неизменяемой исторической базой; validator проверяет их после точного снятия поздней стадии. Compile/device pending.
 

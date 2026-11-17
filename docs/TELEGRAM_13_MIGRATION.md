@@ -26,7 +26,7 @@
 
 295 Swift-файла разобраны tree-sitter без новых ошибок; восемь ограничений parser также воспроизводятся на stock raw. Полная apply_overlay, Make anchor, branding, все восемь иконок, 13 RU intro строк, Python syntax, metadata и diff checks проходят. Локальная проверка конфигурации использовала фиктивные значения только в /tmp; секреты репозитория используются исключительно нативным CI workflow.
 
-Swift type checking и линковка подтверждены macOS-сборкой №83. Реальные жесты, декодер, MTProto и устойчивость требуют физического теста. Текущие изменённые функции compile_passed/device_pending. План приёмки — [iPhone](DEVICE_CHECK_084.md); результат сборки — [статус](RELEASE_STATUS.md).
+Swift type checking и линковка подтверждены macOS-сборкой №83. Реальные жесты, декодер, MTProto и устойчивость требуют физического теста. Текущие изменённые функции compile_passed/device_pending. План приёмки — [iPhone](DEVICE_CHECK_100.md); результат сборки — [статус](RELEASE_STATUS.md).
 
 ## Совместимость custom строк SettingsUI после нативной проверки
 

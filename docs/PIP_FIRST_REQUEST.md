@@ -56,7 +56,7 @@ python3 scripts/validate_pip_first_request.py --source <pre-port-source> --swift
 
 Предыдущие49 PiP-проверок в каждом режиме и их отрицательные контроли проходят после снятия нового этапа. Строгая локализация сохраняет71×613 ключей; новых UI-строк нет. Свежая композиция320 путей совпадает с независимым инкрементальным деревом; финальный post-port и PostboxImportCheck проходят. PiP-файл сохраняется после post-port. Guard MediaPlayerNode сопоставляется с точными input/output закреплённого post-port, а не ослабляется до произвольного SHA.
 
-AVKit/KVO, UIKit, Core Animation и доставка событий заменены явными тестовыми границами. Эти проверки подтверждают управление запросом, свойства и порядок handoff, но не физическую отрисовку системного окна iOS. Реальные первый запуск и плавность на iPhone проверяются после отдельной команды на сборку по [DEVICE_CHECK_086](DEVICE_CHECK_086.md). Локальные отчёты — `validation-final.json`, `previous-pip.json`, `composition-final.log`, `localization.log` в `/tmp/nagramix-pip-first-start/`.
+AVKit/KVO, UIKit, Core Animation и доставка событий заменены явными тестовыми границами. Эти проверки подтверждают управление запросом, свойства и порядок handoff, но не физическую отрисовку системного окна iOS. Реальные первый запуск и плавность на iPhone проверяются после отдельной команды на сборку по [Проверка1.0 на iPhone](DEVICE_CHECK_100.md). Локальные отчёты — `validation-final.json`, `previous-pip.json`, `composition-final.log`, `localization.log` в `/tmp/nagramix-pip-first-start/`.
 
 ## Проверенная сборка171
 

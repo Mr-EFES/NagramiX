@@ -1,6 +1,6 @@
 # Временные сообщения
 
-Актуальный SDK/пакет:0.8.7/build173 — compile_passed, package_verified, owner_published; физическая проверка device_pending. [Итог выпуска](../../docs/RELEASE_STATUS.md), [проверка на iPhone](../../docs/DEVICE_CHECK_087.md).
+Актуальная база:1.0/build224 — compile_passed, package_verified, owner_published; все физические проверки device_pending. [Статус](../../docs/RELEASE_STATUS.md), [проверка на iPhone](../../docs/DEVICE_CHECK_100.md).
 
 При включённой функции поддерживаемые одноразовые голосовые воспроизводятся прямо в переписке со штатными огнём, обратным отсчётом и исчезающей дорожкой, без отдельного окна. После окончания доступен повторный запуск; сохранённая временная запись получает анимацию без таймера удаления. При OFF и для кружков прежнее открытие сохраняется. [Контракт и проверки](../../docs/INLINE_TEMPORARY_VOICE.md): source_checked/native_compile_pending/device_pending.
 

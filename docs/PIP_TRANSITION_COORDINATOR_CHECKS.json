@@ -660,7 +660,7 @@
     "prior_failure_causes_from_retained_project_evidence": {
       "211": "Missing CoreGraphics import in three fixture modules, fixed before213.",
       "212": "ChatMessageItemView called update through WallpaperBubbleBackgroundNode protocol; corrected before213.",
-      "source": "docs/RELEASE_097_RUN.md",
+      "source": "docs/RELEASE_100_RUN.md",
       "cancellation_in_211_212": false
     }
   },
@@ -678,5 +678,6 @@
     "Transitions, rounded corners, source readiness and supported formats must be verified on physical iPhone/iOS27.",
     "YouTube background behavior is deliberately deferred; no claim of its correction."
   ],
-  "next_step": "Checked commit/push main, report readiness for separate YouTube background fix, then wait for user command. SDK/IPA only by direct command."
+  "next_step": "Checked commit/push main, report readiness for separate YouTube background fix, then wait for user command. SDK/IPA only by direct command.",
+  "reference_updated_after_baseline_cleanup": "1.0"
 }

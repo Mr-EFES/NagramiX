@@ -16,6 +16,6 @@ SDK115/116 выявил смешанные TelegramApi imports, implicit strong 
 
 SDK120 выявил missing fromSkeleton в pinned emoji refresh; исправлено. SDK121 cached diagnostic PASS. Финальный SDK122/run39875592066 — clean_build=true, native/package/полноценный Release PASS; опубликованный файл независимо проверен CI и локально. Source/tag`6d867ccd1feb487f696adf10ed8cb4b5ae3ecefd`; последующие docs/CI коммиты не входят в IPA.
 
-[Статус](RELEASE_STATUS.md) · [Физическая приёмка](DEVICE_CHECK_084.md). UIKit/сеть/авторизация/отправка на реальном устройстве остаются device_pending.
+[Статус](RELEASE_STATUS.md) · [Физическая приёмка](DEVICE_CHECK_100.md). UIKit/сеть/авторизация/отправка на реальном устройстве остаются device_pending.
 
 Локальный replay после исправления SDK120:351outputs/78reviewed edits, полный ожидаемый набор и34374 materialized файла побайтно проверены; каталог копии разворачивает upstream directory symlinks. Все native файлы вне manifest сохранены. Предыдущий CI audit34373 файлов остаётся отдельным доказательством; новый Core import preflight738 sources и Swift parse исправленного pinned файла PASS.

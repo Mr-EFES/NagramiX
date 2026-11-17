@@ -1,6 +1,6 @@
-# Исправление rich-черновика после ошибки сборки174
+# Повтор загрузки rich-черновика
 
-Сборка0.8.8/build174, [run42174985406](https://github.com/Mr-EFES/NagramiX/actions/runs/42174985406), source de0d369c6b0a4349ad04994bafa51af0691353c6/main, завершилась failure6 ноября2026 в08:25UTC. Все156 pre-SDK команд и cold gate прошли. Нативная компиляция началась07:35:57UTC, но TelegramCore не собрался. IPA и release assets не созданы; последним опубликованным выпуском остаётся0.8.7/build173. Собственный draft0.8.8/id436175279 пустой; старые релизы и draft0.8.6 не менялись.
+Действующий контракт синхронизации черновиков в базе1.0. Итоговый SDK/пакет — [отчёт1.0](RELEASE_100_FINAL_CHECKS.md); физическая проверка — [план](DEVICE_CHECK_100.md).
 
 ## Причина
 
@@ -21,7 +21,3 @@
 -18 проверок в debug и18 в `-O`, строгие предупреждения: ошибки/успех/задержки/отмена, удержание операции, отсутствие неполного server draft, payload/metadata, обычный текст и сохранение ошибки редактирования.
 -Три отрицательных варианта в каждом режиме: исходный вариант действительно не компилируется с той же ошибкой типов; bare fallback и потеря отмены отвергаются во время исполнения.
 -66 fail-closed случаев, полный Swift parse изменённого файла, прежние PiP/editor SHA-unwrap и native PostboxImportCheck. Все615 записей предыдущего final manifest сохранены; новый manifest625 записей добавляет только черновик и реальные SignalKit guards. Полная prefix композиция и независимая pre-post fixture совпадают; новая стадия не пересекается с семью post-port outputs.
-
-Отчёты/журнал: `/tmp/nagramix-build-088/build174.log`, `rich-draft-fix-validation.json`, `rich-draft-fix-guards-final.json`, `rich-draft-final-report.json`, `fixed-composition-hashes.json`. Актуальная полная source tree `/tmp/nagramix-pip-transition/fresh`; pre-post `/tmp/nagramix-pip-transition/incremental`. Предыдущие пять исправлений сохранены. В workflow теперь157 обязательных pre-SDK команд, новая проверка первая; проверки не отключались и предупреждения не ослаблялись.
-
-Исправленная0.8.8/build175/source`2e01f89ca5c5d4a87d9d8f8e1bc267713bdf5650` успешно прошла все157pre-SDK проверок,cold gate,нативнуюARM64-компиляцию10:46:47–12:12:53UTC6ноября,упаковку и независимуюCIпроверкуIPA. [Релиз0.8.8](https://github.com/Mr-EFES/NagramiX/releases/tag/v0.8.8) опубликован12:16:54UTC отMr-EFES с тремя точными owner assets. Исходная174 остаётсянеуспешной и не создала IPA; новый175не подменён173. Nativecompile_passed/device_pending. Уточнение владельца разрешает исправления и повторы текущего выбранного выпуска до успешной публикации, без вопроса на каждыйretry. Следующий новый выпуск после опубликованной0.8.8 —0.8.9 по новой команде.

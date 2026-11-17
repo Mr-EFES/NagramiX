@@ -604,7 +604,7 @@
     "previous_failure_causes_from_retained_project_evidence": {
       "211": "Missing CoreGraphics import in fixtures; fixed before213.",
       "212": "ChatMessageItemView used nonexistent update through WallpaperBubbleBackgroundNode protocol; fixed before213.",
-      "reference": "docs/RELEASE_097_RUN.md",
+      "reference": "docs/RELEASE_100_RUN.md",
       "cancellation_in_211_212": false
     },
     "full_failed_logs_reread_this_task": false,
@@ -624,5 +624,6 @@
     "Real UIKit/WebKit iPhoneOS API check is first in future macOS preflight; Linux parsed its source but SDK typecheck was not_run. Full application Apple SDK compilation not_run.",
     "Background, screen lock, remote Play/Pause, calls and long playback of the reported URL require new IPA and physical iPhone. No claim that every YouTube/native restriction is confirmed removed."
   ],
-  "next_step": "Commit/push checked main as authorized. SDK/Actions/IPA only after a new direct build command."
+  "next_step": "Commit/push checked main as authorized. SDK/Actions/IPA only after a new direct build command.",
+  "reference_updated_after_baseline_cleanup": "1.0"
 }

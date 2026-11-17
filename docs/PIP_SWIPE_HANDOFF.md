@@ -44,4 +44,4 @@ Loader требует этот SHA и `required_previous_stage=wide_tab_bar_sett
 
 Стадия зарегистрирована после `wide_tab_bar_setting`. Workflow и финальные source/localization contracts включают весь набор. Метаданные подготовлены под 0.9.0. Пользователь разрешил commit/push восьми проверенных исправлений в main и прямо запретил SDK/IPA/Actions и публикацию релиза. Новый SDK-запуск не выполнялся.
 
-Статус PiP: `source_checked / integrated_source_checked / native_compile_pending / device_pending`. Общая подготовка: [PREPARATION_090](PREPARATION_090.md). Исторический ZIP изолированного патча не заменяет весь восстановленный набор; авторитетны текущие файлы восьми стадий в репозитории и общий receipt проверок.
+Эта стадия входит в базу1.0/build224: native_compile_passed / package_verified / device_pending. [Текущая база](REPOSITORY_BASELINE_100.md), [результат сборки](RELEASE_100_FINAL_CHECKS.md). Исторический изолированный ZIP не заменяет полную актуальную overlay-цепочку репозитория.
