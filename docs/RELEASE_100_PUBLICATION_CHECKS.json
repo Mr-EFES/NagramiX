@@ -1,0 +1,121 @@
+{
+  "version": "1.0",
+  "status": "native_compile_passed/package_verified/owner_auth_pending/device_pending",
+  "source_commit": "4b839e78591eecd5349bfbc347aa8c61f351267a",
+  "tag": "v1.0",
+  "release_id": 449086531,
+  "release_url": null,
+  "draft_release_url": "https://github.com/Mr-EFES/NagramiX/releases/tag/untagged-80ee301cb424887b03ec",
+  "published_at": null,
+  "latest": false,
+  "prerelease": false,
+  "author": "Mr-EFES",
+  "workflow_run_id": 44103614473,
+  "workflow_url": "https://github.com/Mr-EFES/NagramiX/actions/runs/44103614473",
+  "build_number": 224,
+  "run_attempt": 1,
+  "jobs": [
+    {
+      "id": 134109949936,
+      "name": "build",
+      "conclusion": "success"
+    },
+    {
+      "id": 134296774883,
+      "name": "Проверить IPA для публикации Mr_EFES",
+      "conclusion": "success"
+    }
+  ],
+  "native_sdk": {
+    "started_at": "2026-11-17T17:17:56Z",
+    "completed_at": "2026-11-17T19:11:18Z",
+    "conclusion": "success"
+  },
+  "native_build_actions": 10039,
+  "real_apple_early": {
+    "status": "passed",
+    "checks": 125,
+    "complete_fixtures": 102,
+    "debug_optimized_executions": 204,
+    "failed_checks": 0
+  },
+  "package_files": {
+    "BUILD-PROVENANCE.txt": {
+      "size": 406,
+      "sha256": "0658ba87a29cc01f897b4b03f5af0b712f463a7d0a0fe9f38585b67c6272cb4a"
+    },
+    "SHA256SUMS": {
+      "size": 92,
+      "sha256": "66ffaa44d4dc23ecf5119e199945064175a84a5255f111d933d6179751845212"
+    },
+    "NagramiX-1.0-unsigned.ipa": {
+      "size": 98159830,
+      "sha256": "7bce23243183cddd2d1c56b57266a7a6d96d883c436272b8b8993c7b728ee389"
+    }
+  },
+  "package_validator_output": "Переводы IPA проверены: 71 языков, по 680 ключей настроек/debug\nIPA проверен: 1.0, build 224, iOS15+, ARM64/iPhoneOS файлов 6, RU 15004/680, мелодий 31, иконок 8, checksum/provenance, без профилей\nSHA256: 7bce23243183cddd2d1c56b57266a7a6d96d883c436272b8b8993c7b728ee389; размер: 98159830 байт\n",
+  "provenance": "NagramiX version: 1.0\nNagramiX commit: 4b839e78591eecd5349bfbc347aa8c61f351267a\nTelegram-iOS commit: 24638bc69bd083981b178dd1e7f921eebbf7fc46\nWorkflow run: https://github.com/Mr-EFES/NagramiX/actions/runs/44103614473\nDependency override: submodules/TgVoipWebrtc/tgcalls c1de0882de9013df246252129b95430f48b20eec -> 38dcea121f10638c42098f226f05c298a392f95c (https://github.com/TelegramMessenger/tgcalls.git)\n",
+  "checksums": "7bce23243183cddd2d1c56b57266a7a6d96d883c436272b8b8993c7b728ee389  NagramiX-1.0-unsigned.ipa\n",
+  "actions_artifacts": [
+    {
+      "id": 14360543231,
+      "name": "NagramiX-1.0-symbols-arm64",
+      "size_in_bytes": 203678851,
+      "digest": "sha256:93cdb1b87405d16e15982b83dee367ef302f76bd72df75a3ae18a94da6556321",
+      "expired": false
+    },
+    {
+      "id": 14360179061,
+      "name": "NagramiX-1.0-unsigned-arm64",
+      "size_in_bytes": 97678189,
+      "digest": "sha256:8a0d3481c77d96886366bd4e89af02e2f8381f7bd5fe811346b8af3e5222ee53",
+      "expired": false
+    }
+  ],
+  "original_zip_bytes_verified": true,
+  "zip_crc_verified": true,
+  "symbols": {
+    "status": "matching_dsym_verified",
+    "executable": "Telegram",
+    "ipa_uuid": "4AD768ED-7670-3507-8726-8E4EDC2BC619",
+    "dsym_uuid": "4AD768ED-7670-3507-8726-8E4EDC2BC619",
+    "artifact_id": 14360543231,
+    "source_run": 44103614473
+  },
+  "runtime_stage": 109,
+  "runtime_manifest_sha256": "088cc2f3cf617be451b539fdcb691cae5e2719f8fab8c57167384fde72c4eca1",
+  "immutable_inc_count": 5943,
+  "immutable_plan_count": 322,
+  "runtime_source_changed_during_build_preparation_and_retry": false,
+  "stopped_attempts": [
+    223
+  ],
+  "stopped_attempt_scope": "Confirmed unquoted YAML1.0 became actualCIenv1; agent cancelled before incorrect packaging; fixed strict quoted literal and both live environment guards with9regressions/58supporttests. FullnativeSDK223 incomplete;224 succeeded.",
+  "actual_ci_version": "1.0",
+  "feature_compile_status": {
+    "compile_passed": 80,
+    "device_pending": 80,
+    "newly_compile_passed_ids": [
+      "tabs",
+      "video_pip_swipe",
+      "background_video_playback",
+      "composer_file_attachments",
+      "round_video_quality",
+      "round_video_editor"
+    ]
+  },
+  "build_inputs": {
+    "clean_build": true,
+    "publish_release": true,
+    "prerelease": false,
+    "extended_patch_tests": false,
+    "artifact_run_id": ""
+  },
+  "readme_license_approved_annotations_unchanged": true,
+  "old_releases_tags_assets_preservation": "pending independent finalcomparison; no oldwrite/delete operations",
+  "physical_iphone": "pending",
+  "app_store_ready": false,
+  "unsigned_signing": "preserved; Distribution/storeconfiguration/AppStoreConnect notprepared bythis unsigned build",
+  "publication_blocker": "uploads.github.com rejectedruntimecredential401; newofficialGitHubCLIdeviceflow awaitingowner. Auto-review rejectedsaved-profileprobing; actionnotexecuted andnotretried.",
+  "decoded_build_log_sha256": "428140994fe15dc411b34edbd6a058b1a947f1122f0860552e61bc47f1cccdd4"
+}

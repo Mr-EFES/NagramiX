@@ -31,3 +31,9 @@
 Исправление: явная строка `NAGRAMIX_VERSION: "1.0"`; общий stdlib-parser требует строку в двойных кавычках. Оба ранних валидатора сверяют литерал с registry и фактическую переменную в Actions. Девять новых регрессий включают прежний числовой YAML и усечённую среду CI через настоящие entrypoints обоих валидаторов. Они запускаются в metadata step до длительных проверок. У кавычек официальный parser возвращает именно `1.0`, без ошибок workflow. [Проверки исправления](RELEASE_100_VERSION_CHECKS.json).
 
 Runtime109,5943старых `.inc`,322плана, Bazel target release_arm64, подпись/профили, порядок обязательных source/API/global/localization/Postbox/cold проверок и publisher не меняются. Новая стадия приложения не нужна. После проверок — owner commit/push main и один новый dispatch этой же1.0, clean=true/publish=true/prerelease=false/extended=false. Отдельного подтверждения на повтор команда владельца не требует.
+
+## Попытка224: SDK и пакет проверены
+
+Из4b839e78591eecd5349bfbc347aa8c61f351267a выполнен один чистый dispatch44103614473/build224. Оба jobSUCCESS; native17:17:56–19:11:18UTC17ноября2026/10039actions. Runtime109 прежний, реальнаяNAGRAMIX_VERSION1.0 подтверждена. Оригинальные IPA/symbolsZIP и локальный пакет проверены; UUIDsymbols соответствуетIPA. [Итог](RELEASE_100_FINAL_CHECKS.md),[receipt](RELEASE_100_PUBLICATION_CHECKS.json).
+
+Публикация создала только собственный draft449086531; uploads.github.com отклонил runtimecredential401. Старые releases/tags/assets не изменялись. Auto-review отклонил поиск сохранённых профилей как обращение к учётным данным из непредусмотренных источников; команда не выполнялась. Безопасный способ: новый официальныйGitHubCLIdeviceflow в выделенном профиле, без чтения старых credentialfiles. Ожидается подтверждение владельца; повторять SDK не требуется. До owner/uploader/digests/latest/tag проверки публикацию не считать завершённой.

@@ -1,6 +1,6 @@
 {
   "release": "1.0",
-  "status": "local_checks_passed/retry_sdk_pending",
+  "status": "local_checks_passed/retry_sdk_and_package_passed/owner_auth_pending",
   "prepared_from": "7fb3cf817c3d43cc17b0c147d9ee67209c7976bd",
   "stopped_run": 44077498324,
   "stopped_build": 223,
@@ -132,5 +132,9 @@
     }
   ],
   "unit_tests": 58,
-  "upstream": "CURRENT; Telegram13.2/24638/minimum15 rechecked before retry"
+  "upstream": "CURRENT; Telegram13.2/24638/minimum15 rechecked before retry",
+  "successful_retry_run": 44103614473,
+  "successful_retry_build": 224,
+  "successful_retry_source": "4b839e78591eecd5349bfbc347aa8c61f351267a",
+  "actual_retry_ci_version": "1.0"
 }
