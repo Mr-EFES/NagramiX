@@ -1,13 +1,13 @@
 {
   "version": "1.0",
-  "status": "native_compile_passed/package_verified/owner_auth_pending/device_pending",
+  "status": "native_compile_passed/package_verified/owner_published/device_pending",
   "source_commit": "4b839e78591eecd5349bfbc347aa8c61f351267a",
   "tag": "v1.0",
   "release_id": 449086531,
-  "release_url": null,
-  "draft_release_url": "https://github.com/Mr-EFES/NagramiX/releases/tag/untagged-80ee301cb424887b03ec",
-  "published_at": null,
-  "latest": false,
+  "release_url": "https://github.com/Mr-EFES/NagramiX/releases/tag/v1.0",
+  "draft_release_url": null,
+  "published_at": "2026-11-17T20:06:33Z",
+  "latest": true,
   "prerelease": false,
   "author": "Mr-EFES",
   "workflow_run_id": 44103614473,
@@ -121,7 +121,38 @@
   "physical_iphone": "pending",
   "app_store_ready": false,
   "unsigned_signing": "preserved; Distribution/storeconfiguration/AppStoreConnect notprepared bythis unsigned build",
-  "publication_blocker": "uploads.github.com rejected runtimecredential401; officialfreshGitHubCLIdeviceflow timedout without completedownerconfirmation. Newconfirmedownerlogin required. Saved-profileprobing denied byauto-review; neverexecuted/retried.",
+  "publication_blocker": null,
   "decoded_build_log_sha256": "428140994fe15dc411b34edbd6a058b1a947f1122f0860552e61bc47f1cccdd4",
-  "owner_auth_state": "official_device_flow_timed_out"
+  "owner_auth_state": "official_device_flow_confirmed",
+  "draft": false,
+  "publication_verified_at": "2026-11-17T20:07:08.952090+00:00",
+  "body_exact_approved_annotation": true,
+  "tag_target": "4b839e78591eecd5349bfbc347aa8c61f351267a",
+  "release_assets": [
+    {
+      "id": 760459671,
+      "name": "BUILD-PROVENANCE.txt",
+      "size": 406,
+      "digest": "sha256:0658ba87a29cc01f897b4b03f5af0b712f463a7d0a0fe9f38585b67c6272cb4a",
+      "uploader": "Mr-EFES",
+      "url": "https://github.com/Mr-EFES/NagramiX/releases/download/v1.0/BUILD-PROVENANCE.txt"
+    },
+    {
+      "id": 760459674,
+      "name": "NagramiX-1.0-unsigned.ipa",
+      "size": 98159830,
+      "digest": "sha256:7bce23243183cddd2d1c56b57266a7a6d96d883c436272b8b8993c7b728ee389",
+      "uploader": "Mr-EFES",
+      "url": "https://github.com/Mr-EFES/NagramiX/releases/download/v1.0/NagramiX-1.0-unsigned.ipa"
+    },
+    {
+      "id": 760459672,
+      "name": "SHA256SUMS",
+      "size": 92,
+      "digest": "sha256:66ffaa44d4dc23ecf5119e199945064175a84a5255f111d933d6179751845212",
+      "uploader": "Mr-EFES",
+      "url": "https://github.com/Mr-EFES/NagramiX/releases/download/v1.0/SHA256SUMS"
+    }
+  ],
+  "publication_auth_history": "Initial runtime upload401; first new officialdeviceflow timedout. Owner confirmed a fresh officialGitHubCLIdeviceflow; login Mr-EFES verified before upload. Existing empty own draft finalized by unchanged publisher. No saved-profile probing executed, no rebuild."
 }
