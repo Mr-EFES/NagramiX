@@ -1,0 +1,91 @@
+{
+  "members": {
+    "swift_files": 7338,
+    "string_accesses": 915,
+    "distinct_string_members": 234,
+    "actual_string_declarations": 252,
+    "custom_declarations": 1102,
+    "full_custom_name_audit": true,
+    "literal_parser_contract": {
+      "accepted_literals_and_comments": 8,
+      "missing_real_members_rejected": 7,
+      "unterminated_literal_rejected": true,
+      "interpolations_preserved": true
+    }
+  },
+  "members-canonical": {
+    "swift_files": 287,
+    "string_accesses": 897,
+    "distinct_string_members": 232,
+    "actual_string_declarations": 252,
+    "custom_declarations": 1000,
+    "full_custom_name_audit": false,
+    "literal_parser_contract": {
+      "accepted_literals_and_comments": 8,
+      "missing_real_members_rejected": 7,
+      "unterminated_literal_rejected": true,
+      "interpolations_preserved": true
+    }
+  },
+  "native-strings": {
+    "swift_files": 287,
+    "native_generated_members": 12190,
+    "native_string_uses": 4184,
+    "distinct_native_members": 2311,
+    "proven_other_typed_owner_reads": 0,
+    "sdk200_mutation_rejected": true,
+    "apple_actual_generated_header": {
+      "status": "not_run",
+      "reason": "Real Objective-C/Apple SDK import requires macOS and swiftc"
+    },
+    "boundary": "Actual native GenerateStrings.py, build rule and final English catalog; generated member existence through strings/namedStrings receivers. Other typed owners need source declaration evidence. Full Swift call arity/type checking and app runtime still require SDK/device."
+  },
+  "build-inputs": {
+    "version": "1.0",
+    "workflow_scripts": 295,
+    "python_syntax_files": 864,
+    "late_stages": 109,
+    "sdk_plans": 115,
+    "submodules": 12,
+    "manual_only": true,
+    "existing_unsigned_signing_contract": "preserved",
+    "native_environment": "not_run"
+  },
+  "upstream": {
+    "target_pin": "24638bc69bd083981b178dd1e7f921eebbf7fc46",
+    "parsed_swift": 698,
+    "native_postbox_imports": "passed",
+    "pre_replacements": 196,
+    "post_replacements": 274
+  },
+  "release": "1.0",
+  "prepared_from": "d515d0a1da4d8ebd966904a5fdc5441c0e72ecb1",
+  "runtime_manifest": "088cc2f3cf617be451b539fdcb691cae5e2719f8fab8c57167384fde72c4eca1",
+  "runtime_unchanged": true,
+  "protected_inc": 5943,
+  "protected_plans": 322,
+  "upstreams": "CURRENT;Telegram13.2/24638/minimum15",
+  "localization": {
+    "strict_final_upstream_13_2": true,
+    "languages": 71,
+    "keys": 680,
+    "headers": 24,
+    "assertions_per_mode": 48449
+  },
+  "owner": "Mr-EFES",
+  "visibility": "public",
+  "native_sdk": "pending",
+  "device": "pending",
+  "app_store_ready": false,
+  "support_checks": {
+    "version_annotation_collector_build_fonts_tests": 34,
+    "owner_publication_tests": 30,
+    "ipa_catalog_tests": 59,
+    "upstream_dependency_tests": 8,
+    "release_build_mode": "passed;4 parameter combinations",
+    "patch_validation_mode": "passed;all mandatory gates preserved",
+    "native_origins": "passed;7 blobs/2 refusals",
+    "metadata": "passed",
+    "diff": "passed"
+  }
+}

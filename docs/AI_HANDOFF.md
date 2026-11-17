@@ -1,4 +1,9 @@
-# Контекст разработки NagramiX 0.9.9
+# Контекст разработки NagramiX 1.0
+
+**Новая прямая команда владельца: финальная сборка релиза1.0.** Запрос17ноября2026 заменяет прежний запрет SDK/Actions/IPA. Выполнить проверенную чистую сборку актуального main и owner publication; подтверждённые ошибки разбирать по полному логу, исправлять/проверять и повторять эту же1.0 до успеха, без повторных вопросов на каждый шаг. Параметры clean_build=true/publish_release=true/prerelease=false/extended=false. Разрешена подготовка metadata1.0; runtime109/5943inc/322плана сохраняются, следующая runtime110+ только при реальной необходимости. [Журнал](RELEASE_100_RUN.md).
+
+GitHub public и доступMr-EFES подтверждены, текущий Telegram13.2/pin24638/minimumiOS15 проверен require-current. Других активных запусков нет. Новая IPA должна включить105–109 после опубликованной222. Сохранять0.9.8/0.9.9 и все tags/assets/Actions, README/LICENSE/утверждённый текст аннотации/подпись/профильBazel. Author/committerMr_EFES70027952; actor/uploaderMr-EFES. Однократный dispatch выбранного SHA, при неопределённом ответе сначала найтиrun. AppStore: текущий workflow unsigned/build-only; готовность Distribution/AppStoreConnect/модерации и device/live YouTube не подтверждена. AppStore upload не поручен. По завершении дать IPA/релиз/проверки и ссылку для ручного Make private; видимость не переключать.
+
 
 **После IPA222: согласованная пустая строка в file-caption, стадия109.** Пользователь после эскиза разрешил менять подпись ради зазора в обоих клиентах. Общий Foundation helper добавляет1LF после native Markdown/trim/split для обычных документов/аудиофайлов; обе отправки и общий edit используют его. Entities сдвигаются на фактическую UTF16-длину, повторный edit не копит строки. Лимит account передаётся явно; на полной границе подпись сохраняется целиком без переноса. Фото/видео/voice/round/animated/sticker, пустая подпись, caption-above и rich fallback прежние. [Контракт](FILE_CAPTION_WIRE_SPACING.md), [проверки](FILE_CAPTION_WIRE_SPACING_CHECKS.json).
 
