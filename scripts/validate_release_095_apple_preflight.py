@@ -59,6 +59,7 @@ from validate_native_pip_refinement import check as native_pip_refinement_check
 from validate_web_player_main_queue import check as web_player_main_queue_check
 from validate_tab_bar_visual_consistency import check as tab_bar_visual_check
 from validate_gallery_round_export import check as gallery_round_export_check
+from validate_round_quality_horizontal_page import check as round_quality_horizontal_check
 from archived_playlist_lifetime_runtime import fixture as archived_playlist_lifetime_fixture
 from story_avatar_visibility_runtime import fixture as story_avatar_visibility_fixture
 from original_video_media_runtime import fixture as original_video_media_fixture
@@ -214,6 +215,10 @@ def main():
                 shutil.rmtree(path)
         foundation=checks.run('foundation_check:191', lambda: foundation_check(args.swiftc,root))
         files = {}
+        round_horizontal_source=root/'round-quality-final108'
+        files['native_final108']=canonical_projection(round_horizontal_source,'round_quality_horizontal_page')
+        round_quality_horizontal=checks.run('round-quality-horizontal', lambda: round_quality_horizontal_check(round_horizontal_source,args.swiftc,root/'round-quality-horizontal'), fallback={})
+        runs += round_quality_horizontal.get('executions',[])
         gallery_round_source=root/'gallery-round-final107'
         files['native_final107']=canonical_projection(gallery_round_source,'gallery_round_export')
         gallery_round_export=checks.run('gallery-round-export', lambda: gallery_round_export_check(gallery_round_source,args.swiftc,root/'gallery-round-export'), fallback={})
@@ -504,6 +509,7 @@ def main():
     report['native_pip_refinement']=native_pip_refinement
     report['web_player_main_queue']=web_player_main_queue
     report['tab_bar_visual_consistency']=tab_bar_visual
+    report['round_quality_horizontal']=round_quality_horizontal
     report['gallery_round_export']=gallery_round_export
     report['system_web_javascript']=system_js
     report['system_web_real_sdk']=system_apple

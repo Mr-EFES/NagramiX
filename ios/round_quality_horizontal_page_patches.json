@@ -1,0 +1,53 @@
+{
+  "target_pin": "24638bc69bd083981b178dd1e7f921eebbf7fc46",
+  "overlay_base_pin": "279f89e4d4f63f17227bf877dc3d8990f22ecd58",
+  "required_previous_stage": "gallery_round_export",
+  "inputs": {
+    "submodules/SettingsUI/Sources/NagramiXRoundQualityController.swift": "db90a879f3d1c6fcc0bd37dd6376eeb5c849953180f4ed9fb3ffb7aeb153f7ad"
+  },
+  "outputs": {
+    "submodules/SettingsUI/Sources/NagramiXRoundQualityController.swift": "887ae366e6570a9f696cdb36909698232dee9d77ac43caf3de319e92a7069cb9"
+  },
+  "previous": {
+    "submodules/SettingsUI/Sources/NagramiXRoundQualityController.swift": "round_quality_horizontal_page/Before0.inc"
+  },
+  "replacements": {
+    "submodules/SettingsUI/Sources/NagramiXRoundQualityController.swift": "round_quality_horizontal_page/After0.inc"
+  },
+  "guards": {
+    "submodules/SettingsUI/BUILD": "b229ff1580a1e8e13770d400a1c0c9e1cf56ef05b831659c3422a6141b50f489",
+    "submodules/NagramiXMediaSettings/Sources/NagramiXRoundVideoSettings.swift": "e4de9f395441ec721051eeec1b8543ad36dd534294cb6becccad8791e799b38c",
+    "submodules/Camera/Sources/NagramiXRoundVideoSettings.swift": "e4de9f395441ec721051eeec1b8543ad36dd534294cb6becccad8791e799b38c",
+    "submodules/Display/Source/Font.swift": "e204eb5178031058d2e187662d1d979cf8e29dc85481d3ba9ee120dcfc016ed6",
+    "submodules/SettingsUI/Sources/NagramiXSettingsController.swift": "c5379838ad0e51aea886ace04a6df9dd0019cdca67be3e6c8f88998d85baf8b7",
+    "submodules/TelegramUI/Components/ChatMediaEditorScreen/Sources/NagramiXRoundQualitySheet.swift": "28c92919015e773e08dcfc96a5e4d36907c8c084bb2cba84bd8472af14fb2691",
+    "submodules/TelegramUI/Components/MediaEditor/Sources/NagramiXRoundVideoExport.swift": "6dc885695f273ba1b6e0c4c97d2b3208dde2ac3cbbbf0f8532c14c14aa2467a9",
+    "submodules/TelegramUI/Components/VideoMessageCameraScreen/Sources/VideoMessageCameraScreen.swift": "dacea0307f4a3ee4bff63351ec79e4eadc30bb156e80fcf6a71aa430be25eedc"
+  },
+  "guard_sources": {
+    "submodules/SettingsUI/BUILD": "round_quality_horizontal_page/Guard0.inc",
+    "submodules/NagramiXMediaSettings/Sources/NagramiXRoundVideoSettings.swift": "round_quality_horizontal_page/Guard1.inc",
+    "submodules/Camera/Sources/NagramiXRoundVideoSettings.swift": "round_quality_horizontal_page/Guard2.inc",
+    "submodules/Display/Source/Font.swift": "round_quality_horizontal_page/Guard3.inc",
+    "submodules/SettingsUI/Sources/NagramiXSettingsController.swift": "round_quality_horizontal_page/Guard4.inc",
+    "submodules/TelegramUI/Components/ChatMediaEditorScreen/Sources/NagramiXRoundQualitySheet.swift": "round_quality_horizontal_page/Guard5.inc",
+    "submodules/TelegramUI/Components/MediaEditor/Sources/NagramiXRoundVideoExport.swift": "round_quality_horizontal_page/Guard6.inc",
+    "submodules/TelegramUI/Components/VideoMessageCameraScreen/Sources/VideoMessageCameraScreen.swift": "round_quality_horizontal_page/Guard7.inc"
+  },
+  "copies": {},
+  "deletions": {},
+  "native_inputs": {},
+  "native_guards": {},
+  "templates": {
+    "round_quality_horizontal_page/Before0.inc": "db90a879f3d1c6fcc0bd37dd6376eeb5c849953180f4ed9fb3ffb7aeb153f7ad",
+    "round_quality_horizontal_page/After0.inc": "887ae366e6570a9f696cdb36909698232dee9d77ac43caf3de319e92a7069cb9",
+    "round_quality_horizontal_page/Guard0.inc": "b229ff1580a1e8e13770d400a1c0c9e1cf56ef05b831659c3422a6141b50f489",
+    "round_quality_horizontal_page/Guard1.inc": "e4de9f395441ec721051eeec1b8543ad36dd534294cb6becccad8791e799b38c",
+    "round_quality_horizontal_page/Guard2.inc": "e4de9f395441ec721051eeec1b8543ad36dd534294cb6becccad8791e799b38c",
+    "round_quality_horizontal_page/Guard3.inc": "e204eb5178031058d2e187662d1d979cf8e29dc85481d3ba9ee120dcfc016ed6",
+    "round_quality_horizontal_page/Guard4.inc": "c5379838ad0e51aea886ace04a6df9dd0019cdca67be3e6c8f88998d85baf8b7",
+    "round_quality_horizontal_page/Guard5.inc": "28c92919015e773e08dcfc96a5e4d36907c8c084bb2cba84bd8472af14fb2691",
+    "round_quality_horizontal_page/Guard6.inc": "6dc885695f273ba1b6e0c4c97d2b3208dde2ac3cbbbf0f8532c14c14aa2467a9",
+    "round_quality_horizontal_page/Guard7.inc": "dacea0307f4a3ee4bff63351ec79e4eadc30bb156e80fcf6a71aa430be25eedc"
+  }
+}

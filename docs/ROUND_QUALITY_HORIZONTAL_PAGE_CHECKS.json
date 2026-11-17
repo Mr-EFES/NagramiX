@@ -1,0 +1,251 @@
+{
+  "contracts": {
+    "runtime_paths": 1,
+    "new_app_files_strings_dependencies": 0,
+    "whole_controller_and_bitrate_cell_verbatim": true,
+    "selection_storage_and_cinematic_capability_verbatim": true,
+    "camera_encoding_and_independent_gallery_quality_guarded": true,
+    "horizontal_equal_quality_cells_with_centered_check": true,
+    "large_type_or_long_translation_scrolls_without_font_reduction": true
+  },
+  "executions": [
+    {
+      "name": "horizontal-quality",
+      "mode": "debug",
+      "exit_code": 0,
+      "output": "Horizontal quality: 61358 actual layout/button checks passed; UIKit metrics/constraints/scroll are recording hosts"
+    },
+    {
+      "name": "horizontal-quality",
+      "mode": "optimized",
+      "exit_code": 0,
+      "output": "Horizontal quality: 61358 actual layout/button checks passed; UIKit metrics/constraints/scroll are recording hosts"
+    },
+    {
+      "name": "round-page-controls",
+      "mode": "debug",
+      "exit_code": 0,
+      "output": "1406 compact page production checks passed"
+    },
+    {
+      "name": "round-page-controls",
+      "mode": "optimized",
+      "exit_code": 0,
+      "output": "1406 compact page production checks passed"
+    }
+  ],
+  "semantic_negatives": [
+    {
+      "name": "vertical-layout",
+      "mode": "debug",
+      "exit_code": 96,
+      "output": "Horizontal quality: quality never becomes a vertical list"
+    },
+    {
+      "name": "vertical-layout",
+      "mode": "optimized",
+      "exit_code": 96,
+      "output": "Horizontal quality: quality never becomes a vertical list"
+    },
+    {
+      "name": "clip-overflow",
+      "mode": "debug",
+      "exit_code": 96,
+      "output": "Horizontal quality: complete text and check gutter fit even on narrow screens"
+    },
+    {
+      "name": "clip-overflow",
+      "mode": "optimized",
+      "exit_code": 96,
+      "output": "Horizontal quality: complete text and check gutter fit even on narrow screens"
+    },
+    {
+      "name": "detail-aligned-check",
+      "mode": "debug",
+      "exit_code": 96,
+      "output": "Horizontal quality: check is centered on the whole cell"
+    },
+    {
+      "name": "detail-aligned-check",
+      "mode": "optimized",
+      "exit_code": 96,
+      "output": "Horizontal quality: check is centered on the whole cell"
+    },
+    {
+      "name": "shrink-quality-font",
+      "mode": "debug",
+      "exit_code": 96,
+      "output": "Horizontal quality: font size is never reduced to fit"
+    },
+    {
+      "name": "shrink-quality-font",
+      "mode": "optimized",
+      "exit_code": 96,
+      "output": "Horizontal quality: font size is never reduced to fit"
+    },
+    {
+      "name": "wrong-quality-route",
+      "mode": "debug",
+      "exit_code": 96,
+      "output": "Horizontal quality: each quality button keeps its own route"
+    },
+    {
+      "name": "wrong-quality-route",
+      "mode": "optimized",
+      "exit_code": 96,
+      "output": "Horizontal quality: each quality button keeps its own route"
+    },
+    {
+      "name": "missing-selected-reveal",
+      "mode": "debug",
+      "exit_code": 96,
+      "output": "Horizontal quality: selected quality is revealed after layout"
+    },
+    {
+      "name": "missing-selected-reveal",
+      "mode": "optimized",
+      "exit_code": 96,
+      "output": "Horizontal quality: selected quality is revealed after layout"
+    }
+  ],
+  "apple_api": {
+    "complete_page_probe_parse": "passed",
+    "complete_page_uikit": "not_run",
+    "full_application_sdk": "not_run",
+    "pixels": "not_run",
+    "physical_iphone": "pending",
+    "reason": "Linux without UIKit/iPhoneOS SDK. Foundation controls/model run separately; no historical gallery helper fixture is used."
+  },
+  "boundary": "Actual button/cell/layout and existing complete controls/model/store routes.71 real title catalogs. UIKit typography metrics, constraints and scrolling are recording IO hosts, not pixels. Complete real UIKit page typecheck required on macOS.",
+  "full_application_sdk": "not_run",
+  "pixel_verification": "not_run",
+  "physical_iphone": "pending",
+  "stage": 108,
+  "name": "round_quality_horizontal_page",
+  "loader_refusals": [
+    "repeat",
+    "inputs/submodules/SettingsUI/Sources/NagramiXRoundQualityController.swift/missing",
+    "inputs/submodules/SettingsUI/Sources/NagramiXRoundQualityController.swift/drift",
+    "guards/submodules/Camera/Sources/NagramiXRoundVideoSettings.swift/missing",
+    "guards/submodules/Camera/Sources/NagramiXRoundVideoSettings.swift/drift",
+    "guards/submodules/SettingsUI/Sources/NagramiXSettingsController.swift/missing",
+    "guards/submodules/SettingsUI/Sources/NagramiXSettingsController.swift/drift",
+    "guards/submodules/TelegramUI/Components/VideoMessageCameraScreen/Sources/VideoMessageCameraScreen.swift/missing",
+    "guards/submodules/TelegramUI/Components/VideoMessageCameraScreen/Sources/VideoMessageCameraScreen.swift/drift",
+    "template-drift",
+    "unsafe-output",
+    "invalid-manifest"
+  ],
+  "source_unchanged_by_checks": true,
+  "early_canonical_projection": {
+    "canonical_projection": {
+      "written": 599,
+      "pinned_native_dependencies": 0,
+      "unused_unavailable_native_guards": 99,
+      "localized_resources": 0
+    },
+    "collector": "passed"
+  },
+  "source_integrity": {
+    "manifest_file_entries": 37696,
+    "symlinks": 26,
+    "only_changed_runtime_paths": [
+      "submodules/SettingsUI/Sources/NagramiXRoundQualityController.swift"
+    ],
+    "old_inc_preserved": 5915,
+    "old_plans_preserved": 320,
+    "source_sha256": "83d51ffb7ea940b81d0e6d4e2ddf1085f1122e33ebcaa09b03e25fd5a29e4b75"
+  },
+  "validation": {
+    "upstream": {
+      "target_pin": "24638bc69bd083981b178dd1e7f921eebbf7fc46",
+      "parsed_swift": 698,
+      "pre_replacements": 196,
+      "post_replacements": 274,
+      "fail_closed": {
+        "pre": 17,
+        "post": 33
+      },
+      "native_postbox_imports": "passed"
+    },
+    "registered_late_stages": 108,
+    "inverse": {
+      "published_contract_paths": 936,
+      "actual_published_pipeline_compared": false,
+      "full_source_files_preserved": 37696,
+      "sdk": "not_run",
+      "device": "pending"
+    },
+    "inverse_refusals": 509,
+    "members": {
+      "swift_files": 7338,
+      "string_accesses": 915,
+      "distinct_string_members": 234,
+      "actual_string_declarations": 252,
+      "custom_declarations": 1099,
+      "full_custom_name_audit": true,
+      "literal_parser_contract": {
+        "accepted_literals_and_comments": 8,
+        "missing_real_members_rejected": 7,
+        "unterminated_literal_rejected": true,
+        "interpolations_preserved": true
+      }
+    },
+    "members-canonical": {
+      "swift_files": 286,
+      "string_accesses": 897,
+      "distinct_string_members": 232,
+      "actual_string_declarations": 252,
+      "custom_declarations": 997,
+      "full_custom_name_audit": false,
+      "literal_parser_contract": {
+        "accepted_literals_and_comments": 8,
+        "missing_real_members_rejected": 7,
+        "unterminated_literal_rejected": true,
+        "interpolations_preserved": true
+      }
+    },
+    "native-strings": {
+      "swift_files": 286,
+      "native_generated_members": 12190,
+      "native_string_uses": 4184,
+      "distinct_native_members": 2311,
+      "proven_other_typed_owner_reads": 0,
+      "sdk200_mutation_rejected": true,
+      "apple_actual_generated_header": {
+        "status": "not_run",
+        "reason": "Real Objective-C/Apple SDK import requires macOS and swiftc"
+      },
+      "boundary": "Actual native GenerateStrings.py, build rule and final English catalog; generated member existence through strings/namedStrings receivers. Other typed owners need source declaration evidence. Full Swift call arity/type checking and app runtime still require SDK/device."
+    },
+    "build-inputs": {
+      "version": "0.9.9",
+      "workflow_scripts": 294,
+      "python_syntax_files": 860,
+      "late_stages": 108,
+      "sdk_plans": 114,
+      "submodules": 12,
+      "manual_only": true,
+      "existing_unsigned_signing_contract": "preserved",
+      "native_environment": "not_run"
+    },
+    "localization": {
+      "status": "passed",
+      "strict_final_upstream_13_2": true,
+      "languages": 71,
+      "keys": 680,
+      "headers": 24,
+      "runtime_assertions_per_mode": 48449
+    },
+    "collector_tests": 8,
+    "required_collector_calls": 64,
+    "build_input_tests": 8,
+    "native_origins": "passed;7 native blobs,2 rejection cases",
+    "metadata": "passed",
+    "diff": "passed"
+  },
+  "approved_image_sha256": "85140ad95093b2bfd0099326b81ae8153cb180a2db017baf0ac3957e2b9ab64f",
+  "actions_or_ipa_started": false,
+  "released_ipa222_contains_fix": false,
+  "next_release": "1.0"
+}
