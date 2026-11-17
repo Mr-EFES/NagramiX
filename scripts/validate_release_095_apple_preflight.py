@@ -60,6 +60,7 @@ from validate_web_player_main_queue import check as web_player_main_queue_check
 from validate_tab_bar_visual_consistency import check as tab_bar_visual_check
 from validate_gallery_round_export import check as gallery_round_export_check
 from validate_round_quality_horizontal_page import check as round_quality_horizontal_check
+from validate_file_caption_wire_spacing import check as file_caption_wire_check
 from archived_playlist_lifetime_runtime import fixture as archived_playlist_lifetime_fixture
 from story_avatar_visibility_runtime import fixture as story_avatar_visibility_fixture
 from original_video_media_runtime import fixture as original_video_media_fixture
@@ -215,6 +216,10 @@ def main():
                 shutil.rmtree(path)
         foundation=checks.run('foundation_check:191', lambda: foundation_check(args.swiftc,root))
         files = {}
+        caption_wire_source=root/'file-caption-final109'
+        files['native_final109']=canonical_projection(caption_wire_source,'file_caption_wire_spacing')
+        file_caption_wire=checks.run('file-caption-wire-spacing', lambda: file_caption_wire_check(caption_wire_source,args.swiftc,root/'file-caption-wire'), fallback={})
+        runs += file_caption_wire.get('executions',[])
         round_horizontal_source=root/'round-quality-final108'
         files['native_final108']=canonical_projection(round_horizontal_source,'round_quality_horizontal_page')
         round_quality_horizontal=checks.run('round-quality-horizontal', lambda: round_quality_horizontal_check(round_horizontal_source,args.swiftc,root/'round-quality-horizontal'), fallback={})
@@ -509,6 +514,7 @@ def main():
     report['native_pip_refinement']=native_pip_refinement
     report['web_player_main_queue']=web_player_main_queue
     report['tab_bar_visual_consistency']=tab_bar_visual
+    report['file_caption_wire_spacing']=file_caption_wire
     report['round_quality_horizontal']=round_quality_horizontal
     report['gallery_round_export']=gallery_round_export
     report['system_web_javascript']=system_js

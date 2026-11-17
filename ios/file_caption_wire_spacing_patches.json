@@ -1,0 +1,77 @@
+{
+  "target_pin": "24638bc69bd083981b178dd1e7f921eebbf7fc46",
+  "overlay_base_pin": "279f89e4d4f63f17227bf877dc3d8990f22ecd58",
+  "required_previous_stage": "round_quality_horizontal_page",
+  "inputs": {
+    "submodules/TextFormat/Sources/ChatComposerSendPlan.swift": "0fa04f66f6afa3615d3469bfa8ec114eecd04915942f8d6bae3045759689069b",
+    "submodules/TelegramUI/Sources/ChatControllerOpenAttachmentMenu.swift": "8f0e16d59298d869223a9f5848bb4a0b0a941d6a9f14da27908fd40665bbcf8c",
+    "submodules/TelegramUI/Sources/ChatControllerNode.swift": "5651028b7d127d5745ac371a941920680ee709b72155b947ce5e6be4ec19c479",
+    "submodules/TelegramUI/Sources/Chat/ChatControllerLoadDisplayNode.swift": "17657daf6cd8ba28a54b39b28a0254960b72905c8845959354298bc0b25c4442",
+    "submodules/TelegramUI/Components/Chat/ChatMessageFileBubbleContentNode/Sources/ChatMessageFileBubbleContentNode.swift": "2fb27ab006d1b4e1547872a819078a975a307a883b82d945e4ab9748cc7a8b63"
+  },
+  "outputs": {
+    "submodules/TextFormat/Sources/ChatComposerSendPlan.swift": "ed502362f77680af20b7a99ee2007fd83044cc5d1d40f0fc15e77f912b9b237a",
+    "submodules/TelegramUI/Sources/ChatControllerOpenAttachmentMenu.swift": "33c6e84585bdc7655cd32c6df99717aae32098cbee6fcd8b1ae94e15e08297df",
+    "submodules/TelegramUI/Sources/ChatControllerNode.swift": "5b352c67b0b73c27cad7899fbec961c55976d0990881c11664a9ed9a5112209c",
+    "submodules/TelegramUI/Sources/Chat/ChatControllerLoadDisplayNode.swift": "cf6a91b25c752b4f74f1df96a5b99e4c44f7a9ddd0152b3a8c4699daafef1809",
+    "submodules/TelegramUI/Components/Chat/ChatMessageFileBubbleContentNode/Sources/ChatMessageFileBubbleContentNode.swift": "837c1d68884305d44a48b900ccbccd62b9cc306d0c9bb5b36e22849f256c6cb5"
+  },
+  "previous": {
+    "submodules/TextFormat/Sources/ChatComposerSendPlan.swift": "file_caption_wire_spacing/Before0.inc",
+    "submodules/TelegramUI/Sources/ChatControllerOpenAttachmentMenu.swift": "file_caption_wire_spacing/Before1.inc",
+    "submodules/TelegramUI/Sources/ChatControllerNode.swift": "file_caption_wire_spacing/Before2.inc",
+    "submodules/TelegramUI/Sources/Chat/ChatControllerLoadDisplayNode.swift": "file_caption_wire_spacing/Before3.inc",
+    "submodules/TelegramUI/Components/Chat/ChatMessageFileBubbleContentNode/Sources/ChatMessageFileBubbleContentNode.swift": "file_caption_wire_spacing/Before4.inc"
+  },
+  "replacements": {
+    "submodules/TextFormat/Sources/ChatComposerSendPlan.swift": "file_caption_wire_spacing/After0.inc",
+    "submodules/TelegramUI/Sources/ChatControllerOpenAttachmentMenu.swift": "file_caption_wire_spacing/After1.inc",
+    "submodules/TelegramUI/Sources/ChatControllerNode.swift": "file_caption_wire_spacing/After2.inc",
+    "submodules/TelegramUI/Sources/Chat/ChatControllerLoadDisplayNode.swift": "file_caption_wire_spacing/After3.inc",
+    "submodules/TelegramUI/Components/Chat/ChatMessageFileBubbleContentNode/Sources/ChatMessageFileBubbleContentNode.swift": "file_caption_wire_spacing/After4.inc"
+  },
+  "guards": {
+    "submodules/TextFormat/BUILD": "bbd7a6f9529031139053d03241bd5ff06b927e860c6f718f88e3dc3eb4507d7a",
+    "submodules/TelegramUI/BUILD": "c819263cd1c2d6407308fe3f172f9f564b40e26f3b688da39739577bae792f52",
+    "submodules/TelegramUI/Components/Chat/ChatMessageFileBubbleContentNode/BUILD": "6dc2d9078c14d89b7c4ff5bd464d429e55b4460a3988ab5ce1358a95fd560a81",
+    "submodules/TelegramCore/Sources/SyncCore/SyncCore_TelegramMediaFile.swift": "125861f8ddd39af6277ef6520735cf325795736e01e96d85248e52bba568ea9a",
+    "submodules/TelegramUI/Components/Chat/ChatMessageItemCommon/Sources/ChatMessageItemCommon.swift": "1e3afdf13ed3058960f9a2338b66a2325a6fc1979a2b32c7a6bf07777c7726f6",
+    "submodules/TextFormat/Sources/ChatTextInputAttributes.swift": "0411a592f20c1ffde531e68c0519033e0900ef97e8fda2aabfbd2f17068132ce",
+    "submodules/TelegramCore/Sources/PendingMessages/RequestEditMessage.swift": "9ed6614c49304476c2ccefff01509b9cdca6bab5d009e5f3a1a51e289c688427",
+    "submodules/TelegramUI/Components/Chat/ChatMessageTextBubbleContentNode/Sources/ChatMessageTextBubbleContentNode.swift": "4a23bad15188444b973dab82d4060c2b4bc8d1fc77ff48ca5f2782b3c37f1921"
+  },
+  "guard_sources": {
+    "submodules/TextFormat/BUILD": "file_caption_wire_spacing/Guard0.inc",
+    "submodules/TelegramUI/BUILD": "file_caption_wire_spacing/Guard1.inc",
+    "submodules/TelegramUI/Components/Chat/ChatMessageFileBubbleContentNode/BUILD": "file_caption_wire_spacing/Guard2.inc",
+    "submodules/TelegramCore/Sources/SyncCore/SyncCore_TelegramMediaFile.swift": "file_caption_wire_spacing/Guard3.inc",
+    "submodules/TelegramUI/Components/Chat/ChatMessageItemCommon/Sources/ChatMessageItemCommon.swift": "file_caption_wire_spacing/Guard4.inc",
+    "submodules/TextFormat/Sources/ChatTextInputAttributes.swift": "file_caption_wire_spacing/Guard5.inc",
+    "submodules/TelegramCore/Sources/PendingMessages/RequestEditMessage.swift": "file_caption_wire_spacing/Guard6.inc",
+    "submodules/TelegramUI/Components/Chat/ChatMessageTextBubbleContentNode/Sources/ChatMessageTextBubbleContentNode.swift": "file_caption_wire_spacing/Guard7.inc"
+  },
+  "copies": {},
+  "deletions": {},
+  "native_inputs": {},
+  "native_guards": {},
+  "templates": {
+    "file_caption_wire_spacing/Before0.inc": "0fa04f66f6afa3615d3469bfa8ec114eecd04915942f8d6bae3045759689069b",
+    "file_caption_wire_spacing/Before1.inc": "8f0e16d59298d869223a9f5848bb4a0b0a941d6a9f14da27908fd40665bbcf8c",
+    "file_caption_wire_spacing/Before2.inc": "5651028b7d127d5745ac371a941920680ee709b72155b947ce5e6be4ec19c479",
+    "file_caption_wire_spacing/Before3.inc": "17657daf6cd8ba28a54b39b28a0254960b72905c8845959354298bc0b25c4442",
+    "file_caption_wire_spacing/Before4.inc": "2fb27ab006d1b4e1547872a819078a975a307a883b82d945e4ab9748cc7a8b63",
+    "file_caption_wire_spacing/After0.inc": "ed502362f77680af20b7a99ee2007fd83044cc5d1d40f0fc15e77f912b9b237a",
+    "file_caption_wire_spacing/After1.inc": "33c6e84585bdc7655cd32c6df99717aae32098cbee6fcd8b1ae94e15e08297df",
+    "file_caption_wire_spacing/After2.inc": "5b352c67b0b73c27cad7899fbec961c55976d0990881c11664a9ed9a5112209c",
+    "file_caption_wire_spacing/After3.inc": "cf6a91b25c752b4f74f1df96a5b99e4c44f7a9ddd0152b3a8c4699daafef1809",
+    "file_caption_wire_spacing/After4.inc": "837c1d68884305d44a48b900ccbccd62b9cc306d0c9bb5b36e22849f256c6cb5",
+    "file_caption_wire_spacing/Guard0.inc": "bbd7a6f9529031139053d03241bd5ff06b927e860c6f718f88e3dc3eb4507d7a",
+    "file_caption_wire_spacing/Guard1.inc": "c819263cd1c2d6407308fe3f172f9f564b40e26f3b688da39739577bae792f52",
+    "file_caption_wire_spacing/Guard2.inc": "6dc2d9078c14d89b7c4ff5bd464d429e55b4460a3988ab5ce1358a95fd560a81",
+    "file_caption_wire_spacing/Guard3.inc": "125861f8ddd39af6277ef6520735cf325795736e01e96d85248e52bba568ea9a",
+    "file_caption_wire_spacing/Guard4.inc": "1e3afdf13ed3058960f9a2338b66a2325a6fc1979a2b32c7a6bf07777c7726f6",
+    "file_caption_wire_spacing/Guard5.inc": "0411a592f20c1ffde531e68c0519033e0900ef97e8fda2aabfbd2f17068132ce",
+    "file_caption_wire_spacing/Guard6.inc": "9ed6614c49304476c2ccefff01509b9cdca6bab5d009e5f3a1a51e289c688427",
+    "file_caption_wire_spacing/Guard7.inc": "4a23bad15188444b973dab82d4060c2b4bc8d1fc77ff48ca5f2782b3c37f1921"
+  }
+}

@@ -1,0 +1,297 @@
+{
+  "contracts": {
+    "runtime_paths": 5,
+    "new_app_files_strings_dependencies_postbox_consumers": 0,
+    "native_ordinary_and_expanded_paths_preserved": true,
+    "file_caption_contains_one_serialized_line": true,
+    "native_trim_markdown_then_utf16_shift": true,
+    "caption_limit_never_truncates_text": true,
+    "rpc_pending_permissions_and_media_priority_unchanged": true,
+    "classic_width_and_native_file_top_padding_unchanged": true,
+    "pixel_equality_or_server_delivery_not_claimed": true
+  },
+  "executions": [
+    {
+      "name": "wire-send",
+      "mode": "debug",
+      "exit_code": 0,
+      "output": "File caption wire send: 132 actual native/expanded/Markdown/UTF16/limit checks passed; account/media/queue IO hosted"
+    },
+    {
+      "name": "wire-send",
+      "mode": "optimized",
+      "exit_code": 0,
+      "output": "File caption wire send: 132 actual native/expanded/Markdown/UTF16/limit checks passed; account/media/queue IO hosted"
+    },
+    {
+      "name": "wire-edit",
+      "mode": "debug",
+      "exit_code": 0,
+      "output": "File caption wire edit: 24 actual decision/trim/format/replacement checks passed; native pending manager/RPC not exercised"
+    },
+    {
+      "name": "wire-edit",
+      "mode": "optimized",
+      "exit_code": 0,
+      "output": "File caption wire edit: 24 actual decision/trim/format/replacement checks passed; native pending manager/RPC not exercised"
+    },
+    {
+      "name": "wire-geometry",
+      "mode": "debug",
+      "exit_code": 0,
+      "output": "File caption wire geometry: 546 actual constants/top/bottom/pending checks passed; native glyph height and pixels not claimed"
+    },
+    {
+      "name": "wire-geometry",
+      "mode": "optimized",
+      "exit_code": 0,
+      "output": "File caption wire geometry: 546 actual constants/top/bottom/pending checks passed; native glyph height and pixels not claimed"
+    }
+  ],
+  "semantic_negatives": [
+    {
+      "name": "missing-wire-line",
+      "mode": "debug",
+      "exit_code": 96,
+      "output": "Composer copy regression: both editors serialize the same approved spacing"
+    },
+    {
+      "name": "missing-wire-line",
+      "mode": "optimized",
+      "exit_code": 96,
+      "output": "Composer copy regression: both editors serialize the same approved spacing"
+    },
+    {
+      "name": "lost-entity-offset",
+      "mode": "debug",
+      "exit_code": 96,
+      "output": "Composer copy regression: UTF16 ranges and named links remain exact"
+    },
+    {
+      "name": "lost-entity-offset",
+      "mode": "optimized",
+      "exit_code": 96,
+      "output": "Composer copy regression: UTF16 ranges and named links remain exact"
+    },
+    {
+      "name": "exceed-caption-limit",
+      "mode": "debug",
+      "exit_code": 96,
+      "output": "Composer copy regression: limit boundary keeps the complete caption"
+    },
+    {
+      "name": "exceed-caption-limit",
+      "mode": "optimized",
+      "exit_code": 96,
+      "output": "Composer copy regression: limit boundary keeps the complete caption"
+    },
+    {
+      "name": "repeat-wire-line",
+      "mode": "debug",
+      "exit_code": 96,
+      "output": "Composer copy regression: shared caption normalizer is idempotent"
+    },
+    {
+      "name": "repeat-wire-line",
+      "mode": "optimized",
+      "exit_code": 96,
+      "output": "Composer copy regression: shared caption normalizer is idempotent"
+    },
+    {
+      "name": "skip-edit-spacing",
+      "mode": "debug",
+      "exit_code": 96,
+      "output": "Composer copy regression: both edit states keep the serialized caption line"
+    },
+    {
+      "name": "skip-edit-spacing",
+      "mode": "optimized",
+      "exit_code": 96,
+      "output": "Composer copy regression: both edit states keep the serialized caption line"
+    },
+    {
+      "name": "old-file-over-replacement",
+      "mode": "debug",
+      "exit_code": 96,
+      "output": "Composer copy regression: explicit replacement determines caption spacing"
+    },
+    {
+      "name": "old-file-over-replacement",
+      "mode": "optimized",
+      "exit_code": 96,
+      "output": "Composer copy regression: explicit replacement determines caption spacing"
+    },
+    {
+      "name": "duplicate-local-gap",
+      "mode": "debug",
+      "exit_code": 96,
+      "output": "Wire caption geometry: wire line removes duplicate local padding"
+    },
+    {
+      "name": "duplicate-local-gap",
+      "mode": "optimized",
+      "exit_code": 96,
+      "output": "Wire caption geometry: wire line removes duplicate local padding"
+    },
+    {
+      "name": "ignore-pending-caption",
+      "mode": "debug",
+      "exit_code": 96,
+      "output": "Wire caption geometry: pending edited caption uses its own spacing"
+    },
+    {
+      "name": "ignore-pending-caption",
+      "mode": "optimized",
+      "exit_code": 96,
+      "output": "Wire caption geometry: pending edited caption uses its own spacing"
+    }
+  ],
+  "apple_api": {
+    "actual_foundation_helper_and_cross_module_caller": "passed",
+    "telegram_media_io": "explicit host;actual properties guarded",
+    "generated_uikit_geometry_parse": "passed",
+    "real_uikit_geometry": "not_run",
+    "full_application_sdk": "not_run",
+    "physical_iphone": "pending",
+    "official_telegram_live_render": "pending"
+  },
+  "boundary": "Actual Document/clipboard/bridges/native Markdown/trim/split/entities, normal caller, standalone builder and edit decisions. Account/media, auto-detected-link parser, pending queue/RPC and renderer IO are explicit hosts; no live server or official-client pixels claimed.",
+  "full_application_sdk": "not_run",
+  "physical_iphone": "pending",
+  "official_telegram_live_render": "pending",
+  "stage": 109,
+  "name": "file_caption_wire_spacing",
+  "loader_refusals": [
+    "repeat",
+    "inputs/submodules/TelegramUI/Components/Chat/ChatMessageFileBubbleContentNode/Sources/ChatMessageFileBubbleContentNode.swift/missing",
+    "inputs/submodules/TelegramUI/Components/Chat/ChatMessageFileBubbleContentNode/Sources/ChatMessageFileBubbleContentNode.swift/drift",
+    "inputs/submodules/TelegramUI/Sources/ChatControllerNode.swift/missing",
+    "inputs/submodules/TelegramUI/Sources/ChatControllerNode.swift/drift",
+    "inputs/submodules/TextFormat/Sources/ChatComposerSendPlan.swift/missing",
+    "inputs/submodules/TextFormat/Sources/ChatComposerSendPlan.swift/drift",
+    "guards/submodules/TelegramCore/Sources/PendingMessages/RequestEditMessage.swift/missing",
+    "guards/submodules/TelegramCore/Sources/PendingMessages/RequestEditMessage.swift/drift",
+    "guards/submodules/TelegramUI/Components/Chat/ChatMessageItemCommon/Sources/ChatMessageItemCommon.swift/missing",
+    "guards/submodules/TelegramUI/Components/Chat/ChatMessageItemCommon/Sources/ChatMessageItemCommon.swift/drift",
+    "guards/submodules/TextFormat/Sources/ChatTextInputAttributes.swift/missing",
+    "guards/submodules/TextFormat/Sources/ChatTextInputAttributes.swift/drift",
+    "template-drift",
+    "unsafe-output",
+    "invalid-manifest"
+  ],
+  "source_unchanged_by_checks": true,
+  "early_canonical_projection": {
+    "canonical_projection": {
+      "written": 599,
+      "pinned_native_dependencies": 6,
+      "unused_unavailable_native_guards": 99,
+      "localized_resources": 0
+    },
+    "collector": "passed"
+  },
+  "source_integrity": {
+    "manifest_file_entries": 37696,
+    "symlinks": 26,
+    "changed_runtime_paths": [
+      "submodules/TelegramUI/Components/Chat/ChatMessageFileBubbleContentNode/Sources/ChatMessageFileBubbleContentNode.swift",
+      "submodules/TelegramUI/Sources/Chat/ChatControllerLoadDisplayNode.swift",
+      "submodules/TelegramUI/Sources/ChatControllerNode.swift",
+      "submodules/TelegramUI/Sources/ChatControllerOpenAttachmentMenu.swift",
+      "submodules/TextFormat/Sources/ChatComposerSendPlan.swift"
+    ],
+    "old_inc_preserved": 5925,
+    "old_plans_preserved": 321,
+    "source_sha256": "088cc2f3cf617be451b539fdcb691cae5e2719f8fab8c57167384fde72c4eca1"
+  },
+  "validation": {
+    "upstream": {
+      "target_pin": "24638bc69bd083981b178dd1e7f921eebbf7fc46",
+      "parsed_swift": 698,
+      "pre_replacements": 196,
+      "post_replacements": 274,
+      "fail_closed": {
+        "pre": 17,
+        "post": 33
+      },
+      "native_postbox_imports": "passed"
+    },
+    "registered_late_stages": 109,
+    "inverse": {
+      "published_contract_paths": 936,
+      "actual_published_pipeline_compared": false,
+      "full_source_files_preserved": 37696,
+      "sdk": "not_run",
+      "device": "pending"
+    },
+    "inverse_refusals": 512,
+    "members": {
+      "swift_files": 7338,
+      "string_accesses": 915,
+      "distinct_string_members": 234,
+      "actual_string_declarations": 252,
+      "custom_declarations": 1102,
+      "full_custom_name_audit": true,
+      "literal_parser_contract": {
+        "accepted_literals_and_comments": 8,
+        "missing_real_members_rejected": 7,
+        "unterminated_literal_rejected": true,
+        "interpolations_preserved": true
+      }
+    },
+    "members-canonical": {
+      "swift_files": 287,
+      "string_accesses": 897,
+      "distinct_string_members": 232,
+      "actual_string_declarations": 252,
+      "custom_declarations": 1000,
+      "full_custom_name_audit": false,
+      "literal_parser_contract": {
+        "accepted_literals_and_comments": 8,
+        "missing_real_members_rejected": 7,
+        "unterminated_literal_rejected": true,
+        "interpolations_preserved": true
+      }
+    },
+    "native-strings": {
+      "swift_files": 287,
+      "native_generated_members": 12190,
+      "native_string_uses": 4184,
+      "distinct_native_members": 2311,
+      "proven_other_typed_owner_reads": 0,
+      "sdk200_mutation_rejected": true,
+      "apple_actual_generated_header": {
+        "status": "not_run",
+        "reason": "Real Objective-C/Apple SDK import requires macOS and swiftc"
+      },
+      "boundary": "Actual native GenerateStrings.py, build rule and final English catalog; generated member existence through strings/namedStrings receivers. Other typed owners need source declaration evidence. Full Swift call arity/type checking and app runtime still require SDK/device."
+    },
+    "build-inputs": {
+      "version": "0.9.9",
+      "workflow_scripts": 295,
+      "python_syntax_files": 864,
+      "late_stages": 109,
+      "sdk_plans": 115,
+      "submodules": 12,
+      "manual_only": true,
+      "existing_unsigned_signing_contract": "preserved",
+      "native_environment": "not_run"
+    },
+    "localization": {
+      "status": "passed",
+      "strict_final_upstream_13_2": true,
+      "languages": 71,
+      "keys": 680,
+      "headers": 24,
+      "runtime_assertions_per_mode": 48449
+    },
+    "collector_tests": 8,
+    "required_collector_calls": 65,
+    "build_input_tests": 8,
+    "native_origins": "passed;7 native blobs/2 refusal cases",
+    "metadata": "passed",
+    "diff": "passed"
+  },
+  "actions_or_ipa_started": false,
+  "released_ipa222_contains_fix": false,
+  "next_release": "1.0"
+}

@@ -602,6 +602,8 @@ jobs:
           python3 scripts/validate_gallery_round_export.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)" --report "$RUNNER_TEMP/gallery-round-export.json"
           PYTHONPATH=ios python3 -c 'from pathlib import Path; from round_quality_horizontal_page import apply_round_quality_horizontal_page; apply_round_quality_horizontal_page(Path("Telegram-iOS").resolve(), Path("ios").resolve())'
           python3 scripts/validate_round_quality_horizontal_page.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)" --report "$RUNNER_TEMP/round-quality-horizontal.json"
+          PYTHONPATH=ios python3 -c 'from pathlib import Path; from file_caption_wire_spacing import apply_file_caption_wire_spacing; apply_file_caption_wire_spacing(Path("Telegram-iOS").resolve(), Path("ios").resolve())'
+          python3 scripts/validate_file_caption_wire_spacing.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)" --report "$RUNNER_TEMP/file-caption-wire.json"
           python3 scripts/validate_late_source_stages.py --source Telegram-iOS --report "$RUNNER_TEMP/late-source-stages.json"
           python3 scripts/validate_custom_member_references.py --source Telegram-iOS
           python3 scripts/validate_upstream_13_2_release.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)"
