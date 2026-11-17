@@ -1,4 +1,5 @@
 """Нумерация выпусков:0.9.9 →1.0 →1.0.1…1.0.9 →1.1."""
+import json
 import re
 
 _NUMBER = r"(?:0|[1-9][0-9]*)"
@@ -36,3 +37,30 @@ def next_release_version(value: str) -> str:
     if minor == 10:
         major, minor = major + 1, 0
     return f"{major}.{minor}" if major >= 1 and patch == 0 else f"{major}.{minor}.{patch}"
+
+
+def workflow_release_version(text: str) -> str:
+    """Версия — явная JSON/YAML-строка: число 1.0 в Actions превращается в 1."""
+    blocks = re.findall(r"^env:\n((?:[ \t]+[^\n]*\n|\n)*)", text, re.MULTILINE)
+    if len(blocks) != 1:
+        raise ValueError("Ожидался единственный общий блок env workflow")
+    values = re.findall(r"^  NAGRAMIX_VERSION:[ \t]*([^\n]*)$", blocks[0], re.MULTILINE)
+    if len(values) != 1:
+        raise ValueError("Ожидалась единственная общая версия NAGRAMIX_VERSION")
+    try:
+        version = json.loads(values[0].strip())
+    except (ValueError, TypeError) as error:
+        raise ValueError("Версия workflow должна быть строкой в двойных кавычках") from error
+    if not isinstance(version, str) or not is_release_version(version):
+        raise ValueError("Версия workflow должна быть номером выпуска в двойных кавычках")
+    return version
+
+
+def validate_workflow_release_version(text: str, expected: str, environment) -> str:
+    """Проверить и литерал workflow, и фактическое значение в запущенном Actions."""
+    version = workflow_release_version(text)
+    if version != expected:
+        raise ValueError("Версия workflow не совпадает с реестром")
+    if environment.get("GITHUB_ACTIONS") == "true" and environment.get("NAGRAMIX_VERSION") != version:
+        raise ValueError("Фактическая NAGRAMIX_VERSION в Actions не совпадает с версией выпуска")
+    return version

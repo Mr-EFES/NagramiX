@@ -2,6 +2,7 @@
 """Проверить сборочные входы; native-mode проверяет реальную среду macOS/iPhoneOS."""
 import argparse,ast,hashlib,json,os,re,shutil,subprocess,sys,tempfile
 from pathlib import Path
+from release_version import validate_workflow_release_version
 
 ROOT=Path(__file__).resolve().parents[1]
 
@@ -36,7 +37,10 @@ def check_repo():
     paths=workflow_contract(workflow)
     for name in paths:exact_path(ROOT,name)
     version=json.loads((ROOT/'product/features/registry.json').read_text())['release']
-    require(re.search(r'^  NAGRAMIX_VERSION: '+re.escape(version)+r'$',workflow,re.M),'Версия workflow/реестра различается')
+    try:
+        validate_workflow_release_version(workflow,version,os.environ)
+    except ValueError as error:
+        raise SystemExit(str(error)) from error
     from validate_upstream_13_2_release import checked_plan,checked_sdk_plans,SDK_STAGES
     from late_source_stages import LATE_SOURCE_STAGES
     plans,_=checked_sdk_plans(checked_plan('upstream_13_2_release_post'))

@@ -1,0 +1,136 @@
+{
+  "release": "1.0",
+  "status": "local_checks_passed/retry_sdk_pending",
+  "prepared_from": "7fb3cf817c3d43cc17b0c147d9ee67209c7976bd",
+  "stopped_run": 44077498324,
+  "stopped_build": 223,
+  "stopped_reason": "Confirmed numeric YAML 1.0 became actual NAGRAMIX_VERSION=1; agent cancelled before invalid packaging",
+  "official_parser": {
+    "package": "@actions/workflow-parser",
+    "version": "0.3.61",
+    "git_head": "b71ac284fc6a7382c22ecbf3e0009a6ae216823b",
+    "cases": [
+      {
+        "case": "unquoted-regression",
+        "parsed_value": "1",
+        "rendered": "1",
+        "errors": []
+      },
+      {
+        "case": "current-fixed",
+        "parsed_value": "1.0",
+        "rendered": "1.0",
+        "source": "\"1.0\"",
+        "errors": []
+      }
+    ]
+  },
+  "actual_run_environment": "NAGRAMIX_VERSION: 1",
+  "run223_early_apple": {
+    "status": "passed",
+    "checks": 125,
+    "complete_fixtures": 102,
+    "executions": 204,
+    "failed": 0
+  },
+  "run223_overlay": "passed",
+  "run223_cold_gate": "passed",
+  "run223_full_native_sdk": "cancelled/incomplete",
+  "run223_new_ipa": false,
+  "runtime_manifest": "088cc2f3cf617be451b539fdcb691cae5e2719f8fab8c57167384fde72c4eca1",
+  "runtime_stage": 109,
+  "runtime_and_immutable_templates_unchanged": true,
+  "readme_license_annotations_unchanged": true,
+  "protected_inc": 5943,
+  "protected_plans": 322,
+  "retry_parameters": {
+    "clean_build": true,
+    "publish_release": true,
+    "prerelease": false,
+    "extended_patch_tests": false,
+    "artifact_run_id": ""
+  },
+  "sdk_checks_disabled": false,
+  "unsigned_signing_and_publication_contract": "preserved",
+  "preserved_releases": 2,
+  "preserved_assets": 6,
+  "preserved_tags": 2,
+  "device": "pending",
+  "app_store_ready": false,
+  "local_checks": [
+    {
+      "name": "workflow-version-tests",
+      "returncode": 0,
+      "seconds": 0.374,
+      "output_sha256": "9b1daf17283b34da5813d21d792c081cb838a2b818013b5b6d57f695abc74096"
+    },
+    {
+      "name": "release-version-tests",
+      "returncode": 0,
+      "seconds": 0.045,
+      "output_sha256": "e6ec182765cd965f2837d8eeaef5a64af48a104f245cd1a0b7281559194c57c1"
+    },
+    {
+      "name": "annotations-tests",
+      "returncode": 0,
+      "seconds": 0.079,
+      "output_sha256": "74c03fc16fde9a2dfeff03db0ec8f472a5a8dfed04e9e982a912b4b7f64faee3"
+    },
+    {
+      "name": "build-inputs-tests",
+      "returncode": 0,
+      "seconds": 0.085,
+      "output_sha256": "60bb849356ffbc091f601e17fc6ae0b2eb5e26d734d433da020c6e775efbf97f"
+    },
+    {
+      "name": "owner-publication-tests",
+      "returncode": 0,
+      "seconds": 0.116,
+      "output_sha256": "44f206e5deee04aaab83c26d0959361e3c140d53b4e07af47250bcb717a6fc43"
+    },
+    {
+      "name": "release-build-mode",
+      "returncode": 0,
+      "seconds": 0.018,
+      "output_sha256": "1a9d32cdddaa3383bb3ceb39635c574cadccf286ddc0030b627ea2d7a2df2094"
+    },
+    {
+      "name": "patch-validation-mode",
+      "returncode": 0,
+      "seconds": 0.163,
+      "output_sha256": "147f4f1cbe0f28f60f7abf5764e1c481013661758317116b5b7405de3ef743dc"
+    },
+    {
+      "name": "build-inputs",
+      "returncode": 0,
+      "seconds": 2.449,
+      "output_sha256": "6384fe93a1b00bcbafa431fe69f63c525c22537cc18e7c1115404f53436eda99"
+    },
+    {
+      "name": "metadata",
+      "returncode": 0,
+      "seconds": 0.077,
+      "output_sha256": "8ced1b77048d6d8e41cb040edaf87ee837f494ad3e35e15675c38d15cff186b3"
+    },
+    {
+      "name": "metadata-effective-env",
+      "returncode": 0,
+      "seconds": 0.077,
+      "output_sha256": "8ced1b77048d6d8e41cb040edaf87ee837f494ad3e35e15675c38d15cff186b3"
+    },
+    {
+      "name": "build-inputs-effective-env",
+      "returncode": 0,
+      "seconds": 1.254,
+      "output_sha256": "6384fe93a1b00bcbafa431fe69f63c525c22537cc18e7c1115404f53436eda99"
+    },
+    {
+      "name": "diff",
+      "returncode": 0,
+      "seconds": 0.019,
+      "output_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "unit_tests": 58,
+  "upstream": "CURRENT; Telegram13.2/24638/minimum15 rechecked before retry"
+}

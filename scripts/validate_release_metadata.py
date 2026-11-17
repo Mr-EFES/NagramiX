@@ -5,11 +5,12 @@ from __future__ import annotations
 
 import hashlib
 import json
+import os
 import re
 import subprocess
 from pathlib import Path
 
-from release_version import is_release_version, parse_release_version
+from release_version import is_release_version, parse_release_version, validate_workflow_release_version
 
 ROOT = Path(__file__).resolve().parents[1]
 ANNOTATION = "NagramiX — неофициальный Telegram-клиент для iPhone с дополнительными настройками общения, приватности и медия."
@@ -36,9 +37,10 @@ def main() -> None:
         raise SystemExit("Некорректная версия в реестре функций")
     errors: list[str] = []
     workflow = ROOT / ".github/workflows/build-unsigned-ipa.yml"
-    match = re.search(r"^\s+NAGRAMIX_VERSION:\s*([^\s]+)\s*$", workflow.read_text(), re.MULTILINE)
-    if match is None or match.group(1) != version:
-        errors.append("Версия workflow не совпадает с реестром")
+    try:
+        validate_workflow_release_version(workflow.read_text(), version, os.environ)
+    except ValueError as error:
+        errors.append(str(error))
     errors.extend(annotation_errors(ROOT / "product/releases", version))
     for name in ["docs/AI_HANDOFF.md", ".gitignore"]:
         path = ROOT / name
