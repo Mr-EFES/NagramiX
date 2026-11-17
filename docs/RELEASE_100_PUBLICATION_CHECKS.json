@@ -112,10 +112,16 @@
     "artifact_run_id": ""
   },
   "readme_license_approved_annotations_unchanged": true,
-  "old_releases_tags_assets_preservation": "pending independent finalcomparison; no oldwrite/delete operations",
+  "old_releases_tags_assets_preservation": {
+    "old_releases_unchanged": 2,
+    "old_assets_unchanged": 6,
+    "old_tags_unchanged": 2,
+    "preserved": true
+  },
   "physical_iphone": "pending",
   "app_store_ready": false,
   "unsigned_signing": "preserved; Distribution/storeconfiguration/AppStoreConnect notprepared bythis unsigned build",
-  "publication_blocker": "uploads.github.com rejectedruntimecredential401; newofficialGitHubCLIdeviceflow awaitingowner. Auto-review rejectedsaved-profileprobing; actionnotexecuted andnotretried.",
-  "decoded_build_log_sha256": "428140994fe15dc411b34edbd6a058b1a947f1122f0860552e61bc47f1cccdd4"
+  "publication_blocker": "uploads.github.com rejected runtimecredential401; officialfreshGitHubCLIdeviceflow timedout without completedownerconfirmation. Newconfirmedownerlogin required. Saved-profileprobing denied byauto-review; neverexecuted/retried.",
+  "decoded_build_log_sha256": "428140994fe15dc411b34edbd6a058b1a947f1122f0860552e61bc47f1cccdd4",
+  "owner_auth_state": "official_device_flow_timed_out"
 }
