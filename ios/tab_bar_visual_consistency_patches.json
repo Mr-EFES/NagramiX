@@ -1,0 +1,76 @@
+{
+  "target_pin": "24638bc69bd083981b178dd1e7f921eebbf7fc46",
+  "overlay_base_pin": "279f89e4d4f63f17227bf877dc3d8990f22ecd58",
+  "required_previous_stage": "web_player_main_queue",
+  "inputs": {
+    "submodules/ContactListUI/Sources/ContactsController.swift": "86a94a56772321887fa2471d6ec703d55fb935236319c6c78571086c8192d818",
+    "submodules/TabBarUI/Sources/TabBarController.swift": "752623dd8cf03bff333b2efcef26518041ff6bae0747633d3ef700aa3d608a4a",
+    "submodules/TabBarUI/Sources/TabBarContollerNode.swift": "667451f394378f835f60f5da69f753a57f478c2b8b8e36550189472dd2c541aa",
+    "submodules/TelegramUI/Components/TabBarComponent/Sources/TabBarComponent.swift": "c11d4e2399333d87f7346af94477c27878a08c176732aced869d32ad22598e3d",
+    "submodules/CallListUI/Sources/CallListControllerNode.swift": "fa0523cbe2b5f2cf2667a41cfc35d7c8e7c254a265ecf3ddd8d44e29a31ed3ec"
+  },
+  "outputs": {
+    "submodules/ContactListUI/Sources/ContactsController.swift": "058a7c3439e939d5b8e992ca917a1f21e8072ffa3dbcabf3ca68a501a3de7dfa",
+    "submodules/TabBarUI/Sources/TabBarController.swift": "abcaf1786350e26c0939adec29542e9daf51799c357d9728226d1585f72f6c84",
+    "submodules/TabBarUI/Sources/TabBarContollerNode.swift": "03acb8edbea5e256e4f0034d94cb452e6fa8814b6e31a41c8ffba59200cdff79",
+    "submodules/TelegramUI/Components/TabBarComponent/Sources/TabBarComponent.swift": "a41aa33b2c9413b86210d63dcb03f4cce8a750913cf72d9c08801a33fd09dec8",
+    "submodules/CallListUI/Sources/CallListControllerNode.swift": "c715b47371e23f9df0a0861e4ce995022cbc9cb47609ddc4c54c2bd2e8ab1d11"
+  },
+  "previous": {
+    "submodules/ContactListUI/Sources/ContactsController.swift": "tab_bar_visual_consistency/Before0.inc",
+    "submodules/TabBarUI/Sources/TabBarController.swift": "tab_bar_visual_consistency/Before1.inc",
+    "submodules/TabBarUI/Sources/TabBarContollerNode.swift": "tab_bar_visual_consistency/Before2.inc",
+    "submodules/TelegramUI/Components/TabBarComponent/Sources/TabBarComponent.swift": "tab_bar_visual_consistency/Before3.inc",
+    "submodules/CallListUI/Sources/CallListControllerNode.swift": "tab_bar_visual_consistency/Before4.inc"
+  },
+  "replacements": {
+    "submodules/ContactListUI/Sources/ContactsController.swift": "tab_bar_visual_consistency/After0.inc",
+    "submodules/TabBarUI/Sources/TabBarController.swift": "tab_bar_visual_consistency/After1.inc",
+    "submodules/TabBarUI/Sources/TabBarContollerNode.swift": "tab_bar_visual_consistency/After2.inc",
+    "submodules/TelegramUI/Components/TabBarComponent/Sources/TabBarComponent.swift": "tab_bar_visual_consistency/After3.inc",
+    "submodules/CallListUI/Sources/CallListControllerNode.swift": "tab_bar_visual_consistency/After4.inc"
+  },
+  "guards": {
+    "submodules/TelegramUI/Sources/TelegramRootController.swift": "335a05803de2fba81c9506598b84fca74180569a32cd3e04fc4a13328ade6ac8",
+    "submodules/NagramiXCore/Sources/NagramiXTabSettings.swift": "71328bb06d34937632e25bb2cf1e2c1adbb46371ca5f29b563721017326abec9",
+    "submodules/TabBarUI/BUILD": "e17e3ef1d30b45fc378db5540e6aa8ccc59fae328e61c6ce633f55a47bf88a68",
+    "submodules/ContactListUI/BUILD": "2ffcd0e609984806bfcb781e70f7ea66b22dc22c195eee6959a52442701320c9",
+    "submodules/TelegramUI/Components/TabBarComponent/BUILD": "1e31c4969b92cac73b7a55077ec25a4ccddf44d749f9286360978522474484ff",
+    "submodules/TelegramUI/Components/LiquidLens/Sources/LiquidLensView.swift": "ea71022218d37aa5c17ab1723feb79b7c4898f0c6a4f09c859cf8eae7a1dafa2",
+    "submodules/CallListUI/BUILD": "fb14d76c2dc54e9e398ed6681f1f231ead4d5d0926622f3b6129acd26676c17f"
+  },
+  "guard_sources": {
+    "submodules/TelegramUI/Sources/TelegramRootController.swift": "tab_bar_visual_consistency/Guard0.inc",
+    "submodules/NagramiXCore/Sources/NagramiXTabSettings.swift": "tab_bar_visual_consistency/Guard1.inc",
+    "submodules/TabBarUI/BUILD": "tab_bar_visual_consistency/Guard2.inc",
+    "submodules/ContactListUI/BUILD": "tab_bar_visual_consistency/Guard3.inc",
+    "submodules/TelegramUI/Components/TabBarComponent/BUILD": "tab_bar_visual_consistency/Guard4.inc",
+    "submodules/TelegramUI/Components/LiquidLens/Sources/LiquidLensView.swift": "tab_bar_visual_consistency/Guard5.inc",
+    "submodules/CallListUI/BUILD": "tab_bar_visual_consistency/Guard6.inc"
+  },
+  "copies": {},
+  "deletions": {},
+  "native_inputs": {
+    "submodules/CallListUI/Sources/CallListControllerNode.swift": "eb4313c3e580c71223e9718673a863bb80a41e3e"
+  },
+  "native_guards": {},
+  "templates": {
+    "tab_bar_visual_consistency/Before0.inc": "86a94a56772321887fa2471d6ec703d55fb935236319c6c78571086c8192d818",
+    "tab_bar_visual_consistency/Before1.inc": "752623dd8cf03bff333b2efcef26518041ff6bae0747633d3ef700aa3d608a4a",
+    "tab_bar_visual_consistency/Before2.inc": "667451f394378f835f60f5da69f753a57f478c2b8b8e36550189472dd2c541aa",
+    "tab_bar_visual_consistency/Before3.inc": "c11d4e2399333d87f7346af94477c27878a08c176732aced869d32ad22598e3d",
+    "tab_bar_visual_consistency/Before4.inc": "fa0523cbe2b5f2cf2667a41cfc35d7c8e7c254a265ecf3ddd8d44e29a31ed3ec",
+    "tab_bar_visual_consistency/After0.inc": "058a7c3439e939d5b8e992ca917a1f21e8072ffa3dbcabf3ca68a501a3de7dfa",
+    "tab_bar_visual_consistency/After1.inc": "abcaf1786350e26c0939adec29542e9daf51799c357d9728226d1585f72f6c84",
+    "tab_bar_visual_consistency/After2.inc": "03acb8edbea5e256e4f0034d94cb452e6fa8814b6e31a41c8ffba59200cdff79",
+    "tab_bar_visual_consistency/After3.inc": "a41aa33b2c9413b86210d63dcb03f4cce8a750913cf72d9c08801a33fd09dec8",
+    "tab_bar_visual_consistency/After4.inc": "c715b47371e23f9df0a0861e4ce995022cbc9cb47609ddc4c54c2bd2e8ab1d11",
+    "tab_bar_visual_consistency/Guard0.inc": "335a05803de2fba81c9506598b84fca74180569a32cd3e04fc4a13328ade6ac8",
+    "tab_bar_visual_consistency/Guard1.inc": "71328bb06d34937632e25bb2cf1e2c1adbb46371ca5f29b563721017326abec9",
+    "tab_bar_visual_consistency/Guard2.inc": "e17e3ef1d30b45fc378db5540e6aa8ccc59fae328e61c6ce633f55a47bf88a68",
+    "tab_bar_visual_consistency/Guard3.inc": "2ffcd0e609984806bfcb781e70f7ea66b22dc22c195eee6959a52442701320c9",
+    "tab_bar_visual_consistency/Guard4.inc": "1e31c4969b92cac73b7a55077ec25a4ccddf44d749f9286360978522474484ff",
+    "tab_bar_visual_consistency/Guard5.inc": "ea71022218d37aa5c17ab1723feb79b7c4898f0c6a4f09c859cf8eae7a1dafa2",
+    "tab_bar_visual_consistency/Guard6.inc": "fb14d76c2dc54e9e398ed6681f1f231ead4d5d0926622f3b6129acd26676c17f"
+  }
+}

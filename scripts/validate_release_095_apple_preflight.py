@@ -57,6 +57,7 @@ from validate_round_video_encoding import check as round_encoding_check
 from validate_tab_visibility_sync import check as tab_visibility_check
 from validate_native_pip_refinement import check as native_pip_refinement_check
 from validate_web_player_main_queue import check as web_player_main_queue_check
+from validate_tab_bar_visual_consistency import check as tab_bar_visual_check
 from archived_playlist_lifetime_runtime import fixture as archived_playlist_lifetime_fixture
 from story_avatar_visibility_runtime import fixture as story_avatar_visibility_fixture
 from original_video_media_runtime import fixture as original_video_media_fixture
@@ -212,6 +213,10 @@ def main():
                 shutil.rmtree(path)
         foundation=checks.run('foundation_check:191', lambda: foundation_check(args.swiftc,root))
         files = {}
+        tab_visual_source=root/'tab-bar-final106'
+        files['native_final106']=canonical_projection(tab_visual_source,'tab_bar_visual_consistency')
+        tab_bar_visual=checks.run('tab-bar-visual-consistency', lambda: tab_bar_visual_check(tab_visual_source,args.swiftc,root/'tab-bar-visual'), fallback={})
+        runs += tab_bar_visual.get('executions',[])
         web_queue_source=root/'web-player-final105'
         files['native_final105']=canonical_projection(web_queue_source,'web_player_main_queue')
         web_player_main_queue=checks.run('web-player-main-queue', lambda: web_player_main_queue_check(web_queue_source,args.swiftc,root/'web-player-main-queue'), fallback={})
@@ -493,6 +498,7 @@ def main():
     report['tab_visibility_sync']=tab_visibility
     report['native_pip_refinement']=native_pip_refinement
     report['web_player_main_queue']=web_player_main_queue
+    report['tab_bar_visual_consistency']=tab_bar_visual
     report['system_web_javascript']=system_js
     report['system_web_real_sdk']=system_apple
     report['youtube_playback_policy_js']=youtube_js

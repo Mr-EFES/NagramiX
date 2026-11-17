@@ -54,7 +54,7 @@ class CollectionTests(unittest.TestCase):
         main=next(n for n in tree.body if isinstance(n,ast.FunctionDef) and n.name=='main')
         collected={id(x) for n in ast.walk(main) if isinstance(n,ast.Call) and isinstance(n.func,ast.Attribute) and isinstance(n.func.value,ast.Name) and n.func.value.id=='checks' and n.func.attr=='run' for x in ast.walk(n.args[1])}
         required=[n for n in ast.walk(main) if isinstance(n,ast.Call) and isinstance(n.func,ast.Name) and (n.func.id=='execute' or n.func.id.endswith('_check'))]
-        self.assertEqual(len(required),61);self.assertTrue(all(id(n) in collected for n in required))
+        self.assertEqual(len(required),62);self.assertTrue(all(id(n) in collected for n in required))
         self.assertIn('checks.require_success()',ast.unparse(main))
 
     def test_workflow_runs_later_checks_but_never_compiles_after_failure(self):
