@@ -1,0 +1,69 @@
+{
+  "target_pin": "24638bc69bd083981b178dd1e7f921eebbf7fc46",
+  "overlay_base_pin": "279f89e4d4f63f17227bf877dc3d8990f22ecd58",
+  "required_previous_stage": "author_selection_transition",
+  "inputs": {
+    "submodules/ItemListUI/Sources/NagramiXItemListControllerSegmentedTitleView.swift": "e94bc41f93a1fd1344a5c1d1012acdd9f35941ce45530947fe85de346bc4c1e3",
+    "submodules/ItemListUI/Sources/ItemListController.swift": "bd77b2edfb28715dc8de8e8fd576a31c8a6065befb344ab7d3b684f9c5c11443",
+    "submodules/ItemListUI/Sources/ItemListControllerNode.swift": "414b83ec69fb58b4085e17bc175b36c4d70b9193b73af47c442bfaa712fd3d6b",
+    "submodules/Display/Source/NavigationBarTitleView.swift": "ca3b6fb9d2ccbb0aa638f6c2975c6c686a3e4ee669a076777d8469bda425fa49",
+    "submodules/TelegramUI/Components/NavigationBarNode/Sources/NavigationBarNode.swift": "ab3f55501ed8e14e0bb7be7e4e68249d2260952a96120be960c863dcabbae005",
+    "submodules/TelegramUI/Components/HorizontalTabsComponent/Sources/NagramiXHorizontalTabsComponent.swift": "709f0aaeaffa8e06ec611be39b83a272b0f36e11b0362657fc26795c9737271c"
+  },
+  "outputs": {
+    "submodules/ItemListUI/Sources/NagramiXItemListControllerSegmentedTitleView.swift": "f8ece2d05a8ce12177597a289227909a25b01e0ec64d627c76b95f7409733091",
+    "submodules/ItemListUI/Sources/ItemListController.swift": "d26e7cce6d1a72c1e0ac164e68a92a2ba5f0e496e8a354f5cf3dbdb02f1a958c",
+    "submodules/ItemListUI/Sources/ItemListControllerNode.swift": "5448ad9a9311ca41191cd80bcfe3c47cc85fed39b028d0a236c6700a189f6f4b",
+    "submodules/Display/Source/NavigationBarTitleView.swift": "2d1bdff8c55bdd405465c3b3bdd59286e0b7ea2febea825f5c14d2f48e298b75",
+    "submodules/TelegramUI/Components/NavigationBarNode/Sources/NavigationBarNode.swift": "d3adf34a436c626f361ae38844a7472d0e70be9ad37484294ae5c83ef12389a7",
+    "submodules/TelegramUI/Components/HorizontalTabsComponent/Sources/NagramiXHorizontalTabsComponent.swift": "d727542d3d20c7c5dde6c4732ba89591319ea06508646098da50d104b2232487"
+  },
+  "previous": {
+    "submodules/ItemListUI/Sources/NagramiXItemListControllerSegmentedTitleView.swift": "settings_category_bar_layout/Before0.inc",
+    "submodules/ItemListUI/Sources/ItemListController.swift": "upstream_13_2_release_post/After46.inc",
+    "submodules/ItemListUI/Sources/ItemListControllerNode.swift": "settings_category_bar_layout/Before2.inc",
+    "submodules/Display/Source/NavigationBarTitleView.swift": "settings_category_bar_layout/Before3.inc",
+    "submodules/TelegramUI/Components/NavigationBarNode/Sources/NavigationBarNode.swift": "settings_category_bar_layout/Before4.inc",
+    "submodules/TelegramUI/Components/HorizontalTabsComponent/Sources/NagramiXHorizontalTabsComponent.swift": "wide_panel_consistency/Guard12.inc"
+  },
+  "replacements": {
+    "submodules/ItemListUI/Sources/NagramiXItemListControllerSegmentedTitleView.swift": "settings_category_bar_layout/After0.inc",
+    "submodules/ItemListUI/Sources/ItemListController.swift": "settings_category_bar_layout/After1.inc",
+    "submodules/ItemListUI/Sources/ItemListControllerNode.swift": "settings_category_bar_layout/After2.inc",
+    "submodules/Display/Source/NavigationBarTitleView.swift": "settings_category_bar_layout/After3.inc",
+    "submodules/TelegramUI/Components/NavigationBarNode/Sources/NavigationBarNode.swift": "settings_category_bar_layout/After4.inc",
+    "submodules/TelegramUI/Components/HorizontalTabsComponent/Sources/NagramiXHorizontalTabsComponent.swift": "settings_category_bar_layout/After5.inc"
+  },
+  "guards": {
+    "submodules/SettingsUI/Sources/NagramiXSettingsController.swift": "c5379838ad0e51aea886ace04a6df9dd0019cdca67be3e6c8f88998d85baf8b7",
+    "submodules/SettingsUI/Sources/NagramiXSettingsSearchHeader.swift": "1f80b72e8e8d3c3fec1b3c45db830261c4a2a2121d0a24ecfd9adf5e4350b834"
+  },
+  "guard_sources": {
+    "submodules/SettingsUI/Sources/NagramiXSettingsController.swift": "tab_visibility_sync/After74.inc",
+    "submodules/SettingsUI/Sources/NagramiXSettingsSearchHeader.swift": "Sources/SettingsUI/NagramiXSettingsSearchHeader.swift"
+  },
+  "copies": {},
+  "deletions": {},
+  "native_inputs": {
+    "submodules/ItemListUI/Sources/ItemListControllerNode.swift": "634867fa45043aa40f558656ef96e6a3428efa74",
+    "submodules/Display/Source/NavigationBarTitleView.swift": "70f08cfbb451e036d8e6a865b4b8dd01f9fb232e",
+    "submodules/TelegramUI/Components/NavigationBarNode/Sources/NavigationBarNode.swift": "4a9cf9d76ce1f3c025006bd1732824f024e24b62"
+  },
+  "native_guards": {},
+  "templates": {
+    "settings_category_bar_layout/Before0.inc": "e94bc41f93a1fd1344a5c1d1012acdd9f35941ce45530947fe85de346bc4c1e3",
+    "settings_category_bar_layout/After0.inc": "f8ece2d05a8ce12177597a289227909a25b01e0ec64d627c76b95f7409733091",
+    "upstream_13_2_release_post/After46.inc": "bd77b2edfb28715dc8de8e8fd576a31c8a6065befb344ab7d3b684f9c5c11443",
+    "settings_category_bar_layout/After1.inc": "d26e7cce6d1a72c1e0ac164e68a92a2ba5f0e496e8a354f5cf3dbdb02f1a958c",
+    "settings_category_bar_layout/Before2.inc": "414b83ec69fb58b4085e17bc175b36c4d70b9193b73af47c442bfaa712fd3d6b",
+    "settings_category_bar_layout/After2.inc": "5448ad9a9311ca41191cd80bcfe3c47cc85fed39b028d0a236c6700a189f6f4b",
+    "settings_category_bar_layout/Before3.inc": "ca3b6fb9d2ccbb0aa638f6c2975c6c686a3e4ee669a076777d8469bda425fa49",
+    "settings_category_bar_layout/After3.inc": "2d1bdff8c55bdd405465c3b3bdd59286e0b7ea2febea825f5c14d2f48e298b75",
+    "settings_category_bar_layout/Before4.inc": "ab3f55501ed8e14e0bb7be7e4e68249d2260952a96120be960c863dcabbae005",
+    "settings_category_bar_layout/After4.inc": "d3adf34a436c626f361ae38844a7472d0e70be9ad37484294ae5c83ef12389a7",
+    "wide_panel_consistency/Guard12.inc": "709f0aaeaffa8e06ec611be39b83a272b0f36e11b0362657fc26795c9737271c",
+    "settings_category_bar_layout/After5.inc": "d727542d3d20c7c5dde6c4732ba89591319ea06508646098da50d104b2232487",
+    "tab_visibility_sync/After74.inc": "c5379838ad0e51aea886ace04a6df9dd0019cdca67be3e6c8f88998d85baf8b7",
+    "Sources/SettingsUI/NagramiXSettingsSearchHeader.swift": "1f80b72e8e8d3c3fec1b3c45db830261c4a2a2121d0a24ecfd9adf5e4350b834"
+  }
+}
