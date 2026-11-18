@@ -1,0 +1,41 @@
+{
+  "target_pin": "24638bc69bd083981b178dd1e7f921eebbf7fc46",
+  "overlay_base_pin": "279f89e4d4f63f17227bf877dc3d8990f22ecd58",
+  "required_previous_stage": "contacts_tab_add",
+  "inputs": {
+    "submodules/ContactListUI/Sources/ContactsControllerNode.swift": "864006f45a598e8a037b377df4bd4a9d7f2a613a16ed447b604e3511b98f955c"
+  },
+  "outputs": {
+    "submodules/ContactListUI/Sources/ContactsControllerNode.swift": "8ab66f8ee38d27ac1ae40f85cd92f421498cc9d870d57284018774191b714037"
+  },
+  "previous": {
+    "submodules/ContactListUI/Sources/ContactsControllerNode.swift": "tab_visibility_sync/After1.inc"
+  },
+  "replacements": {
+    "submodules/ContactListUI/Sources/ContactsControllerNode.swift": "contacts_tab_header/After0.inc"
+  },
+  "guards": {
+    "submodules/ContactListUI/Sources/ContactsController.swift": "77fb256d41d45e80788e876d9f7f2c46d82f5acdf52f712584686e9a070eb572",
+    "submodules/ContactListUI/Sources/ContactListNode.swift": "e5322ccb62ad2b83f0e2a08dc1d571b686e26dc77b01d57bf1d5d261942aff12",
+    "submodules/TelegramUI/Components/ChatListHeaderComponent/Sources/ChatListNavigationBar.swift": "e87be286a5413c727ef0369f3902cac3f170b3d1c81c23bc7d24c4d5b2b43f1a",
+    "submodules/TelegramUI/Components/NavigationBarComponent/Sources/NavigationBarRowLayout.swift": "031b62877d7db4daaea697c605f15e9fa55a0f8f68138c6f0ff53e70170d84a4"
+  },
+  "guard_sources": {
+    "submodules/ContactListUI/Sources/ContactsController.swift": "contacts_tab_add/After1.inc",
+    "submodules/ContactListUI/Sources/ContactListNode.swift": "upstream_13_2_release_post/After28.inc",
+    "submodules/TelegramUI/Components/ChatListHeaderComponent/Sources/ChatListNavigationBar.swift": "snowfall/Guard10.inc",
+    "submodules/TelegramUI/Components/NavigationBarComponent/Sources/NavigationBarRowLayout.swift": "font_apply_glass/Guard5.inc"
+  },
+  "copies": {},
+  "deletions": {},
+  "native_inputs": {},
+  "native_guards": {},
+  "templates": {
+    "tab_visibility_sync/After1.inc": "864006f45a598e8a037b377df4bd4a9d7f2a613a16ed447b604e3511b98f955c",
+    "contacts_tab_header/After0.inc": "8ab66f8ee38d27ac1ae40f85cd92f421498cc9d870d57284018774191b714037",
+    "contacts_tab_add/After1.inc": "77fb256d41d45e80788e876d9f7f2c46d82f5acdf52f712584686e9a070eb572",
+    "upstream_13_2_release_post/After28.inc": "e5322ccb62ad2b83f0e2a08dc1d571b686e26dc77b01d57bf1d5d261942aff12",
+    "snowfall/Guard10.inc": "e87be286a5413c727ef0369f3902cac3f170b3d1c81c23bc7d24c4d5b2b43f1a",
+    "font_apply_glass/Guard5.inc": "031b62877d7db4daaea697c605f15e9fa55a0f8f68138c6f0ff53e70170d84a4"
+  }
+}
