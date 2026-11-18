@@ -130,6 +130,7 @@ LATE_SOURCE_STAGES = (
     'settings_category_bar_layout',
     'round_quality_sheet_navigation',
     'archive_local_delete_transition',
+    'youtube_pip_source',
 )
 TEMPORARY_INTERACTION_STAGE = 'temporary_message_interaction'
 TEMPORARY_REPLY_HELPER = 'submodules/TelegramUI/Sources/Chat/NagramiXTemporaryReplySend.swift'

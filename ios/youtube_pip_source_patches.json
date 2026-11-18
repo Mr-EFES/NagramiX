@@ -1,0 +1,38 @@
+{
+  "target_pin": "24638bc69bd083981b178dd1e7f921eebbf7fc46",
+  "overlay_base_pin": "279f89e4d4f63f17227bf877dc3d8990f22ecd58",
+  "required_previous_stage": "archive_local_delete_transition",
+  "inputs": {
+    "submodules/TelegramUniversalVideoContent/Sources/WebEmbedPlayerNode.swift": "8c7cf8ec9f904bab3ab9be64f1e8ae925d6fe9981833a4606a3580af68dcba1d"
+  },
+  "outputs": {
+    "submodules/TelegramUniversalVideoContent/Sources/WebEmbedPlayerNode.swift": "a70d4964ac4451829b4f4be9fdb8ae1a7ca3ec907b1c3cd0fd67314b5200b134"
+  },
+  "previous": {
+    "submodules/TelegramUniversalVideoContent/Sources/WebEmbedPlayerNode.swift": "web_player_main_queue/After0.inc"
+  },
+  "replacements": {
+    "submodules/TelegramUniversalVideoContent/Sources/WebEmbedPlayerNode.swift": "youtube_pip_source/After0.inc"
+  },
+  "guards": {
+    "submodules/GalleryUI/Sources/Items/UniversalVideoGalleryItem.swift": "bd2f5b959c8889cb00278043451fcbd25429e7f6eceeb6c0de5abfe9de9c639d",
+    "submodules/GalleryUI/Sources/GalleryController.swift": "8f9157add0edd3b11af974b9df162d4f6bb0d9f4d7d056cedb2d34a105df7115",
+    "submodules/TelegramUniversalVideoContent/Sources/WebEmbedVideoContent.swift": "d2f7c93db6ddcbcd7aea472fe3d6f707bfe9445350a746f63b205a101503e20c"
+  },
+  "guard_sources": {
+    "submodules/GalleryUI/Sources/Items/UniversalVideoGalleryItem.swift": "web_player_main_queue/Guard2.inc",
+    "submodules/GalleryUI/Sources/GalleryController.swift": "native_pip_refinement/Guard18.inc",
+    "submodules/TelegramUniversalVideoContent/Sources/WebEmbedVideoContent.swift": "web_player_main_queue/Guard0.inc"
+  },
+  "copies": {},
+  "deletions": {},
+  "native_inputs": {},
+  "native_guards": {},
+  "templates": {
+    "web_player_main_queue/After0.inc": "8c7cf8ec9f904bab3ab9be64f1e8ae925d6fe9981833a4606a3580af68dcba1d",
+    "youtube_pip_source/After0.inc": "a70d4964ac4451829b4f4be9fdb8ae1a7ca3ec907b1c3cd0fd67314b5200b134",
+    "web_player_main_queue/Guard2.inc": "bd2f5b959c8889cb00278043451fcbd25429e7f6eceeb6c0de5abfe9de9c639d",
+    "native_pip_refinement/Guard18.inc": "8f9157add0edd3b11af974b9df162d4f6bb0d9f4d7d056cedb2d34a105df7115",
+    "web_player_main_queue/Guard0.inc": "d2f7c93db6ddcbcd7aea472fe3d6f707bfe9445350a746f63b205a101503e20c"
+  }
+}
