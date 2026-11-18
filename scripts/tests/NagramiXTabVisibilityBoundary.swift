@@ -2,12 +2,16 @@
 public class UIView: NSObject {var window: NSObject?=NSObject()}
 public class ContextGesture {}
 public class ContextExtractedContentContainingView {let contentView=UIView()}
-struct UIImage {init?(bundleImageName:String){}}
+struct UIImage {
+ enum RenderingMode {case alwaysTemplate}
+ init?(bundleImageName:String){}
+ func withRenderingMode(_ mode:RenderingMode)->UIImage{self}
+}
 struct Theme {let contextMenu=Colors()}
 struct Colors {let primaryColor=0}
 func generateTintedImage(image:UIImage?,color:Int)->UIImage?{image}
 class Strings {
- let Contacts_Title="Contacts",Calls_StartNewCall="Start new call",Calls_HideCallsTab="Hide Calls Tab"
+ let Contacts_Title="Contacts",Contacts_VoiceOver_AddContact="Add Contact",Calls_StartNewCall="Start new call",Calls_HideCallsTab="Hide Calls Tab"
  let catalogs:[String:String]
  init(_ catalogs:[String:String]){self.catalogs=catalogs}
  func nagramiXLocalized(_ key:String)->String{catalogs[key]!}
@@ -25,6 +29,8 @@ enum ContextKind {case none,always}
 class ContactsController:ViewController {
  // ACTUAL_CONTACTS_MODE
  var switchToChatsController:(()->Void)?
+ var addRequests=0
+ func addPressed(){addRequests+=1}
  private let presentationData:PresentationData
  init(context:Context,isTab:Bool=false){self.isTab=isTab;presentationData=context.data;super.init();nagramiXUpdateTabItem()}
  // ACTUAL_CONTACTS_TAB_ITEM
@@ -47,7 +53,10 @@ class ContextController {
  init(_ items:[ContextMenuItem]){self.items=items}
  func dismiss(completion:@escaping ()->Void){if Self.holdDismissal{Self.heldDismissal=completion}else{completion()}}
 }
-enum ContextMenuItem {case action(ContextMenuActionItem)}
+enum ContextMenuItem {
+ case action(ContextMenuActionItem)
+ var title:String { switch self {case let .action(item):return item.text} }
+}
 struct ContextMenuActionItem {
  let text:String;let icon:(Theme)->UIImage?;let action:(ContextController?,Int)->Void
 }

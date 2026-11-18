@@ -1,0 +1,47 @@
+{
+  "target_pin": "24638bc69bd083981b178dd1e7f921eebbf7fc46",
+  "overlay_base_pin": "279f89e4d4f63f17227bf877dc3d8990f22ecd58",
+  "required_previous_stage": "proxy_timeout_sheet",
+  "inputs": {
+    "submodules/TelegramUI/Sources/TelegramRootController.swift": "335a05803de2fba81c9506598b84fca74180569a32cd3e04fc4a13328ade6ac8",
+    "submodules/ContactListUI/Sources/ContactsController.swift": "058a7c3439e939d5b8e992ca917a1f21e8072ffa3dbcabf3ca68a501a3de7dfa"
+  },
+  "outputs": {
+    "submodules/TelegramUI/Sources/TelegramRootController.swift": "ac4bff196f7b98bdf4df601757346fb5be3c00bdfcab87b75b891000e24108a9",
+    "submodules/ContactListUI/Sources/ContactsController.swift": "77fb256d41d45e80788e876d9f7f2c46d82f5acdf52f712584686e9a070eb572"
+  },
+  "previous": {
+    "submodules/TelegramUI/Sources/TelegramRootController.swift": "tab_bar_visual_consistency/Guard0.inc",
+    "submodules/ContactListUI/Sources/ContactsController.swift": "tab_bar_visual_consistency/After0.inc"
+  },
+  "replacements": {
+    "submodules/TelegramUI/Sources/TelegramRootController.swift": "contacts_tab_add/After0.inc",
+    "submodules/ContactListUI/Sources/ContactsController.swift": "contacts_tab_add/After1.inc"
+  },
+  "guards": {
+    "submodules/ContactListUI/Sources/ContactsControllerNode.swift": "864006f45a598e8a037b377df4bd4a9d7f2a613a16ed447b604e3511b98f955c",
+    "submodules/TabBarUI/Sources/TabBarController.swift": "abcaf1786350e26c0939adec29542e9daf51799c357d9728226d1585f72f6c84",
+    "submodules/TelegramUI/BUILD": "c819263cd1c2d6407308fe3f172f9f564b40e26f3b688da39739577bae792f52",
+    "submodules/ContactListUI/BUILD": "2ffcd0e609984806bfcb781e70f7ea66b22dc22c195eee6959a52442701320c9"
+  },
+  "guard_sources": {
+    "submodules/ContactListUI/Sources/ContactsControllerNode.swift": "tab_visibility_sync/After1.inc",
+    "submodules/TabBarUI/Sources/TabBarController.swift": "tab_bar_visual_consistency/After1.inc",
+    "submodules/TelegramUI/BUILD": "file_caption_wire_spacing/Guard1.inc",
+    "submodules/ContactListUI/BUILD": "tab_bar_visual_consistency/Guard3.inc"
+  },
+  "copies": {},
+  "deletions": {},
+  "native_inputs": {},
+  "native_guards": {},
+  "templates": {
+    "tab_bar_visual_consistency/Guard0.inc": "335a05803de2fba81c9506598b84fca74180569a32cd3e04fc4a13328ade6ac8",
+    "contacts_tab_add/After0.inc": "ac4bff196f7b98bdf4df601757346fb5be3c00bdfcab87b75b891000e24108a9",
+    "tab_bar_visual_consistency/After0.inc": "058a7c3439e939d5b8e992ca917a1f21e8072ffa3dbcabf3ca68a501a3de7dfa",
+    "contacts_tab_add/After1.inc": "77fb256d41d45e80788e876d9f7f2c46d82f5acdf52f712584686e9a070eb572",
+    "tab_visibility_sync/After1.inc": "864006f45a598e8a037b377df4bd4a9d7f2a613a16ed447b604e3511b98f955c",
+    "tab_bar_visual_consistency/After1.inc": "abcaf1786350e26c0939adec29542e9daf51799c357d9728226d1585f72f6c84",
+    "file_caption_wire_spacing/Guard1.inc": "c819263cd1c2d6407308fe3f172f9f564b40e26f3b688da39739577bae792f52",
+    "tab_bar_visual_consistency/Guard3.inc": "2ffcd0e609984806bfcb781e70f7ea66b22dc22c195eee6959a52442701320c9"
+  }
+}

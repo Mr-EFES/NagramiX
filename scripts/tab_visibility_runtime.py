@@ -33,7 +33,7 @@ def modules(source,swiftc,folder,flags=(),cache=None):
     env[key]=str(folder)+(':'+env[key] if env.get(key) else '')
     return ['-I',str(folder),'-L',str(folder),'-lNagramiXCore','-lNagramiXMediaSettings'],env
 
-def fixture(source):
+def fixture(source, *, adds_contact=False):
     code=GEOMETRY_IMPORTS+'import NagramiXCore\n'+signal_library(source)+'\n'
     if 'class Bag<' not in code and 'struct Bag<' not in code:code+=(source/'submodules/SSignalKit/SwiftSignalKit/Source/Bag.swift').read_text()
     code+='\n'+(source/'submodules/SSignalKit/SwiftSignalKit/Source/Promise.swift').read_text()+'\n'
@@ -65,5 +65,6 @@ def fixture(source):
     code+=block((source/SETTINGS).read_text(),'private func nagramiXLiveTabSettings(')+'\n'
     catalogs=json.loads((ROOT/'ios/tab_visibility_sync/localization.json').read_text())
     code+='let actionCatalog:[String:String] = '+str(dict(zip(catalogs['keys'],catalogs['translations']['en']))).replace("'",'"').replace('{','[').replace('}',']')+'\n'
+    code+='let addsContactAction = '+('true' if adds_contact else 'false')+'\n'
     code+=(ROOT/'scripts/tests/NagramiXTabVisibilityTests.swift').read_text()
     return code

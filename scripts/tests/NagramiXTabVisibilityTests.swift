@@ -24,6 +24,19 @@ private final class WeakRoot {weak var value:Root?}
    let chatIndex=bar.controllers.firstIndex{$0===root.chatListController}!
    bar.dispatchContext(index:chatIndex,view:ContextExtractedContentContainingView(),gesture:ContextGesture())
    check(root.chatListController!.nativeContexts==1,"unhandled tab menus keep native dispatch")
+   if addsContactAction && !hideContacts {
+    let contactIndex=bar.controllers.firstIndex{$0 is ContactsController}!
+    let contacts=bar.controllers[contactIndex] as! ContactsController
+    bar.selectedIndex=chatIndex
+    bar.dispatchContext(index:contactIndex,view:ContextExtractedContentContainingView(),gesture:ContextGesture())
+    let menu=root.context.sharedContext.mainWindow!.lastMenu!
+    check(menu.items.map(\.title)==[strings.Contacts_VoiceOver_AddContact,strings.nagramiXHideContactsAction],"Add Contact appears above Hide Contacts in both tab bar modes")
+    ContextController.holdDismissal=true
+    invoke(menu,0)
+    check(contacts.addRequests==0,"Add Contact waits for the menu dismissal")
+    ContextController.heldDismissal?();ContextController.holdDismissal=false;ContextController.heldDismissal=nil
+    check(contacts.addRequests==1 && !NagramiXTabSettings.current.hideContacts,"Add Contact uses the Contacts handler without hiding the tab")
+   }
    root.makeNewsVisible(true);check(count(NewsController.self,root)==1,"news tab eligibility survives filtering")
    root.makeNewsVisible(false)
    let identity=root.contactsIdentity()
@@ -48,7 +61,8 @@ private final class WeakRoot {weak var value:Root?}
    bar.selectedIndex=index
    bar.dispatchContext(index:index,view:ContextExtractedContentContainingView(),gesture:ContextGesture())
    let menu=root.context.sharedContext.mainWindow!.lastMenu!
-   check(menu.items.count==(type == ContactsController.self ? 1:2),"calls retain New call; contacts get a hide action")
+   let expectedCount=type == ContactsController.self && !addsContactAction ? 1:2
+   check(menu.items.count==expectedCount,"calls and contacts expose their expected actions")
    if type == CallsController.self {invoke(menu,0);check(root.callListController!.searches==1,"native New call command preserved")}
    invoke(menu,menu.items.count-1)
    check(type == ContactsController.self ? NagramiXTabSettings.current.hideContacts:NagramiXTabSettings.current.hideCalls,"long press sets the same hide checkbox")
@@ -96,6 +110,20 @@ private final class WeakRoot {weak var value:Root?}
   invoke(root.context.sharedContext.mainWindow!.lastMenu!,0)
   root.restart();ContextController.heldDismissal?();ContextController.holdDismissal=false;ContextController.heldDismissal=nil
   check(NagramiXTabSettings.current.showSearchButton,"menu from a replaced root cannot alter current settings")
+  if addsContactAction {
+   for replaceRoot in [false,true] {
+    NagramiXTabSettings.update{$0.hideContacts=false}
+    let bar=root.bar
+    let index=bar.controllers.firstIndex{$0 is ContactsController}!
+    let contacts=bar.controllers[index] as! ContactsController
+    bar.dispatchContext(index:index,view:ContextExtractedContentContainingView(),gesture:ContextGesture())
+    ContextController.holdDismissal=true
+    invoke(root.context.sharedContext.mainWindow!.lastMenu!,0)
+    if replaceRoot {root.restart()} else {NagramiXTabSettings.update{$0.hideContacts=true}}
+    ContextController.heldDismissal?();ContextController.holdDismissal=false;ContextController.heldDismissal=nil
+    check(contacts.addRequests==0,"a dismissed menu cannot open contacts for a removed tab or replaced root")
+   }
+  }
   let weakRoot=WeakRoot()
   do{let temporary=Root(strings);weakRoot.value=temporary;temporary.bar.nagramiXSearchContextAction?(UIView())}
   check(weakRoot.value==nil,"root callbacks and menus do not retain the old account root")
