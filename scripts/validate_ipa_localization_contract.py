@@ -10,7 +10,9 @@ from unittest import mock
 import zipfile
 
 from validate_app_language_localization import strings
-from validate_unsigned_ipa import expected_nagramix_catalogs, validate_settings_localizations
+from validate_unsigned_ipa import (
+    PROXY_TIMEOUT_TITLE, PUBLISHED_100_SOURCE, expected_nagramix_catalogs, validate_settings_localizations,
+)
 from late_source_stages import LATE_SOURCE_STAGES
 from release_version import parse_release_version
 
@@ -65,7 +67,9 @@ class CatalogTests(unittest.TestCase):
                     cls.final_snapshots[code] = (overlay / snapshot, stage_plan['outputs'][name])
             if stage == 'wide_portal_api':
                 cls.published_snapshots = dict(cls.final_snapshots)
-        cls.tab_snapshots = dict(cls.final_snapshots)
+            if stage == 'tab_visibility_sync':
+                cls.tab_snapshots = dict(cls.final_snapshots)
+        cls.timeout_catalogs = {code: strings(path) for code, (path, _) in cls.final_snapshots.items()}
         cls.tab_catalogs = {code: strings(path) for code, (path, _) in cls.tab_snapshots.items()}
         cls.final_snapshots = cls.release098_snapshots
         cls.final_catalogs = {code: strings(path) for code, (path, _) in cls.final_snapshots.items()}
@@ -415,15 +419,23 @@ class CatalogTests(unittest.TestCase):
 
     def test_current_release_matches_current_source_catalogs(self):
         version = json.loads((ROOT / 'product/features/registry.json').read_text())['release']
-        expected = self.tab_catalogs if parse_release_version(version) >= (0,9,9) else self.final_catalogs
+        expected = self.timeout_catalogs if parse_release_version(version) >= (1, 0, 0) else self.tab_catalogs
         self.assertEqual(expected_nagramix_catalogs(version), expected)
 
     def test_short_and_patch_versions_keep_complete_catalog_contract(self):
-        for version in ['0.9.9','1.0','1.0.1','1.1','1.1.9','1.2']:
+        for version in ['1.0','1.0.1','1.1','1.1.9','1.2']:
             with self.subTest(version=version):
-                self.assertEqual(expected_nagramix_catalogs(version), self.tab_catalogs)
+                self.assertEqual(expected_nagramix_catalogs(version), self.timeout_catalogs)
         with self.archive(self.tab_catalogs) as archive:
+            self.assertEqual(validate_settings_localizations(archive, PREFIX, '1.0', source_commit=PUBLISHED_100_SOURCE), 71)
+
+    def test_proxy_timeout_title_is_required_for_new_source_of_same_version(self):
+        self.assertEqual(self.timeout_catalogs['ru'][PROXY_TIMEOUT_TITLE], 'Время ожидания подключения')
+        self.assertTrue(all(len(values) == 681 for values in self.timeout_catalogs.values()))
+        with self.archive(self.timeout_catalogs) as archive:
             self.assertEqual(validate_settings_localizations(archive, PREFIX, '1.0'), 71)
+        with self.archive(self.tab_catalogs) as archive, self.assertRaises(SystemExit):
+            validate_settings_localizations(archive, PREFIX, '1.0')
 
     def test_099_matches_actual_tab_menu_source_catalogs(self):
         for path, digest in self.tab_snapshots.values():

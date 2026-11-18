@@ -15,6 +15,8 @@ from pathlib import Path
 from release_version import is_release_version, parse_release_version
 
 ROOT = Path(__file__).resolve().parents[1]
+PUBLISHED_100_SOURCE = '4b839e78591eecd5349bfbc347aa8c61f351267a'
+PROXY_TIMEOUT_TITLE = 'NagramiX.Network.Proxy.Timeout.Title'
 
 
 def require(condition: bool, message: str) -> None:
@@ -22,7 +24,7 @@ def require(condition: bool, message: str) -> None:
         raise SystemExit(message)
 
 
-def expected_nagramix_catalogs(version: str | None = None) -> dict[str, dict[str, str]]:
+def expected_nagramix_catalogs(version: str | None = None, *, source_commit: str | None = None) -> dict[str, dict[str, str]]:
     """Получить точные каталоги нужного выпуска, сохраняя контракты старых IPA."""
     plan = json.loads((ROOT / 'ios/vosk_model_naming_patches.json').read_text())
     labels = json.loads((ROOT / 'ios/vosk_model_naming/labels.json').read_text())
@@ -348,12 +350,31 @@ def expected_nagramix_catalogs(version: str | None = None) -> dict[str, dict[str
                     and not previous.keys() & set(keys) and len(current) == 680
                     and current == {**previous, **dict(zip(keys, values))}, 'Изменены каталоги меню вкладок: '+code)
             catalogs[code] = current
+    published_100 = version_parts == (1, 0, 0) and source_commit == PUBLISHED_100_SOURCE
+    if version_parts is not None and version_parts >= (1, 0, 0) and not published_100:
+        stage = 'proxy_timeout_sheet'
+        contract = json.loads((ROOT / 'ios' / f'{stage}_patches.json').read_text())
+        resources = {f'submodules/NagramiXCore/Resources/{code}.lproj/Localizable.strings' for code in codes}
+        require(contract['required_previous_stage'] == 'file_caption_wire_spacing'
+                and {name for name in contract['outputs'] if name.endswith('.lproj/Localizable.strings')} == resources,
+                'Неверный набор каталогов выбора времени ожидания прокси')
+        for code in sorted(codes):
+            path = f'submodules/NagramiXCore/Resources/{code}.lproj/Localizable.strings'
+            previous = checked_snapshot(contract['previous'][path], contract['inputs'][path], contract, stage)
+            current = checked_snapshot(contract['replacements'][path], contract['outputs'][path], contract, stage)
+            title = current.get(PROXY_TIMEOUT_TITLE, '')
+            require(previous == catalogs[code] and len(previous) == 680
+                    and title.strip() and PROXY_TIMEOUT_TITLE not in previous
+                    and current == {**previous, PROXY_TIMEOUT_TITLE: title},
+                    'Неверный перевод времени ожидания прокси: ' + code)
+            catalogs[code] = current
     return catalogs
 
 
-def validate_settings_localizations(archive: zipfile.ZipFile, prefix: str, version: str | None = None) -> int:
+def validate_settings_localizations(archive: zipfile.ZipFile, prefix: str, version: str | None = None,
+                                    *, source_commit: str | None = None) -> int:
     """Проверить точные переводы текущего выпуска и прежний контракт пакетов."""
-    catalogs = expected_nagramix_catalogs(version)
+    catalogs = expected_nagramix_catalogs(version, source_commit=source_commit)
     resource_root = prefix + 'Frameworks/TelegramUIFramework.framework/NagramiXLocalization.bundle/'
     names = archive.namelist()
     if version is not None and parse_release_version(version) >= (0, 9, 0):
@@ -591,7 +612,7 @@ def main() -> None:
                 require(bool(packed.get("NagramiX.Icon.ChangeFailed")), f"Нет сообщения об отказе смены иконки: {language}")
 
         if version_parts >= (0, 8, 6):
-            language_count = validate_settings_localizations(archive, prefix, args.version)
+            language_count = validate_settings_localizations(archive, prefix, args.version, source_commit=args.source_commit)
             key_count = len(custom)
             print(f"Переводы IPA проверены: {language_count} языков, по {key_count} ключей настроек/debug")
 

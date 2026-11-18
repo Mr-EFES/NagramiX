@@ -7,8 +7,8 @@
 - [Релиз v1.0](https://github.com/Mr-EFES/NagramiX/releases/tag/v1.0), build224, source/tag `4b839e78591eecd5349bfbc347aa8c61f351267a`.
 - [Успешная сборка224](https://github.com/Mr-EFES/NagramiX/actions/runs/44103614473), три исходных release assets, IPA и dSYM сохранены. [Результат проверки](docs/RELEASE_100_FINAL_CHECKS.md), [receipt](docs/RELEASE_100_PUBLICATION_CHECKS.json).
 - Main содержит эту базу и последующие проверенные изменения. Тег релиза и бинарник не передвигать на документационные коммиты.
-- Runtime109: 5943 immutable `.inc`, 322 плана; manifest `088cc2f3cf617be451b539fdcb691cae5e2719f8fab8c57167384fde72c4eca1`. Следующий runtime110+ нужен только для реального исправления приложения.
-- Telegram13.2, pin `24638bc69bd083981b178dd1e7f921eebbf7fc46`, минимум iOS15. Registry:80 compile_passed, все80 device_pending. Живой YouTube/PiP/фон, камера и серверное принятие кружков проверяются на iPhone.
+- Опубликованная сборка224 соответствует стадии109 и manifest `088cc2f3cf617be451b539fdcb691cae5e2719f8fab8c57167384fde72c4eca1`. В main добавлена стадия110 `proxy_timeout_sheet`. Следующие изменения исходников оформлять начиная со стадии111.
+- Telegram13.2, pin `24638bc69bd083981b178dd1e7f921eebbf7fc46`, минимум iOS15. Реестр main содержит 79 compile_passed и один compile_pending для панели прокси. Физическая приёмка остаётся device_pending для всех 80 функций.
 - Текущая IPA unsigned/build-only. Подготовка Distribution, конфигурации App Store и App Store Connect ещё не выполнена. [План приёмки](docs/DEVICE_CHECK_100.md). Сборку, публикацию и отправку на модерацию без новой команды не запускать.
 
 ## Исходники и контракты
