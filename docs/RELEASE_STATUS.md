@@ -1,4 +1,8 @@
-# NagramiX 1.0 — базовый релиз для дальнейшей доработки
+# NagramiX 1.0.1
+
+Выпуск 1.0.1 готовится для физической проверки, включая переход YouTube в PiP кнопкой и свайпом.
+
+## Опубликованная база 1.0
 
 [Релиз1.0/build224](https://github.com/Mr-EFES/NagramiX/releases/tag/v1.0) опубликован и закреплён владельцем как стартовая версия подготовки к App Store. [Скачать IPA](https://github.com/Mr-EFES/NagramiX/releases/download/v1.0/NagramiX-1.0-unsigned.ipa).
 

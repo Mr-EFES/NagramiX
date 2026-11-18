@@ -1,4 +1,4 @@
-# Разработка NagramiX 1.0
+# Разработка NagramiX 1.0.1
 
 ## Текущая база
 
@@ -33,8 +33,8 @@
 
 ## Git и публикация
 
-- Законченную проверенную правку сразу коммитить и отправлять в `main` без повторного разрешения. Author и committer: `Mr_EFES <70027952+Mr-EFES@users.noreply.github.com>`. Заголовок коммита `Релиз 1.0`; co-author инструментов не добавлять. Не выполнять reset/clean/force push и не переписывать историю.
-- README и LICENSE сохранять дословно. Текущая `product/releases/1.0.md` и GitHub body — только утверждённая фраза README, без changelog, заголовков и ссылок. Ченчлог в чате не является поручением менять эту аннотацию.
+- Законченную проверенную правку сразу коммитить и отправлять в `main` без повторного разрешения. Author и committer: `Mr_EFES <70027952+Mr-EFES@users.noreply.github.com>`. Заголовок коммита `Релиз 1.0.1`; co-author инструментов не добавлять. Не выполнять reset/clean/force push и не переписывать историю.
+- README и LICENSE сохранять дословно. Текущая `product/releases/1.0.1.md` и GitHub body — только утверждённая фраза README, без changelog, заголовков и ссылок. Ченчлог в чате не является поручением менять эту аннотацию.
 - Единственный workflow `.github/workflows/build-unsigned-ipa.yml` — ручной. Новая SDK/IPA и release publication требуют прямой команды. Публикация: clean_build=true/publish_release=true/prerelease=false, cold gate/cache запреты сохраняются.
 - Запуск/публикация только как Mr-EFES, аккаунт проверить перед записью. Publisher `scripts/publish_owner_release.py` принимает оригинальный Actions ZIP и source-run-id, сверяет CI digest, cold gate, package, author/uploader. Не использовать токен бота. `--finalize-uploaded` только для собственного draft с точными тремя файлами.
 - Не читать/выводить credential-файлы и не искать старые профили: такая попытка уже была отклонена auto-review. Отозванный вход восстанавливать официальным browser/device flow; токены/коды не просить в чат. При подтверждённом профиле GH_CONFIG_DIR и исключение GH_TOKEN/GITHUB_TOKEN ограничивать окружением команды, не менять общую среду.
