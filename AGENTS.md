@@ -7,8 +7,8 @@
 - [Релиз v1.0](https://github.com/Mr-EFES/NagramiX/releases/tag/v1.0), build224, source/tag `4b839e78591eecd5349bfbc347aa8c61f351267a`.
 - [Успешная сборка224](https://github.com/Mr-EFES/NagramiX/actions/runs/44103614473), три исходных release assets, IPA и dSYM сохранены. [Результат проверки](docs/RELEASE_100_FINAL_CHECKS.md), [receipt](docs/RELEASE_100_PUBLICATION_CHECKS.json).
 - Main содержит эту базу и последующие проверенные изменения. Тег релиза и бинарник не передвигать на документационные коммиты.
-- Опубликованная сборка224 соответствует стадии109 и manifest `088cc2f3cf617be451b539fdcb691cae5e2719f8fab8c57167384fde72c4eca1`. В main добавлены стадии 110 `proxy_timeout_sheet`, 111 `contacts_tab_add` и 112 `contacts_tab_header`. Следующие изменения исходников оформлять начиная со стадии113.
-- Telegram13.2, pin `24638bc69bd083981b178dd1e7f921eebbf7fc46`, минимум iOS15. Реестр main содержит 78 compile_passed и два compile_pending для панели прокси и вкладок. Физическая приёмка остаётся device_pending для всех 80 функций.
+- Опубликованная сборка224 соответствует стадии109 и manifest `088cc2f3cf617be451b539fdcb691cae5e2719f8fab8c57167384fde72c4eca1`. После неё добавлены стадии 110 `proxy_timeout_sheet`, 111 `contacts_tab_add`, 112 `contacts_tab_header` и 113 `author_selection_transition`. Следующие изменения исходников оформлять начиная со стадии114.
+- Telegram13.2, pin `24638bc69bd083981b178dd1e7f921eebbf7fc46`, минимум iOS15. Реестр main содержит 77 compile_passed и три compile_pending для панели прокси, вкладок и выбора сообщений автора. Физическая приёмка остаётся device_pending для всех 80 функций.
 - Текущая IPA unsigned/build-only. Подготовка Distribution, конфигурации App Store и App Store Connect ещё не выполнена. [План приёмки](docs/DEVICE_CHECK_100.md). Сборку, публикацию и отправку на модерацию без новой команды не запускать.
 
 ## Исходники и контракты

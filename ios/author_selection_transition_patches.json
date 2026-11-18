@@ -1,0 +1,59 @@
+{
+  "target_pin": "24638bc69bd083981b178dd1e7f921eebbf7fc46",
+  "overlay_base_pin": "279f89e4d4f63f17227bf877dc3d8990f22ecd58",
+  "required_previous_stage": "contacts_tab_header",
+  "inputs": {
+    "submodules/TelegramUI/Sources/Chat/ChatControllerLoadDisplayNode.swift": "cf6a91b25c752b4f74f1df96a5b99e4c44f7a9ddd0152b3a8c4699daafef1809",
+    "submodules/TelegramUI/Sources/ChatInterfaceStateContextMenus.swift": "45448d84fe5248b9d9d15e7921e1927294721ee0c1f66c54a4a13484413642b0",
+    "submodules/TelegramUI/Sources/ChatController.swift": "ec38fe26f8c5ebde214a5abe71828fa6899173ab7301ff4e41bc9ec7064e83e0",
+    "submodules/ChatPresentationInterfaceState/Sources/ChatPanelInterfaceInteraction.swift": "057b9464b2961cee78d18a1830d3368395d884ea4ab9398c5661da54b8fdb5b7"
+  },
+  "outputs": {
+    "submodules/TelegramUI/Sources/Chat/ChatControllerLoadDisplayNode.swift": "ad45c7fbcf782b790a7da50babc01d809be8eebdf3393a1b916d27424debc5a0",
+    "submodules/TelegramUI/Sources/ChatInterfaceStateContextMenus.swift": "43d0e0829a2d2cc548fd439cb8cf88750366e5264c52cf4cca5ce2bff336c614",
+    "submodules/TelegramUI/Sources/ChatController.swift": "fb184d6a55ffcac956b0c582bc220def0754c76a618c05b4bcd4ba050d81a62f",
+    "submodules/ChatPresentationInterfaceState/Sources/ChatPanelInterfaceInteraction.swift": "3018a8fae0958ed1de0bd94bc7622f83e52b4e74e6916d12285674a9899a671b"
+  },
+  "previous": {
+    "submodules/TelegramUI/Sources/Chat/ChatControllerLoadDisplayNode.swift": "file_caption_wire_spacing/After3.inc",
+    "submodules/TelegramUI/Sources/ChatInterfaceStateContextMenus.swift": "named_link_preview/After3.inc",
+    "submodules/TelegramUI/Sources/ChatController.swift": "recording_start_recovery/Guard5.inc",
+    "submodules/ChatPresentationInterfaceState/Sources/ChatPanelInterfaceInteraction.swift": "author_selection_transition/Before0.inc"
+  },
+  "replacements": {
+    "submodules/TelegramUI/Sources/Chat/ChatControllerLoadDisplayNode.swift": "author_selection_transition/After0.inc",
+    "submodules/TelegramUI/Sources/ChatInterfaceStateContextMenus.swift": "author_selection_transition/After1.inc",
+    "submodules/TelegramUI/Sources/ChatController.swift": "author_selection_transition/After2.inc",
+    "submodules/ChatPresentationInterfaceState/Sources/ChatPanelInterfaceInteraction.swift": "author_selection_transition/After3.inc"
+  },
+  "guards": {
+    "submodules/TelegramUI/Sources/Chat/UpdateChatPresentationInterfaceState.swift": "311ac77d6a8611dfbbc0faf2977d5b9b3c7c7318251bdad8964ac40f5cac00b0",
+    "submodules/TelegramUI/Sources/Chat/ChatControllerOpenMessageContextMenu.swift": "078009be835799103cd7df1ea243b6d869f1fad3185162f421a9001aa2c12a80",
+    "submodules/TelegramUI/Sources/ChatControllerAdminBanUsers.swift": "b6303b593b5bdbd74c2b15f0fdf3c324fefb13f1a510c3ef11c675ebf7af386f",
+    "submodules/TelegramCore/Sources/TelegramEngine/Messages/NagramiXAuthorSelection.swift": "1465a7d01d19a2696c32c7d2ffa0a6967e915cb92feb0d80b521345de6575ab9"
+  },
+  "guard_sources": {
+    "submodules/TelegramUI/Sources/Chat/UpdateChatPresentationInterfaceState.swift": "file_caption_edit/Guard82.inc",
+    "submodules/TelegramUI/Sources/Chat/ChatControllerOpenMessageContextMenu.swift": "ghostgram_authorless_transport/Guard13.inc",
+    "submodules/TelegramUI/Sources/ChatControllerAdminBanUsers.swift": "temporary_message_interaction/After23.inc",
+    "submodules/TelegramCore/Sources/TelegramEngine/Messages/NagramiXAuthorSelection.swift": "author_selection_no_restore/After0.inc"
+  },
+  "copies": {},
+  "deletions": {},
+  "native_inputs": {},
+  "native_guards": {},
+  "templates": {
+    "file_caption_wire_spacing/After3.inc": "cf6a91b25c752b4f74f1df96a5b99e4c44f7a9ddd0152b3a8c4699daafef1809",
+    "author_selection_transition/After0.inc": "ad45c7fbcf782b790a7da50babc01d809be8eebdf3393a1b916d27424debc5a0",
+    "named_link_preview/After3.inc": "45448d84fe5248b9d9d15e7921e1927294721ee0c1f66c54a4a13484413642b0",
+    "author_selection_transition/After1.inc": "43d0e0829a2d2cc548fd439cb8cf88750366e5264c52cf4cca5ce2bff336c614",
+    "recording_start_recovery/Guard5.inc": "ec38fe26f8c5ebde214a5abe71828fa6899173ab7301ff4e41bc9ec7064e83e0",
+    "author_selection_transition/After2.inc": "fb184d6a55ffcac956b0c582bc220def0754c76a618c05b4bcd4ba050d81a62f",
+    "author_selection_transition/Before0.inc": "057b9464b2961cee78d18a1830d3368395d884ea4ab9398c5661da54b8fdb5b7",
+    "author_selection_transition/After3.inc": "3018a8fae0958ed1de0bd94bc7622f83e52b4e74e6916d12285674a9899a671b",
+    "file_caption_edit/Guard82.inc": "311ac77d6a8611dfbbc0faf2977d5b9b3c7c7318251bdad8964ac40f5cac00b0",
+    "ghostgram_authorless_transport/Guard13.inc": "078009be835799103cd7df1ea243b6d869f1fad3185162f421a9001aa2c12a80",
+    "temporary_message_interaction/After23.inc": "b6303b593b5bdbd74c2b15f0fdf3c324fefb13f1a510c3ef11c675ebf7af386f",
+    "author_selection_no_restore/After0.inc": "1465a7d01d19a2696c32c7d2ffa0a6967e915cb92feb0d80b521345de6575ab9"
+  }
+}
