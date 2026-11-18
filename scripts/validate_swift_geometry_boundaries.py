@@ -28,6 +28,7 @@ from feature_wide_post_envelope_runtime import GEOMETRY_IMPORTS as WIDE_POST_IMP
 from native_pip_refinement_runtime import GEOMETRY_IMPORTS as NATIVE_PIP_IMPORTS
 from tab_visibility_runtime import GEOMETRY_IMPORTS as TAB_VISIBILITY_IMPORTS
 from round_video_encoding_runtime import GEOMETRY_IMPORTS as ROUND_ENCODING_IMPORTS
+from validate_settings_category_bar_layout import GEOMETRY_IMPORTS as CATEGORY_BAR_IMPORTS
 
 
 PROBE = r'''
@@ -74,6 +75,7 @@ def check(swiftc):
         'native-pip-gesture': NATIVE_PIP_IMPORTS,
         'tab-visibility': TAB_VISIBILITY_IMPORTS,
         'round-encoding-pipeline': ROUND_ENCODING_IMPORTS,
+        'settings-category-bar': CATEGORY_BAR_IMPORTS,
     }
     report = {'boundaries': [], 'apple_import_negatives': [],
               'boundary': 'Actual test boundary imports and geometry operators; no UIKit or whole-app SDK build.'}

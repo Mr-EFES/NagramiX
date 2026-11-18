@@ -6,12 +6,14 @@ import tempfile
 
 from late_source_stages import LATE_SOURCE_STAGES, verified_prefix
 from validate_local_copy_delivery import run
+from validate_pip_gallery_placeholder import CORE_GRAPHICS_IMPORT
 from validate_quick_format import block
 from validate_upstream_13_2_release import checked_plan
 
 STAGE = 'settings_category_bar_layout'
 ITEM_LIST = 'submodules/ItemListUI/Sources/'
 DISPLAY = 'submodules/Display/Source/'
+GEOMETRY_IMPORTS = 'import Foundation\n' + CORE_GRAPHICS_IMPORT
 
 
 def fixture(source: Path, paths: dict) -> str:
@@ -47,8 +49,7 @@ def fixture(source: Path, paths: dict) -> str:
     scale_end = tabs.index('                let rawAttributedString', scale_start)
     fitting = tabs[scale_start:scale_end]
 
-    return '''
-import Foundation
+    return GEOMETRY_IMPORTS + '''
 public func floorToScreenPixels(_ value: CGFloat) -> CGFloat { floor(value * 3) / 3 }
 public struct UIEdgeInsets {
     var top: CGFloat = 0
