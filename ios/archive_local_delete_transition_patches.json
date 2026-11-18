@@ -1,0 +1,53 @@
+{
+  "target_pin": "24638bc69bd083981b178dd1e7f921eebbf7fc46",
+  "overlay_base_pin": "279f89e4d4f63f17227bf877dc3d8990f22ecd58",
+  "required_previous_stage": "round_quality_sheet_navigation",
+  "inputs": {
+    "submodules/TelegramCore/Sources/Utils/NagramiXMessageArchive.swift": "ebad9f38125fab449fc9e1f07fb90d3cc1345471505c70eff82b913a979eeb6b",
+    "submodules/TelegramUI/Sources/ChatControllerAdminBanUsers.swift": "b6303b593b5bdbd74c2b15f0fdf3c324fefb13f1a510c3ef11c675ebf7af386f",
+    "submodules/TelegramUI/Sources/ChatHistoryListNode.swift": "3ff1d943e4de78f212385c017cff68f6cc73f5aef5d28b99fabdbcc53385126f"
+  },
+  "outputs": {
+    "submodules/TelegramCore/Sources/Utils/NagramiXMessageArchive.swift": "0082a59c2eb118fab2754d0cf4d397a413f70e243b9bd64a2c709757bace5db7",
+    "submodules/TelegramUI/Sources/ChatControllerAdminBanUsers.swift": "a959afef801d2388d59481e7089b5e892937567aaa3614af3baa02f19b5f256b",
+    "submodules/TelegramUI/Sources/ChatHistoryListNode.swift": "f92a7bf5ead3a4fc2b94b689948f559e5906f884837ad0e1e819a67ac4ff43b8"
+  },
+  "previous": {
+    "submodules/TelegramCore/Sources/Utils/NagramiXMessageArchive.swift": "archived_playlist_lifetime/Guard5.inc",
+    "submodules/TelegramUI/Sources/ChatControllerAdminBanUsers.swift": "temporary_message_interaction/After23.inc",
+    "submodules/TelegramUI/Sources/ChatHistoryListNode.swift": "feature_contract_consistency/Guard26.inc"
+  },
+  "replacements": {
+    "submodules/TelegramCore/Sources/Utils/NagramiXMessageArchive.swift": "archive_local_delete_transition/After0.inc",
+    "submodules/TelegramUI/Sources/ChatControllerAdminBanUsers.swift": "archive_local_delete_transition/After1.inc",
+    "submodules/TelegramUI/Sources/ChatHistoryListNode.swift": "archive_local_delete_transition/After2.inc"
+  },
+  "guards": {
+    "submodules/TelegramUI/Sources/ChatHistoryEntriesForView.swift": "114e32823b78ab72972e620696540ae82681a71572b56dba1533a56be57fa11c",
+    "submodules/TelegramUI/Sources/Chat/ChatControllerLoadDisplayNode.swift": "ad45c7fbcf782b790a7da50babc01d809be8eebdf3393a1b916d27424debc5a0",
+    "submodules/TelegramCore/Sources/Utils/NagramiXCaptureProtectionPolicy.swift": "220953006e66c856e07c517b06490358e49b0bfd35622e28fa34b22e681278a8",
+    "submodules/TelegramCore/Sources/TelegramEngine/Messages/DeleteMessages.swift": "d6c2d182645b70ef135c95dc90f4994521b76f2f52fc434a79764be9d8231d39"
+  },
+  "guard_sources": {
+    "submodules/TelegramUI/Sources/ChatHistoryEntriesForView.swift": "edit_result_consistency/Guard5.inc",
+    "submodules/TelegramUI/Sources/Chat/ChatControllerLoadDisplayNode.swift": "author_selection_transition/After0.inc",
+    "submodules/TelegramCore/Sources/Utils/NagramiXCaptureProtectionPolicy.swift": "named_link_preview/Guard12.inc",
+    "submodules/TelegramCore/Sources/TelegramEngine/Messages/DeleteMessages.swift": "temporary_expiration_semantics/Guard9.inc"
+  },
+  "copies": {},
+  "deletions": {},
+  "native_inputs": {},
+  "native_guards": {},
+  "templates": {
+    "archived_playlist_lifetime/Guard5.inc": "ebad9f38125fab449fc9e1f07fb90d3cc1345471505c70eff82b913a979eeb6b",
+    "temporary_message_interaction/After23.inc": "b6303b593b5bdbd74c2b15f0fdf3c324fefb13f1a510c3ef11c675ebf7af386f",
+    "feature_contract_consistency/Guard26.inc": "3ff1d943e4de78f212385c017cff68f6cc73f5aef5d28b99fabdbcc53385126f",
+    "archive_local_delete_transition/After0.inc": "0082a59c2eb118fab2754d0cf4d397a413f70e243b9bd64a2c709757bace5db7",
+    "archive_local_delete_transition/After1.inc": "a959afef801d2388d59481e7089b5e892937567aaa3614af3baa02f19b5f256b",
+    "archive_local_delete_transition/After2.inc": "f92a7bf5ead3a4fc2b94b689948f559e5906f884837ad0e1e819a67ac4ff43b8",
+    "edit_result_consistency/Guard5.inc": "114e32823b78ab72972e620696540ae82681a71572b56dba1533a56be57fa11c",
+    "author_selection_transition/After0.inc": "ad45c7fbcf782b790a7da50babc01d809be8eebdf3393a1b916d27424debc5a0",
+    "named_link_preview/Guard12.inc": "220953006e66c856e07c517b06490358e49b0bfd35622e28fa34b22e681278a8",
+    "temporary_expiration_semantics/Guard9.inc": "d6c2d182645b70ef135c95dc90f4994521b76f2f52fc434a79764be9d8231d39"
+  }
+}
