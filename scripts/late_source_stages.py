@@ -128,6 +128,7 @@ LATE_SOURCE_STAGES = (
     'contacts_tab_header',
     'author_selection_transition',
     'settings_category_bar_layout',
+    'round_quality_sheet_navigation',
 )
 TEMPORARY_INTERACTION_STAGE = 'temporary_message_interaction'
 TEMPORARY_REPLY_HELPER = 'submodules/TelegramUI/Sources/Chat/NagramiXTemporaryReplySend.swift'

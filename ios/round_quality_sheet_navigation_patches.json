@@ -1,0 +1,53 @@
+{
+  "target_pin": "24638bc69bd083981b178dd1e7f921eebbf7fc46",
+  "overlay_base_pin": "279f89e4d4f63f17227bf877dc3d8990f22ecd58",
+  "required_previous_stage": "settings_category_bar_layout",
+  "inputs": {
+    "submodules/TelegramUI/Components/ChatMediaEditorScreen/Sources/NagramiXRoundQualitySheet.swift": "28c92919015e773e08dcfc96a5e4d36907c8c084bb2cba84bd8472af14fb2691"
+  },
+  "outputs": {
+    "submodules/TelegramUI/Components/ChatMediaEditorScreen/Sources/NagramiXRoundQualitySheet.swift": "42811c071df8ad4d478e74f4cfb17dac0661c270b935ec206aebb2ccd1facf2e"
+  },
+  "previous": {
+    "submodules/TelegramUI/Components/ChatMediaEditorScreen/Sources/NagramiXRoundQualitySheet.swift": "gallery_round_export/After4.inc"
+  },
+  "replacements": {
+    "submodules/TelegramUI/Components/ChatMediaEditorScreen/Sources/NagramiXRoundQualitySheet.swift": "round_quality_sheet_navigation/After0.inc"
+  },
+  "guards": {
+    "submodules/Display/Source/ViewController.swift": "7dfb165e8bf367b2ef4ddd579988bb327a85a7d91c2549285a6f2ba24085658c",
+    "submodules/Display/Source/ActionSheetController.swift": "367729526279622bdf79dc7ddf6b5994847183cf3f463bb21f7cf47d75d8c809",
+    "submodules/Display/Source/ActionSheetControllerNode.swift": "2e1bd3f9039da1d08cc8d1aa79c98ac2b32abeebff45a6f30a645df82c231467",
+    "submodules/Display/Source/ActionSheetItemGroupsContainerNode.swift": "0671a01b2ceb8228dceadd9d24bf467bc932c6c5f88260a47e9aee3572da0ec2",
+    "submodules/Display/Source/ActionSheetItemNode.swift": "41de692f63005efec55d9b993ab0161bfbe597b612bdb72128010bd94973dbdb",
+    "submodules/Display/Source/HighlightTrackingButton.swift": "6c923388502ce08d3654249eeedc0b9f4905e271cc7bc4057f1ab9a23a7a7aca",
+    "submodules/TelegramUI/Components/ChatMediaEditorScreen/Sources/ChatMediaEditorScreenQuality.swift": "1de037e352541d7723ca8a4aa2017b1d9cba1660499503e067d9cb5a48d60ade",
+    "submodules/TelegramUI/Components/ChatMediaEditorScreen/Sources/ChatMediaEditorBottomControlsComponent.swift": "9d4bba5066fa4764edd5da51ab12cf2d251ea79308ed218727a94b4067c319d0"
+  },
+  "guard_sources": {
+    "submodules/Display/Source/ViewController.swift": "native_pip_refinement/Guard16.inc",
+    "submodules/Display/Source/ActionSheetController.swift": "unified_glass_menus/Guard2.inc",
+    "submodules/Display/Source/ActionSheetControllerNode.swift": "round_quality_summary/Guard10.inc",
+    "submodules/Display/Source/ActionSheetItemGroupsContainerNode.swift": "unified_glass_menus/Guard4.inc",
+    "submodules/Display/Source/ActionSheetItemNode.swift": "unified_glass_menus/Guard3.inc",
+    "submodules/Display/Source/HighlightTrackingButton.swift": "input_effects/Guard8.inc",
+    "submodules/TelegramUI/Components/ChatMediaEditorScreen/Sources/ChatMediaEditorScreenQuality.swift": "gallery_round_export/After3.inc",
+    "submodules/TelegramUI/Components/ChatMediaEditorScreen/Sources/ChatMediaEditorBottomControlsComponent.swift": "round_quality_preset_badge/After0.inc"
+  },
+  "copies": {},
+  "deletions": {},
+  "native_inputs": {},
+  "native_guards": {},
+  "templates": {
+    "gallery_round_export/After4.inc": "28c92919015e773e08dcfc96a5e4d36907c8c084bb2cba84bd8472af14fb2691",
+    "round_quality_sheet_navigation/After0.inc": "42811c071df8ad4d478e74f4cfb17dac0661c270b935ec206aebb2ccd1facf2e",
+    "native_pip_refinement/Guard16.inc": "7dfb165e8bf367b2ef4ddd579988bb327a85a7d91c2549285a6f2ba24085658c",
+    "unified_glass_menus/Guard2.inc": "367729526279622bdf79dc7ddf6b5994847183cf3f463bb21f7cf47d75d8c809",
+    "round_quality_summary/Guard10.inc": "2e1bd3f9039da1d08cc8d1aa79c98ac2b32abeebff45a6f30a645df82c231467",
+    "unified_glass_menus/Guard4.inc": "0671a01b2ceb8228dceadd9d24bf467bc932c6c5f88260a47e9aee3572da0ec2",
+    "unified_glass_menus/Guard3.inc": "41de692f63005efec55d9b993ab0161bfbe597b612bdb72128010bd94973dbdb",
+    "input_effects/Guard8.inc": "6c923388502ce08d3654249eeedc0b9f4905e271cc7bc4057f1ab9a23a7a7aca",
+    "gallery_round_export/After3.inc": "1de037e352541d7723ca8a4aa2017b1d9cba1660499503e067d9cb5a48d60ade",
+    "round_quality_preset_badge/After0.inc": "9d4bba5066fa4764edd5da51ab12cf2d251ea79308ed218727a94b4067c319d0"
+  }
+}
