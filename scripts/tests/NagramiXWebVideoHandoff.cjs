@@ -1,0 +1,33 @@
+// A provider may replace its thumbnail or video after WebKit accepts entry but before PiP starts.
+const f = fixture({blocked: false, hasFrame: false, seedYouTube: false});
+const probe = request => {
+    const start = f.messages.length;
+    f.dispatch({command: 'probe', request});
+    return f.messages.slice(start).find(m => m.kind === 'candidate');
+};
+f.video.readyState = 1;
+check(!probe('metadata'), 'a metadata-only placeholder cannot win selection');
+f.video.readyState = 4;
+f.video.webkitSetPresentationMode = () => {};
+const first = probe('first');
+check(f.dispatch({command: 'enter', request: 'first', video: first.video}), 'WebKit accepted pending entry');
+f.removeVideo(f.video);
+f.flush();
+check(f.messages.some(m => m.reason === 'detached' && !m.ended && m.allowed), 'DOM removal is not a user pause or end');
+f.dispatch({command: 'status', request: 'first'});
+check(f.messages.at(-1).kind === 'unavailable', 'lost pending source requests rediscovery');
+const replacement = f.appendVideo();
+replacement.removeAttribute('disablepictureinpicture');
+f.flush();
+const next = probe('replacement');
+check(next && next.video !== first.video, 'fresh playing element selected');
+f.dispatch({command: 'enter', request: 'replacement', video: next.video});
+f.flush();
+check(f.messages.some(m => m.kind === 'state' && m.request === 'replacement' && m.active), 'only the replacement confirms PiP');
+check(!f.dispatch({command: 'stop', request: 'first'}), 'late callback leaves replacement playing');
+f.dispatch({command: 'stop', request: 'replacement'});
+const refused = probe('refused');
+replacement.webkitSetPresentationMode = () => { throw Object.assign(new Error(), {name: 'NotAllowedError'}); };
+f.dispatch({command: 'enter', request: 'refused', video: refused.video});
+check(f.messages.at(-1).kind === 'state' && !f.messages.at(-1).active, 'explicit refusal ends this attempt');
+console.log('PASS: metadata, replaced element, confirmed system mode, stale cancellation, terminal refusal');
