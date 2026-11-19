@@ -1,0 +1,74 @@
+{
+  "target_pin": "24638bc69bd083981b178dd1e7f921eebbf7fc46",
+  "overlay_base_pin": "279f89e4d4f63f17227bf877dc3d8990f22ecd58",
+  "required_previous_stage": "installation_metrics",
+  "inputs": {
+    "submodules/TelegramUIPreferences/Sources/CallListSettings.swift": "7e48e47ef6a80e51352edb2ced23cf6890033b3ecc87c7afd842f270dac94865",
+    "submodules/NagramiXCore/Sources/NagramiXTabSettings.swift": "71328bb06d34937632e25bb2cf1e2c1adbb46371ca5f29b563721017326abec9",
+    "submodules/TelegramUI/Sources/AppDelegate.swift": "7cd1bff8c6d9ce0af3d5be1a89f002accfb6fb6ff1b315df006137707bfac135",
+    "submodules/TelegramUI/Sources/ApplicationContext.swift": "fe13c523f9917b6c6d15884facad8ddaa8d3462968f6b34733dd20698502f54c",
+    "submodules/TelegramUI/Sources/TelegramRootController.swift": "ac4bff196f7b98bdf4df601757346fb5be3c00bdfcab87b75b891000e24108a9",
+    "submodules/SettingsUI/Sources/NagramiXSettingsController.swift": "c5379838ad0e51aea886ace04a6df9dd0019cdca67be3e6c8f88998d85baf8b7"
+  },
+  "outputs": {
+    "submodules/TelegramUIPreferences/Sources/CallListSettings.swift": "7c7ee4605fe72a339973dad256197e239212d68c787d07c3701c18e292be269d",
+    "submodules/NagramiXCore/Sources/NagramiXTabSettings.swift": "70cdca126834ed63126c3c6344b24656072c87f8c4800233f13e010514ed7bb1",
+    "submodules/TelegramUI/Sources/AppDelegate.swift": "4e5eef25eb66b9950e2caa48b18f3762241f7c84bada05b9b5537d29882363bc",
+    "submodules/TelegramUI/Sources/ApplicationContext.swift": "be76aba88173a421308f22df01971e2a525e93957d090d3771bdc37e905afabf",
+    "submodules/TelegramUI/Sources/TelegramRootController.swift": "41bb24acc90a9ce3b9a82fa14768e815754e07e263ccdaa9368b151dfc5015f1",
+    "submodules/SettingsUI/Sources/NagramiXSettingsController.swift": "c0fb0da18de25f20415aa6cc7251e4703773225e0828e67bdac888e695f68d00"
+  },
+  "previous": {
+    "submodules/TelegramUIPreferences/Sources/CallListSettings.swift": "tab_visibility_sync/Guard8.inc",
+    "submodules/NagramiXCore/Sources/NagramiXTabSettings.swift": "doh_clear_input_lifecycle/Guard10.inc",
+    "submodules/TelegramUI/Sources/AppDelegate.swift": "installation_metrics/AppDelegate.inc",
+    "submodules/TelegramUI/Sources/ApplicationContext.swift": "upstream_13_2_release_post/After244.inc",
+    "submodules/TelegramUI/Sources/TelegramRootController.swift": "contacts_tab_add/After0.inc",
+    "submodules/SettingsUI/Sources/NagramiXSettingsController.swift": "round_quality_horizontal_page/Guard4.inc"
+  },
+  "replacements": {
+    "submodules/TelegramUIPreferences/Sources/CallListSettings.swift": "calls_tab_preference/Preferences.inc",
+    "submodules/NagramiXCore/Sources/NagramiXTabSettings.swift": "calls_tab_preference/Store.inc",
+    "submodules/TelegramUI/Sources/AppDelegate.swift": "calls_tab_preference/Launch.inc",
+    "submodules/TelegramUI/Sources/ApplicationContext.swift": "calls_tab_preference/Context.inc",
+    "submodules/TelegramUI/Sources/TelegramRootController.swift": "calls_tab_preference/Root.inc",
+    "submodules/SettingsUI/Sources/NagramiXSettingsController.swift": "calls_tab_preference/Settings.inc"
+  },
+  "guards": {
+    "submodules/CallListUI/Sources/CallListControllerNode.swift": "c715b47371e23f9df0a0861e4ce995022cbc9cb47609ddc4c54c2bd2e8ab1d11",
+    "submodules/CallListUI/Sources/CallListController.swift": "4b5085365a46b2e047ec7cf4014026a9cf7546339cef0572b7bf91fbfbc20ca6",
+    "submodules/TabBarUI/Sources/TabBarController.swift": "abcaf1786350e26c0939adec29542e9daf51799c357d9728226d1585f72f6c84",
+    "submodules/TelegramUI/BUILD": "c819263cd1c2d6407308fe3f172f9f564b40e26f3b688da39739577bae792f52",
+    "submodules/SettingsUI/BUILD": "b229ff1580a1e8e13770d400a1c0c9e1cf56ef05b831659c3422a6141b50f489"
+  },
+  "guard_sources": {
+    "submodules/CallListUI/Sources/CallListControllerNode.swift": "tab_bar_visual_consistency/After4.inc",
+    "submodules/CallListUI/Sources/CallListController.swift": "tab_visibility_sync/Guard7.inc",
+    "submodules/TabBarUI/Sources/TabBarController.swift": "tab_bar_visual_consistency/After1.inc",
+    "submodules/TelegramUI/BUILD": "account_settings_entry/Guard3.inc",
+    "submodules/SettingsUI/BUILD": "account_settings_entry/Guard1.inc"
+  },
+  "copies": {},
+  "deletions": {},
+  "native_inputs": {},
+  "native_guards": {},
+  "templates": {
+    "tab_visibility_sync/Guard8.inc": "7e48e47ef6a80e51352edb2ced23cf6890033b3ecc87c7afd842f270dac94865",
+    "doh_clear_input_lifecycle/Guard10.inc": "71328bb06d34937632e25bb2cf1e2c1adbb46371ca5f29b563721017326abec9",
+    "installation_metrics/AppDelegate.inc": "7cd1bff8c6d9ce0af3d5be1a89f002accfb6fb6ff1b315df006137707bfac135",
+    "upstream_13_2_release_post/After244.inc": "fe13c523f9917b6c6d15884facad8ddaa8d3462968f6b34733dd20698502f54c",
+    "contacts_tab_add/After0.inc": "ac4bff196f7b98bdf4df601757346fb5be3c00bdfcab87b75b891000e24108a9",
+    "round_quality_horizontal_page/Guard4.inc": "c5379838ad0e51aea886ace04a6df9dd0019cdca67be3e6c8f88998d85baf8b7",
+    "calls_tab_preference/Preferences.inc": "7c7ee4605fe72a339973dad256197e239212d68c787d07c3701c18e292be269d",
+    "calls_tab_preference/Store.inc": "70cdca126834ed63126c3c6344b24656072c87f8c4800233f13e010514ed7bb1",
+    "calls_tab_preference/Launch.inc": "4e5eef25eb66b9950e2caa48b18f3762241f7c84bada05b9b5537d29882363bc",
+    "calls_tab_preference/Context.inc": "be76aba88173a421308f22df01971e2a525e93957d090d3771bdc37e905afabf",
+    "calls_tab_preference/Root.inc": "41bb24acc90a9ce3b9a82fa14768e815754e07e263ccdaa9368b151dfc5015f1",
+    "calls_tab_preference/Settings.inc": "c0fb0da18de25f20415aa6cc7251e4703773225e0828e67bdac888e695f68d00",
+    "tab_bar_visual_consistency/After4.inc": "c715b47371e23f9df0a0861e4ce995022cbc9cb47609ddc4c54c2bd2e8ab1d11",
+    "tab_visibility_sync/Guard7.inc": "4b5085365a46b2e047ec7cf4014026a9cf7546339cef0572b7bf91fbfbc20ca6",
+    "tab_bar_visual_consistency/After1.inc": "abcaf1786350e26c0939adec29542e9daf51799c357d9728226d1585f72f6c84",
+    "account_settings_entry/Guard3.inc": "c819263cd1c2d6407308fe3f172f9f564b40e26f3b688da39739577bae792f52",
+    "account_settings_entry/Guard1.inc": "b229ff1580a1e8e13770d400a1c0c9e1cf56ef05b831659c3422a6141b50f489"
+  }
+}
