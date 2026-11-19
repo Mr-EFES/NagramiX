@@ -25,7 +25,12 @@ private final class WebFixture {
     let player = Player(youtube: true, pip: true, bg: true)
     let frame = WKFrameInfo(7)
     var bridge: NagramiXWebSystemPictureInPicture { self.player.nagramiXSystemPiP }
-    var probe: [String: Any] { self.player.view.calls.last { $0.0["command"] as? String == "probe" }!.0 }
+    var probe: [String: Any] {
+        guard let call = self.player.view.calls.last(where: { $0.0["command"] as? String == "probe" }) else {
+            failHandoff("the web view never received a probe")
+        }
+        return call.0
+    }
 
     func send(_ request: [String: Any], _ kind: String, _ values: [String: Any]) {
         var body = request.merging(values) { _, value in value }
@@ -38,46 +43,58 @@ private final class WebFixture {
     }
 }
 
+private func failHandoff(_ message: String) -> Never {
+    FileHandle.standardError.write(Data("Web video handoff: \(message)\n".utf8))
+    exit(1)
+}
+
+private func requireHandoff(_ condition: Bool, _ message: String) {
+    if !condition { failHandoff(message) }
+}
+
 @main private enum HandoffTests {
     static func main() {
         for embedded in [true, false] {
             let gallery = Gallery()
             gallery.pager.item = UniversalVideoGalleryItemNode(embedded: embedded)
             gallery.nagramiXLockNativePictureInPictureSwipe()
-            precondition(gallery.scrollView.contentOffset.y == (embedded ? 600 : 720))
-            precondition(gallery.visibleDistance == (embedded ? 0 : 120))
+            requireHandoff(gallery.scrollView.contentOffset.y == (embedded ? 600 : 720), "swipe offset for embedded=\(embedded)")
+            requireHandoff(gallery.visibleDistance == (embedded ? 0 : 120), "swipe appearance for embedded=\(embedded)")
         }
         let f = WebFixture()
-        precondition(f.bridge.begin())
+        // The app owns the player and view throughout the interaction. The bridge borrows the view.
+        defer { withExtendedLifetime(f) {} }
+        requireHandoff(f.bridge.begin(), "first entry")
         let first = f.probe
         f.bridge.documentDidChange(continuingPlayback: true)
         let second = f.probe
-        precondition(first["request"] as? String != second["request"] as? String)
+        requireHandoff(first["request"] as? String != second["request"] as? String, "navigation must renew the request")
         f.send(second, "candidate", ["video": "1", "area": 22.0, "playing": true])
         DispatchQueue.main.run()
         f.send(second, "unavailable", [:])
         let third = f.probe
-        precondition(second["request"] as? String != third["request"] as? String)
+        requireHandoff(second["request"] as? String != third["request"] as? String, "unavailable frame must renew the request")
         f.send(third, "candidate", ["video": "2", "area": 22.0, "playing": true])
         DispatchQueue.main.run()
         f.send(second, "state", ["active": true])
-        precondition(!f.bridge.isActive)
+        requireHandoff(!f.bridge.isActive, "stale entry must be ignored")
         f.send(third, "state", ["active": true])
-        precondition(f.bridge.isActive)
+        requireHandoff(f.bridge.isActive, "replacement frame must enter PiP")
         f.send(second, "state", ["active": false])
-        precondition(f.bridge.isActive)
+        requireHandoff(f.bridge.isActive, "stale exit must be ignored")
         f.bridge.stop()
-        precondition(f.bridge.begin())
+        requireHandoff(f.bridge.begin(), "entry after stop")
         f.bridge.documentDidChange(continuingPlayback: false)
-        precondition(!f.bridge.keepsPlaybackActive)
-        precondition(f.bridge.begin())
+        requireHandoff(!f.bridge.keepsPlaybackActive, "stopping navigation must clear entry")
+        requireHandoff(f.bridge.begin(), "entry after stopping navigation")
         DispatchTime.clock += 6
         f.bridge.documentDidChange(continuingPlayback: true)
-        precondition(!f.bridge.keepsPlaybackActive, "a reloaded page cannot extend discovery indefinitely")
+        requireHandoff(!f.bridge.keepsPlaybackActive, "a reloaded page cannot extend discovery indefinitely")
 
         for pip in [false, true] {
             let audio = WebFixture()
-            precondition(audio.bridge.begin())
+            defer { withExtendedLifetime(audio) {} }
+            requireHandoff(audio.bridge.begin(), "audio fixture entry, PiP=\(pip)")
             let probe = audio.probe
             if pip {
                 audio.send(probe, "candidate", ["video": "3", "area": 22.0, "playing": true])
@@ -92,18 +109,18 @@ private final class WebFixture {
             audio.player.nagramiXPublishPlaybackStatus(sample(.playing))
             audio.media("detached", playing: false)
             audio.media("loadedmetadata", playing: false)
-            precondition(audio.bridge.actualMediaPlaying == true && audio.bridge.playbackAllowed)
+            requireHandoff(audio.bridge.actualMediaPlaying == true && audio.bridge.playbackAllowed, "audio during replacement, PiP=\(pip)")
             audio.media("playing", playing: true)
             DispatchQueue.main.run()
-            precondition(audio.player.statusValue.value.status == .playing && audio.bridge.isActive == pip)
+            requireHandoff(audio.player.statusValue.value.status == .playing && audio.bridge.isActive == pip, "resumed audio, PiP=\(pip)")
             audio.media("detached", playing: false)
             DispatchQueue.main.run()
-            precondition(audio.bridge.actualMediaPlaying == false && audio.player.statusValue.value.status == .paused)
+            requireHandoff(audio.bridge.actualMediaPlaying == false && audio.player.statusValue.value.status == .paused, "audio timeout, PiP=\(pip)")
             audio.media("playing", playing: true)
             audio.media("detached", playing: false)
             audio.bridge.setPlaybackAllowed(false)
-            precondition(audio.bridge.actualMediaPlaying == false && !audio.bridge.playbackAllowed)
-            precondition(audio.player.impl.plays == 0, "a handoff never sends an unsolicited play")
+            requireHandoff(audio.bridge.actualMediaPlaying == false && !audio.bridge.playbackAllowed, "explicit pause, PiP=\(pip)")
+            requireHandoff(audio.player.impl.plays == 0, "a handoff never sends an unsolicited play, PiP=\(pip)")
         }
         print("PASS: swipe remains opaque, navigation and DOM replacement, stale callbacks, bounded audio handoff with and without PiP")
     }

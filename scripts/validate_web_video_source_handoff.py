@@ -3,6 +3,7 @@
 import argparse
 import json
 from pathlib import Path
+import subprocess
 import tempfile
 
 from late_source_stages import ROOT
@@ -11,6 +12,19 @@ from validate_local_copy_delivery import run
 from validate_quick_format import block
 from validate_video_playback_switches import player_host, validate as validate_switches
 from youtube_background_continuity_js import harness
+
+
+def check_handoff(source, swiftc, folder):
+    gallery_node = (source / 'submodules/GalleryUI/Sources/GalleryControllerNode.swift').read_text()
+    swipe = block(gallery_node, '    func nagramiXLockNativePictureInPictureSwipe(')
+    body = (ROOT / 'scripts/tests/NagramiXWebVideoHandoff.swift').read_text().replace('// SWIPE LOCK', swipe)
+    code = folder / 'Handoff.swift'
+    code.write_text(player_host(source, False) + '\n' + body)
+    for mode, flags in [('debug', []), ('optimized', ['-O'])]:
+        binary = folder / f'handoff-{mode}'
+        run([swiftc, '-swift-version', '5', '-parse-as-library', '-warnings-as-errors', '-module-cache-path',
+             folder / 'cache', *flags, code, '-o', binary], timeout=180)
+        subprocess.run([binary], timeout=30, check=True)
 
 
 def validate(source, swiftc, folder):
@@ -22,17 +36,8 @@ def validate(source, swiftc, folder):
     assert active.index('nagramiXBeginNativePiPVisualTransition()') < active.index('nagramiXCommitPiPHandoff(')
     assert 'nagramiXSystemWebPiPWatchdog' not in gallery
     assert 'documentDidChange(continuingPlayback: continuing)' in block((source / WEB).read_text(), '    func webView(_ webView: WKWebView, didCommit')
+    check_handoff(source, swiftc, folder)
     tests = ROOT / 'scripts/tests'
-    gallery_node = (source / 'submodules/GalleryUI/Sources/GalleryControllerNode.swift').read_text()
-    swipe = block(gallery_node, '    func nagramiXLockNativePictureInPictureSwipe(')
-    body = (tests / 'NagramiXWebVideoHandoff.swift').read_text().replace('// SWIPE LOCK', swipe)
-    code = folder / 'Handoff.swift'
-    code.write_text(player_host(source, False) + '\n' + body)
-    for flags in ([], ['-O']):
-        binary = folder / 'handoff'
-        run([swiftc, '-swift-version', '5', '-parse-as-library', '-warnings-as-errors', '-module-cache-path',
-             folder / 'cache', *flags, code, '-o', binary], timeout=180)
-        print(run([binary], timeout=30).stdout.strip(), flush=True)
     manager_path = 'submodules/TelegramUniversalVideoContent/Sources/UniversalVideoContentManager.swift'
     manager = (source / manager_path).read_text()
     callbacks = (tests / 'NagramiXVideoSubscriptions.swift').read_text().replace(
@@ -40,6 +45,7 @@ def validate(source, swiftc, folder):
     functions = ('addPlaybackCompleted', 'removePlaybackCompleted', 'statusSignal', 'bufferingStatusSignal',
                  'isNativePictureInPictureActiveSignal')
     methods = [block(manager, '    public func ' + name + '(').replace('public func', 'func', 1) for name in functions]
+    code = folder / 'Subscriptions.swift'
     code.write_text(callbacks.replace('// PRODUCTION SUBSCRIPTION METHODS', '\n'.join(methods)))
     bag = source / 'submodules/SSignalKit/SwiftSignalKit/Source/Bag.swift'
     binary = folder / 'subscriptions'
@@ -55,8 +61,17 @@ def validate(source, swiftc, folder):
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('--source', type=Path, required=True)
+    source_mode = parser.add_mutually_exclusive_group(required=True)
+    source_mode.add_argument('--source', type=Path)
+    source_mode.add_argument('--canonical-handoff', action='store_true')
     parser.add_argument('--swiftc', type=Path, required=True)
     args = parser.parse_args()
     with tempfile.TemporaryDirectory(prefix='web-video-handoff-') as temporary:
-        validate(args.source, args.swiftc, Path(temporary))
+        folder = Path(temporary)
+        if args.canonical_handoff:
+            from validate_release_095_apple_preflight import canonical_projection
+            source = folder / 'source'
+            canonical_projection(source, 'web_video_source_handoff')
+            check_handoff(source, args.swiftc, folder)
+        else:
+            validate(args.source, args.swiftc, folder)

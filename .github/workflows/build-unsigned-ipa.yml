@@ -65,6 +65,13 @@ jobs:
           rm -rf -- "$BAZEL_CACHE"
           mkdir -p "$BAZEL_CACHE"
 
+      - name: Проверить переход веб-видео в PiP на Apple Swift
+        shell: bash
+        run: |
+          export SDKROOT="$(xcrun --sdk macosx --show-sdk-path)"
+          export MACOSX_DEPLOYMENT_TARGET=13.0
+          python3 scripts/validate_web_video_source_handoff.py --canonical-handoff --swiftc "$(xcrun --find swiftc)"
+
       - name: Проверить метаданные релиза
         run: |
           python3 scripts/validate_release_metadata.py
