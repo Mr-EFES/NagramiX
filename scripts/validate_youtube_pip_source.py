@@ -13,14 +13,19 @@ from youtube_background_continuity_apple import check as apple_check
 from youtube_background_continuity_js import harness, check as check_legacy_dom
 
 
-def validate(source: Path, swiftc: Path, folder: Path) -> None:
-    assert verified_prefix(source) == LATE_SOURCE_STAGES.index('youtube_pip_source') + 1
-    subprocess.run([swiftc, '-frontend', '-parse', source / WEB], check=True)
-    bridge = block((source / WEB).read_text(), 'private final class NagramiXWebSystemPictureInPicture:')
+def bridge_boundary():
     boundary = BOUNDARY.split('enum NoError{}', 1)[0].replace('case atDocumentEnd', 'case atDocumentEnd, atDocumentStart')
     boundary = boundary.replace('final class WKWebView {', 'final class WKWebView: UIView {')
     boundary = boundary.replace(' var calls:', ' var reply: ((Result<Any, Error>) -> Void)?\n var calls:')
     boundary = boundary.replace('completionHandler:Any?) {', 'completionHandler:((Result<Any, Error>) -> Void)?) {\n  if let completionHandler { reply = completionHandler }')
+    return boundary
+
+
+def validate(source: Path, swiftc: Path, folder: Path) -> None:
+    assert verified_prefix(source) == LATE_SOURCE_STAGES.index('youtube_pip_source') + 1
+    subprocess.run([swiftc, '-frontend', '-parse', source / WEB], check=True)
+    bridge = block((source / WEB).read_text(), 'private final class NagramiXWebSystemPictureInPicture:')
+    boundary = bridge_boundary()
     tests = ROOT / 'scripts/tests'
     code = folder / 'PiPSource.swift'
     code.write_text(boundary + (tests / 'NagramiXYoutubePiPSource.swift').read_text().replace('// ACTUAL_BRIDGE', bridge))

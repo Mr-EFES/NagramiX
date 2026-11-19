@@ -621,6 +621,8 @@ jobs:
           python3 scripts/validate_archive_local_delete_transition.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)"
           PYTHONPATH=ios python3 -c 'from pathlib import Path; from youtube_pip_source import apply_youtube_pip_source; apply_youtube_pip_source(Path("Telegram-iOS").resolve(), Path("ios").resolve())'
           python3 scripts/validate_youtube_pip_source.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)"
+          PYTHONPATH=ios python3 -c 'from pathlib import Path; from pip_session_recovery import apply_pip_session_recovery; apply_pip_session_recovery(Path("Telegram-iOS").resolve(), Path("ios").resolve())'
+          python3 scripts/validate_pip_session_recovery.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)"
           python3 scripts/validate_late_source_stages.py --source Telegram-iOS --report "$RUNNER_TEMP/late-source-stages.json"
           python3 scripts/validate_custom_member_references.py --source Telegram-iOS
           python3 scripts/validate_upstream_13_2_release.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)"
