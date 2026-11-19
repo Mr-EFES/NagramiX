@@ -1,0 +1,38 @@
+{
+  "target_pin": "24638bc69bd083981b178dd1e7f921eebbf7fc46",
+  "overlay_base_pin": "279f89e4d4f63f17227bf877dc3d8990f22ecd58",
+  "required_previous_stage": "pip_session_recovery",
+  "inputs": {
+    "submodules/TelegramUI/Sources/AppDelegate.swift": "54135affcb87569e738fc56a4dc250a3d01149f41f07749731f24cd35ef268a8"
+  },
+  "outputs": {
+    "submodules/TelegramUI/Sources/AppDelegate.swift": "7cd1bff8c6d9ce0af3d5be1a89f002accfb6fb6ff1b315df006137707bfac135"
+  },
+  "previous": {
+    "submodules/TelegramUI/Sources/AppDelegate.swift": "upstream_13_2_release_post/After243.inc"
+  },
+  "replacements": {
+    "submodules/TelegramUI/Sources/AppDelegate.swift": "installation_metrics/AppDelegate.inc"
+  },
+  "guards": {
+    "submodules/TelegramUI/BUILD": "c819263cd1c2d6407308fe3f172f9f564b40e26f3b688da39739577bae792f52"
+  },
+  "guard_sources": {
+    "submodules/TelegramUI/BUILD": "file_caption_wire_spacing/Guard1.inc"
+  },
+  "copies": {
+    "submodules/TelegramUI/Sources/NagramiXInstallationMetrics.swift": {
+      "source": "installation_metrics/NagramiXInstallationMetrics.swift",
+      "sha256": "3cb766c325a117f5630a3b3238aed603e7d2408619ffb131b1b16f305497c6b1"
+    }
+  },
+  "deletions": {},
+  "native_inputs": {},
+  "native_guards": {},
+  "templates": {
+    "upstream_13_2_release_post/After243.inc": "54135affcb87569e738fc56a4dc250a3d01149f41f07749731f24cd35ef268a8",
+    "installation_metrics/AppDelegate.inc": "7cd1bff8c6d9ce0af3d5be1a89f002accfb6fb6ff1b315df006137707bfac135",
+    "file_caption_wire_spacing/Guard1.inc": "c819263cd1c2d6407308fe3f172f9f564b40e26f3b688da39739577bae792f52",
+    "installation_metrics/NagramiXInstallationMetrics.swift": "3cb766c325a117f5630a3b3238aed603e7d2408619ffb131b1b16f305497c6b1"
+  }
+}

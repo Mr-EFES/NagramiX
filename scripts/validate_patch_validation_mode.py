@@ -92,6 +92,7 @@ def check(text):
     mandatory.append('validate_archive_local_delete_transition.py')
     mandatory.append('validate_youtube_pip_source.py')
     mandatory.append('validate_pip_session_recovery.py')
+    mandatory.append('validate_installation_metrics.py')
     for name in mandatory:
         assert re.search(r'^          python3 scripts/'+re.escape(name)+r'\b',source,re.M),name
         assert 'nagramix_extended_check python3 scripts/'+name not in source,name
