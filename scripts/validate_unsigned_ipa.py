@@ -26,7 +26,7 @@ def require(condition: bool, message: str) -> None:
         raise SystemExit(message)
 
 
-def expected_nagramix_catalogs(version: str | None = None, *, source_commit: str | None = None) -> dict[str, dict[str, str]]:
+def expected_nagramix_catalogs(version: str | None = None, *, source_commit: str | None = None, include_revision_actions: bool = True) -> dict[str, dict[str, str]]:
     """Получить точные каталоги нужного выпуска, сохраняя контракты старых IPA."""
     plan = json.loads((ROOT / 'ios/vosk_model_naming_patches.json').read_text())
     labels = json.loads((ROOT / 'ios/vosk_model_naming/labels.json').read_text())
@@ -382,6 +382,16 @@ def expected_nagramix_catalogs(version: str | None = None, *, source_commit: str
             require(message.count('\n') == 1 and message.replace('\n', ' ') == previous[key]
                     and current == {**previous, key: message}, 'Изменён текст предупреждения DoH: ' + code)
             catalogs[code] = current
+        if include_revision_actions:
+            stage = 'edit_history_revision_actions'
+            contract = json.loads((ROOT / 'ios' / f'{stage}_patches.json').read_text())
+            keys = {'NagramiX.EditHistory.' + name for name in ('Before', 'After', 'Broadcast')}
+            for code, previous in catalogs.items():
+                path = f'submodules/NagramiXCore/Resources/{code}.lproj/Localizable.strings'
+                current = checked_snapshot(contract['replacements'][path], contract['outputs'][path], contract, stage)
+                require(current.keys() - previous.keys() == keys and previous.items() <= current.items()
+                        and all(current[key].strip() for key in keys), 'Неверные подписи истории правок: ' + code)
+                catalogs[code] = current
     return catalogs
 
 

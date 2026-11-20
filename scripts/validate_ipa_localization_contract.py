@@ -71,7 +71,9 @@ class CatalogTests(unittest.TestCase):
                 cls.tab_snapshots = dict(cls.final_snapshots)
             if stage == 'proxy_timeout_sheet':
                 cls.timeout_catalogs = {code: strings(path) for code, (path, _) in cls.final_snapshots.items()}
-        cls.doh_catalogs = {code: strings(path) for code, (path, _) in cls.final_snapshots.items()}
+            if stage == 'doh_alert_message':
+                cls.doh_catalogs = {code: strings(path) for code, (path, _) in cls.final_snapshots.items()}
+        cls.history_catalogs = {code: strings(path) for code, (path, _) in cls.final_snapshots.items()}
         cls.tab_catalogs = {code: strings(path) for code, (path, _) in cls.tab_snapshots.items()}
         cls.final_snapshots = cls.release098_snapshots
         cls.final_catalogs = {code: strings(path) for code, (path, _) in cls.final_snapshots.items()}
@@ -421,15 +423,20 @@ class CatalogTests(unittest.TestCase):
 
     def test_current_release_matches_current_source_catalogs(self):
         version = json.loads((ROOT / 'product/features/registry.json').read_text())['release']
-        self.assertEqual(expected_nagramix_catalogs(version), self.doh_catalogs)
+        self.assertEqual(expected_nagramix_catalogs(version), self.history_catalogs)
 
     def test_short_and_patch_versions_keep_complete_catalog_contract(self):
         for version in ['1.0','1.0.1','1.1','1.1.9','1.2']:
             with self.subTest(version=version):
-                expected = self.doh_catalogs if parse_release_version(version) >= (1, 0, 2) else self.timeout_catalogs
+                expected = self.history_catalogs if parse_release_version(version) >= (1, 0, 2) else self.timeout_catalogs
                 self.assertEqual(expected_nagramix_catalogs(version), expected)
         with self.archive(self.tab_catalogs) as archive:
             self.assertEqual(validate_settings_localizations(archive, PREFIX, '1.0', source_commit=PUBLISHED_100_SOURCE), 71)
+
+    def test_history_labels_extend_the_doh_catalogs(self):
+        self.assertEqual(expected_nagramix_catalogs('1.0.2', include_revision_actions=False), self.doh_catalogs)
+        self.assertEqual(self.history_catalogs['ru']['NagramiX.EditHistory.Broadcast'], 'Разослать')
+        self.assertTrue(all(len(values) == 684 for values in self.history_catalogs.values()))
 
     def test_published_102_still_validates_its_original_catalogs(self):
         commit = 'b36792851f531b834380384d66d2ef27e7415ee9'

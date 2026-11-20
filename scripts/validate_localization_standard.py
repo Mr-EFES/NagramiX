@@ -97,7 +97,7 @@ def final_upstream_catalog_contract(source):
     if prefix > LATE_SOURCE_STAGES.index('proxy_timeout_sheet'):
         from validate_unsigned_ipa import expected_nagramix_catalogs
         version = '1.0.2' if prefix > LATE_SOURCE_STAGES.index('doh_alert_message') else '1.0'
-        expected = expected_nagramix_catalogs(version)
+        expected = expected_nagramix_catalogs(version, include_revision_actions=prefix > LATE_SOURCE_STAGES.index('edit_history_revision_actions'))
         languages, count = catalog_contract(source, set(expected))
         for code, values in expected.items():
             path = source / f'submodules/NagramiXCore/Resources/{code}.lproj/Localizable.strings'
