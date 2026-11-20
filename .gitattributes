@@ -79,6 +79,7 @@ scripts/tests/release095_native_sources/Native[0-9]*.inc linguist-vendored
 # Сгенерированные снимки патчей не отражают язык активного исходного кода.
 ios/**/Before*.inc linguist-generated=true
 ios/**/After*.inc linguist-generated=true
+ios/doh_alert_message/*.lproj/Localizable.strings linguist-generated=true
 ios/**/Guard*.inc linguist-generated=true
 ios/**/Deleted[0-9]*.inc linguist-generated=true
 ios/voice_transcription/Inputs/** linguist-generated=true

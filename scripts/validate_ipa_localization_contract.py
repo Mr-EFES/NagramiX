@@ -69,7 +69,9 @@ class CatalogTests(unittest.TestCase):
                 cls.published_snapshots = dict(cls.final_snapshots)
             if stage == 'tab_visibility_sync':
                 cls.tab_snapshots = dict(cls.final_snapshots)
-        cls.timeout_catalogs = {code: strings(path) for code, (path, _) in cls.final_snapshots.items()}
+            if stage == 'proxy_timeout_sheet':
+                cls.timeout_catalogs = {code: strings(path) for code, (path, _) in cls.final_snapshots.items()}
+        cls.doh_catalogs = {code: strings(path) for code, (path, _) in cls.final_snapshots.items()}
         cls.tab_catalogs = {code: strings(path) for code, (path, _) in cls.tab_snapshots.items()}
         cls.final_snapshots = cls.release098_snapshots
         cls.final_catalogs = {code: strings(path) for code, (path, _) in cls.final_snapshots.items()}
@@ -419,15 +421,21 @@ class CatalogTests(unittest.TestCase):
 
     def test_current_release_matches_current_source_catalogs(self):
         version = json.loads((ROOT / 'product/features/registry.json').read_text())['release']
-        expected = self.timeout_catalogs if parse_release_version(version) >= (1, 0, 0) else self.tab_catalogs
-        self.assertEqual(expected_nagramix_catalogs(version), expected)
+        self.assertEqual(expected_nagramix_catalogs(version), self.doh_catalogs)
 
     def test_short_and_patch_versions_keep_complete_catalog_contract(self):
         for version in ['1.0','1.0.1','1.1','1.1.9','1.2']:
             with self.subTest(version=version):
-                self.assertEqual(expected_nagramix_catalogs(version), self.timeout_catalogs)
+                expected = self.doh_catalogs if parse_release_version(version) >= (1, 0, 2) else self.timeout_catalogs
+                self.assertEqual(expected_nagramix_catalogs(version), expected)
         with self.archive(self.tab_catalogs) as archive:
             self.assertEqual(validate_settings_localizations(archive, PREFIX, '1.0', source_commit=PUBLISHED_100_SOURCE), 71)
+
+    def test_published_102_still_validates_its_original_catalogs(self):
+        commit = 'b36792851f531b834380384d66d2ef27e7415ee9'
+        self.assertEqual(expected_nagramix_catalogs('1.0.2', source_commit=commit), self.timeout_catalogs)
+        with self.archive(self.timeout_catalogs) as archive, self.assertRaises(SystemExit):
+            validate_settings_localizations(archive, PREFIX, '1.0.2')
 
     def test_proxy_timeout_title_is_required_for_new_source_of_same_version(self):
         self.assertEqual(self.timeout_catalogs['ru'][PROXY_TIMEOUT_TITLE], 'Время ожидания подключения')

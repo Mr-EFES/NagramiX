@@ -16,6 +16,7 @@ from release_version import is_release_version, parse_release_version
 
 ROOT = Path(__file__).resolve().parents[1]
 PUBLISHED_100_SOURCE = '4b839e78591eecd5349bfbc347aa8c61f351267a'
+PUBLISHED_102_SOURCE = 'b36792851f531b834380384d66d2ef27e7415ee9'
 PROXY_TIMEOUT_TITLE = 'NagramiX.Network.Proxy.Timeout.Title'
 
 
@@ -367,6 +368,18 @@ def expected_nagramix_catalogs(version: str | None = None, *, source_commit: str
                     and title.strip() and PROXY_TIMEOUT_TITLE not in previous
                     and current == {**previous, PROXY_TIMEOUT_TITLE: title},
                     'Неверный перевод времени ожидания прокси: ' + code)
+            catalogs[code] = current
+    published_102 = version_parts == (1, 0, 2) and source_commit == PUBLISHED_102_SOURCE
+    if version_parts is not None and version_parts >= (1, 0, 2) and not published_102:
+        stage = 'doh_alert_message'
+        contract = json.loads((ROOT / 'ios' / f'{stage}_patches.json').read_text())
+        key = 'NagramiX.Network.DNS.CustomUnavailable'
+        for code, previous in catalogs.items():
+            path = f'submodules/NagramiXCore/Resources/{code}.lproj/Localizable.strings'
+            current = checked_snapshot(contract['replacements'][path], contract['outputs'][path], contract, stage)
+            message = current[key]
+            require(message.count('\n') == 1 and message.replace('\n', ' ') == previous[key]
+                    and current == {**previous, key: message}, 'Изменён текст предупреждения DoH: ' + code)
             catalogs[code] = current
     return catalogs
 

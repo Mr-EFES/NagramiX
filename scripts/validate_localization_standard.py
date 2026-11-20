@@ -93,14 +93,16 @@ def final_upstream_catalog_contract(source):
     """Verify the exact late 13.2 catalogs, without unwrapping historical stages."""
     from validate_upstream_13_2_release import checked_plan, checked_sdk_plans
     from late_source_stages import LATE_SOURCE_STAGES, historical_source, verified_prefix
-    if verified_prefix(source) >= LATE_SOURCE_STAGES.index('proxy_timeout_sheet') + 1:
+    prefix = verified_prefix(source)
+    if prefix > LATE_SOURCE_STAGES.index('proxy_timeout_sheet'):
         from validate_unsigned_ipa import expected_nagramix_catalogs
-        expected = expected_nagramix_catalogs('1.0')
+        version = '1.0.2' if prefix > LATE_SOURCE_STAGES.index('doh_alert_message') else '1.0'
+        expected = expected_nagramix_catalogs(version)
         languages, count = catalog_contract(source, set(expected))
         for code, values in expected.items():
             path = source / f'submodules/NagramiXCore/Resources/{code}.lproj/Localizable.strings'
             if strings(path) != values:
-                raise ValueError('Изменён перевод панели времени ожидания прокси: ' + code)
+                raise ValueError('Каталог перевода отличается от ожидаемого: ' + code)
         return languages, count
     if verified_prefix(source) >= LATE_SOURCE_STAGES.index('tab_visibility_sync') + 1:
         plan = checked_plan('tab_visibility_sync')
