@@ -16,17 +16,21 @@ EDITOR = 'submodules/SettingsUI/Sources/NagramiXCustomDohController.swift'
 KEY = 'NagramiX.Network.DNS.CustomUnavailable'
 
 
-def validate(source, swiftc):
+def validate(source, swiftc, *, preflight=False):
     plan = checked_plan('doh_alert_message')
+    snapshots = {**plan['replacements'], **plan['guard_sources']}
+    def input_path(name):
+        return ROOT / 'ios' / snapshots[name] if preflight else source / name
+
     for name, expected in {**plan['outputs'], **plan['guards']}.items():
-        assert digest(source / name) == expected, name
+        assert digest(input_path(name)) == expected, name
         if name.endswith('Localizable.strings'):
-            lines = strings(source / name)[KEY].split('\n')
+            lines = strings(input_path(name))[KEY].split('\n')
             previous = strings(ROOT / 'ios' / plan['previous'][name])[KEY]
             assert len(lines) == 2 and all(lines) and ' '.join(lines) == previous, name
 
-    alert = (source / ALERT).read_text()
-    editor = (source / EDITOR).read_text()
+    alert = input_path(ALERT).read_text()
+    editor = input_path(EDITOR).read_text()
     content = (source / Path(ALERT).with_name('AlertContent.swift')).read_text()
     assert 'let contentSideInset = component.configuration.contentSideInset' in alert
     assert 'width: alertWidth - contentSideInset * 2.0' in alert
@@ -47,7 +51,7 @@ def validate(source, swiftc):
     width = number(r'let alertWidth: CGFloat = ([\d.]+)', alert)
     inset = number(r'let inset: CGFloat = ([-\d.]+)', block(content, 'public final class AlertTextComponent:'))
     font_size = number(r'let defaultTextFont = Font.regular\(([\d.]+)\)', content)
-    ru = source / 'submodules/NagramiXCore/Resources/ru.lproj/Localizable.strings'
+    ru = input_path('submodules/NagramiXCore/Resources/ru.lproj/Localizable.strings')
     with tempfile.TemporaryDirectory(prefix='doh-alert-layout-') as tmp:
         folder = Path(tmp)
         fixture = (ROOT / 'scripts/tests/NagramiXDohAlertMessage.swift').read_text()
@@ -56,14 +60,17 @@ def validate(source, swiftc):
         fixture = fixture.replace('TEXT_INSET', inset).replace('FONT_SIZE', font_size)
         test = folder / 'Layout.swift'
         test.write_text(fixture)
-        run([swiftc, '-frontend', '-parse', source / EDITOR, source / ALERT])
+        run([swiftc, '-frontend', '-parse', input_path(EDITOR), input_path(ALERT)])
         run([swiftc, '-warnings-as-errors', '-module-cache-path', folder / 'cache', test, '-o', folder / 'layout'])
         print(run([folder / 'layout', ru]).stdout.strip(), flush=True)
 
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('--source', required=True, type=Path)
+    inputs = parser.add_mutually_exclusive_group(required=True)
+    inputs.add_argument('--source', type=Path)
+    inputs.add_argument('--preflight-upstream', type=Path,
+                        help='Use the release snapshots with AlertContent.swift from the pinned checkout')
     parser.add_argument('--swiftc', required=True, type=Path)
     args = parser.parse_args()
-    validate(args.source, args.swiftc)
+    validate(args.source or args.preflight_upstream, args.swiftc, preflight=args.preflight_upstream is not None)

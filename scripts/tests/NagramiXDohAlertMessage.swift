@@ -9,8 +9,9 @@ enum AlertScreen {
 }
 
 let config: AlertScreen.Configuration = ALERT_CONFIG
-let width: CGFloat = ALERT_WIDTH - 2 * (config.contentSideInset + TEXT_INSET)
-precondition(ALERT_WIDTH == 300 && AlertScreen.Configuration().contentSideInset == 30)
+let alertWidth: CGFloat = ALERT_WIDTH
+let width = alertWidth - 2 * (config.contentSideInset + TEXT_INSET)
+precondition(alertWidth == 300 && AlertScreen.Configuration().contentSideInset == 30)
 precondition(config.allowInputInset && width == 268)
 let resource = try Data(contentsOf: URL(fileURLWithPath: CommandLine.arguments[1]))
 let catalog = try PropertyListSerialization.propertyList(from: resource, format: nil) as! [String: String]

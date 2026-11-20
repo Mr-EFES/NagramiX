@@ -145,6 +145,14 @@ jobs:
           xcode_version="$(python3 -c 'import json; print(json.load(open("Telegram-iOS/versions.json"))["xcode"])')"
           sudo xcode-select -s "/Applications/Xcode_${xcode_version}.app/Contents/Developer"
 
+      - name: Проверить окно DoH и историю правок на Apple Swift
+        shell: bash
+        run: |
+          export SDKROOT="$(xcrun --sdk macosx --show-sdk-path)"
+          export MACOSX_DEPLOYMENT_TARGET=13.0
+          python3 scripts/validate_doh_alert_message.py --preflight-upstream Telegram-iOS --swiftc "$(xcrun --find swiftc)"
+          python3 scripts/validate_edit_history_revision_actions.py --canonical-cards --swiftc "$(xcrun --find swiftc)"
+
       - name: Подготовить Node для проверки встроенного JavaScript
         uses: actions/setup-node@v4
         with:

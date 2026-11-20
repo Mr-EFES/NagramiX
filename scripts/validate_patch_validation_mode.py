@@ -14,6 +14,10 @@ ROOT=Path(__file__).resolve().parents[1]
 def check(text):
     assert text.index('uses: actions/setup-node@v4') < text.index('python3 scripts/validate_release_095_apple_preflight.py')
     start=text.index('      - name: Применить overlay NagramiX\n')
+    selected_xcode = text.index('sudo xcode-select -s')
+    for command in ('validate_doh_alert_message.py --preflight-upstream Telegram-iOS',
+                    'validate_edit_history_revision_actions.py --canonical-cards'):
+        assert '          python3 scripts/' + command + ' --swiftc ' in text[selected_xcode:start], command
     assert re.search(r'^          python3 scripts/validate_release_095_apple_preflight\.py --swiftc ',text[:start],re.M), 'Complete fixture preflight must run before overlay'
     assert re.search(r'^          python3 scripts/validate_native_string_references\.py --canonical --swiftc ',text[:start],re.M), 'Native generated strings SDK check must run before overlay'
     assert re.search(r'^          python3 scripts/validate_premium_temporary_transcription_native_api\.py --source Telegram-iOS ',text[:start],re.M), 'Actual native file ASR API probe must run before overlay'

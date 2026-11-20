@@ -13,7 +13,7 @@ STAGE = 'edit_history_revision_actions'
 UI = Path('submodules/TelegramUI/Sources')
 
 
-def validate(source, swiftc, folder):
+def validate(source, swiftc):
     plan = checked_plan(STAGE)
     for name, expected in {**plan['outputs'], **plan['guards']}.items():
         assert digest(source / name) == expected, name
@@ -40,6 +40,11 @@ def validate(source, swiftc, folder):
     assert 'configuration.imagePlacement = accessibleSize ? .leading : .top' in text
     assert '.underlineStyle : .strikethroughStyle' in text
     run([swiftc, '-frontend', '-parse', screen, source / UI / 'ChatInterfaceStateContextMenus.swift'])
+    return text
+
+
+def test_card_actions(text, swiftc, folder):
+    row = block(text, '    func tableView(_ tableView: UITableView, cellForRowAt')
     fixture = (ROOT / 'scripts/tests/NagramiXRevisionComparison.swift').read_text()
     fixture = fixture.replace('// COMPARISON', block(text, 'private enum NagramiXRevisionComparison'))
     fixture = fixture.replace('// SNAPSHOT', 'private ' + block(text, 'func nagramiXEditHistorySnapshot'))
@@ -50,8 +55,16 @@ def validate(source, swiftc, folder):
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('--source', required=True, type=Path)
+    inputs = parser.add_mutually_exclusive_group(required=True)
+    inputs.add_argument('--source', type=Path)
+    inputs.add_argument('--canonical-cards', action='store_true')
     parser.add_argument('--swiftc', required=True, type=Path)
     args = parser.parse_args()
+    if args.canonical_cards:
+        screen = str(UI / 'Chat/NagramiXEditHistoryController.swift')
+        snapshot = checked_plan(STAGE)['replacements'][screen]
+        text = (ROOT / 'ios' / snapshot).read_text()
+    else:
+        text = validate(args.source, args.swiftc)
     with tempfile.TemporaryDirectory(prefix='revision-actions-') as tmp:
-        validate(args.source, args.swiftc, Path(tmp))
+        test_card_actions(text, args.swiftc, Path(tmp))
