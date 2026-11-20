@@ -1,0 +1,35 @@
+{
+  "target_pin": "24638bc69bd083981b178dd1e7f921eebbf7fc46",
+  "overlay_base_pin": "279f89e4d4f63f17227bf877dc3d8990f22ecd58",
+  "required_previous_stage": "web_video_source_handoff",
+  "inputs": {
+    "submodules/NagramiXCore/Sources/NagramiXGlassSlider.swift": "a632b9c6acc2381e74ec7335fcc344de75ef76af2feb6ce469919f56efb736c7"
+  },
+  "outputs": {
+    "submodules/NagramiXCore/Sources/NagramiXGlassSlider.swift": "ccf80cae30d26995349c9ba28a82dfd2449379481d145e49bc77ffbc80bae67d"
+  },
+  "previous": {
+    "submodules/NagramiXCore/Sources/NagramiXGlassSlider.swift": "round_bitrate_levels/After3.inc"
+  },
+  "replacements": {
+    "submodules/NagramiXCore/Sources/NagramiXGlassSlider.swift": "slider_main_thread_layout/NagramiXGlassSlider.swift.inc"
+  },
+  "guards": {
+    "submodules/SettingsUI/Sources/NagramiXRoundQualityController.swift": "887ae366e6570a9f696cdb36909698232dee9d77ac43caf3de319e92a7069cb9",
+    "submodules/NagramiXCore/BUILD": "869e31310cc925b84ceb827a3c0b8503f3a22614acb4abeeec4a4ad435cf56e2"
+  },
+  "guard_sources": {
+    "submodules/SettingsUI/Sources/NagramiXRoundQualityController.swift": "round_quality_horizontal_page/After0.inc",
+    "submodules/NagramiXCore/BUILD": "tab_visibility_sync/Guard2.inc"
+  },
+  "copies": {},
+  "deletions": {},
+  "native_inputs": {},
+  "native_guards": {},
+  "templates": {
+    "round_bitrate_levels/After3.inc": "a632b9c6acc2381e74ec7335fcc344de75ef76af2feb6ce469919f56efb736c7",
+    "slider_main_thread_layout/NagramiXGlassSlider.swift.inc": "ccf80cae30d26995349c9ba28a82dfd2449379481d145e49bc77ffbc80bae67d",
+    "round_quality_horizontal_page/After0.inc": "887ae366e6570a9f696cdb36909698232dee9d77ac43caf3de319e92a7069cb9",
+    "tab_visibility_sync/Guard2.inc": "869e31310cc925b84ceb827a3c0b8503f3a22614acb4abeeec4a4ad435cf56e2"
+  }
+}

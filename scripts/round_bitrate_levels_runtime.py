@@ -28,7 +28,7 @@ def fixture(source):
     code+=block((source/U).read_text(),'func nagramiXRoundQualitySubtitle(')+'\n'
     return code+(ROOT/'scripts/tests/NagramiXRoundBitrateLevelsTests.swift').read_text()
 
-def ui_fixture(source):
+def ui_fixture(source, *, slider_code=None):
     boundary=glass.boundary(source)
     a=boundary.index('struct NagramiXRoundVideoSettings {');b=boundary.index('func nativePositiveMinimumPosition',a);boundary=boundary[:a]+boundary[b:]
     boundary=boundary.replace(' func accessibilityIncrement(){};func accessibilityDecrement(){}',' var nativeIncrements=0;var nativeDecrements=0\n func accessibilityIncrement(){nativeIncrements+=1};func accessibilityDecrement(){nativeDecrements+=1}')
@@ -41,7 +41,9 @@ def ui_fixture(source):
  func nagramiXLocalized(_ key:String)->String{fixtureTranslations[fixtureLanguageCode]![key]!}
 }''')
     boundary+='\nclass NagramiXSnowDensityItemNode{func sliderValueChanged(){}}\nclass NagramiXPercentageItemNode{func sliderValueChanged(){}}\n'
-    actual=glass.body(source,G)+'\n'+block((source/U).read_text(),'private final class NagramiXRoundBitRateCell:')
+    if slider_code is None:
+        slider_code=glass.body(source,G)
+    actual=slider_code+'\n'+block((source/U).read_text(),'private final class NagramiXRoundBitRateCell:')
     actual=actual.replace('public ','').replace('private ','fileprivate ').replace('@objc ','').replace('if #available(iOS 26.0, *)','if fixtureGlassAvailable')
     actual=re.sub(r'#selector\([^\n;]*?\)\)', '"fixtureAction"',actual)
     for name in ["valueChanged","sliderTrackingEnded"]:actual=actual.replace("#selector(self."+name+")",'"fixtureAction"')
