@@ -7,6 +7,7 @@ import importlib.util
 import json
 import os
 from pathlib import Path
+import re
 import shutil
 import subprocess
 import tempfile
@@ -96,6 +97,21 @@ def checked_sdk_plans(post):
     return plans, expected
 
 
+def verify_stage_validation_order(workflow):
+    apply_offsets = [workflow.index('apply_' + stage + '(') for stage in SDK_STAGES]
+    assert apply_offsets == sorted(set(apply_offsets)), 'SDK stages are out of order'
+    final_check = workflow.index('python3 scripts/validate_upstream_13_2_release.py --source Telegram-iOS')
+    shared_check = {'premium_label_cleanup', 'premium_label_spelling', 'local_read_label'}
+    stage_offsets = apply_offsets[len(SDK_COMPILE_STAGES):] + [final_check]
+    for index, stage in enumerate(LATE_SOURCE_STAGES):
+        # Presentation-only stages share the final inverse/SHA check.
+        validator = 'late_source_stages' if stage in shared_check else stage
+        end = final_check if stage in shared_check else stage_offsets[index + 1]
+        commands = workflow[stage_offsets[index]:end]
+        check = rf'^[ \t]*(?:nagramix_extended_check )?python3 scripts/validate_{validator}\.py --source Telegram-iOS(?:[ \t]|$)'
+        assert re.search(check, commands, re.MULTILINE), f'Missing source validation after applying {stage}'
+
+
 def verify(source):
     pre = checked_plan('upstream_13_2_release_pre')
     post = checked_plan('upstream_13_2_release_post')
@@ -128,16 +144,7 @@ def verify(source):
     assert workflow.index('apply_upstream_13_2_release_auth_compile(') < workflow.index('apply_upstream_13_2_release_delivery_compile(') < workflow.index('validate_upstream_13_2_release.py')
     assert workflow.index('apply_upstream_13_2_release_delivery_compile(') < workflow.index('apply_upstream_13_2_release_ack_compile(') < workflow.index('validate_upstream_13_2_release.py')
     assert workflow.index('apply_upstream_13_2_release_ack_compile(') < workflow.index('apply_upstream_13_2_release_string_compile(') < workflow.index('validate_upstream_13_2_release.py')
-    order = [workflow.index('apply_' + stage + '(') for stage in SDK_STAGES]
-    assert order == sorted(order) and len(order) == len(set(order))
-    for index, stage in enumerate(LATE_SOURCE_STAGES):
-        # This presentation-only stage uses the existing full inverse/SHA gate;
-        # final source parsing and strict localization still run below.
-        command = 'python3 scripts/validate_late_source_stages.py' if stage in ('premium_label_cleanup', 'premium_label_spelling', 'local_read_label') else 'python3 scripts/validate_' + stage + '.py'
-        validation = workflow.index(command)
-        next_stage = LATE_SOURCE_STAGES[index + 1] if index + 1 < len(LATE_SOURCE_STAGES) else None
-        boundary = workflow.index('python3 scripts/validate_upstream_13_2_release.py') if stage in ('premium_label_cleanup', 'premium_label_spelling', 'local_read_label') or not next_stage else workflow.index('apply_' + next_stage + '(')
-        assert workflow.index('apply_' + stage + '(') < validation < boundary
+    verify_stage_validation_order(workflow)
     assert workflow.index('python3 scripts/validate_temporary_message_interaction.py') < workflow.index('python3 scripts/validate_account_settings_entry.py') < workflow.index('python3 scripts/validate_release_090_preflight_fixes.py') < workflow.index('python3 scripts/validate_late_source_stages.py') < workflow.index('python3 scripts/validate_upstream_13_2_release.py')
     assert workflow.index('validate_custom_member_references.py --canonical') < workflow.index('Применить overlay NagramiX')
     assert workflow.index('validate_upstream_13_2_release.py') < workflow.index('--final-upstream-13-2')
@@ -165,7 +172,6 @@ def verify(source):
     copier = (source / 'submodules/TelegramUI/Sources/Chat/NagramiXCopyDelivery.swift').read_text()
     assert 'LottieSettings' not in copier
     filters = (source / 'submodules/AccountContext/Sources/PeerSelectionController.swift').read_text()
-    import re
     bits = re.findall(r'public static let (\w+) = ChatListNodePeersFilter\(rawValue: 1 << (\d+)\)', filters)
     for name, bit in bits:
         if name.startswith('nagramiX'):

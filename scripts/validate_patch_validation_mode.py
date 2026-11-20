@@ -6,6 +6,8 @@ import re
 import subprocess
 import tempfile
 
+from validate_upstream_13_2_release import verify_stage_validation_order
+
 ROOT=Path(__file__).resolve().parents[1]
 
 
@@ -23,6 +25,7 @@ def check(text):
     assert 'pre-sdk-failed-checks.json' in text and 'nagramix-test-failures/' in text
     end=text.index('      - name: Восстановить кеш Bazel\n',start)
     source=text[start:end]
+    verify_stage_validation_order(source)
     option=re.search(r'^      extended_patch_tests:\n(.*?)(?=^      \w+:)',text,re.M|re.S).group(1)
     assert 'type: boolean' in option and 'default: false' in option
     assert 'NAGRAMIX_EXTENDED_PATCH_TESTS: ${{ inputs.extended_patch_tests }}' in source
@@ -128,6 +131,15 @@ def check(text):
 
 def main():
     text=(ROOT/'.github/workflows/build-unsigned-ipa.yml').read_text();report=check(text)
+    # Keeping the early PiP fixture must not satisfy a missing full-source test.
+    changed = text.replace('validate_web_video_source_handoff.py --source Telegram-iOS',
+                           'validate_web_video_source_handoff.py --canonical-handoff')
+    try:
+        verify_stage_validation_order(changed)
+    except AssertionError as error:
+        assert 'web_video_source_handoff' in str(error), error
+    else:
+        raise AssertionError('Missing full-source PiP handoff check accepted')
     changed=text.replace('test "$nagramix_pre_sdk_failed" -eq 0','true',1)
     try:check(changed)
     except AssertionError:pass
