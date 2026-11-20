@@ -30,7 +30,8 @@ def validate(source, swiftc, folder):
     for name in ('Youtube.html', 'YoutubeUserScript.js'):
         shutil.copy(resources / name, folder / name)
     fixture = (scripts / 'NagramiXYoutubeEmbedStartup.swift').read_text()
-    host = 'import Foundation\nimport CoreFoundation\n' + types + '\n' + controller + '\n' + fixture
+    imports = prior[:prior.index('class UIGestureRecognizer')]
+    host = imports + types + '\n' + controller + '\n' + fixture
     for result in execute(swiftc, folder, 'YoutubeEmbedStartup', host):
         print(result['mode'], result['output'], flush=True)
 

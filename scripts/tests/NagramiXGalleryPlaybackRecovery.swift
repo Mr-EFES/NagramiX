@@ -1,5 +1,8 @@
 import Foundation
 import CoreFoundation
+#if canImport(CoreGraphics)
+import CoreGraphics
+#endif
 
 class UIGestureRecognizer {}
 final class UIPanGestureRecognizer: UIGestureRecognizer {

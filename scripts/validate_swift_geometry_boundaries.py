@@ -52,6 +52,7 @@ PROBE = r'''
 
 
 def check(swiftc):
+    gallery_fixture = (Path(__file__).parent / 'tests/NagramiXGalleryPlaybackRecovery.swift').read_text()
     boundaries = {
         'round-row': UI_BOUNDARY,
         'pip-handoff': CORE_GRAPHICS_IMPORT + 'import Foundation\n',
@@ -76,6 +77,7 @@ def check(swiftc):
         'tab-visibility': TAB_VISIBILITY_IMPORTS,
         'round-encoding-pipeline': ROUND_ENCODING_IMPORTS,
         'settings-category-bar': CATEGORY_BAR_IMPORTS,
+        'gallery-playback-recovery': gallery_fixture.split('class UIGestureRecognizer', 1)[0],
     }
     report = {'boundaries': [], 'apple_import_negatives': [],
               'boundary': 'Actual test boundary imports and geometry operators; no UIKit or whole-app SDK build.'}
