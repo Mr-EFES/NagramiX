@@ -69,7 +69,7 @@ struct MediaPlayerStatus {
 }
 protocol WebEmbedImplementation {}
 struct FixtureAppBundle {
-    let bundleIdentifier: String? = "com.Mr-EFES.NagramiX"
+    let bundleIdentifier: String? = "com.NagramiX.iOS"
     func path(forResource name: String, ofType type: String) -> String? {
         URL(fileURLWithPath: #filePath).deletingLastPathComponent().appendingPathComponent(name + "." + type).path
     }
@@ -133,7 +133,7 @@ class Queue {
         let page = WKWebView()
         youtube.setup(page, userContentController: WKUserContentController(), evaluateJavaScript: { _, _ in },
                       updateStatus: { states.append($0) }, onPlaybackStarted: {})
-        precondition(page.origin?.absoluteString == "https://com.mr-efes.nagramix")
+        precondition(page.origin?.absoluteString == "https://com.nagramix.ios")
         precondition(page.html.replacingOccurrences(of: "\\/", with: "/").contains(page.origin!.absoluteString))
         youtube.play()
         youtube.callback(url: URL(string: "embed://onState?failed=true&playback=-1&duration=0")!)

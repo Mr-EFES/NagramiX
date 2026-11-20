@@ -684,6 +684,7 @@ jobs:
       - name: Создать временные профили NagramiX для сборки
         shell: bash
         run: |
+          bundle_id="$(jq -er .bundle_id "$RUNNER_TEMP/nagramix-configuration.json")"
           python3 ios/generate_fake_profiles.py \
             --source-profiles Telegram-iOS/build-system/fake-codesigning/profiles \
             --source-certs Telegram-iOS/build-system/fake-codesigning/certs \
@@ -691,7 +692,8 @@ jobs:
             --upstream-team C67CF9S4VU \
             --upstream-bundle ph.telegra.Telegraph \
             --team NAGRAMIX0 \
-            --bundle com.mr-efes.nagramix
+            --bundle "$bundle_id"
+          echo "NAGRAMIX_BUNDLE_ID=$bundle_id" >> "$GITHUB_ENV"
 
       - name: Собрать нативное ARM64-приложение NagramiX без профилей
         working-directory: Telegram-iOS
@@ -738,7 +740,7 @@ jobs:
           bash scripts/package_unsigned_ipa.sh \
             "$RUNNER_TEMP/nagramix-unpack/Payload/Telegram.app" \
             "NagramiX-${NAGRAMIX_VERSION}-unsigned.ipa" \
-            com.mr-efes.nagramix \
+            "$NAGRAMIX_BUNDLE_ID" \
             "$NAGRAMIX_VERSION"
 
       - name: Записать происхождение сборки
@@ -804,6 +806,9 @@ jobs:
           fi
           [[ "$source_sha" =~ ^[0-9a-f]{40}$ ]]
           [[ "$build_number" =~ ^[0-9]+$ ]]
+          if ! git cat-file -e "${source_sha}^{commit}" 2>/dev/null; then
+            git fetch --no-tags --depth=1 origin "$source_sha"
+          fi
           echo "run_id=$run_id" >> "$GITHUB_OUTPUT"
           echo "source_sha=$source_sha" >> "$GITHUB_OUTPUT"
           echo "build_number=$build_number" >> "$GITHUB_OUTPUT"

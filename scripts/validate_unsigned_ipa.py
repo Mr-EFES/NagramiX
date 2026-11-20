@@ -9,6 +9,7 @@ import json
 import plistlib
 import re
 import struct
+import subprocess
 import zipfile
 from pathlib import Path
 
@@ -551,12 +552,20 @@ def main() -> None:
         for expected in provenance_lines(load_plan()):
             require(expected in provenance, 'Не указана точная замена зависимости Telegram13.2')
 
+    require(re.fullmatch(r"[0-9a-f]{40}", args.source_commit) is not None, "Неверный SHA исходного коммита")
+    config = subprocess.run(
+        ["git", "show", f"{args.source_commit}:ios/configuration.template.json"],
+        cwd=ROOT, capture_output=True, check=False,
+    )
+    require(config.returncode == 0, "Не найдена конфигурация приложения для коммита " + args.source_commit)
+    expected_bundle_id = json.loads(config.stdout)["bundle_id"]
+
     prefix = "Payload/NagramiX.app/"
     with zipfile.ZipFile(args.ipa) as archive:
         names = archive.namelist()
         info = plistlib.loads(archive.read(prefix + "Info.plist"))
         for key, expected in (
-            ("CFBundleIdentifier", "com.mr-efes.nagramix"),
+            ("CFBundleIdentifier", expected_bundle_id),
             ("CFBundleDisplayName", "NagramiX"),
             ("CFBundleDevelopmentRegion", "ru"),
             ("CFBundleShortVersionString", args.version),

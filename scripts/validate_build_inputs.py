@@ -15,7 +15,9 @@ def workflow_contract(text):
     on=re.search(r'^on:\n(.*?)(?=^\S)',text,re.M|re.S)
     require(on is not None and re.findall(r'^  ([\w-]+):',on.group(1),re.M)==['workflow_dispatch'], 'Разрешён только ручной workflow_dispatch')
     require(not re.search(r'^\s*cancel-in-progress:\s*true\s*$',text,re.M),'Сборка не должна отменять уже запущенный run')
-    for fragment in ('runs-on: xcode-27','--configuration=release_arm64','python3 ios/generate_fake_profiles.py','bash scripts/package_unsigned_ipa.sh','--team NAGRAMIX0','--bundle com.mr-efes.nagramix'):
+    for fragment in ('runs-on: xcode-27','--configuration=release_arm64','python3 ios/generate_fake_profiles.py','bash scripts/package_unsigned_ipa.sh','--team NAGRAMIX0',
+                     'bundle_id="$(jq -er .bundle_id "$RUNNER_TEMP/nagramix-configuration.json")"',
+                     '--bundle "$bundle_id"', 'echo "NAGRAMIX_BUNDLE_ID=$bundle_id" >> "$GITHUB_ENV"', '"$NAGRAMIX_BUNDLE_ID" \\'):
         require(fragment in text,'Изменён контракт сборки/подписи: '+fragment)
     paths=set(re.findall(r'\b(?:python3|bash)\s+((?:scripts|ios)/[\w./-]+\.(?:py|sh))\b',text))
     require(paths,'Не найдены вызываемые скрипты')
@@ -47,7 +49,7 @@ def check_repo():
     from fetch_upstream_submodules import load_plan
     deps=load_plan()
     config=json.loads((ROOT/'ios/configuration.template.json').read_text())
-    require(config['bundle_id']=='com.mr-efes.nagramix' and config['team_id']=='NAGRAMIX0','Изменён bundle/team существующей сборки')
+    require(config['bundle_id']=='com.nagramix.ios' and config['team_id']=='NAGRAMIX0','Неверный Bundle ID или команда подписи NagramiX')
     require(config['api_id']=='__TELEGRAM_API_ID__' and config['api_hash']=='__TELEGRAM_API_HASH__','Ожидались placeholders, а не credentials')
     overlay=(ROOT/'ios/apply_overlay.py').read_text()
     for expression in ('make_file = source / "build-system" / "Make" / "Make.py"','build_file = source / "Telegram" / "BUILD"'):

@@ -14,7 +14,7 @@ final class Logger {
         var states: [MediaPlayerStatus] = []
         controller.setup(page, userContentController: WKUserContentController(),
             evaluateJavaScript: { _, _ in }, updateStatus: { states.append($0) }, onPlaybackStarted: {})
-        precondition(page.origin?.absoluteString == "https://com.mr-efes.nagramix")
+        precondition(page.origin?.absoluteString == "https://com.nagramix.ios")
         func state(_ params: String) {
             controller.callback(url: URL(string: "embed://onState?duration=37.625&" + params)!)
         }
