@@ -1,0 +1,38 @@
+{
+  "target_pin": "24638bc69bd083981b178dd1e7f921eebbf7fc46",
+  "overlay_base_pin": "279f89e4d4f63f17227bf877dc3d8990f22ecd58",
+  "required_previous_stage": "gallery_playback_recovery",
+  "inputs": {
+    "submodules/TelegramUI/Resources/WebEmbed/Youtube.html": "7cc2bea29375658c33c468bbab58c458d05360d543676cbbfa2108b8e4528870",
+    "submodules/TelegramUniversalVideoContent/Sources/YoutubeEmbedImplementation.swift": "b8e6dfef71fc00b9e1a3c085964a81ba3957fb810841c84531871e5d42beb1a8"
+  },
+  "previous": {
+    "submodules/TelegramUI/Resources/WebEmbed/Youtube.html": "gallery_playback_recovery/Youtube.html.inc",
+    "submodules/TelegramUniversalVideoContent/Sources/YoutubeEmbedImplementation.swift": "gallery_playback_recovery/YoutubeEmbedImplementation.swift.inc"
+  },
+  "replacements": {
+    "submodules/TelegramUI/Resources/WebEmbed/Youtube.html": "youtube_embed_startup/Youtube.html.inc",
+    "submodules/TelegramUniversalVideoContent/Sources/YoutubeEmbedImplementation.swift": "youtube_embed_startup/YoutubeEmbedImplementation.swift.inc"
+  },
+  "outputs": {
+    "submodules/TelegramUI/Resources/WebEmbed/Youtube.html": "75c3ac2b20ba7dccbb6e7c723157488aa9f337ebfeb346535452192399089b61",
+    "submodules/TelegramUniversalVideoContent/Sources/YoutubeEmbedImplementation.swift": "eaf1192afee4541b24b3c4f1839bc9caaf7e78860bcac04aa69756878279f963"
+  },
+  "guards": {
+    "submodules/TelegramUniversalVideoContent/Sources/WebEmbedPlayerNode.swift": "79582f0c84968b8776a1d79b934373fdc3efbab5e11ef5f508b15dc479c9c46b"
+  },
+  "guard_sources": {
+    "submodules/TelegramUniversalVideoContent/Sources/WebEmbedPlayerNode.swift": "gallery_playback_recovery/WebEmbedPlayerNode.swift.inc"
+  },
+  "copies": {},
+  "deletions": {},
+  "native_inputs": {},
+  "native_guards": {},
+  "templates": {
+    "gallery_playback_recovery/Youtube.html.inc": "7cc2bea29375658c33c468bbab58c458d05360d543676cbbfa2108b8e4528870",
+    "gallery_playback_recovery/YoutubeEmbedImplementation.swift.inc": "b8e6dfef71fc00b9e1a3c085964a81ba3957fb810841c84531871e5d42beb1a8",
+    "youtube_embed_startup/Youtube.html.inc": "75c3ac2b20ba7dccbb6e7c723157488aa9f337ebfeb346535452192399089b61",
+    "youtube_embed_startup/YoutubeEmbedImplementation.swift.inc": "eaf1192afee4541b24b3c4f1839bc9caaf7e78860bcac04aa69756878279f963",
+    "gallery_playback_recovery/WebEmbedPlayerNode.swift.inc": "79582f0c84968b8776a1d79b934373fdc3efbab5e11ef5f508b15dc479c9c46b"
+  }
+}

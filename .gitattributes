@@ -37,6 +37,7 @@ ios/transcription_vosk/*.inc -whitespace
 # Swift-шаблоны остаются Swift независимо от суффикса механизма overlay.
 *.swift.inc linguist-language=Swift
 ios/gallery_playback_recovery/Youtube.html.inc linguist-language=HTML
+ios/youtube_embed_startup/Youtube.html.inc linguist-language=HTML
 # Язык шаблонов без исходного расширения соответствует файлу назначения в плане патча.
 ios/calls_tab_preference/*.inc linguist-language=Swift
 ios/free_content_media_save/*.inc linguist-language=Swift
