@@ -36,10 +36,49 @@ ios/transcription_vosk/*.inc -whitespace
 
 # Swift-шаблоны остаются Swift независимо от суффикса механизма overlay.
 *.swift.inc linguist-language=Swift
+# Язык шаблонов без исходного расширения соответствует файлу назначения в плане патча.
+ios/calls_tab_preference/*.inc linguist-language=Swift
+ios/free_content_media_save/*.inc linguist-language=Swift
+ios/installation_metrics/AppDelegate.inc linguist-language=Swift
+ios/ghostgram_pip_cleanup/OverlayReturn.inc linguist-language=Swift
+ios/ghostgram_pip_cleanup/Shortcuts.inc linguist-language=Swift
+ios/ghostgram_pip_cleanup/Transitions.inc linguist-language=Swift
+ios/ghostgram_pip_gallery_exact/Layout.inc linguist-language=Swift
+ios/ghostgram_pip_gallery_exact/Lifecycle.inc linguist-language=Swift
+ios/ghostgram_pip_gallery_exact/Placeholder*.inc linguist-language=Swift
+ios/ghostgram_pip_gallery_exact/Swipe*.inc linguist-language=Swift
+ios/original_video_mode/NagramiXOriginalVideoSend.inc linguist-language=Swift
+ios/pip_swipe_handoff/RequiredWideSettings.inc linguist-language=Swift
+ios/premium_temporary_transcription/NativeRPC.inc linguist-language=Swift
+ios/round_native_playback/NativeRoundLayout.inc linguist-language=Swift
+ios/round_quality_summary/Sheet.inc linguist-language=Swift
+ios/round_video_encoding/Copy*.inc linguist-language=Swift
+ios/settings_glass_sliders/New*.inc linguist-language=Swift
+ios/single_touch_message_selection/NagramiXMessageDragSelection.inc linguist-language=Swift
+ios/system_video_pip/Reviewed*.inc linguist-language=Swift
+ios/temporary_message_interaction/Copy*.inc linguist-language=Swift
+ios/transcription_vosk/Controller.inc linguist-language=Swift
+ios/transcription_vosk/Credentials.inc linguist-language=Swift
+ios/transcription_vosk/Preferences.inc linguist-language=Swift
+ios/transcription_vosk/Runtime.inc linguist-language=Swift
+ios/transcription_vosk/Settings.inc linguist-language=Swift
+*.m.inc linguist-language=Objective-C
+*BUILD.inc linguist-language=Starlark
+*.bazel.inc linguist-language=Starlark
+ios/transcription_vosk/Build.inc linguist-language=Starlark
+ios/transcription_vosk/Module.inc linguist-language=Starlark
+
+# Побайтные копии Telegram-iOS для миграции и для проверки на закреплённой версии.
+ios/upstream_13_2_release_pre/Native[0-9]*.inc linguist-vendored
+ios/upstream_13_2_release_pre/Old[0-9]*.inc linguist-vendored
+ios/upstream_13_2_release_post/NativeAccountIntermediateState132.inc linguist-vendored
+ios/native_pip_baseline/Native[0-9]*.inc linguist-vendored
+scripts/tests/release095_native_sources/Native[0-9]*.inc linguist-vendored
 # Сгенерированные снимки патчей не отражают язык активного исходного кода.
 ios/**/Before*.inc linguist-generated=true
 ios/**/After*.inc linguist-generated=true
 ios/**/Guard*.inc linguist-generated=true
+ios/**/Deleted[0-9]*.inc linguist-generated=true
 ios/voice_transcription/Inputs/** linguist-generated=true
 # Точные копии upstream/reference сохраняются побайтно, включая пробелы.
 ios/**/*.inc -whitespace
