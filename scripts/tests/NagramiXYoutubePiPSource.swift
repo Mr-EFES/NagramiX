@@ -1,5 +1,15 @@
 // Minimal view hierarchy for exercising the production bridge on a host without UIKit.
+#if canImport(CoreGraphics)
+import CoreGraphics
+#else
+struct CGAffineTransform {
+    let a: CGFloat, d: CGFloat
+    init(scaleX: CGFloat, y: CGFloat) { self.a = scaleX; self.d = y }
+}
+#endif
 class UIView {
+    var bounds = CGRect.zero
+    var transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
     var frame: CGRect
     weak var superview: UIView?
     var subviews: [UIView] = []

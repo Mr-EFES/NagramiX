@@ -101,6 +101,7 @@ def check(text):
     mandatory.append('validate_video_playback_switches.py')
     mandatory.append('validate_web_video_source_handoff.py')
     mandatory.append('validate_slider_main_thread_layout.py')
+    mandatory.append('validate_gallery_playback_recovery.py')
     for name in mandatory:
         assert re.search(r'^          python3 scripts/'+re.escape(name)+r'\b',source,re.M),name
         assert 'nagramix_extended_check python3 scripts/'+name not in source,name
