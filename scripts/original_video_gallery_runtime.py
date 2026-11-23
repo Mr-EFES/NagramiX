@@ -12,7 +12,7 @@ LEGACY=mode.LEGACY
 BASE=mode.BASE
 
 
-def fixture(source):
+def fixture(source, *, test_name="NagramiXOriginalGalleryTests.swift", extra_source="", camera_branch=False):
     core,boundary,actual,_=raw.parts(source)
     boundary=boundary.replace('public struct PixelDimensions {','public struct PixelDimensions {\n    var cgSize:CGSize {CGSize(width:Int(width),height:Int(height))}\n    init(){self.init(width:96,height:64)}',1)
     boundary=boundary.replace('public struct TelegramMediaFile {','public final class TelegramMediaFile:EngineRawMedia {',1).replace('let partialReference: Int?; let resource: LocalFileMediaResource','let partialReference: Int?; let resource: Resource',1)
@@ -41,19 +41,21 @@ def fixture(source):
     legacy=(source/LEGACY).read_text()
     for marker in ['private enum LegacyAssetVideoData {','private enum LegacyAssetItem {','private final class LegacyAssetItemWrapper: NSObject {']:
         parts.append(block(legacy,marker))
+    parts.append(extra_source)
     parts.append(actual)
     parts.append(block(legacy,'private func nagramiXPrepareOriginalVideoValue('))
     parts.append('\n'.join(l for l in (source/HELPER).read_text().splitlines() if not l.startswith('import ')))
     stock=(source/(BASE+'Sources/ChatMediaSendMessages.swift')).read_text()
     branch=block(stock,'        if isVideo {')
     a=stock.index('    case let .prebuilt(media):');b=stock.index('\n    }',a);prebuilt=stock[a:b]
+    captured = stock[stock.index('    case let .tempVideo('):stock.index('    case .gifAsset:', stock.index('    case let .tempVideo('))] if camera_branch else ''
     parts.append('''func routedMedia(_ item:ChatMediaSendItem)->(media:EngineRawMedia,stickerFiles:[TelegramMediaFile])? {
  let storeResourceData:(EngineMediaResource.Id,Data)->Void={_,_ in}
  switch item.source {
  case let .libraryAsset(identifier,pixelSize,isVideo,duration):
 '''+branch+'''
  return nil
-'''+prebuilt+'''
+'''+captured+prebuilt+'''
  default:return nil
  }
 }
@@ -69,7 +71,7 @@ def fixture(source):
     extras=ROOT/'scripts/tests/fixtures/original-video-gallery'
     for n,item in json.loads((extras/'manifest.json').read_text())['files'].items():
         blob=(extras/n).read_bytes();assert hashlib.sha256(blob).hexdigest()==item['sha256'];payload[n]=base64.b64encode(blob).decode()
-    tests=(ROOT/'scripts/tests/NagramiXOriginalGalleryTests.swift').read_text()
+    tests=(ROOT/'scripts/tests'/test_name).read_text()
     for token,n in [('SYNTHETIC_MP4_BASE64','video.mp4'),('SYNTHETIC_MOV_BASE64','video.mov'),('H264_60_BASE64','h264-60.mp4'),('HEVC_60_BASE64','hevc-60.mov')]:tests=tests.replace(token,payload[n])
     parts.append(tests)
     return '\n'.join(parts)

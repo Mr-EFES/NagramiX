@@ -1,0 +1,59 @@
+{
+  "target_pin": "24638bc69bd083981b178dd1e7f921eebbf7fc46",
+  "overlay_base_pin": "279f89e4d4f63f17227bf877dc3d8990f22ecd58",
+  "required_previous_stage": "standalone_launch_storage",
+  "inputs": {
+    "submodules/LegacyMediaPickerUI/Sources/LegacyMediaPickers.swift": "4f91cf9ef02516af871c84d43a154d684a63a6becd6f782f4e85e70fd5f27f58",
+    "submodules/TelegramUI/Components/ChatMediaSend/Sources/ChatMediaSendSingleItem.swift": "ab1dd04cd43e43615628864a4e70cbd34a850ad86353b1fb18027b53dddb1bf9",
+    "submodules/TelegramUI/Components/ChatMediaSend/Sources/NagramiXOriginalVideoSend.swift": "e2f40d1ec72f8289dc38716e9c7a3b6db2b8bc911fb00459359bcfe4afc2067c",
+    "submodules/MediaPickerUI/Sources/MediaPickerScreen.swift": "18f26335bab2ce97a5ec4b04959d7433cbb292a198d860425489ec5322e42e8c"
+  },
+  "outputs": {
+    "submodules/LegacyMediaPickerUI/Sources/LegacyMediaPickers.swift": "4580fdf6015f785eabab685250f52b78d46f6071e3d019ff92e9f5af2b7145e1",
+    "submodules/TelegramUI/Components/ChatMediaSend/Sources/ChatMediaSendSingleItem.swift": "c4e848061907834e8445fbcc8f49ca944ec2ebba7e14a29c323bfe7a968ffa99",
+    "submodules/TelegramUI/Components/ChatMediaSend/Sources/NagramiXOriginalVideoSend.swift": "5257eed54b6765d9612487fa34fed2fec745ca6d88e2841ddabdbdb19db66149",
+    "submodules/MediaPickerUI/Sources/MediaPickerScreen.swift": "0b7a86443ee5888d6c5e820a6ef5b2e3c688a6152d417a7f0a69e84ebd2f7a56"
+  },
+  "previous": {
+    "submodules/LegacyMediaPickerUI/Sources/LegacyMediaPickers.swift": "original_video_gallery/After1.inc",
+    "submodules/TelegramUI/Components/ChatMediaSend/Sources/ChatMediaSendSingleItem.swift": "round_quality_compact_page/Guard9.inc",
+    "submodules/TelegramUI/Components/ChatMediaSend/Sources/NagramiXOriginalVideoSend.swift": "original_video_gallery/After0.inc",
+    "submodules/MediaPickerUI/Sources/MediaPickerScreen.swift": "round_video_editor/Guard7.inc"
+  },
+  "replacements": {
+    "submodules/LegacyMediaPickerUI/Sources/LegacyMediaPickers.swift": "original_video_delivery/LegacyMediaPickers.swift.inc",
+    "submodules/TelegramUI/Components/ChatMediaSend/Sources/ChatMediaSendSingleItem.swift": "original_video_delivery/ChatMediaSendSingleItem.swift.inc",
+    "submodules/TelegramUI/Components/ChatMediaSend/Sources/NagramiXOriginalVideoSend.swift": "original_video_delivery/NagramiXOriginalVideoSend.swift.inc",
+    "submodules/MediaPickerUI/Sources/MediaPickerScreen.swift": "original_video_delivery/MediaPickerScreen.swift.inc"
+  },
+  "guards": {
+    "submodules/TelegramUI/Sources/ChatControllerOpenAttachmentMenu.swift": "33c6e84585bdc7655cd32c6df99717aae32098cbee6fcd8b1ae94e15e08297df",
+    "submodules/TelegramUI/Components/ChatMediaSend/Sources/ChatMediaSendRender.swift": "95be41b4e59728d6d93158ce7c74077fe7946a2d697b5a0de3dedf6c3f7cf743",
+    "submodules/TelegramUI/Components/ChatMediaSend/Sources/ChatMediaSendMessages.swift": "34be08f7e5216ef8dc4888918cd389a7a90e31cf4b97560ebbfabf0b2d39f8cc",
+    "submodules/TelegramUI/Sources/AppDelegate.swift": "c9ac88a3491810f57757a7fa673e4399300bdcec58980c0ee68b89f9d448460f"
+  },
+  "guard_sources": {
+    "submodules/TelegramUI/Sources/ChatControllerOpenAttachmentMenu.swift": "file_caption_wire_spacing/After1.inc",
+    "submodules/TelegramUI/Components/ChatMediaSend/Sources/ChatMediaSendRender.swift": "feature_contract_consistency/After12.inc",
+    "submodules/TelegramUI/Components/ChatMediaSend/Sources/ChatMediaSendMessages.swift": "round_quality_compact_page/Guard10.inc",
+    "submodules/TelegramUI/Sources/AppDelegate.swift": "standalone_launch_storage/Launch.inc"
+  },
+  "copies": {},
+  "deletions": {},
+  "native_inputs": {},
+  "native_guards": {},
+  "templates": {
+    "original_video_gallery/After1.inc": "4f91cf9ef02516af871c84d43a154d684a63a6becd6f782f4e85e70fd5f27f58",
+    "original_video_delivery/LegacyMediaPickers.swift.inc": "4580fdf6015f785eabab685250f52b78d46f6071e3d019ff92e9f5af2b7145e1",
+    "round_quality_compact_page/Guard9.inc": "ab1dd04cd43e43615628864a4e70cbd34a850ad86353b1fb18027b53dddb1bf9",
+    "original_video_delivery/ChatMediaSendSingleItem.swift.inc": "c4e848061907834e8445fbcc8f49ca944ec2ebba7e14a29c323bfe7a968ffa99",
+    "original_video_gallery/After0.inc": "e2f40d1ec72f8289dc38716e9c7a3b6db2b8bc911fb00459359bcfe4afc2067c",
+    "original_video_delivery/NagramiXOriginalVideoSend.swift.inc": "5257eed54b6765d9612487fa34fed2fec745ca6d88e2841ddabdbdb19db66149",
+    "round_video_editor/Guard7.inc": "18f26335bab2ce97a5ec4b04959d7433cbb292a198d860425489ec5322e42e8c",
+    "original_video_delivery/MediaPickerScreen.swift.inc": "0b7a86443ee5888d6c5e820a6ef5b2e3c688a6152d417a7f0a69e84ebd2f7a56",
+    "file_caption_wire_spacing/After1.inc": "33c6e84585bdc7655cd32c6df99717aae32098cbee6fcd8b1ae94e15e08297df",
+    "feature_contract_consistency/After12.inc": "95be41b4e59728d6d93158ce7c74077fe7946a2d697b5a0de3dedf6c3f7cf743",
+    "round_quality_compact_page/Guard10.inc": "34be08f7e5216ef8dc4888918cd389a7a90e31cf4b97560ebbfabf0b2d39f8cc",
+    "standalone_launch_storage/Launch.inc": "c9ac88a3491810f57757a7fa673e4399300bdcec58980c0ee68b89f9d448460f"
+  }
+}
