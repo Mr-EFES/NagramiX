@@ -30,7 +30,7 @@ on:
         default: true
 
 env:
-  NAGRAMIX_VERSION: "1.0.3"
+  NAGRAMIX_VERSION: "1.0.4"
 
 permissions:
   contents: read
@@ -145,13 +145,14 @@ jobs:
           xcode_version="$(python3 -c 'import json; print(json.load(open("Telegram-iOS/versions.json"))["xcode"])')"
           sudo xcode-select -s "/Applications/Xcode_${xcode_version}.app/Contents/Developer"
 
-      - name: Проверить окно DoH и историю правок на Apple Swift
+      - name: Проверить окно DoH, историю правок и запуск с отдельным хранилищем на Apple Swift
         shell: bash
         run: |
           export SDKROOT="$(xcrun --sdk macosx --show-sdk-path)"
           export MACOSX_DEPLOYMENT_TARGET=13.0
           python3 scripts/validate_doh_alert_message.py --preflight-upstream Telegram-iOS --swiftc "$(xcrun --find swiftc)"
           python3 scripts/validate_edit_history_revision_actions.py --canonical-cards --swiftc "$(xcrun --find swiftc)"
+          python3 scripts/validate_standalone_launch_storage.py --canonical --swiftc "$(xcrun --find swiftc)"
 
       - name: Подготовить Node для проверки встроенного JavaScript
         uses: actions/setup-node@v4
@@ -658,6 +659,8 @@ jobs:
           python3 scripts/validate_doh_alert_message.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)"
           PYTHONPATH=ios python3 -c 'from pathlib import Path; from edit_history_revision_actions import apply_edit_history_revision_actions; apply_edit_history_revision_actions(Path("Telegram-iOS").resolve(), Path("ios").resolve())'
           python3 scripts/validate_edit_history_revision_actions.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)"
+          PYTHONPATH=ios python3 -c 'from pathlib import Path; from standalone_launch_storage import apply_standalone_launch_storage; apply_standalone_launch_storage(Path("Telegram-iOS").resolve(), Path("ios").resolve())'
+          python3 scripts/validate_standalone_launch_storage.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)"
           python3 scripts/validate_late_source_stages.py --source Telegram-iOS --report "$RUNNER_TEMP/late-source-stages.json"
           python3 scripts/validate_custom_member_references.py --source Telegram-iOS
           python3 scripts/validate_upstream_13_2_release.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)"

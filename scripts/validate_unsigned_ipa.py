@@ -583,6 +583,9 @@ def main() -> None:
         ):
             require(info.get(key) == expected, f"Неверное значение {key}: {info.get(key)}")
         require(info.get("MinimumOSVersion") == "15.0", "Основное приложение не сохраняет поддержку iOS 15.0")
+        if version_parts >= (1, 0, 4):
+            require(info.get("NagramiXStandaloneStorage") is True and not any(".appex/" in name for name in names),
+                    "Автономное хранилище требует IPA без расширений")
         device_binary_count = validate_device_compatibility(archive)
         require(not any("_CodeSignature/" in name or name.endswith("embedded.mobileprovision") for name in names), "В IPA остались временные подписи/профили")
         with archive.open(prefix + info["CFBundleExecutable"]) as executable:

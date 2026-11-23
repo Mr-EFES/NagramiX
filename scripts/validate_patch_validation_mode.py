@@ -16,7 +16,8 @@ def check(text):
     start=text.index('      - name: Применить overlay NagramiX\n')
     selected_xcode = text.index('sudo xcode-select -s')
     for command in ('validate_doh_alert_message.py --preflight-upstream Telegram-iOS',
-                    'validate_edit_history_revision_actions.py --canonical-cards'):
+                    'validate_edit_history_revision_actions.py --canonical-cards',
+                    'validate_standalone_launch_storage.py --canonical'):
         assert '          python3 scripts/' + command + ' --swiftc ' in text[selected_xcode:start], command
     assert re.search(r'^          python3 scripts/validate_release_095_apple_preflight\.py --swiftc ',text[:start],re.M), 'Complete fixture preflight must run before overlay'
     assert re.search(r'^          python3 scripts/validate_native_string_references\.py --canonical --swiftc ',text[:start],re.M), 'Native generated strings SDK check must run before overlay'
@@ -109,6 +110,7 @@ def check(text):
     mandatory.append('validate_youtube_embed_startup.py')
     mandatory.append('validate_doh_alert_message.py')
     mandatory.append('validate_edit_history_revision_actions.py')
+    mandatory.append('validate_standalone_launch_storage.py')
     for name in mandatory:
         assert re.search(r'^          python3 scripts/'+re.escape(name)+r'\b',source,re.M),name
         assert 'nagramix_extended_check python3 scripts/'+name not in source,name

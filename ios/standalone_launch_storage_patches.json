@@ -1,0 +1,54 @@
+{
+  "target_pin": "24638bc69bd083981b178dd1e7f921eebbf7fc46",
+  "overlay_base_pin": "279f89e4d4f63f17227bf877dc3d8990f22ecd58",
+  "required_previous_stage": "edit_history_revision_actions",
+  "inputs": {
+    "submodules/TelegramUI/Sources/AppDelegate.swift": "4e5eef25eb66b9950e2caa48b18f3762241f7c84bada05b9b5537d29882363bc",
+    "submodules/PasscodeCore/Sources/Passcode.swift": "2cdb37c32d9d6bccad30b9a3c6460abf67e29c66180e6dc7430937ea35accc8a",
+    "submodules/WalletContext/Sources/WalletSecurity.swift": "867e17528c49b749a487be7feeafde9b574694e02a323f6bb63d5eec9584038f",
+    "submodules/WalletContext/Sources/WalletStorage.swift": "78cb4b4b3190cb44da436e0b6d8fcb66332f5b56a68d41d537a309bc99ccc58f"
+  },
+  "outputs": {
+    "submodules/TelegramUI/Sources/AppDelegate.swift": "c9ac88a3491810f57757a7fa673e4399300bdcec58980c0ee68b89f9d448460f",
+    "submodules/PasscodeCore/Sources/Passcode.swift": "da25134f23eb846c6966c217cff46735b798a92f00ea7a295ab7b083f2367fb2",
+    "submodules/WalletContext/Sources/WalletSecurity.swift": "01636485be1418cf59a25e4bd04af136ae9b1d86a4f5f2db15c8b97f623d30d7",
+    "submodules/WalletContext/Sources/WalletStorage.swift": "75f45b4e00a28bd0037f5beaa86a4a5411d02de003a44a7914922baea2d0ce59"
+  },
+  "previous": {
+    "submodules/TelegramUI/Sources/AppDelegate.swift": "calls_tab_preference/Launch.inc",
+    "submodules/PasscodeCore/Sources/Passcode.swift": "standalone_launch_storage/PasscodeBefore.inc",
+    "submodules/WalletContext/Sources/WalletSecurity.swift": "standalone_launch_storage/WalletSecurityBefore.inc",
+    "submodules/WalletContext/Sources/WalletStorage.swift": "standalone_launch_storage/WalletStorageBefore.inc"
+  },
+  "replacements": {
+    "submodules/TelegramUI/Sources/AppDelegate.swift": "standalone_launch_storage/Launch.inc",
+    "submodules/PasscodeCore/Sources/Passcode.swift": "standalone_launch_storage/Passcode.inc",
+    "submodules/WalletContext/Sources/WalletSecurity.swift": "standalone_launch_storage/WalletSecurity.inc",
+    "submodules/WalletContext/Sources/WalletStorage.swift": "standalone_launch_storage/WalletStorage.inc"
+  },
+  "guards": {
+    "submodules/TelegramUI/Sources/Chat/NagramiXEditHistoryController.swift": "d32dcf79974153b3ce2adf9a32425cf57aecdacf5c7150f20b715ba0d27754c9"
+  },
+  "guard_sources": {
+    "submodules/TelegramUI/Sources/Chat/NagramiXEditHistoryController.swift": "edit_history_revision_actions/NagramiXEditHistoryController.swift.inc"
+  },
+  "copies": {},
+  "deletions": {},
+  "native_inputs": {
+    "submodules/PasscodeCore/Sources/Passcode.swift": "d1ff0f651b44645eb6c6a7f2f3b3e7dfe26e69ae",
+    "submodules/WalletContext/Sources/WalletSecurity.swift": "3d13bc4dc35a2c37e988709046bb4fd4f9dc06f0",
+    "submodules/WalletContext/Sources/WalletStorage.swift": "41e6828eacd61b116ae549fb097bcb856af9f21d"
+  },
+  "native_guards": {},
+  "templates": {
+    "calls_tab_preference/Launch.inc": "4e5eef25eb66b9950e2caa48b18f3762241f7c84bada05b9b5537d29882363bc",
+    "standalone_launch_storage/PasscodeBefore.inc": "2cdb37c32d9d6bccad30b9a3c6460abf67e29c66180e6dc7430937ea35accc8a",
+    "standalone_launch_storage/Launch.inc": "c9ac88a3491810f57757a7fa673e4399300bdcec58980c0ee68b89f9d448460f",
+    "standalone_launch_storage/Passcode.inc": "da25134f23eb846c6966c217cff46735b798a92f00ea7a295ab7b083f2367fb2",
+    "edit_history_revision_actions/NagramiXEditHistoryController.swift.inc": "d32dcf79974153b3ce2adf9a32425cf57aecdacf5c7150f20b715ba0d27754c9",
+    "standalone_launch_storage/WalletSecurityBefore.inc": "867e17528c49b749a487be7feeafde9b574694e02a323f6bb63d5eec9584038f",
+    "standalone_launch_storage/WalletStorageBefore.inc": "78cb4b4b3190cb44da436e0b6d8fcb66332f5b56a68d41d537a309bc99ccc58f",
+    "standalone_launch_storage/WalletSecurity.inc": "01636485be1418cf59a25e4bd04af136ae9b1d86a4f5f2db15c8b97f623d30d7",
+    "standalone_launch_storage/WalletStorage.inc": "75f45b4e00a28bd0037f5beaa86a4a5411d02de003a44a7914922baea2d0ce59"
+  }
+}

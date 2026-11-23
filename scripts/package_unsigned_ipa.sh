@@ -24,6 +24,7 @@ find .nagramix-package/Payload/NagramiX.app -name 'embedded.mobileprovision' -ty
 # already have been compiled with the NagramiX configuration.
 /usr/libexec/PlistBuddy -c 'Set :CFBundleDisplayName NagramiX' .nagramix-package/Payload/NagramiX.app/Info.plist
 /usr/libexec/PlistBuddy -c 'Set :CFBundleName NagramiX' .nagramix-package/Payload/NagramiX.app/Info.plist
+/usr/libexec/PlistBuddy -c 'Add :NagramiXStandaloneStorage bool true' .nagramix-package/Payload/NagramiX.app/Info.plist
 /usr/libexec/PlistBuddy -c "Set :CFBundleShortVersionString $TARGET_VERSION" .nagramix-package/Payload/NagramiX.app/Info.plist
 
 final_id="$(/usr/libexec/PlistBuddy -c 'Print :CFBundleIdentifier' .nagramix-package/Payload/NagramiX.app/Info.plist)"

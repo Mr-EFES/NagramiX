@@ -78,6 +78,8 @@ ios/native_pip_baseline/Native[0-9]*.inc linguist-vendored
 scripts/tests/release095_native_sources/Native[0-9]*.inc linguist-vendored
 # Сгенерированные снимки патчей не отражают язык активного исходного кода.
 ios/**/Before*.inc linguist-generated=true
+ios/standalone_launch_storage/*.inc linguist-language=Swift
+ios/standalone_launch_storage/*Before.inc linguist-vendored
 ios/**/After*.inc linguist-generated=true
 ios/doh_alert_message/*.lproj/Localizable.strings linguist-generated=true
 ios/edit_history_revision_actions/*.lproj/Localizable.strings linguist-generated=true
