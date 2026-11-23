@@ -1,0 +1,68 @@
+{
+  "target_pin": "24638bc69bd083981b178dd1e7f921eebbf7fc46",
+  "overlay_base_pin": "279f89e4d4f63f17227bf877dc3d8990f22ecd58",
+  "required_previous_stage": "archive_history_restoration",
+  "inputs": {
+    "submodules/TelegramCore/Sources/Account/Account.swift": "9b27c8f27c6ab8d6ff9c1922c80cf62a89a753b1dc0bcf1d7e3be5b941e25a6d",
+    "submodules/TelegramCore/Sources/State/MessageReactions.swift": "d0d4f133a192a8467f3fd915bd51277843f7e34bc29d77dde0b4b524cc3ea5fc",
+    "submodules/TelegramCore/Sources/TelegramEngine/Messages/Transcription.swift": "99dc257e261891b638f0df7c077c70f93d66d720145ec409b413687653d24211",
+    "submodules/TelegramCore/Sources/Utils/NagramiXDeferredReactionsStore.swift": "be5741bdbf74d255bd6fbdde00a72d718c2c5a7524c8093a3ea302a249246aef",
+    "submodules/TelegramCore/Sources/Utils/NagramiXMessageArchive.swift": "99f7d8adc7dcf7f3d5d3c384a70df5aba4612d2335adfaae3c93af107e24a521",
+    "submodules/TelegramUI/Sources/ChatController.swift": "fb184d6a55ffcac956b0c582bc220def0754c76a618c05b4bcd4ba050d81a62f",
+    "submodules/TelegramUI/Sources/NagramiXInstallationMetrics.swift": "3cb766c325a117f5630a3b3238aed603e7d2408619ffb131b1b16f305497c6b1"
+  },
+  "outputs": {
+    "submodules/TelegramCore/Sources/Account/Account.swift": "c215f449d05b278a036f9835faf10453e2c0d6e28a6166c068de1e45d8bfc0e8",
+    "submodules/TelegramCore/Sources/State/MessageReactions.swift": "5fffb8fcb63fe31d9a9432a16a5d6bbc16d1ba84fe1ba914ddaab7dbd6890c28",
+    "submodules/TelegramCore/Sources/TelegramEngine/Messages/Transcription.swift": "acf6bcee1bdd518a37ebb82bfe4c6063d77cba3cff2c523a70202206705ffcb5",
+    "submodules/TelegramCore/Sources/Utils/NagramiXDeferredReactionsStore.swift": "60d821bf23014c4d6d55a0bf6a27ddf696b9c446df2d3de135ad689a0e046c73",
+    "submodules/TelegramCore/Sources/Utils/NagramiXMessageArchive.swift": "cdf8f99b152bf4c28efad30cc93010357fdfd7353459eb34700a3d4d3ff08821",
+    "submodules/TelegramUI/Sources/ChatController.swift": "2be1049f838205094dbf4ab3eccd51f8494bd41ce989188c9fd3ae98366f475d",
+    "submodules/TelegramUI/Sources/NagramiXInstallationMetrics.swift": "058d22f4d230523094e913249761d25267c77d3d895e09ea7cf1fdceda8b5abb"
+  },
+  "previous": {
+    "submodules/TelegramCore/Sources/Account/Account.swift": "upstream_13_2_release_post/After147.inc",
+    "submodules/TelegramCore/Sources/State/MessageReactions.swift": "message_delivery_recovery/Before-MessageReactions.swift.inc",
+    "submodules/TelegramCore/Sources/TelegramEngine/Messages/Transcription.swift": "retained_voice_transcription/Transcription.swift.inc",
+    "submodules/TelegramCore/Sources/Utils/NagramiXDeferredReactionsStore.swift": "message_delivery_recovery/Before-NagramiXDeferredReactionsStore.swift.inc",
+    "submodules/TelegramCore/Sources/Utils/NagramiXMessageArchive.swift": "archive_history_restoration/NagramiXMessageArchive.swift.inc",
+    "submodules/TelegramUI/Sources/ChatController.swift": "author_selection_transition/After2.inc",
+    "submodules/TelegramUI/Sources/NagramiXInstallationMetrics.swift": "installation_metrics/NagramiXInstallationMetrics.swift"
+  },
+  "replacements": {
+    "submodules/TelegramCore/Sources/Account/Account.swift": "message_delivery_recovery/Account.swift.inc",
+    "submodules/TelegramCore/Sources/State/MessageReactions.swift": "message_delivery_recovery/MessageReactions.swift.inc",
+    "submodules/TelegramCore/Sources/TelegramEngine/Messages/Transcription.swift": "message_delivery_recovery/Transcription.swift.inc",
+    "submodules/TelegramCore/Sources/Utils/NagramiXDeferredReactionsStore.swift": "message_delivery_recovery/NagramiXDeferredReactionsStore.swift.inc",
+    "submodules/TelegramCore/Sources/Utils/NagramiXMessageArchive.swift": "message_delivery_recovery/NagramiXMessageArchive.swift.inc",
+    "submodules/TelegramUI/Sources/ChatController.swift": "message_delivery_recovery/ChatController.swift.inc",
+    "submodules/TelegramUI/Sources/NagramiXInstallationMetrics.swift": "message_delivery_recovery/NagramiXInstallationMetrics.swift.inc"
+  },
+  "guards": {
+    "submodules/TelegramCore/Sources/State/Sync/StateReplay+Messages.swift": "c582e83d5fbfff1f2ec567065fdca9335d9298f1559d223af233b0dd37aba27e"
+  },
+  "guard_sources": {
+    "submodules/TelegramCore/Sources/State/Sync/StateReplay+Messages.swift": "archive_history_restoration/StateReplay+Messages.swift.inc"
+  },
+  "copies": {},
+  "deletions": {},
+  "native_inputs": {},
+  "native_guards": {},
+  "templates": {
+    "upstream_13_2_release_post/After147.inc": "9b27c8f27c6ab8d6ff9c1922c80cf62a89a753b1dc0bcf1d7e3be5b941e25a6d",
+    "message_delivery_recovery/Account.swift.inc": "c215f449d05b278a036f9835faf10453e2c0d6e28a6166c068de1e45d8bfc0e8",
+    "message_delivery_recovery/Before-MessageReactions.swift.inc": "d0d4f133a192a8467f3fd915bd51277843f7e34bc29d77dde0b4b524cc3ea5fc",
+    "message_delivery_recovery/MessageReactions.swift.inc": "5fffb8fcb63fe31d9a9432a16a5d6bbc16d1ba84fe1ba914ddaab7dbd6890c28",
+    "retained_voice_transcription/Transcription.swift.inc": "99dc257e261891b638f0df7c077c70f93d66d720145ec409b413687653d24211",
+    "message_delivery_recovery/Transcription.swift.inc": "acf6bcee1bdd518a37ebb82bfe4c6063d77cba3cff2c523a70202206705ffcb5",
+    "message_delivery_recovery/Before-NagramiXDeferredReactionsStore.swift.inc": "be5741bdbf74d255bd6fbdde00a72d718c2c5a7524c8093a3ea302a249246aef",
+    "message_delivery_recovery/NagramiXDeferredReactionsStore.swift.inc": "60d821bf23014c4d6d55a0bf6a27ddf696b9c446df2d3de135ad689a0e046c73",
+    "archive_history_restoration/NagramiXMessageArchive.swift.inc": "99f7d8adc7dcf7f3d5d3c384a70df5aba4612d2335adfaae3c93af107e24a521",
+    "message_delivery_recovery/NagramiXMessageArchive.swift.inc": "cdf8f99b152bf4c28efad30cc93010357fdfd7353459eb34700a3d4d3ff08821",
+    "author_selection_transition/After2.inc": "fb184d6a55ffcac956b0c582bc220def0754c76a618c05b4bcd4ba050d81a62f",
+    "message_delivery_recovery/ChatController.swift.inc": "2be1049f838205094dbf4ab3eccd51f8494bd41ce989188c9fd3ae98366f475d",
+    "installation_metrics/NagramiXInstallationMetrics.swift": "3cb766c325a117f5630a3b3238aed603e7d2408619ffb131b1b16f305497c6b1",
+    "message_delivery_recovery/NagramiXInstallationMetrics.swift.inc": "058d22f4d230523094e913249761d25267c77d3d895e09ea7cf1fdceda8b5abb",
+    "archive_history_restoration/StateReplay+Messages.swift.inc": "c582e83d5fbfff1f2ec567065fdca9335d9298f1559d223af233b0dd37aba27e"
+  }
+}
