@@ -1,0 +1,83 @@
+{
+  "target_pin": "24638bc69bd083981b178dd1e7f921eebbf7fc46",
+  "overlay_base_pin": "279f89e4d4f63f17227bf877dc3d8990f22ecd58",
+  "required_previous_stage": "retained_voice_transcription",
+  "inputs": {
+    "submodules/TelegramCore/Sources/State/ManagedSecretChatOutgoingOperations.swift": "bbccf6eb0b602406e40f719920695287b157e01cf554ca730c3316a2162af098",
+    "submodules/TelegramCore/Sources/State/ProcessSecretChatIncomingDecryptedOperations.swift": "53a6123da869fc96c129eea27ba03c1398bc23a2104a7fa4915c026d0bab6e17",
+    "submodules/TelegramCore/Sources/State/Sync/StateReplay+Messages.swift": "14484111f6c117cc9c37397d9317a2bb82ad23cc5b0402da8feabb2ca096c583",
+    "submodules/TelegramCore/Sources/TelegramEngine/Messages/DeleteMessages.swift": "d6c2d182645b70ef135c95dc90f4994521b76f2f52fc434a79764be9d8231d39",
+    "submodules/TelegramCore/Sources/TelegramEngine/Messages/DeleteMessagesInteractively.swift": "c88d6a7d73549c4c95d0187c32f4d568139375f8845e76695688b9393c2a83f9",
+    "submodules/TelegramCore/Sources/TelegramEngine/Peers/RemovePeerChat.swift": "e24b3bebaa0e15081e1ed74e8fa78848bd0c3dd0a0c037fc122330f240116ac6",
+    "submodules/TelegramCore/Sources/Utils/NagramiXMessageArchive.swift": "bc6dfe6f48b9b5a42c2d8be70b1bec5d9c9159a61d3e654897aa0114159a1ef6",
+    "submodules/TelegramUI/Sources/ChatControllerAdminBanUsers.swift": "a959afef801d2388d59481e7089b5e892937567aaa3614af3baa02f19b5f256b",
+    "submodules/TelegramUI/Sources/ChatHistoryEntriesForView.swift": "114e32823b78ab72972e620696540ae82681a71572b56dba1533a56be57fa11c"
+  },
+  "outputs": {
+    "submodules/TelegramCore/Sources/State/ManagedSecretChatOutgoingOperations.swift": "1a63709cc72d375cd274188ff88285672e4d492552a0acf60fce5eedcbaf22a2",
+    "submodules/TelegramCore/Sources/State/ProcessSecretChatIncomingDecryptedOperations.swift": "93a2b467a16448fd2df72da9f9197fb477cd8375f5bf771082a3e1952ecebc36",
+    "submodules/TelegramCore/Sources/State/Sync/StateReplay+Messages.swift": "c582e83d5fbfff1f2ec567065fdca9335d9298f1559d223af233b0dd37aba27e",
+    "submodules/TelegramCore/Sources/TelegramEngine/Messages/DeleteMessages.swift": "3c28cb605bca0db4b538955655254b4b7fa1552431f10b1c428a1a2ec7341381",
+    "submodules/TelegramCore/Sources/TelegramEngine/Messages/DeleteMessagesInteractively.swift": "a5a17a25354a66aea88122a3899e4f5e3c4d6025480fde2a65c2e911ecbf45a8",
+    "submodules/TelegramCore/Sources/TelegramEngine/Peers/RemovePeerChat.swift": "742fea35c39b6ca160ce28d29ef6f1c4352e86bf72e1e7b4bc452ed50fa2cc3a",
+    "submodules/TelegramCore/Sources/Utils/NagramiXMessageArchive.swift": "99f7d8adc7dcf7f3d5d3c384a70df5aba4612d2335adfaae3c93af107e24a521",
+    "submodules/TelegramUI/Sources/ChatControllerAdminBanUsers.swift": "5bfc46c04e4f92fad249c1ca1546cf648dbdf814ade290ba7b7f639d2427b7c2",
+    "submodules/TelegramUI/Sources/ChatHistoryEntriesForView.swift": "aa09ecf38c59b616bdeb1f93c4e0788b31a1e3429a0338856e4f2c348e5cf105"
+  },
+  "previous": {
+    "submodules/TelegramCore/Sources/State/ManagedSecretChatOutgoingOperations.swift": "temporary_expiration_semantics/Guard8.inc",
+    "submodules/TelegramCore/Sources/State/ProcessSecretChatIncomingDecryptedOperations.swift": "temporary_message_interaction/After7.inc",
+    "submodules/TelegramCore/Sources/State/Sync/StateReplay+Messages.swift": "temporary_playback_identity/Guard19.inc",
+    "submodules/TelegramCore/Sources/TelegramEngine/Messages/DeleteMessages.swift": "temporary_playback_identity/Guard28.inc",
+    "submodules/TelegramCore/Sources/TelegramEngine/Messages/DeleteMessagesInteractively.swift": "archive_history_restoration/Before-DeleteMessagesInteractively.swift.inc",
+    "submodules/TelegramCore/Sources/TelegramEngine/Peers/RemovePeerChat.swift": "bot_delete_without_block/Guard2.inc",
+    "submodules/TelegramCore/Sources/Utils/NagramiXMessageArchive.swift": "retained_voice_transcription/NagramiXMessageArchive.swift.inc",
+    "submodules/TelegramUI/Sources/ChatControllerAdminBanUsers.swift": "archive_local_delete_transition/After1.inc",
+    "submodules/TelegramUI/Sources/ChatHistoryEntriesForView.swift": "temporary_expiration_semantics/After3.inc"
+  },
+  "replacements": {
+    "submodules/TelegramCore/Sources/State/ManagedSecretChatOutgoingOperations.swift": "archive_history_restoration/ManagedSecretChatOutgoingOperations.swift.inc",
+    "submodules/TelegramCore/Sources/State/ProcessSecretChatIncomingDecryptedOperations.swift": "archive_history_restoration/ProcessSecretChatIncomingDecryptedOperations.swift.inc",
+    "submodules/TelegramCore/Sources/State/Sync/StateReplay+Messages.swift": "archive_history_restoration/StateReplay+Messages.swift.inc",
+    "submodules/TelegramCore/Sources/TelegramEngine/Messages/DeleteMessages.swift": "archive_history_restoration/DeleteMessages.swift.inc",
+    "submodules/TelegramCore/Sources/TelegramEngine/Messages/DeleteMessagesInteractively.swift": "archive_history_restoration/DeleteMessagesInteractively.swift.inc",
+    "submodules/TelegramCore/Sources/TelegramEngine/Peers/RemovePeerChat.swift": "archive_history_restoration/RemovePeerChat.swift.inc",
+    "submodules/TelegramCore/Sources/Utils/NagramiXMessageArchive.swift": "archive_history_restoration/NagramiXMessageArchive.swift.inc",
+    "submodules/TelegramUI/Sources/ChatControllerAdminBanUsers.swift": "archive_history_restoration/ChatControllerAdminBanUsers.swift.inc",
+    "submodules/TelegramUI/Sources/ChatHistoryEntriesForView.swift": "archive_history_restoration/ChatHistoryEntriesForView.swift.inc"
+  },
+  "guards": {
+    "submodules/NagramiXTranscription/Sources/Runtime.swift": "e3017bf6a821bfbd6ba7d69f3303868eeea3809503f316da965aabb9ebd090d7",
+    "submodules/TelegramCore/Sources/Utils/NagramiXArchivedMediaStore.swift": "cc0352b82b9e944884453ca1c9dd4ca9876413002090dd29083edddf4004996b"
+  },
+  "guard_sources": {
+    "submodules/NagramiXTranscription/Sources/Runtime.swift": "retained_voice_transcription/Runtime.swift.inc",
+    "submodules/TelegramCore/Sources/Utils/NagramiXArchivedMediaStore.swift": "view_once_archive_foundation/After1.inc"
+  },
+  "copies": {},
+  "deletions": {},
+  "native_inputs": {},
+  "native_guards": {},
+  "templates": {
+    "retained_voice_transcription/Runtime.swift.inc": "e3017bf6a821bfbd6ba7d69f3303868eeea3809503f316da965aabb9ebd090d7",
+    "temporary_expiration_semantics/Guard8.inc": "bbccf6eb0b602406e40f719920695287b157e01cf554ca730c3316a2162af098",
+    "archive_history_restoration/ManagedSecretChatOutgoingOperations.swift.inc": "1a63709cc72d375cd274188ff88285672e4d492552a0acf60fce5eedcbaf22a2",
+    "temporary_message_interaction/After7.inc": "53a6123da869fc96c129eea27ba03c1398bc23a2104a7fa4915c026d0bab6e17",
+    "archive_history_restoration/ProcessSecretChatIncomingDecryptedOperations.swift.inc": "93a2b467a16448fd2df72da9f9197fb477cd8375f5bf771082a3e1952ecebc36",
+    "temporary_playback_identity/Guard19.inc": "14484111f6c117cc9c37397d9317a2bb82ad23cc5b0402da8feabb2ca096c583",
+    "archive_history_restoration/StateReplay+Messages.swift.inc": "c582e83d5fbfff1f2ec567065fdca9335d9298f1559d223af233b0dd37aba27e",
+    "temporary_playback_identity/Guard28.inc": "d6c2d182645b70ef135c95dc90f4994521b76f2f52fc434a79764be9d8231d39",
+    "archive_history_restoration/DeleteMessages.swift.inc": "3c28cb605bca0db4b538955655254b4b7fa1552431f10b1c428a1a2ec7341381",
+    "archive_history_restoration/Before-DeleteMessagesInteractively.swift.inc": "c88d6a7d73549c4c95d0187c32f4d568139375f8845e76695688b9393c2a83f9",
+    "archive_history_restoration/DeleteMessagesInteractively.swift.inc": "a5a17a25354a66aea88122a3899e4f5e3c4d6025480fde2a65c2e911ecbf45a8",
+    "bot_delete_without_block/Guard2.inc": "e24b3bebaa0e15081e1ed74e8fa78848bd0c3dd0a0c037fc122330f240116ac6",
+    "archive_history_restoration/RemovePeerChat.swift.inc": "742fea35c39b6ca160ce28d29ef6f1c4352e86bf72e1e7b4bc452ed50fa2cc3a",
+    "view_once_archive_foundation/After1.inc": "cc0352b82b9e944884453ca1c9dd4ca9876413002090dd29083edddf4004996b",
+    "retained_voice_transcription/NagramiXMessageArchive.swift.inc": "bc6dfe6f48b9b5a42c2d8be70b1bec5d9c9159a61d3e654897aa0114159a1ef6",
+    "archive_history_restoration/NagramiXMessageArchive.swift.inc": "99f7d8adc7dcf7f3d5d3c384a70df5aba4612d2335adfaae3c93af107e24a521",
+    "archive_local_delete_transition/After1.inc": "a959afef801d2388d59481e7089b5e892937567aaa3614af3baa02f19b5f256b",
+    "archive_history_restoration/ChatControllerAdminBanUsers.swift.inc": "5bfc46c04e4f92fad249c1ca1546cf648dbdf814ade290ba7b7f639d2427b7c2",
+    "temporary_expiration_semantics/After3.inc": "114e32823b78ab72972e620696540ae82681a71572b56dba1533a56be57fa11c",
+    "archive_history_restoration/ChatHistoryEntriesForView.swift.inc": "aa09ecf38c59b616bdeb1f93c4e0788b31a1e3429a0338856e4f2c348e5cf105"
+  }
+}
