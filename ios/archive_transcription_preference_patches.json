@@ -1,0 +1,32 @@
+{
+  "target_pin": "24638bc69bd083981b178dd1e7f921eebbf7fc46",
+  "overlay_base_pin": "279f89e4d4f63f17227bf877dc3d8990f22ecd58",
+  "required_previous_stage": "chat_pip_poster",
+  "inputs": {
+    "submodules/TelegramCore/Sources/Utils/NagramiXCaptureProtectionPolicy.swift": "6a1a8547f8b763627edeccce1c443688dfb54ea012679994356c65d90419c61c"
+  },
+  "outputs": {
+    "submodules/TelegramCore/Sources/Utils/NagramiXCaptureProtectionPolicy.swift": "f2553a2b3e7c0484d5b322dbe28198429aa83c699c6db2d9ed469017211e1403"
+  },
+  "previous": {
+    "submodules/TelegramCore/Sources/Utils/NagramiXCaptureProtectionPolicy.swift": "retained_voice_transcription/NagramiXCaptureProtectionPolicy.swift.inc"
+  },
+  "replacements": {
+    "submodules/TelegramCore/Sources/Utils/NagramiXCaptureProtectionPolicy.swift": "archive_transcription_preference/NagramiXCaptureProtectionPolicy.swift.inc"
+  },
+  "guards": {
+    "submodules/TelegramCore/Sources/Utils/NagramiXMessageArchive.swift": "cdf8f99b152bf4c28efad30cc93010357fdfd7353459eb34700a3d4d3ff08821"
+  },
+  "guard_sources": {
+    "submodules/TelegramCore/Sources/Utils/NagramiXMessageArchive.swift": "message_delivery_recovery/NagramiXMessageArchive.swift.inc"
+  },
+  "copies": {},
+  "deletions": {},
+  "native_inputs": {},
+  "native_guards": {},
+  "templates": {
+    "retained_voice_transcription/NagramiXCaptureProtectionPolicy.swift.inc": "6a1a8547f8b763627edeccce1c443688dfb54ea012679994356c65d90419c61c",
+    "archive_transcription_preference/NagramiXCaptureProtectionPolicy.swift.inc": "f2553a2b3e7c0484d5b322dbe28198429aa83c699c6db2d9ed469017211e1403",
+    "message_delivery_recovery/NagramiXMessageArchive.swift.inc": "cdf8f99b152bf4c28efad30cc93010357fdfd7353459eb34700a3d4d3ff08821"
+  }
+}
