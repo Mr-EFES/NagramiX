@@ -21,7 +21,8 @@ def check(text):
                     'validate_original_video_delivery.py --canonical',
                     'validate_retained_voice_transcription.py --canonical',
                     'validate_archive_history_restoration.py --canonical',
-                    'validate_message_delivery_recovery.py --canonical'):
+                    'validate_message_delivery_recovery.py --canonical',
+                    'validate_installation_metrics_v2.py --canonical'):
         assert '          python3 scripts/' + command + ' --swiftc ' in text[selected_xcode:start], command
     assert re.search(r'^          python3 scripts/validate_release_095_apple_preflight\.py --swiftc ',text[:start],re.M), 'Complete fixture preflight must run before overlay'
     assert re.search(r'^          python3 scripts/validate_native_string_references\.py --canonical --swiftc ',text[:start],re.M), 'Native generated strings SDK check must run before overlay'
@@ -119,6 +120,7 @@ def check(text):
     mandatory.append('validate_retained_voice_transcription.py')
     mandatory.append('validate_archive_history_restoration.py')
     mandatory.append('validate_message_delivery_recovery.py')
+    mandatory.append('validate_installation_metrics_v2.py')
     for name in mandatory:
         assert re.search(r'^          python3 scripts/'+re.escape(name)+r'\b',source,re.M),name
         assert 'nagramix_extended_check python3 scripts/'+name not in source,name

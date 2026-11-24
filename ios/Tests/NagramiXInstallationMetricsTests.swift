@@ -3,6 +3,14 @@ import Foundation
 import FoundationNetworking
 #endif
 
+#if METRICS_V2
+private let testEndpoint = "https://local.invalid/v2/installation"
+private let progressName = "installation-v2.json"
+#else
+private let testEndpoint = "https://local.invalid/v1/installation"
+private let progressName = "installation.json"
+#endif
+
 private final class Stub: URLProtocol {
     // URLSession calls startLoading on its queue. The async tests also read this state.
     private static let lock = NSLock()
@@ -47,7 +55,7 @@ private final class Stub: URLProtocol {
     override class func canInit(with request: URLRequest) -> Bool { true }
     override class func canonicalRequest(for request: URLRequest) -> URLRequest { request }
     override func startLoading() {
-        precondition(request.url?.absoluteString == "https://local.invalid/v1/installation")
+        precondition(request.url?.absoluteString == testEndpoint)
         precondition(request.httpMethod == "PUT" && request.httpBody == nil)
         let id = UUID(uuidString: request.value(forHTTPHeaderField: "X-Installation-ID")!)!
         let state = request.value(forHTTPHeaderField: "X-Installation-State")!
@@ -81,7 +89,7 @@ private final class Stub: URLProtocol {
         let session = URLSession(configuration: config)
         defer { session.invalidateAndCancel() }
         func install(_ name: String) -> NagramiXInstallationMetrics {
-            NagramiXInstallationMetrics(endpoint: URL(string: "https://local.invalid/v1/installation")!,
+            NagramiXInstallationMetrics(endpoint: URL(string: testEndpoint)!,
                                         directory: folder.appendingPathComponent(name), session: session)
         }
         let first = install("first")
@@ -114,7 +122,7 @@ private final class Stub: URLProtocol {
 
         let damaged = folder.appendingPathComponent("damaged")
         try FileManager.default.createDirectory(at: damaged, withIntermediateDirectories: true)
-        try Data("incomplete".utf8).write(to: damaged.appendingPathComponent("installation.json"))
+        try Data("incomplete".utf8).write(to: damaged.appendingPathComponent(progressName))
         await install("damaged").observe(isAuthorized: false)
         precondition(Stub.received().count == 4)
 
@@ -122,6 +130,32 @@ private final class Stub: URLProtocol {
         await install("first").observe(isAuthorized: false)
         let final = Stub.received()
         precondition(final.count == 5 && final[4].1 == "opened" && Set(final.map { $0.0 }).count == 3)
+        #if METRICS_V2
+        // A previously acknowledged v1 login must not count unless a session exists in v2.
+        let upgrade = folder.appendingPathComponent("upgrade")
+        try FileManager.default.createDirectory(at: upgrade, withIntermediateDirectories: true)
+        let id = UUID()
+        let legacy = try JSONEncoder().encode(["id": id.uuidString, "observed": "authorized", "acknowledged": "authorized"])
+        let legacyFile = upgrade.appendingPathComponent("installation.json")
+        try legacy.write(to: legacyFile)
+        await install("upgrade").observe(isAuthorized: false)
+        await install("upgrade").observe(isAuthorized: false)
+        await install("upgrade").observe(isAuthorized: true)
+        try FileManager.default.removeItem(at: upgrade.appendingPathComponent(progressName))
+        await install("upgrade").observe(isAuthorized: false)
+        let upgradeEvents = Stub.received().dropFirst(final.count)
+        precondition(upgradeEvents.map { $0.1 } == ["opened", "authorized"] && upgradeEvents.allSatisfy { $0.0 == id })
+        let original = try Data(contentsOf: legacyFile)
+        precondition(original == legacy)
+
+        // The old backup alone also preserves the ID for a restored, signed-in account.
+        let restored = folder.appendingPathComponent("legacyBackup")
+        try FileManager.default.createDirectory(at: restored, withIntermediateDirectories: true)
+        try legacy.write(to: restored.appendingPathComponent("installation-backup.json"))
+        await install("legacyBackup").observe(isAuthorized: true)
+        let last = Stub.received()
+        precondition(last.count == final.count + 3 && last.last!.0 == id && last.last!.1 == "authorized")
+        #endif
         print("Installation metrics passed: first launch, concurrent login, restart, restored session, retry and reinstall.")
     }
 }

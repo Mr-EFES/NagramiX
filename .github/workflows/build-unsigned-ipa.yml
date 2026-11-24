@@ -157,6 +157,7 @@ jobs:
           python3 scripts/validate_retained_voice_transcription.py --canonical --swiftc "$(xcrun --find swiftc)"
           python3 scripts/validate_archive_history_restoration.py --canonical --swiftc "$(xcrun --find swiftc)"
           python3 scripts/validate_message_delivery_recovery.py --canonical --swiftc "$(xcrun --find swiftc)"
+          python3 scripts/validate_installation_metrics_v2.py --canonical --swiftc "$(xcrun --find swiftc)"
 
       - name: Подготовить Node для проверки встроенного JavaScript
         uses: actions/setup-node@v4
@@ -673,6 +674,8 @@ jobs:
           python3 scripts/validate_archive_history_restoration.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)"
           PYTHONPATH=ios python3 -c 'from pathlib import Path; from message_delivery_recovery import apply_message_delivery_recovery; apply_message_delivery_recovery(Path("Telegram-iOS").resolve(), Path("ios").resolve())'
           python3 scripts/validate_message_delivery_recovery.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)"
+          PYTHONPATH=ios python3 -c 'from pathlib import Path; from installation_metrics_v2 import apply_installation_metrics_v2; apply_installation_metrics_v2(Path("Telegram-iOS").resolve(), Path("ios").resolve())'
+          python3 scripts/validate_installation_metrics_v2.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)"
           python3 scripts/validate_late_source_stages.py --source Telegram-iOS --report "$RUNNER_TEMP/late-source-stages.json"
           python3 scripts/validate_custom_member_references.py --source Telegram-iOS
           python3 scripts/validate_upstream_13_2_release.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)"

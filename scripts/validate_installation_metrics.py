@@ -7,7 +7,7 @@ import subprocess
 import tempfile
 
 
-def validate(source: Path, swiftc: Path) -> None:
+def validate(source: Path, swiftc: Path, *, v2: bool = False) -> None:
     sources = source / 'submodules/TelegramUI/Sources'
     delegate = (sources / 'AppDelegate.swift').read_text()
     helper = sources / 'NagramiXInstallationMetrics.swift'
@@ -17,7 +17,9 @@ def validate(source: Path, swiftc: Path) -> None:
     foreground = delegate.split('func runForegroundTasks() {', 1)[1].split('func handleDidBecomeActive()', 1)[0]
     assert 'await metrics.observe(isAuthorized: false)' in foreground
     assert 'self.runForegroundTasks()' in delegate.split('func handleWillEnterForeground()', 1)[1].split('func runForegroundTasks()', 1)[0]
-    assert 'https://nagramix-bot.mr-efes.workers.dev/v1/installation' in helper.read_text()
+    generation = 'v2' if v2 else 'v1'
+    assert f'https://nagramix-bot.mr-efes.workers.dev/{generation}/installation' in helper.read_text()
+    cohort_flags = ['-D', 'METRICS_V2'] if v2 else []
     tests = Path(__file__).resolve().parents[1] / 'ios/Tests/NagramiXInstallationMetricsTests.swift'
     with tempfile.TemporaryDirectory(prefix='nagramix-metrics-') as directory:
         binary = Path(directory) / 'check'
@@ -29,7 +31,7 @@ def validate(source: Path, swiftc: Path) -> None:
                             Path(directory) / 'ios-cache', helper], check=True, timeout=120)
             host_target = ['-target', platform.machine() + '-apple-macosx13.0']
         for flags in ([], ['-O']):
-            subprocess.run([swiftc, '-swift-version', '5', '-warnings-as-errors', '-parse-as-library', *host_target, *flags,
+            subprocess.run([swiftc, '-swift-version', '5', '-warnings-as-errors', '-parse-as-library', *host_target, *flags, *cohort_flags,
                             '-module-cache-path', Path(directory) / 'cache', helper, tests, '-o', binary], check=True, timeout=120)
             subprocess.run([binary], check=True, timeout=30)
 

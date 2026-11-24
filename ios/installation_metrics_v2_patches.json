@@ -1,0 +1,32 @@
+{
+  "target_pin": "24638bc69bd083981b178dd1e7f921eebbf7fc46",
+  "overlay_base_pin": "279f89e4d4f63f17227bf877dc3d8990f22ecd58",
+  "required_previous_stage": "message_delivery_recovery",
+  "inputs": {
+    "submodules/TelegramUI/Sources/NagramiXInstallationMetrics.swift": "058d22f4d230523094e913249761d25267c77d3d895e09ea7cf1fdceda8b5abb"
+  },
+  "outputs": {
+    "submodules/TelegramUI/Sources/NagramiXInstallationMetrics.swift": "101222d21ba95dc3e2e2d1565d92de2e9ab97ba1ae802fddc5f58144e2434f59"
+  },
+  "previous": {
+    "submodules/TelegramUI/Sources/NagramiXInstallationMetrics.swift": "message_delivery_recovery/NagramiXInstallationMetrics.swift.inc"
+  },
+  "replacements": {
+    "submodules/TelegramUI/Sources/NagramiXInstallationMetrics.swift": "installation_metrics_v2/NagramiXInstallationMetrics.swift"
+  },
+  "guards": {
+    "submodules/TelegramUI/BUILD": "c819263cd1c2d6407308fe3f172f9f564b40e26f3b688da39739577bae792f52"
+  },
+  "guard_sources": {
+    "submodules/TelegramUI/BUILD": "file_caption_wire_spacing/Guard1.inc"
+  },
+  "copies": {},
+  "deletions": {},
+  "native_inputs": {},
+  "native_guards": {},
+  "templates": {
+    "message_delivery_recovery/NagramiXInstallationMetrics.swift.inc": "058d22f4d230523094e913249761d25267c77d3d895e09ea7cf1fdceda8b5abb",
+    "installation_metrics_v2/NagramiXInstallationMetrics.swift": "101222d21ba95dc3e2e2d1565d92de2e9ab97ba1ae802fddc5f58144e2434f59",
+    "file_caption_wire_spacing/Guard1.inc": "c819263cd1c2d6407308fe3f172f9f564b40e26f3b688da39739577bae792f52"
+  }
+}
