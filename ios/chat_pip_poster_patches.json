@@ -1,0 +1,35 @@
+{
+  "target_pin": "24638bc69bd083981b178dd1e7f921eebbf7fc46",
+  "overlay_base_pin": "279f89e4d4f63f17227bf877dc3d8990f22ecd58",
+  "required_previous_stage": "installation_metrics_v2",
+  "inputs": {
+    "submodules/TelegramUI/Components/Chat/ChatMessageInteractiveMediaNode/Sources/ChatMessageInteractiveMediaNode.swift": "0b78d98514ac612f461a29b188888d1e72c8dc80a705927e24982dabfcda0dfc"
+  },
+  "outputs": {
+    "submodules/TelegramUI/Components/Chat/ChatMessageInteractiveMediaNode/Sources/ChatMessageInteractiveMediaNode.swift": "f5817e2665c36bb806f88a3790c22943d137b4556b46f73de56d3ae146825de4"
+  },
+  "previous": {
+    "submodules/TelegramUI/Components/Chat/ChatMessageInteractiveMediaNode/Sources/ChatMessageInteractiveMediaNode.swift": "wide_channel_post_consistency/Guard6.inc"
+  },
+  "replacements": {
+    "submodules/TelegramUI/Components/Chat/ChatMessageInteractiveMediaNode/Sources/ChatMessageInteractiveMediaNode.swift": "chat_pip_poster/ChatMessageInteractiveMediaNode.swift.inc"
+  },
+  "guards": {
+    "submodules/AccountContext/Sources/UniversalVideoNode.swift": "15d0ef47496191f0e5e2f642cd9303fd457cc6771594312fad3c408f46028d8d",
+    "submodules/TelegramUniversalVideoContent/Sources/UniversalVideoContentManager.swift": "9ca6561bb92bdca0a466a7ce0373ae919545b31998f0e6104efc8d664dbf9907"
+  },
+  "guard_sources": {
+    "submodules/AccountContext/Sources/UniversalVideoNode.swift": "native_pip_refinement/Guard3.inc",
+    "submodules/TelegramUniversalVideoContent/Sources/UniversalVideoContentManager.swift": "web_video_source_handoff/UniversalVideoContentManager.swift.inc"
+  },
+  "copies": {},
+  "deletions": {},
+  "native_inputs": {},
+  "native_guards": {},
+  "templates": {
+    "wide_channel_post_consistency/Guard6.inc": "0b78d98514ac612f461a29b188888d1e72c8dc80a705927e24982dabfcda0dfc",
+    "chat_pip_poster/ChatMessageInteractiveMediaNode.swift.inc": "f5817e2665c36bb806f88a3790c22943d137b4556b46f73de56d3ae146825de4",
+    "native_pip_refinement/Guard3.inc": "15d0ef47496191f0e5e2f642cd9303fd457cc6771594312fad3c408f46028d8d",
+    "web_video_source_handoff/UniversalVideoContentManager.swift.inc": "9ca6561bb92bdca0a466a7ce0373ae919545b31998f0e6104efc8d664dbf9907"
+  }
+}
