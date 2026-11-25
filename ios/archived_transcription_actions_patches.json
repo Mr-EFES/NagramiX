@@ -1,0 +1,56 @@
+{
+  "target_pin": "24638bc69bd083981b178dd1e7f921eebbf7fc46",
+  "overlay_base_pin": "279f89e4d4f63f17227bf877dc3d8990f22ecd58",
+  "required_previous_stage": "gallery_playback_continuity",
+  "inputs": {
+    "submodules/TelegramUI/Sources/ChatInterfaceStateContextMenus.swift": "d9fee5de7ce1b021bae66bfae71636eeccfc64cd92ee21c34289059e4ae3ffe5",
+    "submodules/TelegramUI/Components/Chat/ChatMessageInteractiveFileNode/Sources/ChatMessageInteractiveFileNode.swift": "e935414d2489e607575734c17ddf373befe9acabc21c01c426b0f20eadb019f1",
+    "submodules/TelegramUI/Components/Chat/ChatMessageInteractiveInstantVideoNode/Sources/ChatMessageInteractiveInstantVideoNode.swift": "d2ba4981dc7ac2ae7befffd0f475e49573fe2f027fcfd29cc4a98783a91f35fd",
+    "submodules/NagramiXTranscription/Sources/Runtime.swift": "e3017bf6a821bfbd6ba7d69f3303868eeea3809503f316da965aabb9ebd090d7"
+  },
+  "outputs": {
+    "submodules/TelegramUI/Sources/ChatInterfaceStateContextMenus.swift": "fd3a4387f328b8232c992a7b80e56a307a302d8778751fa8597eb38261ca5c44",
+    "submodules/TelegramUI/Components/Chat/ChatMessageInteractiveFileNode/Sources/ChatMessageInteractiveFileNode.swift": "1f454f5ef71efb3507a225312a84d655435dacb7c780b9ba9bb22755e06ef6ff",
+    "submodules/TelegramUI/Components/Chat/ChatMessageInteractiveInstantVideoNode/Sources/ChatMessageInteractiveInstantVideoNode.swift": "7c5f1bf338a37edd0e107e5c1bf1510b8182af07f4eb009b6d1bf7f94243f642",
+    "submodules/NagramiXTranscription/Sources/Runtime.swift": "45fb823e43ec4799e84d7d29b85268dbf315a5e750d23c63f7f55078b7e7497f"
+  },
+  "previous": {
+    "submodules/TelegramUI/Sources/ChatInterfaceStateContextMenus.swift": "retained_voice_transcription/ChatInterfaceStateContextMenus.swift.inc",
+    "submodules/TelegramUI/Components/Chat/ChatMessageInteractiveFileNode/Sources/ChatMessageInteractiveFileNode.swift": "retained_voice_transcription/ChatMessageInteractiveFileNode.swift.inc",
+    "submodules/TelegramUI/Components/Chat/ChatMessageInteractiveInstantVideoNode/Sources/ChatMessageInteractiveInstantVideoNode.swift": "retained_voice_transcription/ChatMessageInteractiveInstantVideoNode.swift.inc",
+    "submodules/NagramiXTranscription/Sources/Runtime.swift": "retained_voice_transcription/Runtime.swift.inc"
+  },
+  "replacements": {
+    "submodules/TelegramUI/Sources/ChatInterfaceStateContextMenus.swift": "archived_transcription_actions/ChatInterfaceStateContextMenus.swift.inc",
+    "submodules/TelegramUI/Components/Chat/ChatMessageInteractiveFileNode/Sources/ChatMessageInteractiveFileNode.swift": "archived_transcription_actions/ChatMessageInteractiveFileNode.swift.inc",
+    "submodules/TelegramUI/Components/Chat/ChatMessageInteractiveInstantVideoNode/Sources/ChatMessageInteractiveInstantVideoNode.swift": "archived_transcription_actions/ChatMessageInteractiveInstantVideoNode.swift.inc",
+    "submodules/NagramiXTranscription/Sources/Runtime.swift": "archived_transcription_actions/Runtime.swift.inc"
+  },
+  "guards": {
+    "submodules/TelegramCore/Sources/Utils/NagramiXCaptureProtectionPolicy.swift": "f2553a2b3e7c0484d5b322dbe28198429aa83c699c6db2d9ed469017211e1403",
+    "submodules/TelegramCore/Sources/TelegramEngine/Messages/NagramiXLocalMessageData.swift": "91c79294e04ba7b5e31b4be572f62f2d29e5eed22eec6330cbd3aa0e29ab5389",
+    "submodules/TelegramCore/Sources/Utils/NagramiXMessageArchive.swift": "cdf8f99b152bf4c28efad30cc93010357fdfd7353459eb34700a3d4d3ff08821"
+  },
+  "guard_sources": {
+    "submodules/TelegramCore/Sources/Utils/NagramiXCaptureProtectionPolicy.swift": "archive_transcription_preference/NagramiXCaptureProtectionPolicy.swift.inc",
+    "submodules/TelegramCore/Sources/TelegramEngine/Messages/NagramiXLocalMessageData.swift": "retained_voice_transcription/NagramiXLocalMessageData.swift.inc",
+    "submodules/TelegramCore/Sources/Utils/NagramiXMessageArchive.swift": "message_delivery_recovery/NagramiXMessageArchive.swift.inc"
+  },
+  "copies": {},
+  "deletions": {},
+  "native_inputs": {},
+  "native_guards": {},
+  "templates": {
+    "retained_voice_transcription/ChatInterfaceStateContextMenus.swift.inc": "d9fee5de7ce1b021bae66bfae71636eeccfc64cd92ee21c34289059e4ae3ffe5",
+    "archived_transcription_actions/ChatInterfaceStateContextMenus.swift.inc": "fd3a4387f328b8232c992a7b80e56a307a302d8778751fa8597eb38261ca5c44",
+    "retained_voice_transcription/ChatMessageInteractiveFileNode.swift.inc": "e935414d2489e607575734c17ddf373befe9acabc21c01c426b0f20eadb019f1",
+    "archived_transcription_actions/ChatMessageInteractiveFileNode.swift.inc": "1f454f5ef71efb3507a225312a84d655435dacb7c780b9ba9bb22755e06ef6ff",
+    "retained_voice_transcription/ChatMessageInteractiveInstantVideoNode.swift.inc": "d2ba4981dc7ac2ae7befffd0f475e49573fe2f027fcfd29cc4a98783a91f35fd",
+    "archived_transcription_actions/ChatMessageInteractiveInstantVideoNode.swift.inc": "7c5f1bf338a37edd0e107e5c1bf1510b8182af07f4eb009b6d1bf7f94243f642",
+    "retained_voice_transcription/Runtime.swift.inc": "e3017bf6a821bfbd6ba7d69f3303868eeea3809503f316da965aabb9ebd090d7",
+    "archived_transcription_actions/Runtime.swift.inc": "45fb823e43ec4799e84d7d29b85268dbf315a5e750d23c63f7f55078b7e7497f",
+    "archive_transcription_preference/NagramiXCaptureProtectionPolicy.swift.inc": "f2553a2b3e7c0484d5b322dbe28198429aa83c699c6db2d9ed469017211e1403",
+    "retained_voice_transcription/NagramiXLocalMessageData.swift.inc": "91c79294e04ba7b5e31b4be572f62f2d29e5eed22eec6330cbd3aa0e29ab5389",
+    "message_delivery_recovery/NagramiXMessageArchive.swift.inc": "cdf8f99b152bf4c28efad30cc93010357fdfd7353459eb34700a3d4d3ff08821"
+  }
+}
