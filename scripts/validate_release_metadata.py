@@ -56,7 +56,7 @@ def main() -> None:
         errors.append("Аннотация релиза должна содержать только утверждённую фразу о неофициальном клиенте")
     # README закреплён отдельно от версии и аннотации; менять только по прямой команде пользователя.
     readme = ROOT / "README.md"
-    expected_readme = expected_annotation
+    expected_readme = "NagramiX — альтернативный Telegram-клиент для iPhone с дополнительными настройками общения, приватности и медия."
     if not readme.is_file() or readme.read_text().strip() != expected_readme:
         errors.append("README должен сохранять утверждённый пользователем текст без автоматических правок")
     tracked = subprocess.check_output(["git", "ls-files", "-z", "--cached", "--others", "--exclude-standard"], cwd=ROOT).decode().split("\0")
