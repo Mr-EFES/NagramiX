@@ -1,0 +1,73 @@
+{
+  "target_pin": "24638bc69bd083981b178dd1e7f921eebbf7fc46",
+  "overlay_base_pin": "279f89e4d4f63f17227bf877dc3d8990f22ecd58",
+  "required_previous_stage": "youtube_inline_playback",
+  "inputs": {
+    "submodules/TelegramUI/Components/ChatMediaEditorScreen/Sources/ChatMediaEditorScreen.swift": "eb551146b9237459d39aaadee8352e37dc8b327cc3622742e29affc3aef997a9",
+    "submodules/TelegramUI/Components/ChatMediaEditorScreen/Sources/ChatMediaEditorScreenVideo.swift": "32ec162fb1e966024bdf23ad79bc2f941544322ce2fa599fe19f11d382bb654b",
+    "submodules/TelegramUI/Components/ChatMediaEditorScreen/Sources/ChatMediaEditorScreenGallery.swift": "7465896e3372877402e850461edd801786dc17455b9e2f478e2de63394de73b1",
+    "submodules/TelegramUI/Components/ChatMediaEditorScreen/Sources/ChatMediaEditorScreenMute.swift": "b11cbe1f0bc3377a12b7be4c92bad279696bae0cd3d7bec36caf89c7ef121643",
+    "submodules/TelegramUI/Components/ChatMediaEditorScreen/Sources/ChatMediaEditorScreenSelection.swift": "8d6618c564b2cd138b97d64e4e158365bd55210aa666171f1442fe54fbe9325d",
+    "submodules/TelegramUI/Components/ChatMediaEditorScreen/Sources/ChatMediaEditorScreenCover.swift": "d7038433ece6501dc16202c3fc0aaa4ada664ab6ed71a60bb28181e443516b70",
+    "submodules/TelegramUI/Components/ChatMediaEditorScreen/Sources/ChatMediaEditorCover.swift": "1538b6d53d90722beb708253c009e925edbdf876d175412db7b5dc7cd7b3f7bc"
+  },
+  "outputs": {
+    "submodules/TelegramUI/Components/ChatMediaEditorScreen/Sources/ChatMediaEditorScreen.swift": "733e0821c09847756651ccb231f0fe2720255ca39a5f151a9f9dd53cd79c5440",
+    "submodules/TelegramUI/Components/ChatMediaEditorScreen/Sources/ChatMediaEditorScreenVideo.swift": "b4814634c423cea6fdf40c4ca94715b2b71ebb1929923eb1d9b60c59ad15d539",
+    "submodules/TelegramUI/Components/ChatMediaEditorScreen/Sources/ChatMediaEditorScreenGallery.swift": "a1cb471c04e5cc93faf9bd38228f269c1fb18b8c436e112492dff8462ac4b49e",
+    "submodules/TelegramUI/Components/ChatMediaEditorScreen/Sources/ChatMediaEditorScreenMute.swift": "f4b4160fde703dfd0a0c770a53b80c90d96712ce5e682af1726c300459402003",
+    "submodules/TelegramUI/Components/ChatMediaEditorScreen/Sources/ChatMediaEditorScreenSelection.swift": "a2b7ce5c2ee979cbb1640c3e6e039fa12bd533bf3b33ff2f96b51ba871800429",
+    "submodules/TelegramUI/Components/ChatMediaEditorScreen/Sources/ChatMediaEditorScreenCover.swift": "59f9a061b7809add4a53906e8dcd429fcaac03b4e70cb696c0c4e8ba97c813ab",
+    "submodules/TelegramUI/Components/ChatMediaEditorScreen/Sources/ChatMediaEditorCover.swift": "8a2e97a3989aff61b16962a1952594f6fe6b98691247bfc3b8efe0a98ac2d335"
+  },
+  "previous": {
+    "submodules/TelegramUI/Components/ChatMediaEditorScreen/Sources/ChatMediaEditorScreen.swift": "gallery_round_export/After2.inc",
+    "submodules/TelegramUI/Components/ChatMediaEditorScreen/Sources/ChatMediaEditorScreenVideo.swift": "gallery_round_export/After0.inc",
+    "submodules/TelegramUI/Components/ChatMediaEditorScreen/Sources/ChatMediaEditorScreenGallery.swift": "gallery_round_export/After1.inc",
+    "submodules/TelegramUI/Components/ChatMediaEditorScreen/Sources/ChatMediaEditorScreenMute.swift": "round_send_layout/Native-ChatMediaEditorScreenMute.swift.inc",
+    "submodules/TelegramUI/Components/ChatMediaEditorScreen/Sources/ChatMediaEditorScreenSelection.swift": "round_send_layout/Native-ChatMediaEditorScreenSelection.swift.inc",
+    "submodules/TelegramUI/Components/ChatMediaEditorScreen/Sources/ChatMediaEditorScreenCover.swift": "round_send_layout/Native-ChatMediaEditorScreenCover.swift.inc",
+    "submodules/TelegramUI/Components/ChatMediaEditorScreen/Sources/ChatMediaEditorCover.swift": "round_send_layout/Native-ChatMediaEditorCover.swift.inc"
+  },
+  "replacements": {
+    "submodules/TelegramUI/Components/ChatMediaEditorScreen/Sources/ChatMediaEditorScreen.swift": "round_send_layout/ChatMediaEditorScreen.swift.inc",
+    "submodules/TelegramUI/Components/ChatMediaEditorScreen/Sources/ChatMediaEditorScreenVideo.swift": "round_send_layout/ChatMediaEditorScreenVideo.swift.inc",
+    "submodules/TelegramUI/Components/ChatMediaEditorScreen/Sources/ChatMediaEditorScreenGallery.swift": "round_send_layout/ChatMediaEditorScreenGallery.swift.inc",
+    "submodules/TelegramUI/Components/ChatMediaEditorScreen/Sources/ChatMediaEditorScreenMute.swift": "round_send_layout/ChatMediaEditorScreenMute.swift.inc",
+    "submodules/TelegramUI/Components/ChatMediaEditorScreen/Sources/ChatMediaEditorScreenSelection.swift": "round_send_layout/ChatMediaEditorScreenSelection.swift.inc",
+    "submodules/TelegramUI/Components/ChatMediaEditorScreen/Sources/ChatMediaEditorScreenCover.swift": "round_send_layout/ChatMediaEditorScreenCover.swift.inc",
+    "submodules/TelegramUI/Components/ChatMediaEditorScreen/Sources/ChatMediaEditorCover.swift": "round_send_layout/ChatMediaEditorCover.swift.inc"
+  },
+  "guards": {
+    "submodules/TelegramUI/Components/ChatMediaEditorScreen/Sources/ChatMediaEditorScreenCrop.swift": "e973af84a4543028adf74ae9b39d96e5d638778107010752378ef42120bb2eda"
+  },
+  "guard_sources": {
+    "submodules/TelegramUI/Components/ChatMediaEditorScreen/Sources/ChatMediaEditorScreenCrop.swift": "round_editor_quality/Guard10.inc"
+  },
+  "copies": {},
+  "deletions": {},
+  "native_inputs": {
+    "submodules/TelegramUI/Components/ChatMediaEditorScreen/Sources/ChatMediaEditorScreenMute.swift": "bc37d4eff626a267bbc6d464ea8a2ee459ff2327",
+    "submodules/TelegramUI/Components/ChatMediaEditorScreen/Sources/ChatMediaEditorScreenSelection.swift": "5127dac384c42bd13398504718b8fb48a9fc136c",
+    "submodules/TelegramUI/Components/ChatMediaEditorScreen/Sources/ChatMediaEditorScreenCover.swift": "96850f2995c95be91b7f5215ab89233d00712ca5",
+    "submodules/TelegramUI/Components/ChatMediaEditorScreen/Sources/ChatMediaEditorCover.swift": "f7faf8e5563f472bbd5aeaaa0f806624cabf0491"
+  },
+  "native_guards": {},
+  "templates": {
+    "gallery_round_export/After2.inc": "eb551146b9237459d39aaadee8352e37dc8b327cc3622742e29affc3aef997a9",
+    "round_send_layout/ChatMediaEditorScreen.swift.inc": "733e0821c09847756651ccb231f0fe2720255ca39a5f151a9f9dd53cd79c5440",
+    "gallery_round_export/After0.inc": "32ec162fb1e966024bdf23ad79bc2f941544322ce2fa599fe19f11d382bb654b",
+    "round_send_layout/ChatMediaEditorScreenVideo.swift.inc": "b4814634c423cea6fdf40c4ca94715b2b71ebb1929923eb1d9b60c59ad15d539",
+    "gallery_round_export/After1.inc": "7465896e3372877402e850461edd801786dc17455b9e2f478e2de63394de73b1",
+    "round_send_layout/ChatMediaEditorScreenGallery.swift.inc": "a1cb471c04e5cc93faf9bd38228f269c1fb18b8c436e112492dff8462ac4b49e",
+    "round_send_layout/Native-ChatMediaEditorScreenMute.swift.inc": "b11cbe1f0bc3377a12b7be4c92bad279696bae0cd3d7bec36caf89c7ef121643",
+    "round_send_layout/ChatMediaEditorScreenMute.swift.inc": "f4b4160fde703dfd0a0c770a53b80c90d96712ce5e682af1726c300459402003",
+    "round_send_layout/Native-ChatMediaEditorScreenSelection.swift.inc": "8d6618c564b2cd138b97d64e4e158365bd55210aa666171f1442fe54fbe9325d",
+    "round_send_layout/ChatMediaEditorScreenSelection.swift.inc": "a2b7ce5c2ee979cbb1640c3e6e039fa12bd533bf3b33ff2f96b51ba871800429",
+    "round_send_layout/Native-ChatMediaEditorScreenCover.swift.inc": "d7038433ece6501dc16202c3fc0aaa4ada664ab6ed71a60bb28181e443516b70",
+    "round_send_layout/ChatMediaEditorScreenCover.swift.inc": "59f9a061b7809add4a53906e8dcd429fcaac03b4e70cb696c0c4e8ba97c813ab",
+    "round_send_layout/Native-ChatMediaEditorCover.swift.inc": "1538b6d53d90722beb708253c009e925edbdf876d175412db7b5dc7cd7b3f7bc",
+    "round_send_layout/ChatMediaEditorCover.swift.inc": "8a2e97a3989aff61b16962a1952594f6fe6b98691247bfc3b8efe0a98ac2d335",
+    "round_editor_quality/Guard10.inc": "e973af84a4543028adf74ae9b39d96e5d638778107010752378ef42120bb2eda"
+  }
+}
