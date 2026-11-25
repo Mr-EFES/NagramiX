@@ -25,7 +25,8 @@ def check(text):
                     'validate_installation_metrics_v2.py --canonical',
                     'validate_chat_pip_poster.py --canonical',
                     'validate_archive_transcription_preference.py --canonical',
-                    'validate_deferred_reaction_alert.py --canonical'):
+                    'validate_deferred_reaction_alert.py --canonical',
+                    'validate_gallery_playback_continuity.py --canonical'):
         assert '          python3 scripts/' + command + ' --swiftc ' in text[selected_xcode:start], command
     assert re.search(r'^          python3 scripts/validate_release_095_apple_preflight\.py --swiftc ',text[:start],re.M), 'Complete fixture preflight must run before overlay'
     assert re.search(r'^          python3 scripts/validate_native_string_references\.py --canonical --swiftc ',text[:start],re.M), 'Native generated strings SDK check must run before overlay'
@@ -127,6 +128,7 @@ def check(text):
     mandatory.append('validate_chat_pip_poster.py')
     mandatory.append('validate_archive_transcription_preference.py')
     mandatory.append('validate_deferred_reaction_alert.py')
+    mandatory.append('validate_gallery_playback_continuity.py')
     for name in mandatory:
         assert re.search(r'^          python3 scripts/'+re.escape(name)+r'\b',source,re.M),name
         assert 'nagramix_extended_check python3 scripts/'+name not in source,name

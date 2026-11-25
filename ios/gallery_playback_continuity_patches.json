@@ -1,0 +1,68 @@
+{
+  "target_pin": "24638bc69bd083981b178dd1e7f921eebbf7fc46",
+  "overlay_base_pin": "279f89e4d4f63f17227bf877dc3d8990f22ecd58",
+  "required_previous_stage": "deferred_reaction_alert",
+  "inputs": {
+    "submodules/GalleryUI/Sources/Items/UniversalVideoGalleryItem.swift": "81044a238bbf30d20ed32a728104a96aa830a7c82e993d7e4ad6fe96c79c9e58",
+    "submodules/GalleryUI/Sources/GalleryControllerNode.swift": "dcfe9adbab2da8b3c2077b36da45952a4c3ad0da5a414e53d4916ee61b36445b",
+    "submodules/GalleryUI/Sources/GalleryController.swift": "0c485eb005473249dd77e24383a5a4a7419ffb6f7e50f60945950ec6194221a5",
+    "submodules/GalleryUI/Sources/GalleryPagerNode.swift": "bcc9dc0f29ec327f22d099593b1f4ca6163a5392e44021c51cae4e863d8a8e01",
+    "submodules/InstantPageUI/Sources/InstantPageGalleryController.swift": "12c42f4f3f13daed3918349b535c8148d5206322b836c6dd341c98230e952e99",
+    "submodules/TelegramAudio/Sources/ManagedAudioSession.swift": "d7aadfe3bb09d0032e10bb018e0c7cb468849540350b52522db4f2ea57f3f01b",
+    "submodules/MediaPlayer/Sources/MediaPlayer.swift": "ff4a2555142c9c53290c9deb7ea9ef1cfc529e0d8bd183604cc1abbb4389fe99"
+  },
+  "outputs": {
+    "submodules/GalleryUI/Sources/Items/UniversalVideoGalleryItem.swift": "7a7eb4d7cce28de4fa9a856cb5c13c7a25aa23fcf7d4a7bde33a156f2881f147",
+    "submodules/GalleryUI/Sources/GalleryControllerNode.swift": "5f82d74132f26666239a684a665bba72d98c548796b7ce99ef8700e05d223d6b",
+    "submodules/GalleryUI/Sources/GalleryController.swift": "ba4ef99c6510ac82ee264ac312fdbf080bd9bf8c6dd529104afc9cedd175014a",
+    "submodules/GalleryUI/Sources/GalleryPagerNode.swift": "b02233223d227d79dadbeaa887d32843c50d97d1c8208ebf8a11a50939e0c488",
+    "submodules/InstantPageUI/Sources/InstantPageGalleryController.swift": "01f78c4192ed273a1d38b266736f35a916c1e601a3e14a3707ea4d6ce803ff6f",
+    "submodules/TelegramAudio/Sources/ManagedAudioSession.swift": "4f42f4dd9f688b2c5141cf41f0af63298eb5cfa2973b6f889a8c6cfec555f439",
+    "submodules/MediaPlayer/Sources/MediaPlayer.swift": "f34cd0b7c1a6d6143724f5c96808f555714c397b038dc90f9fc9fdde67aed801"
+  },
+  "previous": {
+    "submodules/GalleryUI/Sources/Items/UniversalVideoGalleryItem.swift": "gallery_playback_recovery/UniversalVideoGalleryItem.swift.inc",
+    "submodules/GalleryUI/Sources/GalleryControllerNode.swift": "gallery_playback_recovery/GalleryControllerNode.swift.inc",
+    "submodules/GalleryUI/Sources/GalleryController.swift": "video_playback_switches/GalleryController.swift.inc",
+    "submodules/GalleryUI/Sources/GalleryPagerNode.swift": "pip_visual_continuity/Guard6.inc",
+    "submodules/InstantPageUI/Sources/InstantPageGalleryController.swift": "video_playback_switches/InstantPageGalleryController.swift.inc",
+    "submodules/TelegramAudio/Sources/ManagedAudioSession.swift": "release_098_compile_compatibility/Guard9.inc",
+    "submodules/MediaPlayer/Sources/MediaPlayer.swift": "youtube_background_continuity/Guard6.inc"
+  },
+  "replacements": {
+    "submodules/GalleryUI/Sources/Items/UniversalVideoGalleryItem.swift": "gallery_playback_continuity/UniversalVideoGalleryItem.swift.inc",
+    "submodules/GalleryUI/Sources/GalleryControllerNode.swift": "gallery_playback_continuity/GalleryControllerNode.swift.inc",
+    "submodules/GalleryUI/Sources/GalleryController.swift": "gallery_playback_continuity/GalleryController.swift.inc",
+    "submodules/GalleryUI/Sources/GalleryPagerNode.swift": "gallery_playback_continuity/GalleryPagerNode.swift.inc",
+    "submodules/InstantPageUI/Sources/InstantPageGalleryController.swift": "gallery_playback_continuity/InstantPageGalleryController.swift.inc",
+    "submodules/TelegramAudio/Sources/ManagedAudioSession.swift": "gallery_playback_continuity/ManagedAudioSession.swift.inc",
+    "submodules/MediaPlayer/Sources/MediaPlayer.swift": "gallery_playback_continuity/MediaPlayer.swift.inc"
+  },
+  "guards": {
+    "submodules/TelegramUniversalVideoContent/Sources/NativeVideoContent.swift": "528f20337b832f9dcc01b58511a7639e54a757afffb7477ed2e8c054674bae10"
+  },
+  "guard_sources": {
+    "submodules/TelegramUniversalVideoContent/Sources/NativeVideoContent.swift": "native_pip_refinement/Guard7.inc"
+  },
+  "copies": {},
+  "deletions": {},
+  "native_inputs": {},
+  "native_guards": {},
+  "templates": {
+    "gallery_playback_recovery/UniversalVideoGalleryItem.swift.inc": "81044a238bbf30d20ed32a728104a96aa830a7c82e993d7e4ad6fe96c79c9e58",
+    "gallery_playback_continuity/UniversalVideoGalleryItem.swift.inc": "7a7eb4d7cce28de4fa9a856cb5c13c7a25aa23fcf7d4a7bde33a156f2881f147",
+    "gallery_playback_recovery/GalleryControllerNode.swift.inc": "dcfe9adbab2da8b3c2077b36da45952a4c3ad0da5a414e53d4916ee61b36445b",
+    "gallery_playback_continuity/GalleryControllerNode.swift.inc": "5f82d74132f26666239a684a665bba72d98c548796b7ce99ef8700e05d223d6b",
+    "video_playback_switches/GalleryController.swift.inc": "0c485eb005473249dd77e24383a5a4a7419ffb6f7e50f60945950ec6194221a5",
+    "gallery_playback_continuity/GalleryController.swift.inc": "ba4ef99c6510ac82ee264ac312fdbf080bd9bf8c6dd529104afc9cedd175014a",
+    "pip_visual_continuity/Guard6.inc": "bcc9dc0f29ec327f22d099593b1f4ca6163a5392e44021c51cae4e863d8a8e01",
+    "gallery_playback_continuity/GalleryPagerNode.swift.inc": "b02233223d227d79dadbeaa887d32843c50d97d1c8208ebf8a11a50939e0c488",
+    "video_playback_switches/InstantPageGalleryController.swift.inc": "12c42f4f3f13daed3918349b535c8148d5206322b836c6dd341c98230e952e99",
+    "gallery_playback_continuity/InstantPageGalleryController.swift.inc": "01f78c4192ed273a1d38b266736f35a916c1e601a3e14a3707ea4d6ce803ff6f",
+    "release_098_compile_compatibility/Guard9.inc": "d7aadfe3bb09d0032e10bb018e0c7cb468849540350b52522db4f2ea57f3f01b",
+    "gallery_playback_continuity/ManagedAudioSession.swift.inc": "4f42f4dd9f688b2c5141cf41f0af63298eb5cfa2973b6f889a8c6cfec555f439",
+    "youtube_background_continuity/Guard6.inc": "ff4a2555142c9c53290c9deb7ea9ef1cfc529e0d8bd183604cc1abbb4389fe99",
+    "gallery_playback_continuity/MediaPlayer.swift.inc": "f34cd0b7c1a6d6143724f5c96808f555714c397b038dc90f9fc9fdde67aed801",
+    "native_pip_refinement/Guard7.inc": "528f20337b832f9dcc01b58511a7639e54a757afffb7477ed2e8c054674bae10"
+  }
+}
