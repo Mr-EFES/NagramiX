@@ -1,0 +1,16 @@
+const audioSession = {type: 'auto'};
+const f = fixture();
+f.video.paused = true;
+f.dispatch({command: 'background', enabled: true});
+check(audioSession.type === 'playback', 'arm the session before the selected video starts');
+f.video.paused = false;
+f.video.media('playing');
+f.removeVideo(f.video);
+f.flush();
+check(audioSession.type === 'playback', 'retain the audio category across element replacement');
+f.dispatch({command: 'playback', enabled: false});
+check(audioSession.type === 'auto', 'release our category on pause');
+audioSession.type = 'play-and-record';
+f.dispatch({command: 'playback', enabled: true});
+check(audioSession.type === 'play-and-record', 'leave an externally configured session intact');
+console.log('PASS: WebKit audio category during preparation, replacement and pause');
