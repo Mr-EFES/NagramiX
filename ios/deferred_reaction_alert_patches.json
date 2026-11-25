@@ -1,0 +1,41 @@
+{
+  "target_pin": "24638bc69bd083981b178dd1e7f921eebbf7fc46",
+  "overlay_base_pin": "279f89e4d4f63f17227bf877dc3d8990f22ecd58",
+  "required_previous_stage": "archive_transcription_preference",
+  "inputs": {
+    "submodules/TelegramUI/Sources/ChatController.swift": "2be1049f838205094dbf4ab3eccd51f8494bd41ce989188c9fd3ae98366f475d"
+  },
+  "outputs": {
+    "submodules/TelegramUI/Sources/ChatController.swift": "44e6b59950464589d966fe34be5ec1d2829cd9503e4ba820dfb359c43e147767"
+  },
+  "previous": {
+    "submodules/TelegramUI/Sources/ChatController.swift": "message_delivery_recovery/ChatController.swift.inc"
+  },
+  "replacements": {
+    "submodules/TelegramUI/Sources/ChatController.swift": "deferred_reaction_alert/ChatController.swift.inc"
+  },
+  "guards": {
+    "submodules/TelegramUI/Components/AlertComponent/Sources/AlertComponent.swift": "a349c947dcdfd7869c2cab25dddc4b89d9a02cad2287b4614fe65bc2801dc3fe",
+    "submodules/TelegramCore/Sources/Utils/NagramiXDeferredReactionsStore.swift": "60d821bf23014c4d6d55a0bf6a27ddf696b9c446df2d3de135ad689a0e046c73",
+    "submodules/TelegramCore/Sources/State/MessageReactions.swift": "5fffb8fcb63fe31d9a9432a16a5d6bbc16d1ba84fe1ba914ddaab7dbd6890c28",
+    "submodules/PresentationDataUtils/Sources/AlertTheme.swift": "cebcd6133513aa6ebb1e499315e2db73cbd925d171c2ebc69427c45dfc4f7dbe"
+  },
+  "guard_sources": {
+    "submodules/TelegramUI/Components/AlertComponent/Sources/AlertComponent.swift": "doh_alert_message/AlertComponent.swift.inc",
+    "submodules/TelegramCore/Sources/Utils/NagramiXDeferredReactionsStore.swift": "message_delivery_recovery/NagramiXDeferredReactionsStore.swift.inc",
+    "submodules/TelegramCore/Sources/State/MessageReactions.swift": "message_delivery_recovery/MessageReactions.swift.inc",
+    "submodules/PresentationDataUtils/Sources/AlertTheme.swift": "deferred_reaction_alert/AlertTheme.swift.inc"
+  },
+  "copies": {},
+  "deletions": {},
+  "native_inputs": {},
+  "native_guards": {},
+  "templates": {
+    "message_delivery_recovery/ChatController.swift.inc": "2be1049f838205094dbf4ab3eccd51f8494bd41ce989188c9fd3ae98366f475d",
+    "deferred_reaction_alert/ChatController.swift.inc": "44e6b59950464589d966fe34be5ec1d2829cd9503e4ba820dfb359c43e147767",
+    "doh_alert_message/AlertComponent.swift.inc": "a349c947dcdfd7869c2cab25dddc4b89d9a02cad2287b4614fe65bc2801dc3fe",
+    "message_delivery_recovery/NagramiXDeferredReactionsStore.swift.inc": "60d821bf23014c4d6d55a0bf6a27ddf696b9c446df2d3de135ad689a0e046c73",
+    "message_delivery_recovery/MessageReactions.swift.inc": "5fffb8fcb63fe31d9a9432a16a5d6bbc16d1ba84fe1ba914ddaab7dbd6890c28",
+    "deferred_reaction_alert/AlertTheme.swift.inc": "cebcd6133513aa6ebb1e499315e2db73cbd925d171c2ebc69427c45dfc4f7dbe"
+  }
+}

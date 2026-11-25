@@ -15,6 +15,15 @@ ROOT = Path(__file__).resolve().parents[1]
 TESTS = ROOT / 'scripts/tests'
 
 
+def reaction_fixture(chat, store, guard, template):
+    commands = [block(store, decl) for decl in ('    public struct Intent:', '    public func pending(', '    public func resolveSender(', '    public func enqueue(')]
+    ui = chat[chat.index('    private let nagramiXReactionView ='):chat.index('\n', chat.index('    private var nagramiXReactionConfirmation:'))]
+    ui += '\n' + block(chat, '    private var nagramiXDeferredReactionChatActive:') + '\n' + block(chat, '    func nagramiXFlushDeferredReactionsIfActive()')
+    reactions = template.replace('// STORE', '\n'.join(commands).replace('public ', '')).replace('// CHAT', ui)
+    reactions = reactions.replace('// NATIVE GUARD', guard.replace('return (false, [])', 'receive(false); return'))
+    return reactions
+
+
 def validate(source, swiftc, folder):
     plan = checked_plan(STAGE)
     sources = {}
@@ -64,11 +73,7 @@ func classify(_ error: RpcError) -> Result {
     assert 'return (true, nagramiXReadBoundaries)' in native_queue
     assert 'cachedData.sendAsPeerId' in native_queue
     assert 'expectedSender: nil' in block(sources['MessageReactions.swift'], 'public func updateMessageReactionsInteractively(')
-    commands = [block(store, decl) for decl in ('    public struct Intent:', '    public func pending(', '    public func resolveSender(', '    public func enqueue(')]
-    ui = chat[chat.index('    private let nagramiXReactionView ='):chat.index('\n', chat.index('alert: AlertController)?'))]
-    ui += '\n' + block(chat, '    private var nagramiXDeferredReactionChatActive:') + '\n' + block(chat, '    func nagramiXFlushDeferredReactionsIfActive()')
-    reactions = (TESTS / 'NagramiXDeferredReactionRecovery.swift').read_text().replace('// STORE', '\n'.join(commands).replace('public ', '')).replace('// CHAT', ui)
-    reactions = reactions.replace('// NATIVE GUARD', guard.replace('return (false, [])', 'receive(false); return'))
+    reactions = reaction_fixture(chat, store, guard, (TESTS / 'NagramiXDeferredReactionRecovery.swift').read_text())
 
     old_metrics = (ROOT / 'ios/Tests/NagramiXInstallationMetricsTests.swift').read_text()
     stub = old_metrics.split('@main struct InstallationMetricsTests', 1)[0]

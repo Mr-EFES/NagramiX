@@ -176,7 +176,8 @@ final class Chat {
         db.channel = CachedChannelData(sendAsPeerId: b)
         store.stage(id, a); db.changed()
         precondition(chat.alerts.count == 1 && chat.alerts[0].text.contains("peer-2 → peer-3"))
-        chat.alerts[0].actions[0].action()
+        // EXTERNAL DISMISSAL
+        chat.alerts.last!.actions[0].action()
         precondition(store.records.isEmpty && account.sent.count == 1)
         store.stage(id, a)
         let staleAlert = chat.alerts.last!
