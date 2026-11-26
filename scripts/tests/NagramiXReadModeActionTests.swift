@@ -68,10 +68,18 @@ struct MessageId: Hashable, Comparable {
     let peerId: PeerId; let namespace: Int32; let id: Int32
     static func < (lhs: Self, rhs: Self) -> Bool { lhs.id < rhs.id }
 }
-struct MessageIndex { let id: MessageId }
+struct MessageIndex: Comparable {
+    let id: MessageId
+    var timestamp: Int32 = 0
+    static func < (lhs: Self, rhs: Self) -> Bool {
+        (lhs.timestamp, lhs.id) < (rhs.timestamp, rhs.id)
+    }
+}
 final class ValueBoxKey: Hashable {
     var words: [Int: Int64] = [:]
-    init(length: Int) { precondition(length == 16 || length == 24) }
+    let length: Int
+    init(length: Int) { self.length = length }
+    func getInt64(_ offset: Int) -> Int64 { words[offset]! }
     func setInt64(_ offset: Int, value: Int64) { self.words[offset] = value }
     func hash(into hasher: inout Hasher) { hasher.combine(words[0]); hasher.combine(words[8]); hasher.combine(words[16]) }
     static func == (lhs: ValueBoxKey, rhs: ValueBoxKey) -> Bool { lhs.words == rhs.words }
@@ -100,6 +108,7 @@ final class TelegramChannel: Peer {
 }
 struct Message { let index: MessageIndex; let threadId: Int64? }
 struct MessageHistoryThreadData: Codable {
+    var isMarkedUnread: Bool = false
     var maxIncomingReadId: Int32 = 0
     var incomingUnreadCount: Int32 = 0
     var maxKnownMessageId: Int32 = 0
@@ -108,7 +117,11 @@ struct StoredMessageHistoryThreadInfo {
     let data: PreferencesEntry
     init?(_ data: MessageHistoryThreadData) { self.data = PreferencesEntry(data) }
 }
-struct ThreadItem { let threadId: Int64 }
+struct ThreadItem {
+    let threadId: Int64
+    let index: MessageIndex
+    let info: StoredMessageHistoryThreadInfo
+}
 enum ThreadHole: Hashable { case everywhere }
 final class OutgoingScheduleInfoMessageAttribute {}
 struct EngineMessageReplySubject { let messageId: MessageId }
@@ -119,14 +132,30 @@ enum EnqueueMessage {
         switch self { case let .message(_, attributes, _, _, _, _, _, _, _, _), let .forward(_, _, _, attributes, _): return attributes }
     }
 }
+enum BulkTestReadState {
+    case idBased(maxIncomingReadId: Int32, maxOutgoingReadId: Int32, maxKnownId: Int32, count: Int32, markedUnread: Bool)
+    case indexBased(maxIncomingReadIndex: MessageIndex, maxOutgoingReadIndex: MessageIndex, count: Int32, markedUnread: Bool)
+    var markedUnread: Bool {
+        switch self {
+        case let .idBased(_, _, _, _, marked), let .indexBased(_, _, _, marked): return marked
+        }
+    }
+    var isUnread: Bool {
+        switch self {
+        case let .idBased(_, _, _, count, marked), let .indexBased(_, _, count, marked): return count > 0 || marked
+        }
+    }
+}
 final class Transaction {
+    var bulkStates: [PeerId: [Int32: BulkTestReadState]] = [:]
+    var archived: Set<PeerId> = []
     var values: [ValueBoxKey: PreferencesEntry] = [:]
     var peers: [PeerId: Peer] = [:]
     var messages: [MessageId: Message] = [:]
     var localReads: [MessageId] = []
     var threads: [PeerId: [Int64: MessageHistoryThreadData]] = [:]
     func getPreferencesEntry(key: ValueBoxKey) -> PreferencesEntry? { values[key] }
-    func setPreferencesEntry(key: ValueBoxKey, value: PreferencesEntry) { values[key] = value }
+    func setPreferencesEntry(key: ValueBoxKey, value: PreferencesEntry?) { values[key] = value }
     func updatePreferencesEntry(key: ValueBoxKey, _ update: (PreferencesEntry?) -> PreferencesEntry?) { values[key] = update(values[key]) }
     func getPeer(_ id: PeerId) -> Peer? { peers[id] }
     func getMessage(_ id: MessageId) -> Message? { messages[id] }
@@ -142,7 +171,12 @@ final class Transaction {
         self.messages.values.filter { $0.index.id.peerId == peerId && $0.index.id.namespace == namespace }.max(by: { $0.index.id.id < $1.index.id.id })?.index
     }
     func getThreadIndexHole(peerId: PeerId, threadId: Int64, namespace: Int32, containing: Int32) -> [ThreadHole: Bool] { [:] }
-    func getMessageHistoryThreadIndex(peerId: PeerId, limit: Int) -> [ThreadItem] { (self.threads[peerId] ?? [:]).keys.sorted().prefix(limit).map(ThreadItem.init) }
+    func getMessageHistoryThreadIndex(peerId: PeerId, limit: Int) -> [ThreadItem] {
+        (threads[peerId] ?? [:]).prefix(limit).map { id, data in
+            let index = MessageIndex(id: MessageId(peerId: peerId, namespace: Namespaces.Message.Cloud, id: data.maxKnownMessageId))
+            return ThreadItem(threadId: id, index: index, info: StoredMessageHistoryThreadInfo(data)!)
+        }
+    }
 }
 final class TestPostbox {
     let storage = Transaction()
@@ -198,6 +232,7 @@ func apiInputPeer(_ peer: Peer) -> Api.InputPeer? {
 struct TestRequest<T> { let peer: Int64; let maxId: Int32; let response: (TestNetwork) -> T; var discussion: Int32? = nil; var saved: Int64? = nil }
 final class TestNetwork {
     var requests: [(Int64, Int32)] = []
+    var offline = false
     var reject = false
     var channelResult = Api.Bool.boolTrue
     var discussionResult = Api.Bool.boolTrue
@@ -220,7 +255,7 @@ final class TestStateManager {
     var updates: [TestUpdate] = []
     func addUpdateGroups(_ updates: [TestUpdate]) { self.updates += updates }
 }
-final class Account {
+public final class Account {
     var isSupportUser = false
     let peerId = PeerId(namespace: Namespaces.Peer.CloudUser, value: 1)
     let postbox = TestPostbox()

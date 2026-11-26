@@ -26,7 +26,7 @@ def require(condition: bool, message: str) -> None:
         raise SystemExit(message)
 
 
-def expected_nagramix_catalogs(version: str | None = None, *, source_commit: str | None = None, include_revision_actions: bool = True) -> dict[str, dict[str, str]]:
+def expected_nagramix_catalogs(version: str | None = None, *, source_commit: str | None = None, include_revision_actions: bool = True, include_bulk_reads: bool | None = None) -> dict[str, dict[str, str]]:
     """Получить точные каталоги нужного выпуска, сохраняя контракты старых IPA."""
     plan = json.loads((ROOT / 'ios/vosk_model_naming_patches.json').read_text())
     labels = json.loads((ROOT / 'ios/vosk_model_naming/labels.json').read_text())
@@ -392,6 +392,20 @@ def expected_nagramix_catalogs(version: str | None = None, *, source_commit: str
                 require(current.keys() - previous.keys() == keys and previous.items() <= current.items()
                         and all(current[key].strip() for key in keys), 'Неверные подписи истории правок: ' + code)
                 catalogs[code] = current
+    if include_bulk_reads is None:
+        include_bulk_reads = version_parts is not None and (version_parts > (1, 0, 5) or
+            (version_parts == (1, 0, 5) and source_commit != 'd00aee310a1a4043fdc774374eb2ca80e459ae65'))
+    if include_bulk_reads:
+        stage = 'bulk_message_reads'
+        contract = json.loads((ROOT / 'ios' / f'{stage}_patches.json').read_text())
+        keys = {'NagramiX.BulkRead.' + suffix for suffix in
+                ('Local', 'Server', 'LocalTitle', 'ServerTitle', 'LocalBody', 'ServerBody', 'LocalAction', 'ServerAction', 'Incomplete')}
+        for code, previous in catalogs.items():
+            path = f'submodules/NagramiXCore/Resources/{code}.lproj/Localizable.strings'
+            current = checked_snapshot(contract['replacements'][path], contract['outputs'][path], contract, stage)
+            require(current.keys() - previous.keys() == keys and previous.items() <= current.items()
+                    and all(current[key].strip() for key in keys), 'Неверные строки массового прочтения: ' + code)
+            catalogs[code] = current
     return catalogs
 
 

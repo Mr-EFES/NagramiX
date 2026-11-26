@@ -73,7 +73,9 @@ class CatalogTests(unittest.TestCase):
                 cls.timeout_catalogs = {code: strings(path) for code, (path, _) in cls.final_snapshots.items()}
             if stage == 'doh_alert_message':
                 cls.doh_catalogs = {code: strings(path) for code, (path, _) in cls.final_snapshots.items()}
-        cls.history_catalogs = {code: strings(path) for code, (path, _) in cls.final_snapshots.items()}
+            if stage == 'edit_history_revision_actions':
+                cls.history_catalogs = {code: strings(path) for code, (path, _) in cls.final_snapshots.items()}
+        cls.bulk_catalogs = {code: strings(path) for code, (path, _) in cls.final_snapshots.items()}
         cls.tab_catalogs = {code: strings(path) for code, (path, _) in cls.tab_snapshots.items()}
         cls.final_snapshots = cls.release098_snapshots
         cls.final_catalogs = {code: strings(path) for code, (path, _) in cls.final_snapshots.items()}
@@ -423,12 +425,13 @@ class CatalogTests(unittest.TestCase):
 
     def test_current_release_matches_current_source_catalogs(self):
         version = json.loads((ROOT / 'product/features/registry.json').read_text())['release']
-        self.assertEqual(expected_nagramix_catalogs(version), self.history_catalogs)
+        self.assertEqual(expected_nagramix_catalogs(version), self.bulk_catalogs)
+        self.assertEqual(expected_nagramix_catalogs('1.0.5', source_commit='d00aee310a1a4043fdc774374eb2ca80e459ae65'), self.history_catalogs)
 
     def test_short_and_patch_versions_keep_complete_catalog_contract(self):
         for version in ['1.0','1.0.1','1.1','1.1.9','1.2']:
             with self.subTest(version=version):
-                expected = self.history_catalogs if parse_release_version(version) >= (1, 0, 2) else self.timeout_catalogs
+                expected = self.bulk_catalogs if parse_release_version(version) > (1, 0, 5) else self.timeout_catalogs
                 self.assertEqual(expected_nagramix_catalogs(version), expected)
         with self.archive(self.tab_catalogs) as archive:
             self.assertEqual(validate_settings_localizations(archive, PREFIX, '1.0', source_commit=PUBLISHED_100_SOURCE), 71)
