@@ -161,6 +161,7 @@ LATE_SOURCE_STAGES = (
     'youtube_replay',
     'message_settings_order',
     'bulk_message_reads',
+    'bulk_read_reconciliation',
 )
 TEMPORARY_INTERACTION_STAGE = 'temporary_message_interaction'
 TEMPORARY_REPLY_HELPER = 'submodules/TelegramUI/Sources/Chat/NagramiXTemporaryReplySend.swift'

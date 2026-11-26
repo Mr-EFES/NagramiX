@@ -33,8 +33,8 @@ extension Api {
 }
 extension Api.functions.messages {
     static func markDialogUnread(flags: Int32, parentPeer: Api.InputPeer?, peer: Api.Dialog) -> TestRequest<Api.Bool> {
-        precondition(flags == 0)
-        return TestRequest(peer: -1, maxId: 0, response: { _ in .boolTrue })
+        precondition(flags == 0 || flags == 1)
+        return TestRequest(peer: -1, maxId: flags, response: { _ in .boolTrue })
     }
     static func readEncryptedHistory(peer: PeerId, maxDate: Int32) -> TestRequest<Api.Bool> {
         TestRequest(peer: peer.value, maxId: maxDate, response: { _ in .boolTrue })

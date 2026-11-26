@@ -1,0 +1,44 @@
+{
+  "target_pin": "24638bc69bd083981b178dd1e7f921eebbf7fc46",
+  "overlay_base_pin": "279f89e4d4f63f17227bf877dc3d8990f22ecd58",
+  "required_previous_stage": "bulk_message_reads",
+  "previous": {
+    "submodules/TelegramCore/Sources/NagramiXGhostReadActions.swift": "bulk_message_reads/NagramiXGhostReadActions.swift.inc",
+    "submodules/TelegramCore/Sources/NagramiXReadModeActions.swift": "bulk_message_reads/NagramiXReadModeActions.swift.inc",
+    "submodules/TelegramCore/Sources/State/SynchronizePeerReadState.swift": "bulk_message_reads/SynchronizePeerReadState.swift.inc"
+  },
+  "replacements": {
+    "submodules/TelegramCore/Sources/NagramiXGhostReadActions.swift": "bulk_read_reconciliation/NagramiXGhostReadActions.swift.inc",
+    "submodules/TelegramCore/Sources/NagramiXReadModeActions.swift": "bulk_read_reconciliation/NagramiXReadModeActions.swift.inc",
+    "submodules/TelegramCore/Sources/State/SynchronizePeerReadState.swift": "bulk_read_reconciliation/SynchronizePeerReadState.swift.inc"
+  },
+  "inputs": {
+    "submodules/TelegramCore/Sources/NagramiXGhostReadActions.swift": "52d72e1c92028a6ea19a55d642198f14366ae2b96a8217534f3d5c7b2dae311a",
+    "submodules/TelegramCore/Sources/NagramiXReadModeActions.swift": "fb28d31c94c828da73ed993e0dd68adc7a660d8919e62e4629afbc41aabca81e",
+    "submodules/TelegramCore/Sources/State/SynchronizePeerReadState.swift": "0031f85751b0f656b8f44aa4661154493c33521b6ab3b2879d0daded2581296c"
+  },
+  "outputs": {
+    "submodules/TelegramCore/Sources/NagramiXGhostReadActions.swift": "3e231cdfc3d35e80628e69c12a85bd3e69df2d343ce99baedfd7a860e4d00612",
+    "submodules/TelegramCore/Sources/NagramiXReadModeActions.swift": "07256d2a2c7c78b0b75e5c29a81ed6048cfac3757089ab095e45f42193c4ad8a",
+    "submodules/TelegramCore/Sources/State/SynchronizePeerReadState.swift": "2ed0062513d305276260953c6542401f19f1d63cab068b433ce7833af608450f"
+  },
+  "guards": {
+    "submodules/TelegramCore/Sources/State/NonMemberChannelReadState.swift": "6b373946fe1777d45cc3f8b6c773ba68117f91c3d69fd2f9039e66efdc7dbb9b"
+  },
+  "guard_sources": {
+    "submodules/TelegramCore/Sources/State/NonMemberChannelReadState.swift": "bulk_read_reconciliation/NonMemberChannelReadState.swift.inc"
+  },
+  "copies": {},
+  "deletions": {},
+  "native_inputs": {},
+  "native_guards": {},
+  "templates": {
+    "bulk_message_reads/NagramiXGhostReadActions.swift.inc": "52d72e1c92028a6ea19a55d642198f14366ae2b96a8217534f3d5c7b2dae311a",
+    "bulk_message_reads/NagramiXReadModeActions.swift.inc": "fb28d31c94c828da73ed993e0dd68adc7a660d8919e62e4629afbc41aabca81e",
+    "bulk_message_reads/SynchronizePeerReadState.swift.inc": "0031f85751b0f656b8f44aa4661154493c33521b6ab3b2879d0daded2581296c",
+    "bulk_read_reconciliation/NagramiXGhostReadActions.swift.inc": "3e231cdfc3d35e80628e69c12a85bd3e69df2d343ce99baedfd7a860e4d00612",
+    "bulk_read_reconciliation/NagramiXReadModeActions.swift.inc": "07256d2a2c7c78b0b75e5c29a81ed6048cfac3757089ab095e45f42193c4ad8a",
+    "bulk_read_reconciliation/SynchronizePeerReadState.swift.inc": "2ed0062513d305276260953c6542401f19f1d63cab068b433ce7833af608450f",
+    "bulk_read_reconciliation/NonMemberChannelReadState.swift.inc": "6b373946fe1777d45cc3f8b6c773ba68117f91c3d69fd2f9039e66efdc7dbb9b"
+  }
+}

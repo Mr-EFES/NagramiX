@@ -101,6 +101,8 @@ final class TelegramChannel: Peer {
         static let isForum = Flags(rawValue: 1)
         static let isMonoforum = Flags(rawValue: 2)
     }
+    enum ParticipationStatus { case member, left, kicked }
+    var participationStatus: ParticipationStatus = .member
     let flags: Flags
     init(id: PeerId, flags: Flags = .isForum) { self.flags = flags; super.init(id: id) }
     override var isForumOrMonoForum: Bool { !self.flags.isEmpty }
