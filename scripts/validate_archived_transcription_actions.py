@@ -47,6 +47,9 @@ def check(source, swiftc, work):
     width = next(line.strip() for line in voice.splitlines() if 'let controlWidth = retainedAudio' in line)
     frame = next(line.strip() for line in voice.splitlines() if 'let audioTranscriptionButtonFrame = CGRect(' in line)
     geometry = '''import Foundation
+#if canImport(CoreGraphics)
+import CoreGraphics
+#endif
 func button(_ retainedAudio: Bool, _ boundingWidth: CGFloat, _ fittedLayoutSize: CGSize) -> CGRect {
     let audioTranscriptionButtonSize = CGSize(width: 30, height: 30)
 ''' + width + '\n' + frame + '''
