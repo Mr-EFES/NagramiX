@@ -166,6 +166,7 @@ jobs:
           python3 scripts/validate_archived_transcription_refresh.py --canonical --swiftc "$(xcrun --find swiftc)"
           python3 scripts/validate_youtube_inline_playback.py --canonical --swiftc "$(xcrun --find swiftc)"
           python3 scripts/validate_round_send_layout.py --canonical --swiftc "$(xcrun --find swiftc)"
+          python3 scripts/validate_pip_video_replacement.py --canonical --swiftc "$(xcrun --find swiftc)"
 
       - name: Подготовить Node для проверки встроенного JavaScript
         uses: actions/setup-node@v4
@@ -700,6 +701,8 @@ jobs:
           python3 scripts/validate_youtube_inline_playback.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)"
           PYTHONPATH=ios python3 -c 'from pathlib import Path; from round_send_layout import apply_round_send_layout; apply_round_send_layout(Path("Telegram-iOS").resolve(), Path("ios").resolve())'
           python3 scripts/validate_round_send_layout.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)"
+          PYTHONPATH=ios python3 -c 'from pathlib import Path; from pip_video_replacement import apply_pip_video_replacement; apply_pip_video_replacement(Path("Telegram-iOS").resolve(), Path("ios").resolve())'
+          python3 scripts/validate_pip_video_replacement.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)"
           python3 scripts/validate_late_source_stages.py --source Telegram-iOS --report "$RUNNER_TEMP/late-source-stages.json"
           python3 scripts/validate_custom_member_references.py --source Telegram-iOS
           python3 scripts/validate_upstream_13_2_release.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)"

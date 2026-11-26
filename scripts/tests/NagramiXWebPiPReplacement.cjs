@@ -1,0 +1,15 @@
+const player = fixture({blocked: false, hasFrame: false, seedYouTube: false});
+player.dispatch({command: 'probe', request: 'first'});
+const candidate = player.messages.find(m => m.kind === 'candidate' && m.request === 'first');
+check(candidate && player.dispatch({command: 'enter', request: 'first', video: candidate.video}), 'entered first video');
+player.flush();
+check(player.messages.some(m => m.kind === 'state' && m.active), 'active before replacement');
+player.video.webkitSetPresentationMode = () => {};
+player.dispatch({command: 'stop', request: 'first'});
+player.dispatch({command: 'status', request: 'first'});
+check(!player.messages.some(m => m.kind === 'state' && !m.active), 'pending WebKit exit holds ownership');
+player.video.webkitPresentationMode = 'inline';
+player.dispatch({command: 'status', request: 'first'});
+const closed = player.messages.filter(m => m.kind === 'state' && !m.active);
+check(closed.length === 1 && closed[0].restore === false, 'confirmed exit does not restore the retiring video');
+console.log('Delayed WebKit presentation change passed');
