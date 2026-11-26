@@ -34,6 +34,15 @@ def canonical(source, plan):
         shutil.copyfile(OVERLAY / template, path)
 
 
+def youtube_controller_host(page):
+    ui = (TESTS / 'NagramiXGalleryPlaybackRecovery.swift').read_text()
+    controller = ui[:ui.index('class UIGestureRecognizer')] + ui[ui.index('enum MediaPlayerPlaybackStatus:'):ui.index('// YOUTUBE CONTROLLER')]
+    controller += block((TESTS / 'NagramiXYoutubeEmbedStartup.swift').read_text(), 'final class Logger')
+    controller += '\n' + page[page.index('private func accumulateTimecode'):page.index('public struct YoutubeEmbedStoryboardMediaResourceId')].replace(
+        'Bundle.main.bundleIdentifier', 'getAppBundle().bundleIdentifier')
+    return controller + '\n' + (TESTS / 'NagramiXYoutubeDeadlineClock.swift').read_text()
+
+
 def validate(source, swiftc, work):
     plan = checked_plan(STAGE)
     for name, expected in {**plan['outputs'], **plan['guards']}.items():
@@ -45,11 +54,7 @@ def validate(source, swiftc, work):
         shutil.copy(source / RESOURCES / name, work / name)
     print(run(['node', TESTS / 'NagramiXYoutubePiPReadiness.cjs', work / 'Youtube.html']).stdout.strip())
     page = (source / Path(WEB).with_name('YoutubeEmbedImplementation.swift')).read_text()
-    ui = (TESTS / 'NagramiXGalleryPlaybackRecovery.swift').read_text()
-    controller = ui[:ui.index('class UIGestureRecognizer')] + ui[ui.index('enum MediaPlayerPlaybackStatus:'):ui.index('// YOUTUBE CONTROLLER')]
-    controller += block((TESTS / 'NagramiXYoutubeEmbedStartup.swift').read_text(), 'final class Logger')
-    controller += '\n' + page[page.index('private func accumulateTimecode'):page.index('public struct YoutubeEmbedStoryboardMediaResourceId')].replace(
-        'Bundle.main.bundleIdentifier', 'getAppBundle().bundleIdentifier')
+    controller = youtube_controller_host(page)
     audio = player_host(source, False).replace('final class YoutubeEmbedImplementation:EmbedImplementation {}',
         'final class YoutubeEmbedImplementation:EmbedImplementation { var wantsPlayingPictureInPicture = true }')
     audio_tests = (TESTS / 'NagramiXYoutubeInlineAudio.swift').read_text().replace(
