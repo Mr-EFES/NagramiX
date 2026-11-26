@@ -30,7 +30,7 @@ on:
         default: true
 
 env:
-  NAGRAMIX_VERSION: "1.0.4"
+  NAGRAMIX_VERSION: "1.0.5"
 
 permissions:
   contents: read
