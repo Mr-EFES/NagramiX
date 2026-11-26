@@ -36,34 +36,26 @@ permissions:
   contents: read
 
 jobs:
-  build:
+  preflight:
     if: ${{ inputs.artifact_run_id == '' }}
-    outputs:
-      version: ${{ steps.provenance.outputs.version }}
     runs-on: xcode-27
-    timeout-minutes: 300
-    env:
+    timeout-minutes: 180
+    env: &apple_env
       TELEGRAM_API_ID: ${{ secrets.TELEGRAM_API_ID }}
       TELEGRAM_API_HASH: ${{ secrets.TELEGRAM_API_HASH }}
       BAZEL_CACHE: ${{ github.workspace }}/.bazel-cache
 
     steps:
-      - name: Проверить аккаунт запуска сборки
+      - &owner
+        name: Проверить аккаунт запуска сборки
         shell: bash
         run: |
           test "$GITHUB_ACTOR" = "Mr-EFES"
           test "$GITHUB_TRIGGERING_ACTOR" = "Mr-EFES"
 
-      - name: Получить overlay NagramiX
+      - &checkout
+        name: Получить overlay NagramiX
         uses: actions/checkout@v4
-
-      - name: Подготовить чистую SDK-сборку
-        if: ${{ inputs.clean_build || inputs.publish_release }}
-        shell: bash
-        run: |
-          test "$BAZEL_CACHE" = "$GITHUB_WORKSPACE/.bazel-cache"
-          rm -rf -- "$BAZEL_CACHE"
-          mkdir -p "$BAZEL_CACHE"
 
       - name: Проверить переход веб-видео в PiP на Apple Swift
         shell: bash
@@ -94,7 +86,8 @@ jobs:
       - name: Проверить актуальность официальной базы Telegram-iOS
         run: python3 scripts/check_upstreams.py --platform ios --require-current
 
-      - name: Загрузить закреплённую ссылку upstream
+      - &upstream
+        name: Загрузить закреплённую ссылку upstream
         id: upstream
         shell: bash
         run: |
@@ -103,13 +96,15 @@ jobs:
           echo "ref=$TELEGRAM_IOS_REF" >> "$GITHUB_OUTPUT"
           echo "legacy_ref=$TELEGRAM_IOS_LEGACY_REF" >> "$GITHUB_OUTPUT"
 
-      - name: Проверить обязательные учётные данные Telegram API
+      - &credentials
+        name: Проверить обязательные учётные данные Telegram API
         shell: bash
         run: |
           test -n "$TELEGRAM_API_ID" || { echo "Missing TELEGRAM_API_ID repository secret"; exit 1; }
           test -n "$TELEGRAM_API_HASH" || { echo "Missing TELEGRAM_API_HASH repository secret"; exit 1; }
 
-      - name: Получить Telegram-iOS
+      - &telegram
+        name: Получить Telegram-iOS
         uses: actions/checkout@v4
         with:
           repository: TelegramMessenger/Telegram-iOS
@@ -118,10 +113,12 @@ jobs:
           submodules: false
           fetch-depth: 1
 
-      - name: Получить закреплённые зависимости Telegram13.2
+      - &dependencies
+        name: Получить закреплённые зависимости Telegram13.2
         run: python3 scripts/fetch_upstream_submodules.py --source Telegram-iOS --provenance "$RUNNER_TEMP/nagramix-dependencies.txt"
 
-      - name: Проверить ожидаемую версию upstream
+      - &upstream_version
+        name: Проверить ожидаемую версию upstream
         shell: bash
         run: |
           actual="$(python3 -c 'import json; print(json.load(open("Telegram-iOS/versions.json"))["app"])')"
@@ -130,7 +127,8 @@ jobs:
             exit 1
           }
 
-      - name: Получить закреплённую базу преобразования overlay
+      - &legacy
+        name: Получить закреплённую базу преобразования overlay
         uses: actions/checkout@v4
         with:
           repository: TelegramMessenger/Telegram-iOS
@@ -139,7 +137,8 @@ jobs:
           submodules: false
           fetch-depth: 1
 
-      - name: Выбрать требуемую версию Xcode
+      - &xcode
+        name: Выбрать требуемую версию Xcode
         shell: bash
         run: |
           xcode_version="$(python3 -c 'import json; print(json.load(open("Telegram-iOS/versions.json"))["xcode"])')"
@@ -173,17 +172,20 @@ jobs:
           python3 scripts/validate_bulk_message_reads.py --canonical --swiftc "$(xcrun --find swiftc)"
           python3 scripts/validate_bulk_read_reconciliation.py --canonical --swiftc "$(xcrun --find swiftc)"
 
-      - name: Подготовить Node для проверки встроенного JavaScript
+      - &node
+        name: Подготовить Node для проверки встроенного JavaScript
         uses: actions/setup-node@v4
         with:
           node-version: '22'
 
-      - name: Проверить среду iPhoneOS до длительных проверок и компиляции
+      - &native_inputs
+        name: Проверить среду iPhoneOS до длительных проверок и компиляции
         shell: bash
         run: |
           python3 scripts/validate_build_inputs.py --native --upstream Telegram-iOS --report "$RUNNER_TEMP/build-environment.json"
 
-      - name: Подготовить Metal Toolchain для Xcode
+      - &metal
+        name: Подготовить Metal Toolchain для Xcode
         shell: bash
         run: |
           xcodebuild -downloadComponent MetalToolchain
@@ -218,11 +220,52 @@ jobs:
             ${{ runner.temp }}/nagramix-test-failures/
           retention-days: 7
 
+  source_checks:
+    if: ${{ inputs.artifact_run_id == '' }}
+    runs-on: xcode-27
+    timeout-minutes: 360
+    strategy:
+      fail-fast: false
+      matrix:
+        checkpoint: [foundation, wide_channel_post_consistency, recording_start_recovery, file_caption_wire_spacing]
+    env: *apple_env
+    steps:
+      - *owner
+      - *checkout
+      - *upstream
+      - *credentials
+      - *telegram
+      - *dependencies
+      - *upstream_version
+      - *legacy
+      - *xcode
+      - *node
+      - *native_inputs
+      - *metal
+
       - name: Применить overlay NagramiX
+        shell: bash
+        run: &base_overlay |
+          export SDKROOT="$(xcrun --sdk macosx --show-sdk-path)"
+          export MACOSX_DEPLOYMENT_TARGET=13.0
+          python3 ios/apply_overlay.py \
+            --source Telegram-iOS \
+            --legacy-source Telegram-overlay-input \
+            --configuration "$RUNNER_TEMP/nagramix-configuration.json"
+
+      - name: Подготовить исходники до первой проверки группы
+        env:
+          FIRST_STAGE: ${{ matrix.checkpoint }}
+        run: python3 scripts/apply_source_prefix.py --source Telegram-iOS --before "$FIRST_STAGE"
+
+      - name: Проверить стадии (foundation)
+        if: matrix.checkpoint == 'foundation'
         env:
           NAGRAMIX_EXTENDED_PATCH_TESTS: ${{ inputs.extended_patch_tests }}
         shell: bash
         run: |
+          export SDKROOT="$(xcrun --sdk macosx --show-sdk-path)"
+          export MACOSX_DEPLOYMENT_TARGET=13.0
           # BEGIN optional historical regressions
           echo "Расширенные исторические тесты патчей: $NAGRAMIX_EXTENDED_PATCH_TESTS"
           case "$NAGRAMIX_EXTENDED_PATCH_TESTS" in
@@ -235,12 +278,6 @@ jobs:
             fi
           }
           # END optional historical regressions
-          export SDKROOT="$(xcrun --sdk macosx --show-sdk-path)"
-          export MACOSX_DEPLOYMENT_TARGET=13.0
-          python3 ios/apply_overlay.py \
-            --source Telegram-iOS \
-            --legacy-source Telegram-overlay-input \
-            --configuration "$RUNNER_TEMP/nagramix-configuration.json"
           nagramix_extended_check python3 scripts/validate_pip_playback_commands.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)"
           nagramix_extended_check python3 scripts/validate_round_caption_transport.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)"
           nagramix_extended_check python3 scripts/validate_repost_copy_integrity.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)"
@@ -513,6 +550,13 @@ jobs:
           python3 scripts/validate_release_095_fonts_compile.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)" --report "$RUNNER_TEMP/release-095-fonts-compile.json"
           PYTHONPATH=ios python3 -c 'from pathlib import Path; from release_095_composer_strings_compile import apply_release_095_composer_strings_compile; apply_release_095_composer_strings_compile(Path("Telegram-iOS").resolve(), Path("ios").resolve())'
           python3 scripts/validate_release_095_composer_strings_compile.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)" --report "$RUNNER_TEMP/release-095-composer-strings.json"
+
+      - name: Проверить стадии (wide_channel_post_consistency)
+        if: matrix.checkpoint == 'wide_channel_post_consistency'
+        shell: bash
+        run: |
+          export SDKROOT="$(xcrun --sdk macosx --show-sdk-path)"
+          export MACOSX_DEPLOYMENT_TARGET=13.0
           PYTHONPATH=ios python3 -c 'from pathlib import Path; from wide_channel_post_consistency import apply_wide_channel_post_consistency; apply_wide_channel_post_consistency(Path("Telegram-iOS").resolve(), Path("ios").resolve())'
           python3 scripts/validate_wide_channel_post_consistency.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)" --report "$RUNNER_TEMP/wide-channel-post-consistency.json"
           PYTHONPATH=ios python3 -c 'from pathlib import Path; from font_theme_contrast import apply_font_theme_contrast; apply_font_theme_contrast(Path("Telegram-iOS").resolve(), Path("ios").resolve())'
@@ -554,6 +598,13 @@ jobs:
           python3 scripts/validate_video_audio_continuity.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)" --report "$RUNNER_TEMP/video-audio-continuity.json"
           PYTHONPATH=ios python3 -c 'from pathlib import Path; from pip_preview_continuity import apply_pip_preview_continuity; apply_pip_preview_continuity(Path("Telegram-iOS").resolve(), Path("ios").resolve())'
           python3 scripts/validate_pip_preview_continuity.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)" --report "$RUNNER_TEMP/pip-preview-continuity.json"
+
+      - name: Проверить стадии (recording_start_recovery)
+        if: matrix.checkpoint == 'recording_start_recovery'
+        shell: bash
+        run: |
+          export SDKROOT="$(xcrun --sdk macosx --show-sdk-path)"
+          export MACOSX_DEPLOYMENT_TARGET=13.0
           PYTHONPATH=ios python3 -c 'from pathlib import Path; from recording_start_recovery import apply_recording_start_recovery; apply_recording_start_recovery(Path("Telegram-iOS").resolve(), Path("ios").resolve())'
           python3 scripts/validate_recording_start_recovery.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)" --report "$RUNNER_TEMP/recording-start-recovery.json"
           PYTHONPATH=ios python3 -c 'from pathlib import Path; from selection_column_coordinates import apply_selection_column_coordinates; apply_selection_column_coordinates(Path("Telegram-iOS").resolve(), Path("ios").resolve())'
@@ -638,6 +689,13 @@ jobs:
           python3 scripts/validate_gallery_round_export.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)" --report "$RUNNER_TEMP/gallery-round-export.json"
           PYTHONPATH=ios python3 -c 'from pathlib import Path; from round_quality_horizontal_page import apply_round_quality_horizontal_page; apply_round_quality_horizontal_page(Path("Telegram-iOS").resolve(), Path("ios").resolve())'
           python3 scripts/validate_round_quality_horizontal_page.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)" --report "$RUNNER_TEMP/round-quality-horizontal.json"
+
+      - name: Проверить стадии (file_caption_wire_spacing)
+        if: matrix.checkpoint == 'file_caption_wire_spacing'
+        shell: bash
+        run: |
+          export SDKROOT="$(xcrun --sdk macosx --show-sdk-path)"
+          export MACOSX_DEPLOYMENT_TARGET=13.0
           PYTHONPATH=ios python3 -c 'from pathlib import Path; from file_caption_wire_spacing import apply_file_caption_wire_spacing; apply_file_caption_wire_spacing(Path("Telegram-iOS").resolve(), Path("ios").resolve())'
           python3 scripts/validate_file_caption_wire_spacing.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)" --report "$RUNNER_TEMP/file-caption-wire.json"
           PYTHONPATH=ios python3 -c 'from pathlib import Path; from proxy_timeout_sheet import apply_proxy_timeout_sheet; apply_proxy_timeout_sheet(Path("Telegram-iOS").resolve(), Path("ios").resolve())'
@@ -718,6 +776,47 @@ jobs:
           python3 scripts/validate_bulk_message_reads.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)"
           PYTHONPATH=ios python3 -c 'from pathlib import Path; from bulk_read_reconciliation import apply_bulk_read_reconciliation; apply_bulk_read_reconciliation(Path("Telegram-iOS").resolve(), Path("ios").resolve())'
           python3 scripts/validate_bulk_read_reconciliation.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)"
+
+  build:
+    needs: [preflight, source_checks]
+    if: ${{ inputs.artifact_run_id == '' }}
+    outputs:
+      version: ${{ steps.provenance.outputs.version }}
+    runs-on: xcode-27
+    timeout-minutes: 360
+    env: *apple_env
+    steps:
+      - *owner
+      - *checkout
+      - name: Подготовить чистую SDK-сборку
+        if: ${{ inputs.clean_build || inputs.publish_release }}
+        shell: bash
+        run: |
+          test "$BAZEL_CACHE" = "$GITHUB_WORKSPACE/.bazel-cache"
+          rm -rf -- "$BAZEL_CACHE"
+          mkdir -p "$BAZEL_CACHE"
+
+      - *upstream
+      - *credentials
+      - *telegram
+      - *dependencies
+      - *upstream_version
+      - *legacy
+      - *xcode
+      - *node
+      - *native_inputs
+      - *metal
+
+      - name: Подготовить overlay для компиляции
+        shell: bash
+        run: *base_overlay
+
+      - name: Проверить итоговые исходники SDK
+        shell: bash
+        run: |
+          export SDKROOT="$(xcrun --sdk macosx --show-sdk-path)"
+          export MACOSX_DEPLOYMENT_TARGET=13.0
+          python3 scripts/apply_source_prefix.py --source Telegram-iOS --all
           python3 scripts/validate_late_source_stages.py --source Telegram-iOS --report "$RUNNER_TEMP/late-source-stages.json"
           python3 scripts/validate_custom_member_references.py --source Telegram-iOS
           python3 scripts/validate_upstream_13_2_release.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)"

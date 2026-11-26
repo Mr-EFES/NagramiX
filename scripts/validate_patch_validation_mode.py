@@ -6,12 +6,39 @@ import re
 import subprocess
 import tempfile
 
+from apply_source_prefix import STAGES
 from validate_upstream_13_2_release import verify_stage_validation_order
 
 ROOT=Path(__file__).resolve().parents[1]
 
 
+
+def check_workers(text):
+    checks = text.split('\n  source_checks:\n', 1)[1].split('\n  build:\n', 1)[0]
+    build = text.split('\n  build:\n', 1)[1].split('\n  release:\n', 1)[0]
+    assert '    needs: [preflight, source_checks]\n' in build
+    assert 'continue-on-error:' not in checks + build
+    assert '        run: *base_overlay' in build
+    assert build.index('apply_source_prefix.py --source Telegram-iOS --all') < build.index('validate_late_source_stages.py --source') < build.index('--configuration=release_arm64')
+    assert 'run: &base_overlay |' in checks and 'ios/apply_overlay.py' in checks
+    assert 'FIRST_STAGE: ${{ matrix.checkpoint }}' in checks
+    assert 'apply_source_prefix.py --source Telegram-iOS --before "$FIRST_STAGE"' in checks
+    matrix = re.search(r'^        checkpoint: \[(.+)\]$', checks, re.M).group(1).split(', ')
+    steps = re.split(r'      - name: Проверить стадии \((\w+)\)\n', checks)
+    assert steps[1::2] == matrix and matrix[0] == 'foundation'
+    assert len(set(matrix)) == len(matrix)
+    sequence = []
+    for name, body in zip(steps[1::2], steps[2::2]):
+        assert body.startswith(f"        if: matrix.checkpoint == '{name}'\n")
+        stages = re.findall(r'from (\w+) import apply_\1;', body)
+        assert stages and (name == 'foundation' or name == stages[0])
+        sequence.extend(stages)
+    assert tuple(sequence) == STAGES, 'The parallel checks and SDK must apply the same ordered stages'
+    return matrix
+
+
 def check(text):
+    workers=check_workers(text)
     assert text.index('uses: actions/setup-node@v4') < text.index('python3 scripts/validate_release_095_apple_preflight.py')
     start=text.index('      - name: Применить overlay NagramiX\n')
     selected_xcode = text.index('sudo xcode-select -s')
@@ -170,16 +197,22 @@ def check(text):
         result=subprocess.run(['bash','-c',script],capture_output=True,text=True)
         assert result.returncode==expected,(flag,result.returncode,result.stderr)
         runs.append({'extended':flag,'exit_code':result.returncode})
-    # Syntax-check the real whole step, including all heredocs and continuations.
-    script=source[source.index('        run: |\n')+len('        run: |\n'):]
-    script='\n'.join(line[10:] if line.startswith('          ') else line for line in script.splitlines())+'\n'
-    result=subprocess.run(['bash','-n'],input=script,capture_output=True,text=True)
-    assert result.returncode==0,result.stderr
-    return {'optional_historical_calls':len(wrapped),'unconditional_apply_calls':len(applications),'mandatory_final_checks':mandatory+['PostboxImportCheck.py'],'complete_fixture_preflight_before_overlay':'mandatory','bash_syntax':'passed','runtime_cases':runs}
+    # Check each literal shell block independently, as Actions will run it.
+    for body in re.findall(r'^        run: (?:&\w+ )?\|\n((?:^          [^\n]*\n|^\n)+)', source, re.M):
+        script='\n'.join(line[10:] for line in body.splitlines())+'\n'
+        result=subprocess.run(['bash','-n'],input=script,capture_output=True,text=True)
+        assert result.returncode==0,result.stderr
+    return {'source_workers':workers,'optional_historical_calls':len(wrapped),'unconditional_apply_calls':len(applications),'mandatory_final_checks':mandatory+['PostboxImportCheck.py'],'complete_fixture_preflight_before_overlay':'mandatory','bash_syntax':'passed','runtime_cases':runs}
 
 
 def main():
     text=(ROOT/'.github/workflows/build-unsigned-ipa.yml').read_text();report=check(text)
+    for old, new in (('needs: [preflight, source_checks]', 'needs: preflight'),
+                     ("if: matrix.checkpoint == 'recording_start_recovery'", "if: false"),
+                     ('foundation, wide_channel_post_consistency, recording_start_recovery', 'foundation, recording_start_recovery')):
+        try: check_workers(text.replace(old, new, 1))
+        except AssertionError: pass
+        else: raise AssertionError('Missing source checks accepted')
     # Keeping the early PiP fixture must not satisfy a missing full-source test.
     changed = text.replace('validate_web_video_source_handoff.py --source Telegram-iOS',
                            'validate_web_video_source_handoff.py --canonical-handoff')

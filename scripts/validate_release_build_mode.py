@@ -25,6 +25,8 @@ def condition(step, clean, publish):
 
 def main():
     text = (ROOT / '.github/workflows/build-unsigned-ipa.yml').read_text()
+    assert '      - &telegram\n        name: Получить Telegram-iOS' in text
+    text = text.split('\n  build:\n', 1)[1].split('\n  release:\n', 1)[0]
     prepare = block(text, 'Подготовить чистую SDK-сборку')
     restore = block(text, 'Восстановить кеш Bazel')
     confirm = block(text, 'Подтвердить холодную основу релизной сборки')
@@ -37,7 +39,7 @@ def main():
         assert condition(restore, clean, publish) == expected_restore
         assert condition(prepare, clean, publish) == expected_prepare
         assert condition(confirm, clean, publish) == publish
-    assert text.index(prepare) < text.index(block(text, 'Получить Telegram-iOS'))
+    assert text.index(prepare) < text.index('      - *telegram\n')
     assert 'test "$BAZEL_CACHE" = "$GITHUB_WORKSPACE/.bazel-cache"' in prepare
     assert 'rm -rf -- "$BAZEL_CACHE"' in prepare
     assert '!inputs.publish_release' in block(text, 'Сохранить кеш Bazel')
