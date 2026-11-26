@@ -1,0 +1,32 @@
+{
+  "target_pin": "24638bc69bd083981b178dd1e7f921eebbf7fc46",
+  "overlay_base_pin": "279f89e4d4f63f17227bf877dc3d8990f22ecd58",
+  "required_previous_stage": "youtube_replay",
+  "previous": {
+    "submodules/SettingsUI/Sources/NagramiXSettingsController.swift": "calls_tab_preference/Settings.inc"
+  },
+  "replacements": {
+    "submodules/SettingsUI/Sources/NagramiXSettingsController.swift": "message_settings_order/Settings.inc"
+  },
+  "inputs": {
+    "submodules/SettingsUI/Sources/NagramiXSettingsController.swift": "c0fb0da18de25f20415aa6cc7251e4703773225e0828e67bdac888e695f68d00"
+  },
+  "outputs": {
+    "submodules/SettingsUI/Sources/NagramiXSettingsController.swift": "774c9b94a8745c6f04a120b58cd17a1d7dfa091003f7175b3f1cd6e8bbfacd06"
+  },
+  "guards": {
+    "submodules/NagramiXCore/Sources/NagramiXTabSettings.swift": "91c4fd199def90284d113a81d9a86e8e3e9a5c984f673bbf17b856ed2be40600"
+  },
+  "guard_sources": {
+    "submodules/NagramiXCore/Sources/NagramiXTabSettings.swift": "video_playback_switches/NagramiXTabSettings.swift.inc"
+  },
+  "copies": {},
+  "deletions": {},
+  "native_inputs": {},
+  "native_guards": {},
+  "templates": {
+    "calls_tab_preference/Settings.inc": "c0fb0da18de25f20415aa6cc7251e4703773225e0828e67bdac888e695f68d00",
+    "message_settings_order/Settings.inc": "774c9b94a8745c6f04a120b58cd17a1d7dfa091003f7175b3f1cd6e8bbfacd06",
+    "video_playback_switches/NagramiXTabSettings.swift.inc": "91c4fd199def90284d113a81d9a86e8e3e9a5c984f673bbf17b856ed2be40600"
+  }
+}

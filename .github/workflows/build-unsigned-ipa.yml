@@ -169,6 +169,7 @@ jobs:
           python3 scripts/validate_pip_video_replacement.py --canonical --swiftc "$(xcrun --find swiftc)"
           python3 scripts/validate_youtube_pip_readiness.py --canonical --swiftc "$(xcrun --find swiftc)"
           python3 scripts/validate_youtube_replay.py --canonical --swiftc "$(xcrun --find swiftc)"
+          python3 scripts/validate_message_settings_order.py --canonical --swiftc "$(xcrun --find swiftc)"
 
       - name: Подготовить Node для проверки встроенного JavaScript
         uses: actions/setup-node@v4
@@ -709,6 +710,8 @@ jobs:
           python3 scripts/validate_youtube_pip_readiness.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)"
           PYTHONPATH=ios python3 -c 'from pathlib import Path; from youtube_replay import apply_youtube_replay; apply_youtube_replay(Path("Telegram-iOS").resolve(), Path("ios").resolve())'
           python3 scripts/validate_youtube_replay.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)"
+          PYTHONPATH=ios python3 -c 'from pathlib import Path; from message_settings_order import apply_message_settings_order; apply_message_settings_order(Path("Telegram-iOS").resolve(), Path("ios").resolve())'
+          python3 scripts/validate_message_settings_order.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)"
           python3 scripts/validate_late_source_stages.py --source Telegram-iOS --report "$RUNNER_TEMP/late-source-stages.json"
           python3 scripts/validate_custom_member_references.py --source Telegram-iOS
           python3 scripts/validate_upstream_13_2_release.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)"
