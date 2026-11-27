@@ -17,8 +17,8 @@ from validate_youtube_replay import CONTROLLER
 STAGE = 'youtube_watch_fallback'
 
 
-def validate(source, swiftc, work):
-    plan = checked_plan(STAGE)
+def validate(source, swiftc, work, stage=STAGE, fixture='NagramiXYoutubeWatchFallback.swift'):
+    plan = checked_plan(stage)
     if source is None:
         source = work / 'source'
         for name, template in {**plan['replacements'], **plan['guard_sources']}.items():
@@ -29,7 +29,7 @@ def validate(source, swiftc, work):
         assert digest(source / name) == expected, name
         if name.endswith('.swift'):
             run([swiftc, '-frontend', '-parse', source / name])
-    guard_checks(source, STAGE, plan, work / 'guards')
+    guard_checks(source, stage, plan, work / 'guards')
     for name in plan['guards']:
         shutil.copy(source / name, work)
     gallery = (source / GALLERY).read_text()
@@ -42,7 +42,7 @@ def validate(source, swiftc, work):
     geometry = '\n'.join(block(gallery, '    private static func ' + name).replace('private static', 'static', 1)
                          for name in ('nagramiXWatchViewport', 'nagramiXFeedbackFrame'))
     host = '#if canImport(CoreGraphics)\nimport CoreGraphics\n#endif\n' + controller + '\nenum Feedback {\n' + geometry + '\n}\n'
-    for result in execute(swiftc, work, 'WatchFallback', host + (TESTS / 'NagramiXYoutubeWatchFallback.swift').read_text()):
+    for result in execute(swiftc, work, 'WatchFallback', host + (TESTS / fixture).read_text()):
         print(result['mode'], result['output'], flush=True)
     print(run(['node', TESTS / 'NagramiXYoutubeWatchPage.cjs', source / WEB]).stdout.strip())
     if sys.platform == 'darwin':
@@ -52,6 +52,8 @@ def validate(source, swiftc, work):
         path.write_text('import UIKit\nimport WebKit\nfinal class ValuePromise<T> { init(_ value: T, ignoreRepeated: Bool) {}\nfunc set(_ value: T) {} }\n' + bridge)
         sdk = run(['xcrun', '--sdk', 'iphoneos', '--show-sdk-path']).stdout.strip()
         run([swiftc, '-swift-version', '5', '-typecheck', '-sdk', sdk, '-target', 'arm64-apple-ios15.0', path])
+
+    return source
 
 
 if __name__ == '__main__':

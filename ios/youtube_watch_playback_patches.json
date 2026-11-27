@@ -1,0 +1,56 @@
+{
+  "target_pin": "24638bc69bd083981b178dd1e7f921eebbf7fc46",
+  "overlay_base_pin": "279f89e4d4f63f17227bf877dc3d8990f22ecd58",
+  "required_previous_stage": "gallery_header_layout",
+  "previous": {
+    "submodules/GalleryUI/Sources/Items/UniversalVideoGalleryItem.swift": "youtube_watch_fallback/UniversalVideoGalleryItem.swift.inc",
+    "submodules/TelegramUniversalVideoContent/Sources/WebEmbedPlayerNode.swift": "youtube_watch_fallback/WebEmbedPlayerNode.swift.inc",
+    "submodules/TelegramUniversalVideoContent/Sources/WebEmbedVideoContent.swift": "youtube_watch_fallback/WebEmbedVideoContent.swift.inc",
+    "submodules/TelegramUniversalVideoContent/Sources/YoutubeEmbedImplementation.swift": "youtube_watch_fallback/YoutubeEmbedImplementation.swift.inc"
+  },
+  "replacements": {
+    "submodules/GalleryUI/Sources/Items/UniversalVideoGalleryItem.swift": "youtube_watch_playback/UniversalVideoGalleryItem.swift.inc",
+    "submodules/TelegramUniversalVideoContent/Sources/WebEmbedPlayerNode.swift": "youtube_watch_playback/WebEmbedPlayerNode.swift.inc",
+    "submodules/TelegramUniversalVideoContent/Sources/WebEmbedVideoContent.swift": "youtube_watch_playback/WebEmbedVideoContent.swift.inc",
+    "submodules/TelegramUniversalVideoContent/Sources/YoutubeEmbedImplementation.swift": "youtube_watch_playback/YoutubeEmbedImplementation.swift.inc"
+  },
+  "inputs": {
+    "submodules/GalleryUI/Sources/Items/UniversalVideoGalleryItem.swift": "03d59681835c39f18d39049c119dd0814c862f84932ab17d75506deaef9a3778",
+    "submodules/TelegramUniversalVideoContent/Sources/WebEmbedPlayerNode.swift": "c3ca9617319d8e65c98b1fb193ef344a8158d2c5003e3f5fb758d7c77914e605",
+    "submodules/TelegramUniversalVideoContent/Sources/WebEmbedVideoContent.swift": "0e3040bb6e92208e4ea950e1bb9ee18f3de31ae190ae3a8f819b6e9579ab025a",
+    "submodules/TelegramUniversalVideoContent/Sources/YoutubeEmbedImplementation.swift": "49b6cea61a673f9938f5c217d6f35a815ba040c5f71feb4ce7668eb39a361d16"
+  },
+  "outputs": {
+    "submodules/GalleryUI/Sources/Items/UniversalVideoGalleryItem.swift": "fe9e3feb5c8c6550fe0fc785708c3adf50da398847dbd51ad6eeb2e04fb74f79",
+    "submodules/TelegramUniversalVideoContent/Sources/WebEmbedPlayerNode.swift": "ebf0533149c4269e82d63c81c8830c90d06e5958f1e95cbe578a868be9d29214",
+    "submodules/TelegramUniversalVideoContent/Sources/WebEmbedVideoContent.swift": "389f101e3fc2e41d8486e171a7741c6b24970834bdd219039c8f6fee07f806a0",
+    "submodules/TelegramUniversalVideoContent/Sources/YoutubeEmbedImplementation.swift": "8687f4717f21b62a4dee30dbe54a13a93916f2e8150cc65ee8815ab79855fbad"
+  },
+  "guard_sources": {
+    "submodules/TelegramUI/Resources/WebEmbed/Youtube.html": "youtube_pip_readiness/Youtube.html.inc",
+    "submodules/TelegramUI/Resources/WebEmbed/YoutubeUserScript.js": "video_audio_continuity/Guard6.inc",
+    "submodules/GalleryUI/Sources/GalleryControllerNode.swift": "gallery_header_layout/GalleryControllerNode.swift.inc"
+  },
+  "guards": {
+    "submodules/TelegramUI/Resources/WebEmbed/Youtube.html": "a7c93b6ed1024655ffae899f25b90dd581216a2649d87a2b382e712ea7c48bc9",
+    "submodules/TelegramUI/Resources/WebEmbed/YoutubeUserScript.js": "0c705b61ae09f90f8b1e193f92327c1311bb841b5bcc0c55b70556542f79d939",
+    "submodules/GalleryUI/Sources/GalleryControllerNode.swift": "beacae2d3b3b96193957620dcc2a9cacb95f4a4cbf2ebe5fc3a213fd68e83d0f"
+  },
+  "copies": {},
+  "deletions": {},
+  "native_inputs": {},
+  "native_guards": {},
+  "templates": {
+    "youtube_watch_fallback/UniversalVideoGalleryItem.swift.inc": "03d59681835c39f18d39049c119dd0814c862f84932ab17d75506deaef9a3778",
+    "youtube_watch_fallback/WebEmbedPlayerNode.swift.inc": "c3ca9617319d8e65c98b1fb193ef344a8158d2c5003e3f5fb758d7c77914e605",
+    "youtube_watch_fallback/WebEmbedVideoContent.swift.inc": "0e3040bb6e92208e4ea950e1bb9ee18f3de31ae190ae3a8f819b6e9579ab025a",
+    "youtube_watch_fallback/YoutubeEmbedImplementation.swift.inc": "49b6cea61a673f9938f5c217d6f35a815ba040c5f71feb4ce7668eb39a361d16",
+    "youtube_watch_playback/UniversalVideoGalleryItem.swift.inc": "fe9e3feb5c8c6550fe0fc785708c3adf50da398847dbd51ad6eeb2e04fb74f79",
+    "youtube_watch_playback/WebEmbedPlayerNode.swift.inc": "ebf0533149c4269e82d63c81c8830c90d06e5958f1e95cbe578a868be9d29214",
+    "youtube_watch_playback/WebEmbedVideoContent.swift.inc": "389f101e3fc2e41d8486e171a7741c6b24970834bdd219039c8f6fee07f806a0",
+    "youtube_watch_playback/YoutubeEmbedImplementation.swift.inc": "8687f4717f21b62a4dee30dbe54a13a93916f2e8150cc65ee8815ab79855fbad",
+    "youtube_pip_readiness/Youtube.html.inc": "a7c93b6ed1024655ffae899f25b90dd581216a2649d87a2b382e712ea7c48bc9",
+    "video_audio_continuity/Guard6.inc": "0c705b61ae09f90f8b1e193f92327c1311bb841b5bcc0c55b70556542f79d939",
+    "gallery_header_layout/GalleryControllerNode.swift.inc": "beacae2d3b3b96193957620dcc2a9cacb95f4a4cbf2ebe5fc3a213fd68e83d0f"
+  }
+}
