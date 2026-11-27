@@ -1,0 +1,54 @@
+{
+  "target_pin": "24638bc69bd083981b178dd1e7f921eebbf7fc46",
+  "overlay_base_pin": "279f89e4d4f63f17227bf877dc3d8990f22ecd58",
+  "required_previous_stage": "youtube_watch_fallback",
+  "previous": {
+    "submodules/GalleryUI/Sources/GalleryController.swift": "youtube_inline_playback/GalleryController.swift.inc",
+    "submodules/GalleryUI/Sources/GalleryControllerNode.swift": "gallery_playback_continuity/GalleryControllerNode.swift.inc",
+    "submodules/GalleryUI/Sources/GalleryTitleView.swift": "gallery_header_layout/NativeGalleryTitleView.swift.inc"
+  },
+  "replacements": {
+    "submodules/GalleryUI/Sources/GalleryController.swift": "gallery_header_layout/GalleryController.swift.inc",
+    "submodules/GalleryUI/Sources/GalleryControllerNode.swift": "gallery_header_layout/GalleryControllerNode.swift.inc",
+    "submodules/GalleryUI/Sources/GalleryTitleView.swift": "gallery_header_layout/GalleryTitleView.swift.inc"
+  },
+  "guard_sources": {
+    "submodules/TelegramUI/Components/NavigationBarNode/Sources/NavigationBarNode.swift": "settings_category_bar_layout/After4.inc",
+    "submodules/GalleryUI/Sources/Items/UniversalVideoGalleryItem.swift": "youtube_watch_fallback/UniversalVideoGalleryItem.swift.inc",
+    "submodules/Display/Source/NavigationBarTitlePlacement.swift": "gallery_header_layout/NativeTitlePlacement.swift.inc"
+  },
+  "inputs": {
+    "submodules/GalleryUI/Sources/GalleryController.swift": "b8dec70e1686be28e9400a8370916b5290de2e6492bda440a4722701ca494432",
+    "submodules/GalleryUI/Sources/GalleryControllerNode.swift": "5f82d74132f26666239a684a665bba72d98c548796b7ce99ef8700e05d223d6b",
+    "submodules/GalleryUI/Sources/GalleryTitleView.swift": "b224da8e2c9e96640489327ec282719b566c9f99fb8d87bb77cdab8b665fe555"
+  },
+  "outputs": {
+    "submodules/GalleryUI/Sources/GalleryController.swift": "5d115fb01ccf2e460c3bab806929e3ba711bdb285fd8076b3eafe4b2f094c09f",
+    "submodules/GalleryUI/Sources/GalleryControllerNode.swift": "beacae2d3b3b96193957620dcc2a9cacb95f4a4cbf2ebe5fc3a213fd68e83d0f",
+    "submodules/GalleryUI/Sources/GalleryTitleView.swift": "74d6ce8f761793583d2c90c0b9cf4d23c54ce04321f3166062972e0879e7d8d6"
+  },
+  "guards": {
+    "submodules/TelegramUI/Components/NavigationBarNode/Sources/NavigationBarNode.swift": "d3adf34a436c626f361ae38844a7472d0e70be9ad37484294ae5c83ef12389a7",
+    "submodules/GalleryUI/Sources/Items/UniversalVideoGalleryItem.swift": "03d59681835c39f18d39049c119dd0814c862f84932ab17d75506deaef9a3778",
+    "submodules/Display/Source/NavigationBarTitlePlacement.swift": "cdb73d6e072ea384de1bcff1acb19f7131f1d3af1f63b3f0c082a9a5c03dd024"
+  },
+  "copies": {},
+  "deletions": {},
+  "native_inputs": {
+    "submodules/GalleryUI/Sources/GalleryTitleView.swift": "ea42eb55aa16dbd9b3a47e999feda19cb050b8ac"
+  },
+  "native_guards": {
+    "submodules/Display/Source/NavigationBarTitlePlacement.swift": "344a5bbcfb483f971208bff2f942d0960de2f1b5"
+  },
+  "templates": {
+    "youtube_inline_playback/GalleryController.swift.inc": "b8dec70e1686be28e9400a8370916b5290de2e6492bda440a4722701ca494432",
+    "gallery_playback_continuity/GalleryControllerNode.swift.inc": "5f82d74132f26666239a684a665bba72d98c548796b7ce99ef8700e05d223d6b",
+    "gallery_header_layout/NativeGalleryTitleView.swift.inc": "b224da8e2c9e96640489327ec282719b566c9f99fb8d87bb77cdab8b665fe555",
+    "gallery_header_layout/GalleryController.swift.inc": "5d115fb01ccf2e460c3bab806929e3ba711bdb285fd8076b3eafe4b2f094c09f",
+    "gallery_header_layout/GalleryControllerNode.swift.inc": "beacae2d3b3b96193957620dcc2a9cacb95f4a4cbf2ebe5fc3a213fd68e83d0f",
+    "gallery_header_layout/GalleryTitleView.swift.inc": "74d6ce8f761793583d2c90c0b9cf4d23c54ce04321f3166062972e0879e7d8d6",
+    "settings_category_bar_layout/After4.inc": "d3adf34a436c626f361ae38844a7472d0e70be9ad37484294ae5c83ef12389a7",
+    "youtube_watch_fallback/UniversalVideoGalleryItem.swift.inc": "03d59681835c39f18d39049c119dd0814c862f84932ab17d75506deaef9a3778",
+    "gallery_header_layout/NativeTitlePlacement.swift.inc": "cdb73d6e072ea384de1bcff1acb19f7131f1d3af1f63b3f0c082a9a5c03dd024"
+  }
+}

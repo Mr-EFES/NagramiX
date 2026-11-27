@@ -173,6 +173,7 @@ jobs:
           python3 scripts/validate_bulk_read_reconciliation.py --canonical --swiftc "$(xcrun --find swiftc)"
           python3 scripts/validate_pip_playback_focus.py --canonical --swiftc "$(xcrun --find swiftc)"
           python3 scripts/validate_youtube_watch_fallback.py --canonical --swiftc "$(xcrun --find swiftc)"
+          python3 scripts/validate_gallery_header_layout.py --canonical --swiftc "$(xcrun --find swiftc)"
 
       - &node
         name: Подготовить Node для проверки встроенного JavaScript
@@ -782,6 +783,8 @@ jobs:
           python3 scripts/validate_pip_playback_focus.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)"
           PYTHONPATH=ios python3 -c 'from pathlib import Path; from youtube_watch_fallback import apply_youtube_watch_fallback; apply_youtube_watch_fallback(Path("Telegram-iOS").resolve(), Path("ios").resolve())'
           python3 scripts/validate_youtube_watch_fallback.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)"
+          PYTHONPATH=ios python3 -c 'from pathlib import Path; from gallery_header_layout import apply_gallery_header_layout; apply_gallery_header_layout(Path("Telegram-iOS").resolve(), Path("ios").resolve())'
+          python3 scripts/validate_gallery_header_layout.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)"
 
   build:
     needs: [preflight, source_checks]
