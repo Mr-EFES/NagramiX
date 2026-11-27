@@ -1,0 +1,483 @@
+import Foundation
+import UIKit
+import AVFoundation
+import AsyncDisplayKit
+import Display
+import SwiftSignalKit
+import Postbox
+import TelegramCore
+import TelegramAudio
+import UniversalMediaPlayer
+import LegacyComponents
+import AccountContext
+import PhotoResources
+import RangeSet
+import NagramiXCore
+
+public protocol NagramiXGalleryPlaybackPreparation: AnyObject {
+    func nagramiXPrepareGalleryPlayback(_ ready: @escaping () -> Bool)
+}
+
+// AVPlayer must be ready and at rate zero before preroll. Keep the current PiP
+// audio session until the new player has buffered enough for playback.
+final class NagramiXGalleryPreroll {
+    private var observation: NSKeyValueObservation?
+    private weak var player: AVPlayer?
+    private var generation = 0
+
+    func cancel() {
+        self.generation &+= 1
+        self.observation?.invalidate()
+        self.observation = nil
+        self.player?.cancelPendingPrerolls()
+        self.player = nil
+    }
+
+    func prepare(_ player: AVPlayer, ready: @escaping () -> Void) {
+        self.cancel()
+        if player.timeControlStatus == .playing { ready(); return }
+        self.player = player
+        let generation = self.generation
+        player.pause()
+        self.observation = player.observe(\.status, options: [.initial, .new]) { [weak self] player, _ in
+            DispatchQueue.main.async { [weak self, weak player] in
+                guard let self, let player, self.generation == generation,
+                      self.observation != nil, player.status != .unknown else { return }
+                self.observation?.invalidate()
+                self.observation = nil
+                guard player.status == .readyToPlay else { self.player = nil; return }
+                player.preroll(atRate: 1.0) { [weak self] finished in
+                    DispatchQueue.main.async { [weak self] in
+                        guard let self, self.generation == generation else { return }
+                        self.player = nil
+                        if finished { ready() }
+                    }
+                }
+            }
+        }
+    }
+}
+
+public final class WebEmbedVideoContent: UniversalVideoContent {
+    public let id: AnyHashable
+    let userLocation: MediaResourceUserLocation
+    let webPage: TelegramMediaWebpage
+    public let webpageContent: TelegramMediaWebpageLoadedContent
+    public let dimensions: CGSize
+    public let duration: Double
+    let forcedTimestamp: Int?
+    let openUrl: (URL) -> Void
+    
+    public init?(userLocation: MediaResourceUserLocation, webPage: TelegramMediaWebpage, webpageContent: TelegramMediaWebpageLoadedContent, forcedTimestamp: Int? = nil, openUrl: @escaping (URL) -> Void) {
+        guard let embedUrl = webpageContent.embedUrl else {
+            return nil
+        }
+        self.id = AnyHashable(embedUrl)
+        self.userLocation = userLocation
+        self.webPage = webPage
+        self.webpageContent = webpageContent
+        self.dimensions = webpageContent.embedSize?.cgSize ?? CGSize(width: 128.0, height: 128.0)
+        self.duration = webpageContent.duration.flatMap(Double.init) ?? 0.0
+        self.forcedTimestamp = forcedTimestamp
+        self.openUrl = openUrl
+    }
+    
+    public func makeContentNode(context: AccountContext, postbox: Postbox, audioSession: ManagedAudioSession) -> UniversalVideoContentNode & ASDisplayNode {
+        return WebEmbedVideoContentNode(postbox: postbox, audioSessionManager: audioSession, userLocation: self.userLocation, webPage: self.webPage, webpageContent: self.webpageContent, forcedTimestamp: self.forcedTimestamp, openUrl: self.openUrl)
+    }
+}
+ 
+public protocol NagramiXYoutubePlaybackSource: AnyObject {
+    var nagramiXYoutubeAvailability: Signal<NagramiXYoutubeAvailability, NoError> { get }
+    func nagramiXRetryYoutubePlayback()
+}
+
+final class WebEmbedVideoContentNode: ASDisplayNode, UniversalVideoContentNode, NagramiXYoutubePlaybackSource, NagramiXGalleryPlaybackPreparation {
+    private var nagramiXPreparedGalleryPlay: (() -> Bool)?
+    private let youtubeAvailability = ValuePromise<NagramiXYoutubeAvailability>(.loading, ignoreRepeated: true)
+    var nagramiXYoutubeAvailability: Signal<NagramiXYoutubeAvailability, NoError> { self.youtubeAvailability.get() }
+
+    func nagramiXRetryYoutubePlayback() {
+        guard let youtube = self.playerNode.impl as? YoutubeEmbedImplementation, youtube.availability == .unavailable else { return }
+        youtube.retryDocument()
+        if self.nagramiXPreparedGalleryPlay != nil {
+            self.playerNode.play()
+        } else {
+            self.play()
+        }
+    }
+
+    private let webpageContent: TelegramMediaWebpageLoadedContent
+    private let intrinsicDimensions: CGSize
+    
+    private let playbackCompletedListeners = Bag<() -> Void>()
+    
+    private var initializedStatus = false
+    private let _status = Promise<MediaPlayerStatus>()
+    var status: Signal<MediaPlayerStatus, NoError> {
+        return self._status.get()
+    }
+    
+    private let _bufferingStatus = Promise<(RangeSet<Int64>, Int64)?>()
+    var bufferingStatus: Signal<(RangeSet<Int64>, Int64)?, NoError> {
+        return self._bufferingStatus.get()
+    }
+    
+    var isNativePictureInPictureActive: Signal<Bool, NoError> {
+        return self.playerNode.nagramiXSystemPiPActive
+    }
+    
+    private var seekId: Int = 0
+    
+    private let _ready = Promise<Void>()
+    var ready: Signal<Void, NoError> {
+        return self._ready.get()
+    }
+    
+    private let imageNode: TransformImageNode
+    private let playerNode: WebEmbedPlayerNode
+    
+    var impl: WebEmbedImplementation {
+        return playerNode.impl
+    }
+        
+    private let audioSessionManager: ManagedAudioSession
+    private let audioSessionDisposable = MetaDisposable()
+    private let nagramiXPipDisposable = MetaDisposable()
+    private let nagramiXStatusDisposable = MetaDisposable()
+    private var nagramiXPlaybackRequested = false
+    private var nagramiXBackgroundOwners = Set<UUID>()
+    private var nagramiXHasManagedAudio = false
+    private var nagramiXAudioReady = false
+    private var nagramiXPendingPlay = false
+    private var nagramiXPlayCommandSent = false
+    private var nagramiXAudioSuspended = false
+    private var nagramiXInterruptionPauseConfirmed = false
+    private var nagramiXAudioGeneration: UInt64 = 0
+    private var nagramiXBackgroundObserver: NSObjectProtocol?
+    private var nagramiXForegroundObserver: NSObjectProtocol?
+    private var nagramiXInForeground = true
+    private var nagramiXInactiveObserver: NSObjectProtocol?
+    private var nagramiXAwaitingBackgroundOwner = false
+    private var nagramiXPlaybackHandoffGeneration = 0
+    private var readyDisposable = MetaDisposable()
+    
+    init(postbox: Postbox, audioSessionManager: ManagedAudioSession, userLocation: MediaResourceUserLocation, webPage: TelegramMediaWebpage, webpageContent: TelegramMediaWebpageLoadedContent, forcedTimestamp: Int? = nil, openUrl: @escaping (URL) -> Void) {
+        self.audioSessionManager = audioSessionManager
+        self.webpageContent = webpageContent
+        
+        if let embedSize = webpageContent.embedSize {
+            self.intrinsicDimensions = embedSize.cgSize
+        } else {
+            self.intrinsicDimensions = CGSize(width: 480.0, height: 320.0)
+        }
+    
+        self.imageNode = TransformImageNode()
+        
+        let embedType = webEmbedType(content: webpageContent, forcedTimestamp: forcedTimestamp)
+        let embedImpl = webEmbedImplementation(for: embedType)
+        self.playerNode = WebEmbedPlayerNode(impl: embedImpl, intrinsicDimensions: self.intrinsicDimensions, openUrl: openUrl)
+        
+        super.init()
+        
+        self.addSubnode(self.playerNode)
+        self.addSubnode(self.imageNode)
+        
+        if let image = webpageContent.image {
+            self.imageNode.setSignal(chatMessagePhoto(postbox: postbox, userLocation: userLocation, photoReference: .webPage(webPage: WebpageReference(webPage), media: image)))
+            self.imageNode.imageUpdated = { [weak self] _ in
+                self?._ready.set(.single(Void()))
+            }
+        } else {
+            self._ready.set(.single(Void()))
+        }
+        if let youtube = self.playerNode.impl as? YoutubeEmbedImplementation {
+            youtube.availabilityChanged = { [weak self] value in self?.youtubeAvailability.set(value) }
+            self.youtubeAvailability.set(youtube.availability)
+        }
+        self.playerNode.nagramiXActualPlaybackPaused = { [weak self] in
+            guard let self else { return }
+            self.nagramiXPlaybackRequested = false
+            self.nagramiXPendingPlay = false
+            self.nagramiXAwaitingBackgroundOwner = false
+            self.nagramiXPlaybackHandoffGeneration &+= 1
+            self.nagramiXUpdateManagedPlayback()
+        }
+        self.nagramiXInactiveObserver = NotificationCenter.default.addObserver(forName: UIApplication.willResignActiveNotification, object: nil, queue: .main) { [weak self] _ in
+            self?.playerNode.setNagramiXApplicationActive(false)
+        }
+        self.nagramiXStatusDisposable.set((self.playerNode.status |> deliverOnMainQueue).start(next: { [weak self] status in
+            guard let self else { return }
+            switch status.status {
+            case .playing:
+                if let ready = self.nagramiXPreparedGalleryPlay {
+                    if let youtube = self.playerNode.impl as? YoutubeEmbedImplementation, youtube.availability != .playable { return }
+                    self.nagramiXPreparedGalleryPlay = nil
+                    guard ready() else { self.pause(); return }
+                    self.nagramiXAudioSuspended = false
+                }
+                if self.nagramiXAudioSuspended && self.nagramiXInterruptionPauseConfirmed {
+                    self.nagramiXAudioSuspended = false
+                    self.nagramiXInterruptionPauseConfirmed = false
+                }
+                self.nagramiXPlaybackRequested = true
+                self.nagramiXPendingPlay = false
+                self.nagramiXPlayCommandSent = false
+            case .paused:
+                if !status.soundEnabled && self.playerNode.impl is YoutubeEmbedImplementation {
+                    self.nagramiXPendingPlay = false
+                    self.nagramiXPlayCommandSent = false
+                    self.nagramiXAwaitingBackgroundOwner = false
+                }
+                if self.nagramiXAudioSuspended { self.nagramiXInterruptionPauseConfirmed = true }
+                if !self.nagramiXPendingPlay { self.nagramiXPlaybackRequested = false }
+            case let .buffering(_, whilePlaying, _, _):
+                // A temporary absence of decoded frames does not cancel a YouTube
+                // Play request. Pause, a provider error and audio interruption do.
+                if !(self.playerNode.impl is YoutubeEmbedImplementation) && !self.nagramiXPendingPlay {
+                    self.nagramiXPlaybackRequested = self.nagramiXPlaybackRequested && whilePlaying
+                }
+
+            }
+            self.nagramiXUpdateManagedPlayback()
+        }))
+        self.nagramiXPipDisposable.set((self.playerNode.nagramiXSystemPiPActive |> deliverOnMainQueue).start(next: { [weak self] _ in
+            self?.nagramiXUpdateManagedPlayback()
+        }))
+        self.nagramiXBackgroundObserver = NotificationCenter.default.addObserver(forName: UIApplication.didEnterBackgroundNotification, object: nil, queue: .main) { [weak self] _ in
+            self?.playerNode.setNagramiXApplicationActive(false)
+            self?.nagramiXInForeground = false
+            self?.nagramiXUpdateManagedPlayback()
+        }
+        self.nagramiXForegroundObserver = NotificationCenter.default.addObserver(forName: UIApplication.didBecomeActiveNotification, object: nil, queue: .main) { [weak self] _ in
+            self?.playerNode.setNagramiXApplicationActive(true)
+            self?.nagramiXInForeground = true
+            self?.nagramiXUpdateManagedPlayback()
+        }
+        self._status.set(self.playerNode.status)
+        self._bufferingStatus.set(.single(nil))
+        
+        self.readyDisposable.set(self.playerNode.ready.start(next: { [weak self] ready in
+            if ready {
+                self?.imageNode.isHidden = true
+            }
+        }, error: { _ in }, completed: {}))
+    }
+    
+    deinit {
+        self.readyDisposable.dispose()
+        self.nagramiXPipDisposable.dispose()
+        self.nagramiXStatusDisposable.dispose()
+        self.audioSessionDisposable.dispose()
+        if let observer = self.nagramiXForegroundObserver { NotificationCenter.default.removeObserver(observer) }
+        if let observer = self.nagramiXBackgroundObserver { NotificationCenter.default.removeObserver(observer) }
+        if let observer = self.nagramiXInactiveObserver { NotificationCenter.default.removeObserver(observer) }
+    }
+    
+    func updateLayout(size: CGSize, actualSize: CGSize, transition: ContainedViewLayoutTransition) {
+        transition.updatePosition(node: self.playerNode, position: CGPoint(x: size.width / 2.0, y: size.height / 2.0))
+        transition.updateTransformScale(node: self.playerNode, scale: size.width / self.intrinsicDimensions.width)
+
+        transition.updateFrame(node: self.imageNode, frame: CGRect(origin: CGPoint(), size: size))
+        
+        if let image = webpageContent.image, let representation = image.representationForDisplayAtSize(PixelDimensions(self.intrinsicDimensions)) {
+            let makeImageLayout = self.imageNode.asyncLayout()
+            let applyImageLayout = makeImageLayout(TransformImageArguments(corners: ImageCorners(), imageSize: representation.dimensions.cgSize.aspectFilled(size), boundingSize: size, intrinsicInsets: UIEdgeInsets()))
+            applyImageLayout()
+        }
+    }
+    
+    func nagramiXPrepareGalleryPlayback(_ ready: @escaping () -> Bool) {
+        self.nagramiXPreparedGalleryPlay = ready
+        self.nagramiXAudioSuspended = false
+        // The provider may still be loading. Let it start before requesting managed audio.
+        self.playerNode.play()
+    }
+
+    func play() {
+        assert(Queue.mainQueue().isCurrent())
+        self.nagramiXPreparedGalleryPlay = nil
+
+        // Keep an explicit play alive until the gallery registers this player.
+        // The bounded lease never starts or seeks another player on expiration.
+        self.nagramiXAwaitingBackgroundOwner = NagramiXTabSettings.backgroundVideoPlaybackEnabled
+        self.nagramiXPlaybackHandoffGeneration &+= 1
+        let generation = self.nagramiXPlaybackHandoffGeneration
+        if self.nagramiXAwaitingBackgroundOwner {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 5.0) { [weak self] in
+                guard let self, self.nagramiXPlaybackHandoffGeneration == generation else { return }
+                self.nagramiXAwaitingBackgroundOwner = false
+                self.nagramiXUpdateManagedPlayback()
+            }
+        }
+        self.nagramiXPlaybackRequested = true
+        self.nagramiXPendingPlay = true
+        self.nagramiXPlayCommandSent = false
+        self.nagramiXAudioSuspended = false
+        self.nagramiXUpdateManagedPlayback()
+    }
+    
+    func pause() {
+        self.nagramiXPreparedGalleryPlay = nil
+        assert(Queue.mainQueue().isCurrent())
+
+        self.nagramiXAwaitingBackgroundOwner = false
+        self.nagramiXPlaybackHandoffGeneration &+= 1
+        self.nagramiXPlaybackRequested = false
+        self.nagramiXPendingPlay = false
+        self.playerNode.pause()
+        self.nagramiXUpdateManagedPlayback()
+    }
+    
+    func togglePlayPause() {
+        assert(Queue.mainQueue().isCurrent())
+        if self.nagramiXPlaybackRequested { self.pause() } else { self.play() }
+    }
+    
+    func setSoundEnabled(_ value: Bool) {
+        assert(Queue.mainQueue().isCurrent())
+    }
+    
+    func seek(_ timestamp: Double) {
+        assert(Queue.mainQueue().isCurrent())
+        self.seekId += 1
+        self.playerNode.seek(timestamp: timestamp)
+    }
+    
+    func playOnceWithSound(playAndRecord: Bool, seek: MediaPlayerSeek, actionAtEnd: MediaPlayerPlayOnceWithSoundActionAtEnd) {
+        if case let .timecode(time) = seek {
+            self.playerNode.seek(timestamp: time)
+        }
+        self.play()
+    }
+    
+    func setSoundMuted(soundMuted: Bool) {
+    }
+    
+    func continueWithOverridingAmbientMode(isAmbient: Bool) {
+    }
+    
+    func setForceAudioToSpeaker(_ forceAudioToSpeaker: Bool) {
+    }
+    
+    func continuePlayingWithoutSound(actionAtEnd: MediaPlayerPlayOnceWithSoundActionAtEnd) {
+    }
+    
+    func setContinuePlayingWithoutSoundOnLostAudioSession(_ value: Bool) {   
+    }
+    
+    func setBaseRate(_ baseRate: Double) {
+        self.playerNode.setBaseRate(baseRate)
+    }
+    
+    func setVideoQuality(_ videoQuality: UniversalVideoContentVideoQuality) {
+    }
+    
+    func videoQualityState() -> (current: Int, preferred: UniversalVideoContentVideoQuality, available: [Int])? {
+        return nil
+    }
+    
+    func videoQualityStateSignal() -> Signal<(current: Int, preferred: UniversalVideoContentVideoQuality, available: [Int])?, NoError> {
+        return .single(nil)
+    }
+    
+    func addPlaybackCompleted(_ f: @escaping () -> Void) -> Int {
+        return self.playbackCompletedListeners.add(f)
+    }
+    
+    func removePlaybackCompleted(_ index: Int) {
+        self.playbackCompletedListeners.remove(index)
+    }
+    
+    func fetchControl(_ control: UniversalVideoNodeFetchControl) {
+    }
+    
+    func notifyPlaybackControlsHidden(_ hidden: Bool) {
+        self.playerNode.notifyPlaybackControlsHidden(hidden)
+    }
+
+    func setCanPlaybackWithoutHierarchy(_ canPlaybackWithoutHierarchy: Bool) {
+    }
+    
+    func setNagramiXBackgroundPlayback(id: UUID, active: Bool) {
+        if active {
+            self.nagramiXBackgroundOwners.insert(id)
+            self.nagramiXAwaitingBackgroundOwner = false
+        } else if self.nagramiXBackgroundOwners.remove(id) != nil {
+            self.nagramiXAwaitingBackgroundOwner = false
+        }
+        self.nagramiXUpdateManagedPlayback()
+    }
+
+    private func nagramiXUpdateManagedPlayback() {
+        guard self.nagramiXPreparedGalleryPlay == nil else { return }
+        let wantsAudio = !(self.playerNode.impl is YoutubeEmbedImplementation) || self.nagramiXPlaybackRequested
+        let permitted = wantsAudio && !self.nagramiXAudioSuspended && NagramiXTabSettings.backgroundVideoPlaybackEnabled
+            && (self.playerNode.nagramiXIsSystemPiPActive || !self.nagramiXBackgroundOwners.isEmpty
+                || (self.nagramiXPlaybackRequested && self.nagramiXAwaitingBackgroundOwner))
+        self.playerNode.setNagramiXBackgroundPlayback(permitted)
+        let needsAudio = !self.nagramiXAudioSuspended && (permitted || (self.nagramiXInForeground && self.nagramiXPlaybackRequested))
+        if needsAudio && !self.nagramiXHasManagedAudio {
+            self.nagramiXHasManagedAudio = true
+            self.nagramiXAudioGeneration &+= 1
+            let generation = self.nagramiXAudioGeneration
+            self.audioSessionDisposable.set(self.audioSessionManager.push(audioSessionType: .play(mixWithOthers: false), once: true, activate: { [weak self] _ in
+                Queue.mainQueue().async {
+                    guard let self, self.nagramiXAudioGeneration == generation, self.nagramiXHasManagedAudio else { return }
+                    self.nagramiXAudioReady = true
+                    self.nagramiXUpdateManagedPlayback()
+                }
+            }, deactivate: { [weak self] _ in
+                return Signal { subscriber in
+                    if let self, self.nagramiXAudioGeneration == generation {
+                        self.nagramiXAwaitingBackgroundOwner = false
+                        self.nagramiXPlaybackHandoffGeneration &+= 1
+                        self.nagramiXAudioGeneration &+= 1
+                        self.nagramiXHasManagedAudio = false
+                        self.nagramiXAudioReady = false
+                        self.nagramiXPendingPlay = false
+                        self.nagramiXPlaybackRequested = false
+                        self.nagramiXAudioSuspended = true
+                        self.nagramiXInterruptionPauseConfirmed = false
+                        self.playerNode.setNagramiXBackgroundPlayback(false)
+                        self.playerNode.pause()
+                    }
+                    subscriber.putCompletion()
+                    return EmptyDisposable
+                } |> runOn(.mainQueue())
+            }))
+        } else if !needsAudio {
+            self.nagramiXAudioGeneration &+= 1
+            self.nagramiXHasManagedAudio = false
+            self.nagramiXAudioReady = false
+            self.audioSessionDisposable.set(nil)
+            if !self.nagramiXInForeground && (self.nagramiXPlaybackRequested || self.nagramiXPendingPlay || self.playerNode.nagramiXIsSystemPiPActive && self.nagramiXPlayCommandSent) {
+                self.nagramiXPendingPlay = false
+                self.nagramiXPlaybackRequested = false
+                self.nagramiXPlayCommandSent = false
+                self.playerNode.pause()
+            }
+        }
+        if needsAudio && self.nagramiXAudioReady && self.nagramiXPendingPlay && !self.nagramiXPlayCommandSent {
+            self.nagramiXPlayCommandSent = true
+            self.playerNode.play()
+        }
+    }
+
+    func setNagramiXNativePiPRestore(_ restore: ((@escaping (Bool) -> Void) -> Void)?) {
+        self.playerNode.setNagramiXNativePiPRestore(restore)
+    }
+
+    func enterNativePictureInPicture() -> Bool {
+        let accepted = self.playerNode.enterNativePictureInPicture()
+        self.nagramiXUpdateManagedPlayback()
+        return accepted
+    }
+    
+    func exitNativePictureInPicture() {
+        self.playerNode.exitNativePictureInPicture()
+    }
+    
+    func setNativePictureInPictureIsActive(_ value: Bool) {
+    }
+}

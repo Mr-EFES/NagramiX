@@ -171,6 +171,7 @@ jobs:
           python3 scripts/validate_message_settings_order.py --canonical --swiftc "$(xcrun --find swiftc)"
           python3 scripts/validate_bulk_message_reads.py --canonical --swiftc "$(xcrun --find swiftc)"
           python3 scripts/validate_bulk_read_reconciliation.py --canonical --swiftc "$(xcrun --find swiftc)"
+          python3 scripts/validate_pip_playback_focus.py --canonical --swiftc "$(xcrun --find swiftc)"
 
       - &node
         name: Подготовить Node для проверки встроенного JavaScript
@@ -776,6 +777,8 @@ jobs:
           python3 scripts/validate_bulk_message_reads.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)"
           PYTHONPATH=ios python3 -c 'from pathlib import Path; from bulk_read_reconciliation import apply_bulk_read_reconciliation; apply_bulk_read_reconciliation(Path("Telegram-iOS").resolve(), Path("ios").resolve())'
           python3 scripts/validate_bulk_read_reconciliation.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)"
+          PYTHONPATH=ios python3 -c 'from pathlib import Path; from pip_playback_focus import apply_pip_playback_focus; apply_pip_playback_focus(Path("Telegram-iOS").resolve(), Path("ios").resolve())'
+          python3 scripts/validate_pip_playback_focus.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)"
 
   build:
     needs: [preflight, source_checks]
