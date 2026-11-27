@@ -2,7 +2,7 @@
 import sys,tempfile,unittest
 from pathlib import Path
 sys.path.insert(0,str(Path(__file__).resolve().parents[1]))
-from validate_release_metadata import ANNOTATION,annotation_errors
+from validate_release_metadata import ANNOTATION, annotation_errors, published_status_errors
 
 
 class AnnotationTests(unittest.TestCase):
@@ -52,6 +52,20 @@ class AnnotationTests(unittest.TestCase):
             for version in ['1.0','1.0.0']:
                 (folder/(version+'.md')).write_text(ANNOTATION)
             self.assertTrue(any('Неверное имя' in error for error in annotation_errors(folder,'1.0')))
+
+
+class PublishedStatusTests(unittest.TestCase):
+    def test_downloads_must_point_to_latest_ipa(self):
+        url = "https://github.com/Mr-EFES/NagramiX/releases/download/v1.0.6/NagramiX-1.0.6-unsigned.ipa"
+        release = {"tag_name": "v1.0.6", "draft": False, "prerelease": False,
+                   "assets": [{"name": url.rsplit("/", 1)[1], "browser_download_url": url}]}
+        current = f"[Скачать IPA]({url})"
+        old = current.replace("1.0.6", "1.0.5")
+        self.assertEqual(published_status_errors(current, "1.0.6", release), [])
+        for text in ("", old, current + "\n" + old):
+            with self.subTest(text=text):
+                self.assertTrue(published_status_errors(text, "1.0.6", release))
+        self.assertTrue(published_status_errors(current, "1.0.7", release))
 
 
 if __name__=='__main__':unittest.main()

@@ -11,6 +11,7 @@ import subprocess
 import tempfile
 import unittest
 from unittest import mock
+from urllib.parse import parse_qs, urlsplit
 import zipfile
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -37,6 +38,9 @@ class PublicationTests(unittest.TestCase):
             archive.writestr(self.names[2], "checksums-boundary")
         self.login = pub.OWNER
         self.source = "a" * 40
+        self.main = "b" * 40
+        self.root_paths = ["README.md", "ios", "путь с пробелом"]
+        self.old_titles = {}
         self.run = {"id": 10, "workflow_id": 1, "head_repository": {"full_name": pub.REPO},
                     "head_branch": "main", "event": "workflow_dispatch", "status": "completed",
                     "actor": {"login": pub.OWNER}, "triggering_actor": {"login": pub.OWNER},
@@ -61,6 +65,19 @@ class PublicationTests(unittest.TestCase):
             self.writes.append((method, path, copy.deepcopy(data)))
         if path == "user":
             return {"login": self.login}
+        if path == pub.API + "/branches/main":
+            return {"commit": {"sha": self.main}}
+        if path == pub.API + "/git/trees/" + self.main:
+            return {"tree": [{"path": name} for name in self.root_paths], "truncated": False}
+        if path.startswith(pub.API + "/commits?"):
+            query = parse_qs(urlsplit(path).query)
+            self.assertEqual(query["sha"], [self.main])
+            self.assertEqual(query["per_page"], ["1"])
+            name, = query["path"]
+            self.assertIn(name, self.root_paths)
+            version = json.loads((self.root / "product/features/registry.json").read_text())["release"]
+            title = self.old_titles.get(name, f"Релиз {version}")
+            return [{"commit": {"message": title + "\n\nОписание"}}] if title else []
         if path.endswith("/actions/runs/10"):
             return copy.deepcopy(self.run)
         if path.endswith("/actions/workflows/build-unsigned-ipa.yml"):
@@ -132,6 +149,13 @@ class PublicationTests(unittest.TestCase):
         pub.publish(10, self.archive, prerelease=True)
         self.assertTrue(self.release["prerelease"])
         self.assertEqual(self.release["make_latest"], "false")
+
+    def test_stale_or_missing_root_commit_prevents_publication(self):
+        for path, title in (("README.md", "Релиз 0.8.4"), ("ios", "Релиз 0.8.50"),
+                            ("путь с пробелом", "")):
+            with self.subTest(path=path):
+                self.old_titles = {path: title}
+                self.reject()
 
     def test_empty_owner_draft_is_reused(self):
         self.release = {"id": 99, "draft": True, "author": {"login": pub.OWNER},

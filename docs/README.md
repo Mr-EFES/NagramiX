@@ -1,11 +1,11 @@
 # Документация NagramiX 1.0.6
 
-Версия1.0 закреплена как база доработки перед отправкой на модерацию в App Store.
+Здесь собраны сведения о текущей сборке для iPhone и подготовке к App Store.
 
 - [Текущий статус и загрузка](RELEASE_STATUS.md).
 - [База1.0 и результат очистки репозитория](REPOSITORY_BASELINE_100.md).
 - [Проверка на iPhone](DEVICE_CHECK_100.md).
-- [Итог проверки релиза](RELEASE_100_FINAL_CHECKS.md) и [машиночитаемый отчёт](RELEASE_100_PUBLICATION_CHECKS.json).
+- [Итог проверки базовой сборки №224](RELEASE_100_FINAL_CHECKS.md) и [машиночитаемый отчёт](RELEASE_100_PUBLICATION_CHECKS.json).
 - [Контекст продолжения разработки](AI_HANDOFF.md), [нумерация](RELEASE_VERSIONING.md), [правила изменений](../AGENTS.md).
 - [Настройки](../product/SETTINGS.md), [реестр функций](../product/features/registry.json), [каталог возможностей](../product/presentation/README.md).
 

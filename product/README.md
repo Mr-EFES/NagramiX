@@ -17,4 +17,4 @@
 - `COMPATIBILITY.md` — требования iOS и IPA.
 - `features/registry.json` — машиночитаемый статус реализации iOS.
 - `features/README.md` — жизненный цикл функций.
-- `releases/` — утверждённая аннотация актуального релиза 0.9.8.
+- `releases/` — утверждённые аннотации по версиям. [Текущий релиз и IPA](../docs/RELEASE_STATUS.md).

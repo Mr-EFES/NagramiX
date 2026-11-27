@@ -3,6 +3,7 @@
 
 from __future__ import annotations
 
+import argparse
 import hashlib
 import json
 import os
@@ -31,7 +32,19 @@ def annotation_errors(folder: Path, version: str) -> list[str]:
     return errors
 
 
-def main() -> None:
+def published_status_errors(status: str, version: str, release: dict) -> list[str]:
+    if release["tag_name"] != f"v{version}" or release["draft"] or release["prerelease"]:
+        return [f"Последний опубликованный релиз GitHub не соответствует версии {version}"]
+    assets = [a for a in release["assets"] if a["name"] == f"NagramiX-{version}-unsigned.ipa"]
+    if len(assets) != 1:
+        return ["В последнем релизе не найден единственный IPA текущей версии"]
+    downloads = re.findall(r"\]\(([^)\s]+/releases/download/[^)\s]+\.ipa)\)", status)
+    if set(downloads) != {assets[0]["browser_download_url"]}:
+        return ["Обновите ссылку на опубликованный IPA в docs/RELEASE_STATUS.md"]
+    return []
+
+
+def main(check_published: bool = False) -> None:
     version = json.loads((ROOT / "product/features/registry.json").read_text())["release"]
     if not is_release_version(version):
         raise SystemExit("Некорректная версия в реестре функций")
@@ -42,6 +55,11 @@ def main() -> None:
     except ValueError as error:
         errors.append(str(error))
     errors.extend(annotation_errors(ROOT / "product/releases", version))
+    if check_published:
+        release = json.loads(subprocess.check_output(
+            ["gh", "api", "repos/Mr-EFES/NagramiX/releases/latest"], cwd=ROOT, text=True,
+        ))
+        errors.extend(published_status_errors((ROOT / "docs/RELEASE_STATUS.md").read_text(), version, release))
     for name in ["docs/AI_HANDOFF.md", ".gitignore"]:
         path = ROOT / name
         if not path.is_file() or f"NagramiX {version}" not in path.read_text():
@@ -83,4 +101,6 @@ def main() -> None:
 
 
 if __name__ == "__main__":
-    main()
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--published", action="store_true", help="Сверить ссылку на IPA с последним релизом GitHub")
+    main(check_published=parser.parse_args().published)

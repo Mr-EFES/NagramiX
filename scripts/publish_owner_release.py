@@ -10,6 +10,7 @@ import re
 import subprocess
 import sys
 import tempfile
+from urllib.parse import urlencode
 import zipfile
 
 from release_version import is_release_version
@@ -91,6 +92,22 @@ def find_release(tag):
     return matches[0] if matches else None
 
 
+def check_main_commit_titles(version):
+    head = api(f"{API}/branches/main")["commit"]["sha"]
+    root = api(f"{API}/git/trees/{head}")
+    require(root["tree"] and not root["truncated"], "Не получен полный список файлов main")
+    expected = f"Релиз {version}"
+    stale = []
+    for entry in root["tree"]:
+        path = entry["path"]
+        query = urlencode({"sha": head, "path": path, "per_page": 1})
+        history = api(f"{API}/commits?{query}")
+        title = history[0]["commit"]["message"].partition("\n")[0] if history else ""
+        if title != expected:
+            stale.append(f"{path} ({title})")
+    require(not stale, f"В корне main ожидается «{expected}». Проверьте: " + ", ".join(stale))
+
+
 def publish(source_run_id, artifact_zip, prerelease=False, finalize_uploaded=False):
     # Эта проверка выполняется до создания тегов, черновиков или загрузки файлов.
     require(api("user")["login"] == OWNER, f"Нужна авторизация gh как {OWNER}")
@@ -98,6 +115,8 @@ def publish(source_run_id, artifact_zip, prerelease=False, finalize_uploaded=Fal
     require(is_release_version(version), "Неверная версия")
     annotation = (ROOT / f"product/releases/{version}.md").read_text()
     tag = f"v{version}"
+    if not prerelease:
+        check_main_commit_titles(version)
     run = api(f"{API}/actions/runs/{source_run_id}")
     workflow = api(f"{API}/actions/workflows/build-unsigned-ipa.yml")
     require(run["id"] == source_run_id and run["workflow_id"] == workflow["id"]
