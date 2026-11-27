@@ -1,0 +1,13 @@
+const assert = require('node:assert/strict');
+const {createWatchPage} = require('./youtube_watch_page_host.cjs');
+const page = createWatchPage(process.argv[2]);
+page.transport('play', 1);
+const video = page.video;
+video.ended = true;
+video.closest = selector => selector === '.ad-showing, .ad-interrupting' ? {} : null;
+video.dispatchEvent(new Event('ended'));
+assert.equal(page.events.filter(e => e.event === 'ended').length, 0, 'an advertisement ending leaves the video player open');
+video.closest = () => null;
+video.dispatchEvent(new Event('ended'));
+assert.equal(page.events.filter(e => e.event === 'ended').length, 1, 'the main video reports completion');
+console.log('YouTube advertisement completion is excluded from closing the main player');
