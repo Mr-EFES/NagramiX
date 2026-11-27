@@ -53,8 +53,8 @@ function createWatchPage(path) {
     const submit = (command, extra = {}) => window.nagramiXNativePiPDispatch({token: 'test-token', command, ...extra});
     const transport = (action, revision) => submit('watchControl', {action, revision});
 
-    return {window, events, submit, transport, observe, location, advance, get video() { return video; },
-        replace(value) { video = value; observe(); }, setErrorPanel(value) { errorPanel = value; },
+    return {window, document, events, submit, transport, observe, location, advance, get video() { return video; },
+        replace(value, notify = true) { video = value; if (notify) observe(); }, setErrorPanel(value) { errorPanel = value; },
         gesture(name, data) { for (const listener of handlers.get(name) || []) listener({isTrusted: true, ...data}); }
     };
 }
