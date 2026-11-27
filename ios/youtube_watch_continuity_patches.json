@@ -1,0 +1,50 @@
+{
+  "target_pin": "24638bc69bd083981b178dd1e7f921eebbf7fc46",
+  "overlay_base_pin": "279f89e4d4f63f17227bf877dc3d8990f22ecd58",
+  "required_previous_stage": "youtube_watch_playback",
+  "previous": {
+    "submodules/TelegramUniversalVideoContent/Sources/WebEmbedPlayerNode.swift": "youtube_watch_playback/WebEmbedPlayerNode.swift.inc",
+    "submodules/TelegramUniversalVideoContent/Sources/YoutubeEmbedImplementation.swift": "youtube_watch_playback/YoutubeEmbedImplementation.swift.inc"
+  },
+  "replacements": {
+    "submodules/TelegramUniversalVideoContent/Sources/WebEmbedPlayerNode.swift": "youtube_watch_continuity/WebEmbedPlayerNode.swift.inc",
+    "submodules/TelegramUniversalVideoContent/Sources/YoutubeEmbedImplementation.swift": "youtube_watch_continuity/YoutubeEmbedImplementation.swift.inc"
+  },
+  "inputs": {
+    "submodules/TelegramUniversalVideoContent/Sources/WebEmbedPlayerNode.swift": "ebf0533149c4269e82d63c81c8830c90d06e5958f1e95cbe578a868be9d29214",
+    "submodules/TelegramUniversalVideoContent/Sources/YoutubeEmbedImplementation.swift": "8687f4717f21b62a4dee30dbe54a13a93916f2e8150cc65ee8815ab79855fbad"
+  },
+  "outputs": {
+    "submodules/TelegramUniversalVideoContent/Sources/WebEmbedPlayerNode.swift": "0d2e1f641a08e60280721363118838649ef663c25d47f4ff31b74d2b6588b9c3",
+    "submodules/TelegramUniversalVideoContent/Sources/YoutubeEmbedImplementation.swift": "0a1f8cac7b21e8f60bf30648d87ca37a19632ec8863b2b939e34c34201772f5b"
+  },
+  "guard_sources": {
+    "submodules/TelegramUI/Resources/WebEmbed/Youtube.html": "youtube_pip_readiness/Youtube.html.inc",
+    "submodules/TelegramUI/Resources/WebEmbed/YoutubeUserScript.js": "video_audio_continuity/Guard6.inc",
+    "submodules/GalleryUI/Sources/GalleryControllerNode.swift": "gallery_header_layout/GalleryControllerNode.swift.inc",
+    "submodules/GalleryUI/Sources/Items/UniversalVideoGalleryItem.swift": "youtube_watch_playback/UniversalVideoGalleryItem.swift.inc",
+    "submodules/TelegramUniversalVideoContent/Sources/WebEmbedVideoContent.swift": "youtube_watch_playback/WebEmbedVideoContent.swift.inc"
+  },
+  "guards": {
+    "submodules/TelegramUI/Resources/WebEmbed/Youtube.html": "a7c93b6ed1024655ffae899f25b90dd581216a2649d87a2b382e712ea7c48bc9",
+    "submodules/TelegramUI/Resources/WebEmbed/YoutubeUserScript.js": "0c705b61ae09f90f8b1e193f92327c1311bb841b5bcc0c55b70556542f79d939",
+    "submodules/GalleryUI/Sources/GalleryControllerNode.swift": "beacae2d3b3b96193957620dcc2a9cacb95f4a4cbf2ebe5fc3a213fd68e83d0f",
+    "submodules/GalleryUI/Sources/Items/UniversalVideoGalleryItem.swift": "fe9e3feb5c8c6550fe0fc785708c3adf50da398847dbd51ad6eeb2e04fb74f79",
+    "submodules/TelegramUniversalVideoContent/Sources/WebEmbedVideoContent.swift": "389f101e3fc2e41d8486e171a7741c6b24970834bdd219039c8f6fee07f806a0"
+  },
+  "copies": {},
+  "deletions": {},
+  "native_inputs": {},
+  "native_guards": {},
+  "templates": {
+    "youtube_watch_playback/WebEmbedPlayerNode.swift.inc": "ebf0533149c4269e82d63c81c8830c90d06e5958f1e95cbe578a868be9d29214",
+    "youtube_watch_playback/YoutubeEmbedImplementation.swift.inc": "8687f4717f21b62a4dee30dbe54a13a93916f2e8150cc65ee8815ab79855fbad",
+    "youtube_watch_continuity/WebEmbedPlayerNode.swift.inc": "0d2e1f641a08e60280721363118838649ef663c25d47f4ff31b74d2b6588b9c3",
+    "youtube_watch_continuity/YoutubeEmbedImplementation.swift.inc": "0a1f8cac7b21e8f60bf30648d87ca37a19632ec8863b2b939e34c34201772f5b",
+    "youtube_pip_readiness/Youtube.html.inc": "a7c93b6ed1024655ffae899f25b90dd581216a2649d87a2b382e712ea7c48bc9",
+    "video_audio_continuity/Guard6.inc": "0c705b61ae09f90f8b1e193f92327c1311bb841b5bcc0c55b70556542f79d939",
+    "gallery_header_layout/GalleryControllerNode.swift.inc": "beacae2d3b3b96193957620dcc2a9cacb95f4a4cbf2ebe5fc3a213fd68e83d0f",
+    "youtube_watch_playback/UniversalVideoGalleryItem.swift.inc": "fe9e3feb5c8c6550fe0fc785708c3adf50da398847dbd51ad6eeb2e04fb74f79",
+    "youtube_watch_playback/WebEmbedVideoContent.swift.inc": "389f101e3fc2e41d8486e171a7741c6b24970834bdd219039c8f6fee07f806a0"
+  }
+}

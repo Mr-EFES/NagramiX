@@ -175,6 +175,7 @@ jobs:
           python3 scripts/validate_youtube_watch_fallback.py --canonical --swiftc "$(xcrun --find swiftc)"
           python3 scripts/validate_gallery_header_layout.py --canonical --swiftc "$(xcrun --find swiftc)"
           python3 scripts/validate_youtube_watch_playback.py --canonical --swiftc "$(xcrun --find swiftc)"
+          python3 scripts/validate_youtube_watch_continuity.py --canonical --swiftc "$(xcrun --find swiftc)"
 
       - &node
         name: Подготовить Node для проверки встроенного JavaScript
@@ -788,6 +789,8 @@ jobs:
           python3 scripts/validate_gallery_header_layout.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)"
           PYTHONPATH=ios python3 -c 'from pathlib import Path; from youtube_watch_playback import apply_youtube_watch_playback; apply_youtube_watch_playback(Path("Telegram-iOS").resolve(), Path("ios").resolve())'
           python3 scripts/validate_youtube_watch_playback.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)"
+          PYTHONPATH=ios python3 -c 'from pathlib import Path; from youtube_watch_continuity import apply_youtube_watch_continuity; apply_youtube_watch_continuity(Path("Telegram-iOS").resolve(), Path("ios").resolve())'
+          python3 scripts/validate_youtube_watch_continuity.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)"
 
   build:
     needs: [preflight, source_checks]

@@ -34,16 +34,26 @@ function createWatchPage(path) {
         },
         querySelector: selector => selector.startsWith('.ytp-error') ? errorPanel : video, createElement: () => ({}), head: {appendChild() {}}, documentElement: {}
     });
-    const window = {getComputedStyle: () => ({visibility: 'visible'}), navigator: {audioSession: {type: 'auto'}}, webkit: {messageHandlers: {nagramiXSystemPiP: {postMessage: event => events.push(event)}}}};
+    const window = Object.assign(new EventTarget(), {getComputedStyle: () => ({visibility: 'visible'}), navigator: {audioSession: {type: 'auto'}}, webkit: {messageHandlers: {nagramiXSystemPiP: {postMessage: event => events.push(event)}}}});
     const location = new URL('https://m.youtube.com/watch?v=b_uhOUMfp3k');
-    const context = {document, window, location, URLSearchParams, MutationObserver: class {
+    let now = 0, nextTimer = 0;
+    const timers = new Map();
+    function advance(milliseconds) {
+        now += milliseconds;
+        for (const [id, timer] of timers) {
+            if (timer.deadline <= now) { timers.delete(id); timer.callback(); }
+        }
+    }
+    const context = {document, window, location, URLSearchParams, Date: class extends Date { static now() { return now; } },
+        setTimeout(callback, delay) { timers.set(++nextTimer, {callback, deadline: now + delay}); return nextTimer; },
+        clearTimeout(id) { timers.delete(id); }, MutationObserver: class {
         constructor(callback) { observe = callback; } observe() {}
     }};
     vm.runInNewContext(source, context);
     const submit = (command, extra = {}) => window.nagramiXNativePiPDispatch({token: 'test-token', command, ...extra});
     const transport = (action, revision) => submit('watchControl', {action, revision});
 
-    return {window, events, submit, transport, observe, location, get video() { return video; },
+    return {window, events, submit, transport, observe, location, advance, get video() { return video; },
         replace(value) { video = value; observe(); }, setErrorPanel(value) { errorPanel = value; },
         gesture(name, data) { for (const listener of handlers.get(name) || []) listener({isTrusted: true, ...data}); }
     };
