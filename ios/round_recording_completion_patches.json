@@ -1,0 +1,53 @@
+{
+  "target_pin": "24638bc69bd083981b178dd1e7f921eebbf7fc46",
+  "overlay_base_pin": "279f89e4d4f63f17227bf877dc3d8990f22ecd58",
+  "required_previous_stage": "youtube_watch_replacement",
+  "previous": {
+    "submodules/TelegramUI/Components/VideoMessageCameraScreen/Sources/VideoMessageCameraScreen.swift": "round_video_encoding/After6.inc",
+    "submodules/TelegramUI/Components/Chat/ChatTextInputPanelNode/Sources/ChatTextInputPanelNode.swift": "input_effects/After74.inc",
+    "submodules/TelegramUI/Sources/Chat/ChatControllerMediaRecording.swift": "round_recording_completion/BeforeChatControllerMediaRecording.swift.inc"
+  },
+  "replacements": {
+    "submodules/TelegramUI/Components/VideoMessageCameraScreen/Sources/VideoMessageCameraScreen.swift": "round_recording_completion/VideoMessageCameraScreen.swift.inc",
+    "submodules/TelegramUI/Components/Chat/ChatTextInputPanelNode/Sources/ChatTextInputPanelNode.swift": "round_recording_completion/ChatTextInputPanelNode.swift.inc",
+    "submodules/TelegramUI/Sources/Chat/ChatControllerMediaRecording.swift": "round_recording_completion/ChatControllerMediaRecording.swift.inc"
+  },
+  "inputs": {
+    "submodules/TelegramUI/Components/VideoMessageCameraScreen/Sources/VideoMessageCameraScreen.swift": "dacea0307f4a3ee4bff63351ec79e4eadc30bb156e80fcf6a71aa430be25eedc",
+    "submodules/TelegramUI/Components/Chat/ChatTextInputPanelNode/Sources/ChatTextInputPanelNode.swift": "1d4be1fceb34ae5c38c0d0bc3d45fa60adc8c68d4f976c2ff894e5cd45e2d5af",
+    "submodules/TelegramUI/Sources/Chat/ChatControllerMediaRecording.swift": "e01867d0279e0649ea953f61a6b6be3fc9d02dc40ad299e826324891b26d882e"
+  },
+  "outputs": {
+    "submodules/TelegramUI/Components/VideoMessageCameraScreen/Sources/VideoMessageCameraScreen.swift": "0c04dafaadd407762d4ec8108a3b8f947e6c26a3313d1c27e3dc53128260d1af",
+    "submodules/TelegramUI/Components/Chat/ChatTextInputPanelNode/Sources/ChatTextInputPanelNode.swift": "841d9405b322d1a798665c0560911919938941bd4c48c914078093430f54d8c2",
+    "submodules/TelegramUI/Sources/Chat/ChatControllerMediaRecording.swift": "d554d05b7eb6feab5dd8b28e2cc440c190528f1913da3d4c1cc7decc4b259c1d"
+  },
+  "guard_sources": {
+    "submodules/TelegramUI/Sources/ChatController.swift": "deferred_reaction_alert/ChatController.swift.inc",
+    "submodules/TelegramUI/Components/ChatTextInputMediaRecordingButton/Sources/ChatTextInputMediaRecordingButton.swift": "upstream_13_2_release_post/After217.inc",
+    "submodules/Camera/Sources/Camera.swift": "upstream_13_2_release_post/After17.inc",
+    "submodules/NagramiXMediaSettings/Sources/NagramiXRoundVideoSettings.swift": "round_bitrate_levels/After0.inc"
+  },
+  "guards": {
+    "submodules/TelegramUI/Sources/ChatController.swift": "44e6b59950464589d966fe34be5ec1d2829cd9503e4ba820dfb359c43e147767",
+    "submodules/TelegramUI/Components/ChatTextInputMediaRecordingButton/Sources/ChatTextInputMediaRecordingButton.swift": "d83d8082cc1b2fe7ceda9a97ab1c578852295bd87e3f51675a20b77950042c19",
+    "submodules/Camera/Sources/Camera.swift": "caa965ceaa019eb8b6ea142788236a68f6bfa092ffd610bdb887f55f82519a2c",
+    "submodules/NagramiXMediaSettings/Sources/NagramiXRoundVideoSettings.swift": "e4de9f395441ec721051eeec1b8543ad36dd534294cb6becccad8791e799b38c"
+  },
+  "copies": {},
+  "deletions": {},
+  "native_inputs": {},
+  "native_guards": {},
+  "templates": {
+    "round_video_encoding/After6.inc": "dacea0307f4a3ee4bff63351ec79e4eadc30bb156e80fcf6a71aa430be25eedc",
+    "input_effects/After74.inc": "1d4be1fceb34ae5c38c0d0bc3d45fa60adc8c68d4f976c2ff894e5cd45e2d5af",
+    "round_recording_completion/BeforeChatControllerMediaRecording.swift.inc": "e01867d0279e0649ea953f61a6b6be3fc9d02dc40ad299e826324891b26d882e",
+    "round_recording_completion/VideoMessageCameraScreen.swift.inc": "0c04dafaadd407762d4ec8108a3b8f947e6c26a3313d1c27e3dc53128260d1af",
+    "round_recording_completion/ChatTextInputPanelNode.swift.inc": "841d9405b322d1a798665c0560911919938941bd4c48c914078093430f54d8c2",
+    "round_recording_completion/ChatControllerMediaRecording.swift.inc": "d554d05b7eb6feab5dd8b28e2cc440c190528f1913da3d4c1cc7decc4b259c1d",
+    "deferred_reaction_alert/ChatController.swift.inc": "44e6b59950464589d966fe34be5ec1d2829cd9503e4ba820dfb359c43e147767",
+    "upstream_13_2_release_post/After217.inc": "d83d8082cc1b2fe7ceda9a97ab1c578852295bd87e3f51675a20b77950042c19",
+    "upstream_13_2_release_post/After17.inc": "caa965ceaa019eb8b6ea142788236a68f6bfa092ffd610bdb887f55f82519a2c",
+    "round_bitrate_levels/After0.inc": "e4de9f395441ec721051eeec1b8543ad36dd534294cb6becccad8791e799b38c"
+  }
+}
