@@ -179,6 +179,7 @@ jobs:
           python3 scripts/validate_youtube_watch_replacement.py --canonical --swiftc "$(xcrun --find swiftc)"
           python3 scripts/validate_round_recording_completion.py --canonical --swiftc "$(xcrun --find swiftc)"
           python3 scripts/validate_pip_playback_completion.py --canonical --swiftc "$(xcrun --find swiftc)"
+          python3 scripts/validate_youtube_watch_play_intent.py --canonical --swiftc "$(xcrun --find swiftc)"
 
       - &node
         name: Подготовить Node для проверки встроенного JavaScript
@@ -800,6 +801,8 @@ jobs:
           python3 scripts/validate_round_recording_completion.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)"
           PYTHONPATH=ios python3 -c 'from pathlib import Path; from pip_playback_completion import apply_pip_playback_completion; apply_pip_playback_completion(Path("Telegram-iOS").resolve(), Path("ios").resolve())'
           python3 scripts/validate_pip_playback_completion.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)"
+          PYTHONPATH=ios python3 -c 'from pathlib import Path; from youtube_watch_play_intent import apply_youtube_watch_play_intent; apply_youtube_watch_play_intent(Path("Telegram-iOS").resolve(), Path("ios").resolve())'
+          python3 scripts/validate_youtube_watch_play_intent.py --source Telegram-iOS --swiftc "$(xcrun --find swiftc)"
 
   build:
     needs: [preflight, source_checks]
