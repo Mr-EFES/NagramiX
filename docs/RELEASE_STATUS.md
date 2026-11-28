@@ -10,10 +10,12 @@
 | --- | --- |
 | Идентификатор приложения | `com.nagramix.ios` |
 | Предварительные проверки исходников | Пройдены: Swift debug/optimized, цепочка патчей, Postbox, локализация и упаковка |
-| Чистая компиляция ARM64 и проверка IPA | Запущена [сборка №240](https://github.com/Mr-EFES/NagramiX/actions/runs/46091394984) |
-| Публикация выпуска 1.0.7 | Ожидается после проверки IPA |
+| Чистая компиляция ARM64 и проверка IPA | Успешна [сборка №240](https://github.com/Mr-EFES/NagramiX/actions/runs/46091394984) |
+| Публикация выпуска 1.0.7 | Собственный черновик создан; загрузка ожидает повторного входа GitHub после HTTP 401 |
 | Проверка на физическом iPhone | Ожидается |
 | Distribution и App Store Connect | Подготовка предстоит |
+
+Исходный ZIP сверён с digest Actions: `d86c85a819bc7216a6d7ffc4e05a956b8f3cc145ec7894f8b885f9a153e7dcea`. IPA проверен локально: версия 1.0.7, build 240, ARM64/iPhoneOS, `com.nagramix.ios`; SHA-256 `1b22412791062171175fd24a50308cc20bbd0510a15f16e5aeb1dae3e88c00c6`. Повторная компиляция для публикации не нужна.
 
 Последний опубликованный выпуск — [1.0.6, сборка №238](https://github.com/Mr-EFES/NagramiX/releases/tag/v1.0.6). Тестовая сборка №239 со стадиями 149–154 доступна в [GitHub Actions](https://github.com/Mr-EFES/NagramiX/actions/runs/46029084279).
 
